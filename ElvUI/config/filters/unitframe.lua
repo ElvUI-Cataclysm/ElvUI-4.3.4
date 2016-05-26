@@ -213,7 +213,6 @@ G.unitframe.aurafilters["Blacklist"] = {
 	["type"] = "Blacklist",
 	["spells"] = {
 		[SpellName(6788)] = Defaults(), -- Ослабленная душа
-		[SpellName(8326)] = Defaults(), -- Призрак
 		[SpellName(15007)] = Defaults(), -- Слабость после воскрешения
 		[SpellName(23445)] = Defaults(), -- Злой двойник
 		[SpellName(24755)] = Defaults(), -- Конфета или жизнь
@@ -225,12 +224,10 @@ G.unitframe.aurafilters["Blacklist"] = {
 		[SpellName(36901)] = Defaults(), -- Расщипление души: Добро
 		[SpellName(41425)] = Defaults(), -- Гипотермия
 		[SpellName(55711)] = Defaults(), -- Сердце феникса
-		[SpellName(57723)] = Defaults(), -- Изнеможение
 		[SpellName(57724)] = Defaults(), -- Пресыщение
 		[SpellName(58539)] = Defaults(), -- Тело наблюдателя
 		[SpellName(67604)] = Defaults(), -- Накопление энергии
 		[SpellName(69127)] = Defaults(), -- Холод Трона
-		[SpellName(71041)] = Defaults(), -- Покинувший подземелье
 	-- Blood Princes
 		[SpellName(71911)] = Defaults(), -- Теневой резонанс
 	-- Festergut
@@ -241,7 +238,25 @@ G.unitframe.aurafilters["Blacklist"] = {
 		[SpellName(72145)] = Defaults(), -- Шлейф зеленой заразы
 	-- Putricide
 		[SpellName(72460)] = Defaults(), -- Удушливый газ
-		[SpellName(72511)] = Defaults() -- Мутация
+		[SpellName(72511)] = Defaults(), -- Мутация
+	-- Cata
+		[SpellName(8733)] = Defaults(), -- Blessing of Blackfathom
+		[SpellName(57724)] = Defaults(), -- Sated
+		[SpellName(25771)] = Defaults(), -- Forbearance
+		[SpellName(57723)] = Defaults(), -- Exhaustion
+		[SpellName(36032)] = Defaults(), -- Arcane blast
+		[SpellName(58539)] = Defaults(), -- Watchers corpse
+		[SpellName(26013)] = Defaults(), -- Deserter
+		[SpellName(6788)] = Defaults(), -- Weakended soul
+		[SpellName(71041)] = Defaults(), -- Dungeon deserter
+		[SpellName(41425)] = Defaults(), -- Hypothermia
+		[SpellName(55711)] = Defaults(), -- Weakened Heart
+		[SpellName(8326)] = Defaults(), -- Ghost
+		[SpellName(23445)] = Defaults(), -- Evil twin
+		[SpellName(24755)] = Defaults(), -- Trick or Treat
+		[SpellName(25163)] = Defaults(), -- Oozeling Disgusting Aura
+		[SpellName(80354)] = Defaults(), -- Timewarp 
+		[SpellName(95223)] = Defaults() -- Group Res
 	}
 };
 
@@ -284,18 +299,18 @@ G.unitframe.aurafilters["Whitelist (Strict)"] = {
 G.unitframe.aurafilters["RaidDebuffs"] = { -- Рейд дебаффы
 	["type"] = "Whitelist",
 	["spells"] = {
-	-- Наксрамас
+	-- Naxxramas
 		[SpellName(27808)] = Defaults(), -- Ледяной взрыв
 		[SpellName(28408)] = Defaults(), -- Цепи Кел"Тузада
 		[SpellName(32407)] = Defaults(), -- Странная аура
-	-- Ульдуар
+	-- Ulduar
 		[SpellName(66313)] = Defaults(), -- Огненная бомба
 		[SpellName(63134)] = Defaults(), -- Благословение Сары
 		[SpellName(62717)] = Defaults(), -- Шлаковый ковш
 		[SpellName(63018)] = Defaults(), -- Опаляющий свет
 		[SpellName(64233)] = Defaults(), -- Гравитационная бомба
 		[SpellName(63495)] = Defaults(), -- Статический сбой
-	-- Испытание крестоносца
+	-- Trial of the Crusader
 		[SpellName(66406)] = Defaults(), -- Получи снобольда!
 		[SpellName(67574)] = Defaults(), -- Вас преследует Ануб"арак
 		[SpellName(68509)] = Defaults(), -- Пронизывающий холод
@@ -304,7 +319,7 @@ G.unitframe.aurafilters["RaidDebuffs"] = { -- Рейд дебаффы
 		[SpellName(67049)] = Defaults(), -- Испепеление плоти
 		[SpellName(66869)] = Defaults(), -- Горящая желчь
 		[SpellName(66823)] = Defaults(), -- Паралитический токсин
-	-- Цитадель Ледяной Кароны
+	-- Icecrown Citadel
 		[SpellName(71224)] = Defaults(), -- Мутировавшая инфекция
 		[SpellName(71822)] = Defaults(), -- Теневой резонанс
 		[SpellName(70447)] = Defaults(), -- Выделение неустойчивого слизнюка
@@ -347,21 +362,138 @@ G.unitframe.aurafilters["RaidDebuffs"] = { -- Рейд дебаффы
 		[SpellName(73797)] = Defaults(), -- Жнец душ
 		[SpellName(73708)] = Defaults(), -- Осквернение
 		[SpellName(74322)] = Defaults(), -- Жнец душ
-	-- Рубиновое святилище
+	-- The Ruby ​​Sanctum
 		[SpellName(74502)] = Defaults(), -- Ослабляющее прижигание
 		[SpellName(75887)] = Defaults(), -- Пылающая аура
 		[SpellName(74562)] = Defaults(), -- Пылающий огонь
 		[SpellName(74567)] = Defaults(), -- Метка пылающего огня
 		[SpellName(74792)] = Defaults(), -- Пожирание души
 		[SpellName(74795)] = Defaults(), -- Метка пожирания
-	-- Разные
-		[SpellName(67479)] = Defaults() -- Прокалывание
+	--Blackwing Descent
+		--Magmaw
+		[SpellName(91911)] = Defaults(), -- Constricting Chains
+		[SpellName(94679)] = Defaults(), -- Parasitic Infection
+		[SpellName(94617)] = Defaults(), -- Mangle
+		[SpellName(78199)] = Defaults(), -- Sweltering Armor
+		--Omintron Defense System
+		[SpellName(91433)] = Defaults(), -- Lightning Conductor
+		[SpellName(91521)] = Defaults(), -- Incineration Security Measure
+		[SpellName(80094)] = Defaults(), -- Fixate 
+		--Maloriak
+		[SpellName(77699)] = Defaults(), -- Flash Freeze
+		[SpellName(77760)] = Defaults(), -- Biting Chill
+		--Atramedes
+		[SpellName(92423)] = Defaults(), -- Searing Flame
+		[SpellName(92485)] = Defaults(), -- Roaring Flame
+		[SpellName(92407)] = Defaults(), -- Sonic Breath
+		--Chimaeron
+		[SpellName(82881)] = Defaults(), -- Break
+		[SpellName(89084)] = Defaults(), -- Low Health
+		--Sinestra
+		[SpellName(92956)] = Defaults(), -- Wrack
+	--The Bastion of Twilight
+		--Valiona & Theralion
+		[SpellName(92878)] = Defaults(), -- Blackout
+		[SpellName(86840)] = Defaults(), -- Devouring Flames
+		[SpellName(95639)] = Defaults(), -- Engulfing Magic
+		[SpellName(92886)] = Defaults(), -- Twilight Zone
+		[SpellName(88518)] = Defaults(), -- Twilight Meteorite
+		--Halfus Wyrmbreaker
+		[SpellName(39171)] = Defaults(), -- Malevolent Strikes
+
+		--Twilight Ascendant Council
+		[SpellName(92511)] = Defaults(), -- Hydro Lance
+		[SpellName(82762)] = Defaults(), -- Waterlogged
+		[SpellName(92505)] = Defaults(), -- Frozen
+		[SpellName(92518)] = Defaults(), -- Flame Torrent
+		[SpellName(83099)] = Defaults(), -- Lightning Rod
+		[SpellName(92075)] = Defaults(), -- Gravity Core
+		[SpellName(92488)] = Defaults(), -- Gravity Crush
+		--Cho'gall
+		[SpellName(86028)] = Defaults(), -- Cho's Blast
+		[SpellName(86029)] = Defaults(), -- Gall's Blast
+	--Throne of the Four Winds
+		--Conclave of Wind
+			--Nezir <Lord of the North Wind>
+			[SpellName(93131)] = Defaults(), -- Ice Patch
+			--Anshal <Lord of the West Wind>
+			[SpellName(86206)] = Defaults(), -- Soothing Breeze
+			[SpellName(93122)] = Defaults(), -- Toxic Spores
+			--Rohash <Lord of the East Wind>
+			[SpellName(93058)] = Defaults(), -- Slicing Gale
+		--Al'Akir
+		[SpellName(93260)] = Defaults(), -- Ice Storm
+		[SpellName(93295)] = Defaults(), -- Lightning Rod
+		
+	--Firelands	
+		--Beth'tilac
+		[SpellName(99506)] = Defaults(), -- Widows Kiss
+		--Alysrazor
+		[SpellName(101296)] = Defaults(), -- Fiero Blast
+		[SpellName(100723)] = Defaults(), -- Gushing Wound
+		--Shannox
+		[SpellName(99837)] = Defaults(), -- Crystal Prison
+		[SpellName(99937)] = Defaults(), -- Jagged Tear
+		--Baleroc
+		[SpellName(99403)] = Defaults(), -- Tormented
+		[SpellName(99256)] = Defaults(), -- Torment
+		--Majordomo Staghelm
+		[SpellName(98450)] = Defaults(), -- Searing Seeds
+		[SpellName(98565)] = Defaults(), -- Burning Orb
+		--Ragnaros
+		[SpellName(99399)] = Defaults(), -- Burning Wound
+		--Trash
+		[SpellName(99532)] = Defaults(), -- Melt Armor	
+
+	--Baradin Hold
+		--Occu'thar
+		[SpellName(96913)] = Defaults(), -- Searing Shadows
+		--Alizabal
+		[SpellName(104936)] = Defaults(), -- Skewer
+	--Dragon Soul
+	    --Morchok
+		[SpellName(103541)] = Defaults(), -- Safe
+		[SpellName(103536)] = Defaults(), -- Warning
+		[SpellName(103534)] = Defaults(), -- Danger
+		[SpellName(108570)] = Defaults(), -- Black Blood of the Earth
+		--Warlord Zon'ozz
+		[SpellName(103434)] = Defaults(), -- Disrupting Shadows
+		--Yor'sahj the Unsleeping
+		[SpellName(105171)] = Defaults(), -- Deep Corruption
+		--Hagara the Stormbinder
+		[SpellName(105465)] = Defaults(), -- Lighting Storm
+		[SpellName(104451)] = Defaults(), -- Ice Tomb
+		[SpellName(109325)] = Defaults(), -- Frostflake
+		[SpellName(105289)] = Defaults(), -- Shattered Ice
+		[SpellName(105285)] = Defaults(), -- Target
+		--Ultraxion
+		[SpellName(109075)] = Defaults(), -- Fading Light
+		--Warmaster Blackhorn
+		[SpellName(108043)] = Defaults(), -- Sunder Armor
+		[SpellName(107558)] = Defaults(), -- Degeneration
+		[SpellName(107567)] = Defaults(), -- Brutal Strike
+		[SpellName(108046)] = Defaults(), -- Shockwave
+		--Spine of Deathwing
+		[SpellName(105479)] = Defaults(), -- Searing Plasma
+		[SpellName(105490)] = Defaults(), -- Fiery Grip
+		[SpellName(106199)] = Defaults(), -- Blood Corruption: Death
+		--Madness of Deathwing
+		[SpellName(105841)] = Defaults(), -- Degenerative Bite
+		[SpellName(106385)] = Defaults(), -- Crush
+		[SpellName(106730)] = Defaults(), -- Tetanus
+		[SpellName(106444)] = Defaults(), -- Impale
+		[SpellName(106794)] = Defaults(), -- Shrapnel (target)
+	-- Different
+		[SpellName(67479)] = Defaults() -- Annoying
 	}
 };
 
 --Spells that we want to show the duration backwards
 E.ReverseTimer = {
-
+	[92956] = true, -- Sinestra (Wrack)
+	[89435] = true, -- Sinestra (Wrack)
+	[92955] = true, -- Sinestra (Wrack)
+	[89421] = true, -- Sinestra (Wrack)
 }
 
 --BuffWatch
@@ -426,29 +558,33 @@ P["unitframe"]["filters"] = {
 	["buffwatch"] = {}
 };
 
-G.unitframe.ChannelTicks = { -- Тики
-	-- Чернокнижник
-	[SpellName(1120)] = 5, -- "Похищение душы"
-	[SpellName(689)] = 5, -- "Похишение жызни"
+G.unitframe.ChannelTicks = { -- Ticks
+	-- Warlock
+	[SpellName(1120)] = 5, -- "Drain Soul"
+	[SpellName(689)] = 5, -- "Drain Life"
 	[SpellName(5138)] = 5, -- "Похишение маны"
-	[SpellName(5740)] = 4, -- "Огненный ливень"
-	[SpellName(755)] = 10, -- "Канал здоровья"
-	-- Друид
-	[SpellName(44203)] = 4, -- "Спокайствие"
-	[SpellName(16914)] = 10, -- "Гроза"
-	-- Жрец
-	[SpellName(15407)] = 3, -- "Пытка разума"
-	[SpellName(48045)] = 5, -- "Искушение разума"
-	[SpellName(47540)] = 3, -- "Исповедь"
-	-- Маг
-	[SpellName(5143)] = 5, -- "Чародейские стрелы"
-	[SpellName(10)] = 8, -- "Снежная буря"
-	[SpellName(12051)] = 4 -- "Прилив сил"
+	[SpellName(5740)] = 4, -- "Rain of Fire"
+	[SpellName(755)] = 10, -- "Health Funnel"
+	-- Druid
+	[SpellName(44203)] = 4, -- "Tranquility"
+	[SpellName(16914)] = 10, -- "Hurricane"
+	-- Priest
+	[SpellName(15407)] = 3, -- "Mind Flay"
+	[SpellName(48045)] = 5, -- "Mind Sear"
+	[SpellName(47540)] = 3, -- "Penance"
+	[SpellName(64901)] = 4, -- "Hymn of Hope"
+	[SpellName(64843)] = 4, -- "Divine Hymn"
+	-- Mage
+	[SpellName(5143)] = 5, -- "Arcane Missiles"
+	[SpellName(10)] = 8, -- "Blizzard"
+	[SpellName(12051)] = 4 -- "Evocation"
 };
 
 G.unitframe.AuraBarColors = {
-	[SpellName(2825)] = {r = 250/255, g = 146/255, b = 27/255},	-- Жажда крови
-	[SpellName(32182)] = {r = 250/255, g = 146/255, b = 27/255} -- Героизм
+	[SpellName(2825)] = {r = 250/255, g = 146/255, b = 27/255}, -- Bloodlust
+	[SpellName(32182)] = {r = 250/255, g = 146/255, b = 27/255}, -- Heroism
+	[SpellName(90355)] = {r = 250/255, g = 146/255, b = 27/255}, -- Ancient Hysteria
+	[SpellName(80353)] = {r = 250/255, g = 146/255, b = 27/255} -- Time Warp
 };
 
 G.unitframe.InvalidSpells = {
