@@ -23,4 +23,5 @@
 	<Script file='resilience.lua'/>
 	<Script file='achievement.lua'/>
 	<Script file='elvuiconfig.lua'/>
+	<Script file='mastery.lua'/>
 </Ui>
