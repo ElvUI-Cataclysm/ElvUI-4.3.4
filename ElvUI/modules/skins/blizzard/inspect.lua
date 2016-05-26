@@ -5,30 +5,60 @@ local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.inspect ~= true then return end
 	
 	InspectFrame:StripTextures(true)
-	InspectFrame:CreateBackdrop('Transparent')
-	InspectFrame.backdrop:Point('TOPLEFT', 10, -12)
-	InspectFrame.backdrop:Point('BOTTOMRIGHT', -31, 75)
-	
+	InspectFrameInset:StripTextures(true)
+	InspectTalentFramePointsBar:StripTextures()
+	InspectFrame:CreateBackdrop("Transparent")
+	InspectFrame.backdrop:SetAllPoints()
 	S:HandleCloseButton(InspectFrameCloseButton)
 	
-	for i=1, 3 do
-		S:HandleTab(_G['InspectFrameTab'..i])
+	for i=1, 4 do
+		S:HandleTab(_G["InspectFrameTab"..i])
 	end
 	
-	InspectPaperDollFrame:StripTextures()
-
-	local slots = {'HeadSlot', 'NeckSlot', 'ShoulderSlot', 'BackSlot', 'ChestSlot', 'ShirtSlot', 'TabardSlot', 'WristSlot', 'HandsSlot', 'WaistSlot', 'LegsSlot', 'FeetSlot', 'Finger0Slot', 'Finger1Slot', 'Trinket0Slot', 'Trinket1Slot', 'MainHandSlot', 'SecondaryHandSlot', 'RangedSlot'}
+	InspectModelFrameBorderTopLeft:Kill()
+	InspectModelFrameBorderTopRight:Kill()
+	InspectModelFrameBorderTop:Kill()
+	InspectModelFrameBorderLeft:Kill()
+	InspectModelFrameBorderRight:Kill()
+	InspectModelFrameBorderBottomLeft:Kill()
+	InspectModelFrameBorderBottomRight:Kill()
+	InspectModelFrameBorderBottom:Kill()
+	InspectModelFrameBorderBottom2:Kill()
+	InspectModelFrameBackgroundOverlay:Kill()
+	InspectModelFrame:CreateBackdrop("Default")
+	
+	local slots = {
+		"HeadSlot",
+		"NeckSlot",
+		"ShoulderSlot",
+		"BackSlot",
+		"ChestSlot",
+		"ShirtSlot",
+		"TabardSlot",
+		"WristSlot",
+		"HandsSlot",
+		"WaistSlot",
+		"LegsSlot",
+		"FeetSlot",
+		"Finger0Slot",
+		"Finger1Slot",
+		"Trinket0Slot",
+		"Trinket1Slot",
+		"MainHandSlot",
+		"SecondaryHandSlot",
+		"RangedSlot",
+	}
 	for _, slot in pairs(slots) do
-		local icon = _G['Inspect'..slot..'IconTexture']
-		local slot = _G['Inspect'..slot]
-		icon:SetTexCoord(unpack(E.TexCoords))
-		icon:SetInside()
+		local icon = _G["Inspect"..slot.."IconTexture"]
+		local slot = _G["Inspect"..slot]
 		slot:StripTextures()
-		slot:StyleButton()
-		slot:SetFrameLevel(slot:GetFrameLevel() + 2)
-		slot:CreateBackdrop('Default')
-		slot.backdrop:SetAllPoints()
-	end
+		slot:StyleButton(false)
+		slot:SetTemplate("Default", true)
+		icon:SetTexCoord(unpack(E.TexCoords))
+		icon:ClearAllPoints()
+		icon:Point("TOPLEFT", 2, -2)
+		icon:Point("BOTTOMRIGHT", -2, 2)
+	end		
 	
 	local CheckItemBorderColor = CreateFrame("Frame")
 	local function ScanSlots()
@@ -43,21 +73,21 @@ local function LoadSkin()
 				local _, _, rarity, _, _, _, _, _, _, _, _ = GetItemInfo(itemId)
 				if not rarity then notFound = true end
 				if rarity and rarity > 1 then
-					target.backdrop:SetBackdropBorderColor(GetItemQualityColor(rarity))
+					target:SetBackdropBorderColor(GetItemQualityColor(rarity))
 				else
-					target.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
+					target:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				end
 			else
-				target.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				target:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end
-		end
+		end	
 		
 		if notFound == true then
 			return false
 		else
 			CheckItemBorderColor:SetScript('OnUpdate', nil) --Stop updating
 			return true
-		end
+		end		
 	end
 	
 	local function ColorItemBorder(self)
@@ -71,57 +101,49 @@ local function LoadSkin()
 	CheckItemBorderColor:RegisterEvent("PARTY_MEMBERS_CHANGED")
 	CheckItemBorderColor:SetScript("OnEvent", ColorItemBorder)	
 	InspectFrame:HookScript("OnShow", ColorItemBorder)
-	ColorItemBorder(CheckItemBorderColor)
+	ColorItemBorder(CheckItemBorderColor)	
 	
-	S:HandleRotateButton(InspectModelRotateLeftButton)
-	S:HandleRotateButton(InspectModelRotateRightButton)
+	InspectPVPFrameBottom:Kill()
+	InspectGuildFrameBG:Kill()
+	InspectPVPFrame:HookScript("OnShow", function() InspectPVPFrameBG:Kill() end)
 	
-	InspectPVPFrame:StripTextures()
-
-	for i=1, MAX_ARENA_TEAMS do
-		_G['InspectPVPTeam'..i]:StripTextures()
-		_G['InspectPVPTeam'..i]:CreateBackdrop('Transparent')
-		_G['InspectPVPTeam'..i].backdrop:Point('TOPLEFT', 9, -6)
-		_G['InspectPVPTeam'..i].backdrop:Point('BOTTOMRIGHT', -24, -5)
-		-- _G['InspectPVPTeam'..i..'StandardBar']:Kill()
+	for i=1, 3 do
+		_G["InspectPVPTeam"..i]:StripTextures()
+		_G["InspectTalentFrameTab"..i]:StripTextures()
 	end
 	
-	InspectTalentFrame:StripTextures()
+	InspectTalentFrame.bg = CreateFrame("Frame", nil, InspectTalentFrame)
+	InspectTalentFrame.bg:SetTemplate("Default")
+	InspectTalentFrame.bg:Point("TOPLEFT", InspectTalentFrameBackgroundTopLeft, "TOPLEFT", -2, 2)
+	InspectTalentFrame.bg:Point("BOTTOMRIGHT", InspectTalentFrameBackgroundBottomRight, "BOTTOMRIGHT", -20, 52)
+	InspectTalentFrame.bg:SetFrameLevel(InspectTalentFrame.bg:GetFrameLevel() - 2)
 	
-	S:HandleCloseButton(InspectTalentFrameCloseButton)
-	
-	for i=1, MAX_TALENT_TABS do
-		_G['InspectTalentFrameTab'..i]:StripTextures()
-	end
-	
-	for i=1, MAX_NUM_TALENTS do
-		local button = _G['InspectTalentFrameTalent'..i];
-		local icon = _G['InspectTalentFrameTalent'..i..'IconTexture'];
-		local rank = _G['InspectTalentFrameTalent'..i..'Rank'];
-		
-		if ( button ) then
+	for i = 1, MAX_NUM_TALENTS do
+		local button = _G["InspectTalentFrameTalent"..i]
+		local icon = _G["InspectTalentFrameTalent"..i.."IconTexture"]
+		if button then
 			button:StripTextures()
-			button:SetTemplate('Default', true)
 			button:StyleButton()
+			button:SetTemplate("Default")
+			button.SetHighlightTexture = E.noop
+			button.SetPushedTexture = E.noop
+			button:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
+			button:GetPushedTexture():SetTexCoord(unpack(E.TexCoords))
+			button:GetHighlightTexture():SetAllPoints(icon)
+			button:GetPushedTexture():SetAllPoints(icon)
 			
-			icon:SetTexCoord(unpack(E.TexCoords))
-			icon:SetDrawLayer('ARTWORK')
+			if button.Rank then
+				button.Rank:FontTemplate(nil, 12, 'OUTLINE')
+				button.Rank:ClearAllPoints()
+				button.Rank:SetPoint("BOTTOMRIGHT")
+			end		
+			
 			icon:ClearAllPoints()
-			icon:SetInside()
-			
-			rank:SetFont(E.LSM:Fetch("font", E.db['general'].font), 12, 'OUTLINE')
-			rank:Point('BOTTOMRIGHT', -1, 1)
+			icon:Point("TOPLEFT", 2, -2)
+			icon:Point("BOTTOMRIGHT", -2, 2)
+			icon:SetTexCoord(unpack(E.TexCoords))
 		end
-	end
-	
-	InspectTalentFrameScrollFrame:StripTextures()
-	InspectTalentFrameScrollFrame:CreateBackdrop('Transparent')
-	InspectTalentFrameScrollFrame.backdrop:Point('TOPLEFT', -1, 1)
-	InspectTalentFrameScrollFrame.backdrop:Point('BOTTOMRIGHT', 5, -4)
-	S:HandleScrollBar(InspectTalentFrameScrollFrameScrollBar)
-	InspectTalentFrameScrollFrameScrollBar:Point('TOPLEFT', InspectTalentFrameScrollFrame, 'TOPRIGHT', 8, -19)
-	
-	InspectTalentFramePointsBar:StripTextures()
+	end		
 end
 
 S:RegisterSkin('Blizzard_InspectUI', LoadSkin)

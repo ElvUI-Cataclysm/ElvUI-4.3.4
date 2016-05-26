@@ -1,8 +1,9 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file='achievement.lua'/>
-	<Script file='alerts.lua'/>
+	<Script file='achievement_popup.lua'/>
 	<Script file='arena.lua'/>
 	<Script file='arenaregistrar.lua'/>
+	<Script file='archaeology.lua'/>
 	<Script file='auctionhouse.lua'/>
 	<Script file='bags.lua'/>
 	<Script file='barber.lua'/>
@@ -13,14 +14,17 @@
 	<Script file='character.lua'/>
 	<Script file='debug.lua'/>
 	<Script file='dressingroom.lua'/>
+	<Script file='encounterjournal.lua'/>
 	<Script file='friends.lua'/>
 	<Script file='gbank.lua'/>
 	<Script file='glyph.lua'/>
+	<Script file='guild.lua'/>
 	<Script file='gossip.lua'/>
 	<Script file='greeting.lua'/>
 	<Script file='guildregistrar.lua'/>
 	<Script file='help.lua'/>
 	<Script file='inspect.lua'/>
+	<Script file='lfguild.lua'/>
 	<Script file='lfd.lua'/>
 	<Script file='lfr.lua'/>
 	<Script file='macro.lua'/>
@@ -32,15 +36,18 @@
 	<Script file='pvp.lua'/>
 	<Script file='quest.lua'/>
 	<Script file='raid.lua'/>
+	<Script file='reforge.lua'/>
 	<Script file='socket.lua'/>
 	<Script file='spellbook.lua'/>
 	<Script file='stable.lua'/>
 	<Script file='tabard.lua'/>
 	<Script file='talent.lua'/>
 	<Script file='taxi.lua'/>
+	<Script file='transmogrification.lua'/>
 	<Script file='timemanager.lua'/>
 	<Script file='trade.lua'/>
 	<Script file='tradeskill.lua'/>
 	<Script file='trainer.lua'/>
+	<Script file='voidstorage.lua'/>
 	<Script file='worldmap.lua'/>
 </Ui>

@@ -3,6 +3,7 @@ local S = E:GetModule('Skins')
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.calendar ~= true then return end
+
 	local frames = {
 		"CalendarFrame",
 	}
@@ -11,16 +12,14 @@ local function LoadSkin()
 		_G[frame]:StripTextures()
 	end
 	
-	CalendarFrame:CreateBackdrop("Transparent")
-	CalendarFrame.backdrop:Point("TOPLEFT", 1, -2)
-	CalendarFrame.backdrop:Point("BOTTOMRIGHT", -2, -7)
+	CalendarFrame:SetTemplate("Transparent")
 	S:HandleCloseButton(CalendarCloseButton)
 	CalendarCloseButton:Point("TOPRIGHT", CalendarFrame, "TOPRIGHT", -4, -4)
 	
 	S:HandleNextPrevButton(CalendarPrevMonthButton)
 	S:HandleNextPrevButton(CalendarNextMonthButton)
 	
-	do
+	do --Handle drop down button, this one is different than the others
 		local frame = CalendarFilterFrame
 		local button = CalendarFilterButton
 
@@ -33,12 +32,7 @@ local function LoadSkin()
 		
 		button:ClearAllPoints()
 		button:Point("RIGHT", frame, "RIGHT", -10, 3)
-		hooksecurefunc(button, "SetPoint", function(self, point, attachTo, anchorPoint, xOffset, yOffset)
-			if point ~= "RIGHT" or attachTo ~= frame or anchorPoint ~= "RIGHT" or xOffset ~= -10 or yOffset ~= 3 then
-				self:ClearAllPoints()
-				self:Point("RIGHT", frame, "RIGHT", -10, 3)			
-			end
-		end)
+		button.SetPoint = E.noop
 		
 		S:HandleNextPrevButton(button, true)
 		
@@ -47,43 +41,23 @@ local function LoadSkin()
 		frame.backdrop:Point("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2)
 	end
 	
+	
+	--backdrop
 	local bg = CreateFrame("Frame", "CalendarFrameBackdrop", CalendarFrame)
 	bg:SetTemplate("Default")
 	bg:Point("TOPLEFT", 10, -72)
 	bg:Point("BOTTOMRIGHT", -8, 3)
 	
 	CalendarContextMenu:SetTemplate("Default")
-	hooksecurefunc(CalendarContextMenu, "SetBackdropColor", function(self, r, g, b, a)
-		local r2, g2, b2, a2 = unpack(E["media"].backdropfadecolor)
-		if r ~= r2 or g ~= g2 or b ~= b2 or a ~= a2 then
-			self:SetBackdropColor(r2, g2, b2, a2)
-		end
-	end)
-	hooksecurefunc(CalendarContextMenu, "SetBackdropBorderColor", function(self, r, g, b)
-		local r2, g2, b2 = unpack(E["media"].bordercolor)
-		if r ~= r2 or g ~= g2 or b ~= b2 then
-			self:SetBackdropBorderColor(r2, g2, b2)
-		end
-	end)
+	CalendarContextMenu.SetBackdropColor = E.noop
+	CalendarContextMenu.SetBackdropBorderColor = E.noop
 	
-	CalendarInviteStatusContextMenu:SetTemplate("Default")
-	hooksecurefunc(CalendarInviteStatusContextMenu, "SetBackdropColor", function(self, r, g, b, a)
-		local r2, g2, b2, a2 = unpack(E["media"].backdropfadecolor)
-		if r ~= r2 or g ~= g2 or b ~= b2 or a ~= a2 then
-			self:SetBackdropColor(r2, g2, b2, a2)
-		end
-	end)
-	hooksecurefunc(CalendarInviteStatusContextMenu, "SetBackdropBorderColor", function(self, r, g, b)
-		local r2, g2, b2 = unpack(E["media"].bordercolor)
-		if r ~= r2 or g ~= g2 or b ~= b2 then
-			self:SetBackdropBorderColor(r2, g2, b2)
-		end
-	end)
-	
+	--Boost frame levels
 	for i=1, 42 do
 		_G["CalendarDayButton"..i]:SetFrameLevel(_G["CalendarDayButton"..i]:GetFrameLevel() + 1)
 	end
 	
+	--CreateEventFrame
 	CalendarCreateEventFrame:StripTextures()
 	CalendarCreateEventFrame:SetTemplate("Transparent")
 	CalendarCreateEventFrame:Point("TOPLEFT", CalendarFrame, "TOPRIGHT", 3, -24)
@@ -114,12 +88,7 @@ local function LoadSkin()
 	S:HandleDropDownBox(CalendarCreateEventAMPMDropDown, 68)
 	S:HandleDropDownBox(CalendarCreateEventRepeatOptionDropDown, 120)
 	CalendarCreateEventIcon:SetTexCoord(unpack(E.TexCoords))
-	hooksecurefunc(CalendarCreateEventIcon, "SetTexCoord", function(self, x1, y1, x2, y2)
-		local x3, y3, x4, y4 = unpack(E.TexCoords)
-		if x1 ~= x3 or y1 ~= y3 or x2 ~= x4 or y2 ~= y4 then
-			self:SetTexCoord(unpack(E.TexCoords))
-		end
-	end)	
+	CalendarCreateEventIcon.SetTexCoord = E.noop
 	
 	CalendarCreateEventInviteListSection:StripTextures()
 	
@@ -204,7 +173,7 @@ local function LoadSkin()
 
 	for _, button in pairs(buttons) do
 		S:HandleButton(_G[button])
-	end
+	end	
 	
 	--Event Picker Frame
 	CalendarEventPickerFrame:StripTextures()

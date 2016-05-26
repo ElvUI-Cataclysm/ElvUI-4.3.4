@@ -6,40 +6,73 @@ local unpack = unpack;
 local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.trainer ~= true) then return; end
 
-	ClassTrainerFrame:CreateBackdrop("Transparent");
-	ClassTrainerFrame.backdrop:Point("TOPLEFT", 10, -11);
-	ClassTrainerFrame.backdrop:Point("BOTTOMRIGHT", -32, 74);
+	--Class Trainer Frame
+	local StripAllTextures = {
+		"ClassTrainerFrame",
+		"ClassTrainerScrollFrameScrollChild",
+		"ClassTrainerFrameSkillStepButton",
+		"ClassTrainerFrameBottomInset",
+	}
 
-	ClassTrainerFrame:StripTextures(true);
+	local buttons = {
+		"ClassTrainerTrainButton",
+	}
 
-	ClassTrainerExpandButtonFrame:StripTextures();
+	local KillTextures = {
+		"ClassTrainerFrameInset",
+		"ClassTrainerFramePortrait",
+		"ClassTrainerScrollFrameScrollBarBG",
+		"ClassTrainerScrollFrameScrollBarTop",
+		"ClassTrainerScrollFrameScrollBarBottom",
+		"ClassTrainerScrollFrameScrollBarMiddle",
+	}
 
-	S:HandleDropDownBox(ClassTrainerFrameFilterDropDown);
+	for i=1,8 do
+		_G["ClassTrainerScrollFrameButton"..i]:StripTextures()
+		_G["ClassTrainerScrollFrameButton"..i]:StyleButton()
+		_G["ClassTrainerScrollFrameButton"..i.."Icon"]:SetTexCoord(unpack(E.TexCoords))
+		_G["ClassTrainerScrollFrameButton"..i]:CreateBackdrop()
+		_G["ClassTrainerScrollFrameButton"..i].backdrop:SetOutside(_G["ClassTrainerScrollFrameButton"..i.."Icon"])
+		_G["ClassTrainerScrollFrameButton"..i.."Icon"]:SetParent(_G["ClassTrainerScrollFrameButton"..i].backdrop)
 
-	ClassTrainerListScrollFrame:StripTextures();
-	S:HandleScrollBar(ClassTrainerListScrollFrameScrollBar);
+		_G["ClassTrainerScrollFrameButton"..i].selectedTex:SetTexture(1, 1, 1, 0.3)
+		_G["ClassTrainerScrollFrameButton"..i].selectedTex:SetInside()
+	end
 
-	ClassTrainerDetailScrollFrame:StripTextures();
-	S:HandleScrollBar(ClassTrainerDetailScrollFrameScrollBar);
+	S:HandleScrollBar(ClassTrainerScrollFrameScrollBar, 5)
 
-	ClassTrainerSkillIcon:StripTextures();
+	for _, object in pairs(StripAllTextures) do
+		_G[object]:StripTextures()
+	end
 
-	S:HandleButton(ClassTrainerTrainButton);
-	S:HandleButton(ClassTrainerCancelButton);
+	for _, texture in pairs(KillTextures) do
+		_G[texture]:Kill()
+	end
 
-	S:HandleCloseButton(ClassTrainerFrameCloseButton);
+	for i = 1, #buttons do
+		_G[buttons[i]]:StripTextures()
+		S:HandleButton(_G[buttons[i]])
+	end
 
-	hooksecurefunc("ClassTrainer_SetSelection", function()
-		local skillIcon = ClassTrainerSkillIcon:GetNormalTexture();
-		if(skillIcon) then
-			skillIcon:SetInside();
-			skillIcon:SetTexCoord(unpack(E.TexCoords));
-			
-			ClassTrainerSkillIcon:SetTemplate("Default", true);
-		else
-			ClassTrainerSkillIcon:SetBackdrop(nil);
-		end
-	end);
+	S:HandleDropDownBox(ClassTrainerFrameFilterDropDown, 155)
+
+	ClassTrainerFrame:SetHeight(ClassTrainerFrame:GetHeight() + 42)
+	ClassTrainerFrame:CreateBackdrop("Transparent")
+	ClassTrainerFrame.backdrop:Point("TOPLEFT", ClassTrainerFrame, "TOPLEFT")
+	ClassTrainerFrame.backdrop:Point("BOTTOMRIGHT", ClassTrainerFrame, "BOTTOMRIGHT")
+	S:HandleCloseButton(ClassTrainerFrameCloseButton,ClassTrainerFrame)
+	ClassTrainerFrameSkillStepButton.icon:SetTexCoord(unpack(E.TexCoords))
+	ClassTrainerFrameSkillStepButton:CreateBackdrop("Default")
+	ClassTrainerFrameSkillStepButton.backdrop:SetOutside(ClassTrainerFrameSkillStepButton.icon)
+	ClassTrainerFrameSkillStepButton.icon:SetParent(ClassTrainerFrameSkillStepButton.backdrop)
+	ClassTrainerFrameSkillStepButtonHighlight:SetTexture(1,1,1,0.3)
+	ClassTrainerFrameSkillStepButton.selectedTex:SetTexture(1,1,1,0.3)
+
+	ClassTrainerStatusBar:StripTextures()
+	ClassTrainerStatusBar:SetStatusBarTexture(E["media"].normTex)
+	ClassTrainerStatusBar:CreateBackdrop("Default")
+	ClassTrainerStatusBar.rankText:ClearAllPoints()
+	ClassTrainerStatusBar.rankText:SetPoint("CENTER", ClassTrainerStatusBar, "CENTER")
 end
 
 S:RegisterSkin("Blizzard_TrainerUI", LoadSkin);

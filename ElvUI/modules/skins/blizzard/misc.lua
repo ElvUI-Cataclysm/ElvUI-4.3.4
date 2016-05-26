@@ -5,15 +5,12 @@ local ceil = math.ceil
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.misc ~= true then return end
+
 	-- Blizzard frame we want to reskin
 	local skins = {
 		"StaticPopup1",
 		"StaticPopup2",
 		"StaticPopup3",
-		"GameMenuFrame",
-		"InterfaceOptionsFrame",
-		"VideoOptionsFrame",
-		"AudioOptionsFrame",
 		"BNToastFrame",
 		"TicketStatusFrameButton",
 		"DropDownList1MenuBackdrop",
@@ -25,7 +22,7 @@ local function LoadSkin()
 		"ReadyCheckFrame",
 		"StackSplitFrame",
 	}
-
+	
 	for i = 1, getn(skins) do
 		_G[skins[i]]:SetTemplate("Transparent")
 	end
@@ -45,23 +42,12 @@ local function LoadSkin()
 			_G[ChatMenus[i]]:HookScript("OnShow", function(self) self:SetTemplate("Default", true) self:SetBackdropColor(unpack(E['media'].backdropfadecolor)) end)
 		end
 	end
-	
+
 	-- reskin popup buttons
 	for i = 1, 3 do
-		_G["StaticPopup"..i.."CloseButton"]:StripTextures()
-		S:HandleCloseButton(_G["StaticPopup"..i.."CloseButton"]);
-		
 		for j = 1, 3 do
 			S:HandleButton(_G["StaticPopup"..i.."Button"..j])
 			S:HandleEditBox(_G["StaticPopup"..i.."EditBox"])
-			for k = 1, _G["StaticPopup"..i.."EditBox"]:GetNumRegions() do
-				local region = select(k, _G["StaticPopup"..i.."EditBox"]:GetRegions())
-				if region and region:GetObjectType() == "Texture" then
-					if region:GetTexture() == "Interface\\ChatFrame\\UI-ChatInputBorder-Left" or region:GetTexture() == "Interface\\ChatFrame\\UI-ChatInputBorder-Right" then
-						region:Kill()
-					end
-				end
-			end
 			S:HandleEditBox(_G["StaticPopup"..i.."MoneyInputFrameGold"])
 			S:HandleEditBox(_G["StaticPopup"..i.."MoneyInputFrameSilver"])
 			S:HandleEditBox(_G["StaticPopup"..i.."MoneyInputFrameCopper"])
@@ -72,68 +58,53 @@ local function LoadSkin()
 			_G["StaticPopup"..i.."ItemFrame"]:SetTemplate("Default")
 			_G["StaticPopup"..i.."ItemFrame"]:StyleButton()
 			_G["StaticPopup"..i.."ItemFrameIconTexture"]:SetTexCoord(unpack(E.TexCoords))
-			_G["StaticPopup"..i.."ItemFrameIconTexture"]:SetInside()
-		end
-		
-		select(8, _G["StaticPopup"..i.."WideEditBox"]:GetRegions()):Hide();
-		S:HandleEditBox(_G["StaticPopup"..i.."WideEditBox"]);
-		_G["StaticPopup"..i.."WideEditBox"]:Height(22);
-	end
-	
-	-- reskin all esc/menu buttons
-	local BlizzardMenuButtons = {
-		"Options", 
-		"SoundOptions", 
-		"UIOptions", 
-		"Keybindings", 
-		"Macros",
-		"Logout", 
-		"Quit",
-		"Continue",
-	}
-	
-	for i = 1, getn(BlizzardMenuButtons) do
-		local ElvuiMenuButtons = _G["GameMenuButton"..BlizzardMenuButtons[i]]
-		if ElvuiMenuButtons then
-			S:HandleButton(ElvuiMenuButtons)
+			_G["StaticPopup"..i.."ItemFrameIconTexture"]:ClearAllPoints()
+			_G["StaticPopup"..i.."ItemFrameIconTexture"]:Point("TOPLEFT", 2, -2)
+			_G["StaticPopup"..i.."ItemFrameIconTexture"]:Point("BOTTOMRIGHT", -2, 2)
 		end
 	end
 	
-	-- hide header textures and move text/buttons.
-	local BlizzardHeader = {
-		"GameMenuFrame", 
-		"InterfaceOptionsFrame", 
-		"AudioOptionsFrame", 
-		"VideoOptionsFrame",
-	}
-	
-	for i = 1, getn(BlizzardHeader) do
-		local title = _G[BlizzardHeader[i].."Header"]			
-		if title then
-			title:SetTexture("")
-			title:ClearAllPoints()
-			if title == _G["GameMenuFrameHeader"] then
-				title:SetPoint("TOP", GameMenuFrame, 0, 7)
-			else
-				title:SetPoint("TOP", BlizzardHeader[i], 0, 0)
+	S:HandleCloseButton(StaticPopup1CloseButton)
+
+	-- Return to Graveyard Button
+	do
+		S:HandleButton(GhostFrame)
+		GhostFrame:SetBackdropColor(0,0,0,0)
+		GhostFrame:SetBackdropBorderColor(0,0,0,0)
+
+		local function forceBackdropColor(self, r, g, b, a)
+			if r ~= 0 or g ~= 0 or b ~= 0 or a ~= 0 then
+				GhostFrame:SetBackdropColor(0,0,0,0)
+				GhostFrame:SetBackdropBorderColor(0,0,0,0)
 			end
 		end
+
+		hooksecurefunc(GhostFrame, "SetBackdropColor", forceBackdropColor)
+		hooksecurefunc(GhostFrame, "SetBackdropBorderColor", forceBackdropColor)
+
+		GhostFrame:ClearAllPoints()
+		GhostFrame:Point("TOP", E.UIParent, "TOP", 0, -150)
+		S:HandleButton(GhostFrameContentsFrame)
+		GhostFrameContentsFrameIcon:SetTexture(nil)
+		local x = CreateFrame("Frame", nil, GhostFrame)
+		x:SetFrameStrata("MEDIUM")
+		x:SetTemplate("Default")
+		x:SetOutside(GhostFrameContentsFrameIcon)
+		local tex = x:CreateTexture(nil, "OVERLAY")
+		tex:SetTexture("Interface\\Icons\\spell_holy_guardianspirit")
+		tex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		tex:SetInside()
 	end
-	
+
 	-- here we reskin all "normal" buttons
 	local BlizzardButtons = {
 		"VideoOptionsFrameOkay", 
 		"VideoOptionsFrameCancel", 
 		"VideoOptionsFrameDefaults", 
 		"VideoOptionsFrameApply", 
-		"AudioOptionsFrameOkay", 
-		"AudioOptionsFrameCancel", 
-		"AudioOptionsFrameDefaults", 
 		"InterfaceOptionsFrameDefaults", 
 		"InterfaceOptionsFrameOkay", 
 		"InterfaceOptionsFrameCancel",
-		"ReadyCheckFrameYesButton",
-		"ReadyCheckFrameNoButton",
 		"StackSplitOkayButton",
 		"StackSplitCancelButton",
 		"RolePollPopupAcceptButton"
@@ -145,16 +116,15 @@ local function LoadSkin()
 			S:HandleButton(ElvuiButtons)
 		end
 	end
-	
-	-- if a button position is not really where we want, we move it here
-	VideoOptionsFrameCancel:ClearAllPoints()
-	VideoOptionsFrameCancel:SetPoint("RIGHT",VideoOptionsFrameApply,"LEFT",-4,0)		 
-	VideoOptionsFrameOkay:ClearAllPoints()
-	VideoOptionsFrameOkay:SetPoint("RIGHT",VideoOptionsFrameCancel,"LEFT",-4,0)	
-	AudioOptionsFrameOkay:ClearAllPoints()
-	AudioOptionsFrameOkay:SetPoint("RIGHT",AudioOptionsFrameCancel,"LEFT",-4,0)
-	InterfaceOptionsFrameOkay:ClearAllPoints()
-	InterfaceOptionsFrameOkay:SetPoint("RIGHT",InterfaceOptionsFrameCancel,"LEFT", -4,0)
+
+	-- BNToast Frame
+	BNToastFrameCloseButton:Size(32);
+	BNToastFrameCloseButton:Point("TOPRIGHT", "BNToastFrame", 4, 4);
+	S:HandleCloseButton(BNToastFrameCloseButton);
+
+	-- ReadyCheck Buttons
+	S:HandleButton(ReadyCheckFrameYesButton)
+	S:HandleButton(ReadyCheckFrameNoButton)
 	ReadyCheckFrameYesButton:SetParent(ReadyCheckFrame)
 	ReadyCheckFrameNoButton:SetParent(ReadyCheckFrame) 
 	ReadyCheckFrameYesButton:SetPoint("RIGHT", ReadyCheckFrame, "CENTER", -1, 0)
@@ -162,12 +132,394 @@ local function LoadSkin()
 	ReadyCheckFrameText:SetParent(ReadyCheckFrame)	
 	ReadyCheckFrameText:ClearAllPoints()
 	ReadyCheckFrameText:SetPoint("TOP", 0, -12)
-	
+
 	-- others
 	ReadyCheckListenerFrame:SetAlpha(0)
 	ReadyCheckFrame:HookScript("OnShow", function(self) if UnitIsUnit("player", self.initiator) then self:Hide() end end) -- bug fix, don't show it if initiator
 	StackSplitFrame:GetRegions():Hide()
 
+	RolePollPopup:SetTemplate("Transparent")
+	S:HandleCloseButton(RolePollPopupCloseButton)
+
+	-- ESC/Menu Buttons
+	local BlizzardMenuButtons = {
+		"Options",
+		"UIOptions",
+		"Keybindings",
+		"Macros",
+		"AddOns",
+		"Logout",
+		"Quit",
+		"Continue",
+		"Help"
+	}
+	
+	for i = 1, getn(BlizzardMenuButtons) do
+		local ElvuiMenuButtons = _G["GameMenuButton"..BlizzardMenuButtons[i]]
+		if ElvuiMenuButtons then
+			S:HandleButton(ElvuiMenuButtons)
+		end
+	end
+	
+	if IsAddOnLoaded("OptionHouse") then
+		S:HandleButton(GameMenuButtonOptionHouse)
+	end
+
+	-- Options/Interface Buttons Position
+	VideoOptionsFrameCancel:ClearAllPoints()
+	VideoOptionsFrameCancel:SetPoint("RIGHT",VideoOptionsFrameApply,"LEFT",-4,0)		 
+	VideoOptionsFrameOkay:ClearAllPoints()
+	VideoOptionsFrameOkay:SetPoint("RIGHT",VideoOptionsFrameCancel,"LEFT",-4,0)
+	InterfaceOptionsFrameOkay:ClearAllPoints()
+	InterfaceOptionsFrameOkay:SetPoint("RIGHT",InterfaceOptionsFrameCancel,"LEFT", -4,0)
+
+	-- Game Menu Options/Frames
+	GameMenuFrame:StripTextures()
+	GameMenuFrame:CreateBackdrop("Transparent")
+
+	InterfaceOptionsFrame:StripTextures()
+	InterfaceOptionsFrame:CreateBackdrop("Transparent")
+
+	VideoOptionsFrame:StripTextures()
+	VideoOptionsFrame:CreateBackdrop("Transparent")
+
+	VideoOptionsFrameCategoryFrame:StripTextures()
+	VideoOptionsFrameCategoryFrame:CreateBackdrop("Transparent")
+
+	VideoOptionsFramePanelContainer:StripTextures()
+	VideoOptionsFramePanelContainer:CreateBackdrop("Transparent")
+
+	-- Game Menu Options/Graphics
+	Graphics_RightQuality:StripTextures()
+	S:HandleSliderFrame(Graphics_Quality)
+
+	S:HandleDropDownBox(Graphics_DisplayModeDropDown
+)
+	S:HandleDropDownBox(Graphics_ResolutionDropDown
+)
+	S:HandleDropDownBox(Graphics_RefreshDropDown
+)
+	S:HandleDropDownBox(Graphics_PrimaryMonitorDropDown)
+	S:HandleDropDownBox(Graphics_MultiSampleDropDown)
+	S:HandleDropDownBox(Graphics_VerticalSyncDropDown)
+	S:HandleDropDownBox(Graphics_TextureResolutionDropDown
+)
+	S:HandleDropDownBox(Graphics_FilteringDropDown
+)
+	S:HandleDropDownBox(Graphics_ProjectedTexturesDropDown
+)
+	S:HandleDropDownBox(Graphics_ViewDistanceDropDown
+)
+	S:HandleDropDownBox(Graphics_EnvironmentalDetailDropDown
+)
+	S:HandleDropDownBox(Graphics_GroundClutterDropDown
+)
+	S:HandleDropDownBox(Graphics_ShadowsDropDown
+)
+	S:HandleDropDownBox(Graphics_LiquidDetailDropDown
+)
+	S:HandleDropDownBox(Graphics_SunshaftsDropDown
+)
+	S:HandleDropDownBox(Graphics_ParticleDensityDropDown)
+
+	-- Game Menu Options/Advanced
+	S:HandleDropDownBox(Advanced_BufferingDropDown
+)
+	S:HandleDropDownBox(Advanced_LagDropDown
+)
+	S:HandleDropDownBox(Advanced_HardwareCursorDropDown
+)
+	S:HandleDropDownBox(Advanced_GraphicsAPIDropDown)
+
+	S:HandleCheckBox(Advanced_MaxFPSCheckBox
+)
+	S:HandleCheckBox(Advanced_MaxFPSBKCheckBox
+)
+	S:HandleCheckBox(Advanced_UseUIScale)
+
+	S:HandleSliderFrame(Advanced_MaxFPSSlider
+)
+	S:HandleSliderFrame(Advanced_UIScaleSlider
+)
+	S:HandleSliderFrame(Advanced_MaxFPSBKSlider)
+
+	-- Game Menu Options/Network
+	S:HandleCheckBox(NetworkOptionsPanelOptimizeSpeed
+)
+	S:HandleCheckBox(NetworkOptionsPanelUseIPv6
+)
+
+	-- Game Menu Options/Languages
+	S:HandleDropDownBox(InterfaceOptionsLanguagesPanelLocaleDropDown)
+
+	-- Game Menu Options/Sound
+	S:HandleCheckBox(AudioOptionsSoundPanelEnableSound)
+	S:HandleCheckBox(AudioOptionsSoundPanelSoundEffects)
+	S:HandleCheckBox(AudioOptionsSoundPanelErrorSpeech)
+	S:HandleCheckBox(AudioOptionsSoundPanelEmoteSounds)
+	S:HandleCheckBox(AudioOptionsSoundPanelPetSounds)
+	S:HandleCheckBox(AudioOptionsSoundPanelMusic)
+	S:HandleCheckBox(AudioOptionsSoundPanelLoopMusic)
+	S:HandleCheckBox(AudioOptionsSoundPanelAmbientSounds)
+	S:HandleCheckBox(AudioOptionsSoundPanelSoundInBG)
+	S:HandleCheckBox(AudioOptionsSoundPanelReverb)
+	S:HandleCheckBox(AudioOptionsSoundPanelHRTF)
+	S:HandleCheckBox(AudioOptionsSoundPanelEnableDSPs)
+	S:HandleCheckBox(AudioOptionsSoundPanelUseHardware)
+
+	S:HandleSliderFrame(AudioOptionsSoundPanelSoundQuality)
+	S:HandleSliderFrame(AudioOptionsSoundPanelAmbienceVolume)
+	S:HandleSliderFrame(AudioOptionsSoundPanelMusicVolume)
+	S:HandleSliderFrame(AudioOptionsSoundPanelSoundVolume)
+	S:HandleSliderFrame(AudioOptionsSoundPanelMasterVolume)
+
+	S:HandleDropDownBox(AudioOptionsSoundPanelHardwareDropDown)
+	S:HandleDropDownBox(AudioOptionsSoundPanelSoundChannelsDropDown)
+
+	AudioOptionsSoundPanelVolume:StripTextures()
+	AudioOptionsSoundPanelVolume:CreateBackdrop("Transparent")
+
+	AudioOptionsSoundPanelHardware:StripTextures()
+	AudioOptionsSoundPanelHardware:CreateBackdrop("Transparent")
+
+	AudioOptionsSoundPanelPlayback:StripTextures()
+	AudioOptionsSoundPanelPlayback:CreateBackdrop("Transparent")
+
+	-- Game Menu Interface
+	InterfaceOptionsFrameCategories:StripTextures()
+	InterfaceOptionsFrameCategories:CreateBackdrop("Transparent")
+
+	InterfaceOptionsFramePanelContainer:StripTextures()
+	InterfaceOptionsFramePanelContainer:CreateBackdrop("Transparent")
+
+	InterfaceOptionsFrameAddOns:StripTextures()
+	InterfaceOptionsFrameAddOns:CreateBackdrop("Transparent")
+
+
+	-- Game Menu Interface/Tabs
+	for i = 1, 2 do
+ 	   S:HandleTab(_G["InterfaceOptionsFrameTab" .. i]);
+	   (_G["InterfaceOptionsFrameTab" .. i]):StripTextures()
+	end
+
+	-- Game Menu Interface/Controls
+	S:HandleCheckBox(InterfaceOptionsControlsPanelStickyTargeting)
+	S:HandleCheckBox(InterfaceOptionsControlsPanelAutoDismount)
+	S:HandleCheckBox(InterfaceOptionsControlsPanelAutoClearAFK)
+	S:HandleCheckBox(InterfaceOptionsControlsPanelBlockTrades)
+	S:HandleCheckBox(InterfaceOptionsControlsPanelBlockGuildInvites)
+	S:HandleCheckBox(InterfaceOptionsControlsPanelLootAtMouse)
+	S:HandleCheckBox(InterfaceOptionsControlsPanelAutoLootCorpse)
+	S:HandleCheckBox(InterfaceOptionsControlsPanelInteractOnLeftClick)
+
+	S:HandleDropDownBox(InterfaceOptionsControlsPanelAutoLootKeyDropDown)
+
+	-- Game Menu Interface/Combat
+	S:HandleCheckBox(InterfaceOptionsCombatPanelAttackOnAssist)
+	S:HandleCheckBox(InterfaceOptionsCombatPanelStopAutoAttack)
+	S:HandleCheckBox(InterfaceOptionsCombatPanelNameplateClassColors)
+	S:HandleCheckBox(InterfaceOptionsCombatPanelTargetOfTarget)
+	S:HandleCheckBox(InterfaceOptionsCombatPanelShowSpellAlerts)
+	S:HandleCheckBox(InterfaceOptionsCombatPanelReducedLagTolerance)
+	S:HandleCheckBox(InterfaceOptionsCombatPanelActionButtonUseKeyDown)
+	S:HandleCheckBox(InterfaceOptionsCombatPanelEnemyCastBarsOnPortrait)
+	S:HandleCheckBox(InterfaceOptionsCombatPanelEnemyCastBarsOnNameplates)
+	S:HandleCheckBox(InterfaceOptionsCombatPanelAutoSelfCast)
+
+	S:HandleDropDownBox(InterfaceOptionsCombatPanelTOTDropDown)
+	S:HandleDropDownBox(InterfaceOptionsCombatPanelFocusCastKeyDropDown)
+	S:HandleDropDownBox(InterfaceOptionsCombatPanelSelfCastKeyDropDown)
+
+	S:HandleSliderFrame(InterfaceOptionsCombatPanelSpellAlertOpacitySlider)
+	S:HandleSliderFrame(InterfaceOptionsCombatPanelMaxSpellStartRecoveryOffset)
+
+	-- Game Menu Interface/Display
+	S:HandleCheckBox(InterfaceOptionsDisplayPanelShowCloak)
+	S:HandleCheckBox(InterfaceOptionsDisplayPanelShowHelm)
+	S:HandleCheckBox(InterfaceOptionsDisplayPanelShowAggroPercentage)
+	S:HandleCheckBox(InterfaceOptionsDisplayPanelPlayAggroSounds)
+	S:HandleCheckBox(InterfaceOptionsDisplayPanelDetailedLootInfo)
+	S:HandleCheckBox(InterfaceOptionsDisplayPanelShowSpellPointsAvg)
+	S:HandleCheckBox(InterfaceOptionsDisplayPanelScreenEdgeFlash)
+	S:HandleCheckBox(InterfaceOptionsDisplayPanelRotateMinimap)
+	S:HandleCheckBox(InterfaceOptionsDisplayPanelCinematicSubtitles)
+	S:HandleCheckBox(InterfaceOptionsDisplayPanelShowFreeBagSpace)
+	S:HandleCheckBox(InterfaceOptionsDisplayPanelemphasizeMySpellEffects)
+
+	S:HandleDropDownBox(InterfaceOptionsDisplayPanelAggroWarningDisplay)
+	S:HandleDropDownBox(InterfaceOptionsDisplayPanelWorldPVPObjectiveDisplay)
+
+	-- Game Menu Interface/Objectives
+	S:HandleCheckBox(InterfaceOptionsObjectivesPanelAutoQuestTracking)
+	S:HandleCheckBox(InterfaceOptionsObjectivesPanelAutoQuestProgress)
+	S:HandleCheckBox(InterfaceOptionsObjectivesPanelMapQuestDifficulty)
+	S:HandleCheckBox(InterfaceOptionsObjectivesPanelWatchFrameWidth)
+
+	-- Game Menu Interface/Social
+	S:HandleCheckBox(InterfaceOptionsSocialPanelProfanityFilter)
+	S:HandleCheckBox(InterfaceOptionsSocialPanelSpamFilter)
+	S:HandleCheckBox(InterfaceOptionsSocialPanelChatBubbles)
+	S:HandleCheckBox(InterfaceOptionsSocialPanelPartyChat)
+	S:HandleCheckBox(InterfaceOptionsSocialPanelChatHoverDelay)
+	S:HandleCheckBox(InterfaceOptionsSocialPanelGuildMemberAlert)
+	S:HandleCheckBox(InterfaceOptionsSocialPanelChatMouseScroll)
+
+	S:HandleDropDownBox(InterfaceOptionsSocialPanelWhisperMode)
+
+	-- Game Menu Interface/Action Bars
+	S:HandleCheckBox(InterfaceOptionsActionBarsPanelBottomLeft)
+	S:HandleCheckBox(InterfaceOptionsActionBarsPanelBottomRight)
+	S:HandleCheckBox(InterfaceOptionsActionBarsPanelRight)
+	S:HandleCheckBox(InterfaceOptionsActionBarsPanelRightTwo)
+	S:HandleCheckBox(InterfaceOptionsActionBarsPanelLockActionBars)
+	S:HandleCheckBox(InterfaceOptionsActionBarsPanelAlwaysShowActionBars)
+	S:HandleCheckBox(InterfaceOptionsActionBarsPanelSecureAbilityToggle)
+
+	S:HandleDropDownBox(InterfaceOptionsActionBarsPanelPickupActionKeyDropDown)
+
+	-- Game Menu Interface/Names
+	S:HandleCheckBox(InterfaceOptionsNamesPanelGuilds)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelGuildTitles)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelTitles)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelNonCombatCreature)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelEnemyPlayerNames)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelEnemyPets)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelEnemyGuardians)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelEnemyTotems)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelUnitNameplatesEnemies)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelUnitNameplatesEnemyPets)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelUnitNameplatesEnemyGuardians)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelUnitNameplatesEnemyTotems)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelUnitNameplatesFriendlyTotems)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelUnitNameplatesFriendlyGuardians)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelUnitNameplatesFriendlyPets)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelUnitNameplatesFriends)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelFriendlyTotems)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelFriendlyGuardians)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelFriendlyPets)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelFriendlyPlayerNames)
+	S:HandleCheckBox(InterfaceOptionsNamesPanelMyName)
+
+	S:HandleDropDownBox(InterfaceOptionsNamesPanelNPCNamesDropDown)
+	S:HandleDropDownBox(InterfaceOptionsNamesPanelUnitNameplatesMotionDropDown)
+
+	-- Game Menu Interface/Floating Combat Text
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelTargetDamage)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelPeriodicDamage)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelPetDamage)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelHealing)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelEnableFCT)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelDodgeParryMiss)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelDamageReduction)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelRepChanges)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelReactiveAbilities)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelFriendlyHealerNames)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelCombatState)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelAuras)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelHonorGains)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelPeriodicEnergyGains)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelEnergyGains)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelLowManaHealth)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelComboPoints)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelOtherTargetEffects)
+	S:HandleCheckBox(InterfaceOptionsCombatTextPanelTargetEffects)
+
+	S:HandleDropDownBox(InterfaceOptionsCombatTextPanelFCTDropDown)
+
+	-- Game Menu Interface/Status Text
+	S:HandleCheckBox(InterfaceOptionsStatusTextPanelPlayer)
+	S:HandleCheckBox(InterfaceOptionsStatusTextPanelPet)
+	S:HandleCheckBox(InterfaceOptionsStatusTextPanelParty)
+	S:HandleCheckBox(InterfaceOptionsStatusTextPanelTarget)
+	S:HandleCheckBox(InterfaceOptionsStatusTextPanelAlternateResource)
+	S:HandleCheckBox(InterfaceOptionsStatusTextPanelPercentages)
+	S:HandleCheckBox(InterfaceOptionsStatusTextPanelXP)
+
+	-- Game Menu Interface/Unit Frames
+	S:HandleCheckBox(InterfaceOptionsUnitFramePanelPartyBackground)
+	S:HandleCheckBox(InterfaceOptionsUnitFramePanelPartyPets)
+	S:HandleCheckBox(InterfaceOptionsUnitFramePanelArenaEnemyFrames)
+	S:HandleCheckBox(InterfaceOptionsUnitFramePanelArenaEnemyCastBar)
+	S:HandleCheckBox(InterfaceOptionsUnitFramePanelArenaEnemyPets)
+	S:HandleCheckBox(InterfaceOptionsUnitFramePanelFullSizeFocusFrame)
+
+	-- Game Menu Interface/Raid Profiles
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameKeepGroupsTogether)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameDisplayIncomingHeals)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameDisplayPowerBar)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameDisplayAggroHighlight)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameUseClassColors)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameDisplayPets)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameDisplayMainTankAndAssist)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameDisplayBorder)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameShowDebuffs)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameDisplayOnlyDispellableDebuffs)
+	S:HandleCheckBox(CompactUnitFrameProfilesRaidStylePartyFrames)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate2Players)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate3Players)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate5Players)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate10Players)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate15Players)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate25Players)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate40Players)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivateSpec1)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivateSpec2)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivatePvP)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivatePvE)
+
+	S:HandleButton(CompactUnitFrameProfilesSaveButton)
+	S:HandleButton(CompactUnitFrameProfilesDeleteButton)
+	S:HandleButton(CompactUnitFrameProfilesGeneralOptionsFrameResetPositionButton)
+
+	S:HandleSliderFrame(CompactUnitFrameProfilesGeneralOptionsFrameHeightSlider)
+	S:HandleSliderFrame(CompactUnitFrameProfilesGeneralOptionsFrameWidthSlider)
+
+	S:HandleDropDownBox(CompactUnitFrameProfilesGeneralOptionsFrameSortByDropdown
+)
+	S:HandleDropDownBox(CompactUnitFrameProfilesProfileSelector
+)
+	S:HandleDropDownBox(CompactUnitFrameProfilesGeneralOptionsFrameHealthTextDropdown)
+
+	-- Game Menu Interface/Buffs and Debuffs
+	S:HandleCheckBox(InterfaceOptionsBuffsPanelBuffDurations)
+	S:HandleCheckBox(InterfaceOptionsBuffsPanelDispellableDebuffs)
+	S:HandleCheckBox(InterfaceOptionsBuffsPanelCastableBuffs)
+	S:HandleCheckBox(InterfaceOptionsBuffsPanelConsolidateBuffs)
+	S:HandleCheckBox(InterfaceOptionsBuffsPanelShowAllEnemyDebuffs)
+
+	-- Game Menu Interface/Camera
+	S:HandleCheckBox(InterfaceOptionsCameraPanelFollowTerrain)
+	S:HandleCheckBox(InterfaceOptionsCameraPanelHeadBob)
+	S:HandleCheckBox(InterfaceOptionsCameraPanelWaterCollision)
+	S:HandleCheckBox(InterfaceOptionsCameraPanelSmartPivot)
+
+	S:HandleSliderFrame(InterfaceOptionsCameraPanelMaxDistanceSlider)
+	S:HandleSliderFrame(InterfaceOptionsCameraPanelFollowSpeedSlider)
+
+	S:HandleDropDownBox(InterfaceOptionsCameraPanelStyleDropDown)
+
+	-- Game Menu Interface/Mouse
+	S:HandleCheckBox(InterfaceOptionsMousePanelInvertMouse)
+	S:HandleCheckBox(InterfaceOptionsMousePanelClickToMove)
+	S:HandleCheckBox(InterfaceOptionsMousePanelWoWMouse)
+
+	S:HandleSliderFrame(InterfaceOptionsMousePanelMouseSensitivitySlider)
+	S:HandleSliderFrame(InterfaceOptionsMousePanelMouseLookSpeedSlider)
+
+	S:HandleDropDownBox(InterfaceOptionsMousePanelClickMoveStyleDropDown)
+
+	-- Game Menu Interface/Help
+	S:HandleCheckBox(InterfaceOptionsHelpPanelShowTutorials)
+	S:HandleCheckBox(InterfaceOptionsHelpPanelLoadingScreenTips)
+	S:HandleCheckBox(InterfaceOptionsHelpPanelEnhancedTooltips)
+	S:HandleCheckBox(InterfaceOptionsHelpPanelBeginnerTooltips)
+	S:HandleCheckBox(InterfaceOptionsHelpPanelShowLuaErrors)
+	S:HandleCheckBox(InterfaceOptionsHelpPanelColorblindMode)
+	S:HandleCheckBox(InterfaceOptionsHelpPanelMovePad)
+
+	S:HandleButton(InterfaceOptionsHelpPanelResetTutorials)
+
+	-- Interface Enable Mouse Move
 	InterfaceOptionsFrame:SetClampedToScreen(true)
 	InterfaceOptionsFrame:SetMovable(true)
 	InterfaceOptionsFrame:EnableMouse(true)
@@ -182,92 +534,8 @@ local function LoadSkin()
 	InterfaceOptionsFrame:SetScript("OnDragStop", function(self) 
 		self:StopMovingOrSizing()
 	end)
-	
-	-- mac menu/option panel, made by affli.
-	if IsMacClient() then
-		S:HandleButton(GameMenuButtonMacOptions);
-		
-		-- Skin main frame and reposition the header
-		MacOptionsFrame:SetTemplate("Default", true)
-		MacOptionsFrameHeader:SetTexture("")
-		MacOptionsFrameHeader:ClearAllPoints()
-		MacOptionsFrameHeader:SetPoint("TOP", MacOptionsFrame, 0, 0)
-		
-		S:HandleDropDownBox(MacOptionsFrameResolutionDropDown);
-		S:HandleDropDownBox(MacOptionsFrameFramerateDropDown);
-		S:HandleDropDownBox(MacOptionsFrameCodecDropDown);
-		
-		S:HandleSliderFrame(MacOptionsFrameQualitySlider);
-		
-		for i = 1, 8 do
-			S:HandleCheckBox(_G["MacOptionsFrameCheckButton"..i]);
-		end
-		
-		--Skin internal frames
-		MacOptionsFrameMovieRecording:SetTemplate("Default", true)
-		MacOptionsITunesRemote:SetTemplate("Default", true)
- 
-		--Skin buttons
-		S:HandleButton(MacOptionsFrameCancel)
-		S:HandleButton(MacOptionsFrameOkay)
-		S:HandleButton(MacOptionsButtonKeybindings)
-		S:HandleButton(MacOptionsFrameDefaults)
-		S:HandleButton(MacOptionsButtonCompress)
- 
-		--Reposition and resize buttons
-		local tPoint, tRTo, tRP, tX, tY =  MacOptionsButtonCompress:GetPoint()
-		MacOptionsButtonCompress:SetWidth(136)
-		MacOptionsButtonCompress:ClearAllPoints()
-		MacOptionsButtonCompress:Point(tPoint, tRTo, tRP, 4, tY)
- 
-		MacOptionsFrameCancel:SetWidth(96)
-		MacOptionsFrameCancel:SetHeight(22)
-		tPoint, tRTo, tRP, tX, tY =  MacOptionsFrameCancel:GetPoint()
-		MacOptionsFrameCancel:ClearAllPoints()
-		MacOptionsFrameCancel:Point(tPoint, tRTo, tRP, -14, tY)
- 
-		MacOptionsFrameOkay:ClearAllPoints()
-		MacOptionsFrameOkay:SetWidth(96)
-		MacOptionsFrameOkay:SetHeight(22)
-		MacOptionsFrameOkay:Point("LEFT",MacOptionsFrameCancel, -99,0)
- 
-		MacOptionsButtonKeybindings:ClearAllPoints()
-		MacOptionsButtonKeybindings:SetWidth(96)
-		MacOptionsButtonKeybindings:SetHeight(22)
-		MacOptionsButtonKeybindings:Point("LEFT",MacOptionsFrameOkay, -99,0)
- 
-		MacOptionsFrameDefaults:SetWidth(96)
-		MacOptionsFrameDefaults:SetHeight(22)
-		
-		MacOptionsCompressFrame:SetTemplate("Default", true);
-		
-		MacOptionsCompressFrameHeader:SetTexture("")
-		MacOptionsCompressFrameHeader:ClearAllPoints();
-		MacOptionsCompressFrameHeader:SetPoint("TOP", MacOptionsCompressFrame, 0, 0);
-		
-		S:HandleButton(MacOptionsCompressFrameDelete);
-		S:HandleButton(MacOptionsCompressFrameSkip);
-		S:HandleButton(MacOptionsCompressFrameCompress);
-		
-		MacOptionsCancelFrame:SetTemplate("Default", true);
-		
-		MacOptionsCancelFrameHeader:SetTexture("");
-		MacOptionsCancelFrameHeader:ClearAllPoints();
-		MacOptionsCancelFrameHeader:SetPoint("TOP", MacOptionsCancelFrame, 0, 0);
-		
-		S:HandleButton(MacOptionsCancelFrameNo);
-		S:HandleButton(MacOptionsCancelFrameYes);
-	end
-	
-	BNToastFrameCloseButton:Size(32);
-	BNToastFrameCloseButton:Point("TOPRIGHT", "BNToastFrame", 4, 4);
-	S:HandleCloseButton(BNToastFrameCloseButton);
-	
-	OpacityFrame:StripTextures()
-	OpacityFrame:SetTemplate("Transparent")
-	
-	S:HandleSliderFrame(OpacityFrameSlider);
-	
+
+	--Watch Frame
 	WatchFrameCollapseExpandButton:StripTextures()
 	S:HandleCloseButton(WatchFrameCollapseExpandButton)
 	WatchFrameCollapseExpandButton.backdrop:SetAllPoints()
@@ -282,6 +550,24 @@ local function LoadSkin()
 		WatchFrameCollapseExpandButton.text:SetText('+')
 	end)	
 	
+	local function SkinWatchFrameItems()
+		for i=1, WATCHFRAME_NUM_ITEMS do
+			local button = _G["WatchFrameItem"..i]
+			if not button.skinned then
+				button:CreateBackdrop('Default')
+				button.backdrop:SetAllPoints()
+				button:StyleButton()
+				_G["WatchFrameItem"..i.."NormalTexture"]:SetAlpha(0)
+				_G["WatchFrameItem"..i.."IconTexture"]:SetInside()
+				_G["WatchFrameItem"..i.."IconTexture"]:SetTexCoord(unpack(E.TexCoords))
+				E:RegisterCooldown(_G["WatchFrameItem"..i.."Cooldown"])
+				button.skinned = true
+			end
+		end
+	end
+	
+	WatchFrame:HookScript("OnEvent", SkinWatchFrameItems)
+
 	--Chat Config
 	ChatConfigFrame:StripTextures();
 	ChatConfigFrame:SetTemplate("Transparent");
@@ -449,307 +735,86 @@ local function LoadSkin()
 			_G["DropDownList"..i.."Backdrop"]:SetTemplate("Default", true)
 			_G["DropDownList"..i.."MenuBackdrop"]:SetTemplate("Default", true)
 		end
-	end)	
-	
-	local function SkinWatchFrameItems()
-		for i=1, WATCHFRAME_NUM_ITEMS do
-			local button = _G["WatchFrameItem"..i]
-			if not button.skinned then
-				button:CreateBackdrop('Default')
-				button.backdrop:SetAllPoints()
-				button:StyleButton()
-				_G["WatchFrameItem"..i.."NormalTexture"]:SetAlpha(0)
-				_G["WatchFrameItem"..i.."IconTexture"]:SetInside()
-				_G["WatchFrameItem"..i.."IconTexture"]:SetTexCoord(unpack(E.TexCoords))
-				E:RegisterCooldown(_G["WatchFrameItem"..i.."Cooldown"])
-				button.skinned = true
+	end)
+
+
+	--LFD Role Picker PopUp Frame
+	LFDRoleCheckPopup:StripTextures()
+	LFDRoleCheckPopup:SetTemplate("Transparent")
+	S:HandleButton(LFDRoleCheckPopupAcceptButton)
+	S:HandleButton(LFDRoleCheckPopupDeclineButton)
+	S:HandleCheckBox(LFDRoleCheckPopupRoleButtonTank:GetChildren())
+	S:HandleCheckBox(LFDRoleCheckPopupRoleButtonDPS:GetChildren())
+	S:HandleCheckBox(LFDRoleCheckPopupRoleButtonHealer:GetChildren())
+	LFDRoleCheckPopupRoleButtonTank:GetChildren():SetFrameLevel(LFDRoleCheckPopupRoleButtonTank:GetChildren():GetFrameLevel() + 1)
+	LFDRoleCheckPopupRoleButtonDPS:GetChildren():SetFrameLevel(LFDRoleCheckPopupRoleButtonDPS:GetChildren():GetFrameLevel() + 1)
+	LFDRoleCheckPopupRoleButtonHealer:GetChildren():SetFrameLevel(LFDRoleCheckPopupRoleButtonHealer:GetChildren():GetFrameLevel() + 1)
+
+	--Compact Raid Frame Manager (Not Finished)
+	CompactRaidFrameManager:StripTextures()
+	CompactRaidFrameManager:SetTemplate("Transparent")
+	CompactRaidFrameManagerDisplayFrame:StripTextures()
+	CompactRaidFrameManagerDisplayFrameFilterOptions:StripTextures()
+
+	S:HandleButton(CompactRaidFrameManagerDisplayFrameHiddenModeToggle)
+	S:HandleButton(CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateRolePoll)
+	S:HandleButton(CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateReadyCheck)
+	S:HandleButton(CompactRaidFrameManagerDisplayFrameLockedModeToggle)
+	S:HandleButton(CompactRaidFrameManagerDisplayFrameConvertToRaid)
+	S:HandleButton(CompactRaidFrameManagerDisplayFrameFilterOptionsFilterGroup1)
+	S:HandleButton(CompactRaidFrameManagerDisplayFrameFilterOptionsFilterGroup2)
+	S:HandleButton(CompactRaidFrameManagerDisplayFrameFilterOptionsFilterGroup3)
+	S:HandleButton(CompactRaidFrameManagerDisplayFrameFilterOptionsFilterGroup4)
+	S:HandleButton(CompactRaidFrameManagerDisplayFrameFilterOptionsFilterGroup5)
+	S:HandleButton(CompactRaidFrameManagerDisplayFrameFilterOptionsFilterGroup6)
+	S:HandleButton(CompactRaidFrameManagerDisplayFrameFilterOptionsFilterGroup7)
+	S:HandleButton(CompactRaidFrameManagerDisplayFrameFilterOptionsFilterGroup8)
+	S:HandleButton(CompactRaidFrameManagerDisplayFrameFilterOptionsFilterRoleDamager)
+	S:HandleButton(CompactRaidFrameManagerDisplayFrameFilterOptionsFilterRoleHealer)
+	S:HandleButton(CompactRaidFrameManagerDisplayFrameFilterOptionsFilterRoleTank)
+
+	S:HandleButton(CompactRaidFrameManagerToggleButton)
+	CompactRaidFrameManagerToggleButton:SetHeight(40)
+	CompactRaidFrameManagerToggleButton:SetWidth(15)
+	CompactRaidFrameManagerToggleButton:Point("RIGHT", CompactRaidFrameManager, "RIGHT", -3, -15);
+
+	S:HandleCheckBox(CompactRaidFrameManagerDisplayFrameEveryoneIsAssistButton)
+
+	S:HandleDropDownBox(CompactRaidFrameManagerDisplayFrameProfileSelector)
+
+	--NavBar Buttons (Used in WorldMapFrame, EncounterJournal and HelpFrame)
+	local function SkinNavBarButtons(self)
+		if (self:GetParent():GetName() == "EncounterJournal" and not E.private.skins.blizzard.encounterjournal) or (self:GetParent():GetName() == "HelpFrameKnowledgebase" and not E.private.skins.blizzard.help) then
+			return
+		end
+		local navButton = self.navList[#self.navList]
+		if navButton and not navButton.isSkinned then
+			S:HandleButton(navButton, true)
+			if navButton.MenuArrowButton then
+				S:HandleNextPrevButton(navButton.MenuArrowButton, true)
 			end
+
+			navButton.xoffset = 1 --Make a 1px gap between each navbutton
+			navButton.isSkinned = true
 		end
 	end
+	hooksecurefunc("NavBar_AddButton", SkinNavBarButtons)
 	
-	WatchFrame:HookScript("OnEvent", SkinWatchFrameItems)
-
-    local frames = {
-        "VideoOptionsFrameCategoryFrame",
-        "VideoOptionsFramePanelContainer",
-		"VideoOptionsResolutionPanelBrightness",
-		"AudioOptionsFrameCategoryFrame",
-        "AudioOptionsFramePanelContainer",
-        "InterfaceOptionsFrameCategories",
-        "InterfaceOptionsFramePanelContainer",
-        "InterfaceOptionsFrameAddOns",
-		"AudioOptionsSoundPanelPlayback",
-        "AudioOptionsSoundPanelVolume",
-        "AudioOptionsSoundPanelHardware",
-		"VideoOptionsEffectsPanelQuality",
-		"VideoOptionsEffectsPanelShaders",
-    }
-    for i = 1, getn(frames) do
-        local SkinFrames = _G[frames[i]]
-        if SkinFrames then
-            SkinFrames:StripTextures()
-            SkinFrames:CreateBackdrop("Transparent")
-            if SkinFrames ~= _G["VideoOptionsFramePanelContainer"] and SkinFrames ~= _G["InterfaceOptionsFramePanelContainer"] then
-                SkinFrames.backdrop:Point("TOPLEFT",-1,0)
-                SkinFrames.backdrop:Point("BOTTOMRIGHT",0,1)
-            else
-                SkinFrames.backdrop:Point("TOPLEFT", 0, 0)
-                SkinFrames.backdrop:Point("BOTTOMRIGHT", 0, 0)
-            end
-        end
-    end
-    local interfacetab = {
-        "InterfaceOptionsFrameTab1",
-        "InterfaceOptionsFrameTab2",
-    }
-    for i = 1, getn(interfacetab) do
-        local itab = _G[interfacetab[i]]
-        if itab then
-            itab:StripTextures()
-            S:HandleTab(itab)
-        end
-    end
-    InterfaceOptionsFrameTab1:ClearAllPoints()
-    InterfaceOptionsFrameTab1:SetPoint("BOTTOMLEFT",InterfaceOptionsFrameCategories,"TOPLEFT",-11,-2)
-    VideoOptionsFrameDefaults:ClearAllPoints()
-    InterfaceOptionsFrameDefaults:ClearAllPoints()
-    InterfaceOptionsFrameCancel:ClearAllPoints()
-    VideoOptionsFrameDefaults:SetPoint("TOPLEFT",VideoOptionsFrameCategoryFrame,"BOTTOMLEFT",-1,-5)
-    InterfaceOptionsFrameDefaults:SetPoint("TOPLEFT",InterfaceOptionsFrameCategories,"BOTTOMLEFT",-1,-5)
-    InterfaceOptionsFrameCancel:SetPoint("TOPRIGHT",InterfaceOptionsFramePanelContainer,"BOTTOMRIGHT",0,-6)
-
-    local interfacecheckbox = {
-        "ControlsPanelStickyTargeting",
-        "ControlsPanelAutoDismount",
-        "ControlsPanelAutoClearAFK",
-        "ControlsPanelBlockTrades",
-        "ControlsPanelBlockGuildInvites",
-        "ControlsPanelLootAtMouse",
-        "ControlsPanelAutoLootCorpse",
-        "CombatPanelAttackOnAssist",
-        "CombatPanelAutoRange",
-		"CombatPanelStopAutoAttack",
-        "CombatPanelNameplateClassColors",
-		"CombatPanelAutoSelfCast",
-        "CombatPanelTargetOfTarget",
-        "CombatPanelEnemyCastBarsOnPortrait",
-        "CombatPanelEnemyCastBarsOnNameplates",
-        "DisplayPanelShowCloak",
-        "DisplayPanelShowHelm",
-        "DisplayPanelShowAggroPercentage",
-        "DisplayPanelPlayAggroSounds",
-        "DisplayPanelDetailedLootInfo",
-        "DisplayPanelShowFreeBagSpace",
-        "DisplayPanelCinematicSubtitles",
-        "DisplayPanelRotateMinimap",
-        "DisplayPanelScreenEdgeFlash",
-		"DisplayPanelShowClock",
-		"DisplayPanelColorblindMode",
-		"DisplayPanelShowItemLevel",
-		"ObjectivesPanelInstantQuestText",
-        "ObjectivesPanelAutoQuestTracking",
-        "ObjectivesPanelAutoQuestProgress",
-        "ObjectivesPanelMapQuestDifficulty",
-        "ObjectivesPanelAdvancedWorldMap",
-        "ObjectivesPanelWatchFrameWidth",
-        "SocialPanelProfanityFilter",
-        "SocialPanelSpamFilter",
-        "SocialPanelChatBubbles",
-        "SocialPanelPartyChat",
-        "SocialPanelChatHoverDelay",
-        "SocialPanelGuildMemberAlert",
-		"SocialPanelGuildRecruitment",
-        "SocialPanelChatMouseScroll",
-        "SocialPanelWholeChatWindowClickable",
-        "ActionBarsPanelLockActionBars",
-        "ActionBarsPanelSecureAbilityToggle",
-        "ActionBarsPanelAlwaysShowActionBars",
-        "ActionBarsPanelBottomLeft",
-        "ActionBarsPanelBottomRight",
-        "ActionBarsPanelRight",
-        "ActionBarsPanelRightTwo",
-        "NamesPanelMyName",
-        "NamesPanelFriendlyPlayerNames",
-        "NamesPanelFriendlyPets",
-        "NamesPanelFriendlyGuardians",
-        "NamesPanelFriendlyTotems",
-        "NamesPanelUnitNameplatesFriends",
-        "NamesPanelUnitNameplatesFriendlyGuardians",
-        "NamesPanelUnitNameplatesFriendlyPets",
-        "NamesPanelUnitNameplatesFriendlyTotems",
-        "NamesPanelGuilds",
-		"NamesPanelNPCNames",
-		"NamesPanelUnitNameplatesAllowOverlap",
-        "NamesPanelTitles",
-        "NamesPanelNonCombatCreature",
-        "NamesPanelEnemyPlayerNames",
-        "NamesPanelEnemyPets",
-        "NamesPanelEnemyGuardians",
-        "NamesPanelEnemyTotems",
-        "NamesPanelUnitNameplatesEnemyPets",
-        "NamesPanelUnitNameplatesEnemies",
-        "NamesPanelUnitNameplatesEnemyGuardians",
-        "NamesPanelUnitNameplatesEnemyTotems",
-        "CombatTextPanelTargetDamage",
-        "CombatTextPanelPeriodicDamage",
-        "CombatTextPanelPetDamage",
-        "CombatTextPanelHealing",
-        "CombatTextPanelTargetEffects",
-        "CombatTextPanelOtherTargetEffects",
-        "CombatTextPanelEnableFCT",
-        "CombatTextPanelDodgeParryMiss",
-        "CombatTextPanelDamageReduction",
-        "CombatTextPanelRepChanges",
-        "CombatTextPanelReactiveAbilities",
-        "CombatTextPanelFriendlyHealerNames",
-        "CombatTextPanelCombatState",
-        "CombatTextPanelComboPoints",
-        "CombatTextPanelLowManaHealth",
-        "CombatTextPanelEnergyGains",
-        "CombatTextPanelPeriodicEnergyGains",
-        "CombatTextPanelHonorGains",
-        "CombatTextPanelAuras",
-        "BuffsPanelBuffDurations",
-        "BuffsPanelDispellableDebuffs",
-        "BuffsPanelCastableBuffs",
-        "BuffsPanelConsolidateBuffs",
-        "BuffsPanelShowCastableDebuffs",
-        "CameraPanelFollowTerrain",
-        "CameraPanelHeadBob",
-        "CameraPanelWaterCollision",
-        "CameraPanelSmartPivot",
-        "MousePanelInvertMouse",
-        "MousePanelClickToMove",
-        "MousePanelWoWMouse",
-        "HelpPanelShowTutorials",
-        "HelpPanelLoadingScreenTips",
-        "HelpPanelEnhancedTooltips",
-        "HelpPanelBeginnerTooltips",
-        "HelpPanelShowLuaErrors",
-        "StatusTextPanelPlayer",
-        "StatusTextPanelPet",
-        "StatusTextPanelParty",
-        "StatusTextPanelTarget",
-        "StatusTextPanelPercentages",
-        "StatusTextPanelXP",
-        "UnitFramePanelPartyBackground",
-        "UnitFramePanelPartyPets",
-        "UnitFramePanelArenaEnemyFrames",
-        "UnitFramePanelArenaEnemyCastBar",
-        "UnitFramePanelArenaEnemyPets",
-		"UnitFramePanelPartyInRaid",
-		"UnitFramePanelRaidRange",
-        "UnitFramePanelFullSizeFocusFrame",
-		"FeaturesPanelPreviewTalentChanges",
-		"FeaturesPanelEquipmentManager",
-    }
-    for i = 1, getn(interfacecheckbox) do
-        local icheckbox = _G["InterfaceOptions"..interfacecheckbox[i]]
-        if icheckbox then
-            S:HandleCheckBox(icheckbox)
-        end
-    end
-    local interfacedropdown ={
-        "ControlsPanelAutoLootKeyDropDown",
-        "CombatPanelTOTDropDown",
-        "CombatPanelFocusCastKeyDropDown",
-        "CombatPanelSelfCastKeyDropDown",
-        "DisplayPanelAggroWarningDisplay",
-        "DisplayPanelWorldPVPObjectiveDisplay",
-        "SocialPanelChatStyle",
-        "SocialPanelTimestamps",
-        "CombatTextPanelFCTDropDown",
-        "CameraPanelStyleDropDown",
-        "MousePanelClickMoveStyleDropDown",
-    }
-    for i = 1, getn(interfacedropdown) do
-        local idropdown = _G["InterfaceOptions"..interfacedropdown[i]]
-        if idropdown then
-            S:HandleDropDownBox(idropdown)
-            DropDownList1:SetTemplate("Transparent")
-        end
-    end
-	
-    S:HandleButton(InterfaceOptionsHelpPanelResetTutorials)
-	
-    local optioncheckbox = {
-        "AudioOptionsSoundPanelEnableSound",
-        "AudioOptionsSoundPanelSoundEffects",
-        "AudioOptionsSoundPanelErrorSpeech",
-        "AudioOptionsSoundPanelEmoteSounds",
-        "AudioOptionsSoundPanelPetSounds",
-        "AudioOptionsSoundPanelMusic",
-        "AudioOptionsSoundPanelLoopMusic",
-        "AudioOptionsSoundPanelAmbientSounds",
-        "AudioOptionsSoundPanelSoundInBG",
-        "AudioOptionsSoundPanelReverb",
-        "AudioOptionsSoundPanelHRTF",
-        "AudioOptionsSoundPanelEnableDSPs",
-        "AudioOptionsSoundPanelUseHardware",
-		"VideoOptionsResolutionPanelVSync",
-		"VideoOptionsResolutionPanelTripleBuffer",
-		"VideoOptionsResolutionPanelHardwareCursor",
-		"VideoOptionsResolutionPanelFixInputLag",
-		"VideoOptionsResolutionPanelUseUIScale",
-		"VideoOptionsResolutionPanelWindowed",
-		"VideoOptionsResolutionPanelMaximized",
-		"VideoOptionsResolutionPanelDisableResize",
-		"VideoOptionsResolutionPanelDesktopGamma",
-		"VideoOptionsEffectsPanelSpecularLighting",
-		"VideoOptionsEffectsPanelFullScreenGlow",
-		"VideoOptionsEffectsPanelDeathEffect",
-		"VideoOptionsEffectsPanelProjectedTextures",
-    }
-    for i = 1, getn(optioncheckbox) do
-        local ocheckbox = _G[optioncheckbox[i]]
-        if ocheckbox then
-            S:HandleCheckBox(ocheckbox)
-        end
-    end
-    local optiondropdown = {
-        "VideoOptionsResolutionPanelResolutionDropDown",
-        "VideoOptionsResolutionPanelRefreshDropDown",
-        "VideoOptionsResolutionPanelMultiSampleDropDown",
-        "AudioOptionsSoundPanelHardwareDropDown",
-    }
-    for i = 1, getn(optiondropdown) do
-        local odropdown = _G[optiondropdown[i]]
-        if odropdown then
-            S:HandleDropDownBox(odropdown,165)
-            DropDownList1:SetTemplate("Transparent")
-        end
-    end
-	
-	local sliders = {
-		"VideoOptionsResolutionPanelUIScaleSlider",
-		"VideoOptionsEffectsPanelQualitySlider",
-		"VideoOptionsEffectsPanelViewDistance",
-		"VideoOptionsEffectsPanelEnvironmentDetail",
-		"VideoOptionsEffectsPanelTextureResolution",
-		"VideoOptionsEffectsPanelTerrainDetail",
-		"VideoOptionsEffectsPanelClutterDensity",
-		"VideoOptionsEffectsPanelTextureFiltering",
-		"VideoOptionsEffectsPanelParticleDensity",
-		"VideoOptionsEffectsPanelShadowQuality",
-		"VideoOptionsEffectsPanelClutterRadius",
-		"VideoOptionsEffectsPanelWeatherIntensity",
-		"VideoOptionsEffectsPanelPlayerTexture",
-		"VideoOptionsResolutionPanelGammaSlider",
-		"AudioOptionsSoundPanelSoundQuality",
-		"AudioOptionsSoundPanelSoundChannels",
-		"AudioOptionsSoundPanelMasterVolume",
-		"AudioOptionsSoundPanelSoundVolume",
-		"AudioOptionsSoundPanelMusicVolume",
-		"AudioOptionsSoundPanelAmbienceVolume",
-		"InterfaceOptionsCameraPanelMaxDistanceSlider",
-		"InterfaceOptionsCameraPanelFollowSpeedSlider",
-		"InterfaceOptionsMousePanelMouseLookSpeedSlider",
-		"InterfaceOptionsMousePanelMouseSensitivitySlider",
-	}
-
-	for _, slider in pairs(sliders) do
-		S:HandleSliderFrame(_G[slider])
+	--This is necessary to fix position of button right next to homebutton.
+	local function SetHomeButtonOffsetX(self)
+		local homeButton = self.homeButton
+		if homeButton then
+			homeButton.xoffset = 1
+		end
 	end
+	hooksecurefunc("NavBar_Initialize", SetHomeButtonOffsetX)
+
+	--Guild Invitation PopUp Frame
+	GuildInviteFrame:StripTextures()
+	GuildInviteFrame:SetTemplate("Transparent")
+
+	S:HandleButton(GuildInviteFrameJoinButton)
+	S:HandleButton(GuildInviteFrameDeclineButton)
 end
 
 S:RegisterSkin('ElvUI', LoadSkin)

@@ -123,6 +123,11 @@ local function LoadSkin()
 		icon:SetTexCoord(unpack(E.TexCoords))
 	end
 	
+	S:HandleEditBox(GuildItemSearchBox)
+	GuildItemSearchBox:SetWidth(150)
+	GuildItemSearchBox:Point("TOPRIGHT", GuildBankFrame, "TOPRIGHT", -17, -35)
+
+
 	S:HandleScrollBar(GuildBankTransactionsScrollFrameScrollBar)
 	S:HandleScrollBar(GuildBankInfoScrollFrameScrollBar)
 end

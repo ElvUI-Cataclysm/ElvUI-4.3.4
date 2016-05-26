@@ -156,7 +156,7 @@ local function LoadSkin(event)
 	S:HandleScrollBar(AchievementFrameComparisonContainerScrollBar, 5);
 	S:HandleScrollBar(AchievementFrameComparisonStatsContainerScrollBar, 5);
 	
-	for i = 1, 2 do
+	for i = 1, 3 do
 		S:HandleTab(_G["AchievementFrameTab" .. i]);
 	end
 	

@@ -143,6 +143,13 @@ S:RegisterSkin('ElvUI', function()
 	BankFrame.bagBackdrop:SetFrameLevel(BankFrame:GetFrameLevel());
 	
 	S:HandleButton(BankFramePurchaseButton);
-	
+
+	S:HandleEditBox(BagItemSearchBox)
+	BagItemSearchBox:Height(BagItemSearchBox:GetHeight() - 5)
+
+	S:HandleEditBox(BankItemSearchBox)
+	BankItemSearchBox:Point('TOPRIGHT', BankFrame, 'TOPRIGHT', -49, -43);
+	BankItemSearchBox:SetWidth(150)
+
 	S:SecureHook('BankFrameItemButton_Update');
 end);

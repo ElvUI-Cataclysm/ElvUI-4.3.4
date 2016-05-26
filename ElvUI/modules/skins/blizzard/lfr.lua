@@ -1,52 +1,24 @@
-local E, L, V, P, G = unpack(select(2, ...));
+local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
 local S = E:GetModule('Skins')
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.lfr ~= true then return end
 	
-	local buttons = {
-		"LFRQueueFrameFindGroupButton",
-		"LFRQueueFrameAcceptCommentButton",
-		"LFRBrowseFrameSendMessageButton",
-		"LFRBrowseFrameInviteButton",
-		"LFRBrowseFrameRefreshButton"
-	};
 
-	LFRParentFrame:StripTextures()
-	LFRParentFrame:CreateBackdrop("Transparent")
-	LFRParentFrame.backdrop:Point("TOPLEFT", 10, -11)
-	LFRParentFrame.backdrop:Point("BOTTOMRIGHT", -1, 5)
-	
-	LFRQueueFrame:StripTextures()
-	LFRBrowseFrame:StripTextures()
-
-	for i=1, #buttons do
-	  S:HandleButton(_G[buttons[i]], true)
-	end
-
-	--Close button doesn't have a fucking name, extreme hackage
-	for i=1, LFRParentFrame:GetNumChildren() do
-	  local child = select(i, LFRParentFrame:GetChildren())
-	  if child.GetPushedTexture and child:GetPushedTexture() and not child:GetName() then
-		S:HandleCloseButton(child)
-	  end
-	end
-
-	S:HandleTab(LFRParentFrameTab1)
-	S:HandleTab(LFRParentFrameTab2)
+	S:HandleButton(LFRQueueFrameFindGroupButton);
+	S:HandleButton(LFRQueueFrameAcceptCommentButton);
+	S:HandleButton(LFRBrowseFrameSendMessageButton);
+	S:HandleButton(LFRBrowseFrameInviteButton);
+	S:HandleButton(LFRBrowseFrameRefreshButton);
 
 	S:HandleDropDownBox(LFRBrowseFrameRaidDropDown)
-	S:HandleScrollBar(LFRQueueFrameSpecificListScrollFrameScrollBar)
-	
-	LFRQueueFrameCommentTextButton:CreateBackdrop("Default")
-	LFRQueueFrameCommentTextButton:Height(35)
 
 	for i=1, 7 do
 		local button = "LFRBrowseFrameColumnHeader"..i
 		_G[button.."Left"]:Kill()
 		_G[button.."Middle"]:Kill()
 		_G[button.."Right"]:Kill()
-	end
+	end		
 	
 	for i=1, NUM_LFR_CHOICE_BUTTONS do
 		local button = _G["LFRQueueFrameSpecificListButton"..i]
@@ -84,10 +56,57 @@ local function LoadSkin()
 		end
 	end
 	
+	RaidParentFrame:StripTextures()
+	RaidParentFrame:SetTemplate('Transparent')
+	
 	for i=1, 3 do 
 		S:HandleTab(_G['RaidParentFrameTab'..i])
 	end
 	
+	S:HandleButton(RaidFinderFrameFindRaidButton, true)
+	S:HandleButton(RaidFinderFrameCancelButton, true)
+	S:HandleDropDownBox(RaidFinderQueueFrameSelectionDropDown)
+
+	RaidFinderQueueFrame:StripTextures()
+	RaidParentFrameInset:StripTextures()
+	RaidFinderQueueFrame:StripTextures(true)
+	RaidFinderFrameRoleInset:StripTextures()
+
+	RaidFinderFrame:StripTextures()
+	LFRParentFrame:StripTextures()
+	LFRQueueFrame:StripTextures()
+	LFRQueueFrameListInset:StripTextures()
+	LFRQueueFrameRoleInset:StripTextures()
+	LFRQueueFrameCommentInset:StripTextures()
+	LFRBrowseFrame:StripTextures()
+
+	S:HandleScrollBar(LFRQueueFrameCommentScrollFrameScrollBar)
+
+	RaidFinderQueueFrameSelectionDropDown:Width(225)
+	RaidFinderQueueFrameSelectionDropDown.SetWidth = E.noop
+
+	LFRQueueFrameCommentTextButton:CreateBackdrop("Default")
+	LFRQueueFrameCommentTextButton:Height(35)
+
+	LFRBrowseFrame:HookScript('OnShow', function()
+		if not LFRBrowseFrameListScrollFrameScrollBar.skinned then
+			S:HandleScrollBar(LFRBrowseFrameListScrollFrameScrollBar)
+			LFRBrowseFrameListScrollFrameScrollBar.skinned = true
+		end
+	end)
+
+	local checkButtons = {
+		"RaidFinderQueueFrameRoleButtonTank",
+		"RaidFinderQueueFrameRoleButtonHealer",
+		"RaidFinderQueueFrameRoleButtonDPS",
+		"RaidFinderQueueFrameRoleButtonLeader",
+	}
+	
+	for _, object in pairs(checkButtons) do
+		_G[object].checkButton:SetFrameLevel(_G[object].checkButton:GetFrameLevel() + 2)
+		S:HandleCheckBox(_G[object].checkButton)
+	end
+
 	for i=1, 1 do
 		local button = _G["RaidFinderQueueFrameScrollFrameChildFrameItem"..i]
 		local icon = _G["RaidFinderQueueFrameScrollFrameChildFrameItem"..i.."IconTexture"]
@@ -110,10 +129,14 @@ local function LoadSkin()
 				
 				if count then
 					count:SetParent(button.backdrop)
-				end
+				end					
 			end
 		end
 	end
+	
+	S:HandleButton(RaidFinderQueueFrameIneligibleFrameLeaveQueueButton)
+	S:HandleButton(LFRQueueFrameNoLFRWhileLFDLeaveQueueButton)
+	S:HandleCloseButton(RaidParentFrameCloseButton)
 end
 
 S:RegisterSkin('ElvUI', LoadSkin)

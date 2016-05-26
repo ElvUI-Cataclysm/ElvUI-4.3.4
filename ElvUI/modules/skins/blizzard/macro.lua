@@ -4,93 +4,117 @@ local S = E:GetModule('Skins');
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.macro ~= true then return end
 	
-	S:HandleCloseButton(MacroFrameCloseButton);
+	S:HandleCloseButton(MacroFrameCloseButton)
+	S:HandleScrollBar(MacroButtonScrollFrameScrollBar, 5)
+	S:HandleScrollBar(MacroFrameScrollFrameScrollBar, 5)
+	S:HandleScrollBar(MacroPopupScrollFrameScrollBar, 5)
 	
-	S:HandleScrollBar(MacroButtonScrollFrameScrollBar);
-	S:HandleScrollBar(MacroFrameScrollFrameScrollBar);
-	S:HandleScrollBar(MacroPopupScrollFrameScrollBar);
+	MacroFrame:Width(360)
+	MacroFrame:Height(470)
 	
-	local Buttons = { 'MacroFrameTab1', 'MacroFrameTab2', 'MacroDeleteButton', 'MacroNewButton', 'MacroExitButton', 'MacroEditButton', 'MacroPopupOkayButton', 'MacroPopupCancelButton' };
-	for i = 1, #Buttons do
-		_G[Buttons[i]]:StripTextures();
-		S:HandleButton(_G[Buttons[i]]);
+	local buttons = {
+		"MacroSaveButton",
+		"MacroCancelButton",
+		"MacroDeleteButton",
+		"MacroNewButton",
+		"MacroExitButton",
+		"MacroEditButton",
+		"MacroFrameTab1",
+		"MacroFrameTab2",
+		"MacroPopupOkayButton",
+		"MacroPopupCancelButton",
+	}
+	
+	for i = 1, #buttons do
+		_G[buttons[i]]:StripTextures()
+		S:HandleButton(_G[buttons[i]])
 	end
 	
 	for i = 1, 2 do
-		Tab = _G[format('MacroFrameTab%s', i)];
-		Tab:Height(22);
+		tab = _G[format("MacroFrameTab%s", i)]
+		tab:Height(22)
 	end
-	MacroFrameTab1:Point('TOPLEFT', MacroFrame, 'TOPLEFT', 85, -39);
-	MacroFrameTab2:Point('LEFT', MacroFrameTab1, 'RIGHT', 4, 0);
+	MacroFrameTab1:Point("TOPLEFT", MacroFrame, "TOPLEFT", 85, -39)
+	MacroFrameTab2:Point("LEFT", MacroFrameTab1, "RIGHT", 4, 0)
+
+	MacroDeleteButton:Point("BOTTOMLEFT", MacroFrame, "BOTTOMLEFT", 15, 38)
+	MacroFrameCloseButton:Point("TOPRIGHT", MacroFrame, "TOPRIGHT", 1, 1)
 	
-	MacroFrame:StripTextures();
-	MacroFrame:CreateBackdrop('Transparent');
-	MacroFrame.backdrop:Point('TOPLEFT', 10, -11);
-	MacroFrame.backdrop:Point('BOTTOMRIGHT', -32, 71);
+
+	-- General
+	MacroFrame:StripTextures()
+	MacroFrame:SetTemplate("Transparent")
+	MacroFrameTextBackground:StripTextures()
+	MacroFrameTextBackground:SetTemplate('Default')
+	MacroButtonScrollFrame:CreateBackdrop()
+	MacroPopupFrame:StripTextures()
+	MacroPopupFrame:SetTemplate("Transparent")
+	MacroPopupScrollFrame:StripTextures()
+	MacroPopupScrollFrame:CreateBackdrop()
+	MacroPopupScrollFrame.backdrop:Point("TOPLEFT", 51, 2)
+	MacroPopupScrollFrame.backdrop:Point("BOTTOMRIGHT", -4, 4)
+	MacroPopupEditBox:CreateBackdrop()
+	MacroPopupEditBox:StripTextures()
 	
-	MacroFrameTextBackground:StripTextures();
-	MacroFrameTextBackground:CreateBackdrop('Default');
-	MacroFrameTextBackground.backdrop:Point('TOPLEFT', 6, -3);
-	MacroFrameTextBackground.backdrop:Point('BOTTOMRIGHT', -2, 3);
+	--Reposition edit button
+	MacroEditButton:ClearAllPoints()
+	MacroEditButton:Point("BOTTOMLEFT", MacroFrameSelectedMacroButton, "BOTTOMRIGHT", 10, 0)
 	
-	MacroButtonScrollFrame:CreateBackdrop();
+	-- Regular scroll bar
+	S:HandleScrollBar(MacroButtonScrollFrame)
 	
-	S:HandleScrollBar(MacroButtonScrollFrame);
+	MacroPopupFrame:HookScript("OnShow", function(self)
+		self:ClearAllPoints()
+		self:Point("TOPLEFT", MacroFrame, "TOPRIGHT", 5, -2)
+	end)
 	
-	MacroPopupFrame:StripTextures();
-	MacroPopupFrame:CreateBackdrop('Transparent');
-	MacroPopupFrame.backdrop:Point('TOPLEFT', 9, -9);
-	MacroPopupFrame.backdrop:Point('BOTTOMRIGHT', -7, 9);
+	-- Big icon
+	MacroFrameSelectedMacroButton:StripTextures()
+	MacroFrameSelectedMacroButton:StyleButton(true)
+	MacroFrameSelectedMacroButton:GetNormalTexture():SetTexture(nil)
+	MacroFrameSelectedMacroButton:SetTemplate("Default")
+	MacroFrameSelectedMacroButtonIcon:SetTexCoord(unpack(E.TexCoords))
+	MacroFrameSelectedMacroButtonIcon:ClearAllPoints()
+	MacroFrameSelectedMacroButtonIcon:Point("TOPLEFT", 2, -2)
+	MacroFrameSelectedMacroButtonIcon:Point("BOTTOMRIGHT", -2, 2)
 	
-	MacroPopupScrollFrame:StripTextures();
-	MacroPopupScrollFrame:CreateBackdrop();
-	MacroPopupScrollFrame.backdrop:Point('TOPLEFT', 58, -14);
-	MacroPopupScrollFrame.backdrop:Point('BOTTOMRIGHT', -10, 5);
+	-- temporarily moving this text
+	MacroFrameCharLimitText:ClearAllPoints()
+	MacroFrameCharLimitText:Point("BOTTOM", MacroFrameTextBackground, 0, -70)
 	
-	S:HandleEditBox(MacroPopupEditBox);
-	
-	MacroPopupNameLeft:SetTexture(nil);
-	MacroPopupNameMiddle:SetTexture(nil);
-	MacroPopupNameRight:SetTexture(nil);
-	
-	MacroEditButton:ClearAllPoints();
-	MacroEditButton:Point('BOTTOMLEFT', MacroFrameSelectedMacroButton, 'BOTTOMRIGHT', 10, 0);
-	
-	MacroFrameSelectedMacroButton:StripTextures();
-	MacroFrameSelectedMacroButton:StyleButton(true);
-	MacroFrameSelectedMacroButton:GetNormalTexture():SetTexture(nil);
-	MacroFrameSelectedMacroButton:SetTemplate('Default');
-	MacroFrameSelectedMacroButtonIcon:SetTexCoord(unpack(E.TexCoords));
-	MacroFrameSelectedMacroButtonIcon:SetInside();
-	
+	-- Skin all buttons
 	for i = 1, MAX_ACCOUNT_MACROS do
-		local Button = _G['MacroButton'..i];
-		local ButtonIcon = _G['MacroButton'..i..'Icon'];
-		local PopupButton = _G['MacroPopupButton'..i];
-		local PopupButtonIcon = _G['MacroPopupButton'..i..'Icon'];
+		local b = _G["MacroButton"..i]
+		local t = _G["MacroButton"..i.."Icon"]
+		local pb = _G["MacroPopupButton"..i]
+		local pt = _G["MacroPopupButton"..i.."Icon"]
 		
-		if Button then
-			Button:StripTextures();
-			Button:StyleButton(nil, true);
+		if b then
+			b:StripTextures()
+			b:StyleButton(true)
 			
-			Button:SetTemplate('Default', true);
+			b:SetTemplate("Default", true)
 		end
 		
-		if ButtonIcon then
-			ButtonIcon:SetTexCoord(unpack(E.TexCoords));
-			ButtonIcon:SetInside();
+		if t then
+			t:SetTexCoord(unpack(E.TexCoords))
+			t:ClearAllPoints()
+			t:Point("TOPLEFT", 2, -2)
+			t:Point("BOTTOMRIGHT", -2, 2)
 		end
 
-		if PopupButton then
-			PopupButton:StripTextures();
-			PopupButton:StyleButton(nil, true);
+		if pb then
+			pb:StripTextures()
+			pb:StyleButton(true)
 			
-			PopupButton:SetTemplate('Default');
+			pb:SetTemplate("Default")					
 		end
 		
-		if PopupButtonIcon then
-			PopupButtonIcon:SetTexCoord(unpack(E.TexCoords));
-			PopupButtonIcon:SetInside();
+		if pt then
+			pt:SetTexCoord(unpack(E.TexCoords))
+			pt:ClearAllPoints()
+			pt:Point("TOPLEFT", 2, -2)
+			pt:Point("BOTTOMRIGHT", -2, 2)
 		end
 	end
 end

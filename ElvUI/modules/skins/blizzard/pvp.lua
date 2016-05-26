@@ -7,90 +7,164 @@ local MAX_ARENA_TEAMS = MAX_ARENA_TEAMS;
 local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.pvp ~= true) then return; end
 
-	BattlefieldFrame:StripTextures(true);
-	BattlefieldFrame:CreateBackdrop("Transparent");
-	BattlefieldFrame.backdrop:Point("TOPLEFT", 10, -12);
-	BattlefieldFrame.backdrop:Point("BOTTOMRIGHT", -32, 73);
+	local buttons = {
+		"PVPFrameLeftButton",
+		"PVPFrameRightButton",
+		"PVPColorPickerButton1",
+		"PVPColorPickerButton2",
+		"PVPColorPickerButton3",
+		"PVPBannerFrameAcceptButton",
+	}
+		
+	for i = 1, #buttons do
+		_G[buttons[i]]:StripTextures()
+		S:HandleButton(_G[buttons[i]])
+	end
+	
+	local KillTextures = {
+		"PVPHonorFrameBGTex",
+		"PVPHonorFrameInfoScrollFrameScrollBar",
+		"PVPConquestFrameInfoButtonInfoBG",
+		"PVPConquestFrameInfoButtonInfoBGOff",
+		"PVPTeamManagementFrameFlag2GlowBG",
+		"PVPTeamManagementFrameFlag3GlowBG",
+		"PVPTeamManagementFrameFlag5GlowBG",
+		"PVPTeamManagementFrameFlag2HeaderSelected",
+		"PVPTeamManagementFrameFlag3HeaderSelected",
+		"PVPTeamManagementFrameFlag5HeaderSelected",
+		"PVPTeamManagementFrameFlag2Header",
+		"PVPTeamManagementFrameFlag3Header",
+		"PVPTeamManagementFrameFlag5Header",
+		"PVPTeamManagementFrameWeeklyDisplayLeft",
+		"PVPTeamManagementFrameWeeklyDisplayRight",
+		"PVPTeamManagementFrameWeeklyDisplayMiddle",
+		"PVPBannerFramePortrait",
+		"PVPBannerFramePortraitFrame",
+		"PVPBannerFrameInset",
+		"PVPBannerFrameEditBoxLeft",
+		"PVPBannerFrameEditBoxRight",
+		"PVPBannerFrameEditBoxMiddle",
+		"PVPBannerFrameCancelButton_LeftSeparator",
+	}
 
-	BattlefieldFrameInfoScrollFrameChildFrameDescription:SetTextColor(1, 1, 1);
-	BattlefieldFrameInfoScrollFrameChildFrameRewardsInfoDescription:SetTextColor(1, 1, 1);
+	for _, texture in pairs(KillTextures) do
+		_G[texture]:Kill()
+	end
 
-	S:HandleButton(BattlefieldFrameCancelButton);
-	S:HandleButton(BattlefieldFrameJoinButton);
-	BattlefieldFrameGroupJoinButton:Point("RIGHT", BattlefieldFrameJoinButton, "LEFT", -2, 0);
-	S:HandleButton(BattlefieldFrameGroupJoinButton);
+	local StripAllTextures = {
+		"PVPFrame",
+		"PVPFrameInset",
+		"PVPHonorFrame",
+		"PVPConquestFrame",
+		"PVPTeamManagementFrame",
+		"PVPHonorFrameTypeScrollFrame",
+		"PVPFrameTopInset",
+		"PVPTeamManagementFrameInvalidTeamFrame",
+		"PVPBannerFrame",
+		"PVPBannerFrameCustomization1",
+		"PVPBannerFrameCustomization2",
+		"PVPBannerFrameCustomizationFrame",
+	}
 
-	S:HandleCloseButton(BattlefieldFrameCloseButton);
+	PVPHonorFrameTypeScrollFrame:CreateBackdrop("Transparent")
 
-	PVPBattlegroundFrame:StripTextures(true);
+	for _, object in pairs(StripAllTextures) do
+		_G[object]:StripTextures()
+	end
 
-	WintergraspTimer:SetSize(24, 24);
-	WintergraspTimer:SetTemplate("Default");
+	local function ArenaHeader(self, first, i)
+		local button = _G["PVPTeamManagementFrameHeader"..i]
 
-	WintergraspTimer.texture:SetDrawLayer("ARTWORK");
-	WintergraspTimer.texture:SetInside();
-
-	WintergraspTimer:HookScript("OnUpdate", function(self)
-		local canQueue = CanQueueForWintergrasp();
-		if(canQueue) then
-			self.texture:SetTexCoord(0.2, 0.8, 0.6, 0.9);
-		else
-			self.texture:SetTexCoord(0.2, 0.8, 0.1, 0.4);
+		if first then
+			button:StripTextures()
 		end
-	end);
-
-	PVPBattlegroundFrameTypeScrollFrame:StripTextures();
-	S:HandleScrollBar(PVPBattlegroundFrameTypeScrollFrameScrollBar);
-
-	S:HandleButton(PVPBattlegroundFrameCancelButton);
-
-	PVPBattlegroundFrameInfoScrollFrame:StripTextures();
-	S:HandleScrollBar(PVPBattlegroundFrameInfoScrollFrameScrollBar);
-
-	PVPBattlegroundFrameInfoScrollFrameChildFrameDescription:SetTextColor(1, 1, 1);
-	PVPBattlegroundFrameInfoScrollFrameChildFrameRewardsInfo.description:SetTextColor(1, 1, 1);
-
-	S:HandleButton(PVPBattlegroundFrameJoinButton);
-	PVPBattlegroundFrameGroupJoinButton:Point("RIGHT", PVPBattlegroundFrameJoinButton, "LEFT", -2, 0);
-	S:HandleButton(PVPBattlegroundFrameGroupJoinButton);
-
-	PVPParentFrame:CreateBackdrop("Transparent");
-	PVPParentFrame.backdrop:Point("TOPLEFT", 12, -13);
-	PVPParentFrame.backdrop:Point("BOTTOMRIGHT", -30, 76);
-
-	S:HandleCloseButton(PVPParentFrameCloseButton);
-
-	PVPFrame:StripTextures(true);
-
-	for i = 1, MAX_ARENA_TEAMS do
-		local pvpTeam = _G["PVPTeam" .. i];
-		pvpTeam:StripTextures();
-		pvpTeam:CreateBackdrop("Default");
-		pvpTeam.backdrop:Point("TOPLEFT", 9, -4);
-		pvpTeam.backdrop:Point("BOTTOMRIGHT", -24, 3);
-
-		pvpTeam:HookScript("OnEnter", S.SetModifiedBackdrop);
-		pvpTeam:HookScript("OnLeave", S.SetOriginalBackdrop);
-
-		_G["PVPTeam" .. i .. "Highlight"]:Kill();
 	end
 
-	PVPTeamDetails:StripTextures();
-	PVPTeamDetails:SetTemplate("Transparent");
+	for i=1, 4 do
+		ArenaHeader(nil, true, i)
+	end	
+	S:HandleScrollBar(PVPHonorFrameTypeScrollFrameScrollBar)
+	
+	PVPTeamManagementFrameNoTeamsFrame:StripTextures()
+	PVPTeamManagementFrameNoTeamsFrame:SetTemplate("Default")
 
-	S:HandleCloseButton(PVPTeamDetailsCloseButton);
+	PVPBannerFrameEditBox:CreateBackdrop("Default")
+	PVPBannerFrameEditBox.backdrop:Point( "TOPLEFT", PVPBannerFrameEditBox, "TOPLEFT" ,-5,-5)
+	PVPBannerFrameEditBox.backdrop:Point( "BOTTOMRIGHT", PVPBannerFrameEditBox, "BOTTOMRIGHT",5,5)
+	PVPHonorFrameInfoScrollFrameChildFrameDescription:SetTextColor(1,1,1)
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfo.description:SetTextColor(1,1,1)
+	PVPTeamManagementFrameInvalidTeamFrame:CreateBackdrop("Default")
+	PVPTeamManagementFrameInvalidTeamFrame:SetFrameLevel(PVPTeamManagementFrameInvalidTeamFrame:GetFrameLevel()+1)
+	PVPTeamManagementFrameInvalidTeamFrame.backdrop:Point( "TOPLEFT", PVPTeamManagementFrameInvalidTeamFrame, "TOPLEFT")
+	PVPTeamManagementFrameInvalidTeamFrame.backdrop:Point( "BOTTOMRIGHT", PVPTeamManagementFrameInvalidTeamFrame, "BOTTOMRIGHT")
+	PVPTeamManagementFrameInvalidTeamFrame.backdrop:SetFrameLevel(PVPTeamManagementFrameInvalidTeamFrame:GetFrameLevel())
 
-	for i = 1, 5 do
-		_G["PVPTeamDetailsFrameColumnHeader" .. i]:StripTextures();
-	end
-
-	S:HandleButton(PVPTeamDetailsAddTeamMember);
-
-	S:HandleNextPrevButton(PVPTeamDetailsToggleButton);
-
-	for i = 1, 2 do
-		S:HandleTab(_G["PVPParentFrameTab" .. i]);
-	end
+	PVPFrameConquestBarLeft:Kill()
+	PVPFrameConquestBarRight:Kill()
+	PVPFrameConquestBarMiddle:Kill()
+	PVPFrameConquestBarBG:Kill()
+	PVPFrameConquestBarShadow:Kill()
+	PVPFrameConquestBar.progress:SetTexture(E["media"].normTex)
+	PVPFrameConquestBar:CreateBackdrop("Default")
+	PVPFrameConquestBar.backdrop:Point("TOPLEFT", PVPFrameConquestBar.progress, "TOPLEFT", -2, 2)
+	PVPFrameConquestBar.backdrop:Point("BOTTOMRIGHT", PVPFrameConquestBar, "BOTTOMRIGHT", -2, 2)	
+	
+	PVPBannerFrame:CreateBackdrop("Transparent")
+	PVPBannerFrame.backdrop:Point( "TOPLEFT", PVPBannerFrame, "TOPLEFT")
+	PVPBannerFrame.backdrop:Point( "BOTTOMRIGHT", PVPBannerFrame, "BOTTOMRIGHT")
+	PVPBannerFrameCustomization1:CreateBackdrop("Default")
+	PVPBannerFrameCustomization1.backdrop:Point( "TOPLEFT", PVPBannerFrameCustomization1LeftButton, "TOPRIGHT" ,2,0)
+	PVPBannerFrameCustomization1.backdrop:Point( "BOTTOMRIGHT", PVPBannerFrameCustomization1RightButton, "BOTTOMLEFT",-2,0)
+	PVPBannerFrameCustomization2:CreateBackdrop("Default")
+	PVPBannerFrameCustomization2.backdrop:Point( "TOPLEFT", PVPBannerFrameCustomization2LeftButton, "TOPRIGHT",2,0)
+	PVPBannerFrameCustomization2.backdrop:Point( "BOTTOMRIGHT", PVPBannerFrameCustomization2RightButton, "BOTTOMLEFT",-2,0)
+	S:HandleCloseButton(PVPBannerFrameCloseButton,PVPBannerFrame)
+	S:HandleNextPrevButton(PVPBannerFrameCustomization1LeftButton)
+	PVPBannerFrameCustomization1LeftButton:Height(PVPBannerFrameCustomization1:GetHeight())
+	S:HandleNextPrevButton(PVPBannerFrameCustomization1RightButton)
+	PVPBannerFrameCustomization1RightButton:Height(PVPBannerFrameCustomization1:GetHeight())
+	S:HandleNextPrevButton(PVPBannerFrameCustomization2LeftButton)
+	PVPBannerFrameCustomization2LeftButton:Height(PVPBannerFrameCustomization1:GetHeight())
+	S:HandleNextPrevButton(PVPBannerFrameCustomization2RightButton)
+	PVPBannerFrameCustomization2RightButton:Height(PVPBannerFrameCustomization1:GetHeight())
+	PVPFrame:CreateBackdrop("Transparent")
+	PVPFrame.backdrop:Point( "TOPLEFT", PVPFrame, "TOPLEFT")
+	PVPFrame.backdrop:Point( "BOTTOMRIGHT", PVPFrame, "BOTTOMRIGHT")
+	S:HandleCloseButton(PVPFrameCloseButton,PVPFrame)
+	S:HandleNextPrevButton(PVPTeamManagementFrameWeeklyToggleLeft)
+	S:HandleNextPrevButton(PVPTeamManagementFrameWeeklyToggleRight)
+	PVPColorPickerButton1:Height(PVPColorPickerButton1:GetHeight()-5)
+	PVPColorPickerButton2:Height(PVPColorPickerButton1:GetHeight())
+	PVPColorPickerButton3:Height(PVPColorPickerButton1:GetHeight())
+	
+	--War Games
+	S:HandleButton(WarGameStartButton, true)
+	WarGamesFrame:StripTextures()
+	S:HandleScrollBar(WarGamesFrameScrollFrameScrollBar, 5)
+	WarGamesFrameScrollFrame:CreateBackdrop("Transparent")
+	
+	WarGameStartButton:ClearAllPoints()
+	WarGameStartButton:Point("LEFT", PVPFrameLeftButton, "RIGHT", 2, 0)
+	WarGamesFrameDescription:SetTextColor(1, 1, 1)
+	
+	--Freaking gay Cancel Button FFSlocal
+	local f = PVPBannerFrameCancelButton
+	local l = _G[f:GetName().."Left"]
+	local m = _G[f:GetName().."Middle"]
+	local r = _G[f:GetName().."Right"]
+	if l then l:SetAlpha(0) end
+	if m then m:SetAlpha(0) end
+	if r then r:SetAlpha(0) end
+	f:CreateBackdrop("Default")
+	f:SetFrameLevel(PVPBannerFrameAcceptButton:GetFrameLevel()+1)
+	f.backdrop:Point( "TOPLEFT", PVPBannerFrameAcceptButton, "TOPLEFT", PVPBannerFrame:GetWidth()-PVPBannerFrameAcceptButton:GetWidth()-10,0)
+	f.backdrop:Point( "BOTTOMRIGHT", PVPBannerFrameAcceptButton, "BOTTOMRIGHT", PVPBannerFrame:GetWidth()-PVPBannerFrameAcceptButton:GetWidth()-10, 0)
+	f.backdrop:SetFrameLevel(f:GetFrameLevel()-1)
+	
+	--Bottom Tabs
+	for i=1,4 do
+		S:HandleTab(_G["PVPFrameTab"..i])
+	end		
 end
 
 S:RegisterSkin("ElvUI", LoadSkin);
