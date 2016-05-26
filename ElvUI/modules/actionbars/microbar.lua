@@ -7,9 +7,11 @@ local MICRO_BUTTONS = {
 	'TalentMicroButton',
 	'AchievementMicroButton',
 	'QuestLogMicroButton',
-	'SocialsMicroButton',
+	'GuildMicroButton',
 	'PVPMicroButton',
 	'LFDMicroButton',
+	'EJMicroButton',
+	'RaidMicroButton',
 	'MainMenuMicroButton',
 	'HelpMicroButton'
 };

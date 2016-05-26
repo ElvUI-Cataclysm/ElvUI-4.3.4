@@ -31,16 +31,18 @@ P.actionbar.microbar.colorS = {r = 1,g = 1,b = 1 }
 P.actionbar.microbar.classColor = false
 
 local MICRO_BUTTONS = {
-	"CharacterMicroButton",
-	"SpellbookMicroButton",
-	"TalentMicroButton",
-	"AchievementMicroButton",
-	"QuestLogMicroButton",
-	"SocialsMicroButton",
-	"PVPMicroButton",
-	"LFDMicroButton",
-	"MainMenuMicroButton",
-	"HelpMicroButton"
+	'CharacterMicroButton',
+	'SpellbookMicroButton',
+	'TalentMicroButton',
+	'AchievementMicroButton',
+	'QuestLogMicroButton',
+	'GuildMicroButton',
+	'PVPMicroButton',
+	'LFDMicroButton',
+	'EJMicroButton',
+	'RaidMicroButton',
+	'MainMenuMicroButton',
+	'HelpMicroButton'
 };
 
 local Sbuttons = {}
@@ -208,9 +210,11 @@ function AB:SetupSymbolBar()
 			ShowUIPanel(QuestLogFrame);
 		end
 	end);
-	AB:CreateSymbolButton("EMB_Socials", "F", SOCIAL_BUTTON, function() ToggleFriendsFrame(); end);
-	AB:CreateSymbolButton("EMB_PVP", "L", PLAYER_V_PLAYER, function() TogglePVPFrame(); end)
-	AB:CreateSymbolButton("EMB_LFD", "J", DUNGEONS_BUTTON, function() ToggleLFDParentFrame(); end);
+	AB:CreateSymbolButton("EMB_Guild", "G", GUILD, function() ToggleGuildFrame(); end);
+	AB:CreateSymbolButton("EMB_PVP", "P", PLAYER_V_PLAYER, function() TogglePVPFrame(); end)
+	AB:CreateSymbolButton("EMB_LFD", "D", DUNGEONS_BUTTON, function() ToggleLFDParentFrame(); end);
+	AB:CreateSymbolButton("EMB_EJ", "E", ENCOUNTER_JOURNAL, function() ToggleEncounterJournal(); end)
+	AB:CreateSymbolButton("EMB_Raid", "R", RAID_FINDER, function() ToggleRaidFrame(); end)
 	AB:CreateSymbolButton("EMB_MenuSys", "M", MAINMENU_BUTTON, function()
 		if(GameMenuFrame:IsShown()) then
 			HideUIPanel(GameMenuFrame);
