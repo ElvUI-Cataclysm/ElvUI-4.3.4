@@ -1,0 +1,18 @@
+﻿## Interface: 30300
+## Title: |cffA11313E|r|cffC4C4C4lvUI|r |cffA11313M|r|cffC4C4C4icrobar|r |cffA11313E|r|cffC4C4C4nhancement|r
+## Author: Darth Predator
+## Version: 1.77
+## Notes: A module for enhancing |cff1784d1ElvUI|r's microbar.
+## Notes-ruRU: Модуль для улучшения микроменю |cff1784d1ElvUI|r.
+## eMail: darthpred@gmail.com
+## URL: shadowmage.ru
+## RequiredDeps: ElvUI
+## OptionalDeps: ElvUI_SLE
+## DefaultState: Enabled
+
+locales\load_locales.xml
+ElvUI_Microbar.lua
+ 
+ 
+## X-Tukui-ProjectID: 100
+## X-Tukui-ProjectFolders: ElvUI_Microbar
