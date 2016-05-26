@@ -1,4 +1,4 @@
-﻿## Interface: 30300
+﻿## Interface: 40300
 ## Title: |cffA11313E|r|cffC4C4C4lvUI|r |cffA11313M|r|cffC4C4C4icrobar|r |cffA11313E|r|cffC4C4C4nhancement|r
 ## Author: Darth Predator
 ## Version: 1.77
