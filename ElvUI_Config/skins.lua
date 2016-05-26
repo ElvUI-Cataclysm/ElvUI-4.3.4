@@ -38,10 +38,10 @@ E.Options.args.skins = {
 					name = L["Achievement Frame"],
 					desc = L["TOGGLESKIN_DESC"],
 				},
-				alertframes = {
+				achievement_popup = {
 					type = "toggle",
-					name = L['Alert Frames'],
-					desc = L["TOGGLESKIN_DESC"],
+					name = L["Achievement Popup Frames"],
+					desc = L["TOGGLESKIN_DESC"],								
 				},
 				arena = {
 					type = "toggle",
@@ -51,6 +51,11 @@ E.Options.args.skins = {
 				arenaregistrar = {
 					type = "toggle",
 					name = L["Arena Registrar"],
+					desc = L["TOGGLESKIN_DESC"],
+				},
+				archaeology = {
+					type = "toggle",
+					name = L["Archaeology Frame"],
 					desc = L["TOGGLESKIN_DESC"],
 				},
 				auctionhouse = {
@@ -91,6 +96,11 @@ E.Options.args.skins = {
 				character = {
 					type = "toggle",
 					name = L["Character Frame"],
+					desc = L["TOGGLESKIN_DESC"],
+				},
+				encounterjournal = {
+					type = "toggle",
+					name = L["Encounter Journal"],
 					desc = L["TOGGLESKIN_DESC"],
 				},
 				debug = {
@@ -136,6 +146,11 @@ E.Options.args.skins = {
 				inspect = {
 					type = "toggle",
 					name = L["Inspect Frame"],
+					desc = L["TOGGLESKIN_DESC"],
+				},
+				lfguild = {
+					type = "toggle",
+					name = L["LF Guild Frame"],
 					desc = L["TOGGLESKIN_DESC"],
 				},
 				lfd = {
@@ -188,6 +203,11 @@ E.Options.args.skins = {
 					name = L["Raid Frame"],
 					desc = L["TOGGLESKIN_DESC"],
 				},
+				reforge = {
+					type = "toggle",
+					name = L["Reforging Frame"],
+					desc = L["TOGGLESKIN_DESC"],
+				},
 				socket = {
 					type = "toggle",
 					name = L["Socket Frame"],
@@ -196,6 +216,11 @@ E.Options.args.skins = {
 				spellbook = {
 					type = "toggle",
 					name = L["Spellbook"],
+					desc = L["TOGGLESKIN_DESC"],
+				},
+				guild = {
+					type = "toggle",
+					name = L["Guild Frame"],
 					desc = L["TOGGLESKIN_DESC"],
 				},
 				stable = {
@@ -223,6 +248,11 @@ E.Options.args.skins = {
 					name = L["Time Manager"],
 					desc = L["TOGGLESKIN_DESC"],	
 				},
+				transmogrify = {
+					type = 'toggle',
+					name = L["Transmogrify Frame"],
+					desc = L["TOGGLESKIN_DESC"],
+				},
 				trade = {
 					type = "toggle",
 					name = L["Trade Frame"],
@@ -241,6 +271,11 @@ E.Options.args.skins = {
 				worldmap = {
 					type = "toggle",
 					name = L["World Map"],
+					desc = L["TOGGLESKIN_DESC"],
+				},
+				voidstorage = {
+					type = "toggle",
+					name = L["Void Storage"],
 					desc = L["TOGGLESKIN_DESC"],
 				},
 				mirrorTimers = {
