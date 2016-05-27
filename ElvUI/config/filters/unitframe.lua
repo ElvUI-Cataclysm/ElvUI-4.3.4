@@ -27,10 +27,10 @@ G.unitframe.aurafilters = {};
 G.unitframe.aurafilters["CCDebuffs"] = {
 	["type"] = "Whitelist",
 	["spells"] = {
-	-- Рыцарь смерти
-		[SpellName(47476)] = Defaults(), -- Удушение
-		[SpellName(51209)] = Defaults(), -- Ненасытная стужа
-	-- Друид
+	-- Death Knight
+		[SpellName(47476)] = Defaults(), -- Strangulate
+		[SpellName(49203)] = Defaults(), -- Hungering Cold
+	-- Druid
 		[SpellName(99)] = Defaults(), -- Устрашающий рев
 		[SpellName(339)] = Defaults(), -- Гнев деревьев
 		[SpellName(2637)] = Defaults(), -- Спячка
@@ -39,7 +39,7 @@ G.unitframe.aurafilters["CCDebuffs"] = {
 		[SpellName(22570)] = Defaults(), -- Колечение
 		[SpellName(33786)] = Defaults(), -- Смерч
 		[SpellName(45334)] = Defaults(), -- Звериная атака - эффект
-	-- Охотник
+	-- Hunter
 		[SpellName(1513)] = Defaults(), -- Отпугивание зверя
 		[SpellName(3355)] = Defaults(), -- Эффект замораживающей ловушки
 		[SpellName(19386)] = Defaults(), -- Укус виверны
@@ -51,7 +51,7 @@ G.unitframe.aurafilters["CCDebuffs"] = {
 		[SpellName(50541)] = Defaults(), -- Хватка
 		[SpellName(54706)] = Defaults(), -- Ядовитая поутина
 		[SpellName(56626)] = Defaults(), -- Ужалить
-		[SpellName(60210)] = Defaults(), -- Эффект замораживающей стрелы
+		--[SpellName(60210)] = Defaults(), -- Эффект замораживающей стрелы
 		[SpellName(64803)] = Defaults(), -- Удержание
 	-- Маг
 		[SpellName(118)] = Defaults(), -- Преврашение
@@ -91,12 +91,12 @@ G.unitframe.aurafilters["CCDebuffs"] = {
 		[SpellName(51514)] = Defaults(), -- Сглаз
 		[SpellName(63685)] = Defaults(), -- Заморозка
 		[SpellName(64695)] = Defaults(), -- Хватка земли
-	-- Чернокнижник
+	-- Warlock
 		[SpellName(710)] = Defaults(), -- Изгнание
 		[SpellName(5782)] = Defaults(), -- Страх
 		[SpellName(6358)] = Defaults(), -- Соблазн
 		[SpellName(6789)] = Defaults(), -- Лик смерти
-		[SpellName(17928)] = Defaults(), -- Вой ужаса
+		--[SpellName(17928)] = Defaults(), -- Вой ужаса
 		[SpellName(24259)] = Defaults(), -- Запрет чар
 		[SpellName(30283)] = Defaults(), -- Неистовство Тьмы
 	-- Воин
@@ -562,7 +562,7 @@ G.unitframe.ChannelTicks = { -- Ticks
 	-- Warlock
 	[SpellName(1120)] = 5, -- "Drain Soul"
 	[SpellName(689)] = 5, -- "Drain Life"
-	[SpellName(5138)] = 5, -- "Похишение маны"
+	--[SpellName(5138)] = 5, -- "Похишение маны"
 	[SpellName(5740)] = 4, -- "Rain of Fire"
 	[SpellName(755)] = 10, -- "Health Funnel"
 	-- Druid
