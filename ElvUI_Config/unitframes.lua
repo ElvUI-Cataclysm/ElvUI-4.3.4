@@ -6165,7 +6165,13 @@ if(P.unitframe.colors.classResources[E.myclass]) then
 	};
 
 	local ORDER = 20
-	if(E.myclass == 'MAGE') then
+	if(E.myclass == 'PALADIN') then
+		E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGroup.args[E.myclass] = {
+			type = 'color',
+			name = L["Holy Power"],
+			order = ORDER,
+		};
+	elseif(E.myclass == 'MAGE') then
 		E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGroup.args[E.myclass] = {
 			type = 'color',
 			name = L['Arcane Charges'],

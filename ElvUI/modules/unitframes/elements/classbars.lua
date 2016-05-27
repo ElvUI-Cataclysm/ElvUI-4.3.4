@@ -6,10 +6,18 @@ local floor = math.floor;
 local find = string.find;
 
 local CreateFrame = CreateFrame;
+local UnitPower = UnitPower;
+local UnitPowerMax = UnitPowerMax;
+local IsSpellKnown = IsSpellKnown;
+local SPELL_POWER_HOLY_POWER = SPELL_POWER_HOLY_POWER;
 
 local _, ns = ...;
 local ElvUF = ns.oUF;
 assert(ElvUF, "ElvUI was unable to locate oUF.");
+
+local SPELL_POWER = {
+	PALADIN = SPELL_POWER_HOLY_POWER
+}
 
 function UF:Configure_ClassBar(frame)
 	local bars = frame[frame.ClassBar];
@@ -210,6 +218,64 @@ local function ToggleResourceBar(bars)
 	end
 end
 UF.ToggleResourceBar = ToggleResourceBar;
+
+function UF:Construct_PaladinResourceBar(frame, useBG, overrideFunc)
+	local bars = CreateFrame("Frame", nil, frame)
+	bars:CreateBackdrop('Default', nil, nil, self.thinBorders)
+
+	for i = 1, UF['classMaxResourceBar'][E.myclass] do
+		bars[i] = CreateFrame("StatusBar", frame:GetName().."ClassBarButton"..i, bars)
+		bars[i]:SetStatusBarTexture(E['media'].blankTex) --Dummy really, this needs to be set so we can change the color
+		bars[i]:GetStatusBarTexture():SetHorizTile(false)
+		UF['statusbars'][bars[i]] = true
+
+		bars[i]:CreateBackdrop('Default', nil, nil, self.thinBorders)
+		bars[i].backdrop:SetParent(bars)
+
+		if useBG then
+			bars[i].bg = bars[i]:CreateTexture(nil, 'BORDER')
+			bars[i].bg:SetAllPoints()
+			bars[i].bg:SetTexture(E['media'].blankTex)
+			bars[i].bg.multiplier = 0.3
+		end
+	end
+
+	bars.Override = UF.Update_HolyPower
+	bars:SetScript("OnShow", ToggleResourceBar)
+	bars:SetScript("OnHide", ToggleResourceBar)
+
+	return bars
+end
+
+
+function UF:Update_HolyPower(event, unit, powerType)
+	if not (powerType == nil or powerType == 'HOLY_POWER') then return end
+
+	local db = self.db
+	if not db then return; end
+	local numPower = UnitPower('player', SPELL_POWER[E.myclass]);
+	local maxPower = UnitPowerMax('player', SPELL_POWER[E.myclass]);
+
+	local bars = self[self.ClassBar]
+	local isShown = bars:IsShown()
+	if numPower == 0 and db.classbar.autoHide then
+		bars:Hide()
+	else
+		bars:Show()
+		for i = 1, maxPower do
+			if(i <= numPower) then
+				bars[i]:SetAlpha(1)
+			else
+				bars[i]:SetAlpha(.2)
+			end
+		end
+	end
+
+	if maxPower ~= self.MAX_CLASS_BAR then
+		self.MAX_CLASS_BAR = maxPower
+		UF:Configure_ClassBar(self)
+	end
+end
 
 function UF:Construct_DeathKnightResourceBar(frame)
 	local runes = CreateFrame("Frame", nil, frame);

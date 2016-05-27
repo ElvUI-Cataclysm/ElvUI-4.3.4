@@ -30,4 +30,5 @@
 	<Script file='elements\tags.lua' />
 	<Script file='elements\threat.lua' />
 	<Script file='elements\vehicle.lua' />
+	<Script file='elements\holypower.lua' />
 </Ui>

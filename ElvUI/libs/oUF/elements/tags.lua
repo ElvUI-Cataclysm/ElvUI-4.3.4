@@ -267,6 +267,13 @@ local tagStrings = {
 			end
 		end
 	end]],
+
+	['holypower'] = [[funtion()
+		local num = UnitPower('player', SPELL_POWER_HOLY_POWER)
+		if(num > 0) then
+			return num
+		end
+	end]],
 }
 
 local tags = setmetatable(
@@ -342,6 +349,7 @@ local tagEvents = {
 	['shortclassification'] = 'UNIT_CLASSIFICATION_CHANGED',
 	["group"]               = "RAID_ROSTER_UPDATE",
 	['happiness']           = 'UNIT_HAPPINESS',
+	['holypower']           = 'UNIT_POWER',
 }
 
 local unitlessEvents = {

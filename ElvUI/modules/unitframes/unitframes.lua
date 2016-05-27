@@ -52,6 +52,7 @@ UF["headerFunctions"] = {};
 
 UF["classMaxResourceBar"] = {
 	["DEATHKNIGHT"] = 6,
+	['PALADIN'] = 3,
 	["DRUID"] = 1,
 	["MAGE"] = 4
 };
@@ -341,6 +342,8 @@ function UF:UpdateColors()
 	ElvUF.colors.Runes[2] = E:GetColorTable(db.classResources.DEATHKNIGHT[2]);
 	ElvUF.colors.Runes[3] = E:GetColorTable(db.classResources.DEATHKNIGHT[3]);
 	ElvUF.colors.Runes[4] = E:GetColorTable(db.classResources.DEATHKNIGHT[4]);
+
+	ElvUF.colors.HolyPower = E:GetColorTable(db.classResources.PALADIN);
 	
 	ElvUF.colors.ArcaneChargeBar = E:GetColorTable(db.classResources.MAGE);
 	
