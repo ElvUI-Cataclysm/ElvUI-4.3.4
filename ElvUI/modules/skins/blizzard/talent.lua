@@ -357,6 +357,20 @@ local function LoadSkin()
 	for i=1,GetNumTalents(1,false,true) do
 		PetTalentButtons(nil,true,i)
 	end
+
+	--Alert Tutorials
+	TalentMicroButtonAlert:StripTextures()
+	TalentMicroButtonAlert:SetTemplate("Transparent")
+
+	TalentMicroButtonAlertArrow:Kill()
+
+	S:HandleCloseButton(TalentMicroButtonAlertCloseButton)
+
+	PlayerTalentFrameLearnButtonTutorial:StripTextures()
+	PlayerTalentFrameLearnButtonTutorial:SetTemplate("Default")
+
+	S:HandleCloseButton(PlayerTalentFrameLearnButtonTutorialCloseButton)
+
 end
 
 S:RegisterSkin("Blizzard_TalentUI", LoadSkin);

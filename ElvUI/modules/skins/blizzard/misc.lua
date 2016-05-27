@@ -815,6 +815,21 @@ local function LoadSkin()
 
 	S:HandleButton(GuildInviteFrameJoinButton)
 	S:HandleButton(GuildInviteFrameDeclineButton)
+
+	--Move Pad Frame
+	MovePadFrame:StripTextures()
+	MovePadFrame:SetTemplate("Transparent")
+
+	S:HandleButton(MovePadStrafeLeft)
+	S:HandleButton(MovePadStrafeRight)
+	S:HandleButton(MovePadForward)
+	S:HandleButton(MovePadBackward)
+	S:HandleButton(MovePadJump)
+
+	S:HandleButton(MovePadLock) --Require to fix Text
+	MovePadLock:StripTextures()
+	MovePadLock:SetScale(0.70)
+	MovePadLock:Point("BOTTOMRIGHT", MovePadFrame, "BOTTOMRIGHT", -4, 4);
 end
 
 S:RegisterSkin('ElvUI', LoadSkin)
