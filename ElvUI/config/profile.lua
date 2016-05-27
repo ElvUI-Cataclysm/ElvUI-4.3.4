@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...));
+﻿local E, L, V, P, G = unpack(select(2, ...));
 
 P.gridSize = 64
 P.farmSize = 340
@@ -2390,11 +2390,11 @@ P['actionbar'] = { -- Панели команд
 	['enablecd'] = true,
 	['treshold'] = 3,
 	['microbar'] = {
-		['enabled'] = false,
+		['enabled'] = true,
 		['Scale'] = 1,
 		['xOffset'] = 1,
 		['yOffset'] = 1,
-		['buttonsPerRow'] = 10,
+		['buttonsPerRow'] = 12,
 		['alpha'] = 1,
 		['mouseover'] = false
 	},
