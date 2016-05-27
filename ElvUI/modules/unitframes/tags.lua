@@ -36,6 +36,7 @@ local GetUnitSpeed = GetUnitSpeed;
 local DEFAULT_AFK_MESSAGE = DEFAULT_AFK_MESSAGE;
 local DEAD = DEAD;
 local PVP = PVP;
+local SPELL_POWER_HOLY_POWER = SPELL_POWER_HOLY_POWER
 
 ------------------------------------------------------------------------
 --	Tags
@@ -399,6 +400,84 @@ ElvUF.Tags["pvptimer"] = function(unit)
 		end
 	else
 		return ""
+	end
+end
+
+local function GetClassPower(class)
+	local min, max, r, g, b = 0, 0, 0, 0, 0
+	local spec = GetSpecialization()
+	if class == 'PALADIN' then
+		min = UnitPower('player', SPELL_POWER_HOLY_POWER);
+		max = UnitPowerMax('player', SPELL_POWER_HOLY_POWER);
+		r, g, b = 228/255, 225/255, 16/255
+	end
+
+	return min, max, r, g, b
+end
+
+ElvUF.Tags.Events['classpowercolor'] = 'UNIT_POWER_FREQUENT PLAYER_TALENT_UPDATE UPDATE_SHAPESHIFT_FORM'
+ElvUF.Tags.Methods['classpowercolor'] = function()
+	local _, _, r, g, b = GetClassPower(E.myclass)
+	return Hex(r, g, b)
+end
+
+ElvUF.Tags.Events['classpower:current'] = 'UNIT_POWER_FREQUENT PLAYER_TALENT_UPDATE UPDATE_SHAPESHIFT_FORM'
+ElvUF.Tags.Methods['classpower:current'] = function()
+	local min, max = GetClassPower(E.myclass)
+	if min == 0 then
+		return ' '
+	else
+		return E:GetFormattedText('CURRENT', min, max)
+	end
+end
+
+ElvUF.Tags.Events['classpower:deficit'] = 'UNIT_POWER_FREQUENT PLAYER_TALENT_UPDATE UPDATE_SHAPESHIFT_FORM'
+ElvUF.Tags.Methods['classpower:deficit'] = function()
+	local min, max = GetClassPower(E.myclass)
+	if min == 0 then
+		return ' '
+	else
+		return E:GetFormattedText('DEFICIT', min, max)
+	end
+end
+
+ElvUF.Tags.Events['classpower:current-percent'] = 'UNIT_POWER_FREQUENT PLAYER_TALENT_UPDATE UPDATE_SHAPESHIFT_FORM'
+ElvUF.Tags.Methods['classpower:current-percent'] = function()
+	local min, max = GetClassPower(E.myclass)
+	if min == 0 then
+		return ' '
+	else
+		return E:GetFormattedText('CURRENT_PERCENT', min, max)
+	end
+end
+
+ElvUF.Tags.Events['classpower:current-max'] = 'UNIT_POWER_FREQUENT PLAYER_TALENT_UPDATE UPDATE_SHAPESHIFT_FORM'
+ElvUF.Tags.Methods['classpower:current-max'] = function()
+	local min, max = GetClassPower(E.myclass)
+	if min == 0 then
+		return ' '
+	else
+		return E:GetFormattedText('CURRENT_MAX', min, max)
+	end
+end
+
+ElvUF.Tags.Events['classpower:current-max-percent'] = 'UNIT_POWER_FREQUENT PLAYER_TALENT_UPDATE UPDATE_SHAPESHIFT_FORM'
+ElvUF.Tags.Methods['classpower:current-max-percent'] = function()
+	local min, max = GetClassPower(E.myclass)
+	if min == 0 then
+		return ' '
+	else
+		return E:GetFormattedText('CURRENT_MAX_PERCENT', min, max)
+	end
+end
+
+ElvUF.Tags.Events['classpower:percent'] = 'UNIT_POWER_FREQUENT PLAYER_TALENT_UPDATE UPDATE_SHAPESHIFT_FORM'
+ElvUF.Tags.Methods['classpower:percent'] = function()
+	local min, max = GetClassPower(E.myclass)
+	if min == 0 then
+		return ' '
+	else
+		return E:GetFormattedText('PERCENT', min, max)
 	end
 end
 
