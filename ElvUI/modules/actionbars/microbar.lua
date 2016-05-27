@@ -133,5 +133,6 @@ function AB:SetupMicroBar()
 	self:MainMenuMicroButton_SetNormal();
 	
 	self:UpdateMicroPositionDimensions();
+	MainMenuBarPerformanceBar:Kill()
 	E:CreateMover(microBar, 'MicrobarMover', L['Micro Bar'], nil, nil, nil, 'ALL,ACTIONBARS');
 end
