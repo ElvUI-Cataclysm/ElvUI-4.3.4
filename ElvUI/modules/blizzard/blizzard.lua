@@ -11,7 +11,8 @@ function B:Initialize()
 	self:PositionDurabilityFrame();
 	self:PositionGMFrames();
 	self:PositionVehicleFrame();
-	self:MoveWatchFrame();	
+	self:MoveWatchFrame();
+	self:PositionAltPowerBar();
 end
 
 E:RegisterModule(B:GetName());

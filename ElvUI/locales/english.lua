@@ -226,9 +226,11 @@ L['XP:'] = true;
 L["You don't have permission to mark targets."] = true;
 L['ABOVE_THREAT_FORMAT'] = '%s: %.0f%% [%.0f%% above |cff%02x%02x%02x%s|r]'
 
-L[' [Grow Down]'] = true; -- Movers
+-- Movers
+L[' [Grow Down]'] = true; 
 L[' [Grow Up]'] = true;
 L[' Frames'] = true;
+L["Alternative Power"] = true;
 L['Arena Frames'] = true;
 L["Auras Frame"] = true;
 L['Bags'] = true;
