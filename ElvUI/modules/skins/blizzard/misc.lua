@@ -236,12 +236,15 @@ local function LoadSkin()
 	S:HandleCheckBox(Advanced_MaxFPSBKCheckBox
 )
 	S:HandleCheckBox(Advanced_UseUIScale)
+	S:HandleCheckBox(Advanced_DesktopGamma)
 
 	S:HandleSliderFrame(Advanced_MaxFPSSlider
 )
 	S:HandleSliderFrame(Advanced_UIScaleSlider
 )
 	S:HandleSliderFrame(Advanced_MaxFPSBKSlider)
+	S:HandleSliderFrame(Advanced_GammaSlider
+)
 
 	-- Game Menu Options/Network
 	S:HandleCheckBox(NetworkOptionsPanelOptimizeSpeed
