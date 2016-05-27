@@ -132,6 +132,9 @@ local function LoadSkin()
 		end
 	end)
 
+	--Spell Reward Frame (Not Finished)
+	QuestInfoSpellObjectiveFrame:StripTextures()
+
 	--Quest Frame
 	QuestFrame:StripTextures(true)
 	QuestFrame:SetWidth(374)
