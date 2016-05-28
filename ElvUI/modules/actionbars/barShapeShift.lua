@@ -6,6 +6,17 @@ local lower = string.lower;
 
 local bar = CreateFrame('Frame', 'ElvUI_StanceBar', E.UIParent, 'SecureHandlerStateTemplate');
 
+local states = {
+	["DRUID"] = "show",
+	["WARRIOR"] = "show",
+	["PALADIN"] = "show",
+	["DEATHKNIGHT"] = "show",
+	["ROGUE"] = "show,",
+	["PRIEST"] = "show,",
+	["HUNTER"] = "show,",
+	["WARLOCK"] = "show,",
+};
+
 function AB:UPDATE_SHAPESHIFT_COOLDOWN()
 	local numForms = GetNumShapeshiftForms();
 	local start, duration, enable, cooldown
@@ -286,4 +297,5 @@ function AB:CreateBarShapeShift()
 	self:PositionAndSizeBarShapeShift();
 	self:StyleShapeShift();
 	self:UpdateStanceBindings()
+	RegisterStateDriver(bar, "show", states[E.myclass] or "hide");
 end
