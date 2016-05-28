@@ -120,7 +120,7 @@ end
 
 function AB:SetupMicroBar()
 	local microBar = CreateFrame('Frame', 'ElvUI_MicroBar', E.UIParent);
-	microBar:Point('TOPLEFT', E.UIParent, 'TOPLEFT', 4, -48);
+	microBar:Point('BOTTOMRIGHT', E.UIParent, 'BOTTOMRIGHT', -4, 185);
 	for i = 1, #MICRO_BUTTONS do
 		self:HandleMicroButton(_G[MICRO_BUTTONS[i]]);
 	end
