@@ -32,4 +32,5 @@
 	<Script file='elements\vehicle.lua' />
 	<Script file='elements\holypower.lua' />
 	<Script file='elements\eclipsebar.lua' />
+	<Script file='elements\soulshards.lua' />
 </Ui>

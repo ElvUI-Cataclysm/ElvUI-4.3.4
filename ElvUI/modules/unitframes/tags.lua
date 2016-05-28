@@ -40,6 +40,7 @@ local PVP = PVP;
 local SPELL_POWER_HOLY_POWER = SPELL_POWER_HOLY_POWER
 local SPELL_POWER_ECLIPSE = SPELL_POWER_ECLIPSE
 local MOONKIN_FORM = MOONKIN_FORM
+local SPELL_POWER_SOUL_SHARDS = SPELL_POWER_SOUL_SHARDS
 
 ------------------------------------------------------------------------
 --	Tags
@@ -421,6 +422,10 @@ local function GetClassPower(class)
 		else
 			r, g, b = .30, .52, .90
 		end
+	elseif class == 'WARLOCK' then
+		min = UnitPower("player", SPELL_POWER_SOUL_SHARDS)
+		max = UnitPowerMax("player", SPELL_POWER_SOUL_SHARDS)
+		r, g, b = 148/255, 130/255, 201/255
 	end
 
 	return min, max, r, g, b

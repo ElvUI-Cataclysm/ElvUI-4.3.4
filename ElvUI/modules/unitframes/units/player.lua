@@ -12,7 +12,7 @@ local _, ns = ...;
 local ElvUF = ns.oUF;
 assert(ElvUF, "ElvUI was unable to locate oUF.");
 
-local CAN_HAVE_CLASSBAR = (E.myclass == "PALADIN" or E.myclass == "DEATHKNIGHT" or E.myclass == "DRUID" or E.myclass == "MAGE");
+local CAN_HAVE_CLASSBAR = (E.myclass == "PALADIN" or E.myclass == "DEATHKNIGHT" or E.myclass == "DRUID" or E.myclass == "MAGE" or E.myclass == "WARLOCK");
 
 function UF:Construct_PlayerFrame(frame)
 	frame.Threat = self:Construct_Threat(frame, true);
@@ -37,6 +37,9 @@ function UF:Construct_PlayerFrame(frame)
 	elseif(E.myclass == "PALADIN") then
 		frame.HolyPower = self:Construct_PaladinResourceBar(frame, nil, UF.UpdateClassBar)
 		frame.ClassBar = 'HolyPower'
+	elseif(E.myclass == "WARLOCK") then
+		frame.SoulShards = self:Construct_WarlockResourceBar(frame, nil, UF.UpdateClassBar)
+		frame.ClassBar = 'SoulShards'
 	elseif(E.myclass == "DRUID") then
 		frame.DruidAltMana = self:Construct_DruidAltManaBar(frame);
 		frame.ClassBar = "DruidAltMana";
@@ -157,6 +160,7 @@ function UF:Update_PlayerFrame(frame, db)
 	
 	E:SetMoverSnapOffset(frame:GetName() .. "Mover", -(12 + db.castbar.height));
 	frame:UpdateAllElements();
+
 end
 
 tinsert(UF["unitstoload"], "player");
