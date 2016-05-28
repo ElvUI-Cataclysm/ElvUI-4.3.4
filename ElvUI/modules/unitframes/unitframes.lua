@@ -53,7 +53,6 @@ UF["headerFunctions"] = {};
 UF["classMaxResourceBar"] = {
 	["DEATHKNIGHT"] = 6,
 	['PALADIN'] = 3,
-	["DRUID"] = 1,
 	["MAGE"] = 4
 };
 
