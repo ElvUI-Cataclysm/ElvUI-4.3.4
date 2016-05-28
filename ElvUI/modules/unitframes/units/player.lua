@@ -30,6 +30,10 @@ function UF:Construct_PlayerFrame(frame)
 	if(E.myclass == "DEATHKNIGHT") then
 		frame.Runes = self:Construct_DeathKnightResourceBar(frame);
 		frame.ClassBar = "Runes";
+	elseif(E.myclass == "DRUID") then
+		frame.EclipseBar = self:Construct_DruidResourceBar(frame)
+		frame.DruidAltMana = self:Construct_DruidAltManaBar(frame)
+		frame.ClassBar = 'EclipseBar'
 	elseif(E.myclass == "PALADIN") then
 		frame.HolyPower = self:Construct_PaladinResourceBar(frame, nil, UF.UpdateClassBar)
 		frame.ClassBar = 'HolyPower'
