@@ -183,7 +183,7 @@ local function LoadSkin()
 
 	for _, header in pairs(professionheaders) do
 		_G[header.."Missing"]:SetTextColor(1, 1, 0)
-		_G[header].missingText:SetTextColor(0, 0, 0)
+		_G[header].missingText:SetTextColor(0.9, 0.9, 0.9)
 	end
 
 	for _, button in pairs(professionbuttons) do
