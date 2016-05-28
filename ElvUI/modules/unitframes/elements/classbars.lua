@@ -9,6 +9,7 @@ local CreateFrame = CreateFrame;
 local UnitPower = UnitPower;
 local UnitPowerMax = UnitPowerMax;
 local IsSpellKnown = IsSpellKnown;
+local GetEclipseDirection = GetEclipseDirection;
 local SPELL_POWER_HOLY_POWER = SPELL_POWER_HOLY_POWER;
 
 local _, ns = ...;
@@ -158,6 +159,14 @@ function UF:Configure_ClassBar(frame)
 				bars[i]:Show();
 			end
 		end
+	else
+		--?? Apparent bug fix for the width after in-game settings change
+		bars.LunarBar:SetMinMaxValues(0, 0)
+		bars.SolarBar:SetMinMaxValues(0, 0)
+		bars.LunarBar:SetStatusBarColor(unpack(ElvUF.colors.EclipseBar[1]))
+		bars.SolarBar:SetStatusBarColor(unpack(ElvUF.colors.EclipseBar[2]))
+		bars.LunarBar:Size(CLASSBAR_WIDTH, frame.CLASSBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2))
+		bars.SolarBar:Size(CLASSBAR_WIDTH, frame.CLASSBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2))
 	end
 	
 	if(E.myclass ~= "DRUID") then
@@ -339,6 +348,31 @@ function UF:UpdateArcaneCharges(event, arcaneCharges, maxCharges)
 	end
 end
 
+function UF:Construct_DruidResourceBar(frame)
+	local eclipseBar = CreateFrame('Frame', nil, frame)
+	eclipseBar:CreateBackdrop('Default', nil, nil, self.thinBorders)
+	eclipseBar.PostUpdatePower = UF.EclipseDirection
+	eclipseBar.PostUpdateVisibility = UF.EclipsePostUpdateVisibility
+
+	local lunarBar = CreateFrame('StatusBar', nil, eclipseBar)
+	lunarBar:Point('LEFT', eclipseBar)
+	lunarBar:SetStatusBarTexture(E['media'].blankTex)
+	UF['statusbars'][lunarBar] = true
+	eclipseBar.LunarBar = lunarBar
+
+	local solarBar = CreateFrame('StatusBar', nil, eclipseBar)
+	solarBar:Point('LEFT', lunarBar:GetStatusBarTexture(), 'RIGHT')
+	solarBar:SetStatusBarTexture(E['media'].blankTex)
+	UF['statusbars'][solarBar] = true
+	eclipseBar.SolarBar = solarBar
+
+	eclipseBar.Text = lunarBar:CreateFontString(nil, 'OVERLAY')
+	eclipseBar.Text:FontTemplate(nil, 20)
+	eclipseBar.Text:Point("CENTER", lunarBar:GetStatusBarTexture(), "RIGHT")
+
+	return eclipseBar
+end
+
 function UF:Construct_DruidAltManaBar(frame)
 	local dpower = CreateFrame("Frame", nil, frame);
 	dpower:CreateBackdrop("Default", nil, nil, self.thinBorders);
@@ -366,6 +400,19 @@ function UF:DruidResourceBarVisibilityUpdate(unit)
 	local parent = self:GetParent();
 	
 	UF:UpdatePlayerFrameAnchors(parent, self:IsShown());
+end
+
+function UF:EclipseDirection()
+	local direction = GetEclipseDirection()
+	if direction == "sun" then
+		self.Text:SetText(">")
+		self.Text:SetTextColor(.2,.2,1,1)
+	elseif direction == "moon" then
+		self.Text:SetText("<")
+		self.Text:SetTextColor(1,1,.3, 1)
+	else
+		self.Text:SetText("")
+	end
 end
 
 function UF:DruidPostUpdateAltPower(unit, min, max)
@@ -405,5 +452,32 @@ function UF:DruidPostUpdateAltPower(unit, min, max)
 		end
 	else
 		self.Text:SetText();
+	end
+end
+
+
+local druidEclipseIsShown = false
+local druidManaIsShown = false
+function UF:EclipsePostUpdateVisibility()
+	local isShown = self:IsShown()
+	if druidEclipseIsShown ~= isShown then
+		druidEclipseIsShown = isShown
+
+		--Only toggle if the eclipse bar was not replaced with druid mana
+		if not druidManaIsShown then
+			ToggleResourceBar(self)
+		end
+	end
+end
+
+function UF:DruidManaPostUpdateVisibility()
+	local isShown = self:IsShown()
+	if druidManaIsShown ~= isShown then
+		druidManaIsShown = isShown
+
+		--Only toggle if the druid mana bar was not replaced with eclipse bar
+		if not druidEclipseIsShown then
+			ToggleResourceBar(self)
+		end
 	end
 end

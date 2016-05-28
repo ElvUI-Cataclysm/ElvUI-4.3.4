@@ -30,6 +30,7 @@ local UnitIsDND = UnitIsDND;
 local UnitIsPVPFreeForAll = UnitIsPVPFreeForAll;
 local UnitIsPVP = UnitIsPVP;
 local GetPVPTimer = GetPVPTimer;
+local GetEclipseDirection = GetEclipseDirection
 local GetNumPartyMembers = GetNumPartyMembers;
 local UnitClassification = UnitClassification;
 local GetUnitSpeed = GetUnitSpeed;
@@ -37,6 +38,8 @@ local DEFAULT_AFK_MESSAGE = DEFAULT_AFK_MESSAGE;
 local DEAD = DEAD;
 local PVP = PVP;
 local SPELL_POWER_HOLY_POWER = SPELL_POWER_HOLY_POWER
+local SPELL_POWER_ECLIPSE = SPELL_POWER_ECLIPSE
+local MOONKIN_FORM = MOONKIN_FORM
 
 ------------------------------------------------------------------------
 --	Tags
@@ -410,6 +413,14 @@ local function GetClassPower(class)
 		min = UnitPower('player', SPELL_POWER_HOLY_POWER);
 		max = UnitPowerMax('player', SPELL_POWER_HOLY_POWER);
 		r, g, b = 228/255, 225/255, 16/255
+	elseif class == 'DRUID' and GetShapeshiftFormID() == MOONKIN_FORM then
+		min = UnitPower('player', SPELL_POWER_ECLIPSE)
+		max = UnitPowerMax('player', SPELL_POWER_ECLIPSE)
+		if GetEclipseDirection() == 'moon' then
+			r, g, b = .80, .82,  .60
+		else
+			r, g, b = .30, .52, .90
+		end
 	end
 
 	return min, max, r, g, b

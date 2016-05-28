@@ -268,6 +268,15 @@ local tagStrings = {
 		end
 	end]],
 
+	['pereclipse'] = [[function(u)
+		local m = UnitPowerMax('player', SPELL_POWER_ECLIPSE)
+		if(m == 0) then
+			return 0
+		else
+			return math.abs(UnitPower('player', SPELL_POWER_ECLIPSE)/m*100)
+		end
+	end]],
+
 	['holypower'] = [[funtion()
 		local num = UnitPower('player', SPELL_POWER_HOLY_POWER)
 		if(num > 0) then
@@ -349,6 +358,7 @@ local tagEvents = {
 	['shortclassification'] = 'UNIT_CLASSIFICATION_CHANGED',
 	["group"]               = "RAID_ROSTER_UPDATE",
 	['happiness']           = 'UNIT_HAPPINESS',
+	["pereclipse"]          = 'UNIT_POWER',
 	['holypower']           = 'UNIT_POWER',
 }
 

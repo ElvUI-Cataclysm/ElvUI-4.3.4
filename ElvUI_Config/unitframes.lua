@@ -6171,6 +6171,29 @@ if(P.unitframe.colors.classResources[E.myclass]) then
 			name = L["Holy Power"],
 			order = ORDER,
 		};
+	elseif(E.myclass == 'DRUID') then
+		local names = {
+			[1] = L["Lunar"],
+			[2] = L["Solar"],
+		}
+		for i = 1, 2 do
+			E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGroup.args['resource'..i] = {
+				type = 'color',
+				name = names[i],
+				order = ORDER + i,
+				get = function(info)
+					local t = E.db.unitframe.colors.classResources.DRUID[i]
+					local d = P.unitframe.colors.classResources.DRUID[i]
+					return t.r, t.g, t.b, t.a, d.r, d.g, d.b
+				end,
+				set = function(info, r, g, b)
+					E.db.unitframe.colors.classResources.DRUID[i] = {}
+					local t = E.db.unitframe.colors.classResources.DRUID[i]
+					t.r, t.g, t.b = r, g, b
+					UF:Update_AllFrames()
+				end,
+			};
+		end
 	elseif(E.myclass == 'MAGE') then
 		E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGroup.args[E.myclass] = {
 			type = 'color',
