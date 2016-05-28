@@ -11,6 +11,7 @@ local UnitPowerMax = UnitPowerMax;
 local IsSpellKnown = IsSpellKnown;
 local GetEclipseDirection = GetEclipseDirection;
 local SPELL_POWER_HOLY_POWER = SPELL_POWER_HOLY_POWER;
+local SPELL_POWER_SOUL_SHARDS = SPELL_POWER_SOUL_SHARDS;
 
 local _, ns = ...;
 local ElvUF = ns.oUF;
@@ -283,6 +284,41 @@ function UF:Update_HolyPower(event, unit, powerType)
 	if maxPower ~= self.MAX_CLASS_BAR then
 		self.MAX_CLASS_BAR = maxPower
 		UF:Configure_ClassBar(self)
+	end
+end
+
+function UF:Construct_WarlockResourceBar(frame)
+	local bars = CreateFrame("Frame", nil, frame)
+	bars:CreateBackdrop('Default', nil, nil, self.thinBorders)
+
+	for i = 1, 3 do					
+		bars[i] = CreateFrame("StatusBar", nil, bars)
+		bars[i]:SetStatusBarTexture(E['media'].blankTex) --Dummy really, this needs to be set so we can change the color
+		bars[i]:GetStatusBarTexture():SetHorizTile(false)
+		UF['statusbars'][bars[i]] = true
+
+		bars[i]:CreateBackdrop('Default')
+		bars[i].backdrop:SetParent(bars)
+		bars[i]:SetStatusBarColor(148/255, 130/255, 201/255)
+	end
+
+	bars.Override = UF.UpdateShards
+
+	bars:SetScript("OnShow", ToggleResourceBar)
+	bars:SetScript("OnHide", ToggleResourceBar)
+
+	return bars
+end
+
+function UF:UpdateShards(event, unit, powerType)
+	if(self.unit ~= unit or (powerType and powerType ~= 'SOUL_SHARDS')) then return end
+	local num = UnitPower(unit, SPELL_POWER_SOUL_SHARDS)
+	for i = 1, SHARD_BAR_NUM_SHARDS do
+		if(i <= num) then
+			self.SoulShards[i]:SetAlpha(1)
+		else
+			self.SoulShards[i]:SetAlpha(.2)
+		end
 	end
 end
 

@@ -277,6 +277,13 @@ local tagStrings = {
 		end
 	end]],
 
+	['soulshards'] = [[function()
+		local num = UnitPower('player', SPELL_POWER_SOUL_SHARDS)
+		if(num > 0) then
+			return num
+		end
+	end]],
+
 	['holypower'] = [[funtion()
 		local num = UnitPower('player', SPELL_POWER_HOLY_POWER)
 		if(num > 0) then
@@ -359,6 +366,7 @@ local tagEvents = {
 	["group"]               = "RAID_ROSTER_UPDATE",
 	['happiness']           = 'UNIT_HAPPINESS',
 	["pereclipse"]          = 'UNIT_POWER',
+	['soulshards']          = 'UNIT_POWER',
 	['holypower']           = 'UNIT_POWER',
 }
 
