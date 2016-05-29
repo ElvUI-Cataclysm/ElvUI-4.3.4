@@ -6129,6 +6129,13 @@ E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGrou
 	args = {};
 };
 
+E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGroup.args.bgColor = {
+	order = 1,
+	type = 'color',
+	name = L["Backdrop Color"],
+	hasAlpha = false,
+}
+
 E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGroup.args.spacer = {
 	order = 2,
 	name = ' ',
