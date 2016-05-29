@@ -396,7 +396,6 @@ function AB:DisableBlizzard()
 		ShapeshiftBarLeft, 
 		ShapeshiftBarMiddle, 
 		ShapeshiftBarRight,
-		ExtraActionBarFrame,
 	};
 	for _, element in pairs(elements) do
 		if element:GetObjectType() == "Frame" then
