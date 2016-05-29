@@ -31,86 +31,61 @@ G.unitframe.aurafilters["CCDebuffs"] = {
 		[SpellName(47476)] = Defaults(), -- Strangulate
 		[SpellName(49203)] = Defaults(), -- Hungering Cold
 	-- Druid
-		[SpellName(99)] = Defaults(), -- Устрашающий рев
-		[SpellName(339)] = Defaults(), -- Гнев деревьев
-		[SpellName(2637)] = Defaults(), -- Спячка
-		[SpellName(5211)] = Defaults(), -- Оглушить
-		[SpellName(9005)] = Defaults(), -- Наскок
-		[SpellName(22570)] = Defaults(), -- Колечение
-		[SpellName(33786)] = Defaults(), -- Смерч
-		[SpellName(45334)] = Defaults(), -- Звериная атака - эффект
+		[SpellName(339)] = Defaults(), -- Entangling Roots
+		[SpellName(2637)] = Defaults(), -- Hibernate
+		[SpellName(80964)] = Defaults(), -- Skull Bash
+		[SpellName(78675)] = Defaults(), -- Solar Beam
+		[SpellName(33786)] = Defaults(), -- Cyclone
 	-- Hunter
-		[SpellName(1513)] = Defaults(), -- Отпугивание зверя
-		[SpellName(3355)] = Defaults(), -- Эффект замораживающей ловушки
-		[SpellName(19386)] = Defaults(), -- Укус виверны
-		[SpellName(19503)] = Defaults(), -- Дезориентирующий выстрел
-		[SpellName(24394)] = Defaults(), -- Устрашение
-		[SpellName(34490)] = Defaults(), -- Глушащий выстрел
-		[SpellName(50245)] = Defaults(), -- Шип
-		[SpellName(50519)] = Defaults(), -- Ультразвук
-		[SpellName(50541)] = Defaults(), -- Хватка
-		[SpellName(54706)] = Defaults(), -- Ядовитая поутина
-		[SpellName(56626)] = Defaults(), -- Ужалить
-		--[SpellName(60210)] = Defaults(), -- Эффект замораживающей стрелы
-		[SpellName(64803)] = Defaults(), -- Удержание
-	-- Маг
-		[SpellName(118)] = Defaults(), -- Преврашение
-		[SpellName(122)] = Defaults(), -- Кольцо льда
-		[SpellName(18469)] = Defaults(), -- Антимагия - немота
-		[SpellName(31589)] = Defaults(), -- Замедление
-		[SpellName(31661)] = Defaults(), -- Дыхание дракона
-		[SpellName(33395)] = Defaults(), -- Холод
-		[SpellName(44572)] = Defaults(), -- Глубокая заморозка
-		[SpellName(55080)] = Defaults(), -- Разрушенная преграда
-		[SpellName(61305)] = Defaults(), -- Превращение
-		[SpellName(55021)] = Defaults(), -- Антимагия - немота
-	-- Паладин
-		[SpellName(853)] = Defaults(), -- Молот правосудия
-		[SpellName(10326)] = Defaults(), -- Изгнание зла
-		[SpellName(20066)] = Defaults(), -- Покаяние
-		[SpellName(31935)] = Defaults(), -- Щит мстителя
-	-- Жрец
-		[SpellName(605)] = Defaults(), -- Контроль над разумом
-		[SpellName(8122)] = Defaults(), -- Ментальный крик
-		[SpellName(9484)] = Defaults(), -- Сковывание нежити
-		[SpellName(15487)] = Defaults(), -- Безмолвие
-		[SpellName(64044)] = Defaults(), -- Глубинный ужас
-	-- Разбойник
-		[SpellName(408)] = Defaults(), -- Удар по почкам
-		[SpellName(1330)] = Defaults(), -- Гаррота - немота
-		[SpellName(1776)] = Defaults(), -- Парализующий удар
-		[SpellName(1833)] = Defaults(), -- Подлый трюк
-		[SpellName(2094)] = Defaults(), -- Ослепление
-		[SpellName(6770)] = Defaults(), -- Ошеломление
-		[SpellName(18425)] = Defaults(), -- Пинок - немота
-		[SpellName(51722)] = Defaults(), -- Долой оружие
-	-- Шаман
-		[SpellName(3600)] = Defaults(), -- Оковы земли
-		[SpellName(8056)] = Defaults(), -- Ледяной шок
-		[SpellName(39796)] = Defaults(), -- Оглушение каменного когтя
-		[SpellName(51514)] = Defaults(), -- Сглаз
-		[SpellName(63685)] = Defaults(), -- Заморозка
-		[SpellName(64695)] = Defaults(), -- Хватка земли
+		[SpellName(1513)] = Defaults(), -- Scare Beast
+		[SpellName(3355)] = Defaults(), -- Freezing Trap Effect
+		[SpellName(19503)] = Defaults(), -- Scatter Shot
+		[SpellName(34490)] = Defaults(), -- Silence Shot
+	-- Mage
+		[SpellName(122)] = Defaults(), -- Frost Nova
+		[SpellName(18469)] = Defaults(), -- Silenced - Improved Counterspell
+		[SpellName(31661)] = Defaults(), -- Dragon's Breath
+		[SpellName(55080)] = Defaults(), -- Shattered Barrier
+		[SpellName(61305)] = Defaults(), -- Polymorph
+		[SpellName(82691)] = Defaults(), -- Ring of Frost
+	-- Paladin
+		[SpellName(853)] = Defaults(), -- Hammer of Justice
+		[SpellName(10326)] = Defaults(), -- Turn Evil
+		[SpellName(20066)] = Defaults(), -- Repentance
+	-- Priest
+		[SpellName(605)] = Defaults(), -- Mind Control
+		[SpellName(8122)] = Defaults(), -- Psychic Scream
+		[SpellName(9484)] = Defaults(), -- Shackle Undead
+		[SpellName(15487)] = Defaults(), -- Silence
+		[SpellName(64044)] = Defaults(), -- Psychic Horror
+	-- Rogue
+		[SpellName(1776)] = Defaults(), -- Gouge
+		[SpellName(2094)] = Defaults(), -- Blind
+		[SpellName(6770)] = Defaults(), -- Sap
+		[SpellName(18425)] = Defaults(), -- Silenced - Improved Kick
+	-- Shaman
+		[SpellName(3600)] = Defaults(), -- Earthbind
+		[SpellName(8056)] = Defaults(), -- Frost Shock
+		[SpellName(39796)] = Defaults(), -- Stoneclaw Stun
+		[SpellName(51514)] = Defaults(), -- Hex
+		[SpellName(63685)] = Defaults(), -- Freeze
 	-- Warlock
-		[SpellName(710)] = Defaults(), -- Изгнание
-		[SpellName(5782)] = Defaults(), -- Страх
-		[SpellName(6358)] = Defaults(), -- Соблазн
-		[SpellName(6789)] = Defaults(), -- Лик смерти
-		--[SpellName(17928)] = Defaults(), -- Вой ужаса
-		[SpellName(24259)] = Defaults(), -- Запрет чар
-		[SpellName(30283)] = Defaults(), -- Неистовство Тьмы
-	-- Воин
-		[SpellName(676)] = Defaults(), -- Разоружие
-		[SpellName(7922)] = Defaults(), -- Наскок и оглушение
-		[SpellName(18498)] = Defaults(), -- Обет молчания - немота
-		[SpellName(20511)] = Defaults(), -- Устрашающий крик
+		[SpellName(710)] = Defaults(), -- Banish
+		[SpellName(5484)] = Defaults(), -- Howl of Terror
+		[SpellName(5782)] = Defaults(), -- Fear
+		[SpellName(6358)] = Defaults(), -- Seduction
+		[SpellName(6789)] = Defaults(), -- Death Coil
+		[SpellName(89605)] = Defaults(), -- Aura of Foreboding
+		[SpellName(30283)] = Defaults(), -- Shadowfury
+	-- Warrior
+		[SpellName(12809)] = Defaults(), -- Concussion Blow
+		[SpellName(20511)] = Defaults(), -- Intimidating Shout
 	-- Racial
-		[SpellName(25046)] = Defaults(), -- Волшебный поток
-		[SpellName(20549)] = Defaults(), -- Громовой поступь
-	--PVE Дебаффы
+		[SpellName(25046)] = Defaults(), -- Arcane Torrent
+		[SpellName(20549)] = Defaults(), -- War Stomp
 		
-	-- Король лич
-		[SpellName(73787)] = Defaults() -- Мертвящая чума
+	-- The Lich King
+		[SpellName(73787)] = Defaults() -- Necrotic Plague
 	}
 };
 
@@ -126,9 +101,9 @@ G.unitframe.aurafilters["TurtleBuffs"] = {
 		[SpellName(50461)] = Defaults(), -- Зона антимагии
 		[SpellName(55233)] = Defaults(), -- Кровь вампира
 	-- Жрец
-		[SpellName(33206)] = Defaults(3), -- Подавление боли
+		[SpellName(33206)] = Defaults(3), -- Pain Suppression
 		[SpellName(47585)] = Defaults(5), -- Слияние с тьмой
-		[SpellName(47788)] = Defaults(), -- Оберегающий дух
+		[SpellName(47788)] = Defaults(), -- Guardian Spirit
 	-- Чернокнижник
 	
 	-- Друид
@@ -212,34 +187,19 @@ G.unitframe.aurafilters["PlayerBuffs"] = {
 G.unitframe.aurafilters["Blacklist"] = {
 	["type"] = "Blacklist",
 	["spells"] = {
-		[SpellName(6788)] = Defaults(), -- Ослабленная душа
-		[SpellName(15007)] = Defaults(), -- Слабость после воскрешения
-		[SpellName(23445)] = Defaults(), -- Злой двойник
-		[SpellName(24755)] = Defaults(), -- Конфета или жизнь
-		[SpellName(25771)] = Defaults(), -- Воздержанность
-		[SpellName(26013)] = Defaults(), -- Дезертир
-		[SpellName(36032)] = Defaults(), -- Чародейская вспышка
-		[SpellName(36893)] = Defaults(), -- Неисправность транспортера
-		[SpellName(36900)] = Defaults(), -- Расщипление души: Зло!
-		[SpellName(36901)] = Defaults(), -- Расщипление души: Добро
-		[SpellName(41425)] = Defaults(), -- Гипотермия
-		[SpellName(55711)] = Defaults(), -- Сердце феникса
-		[SpellName(57724)] = Defaults(), -- Пресыщение
-		[SpellName(58539)] = Defaults(), -- Тело наблюдателя
-		[SpellName(67604)] = Defaults(), -- Накопление энергии
-		[SpellName(69127)] = Defaults(), -- Холод Трона
+		[SpellName(69127)] = Defaults(), -- Chill of the Throne
 	-- Blood Princes
-		[SpellName(71911)] = Defaults(), -- Теневой резонанс
+		[SpellName(71911)] = Defaults(), -- Shadow resonance
 	-- Festergut
-		[SpellName(70852)] = Defaults(), -- Вязкая гадость
-		[SpellName(72144)] = Defaults(), -- Шлейф оранжевой заразы
-		[SpellName(73034)] = Defaults(), -- Зараженные гнилью споры
+		[SpellName(70852)] = Defaults(), -- The viscous muck
+		[SpellName(72144)] = Defaults(), -- Flex orange infection
+		[SpellName(73034)] = Defaults(), -- Infected rot spores
 	-- Rotface
-		[SpellName(72145)] = Defaults(), -- Шлейф зеленой заразы
+		[SpellName(72145)] = Defaults(), -- Flex green contagion
 	-- Putricide
 		[SpellName(72460)] = Defaults(), -- Удушливый газ
-		[SpellName(72511)] = Defaults(), -- Мутация
-	-- Cata
+		[SpellName(72511)] = Defaults(), -- Mutation
+	-- Spells
 		[SpellName(8733)] = Defaults(), -- Blessing of Blackfathom
 		[SpellName(57724)] = Defaults(), -- Sated
 		[SpellName(25771)] = Defaults(), -- Forbearance
@@ -296,7 +256,7 @@ G.unitframe.aurafilters["Whitelist (Strict)"] = {
 	}
 };
 
-G.unitframe.aurafilters["RaidDebuffs"] = { -- Рейд дебаффы
+G.unitframe.aurafilters["RaidDebuffs"] = { 
 	["type"] = "Whitelist",
 	["spells"] = {
 	-- Naxxramas
@@ -369,6 +329,7 @@ G.unitframe.aurafilters["RaidDebuffs"] = { -- Рейд дебаффы
 		[SpellName(74567)] = Defaults(), -- Метка пылающего огня
 		[SpellName(74792)] = Defaults(), -- Пожирание души
 		[SpellName(74795)] = Defaults(), -- Метка пожирания
+	--Cataclysm
 	--Blackwing Descent
 		--Magmaw
 		[SpellName(91911)] = Defaults(), -- Constricting Chains
