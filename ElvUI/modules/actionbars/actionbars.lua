@@ -303,9 +303,15 @@ function AB:StyleButton(button, noBackdrop)
 		hotkey:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
 	end
 	
+	--Extra Action Button
+	if button.style then
+		button.style:SetParent(button.backdrop)
+		button.style:SetDrawLayer('BACKGROUND', -7)	
+	end
+
 	self:FixKeybindText(button);
 	button:StyleButton();
-	
+
 	if(not self.handledbuttons[button]) then
 		E:RegisterCooldown(buttonCooldown);
 		
@@ -390,6 +396,7 @@ function AB:DisableBlizzard()
 		ShapeshiftBarLeft, 
 		ShapeshiftBarMiddle, 
 		ShapeshiftBarRight,
+		ExtraActionBarFrame,
 	};
 	for _, element in pairs(elements) do
 		if element:GetObjectType() == "Frame" then
@@ -406,7 +413,7 @@ function AB:DisableBlizzard()
 		element:SetAlpha(0);
 	end
 	elements = nil;
-	
+
 	local uiManagedFrames = {
 		"MultiBarLeft",
 		"MultiBarRight",
@@ -489,6 +496,7 @@ function AB:Initialize()
 	
 	self:DisableBlizzard()
 	
+	self:SetupExtraButton()
 	self:SetupMicroBar()
 	
 	self:CreateActionBars()

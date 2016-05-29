@@ -581,6 +581,31 @@ E.Options.args.actionbar = {
 				},
 			},
 		},
+		extraActionButton = {
+			type = "group",
+			name = L["Boss Button"],
+			disabled = function() return not E.private.actionbar.enable end,
+			get = function(info) return E.db.actionbar.extraActionButton[ info[#info] ] end,
+			args = {
+				alpha = {
+					order = 1,
+					type = 'range',
+					name = L["Alpha"],
+					desc = L["Change the alpha level of the frame."],
+					isPercent = true,
+					min = 0, max = 1, step = 0.01,
+					set = function(info, value) E.db.actionbar.extraActionButton[ info[#info] ] = value; AB:Extra_SetAlpha() end,
+				},
+				scale = {
+					order = 2,
+					type = "range",
+					name = L["Scale"],
+					isPercent = true,
+					min = 0.2, max = 2, step = 0.01,
+					set = function(info, value) E.db.actionbar.extraActionButton[ info[#info] ] = value; AB:Extra_SetScale() end,
+				},
+			},
+		},
 	},
 }
 group = E.Options.args.actionbar.args

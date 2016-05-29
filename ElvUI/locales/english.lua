@@ -236,6 +236,7 @@ L["Auras Frame"] = true;
 L['Bags'] = true;
 L["Bar "] = true;
 L['BNet Frame'] = true;
+L["Boss Button"] = true;
 L['Boss Frames'] = true;
 L["Experience Bar"] = true;
 L['Focus Castbar'] = true;

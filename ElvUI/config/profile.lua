@@ -2536,4 +2536,9 @@ P['actionbar'] = { -- Панели команд
 		["buttonspacing"] = 2,
 		['backdrop'] = false,
 	},
+	['extraActionButton'] = {
+		['alpha'] = 1,
+		["scale"] = 1,
+		['inheritGlobalFade'] = false,
+	},
 };
