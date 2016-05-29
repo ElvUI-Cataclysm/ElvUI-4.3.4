@@ -43,6 +43,7 @@ function AB:HandleMicroButton(button)
 	
 	button:SetParent(ElvUI_MicroBar);
 	
+	button.Flash:SetTexture(nil)
 	button:GetHighlightTexture():Kill();
 	button:HookScript('OnEnter', Button_OnEnter);
 	button:HookScript('OnLeave', Button_OnLeave);
