@@ -135,7 +135,7 @@ local function LoadSkin()
 			if button.Rank then
 				button.Rank:FontTemplate(nil, 12, 'OUTLINE')
 				button.Rank:ClearAllPoints()
-				button.Rank:SetPoint("BOTTOMRIGHT")
+				button.Rank:SetPoint("BOTTOMRIGHT", 9, -12)
 			end		
 			
 			icon:ClearAllPoints()
