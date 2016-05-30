@@ -94,6 +94,8 @@ local function LoadSkin()
 	EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrame:StripTextures()
 	EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrame:SetTemplate("Transparent")
 
+	EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterClearFrame:StripTextures()
+
 	--Dungeon/raid selection buttons
 	local function SkinDungeons()
 		local b1 = EncounterJournalInstanceSelectScrollFrameScrollChildInstanceButton1
