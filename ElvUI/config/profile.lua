@@ -2290,9 +2290,9 @@ P['chat'] = { -- Чат
 }
 
 P["datatexts"] = {
-	["font"] = "Homespun",
-	["fontSize"] = 10,
-	["fontOutline"] = "NONE",
+	["font"] = "PT Sans Narrow",
+	["fontSize"] = 12,
+	["fontOutline"] = "OUTLINE",
 	["wordWrap"] = false,
 	["panels"] = {
 		["LeftChatDataPanel"] = {
@@ -2315,11 +2315,11 @@ P["datatexts"] = {
 		['TopLeftMiniPanel'] = '',
 	},
 	["localtime"] = true,
-	["time24"] = false,
+	["time24"] = true,
 	["battleground"] = true,
 	["panelTransparency"] = false,
 	["goldFormat"] = "BLIZZARD",
-	["goldCoins"] = false,
+	["goldCoins"] = true,
 	["noCombatClick"] = false,
 	["noCombatHover"] = false,
 
