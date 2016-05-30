@@ -119,6 +119,11 @@ function AB:UpdateMicroPositionDimensions()
 	end
 end
 
+function AB:UpdateMicroButtons()
+	GuildMicroButtonTabard:ClearAllPoints()
+	GuildMicroButtonTabard:SetPoint("TOP", GuildMicroButton.backdrop, "TOP", 0, 25)
+end
+
 function AB:SetupMicroBar()
 	local microBar = CreateFrame('Frame', 'ElvUI_MicroBar', E.UIParent);
 	microBar:Point('BOTTOMRIGHT', E.UIParent, 'BOTTOMRIGHT', -4, 185);
@@ -134,6 +139,7 @@ function AB:SetupMicroBar()
 	self:MainMenuMicroButton_SetNormal();
 	
 	self:UpdateMicroPositionDimensions();
+	self:SecureHook('UpdateMicroButtons')
 	MainMenuBarPerformanceBar:Kill()
 	E:CreateMover(microBar, 'MicrobarMover', L['Micro Bar'], nil, nil, nil, 'ALL,ACTIONBARS');
 end
