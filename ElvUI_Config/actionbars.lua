@@ -446,6 +446,7 @@ E.Options.args.actionbar = {
 					order = 3,
 					type = "toggle",
 					name = L['Self Cast'],
+					desc = L['Self cast on right click.'],
 				},
 				noRangeColor = {
 					type = 'color',
