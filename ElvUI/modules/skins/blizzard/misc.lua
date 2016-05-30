@@ -134,6 +134,7 @@ local function LoadSkin()
 	ReadyCheckFrameText:SetParent(ReadyCheckFrame)	
 	ReadyCheckFrameText:ClearAllPoints()
 	ReadyCheckFrameText:SetPoint("TOP", 0, 0)
+	ReadyCheckFrameText:SetTextColor(1, 1, 1)
 	ReadyCheckFrame:SetWidth(290)
 	ReadyCheckFrame:SetHeight(80)
 
