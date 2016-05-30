@@ -19,6 +19,7 @@ function AB:CreateBar3()
 	
 	for i = 1, NUM_ACTIONBAR_BUTTONS do
 		local button = _G["MultiBarBottomLeftButton" .. i];
+		_G["MultiBarBottomLeftButton" .. i]:StripTextures()
 		if(E.db.actionbar.selfcast) then
 			button:SetAttribute("unit2", "player");
 		else
