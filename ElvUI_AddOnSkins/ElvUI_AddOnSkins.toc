@@ -1,0 +1,13 @@
+## Interface: 40300
+## Author: Bunny, Azilroka, Sortokk
+## Version: 1.01
+## Title: |cffA11313E|r|cffC4C4C4lvUI|r |cffA11313A|r|cffC4C4C4ddOn|r|cffA11313S|r|cffC4C4C4kins|r
+## Notes: AddOn skins for ElvUI :)
+## RequiredDeps: ElvUI
+
+locales\load_locales.xml
+profiles.lua
+core.lua
+addons\load_addons.xml
+blizzard\load_blizzard.xml
+modules\load_modules.xml

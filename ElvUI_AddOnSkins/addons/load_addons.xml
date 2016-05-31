@@ -1,0 +1,10 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="ACP.lua"/>
+	<Script file="dbm.lua"/>
+	<Script file="postal.lua"/>
+	<Script file="_NPCScan.lua"/>
+	<Script file="omen.lua"/>
+	<Script file="recount.lua"/>
+	<Script file="overachiever.lua"/>
+	<Script file="flightMap.lua"/>
+</Ui>
