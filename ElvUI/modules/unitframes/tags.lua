@@ -188,7 +188,7 @@ ElvUF.Tags["powercolor"] = function(unit)
 	end
 end
 
-ElvUF.TagEvents["power:current"] = "UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_RUNIC_POWER UNIT_MAXPOWER"
+ElvUF.TagEvents["power:current"] = "UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT UNIT_MAXPOWER"
 ElvUF.Tags["power:current"] = function(unit)
 	if not unit then return end
 	local pType = UnitPowerType(unit)
@@ -197,7 +197,7 @@ ElvUF.Tags["power:current"] = function(unit)
 	return min == 0 and " " or	E:GetFormattedText("CURRENT", min, UnitPowerMax(unit, pType))
 end
 
-ElvUF.TagEvents["power:current-max"] = "UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_RUNIC_POWER UNIT_MAXPOWER"
+ElvUF.TagEvents["power:current-max"] = "UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT UNIT_MAXPOWER"
 ElvUF.Tags["power:current-max"] = function(unit)
 	if not unit then return end
 	local pType = UnitPowerType(unit)
@@ -206,7 +206,7 @@ ElvUF.Tags["power:current-max"] = function(unit)
 	return min == 0 and " " or	E:GetFormattedText("CURRENT_MAX", min, UnitPowerMax(unit, pType))
 end
 
-ElvUF.TagEvents["power:current-percent"] = "UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_RUNIC_POWER UNIT_MAXPOWER"
+ElvUF.TagEvents["power:current-percent"] = "UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT UNIT_MAXPOWER"
 ElvUF.Tags["power:current-percent"] = function(unit)
 	if not unit then return end
 	local pType = UnitPowerType(unit)
@@ -215,7 +215,7 @@ ElvUF.Tags["power:current-percent"] = function(unit)
 	return min == 0 and " " or	E:GetFormattedText("CURRENT_PERCENT", min, UnitPowerMax(unit, pType))
 end
 
-ElvUF.TagEvents["power:current-max-percent"] = "UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_RUNIC_POWER UNIT_MAXPOWER"
+ElvUF.TagEvents["power:current-max-percent"] = "UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT UNIT_MAXPOWER"
 ElvUF.Tags["power:current-max-percent"] = function(unit)
 	if not unit then return end
 	local pType = UnitPowerType(unit)
@@ -224,7 +224,7 @@ ElvUF.Tags["power:current-max-percent"] = function(unit)
 	return min == 0 and " " or	E:GetFormattedText("CURRENT_MAX_PERCENT", min, UnitPowerMax(unit, pType))
 end
 
-ElvUF.TagEvents["power:percent"] = "UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_RUNIC_POWER UNIT_MAXPOWER"
+ElvUF.TagEvents["power:percent"] = "UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT UNIT_MAXPOWER"
 ElvUF.Tags["power:percent"] = function(unit)
 	if not unit then return end
 	local pType = UnitPowerType(unit)
@@ -233,7 +233,7 @@ ElvUF.Tags["power:percent"] = function(unit)
 	return min == 0 and " " or	E:GetFormattedText("PERCENT", min, UnitPowerMax(unit, pType))
 end
 
-ElvUF.TagEvents["power:deficit"] = "UNIT_ENERGY UNIT_FOCUS UNIT_MANA UNIT_RAGE UNIT_RUNIC_POWER UNIT_MAXPOWER"
+ElvUF.TagEvents["power:deficit"] = "UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT UNIT_MAXPOWER"
 ElvUF.Tags["power:deficit"] = function(unit)
 	if not unit then return end
 	local pType = UnitPowerType(unit)
@@ -241,7 +241,7 @@ ElvUF.Tags["power:deficit"] = function(unit)
 	return E:GetFormattedText("DEFICIT", UnitPower(unit, pType), UnitPowerMax(unit, pType), r, g, b)
 end
 
-ElvUF.TagEvents["power:max"] = "UNIT_MAXENERGY UNIT_MAXFOCUS UNIT_MAXMANA UNIT_MAXRAGE UNIT_MAXRUNIC_POWER"
+ElvUF.TagEvents["power:max"] = "UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT UNIT_MAXPOWER"
 ElvUF.Tags["power:max"] = function(unit)
 	if not unit then return end
 	local max = UnitPowerMax(unit, UnitPowerType(unit))
