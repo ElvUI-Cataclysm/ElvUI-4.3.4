@@ -13,10 +13,8 @@ local function LoadSkin()
 	PetStableFrameInset:SetTemplate('Transparent')
 
 	S:HandleCloseButton(PetStableFrameCloseButton)
-	S:HandleButton(PetStablePrevPageButton) -- Required to remove graphical glitch from Prev page button
-	S:HandleButton(PetStableNextPageButton) -- Required to remove graphical glitch from Next page button
-	S:HandleNextPrevButton(PetStablePrevPageButton)
-	S:HandleNextPrevButton(PetStableNextPageButton)
+	S:HandleButton(PetStablePrevPageButton)
+	S:HandleButton(PetStableNextPageButton)
 	S:HandleRotateButton(PetStableModelRotateRightButton)
 	S:HandleRotateButton(PetStableModelRotateLeftButton)
 
