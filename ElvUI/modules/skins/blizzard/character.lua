@@ -296,7 +296,7 @@ local function LoadSkin()
 		end
 		ReputationDetailFrame:StripTextures()
 		ReputationDetailFrame:SetTemplate("Transparent")
-		ReputationDetailFrame:Point("TOPLEFT", ReputationFrame, "TOPRIGHT", 4, -28)			
+		ReputationDetailFrame:Point("TOPLEFT", ReputationFrame, "TOPRIGHT", 1, 0)			
 	end	
 	ReputationFrame:HookScript("OnShow", UpdateFactionSkins)
 	hooksecurefunc("ExpandFactionHeader", UpdateFactionSkins)
@@ -307,6 +307,7 @@ local function LoadSkin()
 	S:HandleCheckBox(ReputationDetailInactiveCheckBox)
 
 	S:HandleCloseButton(ReputationDetailCloseButton)
+	ReputationDetailCloseButton:Point("TOPRIGHT", ReputationDetail, "TOPRIGHT", 3, 4)	
 
 	--Currency
 	TokenFrame:HookScript("OnShow", function()
@@ -326,13 +327,14 @@ local function LoadSkin()
 		end
 		TokenFramePopup:StripTextures()
 		TokenFramePopup:SetTemplate("Transparent")
-		TokenFramePopup:Point("TOPLEFT", TokenFrame, "TOPRIGHT", 4, -28)				
+		TokenFramePopup:Point("TOPLEFT", TokenFrame, "TOPRIGHT", 1, 0)				
 	end)
 	
 	S:HandleCheckBox(TokenFramePopupInactiveCheckBox)
 	S:HandleCheckBox(TokenFramePopupBackpackCheckBox)
 
 	S:HandleCloseButton(TokenFramePopupCloseButton)
+	TokenFramePopupCloseButton:Point("TOPRIGHT", TokenFramePopup, "TOPRIGHT", 3, 4)	
 
 	--Pet
 	PetModelFrame:CreateBackdrop("Default")
