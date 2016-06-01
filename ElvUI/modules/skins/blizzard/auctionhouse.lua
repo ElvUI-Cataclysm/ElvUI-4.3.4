@@ -133,6 +133,10 @@ local function LoadSkin()
 		S:HandleTab(_G["AuctionFrameTab"..i])
 	end
 	
+	AuctionFrameTab1:ClearAllPoints()
+	AuctionFrameTab1:SetPoint("BOTTOMLEFT", AuctionFrame, "BOTTOMLEFT", 0, -30)
+	AuctionFrameTab1.SetPoint = E.noop
+
 	for i=1, NUM_FILTERS_TO_DISPLAY do
 		local tab = _G["AuctionFilterButton"..i]
 		tab:StripTextures()
