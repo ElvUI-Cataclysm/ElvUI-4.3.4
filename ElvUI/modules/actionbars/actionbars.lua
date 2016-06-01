@@ -231,6 +231,7 @@ function AB:UpdateButtonSettings()
 				button:SetAttribute("unit2", "target");
 			end
 			self:StyleButton(button, button.noBackdrop)
+			self:StyleFlyout(button)
 		else
 			self["handledbuttons"][button] = nil
 		end
@@ -314,6 +315,7 @@ function AB:StyleButton(button, noBackdrop)
 		button.style:SetDrawLayer('BACKGROUND', -7)	
 	end
 
+	button.FlyoutUpdateFunc = AB.StyleFlyout
 	self:FixKeybindText(button);
 	button:StyleButton();
 
@@ -480,6 +482,120 @@ function AB:FixKeybindText(button, type)
 	hotkey:Point("TOPRIGHT", 0, -3);	
 end
 
+
+local buttons = 0
+local function SetupFlyoutButton()
+	for i=1, buttons do
+		--prevent error if you don't have max ammount of buttons
+		if _G["SpellFlyoutButton"..i] then
+			AB:StyleButton(_G["SpellFlyoutButton"..i])
+			_G["SpellFlyoutButton"..i]:StyleButton()
+			_G["SpellFlyoutButton"..i]:CreateBackdrop("Default")
+			_G["SpellFlyoutButton"..i]:HookScript('OnEnter', function(self)
+				local parent = self:GetParent()
+				local parentAnchorButton = select(2, parent:GetPoint())
+				if not AB["handledbuttons"][parentAnchorButton] then return end
+				
+				local parentAnchorBar = parentAnchorButton:GetParent()
+				if parentAnchorBar.mouseover then
+					AB:Bar_OnEnter(parentAnchorBar)
+				end
+			end)
+			_G["SpellFlyoutButton"..i]:HookScript('OnLeave', function(self)
+				local parent = self:GetParent()
+				local parentAnchorButton = select(2, parent:GetPoint())
+				if not AB["handledbuttons"][parentAnchorButton] then return end
+				
+				local parentAnchorBar = parentAnchorButton:GetParent()
+				
+				if parentAnchorBar.mouseover then
+					AB:Bar_OnLeave(parentAnchorBar)	
+				end
+			end)
+		end
+	end
+	
+	SpellFlyout:HookScript('OnEnter', function(self)
+		local anchorButton = select(2, self:GetPoint())
+		if not AB["handledbuttons"][anchorButton] then return end
+		
+		local parentAnchorBar = anchorButton:GetParent()
+		if parentAnchorBar.mouseover then
+			AB:Bar_OnEnter(parentAnchorBar)
+		end
+	end)
+	
+	SpellFlyout:HookScript('OnLeave', function(self)
+		local anchorButton = select(2, self:GetPoint())
+		if not AB["handledbuttons"][anchorButton] then return end
+		
+		local parentAnchorBar = anchorButton:GetParent()
+		if parentAnchorBar.mouseover then
+			AB:Bar_OnLeave(parentAnchorBar)	
+		end
+	end)	
+end
+
+function AB:StyleFlyout(button)
+	if not button.FlyoutBorder then return end
+	local combat = InCombatLockdown()
+
+	button.FlyoutBorder:SetAlpha(0)
+	button.FlyoutBorderShadow:SetAlpha(0)
+	
+	SpellFlyoutHorizontalBackground:SetAlpha(0)
+	SpellFlyoutVerticalBackground:SetAlpha(0)
+	SpellFlyoutBackgroundEnd:SetAlpha(0)
+	
+	for i=1, GetNumFlyouts() do
+		local x = GetFlyoutID(i)
+		local _, _, numSlots, isKnown = GetFlyoutInfo(x)
+		if isKnown then
+			buttons = numSlots
+			break
+		end
+	end
+	
+	--Change arrow direction depending on what bar the button is on
+	local arrowDistance
+	if ((SpellFlyout:IsShown() and SpellFlyout:GetParent() == button) or GetMouseFocus() == button) then
+		arrowDistance = 5
+	else
+		arrowDistance = 2
+	end
+
+	if button:GetParent() and button:GetParent():GetParent() and button:GetParent():GetParent():GetName() and button:GetParent():GetParent():GetName() == "SpellBookSpellIconsFrame" then 
+		return 
+	end
+
+	if button:GetParent() then
+		local point = E:GetScreenQuadrant(button:GetParent())
+		if point == "UNKNOWN" then return end
+		
+		if strfind(point, "TOP") then
+			button.FlyoutArrow:ClearAllPoints()
+			button.FlyoutArrow:SetPoint("BOTTOM", button, "BOTTOM", 0, -arrowDistance)
+			SetClampedTextureRotation(button.FlyoutArrow, 180)
+			if not combat then button:SetAttribute("flyoutDirection", "DOWN") end			
+		elseif point == "RIGHT" then
+			button.FlyoutArrow:ClearAllPoints()
+			button.FlyoutArrow:SetPoint("LEFT", button, "LEFT", -arrowDistance, 0)
+			SetClampedTextureRotation(button.FlyoutArrow, 270)
+			if not combat then button:SetAttribute("flyoutDirection", "LEFT") end		
+		elseif point == "LEFT" then
+			button.FlyoutArrow:ClearAllPoints()
+			button.FlyoutArrow:SetPoint("RIGHT", button, "RIGHT", arrowDistance, 0)
+			SetClampedTextureRotation(button.FlyoutArrow, 90)
+			if not combat then button:SetAttribute("flyoutDirection", "RIGHT") end				
+		elseif point == "CENTER" or strfind(point, "BOTTOM") then
+			button.FlyoutArrow:ClearAllPoints()
+			button.FlyoutArrow:SetPoint("TOP", button, "TOP", 0, arrowDistance)
+			SetClampedTextureRotation(button.FlyoutArrow, 0)
+			if not combat then button:SetAttribute("flyoutDirection", "UP") end
+		end
+	end
+end
+
 function AB:Initialize()
 	self.db = E.db.actionbar
 	if E.private.actionbar.enable ~= true then return; end
@@ -516,6 +632,8 @@ function AB:Initialize()
 	if not GetCVarBool('lockActionBars') then
 		SetCVar('lockActionBars', 1)
 	end
+
+	SpellFlyout:HookScript("OnShow", SetupFlyoutButton)
 end
 
 E:RegisterModule(AB:GetName())
