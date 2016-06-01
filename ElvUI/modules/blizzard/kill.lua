@@ -4,7 +4,6 @@ local B = E:GetModule('Blizzard');
 local removeMenuOptions = {
 	["SET_FOCUS"] = true,
 	["CLEAR_FOCUS"] = true,
-	["PET_DISMISS"] = true,
 }
 
 local function DisableButtons(self)
