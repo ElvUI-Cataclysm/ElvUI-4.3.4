@@ -190,6 +190,7 @@ local function LoadSkin()
 		local icon = _G[button.."IconTexture"]
 		local button = _G[button]
 		button:StripTextures()
+		button:StyleButton(true)
 
 		if icon then
 			icon:SetTexCoord(unpack(E.TexCoords))
