@@ -10,6 +10,7 @@ function B:PositionAltPowerBar()
 	PlayerPowerBarAlt:Point('CENTER', holder, 'CENTER')
 	PlayerPowerBarAlt:SetParent(holder)
 	PlayerPowerBarAlt.ignoreFramePositionManager = true
+	PlayerPowerBarAlt:SetScale(0.9)
 
 	local function Position(self)
 		self:Point('CENTER', AltPowerBarHolder, 'CENTER')
