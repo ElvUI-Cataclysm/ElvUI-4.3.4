@@ -10,6 +10,28 @@ local function LoadSkin()
 	S:HandleScrollBar(QuestProgressScrollFrameScrollBar)
 	S:HandleScrollBar(QuestRewardScrollFrameScrollBar)
 
+	QuestInfoSkillPointFrame:StripTextures()
+	QuestInfoSkillPointFrame:StyleButton()
+	QuestInfoSkillPointFrame:Width(QuestInfoSkillPointFrame:GetWidth() - 7)
+	QuestInfoSkillPointFrame:SetFrameLevel(QuestInfoSkillPointFrame:GetFrameLevel() + 2)
+	QuestInfoSkillPointFrameIconTexture:SetTexCoord(unpack(E.TexCoords))
+	QuestInfoSkillPointFrameIconTexture:SetDrawLayer("OVERLAY")
+	QuestInfoSkillPointFrameIconTexture:Point("TOPLEFT", 2, -2)
+	QuestInfoSkillPointFrameIconTexture:Size(QuestInfoSkillPointFrameIconTexture:GetWidth() - 2, QuestInfoSkillPointFrameIconTexture:GetHeight() - 2)
+	QuestInfoSkillPointFrame:SetTemplate("Default")
+	QuestInfoSkillPointFrameCount:SetDrawLayer("OVERLAY")
+
+	QuestInfoSpellObjectiveFrame:StripTextures()
+	QuestInfoSpellObjectiveFrame:StyleButton()
+	QuestInfoSpellObjectiveFrame:Width(QuestInfoSpellObjectiveFrame:GetWidth() - 7)
+	QuestInfoSpellObjectiveFrame:Height(QuestInfoSpellObjectiveFrame:GetHeight() - 15)
+	QuestInfoSpellObjectiveFrame:SetFrameLevel(QuestInfoSpellObjectiveFrame:GetFrameLevel() + 2)
+	QuestInfoSpellObjectiveFrameIconTexture:SetTexCoord(unpack(E.TexCoords))
+	QuestInfoSpellObjectiveFrameIconTexture:SetDrawLayer("OVERLAY")
+	QuestInfoSpellObjectiveFrameIconTexture:Point("TOPLEFT", 2, -2)
+	QuestInfoSpellObjectiveFrameIconTexture:Size(QuestInfoSpellObjectiveFrameIconTexture:GetWidth() - 2, QuestInfoSpellObjectiveFrameIconTexture:GetHeight() - 2)
+	QuestInfoSpellObjectiveFrame:SetTemplate("Default")
+
 	QuestLogFrame:StripTextures()
 	QuestLogFrame:SetTemplate("Transparent")
 	QuestLogCount:StripTextures()
@@ -131,9 +153,6 @@ local function LoadSkin()
 			QuestLogDetailScrollFrame:CreateBackdrop("Default")
 		end
 	end)
-
-	--Spell Reward Frame (Not Finished)
-	QuestInfoSpellObjectiveFrame:StripTextures()
 
 	--Quest Frame
 	QuestFrame:StripTextures(true)
