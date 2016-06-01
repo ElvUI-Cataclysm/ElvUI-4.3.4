@@ -19,7 +19,9 @@ function AB:CreateBar3()
 	
 	for i = 1, NUM_ACTIONBAR_BUTTONS do
 		local button = _G["MultiBarBottomLeftButton" .. i];
-		_G["MultiBarBottomLeftButton" .. i]:StripTextures()
+		_G["MultiBarBottomLeftButton" .. i .. "FloatingBG"]:Kill()
+		_G["MultiBarBottomLeftButton" .. i .. "FlyoutBorderShadow"]:Kill()
+		_G["MultiBarBottomLeftButton" .. i .. "FlyoutBorder"]:Kill()
 		if(E.db.actionbar.selfcast) then
 			button:SetAttribute("unit2", "player");
 		else
