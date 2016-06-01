@@ -539,9 +539,6 @@ end
 function AB:StyleFlyout(button)
 	if not button.FlyoutBorder then return end
 	local combat = InCombatLockdown()
-
-	button.FlyoutBorder:SetAlpha(0)
-	button.FlyoutBorderShadow:SetAlpha(0)
 	
 	SpellFlyoutHorizontalBackground:SetAlpha(0)
 	SpellFlyoutVerticalBackground:SetAlpha(0)
