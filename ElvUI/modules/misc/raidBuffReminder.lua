@@ -148,7 +148,7 @@ function RB:UpdateReminder(event, unit)
 			button.nextupdate = 0;
 			button.t:SetTexture(texture);
 			
-			if(duration == 0 and expirationTime == 0) then
+			if(duration == 0.1 and expirationTime == 0.1) then
 			--	button.t:SetAlpha(0.3);
 				button:SetScript('OnUpdate', nil);
 				button.timer:SetText(nil);
