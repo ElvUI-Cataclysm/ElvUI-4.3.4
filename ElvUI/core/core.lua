@@ -279,19 +279,20 @@ E.HiddenFrame = CreateFrame("Frame");
 E.HiddenFrame:Hide();
 
 function E:CheckRole()
-	if event == "UNIT_AURA" and unit ~= "player" then return end
-	if (E.myclass == "PALADIN" and UnitBuff("player", GetSpellInfo(25780))) and GetCombatRatingBonus(CR_DEFENSE_SKILL) > 100 or 
-	(E.myclass == "WARRIOR" and GetBonusBarOffset() == 2) or 
-	(E.myclass == "DEATHKNIGHT" and UnitBuff("player", GetSpellInfo(48263))) or
-	(E.myclass == "DRUID" and GetBonusBarOffset() == 3) then
+	local tree = GetPrimaryTalentTree();
+	if (E.myclass == "PALADIN" and tree == 2) or
+	(E.myclass == "WARRIOR" and tree == 3) or
+	(E.myclass == "DEATHKNIGHT" and tree == 1) or
+	(E.myclass == "DRUID" and tree == 2 and GetBonusBarOffset() == 3) then
 		E.Role = "Tank"
 	else
-		local playerint = select(2, UnitStat("player", 4))
-		local playeragi	= select(2, UnitStat("player", 2))
+		local playerint = select(2, UnitStat("player", 4));
+		local playeragi	= select(2, UnitStat("player", 2));
 		local base, posBuff, negBuff = UnitAttackPower("player");
 		local playerap = base + posBuff + negBuff;
 
-		if ((playerap > playerint) or (playeragi > playerint)) and not (UnitBuff("player", GetSpellInfo(24858)) or UnitBuff("player", GetSpellInfo(65139))) then
+		if (((playerap > playerint) or (playeragi > playerint)) and (E.myclass == "SHAMAN" and tree == 2) and not
+		(UnitBuff("player", GetSpellInfo(24858)) or UnitBuff("player", GetSpellInfo(65139)))) or E.myclass == "ROGUE" or E.myclass == "HUNTER" then
 			E.Role = "Melee"
 		else
 			E.Role = "Caster"
@@ -955,11 +956,11 @@ function E:Initialize()
 	self:UpdateMedia();
 	self:UpdateFrameTemplates();
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "CheckRole");
-	self:RegisterEvent("UNIT_AURA", "CheckRole");
-	self:RegisterEvent("UPDATE_BONUS_ACTIONBAR", "CheckRole");
 	self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", "CheckRole");
+	self:RegisterEvent("PLAYER_TALENT_UPDATE", "CheckRole");
 	self:RegisterEvent("CHARACTER_POINTS_CHANGED", "CheckRole");
 	self:RegisterEvent("UNIT_INVENTORY_CHANGED", "CheckRole");
+	self:RegisterEvent("UPDATE_BONUS_ACTIONBAR", "CheckRole");
 	self:RegisterEvent("UPDATE_FLOATING_CHAT_WINDOWS", "UIScale");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 	
