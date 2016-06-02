@@ -11,6 +11,11 @@ local function LoadSkin()
 
 	S:HandleCloseButton(MerchantFrameCloseButton, MerchantFrame.backdrop);
 
+	for i = 1, 10 do
+		_G["MerchantItem" .. i .. "AltCurrencyFrameItem1Texture"]:SetTexCoord(unpack(E.TexCoords));
+		_G["MerchantItem" .. i .. "AltCurrencyFrameItem2Texture"]:SetTexCoord(unpack(E.TexCoords));
+	end
+
 	for i = 1, 12 do
 		local item = _G["MerchantItem" .. i];
 		local itemButton = _G["MerchantItem" .. i .. "ItemButton"];
