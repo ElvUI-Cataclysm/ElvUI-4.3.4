@@ -279,6 +279,7 @@ E.HiddenFrame = CreateFrame("Frame");
 E.HiddenFrame:Hide();
 
 function E:CheckRole()
+	if event == "UNIT_AURA" and unit ~= "player" then return end
 	local tree = GetPrimaryTalentTree();
 	if (E.myclass == "PALADIN" and tree == 2) or
 	(E.myclass == "WARRIOR" and tree == 3) or
@@ -955,6 +956,7 @@ function E:Initialize()
 	
 	self:UpdateMedia();
 	self:UpdateFrameTemplates();
+	self:RegisterEvent("UNIT_AURA", "CheckRole");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "CheckRole");
 	self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", "CheckRole");
 	self:RegisterEvent("PLAYER_TALENT_UPDATE", "CheckRole");
