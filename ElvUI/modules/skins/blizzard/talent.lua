@@ -61,6 +61,7 @@ local function LoadSkin()
 		"PlayerTalentFramePanel3InactiveShadow",
 		"PlayerTalentFramePanel1SummaryRoleIcon",
 		"PlayerTalentFramePanel2SummaryRoleIcon",
+		"PlayerTalentFramePanel2SummaryRoleIcon2",
 		"PlayerTalentFramePanel3SummaryRoleIcon",
 		"PlayerTalentFramePetShadowOverlay",
 		"PlayerTalentFrameHeaderHelpBox",
