@@ -191,6 +191,7 @@ local function LoadSkin()
 		local icon = _G[button.."IconTexture"]
 		local button = _G[button]
 		button:StripTextures()
+		button:GetHighlightTexture():Hide()
 		button:StyleButton(true)
 
 		if icon then
