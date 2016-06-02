@@ -140,6 +140,7 @@ local function LoadSkin()
 	--Skill Line Tabs
 	for i=1, MAX_SKILLLINE_TABS do
 		local tab = _G["SpellBookSkillLineTab"..i]
+		_G["SpellBookSkillLineTab"..i]:CreateBackdrop()
 		_G["SpellBookSkillLineTab"..i.."Flash"]:Kill()
 		SkinTab(tab)
 	end
