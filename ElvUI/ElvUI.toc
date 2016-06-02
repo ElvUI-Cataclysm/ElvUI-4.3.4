@@ -1,6 +1,6 @@
 ﻿## Interface: 40300
 ## Author: Elv, Bunny
-## Version: 4.3.4-02
+## Version: 4.3.4-03
 ## Title: |cffA11313E|r|cffC4C4C4lvUI|r
 ## Notes: User Interface replacement AddOn for World of Warcraft.
 ## SavedVariables: ElvDB, ElvPrivateDB
