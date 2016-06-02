@@ -267,6 +267,7 @@ function AB:StyleButton(button, noBackdrop)
 	local buttonCooldown = _G[name.."Cooldown"];
 	local normal2 = button:GetNormalTexture()
 	local combat = InCombatLockdown()
+	local shine = _G[name.."Shine"];
 	
 	if flash then flash:SetTexture(nil); end
 	if normal then normal:SetTexture(nil); normal:Hide(); normal:SetAlpha(0); end
@@ -283,6 +284,10 @@ function AB:StyleButton(button, noBackdrop)
 		count:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
 	end
 	
+	if shine then
+		shine:SetAllPoints()
+	end
+
 	if macroName then
 		if self.db.macrotext then
 			macroName:Show()
