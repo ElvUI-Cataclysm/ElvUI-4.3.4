@@ -65,7 +65,7 @@ local function LoadSkin()
 	
 	MacroPopupFrame:HookScript("OnShow", function(self)
 		self:ClearAllPoints()
-		self:Point("TOPLEFT", MacroFrame, "TOPRIGHT", 5, -2)
+		self:Point("TOPLEFT", MacroFrame, "TOPRIGHT", 1, 0)
 	end)
 	
 	-- Big icon
