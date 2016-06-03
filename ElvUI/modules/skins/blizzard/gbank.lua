@@ -54,6 +54,7 @@ local function LoadSkin()
 		local button = _G["GuildBankTab"..i.."Button"]
 		local texture = _G["GuildBankTab"..i.."ButtonIconTexture"]
 		_G["GuildBankTab"..i]:StripTextures(true)
+		_G["GuildBankTab"..i.."Button"]:CreateBackdrop()
 		
 		button:StripTextures()
 		button:StyleButton(true)
@@ -69,6 +70,10 @@ local function LoadSkin()
 		S:HandleTab(_G["GuildBankFrameTab"..i])
 	end
 	
+	--Reposition tab
+	GuildBankFrameTab1:ClearAllPoints()
+	GuildBankFrameTab1:SetPoint("BOTTOMLEFT", GuildBankFrame, "BOTTOMLEFT", 0, -30)
+
 	--Popup
 	GuildBankPopupFrame:StripTextures()
 	GuildBankPopupScrollFrame:StripTextures()
