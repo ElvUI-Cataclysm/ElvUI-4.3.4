@@ -39,14 +39,24 @@ local function LoadSkin()
 	-- skin container buttons on browse and request page
 	for i = 1, 5 do
 		local b = _G["LookingForGuildBrowseFrameContainerButton"..i]
-		local t = _G["LookingForGuildAppsFrameContainerButton"..i]
 		b:SetBackdrop(nil)
-		t:SetBackdrop(nil)
+		b:SetTemplate("Transparent")
+		b:StyleButton()
 	end
 	
+	for i = 1, 10 do
+		local t = _G["LookingForGuildAppsFrameContainerButton"..i]
+		t:SetBackdrop(nil)
+		t:SetTemplate("Transparent")
+		t:StyleButton()
+	end
+		
 	-- skin tabs
 	for i= 1, 3 do
-		S:HandleTab(_G["LookingForGuildFrameTab"..i])
+		_G["LookingForGuildFrameTab"..i]:StripTextures()
+		_G["LookingForGuildFrameTab"..i]:CreateBackdrop("Default",true)
+		_G["LookingForGuildFrameTab"..i].backdrop:Point("TOPLEFT", 3, -7)
+		_G["LookingForGuildFrameTab"..i].backdrop:Point("BOTTOMRIGHT", -2, -1)
 	end
 	
 	GuildFinderRequestMembershipFrame:StripTextures(true)
