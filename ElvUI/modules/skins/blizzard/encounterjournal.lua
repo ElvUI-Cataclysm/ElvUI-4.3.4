@@ -1,8 +1,6 @@
 local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
 local S = E:GetModule('Skins')
 
---Cache global variables
---Lua functions
 local _G = _G
 local select, unpack, pairs = select, unpack, pairs
 
@@ -30,11 +28,18 @@ local function LoadSkin()
 	InstanceSelect.bg:Kill()
 	S:HandleDropDownBox(InstanceSelect.tierDropDown)
 	S:HandleScrollBar(InstanceSelect.scroll.ScrollBar, 4)
-	S:HandleTab(InstanceSelect.dungeonsTab)
-	S:HandleTab(InstanceSelect.raidsTab)
-	InstanceSelect.dungeonsTab.backdrop:SetTemplate("Default", true)
-	InstanceSelect.raidsTab.backdrop:SetTemplate("Default", true)
-	InstanceSelect.dungeonsTab:Width(InstanceSelect.dungeonsTab:GetWidth() + 10)
+
+	--Dungeon/Raid Tabs
+	InstanceSelect.dungeonsTab:StripTextures()
+	InstanceSelect.dungeonsTab:CreateBackdrop("Default",true)
+	InstanceSelect.dungeonsTab.backdrop:Point("TOPLEFT", 3, -7)
+	InstanceSelect.dungeonsTab.backdrop:Point("BOTTOMRIGHT", -2, -1)
+	InstanceSelect.dungeonsTab:Point("BOTTOMRIGHT", EncounterJournalInstanceSelectRaidTab, "BOTTOMLEFT", 0, 0)
+
+	InstanceSelect.raidsTab:StripTextures()	
+	InstanceSelect.raidsTab:CreateBackdrop("Default",true)
+	InstanceSelect.raidsTab.backdrop:Point("TOPLEFT", 3, -7)
+	InstanceSelect.raidsTab.backdrop:Point("BOTTOMRIGHT", -2, -1)
 
 	--Encounter Info Frame
 	local EncounterInfo = EJ.encounter.info
@@ -91,12 +96,12 @@ local function LoadSkin()
 	EncounterInstance:CreateBackdrop("Transparent")
 	EncounterInstance.loreScroll.child.lore:SetTextColor(1, 1, 1)
 
+	EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterClearFrame:StripTextures()
+
+	--Class Filter Frame [Need to skin the icons]
 	EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrame:StripTextures()
 	EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrame:SetTemplate("Transparent")
 
-	EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterClearFrame:StripTextures()
-
-	--Not Finished
 	for i=1, 10 do
 		 _G["EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrameClass"..i.."BevelEdge"]:Kill()
 		 _G["EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrameClass"..i.."Shadow"]:Kill()
@@ -221,9 +226,24 @@ local function LoadSkin()
 	end
 	hooksecurefunc("EncounterJournal_ToggleHeaders", SkinAbilitiesInfo)
 
-	--Search Frame
+	--Search Frame [Need to skin the icons]
 	EncounterJournalSearchResultsScrollFrame:StripTextures();
 	EncounterJournalSearchResultsScrollFrameScrollChild:StripTextures();
+
+	for i=1, 9 do
+		_G["EncounterJournalSearchResultsScrollFrameButton"..i]:StripTextures();
+		_G["EncounterJournalSearchResultsScrollFrameButton"..i]:SetTemplate("Default")
+		_G["EncounterJournalSearchResultsScrollFrameButton"..i]:StyleButton()
+	end
+
+	for i=1, 5 do
+		_G["EncounterJournalSearchBoxSearchButton"..i]:StripTextures();
+		_G["EncounterJournalSearchBoxSearchButton"..i]:SetTemplate("Default")
+		_G["EncounterJournalSearchBoxSearchButton"..i]:StyleButton()
+	end
+
+	S:HandleButton(EncounterJournalSearchBoxShowALL)
+
 	EncounterJournalSearchResults:StripTextures();
 	EncounterJournalSearchResults:SetTemplate("Transparent")
 
