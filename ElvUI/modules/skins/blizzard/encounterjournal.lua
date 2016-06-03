@@ -96,6 +96,14 @@ local function LoadSkin()
 
 	EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterClearFrame:StripTextures()
 
+	--Not Finished
+	for i=1, 10 do
+		 _G["EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrameClass"..i.."BevelEdge"]:Kill()
+		 _G["EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrameClass"..i.."Shadow"]:Kill()
+		 _G["EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrameClass"..i]:GetHighlightTexture():Hide()
+		 _G["EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrameClass"..i]:StyleButton()
+	end
+
 	--Dungeon/raid selection buttons
 	local function SkinDungeons()
 		local b1 = EncounterJournalInstanceSelectScrollFrameScrollChildInstanceButton1
