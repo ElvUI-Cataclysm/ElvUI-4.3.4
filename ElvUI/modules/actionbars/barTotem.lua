@@ -219,6 +219,34 @@ function AB:AdjustTotemSettings()
 	end
 end
 
+function AB:PositionAndSizeBarTotem()
+	local spacing = E:Scale(self.db["barTotem"].buttonspacing);
+	local size = E:Scale(self.db["barTotem"].buttonsize);
+	
+	MultiCastSummonSpellButton:ClearAllPoints();
+	MultiCastSummonSpellButton:SetSize(size, size);
+	MultiCastSummonSpellButton:Point("BOTTOMLEFT", 1 + spacing, 2);
+	
+	for i = 1, 4 do
+		local button = _G["MultiCastSlotButton" .. i];
+		local lastButton = _G["MultiCastSlotButton"..i-1];
+		button:ClearAllPoints();
+		button:SetSize(size, size);
+		
+		if(i == 1) then
+			button:Point("BOTTOMLEFT", 36 + spacing, 3);
+		else
+			button:Point("LEFT", lastButton, "RIGHT", spacing, 0);
+		end
+	end
+	
+	MultiCastRecallSpellButton:SetSize(size, size);
+	
+	MultiCastFlyoutFrameCloseButton:Width(size);
+	
+	MultiCastFlyoutFrameOpenButton:Width(size);
+end
+
 function AB:CreateTotemBar()
 	bar:Point('BOTTOM', E.UIParent, 'BOTTOM', 0, 250)
 
@@ -235,6 +263,7 @@ function AB:CreateTotemBar()
 	bar:Width(MultiCastActionBarFrame:GetWidth())
 	bar:Height(MultiCastActionBarFrame:GetHeight())
 
+	AB:PositionAndSizeBarTotem();
 	bar.buttons[MultiCastActionBarFrame] = true
 	E:CreateMover(bar, 'ElvBar_Totem', L['Totems'], nil, nil, nil,'ALL,ACTIONBARS');
 	self:AdjustTotemSettings()
