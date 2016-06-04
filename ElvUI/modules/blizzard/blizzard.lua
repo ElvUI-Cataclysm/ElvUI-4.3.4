@@ -12,6 +12,7 @@ function B:Initialize()
 	self:PositionGMFrames();
 	self:PositionVehicleFrame();
 	self:MoveWatchFrame();
+	self:SkinBlizzTimers();
 	self:PositionAltPowerBar();
 end
 

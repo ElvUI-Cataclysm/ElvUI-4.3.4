@@ -6,6 +6,7 @@
 	<Script file='watchframe.lua'/>
 	<Script file='vehicle.lua'/>
 	<Script file='gm.lua'/>
+	<Script file='timerTracker.lua'/>
 	<Script file='durability.lua'/>
 	<Script file='capturebar.lua'/>
 	<Script file='altpower.lua'/>
