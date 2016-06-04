@@ -255,19 +255,6 @@ local tagStrings = {
 		end
 	end]],
 
-	['happiness'] = [[function(u)
-		if(UnitIsUnit(u, 'pet')) then
-			local happiness = GetPetHappiness()
-			if(happiness == 1) then
-				return ":<"
-			elseif(happiness == 2) then
-				return ":|"
-			elseif(happiness == 3) then
-				return ":D"
-			end
-		end
-	end]],
-
 	['pereclipse'] = [[function(u)
 		local m = UnitPowerMax('player', SPELL_POWER_ECLIPSE)
 		if(m == 0) then
@@ -364,7 +351,6 @@ local tagEvents = {
 	['classification']      = 'UNIT_CLASSIFICATION_CHANGED',
 	['shortclassification'] = 'UNIT_CLASSIFICATION_CHANGED',
 	["group"]               = "RAID_ROSTER_UPDATE",
-	['happiness']           = 'UNIT_HAPPINESS',
 	["pereclipse"]          = 'UNIT_POWER',
 	['soulshards']          = 'UNIT_POWER',
 	['holypower']           = 'UNIT_POWER',
