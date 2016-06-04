@@ -70,6 +70,10 @@ local function LoadSkin()
 		_G["PVPHonorFrameBgButton"..i]:StyleButton()
 	end
 
+	for i=1, 4 do
+		_G["PVPFrameConquestBarDivider"..i]:Hide()
+	end
+
 	PVPConquestFrameConquestButtonArena:StyleButton()
 	PVPConquestFrameConquestButtonRated:StyleButton()
 
