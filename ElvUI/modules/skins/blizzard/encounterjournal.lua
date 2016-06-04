@@ -177,6 +177,7 @@ local function LoadSkin()
 		item.icon:SetDrawLayer("OVERLAY")
 
 		item:SetTemplate("Default");
+		item:StyleButton()
 
 		if i == 1 then
 			item:ClearAllPoints()
