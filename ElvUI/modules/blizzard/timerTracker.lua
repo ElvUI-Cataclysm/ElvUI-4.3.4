@@ -17,7 +17,7 @@ local function SkinIt(bar)
 
 	bar:SetStatusBarTexture(E["media"].normTex)
 	if E.PixelMode then
-		bar:SetStatusBarColor(.31, .31, .31)
+		bar:SetStatusBarColor(1, 0, 0)
 	else
 		bar:SetStatusBarColor(unpack(E["media"].bordercolor))
 	end
