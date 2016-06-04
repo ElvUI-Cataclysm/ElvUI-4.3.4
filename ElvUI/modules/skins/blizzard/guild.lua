@@ -276,11 +276,13 @@ local function LoadSkin()
 	for i=1, 8 do
 		local button = _G["GuildRewardsContainerButton"..i]
 		button:StripTextures()
-		button:SetTemplate("Transparent")
+		button:SetTemplate("Default",true)
+		button:StyleButton()
 		if button.icon then
 			button.icon:SetTexCoord(unpack(E.TexCoords))
 			button.icon:ClearAllPoints()
-			button.icon:Point("TOPLEFT", 2, -2)
+			button.icon:Point("TOPLEFT", 2, -3)
+			button.icon:Size(41, 41)
 			button:CreateBackdrop("Default")
 			button.backdrop:Point("TOPLEFT", button.icon, "TOPLEFT", -2, 2)
 			button.backdrop:Point("BOTTOMRIGHT", button.icon, "BOTTOMRIGHT", 2, -2)
