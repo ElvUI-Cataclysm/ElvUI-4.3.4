@@ -117,6 +117,7 @@ local function LoadSkin()
 	PVPFrameConquestBarShadow:Kill()
 	PVPFrameConquestBar.progress:SetTexture(E["media"].normTex)
 	PVPFrameConquestBar:CreateBackdrop("Default")
+	PVPFrameConquestBar:Point("LEFT", 40, 0)
 	PVPFrameConquestBar.backdrop:Point("TOPLEFT", PVPFrameConquestBar.progress, "TOPLEFT", -2, 2)
 	PVPFrameConquestBar.backdrop:Point("BOTTOMRIGHT", PVPFrameConquestBar, "BOTTOMRIGHT", -2, 2)	
 	
@@ -179,7 +180,11 @@ local function LoadSkin()
 	--Bottom Tabs
 	for i=1,4 do
 		S:HandleTab(_G["PVPFrameTab"..i])
-	end		
+	end
+
+	PVPFrameTab1:ClearAllPoints()
+	PVPFrameTab1:SetPoint("BOTTOMLEFT", PVPFrame, "BOTTOMLEFT", 0, -30)
+
 end
 
 S:RegisterSkin("ElvUI", LoadSkin);
