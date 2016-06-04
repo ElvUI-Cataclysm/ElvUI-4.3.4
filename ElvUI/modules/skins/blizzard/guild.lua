@@ -42,12 +42,18 @@ local function LoadSkin()
 	for _, frame in pairs(striptextures) do
 		_G[frame]:StripTextures()
 	end
-	
+
+	for i=1, 7 do
+		_G["GuildUpdatesButton"..i]:StyleButton()
+	end
+
 	GuildNewsBossModel:CreateBackdrop("Transparent")
 	GuildNewsBossModelTextFrame:CreateBackdrop("Default")
 	GuildNewsBossModelTextFrame.backdrop:Point("TOPLEFT", GuildNewsBossModel.backdrop, "BOTTOMLEFT", 0, -1)
 	GuildNewsBossModel:Point("TOPLEFT", GuildFrame, "TOPRIGHT", 4, -43)
 	
+	GuildPerksToggleButton:StripTextures()
+
 	local buttons = {
 		"GuildPerksToggleButton",
 		"GuildMemberRemoveButton",
@@ -69,7 +75,7 @@ local function LoadSkin()
 			S:HandleButton(_G[button], true)
 		end
 	end
-	
+
 	local checkbuttons = {
 		"Quest", 
 		"Dungeon",
@@ -161,6 +167,7 @@ local function LoadSkin()
 	
 	for i=1, 14 do
 		S:HandleButton(_G["GuildRosterContainerButton"..i.."HeaderButton"], true)
+		_G["GuildRosterContainerButton"..i]:StyleButton()
 	end
 	
 	--Detail Frame
@@ -178,6 +185,7 @@ local function LoadSkin()
 	for i=1, 17 do
 		if _G["GuildNewsContainerButton"..i] then
 			_G["GuildNewsContainerButton"..i].header:Kill()
+			_G["GuildNewsContainerButton"..i]:StyleButton()
 		end
 	end
 	
