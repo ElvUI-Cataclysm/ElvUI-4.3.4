@@ -93,7 +93,8 @@ local function LoadSkin()
 
 	for i=1, 4 do
 		ArenaHeader(nil, true, i)
-	end	
+	end
+
 	S:HandleScrollBar(PVPHonorFrameTypeScrollFrameScrollBar)
 	
 	PVPTeamManagementFrameNoTeamsFrame:StripTextures()
@@ -109,6 +110,13 @@ local function LoadSkin()
 	PVPTeamManagementFrameInvalidTeamFrame.backdrop:Point("TOPLEFT", PVPTeamManagementFrameInvalidTeamFrame, "TOPLEFT")
 	PVPTeamManagementFrameInvalidTeamFrame.backdrop:Point("BOTTOMRIGHT", PVPTeamManagementFrameInvalidTeamFrame, "BOTTOMRIGHT")
 	PVPTeamManagementFrameInvalidTeamFrame.backdrop:SetFrameLevel(PVPTeamManagementFrameInvalidTeamFrame:GetFrameLevel())
+
+	for i=1, 6 do
+		_G["PVPTeamManagementFrameTeamMemberButton"..i]:StyleButton()
+	end
+
+	PVPTeamManagementFrameTeamScrollFrame:StripTextures()
+	S:HandleScrollBar(PVPTeamManagementFrameTeamScrollFrameScrollBar)
 
 	PVPFrameConquestBarLeft:Kill()
 	PVPFrameConquestBarRight:Kill()
@@ -171,7 +179,7 @@ local function LoadSkin()
 	if l then l:SetAlpha(0) end
 	if m then m:SetAlpha(0) end
 	if r then r:SetAlpha(0) end
-	f:CreateBackdrop("Default")
+	f:CreateBackdrop("Default",true)
 	f:SetFrameLevel(PVPBannerFrameAcceptButton:GetFrameLevel()+1)
 	f.backdrop:Point("TOPLEFT", PVPBannerFrameAcceptButton, "TOPLEFT", PVPBannerFrame:GetWidth()-PVPBannerFrameAcceptButton:GetWidth()-10,0)
 	f.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameAcceptButton, "BOTTOMRIGHT", PVPBannerFrame:GetWidth()-PVPBannerFrameAcceptButton:GetWidth()-10, 0)
