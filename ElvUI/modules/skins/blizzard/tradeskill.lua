@@ -70,6 +70,7 @@ local function LoadSkin()
 			icon:SetParent(icon.backdrop)
 			count:SetParent(icon.backdrop)
 			count:SetDrawLayer("OVERLAY")
+			button:SetTemplate("Transparent")
 
 			if i > 2 and once == false then
 				local point, anchoredto, point2, x, y = button:GetPoint()
