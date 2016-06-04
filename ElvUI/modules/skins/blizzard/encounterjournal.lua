@@ -47,6 +47,7 @@ local function LoadSkin()
 
 	EncounterInfo.difficulty:StripTextures()
 	S:HandleButton(EncounterInfo.difficulty)
+	EncounterInfo.difficulty:Width(100)
 	EncounterJournalEncounterFrameInfoResetButton:StripTextures()
 
 	S:HandleButton(EncounterJournalEncounterFrameInfoResetButton)
