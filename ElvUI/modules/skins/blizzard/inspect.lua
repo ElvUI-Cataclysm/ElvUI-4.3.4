@@ -110,8 +110,11 @@ local function LoadSkin()
 	for i=1, 3 do
 		_G["InspectPVPTeam"..i]:StripTextures()
 		_G["InspectTalentFrameTab"..i]:StripTextures()
+		_G["InspectTalentFrameTab"..i]:CreateBackdrop("Default",true)
+		_G["InspectTalentFrameTab"..i].backdrop:Point("TOPLEFT", 3, -7)
+		_G["InspectTalentFrameTab"..i].backdrop:Point("BOTTOMRIGHT", -2, 1)
 	end
-	
+
 	InspectTalentFrame.bg = CreateFrame("Frame", nil, InspectTalentFrame)
 	InspectTalentFrame.bg:SetTemplate("Default")
 	InspectTalentFrame.bg:Point("TOPLEFT", InspectTalentFrameBackgroundTopLeft, "TOPLEFT", -2, 2)
