@@ -171,8 +171,8 @@ local function LoadSkin()
 		item.bossTexture:SetAlpha(0)
 		item.bosslessTexture:SetAlpha(0)
 
-		item.icon:SetSize(36, 36)
-		item.icon:Point("TOPLEFT", E.PixelMode and 1 or 2, -(E.PixelMode and 5 or 7))
+		item.icon:SetSize(41, 41)
+		item.icon:Point("TOPLEFT", 2, -2)
 
 		S:HandleIcon(item.icon)
 		item.icon:SetDrawLayer("OVERLAY")
@@ -228,7 +228,7 @@ local function LoadSkin()
 	end
 	hooksecurefunc("EncounterJournal_ToggleHeaders", SkinAbilitiesInfo)
 
-	--Search Frame [Need to skin the icons]
+	--Search Frame
 	EncounterJournalSearchResultsScrollFrame:StripTextures();
 	EncounterJournalSearchResultsScrollFrameScrollChild:StripTextures();
 
@@ -236,12 +236,19 @@ local function LoadSkin()
 		_G["EncounterJournalSearchResultsScrollFrameButton"..i]:StripTextures();
 		_G["EncounterJournalSearchResultsScrollFrameButton"..i]:SetTemplate("Default")
 		_G["EncounterJournalSearchResultsScrollFrameButton"..i]:StyleButton()
+		_G["EncounterJournalSearchResultsScrollFrameButton"..i.."Icon"]:SetTexCoord(.08, .92, .08, .92)
+		_G["EncounterJournalSearchResultsScrollFrameButton"..i.."Icon"]:Point("TOPLEFT", 1, -6)
+		_G["EncounterJournalSearchResultsScrollFrameButton"..i]:CreateBackdrop()
+		_G["EncounterJournalSearchResultsScrollFrameButton"..i].backdrop:SetOutside(_G["EncounterJournalSearchResultsScrollFrameButton"..i.."Icon"])
+		_G["EncounterJournalSearchResultsScrollFrameButton"..i.."Icon"]:SetParent(_G["EncounterJournalSearchResultsScrollFrameButton"..i].backdrop)
 	end
 
 	for i=1, 5 do
 		_G["EncounterJournalSearchBoxSearchButton"..i]:StripTextures();
-		_G["EncounterJournalSearchBoxSearchButton"..i]:SetTemplate("Default")
 		_G["EncounterJournalSearchBoxSearchButton"..i]:StyleButton()
+		_G["EncounterJournalSearchBoxSearchButton"..i.."Icon"]:SetTexCoord(unpack(E.TexCoords))
+		_G["EncounterJournalSearchBoxSearchButton"..i.."Icon"]:Point("TOPLEFT", 2, -2)
+		_G["EncounterJournalSearchBoxSearchButton"..i]:CreateBackdrop()
 	end
 
 	S:HandleButton(EncounterJournalSearchBoxShowALL)
@@ -257,7 +264,6 @@ local function LoadSkin()
 	S:HandleScrollBar(EncounterJournalEncounterFrameInfoLootScrollFrameScrollBar, 4)
 	S:HandleScrollBar(EncounterJournalEncounterFrameInstanceFrameLoreScrollFrameScrollBar, 4)
 	S:HandleScrollBar(EncounterJournalEncounterFrameInfoBossesScrollFrameScrollBar, 4)
-
 end
 
 S:RegisterSkin('Blizzard_EncounterJournal', LoadSkin)
