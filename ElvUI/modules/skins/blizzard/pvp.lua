@@ -165,7 +165,6 @@ local function LoadSkin()
 	S:HandleButton(WarGameStartButton, true)
 	WarGamesFrame:StripTextures()
 	S:HandleScrollBar(WarGamesFrameScrollFrameScrollBar, 5)
-	WarGamesFrameScrollFrame:CreateBackdrop("Transparent")
 	
 	WarGameStartButton:ClearAllPoints()
 	WarGameStartButton:Point("LEFT", PVPFrameLeftButton, "RIGHT", 2, 0)
@@ -173,6 +172,7 @@ local function LoadSkin()
 
 	for i=1,6 do
 		_G["WarGamesFrameScrollFrameButton"..i.."WarGame"]:StyleButton()
+		_G["WarGamesFrameScrollFrameButton"..i.."WarGame"].selectedTex:SetTexture(1, 1, 1, 0.3)
 	end
 
 	--Freaking gay Cancel Button FFSlocal
