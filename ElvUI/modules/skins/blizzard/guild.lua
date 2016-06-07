@@ -235,12 +235,19 @@ local function LoadSkin()
 	GuildRecruitmentCommentInputFrame:SetTemplate("Default")
 	
 	for _, button in next, GuildInfoFrameApplicantsContainer.buttons do
-		button.selectedTex:Kill()
+		button.selectedTex:SetTexture(1, 1, 1, 0.3)
 		button:GetHighlightTexture():Kill()
 		button:SetBackdrop(nil)
 		button:StyleButton()
 		button:SetTemplate("Transparent")
 	end
+
+	for i=1, 5 do
+		_G["GuildInfoFrameApplicantsContainerButton"..i.."Ring"]:SetAlpha(0)
+		_G["GuildInfoFrameApplicantsContainerButton"..i.."LevelRing"]:SetAlpha(0)
+		_G["GuildInfoFrameApplicantsContainerButton"..i.."LevelRing"]:SetPoint("TOPLEFT", -42, 33)
+	end
+
 
 	--Text Edit Frame
 	GuildTextEditFrame:SetTemplate("Transparent")

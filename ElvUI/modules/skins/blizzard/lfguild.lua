@@ -39,11 +39,19 @@ local function LoadSkin()
 	-- skin container buttons on browse and request page
 	for i = 1, 5 do
 		local b = _G["LookingForGuildBrowseFrameContainerButton"..i]
+		b.selectedTex:SetTexture(1, 1, 1, 0.3)
 		b:SetBackdrop(nil)
 		b:SetTemplate("Transparent")
 		b:StyleButton()
 	end
 	
+	for i = 1, 5 do
+		_G["LookingForGuildBrowseFrameContainerButton"..i.."Ring"]:SetAlpha(0)
+		_G["LookingForGuildBrowseFrameContainerButton"..i.."LevelRing"]:SetAlpha(0)
+		_G["LookingForGuildBrowseFrameContainerButton"..i.."TabardBorder"]:SetAlpha(0)
+		_G["LookingForGuildBrowseFrameContainerButton"..i.."LevelRing"]:SetPoint("TOPLEFT", -42, 33)
+	end
+
 	for i = 1, 10 do
 		local t = _G["LookingForGuildAppsFrameContainerButton"..i]
 		t:SetBackdrop(nil)
