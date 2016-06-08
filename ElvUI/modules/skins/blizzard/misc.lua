@@ -824,6 +824,21 @@ local function LoadSkin()
 	S:HandleButton(GuildInviteFrameJoinButton)
 	S:HandleButton(GuildInviteFrameDeclineButton)
 
+	--Report Player
+	ReportCheatingDialog:StripTextures()
+	ReportCheatingDialog:SetTemplate("Transparent")
+	ReportCheatingDialogCommentFrame:StripTextures()
+	S:HandleEditBox(ReportCheatingDialogCommentFrameEditBox)
+	S:HandleButton(ReportCheatingDialogReportButton)
+	S:HandleButton(ReportCheatingDialogCancelButton)
+
+	ReportPlayerNameDialog:StripTextures()
+	ReportPlayerNameDialog:SetTemplate("Transparent")
+	ReportPlayerNameDialogCommentFrame:StripTextures()
+	S:HandleEditBox(ReportPlayerNameDialogCommentFrameEditBox)
+	S:HandleButton(ReportPlayerNameDialogCancelButton)
+	S:HandleButton(ReportPlayerNameDialogReportButton)
+
 	--Move Pad Frame
 	MovePadFrame:StripTextures()
 	MovePadFrame:SetTemplate("Transparent")
