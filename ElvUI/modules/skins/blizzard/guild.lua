@@ -168,6 +168,7 @@ local function LoadSkin()
 	for i=1, 14 do
 		S:HandleButton(_G["GuildRosterContainerButton"..i.."HeaderButton"], true)
 		_G["GuildRosterContainerButton"..i]:StyleButton()
+		_G["GuildRosterContainerButton"..i.."BarTexture"]:SetTexture(E["media"].normTex)
 	end
 	
 	--Detail Frame
