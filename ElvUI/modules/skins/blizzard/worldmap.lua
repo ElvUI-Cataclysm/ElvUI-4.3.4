@@ -75,13 +75,13 @@ local function LoadSkin()
 		WorldMapFrame.backdrop:Point("BOTTOMRIGHT", WorldMapDetailFrame, "BOTTOMRIGHT", 325, -235)  
 		
 		if not WorldMapQuestDetailScrollFrame.backdrop then
-			WorldMapQuestDetailScrollFrame:CreateBackdrop("Default")
+			WorldMapQuestDetailScrollFrame:CreateBackdrop("Transparent")
 			WorldMapQuestDetailScrollFrame.backdrop:Point("TOPLEFT", -22, 2)
 			WorldMapQuestDetailScrollFrame.backdrop:Point("BOTTOMRIGHT", 23, -4)
 		end
 		
 		if not WorldMapQuestRewardScrollFrame.backdrop then
-			WorldMapQuestRewardScrollFrame:CreateBackdrop("Default")
+			WorldMapQuestRewardScrollFrame:CreateBackdrop("Transparent")
 			WorldMapQuestRewardScrollFrame.backdrop:Point("BOTTOMRIGHT", 22, -4)				
 		end
 		
