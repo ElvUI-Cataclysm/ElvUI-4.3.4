@@ -195,6 +195,8 @@ local function LoadSkin()
 	S:HandleCloseButton(GuildNewsFiltersFrameCloseButton)
 	GuildNewsContainer:SetTemplate("Transparent")
 	
+	GuildNewsFiltersFrameCloseButton:SetPoint("TOPRIGHT", GuildNewsFiltersFrame, "TOPRIGHT", 2, 2)
+
 	for i=1, 7 do
 		S:HandleCheckBox(_G["GuildNewsFilterButton"..i])
 	end

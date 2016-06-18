@@ -34,7 +34,6 @@ local function LoadSkin()
 	--Progress Frame
 	AuctionProgressFrame:StripTextures()
 	AuctionProgressFrame:SetTemplate("Transparent")
-	AuctionProgressFrame:CreateShadow("Default")
 	AuctionProgressFrameCancelButton:StyleButton()
 	AuctionProgressFrameCancelButton:SetTemplate("Default")
 	AuctionProgressFrameCancelButton:SetHitRectInsets(0, 0, 0, 0)
