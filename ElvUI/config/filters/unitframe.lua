@@ -83,7 +83,6 @@ G.unitframe.aurafilters["CCDebuffs"] = {
 	-- Racial
 		[SpellName(25046)] = Defaults(), -- Arcane Torrent
 		[SpellName(20549)] = Defaults(), -- War Stomp
-		
 	-- The Lich King
 		[SpellName(73787)] = Defaults() -- Necrotic Plague
 	}
@@ -94,7 +93,7 @@ G.unitframe.aurafilters["TurtleBuffs"] = {
 	["spells"] = {
 	-- Mage
 		[SpellName(45438)] = Defaults(5), -- Ice Block
-	-- Рыцарь сперти
+	-- Death Knight
 		[SpellName(48707)] = Defaults(5), -- Anti-Magic Shield
 		[SpellName(48792)] = Defaults(), -- Firmness of ice
 		[SpellName(49039)] = Defaults(), -- Degeneration
@@ -157,7 +156,7 @@ G.unitframe.aurafilters["PlayerBuffs"] = {
 		[SpellName(33206)] = Defaults(), -- Pain Suppression
 		[SpellName(47585)] = Defaults(), -- Dispersion
 		[SpellName(47788)] = Defaults(), -- Guardian spirit
-	-- Чернокнижник
+	-- Warlock
 	
 	-- Druid
 	
@@ -224,29 +223,32 @@ G.unitframe.aurafilters["Blacklist"] = {
 G.unitframe.aurafilters["Whitelist"] = {
 	["type"] = "Whitelist",
 	["spells"] = {
-		[SpellName(1022)] = Defaults(), -- Длань защиты
-		[SpellName(1490)] = Defaults(), -- Проклятие стихий
-		[SpellName(2825)] = Defaults(), -- Жажда крови
-		[SpellName(12051)] = Defaults(), -- Прилив сил
-		[SpellName(18708)] = Defaults(), -- Господство Скверны
-		[SpellName(22812)] = Defaults(), -- Дубовая кожа
-		[SpellName(29166)] = Defaults(), -- Озаренье
-		[SpellName(31821)] = Defaults(), -- Мастер аур
-		[SpellName(32182)] = Defaults(), -- Героизм
-		[SpellName(33206)] = Defaults(), -- Подавление боли
-		[SpellName(47788)] = Defaults(), -- Оберегающий дух
-		[SpellName(54428)] = Defaults(), -- Святая клятва
+		[SpellName(1022)] = Defaults(), -- Hand protection
+		[SpellName(1490)] = Defaults(), -- Curse of the elements
+		[SpellName(2825)] = Defaults(), -- Bloodlust
+		[SpellName(12051)] = Defaults(), -- Evocation
+		[SpellName(18708)] = Defaults(), -- Fel Domination
+		[SpellName(22812)] = Defaults(), -- Barkskin
+		[SpellName(29166)] = Defaults(), -- Innervate
+		[SpellName(31821)] = Defaults(), -- Aura Mastery
+		[SpellName(32182)] = Defaults(), -- Heroism
+		[SpellName(33206)] = Defaults(), -- Pain Suppression
+		[SpellName(47788)] = Defaults(), -- Guardian Spirit
+		[SpellName(54428)] = Defaults(), -- Divine Plea
+		[SpellName(90355)] = Defaults(), -- Ancient Hysteria
+		[SpellName(80353)] = Defaults(), -- Time Warp
 	-- Turtling abilities
-		[SpellName(871)] = Defaults(), -- Глухая оборона
-		[SpellName(19263)] = Defaults(), -- Сдерживание
-		[SpellName(31224)] = Defaults(), -- Плащь Теней
-		[SpellName(48707)] = Defaults(), -- Антимагический панцирь
+		[SpellName(871)] = Defaults(), -- Shield Wall
+		[SpellName(19263)] = Defaults(), -- Deterrence
+		[SpellName(31224)] = Defaults(), -- Cloak of Shadows
+		[SpellName(48707)] = Defaults(), -- Anti-Magic shell
 	-- Imm
-		[SpellName(642)] = Defaults(), -- Божественный щит
-		[SpellName(45438)] = Defaults(), -- Ледяная глыба
+		[SpellName(642)] = Defaults(), -- Divine shield
+		[SpellName(45438)] = Defaults(), -- Ice Block
+		[SpellName(96694)] = Defaults(), -- Reflective Shield
 	-- Offensive Shit
-		[SpellName(31884)] = Defaults(), -- Гнев карателя
-		[SpellName(34471)] = Defaults(), -- Зверь внутри
+		[SpellName(31884)] = Defaults(), -- Avenging Wrath
+		[SpellName(34471)] = Defaults(), -- The Beast Within
 	}
 };
 
@@ -261,75 +263,75 @@ G.unitframe.aurafilters["RaidDebuffs"] = {
 	["type"] = "Whitelist",
 	["spells"] = {
 	-- Naxxramas
-		[SpellName(27808)] = Defaults(), -- Ледяной взрыв
-		[SpellName(28408)] = Defaults(), -- Цепи Кел"Тузада
-		[SpellName(32407)] = Defaults(), -- Странная аура
+		[SpellName(27808)] = Defaults(), -- Ice blast
+		[SpellName(28408)] = Defaults(), -- Chains Kel'Thuzad
+		[SpellName(32407)] = Defaults(), -- Strange Aura
 	-- Ulduar
-		[SpellName(66313)] = Defaults(), -- Огненная бомба
-		[SpellName(63134)] = Defaults(), -- Благословение Сары
-		[SpellName(62717)] = Defaults(), -- Шлаковый ковш
-		[SpellName(63018)] = Defaults(), -- Опаляющий свет
-		[SpellName(64233)] = Defaults(), -- Гравитационная бомба
-		[SpellName(63495)] = Defaults(), -- Статический сбой
+		[SpellName(66313)] = Defaults(), -- Fire bomb
+		[SpellName(63134)] = Defaults(), -- Sara Blessing
+		[SpellName(62717)] = Defaults(), -- Slag Pot
+		[SpellName(63018)] = Defaults(), -- Searing Light
+		[SpellName(64233)] = Defaults(), -- Gravity Bomb
+		[SpellName(63495)] = Defaults(), -- Static Disruption
 	-- Trial of the Crusader
-		[SpellName(66406)] = Defaults(), -- Получи снобольда!
-		[SpellName(67574)] = Defaults(), -- Вас преследует Ануб"арак
-		[SpellName(68509)] = Defaults(), -- Пронизывающий холод
-		[SpellName(67651)] = Defaults(), -- Арктическое дыхание
-		[SpellName(68127)] = Defaults(), -- Пламя Легиона
-		[SpellName(67049)] = Defaults(), -- Испепеление плоти
-		[SpellName(66869)] = Defaults(), -- Горящая желчь
-		[SpellName(66823)] = Defaults(), -- Паралитический токсин
+		[SpellName(66406)] = Defaults(), -- Snobolled!
+		[SpellName(67574)] = Defaults(), -- Pursued by Anub'arak
+		[SpellName(68509)] = Defaults(), -- Penetrating Cold
+		[SpellName(67651)] = Defaults(), -- Arctic Breath
+		[SpellName(68127)] = Defaults(), -- Flame Legion
+		[SpellName(67049)] = Defaults(), -- Incinerate Flesh
+		[SpellName(66869)] = Defaults(), -- Burning Bile
+		[SpellName(66823)] = Defaults(), -- Paralytic Toxin
 	-- Icecrown Citadel
-		[SpellName(71224)] = Defaults(), -- Мутировавшая инфекция
-		[SpellName(71822)] = Defaults(), -- Теневой резонанс
-		[SpellName(70447)] = Defaults(), -- Выделение неустойчивого слизнюка
-		[SpellName(72293)] = Defaults(), -- Метка падшего воителя
-		[SpellName(72448)] = Defaults(), -- Руна крови
-		[SpellName(71473)] = Defaults(), -- Сущность Кровавой королевы
-		[SpellName(71624)] = Defaults(), -- Безумный выпад
-		[SpellName(70923)] = Defaults(), -- Неконтролируемое бешенство
-		[SpellName(70588)] = Defaults(), -- Падавление
-		[SpellName(71738)] = Defaults(), -- Коррозия
-		[SpellName(71733)] = Defaults(), -- Кислотный взрыв
-		[SpellName(72108)] = Defaults(), -- Смерть и разложение
-		[SpellName(71289)] = Defaults(), -- Господство над разумом
-		[SpellName(69762)] = Defaults(), -- Освобожденная магия
-		[SpellName(69651)] = Defaults(), -- Ранящий удар
-		[SpellName(69065)] = Defaults(), -- Прокалывание
-		[SpellName(71218)] = Defaults(), -- Губительный газ
-		[SpellName(72442)] = Defaults(), -- Кипящая кровь
-		[SpellName(72769)] = Defaults(), -- Запах крови
-		[SpellName(69279)] = Defaults(), -- Газообразные споры
-		[SpellName(70949)] = Defaults(), -- Сущность Кровавой королевы
-		[SpellName(72151)] = Defaults(), -- Бешеная кровожадность
-		[SpellName(71474)] = Defaults(), -- Бешеная кровожадность
-		[SpellName(71340)] = Defaults(), -- Пакт Омраченных
-		[SpellName(72985)] = Defaults(), -- Роящиеся тени
-		[SpellName(71267)] = Defaults(), -- Роящиеся тени
-		[SpellName(71264)] = Defaults(), -- Роящиеся тени
-		[SpellName(71807)] = Defaults(), -- Ослепительные искры
-		[SpellName(70873)] = Defaults(), -- Изумрудная энергия
-		[SpellName(71283)] = Defaults(), -- Выброс внутренностей
-		[SpellName(69766)] = Defaults(), -- Неустойчивость
-		[SpellName(70126)] = Defaults(), -- Ледяная метка
-		[SpellName(70157)] = Defaults(), -- Ледяной склеп
-		[SpellName(71056)] = Defaults(), -- Ледяное дыхание
-		[SpellName(70106)] = Defaults(), -- Обморожение
-		[SpellName(70128)] = Defaults(), -- Таинственная энергия
-		[SpellName(73785)] = Defaults(), -- Мертвящая чума
-		[SpellName(73779)] = Defaults(), -- Заражение
-		[SpellName(73800)] = Defaults(), -- Визг души
-		[SpellName(73797)] = Defaults(), -- Жнец душ
-		[SpellName(73708)] = Defaults(), -- Осквернение
-		[SpellName(74322)] = Defaults(), -- Жнец душ
+		[SpellName(71224)] = Defaults(), -- Mutated Infection
+		[SpellName(71822)] = Defaults(), -- Shadow Resonance
+		[SpellName(70447)] = Defaults(), -- Isolation of Volatile Ooze
+		[SpellName(72293)] = Defaults(), -- Mark of the Fallen Champion
+		[SpellName(72448)] = Defaults(), -- Rune of Blood
+		[SpellName(71473)] = Defaults(), -- Essence of the Blood Queen
+		[SpellName(71624)] = Defaults(), -- Mad Attack
+		[SpellName(70923)] = Defaults(), -- Uncontrollable Frenzy
+		[SpellName(70588)] = Defaults(), -- Suppression
+		[SpellName(71738)] = Defaults(), -- Corrosion
+		[SpellName(71733)] = Defaults(), -- Acid Burst
+		[SpellName(72108)] = Defaults(), -- Death and Decay
+		[SpellName(71289)] = Defaults(), -- Dominate Mind
+		[SpellName(69762)] = Defaults(), -- Unchained Magic
+		[SpellName(69651)] = Defaults(), -- Wounding Strike
+		[SpellName(69065)] = Defaults(), -- Impaled
+		[SpellName(71218)] = Defaults(), -- Vile Gas
+		[SpellName(72442)] = Defaults(), -- Boiling Blood
+		[SpellName(72769)] = Defaults(), -- Scent of Blood
+		[SpellName(69279)] = Defaults(), -- Gas Spore
+		[SpellName(70949)] = Defaults(), -- Essence of the Blood Queen
+		[SpellName(72151)] = Defaults(), -- Frenzied Bloodthirst
+		[SpellName(71474)] = Defaults(), -- Frenzied Bloodthirst
+		[SpellName(71340)] = Defaults(), -- Pact of the Darkfallen
+		[SpellName(72985)] = Defaults(), -- Swarming Shadows
+		[SpellName(71267)] = Defaults(), -- Swarming Shadows
+		[SpellName(71264)] = Defaults(), -- Swarming Shadows
+		[SpellName(71807)] = Defaults(), -- Glittering Sparks
+		[SpellName(70873)] = Defaults(), -- Emerald Vigor
+		[SpellName(71283)] = Defaults(), -- Gut Spray
+		[SpellName(69766)] = Defaults(), -- Instability
+		[SpellName(70126)] = Defaults(), -- Ice Patch
+		[SpellName(70157)] = Defaults(), -- Ice Tomb
+		[SpellName(71056)] = Defaults(), -- Frost Breath
+		[SpellName(70106)] = Defaults(), -- Chilled to the Bone
+		[SpellName(70128)] = Defaults(), -- Mystic Buffet
+		[SpellName(73785)] = Defaults(), -- Necrotic Plague
+		[SpellName(73779)] = Defaults(), -- Infest
+		[SpellName(73800)] = Defaults(), -- Soul Shriek
+		[SpellName(73797)] = Defaults(), -- Soul Reaper
+		[SpellName(73708)] = Defaults(), -- Desecration
+		[SpellName(74322)] = Defaults(), -- Harvested Soul
 	-- The Ruby ​​Sanctum
-		[SpellName(74502)] = Defaults(), -- Ослабляющее прижигание
-		[SpellName(75887)] = Defaults(), -- Пылающая аура
-		[SpellName(74562)] = Defaults(), -- Пылающий огонь
-		[SpellName(74567)] = Defaults(), -- Метка пылающего огня
-		[SpellName(74792)] = Defaults(), -- Пожирание души
-		[SpellName(74795)] = Defaults(), -- Метка пожирания
+		[SpellName(74502)] = Defaults(), -- Enervating Brand
+		[SpellName(75887)] = Defaults(), -- Blazing Aura
+		[SpellName(74562)] = Defaults(), -- Fiery Combustion
+		[SpellName(74567)] = Defaults(), -- Mark of Combustion
+		[SpellName(74792)] = Defaults(), -- Soul Consumption
+		[SpellName(74795)] = Defaults(), -- Mark of Consumption
 	--Cataclysm
 	--Blackwing Descent
 		--Magmaw
@@ -362,7 +364,6 @@ G.unitframe.aurafilters["RaidDebuffs"] = {
 		[SpellName(88518)] = Defaults(), -- Twilight Meteorite
 		--Halfus Wyrmbreaker
 		[SpellName(39171)] = Defaults(), -- Malevolent Strikes
-
 		--Twilight Ascendant Council
 		[SpellName(92511)] = Defaults(), -- Hydro Lance
 		[SpellName(82762)] = Defaults(), -- Waterlogged
@@ -472,33 +473,33 @@ local function ClassBuff(id, point, color, anyUnit, onlyShowMissing, style, disp
 	["textColor"] = {["r"] = r2, ["g"] = g2, ["b"] = b2}, ["textThreshold"] = textThreshold or -1, ["xOffset"] = xOffset or 0, ["yOffset"] = yOffset or 0};
 end
 
-G.unitframe.buffwatch = { -- Индикатор баффов
+G.unitframe.buffwatch = { -- Indicator Buffs
 	PRIEST = {
 		[6788] = ClassBuff(6788, "TOPLEFT", {1, 0, 0}, true), -- Weakened Soul
 		[10060] = ClassBuff(10060 , "RIGHT", {227/255, 23/255, 13/255}), -- Power Infusion
-		[48066] = ClassBuff(48066, "BOTTOMRIGHT", {0.81, 0.85, 0.1}, true), -- Слово силы: Щит
-		[48068] = ClassBuff(48068, "BOTTOMLEFT", {0.4, 0.7, 0.2}), -- Обновление
-		[48111] = ClassBuff(48111, "TOPRIGHT", {0.2, 0.7, 0.2}), -- Молитва восстановления
+		[48066] = ClassBuff(48066, "BOTTOMRIGHT", {0.81, 0.85, 0.1}, true), -- Power Word: Shield
+		[48068] = ClassBuff(48068, "BOTTOMLEFT", {0.4, 0.7, 0.2}), -- Renew
+		[48111] = ClassBuff(48111, "TOPRIGHT", {0.2, 0.7, 0.2}), -- Prayer of Mending
 	},
 	DRUID = {
-		[48441] = ClassBuff(48441, "TOPRIGHT", {0.8, 0.4, 0.8}), -- Омоложение
-		[48443] = ClassBuff(48443, "BOTTOMLEFT", {0.2, 0.8, 0.2}), -- Востановление
-		[48451] = ClassBuff(48451, "TOPLEFT", {0.4, 0.8, 0.2}), -- Жизнецвет
-		[53251] = ClassBuff(53251, "BOTTOMRIGHT", {0.8, 0.4, 0}), -- Буйный рост
+		[48441] = ClassBuff(48441, "TOPRIGHT", {0.8, 0.4, 0.8}), -- Rejuvenation
+		[48443] = ClassBuff(48443, "BOTTOMLEFT", {0.2, 0.8, 0.2}), -- Regrowth
+		[48451] = ClassBuff(48451, "TOPLEFT", {0.4, 0.8, 0.2}), -- Lifebloom
+		[53251] = ClassBuff(53251, "BOTTOMRIGHT", {0.8, 0.4, 0}), -- Wild Growth
 	},
 	PALADIN = {
 		[1038] = ClassBuff(1038, "BOTTOMRIGHT", {238/255, 201/255, 0}, true), -- Hand of Salvation
 		[1044] = ClassBuff(1044, "BOTTOMRIGHT", {221/255, 117/255, 0}, true), -- Hand of Freedom
 		[6940] = ClassBuff(6940, "BOTTOMRIGHT", {227/255, 23/255, 13/255}, true), -- Hand of Sacrafice
-		[10278] = ClassBuff(10278, "BOTTOMRIGHT", {0.2, 0.2, 1}, true), -- Длань защиты
+		[10278] = ClassBuff(10278, "BOTTOMRIGHT", {0.2, 0.2, 1}, true), -- Hand of Protection
 		[53563] = ClassBuff(53563, "TOPLEFT", {0.7, 0.3, 0.7}), -- Beacon of Light
-		[53601] = ClassBuff(53601, "TOPRIGHT", {0.4, 0.7, 0.2}), -- Священный щит
+		[53601] = ClassBuff(53601, "TOPRIGHT", {0.4, 0.7, 0.2}), -- Sacred Shield
 	},
 	SHAMAN = {
-		[16237] = ClassBuff(16237, "BOTTOMLEFT", {0.4, 0.7, 0.2}), -- Стойкость предков
-		[49284] = ClassBuff(49284, "TOPRIGHT", {0.2, 0.7, 0.2}), -- Щит земли
-		[52000] = ClassBuff(52000, "BOTTOMRIGHT", {0.7, 0.4, 0}), -- Жизнь земли
-		[61301] = ClassBuff(61301, "TOPLEFT", {0.7, 0.3, 0.7}), -- Быстрина
+		[16237] = ClassBuff(16237, "BOTTOMLEFT", {0.4, 0.7, 0.2}), -- Ancestral Fortitude
+		[49284] = ClassBuff(49284, "TOPRIGHT", {0.2, 0.7, 0.2}), -- Earth Shield
+		[52000] = ClassBuff(52000, "BOTTOMRIGHT", {0.7, 0.4, 0}), -- Earth Life
+		[61301] = ClassBuff(61301, "TOPLEFT", {0.7, 0.3, 0.7}), -- Riptide
 	},
 	ROGUE = {
 		[57933] = ClassBuff(57933, "TOPRIGHT", {227/255, 23/255, 13/255}), -- Tricks of the Trade
@@ -558,43 +559,43 @@ G.unitframe.DebuffHighlightColors = {
 
 G.oldBuffWatch = {
 	PRIEST = {
-		ClassBuff(6788, "TOPLEFT", {1, 0, 0}, true), -- Ослабленная душа
-		ClassBuff(10060 , "RIGHT", {227/255, 23/255, 13/255}), -- Придание сил
-		ClassBuff(48066, "BOTTOMRIGHT", {0.81, 0.85, 0.1}, true), -- Слово силы: Щит
-		ClassBuff(48068, "BOTTOMLEFT", {0.4, 0.7, 0.2}), -- Обновление
-		ClassBuff(48111, "TOPRIGHT", {0.2, 0.7, 0.2}), -- Молитва восстановления
+		ClassBuff(6788, "TOPLEFT", {1, 0, 0}, true), -- Weakened Soul
+		ClassBuff(10060 , "RIGHT", {227/255, 23/255, 13/255}), -- Power Infusion
+		ClassBuff(48066, "BOTTOMRIGHT", {0.81, 0.85, 0.1}, true), -- Power Word: Shield
+		ClassBuff(48068, "BOTTOMLEFT", {0.4, 0.7, 0.2}), -- Renew
+		ClassBuff(48111, "TOPRIGHT", {0.2, 0.7, 0.2}), -- Prayer of Mending
 	},
 	DRUID = {
-		ClassBuff(48441, "TOPRIGHT", {0.8, 0.4, 0.8}), -- Омоложение
-		ClassBuff(48443, "BOTTOMLEFT", {0.2, 0.8, 0.2}), -- Востановление
-		ClassBuff(48451, "TOPLEFT", {0.4, 0.8, 0.2}), -- Жизнецвет
-		ClassBuff(53251, "BOTTOMRIGHT", {0.8, 0.4, 0}), -- Буйный рост
+		ClassBuff(48441, "TOPRIGHT", {0.8, 0.4, 0.8}), -- Rejuvenation
+		ClassBuff(48443, "BOTTOMLEFT", {0.2, 0.8, 0.2}), -- Regrowth
+		ClassBuff(48451, "TOPLEFT", {0.4, 0.8, 0.2}), -- Lifebloom
+		ClassBuff(53251, "BOTTOMRIGHT", {0.8, 0.4, 0}), -- Wild Growth
 	},
 	PALADIN = {
-		ClassBuff(1038, "BOTTOMRIGHT", {238/255, 201/255, 0}, true), -- Длань спасения
-		ClassBuff(1044, "BOTTOMRIGHT", {221/255, 117/255, 0}, true), -- Длань свободы
-		ClassBuff(6940, "BOTTOMRIGHT", {227/255, 23/255, 13/255}, true), -- Длань жертвенности
-		ClassBuff(10278, "BOTTOMRIGHT", {0.2, 0.2, 1}, true), -- Длань защиты
-		ClassBuff(53563, "TOPLEFT", {0.7, 0.3, 0.7}), -- Частица Света
-		ClassBuff(53601, "TOPRIGHT", {0.4, 0.7, 0.2}), -- Священный щит
+		ClassBuff(1038, "BOTTOMRIGHT", {238/255, 201/255, 0}, true), -- Hand of Salvation
+		ClassBuff(1044, "BOTTOMRIGHT", {221/255, 117/255, 0}, true), -- Hand of Freedom
+		ClassBuff(6940, "BOTTOMRIGHT", {227/255, 23/255, 13/255}, true), -- Hand of Sacrafice
+		ClassBuff(10278, "BOTTOMRIGHT", {0.2, 0.2, 1}, true), -- Hand of Protection
+		ClassBuff(53563, "TOPLEFT", {0.7, 0.3, 0.7}), -- Beacon of Light
+		ClassBuff(53601, "TOPRIGHT", {0.4, 0.7, 0.2}), -- Sacred Shield
 	},
 	SHAMAN = {
-		ClassBuff(16237, "BOTTOMLEFT", {0.4, 0.7, 0.2}), -- Стойкость предков
-		ClassBuff(49284, "TOPRIGHT", {0.2, 0.7, 0.2}), -- Щит земли
-		ClassBuff(52000, "BOTTOMRIGHT", {0.7, 0.4, 0}), -- Жизнь земли
-		ClassBuff(61301, "TOPLEFT", {0.7, 0.3, 0.7}), -- Быстрина
+		ClassBuff(16237, "BOTTOMLEFT", {0.4, 0.7, 0.2}), -- Ancestral Fortitude
+		ClassBuff(49284, "TOPRIGHT", {0.2, 0.7, 0.2}), -- Earth Shield
+		ClassBuff(52000, "BOTTOMRIGHT", {0.7, 0.4, 0}), -- Earth Life
+		ClassBuff(61301, "TOPLEFT", {0.7, 0.3, 0.7}), -- Riptide
 	},
 	ROGUE = {
-		ClassBuff(57933, "TOPRIGHT", {227/255, 23/255, 13/255}), -- Маленькие хитрости
+		ClassBuff(57933, "TOPRIGHT", {227/255, 23/255, 13/255}), -- Tricks of the Trade
 	},
 	MAGE = {
-		ClassBuff(54646, "TOPRIGHT", {0.2, 0.2, 1}), -- Магическая консетрация
+		ClassBuff(54646, "TOPRIGHT", {0.2, 0.2, 1}), -- Focus Magic
 	},
 	WARRIOR = {
-		ClassBuff(3411, "TOPRIGHT", {227/255, 23/255, 13/255}), -- Вмешательство
-		ClassBuff(59665, "TOPLEFT", {0.2, 0.2, 1}), -- Бдительность
+		ClassBuff(3411, "TOPRIGHT", {227/255, 23/255, 13/255}), -- Intervene
+		ClassBuff(59665, "TOPLEFT", {0.2, 0.2, 1}), -- Vigilance
 	},
 	DEATHKNIGHT = {
-		ClassBuff(49016, "TOPRIGHT", {227/255, 23/255, 13/255}) -- Истерия
+		ClassBuff(49016, "TOPRIGHT", {227/255, 23/255, 13/255}) -- Hysteria
 	}
 };
