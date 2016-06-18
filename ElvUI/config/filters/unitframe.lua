@@ -215,7 +215,7 @@ G.unitframe.aurafilters["Blacklist"] = {
 		[SpellName(23445)] = Defaults(), -- Evil twin
 		[SpellName(24755)] = Defaults(), -- Trick or Treat
 		[SpellName(25163)] = Defaults(), -- Oozeling Disgusting Aura
-		[SpellName(80354)] = Defaults(), -- Timewarp 
+		[SpellName(80354)] = Defaults(), -- Timewarp
 		[SpellName(95223)] = Defaults() -- Group Res
 	}
 };
@@ -241,7 +241,8 @@ G.unitframe.aurafilters["Whitelist"] = {
 		[SpellName(871)] = Defaults(), -- Shield Wall
 		[SpellName(19263)] = Defaults(), -- Deterrence
 		[SpellName(31224)] = Defaults(), -- Cloak of Shadows
-		[SpellName(48707)] = Defaults(), -- Anti-Magic shell
+		[SpellName(48707)] = Defaults(), -- Anti-Magic Shell
+		[SpellName(47585)] = Defaults(), -- Dispersion
 	-- Imm
 		[SpellName(642)] = Defaults(), -- Divine shield
 		[SpellName(45438)] = Defaults(), -- Ice Block
