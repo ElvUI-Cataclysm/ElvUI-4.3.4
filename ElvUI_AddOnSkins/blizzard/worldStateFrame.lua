@@ -29,7 +29,7 @@ function addon:Blizzard_WorldStateFrame(...)
 		
 		bar.rightBarIcon = bar:CreateTexture("$parentRightBarIcon", "ARTWORK");
 		bar.rightBarIcon:SetTexture("Interface\\AddOns\\ElvUI_AddOnSkins\\media\\horde");
-		bar.rightBarIcon:SetPoint("LEFT", bar, "RIGHT", 0, 0);
+		bar.rightBarIcon:SetPoint("LEFT", bar, "RIGHT", -4, 0);
 		bar.rightBarIcon:SetSize(32, 32);
 		
 		_G["WorldStateCaptureBar"..id.."MiddleBar"]:SetSize(25, 16);

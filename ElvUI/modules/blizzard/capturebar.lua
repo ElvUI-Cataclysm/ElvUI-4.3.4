@@ -10,7 +10,7 @@ function B:WorldStateAlwaysUpFrame_Update()
 		_G["WorldStateCaptureBar" .. i]:SetScale(0.9)
 		if(captureBar and captureBar:IsShown()) then
 			captureBar:ClearAllPoints();
-			captureBar:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -30, -235);
+			captureBar:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -25, -235);
 		end
 	end
 end
