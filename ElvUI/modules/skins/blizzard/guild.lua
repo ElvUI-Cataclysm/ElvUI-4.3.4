@@ -161,6 +161,7 @@ local function LoadSkin()
 	
 	for i=1, 4 do
 		_G["GuildRosterColumnButton"..i]:StripTextures(true)
+		_G["GuildRosterColumnButton"..i]:StyleButton()
 	end
 	
 	S:HandleDropDownBox(GuildRosterViewDropdown, 200)

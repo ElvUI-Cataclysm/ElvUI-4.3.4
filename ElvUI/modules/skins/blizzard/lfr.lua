@@ -18,8 +18,8 @@ local function LoadSkin()
 		_G[button.."Left"]:Kill()
 		_G[button.."Middle"]:Kill()
 		_G[button.."Right"]:Kill()
-	end		
-	
+	end
+
 	for i=1, NUM_LFR_CHOICE_BUTTONS do
 		local button = _G["LFRQueueFrameSpecificListButton"..i]
 		S:HandleCheckBox(button.enableButton)
@@ -134,6 +134,10 @@ local function LoadSkin()
 		end
 	end
 	
+	for i=1, 7 do
+		_G["LFRBrowseFrameColumnHeader"..i]:StyleButton()
+	end
+
 	S:HandleButton(RaidFinderQueueFrameIneligibleFrameLeaveQueueButton)
 	S:HandleButton(LFRQueueFrameNoLFRWhileLFDLeaveQueueButton)
 	S:HandleCloseButton(RaidParentFrameCloseButton)
