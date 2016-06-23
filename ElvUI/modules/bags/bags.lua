@@ -46,9 +46,7 @@ local UseContainerItem = UseContainerItem;
 local PickupMerchantItem = PickupMerchantItem;
 local IsShiftKeyDown, IsControlKeyDown = IsShiftKeyDown, IsControlKeyDown;
 local StaticPopup_Show = StaticPopup_Show;
-local GetKeyRingSize = GetKeyRingSize;
 local SEARCH = SEARCH;
-local KEYRING_CONTAINER = KEYRING_CONTAINER;
 local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES;
 local MAX_CONTAINER_ITEMS = MAX_CONTAINER_ITEMS;
 local TEXTURE_ITEM_QUEST_BANG = TEXTURE_ITEM_QUEST_BANG;
@@ -179,22 +177,6 @@ function B:SetSearch(query)
 					SetItemButtonDesaturated(button, 1);
 					button:SetAlpha(0.4);
 				end
-			end
-		end
-	end
-	
-	if(ElvUIKeyFrameItem1) then
-		local numKey = GetKeyRingSize();
-		for slotID = 1, numKey do
-			local _, _, _, _, _, _, link = GetContainerItemInfo(KEYRING_CONTAINER, slotID);
-			local button = _G["ElvUIKeyFrameItem"..slotID];
-			local success, result = pcall(Search.Matches, Search, link, query);
-			if(empty or (success and result)) then
-				SetItemButtonDesaturated(button);
-				button:SetAlpha(1);
-			else
-				SetItemButtonDesaturated(button, 1);
-				button:SetAlpha(0.4);
 			end
 		end
 	end
@@ -555,105 +537,10 @@ function B:Layout(isBank)
 		end
 	end
 	
-	local numKey = GetKeyRingSize();
-	local numKeyColumns = 6;
-	if(not isBank) then
-		local totalSlots = 0
-		local lastRowButton
-		local numKeyRows = 1
-		for i = 1, numKey do
-			totalSlots = totalSlots + 1;
-			
-			if(not f.keyFrame.slots[i]) then
-				f.keyFrame.slots[i] = CreateFrame("CheckButton", "ElvUIKeyFrameItem"..i, f.keyFrame, "ContainerFrameItemButtonTemplate");
-				f.keyFrame.slots[i]:StyleButton(nil, nil, true);
-				f.keyFrame.slots[i]:SetTemplate("Default", true);
-				f.keyFrame.slots[i]:SetNormalTexture(nil);
-				f.keyFrame.slots[i]:SetID(i);
-				
-				f.keyFrame.slots[i].cooldown = _G[f.keyFrame.slots[i]:GetName()..'Cooldown'];
-				E:RegisterCooldown(f.keyFrame.slots[i].cooldown)
-				
-				f.keyFrame.slots[i].iconTexture = _G[f.keyFrame.slots[i]:GetName()..'IconTexture'];
-				f.keyFrame.slots[i].iconTexture:SetInside(f.keyFrame.slots[i]);
-				f.keyFrame.slots[i].iconTexture:SetTexCoord(unpack(E.TexCoords));
-			end
-			
-			f.keyFrame.slots[i]:ClearAllPoints()
-			f.keyFrame.slots[i]:Size(buttonSize)
-			if(f.keyFrame.slots[i-1]) then
-				if(totalSlots - 1) % numKeyColumns == 0 then
-					f.keyFrame.slots[i]:Point('TOP', lastRowButton, 'BOTTOM', 0, -buttonSpacing);
-					lastRowButton = f.keyFrame.slots[i];
-					numKeyRows = numKeyRows + 1;
-				else
-					f.keyFrame.slots[i]:Point("RIGHT", f.keyFrame.slots[i-1], "LEFT", -buttonSpacing, 0);
-				end
-			else
-				f.keyFrame.slots[i]:Point("TOPRIGHT", f.keyFrame, "TOPRIGHT", -buttonSpacing, -buttonSpacing);
-				lastRowButton = f.keyFrame.slots[i]
-			end
-
-			self:UpdateKeySlot(i)
-		end
-		
-		if(numKey < numKeyColumns) then
-			numKeyColumns = numKey;
-		end
-		f.keyFrame:Size(((buttonSize + buttonSpacing) * numKeyColumns) + buttonSpacing, ((buttonSize + buttonSpacing) * numKeyRows) + buttonSpacing);
-	end
-	
 	f:Size(containerWidth, (((buttonSize + buttonSpacing) * numContainerRows) - buttonSpacing) + f.topOffset + f.bottomOffset); -- 8 is the cussion of the f.holderFrame
 end
 
-function B:UpdateKeySlot(slotID)
-	assert(slotID)
-	local bagID = KEYRING_CONTAINER
-	local texture, count, locked = GetContainerItemInfo(bagID, slotID);
-	local clink = GetContainerItemLink(bagID, slotID);
-	local slot = _G["ElvUIKeyFrameItem"..slotID]
-	if not slot then return; end
-	
-	slot:Show();
-	slot.name, slot.rarity = nil, nil;
-	
-	local start, duration, enable = GetContainerItemCooldown(bagID, slotID)
-	CooldownFrame_SetTimer(slot.cooldown, start, duration, enable)
-	if(duration > 0 and enable == 0) then
-		SetItemButtonTextureVertexColor(slot, 0.4, 0.4, 0.4);
-	else
-		SetItemButtonTextureVertexColor(slot, 1, 1, 1);
-	end
-	
-	if(clink) then
-		local itemEquipLoc;
-		slot.name, _, slot.rarity, _, _, _, _, _, itemEquipLoc = GetItemInfo(clink);
-		
-		local isQuestItem, questId, isActiveQuest = GetContainerItemQuestInfo(bagID, slotID);
-		local r, g, b;
-		
-		if(slot.rarity) then
-			r, g, b = GetItemQualityColor(slot.rarity);
-		end
-		
-		-- color slot according to item quality
-		if questId and not isActive then
-			slot:SetBackdropBorderColor(1.0, 0.3, 0.3);
-		elseif questId or isQuestItem then
-			slot:SetBackdropBorderColor(1.0, 0.3, 0.3);
-		elseif slot.rarity and slot.rarity > 1 then
-			slot:SetBackdropBorderColor(r, g, b);
-		else
-			slot:SetBackdropBorderColor(unpack(E.media.bordercolor));
-		end
-	else
-		slot:SetBackdropBorderColor(unpack(E.media.bordercolor));
-	end
-	
-	SetItemButtonTexture(slot, texture);
-	SetItemButtonCount(slot, count);
-	SetItemButtonDesaturated(slot, locked, 0.5, 0.5, 0.5);
-end
+
 
 function B:UpdateAll()
 	if self.BagFrame then
@@ -668,19 +555,9 @@ end
 function B:OnEvent(event, ...)
 	if event == 'ITEM_LOCK_CHANGED' or event == 'ITEM_UNLOCKED' then
 		local bag, slot = ...
-		if bag == KEYRING_CONTAINER then
-			B:UpdateKeySlot(slot);
-		else
-			self:UpdateSlot(...);
-		end
+		self:UpdateSlot(...);
 	elseif event == 'BAG_UPDATE' then
 		local bag = ...
-		if(bag == KEYRING_CONTAINER) then
-			for slotID = 1, GetKeyRingSize() do
-				B:UpdateKeySlot(slotID);
-			end
-		end
-		
 		for _, bagID in ipairs(self.BagIDs) do
 			local numSlots = GetContainerNumSlots(bagID)
 			if (not self.Bags[bagID] and numSlots ~= 0) or (self.Bags[bagID] and numSlots ~= self.Bags[bagID].numSlots) then
@@ -994,12 +871,6 @@ function B:ContructContainerFrame(name, isBank)
 		f.editBox.searchIcon:SetPoint('LEFT', f.editBox.backdrop, 'LEFT', E.Border + 1, -1);
 		f.editBox.searchIcon:SetSize(15, 15);
 	else
-		f.keyFrame = CreateFrame("Frame", name..'KeyFrame', f)
-		f.keyFrame:SetPoint("TOPRIGHT", f, "TOPLEFT", -(E.PixelMode and 1 or 3), 0);
-		f.keyFrame:SetTemplate("Transparent");
-		f.keyFrame:SetID(KEYRING_CONTAINER);
-		f.keyFrame.slots = {};
-		f.keyFrame:Hide();
 		
 		f.goldText = f:CreateFontString(nil, 'OVERLAY');
 		f.goldText:FontTemplate();
@@ -1022,26 +893,10 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton:SetScript('OnLeave', self.Tooltip_Hide);
 		f.sortButton:SetScript('OnClick', function() B:CommandDecorator(B.SortBags, 'bags')(); end);
 		
-		f.keyButton = CreateFrame('Button', name..'KeyButton', f);
-		f.keyButton:SetSize(16 + E.Border, 16 + E.Border);
-		f.keyButton:SetTemplate();
-		f.keyButton:SetPoint('RIGHT', f.sortButton, 'LEFT', -5, 0);
-		f.keyButton:SetNormalTexture('Interface\\ICONS\\INV_Misc_Key_14');
-		f.keyButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
-		f.keyButton:GetNormalTexture():SetInside();
-		f.keyButton:SetPushedTexture('Interface\\ICONS\\INV_Misc_Key_14');
-		f.keyButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords));
-		f.keyButton:GetPushedTexture():SetInside();
-		f.keyButton:StyleButton(nil, true);
-		f.keyButton.ttText = L['Toggle Key'];
-		f.keyButton:SetScript('OnEnter', self.Tooltip_Show);
-		f.keyButton:SetScript('OnLeave', self.Tooltip_Hide);
-		f.keyButton:SetScript("OnClick", function() ToggleFrame(f.keyFrame); end);
-		
 		f.bagsButton = CreateFrame('Button', name..'BagsButton', f);
 		f.bagsButton:SetSize(16 + E.Border, 16 + E.Border);
 		f.bagsButton:SetTemplate();
-		f.bagsButton:SetPoint('RIGHT', f.keyButton, 'LEFT', -5, 0);
+		f.bagsButton:SetPoint('RIGHT', f.sortButton, 'LEFT', -5, 0);
 		f.bagsButton:SetNormalTexture('Interface\\Buttons\\Button-Backpack-Up');
 		f.bagsButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
 		f.bagsButton:GetNormalTexture():SetInside();

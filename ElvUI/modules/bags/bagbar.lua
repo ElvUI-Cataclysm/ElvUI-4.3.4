@@ -8,17 +8,7 @@ local tinsert = table.insert;
 local CreateFrame = CreateFrame;
 local NUM_BAG_FRAMES = NUM_BAG_FRAMES;
 
-local TOTAL_BAGS = NUM_BAG_FRAMES + 2;
-
-local ElvUIKeyRing = CreateFrame('Button', 'ElvUIKeyRingButton', UIParent, 'ItemButtonTemplate');
-ElvUIKeyRing:RegisterForClicks('anyUp');
-ElvUIKeyRing:StripTextures();
-ElvUIKeyRing:SetScript('OnClick', function() if CursorHasItem() then PutKeyInKeyRing(); else ToggleKeyRing(); end end)
-ElvUIKeyRing:SetScript('OnReceiveDrag', function() if CursorHasItem() then PutKeyInKeyRing(); end end)
-ElvUIKeyRing:SetScript('OnEnter', function(self) GameTooltip:SetOwner(self, 'ANCHOR_LEFT'); local color = HIGHLIGHT_FONT_COLOR; GameTooltip:SetText(KEYRING, color.r, color.g, color.b); GameTooltip:AddLine(); end)
-ElvUIKeyRing:SetScript('OnLeave', function() GameTooltip:Hide(); end)
-_G[ElvUIKeyRing:GetName()..'IconTexture']:SetTexture('Interface\\ContainerFrame\\KeyRing-Bag-Icon')
-_G[ElvUIKeyRing:GetName()..'IconTexture']:SetTexCoord(unpack(E.TexCoords))
+local TOTAL_BAGS = NUM_BAG_FRAMES + 1;
 
 local function OnEnter()
 	if E.db.bags.bagBar.mouseover ~= true then return; end
@@ -57,9 +47,6 @@ function B:SizeAndPositionBagBar()
 	else
 		ElvUIBags.backdrop:Hide();
 	end
-	
-	ElvUIKeyRingButton:Size(E.db.bags.bagBar.size);
-	ElvUIKeyRingButton:ClearAllPoints();
 	
 	for i=1, #ElvUIBags.buttons do
 		local button = ElvUIBags.buttons[i];
@@ -137,14 +124,6 @@ function B:LoadBagBar()
 		self:SkinBag(b);
 		tinsert(ElvUIBags.buttons, b);
 	end
-	
-	ElvUIKeyRingButton:CreateBackdrop();
-	ElvUIKeyRingButton.backdrop:SetAllPoints();
-	ElvUIKeyRingButton:SetParent(ElvUIBags);
-	ElvUIKeyRingButton.SetParent = E.dummy;
-	ElvUIKeyRingButton:HookScript('OnEnter', OnEnter);
-	ElvUIKeyRingButton:HookScript('OnLeave', OnLeave);
-	tinsert(ElvUIBags.buttons, ElvUIKeyRingButton);
 	
 	self:SizeAndPositionBagBar();
 	E:CreateMover(ElvUIBags, 'BagsMover', L['Bags']);
