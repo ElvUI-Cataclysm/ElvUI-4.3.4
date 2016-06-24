@@ -7,7 +7,7 @@ local function LoadSkin()
 	MailFrame:CreateBackdrop("Transparent")
 	MailFrame.backdrop:Point("TOPLEFT", 4, 0)
 	MailFrame.backdrop:Point("BOTTOMRIGHT", 2, 74)
-	MailFrame:SetWidth(350)
+	MailFrame:SetWidth(345)
 
 	for i = 1, INBOXITEMS_TO_DISPLAY do
 		local bg = _G["MailItem"..i]

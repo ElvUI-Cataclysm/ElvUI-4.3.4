@@ -78,9 +78,17 @@ local function LoadSkin()
 	CalendarCreateEventInviteList:SetTemplate("Transparent")
 	
 	S:HandleEditBox(CalendarCreateEventInviteEdit)
+
 	S:HandleEditBox(CalendarCreateEventTitleEdit)
+	CalendarCreateEventTitleEdit:ClearAllPoints()
+	CalendarCreateEventTitleEdit:SetPoint("TOPLEFT", CalendarCreateEventFrame, "TOPLEFT", 23, -90)
+	CalendarCreateEventTitleEdit:Width(170)
+	CalendarCreateEventTitleEdit:Height(20)
+
 	S:HandleDropDownBox(CalendarCreateEventTypeDropDown, 120)
-	
+	CalendarCreateEventTypeDropDown:ClearAllPoints()
+	CalendarCreateEventTypeDropDown:SetPoint("TOPRIGHT", CalendarCreateEventFrame, "TOPRIGHT", -10, -87)
+
 	CalendarCreateEventDescriptionContainer:StripTextures()
 	CalendarCreateEventDescriptionContainer:SetTemplate("Default")
 	
@@ -96,7 +104,7 @@ local function LoadSkin()
 	CalendarCreateEventIcon.SetTexCoord = E.noop
 	
 	CalendarCreateEventInviteListSection:StripTextures()
-	
+
 	CalendarClassButtonContainer:HookScript("OnShow", function()
 		for i, class in ipairs(CLASS_SORT_ORDER) do
 			local button = _G["CalendarClassButton"..i]
@@ -122,7 +130,7 @@ local function LoadSkin()
 	CalendarTexturePickerFrame:Point("TOPRIGHT", CalendarFrame, "TOPRIGHT", 633, 0)
 	CalendarTexturePickerScrollFrame:CreateBackdrop("Transparent")
 
-	for i=1, 15 do
+	for i=1, 16 do
 		_G["CalendarTexturePickerScrollFrameButton"..i]:StyleButton()
 	end
 
@@ -131,7 +139,15 @@ local function LoadSkin()
 	S:HandleButton(CalendarTexturePickerCancelButton, true)
 	S:HandleButton(CalendarCreateEventInviteButton, true)
 	S:HandleButton(CalendarCreateEventRaidInviteButton, true)
-	
+
+	CalendarTexturePickerScrollBar:Point("RIGHT", 28, 0)
+	CalendarTexturePickerAcceptButton:SetWidth(110)
+	CalendarTexturePickerAcceptButton:ClearAllPoints()
+	CalendarTexturePickerAcceptButton:SetPoint("RIGHT", CalendarTexturePickerCancelButton, "LEFT", -20, 0)
+	CalendarTexturePickerCancelButton:SetWidth(110)
+	CalendarTexturePickerCancelButton:ClearAllPoints()
+	CalendarTexturePickerCancelButton:SetPoint("BOTTOMRIGHT", CalendarTexturePickerFrame, "BOTTOMRIGHT", -30, 7)
+
 	--Mass Invite Frame
 	CalendarMassInviteFrame:StripTextures()
 	CalendarMassInviteFrame:SetTemplate("Transparent")
