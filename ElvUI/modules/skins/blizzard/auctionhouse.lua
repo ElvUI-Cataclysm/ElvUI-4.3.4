@@ -82,7 +82,7 @@ local function LoadSkin()
 	for _, button in pairs(buttons) do
 		S:HandleButton(_G[button])
 	end
-	
+
 	--Fix Button Positions
 	AuctionsCloseButton:Point("BOTTOMRIGHT", AuctionFrameAuctions, "BOTTOMRIGHT", 66, 10)
 	AuctionsCancelAuctionButton:Point("RIGHT", AuctionsCloseButton, "LEFT", -4, 0)
@@ -127,6 +127,7 @@ local function LoadSkin()
 		_G[sorttab.."Left"]:Kill()
 		_G[sorttab.."Middle"]:Kill()
 		_G[sorttab.."Right"]:Kill()
+		_G[sorttab]:StyleButton()
 	end
 	
 	for i=1, 3 do
@@ -174,51 +175,60 @@ local function LoadSkin()
 	for i=1, NUM_BROWSE_TO_DISPLAY do
 		local button = _G["BrowseButton"..i]
 		local icon = _G["BrowseButton"..i.."Item"]
+		local name = _G["BrowseButton"..i.."Name"];
 		
-		if _G["BrowseButton"..i.."ItemIconTexture"] then
-			_G["BrowseButton"..i.."ItemIconTexture"]:SetTexCoord(unpack(E.TexCoords))
-			_G["BrowseButton"..i.."ItemIconTexture"]:ClearAllPoints()
-			_G["BrowseButton"..i.."ItemIconTexture"]:Point("TOPLEFT", 2, -2)
-			_G["BrowseButton"..i.."ItemIconTexture"]:Point("BOTTOMRIGHT", -2, 2)
+		_G["BrowseButton"..i.."ItemIconTexture"]:SetTexCoord(unpack(E.TexCoords));
+		_G["BrowseButton"..i.."ItemIconTexture"]:SetInside();
+		
+		if(icon) then
+			icon:StyleButton();
+			icon:GetNormalTexture():SetTexture("");
+			icon:SetTemplate("Default");
+			
+			hooksecurefunc(name, "SetVertexColor", function(self, r, g, b)
+				if(r == 1 and g == 1 and b == 1) then
+					icon:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+				else
+					icon:SetBackdropBorderColor(r, g, b);
+				end
+			end);
+			hooksecurefunc(name, "Hide", function(self, r, g, b)
+				icon:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+			end);
 		end
 		
-		if icon then
-			icon:StyleButton()
-			--TODO: Find a better method to ensure that the icon:GetNormalTexture doesn't return after clicking
-			icon:HookScript("OnUpdate", function() icon:GetNormalTexture():Kill() end)
-		
-			icon:CreateBackdrop("Default")
-			icon.backdrop:SetAllPoints()
-		end
-		
-		if button then
-			button:StripTextures()
-			button:StyleButton()
-			_G["BrowseButton"..i.."Highlight"] = button:GetHighlightTexture()
-			button:GetHighlightTexture():ClearAllPoints()
-			button:GetHighlightTexture():Point("TOPLEFT", icon, "TOPRIGHT", 2, 0)
-			button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -2, 5)
-			button:GetPushedTexture():SetAllPoints(button:GetHighlightTexture())
-		end
+		button:StripTextures();
+		button:StyleButton();
+		_G["BrowseButton"..i.."Highlight"] = button:GetHighlightTexture();
+		button:GetHighlightTexture():ClearAllPoints();
+		button:GetHighlightTexture():Point("TOPLEFT", icon, "TOPRIGHT", 2, 0);
+		button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -2, 5);
+		button:GetPushedTexture():SetAllPoints(button:GetHighlightTexture());
 	end
 	
 	for i=1, NUM_AUCTIONS_TO_DISPLAY do
 		local button = _G["AuctionsButton"..i]
 		local icon = _G["AuctionsButton"..i.."Item"]
+		local name = _G["AuctionsButton"..i.."Name"];
 		
 		_G["AuctionsButton"..i.."ItemIconTexture"]:SetTexCoord(unpack(E.TexCoords))
-		_G["AuctionsButton"..i.."ItemIconTexture"].SetTexCoord = E.noop
-		_G["AuctionsButton"..i.."ItemIconTexture"]:ClearAllPoints()
-		_G["AuctionsButton"..i.."ItemIconTexture"]:Point("TOPLEFT", 2, -2)
-		_G["AuctionsButton"..i.."ItemIconTexture"]:Point("BOTTOMRIGHT", -2, 2)
+		_G["AuctionsButton"..i.."ItemIconTexture"]:SetInside()
 		
-		icon:StyleButton()
-		--TODO: Find a better method to ensure that the icon:GetNormalTexture doesn't return after clicking
-		icon:HookScript("OnUpdate", function() icon:GetNormalTexture():Kill() end)
+		icon:StyleButton();
+		icon:GetNormalTexture():SetTexture("");
+		icon:SetTemplate("Default");
 		
-		icon:CreateBackdrop("Default")
-		icon.backdrop:SetAllPoints()
-
+		hooksecurefunc(name, "SetVertexColor", function(self, r, g, b)
+			if(r == 1 and g == 1 and b == 1) then
+				icon:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+			else
+				icon:SetBackdropBorderColor(r, g, b);
+			end
+		end);
+		hooksecurefunc(name, "Hide", function(self, r, g, b)
+			icon:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+		end);
+		
 		button:StripTextures()
 		button:StyleButton()
 		_G["AuctionsButton"..i.."Highlight"] = button:GetHighlightTexture()
@@ -231,18 +241,29 @@ local function LoadSkin()
 	for i=1, NUM_BIDS_TO_DISPLAY do
 		local button = _G["BidButton"..i]
 		local icon = _G["BidButton"..i.."Item"]
+		local name = _G["BidButton"..i.."Name"];
 		
 		_G["BidButton"..i.."ItemIconTexture"]:SetTexCoord(unpack(E.TexCoords))
-		_G["BidButton"..i.."ItemIconTexture"]:ClearAllPoints()
-		_G["BidButton"..i.."ItemIconTexture"]:Point("TOPLEFT", 2, -2)
-		_G["BidButton"..i.."ItemIconTexture"]:Point("BOTTOMRIGHT", -2, 2)
+		_G["BidButton"..i.."ItemIconTexture"]:SetInside()
 		
 		icon:StyleButton()
-		icon:HookScript("OnUpdate", function() icon:GetNormalTexture():Kill() end)
+		icon:GetNormalTexture():SetTexture("")
+		icon:SetTemplate("Default");
 		
 		icon:CreateBackdrop("Default")
 		icon.backdrop:SetAllPoints()
-
+		
+		hooksecurefunc(name, "SetVertexColor", function(self, r, g, b)
+			if(r == 1 and g == 1 and b == 1) then
+				icon:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+			else
+				icon:SetBackdropBorderColor(r, g, b);
+			end
+		end);
+		hooksecurefunc(name, "Hide", function(self, r, g, b)
+			icon:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+		end);
+		
 		button:StripTextures()
 		button:StyleButton()
 		_G["BidButton"..i.."Highlight"] = button:GetHighlightTexture()
