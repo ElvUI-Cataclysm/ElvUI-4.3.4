@@ -99,15 +99,23 @@ local function LoadSkin()
 
 	EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterClearFrame:StripTextures()
 
-	--Class Filter Frame [Need to skin the icons]
+	--Class Filter Frame
 	EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrame:StripTextures()
 	EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrame:SetTemplate("Transparent")
 
-	for i=1, 10 do
-		 _G["EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrameClass"..i.."BevelEdge"]:Kill()
-		 _G["EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrameClass"..i.."Shadow"]:Kill()
-		 _G["EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrameClass"..i]:GetHighlightTexture():Hide()
-		 _G["EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrameClass"..i]:StyleButton()
+	for i, class in ipairs(CLASS_SORT_ORDER) do
+		local button =  _G["EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrameClass"..i]
+		button:StripTextures()
+		button:CreateBackdrop("Default")
+		S:HandleButton(button)
+		button:StyleButton()
+
+		local tcoords = CLASS_ICON_TCOORDS[class]
+		local buttonIcon = button:GetNormalTexture()
+		local buttonHighlight = button:GetHighlightTexture()
+		buttonIcon:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes")
+		buttonIcon:SetTexCoord(tcoords[1] + 0.023, tcoords[2] - 0.02, tcoords[3] + 0.018, tcoords[4] - 0.02)
+		buttonHighlight:SetTexture()
 	end
 
 	--Dungeon/raid selection buttons
