@@ -297,6 +297,56 @@ local function LoadSkin()
 
 	S:HandleButton(RaidInfoExtendButton);
 	S:HandleButton(RaidInfoCancelButton);
-end
 
+	--Friend List Class Colors
+	local cfg = {
+		USE_SHORT_LEVEL = 0, -- 1 = true, 0 = false
+	}
+
+	local cc = {
+	["HUNTER"]="ABD473",
+	["WARLOCK"]="9482C9",
+	["PRIEST"]="FFFFFF",
+	["PALADIN"]="F58CBA",
+	["MAGE"]="69CCF0",
+	["ROGUE"]="FFF569",
+	["DRUID"]="FF7D0A",
+	["SHAMAN"]="2459FF",
+	["WARRIOR"]="C79C6E",
+	["DEATHKNIGHT"]="C41F3B",
+	}
+
+	local locclasses = {}
+	for k,v in pairs(LOCALIZED_CLASS_NAMES_MALE)do locclasses[v] = k end
+	for k,v in pairs(LOCALIZED_CLASS_NAMES_FEMALE)do locclasses[v] = k end
+
+	cfg = type(cfg) ~= "table" and {} or cfg
+	cfg.USE_SHORT_LEVEL = cfg.USE_SHORT_LEVEL and (cfg.USE_SHORT_LEVEL == 1 or cfg.USE_SHORT_LEVEL == "1" or cfg.USE_SHORT_LEVEL == true) and 1
+
+	local updFunc = function()
+	if GetNumFriends() < 1 then return end
+	local off, name, level, class, zone, connected, status, note, tmp, tmpcol, tmpcol2 = FauxScrollFrame_GetOffset(FriendsFrameFriendsScrollFrame)
+		for i = 1, GetNumFriends() do
+		name, level, class, zone, connected, status, note = GetFriendInfo(i)
+			if connected then
+			local friend = _G["FriendsFrameFriendsScrollFrameButton"..(i-off)]
+				if friend and friend.buttonType == FRIENDS_BUTTON_TYPE_WOW then
+				tmpcol = cc[(locclasses[class] or ""):gsub(" ",""):upper()]
+					if (tmpcol or ""):len() > 0 then
+						tmp = format("|cff%s%s%s, ", tmpcol, name, FONT_COLOR_CODE_CLOSE) -- Name
+						tmp = tmp..format("|cff%s%s%d%s ", tmpcol, cfg.USE_SHORT_LEVEL and "L" or LEVEL.." ", level, FONT_COLOR_CODE_CLOSE) --Level
+						tmp = tmp..format("|cff%s%s%s ", tmpcol, class, FONT_COLOR_CODE_CLOSE) --Class
+						friend.name:SetText(tmp)
+					end
+				end
+			end
+		end
+	end
+
+	FriendsFrameFriendsScrollFrameScrollBar:HookScript("OnValueChanged", updFunc)
+
+	for k,v in pairs({"FriendsList_Update", "FriendsFrame_UpdateFriends", "FriendsFramePendingScrollFrame_AdjustScroll"}) do
+		hooksecurefunc(v, updFunc)
+	end
+end
 S:RegisterSkin('ElvUI', LoadSkin)
