@@ -130,20 +130,35 @@ local function LoadSkin()
 	S:HandleScrollBar(ScrollOfResurrectionSelectionFrameListScrollFrameScrollBar, 4)
 	S:HandleEditBox(ScrollOfResurrectionSelectionFrameTargetEditBox)
 	
-	for i=1, 9 do
+	for i=1, 11 do
 		_G["FriendsFrameFriendsScrollFrameButton"..i.."SummonButtonIcon"]:SetTexCoord(unpack(E.TexCoords))
-		_G["FriendsFrameFriendsScrollFrameButton"..i.."SummonButtonNormalTexture"]:SetAlpha(0.1)
+		_G["FriendsFrameFriendsScrollFrameButton"..i.."SummonButtonNormalTexture"]:SetAlpha(0)
 		_G["FriendsFrameFriendsScrollFrameButton"..i.."SummonButton"]:StyleButton()
+		_G["FriendsFrameFriendsScrollFrameButton"..i]:StyleButton()
 	end
 
 	--Who Frame
 	local function UpdateWhoSkins()
 		WhoListScrollFrame:StripTextures()
 	end
+
+	for i=1, 17 do
+		_G["WhoFrameButton"..i]:StyleButton()
+	end
+
+	for i=1, 4 do
+		_G["WhoFrameColumnHeader"..i]:StyleButton()
+	end
+
 	--Channel Frame
 	local function UpdateChannel()
 		ChannelRosterScrollFrame:StripTextures()
 	end
+
+	for i=1, 22 do
+		_G["ChannelMemberButton"..i]:StyleButton()
+	end
+
 	--BNet Frame
 	FriendsFrameBroadcastInput:CreateBackdrop("Default")
 	ChannelFrameDaughterFrameChannelName:CreateBackdrop("Default")
@@ -178,9 +193,9 @@ local function LoadSkin()
 			local button = _G["ChannelButton"..i]
 			if button then
 				button:StripTextures()
-				button:SetHighlightTexture("Interface\\PaperDollInfoFrame\\UI-Character-Tab-Highlight")
 				
 				_G["ChannelButton"..i.."Text"]:FontTemplate(nil, 12)
+				_G["ChannelButton"..i.."Collapsed"]:SetTextColor(1, 1, 1);
 			end
 		end
 	end
@@ -231,12 +246,19 @@ local function LoadSkin()
 	FriendsTabHeaderSoRButtonIcon:Point('TOPLEFT', 2, -2)
 	FriendsTabHeaderSoRButtonIcon:Point('BOTTOMRIGHT', -2, 2)
 	FriendsTabHeaderSoRButton:Point('TOPRIGHT', FriendsTabHeader, 'TOPRIGHT', -8, -56)
-	
-	S:HandleScrollBar(FriendsFrameIgnoreScrollFrameScrollBar, 4)
+
+	S:HandleScrollBar(FriendsFrameIgnoreScrollFrameScrollBar)
+	FriendsFrameIgnoreScrollFrameScrollBar:Point("RIGHT", 88, 0)
 	S:HandleScrollBar(FriendsFramePendingScrollFrameScrollBar, 4)
-	
+
+	FriendsFrameUnsquelchButton:Point("RIGHT", -30, 0)
+
 	IgnoreListFrame:StripTextures()
 	PendingListFrame:StripTextures()
+
+	for i=1, 19 do
+		_G["FriendsFrameIgnoreButton"..i]:StyleButton()
+	end
 	
 	ScrollOfResurrectionFrame:StripTextures()
 	S:HandleButton(ScrollOfResurrectionFrameAcceptButton)
@@ -256,17 +278,25 @@ local function LoadSkin()
 	 -- Raid Info Frame
 	RaidInfoFrame:StripTextures(true);
 	RaidInfoFrame:SetTemplate("Transparent");
-	
+
+	RaidInfoFrame:ClearAllPoints()
+	RaidInfoFrame:SetPoint("TOPLEFT", RaidFrame, "TOPRIGHT", 1, 0)
+
 	RaidInfoInstanceLabel:StripTextures();
 	RaidInfoIDLabel:StripTextures();
 	
 	S:HandleCloseButton(RaidInfoCloseButton);
+	RaidInfoCloseButton:ClearAllPoints()
+	RaidInfoCloseButton:SetPoint("TOPRIGHT", RaidInfoFrame, "TOPRIGHT", 2, 0)
 	
 	S:HandleScrollBar(RaidInfoScrollFrameScrollBar);
-	
+
+	for i=1, 7 do
+		_G["RaidInfoScrollFrameButton"..i]:StyleButton()
+	end
+
 	S:HandleButton(RaidInfoExtendButton);
 	S:HandleButton(RaidInfoCancelButton);
-
 end
 
 S:RegisterSkin('ElvUI', LoadSkin)
