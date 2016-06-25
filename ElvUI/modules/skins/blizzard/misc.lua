@@ -198,64 +198,42 @@ local function LoadSkin()
 	Graphics_RightQuality:StripTextures()
 	S:HandleSliderFrame(Graphics_Quality)
 
-	S:HandleDropDownBox(Graphics_DisplayModeDropDown
-)
-	S:HandleDropDownBox(Graphics_ResolutionDropDown
-)
-	S:HandleDropDownBox(Graphics_RefreshDropDown
-)
+	S:HandleDropDownBox(Graphics_DisplayModeDropDown)
+	S:HandleDropDownBox(Graphics_ResolutionDropDown)
+	S:HandleDropDownBox(Graphics_RefreshDropDown)
 	S:HandleDropDownBox(Graphics_PrimaryMonitorDropDown)
 	S:HandleDropDownBox(Graphics_MultiSampleDropDown)
 	S:HandleDropDownBox(Graphics_VerticalSyncDropDown)
-	S:HandleDropDownBox(Graphics_TextureResolutionDropDown
-)
-	S:HandleDropDownBox(Graphics_FilteringDropDown
-)
-	S:HandleDropDownBox(Graphics_ProjectedTexturesDropDown
-)
-	S:HandleDropDownBox(Graphics_ViewDistanceDropDown
-)
-	S:HandleDropDownBox(Graphics_EnvironmentalDetailDropDown
-)
-	S:HandleDropDownBox(Graphics_GroundClutterDropDown
-)
-	S:HandleDropDownBox(Graphics_ShadowsDropDown
-)
-	S:HandleDropDownBox(Graphics_LiquidDetailDropDown
-)
-	S:HandleDropDownBox(Graphics_SunshaftsDropDown
-)
+	S:HandleDropDownBox(Graphics_TextureResolutionDropDown)
+	S:HandleDropDownBox(Graphics_FilteringDropDown)
+	S:HandleDropDownBox(Graphics_ProjectedTexturesDropDown)
+	S:HandleDropDownBox(Graphics_ViewDistanceDropDown)
+	S:HandleDropDownBox(Graphics_EnvironmentalDetailDropDown)
+	S:HandleDropDownBox(Graphics_GroundClutterDropDown)
+	S:HandleDropDownBox(Graphics_ShadowsDropDown)
+	S:HandleDropDownBox(Graphics_LiquidDetailDropDown)
+	S:HandleDropDownBox(Graphics_SunshaftsDropDown)
 	S:HandleDropDownBox(Graphics_ParticleDensityDropDown)
 
 	-- Game Menu Options/Advanced
-	S:HandleDropDownBox(Advanced_BufferingDropDown
-)
-	S:HandleDropDownBox(Advanced_LagDropDown
-)
-	S:HandleDropDownBox(Advanced_HardwareCursorDropDown
-)
+	S:HandleDropDownBox(Advanced_BufferingDropDown)
+	S:HandleDropDownBox(Advanced_LagDropDown)
+	S:HandleDropDownBox(Advanced_HardwareCursorDropDown)
 	S:HandleDropDownBox(Advanced_GraphicsAPIDropDown)
 
-	S:HandleCheckBox(Advanced_MaxFPSCheckBox
-)
-	S:HandleCheckBox(Advanced_MaxFPSBKCheckBox
-)
+	S:HandleCheckBox(Advanced_MaxFPSCheckBox)
+	S:HandleCheckBox(Advanced_MaxFPSBKCheckBox)
 	S:HandleCheckBox(Advanced_UseUIScale)
 	S:HandleCheckBox(Advanced_DesktopGamma)
 
-	S:HandleSliderFrame(Advanced_MaxFPSSlider
-)
-	S:HandleSliderFrame(Advanced_UIScaleSlider
-)
+	S:HandleSliderFrame(Advanced_MaxFPSSlider)
+	S:HandleSliderFrame(Advanced_UIScaleSlider)
 	S:HandleSliderFrame(Advanced_MaxFPSBKSlider)
-	S:HandleSliderFrame(Advanced_GammaSlider
-)
+	S:HandleSliderFrame(Advanced_GammaSlider)
 
 	-- Game Menu Options/Network
-	S:HandleCheckBox(NetworkOptionsPanelOptimizeSpeed
-)
-	S:HandleCheckBox(NetworkOptionsPanelUseIPv6
-)
+	S:HandleCheckBox(NetworkOptionsPanelOptimizeSpeed)
+	S:HandleCheckBox(NetworkOptionsPanelUseIPv6)
 
 	-- Game Menu Options/Languages
 	S:HandleDropDownBox(InterfaceOptionsLanguagesPanelLocaleDropDown)
@@ -302,7 +280,6 @@ local function LoadSkin()
 
 	InterfaceOptionsFrameAddOns:StripTextures()
 	InterfaceOptionsFrameAddOns:CreateBackdrop("Transparent")
-
 
 	-- Game Menu Interface/Tabs
 	for i = 1, 2 do
@@ -482,10 +459,8 @@ local function LoadSkin()
 	S:HandleSliderFrame(CompactUnitFrameProfilesGeneralOptionsFrameHeightSlider)
 	S:HandleSliderFrame(CompactUnitFrameProfilesGeneralOptionsFrameWidthSlider)
 
-	S:HandleDropDownBox(CompactUnitFrameProfilesGeneralOptionsFrameSortByDropdown
-)
-	S:HandleDropDownBox(CompactUnitFrameProfilesProfileSelector
-)
+	S:HandleDropDownBox(CompactUnitFrameProfilesGeneralOptionsFrameSortByDropdown)
+	S:HandleDropDownBox(CompactUnitFrameProfilesProfileSelector)
 	S:HandleDropDownBox(CompactUnitFrameProfilesGeneralOptionsFrameHealthTextDropdown)
 
 	-- Game Menu Interface/Buffs and Debuffs
@@ -740,11 +715,13 @@ local function LoadSkin()
 	--DROPDOWN MENU
 	hooksecurefunc("UIDropDownMenu_InitializeHelper", function(frame)
 		for i = 1, UIDROPDOWNMENU_MAXLEVELS do
-			_G["DropDownList"..i.."Backdrop"]:SetTemplate("Default", true)
-			_G["DropDownList"..i.."MenuBackdrop"]:SetTemplate("Default", true)
+			_G["DropDownList"..i.."Backdrop"]:SetTemplate("Transparent", true)
+			_G["DropDownList"..i.."MenuBackdrop"]:SetTemplate("Transparent", true)
+			for j = 1, UIDROPDOWNMENU_MAXBUTTONS do
+				_G["DropDownList"..i.."Button"..j.."Highlight"]:SetTexture(1, 1, 1, 0.3)
+			end
 		end
 	end)
-
 
 	--LFD Role Picker PopUp Frame
 	LFDRoleCheckPopup:StripTextures()
