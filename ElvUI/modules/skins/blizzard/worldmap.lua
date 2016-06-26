@@ -151,40 +151,7 @@ local function LoadSkin()
 		elseif WORLDMAP_SETTINGS.size == WORLDMAP_QUESTLIST_SIZE then
 			WorldMapFrameSizeUpButton:Hide()
 			WorldMapFrameSizeDownButton:Show()
-		end		
-
-		int = int + 1
-		
-		if int >= 3 then
-			local inInstance, _ = IsInInstance()
-			local x,y = GetPlayerMapPosition("player")
-			x = math.floor(100 * x)
-			y = math.floor(100 * y)
-			if x ~= 0 and y ~= 0 then
-				coords.PlayerText:SetText(PLAYER..":   "..x..", "..y)
-			else
-				coords.PlayerText:SetText(" ")
-			end
-			
-
-			local scale = WorldMapDetailFrame:GetEffectiveScale()
-			local width = WorldMapDetailFrame:GetWidth()
-			local height = WorldMapDetailFrame:GetHeight()
-			local centerX, centerY = WorldMapDetailFrame:GetCenter()
-			local x, y = GetCursorPosition()
-			local adjustedX = (x / scale - (centerX - (width/2))) / width
-			local adjustedY = (centerY + (height/2) - y / scale) / height	
-
-			if (adjustedX >= 0  and adjustedY >= 0 and adjustedX <= 1 and adjustedY <= 1) then
-				adjustedX = math.floor(100 * adjustedX)
-				adjustedY = math.floor(100 * adjustedY)
-				coords.MouseText:SetText(MOUSE_LABEL..":   "..adjustedX..", "..adjustedY)
-			else
-				coords.MouseText:SetText(" ")
-			end
-			
-			int = 0
-		end	
+		end
 		
 		if DropDownList1:GetScale() ~= UIParent:GetScale() then
 			DropDownList1:SetScale(UIParent:GetScale())
