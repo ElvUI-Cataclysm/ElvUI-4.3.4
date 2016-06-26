@@ -8,6 +8,7 @@ local function LoadSkin()
 	QuestLogFrameCloseButton:Point("TOPRIGHT", QuestLogFrame, "TOPRIGHT", 1, 1)
 	S:HandleScrollBar(QuestLogDetailScrollFrameScrollBar)
 	S:HandleScrollBar(QuestLogScrollFrameScrollBar, 5)
+	QuestLogScrollFrameScrollBar:Point("RIGHT", 25, 0)
 	S:HandleScrollBar(QuestProgressScrollFrameScrollBar)
 	S:HandleScrollBar(QuestRewardScrollFrameScrollBar)
 
@@ -166,7 +167,7 @@ local function LoadSkin()
 		QuestLogDetailScrollFrame:Height(328)
 		
 		if not QuestLogDetailScrollFrame.backdrop then
-			QuestLogScrollFrame:SetTemplate("Default")
+			QuestLogScrollFrame:CreateBackdrop("Default")
 			QuestLogDetailScrollFrame:CreateBackdrop("Default")
 		end
 	end)
