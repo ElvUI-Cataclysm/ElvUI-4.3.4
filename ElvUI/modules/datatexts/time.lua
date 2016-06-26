@@ -78,17 +78,6 @@ local function OnEnter(self)
 		RequestRaidInfo();
 	end
 	
-	local wgtime = GetWintergraspWaitTime() or nil;
-	inInstance, instanceType = IsInInstance();
-	if not(instanceType == "none") then
-		wgtime = QUEUE_TIME_UNAVAILABLE;
-	elseif(wgtime == nil) then
-		wgtime = WINTERGRASP_IN_PROGRESS;
-	else
-		wgtime = SecondsToTime(wgtime, false, nil, 3);
-	end
-	DT.tooltip:AddDoubleLine(L['Wintergrasp'], wgtime, 1, 1, 1, lockoutColorNormal.r, lockoutColorNormal.g, lockoutColorNormal.b);
-	
 	local oneraid, lockoutColor
 	for i = 1, GetNumSavedInstances() do
 		name, _, reset, difficultyId, locked, extended, _, isRaid, maxPlayers, difficulty = GetSavedInstanceInfo(i);
