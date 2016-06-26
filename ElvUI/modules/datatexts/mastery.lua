@@ -16,7 +16,7 @@ end
 
 local function OnEnter(self)
 	DT:SetupTooltip(self)
-	GameTooltip:ClearLines()
+	DT.tooltip:ClearLines()
 
 	local mastery = GetMastery();
 	local masteryBonus = GetCombatRatingBonus(CR_MASTERY);
@@ -27,10 +27,10 @@ local function OnEnter(self)
 	if (masteryKnown and primaryTalentTree) then
 		local masterySpell, masterySpell2 = GetTalentTreeMasterySpells(primaryTalentTree);
 		if (masterySpell) then
-			GameTooltip:AddSpellByID(masterySpell);
+			DT.tooltip:AddSpellByID(masterySpell);
 		end
 	end
-	GameTooltip:Show()
+	DT.tooltip:Show()
 end
 
 local function ValueColorUpdate(hex, r, g, b)
@@ -40,15 +40,7 @@ local function ValueColorUpdate(hex, r, g, b)
 		OnEvent(lastPanel)
 	end
 end
-E['valueColorUpdateFuncs'][ValueColorUpdate] = true
---[[
-	DT:RegisterDatatext(name, events, eventFunc, updateFunc, clickFunc, onEnterFunc)
 
-	name - name of the datatext (required)
-	events - must be a table with string values of event names to register
-	eventFunc - function that gets fired when an event gets triggered
-	updateFunc - onUpdate script target function
-	click - function to fire when clicking the datatext
-	onEnterFunc - function to fire OnEnter
-]]
+E['valueColorUpdateFuncs'][ValueColorUpdate] = true
+
 DT:RegisterDatatext('Mastery', {"MASTERY_UPDATE"}, OnEvent, nil, nil, OnEnter)
