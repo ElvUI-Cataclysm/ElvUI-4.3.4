@@ -91,13 +91,16 @@ local function LoadSkin()
 	--Encounter Instance Frame
 	local EncounterInstance = EJ.encounter.instance
 
-	EncounterInstance:CreateBackdrop("Transparent")
+	EncounterInstance:CreateBackdrop("Transparent", true)
 	EncounterInstance.loreScroll.child.lore:SetTextColor(1, 1, 1)
 
 	EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterClearFrame:StripTextures()
 
 	EncounterJournalEncounterFrameInstanceFrameMapButton:StripTextures();
 	S:HandleButton(EncounterJournalEncounterFrameInstanceFrameMapButton)
+	EncounterJournalEncounterFrameInstanceFrameMapButton:ClearAllPoints()
+	EncounterJournalEncounterFrameInstanceFrameMapButton:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInstanceFrame, "TOPLEFT", 5, 37)
+	EncounterJournalEncounterFrameInstanceFrameMapButton:SetSize(43, 32)
 	EncounterJournalEncounterFrameInstanceFrameMapButtonText:ClearAllPoints()
 	EncounterJournalEncounterFrameInstanceFrameMapButtonText:SetPoint("CENTER", EncounterJournalEncounterFrameInstanceFrameMapButton, "CENTER", 0, 0)
 
