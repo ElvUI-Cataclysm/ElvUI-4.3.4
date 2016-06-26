@@ -55,7 +55,7 @@ local function LoadSkin()
 	EncounterJournalEncounterFrameInfoResetButtonTexture:SetTexCoord(0.90625000, 0.94726563, 0.00097656, 0.02050781)
 
 	EncounterJournalEncounterFrameModelFrame:StripTextures()
-	EncounterJournalEncounterFrameModelFrame:CreateBackdrop('Transparent')
+	EncounterJournalEncounterFrameModelFrame:CreateBackdrop('Transparent', true)
 
 	local scrollFrames = {
 		EncounterInfo.overviewScroll,
