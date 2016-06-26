@@ -20,7 +20,6 @@
 	<Script file='attackpower.lua'/>
 	<Script file='spellpower.lua'/>
 	<Script file='battleground.lua'/>
-	<Script file='resilience.lua'/>
 	<Script file='achievement.lua'/>
 	<Script file='elvuiconfig.lua'/>
 	<Script file='mastery.lua'/>
