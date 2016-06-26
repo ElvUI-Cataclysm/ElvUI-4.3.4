@@ -115,9 +115,12 @@ local function LoadSkin()
 		local tcoords = CLASS_ICON_TCOORDS[class]
 		local buttonIcon = button:GetNormalTexture()
 		local buttonHighlight = button:GetHighlightTexture()
+		local buttonPushed = button:GetPushedTexture()
 		buttonIcon:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes")
 		buttonIcon:SetTexCoord(tcoords[1] + 0.023, tcoords[2] - 0.02, tcoords[3] + 0.018, tcoords[4] - 0.02)
 		buttonHighlight:SetTexture()
+		buttonPushed:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes")
+		buttonPushed:SetTexCoord(tcoords[1] + 0.023, tcoords[2] - 0.02, tcoords[3] + 0.018, tcoords[4] - 0.02)
 	end
 
 	--Dungeon/raid selection buttons
