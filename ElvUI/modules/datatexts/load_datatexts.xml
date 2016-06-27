@@ -26,4 +26,5 @@
 	<Script file='specswitch.lua'/>
 	<Script file='expertise.lua'/>
 	<Script file='coordinates.lua'/>
+	<Script file='calltoarms.lua'/>
 </Ui>
