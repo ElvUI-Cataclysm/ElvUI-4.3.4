@@ -1,188 +1,190 @@
-local E, L, V, P, G = unpack(select(2, ...));
-local DT = E:GetModule('DataTexts');
+local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local DT = E:GetModule('DataTexts')
 
-local format, sort = string.format, table.sort;
+local select, collectgarbage = select, collectgarbage
+local sort, wipe = table.sort, wipe
+local floor = math.floor
+local format, join = string.format, string.join
 
-local MemoryTable = {};
-local CPUTable = {};
+local GetNumAddOns = GetNumAddOns
+local GetAddOnInfo = GetAddOnInfo
+local IsAddOnLoaded = IsAddOnLoaded
+local UpdateAddOnMemoryUsage = UpdateAddOnMemoryUsage
+local UpdateAddOnCPUUsage = UpdateAddOnCPUUsage
+local GetAddOnMemoryUsage = GetAddOnMemoryUsage
+local GetAddOnCPUUsage = GetAddOnCPUUsage
+local ResetCPUUsage = ResetCPUUsage
+local GetCVar = GetCVar
+local GetAvailableBandwidth = GetAvailableBandwidth
+local GetNetStats = GetNetStats
+local GetDownloadedPercentage = GetDownloadedPercentage
+local IsShiftKeyDown = IsShiftKeyDown
+local GetFramerate = GetFramerate
 
-local int, int2 = 6, 5;
-local StatusColors = {
-	'|cff0CD809',
-	'|cffE8DA0F',
-	'|cffFF9000',
-	'|cffD80909'
+
+local int, int2 = 6, 5
+local statusColors = {
+	"|cff0CD809",
+	"|cffE8DA0F",
+	"|cffFF9000",
+	"|cffD80909"
 }
 
-local EnteredFrame = false;
+local enteredFrame = false;
+local bandwidthString = "%.2f Mbps"
+local percentageString = "%.2f%%"
+local homeLatencyString = "%d ms"
+local kiloByteString = "%d kb"
+local megaByteString = "%.2f mb"
+local totalMemory = 0
+local bandwidth = 0
 
-local function FormatMem(Memory)
-	local Mult = 10^1;
-	
-	if ( Memory > 999 ) then
-		local Mem = ((Memory / 1024) * Mult) / Mult;
-		return format('%.2f mb', Mem);
+local function formatMem(memory)
+	local mult = 10^1
+	if memory > 999 then
+		local mem = ((memory/1024) * mult) / mult
+		return format(megaByteString, mem)
 	else
-		local Mem = (Memory * Mult) / Mult;
-		return format('%d kb', Mem);
+		local mem = (memory * mult) / mult
+		return format(kiloByteString, mem)
 	end
 end
 
+local function sortByMemoryOrCPU(a, b)
+	if a and b then
+		return a[3] > b[3]
+	end
+end
+
+local memoryTable = {}
+local cpuTable = {}
 local function RebuildAddonList()
-	local AddOnCount = GetNumAddOns();
-	
-	if ( AddOnCount == #MemoryTable ) then return; end
-	
-	MemoryTable = {};
-	CPUTable = {};
-	
-	for i = 1, AddOnCount do
-		MemoryTable[i] = { i, select(2, GetAddOnInfo(i)), 0, IsAddOnLoaded(i) };
-		CPUTable[i] = { i, select(2, GetAddOnInfo(i)), 0, IsAddOnLoaded(i) };
+	local addOnCount = GetNumAddOns()
+	if (addOnCount == #memoryTable) then return end
+
+
+	wipe(memoryTable)
+	wipe(cpuTable)
+	for i = 1, addOnCount do
+		memoryTable[i] = { i, select(2, GetAddOnInfo(i)), 0, IsAddOnLoaded(i) }
+		cpuTable[i] = { i, select(2, GetAddOnInfo(i)), 0, IsAddOnLoaded(i) }
 	end
 end
 
 local function UpdateMemory()
-	local AddOnMem, TotalMemory = 0, 0;
-	
-	UpdateAddOnMemoryUsage();
-	
-	for i = 1, #MemoryTable do
-		AddOnMem = GetAddOnMemoryUsage(MemoryTable[i][1]);
-		MemoryTable[i][3] = AddOnMem;
-		TotalMemory = TotalMemory + AddOnMem;
+
+	UpdateAddOnMemoryUsage()
+
+	totalMemory = 0
+	for i = 1, #memoryTable do
+		memoryTable[i][3] = GetAddOnMemoryUsage(memoryTable[i][1])
+		totalMemory = totalMemory + memoryTable[i][3]
 	end
-	
-	sort(MemoryTable, function(A, B)
-		if ( A and B ) then
-			return A[3] > B[3];
-		end
-	end);
-	
-	return TotalMemory;
+
+	sort(memoryTable, sortByMemoryOrCPU)
 end
 
 local function UpdateCPU()
-	local AddOnCPU, TotalCPU = 0, 0;
-	
-	UpdateAddOnCPUUsage();
-	
-	for i = 1, #CPUTable do
-		AddOnCPU = GetAddOnCPUUsage(CPUTable[i][1]);
-		CPUTable[i][3] = AddOnCPU;
-		TotalCPU = TotalCPU + AddOnCPU;
+
+	UpdateAddOnCPUUsage()
+
+	local addonCPU = 0
+	local totalCPU = 0
+	for i = 1, #cpuTable do
+		addonCPU = GetAddOnCPUUsage(cpuTable[i][1])
+		cpuTable[i][3] = addonCPU
+		totalCPU = totalCPU + addonCPU
 	end
-	
-	sort(CPUTable, function(a, b)
-		if ( a and b ) then
-			return a[3] > b[3];
-		end
-	end);
-	
-	return TotalCPU;
+
+	sort(cpuTable, sortByMemoryOrCPU)
+
+	return totalCPU
 end
 
 local function Click()
-	collectgarbage('collect');
+	collectgarbage("collect");
 	ResetCPUUsage();
 end
 
 local function OnEnter(self)
-	local HomeLatencyString = '%d ms';
-	local CPUProfiling = GetCVar('scriptProfile') == '1';
-	local HomeLatency = select(3, GetNetStats());
-	
-	local TotalMemory, TotalCPU = UpdateMemory(), nil;
-	
-	EnteredFrame = true;
-	
+	enteredFrame = true;
+	local cpuProfiling = GetCVar("scriptProfile") == "1"
 	DT:SetupTooltip(self)
 
-	DT.tooltip:AddDoubleLine(L['Home Latency:'], format(HomeLatencyString, HomeLatency), 0.69, 0.31, 0.31,0.84, 0.75, 0.65);
-	DT.tooltip:AddDoubleLine(L['Total Memory:'], FormatMem(TotalMemory), 0.69, 0.31, 0.31,0.84, 0.75, 0.65);
-	
-	if CPUProfiling then
-		TotalCPU = UpdateCPU();
-		DT.tooltip:AddDoubleLine(L['Total CPU:'], format(HomeLatencyString, TotalCPU), 0.69, 0.31, 0.31,0.84, 0.75, 0.65);
+	UpdateMemory()
+	bandwidth = GetAvailableBandwidth()
+
+	DT.tooltip:AddDoubleLine(L["Home Latency:"], format(homeLatencyString, select(3, GetNetStats())), 0.69, 0.31, 0.31,0.84, 0.75, 0.65)
+
+	if bandwidth ~= 0 then
+		DT.tooltip:AddDoubleLine(L["Bandwidth"] , format(bandwidthString, bandwidth),0.69, 0.31, 0.31,0.84, 0.75, 0.65)
+		DT.tooltip:AddDoubleLine(L["Download"] , format(percentageString, GetDownloadedPercentage() *100),0.69, 0.31, 0.31, 0.84, 0.75, 0.65)
+		DT.tooltip:AddLine(" ")
 	end
-	
-	if ( IsShiftKeyDown() ) or ( not CPUProfiling ) then
-		DT.tooltip:AddLine(' ');
-		
-		for i = 1, #MemoryTable do
-			if ( MemoryTable[i][4] ) then
-				local Red = MemoryTable[i][3] / TotalMemory;
-				local Green = 1 - Red;
-				
-				DT.tooltip:AddDoubleLine(MemoryTable[i][2], FormatMem(MemoryTable[i][3]), 1, 1, 1, Red, Green + .5, 0);
+
+	local totalCPU = nil
+	DT.tooltip:AddDoubleLine(L["Total Memory:"], formatMem(totalMemory), 0.69, 0.31, 0.31,0.84, 0.75, 0.65)
+	if cpuProfiling then
+		totalCPU = UpdateCPU()
+		DT.tooltip:AddDoubleLine(L["Total CPU:"], format(homeLatencyString, totalCPU), 0.69, 0.31, 0.31,0.84, 0.75, 0.65)
+	end
+
+	local red, green
+	if IsShiftKeyDown() or not cpuProfiling then
+		DT.tooltip:AddLine(" ")
+		for i = 1, #memoryTable do
+			if (memoryTable[i][4]) then
+				red = memoryTable[i][3] / totalMemory
+				green = 1 - red
+				DT.tooltip:AddDoubleLine(memoryTable[i][2], formatMem(memoryTable[i][3]), 1, 1, 1, red, green + .5, 0)
 			end
 		end
 	end
-	
-	if ( CPUProfiling ) and ( not IsShiftKeyDown() ) then
-		DT.tooltip:AddLine(' ');
-		
-		for i = 1, #CPUTable do
-			if ( CPUTable[i][4] ) then
-				local Red = CPUTable[i][3] / TotalCPU;
-				local Green = 1 - Red;
-				
-				DT.tooltip:AddDoubleLine(CPUTable[i][2], format(HomeLatencyString, CPUTable[i][3]), 1, 1, 1, Red, Green + .5, 0);
+
+	if cpuProfiling and not IsShiftKeyDown() then
+		DT.tooltip:AddLine(" ")
+		for i = 1, #cpuTable do
+			if (cpuTable[i][4]) then
+				red = cpuTable[i][3] / totalCPU
+				green = 1 - red
+				DT.tooltip:AddDoubleLine(cpuTable[i][2], format(homeLatencyString, cpuTable[i][3]), 1, 1, 1, red, green + .5, 0)
 			end
 		end
-		
-		DT.tooltip:AddLine(' ');
-		DT.tooltip:AddLine(L['(Hold Shift) Memory Usage']);
+		DT.tooltip:AddLine(" ")
+		DT.tooltip:AddLine(L["(Hold Shift) Memory Usage"])
 	end
-	
-	DT.tooltip:Show();
+
+	DT.tooltip:Show()
 end
 
 local function OnLeave(self)
-	EnteredFrame = false;
-	DT.tooltip:Hide();
+	enteredFrame = false;
+	DT.tooltip:Hide()
 end
 
 local function Update(self, t)
-	local DisplayFormat;
-	
 	int = int - t
 	int2 = int2 - t
-	
+
 	if ( int < 0 ) then
 		RebuildAddonList();
 		int = 10;
 	end
 	
 	if ( int2 < 0 ) then
-		local Framerate, FramerateColor = floor(GetFramerate()), 4;
-		local Latency, LatencyColor = select(3, GetNetStats()), 4;
-		
-		if ( Latency < 150 ) then
-			LatencyColor = 1;
-		elseif ( Latency >= 150 and Latency < 300 ) then
-			LatencyColor = 2;
-		elseif ( Latency >= 300 and Latency < 500 ) then
-			LatencyColor = 3;
-		end
-		
-		if ( Framerate >= 30 ) then
-			FramerateColor = 1;
-		elseif ( Framerate >= 20 and Framerate < 30 ) then
-			FramerateColor = 2;
-		elseif ( Framerate >= 10 and Framerate < 20 ) then
-			FramerateColor = 3;
-		end
-		
-		DisplayFormat = string.join('', 'FPS: ', StatusColors[FramerateColor], '%d|r MS: ', StatusColors[LatencyColor], '%d|r');
-		self.text:SetFormattedText(DisplayFormat, Framerate, Latency);
-		
-		int2 = 1;
-		
-		if ( EnteredFrame ) then
-			OnEnter(self);
+		local framerate = floor(GetFramerate()), 4;
+		local latency = select(3, GetNetStats()), 4;
+
+		self.text:SetFormattedText("FPS: %s%d|r MS: %s%d|r",
+			statusColors[framerate >= 30 and 1 or (framerate >= 20 and framerate < 30) and 2 or (framerate >= 10 and framerate < 20) and 3 or 4],
+			framerate,
+			statusColors[latency < 150 and 1 or (latency >= 150 and latency < 300) and 2 or (latency >= 300 and latency < 500) and 3 or 4],
+			latency)
+		int2 = 1
+		if enteredFrame then
+			OnEnter(self)
 		end
 	end
 end
 
-DT:RegisterDatatext(L['System'], nil, nil, Update, Click, OnEnter, OnLeave);
+DT:RegisterDatatext('System', nil, nil, Update, Click, OnEnter, OnLeave)
