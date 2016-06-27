@@ -23,4 +23,6 @@
 	<Script file='achievement.lua'/>
 	<Script file='elvuiconfig.lua'/>
 	<Script file='mastery.lua'/>
+
+	<Script file='expertise.lua'/>
 </Ui>
