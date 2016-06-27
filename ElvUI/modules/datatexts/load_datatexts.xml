@@ -25,4 +25,5 @@
 	<Script file='mastery.lua'/>
 	<Script file='specswitch.lua'/>
 	<Script file='expertise.lua'/>
+	<Script file='coordinates.lua'/>
 </Ui>
