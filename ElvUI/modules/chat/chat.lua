@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+﻿local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
 local CH = E:NewModule('Chat', 'AceTimer-3.0', 'AceHook-3.0', 'AceEvent-3.0')
 local LSM = LibStub("LibSharedMedia-3.0");
 
@@ -1118,7 +1118,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				end
 			else
 				if ( not showLink or strlen(arg2) == 0 ) then
-					if(arg1:find("% ") and GetLocale() == "ruRU") then
+					if(arg1:find("% ")) then
 						arg1 = arg1:gsub("%%", "%%s");
 					end
 					body = format(_G["CHAT_" .. type .. "_GET"] .. arg1, pflag .. arg2, arg2);
