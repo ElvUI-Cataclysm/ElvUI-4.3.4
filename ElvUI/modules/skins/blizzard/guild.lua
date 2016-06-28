@@ -99,9 +99,16 @@ local function LoadSkin()
 	for i=1,5 do
 		S:HandleTab(_G["GuildFrameTab"..i])
 	end
+
 	GuildXPFrame:ClearAllPoints()
 	GuildXPFrame:Point("TOP", GuildFrame, "TOP", 0, -40)
-	
+
+	for i=1,4 do
+		_G["GuildXPBarDivider"..i]:Kill()
+	end
+
+	GuildXPBarCapMarker:Kill()
+
 	S:HandleScrollBar(GuildPerksContainerScrollBar, 4)
 	
 	GuildFactionBar:StripTextures()
@@ -178,6 +185,8 @@ local function LoadSkin()
 	GuildMemberNoteBackground:SetTemplate("Default")
 	GuildMemberOfficerNoteBackground:SetTemplate("Default")
 	GuildMemberRankDropdown:SetFrameLevel(GuildMemberRankDropdown:GetFrameLevel() + 5)
+	GuildMemberRankDropdown:ClearAllPoints()
+	GuildMemberRankDropdown:SetPoint("CENTER", GuildMemberDetailFrame, "CENTER", 8, 42)
 	S:HandleDropDownBox(GuildMemberRankDropdown, 175)
 	S:HandleCloseButton(GuildMemberDetailCloseButton)
 	GuildMemberDetailCloseButton:Point("TOPRIGHT", GuildMemberDetail, "TOPRIGHT", 2, 2)
@@ -239,7 +248,7 @@ local function LoadSkin()
 	GuildRecruitmentCommentInputFrame:SetTemplate("Default")
 	
 	for _, button in next, GuildInfoFrameApplicantsContainer.buttons do
-		button.selectedTex:SetTexture(1, 1, 1, 0.3)
+		button.selectedTex:SetTexture(1, 1, 1, 0.2)
 		button:GetHighlightTexture():Kill()
 		button:SetBackdrop(nil)
 		button:StyleButton()
@@ -252,11 +261,12 @@ local function LoadSkin()
 		_G["GuildInfoFrameApplicantsContainerButton"..i.."LevelRing"]:SetPoint("TOPLEFT", -42, 33)
 	end
 
-
+	S:HandleScrollBar(GuildRecruitmentCommentInputFrameScrollFrameScrollBar)
+	
 	--Text Edit Frame
 	GuildTextEditFrame:SetTemplate("Transparent")
 	S:HandleScrollBar(GuildTextEditScrollFrameScrollBar, 5)
-	GuildTextEditContainer:SetTemplate("Default")
+	GuildTextEditContainer:SetTemplate("Transparent")
 	for i=1, GuildTextEditFrame:GetNumChildren() do
 		local child = select(i, GuildTextEditFrame:GetChildren())
 		if child:GetName() == "GuildTextEditFrameCloseButton" and child:GetWidth() < 33 then
