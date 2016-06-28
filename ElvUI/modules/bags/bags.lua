@@ -576,44 +576,40 @@ end
 
 function B:UpdateTokens()
 	local f = self.BagFrame;
-	
+
 	local numTokens = 0
 	for i = 1, MAX_WATCHED_TOKENS do
-		local name, count, type, icon, itemID = GetBackpackCurrencyInfo(i)
+		local name, count, icon, currencyID = GetBackpackCurrencyInfo(i);
 		local button = f.currencyButton[i];
-		
-		if(type == 1) then
-			icon = 'Interface\\PVPFrame\\PVP-ArenaPoints-Icon';
-		elseif(type == 2) then
-			icon = 'Interface\\PVPFrame\\PVP-Currency-'..UnitFactionGroup('player');
-		end
-		
+
 		button:ClearAllPoints();
 		if name then
 			button.icon:SetTexture(icon);
-			
+
 			if self.db.currencyFormat == 'ICON_TEXT' then
 				button.text:SetText(name..': '..count);
+			elseif self.db.currencyFormat == "ICON_TEXT_ABBR" then
+				button.text:SetText(E:AbbreviateString(name)..': '..count);
 			elseif self.db.currencyFormat == 'ICON' then
 				button.text:SetText(count);
 			end
-			
-			button.itemID = itemID;
+
+			button.currencyID = currencyID;
 			button:Show();
 			numTokens = numTokens + 1;
 		else
 			button:Hide();
 		end
 	end
-	
+
 	if numTokens == 0 then
 		f.bottomOffset = 8;
-		
+
 		if f.currencyButton:IsShown() then
 			f.currencyButton:Hide();
 			self:Layout();
 		end
-		
+
 		return;
 	elseif not f.currencyButton:IsShown() then
 		f.bottomOffset = 28;
@@ -629,7 +625,7 @@ function B:UpdateTokens()
 		f.currencyButton[2]:Point('BOTTOMLEFT', f.currencyButton, 'BOTTOM', f.currencyButton[2]:GetWidth() / 2, 3);
 	else
 		f.currencyButton[1]:Point('BOTTOMLEFT', f.currencyButton, 'BOTTOMLEFT', 3, 3);
-		f.currencyButton[2]:Point('BOTTOM', f.currencyButton, 'BOTTOM', -(f.currencyButton[2].text:GetWidth() / 3), 3);	
+		f.currencyButton[2]:Point('BOTTOM', f.currencyButton, 'BOTTOM', -(f.currencyButton[2].text:GetWidth() / 3), 3);
 		f.currencyButton[3]:Point('BOTTOMRIGHT', f.currencyButton, 'BOTTOMRIGHT', -(f.currencyButton[3].text:GetWidth()) - (f.currencyButton[3]:GetWidth() / 2), 3);
 	end
 end
@@ -640,8 +636,8 @@ function B:Token_OnEnter()
 end
 
 function B:Token_OnClick()
-	if(IsModifiedClick("CHATLINK")) then
-		ChatEdit_InsertLink(select(2, GetItemInfo(self.itemID)));
+	if ( IsModifiedClick("CHATLINK") ) then
+		HandleModifiedItemClick(GetCurrencyLink(self.currencyID));
 	end
 end
 
