@@ -949,7 +949,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.currencyButton:Point('TOPRIGHT', f.holderFrame, 'BOTTOMRIGHT', 0, 18);
 		f.currencyButton:Height(22);
 		for i = 1, MAX_WATCHED_TOKENS do
-			f.currencyButton[i] = CreateFrame('Button', nil, f.currencyButton);
+			f.currencyButton[i] = CreateFrame('Button', f:GetName().."CurrencyButton"..i, f.currencyButton);
 			f.currencyButton[i]:Size(16);
 			f.currencyButton[i]:SetTemplate('Default');
 			f.currencyButton[i]:SetID(i);
@@ -959,14 +959,25 @@ function B:ContructContainerFrame(name, isBank)
 			f.currencyButton[i].text = f.currencyButton[i]:CreateFontString(nil, 'OVERLAY');
 			f.currencyButton[i].text:Point('LEFT', f.currencyButton[i], 'RIGHT', 2, 0);
 			f.currencyButton[i].text:FontTemplate();
-			
+
 			f.currencyButton[i]:SetScript('OnEnter', B.Token_OnEnter);
 			f.currencyButton[i]:SetScript('OnLeave', function() GameTooltip:Hide() end);
 			f.currencyButton[i]:SetScript('OnClick', B.Token_OnClick);
 			f.currencyButton[i]:Hide();
 		end
 		
-		f:SetScript('OnHide', CloseAllBags)
+		f:SetScript('OnHide', function()
+			CloseBackpack()
+			for i = 1, NUM_BAG_FRAMES do
+				CloseBag(i)
+			end
+
+			if ElvUIBags and ElvUIBags.buttons then
+				for _, bagButton in pairs(ElvUIBags.buttons) do
+					bagButton:SetChecked(false)
+				end
+			end
+		end)
 	end
 	
 	tinsert(UISpecialFrames, f:GetName()) --Keep an eye on this for taints..
@@ -996,9 +1007,9 @@ end
 
 function B:ToggleBags(id)
 	if id and GetContainerNumSlots(id) == 0 then return; end --Closes a bag when inserting a new container..
-	
+
 	if self.BagFrame:IsShown() then
-	--	self:CloseBags();
+		self:CloseBags();
 	else
 		self:OpenBags();
 	end
@@ -1008,7 +1019,7 @@ function B:ToggleBackpack()
 	if ( IsOptionFrameOpen() ) then
 		return;
 	end
-	
+
 	if IsBagOpen(0) then
 		self:OpenBags()
 	else
@@ -1024,11 +1035,11 @@ end
 
 function B:CloseBags()
 	self.BagFrame:Hide();
-	
+
 	if self.BankFrame then
 		self.BankFrame:Hide();
 	end
-	
+
 	E:GetModule('Tooltip'):GameTooltip_SetDefaultAnchor(GameTooltip)
 end
 
@@ -1071,18 +1082,11 @@ function B:Initialize()
 	self.BagFrame = self:ContructContainerFrame('ElvUI_ContainerFrame');
 	
 	--Hook onto Blizzard Functions
-	self:SecureHook('ToggleBackpack', 'ToggleBackpack');
-	self:SecureHook('ToggleBag', 'ToggleBags');
-	self:SecureHook('OpenAllBags', 'ToggleBackpack');
-	self:SecureHook('OpenBackpack', 'OpenBags');
+	self:SecureHook('OpenAllBags', 'OpenBags');
 	self:SecureHook('CloseAllBags', 'CloseBags');
-	self:SecureHook('CloseBackpack', 'CloseBags');
-	
-	-- self:SecureHook('OpenAllBags', 'OpenBags');
-	-- self:SecureHook('CloseAllBags', 'CloseBags');
-	-- self:SecureHook('ToggleBag', 'ToggleBags');
-	--self:SecureHook('OpenAllBags', 'ToggleBackpack');
-	-- self:SecureHook('ToggleBackpack')
+	self:SecureHook('ToggleBag', 'ToggleBags')
+	self:SecureHook('ToggleAllBags', 'ToggleBackpack');
+	self:SecureHook('ToggleBackpack')
 	self:SecureHook('BackpackTokenFrame_Update', 'UpdateTokens');
 
 	self:PositionBagFrames();

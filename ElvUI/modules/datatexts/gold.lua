@@ -45,7 +45,7 @@ local function Click(self, btn)
 		OnEvent(self);
 		DT.tooltip:Hide();
 	else
-		OpenAllBags();
+		ToggleAllBags()
 	end
 end
 

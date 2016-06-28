@@ -17,7 +17,7 @@ local function OnEvent(self, event, ...)
 end
 
 local function OnClick()
-	OpenAllBags();
+	ToggleAllBags()
 end
 
 local function OnEnter(self)
