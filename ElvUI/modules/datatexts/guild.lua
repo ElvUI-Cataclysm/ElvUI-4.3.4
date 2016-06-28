@@ -149,7 +149,7 @@ end
 
 local function Click(self, btn)
 	if btn == "RightButton" and IsInGuild() then
-		GameTooltip:Hide()
+		DT.tooltip:Hide()
 
 		local classc, levelc, grouped, info
 		local menuCountWhispers = 0
@@ -162,20 +162,20 @@ local function Click(self, btn)
 			info = guildTable[i]
 			if info[7] and info[1] ~= E.myname then
 				local classc, levelc = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[info[9]], GetQuestDifficultyColor(info[3])
-
 				if UnitInParty(info[1]) or UnitInRaid(info[1]) then
 					grouped = "|cffaaaaaa*|r"
-				else
-					menuCountInvites = menuCountInvites +1
+				elseif not info[11] then
+					menuCountInvites = menuCountInvites + 1
 					grouped = ""
 					menuList[2].menuList[menuCountInvites] = {text = format(levelNameString, levelc.r*255,levelc.g*255,levelc.b*255, info[3], classc.r*255,classc.g*255,classc.b*255, info[1], ""), arg1 = info[1],notCheckable=true, func = inviteClick}
 				end
 				menuCountWhispers = menuCountWhispers + 1
+				if not grouped then grouped = "" end
 				menuList[3].menuList[menuCountWhispers] = {text = format(levelNameString, levelc.r*255,levelc.g*255,levelc.b*255, info[3], classc.r*255,classc.g*255,classc.b*255, info[1], grouped), arg1 = info[1],notCheckable=true, func = whisperClick}
 			end
 		end
 
-		EasyMenu(menuList, menuFrame, "cursor", 0, 0, "MENU", 2)	
+		EasyMenu(menuList, menuFrame, "cursor", 0, 0, "MENU", 2)
 	else
 		ToggleGuildFrame()
 	end
@@ -260,17 +260,5 @@ local function ValueColorUpdate(hex, r, g, b)
 	end
 end
 E['valueColorUpdateFuncs'][ValueColorUpdate] = true
-
---[[
-	DT:RegisterDatatext(name, events, eventFunc, updateFunc, clickFunc, onEnterFunc, onLeaveFunc)
-	
-	name - name of the datatext (required)
-	events - must be a table with string values of event names to register 
-	eventFunc - function that gets fired when an event gets triggered
-	updateFunc - onUpdate script target function
-	click - function to fire when clicking the datatext
-	onEnterFunc - function to fire OnEnter
-	onLeaveFunc - function to fire OnLeave, if not provided one will be set for you that hides the tooltip.
-]]
 
 DT:RegisterDatatext('Guild', {'PLAYER_ENTERING_WORLD', "GUILD_ROSTER_SHOW", "GUILD_ROSTER_UPDATE", "GUILD_XP_UPDATE", "PLAYER_GUILD_UPDATE", "GUILD_MOTD", "CHAT_MSG_SYSTEM"}, OnEvent, nil, Click, OnEnter)
