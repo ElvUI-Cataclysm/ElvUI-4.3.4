@@ -65,6 +65,7 @@ V['skins'] = {
 		['gossip'] = true,
 		['greeting'] = true,
 		['guild'] = true,
+		['guildcontrol'] = true,
 		['guildregistrar'] = true,
 		['help'] = true,
 		['inspect'] = true,
