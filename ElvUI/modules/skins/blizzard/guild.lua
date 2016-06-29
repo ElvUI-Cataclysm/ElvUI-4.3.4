@@ -182,14 +182,16 @@ local function LoadSkin()
 	--Detail Frame
 	GuildMemberDetailFrame:SetTemplate("Transparent")
 	GuildMemberDetailFrame:Point("TOPLEFT", GuildFrame, "TOPRIGHT", 1, 0)
-	GuildMemberNoteBackground:SetTemplate("Default")
-	GuildMemberOfficerNoteBackground:SetTemplate("Default")
+	GuildMemberNoteBackground:SetTemplate("Transparent")
+	GuildMemberOfficerNoteBackground:SetTemplate("Transparent")
 	GuildMemberRankDropdown:SetFrameLevel(GuildMemberRankDropdown:GetFrameLevel() + 5)
 	GuildMemberRankDropdown:ClearAllPoints()
 	GuildMemberRankDropdown:SetPoint("CENTER", GuildMemberDetailFrame, "CENTER", 8, 42)
 	S:HandleDropDownBox(GuildMemberRankDropdown, 175)
 	S:HandleCloseButton(GuildMemberDetailCloseButton)
 	GuildMemberDetailCloseButton:Point("TOPRIGHT", GuildMemberDetail, "TOPRIGHT", 2, 2)
+	GuildMemberRemoveButton:ClearAllPoints()
+	GuildMemberRemoveButton:SetPoint("BOTTOMLEFT", GuildMemberDetailFrame, "BOTTOMLEFT", 9, 4)
 
 	--News
 	GuildNewsFrame:StripTextures()
