@@ -286,6 +286,11 @@ local function LoadSkin()
 	SecondaryProfession4StatusBar:SetPoint("TOPLEFT", 5, -35)
 	SecondaryProfession4SpellButtonRight:SetPoint("TOPRIGHT", -90, -10)
 
+	for i=1, 2 do
+		_G["PrimaryProfession"..i.."IconBorder"]:Hide()
+		_G["PrimaryProfession"..i.."Icon"]:SetTexCoord(unpack(E.TexCoords))
+	end
+
 	--Bottom Tabs
 	for i=1, 5 do
 		S:HandleTab(_G["SpellBookFrameTabButton"..i])
