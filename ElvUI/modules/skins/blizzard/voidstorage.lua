@@ -25,7 +25,11 @@ local function LoadSkin()
 	VoidStorageFrameMarbleBg:Kill()
 	VoidStorageFrameLines:Kill()
 	select(2, VoidStorageFrame:GetRegions()):Kill()
-
+	
+	VoidStorageDepositFrame:CreateBackdrop("Default")
+	VoidStorageWithdrawFrame:CreateBackdrop("Default")
+	VoidStorageStorageFrame:CreateBackdrop("Default")
+	
 	S:HandleButton(VoidStoragePurchaseButton)
 	S:HandleButton(VoidStorageHelpBoxButton)
 	S:HandleButton(VoidStorageTransferButton)
@@ -45,10 +49,10 @@ local function LoadSkin()
 		_G["VoidStorageWithdrawButton"..i.."Bg"]:Hide()
 
 		button_d:StyleButton()
-		button_d:SetTemplate()
+		button_d:SetTemplate("Default", true)
 
 		button_w:StyleButton()
-		button_w:SetTemplate()
+		button_w:SetTemplate("Default", true)
 
 		icon_d:SetTexCoord(unpack(E.TexCoords))
 		icon_d:ClearAllPoints()
@@ -68,7 +72,7 @@ local function LoadSkin()
 		_G["VoidStorageStorageButton"..i.."Bg"]:Hide()
 
 		button:StyleButton()
-		button:SetTemplate()
+		button:SetTemplate("Default", true)
 
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:ClearAllPoints()
