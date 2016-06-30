@@ -148,7 +148,6 @@ local function LoadSkin()
 	--Skill Line Tabs
 	for i=1, MAX_SKILLLINE_TABS do
 		local tab = _G["SpellBookSkillLineTab"..i]
-		_G["SpellBookSkillLineTab"..i]:CreateBackdrop()
 		_G["SpellBookSkillLineTab"..i.."Flash"]:Kill()
 		SkinTab(tab)
 	end
@@ -164,6 +163,8 @@ local function LoadSkin()
 		end
 	end
 	hooksecurefunc("SpellBookFrame_UpdateSkillLineTabs", SkinSkillLine)
+
+	SpellBookSkillLineTab1:SetPoint("TOPLEFT", SpellBookSideTabsFrame, "TOPRIGHT", -1, -73)
 
 	--Profession Tab
 	local professionbuttons = {
@@ -346,12 +347,29 @@ local function LoadSkin()
 
 	S:HandleRotateButton(SpellBookCompanionModelFrameRotateRightButton)
 	S:HandleRotateButton(SpellBookCompanionModelFrameRotateLeftButton)
-
 	SpellBookCompanionModelFrameRotateLeftButton:ClearAllPoints()
 	SpellBookCompanionModelFrameRotateLeftButton:SetPoint("BOTTOM", SpellBookCompanionModelFrame, "BOTTOM", -17, 3)
+	
+	SpellBookCompanionModelFrameRotateRightButton:SetAlpha(0)
+	SpellBookCompanionModelFrameRotateLeftButton:SetAlpha(0)
+	
+
+	SpellBookCompanionModelFrame:HookScript("OnEnter", function()
+		SpellBookCompanionModelFrameRotateRightButton:SetAlpha(1)
+		SpellBookCompanionModelFrameRotateLeftButton:SetAlpha(1)
+	end)
+	
+	SpellBookFrame:HookScript("OnEnter", function()
+		SpellBookCompanionModelFrameRotateRightButton:SetAlpha(0)
+		SpellBookCompanionModelFrameRotateLeftButton:SetAlpha(0)
+	end)
 
 	S:HandleCloseButton(SpellBookFrameCloseButton)
-
+	
+	SpellBookPageText:SetTextColor(1, 1, 1)
+	SpellBookPageText:SetPoint("BOTTOMRIGHT", SpellBookFrame, "BOTTOMRIGHT", -90, 15)
+	SpellBookPrevPageButton:SetPoint("BOTTOMRIGHT", SpellBookFrame, "BOTTOMRIGHT", -45, 10)
+	SpellBookNextPageButton:SetPoint("BOTTOMRIGHT", SpellBookPageNavigationFrame, "BOTTOMRIGHT", -10, 10)
 end
 
 S:RegisterSkin("ElvUI", LoadSkin);
