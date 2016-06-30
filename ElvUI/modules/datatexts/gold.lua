@@ -53,7 +53,8 @@ local function OnEnter(self)
 	DT:SetupTooltip(self);
 	local textOnly = not E.db.datatexts.goldCoins and true or false;
 	local style = E.db.datatexts.goldFormat or "BLIZZARD";
-	
+
+
 	DT.tooltip:AddLine(L["Session:"]);
 	DT.tooltip:AddDoubleLine(L["Earned:"], E:FormatMoney(Profit, style, textOnly), 1, 1, 1, 1, 1, 1);
 	DT.tooltip:AddDoubleLine(L["Spent:"], E:FormatMoney(Spent, style, textOnly), 1, 1, 1, 1, 1, 1);
@@ -79,12 +80,15 @@ local function OnEnter(self)
 	DT.tooltip:AddDoubleLine(L["Total: "], E:FormatMoney(totalGold, style, textOnly), 1, 1, 1, 1, 1, 1);
 	
 	for i = 1, MAX_WATCHED_TOKENS do
-		local name, count, extraCurrencyType, icon, itemID = GetBackpackCurrencyInfo(i);
+		local name, count, icon, extraCurrencyType, itemID = GetBackpackCurrencyInfo(i);
+		local currencyString = "|T%s:14:14:0:0:64:64:4:60:4:60|t |cff%s%s|r"
+		local color = "ffffff"
+		local countColor = "88ff12"
 		if(name and i == 1) then
 			DT.tooltip:AddLine(" ");
 			DT.tooltip:AddLine(CURRENCY);
 		end
-		if(name and count) then DT.tooltip:AddDoubleLine(name, count, 1, 1, 1); end
+		if(name and count) then DT.tooltip:AddDoubleLine(currencyString:format(icon, color, name), ("|cff%s%d|r"):format(countColor, count)); end
 	end
 	
 	DT.tooltip:AddLine(" ");
