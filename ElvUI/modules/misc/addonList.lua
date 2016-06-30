@@ -330,7 +330,7 @@ function AL:Initialize()
 		addonList.offset = floor((offset / 16) + 0.5);
 		AL:Update();
 		if(GameTooltip:IsShown() ) then
-			AL:TooltipUpdate(GameTooltip:GetOwner());
+			--AL:TooltipUpdate(GameTooltip:GetOwner());
 			GameTooltip:Show()
 		end
 	end);
