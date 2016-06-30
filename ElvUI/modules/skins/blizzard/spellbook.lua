@@ -64,8 +64,6 @@ local function LoadSkin()
 	end
 	SpellButtons(nil, true)
 	hooksecurefunc("SpellButton_UpdateButton", SpellButtons)
-	
-	SpellBookPageText:SetTextColor(0.6, 0.6, 0.6)
 
 	local function CoreAbilities(i)
 		local button = SpellBookCoreAbilitiesFrame.Abilities[i];
