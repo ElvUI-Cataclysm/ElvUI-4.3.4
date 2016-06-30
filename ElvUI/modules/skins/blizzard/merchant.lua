@@ -8,6 +8,7 @@ local function LoadSkin()
 	MerchantFrame:CreateBackdrop("Transparent");
 	MerchantFrame.backdrop:Point("TOPLEFT", 10, -11);
 	MerchantFrame.backdrop:Point("BOTTOMRIGHT", -28, 60);
+	MerchantFrame:SetHeight(532)
 
 	S:HandleCloseButton(MerchantFrameCloseButton, MerchantFrame.backdrop);
 
@@ -23,11 +24,13 @@ local function LoadSkin()
 
 		item:StripTextures(true);
 		item:CreateBackdrop("Default");
+		item:SetHeight(48)
 
 		itemButton:StripTextures();
 		itemButton:StyleButton();
 		itemButton:SetTemplate("Default", true);
-		itemButton:Point("TOPLEFT", item, "TOPLEFT", 4, -4);
+		itemButton:Size(38,38)
+		itemButton:Point("TOPLEFT", item, "TOPLEFT", 3, -5);
 
 		iconTexture:SetTexCoord(unpack(E.TexCoords));
 		iconTexture:SetInside();

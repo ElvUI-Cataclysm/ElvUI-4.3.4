@@ -51,7 +51,13 @@ local function LoadSkin()
 	CalendarContextMenu:SetTemplate("Transparent")
 	CalendarContextMenu.SetBackdropColor = E.noop
 	CalendarContextMenu.SetBackdropBorderColor = E.noop
-	
+
+	CalendarContextMenuButton1:StyleButton()
+
+	for i=3, 5 do
+		_G["CalendarContextMenuButton"..i]:StyleButton()
+	end
+
 	--Boost frame levels
 	for i=1, 42 do
 		_G["CalendarDayButton"..i]:SetFrameLevel(_G["CalendarDayButton"..i]:GetFrameLevel() + 1)
@@ -75,7 +81,7 @@ local function LoadSkin()
 	CalendarCreateEventInviteEdit:Width(CalendarCreateEventInviteEdit:GetWidth() - 2)
 	
 	CalendarCreateEventInviteList:StripTextures()
-	CalendarCreateEventInviteList:SetTemplate("Transparent")
+	CalendarCreateEventInviteList:SetTemplate("Transparent",true)
 	
 	S:HandleEditBox(CalendarCreateEventInviteEdit)
 

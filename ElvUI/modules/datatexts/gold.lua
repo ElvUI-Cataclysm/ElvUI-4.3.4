@@ -83,7 +83,7 @@ local function OnEnter(self)
 		local name, count, icon, extraCurrencyType, itemID = GetBackpackCurrencyInfo(i);
 		local currencyString = "|T%s:14:14:0:0:64:64:4:60:4:60|t |cff%s%s|r"
 		local color = "ffffff"
-		local countColor = "88ff12"
+		local countColor = "c70000"
 		if(name and i == 1) then
 			DT.tooltip:AddLine(" ");
 			DT.tooltip:AddLine(CURRENCY);
