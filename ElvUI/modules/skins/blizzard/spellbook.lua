@@ -9,6 +9,7 @@ local function LoadSkin()
 
 	SpellBookFrame:StripTextures(true);
 	SpellBookFrame:SetTemplate("Transparent")
+	SpellBookFrame:Width(460)
 
 	SpellBookFrameInset:StripTextures(true);
 	SpellBookSpellIconsFrame:StripTextures(true);
@@ -17,7 +18,6 @@ local function LoadSkin()
 
 	S:HandleNextPrevButton(SpellBookPrevPageButton)
 	S:HandleNextPrevButton(SpellBookNextPageButton)
-
 
 	--Skin SpellButtons
 	local function SpellButtons(self, first)
@@ -137,6 +137,14 @@ local function LoadSkin()
 		tab:Point(point, relatedTo, point2, 1, y)
 	end
 
+	for i = 1, 12 do
+		_G["SpellButton" .. i]:CreateBackdrop("Transparent", true);
+		_G["SpellButton" .. i].backdrop:Point("TOPLEFT", -7, 7);
+		_G["SpellButton" .. i].backdrop:Point("BOTTOMRIGHT", 140, -7);
+	end
+	
+	SpellButton1:SetPoint("TOPLEFT", SpellBookSpellIconsFrame, "TOPLEFT", 30, -75)
+	
 	--Skill Line Tabs
 	for i=1, MAX_SKILLLINE_TABS do
 		local tab = _G["SpellBookSkillLineTab"..i]
@@ -219,12 +227,64 @@ local function LoadSkin()
 		local statusbar = _G[statusbar]
 		statusbar:StripTextures()
 		statusbar:SetStatusBarTexture(E["media"].normTex)
-		statusbar:SetStatusBarColor(0, 220/255, 0)
+		statusbar:SetStatusBarColor(0.11, 0.50, 1.00)
 		statusbar:CreateBackdrop("Default")
 
 		statusbar.rankText:ClearAllPoints()
 		statusbar.rankText:SetPoint("CENTER")
 	end
+
+	PrimaryProfession1:CreateBackdrop("Transparent")
+	PrimaryProfession1:Height(90)
+	PrimaryProfession1:SetPoint("TOPLEFT", 10, -30)
+	PrimaryProfession1StatusBar:SetHeight(20)
+	PrimaryProfession1StatusBar:SetWidth(180)
+	PrimaryProfession1StatusBar:SetPoint("TOPLEFT", 250, -10)
+	PrimaryProfession1UnlearnButton:SetPoint("RIGHT", PrimaryProfession1StatusBar, "LEFT", -135, -10)
+	PrimaryProfession1Rank:SetPoint("TOPLEFT", 120, -23)
+	PrimaryProfession1SpellButtonTop:SetPoint("TOPRIGHT", PrimaryProfession1, "TOPRIGHT", -225, -45)
+	PrimaryProfession1SpellButtonBottom:SetPoint("TOPLEFT", PrimaryProfession1SpellButtonTop, "BOTTOMLEFT", 135, 40)
+
+	PrimaryProfession2:CreateBackdrop("Transparent")
+	PrimaryProfession2:Height(90)
+	PrimaryProfession2:SetPoint("TOPLEFT", 10, -130)
+	PrimaryProfession2StatusBar:SetHeight(20)
+	PrimaryProfession2StatusBar:SetWidth(180)
+	PrimaryProfession2StatusBar:SetPoint("TOPLEFT", 250, -10)
+	PrimaryProfession2UnlearnButton:SetPoint("RIGHT", PrimaryProfession2StatusBar, "LEFT", -135, -10)
+	PrimaryProfession2Rank:SetPoint("TOPLEFT", 120, -23)
+	PrimaryProfession2SpellButtonTop:SetPoint("TOPRIGHT", PrimaryProfession2, "TOPRIGHT", -225, -45)
+	PrimaryProfession2SpellButtonBottom:SetPoint("TOPLEFT", PrimaryProfession2SpellButtonTop, "BOTTOMLEFT", 135, 40)
+
+	SecondaryProfession1:CreateBackdrop("Transparent")
+	SecondaryProfession1:Height(60)
+	SecondaryProfession1StatusBar:SetHeight(18)
+	SecondaryProfession1StatusBar:SetWidth(120)
+	SecondaryProfession1StatusBar:SetPoint("TOPLEFT", 5, -35)
+	SecondaryProfession1SpellButtonRight:SetPoint("TOPRIGHT", -90, -10)
+	SecondaryProfession1SpellButtonLeft:SetPoint("TOPRIGHT", SecondaryProfession1SpellButtonRight, "TOPLEFT", -96, 0)
+
+	SecondaryProfession2:CreateBackdrop("Transparent")
+	SecondaryProfession2:Height(60)
+	SecondaryProfession2StatusBar:SetHeight(18)
+	SecondaryProfession2StatusBar:SetWidth(120)
+	SecondaryProfession2StatusBar:SetPoint("TOPLEFT", 5, -35)
+	SecondaryProfession2SpellButtonRight:SetPoint("TOPRIGHT", -90, -10)
+
+	SecondaryProfession3:CreateBackdrop("Transparent")
+	SecondaryProfession3:Height(60)
+	SecondaryProfession3StatusBar:SetHeight(18)
+	SecondaryProfession3StatusBar:SetWidth(120)
+	SecondaryProfession3StatusBar:SetPoint("TOPLEFT", 5, -35)
+	SecondaryProfession3SpellButtonRight:SetPoint("TOPRIGHT", -90, -10)
+	SecondaryProfession3SpellButtonLeft:SetPoint("TOPRIGHT", SecondaryProfession3SpellButtonRight, "TOPLEFT", -96, 0)
+
+	SecondaryProfession4:CreateBackdrop("Transparent")
+	SecondaryProfession4:Height(60)
+	SecondaryProfession4StatusBar:SetHeight(18)
+	SecondaryProfession4StatusBar:SetWidth(120)
+	SecondaryProfession4StatusBar:SetPoint("TOPLEFT", 5, -35)
+	SecondaryProfession4SpellButtonRight:SetPoint("TOPRIGHT", -90, -10)
 
 	--Bottom Tabs
 	for i=1, 5 do
@@ -255,14 +315,35 @@ local function LoadSkin()
 		end					
 	end
 
+	for i = 1, 12 do
+		_G["SpellBookCompanionButton" .. i]:CreateBackdrop("Transparent", true);
+		_G["SpellBookCompanionButton" .. i].backdrop:Point("TOPLEFT", -3, 3);
+		_G["SpellBookCompanionButton" .. i].backdrop:Point("BOTTOMRIGHT", 105, -3);
+	end
+
+	SpellBookCompanionButton1:SetPoint("TOPLEFT",  SpellBookCompanionsFrame, "TOPLEFT", 10, -280)
+
 	SpellBookCompanionModelFrame:StripTextures()
 	SpellBookCompanionModelFrameShadowOverlay:StripTextures()
 	SpellBookCompanionsModelFrame:Kill()
-	SpellBookCompanionModelFrame:SetTemplate("Default")
+	SpellBookCompanionModelFrame:SetTemplate("Transparent")
+
+	SpellBookCompanionModelFrame:ClearAllPoints()
+	SpellBookCompanionModelFrame:SetPoint("TOP", SpellBookCompanionsFrame, "TOP", 0, -60)
+	SpellBookCompanionModelFrame:Width(270)
+	SpellBookCompanionModelFrame:Height(185)
 
 	S:HandleButton(SpellBookCompanionSummonButton)
+	SpellBookCompanionSummonButton:SetPoint("BOTTOM", SpellBookCompanionModelFrame, "BOTTOM", -15, -235)
+	SpellBookCompanionSummonButton:SetScale(1.1)
+
+	SpellBookCompanionSelectedName:SetPoint("TOP", SpellBookCompanionModelFrame, "TOP", 0, 175)
+
 	S:HandleRotateButton(SpellBookCompanionModelFrameRotateRightButton)
 	S:HandleRotateButton(SpellBookCompanionModelFrameRotateLeftButton)
+
+	SpellBookCompanionModelFrameRotateLeftButton:ClearAllPoints()
+	SpellBookCompanionModelFrameRotateLeftButton:SetPoint("BOTTOM", SpellBookCompanionModelFrame, "BOTTOM", -17, 3)
 
 	S:HandleCloseButton(SpellBookFrameCloseButton)
 
