@@ -164,9 +164,11 @@ local function LoadSkin()
 			object.Check:SetTexture(nil)
 			object.text:FontTemplate()
 			object.text.SetFont = E.noop
+			object:StyleButton()
+			object.SelectedBar:SetTexture(0, 0.7, 1, 0.5)
 		end
 	end)
-	
+
 	--Equipement Manager
 	S:HandleButton(PaperDollEquipmentManagerPaneEquipSet)
 	S:HandleButton(PaperDollEquipmentManagerPaneSaveSet)
@@ -183,6 +185,10 @@ local function LoadSkin()
 
 			object.Check:SetTexture(nil)
 			object.icon:SetTexCoord(unpack(E.TexCoords))
+			
+			object:StyleButton()
+			object.SelectedBar:SetTexture(0, 0.7, 1, 0.5)
+			object.HighlightBar:SetTexture(nil)
 			
 			if not object.backdrop then
 				object:CreateBackdrop("Default")
