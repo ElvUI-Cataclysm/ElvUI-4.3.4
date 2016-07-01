@@ -285,7 +285,14 @@ local function LoadSkin()
 	SecondaryProfession4StatusBar:SetPoint("TOPLEFT", 5, -35)
 	SecondaryProfession4SpellButtonRight:SetPoint("TOPRIGHT", -90, -10)
 
+	for i = 1, 4 do
+		_G["SecondaryProfession"..i.."SpellButtonRightSubSpellName"]:SetTextColor(1, 1, 1)
+		_G["SecondaryProfession"..i.."SpellButtonLeftSubSpellName"]:SetTextColor(1, 1, 1)
+	end
+
 	for i=1, 2 do
+		_G["PrimaryProfession"..i.."SpellButtonTopSubSpellName"]:SetTextColor(1, 1, 1)
+		_G["PrimaryProfession"..i.."SpellButtonBottomSubSpellName"]:SetTextColor(1, 1, 1)
 		_G["PrimaryProfession"..i.."IconBorder"]:Hide()
 		_G["PrimaryProfession"..i.."Icon"]:SetTexCoord(unpack(E.TexCoords))
 	end
