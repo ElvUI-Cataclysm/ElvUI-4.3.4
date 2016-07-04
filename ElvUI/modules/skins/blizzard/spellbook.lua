@@ -162,7 +162,7 @@ local function LoadSkin()
 	end
 	hooksecurefunc("SpellBookFrame_UpdateSkillLineTabs", SkinSkillLine)
 
-	SpellBookSkillLineTab1:SetPoint("TOPLEFT", SpellBookSideTabsFrame, "TOPRIGHT", -1, -73)
+	SpellBookSkillLineTab1:SetPoint("TOPLEFT", SpellBookSideTabsFrame, "TOPRIGHT", -1, -40)
 
 	--Profession Tab
 	local professionbuttons = {
@@ -345,7 +345,7 @@ local function LoadSkin()
 	SpellBookCompanionModelFrame:Height(185)
 
 	S:HandleButton(SpellBookCompanionSummonButton)
-	SpellBookCompanionSummonButton:SetPoint("BOTTOM", SpellBookCompanionModelFrame, "BOTTOM", -15, -235)
+	SpellBookCompanionSummonButton:SetPoint("BOTTOM", SpellBookCompanionModelFrame, "BOTTOM", -5, -235)
 	SpellBookCompanionSummonButton:SetScale(1.1)
 
 	SpellBookCompanionSelectedName:SetPoint("TOP", SpellBookCompanionModelFrame, "TOP", 0, 175)
@@ -353,7 +353,7 @@ local function LoadSkin()
 	S:HandleRotateButton(SpellBookCompanionModelFrameRotateRightButton)
 	S:HandleRotateButton(SpellBookCompanionModelFrameRotateLeftButton)
 	SpellBookCompanionModelFrameRotateLeftButton:ClearAllPoints()
-	SpellBookCompanionModelFrameRotateLeftButton:SetPoint("BOTTOM", SpellBookCompanionModelFrame, "BOTTOM", -17, 3)
+	SpellBookCompanionModelFrameRotateLeftButton:SetPoint("TOPLEFT", SpellBookCompanionModelFrame, "TOPLEFT", 2, -2)
 	
 	SpellBookCompanionModelFrameRotateRightButton:SetAlpha(0)
 	SpellBookCompanionModelFrameRotateLeftButton:SetAlpha(0)
