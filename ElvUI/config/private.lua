@@ -76,6 +76,7 @@ V['skins'] = {
 		['mail'] = true,
 		['merchant'] = true,
 		['misc'] = true,
+		['movepad'] = true,
 		['petition'] = true,
 		['pvp'] = true,
 		['quest'] = true,

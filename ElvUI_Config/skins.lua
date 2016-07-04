@@ -188,6 +188,11 @@ E.Options.args.skins = {
 					name = L["Misc Frames"],
 					desc = L["TOGGLESKIN_DESC"],
 				},
+				movepad = {
+					type = "toggle",
+					name = L["Move Pad"],
+					desc = L["TOGGLESKIN_DESC"],
+				},
 				petition = {
 					type = "toggle",
 					name = L["Petition Frame"],
