@@ -36,5 +36,6 @@ V.addOnSkins = {
 	ACP = true,
 	FlightMap = true,
 	skada = true,
+	AuctionatorAtlantiss = true,
 	Blizzard_WorldStateFrame = true,
 };

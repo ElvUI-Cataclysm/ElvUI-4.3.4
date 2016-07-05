@@ -85,7 +85,6 @@ local function LoadSkin()
 		end
 	end)
 
-
 	--Guild Crafters
 	TradeSkillGuildFrame:StripTextures()
 	TradeSkillGuildFrame:SetTemplate("Transparent")
@@ -93,6 +92,14 @@ local function LoadSkin()
 	TradeSkillGuildFrameContainer:StripTextures()
 	TradeSkillGuildFrameContainer:SetTemplate("Default")
 	S:HandleCloseButton(TradeSkillGuildFrameCloseButton)
+
+	--Auctionator Button
+	if not Auctionator_Search then
+		return
+	else
+		S:HandleButton(Auctionator_Search)
+		Atr_Error_Frame:Kill()
+	end
 end
 
 S:RegisterSkin("Blizzard_TradeSkillUI", LoadSkin);
