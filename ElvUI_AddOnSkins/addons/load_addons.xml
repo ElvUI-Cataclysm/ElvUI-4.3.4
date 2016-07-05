@@ -9,4 +9,5 @@
 	<Script file="flightMap.lua"/>
 	<Script file="skada.lua"/>
 	<Script file="AuctionatorAtlantiss.lua"/>
+	<Script file="spy.lua"/>
 </Ui>
