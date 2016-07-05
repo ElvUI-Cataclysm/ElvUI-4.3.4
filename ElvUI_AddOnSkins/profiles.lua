@@ -35,5 +35,6 @@ V.addOnSkins = {
 	_NPCScan = true,
 	ACP = true,
 	FlightMap = true,
+	skada = true,
 	Blizzard_WorldStateFrame = true,
 };

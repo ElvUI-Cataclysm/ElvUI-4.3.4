@@ -241,12 +241,11 @@ if(addon:CheckAddOn("Skada")) then
 			if(not window) then return; end
 			local barmod = Skada.displays["bar"];
 			
-			window.db.barwidth = width;
-			window.db.background.height = height - (window.db.enabletitle and window.db.barheight or -(E.Border + E.Spacing)) - (E.Border + E.Spacing);
+			window.db.barwidth = width
+			window.db.background.height = height - (window.db.enabletitle and window.db.title.height or 0) - (E.Border + E.Spacing);
 			
 			window.db.spark = false;
 			window.db.barslocked = true;
-			window.db.enablebackground = true;
 			
 			window.bargroup:SetParent(relativeFrame);
 			window.bargroup:ClearAllPoints();
@@ -255,9 +254,6 @@ if(addon:CheckAddOn("Skada")) then
 			window.bargroup:SetFrameStrata("LOW");
 			
 			barmod.ApplySettings(barmod, window);
-			
-			window.bargroup.bgframe:SetFrameStrata("LOW");
-			window.bargroup.bgframe:SetFrameLevel(window.bargroup:GetFrameLevel() - 1);
 		end
 		
 		if(numberToEmbed == 1) then
@@ -265,10 +261,10 @@ if(addon:CheckAddOn("Skada")) then
 			if(E.db.addOnSkins.embed.embedType == "DOUBLE") then
 				parent = self.db.right == "Skada" and self.right or self.left;
 			end
-			EmbedWindow(self.skadaWindows[1], parent:GetWidth() -(E.Border*2), parent:GetHeight(), "TOPLEFT", parent, "TOPLEFT", E.Border, -E.Border);
+			EmbedWindow(self.skadaWindows[1], parent:GetWidth() -(E.Border*2), parent:GetHeight(), "TOPLEFT", parent, "TOPLEFT", E.Border, -16);
 		elseif(numberToEmbed == 2) then
-			EmbedWindow(self.skadaWindows[1], self.left:GetWidth() -(E.Border*2), self.left:GetHeight(), "TOPLEFT", self.left, "TOPLEFT", E.Border, -E.Border);
-			EmbedWindow(self.skadaWindows[2], self.right:GetWidth() -(E.Border*2), self.right:GetHeight(), "TOPRIGHT", self.right, "TOPRIGHT", -E.Border, -E.Border);
+			EmbedWindow(self.skadaWindows[1], self.left:GetWidth() -(E.Border*2), self.left:GetHeight(), "TOPLEFT", self.left, "TOPLEFT", E.Border, -16);
+			EmbedWindow(self.skadaWindows[2], self.right:GetWidth() -(E.Border*2), self.right:GetHeight(), "TOPRIGHT", self.right, "TOPRIGHT", -E.Border, -16);
 		end
 	end
 end

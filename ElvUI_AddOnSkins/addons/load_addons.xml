@@ -7,4 +7,5 @@
 	<Script file="recount.lua"/>
 	<Script file="overachiever.lua"/>
 	<Script file="flightMap.lua"/>
+	<Script file="skada.lua"/>
 </Ui>
