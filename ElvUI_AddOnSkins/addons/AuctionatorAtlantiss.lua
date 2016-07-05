@@ -151,6 +151,7 @@ function addon:AuctionatorAtlantiss(event)
 		Atr_SaveThisList_Button:Width(120)
 		Atr_SaveThisList_Button:SetPoint("TOPLEFT", Atr_HeadingsBar, "TOPLEFT", 80, 30)
 
+		E:UnregisterEvent('AuctionatorAtlantiss', 'AUCTION_HOUSE_SHOW')
 	end
 end
 
