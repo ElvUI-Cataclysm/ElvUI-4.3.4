@@ -10,4 +10,5 @@
 	<Script file="skada.lua"/>
 	<Script file="AuctionatorAtlantiss.lua"/>
 	<Script file="spy.lua"/>
+	<Script file="clique.lua"/>
 </Ui>

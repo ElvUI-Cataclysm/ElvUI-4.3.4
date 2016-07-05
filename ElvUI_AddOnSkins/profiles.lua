@@ -38,5 +38,6 @@ V.addOnSkins = {
 	skada = true,
 	AuctionatorAtlantiss = true,
 	spy = true,
+	clique = true,
 	Blizzard_WorldStateFrame = true,
 };
