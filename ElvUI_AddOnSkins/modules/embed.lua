@@ -242,7 +242,7 @@ if(addon:CheckAddOn("Skada")) then
 			local barmod = Skada.displays["bar"];
 			
 			window.db.barwidth = width
-			window.db.background.height = height - (window.db.enabletitle and window.db.title.height or 0) - (E.Border + E.Spacing);
+			window.db.background.height = height - (window.db.enabletitle and window.db.barheight or 0)
 			
 			window.db.spark = false;
 			window.db.barslocked = true;
