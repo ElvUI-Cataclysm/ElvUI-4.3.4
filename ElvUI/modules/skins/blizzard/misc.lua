@@ -815,6 +815,20 @@ local function LoadSkin()
 	S:HandleEditBox(ReportPlayerNameDialogCommentFrameEditBox)
 	S:HandleButton(ReportPlayerNameDialogCancelButton)
 	S:HandleButton(ReportPlayerNameDialogReportButton)
+	
+	-- Cinematic Popup
+	CinematicFrameCloseDialog:StripTextures()
+	CinematicFrameCloseDialog:SetTemplate("Transparent")
+	CinematicFrameCloseDialog:SetScale(UIParent:GetScale())
+	S:HandleButton(CinematicFrameCloseDialogConfirmButton)
+	S:HandleButton(CinematicFrameCloseDialogResumeButton)
+
+	-- Movie Frame Popup
+	MovieFrame.CloseDialog:StripTextures()
+	MovieFrame.CloseDialog:SetTemplate("Transparent")
+	MovieFrame.CloseDialog:SetScale(UIParent:GetScale())
+	S:HandleButton(MovieFrame.CloseDialog.ConfirmButton)
+	S:HandleButton(MovieFrame.CloseDialog.ResumeButton)
 end
 
 S:RegisterSkin('ElvUI', LoadSkin)
