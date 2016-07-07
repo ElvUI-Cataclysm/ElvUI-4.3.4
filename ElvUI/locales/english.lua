@@ -242,6 +242,7 @@ L["Experience Bar"] = true;
 L['Focus Castbar'] = true;
 L['Focus Frame'] = true;
 L['FocusTarget Frame'] = true;
+L["GM Help"] = true;
 L["GM Ticket Frame"] = true;
 L["Left Chat"] = true;
 L["Loot / Alert Frames"] = true;
