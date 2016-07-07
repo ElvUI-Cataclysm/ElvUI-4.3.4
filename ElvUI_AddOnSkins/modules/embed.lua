@@ -240,17 +240,27 @@ if(addon:CheckAddOn("Skada")) then
 		local function EmbedWindow(window, width, height, point, relativeFrame, relativePoint, ofsx, ofsy)
 			if(not window) then return; end
 			local barmod = Skada.displays["bar"];
+			local offsety
+			if window.db.reversegrowth then
+				offsety = 1
+			else
+				offsety = 1 + (window.db.enabletitle and window.db.title.height or 0)
+			end
 			
 			window.db.barwidth = width
-			window.db.background.height = height - (window.db.enabletitle and window.db.barheight or 0)
-			
+			window.db.background.height = height - (window.db.enabletitle and window.db.title.height or 0) - (E.PixelMode and 1 or 2)
 			window.db.spark = false;
 			window.db.barslocked = true;
 			
+			window.bargroup.ClearAllPoints = nil
+			window.bargroup:ClearAllPoints()
+			window.bargroup.ClearAllPoints = function() end
+			window.bargroup.SetPoint = nil
+			window.bargroup:SetPoint(point, relativeFrame, relativePoint, ofsx, -offsety)
+			window.bargroup.SetPoint = function() end
 			window.bargroup:SetParent(relativeFrame);
 			window.bargroup:ClearAllPoints();
 			window.bargroup:SetPoint(point, relativeFrame, relativePoint, ofsx, ofsy);
-			
 			window.bargroup:SetFrameStrata("LOW");
 			
 			barmod.ApplySettings(barmod, window);
@@ -261,10 +271,10 @@ if(addon:CheckAddOn("Skada")) then
 			if(E.db.addOnSkins.embed.embedType == "DOUBLE") then
 				parent = self.db.right == "Skada" and self.right or self.left;
 			end
-			EmbedWindow(self.skadaWindows[1], parent:GetWidth() -(E.Border*2), parent:GetHeight(), "TOPLEFT", parent, "TOPLEFT", E.Border, -16);
+			EmbedWindow(self.skadaWindows[1], parent:GetWidth() -(E.Border*2), parent:GetHeight(), "TOPLEFT", parent, "TOPLEFT", E.Border, -E.Border);
 		elseif(numberToEmbed == 2) then
-			EmbedWindow(self.skadaWindows[1], self.left:GetWidth() -(E.Border*2), self.left:GetHeight(), "TOPLEFT", self.left, "TOPLEFT", E.Border, -16);
-			EmbedWindow(self.skadaWindows[2], self.right:GetWidth() -(E.Border*2), self.right:GetHeight(), "TOPRIGHT", self.right, "TOPRIGHT", -E.Border, -16);
+			EmbedWindow(self.skadaWindows[1], self.left:GetWidth() -(E.Border*2), self.left:GetHeight(), "TOPLEFT", self.left, "TOPLEFT", E.Border, -E.Border);
+			EmbedWindow(self.skadaWindows[2], self.right:GetWidth() -(E.Border*2), self.right:GetHeight(), "TOPRIGHT", self.right, "TOPRIGHT", -E.Border, -E.Border);
 		end
 	end
 end
