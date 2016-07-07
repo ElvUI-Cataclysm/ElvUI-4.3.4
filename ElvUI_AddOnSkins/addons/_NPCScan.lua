@@ -29,12 +29,15 @@ function addon:_NPCScan()
 	NPCFoundText:SetTextColor(1, 1, 1, 1);
 	NPCFoundText:SetShadowOffset(1, -1);
 
+	--Interface Options
 	S:HandleButton(_NPCScanTest)
 	_NPCScanConfigAlert:StripTextures()
+	
 	S:HandleCheckBox(_NPCScanConfigCacheWarningsCheckbox)
 	S:HandleCheckBox(_NPCScanConfigPrintTimeCheckbox)
 	S:HandleCheckBox(_NPCScanConfigUnmuteCheckbox)
 	S:HandleCheckBox(_NPCScanSearchAchievementAddFoundCheckbox)
+	
 	S:HandleDropDownBox(_NPCScanConfigSoundDropdown)
 
 	for i = 1, 3 do
@@ -44,9 +47,6 @@ function addon:_NPCScan()
 	S:HandleEditBox(_NPCScanSearchNpcName)
 	S:HandleEditBox(_NPCScanSearchNpcID)
 	S:HandleEditBox(_NPCScanSearchNpcWorld)
-
-	S:HandleCloseButton(_NPCScanButtonCloseButton)
-	_NPCScanButtonCloseButton:SetScale(0.85)
 
 end
 
