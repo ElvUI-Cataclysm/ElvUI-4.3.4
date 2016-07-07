@@ -60,6 +60,8 @@ local function LoadSkin()
 			end
 			_G["SpellButton"..i.."SubSpellName"]:SetTextColor(0.6, 0.6, 0.6)
 			_G["SpellButton"..i.."RequiredLevelString"]:SetTextColor(0.6, 0.6, 0.6)
+			
+			_G["SpellButton"..i.."SpellName"]:Point("LEFT", 45, 12)
 		end
 	end
 	SpellButtons(nil, true)
