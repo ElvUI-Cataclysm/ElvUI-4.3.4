@@ -1,0 +1,8 @@
+## Interface: 40300
+## Author: Doc309 
+## Version: 2.1
+## Title: |cff1784d1E|r|cffe5e3e3lvUI|r |cff1784d1B|r|cffe5e3e3ag|r|cff1784d1C|r|cffe5e3e3ontrol|r
+## Notes: ElvUI Plugin Framework.
+## RequiredDeps: ElvUI
+
+ElvUI_BagControl.lua

@@ -1,5 +1,5 @@
 ﻿## Interface: 40300
-## Title: |cffA11313E|r|cffC4C4C4lvUI|r |cffA11313M|r|cffC4C4C4icrobar|r |cffA11313E|r|cffC4C4C4nhancement|r
+## Title: |cff1784d1E|r|cffe5e3e3lvUI|r |cff1784d1M|r|cffe5e3e3icrobar|r |cff1784d1E|r|cffe5e3e3nhancement|r
 ## Author: Darth Predator
 ## Version: 1.77
 ## Notes: A module for enhancing |cff1784d1ElvUI|r's microbar.

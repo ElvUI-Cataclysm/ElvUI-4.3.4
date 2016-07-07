@@ -1,7 +1,7 @@
 ## Interface: 40300
 ## Author: Elv, Bunny
 ## Version: 1.01
-## Title: |cffA11313E|r|cffC4C4C4lvUI|r |cffA11313C|r|cffC4C4C4onfig|r
+## Title: |cff1784d1E|r|cffe5e3e3lvUI|r |cff1784d1C|r|cffe5e3e3onfig|r
 ## Notes: Options for ElvUI.
 ## RequiredDeps: ElvUI
 ## LoadOnDemand: true

@@ -1,7 +1,7 @@
 ## Interface: 40300
 ## Author: Bunny, Azilroka, Sortokk
 ## Version: 1.01
-## Title: |cffA11313E|r|cffC4C4C4lvUI|r |cffA11313A|r|cffC4C4C4ddOn|r|cffA11313S|r|cffC4C4C4kins|r
+## Title: |cff1784d1E|r|cffe5e3e3lvUI|r |cff1784d1A|r|cffe5e3e3ddOn|r|cff1784d1S|r|cffe5e3e3kins|r
 ## Notes: AddOn skins for ElvUI :)
 ## RequiredDeps: ElvUI
 

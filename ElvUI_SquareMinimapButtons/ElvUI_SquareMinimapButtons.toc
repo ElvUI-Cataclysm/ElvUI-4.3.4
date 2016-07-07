@@ -1,0 +1,9 @@
+## Interface: 40300
+## Title: |cff1784d1E|r|cffe5e3e3lvUI|r |cff1784d1S|r|cffe5e3e3quare|r|cff1784d1M|r|cffe5e3e3inimap|r|cff1784d1B|r|cffe5e3e3utton|r
+## Version: 3.39
+## Notes: Minimap Button Bar / Minimap Button Skinning
+## OptionalDeps: Tukui, ElvUI, Enhanced_Config
+## Author: Azilroka, Sinaris, Omega1970
+## SavedVariables: SquareMinimapButtonOptions
+
+ElvUI_SquareMinimapButtons.lua
