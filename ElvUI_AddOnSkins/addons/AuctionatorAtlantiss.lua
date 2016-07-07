@@ -5,11 +5,18 @@ if(not addon:CheckAddOn("AuctionatorAtlantiss")) then return; end
 
 function addon:AuctionatorAtlantiss(event)
 	local S = E:GetModule("Skins");	
-
-	if event == 'PLAYER_ENTERING_WORLD' then
-		return
+	
+	if addon == 'Blizzard_TradeSkillUI' or IsAddOnLoaded('Blizzard_TradeSkillUI') then 
+		TradeSkillFrame:HookScript('OnShow', function() 
+			S:HandleButton(Auctionator_Search, true)
+			Atr_Error_Frame:StripTextures()
+			Atr_Error_Frame:SetTemplate("Transparent");
+			S:HandleButton(select(1, Atr_Error_Frame:GetChildren()));
+			addon:UnregisterSkinEvent('Auctionator', event)
+		end)
 	end
 	
+	if event == 'PLAYER_ENTERING_WORLD' then return end
 	if event == 'AUCTION_HOUSE_SHOW' then
 		AuctionatorScrollFrame:StripTextures()
 		Atr_Main_Panel.bg = CreateFrame("Frame", nil, Atr_Main_Panel)
@@ -150,9 +157,30 @@ function addon:AuctionatorAtlantiss(event)
 		S:HandleButton(Atr_SaveThisList_Button)
 		Atr_SaveThisList_Button:Width(120)
 		Atr_SaveThisList_Button:SetPoint("TOPLEFT", Atr_HeadingsBar, "TOPLEFT", 80, 30)
-
-		E:UnregisterEvent('AuctionatorAtlantiss', 'AUCTION_HOUSE_SHOW')
+		
+		--Atr_Mask:StripTextures()
+		--Atr_Mask:SetTemplate("Transparent")
+		Atr_Mask:SetWidth(832)
+		Atr_Mask:SetHeight(448)
+		Atr_Mask:ClearAllPoints()
+		Atr_Mask:SetPoint("TOPLEFT", Atr_Main_Panel, "TOPLEFT", -210, 0)
+		
+		Atr_Adv_Search_Dialog:StripTextures()
+		Atr_Adv_Search_Dialog:SetTemplate("Transparent")
+		
+		S:HandleButton(Atr_Adv_Search_OKBut)
+		S:HandleButton(Atr_Adv_Search_ResetBut)
+		S:HandleButton(Atr_Adv_Search_CancelBut)
+		
+		S:HandleEditBox(Atr_AS_Searchtext)
+		S:HandleEditBox(Atr_AS_Minlevel)
+		S:HandleEditBox(Atr_AS_Maxlevel)
+		
+		S:HandleDropDownBox(Atr_ASDD_Class)
+		S:HandleDropDownBox(Atr_ASDD_Subclass)
+		
+		addon:UnregisterSkinEvent('AuctionatorAtlantiss', 'AUCTION_HOUSE_SHOW')
 	end
 end
 
-addon:RegisterSkin("AuctionatorAtlantiss", addon.AuctionatorAtlantiss, "AUCTION_HOUSE_SHOW");
+addon:RegisterSkin("AuctionatorAtlantiss", addon.AuctionatorAtlantiss, "AUCTION_HOUSE_SHOW", 'ADDON_LOADED');
