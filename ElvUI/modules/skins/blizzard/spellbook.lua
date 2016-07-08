@@ -61,7 +61,7 @@ local function LoadSkin()
 			_G["SpellButton"..i.."SubSpellName"]:SetTextColor(0.6, 0.6, 0.6)
 			_G["SpellButton"..i.."RequiredLevelString"]:SetTextColor(0.6, 0.6, 0.6)
 			
-			_G["SpellButton"..i.."SpellName"]:Point("LEFT", 45, 12)
+			--_G["SpellButton"..i.."SpellName"]:Point("LEFT", 45, 12)
 		end
 	end
 	SpellButtons(nil, true)
@@ -139,11 +139,11 @@ local function LoadSkin()
 
 	for i = 1, 12 do
 		_G["SpellButton" .. i]:CreateBackdrop("Transparent", true);
-		_G["SpellButton" .. i].backdrop:Point("TOPLEFT", -7, 7);
-		_G["SpellButton" .. i].backdrop:Point("BOTTOMRIGHT", 140, -7);
+		_G["SpellButton" .. i].backdrop:Point("TOPLEFT", -7, 6);
+		_G["SpellButton" .. i].backdrop:Point("BOTTOMRIGHT", 155, -10);
 	end
 	
-	SpellButton1:SetPoint("TOPLEFT", SpellBookSpellIconsFrame, "TOPLEFT", 30, -75)
+	SpellButton1:SetPoint("TOPLEFT", SpellBookSpellIconsFrame, "TOPLEFT", 23, -75)
 	
 	--Skill Line Tabs
 	for i=1, MAX_SKILLLINE_TABS do

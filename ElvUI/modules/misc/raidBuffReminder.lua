@@ -280,8 +280,8 @@ function RB:Initialize()
 	self.db = E.db.general.reminder;
 	
 	self.DefaultIcons = {
-		[1] = 'Interface\\Icons\\INV_Potion_97',
-		[2] = 'Interface\\Icons\\Spell_Misc_Food',
+		[1] = 'Interface\\Icons\\INV_PotionE_4',
+		[2] = 'Interface\\Icons\\INV_Misc_Food_68',
 		[3] = 'Interface\\Icons\\Spell_Nature_Regeneration',
 		[4] = 'Interface\\Icons\\Spell_Holy_WordFortitude',
 		[5] = (E.Role == 'Caster' and 'Interface\\Icons\\Spell_Holy_MagicalSentry') or 'Interface\\Icons\\Ability_Warrior_BattleShout',
