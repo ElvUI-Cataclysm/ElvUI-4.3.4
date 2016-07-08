@@ -20,7 +20,7 @@ local function LoadSkin()
 
 	VoidStorageFrame:SetTemplate("Transparent")
 	VoidStorageFrame:SetHeight(410)
-	VoidStorageFrame:SetWidth(690)
+	VoidStorageFrame:SetWidth(675)
 	VoidStoragePurchaseFrame:SetTemplate("Default")
 	VoidStorageFrameMarbleBg:Kill()
 	VoidStorageFrameLines:Kill()
@@ -28,7 +28,10 @@ local function LoadSkin()
 	
 	VoidStorageDepositFrame:CreateBackdrop("Default")
 	VoidStorageWithdrawFrame:CreateBackdrop("Default")
+	
 	VoidStorageStorageFrame:CreateBackdrop("Default")
+	VoidStorageStorageFrame.backdrop:Point("TOPLEFT", 0, -1)
+	VoidStorageStorageFrame.backdrop:Point("BOTTOMRIGHT", -27, 1)
 	
 	S:HandleButton(VoidStoragePurchaseButton)
 	S:HandleButton(VoidStorageHelpBoxButton)
@@ -39,6 +42,11 @@ local function LoadSkin()
 	VoidItemSearchBox.backdrop:Point("TOPLEFT", 10, -1)
 	VoidItemSearchBox.backdrop:Point("BOTTOMRIGHT", 4, 1)
 
+	VoidStorageStorageButton17:Point("LEFT", VoidStorageStorageButton9, "RIGHT", 7, 0)
+	VoidStorageStorageButton33:Point("LEFT", VoidStorageStorageButton25, "RIGHT", 7, 0)
+	VoidStorageStorageButton49:Point("LEFT", VoidStorageStorageButton41, "RIGHT", 7, 0)
+	VoidStorageStorageButton65:Point("LEFT", VoidStorageStorageButton57, "RIGHT", 7, 0)
+	
 	for i = 1, 9 do
 		local button_d = _G["VoidStorageDepositButton"..i]
 		local button_w = _G["VoidStorageWithdrawButton"..i]
