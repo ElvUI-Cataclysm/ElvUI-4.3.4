@@ -1,0 +1,9 @@
+﻿## Interface: 40300
+## Author: Benik
+## Version: 1.14
+## Title: |cff1784d1E|r|cffe5e3e3lvUI|r |cff1784d1D|r|cffe5e3e3ata|r|cff1784d1T|r|cffe5e3e3ext|r |cff1784d1C|r|cffe5e3e3olors|r
+## Notes: a plugin for ElvUI, that changes the DataText text colors.
+## RequiredDeps: ElvUI
+## DefaultState: Enabled
+
+core.lua
