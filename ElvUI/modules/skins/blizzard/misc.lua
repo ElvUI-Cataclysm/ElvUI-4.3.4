@@ -795,9 +795,18 @@ local function LoadSkin()
 	hooksecurefunc("NavBar_Initialize", SetHomeButtonOffsetX)
 
 	--Guild Invitation PopUp Frame
-	GuildInviteFrame:StripTextures()
-	GuildInviteFrame:SetTemplate("Transparent")
-
+	GuildInviteFrameTopLeftCorner:Kill()
+	GuildInviteFrameTopRightCorner:Kill()
+	GuildInviteFrameBottomLeftCorner:Kill()
+	GuildInviteFrameBottomRightCorner:Kill()
+	GuildInviteFrameTopBorder:Kill()
+	GuildInviteFrameBottomBorder:Kill()
+	GuildInviteFrameLeftBorder:Kill()
+	GuildInviteFrameRightBorder:Kill()
+	GuildInviteFrameBackground:Kill()
+	GuildInviteFrameTabardBorder:Kill()
+	GuildInviteFrameTabardRing:Kill()
+	
 	S:HandleButton(GuildInviteFrameJoinButton)
 	S:HandleButton(GuildInviteFrameDeclineButton)
 
