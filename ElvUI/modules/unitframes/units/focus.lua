@@ -26,7 +26,6 @@ function UF:Construct_FocusFrame(frame)
 	frame.Buffs = self:Construct_Buffs(frame);
 	frame.Debuffs = self:Construct_Debuffs(frame);
 	frame.AuraBars = self:Construct_AuraBarHeader(frame);
-	frame.HealCommBar = UF:Construct_HealComm(frame);
 	frame.RaidIcon = UF:Construct_RaidIcon(frame);
 	frame.Range = UF:Construct_Range(frame);
 	frame.Threat = UF:Construct_Threat(frame);
@@ -93,8 +92,6 @@ function UF:Update_FocusFrame(frame, db)
 	UF:Configure_Auras(frame, "Debuffs");
 	
 	UF:Configure_Castbar(frame);
-	
-	UF:Configure_HealComm(frame);
 	
 	UF:Configure_GPS(frame);
 	

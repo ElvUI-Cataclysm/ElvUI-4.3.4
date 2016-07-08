@@ -4,30 +4,22 @@ local S = E:GetModule('Skins')
 
 function B:PositionGMFrames()
 	TicketStatusFrame:ClearAllPoints()
-	TicketStatusFrame:SetPoint("TOPLEFT", E.UIParent, 'TOPLEFT', 250, -5)
+	TicketStatusFrame:SetPoint("TOPLEFT", E.UIParent, 'TOPLEFT', 250, -4)
 
 	E:CreateMover(TicketStatusFrame, "GMMover", L["GM Ticket Frame"])
 
-	--Active Ticket Button
-	
-	--HelpOpenTicketButton:SetParent(Minimap)
-	--HelpOpenTicketButton:ClearAllPoints()
-	--HelpOpenTicketButton:Point("BOTTOM", Minimap, "BOTTOM", 8, -4)
-	
+	--Active Ticket Button	
 	local button = HelpOpenTicketButton
 	local buttonIcon = button:GetNormalTexture()
 	local buttonPushed = button:GetPushedTexture()
 
-	button:SetParent(ElvUIParent)
+	button:SetParent(E.UIParent)
 	button:ClearAllPoints()
-	button:SetPoint("TOP", E.UIParent, "TOP", 260, -4)
-
-	HelpOpenTicketButtonTutorial:Kill()
-	HelpOpenTicketButtonTutorialCloseButton:Kill()
-	PlayerTalentFrameLearnButtonTutorialArrow:Kill()
+	button:SetPoint("TOPLEFT", E.UIParent, "TOPLEFT", 210, -4)
 
 	button:StripTextures()
 	S:HandleButton(button)
+	button:CreateBackdrop("Default")
 	button:SetWidth(35)
 	button:SetHeight(35)
 	
@@ -35,11 +27,17 @@ function B:PositionGMFrames()
 	buttonIcon:ClearAllPoints()
 	buttonIcon:SetPoint("CENTER", HelpOpenTicketButton, "CENTER", 0, 0)
 	buttonIcon:SetTexCoord(unpack(E.TexCoords))
+	
 	buttonPushed:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-Blizz")
 	buttonPushed:ClearAllPoints()
 	buttonPushed:SetTexCoord(unpack(E.TexCoords))
 	buttonPushed:SetPoint("CENTER", HelpOpenTicketButton, "CENTER", 0, 0)
 
-	E:CreateMover(HelpOpenTicketButton, "GMHelp", L["GM Help"])
+	E:CreateMover(HelpOpenTicketButton, "GMHelpMover", L["Ticket"])
+	
+	--Active Ticket Button Tutorial PopUp
+	HelpOpenTicketButtonTutorial:Kill()
+	HelpOpenTicketButtonTutorialCloseButton:Kill()
+	PlayerTalentFrameLearnButtonTutorialArrow:Kill()
 
 end

@@ -37,7 +37,6 @@ function UF:Construct_RaidpetFrames(unitGroup)
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", UF.UpdateTargetGlow);
 	self.Threat = UF:Construct_Threat(self);
 	self.RaidIcon = UF:Construct_RaidIcon(self);
-	self.HealCommBar = UF:Construct_HealComm(self);
 	self.Range = UF:Construct_Range(self);
 	self.customTexts = {};
 	
@@ -156,8 +155,6 @@ function UF:Update_RaidpetFrames(frame, db)
 	UF:Configure_RaidIcon(frame);
 	
 	UF:Configure_DebuffHighlight(frame);
-	
-	UF:Configure_HealComm(frame);
 	
 	UF:Configure_Range(frame);
 	

@@ -53,7 +53,6 @@ function UF:Construct_PlayerFrame(frame)
 	frame.Combat = self:Construct_CombatIndicator(frame);
 	frame.PvPText = self:Construct_PvPIndicator(frame);
 	frame.DebuffHighlight = self:Construct_DebuffHighlight(frame);
-	frame.HealCommBar = self:Construct_HealComm(frame);
 	frame.AuraBars = self:Construct_AuraBarHeader(frame);
 	frame.CombatFade = true;
 	frame.InfoPanel = self:Construct_InfoPanel(frame);
@@ -147,8 +146,6 @@ function UF:Update_PlayerFrame(frame, db)
 	UF:Configure_DebuffHighlight(frame);
 	
 	UF:Configure_RaidIcon(frame);
-	
-	UF:Configure_HealComm(frame);
 	
 	UF:Configure_AuraBars(frame);
 	

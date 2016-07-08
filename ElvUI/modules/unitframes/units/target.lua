@@ -30,7 +30,6 @@ function UF:Construct_TargetFrame(frame)
 	frame.Castbar.LatencyTexture:Hide();
 	frame.RaidIcon = UF:Construct_RaidIcon(frame);
 	frame.CPoints = self:Construct_Combobar(frame);
-	frame.HealCommBar = self:Construct_HealComm(frame);
 	frame.DebuffHighlight = self:Construct_DebuffHighlight(frame);
 	frame.GPS = self:Construct_GPS(frame);
 	frame.InfoPanel = self:Construct_InfoPanel(frame);
@@ -116,8 +115,6 @@ function UF:Update_TargetFrame(frame, db)
 	UF:Configure_ComboPoints(frame);
 	
 	UF:Configure_DebuffHighlight(frame);
-	
-	UF:Configure_HealComm(frame);
 	
 	UF:Configure_GPS(frame);
 	

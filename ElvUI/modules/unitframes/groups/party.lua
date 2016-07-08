@@ -58,7 +58,6 @@ function UF:Construct_PartyFrames(unitGroup)
 		self.Threat = UF:Construct_Threat(self);
 		self.RaidIcon = UF:Construct_RaidIcon(self);
 		self.ReadyCheck = UF:Construct_ReadyCheckIcon(self);
-		self.HealCommBar = UF:Construct_HealComm(self);
 		self.GPS = UF:Construct_GPS(self);
 		self.customTexts = {};
 		self.unitframeType = "party";
@@ -238,8 +237,6 @@ function UF:Update_PartyFrames(frame, db)
 		UF:Configure_DebuffHighlight(frame);
 		
 		UF:Configure_RoleIcon(frame);
-		
-		UF:Configure_HealComm(frame);
 		
 		UF:Configure_GPS(frame);
 		
