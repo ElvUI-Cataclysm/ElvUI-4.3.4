@@ -822,13 +822,12 @@ local function LoadSkin()
 	CinematicFrameCloseDialog:SetScale(UIParent:GetScale())
 	S:HandleButton(CinematicFrameCloseDialogConfirmButton)
 	S:HandleButton(CinematicFrameCloseDialogResumeButton)
-
-	-- Movie Frame Popup
-	MovieFrame.CloseDialog:StripTextures()
-	MovieFrame.CloseDialog:SetTemplate("Transparent")
-	MovieFrame.CloseDialog:SetScale(UIParent:GetScale())
-	S:HandleButton(MovieFrame.CloseDialog.ConfirmButton)
-	S:HandleButton(MovieFrame.CloseDialog.ResumeButton)
+	
+	-- Level Up Popup
+	LevelUpDisplay:StripTextures()
+	LevelUpDisplayLevelFrame:StripTextures()
+	LevelUpDisplaySpellFrame:StripTextures()
+	LevelUpDisplaySpellFrameIcon:SetTexCoord(unpack(E.TexCoords))
 end
 
 S:RegisterSkin('ElvUI', LoadSkin)
