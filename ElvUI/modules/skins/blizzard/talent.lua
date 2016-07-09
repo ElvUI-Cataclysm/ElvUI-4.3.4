@@ -30,7 +30,7 @@ local function LoadSkin()
 	for _, object in pairs(StripAllTextures) do
 		_G[object]:StripTextures()
 	end
-
+	
 	local function StripTalentFramePanelTextures(object)
 		for i=1, object:GetNumRegions() do
 			local region = select(i, object:GetRegions())
@@ -358,6 +358,10 @@ local function LoadSkin()
 	for i=1,GetNumTalents(1,false,true) do
 		PetTalentButtons(nil,true,i)
 	end
+	
+	PlayerTalentFrameLearnButtonTutorial:StripTextures()
+	PlayerTalentFrameLearnButtonTutorial:SetTemplate("Default")
+	S:HandleCloseButton(PlayerTalentFrameLearnButtonTutorialCloseButton)
 end
 
 S:RegisterSkin("Blizzard_TalentUI", LoadSkin);

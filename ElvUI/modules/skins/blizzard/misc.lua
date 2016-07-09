@@ -838,7 +838,7 @@ local function LoadSkin()
 	LevelUpDisplaySpellFrame:StripTextures()
 	LevelUpDisplaySpellFrameIcon:SetTexCoord(unpack(E.TexCoords))
 	LevelUpDisplaySpellFrameSubIcon:SetTexCoord(unpack(E.TexCoords))
-
+	
 	-- Tutorial Frames
 	local tutorialbutton = TutorialFrameAlertButton
 	local tutorialbuttonIcon = TutorialFrameAlertButton:GetNormalTexture()
@@ -878,17 +878,30 @@ local function LoadSkin()
 	TalentMicroButtonAlertArrow:Kill()
 	S:HandleCloseButton(TalentMicroButtonAlertCloseButton)
 	
-	TalentMicroButtonAlert:StripTextures()
-	TalentMicroButtonAlert:SetTemplate("Transparent")
-
-	TalentMicroButtonAlertArrow:Kill()
-
-	S:HandleCloseButton(TalentMicroButtonAlertCloseButton)
-
-	PlayerTalentFrameLearnButtonTutorial:StripTextures()
-	PlayerTalentFrameLearnButtonTutorial:SetTemplate("Default")
-
-	S:HandleCloseButton(PlayerTalentFrameLearnButtonTutorialCloseButton)
+	HelpOpenTicketButtonTutorial:Kill()
+	HelpOpenTicketButtonTutorialCloseButton:Kill()
+	PlayerTalentFrameLearnButtonTutorialArrow:Kill()
+	
+	--Active Ticket Button	
+	local ticketbutton = HelpOpenTicketButton
+	local ticketbuttonIcon = ticketbutton:GetNormalTexture()
+	local ticketbuttonPushed = ticketbutton:GetPushedTexture()
+	
+	ticketbutton:StripTextures()
+	S:HandleButton(ticketbutton)
+	ticketbutton:CreateBackdrop("Default")
+	ticketbutton:SetWidth(35)
+	ticketbutton:SetHeight(35)
+	
+	ticketbuttonIcon:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-Blizz")
+	ticketbuttonIcon:ClearAllPoints()
+	ticketbuttonIcon:SetPoint("CENTER", HelpOpenTicketButton, "CENTER", 0, 0)
+	ticketbuttonIcon:SetTexCoord(unpack(E.TexCoords))
+	
+	ticketbuttonPushed:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-Blizz")
+	ticketbuttonPushed:ClearAllPoints()
+	ticketbuttonPushed:SetTexCoord(unpack(E.TexCoords))
+	ticketbuttonPushed:SetPoint("CENTER", HelpOpenTicketButton, "CENTER", 0, 0)
 end
 
 S:RegisterSkin('ElvUI', LoadSkin)
