@@ -23,7 +23,6 @@ local function LoadSkin()
 		"LFDQueueFrameRoleButtonDPSBackground",
 	}
 
-
 	local buttons = {
 		"LFDQueueFrameFindGroupButton",
 		"LFDQueueFrameCancelButton",
@@ -162,10 +161,6 @@ local function LoadSkin()
 
 	LFGSearchStatus:StripTextures()
 	LFGSearchStatus:SetTemplate('Transparent');
-
-	LFGRoleCheckPopup:StripTextures()
-	LFGRoleCheckPopup:SetTemplate('Transparent');
-
-	end
+end
 
 S:RegisterSkin('ElvUI', LoadSkin)
