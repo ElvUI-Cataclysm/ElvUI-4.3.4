@@ -83,7 +83,7 @@ function RU:Initialize()
 	RaidUtilityPanel:Point('TOP', E.UIParent, 'TOP', -400, 1)
 	RaidUtilityPanel:SetFrameLevel(3)
 	RaidUtilityPanel.toggled = false
-	RaidUtilityPanel:SetFrameStrata("HIGH")
+	RaidUtilityPanel:SetFrameStrata("TOOLTIP")
 
 	--Show Button
 	self:CreateUtilButton("ShowButton", E.UIParent, "UIMenuButtonStretchTemplate, SecureHandlerClickTemplate", 136, 18, "TOP", E.UIParent, "TOP", -400, 2, RAID_CONTROL, nil)
@@ -116,7 +116,7 @@ function RU:Initialize()
 	ShowButton:SetClampedToScreen(true)
 	ShowButton:SetClampRectInsets(0, 0, -1, 1)
 	ShowButton:RegisterForDrag("RightButton")
-	ShowButton:SetFrameStrata("HIGH")
+	ShowButton:SetFrameStrata("TOOLTIP")
 	ShowButton:SetScript("OnDragStart", function(self) 
 		self:StartMoving()
 	end)
@@ -234,12 +234,6 @@ function RU:Initialize()
 	self:RegisterEvent("RAID_ROSTER_UPDATE", 'ToggleRaidUtil')
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", 'ToggleRaidUtil')
 	self:RegisterEvent("PARTY_MEMBERS_CHANGED", 'ToggleRaidUtil')
-	
-	if ShowButton then
-		ShowButton:SetFrameStrata('TOOLTIP')
-		RaidUtilityPanel:SetFrameStrata('TOOLTIP')
-	end
-
 end
 
 E:RegisterInitialModule(RU:GetName())
