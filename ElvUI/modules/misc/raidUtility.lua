@@ -234,6 +234,11 @@ function RU:Initialize()
 	self:RegisterEvent("RAID_ROSTER_UPDATE", 'ToggleRaidUtil')
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", 'ToggleRaidUtil')
 	self:RegisterEvent("PARTY_MEMBERS_CHANGED", 'ToggleRaidUtil')
+	
+	if ShowButton then
+		ShowButton:SetFrameStrata('TOOLTIP')
+		RaidUtilityPanel:SetFrameStrata('TOOLTIP')
+	end
 
 end
 
