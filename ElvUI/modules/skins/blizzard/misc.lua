@@ -877,6 +877,18 @@ local function LoadSkin()
 	TalentMicroButtonAlert:SetTemplate("Transparent")
 	TalentMicroButtonAlertArrow:Kill()
 	S:HandleCloseButton(TalentMicroButtonAlertCloseButton)
+	
+	TalentMicroButtonAlert:StripTextures()
+	TalentMicroButtonAlert:SetTemplate("Transparent")
+
+	TalentMicroButtonAlertArrow:Kill()
+
+	S:HandleCloseButton(TalentMicroButtonAlertCloseButton)
+
+	PlayerTalentFrameLearnButtonTutorial:StripTextures()
+	PlayerTalentFrameLearnButtonTutorial:SetTemplate("Default")
+
+	S:HandleCloseButton(PlayerTalentFrameLearnButtonTutorialCloseButton)
 end
 
 S:RegisterSkin('ElvUI', LoadSkin)
