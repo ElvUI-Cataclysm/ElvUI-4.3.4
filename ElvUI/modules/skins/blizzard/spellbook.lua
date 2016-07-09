@@ -348,7 +348,7 @@ local function LoadSkin()
 	SpellBookCompanionModelFrame:Height(185)
 
 	S:HandleButton(SpellBookCompanionSummonButton)
-	SpellBookCompanionSummonButton:SetPoint("BOTTOM", SpellBookCompanionModelFrame, "BOTTOM", -5, -235)
+	SpellBookCompanionSummonButton:SetPoint("BOTTOM", SpellBookCompanionModelFrame, "BOTTOM", -3, -235)
 	SpellBookCompanionSummonButton:SetScale(1.1)
 
 	SpellBookCompanionSelectedName:SetPoint("TOP", SpellBookCompanionModelFrame, "TOP", 0, 175)
