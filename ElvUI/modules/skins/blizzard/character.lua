@@ -131,6 +131,24 @@ local function LoadSkin()
 		end	
 	end
 	
+	local controlbuttons = {
+		"CharacterModelFrameControlFrameZoomInButton",
+		"CharacterModelFrameControlFrameZoomOutButton",
+		"CharacterModelFrameControlFramePanButton",
+		"CharacterModelFrameControlFrameRotateLeftButton",
+		"CharacterModelFrameControlFrameRotateRightButton",
+		"CharacterModelFrameControlFrameRotateResetButton",
+	}
+	
+	for i = 1, getn(controlbuttons) do
+		S:HandleButton(_G[controlbuttons[i]]);
+		_G[controlbuttons[i]]:StyleButton()
+		_G[controlbuttons[i].."Bg"]:Hide()
+	end
+
+	CharacterModelFrameControlFrame:StripTextures()
+	
+	
 	--Swap item flyout frame (shown when holding alt over a slot)
 	EquipmentFlyoutFrame:HookScript("OnShow", SkinItemFlyouts)
 	hooksecurefunc("EquipmentFlyout_Show", SkinItemFlyouts)	

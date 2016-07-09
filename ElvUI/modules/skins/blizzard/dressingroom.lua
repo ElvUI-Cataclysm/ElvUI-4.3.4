@@ -13,6 +13,25 @@ local function LoadSkin()
 	S:HandleCloseButton(DressUpFrameCloseButton, DressUpFrame.backdrop)
 
 	DressUpFrameResetButton:Point("RIGHT", DressUpFrameCancelButton, "LEFT", -2, 0)
+	
+	local controlbuttons = {
+		"DressUpModelControlFrameZoomInButton",
+		"DressUpModelControlFrameZoomOutButton",
+		"DressUpModelControlFramePanButton",
+		"DressUpModelControlFrameRotateLeftButton",
+		"DressUpModelControlFrameRotateRightButton",
+		"DressUpModelControlFrameRotateResetButton",
+	}
+	
+	for i = 1, getn(controlbuttons) do
+		S:HandleButton(_G[controlbuttons[i]]);
+		_G[controlbuttons[i]]:StyleButton()
+		_G[controlbuttons[i].."Bg"]:Hide()
+	end
+
+	DressUpModelControlFrame:StripTextures()
+	DressUpModelControlFrame:Point("TOP", DressUpModel, "TOP", 0, 10)
+	
 end
 
 S:RegisterSkin('ElvUI', LoadSkin)
