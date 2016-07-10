@@ -27,4 +27,12 @@
 	<Script file='expertise.lua'/>
 	<Script file='coordinates.lua'/>
 	<Script file='calltoarms.lua'/>
+	<Script file='mail.lua'/>
+	<Script file='CombatIndicator.lua'/>
+	<Script file='Agility.lua'/>
+	<Script file='Intellect.lua'/>
+	<Script file='Spirit.lua'/>
+	<Script file='Stamina.lua'/>
+	<Script file='Strength.lua'/>
+	<Script file='EnergyRegen.lua'/>
 </Ui>

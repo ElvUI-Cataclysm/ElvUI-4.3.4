@@ -48,7 +48,7 @@ local function OnClick(self)
 end
 
 local function ValueColorUpdate(hex, r, g, b)
-	displayString = string.join("", "|cffFFFFFF%s:|r ", hex, "%d|r/", hex, "%d|r/", hex, "%d|r")
+	displayString = string.join("", "|cffFFFFFF%s:|r ", hex, "%d|r / ", hex, "%d|r / ", hex, "%d|r")
 
 	if lastPanel ~= nil then
 		OnEvent(lastPanel)
