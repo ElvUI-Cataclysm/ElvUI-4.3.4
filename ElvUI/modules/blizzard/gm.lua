@@ -10,6 +10,7 @@ function B:PositionGMFrames()
 	HelpOpenTicketButton:SetParent(E.UIParent)
 	HelpOpenTicketButton:ClearAllPoints()
 	HelpOpenTicketButton:SetPoint("TOPLEFT", E.UIParent, "TOPLEFT", 210, -4)
+	HelpOpenTicketButton:SetFrameStrata("HIGH")
 
 	E:CreateMover(HelpOpenTicketButton, "GMHelpMover", L["Ticket"])
 end
