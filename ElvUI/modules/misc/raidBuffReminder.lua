@@ -83,7 +83,7 @@ RB.CasterSpell6Buffs = {
 
 RB.MeleeSpell6Buffs = {
 	19740, -- Blessing of Might
-	30808, -- Unleashed Rage"
+	30808, -- Unleashed Rage
 	53138, -- Abom Might
 	19506, -- Trushot
 };
@@ -285,7 +285,7 @@ function RB:Initialize()
 		[3] = 'Interface\\Icons\\Spell_Nature_Regeneration',
 		[4] = 'Interface\\Icons\\Spell_Holy_WordFortitude',
 		[5] = (E.Role == 'Caster' and 'Interface\\Icons\\Spell_Holy_MagicalSentry') or 'Interface\\Icons\\Ability_Warrior_BattleShout',
-		[6] = (E.Role == 'Caster' and 'Interface\\Icons\\Spell_Holy_GreaterBlessingofKings') or 'Interface\\Icons\\Spell_Holy_GreaterBlessingofKings'
+		[6] = 'Interface\\Icons\\Spell_Holy_GreaterBlessingofKings'
 	};
 	
 	local frame = CreateFrame('Frame', 'ElvUI_ReminderBuffs', Minimap);
