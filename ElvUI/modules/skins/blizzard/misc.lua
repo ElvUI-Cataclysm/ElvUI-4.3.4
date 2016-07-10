@@ -171,6 +171,10 @@ local function LoadSkin()
 		S:HandleButton(GameMenuButtonOptionHouse)
 	end
 
+	OpacityFrame:StripTextures()
+	OpacityFrame:SetTemplate("Transparent")
+	S:HandleSliderFrame(OpacityFrameSlider)
+
 	-- Options/Interface Buttons Position
 	VideoOptionsFrameCancel:ClearAllPoints()
 	VideoOptionsFrameCancel:SetPoint("RIGHT",VideoOptionsFrameApply,"LEFT",-4,0)		 
