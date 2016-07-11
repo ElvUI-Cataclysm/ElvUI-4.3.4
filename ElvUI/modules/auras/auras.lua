@@ -422,6 +422,25 @@ function A:CreateAuraHeader(filter)
 	return header;
 end
 
+--Blizzard Temp Enchant Duration Text
+local function updateTime(button, timeLeft)
+    local duration = _G[button:GetName().."Duration"]
+    if SHOW_BUFF_DURATIONS == "1" and timeLeft then
+        duration:SetTextColor(1, 1, 1)
+        local d, h, m, s = ChatFrame_TimeBreakDown(timeLeft);
+        if d > 0 then
+            duration:SetFormattedText("%1dd", d)
+        elseif h > 0 then
+            duration:SetFormattedText("%1dh", h)
+        elseif m > 0 then
+            duration:SetFormattedText("%1dm", m)
+        else
+            duration:SetFormattedText("%1d", s)
+        end
+    end
+end
+hooksecurefunc("AuraButton_UpdateDuration", updateTime)
+
 function A:Initialize()
 	if(self.db) then
 		return;
@@ -430,7 +449,6 @@ function A:Initialize()
 	if(E.private.auras.disableBlizzard) then
 		BuffFrame:Kill()
 		ConsolidatedBuffs:Kill()
-		--TemporaryEnchantFrame:Kill();
 	end
 
 	if(not E.private.auras.enable) then
@@ -451,9 +469,9 @@ function A:Initialize()
 	self.WeaponFrame = CreateFrame("Frame", "ElvUIPlayerWeapons", UIParent);
 	self.WeaponFrame:Point("TOPRIGHT", MMHolder, "BOTTOMRIGHT", 0, -E.Border - E.Spacing);
 	if(E.myclass == "ROGUE") then
-		self.WeaponFrame:Size(116, 32);
+		self.WeaponFrame:Size(110, 32);
 	else
-		self.WeaponFrame:Size(74, 32);
+		self.WeaponFrame:Size(71, 32);
 	end
 	E:CreateMover(self.WeaponFrame, "WeaponsMover", L["Player Weapons"]);
 	
@@ -464,8 +482,8 @@ function A:Initialize()
 	TempEnchant2:ClearAllPoints()
 	TempEnchant3:ClearAllPoints()
 	TempEnchant1:Point("TOPRIGHT", ElvUIPlayerWeapons, "TOPRIGHT")
-	TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -10, 0)
-	TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -10, 0)
+	TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -7, 0)
+	TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -7, 0)
 	
 	for i = 1, 3 do
 	local font = LSM:Fetch('font', self.db.font);
@@ -478,9 +496,8 @@ function A:Initialize()
 		_G["TempEnchant"..i.."Icon"]:Point("TOPLEFT", _G["TempEnchant"..i], 2, -2)
 		_G["TempEnchant"..i.."Icon"]:Point("BOTTOMRIGHT", _G["TempEnchant"..i], -2, 2)
 		_G["TempEnchant"..i.."Duration"]:ClearAllPoints()
-		_G["TempEnchant"..i.."Duration"]:Point("BOTTOM", 0, -10)
+		_G["TempEnchant"..i.."Duration"]:Point("BOTTOM", 1, -12)
 		_G["TempEnchant"..i.."Duration"]:FontTemplate(font, self.db.fontSize, self.db.fontOutline);
-		_G["TempEnchant"..i.."Duration"]:SetTextColor(r,g,b)
 	end	
 end
 
