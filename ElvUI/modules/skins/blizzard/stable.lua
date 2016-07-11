@@ -10,7 +10,7 @@ local function LoadSkin()
 	PetStableBottomInset:StripTextures()
 
 	PetStableFrame:SetTemplate('Transparent')
-	PetStableFrameInset:SetTemplate('Transparent')
+	PetStableFrameInset:CreateBackdrop('Default')
 
 	S:HandleCloseButton(PetStableFrameCloseButton)
 	S:HandleButton(PetStablePrevPageButton)
@@ -18,6 +18,15 @@ local function LoadSkin()
 	S:HandleRotateButton(PetStableModelRotateRightButton)
 	S:HandleRotateButton(PetStableModelRotateLeftButton)
 
+	PetStableDiet:StripTextures()
+	PetStableDiet:CreateBackdrop()
+	PetStableDiet.icon = PetStableDiet:CreateTexture(nil, "OVERLAY");
+	PetStableDiet.icon:SetTexCoord(unpack(E.TexCoords))
+	PetStableDiet.icon:SetPoint("TOPLEFT", PetStableDiet, "TOPLEFT", 0, 0)
+	PetStableDiet.icon:SetPoint("BOTTOMRIGHT", PetStableDiet, "BOTTOMRIGHT", 0, 0)
+	PetStableDiet.icon:SetTexture("Interface\\Icons\\Ability_Hunter_BeastTraining")
+	PetStableDiet:SetPoint("TOPRIGHT", PetStablePetInfo, "TOPRIGHT", -2, -2)
+	
 	for i = 1, NUM_PET_ACTIVE_SLOTS do
 	   S:HandleItemButton(_G['PetStableActivePet' .. i], true)
 	end
@@ -27,7 +36,5 @@ local function LoadSkin()
 	end
 
 	PetStableSelectedPetIcon:SetTexCoord(unpack(E.TexCoords))
-
 end
-
 S:RegisterSkin("ElvUI", LoadSkin);
