@@ -490,7 +490,9 @@ function A:Initialize()
 		_G["TempEnchant"..i]:Size(32)
 		_G["TempEnchant"..i]:CreateBackdrop('Default')
 		_G["TempEnchant"..i].backdrop:SetAllPoints()
-		_G["TempEnchant"..i]:StyleButton()
+		_G["TempEnchant"..i].highlight = _G["TempEnchant"..i]:CreateTexture(nil, 'HIGHLIGHT');
+		_G["TempEnchant"..i].highlight:SetTexture(1, 1, 1, 0.45);
+		_G["TempEnchant"..i].highlight:SetInside();
 		_G["TempEnchant"..i.."Border"]:Hide()
 		_G["TempEnchant"..i.."Icon"]:SetTexCoord(unpack(E.TexCoords))
 		_G["TempEnchant"..i.."Icon"]:Point("TOPLEFT", _G["TempEnchant"..i], 2, -2)
