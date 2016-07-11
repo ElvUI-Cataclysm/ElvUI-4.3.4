@@ -73,11 +73,7 @@ function A:UpdateTime(elapsed)
 end
 
 local UpdateTooltip = function(self)
-	if(self.isWeapon) then
-		GameTooltip:SetInventoryItem("player", self:GetID());
-	else
-		GameTooltip:SetUnitAura(self:GetParent().unit, self:GetID(), self:GetParent().filter);
-	end
+	GameTooltip:SetUnitAura(self:GetParent().unit, self:GetID(), self:GetParent().filter);
 end
 
 local OnEnter = function(self)
@@ -92,15 +88,7 @@ local OnLeave = function()
 end
 
 local OnClick = function(self)
-	if(self.isWeapon) then
-		if(self:GetID() == 16) then
-			CancelItemTempEnchantment(1);
-		elseif(self:GetID() == 17) then
-			CancelItemTempEnchantment(2);
-		end
-	else
-		CancelUnitBuff(self:GetParent().unit, self:GetID(), self:GetParent().filter);
-	end
+	CancelUnitBuff(self:GetParent().unit, self:GetID(), self:GetParent().filter);
 end
 
 function A:CreateIcon(button)
@@ -408,30 +396,6 @@ function A:UpdateHeader(self)
 	end
 end
 
-function A:UpdateWeapon(button)
-	local id = button:GetID();
-	local quality = GetInventoryItemQuality("player", id);
-	if(quality) then
-		button:SetBackdropBorderColor(GetItemQualityColor(quality));
-	end
-	
-	if(button.duration) then
-		button.timeLeft = button.duration / 1e3;
-		button.nextUpdate = -1;
-		button:SetScript("OnUpdate", A.UpdateTime);
-		A.UpdateTime(button, 0);
-	else
-		button.timeLeft = nil;
-		button:SetScript("OnUpdate", nil);
-		button.time:SetText("");
-	end
-	
-	local enchantIndex = self.WeaponFrame.enchantIndex;
-	if(enchantIndex ~= nil) then
-		self.WeaponFrame:Width((enchantIndex * A.db.buffs.size) + (enchantIndex == 2 and A.db.buffs.horizontalSpacing or 0));
-	end
-end
-
 function A:CreateAuraHeader(filter)
 	local name = 'ElvUIPlayerDebuffs';
 	if(filter == 'HELPFUL') then 
@@ -466,7 +430,7 @@ function A:Initialize()
 	if(E.private.auras.disableBlizzard) then
 		BuffFrame:Kill()
 		ConsolidatedBuffs:Kill()
-		TemporaryEnchantFrame:Kill();
+		--TemporaryEnchantFrame:Kill();
 	end
 
 	if(not E.private.auras.enable) then
@@ -483,70 +447,41 @@ function A:Initialize()
 	self.DebuffFrame:Point("BOTTOMRIGHT", MMHolder, "BOTTOMLEFT", -(6 + E.Border), E.Border + E.Spacing);
 	E:CreateMover(self.DebuffFrame, 'DebuffsMover', L['Player Debuffs']);
 	
-	if(E.myclass == "ROGUE" or E.myclass == "SHAMAN") then
-		self.WeaponFrame = CreateFrame("Frame", "ElvUIPlayerWeapons", UIParent);
-		self.WeaponFrame:Point("TOPRIGHT", MMHolder, "BOTTOMRIGHT", 0, -E.Border - E.Spacing);
-		self.WeaponFrame:Size(A.db.buffs.size);
-		
-		self.WeaponFrame.buttons = {};
-		for i = 1, 2 do
-			self.WeaponFrame.buttons[i] = CreateFrame("Button", "$parentWeaponButton" .. i, self.WeaponFrame);
-			self.WeaponFrame.buttons[i]:Size(A.db.buffs.size);
-			
-			if(i == 1) then
-				self.WeaponFrame.buttons[i]:SetPoint("RIGHT", self.WeaponFrame);
-			else
-				self.WeaponFrame.buttons[i]:SetPoint("RIGHT", self.WeaponFrame.buttons[1], "LEFT", -A.db.buffs.horizontalSpacing, 0);
-			end
-			
-			A:CreateIcon(self.WeaponFrame.buttons[i]);
-			self.WeaponFrame.buttons[i].isWeapon = true;
-		end
-		
-		self.WeaponFrame:RegisterEvent("UNIT_AURA");
-		self.WeaponFrame:SetScript("OnUpdate", function(self, event, ...)
-			if(self:IsVisible()) then
-				local hasMainHandEnchant, mainHandExpiration, mainHandCharges, hasOffHandEnchant, offHandExpiration, offHandCharges = GetWeaponEnchantInfo();
-				if(not hasMainHandEnchant and not hasOffHandEnchant) then
-					for i = 1, 2 do
-						self.buttons[i]:Hide();
-					end
-					return;
-				end
-				
-				local textureName;
-				local enchantIndex = 0;
-				if(hasOffHandEnchant) then
-					enchantIndex = enchantIndex + 1;
-					textureName = GetInventoryItemTexture("player", 17);
-					self.buttons[1]:SetID(17);
-					self.buttons[1].texture:SetTexture(textureName);
-					self.buttons[1].duration = offHandExpiration;
-					self.buttons[1]:Show();
-					
-					A:UpdateWeapon(self.buttons[1]);
-				end
-				
-				if(hasMainHandEnchant) then
-					enchantIndex = enchantIndex + 1;
-					enchantButton = self.buttons[enchantIndex];
-					textureName = GetInventoryItemTexture("player", 16);
-					enchantButton:SetID(16);
-					enchantButton.texture:SetTexture(textureName);
-					enchantButton.duration = mainHandExpiration;
-					enchantButton:Show();
-					
-					A:UpdateWeapon(enchantButton);
-				end
-				self.enchantIndex = enchantIndex;
-				
-				for i = enchantIndex+1, 2 do
-					self.buttons[i]:Hide();
-				end
-			end
-		end);
-		E:CreateMover(self.WeaponFrame, "WeaponsMover", L["Player Weapons"]);
+	--Temp Enchant
+	self.WeaponFrame = CreateFrame("Frame", "ElvUIPlayerWeapons", UIParent);
+	self.WeaponFrame:Point("TOPRIGHT", MMHolder, "BOTTOMRIGHT", 0, -E.Border - E.Spacing);
+	if(E.myclass == "ROGUE") then
+		self.WeaponFrame:Size(116, 32);
+	else
+		self.WeaponFrame:Size(74, 32);
 	end
+	E:CreateMover(self.WeaponFrame, "WeaponsMover", L["Player Weapons"]);
+	
+	TemporaryEnchantFrame:ClearAllPoints()
+	TemporaryEnchantFrame:SetPoint("TOPRIGHT", ElvUIPlayerWeapons, "TOPRIGHT", 0, 0)
+
+	TempEnchant1:ClearAllPoints()
+	TempEnchant2:ClearAllPoints()
+	TempEnchant3:ClearAllPoints()
+	TempEnchant1:Point("TOPRIGHT", ElvUIPlayerWeapons, "TOPRIGHT")
+	TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -10, 0)
+	TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -10, 0)
+	
+	for i = 1, 3 do
+	local font = LSM:Fetch('font', self.db.font);
+		_G["TempEnchant"..i]:Size(32)
+		_G["TempEnchant"..i]:CreateBackdrop('Default')
+		_G["TempEnchant"..i].backdrop:SetAllPoints()
+		_G["TempEnchant"..i]:StyleButton()
+		_G["TempEnchant"..i.."Border"]:Hide()
+		_G["TempEnchant"..i.."Icon"]:SetTexCoord(unpack(E.TexCoords))
+		_G["TempEnchant"..i.."Icon"]:Point("TOPLEFT", _G["TempEnchant"..i], 2, -2)
+		_G["TempEnchant"..i.."Icon"]:Point("BOTTOMRIGHT", _G["TempEnchant"..i], -2, 2)
+		_G["TempEnchant"..i.."Duration"]:ClearAllPoints()
+		_G["TempEnchant"..i.."Duration"]:Point("BOTTOM", 0, -10)
+		_G["TempEnchant"..i.."Duration"]:FontTemplate(font, self.db.fontSize, self.db.fontOutline);
+		_G["TempEnchant"..i.."Duration"]:SetTextColor(r,g,b)
+	end	
 end
 
 E:RegisterModule(A:GetName());
