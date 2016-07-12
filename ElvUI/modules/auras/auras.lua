@@ -424,20 +424,21 @@ end
 
 --Blizzard Temp Enchant Duration Text
 local function updateTime(button, timeLeft)
-    local duration = _G[button:GetName().."Duration"]
-    if SHOW_BUFF_DURATIONS == "1" and timeLeft then
-        duration:SetTextColor(1, 1, 1)
-        local d, h, m, s = ChatFrame_TimeBreakDown(timeLeft);
-        if d > 0 then
-            duration:SetFormattedText("%1dd", d)
-        elseif h > 0 then
-            duration:SetFormattedText("%1dh", h)
-        elseif m > 0 then
-            duration:SetFormattedText("%1dm", m)
-        else
-            duration:SetFormattedText("%1d", s)
-        end
-    end
+	local duration = _G[button:GetName().."Duration"]
+	if SHOW_BUFF_DURATIONS == "1" and timeLeft then
+		duration:SetTextColor(1, 1, 1)
+		local d, h, m, s = ChatFrame_TimeBreakDown(timeLeft);
+		if d > 0 then
+			duration:SetFormattedText("%1dd", d)
+		elseif h > 0 then
+			duration:SetFormattedText("%1dh", h)
+		elseif m > 0 then
+			duration:SetFormattedText("%1dm", m)
+		else
+			duration:SetTextColor(1, 0, 0)
+			duration:SetFormattedText("%1d", s)
+		end
+	end
 end
 hooksecurefunc("AuraButton_UpdateDuration", updateTime)
 
