@@ -31,8 +31,6 @@ local Update = function(self, event, unit)
 		t = self.colors.tapped
 	elseif(power.colorDisconnected and not UnitIsConnected(unit)) then
 		t = self.colors.disconnected
-	elseif(power.colorHappiness and UnitIsUnit(unit, "pet") and GetPetHappiness()) then
-		t = self.colors.happiness[GetPetHappiness()]
 	elseif(power.colorPower) then
 		local ptype, ptoken, altR, altG, altB  = UnitPowerType(unit)
 
@@ -118,7 +116,6 @@ local Enable = function(self, unit)
 		self:RegisterEvent("UNIT_MAXRUNIC_POWER", Path)
 		
 		self:RegisterEvent('UNIT_CONNECTION', Path)
-		self:RegisterEvent('UNIT_HAPPINESS', Path)
 
 		-- For tapping.
 		self:RegisterEvent('UNIT_FACTION', Path)
@@ -152,7 +149,6 @@ local Disable = function(self)
 		self:UnregisterEvent("UNIT_MAXRUNIC_POWER", Path)
 		
 		self:UnregisterEvent('UNIT_CONNECTION', Path)
-		self:UnregisterEvent('UNIT_HAPPINESS', Path)
 		self:UnregisterEvent('UNIT_FACTION', Path)
 	end
 end

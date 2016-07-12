@@ -53,8 +53,7 @@ UF["headerFunctions"] = {};
 UF["classMaxResourceBar"] = {
 	["DEATHKNIGHT"] = 6,
 	['PALADIN'] = 3,
-	['WARLOCK'] = 3,
-	["MAGE"] = 4
+	['WARLOCK'] = 3
 };
 
 UF["mapIDs"] = {
@@ -346,8 +345,6 @@ function UF:UpdateColors()
 	ElvUF.colors.HolyPower = E:GetColorTable(db.classResources.PALADIN);
 
 	ElvUF.colors.SoulShards = E:GetColorTable(db.classResources.WARLOCK);
-	
-	ElvUF.colors.ArcaneChargeBar = E:GetColorTable(db.classResources.MAGE);
 	
 	ElvUF.colors.EclipseBar = {};
 	ElvUF.colors.EclipseBar[1] = E:GetColorTable(db.classResources.DRUID[1]);

@@ -6207,12 +6207,6 @@ if(P.unitframe.colors.classResources[E.myclass]) then
 				end,
 			};
 		end
-	elseif(E.myclass == 'MAGE') then
-		E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGroup.args[E.myclass] = {
-			type = 'color',
-			name = L['Arcane Charges'],
-			order = ORDER
-		};
 	elseif(E.myclass == 'DEATHKNIGHT') then
 		local names = {
 			[1] = L['Blood'],
