@@ -292,7 +292,7 @@ function B:UpdateSlot(bagID, slotID)
 		
 		-- color slot according to item quality
 		if questId and not isActive then
-			slot:SetBackdropBorderColor(1.0, 0.3, 0.3);
+			slot:SetBackdropBorderColor(1.0, 1.0, 0.0);
 		elseif questId or isQuestItem then
 			slot:SetBackdropBorderColor(1.0, 0.3, 0.3);
 		elseif slot.rarity and slot.rarity > 1 then

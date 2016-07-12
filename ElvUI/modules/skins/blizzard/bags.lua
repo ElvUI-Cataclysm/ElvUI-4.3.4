@@ -20,7 +20,7 @@ function S:ContainerFrame_Update(self)
 		end
 		
 		if(questId and not isActive) then
-			itemButton:SetBackdropBorderColor(1, 0.2, 0.2);
+			itemButton:SetBackdropBorderColor(1, 1, 0);
 		elseif(questId or isQuestItem) then
 			itemButton:SetBackdropBorderColor(1, 0.2, 0.2);
 		end
@@ -41,7 +41,7 @@ function S:BankFrameItemButton_Update(button)
 		local isQuestItem, questId, isActive = GetContainerItemQuestInfo(BANK_CONTAINER, buttonID);
 		
 		if(questId and not isActive) then
-			button:SetBackdropBorderColor(1, 0.2, 0.2);
+			button:SetBackdropBorderColor(1, 1, 0);
 		elseif(questId or isQuestItem) then
 			button:SetBackdropBorderColor(1, 0.2, 0.2);
 		end
