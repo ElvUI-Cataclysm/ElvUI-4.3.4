@@ -5,8 +5,9 @@ local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.gbank ~= true then return end
 	GuildBankFrame:StripTextures()
 	GuildBankFrame:SetTemplate("Transparent")
+	GuildBankFrame:SetWidth(654)
 	GuildBankEmblemFrame:StripTextures(true)
-	
+
 	--Close button doesn't have a fucking name, extreme hackage
 	for i=1, GuildBankFrame:GetNumChildren() do
 		local child = select(i, GuildBankFrame:GetChildren())
@@ -14,25 +15,29 @@ local function LoadSkin()
 			S:HandleCloseButton(child)
 		end
 	end
-	
+
 	S:HandleButton(GuildBankFrameDepositButton, true)
+	GuildBankFrameDepositButton:SetWidth(85)
 	S:HandleButton(GuildBankFrameWithdrawButton, true)
+	GuildBankFrameWithdrawButton:SetWidth(85)
 	S:HandleButton(GuildBankInfoSaveButton, true)
 	S:HandleButton(GuildBankFramePurchaseButton, true)
-	
+
 	GuildBankFrameWithdrawButton:Point("RIGHT", GuildBankFrameDepositButton, "LEFT", -2, 0)
 
 	GuildBankInfoScrollFrame:StripTextures()
+	GuildBankInfoScrollFrame:SetWidth(572)
 	GuildBankTransactionsScrollFrame:StripTextures()
+	GuildBankTabInfoEditBox:SetWidth(560)
 	
 	GuildBankFrame.inset = CreateFrame("Frame", nil, GuildBankFrame)
 	GuildBankFrame.inset:SetTemplate("Default")
 	GuildBankFrame.inset:Point("TOPLEFT", 30, -65)
 	GuildBankFrame.inset:Point("BOTTOMRIGHT", -20, 63)
-	
+
 	for i=1, NUM_GUILDBANK_COLUMNS do
 		_G["GuildBankColumn"..i]:StripTextures()
-		
+
 		for x=1, NUM_SLOTS_PER_GUILDBANK_GROUP do
 			local button = _G["GuildBankColumn"..i.."Button"..x]
 			local icon = _G["GuildBankColumn"..i.."Button"..x.."IconTexture"]
@@ -49,12 +54,11 @@ local function LoadSkin()
 			icon:SetTexCoord(unpack(E.TexCoords))
 		end
 	end
-	
+
 	for i=1, 8 do
 		local button = _G["GuildBankTab"..i.."Button"]
 		local texture = _G["GuildBankTab"..i.."ButtonIconTexture"]
 		_G["GuildBankTab"..i]:StripTextures(true)
-		_G["GuildBankTab"..i.."Button"]:CreateBackdrop()
 		
 		button:StripTextures()
 		button:StyleButton(true)
@@ -65,11 +69,11 @@ local function LoadSkin()
 		texture:Point("BOTTOMRIGHT", -2, 2)
 		texture:SetTexCoord(unpack(E.TexCoords))
 	end
-	
+
 	for i=1, 4 do
 		S:HandleTab(_G["GuildBankFrameTab"..i])
 	end
-	
+
 	hooksecurefunc('GuildBankFrame_Update', function()
 		if GuildBankFrame.mode ~= "bank" then return; end
 		local tab = GetCurrentGuildBankTab();
@@ -101,6 +105,8 @@ local function LoadSkin()
 	GuildBankFrameTab1:ClearAllPoints()
 	GuildBankFrameTab1:SetPoint("BOTTOMLEFT", GuildBankFrame, "BOTTOMLEFT", 0, -30)
 
+	GuildBankTab1:Point("TOPLEFT", GuildBankFrame, "TOPRIGHT", -2, -32)
+
 	--Popup
 	GuildBankPopupFrame:StripTextures()
 	GuildBankPopupScrollFrame:StripTextures()
@@ -112,12 +118,12 @@ local function LoadSkin()
 	GuildBankPopupNameLeft:Kill()
 	GuildBankPopupNameRight:Kill()
 	GuildBankPopupNameMiddle:Kill()
-		
+
 	GuildItemSearchBox:StripTextures()
 	GuildItemSearchBox:CreateBackdrop("Overlay")
 	GuildItemSearchBox.backdrop:Point("TOPLEFT", 10, -1)
 	GuildItemSearchBox.backdrop:Point("BOTTOMRIGHT", 4, 1)	
-	
+
 	for i=1, 16 do
 		local button = _G["GuildBankPopupButton"..i]
 		local icon = _G[button:GetName().."Icon"]
@@ -129,9 +135,24 @@ local function LoadSkin()
 		icon:Point("BOTTOMRIGHT", -2, 2)
 		icon:SetTexCoord(unpack(E.TexCoords))
 	end
-	
+
 	S:HandleScrollBar(GuildBankTransactionsScrollFrameScrollBar)
 	S:HandleScrollBar(GuildBankInfoScrollFrameScrollBar)
+
+	GuildBankColumn2:Point("TOPLEFT", GuildBankColumn1, "TOPRIGHT", -15, 0)
+	GuildBankColumn3:Point("TOPLEFT", GuildBankColumn2, "TOPRIGHT", -15, 0)
+	GuildBankColumn4:Point("TOPLEFT", GuildBankColumn3, "TOPRIGHT", -15, 0)
+	GuildBankColumn5:Point("TOPLEFT", GuildBankColumn4, "TOPRIGHT", -15, 0)
+	GuildBankColumn6:Point("TOPLEFT", GuildBankColumn5, "TOPRIGHT", -15, 0)
+	GuildBankColumn7:Point("TOPLEFT", GuildBankColumn6, "TOPRIGHT", -15, 0)
+
+	GuildBankColumn1Button8:Point("TOPLEFT", GuildBankColumn1Button1, "TOPRIGHT", 5, 0)
+	GuildBankColumn2Button8:Point("TOPLEFT", GuildBankColumn2Button1, "TOPRIGHT", 5, 0)
+	GuildBankColumn3Button8:Point("TOPLEFT", GuildBankColumn3Button1, "TOPRIGHT", 5, 0)
+	GuildBankColumn4Button8:Point("TOPLEFT", GuildBankColumn4Button1, "TOPRIGHT", 5, 0)
+	GuildBankColumn5Button8:Point("TOPLEFT", GuildBankColumn5Button1, "TOPRIGHT", 5, 0)
+	GuildBankColumn6Button8:Point("TOPLEFT", GuildBankColumn6Button1, "TOPRIGHT", 5, 0)
+	GuildBankColumn7Button8:Point("TOPLEFT", GuildBankColumn7Button1, "TOPRIGHT", 5, 0)
 end
 
 S:RegisterSkin("Blizzard_GuildBankUI", LoadSkin)
