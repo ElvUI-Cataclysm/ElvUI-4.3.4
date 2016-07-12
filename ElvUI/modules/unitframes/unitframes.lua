@@ -76,6 +76,11 @@ UF["headerGroupBy"] = {
 		header:SetAttribute("sortMethod", "NAME");
 		header:SetAttribute("groupBy", "ROLE");
 	end,
+	['ROLE'] = function(header)
+		header:SetAttribute("groupingOrder", "TANK,HEALER,DAMAGER,NONE")
+		header:SetAttribute('sortMethod', 'NAME')
+		header:SetAttribute("groupBy", 'ASSIGNEDROLE')
+	end,
 	["NAME"] = function(header)
 		header:SetAttribute("groupingOrder", "1,2,3,4,5,6,7,8");
 		header:SetAttribute("sortMethod", "NAME");
@@ -449,6 +454,7 @@ function UF:CreateAndUpdateUFGroup(group, numGroup, template)
 			self["groupunits"][unit] = group;	
 			self[unit] = ElvUF:Spawn(unit, "ElvUF_"..frameName);
 			self[unit].index = i;
+			self[unit]:SetParent(ElvUF_Parent)
 			self[unit]:SetID(i);
 		end
 		
@@ -662,7 +668,7 @@ end
 function UF.headerPrototype:Update(isForced)
 	local groupName = self.groupName;
 	local db = UF.db["units"][groupName];
-	--UF["Update_"..E:StringTitle(groupName).."Header"](UF, self, db, isForced);
+	UF["Update_"..E:StringTitle(groupName).."Header"](UF, self, db, isForced);
 
 	local i = 1;
 	local child = self:GetAttribute("child" .. i);

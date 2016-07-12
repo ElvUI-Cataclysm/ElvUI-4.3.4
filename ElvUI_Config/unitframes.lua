@@ -4154,11 +4154,12 @@ E.Options.args.unitframe.args.party = {
 							desc = L["Set the order that the group will sort."],
 							type = "select",		
 							values = {
-								["CLASS"] = CLASS,
-								["NAME"] = NAME,
-								["MTMA"] = L["Main Tanks / Main Assist"],
-								["GROUP"] = GROUP
-							}
+								['CLASS'] = CLASS,
+								['ROLE'] = ROLE,
+								['NAME'] = NAME,
+								['MTMA'] = L["Main Tanks / Main Assist"],
+								['GROUP'] = GROUP,
+							},
 						},
 						sortDir = {
 							order = 2,
