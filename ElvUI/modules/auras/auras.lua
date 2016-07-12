@@ -488,8 +488,10 @@ function A:Initialize()
 	
 	for i = 1, 3 do
 	local font = LSM:Fetch('font', self.db.font);
-		_G["TempEnchant"..i]:Size(32)
-		_G["TempEnchant"..i]:CreateBackdrop('Default')
+		_G["TempEnchant"..i]:Size(32);
+		_G["TempEnchant"..i]:CreateBackdrop("Default", true, true);
+		_G["TempEnchant"..i].backdrop:SetTemplate("Default", true, true);
+		_G["TempEnchant"..i].backdrop:SetBackdropBorderColor(0.5, 0, 0.8, 1);
 		_G["TempEnchant"..i].backdrop:SetAllPoints()
 		_G["TempEnchant"..i].highlight = _G["TempEnchant"..i]:CreateTexture(nil, 'HIGHLIGHT');
 		_G["TempEnchant"..i].highlight:SetTexture(1, 1, 1, 0.45);
