@@ -503,7 +503,6 @@ function UF.groupPrototype:Configure_Groups(self)
 	local UNIT_HEIGHT = (E.global.tukuiMode and db.infoPanel) and (db.height + db.infoPanel.height) or db.height;
 
 	local numGroups = self.numGroups;
-
 	for i = 1, numGroups do
 		local group = self.groups[i];
 		
@@ -764,7 +763,7 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 		ElvUF:SetActiveStyle("ElvUF_"..stringTitle);
 		
 		if(db.numGroups) then
-			self[group] = CreateFrame("Frame", "ElvUF_" .. stringTitle, E.UIParent, "SecureHandlerStateTemplate");
+			self[group] = CreateFrame("Frame", "ElvUF_" .. stringTitle, ElvUF_Parent, "SecureHandlerStateTemplate");
 			self[group].groups = {};
 			self[group].groupName = group;
 			self[group].template = self[group].template or template;
@@ -774,7 +773,7 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 				UF["headerFunctions"][group][k] = v;
 			end
 		else
-			self[group] = self:CreateHeader(E.UIParent, groupFilter, "ElvUF_" .. E:StringTitle(group), template, group, headerTemplate);
+			self[group] = self:CreateHeader(ElvUF_Parent, groupFilter, "ElvUF_" .. E:StringTitle(group), template, group, headerTemplate);
 		end
 		
 		self[group].db = db;
@@ -891,6 +890,10 @@ function UF:CreateAndUpdateUF(unit)
 	self[unit].Update = function()
 		UF["Update_"..frameName.."Frame"](self, self[unit], self.db["units"][unit]);
 	end
+
+	if self[unit]:GetParent() ~= ElvUF_Parent then
+		self[unit]:SetParent(ElvUF_Parent)
+	end
 	
 	if(self.db["units"][unit].enable) then
 		self[unit]:Enable();
@@ -967,6 +970,29 @@ function UF:UpdateAllHeaders(event)
 		if(group == "party" or group == "raid" or group == "raid40") then
 			self:UpdateAuraWatchFromHeader(group);
 		end
+	end
+end
+
+local function HideRaid()
+	if InCombatLockdown() then return end
+	CompactRaidFrameManager:Kill()
+	local compact_raid = CompactRaidFrameManager_GetSetting("IsShown")
+	if compact_raid and compact_raid ~= "0" then
+		CompactRaidFrameManager_SetSetting("IsShown", "0")
+	end
+end
+
+function UF:DisableBlizzard(event)
+	if (not E.private["unitframe"]["disabledBlizzardFrames"].raid) and (not E.private["unitframe"]["disabledBlizzardFrames"].party) then return; end
+	if not CompactRaidFrameManager_UpdateShown then
+		E:StaticPopup_Show("WARNING_BLIZZARD_ADDONS")
+	else
+		hooksecurefunc("CompactRaidFrameManager_UpdateShown", HideRaid)
+		CompactRaidFrameManager:HookScript('OnShow', HideRaid)
+		CompactRaidFrameContainer:UnregisterAllEvents()
+
+		HideRaid()
+		hooksecurefunc("CompactUnitFrame_RegisterEvents", CompactUnitFrame_UnregisterEvents)
 	end
 end
 
@@ -1078,11 +1104,13 @@ function UF:Initialize()
 	self.thinBorders = E.global.tukuiMode or self.db.thinBorders or E.PixelMode;
 	if(E.private["unitframe"].enable ~= true) then return; end
 	E.UnitFrames = UF;
-	
-	self:UpdateColors();
-	ElvUF:RegisterStyle("ElvUF", function(frame, unit)
-		self:Construct_UF(frame, unit);
-	end);
+
+	local ElvUF_Parent = CreateFrame('Frame', 'ElvUF_Parent', E.UIParent, 'SecureHandlerStateTemplate');
+
+	self:UpdateColors()
+	ElvUF:RegisterStyle('ElvUF', function(frame, unit)
+		self:Construct_UF(frame, unit)
+	end)
 	
 	self:LoadUnits();
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
@@ -1125,9 +1153,19 @@ function UF:Initialize()
 		InterfaceOptionsStatusTextPanelParty:SetScale(0.0001);
 		InterfaceOptionsStatusTextPanelParty:SetAlpha(0);
 	end
-	
-	if(E.private["unitframe"]["disabledBlizzardFrames"].party) then
-		InterfaceOptionsFrameCategoriesButton11:SetScale(0.0001);
+
+	if E.private["unitframe"]["disabledBlizzardFrames"].party and E.private["unitframe"]["disabledBlizzardFrames"].raid then
+		self:DisableBlizzard()
+		InterfaceOptionsFrameCategoriesButton11:SetScale(0.0001)
+
+		self:RegisterEvent('RAID_ROSTER_UPDATE', 'DisableBlizzard')
+		UIParent:UnregisterEvent('RAID_ROSTER_UPDATE')
+	else
+		CompactUnitFrameProfiles:RegisterEvent('VARIABLES_LOADED')
+	end
+
+	if (not E.private["unitframe"]["disabledBlizzardFrames"].party) and (not E.private["unitframe"]["disabledBlizzardFrames"].raid) then
+		E.RaidUtility.Initialize = E.noop
 	end
 	
 	if(E.private["unitframe"]["disabledBlizzardFrames"].arena) then

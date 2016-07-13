@@ -13,43 +13,31 @@ function UF:Construct_RoleIcon(frame)
 	return tex;
 end
 
-local roleIconTextures = {
-	TANK = [[Interface\AddOns\ElvUI\media\textures\tank.tga]],
-	HEALER = [[Interface\AddOns\ElvUI\media\textures\healer.tga]],
-	DAMAGER = [[Interface\AddOns\ElvUI\media\textures\dps.tga]]
-};
-
 function UF:UpdateRoleIcon()
-	local lfdrole = self.LFDRole;
-	if(not self.db) then return; end
+	local lfdrole = self.LFDRole
 	local db = self.db.roleIcon;
 	
-	if((not db) or (db and not db.enable)) then
-		lfdrole:Hide();
-		return;
+	if not db then return; end
+	local role = UnitGroupRolesAssigned(self.unit)
+
+	if self.isForced then
+		local rnd = math.random(1, 3)
+		role = rnd == 1 and "TANK" or (rnd == 2 and "HEALER" or (rnd == 3 and "DAMAGER"))
 	end
 	
-	local role;
-	local isTank, isHealer, isDamage = UnitGroupRolesAssigned(self.unit);
-	if(isTank) then
-		role = "TANK";
-	elseif(isHealer) then
-		role = "HEALER";
-	elseif(isDamage) then
-		role = "DAMAGER";
-	elseif(self.isForced and not role ~= nil) then
-		local rnd = random(1, 3);
-		role = rnd == 1 and "TANK" or (rnd == 2 and "HEALER" or (rnd == 3 and "DAMAGER"));
+	if(role == 'TANK' or role == 'HEALER' or role == 'DAMAGER') and (UnitIsConnected(self.unit) or self.isForced) and db.enable then
+		if role == 'TANK' then
+			lfdrole:SetTexture([[Interface\AddOns\ElvUI\media\textures\tank.tga]])
+		elseif role == 'HEALER' then
+			lfdrole:SetTexture([[Interface\AddOns\ElvUI\media\textures\healer.tga]])
+		elseif role == 'DAMAGER' then
+			lfdrole:SetTexture([[Interface\AddOns\ElvUI\media\textures\dps.tga]])
+		end
+		
+		lfdrole:Show()
 	else
-		role = nil;
-	end
-	
-	if((self.isForced or UnitIsConnected(self.unit)) and role ~= nil) then
-		lfdrole:SetTexture(roleIconTextures[role]);
-		lfdrole:Show();
-	else
-		lfdrole:Hide();
-	end
+		lfdrole:Hide()
+	end	
 end
 
 function UF:Configure_RoleIcon(frame)

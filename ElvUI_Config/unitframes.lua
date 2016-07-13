@@ -1919,6 +1919,11 @@ E.Options.args.unitframe = {
 							order = 6,
 							type = "toggle",
 							name = L["Party Frames"]
+						},
+						raid = {
+							order = 7,
+							type = 'toggle',
+							name = L["Raid Frames"],
 						}
 					}
 				},

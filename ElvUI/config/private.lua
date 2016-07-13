@@ -111,7 +111,8 @@ V['unitframe'] = {
 		["focus"] = true,
 		["boss"] = true,
 		["arena"] = true,
-		["party"] = true
+		["party"] = true,
+		['raid'] = true,
 	}
 }
 

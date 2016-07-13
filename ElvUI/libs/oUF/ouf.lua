@@ -70,12 +70,12 @@ end
 
 local OnAttributeChanged = function(self, name, value)
 	if(name == "unit" and value) then
-		if(self.unit and self.unit == value) then
-			return;
-		else
-			if(self.hasChildren) then
-				iterateChildren(self:GetChildren());
-			end
+		if(self.hasChildren) then
+			iterateChildren(self:GetChildren())
+		end
+
+		if(not self:GetAttribute'oUF-onlyProcessChildren') then
+			updateActiveUnit(self, "OnAttributeChanged")
 		end
 	end
 end
@@ -192,10 +192,10 @@ local InitializeSecureMenu = function(self)
 		menu = "VEHICLE";
 	elseif(UnitIsUnit(unit, "pet")) then
 		menu = "PET";
-	elseif(UnitIsPlayer(unit)) then
-		if(UnitInRaid(unit)) then
+	elseif( UnitIsPlayer(unit) ) then
+		if( UnitInRaid(unit) ) then
 			menu = "RAID_PLAYER";
-		elseif(UnitInParty(unit)) then
+		elseif( UnitInParty(unit) ) then
 			menu = "PARTY";
 		else
 			menu = "PLAYER";
@@ -261,9 +261,9 @@ local initObject = function(unit, style, styleFunc, header, ...)
 		object.style = style;
 		object = setmetatable(object, frame_metatable);
 		
-		object:RegisterEvent("PLAYER_ENTERING_WORLD", object.UpdateAllElements);
-		
 		tinsert(objects, object);
+		
+		object:RegisterEvent("PLAYER_ENTERING_WORLD", object.UpdateAllElements);
 		
 		if(suffix and objectUnit and not objectUnit:match(suffix)) then
 			objectUnit = objectUnit .. suffix;
@@ -283,9 +283,9 @@ local initObject = function(unit, style, styleFunc, header, ...)
 				object:SetAttribute('toggleForVehicle', true);
 			end
 			
-			object:SetAttribute("*type1", "target");
+			object:SetAttribute("*type1", "target")
 			object.menu = togglemenu;
-			object:SetAttribute("*type2", "menu");
+			object:SetAttribute('*type2', 'menu')
 			
 			if(suffix == "target") then
 				enableTargetUpdate(object);
@@ -333,10 +333,16 @@ local walkObject = function(object, unit)
 	local parent = object:GetParent();
 	local style = parent.style or style;
 	local styleFunc = styles[style];
-	
-	local header = parent.headerType and parent;
-	
-	return initObject(unit, style, styleFunc, header, object, object:GetChildren());
+
+	local header = parent:GetAttribute'oUF-headerType' and parent
+
+	if(object:GetAttribute'oUF-onlyProcessChildren') then
+		object.hasChildren = true
+		object:SetScript('OnAttributeChanged', OnAttributeChanged)
+		return initObject(unit, style, styleFunc, header, object:GetChildren())
+	end
+
+	return initObject(unit, style, styleFunc, header, object, object:GetChildren())
 end
 
 function oUF:RegisterInitCallback(func)
@@ -423,176 +429,199 @@ local generateName = function(unit, ...)
 		end
 	end
 	
-	local append;
+	local append
 	if(raid) then
 		if(groupFilter) then
-			if(groupFilter:match("TANK")) then
-				append = "MainTank";
-			elseif(groupFilter:match("ASSIST")) then
-				append =  "MainAssist";
+			if(type(groupFilter) == 'number' and groupFilter > 0) then
+				append = groupFilter
+			elseif(groupFilter:match'TANK') then
+				append = 'MainTank'
+			elseif(groupFilter:match'ASSIST') then
+				append = 'MainAssist'
 			else
-				local _, count = groupFilter:gsub(",", "");
+				local _, count = groupFilter:gsub(',', '')
 				if(count == 0) then
-					append = groupFilter;
+					append = 'Raid' .. groupFilter
 				else
-					append = "Raid";
+					append = 'Raid'
 				end
 			end
 		else
-			append = "Raid";
+			append = 'Raid'
 		end
 	elseif(party) then
-		append = "Party";
+		append = 'Party'
 	elseif(unit) then
-		append = unit:gsub("^%l", upper);
+		append = unit:gsub("^%l", upper)
 	end
-	
+
 	if(append) then
-		name = name .. append;
+		name = name .. append
 	end
-	
-	local base = name;
-	local i = 2;
+
+	name = name:gsub('(%u%l+)([%u%l]*)%1', '%1')
+	name = name:gsub('t(arget)', 'T%1')
+
+	local base = name
+	local i = 2
 	while(_G[name]) do
-		name = base .. i;
-		i = i + 1;
+		name = base .. i
+		i = i + 1
 	end
-	
-	return name;
+
+	return name
 end
 
-local styleProxy = function(self, frame, ...)
-	return walkObject(_G[frame]);
-end
+do
+	local styleProxy = function(self, frame, ...)
+		return walkObject(_G[frame])
+	end
 
-local initialConfigFunction = function(self)
-	local header = self:GetParent()
-	for i = 1, select("#", self), 1 do
-        local frame = select(i, self);
-		local unit;
-		if(not frame.onlyProcessChildren) then
-			local groupFilter = header:GetAttribute("groupFilter");
-			
-			if(type(groupFilter) == "string" and groupFilter:match("MAIN[AT]")) then
-				local role = groupFilter:match("MAIN([AT])");
-				if(role == "T") then
-					unit = "maintank";
-				else
-					unit = "mainassist";
+	local initialConfigFunction = [[
+		local header = self:GetParent()
+		local frames = table.new()
+		table.insert(frames, self)
+		self:GetChildList(frames)
+		for i=1, #frames do
+			local frame = frames[i]
+			local unit
+			-- There's no need to do anything on frames with onlyProcessChildren
+			if(not frame:GetAttribute'oUF-onlyProcessChildren') then
+				RegisterUnitWatch(frame)
+
+				-- Attempt to guess what the header is set to spawn.
+				local groupFilter = header:GetAttribute'groupFilter'
+
+				if(type(groupFilter) == 'string' and groupFilter:match('MAIN[AT]')) then
+					local role = groupFilter:match('MAIN([AT])')
+					if(role == 'T') then
+						unit = 'maintank'
+					else
+						unit = 'mainassist'
+					end
+				elseif(header:GetAttribute'showRaid') then
+					unit = 'raid'
+				elseif(header:GetAttribute'showParty') then
+					unit = 'party'
 				end
-			elseif(header:GetAttribute("showRaid")) then
-				unit = "raid";
-			elseif(header:GetAttribute("showParty")) then
-				unit = "party";
-			end
-			
-			local headerType = header.headerType;
-			local suffix = frame:GetAttribute("unitsuffix");
-			if(unit and suffix) then
-				if(headerType == "pet" and suffix == "target") then
-					unit = unit .. headerType .. suffix;
-				else
-					unit = unit .. suffix;
-				end
-			elseif(unit and headerType == "pet") then
-				unit = unit .. headerType;
-			end
-			
-			frame:SetAttribute("type1", "target");
-			frame.menu = togglemenu;
-			frame:SetAttribute("type2", "menu");
-			frame:SetAttribute("toggleForVehicle", true);
-			frame.guessUnit = unit;
-		end
-	end
-	
-	header:styleFunction(self:GetName());
-end
 
-function oUF:SpawnHeader(overrideName, template, visibility, ...)
-	if(not style) then return error("Unable to create frame. No styles have been registered.") end
-	
-	template = (template or "SecureGroupHeaderTemplate")
-	
-	local isPetHeader = template:match("PetHeader");
-	local name = overrideName or generateName(nil, ...);
-	local header = CreateFrame('Frame', name, UIParent, template);
-	
-	header:SetAttribute("template", "SecureUnitButtonTemplate");
-	for i = 1, select("#", ...), 2 do
-		local att, val = select(i, ...);
-		if(not att) then break; end
-		header:SetAttribute(att, val);
-	end
-	
-	header.style = style;
-	header.styleFunction = styleProxy;
-	header.initialConfigFunction = initialConfigFunction;
-	header.headerType = isPetHeader and "pet" or "group";
-	
-	for i = 1, select("#", ...), 2 do
-		local att, val = select(i, ...)
-		if(not att) then break end
-		header:SetAttribute(att, val)
-	end
-	
-	if(header:GetAttribute("showParty")) then
-		self:DisableBlizzard("party");
-	end
-	
-	if(visibility) then
-		local type, list = split(" ", visibility, 2);
-		if(list and type == "custom") then
-			RegisterStateDriver(header, "visibility", list);
-		else
-			local condition = getCondition(split(",", visibility));
-			RegisterStateDriver(header, "visibility", condition);
+				local headerType = header:GetAttribute'oUF-headerType'
+				local suffix = frame:GetAttribute'unitsuffix'
+				if(unit and suffix) then
+					if(headerType == 'pet' and suffix == 'target') then
+						unit = unit .. headerType .. suffix
+					else
+						unit = unit .. suffix
+					end
+				elseif(unit and headerType == 'pet') then
+					unit = unit .. headerType
+				end
+
+				frame:SetAttribute('*type1', 'target')
+				frame:SetAttribute('*type2', 'menu')
+				frame:SetAttribute('toggleForVehicle', true)
+				frame:SetAttribute('oUF-guessUnit', unit)
+			end
+
+			local body = header:GetAttribute'oUF-initialConfigFunction'
+			if(body) then
+				frame:Run(body, unit)
+			end
 		end
+
+		header:CallMethod('styleFunction', self:GetName())
+
+		local clique = header:GetFrameRef("clickcast_header")
+		if(clique) then
+			clique:SetAttribute("clickcast_button", self)
+			clique:RunAttribute("clickcast_register")
+		end
+	]]
+
+	function oUF:SpawnHeader(overrideName, template, visibility, ...)
+		if(not style) then return error("Unable to create frame. No styles have been registered.") end
+
+		template = (template or 'SecureGroupHeaderTemplate')
+
+		local isPetHeader = template:match'PetHeader'
+		local name = overrideName or generateName(nil, ...)
+		local header = CreateFrame('Frame', name, UIParent, template)
+
+		header:SetAttribute("template", "oUF_ClickCastUnitTemplate")
+		for i=1, select("#", ...), 2 do
+			local att, val = select(i, ...)
+			if(not att) then break end
+			header:SetAttribute(att, val)
+		end
+
+		header.style = style
+		header.styleFunction = styleProxy
+
+		header:SetAttribute('initialConfigFunction', initialConfigFunction)
+		header:SetAttribute('oUF-headerType', isPetHeader and 'pet' or 'group')
+
+		if(Clique) then
+			SecureHandlerSetFrameRef(header, 'clickcast_header', Clique.header)
+		end
+
+		if(header:GetAttribute'showParty') then
+			self:DisableBlizzard'party'
+		end
+
+		if(visibility) then
+			local type, list = split(' ', visibility, 2)
+			if(list and type == 'custom') then
+				RegisterAttributeDriver(header, 'state-visibility', list)
+			else
+				local condition = getCondition(split(',', visibility))
+				RegisterAttributeDriver(header, 'state-visibility', condition)
+			end
+		end
+
+		return header
 	end
-	
-	return header;
 end
 
 function oUF:Spawn(unit, overrideName, overrideTemplate)
-	argcheck(unit, 2, "string");
-	if(not style) then return error("Unable to create frame. No styles have been registered."); end
-	
-	unit = unit:lower();
-	
-	local name = overrideName or generateName(unit);
-	local object = CreateFrame("Button", name, UIParent, overrideTemplate or "SecureUnitButtonTemplate");
-	Private.UpdateUnits(object, unit);
-	
-	self:DisableBlizzard(unit, object);
-	walkObject(object, unit);
-	
-	object:SetAttribute("unit", unit);
-	RegisterUnitWatch(object);
-	
-	return object;
+	argcheck(unit, 2, 'string')
+	if(not style) then return error("Unable to create frame. No styles have been registered.") end
+
+	unit = unit:lower()
+
+	local name = overrideName or generateName(unit)
+	local object = CreateFrame("Button", name, UIParent, overrideTemplate or "SecureUnitButtonTemplate")
+	Private.UpdateUnits(object, unit)
+
+	self:DisableBlizzard(unit)
+	walkObject(object, unit)
+
+	object:SetAttribute("unit", unit)
+	RegisterUnitWatch(object)
+
+	return object
 end
 
 function oUF:AddElement(name, update, enable, disable)
-	argcheck(name, 2, "string")
-	argcheck(update, 3, "function", "nil");
-	argcheck(enable, 4, "function", "nil");
-	argcheck(disable, 5, "function", "nil");
+	argcheck(name, 2, 'string')
+	argcheck(update, 3, 'function', 'nil')
+	argcheck(enable, 4, 'function', 'nil')
+	argcheck(disable, 5, 'function', 'nil')
 
-	if(elements[name]) then return error("Element [%s] is already registered.", name) end
+	if(elements[name]) then return error('Element [%s] is already registered.', name) end
 	elements[name] = {
 		update = update;
 		enable = enable;
 		disable = disable;
-	};
+	}
 end
 
-oUF.version = _VERSION;
-oUF.objects = objects;
+oUF.version = _VERSION
+oUF.objects = objects
 
 if(global) then
-	if(parent ~= "oUF" and global == "oUF") then
-		error("%s is doing it wrong and setting its global to oUF.", parent);
+	if(parent ~= 'oUF' and global == 'oUF') then
+		error("%s is doing it wrong and setting its global to oUF.", parent)
 	else
-		_G[global] = oUF;
+		_G[global] = oUF
 	end
 end

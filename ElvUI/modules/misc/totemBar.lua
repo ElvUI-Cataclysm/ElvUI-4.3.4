@@ -1,7 +1,6 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local TOTEMS = E:NewModule("Totems", "AceEvent-3.0");
 
-if E.myclass ~= "SHAMAN" then return end
 E.TotemBar = TOTEMS
 
 local _G = _G;
