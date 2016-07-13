@@ -435,6 +435,7 @@ local function LoadSkin()
 
 	-- Game Menu Interface/Raid Profiles
 	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameKeepGroupsTogether)
+	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameHorizontalGroups)
 	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameDisplayIncomingHeals)
 	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameDisplayPowerBar)
 	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameDisplayAggroHighlight)
