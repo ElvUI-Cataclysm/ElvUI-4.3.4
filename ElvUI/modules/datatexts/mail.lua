@@ -39,7 +39,7 @@ local function OnEvent(self, event, ...)
 	end
 	
 	if newMail then
-		self.text:SetText("New Mail")
+		self.text:SetText("|cff00d316New Mail|r")
 		Read = false;
 	else
 		self.text:SetText("No Mail")
