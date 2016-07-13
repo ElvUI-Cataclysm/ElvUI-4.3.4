@@ -83,7 +83,7 @@ function RU:Initialize()
 	RaidUtilityPanel:Point('TOP', E.UIParent, 'TOP', -400, 1)
 	RaidUtilityPanel:SetFrameLevel(3)
 	RaidUtilityPanel.toggled = false
-	RaidUtilityPanel:SetFrameStrata("TOOLTIP")
+	RaidUtilityPanel:SetFrameStrata("HIGH")
 
 	--Show Button
 	self:CreateUtilButton("ShowButton", E.UIParent, "UIMenuButtonStretchTemplate, SecureHandlerClickTemplate", 136, 18, "TOP", E.UIParent, "TOP", -400, 2, RAID_CONTROL, nil)
