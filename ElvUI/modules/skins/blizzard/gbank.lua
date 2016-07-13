@@ -105,7 +105,14 @@ local function LoadSkin()
 	GuildBankFrameTab1:ClearAllPoints()
 	GuildBankFrameTab1:SetPoint("BOTTOMLEFT", GuildBankFrame, "BOTTOMLEFT", 0, -30)
 
-	GuildBankTab1:Point("TOPLEFT", GuildBankFrame, "TOPRIGHT", -2, -32)
+	GuildBankTab1:Point("TOPLEFT", GuildBankFrame, "TOPRIGHT", -3, -36)
+	GuildBankTab2:Point("TOPLEFT", GuildBankTab1, "BOTTOMLEFT", 0, 7)
+	GuildBankTab3:Point("TOPLEFT", GuildBankTab2, "BOTTOMLEFT", 0, 7)
+	GuildBankTab4:Point("TOPLEFT", GuildBankTab3, "BOTTOMLEFT", 0, 7)
+	GuildBankTab5:Point("TOPLEFT", GuildBankTab4, "BOTTOMLEFT", 0, 7)
+	GuildBankTab6:Point("TOPLEFT", GuildBankTab5, "BOTTOMLEFT", 0, 7)
+	GuildBankTab7:Point("TOPLEFT", GuildBankTab6, "BOTTOMLEFT", 0, 7)
+	GuildBankTab8:Point("TOPLEFT", GuildBankTab7, "BOTTOMLEFT", 0, 7)
 
 	--Popup
 	GuildBankPopupFrame:StripTextures()
@@ -123,6 +130,7 @@ local function LoadSkin()
 	GuildItemSearchBox:CreateBackdrop("Overlay")
 	GuildItemSearchBox.backdrop:Point("TOPLEFT", 10, -1)
 	GuildItemSearchBox.backdrop:Point("BOTTOMRIGHT", 4, 1)	
+	GuildItemSearchBox:Point("TOPRIGHT", GuildBankFrame, "TOPRIGHT", -25, -42)
 
 	for i=1, 16 do
 		local button = _G["GuildBankPopupButton"..i]
