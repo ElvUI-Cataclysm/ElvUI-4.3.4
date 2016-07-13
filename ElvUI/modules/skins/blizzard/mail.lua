@@ -77,6 +77,9 @@ local function LoadSkin()
 	S:HandleButton(SendMailMailButton)
 	S:HandleButton(SendMailCancelButton)
 	
+	SendMailCancelButton:Point("BOTTOMRIGHT", SendMailFrame, "BOTTOMRIGHT", -45, 80)
+	SendMailMoneyFrame:Point("BOTTOMRIGHT", SendMailFrame, "BOTTOMLEFT", 170, 84)
+	
 	-- open mail (cod)
 	OpenMailFrame:StripTextures(true)
 	OpenMailFrame:CreateBackdrop("Transparent")
