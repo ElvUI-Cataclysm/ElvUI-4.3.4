@@ -756,7 +756,7 @@ end
 function TT:Initialize()
 	self.db = E.db.tooltip
 
-	BNToastFrame:Point('TOPRIGHT', MMHolder, 'BOTTOMRIGHT', 0, -10);
+	BNToastFrame:Point('TOPRIGHT', MMHolder, 'BOTTOMRIGHT', 0, -35);
 	E:CreateMover(BNToastFrame, 'BNETMover', L['BNet Frame'])
 	self:SecureHook(BNToastFrame, "SetPoint", "RepositionBNET")
 
