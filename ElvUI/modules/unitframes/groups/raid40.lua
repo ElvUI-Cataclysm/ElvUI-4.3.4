@@ -35,6 +35,7 @@ function UF:Construct_Raid40Frames(unitGroup)
 	self.AuraWatch = UF:Construct_AuraWatch(self);
 	self.RaidDebuffs = UF:Construct_RaidDebuffs(self);
 	self.DebuffHighlight = UF:Construct_DebuffHighlight(self);
+	self.ResurrectIcon = UF:Construct_ResurectionIcon(self)
 	self.LFDRole = UF:Construct_RoleIcon(self);
 	self.RaidRoleFramesAnchor = UF:Construct_RaidRoleFrames(self);
 	self.TargetGlow = UF:Construct_TargetGlow(self);

@@ -32,6 +32,7 @@
 	<Script file='elements\holypower.lua' />
 	<Script file='elements\eclipsebar.lua' />
 	<Script file='elements\soulshards.lua' />
+	<Script file='elements\resurrect.lua' />
 
 	<!-- Clique support -->
 	<Button name="oUF_ClickCastUnitTemplate" virtual="true" inherits="SecureUnitButtonTemplate,SecureHandlerEnterLeaveTemplate">

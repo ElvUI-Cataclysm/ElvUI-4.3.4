@@ -26,4 +26,5 @@
 	<Script file="trinket.lua"/>
 	<Script file="infopanel.lua"/>
 	<Script file="misc.lua"/>
+	<Script file="resurrectionicon.lua"/>
 </Ui>
