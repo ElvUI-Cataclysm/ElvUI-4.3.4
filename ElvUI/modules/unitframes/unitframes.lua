@@ -520,14 +520,14 @@ function UF.groupPrototype:Configure_Groups(self)
 				group:SetAttribute("columnSpacing", db.horizontalSpacing);
 			end
 			
-			if not group.isForced then
+			--[[if not group.isForced then
 				if not group.initialized then
 					group:SetAttribute("startingIndex", db.raidWideSorting and (-min(numGroups * (db.groupsPerRowCol * 5), MAX_RAID_MEMBERS) + 1) or -4)
 					group:Show()
 					group.initialized = true
 				end
 				group:SetAttribute("startingIndex", 1)
-			end
+			end]]
 			
 			group:ClearAllPoints();
 
