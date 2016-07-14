@@ -262,7 +262,7 @@ end
 function M:LoadLoot()
 	if not E.private.general.loot then return end
 	lootFrameHolder = CreateFrame('Frame', 'ElvLootFrameHolder', E.UIParent)
-	lootFrameHolder:Point('TOPLEFT', 36, -195)
+	lootFrameHolder:Point('TOP', 0, -50)
 	lootFrameHolder:Width(150)
 	lootFrameHolder:Height(22)
 	
