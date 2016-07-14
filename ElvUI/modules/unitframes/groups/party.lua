@@ -36,6 +36,7 @@ function UF:Construct_PartyFrames(unitGroup)
 		end
 		self.unitframeType = "party" .. self.childType;
 	else
+		self.menu = UF.SpawnMenu
 		self.Health = UF:Construct_HealthBar(self, true, true, "RIGHT");
 		self.Power = UF:Construct_PowerBar(self, true, true, "LEFT");
 		self.Power.frequentUpdates = false;
