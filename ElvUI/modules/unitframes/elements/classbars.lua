@@ -370,26 +370,29 @@ function UF:Construct_DruidResourceBar(frame)
 end
 
 function UF:Construct_DruidAltManaBar(frame)
-	local dpower = CreateFrame("Frame", nil, frame);
-	dpower:CreateBackdrop("Default", nil, nil, self.thinBorders);
-	dpower.colorPower = true;
-	dpower.PostUpdateVisibility = ToggleResourceBar;
-	dpower.PostUpdatePower = UF.DruidPostUpdateAltPower;
+	local dpower = CreateFrame('Frame', nil, frame)
+	dpower:SetFrameStrata("LOW")
+	dpower:SetAllPoints(frame.EclipseBar.backdrop)
+	dpower:SetTemplate("Default")
+	dpower:SetFrameLevel(dpower:GetFrameLevel() + 1)
+	dpower.colorPower = true
+	dpower.PostUpdateVisibility = UF.DruidManaPostUpdateVisibility
+	dpower.PostUpdatePower = UF.DruidPostUpdateAltPower
 
-	dpower.ManaBar = CreateFrame("StatusBar", nil, dpower);
-	UF["statusbars"][dpower.ManaBar] = true;
-	dpower.ManaBar:SetStatusBarTexture(E["media"].blankTex);
-	dpower.ManaBar:SetAllPoints(dpower);
+	dpower.ManaBar = CreateFrame('StatusBar', nil, dpower)
+	UF['statusbars'][dpower.ManaBar] = true
+	dpower.ManaBar:SetStatusBarTexture(E["media"].blankTex)
+	dpower.ManaBar:SetInside(dpower)
 
-	dpower.bg = dpower:CreateTexture(nil, "BORDER");
-	dpower.bg:SetAllPoints(dpower.ManaBar);
-	dpower.bg:SetTexture(E["media"].blankTex);
-	dpower.bg.multiplier = 0.3;
+	dpower.bg = dpower:CreateTexture(nil, "BORDER")
+	dpower.bg:SetAllPoints(dpower.ManaBar)
+	dpower.bg:SetTexture(E["media"].blankTex)
+	dpower.bg.multiplier = 0.3
 
-	dpower.Text = dpower:CreateFontString(nil, "OVERLAY");
-	UF:Configure_FontString(dpower.Text);
+	dpower.Text = dpower:CreateFontString(nil, 'OVERLAY')
+	UF:Configure_FontString(dpower.Text)
 
-	return dpower;
+	return dpower
 end
 
 function UF:DruidResourceBarVisibilityUpdate(unit)
