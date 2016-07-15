@@ -104,10 +104,34 @@ function B:DungeonCompletionAlertFrame_FixAnchors()
 	end
 end
 
+function B:GuildChallengeAlertFrame_FixAnchors()
+	for i=MAX_ACHIEVEMENT_ALERTS, 1, -1 do
+		if _G["AchievementAlertFrame"..i] and _G["AchievementAlertFrame"..i]:IsShown() then
+			aFrame = _G["AchievementAlertFrame"..i]
+		end
+	end
+		
+	if DungeonCompletionAlertFrame1:IsShown() then
+		aFrame = DungeonCompletionAlertFrame1
+	end
+		
+	if aFrame == nil then
+		aFrame = AlertFrame
+	end
+		
+	GuildChallengeAlertFrame:ClearAllPoints()
+	if POSITION == "TOP" then
+		GuildChallengeAlertFrame:SetPoint("TOP", aFrame, "BOTTOM", 0, -10)
+	else
+		GuildChallengeAlertFrame:SetPoint("BOTTOM", aFrame, "TOP", 0, 10)
+	end
+end
+
 function B:AlertMovers()
 	self:SecureHook('AlertFrame_FixAnchors', E.PostAlertMove)
 	self:SecureHook('AchievementAlertFrame_FixAnchors')
 	self:SecureHook('DungeonCompletionAlertFrame_FixAnchors')
+	self:SecureHook('GuildChallengeAlertFrame_FixAnchors')
 	
 	E:CreateMover(AlertFrameHolder, 'AlertFrameMover', L['Loot / Alert Frames'], nil, nil, E.PostAlertMove);
 end
