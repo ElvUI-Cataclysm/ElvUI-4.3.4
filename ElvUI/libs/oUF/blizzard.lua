@@ -84,5 +84,6 @@ function oUF:DisableBlizzard(unit)
 		end
 		
 		Arena_LoadUI = function() end
+		SetCVar('showArenaEnemyFrames', '0', 'SHOW_ARENA_ENEMY_FRAMES_TEXT')
 	end
 end
