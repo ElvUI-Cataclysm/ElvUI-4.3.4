@@ -409,7 +409,6 @@ end
 
 local function GetClassPower(class)
 	local min, max, r, g, b = 0, 0, 0, 0, 0
-	local spec = GetSpecialization()
 	if class == 'PALADIN' then
 		min = UnitPower('player', SPELL_POWER_HOLY_POWER);
 		max = UnitPowerMax('player', SPELL_POWER_HOLY_POWER);

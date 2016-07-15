@@ -186,7 +186,7 @@ local function LoadSkin(event)
 	SkinStatusBar(AchievementFrameComparisonSummaryFriendStatusBar);
 	AchievementFrameComparisonSummaryFriendStatusBar.text:ClearAllPoints();
 	AchievementFrameComparisonSummaryFriendStatusBar.text:Point("CENTER");
-	AchievementFrameComparisonHeader:Point("BOTTOMRIGHT", AchievementFrameComparison, "TOPRIGHT", 45, -20);
+	AchievementFrameComparisonHeader:Point("BOTTOMRIGHT", AchievementFrameComparison, "TOPRIGHT", 45, -10);
 	
 	for i = 1, 8 do
 		local frame = _G["AchievementFrameSummaryCategoriesCategory" .. i];
