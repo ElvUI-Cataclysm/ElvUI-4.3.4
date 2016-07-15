@@ -57,12 +57,15 @@ UF["classMaxResourceBar"] = {
 };
 
 UF["mapIDs"] = {
-	[444] = 10,
-	[541] = 40,
-	[513] = 15,
-	[402] = 40,
-	[462] = 15,
-	[483] = 15
+	[489] = 10, -- Warsong Gulch
+	[726] = 10, -- Twin Peaks
+	[761] = 10, -- The Battle for Gilneas
+	[968] = 10, -- Rated Eye of the Storm
+	[529] = 15, -- Arathi Basin
+	[566] = 15, -- Eye of the Storm
+	[607] = 15, -- Strand of the Ancients
+	[30] = 40, -- Alterac Valley
+	[628] = 40 -- Isle of Conquest
 };
 
 UF["headerGroupBy"] = {
