@@ -35,4 +35,5 @@
 	<Script file='Stamina.lua'/>
 	<Script file='Strength.lua'/>
 	<Script file='EnergyRegen.lua'/>
+	<Script file='Reincarnation.lua'/>
 </Ui>
