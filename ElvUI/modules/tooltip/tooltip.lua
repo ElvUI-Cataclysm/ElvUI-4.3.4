@@ -325,7 +325,7 @@ function TT:GetItemLvL(unit)
 		end
 	end
 	
-	if(total < 1) then
+	if(total < 1 or item < 15) then
 		return
 	end
 	
@@ -356,19 +356,21 @@ end
 local tree = {};
 function TT:GetTalentSpec(unit, isInspect)
 	local group = GetActiveTalentGroup(isInspect);
-	local maxTree, _ = 1;
+	local primaryTree = 1;
 	for i = 1, 3 do
-		_, _, tree[i] = GetTalentTabInfo(i, isInspect, nil, group);
-		if(tree[i] > tree[maxTree]) then
-			maxTree = i;
+		local _, _, _, _, pointsSpent = GetTalentTabInfo(i,isInspect,nil,group);
+		tree[i] = pointsSpent;
+		if (tree[i] > tree[primaryTree]) then
+			primaryTree = i;
 		end
 	end
-	local name = GetTalentTabInfo(maxTree, isInspect, nil, group);
+	local _, tabName = GetTalentTabInfo(primaryTree,isInspect,nil,group);
 	
+	name = tabName;
 	return name;
 end
 
-function TT:INSPECT_TALENT_READY(event, ...)
+function TT:INSPECT_READY(event, ...)
 	local GUID = UnitGUID("mouseover");
 	if(self.lastGUID ~= GUID) then return end
 
@@ -388,7 +390,7 @@ function TT:INSPECT_TALENT_READY(event, ...)
 
 		GameTooltip:SetUnit(unit)
 	end
-	self:UnregisterEvent("INSPECT_TALENT_READY")
+	self:UnregisterEvent("INSPECT_READY")
 end
 
 function TT:ShowInspectInfo(tt, unit, level, r, g, b, numTries)
@@ -415,7 +417,7 @@ function TT:ShowInspectInfo(tt, unit, level, r, g, b, numTries)
 		if(not canInspect) or (InspectFrame and InspectFrame:IsShown()) then return end
 		self.lastGUID = GUID
 		NotifyInspect(unit)
-		self:RegisterEvent("INSPECT_TALENT_READY")
+		self:RegisterEvent("INSPECT_READY")
 	end
 end
 
