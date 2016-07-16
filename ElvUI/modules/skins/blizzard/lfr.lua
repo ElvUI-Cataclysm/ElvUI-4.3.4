@@ -52,7 +52,7 @@ local function LoadSkin()
 			tab:StyleButton(true)				
 			
 			local point, relatedTo, point2, x, y = tab:GetPoint()
-			tab:Point(point, relatedTo, point2, x, y)
+			tab:Point(point, relatedTo, point2, -1, y)
 		end
 	end
 	

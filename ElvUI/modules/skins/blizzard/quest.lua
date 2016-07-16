@@ -181,11 +181,10 @@ local function LoadSkin()
 	QuestLogFrame:HookScript("OnShow", function()
 		QuestLogScrollFrame:Height(331)
 		QuestLogDetailScrollFrame:Height(328)
-		
-		if not QuestLogDetailScrollFrame.backdrop then
-			QuestLogScrollFrame:CreateBackdrop("Default")
-			QuestLogDetailScrollFrame:CreateBackdrop("Default")
-		end
+		QuestLogScrollFrame:CreateBackdrop("Default")
+		QuestLogDetailScrollFrame:CreateBackdrop("Default")
+		QuestLogDetailScrollFrame.backdrop:SetFrameLevel(QuestLogDetailScrollFrame:GetFrameLevel() - 2)
+		QuestLogScrollFrame.backdrop:SetFrameLevel(QuestLogScrollFrame:GetFrameLevel() - 2)
 	end)
 
 	--Quest Frame
