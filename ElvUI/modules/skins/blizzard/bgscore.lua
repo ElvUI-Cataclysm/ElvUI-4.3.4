@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
 local function LoadSkin()
@@ -26,6 +26,18 @@ local function LoadSkin()
 	for i = 1, 3 do 
 		S:HandleTab(_G["WorldStateScoreFrameTab"..i])
 	end
+	
+	WorldStateScoreFrameTab1:Point("TOPLEFT", WorldStateScoreFrame, "BOTTOMLEFT", 5, 2)
+	
+	WorldStateScoreFrameKB:StyleButton()
+	WorldStateScoreFrameDeaths:StyleButton()
+	WorldStateScoreFrameHK:StyleButton()
+	WorldStateScoreFrameDamageDone:StyleButton()
+	WorldStateScoreFrameHealingDone:StyleButton()
+	WorldStateScoreColumn1:StyleButton()
+	WorldStateScoreColumn2:StyleButton()
+	WorldStateScoreFrameHonorGained:StyleButton()
+	WorldStateScoreFrameName:StyleButton()
 end
 
 S:RegisterSkin('ElvUI', LoadSkin)
