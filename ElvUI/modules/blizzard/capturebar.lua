@@ -13,6 +13,29 @@ function B:WorldStateAlwaysUpFrame_Update()
 			captureBar:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -25, -235);
 		end
 	end
+	
+	WorldStateAlwaysUpFrame:ClearAllPoints()
+	WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -15)
+
+	alwaysUpShown = 1
+	frame = "AlwaysUpFrame"..alwaysUpShown
+	offset = 0
+
+	for i=alwaysUpShown, NUM_ALWAYS_UP_UI_FRAMES do
+		frame = _G["AlwaysUpFrame"..i]
+		frameText = _G["AlwaysUpFrame"..i.."Text"]
+		frameIcon = _G["AlwaysUpFrame"..i.."Icon"]
+
+		frame:ClearAllPoints()
+		frameText:ClearAllPoints()
+		frameIcon:ClearAllPoints()
+
+		frameText:SetPoint("CENTER", WorldStateAlwaysUpFrame, "CENTER", 0, offset)
+		frameText:SetJustifyH("CENTER")
+		frameIcon:SetPoint("CENTER", frameText, "LEFT", -13, -8)
+
+		offset = offset - 25
+	end
 end
 
 function B:PositionCaptureBar()
