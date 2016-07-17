@@ -24,12 +24,30 @@ local function LoadSkin()
 	S:HandleCheckBox(IsUsableCheckButton)
 	S:HandleCheckBox(ShowOnPlayerCheckButton)
 	
-
+	--DressUp Frame
 	SideDressUpFrame:StripTextures()
 	SideDressUpFrame:SetTemplate("Transparent")
 	SideDressUpFrame:Point("TOPLEFT", AuctionFrame, "TOPRIGHT", 2, 0)
 	S:HandleButton(SideDressUpModelResetButton)
+	SideDressUpModelResetButton:Point("BOTTOM", SideDressUpModel, "BOTTOM", 0, 0)
 	S:HandleCloseButton(SideDressUpModelCloseButton)
+	
+	SideDressUpModelControlFrame:StripTextures()
+	
+	local controlbuttons = {
+		"SideDressUpModelControlFrameZoomInButton",
+		"SideDressUpModelControlFrameZoomOutButton",
+		"SideDressUpModelControlFramePanButton",
+		"SideDressUpModelControlFrameRotateLeftButton",
+		"SideDressUpModelControlFrameRotateRightButton",
+		"SideDressUpModelControlFrameRotateResetButton",
+	}
+	
+	for i = 1, getn(controlbuttons) do
+		S:HandleButton(_G[controlbuttons[i]]);
+		_G[controlbuttons[i]]:StyleButton()
+		_G[controlbuttons[i].."Bg"]:Hide()
+	end
 	
 	--Progress Frame
 	AuctionProgressFrame:StripTextures()
@@ -270,7 +288,7 @@ local function LoadSkin()
 		button:GetHighlightTexture():ClearAllPoints()
 		button:GetHighlightTexture():Point("TOPLEFT", icon, "TOPRIGHT", 2, 0)
 		button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -2, 5)
-		button:GetPushedTexture():SetAllPoints(button:GetHighlightTexture())			
+		button:GetPushedTexture():SetAllPoints(button:GetHighlightTexture())
 	end
 	
 	--[[for i=1, AuctionFrameBrowse:GetNumRegions() do 
@@ -302,20 +320,20 @@ local function LoadSkin()
 	AuctionFrameBid.bg:Point("TOPLEFT", 22, -72)
 	AuctionFrameBid.bg:Point("BOTTOMRIGHT", 66, 39)
 	AuctionFrameBid.bg:SetFrameLevel(AuctionFrameBid.bg:GetFrameLevel() - 1)
-	BidScrollFrame:Height(332)	
+	BidScrollFrame:Height(332)
 
-	AuctionsScrollFrame:Height(336)	
+	AuctionsScrollFrame:Height(336)
 	AuctionFrameAuctions.bg1 = CreateFrame("Frame", nil, AuctionFrameAuctions)
 	AuctionFrameAuctions.bg1:SetTemplate("Default")
 	AuctionFrameAuctions.bg1:Point("TOPLEFT", 15, -70)
-	AuctionFrameAuctions.bg1:Point("BOTTOMRIGHT", -545, 35)  
-	AuctionFrameAuctions.bg1:SetFrameLevel(AuctionFrameAuctions.bg1:GetFrameLevel() - 2)	
+	AuctionFrameAuctions.bg1:Point("BOTTOMRIGHT", -545, 35)
+	AuctionFrameAuctions.bg1:SetFrameLevel(AuctionFrameAuctions.bg1:GetFrameLevel() - 2)
 	
 	AuctionFrameAuctions.bg2 = CreateFrame("Frame", nil, AuctionFrameAuctions)
 	AuctionFrameAuctions.bg2:SetTemplate("Default")
 	AuctionFrameAuctions.bg2:Point("TOPLEFT", AuctionFrameAuctions.bg1, "TOPRIGHT", 3, 0)
-	AuctionFrameAuctions.bg2:Point("BOTTOMRIGHT", AuctionFrame, -8, 35)  
-	AuctionFrameAuctions.bg2:SetFrameLevel(AuctionFrameAuctions.bg2:GetFrameLevel() - 2)	
+	AuctionFrameAuctions.bg2:Point("BOTTOMRIGHT", AuctionFrame, -8, 35) 
+	AuctionFrameAuctions.bg2:SetFrameLevel(AuctionFrameAuctions.bg2:GetFrameLevel() - 2)
 end
 
 S:RegisterSkin("Blizzard_AuctionUI", LoadSkin)
