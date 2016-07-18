@@ -73,6 +73,36 @@ local function LoadSkin()
 	S:HandleButton(GuildFinderRequestMembershipFrameCancelButton)
 	GuildFinderRequestMembershipFrameInputFrame:StripTextures()
 	GuildFinderRequestMembershipFrameInputFrame:SetTemplate("Default")
+	
+	--Tank Icon
+	LookingForGuildTankButton:StripTextures()
+	LookingForGuildTankButton:CreateBackdrop("Default");
+	LookingForGuildTankButton.backdrop:Point("TOPLEFT", LookingForGuildTankButton, "TOPLEFT", 3, -3)
+	LookingForGuildTankButton.backdrop:Point("BOTTOMRIGHT", LookingForGuildTankButton, "BOTTOMRIGHT", -3, 3)
+	LookingForGuildTankButton.icon = LookingForGuildTankButton:CreateTexture(nil, "OVERLAY");
+	LookingForGuildTankButton.icon:SetTexCoord(unpack(E.TexCoords))
+	LookingForGuildTankButton.icon:SetTexture('Interface\\AddOns\\ElvUI\\media\\textures\\lfgtank');
+	LookingForGuildTankButton.icon:SetInside(LookingForGuildTankButton.backdrop)
+	
+	--Healer Icon
+	LookingForGuildHealerButton:StripTextures()
+	LookingForGuildHealerButton:CreateBackdrop("Default");
+	LookingForGuildHealerButton.backdrop:Point("TOPLEFT", LookingForGuildHealerButton, "TOPLEFT", 3, -3)
+	LookingForGuildHealerButton.backdrop:Point("BOTTOMRIGHT", LookingForGuildHealerButton, "BOTTOMRIGHT", -3, 3)
+	LookingForGuildHealerButton.icon = LookingForGuildHealerButton:CreateTexture(nil, "OVERLAY");
+	LookingForGuildHealerButton.icon:SetTexCoord(unpack(E.TexCoords))
+	LookingForGuildHealerButton.icon:SetTexture('Interface\\AddOns\\ElvUI\\media\\textures\\lfghealer');
+	LookingForGuildHealerButton.icon:SetInside(LookingForGuildHealerButton.backdrop)
+	
+	--Damage Icon
+	LookingForGuildDamagerButton:StripTextures()
+	LookingForGuildDamagerButton:CreateBackdrop("Default");
+	LookingForGuildDamagerButton.backdrop:Point("TOPLEFT", LookingForGuildDamagerButton, "TOPLEFT", 3, -3)
+	LookingForGuildDamagerButton.backdrop:Point("BOTTOMRIGHT", LookingForGuildDamagerButton, "BOTTOMRIGHT", -3, 3)
+	LookingForGuildDamagerButton.icon = LookingForGuildDamagerButton:CreateTexture(nil, "OVERLAY");
+	LookingForGuildDamagerButton.icon:SetTexCoord(unpack(E.TexCoords))
+	LookingForGuildDamagerButton.icon:SetTexture('Interface\\AddOns\\ElvUI\\media\\textures\\lfgdamage');
+	LookingForGuildDamagerButton.icon:SetInside(LookingForGuildDamagerButton.backdrop)
 end
 
 S:RegisterSkin("Blizzard_LookingForGuildUI", LoadSkin)

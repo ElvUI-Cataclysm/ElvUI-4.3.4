@@ -262,7 +262,7 @@ local function LoadSkin()
 		_G["GuildInfoFrameApplicantsContainerButton"..i.."LevelRing"]:SetAlpha(0)
 		_G["GuildInfoFrameApplicantsContainerButton"..i.."LevelRing"]:SetPoint("TOPLEFT", -42, 33)
 	end
-
+	
 	S:HandleScrollBar(GuildRecruitmentCommentInputFrameScrollFrameScrollBar)
 	
 	--Text Edit Frame
@@ -312,6 +312,34 @@ local function LoadSkin()
 			button.icon:SetParent(button.backdrop)
 		end
 	end
+	
+	--Tank Icon
+	GuildRecruitmentTankButton:StripTextures()
+	GuildRecruitmentTankButton:CreateBackdrop("Default");
+	GuildRecruitmentTankButton.backdrop:Point("TOPLEFT", GuildRecruitmentTankButton, "TOPLEFT", 3, -3)
+	GuildRecruitmentTankButton.backdrop:Point("BOTTOMRIGHT", GuildRecruitmentTankButton, "BOTTOMRIGHT", -3, 3)
+	GuildRecruitmentTankButton.icon = GuildRecruitmentTankButton:CreateTexture(nil, "OVERLAY");
+	GuildRecruitmentTankButton.icon:SetTexCoord(unpack(E.TexCoords))
+	GuildRecruitmentTankButton.icon:SetTexture('Interface\\AddOns\\ElvUI\\media\\textures\\lfgtank');
+	GuildRecruitmentTankButton.icon:SetInside(GuildRecruitmentTankButton.backdrop)
+	--Healer Icon
+	GuildRecruitmentHealerButton:StripTextures()
+	GuildRecruitmentHealerButton:CreateBackdrop("Default");
+	GuildRecruitmentHealerButton.backdrop:Point("TOPLEFT", GuildRecruitmentHealerButton, "TOPLEFT", 3, -3)
+	GuildRecruitmentHealerButton.backdrop:Point("BOTTOMRIGHT", GuildRecruitmentHealerButton, "BOTTOMRIGHT", -3, 3)
+	GuildRecruitmentHealerButton.icon = GuildRecruitmentHealerButton:CreateTexture(nil, "OVERLAY");
+	GuildRecruitmentHealerButton.icon:SetTexCoord(unpack(E.TexCoords))
+	GuildRecruitmentHealerButton.icon:SetTexture('Interface\\AddOns\\ElvUI\\media\\textures\\lfghealer');
+	GuildRecruitmentHealerButton.icon:SetInside(GuildRecruitmentHealerButton.backdrop)
+	--Damage Icon
+	GuildRecruitmentDamagerButton:StripTextures()
+	GuildRecruitmentDamagerButton:CreateBackdrop("Default");
+	GuildRecruitmentDamagerButton.backdrop:Point("TOPLEFT", GuildRecruitmentDamagerButton, "TOPLEFT", 3, -3)
+	GuildRecruitmentDamagerButton.backdrop:Point("BOTTOMRIGHT", GuildRecruitmentDamagerButton, "BOTTOMRIGHT", -3, 3)
+	GuildRecruitmentDamagerButton.icon = GuildRecruitmentDamagerButton:CreateTexture(nil, "OVERLAY");
+	GuildRecruitmentDamagerButton.icon:SetTexCoord(unpack(E.TexCoords))
+	GuildRecruitmentDamagerButton.icon:SetTexture('Interface\\AddOns\\ElvUI\\media\\textures\\lfgdamage');
+	GuildRecruitmentDamagerButton.icon:SetInside(GuildRecruitmentDamagerButton.backdrop)
 end
 
 S:RegisterSkin("Blizzard_GuildUI", LoadSkin)

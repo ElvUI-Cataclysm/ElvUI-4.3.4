@@ -82,6 +82,7 @@ V['skins'] = {
 		['quest'] = true,
 		['raid'] = true,
 		['reforge'] = true,
+		['roleicons'] = true,
 		['socket'] = true,
 		['spellbook'] = true,
 		['stable'] = true,

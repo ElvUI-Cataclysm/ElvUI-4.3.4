@@ -154,6 +154,20 @@ local function LoadSkin()
 	S:HandleButton(LFGDungeonReadyDialogLeaveQueueButton)
 	S:HandleButton(LFGDungeonReadyDialogEnterDungeonButton)
 	S:HandleCloseButton(LFGDungeonReadyDialogCloseButton)
+	
+	LFGDungeonReadyDialogRewardsFrameReward1Border:SetAlpha(0)
+	LFGDungeonReadyDialogRewardsFrameReward1:CreateBackdrop()
+	LFGDungeonReadyDialogRewardsFrameReward1.backdrop:Point("TOPLEFT", LFGDungeonReadyDialogRewardsFrameReward1, "TOPLEFT", 8, -8)
+	LFGDungeonReadyDialogRewardsFrameReward1.backdrop:Point("BOTTOMRIGHT", LFGDungeonReadyDialogRewardsFrameReward1, "BOTTOMRIGHT", -8, 8)
+	LFGDungeonReadyDialogRewardsFrameReward1Texture:SetTexCoord(unpack(E.TexCoords))
+	LFGDungeonReadyDialogRewardsFrameReward1Texture:SetInside(LFGDungeonReadyDialogRewardsFrameReward1.backdrop)
+	
+	LFGDungeonReadyDialogRewardsFrameReward2Border:SetAlpha(0)
+	LFGDungeonReadyDialogRewardsFrameReward2:CreateBackdrop()
+	LFGDungeonReadyDialogRewardsFrameReward2.backdrop:Point("TOPLEFT", LFGDungeonReadyDialogRewardsFrameReward2, "TOPLEFT", 8, -8)
+	LFGDungeonReadyDialogRewardsFrameReward2.backdrop:Point("BOTTOMRIGHT", LFGDungeonReadyDialogRewardsFrameReward2, "BOTTOMRIGHT", -8, 8)
+	LFGDungeonReadyDialogRewardsFrameReward2Texture:SetTexCoord(unpack(E.TexCoords))
+	LFGDungeonReadyDialogRewardsFrameReward2Texture:SetInside(LFGDungeonReadyDialogRewardsFrameReward2.backdrop)
 
 	LFGDungeonReadyStatus:StripTextures()
 	LFGDungeonReadyStatus:SetTemplate('Transparent');
