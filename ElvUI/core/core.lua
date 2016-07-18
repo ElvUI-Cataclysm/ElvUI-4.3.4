@@ -292,7 +292,7 @@ function E:CheckRole()
 		local base, posBuff, negBuff = UnitAttackPower("player");
 		local playerap = base + posBuff + negBuff;
 
-		if (((playerap > playerint) or (playeragi > playerint)) and (E.myclass == "SHAMAN" and tree == 2) or (E.myclass == "PALADIN" and tree == 3) and not
+		if (((playerap > playerint) or (playeragi > playerint)) and (E.myclass == "SHAMAN" and tree == 2) or (E.myclass == "PALADIN" and tree == 3) or (E.myclass == "DRUID" and tree == 2) and not
 		(UnitBuff("player", GetSpellInfo(24858)) or UnitBuff("player", GetSpellInfo(65139)))) or E.myclass == "ROGUE" or E.myclass == "HUNTER" then
 			E.Role = "Melee"
 		else

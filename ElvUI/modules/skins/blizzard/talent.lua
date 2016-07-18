@@ -206,8 +206,6 @@ local function LoadSkin()
 		if first then
 			button:StripTextures()
 		end
-		
-		_G["PlayerTalentFramePanel"..i.."HeaderIconPointsSpent"]:FontTemplate(nil, 12, 'OUTLINE')
 
 		if icon then
 			icon:SetTexCoord(unpack(E.TexCoords))
@@ -215,7 +213,7 @@ local function LoadSkin()
 			button:ClearAllPoints()
 			button:Point("TOPLEFT",panel,"TOPLEFT", 4, -4)
 			text:FontTemplate(nil, 13, 'OUTLINE')
-			text:Point("BOTTOMRIGHT",button, "BOTTOMRIGHT", 140, 11)
+			text:Point("BOTTOMRIGHT",button, "BOTTOMRIGHT", 125, 11)
 			local frame = CreateFrame("Frame",nil, button)
 			frame:CreateBackdrop("Default", true)
 			frame:SetFrameLevel(button:GetFrameLevel() +1)
