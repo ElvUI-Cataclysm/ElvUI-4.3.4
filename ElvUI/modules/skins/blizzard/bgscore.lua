@@ -34,10 +34,13 @@ local function LoadSkin()
 	WorldStateScoreFrameHK:StyleButton()
 	WorldStateScoreFrameDamageDone:StyleButton()
 	WorldStateScoreFrameHealingDone:StyleButton()
-	WorldStateScoreColumn1:StyleButton()
-	WorldStateScoreColumn2:StyleButton()
 	WorldStateScoreFrameHonorGained:StyleButton()
 	WorldStateScoreFrameName:StyleButton()
+	
+	for i = 1, 5 do 
+		_G["WorldStateScoreColumn"..i]:StyleButton()
+	end
+	
 end
 
 S:RegisterSkin('ElvUI', LoadSkin)
