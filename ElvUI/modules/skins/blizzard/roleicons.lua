@@ -17,6 +17,7 @@ local function LoadSkin()
 	LFDQueueFrameRoleButtonLeader.icon:SetTexCoord(unpack(E.TexCoords))
 	LFDQueueFrameRoleButtonLeader.icon:SetTexture('Interface\\AddOns\\ElvUI\\media\\textures\\lfgleader');
 	LFDQueueFrameRoleButtonLeader.icon:SetInside(LFDQueueFrameRoleButtonLeader.backdrop)
+
 	--Healer Role Button
 	LFDQueueFrameRoleButtonHealer:StripTextures()
 	LFDQueueFrameRoleButtonHealer:CreateBackdrop("Default", true, true);
@@ -293,10 +294,46 @@ local function LoadSkin()
 		end
 	end)
 	
-	--[[for i = 1, 5 do
-		_G["LFGDungeonReadyStatusIndividualPlayer"..i]:StripTextures()
-		_G["LFGDungeonReadyStatusIndividualPlayer"..i]:CreateBackdrop();
-	end]]
+	do
+		local roleButtons = {LFGDungeonReadyStatusGroupedTank, LFGDungeonReadyStatusGroupedHealer, LFGDungeonReadyStatusGroupedDamager}
+
+		for i = 1, 5 do
+			tinsert(roleButtons, _G["LFGDungeonReadyStatusIndividualPlayer"..i])
+		end
+
+		for _, roleButton in pairs(roleButtons) do
+			roleButton.texture:SetTexture('Interface\\AddOns\\ElvUI\\media\\textures\\UI-LFG-ICON-ROLES')
+			roleButton.statusIcon:SetDrawLayer("OVERLAY", 2)
+			
+			local left = roleButton:CreateTexture(nil, "OVERLAY")
+			left:SetWidth(1)
+			left:SetTexture("Interface\\ChatFrame\\ChatFrameBackground")
+			left:SetVertexColor(0, 0, 0)
+			left:SetPoint("TOPLEFT", 7, -6)
+			left:SetPoint("BOTTOMLEFT", 7, 10)
+
+			local right = roleButton:CreateTexture(nil, "OVERLAY")
+			right:SetWidth(1)
+			right:SetTexture("Interface\\ChatFrame\\ChatFrameBackground")
+			right:SetVertexColor(0, 0, 0)
+			right:SetPoint("TOPRIGHT", -7, -6)
+			right:SetPoint("BOTTOMRIGHT", -7, 10)
+
+			local top = roleButton:CreateTexture(nil, "OVERLAY")
+			top:SetHeight(1)
+			top:SetTexture("Interface\\ChatFrame\\ChatFrameBackground")
+			top:SetVertexColor(0, 0, 0)
+			top:SetPoint("TOPLEFT", 7, -5)
+			top:SetPoint("TOPRIGHT", -7, -5)
+
+			local bottom = roleButton:CreateTexture(nil, "OVERLAY")
+			bottom:SetHeight(1)
+			bottom:SetTexture("Interface\\ChatFrame\\ChatFrameBackground")
+			bottom:SetVertexColor(0, 0, 0)
+			bottom:SetPoint("BOTTOMLEFT", 7, 9)
+			bottom:SetPoint("BOTTOMRIGHT", -7, 7)
+		end
+	end
 end
 
 S:RegisterSkin('ElvUI', LoadSkin)
