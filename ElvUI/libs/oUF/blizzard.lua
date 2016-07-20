@@ -45,6 +45,9 @@ function oUF:DisableBlizzard(unit)
 		PlayerFrame:RegisterEvent("UNIT_ENTERED_VEHICLE");
 		PlayerFrame:RegisterEvent("UNIT_EXITING_VEHICLE");
 		PlayerFrame:RegisterEvent("UNIT_EXITED_VEHICLE");
+		
+		PlayerFrame:SetUserPlaced(true)
+		PlayerFrame:SetDontSavePosition(true)
 	elseif(unit == "pet") then
 		HandleFrame(PetFrame);
 	elseif(unit == "target") then

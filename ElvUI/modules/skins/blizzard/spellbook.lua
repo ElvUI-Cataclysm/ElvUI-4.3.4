@@ -26,7 +26,6 @@ local function LoadSkin()
 			local icon = _G["SpellButton"..i.."IconTexture"]
 			
 			if first then
-				--button:StripTextures()
 				for i=1, button:GetNumRegions() do
 					local region = select(i, button:GetRegions())
 					if region:GetObjectType() == "Texture" then
@@ -49,7 +48,8 @@ local function LoadSkin()
 				icon:SetAllPoints()
 
 				if not button.backdrop then
-					button:CreateBackdrop("Default", true)	
+					button:CreateBackdrop("Default", true)
+					button.backdrop:SetFrameLevel(button.backdrop:GetFrameLevel() - 2)
 				end
 			end	
 			
@@ -60,8 +60,6 @@ local function LoadSkin()
 			end
 			_G["SpellButton"..i.."SubSpellName"]:SetTextColor(0.6, 0.6, 0.6)
 			_G["SpellButton"..i.."RequiredLevelString"]:SetTextColor(0.6, 0.6, 0.6)
-			
-			--_G["SpellButton"..i.."SpellName"]:Point("LEFT", 45, 12)
 		end
 	end
 	SpellButtons(nil, true)

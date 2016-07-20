@@ -288,12 +288,6 @@ function UF:PLAYER_REGEN_DISABLED()
 			self:UnforceShow(self["boss"..i])
 		end
 	end
-	
-	for i=1, 4 do
-		if self["party"..i] and self["party"..i].isForced then
-			self:UnforceShow(self["party"..i])
-		end
-	end
 end
 
 UF:RegisterEvent("PLAYER_REGEN_DISABLED")
