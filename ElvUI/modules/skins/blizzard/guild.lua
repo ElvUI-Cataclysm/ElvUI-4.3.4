@@ -320,7 +320,7 @@ local function LoadSkin()
 	GuildRecruitmentTankButton.backdrop:Point("BOTTOMRIGHT", GuildRecruitmentTankButton, "BOTTOMRIGHT", -3, 3)
 	GuildRecruitmentTankButton.icon = GuildRecruitmentTankButton:CreateTexture(nil, "OVERLAY");
 	GuildRecruitmentTankButton.icon:SetTexCoord(unpack(E.TexCoords))
-	GuildRecruitmentTankButton.icon:SetTexture('Interface\\AddOns\\ElvUI\\media\\textures\\lfgtank');
+	GuildRecruitmentTankButton.icon:SetTexture('Interface\\Icons\\Ability_Defend');
 	GuildRecruitmentTankButton.icon:SetInside(GuildRecruitmentTankButton.backdrop)
 	--Healer Icon
 	GuildRecruitmentHealerButton:StripTextures()
@@ -329,7 +329,7 @@ local function LoadSkin()
 	GuildRecruitmentHealerButton.backdrop:Point("BOTTOMRIGHT", GuildRecruitmentHealerButton, "BOTTOMRIGHT", -3, 3)
 	GuildRecruitmentHealerButton.icon = GuildRecruitmentHealerButton:CreateTexture(nil, "OVERLAY");
 	GuildRecruitmentHealerButton.icon:SetTexCoord(unpack(E.TexCoords))
-	GuildRecruitmentHealerButton.icon:SetTexture('Interface\\AddOns\\ElvUI\\media\\textures\\lfghealer');
+	GuildRecruitmentHealerButton.icon:SetTexture('Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH');
 	GuildRecruitmentHealerButton.icon:SetInside(GuildRecruitmentHealerButton.backdrop)
 	--Damage Icon
 	GuildRecruitmentDamagerButton:StripTextures()
@@ -338,7 +338,7 @@ local function LoadSkin()
 	GuildRecruitmentDamagerButton.backdrop:Point("BOTTOMRIGHT", GuildRecruitmentDamagerButton, "BOTTOMRIGHT", -3, 3)
 	GuildRecruitmentDamagerButton.icon = GuildRecruitmentDamagerButton:CreateTexture(nil, "OVERLAY");
 	GuildRecruitmentDamagerButton.icon:SetTexCoord(unpack(E.TexCoords))
-	GuildRecruitmentDamagerButton.icon:SetTexture('Interface\\AddOns\\ElvUI\\media\\textures\\lfgdamage');
+	GuildRecruitmentDamagerButton.icon:SetTexture('Interface\\Icons\\INV_Knife_1H_Common_B_01');
 	GuildRecruitmentDamagerButton.icon:SetInside(GuildRecruitmentDamagerButton.backdrop)
 end
 

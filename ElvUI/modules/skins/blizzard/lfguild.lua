@@ -81,7 +81,7 @@ local function LoadSkin()
 	LookingForGuildTankButton.backdrop:Point("BOTTOMRIGHT", LookingForGuildTankButton, "BOTTOMRIGHT", -3, 3)
 	LookingForGuildTankButton.icon = LookingForGuildTankButton:CreateTexture(nil, "OVERLAY");
 	LookingForGuildTankButton.icon:SetTexCoord(unpack(E.TexCoords))
-	LookingForGuildTankButton.icon:SetTexture('Interface\\AddOns\\ElvUI\\media\\textures\\lfgtank');
+	LookingForGuildTankButton.icon:SetTexture('Interface\\Icons\\Ability_Defend');
 	LookingForGuildTankButton.icon:SetInside(LookingForGuildTankButton.backdrop)
 	
 	--Healer Icon
@@ -91,7 +91,7 @@ local function LoadSkin()
 	LookingForGuildHealerButton.backdrop:Point("BOTTOMRIGHT", LookingForGuildHealerButton, "BOTTOMRIGHT", -3, 3)
 	LookingForGuildHealerButton.icon = LookingForGuildHealerButton:CreateTexture(nil, "OVERLAY");
 	LookingForGuildHealerButton.icon:SetTexCoord(unpack(E.TexCoords))
-	LookingForGuildHealerButton.icon:SetTexture('Interface\\AddOns\\ElvUI\\media\\textures\\lfghealer');
+	LookingForGuildHealerButton.icon:SetTexture('Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH');
 	LookingForGuildHealerButton.icon:SetInside(LookingForGuildHealerButton.backdrop)
 	
 	--Damage Icon
@@ -101,7 +101,7 @@ local function LoadSkin()
 	LookingForGuildDamagerButton.backdrop:Point("BOTTOMRIGHT", LookingForGuildDamagerButton, "BOTTOMRIGHT", -3, 3)
 	LookingForGuildDamagerButton.icon = LookingForGuildDamagerButton:CreateTexture(nil, "OVERLAY");
 	LookingForGuildDamagerButton.icon:SetTexCoord(unpack(E.TexCoords))
-	LookingForGuildDamagerButton.icon:SetTexture('Interface\\AddOns\\ElvUI\\media\\textures\\lfgdamage');
+	LookingForGuildDamagerButton.icon:SetTexture('Interface\\Icons\\INV_Knife_1H_Common_B_01');
 	LookingForGuildDamagerButton.icon:SetInside(LookingForGuildDamagerButton.backdrop)
 end
 

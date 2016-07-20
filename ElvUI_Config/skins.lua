@@ -218,11 +218,6 @@ E.Options.args.skins = {
 					name = L["Reforging Frame"],
 					desc = L["TOGGLESKIN_DESC"],
 				},
-				roleicons = {
-					type = "toggle",
-					name = L["Role Icons"],
-					desc = L["TOGGLESKIN_DESC"],
-				},
 				socket = {
 					type = "toggle",
 					name = L["Socket Frame"],
