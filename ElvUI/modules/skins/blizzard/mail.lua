@@ -23,9 +23,7 @@ local function LoadSkin()
 
 		local t = _G["MailItem"..i.."ButtonIcon"]
 		t:SetTexCoord(unpack(E.TexCoords))
-		t:ClearAllPoints()
-		t:Point("TOPLEFT", 2, -2)
-		t:Point("BOTTOMRIGHT", -2, 2)
+		t:SetInside()
 	end
 	
 	S:HandleCloseButton(InboxCloseButton)
@@ -55,25 +53,53 @@ local function LoadSkin()
 	SendMailFrame:StripTextures()
 	
 	local function MailFrameSkin()
-		for i = 1, ATTACHMENTS_MAX_SEND do				
-			local b = _G["SendMailAttachment"..i]
-			if not b.skinned then
-				b:StripTextures()
-				b:SetTemplate("Default", true)
-				b:StyleButton()
-				b.skinned = true
+		for i = 1, ATTACHMENTS_MAX_SEND do
+			local b = _G["SendMailAttachment"..i];
+			if(not b.skinned) then
+				b:StripTextures();
+				b:SetTemplate("Default", true);
+				b:StyleButton(nil, true);
+				b.skinned = true;
 			end
-			local t = b:GetNormalTexture()
-			if t then
-				t:SetTexCoord(unpack(E.TexCoords))
-				t:ClearAllPoints()
-				t:Point("TOPLEFT", 2, -2)
-				t:Point("BOTTOMRIGHT", -2, 2)
+			local t = b:GetNormalTexture();
+			local itemName = GetSendMailItem(i);
+			if(itemName) then
+				local quality = select(3, GetItemInfo(itemName));
+				if(quality and quality > 1) then
+					b:SetBackdropBorderColor(GetItemQualityColor(quality));
+				else
+					b:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+				end
+				t:SetTexCoord(unpack(E.TexCoords));
+				t:SetInside();
+			else
+				b:SetBackdropBorderColor(unpack(E["media"].bordercolor));
 			end
 		end
 	end
 	hooksecurefunc("SendMailFrame_Update", MailFrameSkin)
 	
+	local function OpenMail_Update()
+		if(not InboxFrame.openMailID) then return; end
+		local bodyText, texture, isTakeable, isInvoice = GetInboxText(InboxFrame.openMailID);
+		local itemButtonCount, itemRowCount = OpenMail_GetItemCounts(isTakeable, textCreated, money);
+		if(itemRowCount > 0 and OpenMailFrame.activeAttachmentButtons) then
+			for i, attachmentButton in pairs(OpenMailFrame.activeAttachmentButtons) do
+				if(attachmentButton ~= OpenMailLetterButton and attachmentButton ~= OpenMailMoneyButton) then
+					local name, itemTexture, count, quality = GetInboxItem(InboxFrame.openMailID, attachmentButton:GetID());
+					if (name) then
+						if (quality and quality > 1) then
+							attachmentButton:SetBackdropBorderColor(GetItemQualityColor(quality));
+						else
+							attachmentButton:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+						end
+					end
+				end
+			end
+		end
+	end
+	hooksecurefunc("OpenMail_Update", OpenMail_Update);
+
 	S:HandleButton(SendMailMailButton)
 	S:HandleButton(SendMailCancelButton)
 	
@@ -108,17 +134,17 @@ local function LoadSkin()
 	OpenMailLetterButton:SetTemplate("Default", true)
 	OpenMailLetterButton:StyleButton()
 	OpenMailLetterButtonIconTexture:SetTexCoord(unpack(E.TexCoords))						
-	OpenMailLetterButtonIconTexture:ClearAllPoints()
-	OpenMailLetterButtonIconTexture:Point("TOPLEFT", 2, -2)
-	OpenMailLetterButtonIconTexture:Point("BOTTOMRIGHT", -2, 2)
+	OpenMailLetterButtonIconTexture:SetDrawLayer("ARTWORK")
+	OpenMailLetterButtonIconTexture:SetInside()
+	OpenMailLetterButtonCount:SetDrawLayer("OVERLAY")
 	
 	OpenMailMoneyButton:StripTextures()
 	OpenMailMoneyButton:SetTemplate("Default", true)
 	OpenMailMoneyButton:StyleButton()
 	OpenMailMoneyButtonIconTexture:SetTexCoord(unpack(E.TexCoords))						
-	OpenMailMoneyButtonIconTexture:ClearAllPoints()
-	OpenMailMoneyButtonIconTexture:Point("TOPLEFT", 2, -2)
-	OpenMailMoneyButtonIconTexture:Point("BOTTOMRIGHT", -2, 2)
+	OpenMailMoneyButtonIconTexture:SetDrawLayer("ARTWORK")
+	OpenMailMoneyButtonIconTexture:SetInside()
+	OpenMailMoneyButtonCount:SetDrawLayer("OVERLAY")
 	
 	for i = 1, ATTACHMENTS_MAX_SEND do				
 		local b = _G["OpenMailAttachmentButton"..i]
@@ -126,13 +152,14 @@ local function LoadSkin()
 		b:SetTemplate("Default", true)
 		b:StyleButton()
 		
-		local t = _G["OpenMailAttachmentButton"..i.."IconTexture"]
-		if t then
-			t:SetTexCoord(unpack(E.TexCoords))
-			t:ClearAllPoints()
-			t:Point("TOPLEFT", 2, -2)
-			t:Point("BOTTOMRIGHT", -2, 2)
-		end				
+		local it = _G["OpenMailAttachmentButton"..i.."IconTexture"]
+		local c = _G["OpenMailAttachmentButton"..i.."Count"]
+		if it then
+			it:SetTexCoord(unpack(E.TexCoords))
+			it:SetDrawLayer("ARTWORK")
+			it:SetInside()
+			c:SetDrawLayer("OVERLAY")
+		end
 	end
 	
 	OpenMailReplyButton:Point("RIGHT", OpenMailDeleteButton, "LEFT", -2, 0)
