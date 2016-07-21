@@ -213,7 +213,7 @@ local function LoadSkin()
 		PVPFrameCurrency.texture:SetInside(PVPFrameCurrency.backdrop)
 	end
 
-	hooksecurefunc("PVPHonor_UpdateInfo", function()
+	hooksecurefunc("PVPHonor_UpdateRandomInfo", function()
 		if UnitFactionGroup("player") == "Horde" then
 			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Horde")
 			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexture("Interface\\PVPFrame\\PVPCurrency-Conquest-Horde")
