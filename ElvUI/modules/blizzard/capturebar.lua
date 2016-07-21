@@ -15,7 +15,7 @@ function B:WorldStateAlwaysUpFrame_Update()
 	end
 	
 	WorldStateAlwaysUpFrame:ClearAllPoints()
-	WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -15)
+	WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -10)
 
 	alwaysUpShown = 1
 	frame = "AlwaysUpFrame"..alwaysUpShown
@@ -34,7 +34,7 @@ function B:WorldStateAlwaysUpFrame_Update()
 
 		frameText:SetPoint("CENTER", WorldStateAlwaysUpFrame, "CENTER", 0, offset)
 		frameText:SetJustifyH("CENTER")
-		frameIcon:SetPoint("CENTER", frameText, "LEFT", -13, -8)
+		frameIcon:SetPoint("CENTER", frameText, "LEFT", -13, -9)
 		frameIcon2:SetPoint("LEFT", frameText, "RIGHT", 5, 0)
 
 		offset = offset - 25

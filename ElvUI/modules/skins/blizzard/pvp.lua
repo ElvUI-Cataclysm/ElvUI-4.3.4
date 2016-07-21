@@ -197,6 +197,44 @@ local function LoadSkin()
 	PVPFrameTab1:ClearAllPoints()
 	PVPFrameTab1:SetPoint("BOTTOMLEFT", PVPFrame, "BOTTOMLEFT", 0, -30)
 
+	--Rewards Icons PVP Honor Frame
+	if PVPFrameCurrencyIcon then
+		PVPFrameCurrency:CreateBackdrop()
+		PVPFrameCurrency.backdrop:Point("TOPLEFT", PVPFrameCurrency, "TOPLEFT", 8, -8)
+		PVPFrameCurrency.backdrop:Point("BOTTOMRIGHT", PVPFrameCurrency, "BOTTOMRIGHT", -8, 8)
+		PVPFrameCurrencyIcon:SetAlpha(0)
+		PVPFrameCurrency.texture = PVPFrameCurrency:CreateTexture(nil, "OVERLAY");
+		PVPFrameCurrency.texture:SetTexCoord(unpack(E.TexCoords))
+		if UnitFactionGroup("player") == "Horde" then
+			PVPFrameCurrency.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Horde")
+		elseif UnitFactionGroup("player") == "Alliance" then
+			PVPFrameCurrency.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Alliance")
+		end
+		PVPFrameCurrency.texture:SetInside(PVPFrameCurrency.backdrop)
+	end
+
+	hooksecurefunc("PVPHonor_UpdateInfo", function()
+		if UnitFactionGroup("player") == "Horde" then
+			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Horde")
+			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexture("Interface\\PVPFrame\\PVPCurrency-Conquest-Horde")
+			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Horde")
+			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexture("Interface\\PVPFrame\\PVPCurrency-Conquest-Horde")
+		elseif UnitFactionGroup("player") == "Alliance" then
+			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Alliance")
+			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexture("Interface\\PVPFrame\\PVPCurrency-Conquest-Alliance")
+			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Alliance")
+			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexture("Interface\\PVPFrame\\PVPCurrency-Conquest-Alliance")
+		end
+	end)
+	
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexCoord(unpack(E.TexCoords))
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:Size(30)
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexCoord(unpack(E.TexCoords))
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:Size(30)
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:SetTexCoord(unpack(E.TexCoords))
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:Size(30)
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexCoord(unpack(E.TexCoords))
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:Size(30)
 end
 
 S:RegisterSkin("ElvUI", LoadSkin);
