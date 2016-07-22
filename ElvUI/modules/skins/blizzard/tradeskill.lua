@@ -54,6 +54,8 @@ local function LoadSkin()
 		end
 		TradeSkillSkillIcon:SetTemplate("Default")
 
+		TradeSkillRankFrame:SetStatusBarColor(0.11, 0.50, 1.00)
+		
 		for i=1, MAX_TRADE_SKILL_REAGENTS do
 			local button = _G["TradeSkillReagent"..i]
 			local icon = _G["TradeSkillReagent"..i.."IconTexture"]
@@ -71,7 +73,6 @@ local function LoadSkin()
 			icon:SetParent(icon.backdrop)
 			count:SetParent(icon.backdrop)
 			count:SetDrawLayer("OVERLAY")
-			button:SetTemplate("Transparent")
 			button:StyleButton()
 
 			if i > 2 and once == false then
@@ -82,6 +83,74 @@ local function LoadSkin()
 			end
 
 			_G["TradeSkillReagent"..i.."NameFrame"]:Kill()
+		end
+		
+		local skillName, skillType, numAvailable, isExpanded, altVerb, numSkillUps, indentLevel, showProgressBar, currentRank, maxRank, startingRank, displayAsUnavailable, unavailableString = GetTradeSkillInfo(id);
+		local skillLink = GetTradeSkillItemLink(id)
+		if skillLink then
+			local quality = select(3, GetItemInfo(skillLink))
+			if (quality and quality > 1) then
+				TradeSkillSkillIcon:SetBackdropBorderColor(GetItemQualityColor(quality));
+			else
+				TradeSkillSkillIcon:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+			end
+		end
+		local numReagents = GetTradeSkillNumReagents(id);
+		for i = 1, numReagents, 1 do
+			local reagentName, reagentTexture, reagentCount, playerReagentCount = GetTradeSkillReagentInfo(id, i);
+			local reagentLink = GetTradeSkillReagentItemLink(id, i)
+			local reagent = _G["TradeSkillReagent"..i]
+			if reagent:IsShown() then
+				if reagentLink then
+					local quality = select(3, GetItemInfo(reagentLink))
+					if (quality and quality > 1) then
+						_G["TradeSkillReagent"..i.."IconTexture"].backdrop:SetBackdropBorderColor(GetItemQualityColor(quality));
+					else
+						_G["TradeSkillReagent"..i.."IconTexture"].backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+					end
+				end
+			end
+		end
+	end)
+
+	
+	hooksecurefunc('TradeSkillFrame_Update', function()
+		local skillOffset = FauxScrollFrame_GetOffset(TradeSkillListScrollFrame);
+		local diplayedSkills = TRADE_SKILLS_DISPLAYED;
+		local numTradeSkills = GetNumTradeSkills();
+		local buttonIndex = 0
+		for i = 1, diplayedSkills, 1 do
+			local skillIndex = i + skillOffset;
+			local skillName, skillType, numAvailable, isExpanded, altVerb, numSkillUps, indentLevel, showProgressBar, currentRank, maxRank, startingRank, displayAsUnavailable = GetTradeSkillInfo(skillIndex);
+			if ( skillIndex <= numTradeSkills ) then
+				if ( skillType == "header" or skillType == "subheader" ) then
+					if hasFilterBar then
+						buttonIndex = i + 1;
+					else
+						buttonIndex = i;
+					end
+					local skillButton = _G["TradeSkillSkill"..buttonIndex];
+					skillButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
+					skillButton:GetNormalTexture():Size(12)
+					skillButton:SetHighlightTexture('')
+					if ( isExpanded ) then
+						skillButton:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
+					else
+						skillButton:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
+					end
+				end
+			end
+		end
+	end)
+
+	TradeSkillCollapseAllButton:HookScript('OnUpdate', function(self)
+		self:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons")
+		self:SetHighlightTexture("")
+		self:GetNormalTexture():SetPoint("LEFT", 3, 2)
+		if (self.collapsed) then
+			self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
+		else
+			self:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
 		end
 	end)
 
