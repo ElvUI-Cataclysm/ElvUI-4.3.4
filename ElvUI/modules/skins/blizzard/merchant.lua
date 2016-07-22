@@ -39,6 +39,17 @@ local function LoadSkin()
 		_G["MerchantItem" .. i .. "MoneyFrame"]:Point("BOTTOMLEFT", itemButton, "BOTTOMRIGHT", 3, 0);
 	end
 
+	hooksecurefunc('MerchantFrame_UpdateCurrencies', function()
+		for i = 1, MAX_MERCHANT_CURRENCIES do
+			if _G["MerchantToken"..i] then
+				_G["MerchantToken"..i]:CreateBackdrop()
+				_G["MerchantToken"..i].backdrop:SetOutside(_G["MerchantToken"..i].icon)
+				_G["MerchantToken"..i].icon:SetTexCoord(unpack(E.TexCoords));
+				_G["MerchantToken"..i].icon:SetPoint("LEFT", _G["MerchantToken"..i].count, "RIGHT", 2, 0)
+			end
+		end
+	end)
+	
 	S:HandleNextPrevButton(MerchantNextPageButton);
 	S:HandleNextPrevButton(MerchantPrevPageButton);
 
