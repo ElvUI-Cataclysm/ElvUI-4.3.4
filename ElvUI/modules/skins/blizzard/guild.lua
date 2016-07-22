@@ -313,6 +313,24 @@ local function LoadSkin()
 		end
 	end
 	
+	for _, Object in pairs({'Rewards'}) do
+		for i = 1, 8 do
+			local Button = _G["Guild"..Object.."ContainerButton"..i]
+			if Object == 'Rewards' then
+				Button.backdrop:SetScript('OnUpdate', function(self)
+					local achievementID, itemID, itemName, iconTexture, repLevel, moneyCost = GetGuildRewardInfo(Button.index);
+					self:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+					if itemID then
+						local quality = select(3, GetItemInfo(itemID)) 
+						if (quality and quality > 1) then
+							self:SetBackdropBorderColor(GetItemQualityColor(quality));
+						end
+					end
+				end)
+			end
+		end
+	end
+	
 	--Tank Icon
 	GuildRecruitmentTankButton:StripTextures()
 	GuildRecruitmentTankButton:CreateBackdrop("Default");
