@@ -86,7 +86,53 @@ local function LoadSkin()
 		icon:ClearAllPoints()
 		icon:Point("TOPLEFT", 2, -2)
 		icon:Point("BOTTOMRIGHT", -2, 2)
-	end
+	end	
+	
+	hooksecurefunc("VoidStorage_ItemsUpdate", function(doDeposit, doContents)
+		local self = VoidStorageFrame;
+		if ( doDeposit ) then
+			for i=1, 9 do
+				local button = _G["VoidStorageDepositButton"..i]
+				local Link = GetVoidTransferDepositInfo(i);
+				if Link then
+					local quality = select(3, GetItemInfo(Link))
+					if (quality and quality > 1) then
+						button:SetBackdropBorderColor(GetItemQualityColor(quality));
+					end
+				else
+					button:SetTemplate("Default", true)
+				end
+			end
+		end
+
+		if ( doContents ) then
+			for i=1, 9 do
+				local button = _G["VoidStorageWithdrawButton"..i]
+				local Link = GetVoidTransferWithdrawalInfo(i);
+				if Link then
+					local quality = select(3, GetItemInfo(Link))
+					if (quality and quality > 1) then
+						button:SetBackdropBorderColor(GetItemQualityColor(quality));
+					end
+				else
+					button:SetTemplate("Default", true)
+				end
+			end
+
+			for i = 1, 80 do
+				local button = _G["VoidStorageStorageButton"..i]
+				local Link = GetVoidItemInfo(i);
+				if Link then
+					local quality = select(3, GetItemInfo(Link))
+					if (quality and quality > 1) then
+						button:SetBackdropBorderColor(GetItemQualityColor(quality));
+					end
+				else
+					button:SetTemplate("Default", true)
+				end
+			end
+		end
+	end)
 end
 
 S:RegisterSkin("Blizzard_VoidStorageUI", LoadSkin)
