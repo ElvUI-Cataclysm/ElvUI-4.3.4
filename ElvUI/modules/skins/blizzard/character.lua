@@ -305,7 +305,6 @@ local function LoadSkin()
 				if not statusbar.backdrop then
 					statusbar:CreateBackdrop("Default")
 				end
-				
 				_G["ReputationBar"..i.."Background"]:SetTexture(nil)
 				_G["ReputationBar"..i.."LeftLine"]:Kill()
 				_G["ReputationBar"..i.."BottomLine"]:Kill()
@@ -315,18 +314,49 @@ local function LoadSkin()
 				_G["ReputationBar"..i.."ReputationBarAtWarHighlight2"]:SetTexture(nil)
 				_G["ReputationBar"..i.."ReputationBarLeftTexture"]:SetTexture(nil)
 				_G["ReputationBar"..i.."ReputationBarRightTexture"]:SetTexture(nil)
-				
-			end		
+				_G["ReputationBar"..i.."ExpandOrCollapseButton"]:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons")
+				_G["ReputationBar"..i.."ExpandOrCollapseButton"].SetNormalTexture = function() end
+				_G["ReputationBar"..i.."ExpandOrCollapseButton"]:GetNormalTexture():SetInside()
+				_G["ReputationBar"..i.."ExpandOrCollapseButton"]:SetHighlightTexture(nil)
+			end
 		end
 		ReputationDetailFrame:StripTextures()
 		ReputationDetailFrame:SetTemplate("Transparent")
 		ReputationDetailFrame:Point("TOPLEFT", ReputationFrame, "TOPRIGHT", 1, 0)			
 	end	
+	
+	local function UpdateFaction()
+		local factionOffset = FauxScrollFrame_GetOffset(ReputationListScrollFrame)
+		local numFactions = GetNumFactions()
+		for i = 1, NUM_FACTIONS_DISPLAYED, 1 do
+			local Bar = _G["ReputationBar"..i]
+			local Button = _G["ReputationBar"..i.."ExpandOrCollapseButton"]
+			local FactionName = _G["ReputationBar"..i.."FactionName"]
+			local factionIndex = factionOffset + i
+			if ( factionIndex <= numFactions ) then
+				local name, _, _, _, _, _, atWarWith, canToggleAtWar, _, isCollapsed = GetFactionInfo(factionIndex);
+
+				if isCollapsed then
+					Button:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
+				else
+					Button:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
+				end
+
+				FactionName:SetText(name)
+				if atWarWith and canToggleAtWar then
+					FactionName:SetFormattedText("%s|TInterface\\Buttons\\UI-CheckBox-SwordCheck:16:16:%d:0:32:32:0:16:0:16|t", name, -(16 + FactionName:GetStringWidth()))
+				end
+			end
+		end
+	end
+	
 	ReputationFrame:HookScript("OnShow", UpdateFactionSkins)
 	hooksecurefunc("ExpandFactionHeader", UpdateFactionSkins)
 	hooksecurefunc("CollapseFactionHeader", UpdateFactionSkins)
+	hooksecurefunc("ReputationFrame_Update", UpdateFaction)
 	
 	S:HandleCheckBox(ReputationDetailAtWarCheckBox)
+	ReputationDetailAtWarCheckBox:SetCheckedTexture("Interface\\Buttons\\UI-CheckBox-SwordCheck")
 	S:HandleCheckBox(ReputationDetailMainScreenCheckBox)
 	S:HandleCheckBox(ReputationDetailInactiveCheckBox)
 
