@@ -197,7 +197,7 @@ local function LoadSkin()
 	PVPFrameTab1:ClearAllPoints()
 	PVPFrameTab1:SetPoint("BOTTOMLEFT", PVPFrame, "BOTTOMLEFT", 0, -30)
 
-	--Rewards Icons PVP Honor Frame
+	--PVP Reward Icons
 	if PVPFrameCurrencyIcon then
 		PVPFrameCurrency:CreateBackdrop()
 		PVPFrameCurrency.backdrop:Point("TOPLEFT", PVPFrameCurrency, "TOPLEFT", 8, -8)
@@ -216,14 +216,14 @@ local function LoadSkin()
 	hooksecurefunc("PVPHonor_UpdateRandomInfo", function()
 		if UnitFactionGroup("player") == "Horde" then
 			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Horde")
-			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexture("Interface\\PVPFrame\\PVPCurrency-Conquest-Horde")
+			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-Horde")
 			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Horde")
-			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexture("Interface\\PVPFrame\\PVPCurrency-Conquest-Horde")
+			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-Horde")
 		elseif UnitFactionGroup("player") == "Alliance" then
 			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Alliance")
-			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexture("Interface\\PVPFrame\\PVPCurrency-Conquest-Alliance")
+			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-Alliance")
 			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Alliance")
-			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexture("Interface\\PVPFrame\\PVPCurrency-Conquest-Alliance")
+			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-Alliance")
 		end
 	end)
 	
@@ -235,6 +235,17 @@ local function LoadSkin()
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:Size(30)
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexCoord(unpack(E.TexCoords))
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:Size(30)
+	
+	hooksecurefunc("PVPConquestFrame_Update", function()
+		if UnitFactionGroup("player") == "Horde" then
+			PVPConquestFrameWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-Horde")
+		elseif UnitFactionGroup("player") == "Alliance" then
+			PVPConquestFrameWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-Alliance")
+		end
+	end)
+	
+	PVPConquestFrameWinRewardArenaSymbol:SetTexCoord(unpack(E.TexCoords))
+	PVPConquestFrameWinRewardArenaSymbol:Size(30)
 end
 
 S:RegisterSkin("ElvUI", LoadSkin);
