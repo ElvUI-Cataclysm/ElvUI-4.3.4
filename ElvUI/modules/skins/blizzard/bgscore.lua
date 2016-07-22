@@ -37,6 +37,8 @@ local function LoadSkin()
 	WorldStateScoreFrameHonorGained:StyleButton()
 	WorldStateScoreFrameName:StyleButton()
 	WorldStateScoreFrameClass:StyleButton()
+	WorldStateScoreFrameTeam:StyleButton()
+	WorldStateScoreFrameRatingChange:StyleButton()
 	
 	for i = 1, 5 do 
 		_G["WorldStateScoreColumn"..i]:StyleButton()
