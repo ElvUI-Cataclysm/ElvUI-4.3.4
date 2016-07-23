@@ -124,11 +124,11 @@ local function LoadSkin()
 		end
 	end)
 
-	--[[hooksecurefunc('TradeSkillFrame_Update', function()
+	hooksecurefunc('TradeSkillFrame_Update', function()
 		local skillOffset = FauxScrollFrame_GetOffset(TradeSkillListScrollFrame);
 		local diplayedSkills = TRADE_SKILLS_DISPLAYED;
 		local numTradeSkills = GetNumTradeSkills();
-		local buttonIndex = 0
+		local buttonIndex = 1
 		for i = 1, diplayedSkills, 1 do
 			local skillIndex = i + skillOffset
 			local skillName, skillType, numAvailable, isExpanded, altVerb, numSkillUps = GetTradeSkillInfo(skillIndex);
@@ -158,7 +158,7 @@ local function LoadSkin()
 				end
 			end
 		end
-	end)]]--Works but gives Lua errors
+	end)
 	
 	--Collapse All Button
 	TradeSkillCollapseAllButton:HookScript('OnUpdate', function(self)
