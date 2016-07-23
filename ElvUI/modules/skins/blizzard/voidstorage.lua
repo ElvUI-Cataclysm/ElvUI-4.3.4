@@ -133,6 +133,31 @@ local function LoadSkin()
 			end
 		end
 	end)
+	
+	--DressUp Frame
+	S:HandleCloseButton(SideDressUpModelCloseButton)
+	S:HandleButton(SideDressUpModelResetButton)
+	SideDressUpModelResetButton:Point("BOTTOM", SideDressUpModel, "BOTTOM", 0, 10)
+	
+	SideDressUpFrame:StripTextures()
+	SideDressUpFrame:SetTemplate("Transparent")
+	
+	SideDressUpModelControlFrame:StripTextures()
+	
+	local controlbuttons = {
+		"SideDressUpModelControlFrameZoomInButton",
+		"SideDressUpModelControlFrameZoomOutButton",
+		"SideDressUpModelControlFramePanButton",
+		"SideDressUpModelControlFrameRotateRightButton",
+		"SideDressUpModelControlFrameRotateLeftButton",
+		"SideDressUpModelControlFrameRotateResetButton",
+	}
+	
+	for i = 1, getn(controlbuttons) do
+		S:HandleButton(_G[controlbuttons[i]]);
+		_G[controlbuttons[i]]:StyleButton()
+		_G[controlbuttons[i].."Bg"]:Hide()
+	end
 end
 
 S:RegisterSkin("Blizzard_VoidStorageUI", LoadSkin)
