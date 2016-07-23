@@ -9,14 +9,12 @@ local function LoadSkin()
 
 	TradeSkillFrame:StripTextures(true)
 	TradeSkillListScrollFrame:StripTextures()
-	TradeSkillListScrollFrame:CreateBackdrop("Transparent")
 	TradeSkillDetailScrollFrame:StripTextures()
 	TradeSkillFrameInset:StripTextures()
 	TradeSkillExpandButtonFrame:StripTextures()
 	TradeSkillDetailScrollChildFrame:StripTextures()
 
 	TradeSkillFrame:SetTemplate("Transparent")
-	--TradeSkillFrame:Height(TradeSkillFrame:GetHeight() + 12)
 	TradeSkillRankFrame:StripTextures()
 	TradeSkillRankFrame:CreateBackdrop("Default")
 	TradeSkillRankFrame:SetStatusBarTexture(E["media"].normTex)
@@ -48,17 +46,32 @@ local function LoadSkin()
 	local once = false
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(id)
 		TradeSkillSkillIcon:StyleButton()
+		TradeSkillSkillIcon:SetTemplate("Default")
 		if TradeSkillSkillIcon:GetNormalTexture() then
 			TradeSkillSkillIcon:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
 			TradeSkillSkillIcon:GetNormalTexture():SetInside()
 		end
-		TradeSkillSkillIcon:SetTemplate("Default")
+		
+		TradeSkillRankFrame:SetStatusBarColor(0.11, 0.50, 1.00)
+		TradeSkillRankFrame:Height(17)
+		TradeSkillRankFrame:Width(275)
+		TradeSkillRankFrame:Point("TOPLEFT", TradeSkillFrame, "TOPLEFT", 30, -22)
+		
+		TradeSkillFrameSearchBox:Point("TOPLEFT", TradeSkillRankFrame, "BOTTOMLEFT", 30, -20)
+		TradeSkillFrameSearchBox:Height(17)
+		TradeSkillFrameSearchBox:Width(170)
+		
+		TradeSkillFilterButton:Height(20)
+		TradeSkillFilterButton:Width(60)
+		TradeSkillFilterButton:Point("LEFT", TradeSkillFilterFrame, "LEFT", 5, 0)
+		
+		TradeSkillLinkButton:Point("LEFT", TradeSkillLinkFrame, "LEFT", 5, -38)
 
 		for i=1, MAX_TRADE_SKILL_REAGENTS do
 			local button = _G["TradeSkillReagent"..i]
 			local icon = _G["TradeSkillReagent"..i.."IconTexture"]
 			local count = _G["TradeSkillReagent"..i.."Count"]
-
+			
 			icon:SetTexCoord(unpack(E.TexCoords))
 			icon:SetDrawLayer("OVERLAY")
 			if not icon.backdrop then
@@ -71,7 +84,6 @@ local function LoadSkin()
 			icon:SetParent(icon.backdrop)
 			count:SetParent(icon.backdrop)
 			count:SetDrawLayer("OVERLAY")
-			button:SetTemplate("Transparent")
 			button:StyleButton()
 
 			if i > 2 and once == false then
@@ -83,8 +95,88 @@ local function LoadSkin()
 
 			_G["TradeSkillReagent"..i.."NameFrame"]:Kill()
 		end
+		
+		local skillName, skillType, numAvailable, isExpanded, altVerb, numSkillUps = GetTradeSkillInfo(id);
+		local skillLink = GetTradeSkillItemLink(id)
+		if skillLink then
+			local quality = select(3, GetItemInfo(skillLink))
+			if (quality and quality > 1) then
+				TradeSkillSkillIcon:SetBackdropBorderColor(GetItemQualityColor(quality));
+			else
+				TradeSkillSkillIcon:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+			end
+		end
+		local numReagents = GetTradeSkillNumReagents(id);
+		for i = 1, numReagents, 1 do
+			local reagentName, reagentTexture, reagentCount, playerReagentCount = GetTradeSkillReagentInfo(id, i);
+			local reagentLink = GetTradeSkillReagentItemLink(id, i)
+			local reagent = _G["TradeSkillReagent"..i]
+			if reagent:IsShown() then
+				if reagentLink then
+					local quality = select(3, GetItemInfo(reagentLink))
+					if (quality and quality > 1) then
+						_G["TradeSkillReagent"..i.."IconTexture"].backdrop:SetBackdropBorderColor(GetItemQualityColor(quality));
+					else
+						_G["TradeSkillReagent"..i.."IconTexture"].backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+					end
+				end
+			end
+		end
 	end)
 
+	--[[hooksecurefunc('TradeSkillFrame_Update', function()
+		local skillOffset = FauxScrollFrame_GetOffset(TradeSkillListScrollFrame);
+		local diplayedSkills = TRADE_SKILLS_DISPLAYED;
+		local numTradeSkills = GetNumTradeSkills();
+		local buttonIndex = 0
+		for i = 1, diplayedSkills, 1 do
+			local skillIndex = i + skillOffset
+			local skillName, skillType, numAvailable, isExpanded, altVerb, numSkillUps = GetTradeSkillInfo(skillIndex);
+			if ( skillIndex <= numTradeSkills ) then
+				if ( skillType == "header" ) then
+					if ( hasFilterBar ) then
+						buttonIndex = i + 1
+					else
+						buttonIndex = i
+					end
+					local skillButton = _G["TradeSkillSkill"..buttonIndex];
+					skillButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
+					skillButton:GetNormalTexture():Size(10)
+					skillButton:GetNormalTexture():SetPoint("LEFT", 3, 2);
+					skillButton:SetHighlightTexture('')
+					if ( isExpanded ) then
+						skillButton:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
+					else
+						skillButton:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
+					end
+					skillButton:SetDisabledTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
+					skillButton:GetDisabledTexture():SetPoint("LEFT", 3, 2);
+					skillButton:GetDisabledTexture():Size(10)
+					skillButton:GetDisabledTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
+					skillButton:GetDisabledTexture():SetDesaturated(true)
+				end
+			end
+		end
+	end)]]
+	
+	--Collapse All Button
+	TradeSkillCollapseAllButton:HookScript('OnUpdate', function(self)
+		self:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons")
+		self:SetHighlightTexture("")
+		self:GetNormalTexture():SetPoint("LEFT", 3, 2)
+		self:GetNormalTexture():Size(10)
+		if (self.collapsed) then
+			self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
+		else
+			self:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
+		end
+		self:SetDisabledTexture("Interface\\Buttons\\UI-PlusMinus-Buttons")
+		self:GetDisabledTexture():SetPoint("LEFT", 3, 2)
+		self:GetDisabledTexture():Size(10)
+		self:GetDisabledTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
+		self:GetDisabledTexture():SetDesaturated(true)
+	end)
+	
 	--Guild Crafters
 	TradeSkillGuildFrame:StripTextures()
 	TradeSkillGuildFrame:SetTemplate("Transparent")
