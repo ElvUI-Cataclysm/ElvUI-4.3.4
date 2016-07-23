@@ -132,12 +132,13 @@ local function LoadSkin()
 		for i = 1, diplayedSkills, 1 do
 			local skillIndex = i + skillOffset
 			local skillName, skillType, numAvailable, isExpanded, altVerb, numSkillUps = GetTradeSkillInfo(skillIndex);
+			local hasFilterBar = TradeSkillFilterBar:IsShown();
 			if ( skillIndex <= numTradeSkills ) then
 				if ( skillType == "header" ) then
-					if ( hasFilterBar ) then
-						buttonIndex = i + 1
+					if hasFilterBar then 
+						buttonIndex = i + 1;
 					else
-						buttonIndex = i
+						buttonIndex = i;
 					end
 					local skillButton = _G["TradeSkillSkill"..buttonIndex];
 					skillButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
@@ -149,15 +150,15 @@ local function LoadSkin()
 					else
 						skillButton:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
 					end
-					skillButton:SetDisabledTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
-					skillButton:GetDisabledTexture():SetPoint("LEFT", 3, 2);
-					skillButton:GetDisabledTexture():Size(10)
-					skillButton:GetDisabledTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
-					skillButton:GetDisabledTexture():SetDesaturated(true)
+					--skillButton:SetDisabledTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
+					--skillButton:GetDisabledTexture():SetPoint("LEFT", 3, 2);
+					--skillButton:GetDisabledTexture():Size(10)
+					--skillButton:GetDisabledTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
+					--skillButton:GetDisabledTexture():SetDesaturated(true)
 				end
 			end
 		end
-	end)]]
+	end)]]--Works but gives Lua errors
 	
 	--Collapse All Button
 	TradeSkillCollapseAllButton:HookScript('OnUpdate', function(self)
@@ -184,6 +185,7 @@ local function LoadSkin()
 	TradeSkillGuildFrameContainer:StripTextures()
 	TradeSkillGuildFrameContainer:SetTemplate("Default")
 	S:HandleCloseButton(TradeSkillGuildFrameCloseButton)
+
 end
 
 S:RegisterSkin("Blizzard_TradeSkillUI", LoadSkin);
