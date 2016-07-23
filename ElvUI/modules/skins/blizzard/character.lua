@@ -344,7 +344,7 @@ local function LoadSkin()
 
 				FactionName:SetText(name)
 				if atWarWith and canToggleAtWar then
-					FactionName:SetFormattedText("%s|TInterface\\Buttons\\UI-CheckBox-SwordCheck:16:16:%d:0:32:32:0:16:0:16|t", name, -(16 + FactionName:GetStringWidth()))
+					FactionName:SetFormattedText("%s|TInterface\\Buttons\\UI-CheckBox-SwordCheck:16:16:%d:0:32:32:0:16:0:16|t", name, -(20 + FactionName:GetStringWidth()))
 				end
 			end
 		end
