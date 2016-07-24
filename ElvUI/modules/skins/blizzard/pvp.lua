@@ -246,6 +246,32 @@ local function LoadSkin()
 	
 	PVPConquestFrameWinRewardArenaSymbol:SetTexCoord(unpack(E.TexCoords))
 	PVPConquestFrameWinRewardArenaSymbol:Size(30)
+	
+	hooksecurefunc('WarGamesFrame_Update', function()
+		local scrollFrame = WarGamesFrame.scrollFrame;
+		local offset = HybridScrollFrame_GetOffset(scrollFrame);
+		local buttons = scrollFrame.buttons;
+		local numButtons = #buttons;
+		local numWarGames = GetNumWarGameTypes();
+		local selectedIndex = GetSelectedWarGameType();
+		for i = 1, numButtons do
+			local button = buttons[i];
+			local index = offset + i;
+			local name, pvpType, collapsed, id, minPlayers, maxPlayers, isRandom = GetWarGameTypeInfo(index)
+			if index <= numWarGames  then
+				if ( name == "header" ) then
+					button.header:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
+					button.header:GetNormalTexture():Size(10)
+					button.header:SetHighlightTexture('')
+					if ( collapsed ) then
+						button.header:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
+					else
+						button.header:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
+					end
+				end
+			end
+		end
+	end)
 end
 
 S:RegisterSkin("ElvUI", LoadSkin);
