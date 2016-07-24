@@ -111,7 +111,7 @@ local function LoadSkin()
 	PVPTeamManagementFrameInvalidTeamFrame.backdrop:Point("BOTTOMRIGHT", PVPTeamManagementFrameInvalidTeamFrame, "BOTTOMRIGHT")
 	PVPTeamManagementFrameInvalidTeamFrame.backdrop:SetFrameLevel(PVPTeamManagementFrameInvalidTeamFrame:GetFrameLevel())
 
-	for i=1, 7 do
+	for i=1, 6 do
 		_G["PVPTeamManagementFrameTeamMemberButton"..i]:StyleButton()
 	end
 
@@ -170,7 +170,7 @@ local function LoadSkin()
 	WarGameStartButton:Point("LEFT", PVPFrameLeftButton, "RIGHT", 2, 0)
 	WarGamesFrameDescription:SetTextColor(1, 1, 1)
 
-	for i=1,6 do
+	for i=1,7 do
 		_G["WarGamesFrameScrollFrameButton"..i.."WarGame"]:StyleButton()
 		_G["WarGamesFrameScrollFrameButton"..i.."WarGame"].selectedTex:SetTexture(1, 1, 1, 0.3)
 	end
