@@ -55,9 +55,9 @@ local function LoadSkin()
 		TradeSkillRankFrame:SetStatusBarColor(0.11, 0.50, 1.00)
 		TradeSkillRankFrame:Height(17)
 		TradeSkillRankFrame:Width(275)
-		TradeSkillRankFrame:Point("TOPLEFT", TradeSkillFrame, "TOPLEFT", 30, -22)
+		TradeSkillRankFrame:Point("TOPLEFT", TradeSkillFrame, "TOPLEFT", 30, -30)
 		
-		TradeSkillFrameSearchBox:Point("TOPLEFT", TradeSkillRankFrame, "BOTTOMLEFT", 30, -20)
+		TradeSkillFrameSearchBox:Point("TOPLEFT", TradeSkillRankFrame, "BOTTOMLEFT", 30, -10)
 		TradeSkillFrameSearchBox:Height(17)
 		TradeSkillFrameSearchBox:Width(170)
 		
@@ -65,7 +65,7 @@ local function LoadSkin()
 		TradeSkillFilterButton:Width(60)
 		TradeSkillFilterButton:Point("LEFT", TradeSkillFilterFrame, "LEFT", 5, 0)
 		
-		TradeSkillLinkButton:Point("LEFT", TradeSkillLinkFrame, "LEFT", 5, -38)
+		TradeSkillLinkButton:Point("LEFT", TradeSkillLinkFrame, "LEFT", 5, -28)
 
 		for i=1, MAX_TRADE_SKILL_REAGENTS do
 			local button = _G["TradeSkillReagent"..i]
@@ -126,13 +126,16 @@ local function LoadSkin()
 
 	hooksecurefunc('TradeSkillFrame_Update', function()
 		local skillOffset = FauxScrollFrame_GetOffset(TradeSkillListScrollFrame);
+		local hasFilterBar = TradeSkillFilterBar:IsShown();
 		local diplayedSkills = TRADE_SKILLS_DISPLAYED;
+		if  hasFilterBar then
+			diplayedSkills = TRADE_SKILLS_DISPLAYED - 1;
+		end 
 		local numTradeSkills = GetNumTradeSkills();
 		local buttonIndex = 1
 		for i = 1, diplayedSkills, 1 do
 			local skillIndex = i + skillOffset
 			local skillName, skillType, numAvailable, isExpanded, altVerb, numSkillUps = GetTradeSkillInfo(skillIndex);
-			local hasFilterBar = TradeSkillFilterBar:IsShown();
 			if ( skillIndex <= numTradeSkills ) then
 				if ( skillType == "header" ) then
 					if hasFilterBar then 
