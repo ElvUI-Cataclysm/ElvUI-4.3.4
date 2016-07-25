@@ -141,6 +141,23 @@ local function LoadSkin()
 	S:HandleButton(RaidFinderQueueFrameIneligibleFrameLeaveQueueButton)
 	S:HandleButton(LFRQueueFrameNoLFRWhileLFDLeaveQueueButton)
 	S:HandleCloseButton(RaidParentFrameCloseButton)
+	
+	hooksecurefunc('LFRQueueFrameSpecificListButton_SetDungeon', function(button, dungeonID, mode, submode)
+		for i = 1, NUM_LFR_CHOICE_BUTTONS do
+			local rbutton = _G["LFRQueueFrameSpecificListButton"..i.."ExpandOrCollapseButton"]
+			rbutton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons")
+			rbutton:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
+			rbutton:GetNormalTexture():Size(12)
+			rbutton:SetHighlightTexture('')
+
+			--[[local isCollapsed = LFGCollapseList[dungeonID];
+			if ( isCollapsed ) then
+				rbutton:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
+			else
+				rbutton:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
+			end]]   --Partially working
+		end
+	end)
 end
 
 S:RegisterSkin('ElvUI', LoadSkin)

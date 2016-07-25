@@ -70,6 +70,18 @@ local function LoadSkin()
 					button.backdrop:Point("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 2, -2)
 					icon:SetParent(button.backdrop)
 					icon.SetPoint = E.noop
+					button:HookScript('OnUpdate', function(self)
+						button.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+						if button.dungeonID then
+							local Link = GetLFGDungeonRewardLink(button.dungeonID, i)
+							if Link then
+								local quality = select(3, GetItemInfo(Link))
+								if quality and quality > 1 then
+									button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality));
+								end
+							end
+						end
+					end)
 
 					if count then
 						count:SetParent(button.backdrop)
@@ -124,7 +136,7 @@ local function LoadSkin()
 	end
 
 	LFDQueueFrameSpecificListScrollFrame:StripTextures()
-	LFDQueueFrameSpecificListScrollFrame:CreateBackdrop("Transparent")
+	--LFDQueueFrameSpecificListScrollFrame:CreateBackdrop("Transparent")
 	LFDQueueFrameSpecificListScrollFrame:Height(LFDQueueFrameSpecificListScrollFrame:GetHeight() - 8)
 	LFDParentFrame:CreateBackdrop("Transparent")
 	LFDParentFrame.backdrop:Point("TOPLEFT", LFDParentFrame, "TOPLEFT")
@@ -175,6 +187,21 @@ local function LoadSkin()
 
 	LFGSearchStatus:StripTextures()
 	LFGSearchStatus:SetTemplate('Transparent');
+	
+	hooksecurefunc('LFDQueueFrameSpecificListButton_SetDungeon', function(button, dungeonID, mode, submode)
+		for i = 1, NUM_LFD_CHOICE_BUTTONS do
+			local sbutton = _G["LFDQueueFrameSpecificListButton"..i.."ExpandOrCollapseButton"]
+			local isCollapsed = LFGCollapseList[dungeonID];
+			sbutton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons")
+			sbutton:GetNormalTexture():Size(12)
+			sbutton:SetHighlightTexture('')
+			if ( isCollapsed ) then
+				sbutton:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
+			else
+				sbutton:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
+			end
+		end
+	end)
 end
 
 S:RegisterSkin('ElvUI', LoadSkin)
