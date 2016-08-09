@@ -89,6 +89,12 @@ S:RegisterSkin('ElvUI', function()
 	
 	S:SecureHook('ContainerFrame_Update');
 	
+	BackpackTokenFrame:StripTextures()
+	
+	for i = 1, 3 do
+		_G["BackpackTokenFrameToken"..i.."Icon"]:SetTexCoord(unpack(E.TexCoords));
+	end
+	
 	-- BankFrame
 	BankFrame:CreateBackdrop('Transparent');
 	BankFrame.backdrop:Point('TOPLEFT', 10, -11);
