@@ -173,6 +173,9 @@ local function LoadSkin()
 	--Mass Invite Frame
 	CalendarMassInviteFrame:StripTextures()
 	CalendarMassInviteFrame:SetTemplate("Transparent")
+	CalendarMassInviteFrame:ClearAllPoints()
+	CalendarMassInviteFrame:SetPoint("TOPLEFT", CalendarCreateEventFrame, "TOPRIGHT", 25, 0)
+	
 	CalendarMassInviteTitleFrame:StripTextures()
 	
 	S:HandleCloseButton(CalendarMassInviteCloseButton)
