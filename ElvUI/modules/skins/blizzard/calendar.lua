@@ -54,7 +54,7 @@ local function LoadSkin()
 
 	CalendarContextMenuButton1:StyleButton()
 
-	for i=3, 5 do
+	for i=1, 7 do
 		_G["CalendarContextMenuButton"..i]:StyleButton()
 	end
 
