@@ -58,15 +58,29 @@ local function LoadSkin()
 		_G["CalendarContextMenuButton"..i]:StyleButton()
 	end
 
-	--Boost frame levels
-	for i=1, 42 do
-		_G["CalendarDayButton"..i]:SetFrameLevel(_G["CalendarDayButton"..i]:GetFrameLevel() + 1)
-		_G["CalendarDayButton"..i]:GetHighlightTexture():SetTexture(1, 1, 1, 0.25)
-		for j=1, 4 do
-			_G["CalendarDayButton"..i.."EventButton"..j]:GetHighlightTexture():SetTexture(1, 0.45, 0, 0.3)
-			_G["CalendarDayButton"..i.."EventButton"..j.."Black"]:Kill()
+	for i = 1, 42 do
+		local Button = _G["CalendarDayButton"..i]
+		Button:SetFrameLevel(Button:GetFrameLevel() + 1)
+		Button:StripTextures()
+		Button:CreateBackdrop("Default")
+		Button:SetBackdropColor(0,0,0,0)
+		Button:GetHighlightTexture():SetTexture(1, 1, 1, 0.10)
+		for j = 1, 4 do
+			local EventButton = _G["CalendarDayButton"..i.."EventButton"..j]
+			EventButton:StripTextures()
+			EventButton:StyleButton()
 		end
 	end
+	
+	CalendarTodayFrame:StripTextures()
+	CalendarTodayFrame:CreateBackdrop("Default")
+	CalendarTodayFrame:Size(CalendarDayButton1:GetWidth(), CalendarDayButton1:GetHeight())
+	CalendarTodayFrame:SetBackdropBorderColor(0, 0.44, .87, 1)
+	CalendarTodayFrame:SetBackdropColor(0, 0, 0, 0)
+	CalendarTodayFrame:HookScript('OnUpdate', function(self) self:SetAlpha(CalendarTodayTextureGlow:GetAlpha()) end)
+	CalendarTodayFrame.backdrop:SetBackdropBorderColor(0, 0.44, .87, 1)
+	CalendarTodayFrame.backdrop:SetBackdropColor(0, 0, 0, 0)
+	CalendarTodayFrame.backdrop:CreateShadow()
 
 	--CreateEventFrame
 	CalendarCreateEventFrame:StripTextures()
@@ -116,6 +130,7 @@ local function LoadSkin()
 			local button = _G["CalendarClassButton"..i]
 			button:StripTextures()
 			button:CreateBackdrop("Default")
+			button:Size(23)
 			
 			local tcoords = CLASS_ICON_TCOORDS[class]
 			local buttonIcon = button:GetNormalTexture()
@@ -127,13 +142,14 @@ local function LoadSkin()
 		
 		CalendarClassTotalsButton:StripTextures()
 		CalendarClassTotalsButton:CreateBackdrop("Default")
+		CalendarClassTotalsButton:Size(23)
 	end)
 
 	--Texture Picker Frame
 	CalendarTexturePickerFrame:StripTextures()
 	CalendarTexturePickerTitleFrame:StripTextures()
 	CalendarTexturePickerFrame:SetTemplate("Transparent")
-	CalendarTexturePickerFrame:Point("TOPRIGHT", CalendarFrame, "TOPRIGHT", 633, 0)
+	CalendarTexturePickerFrame:Point("TOPRIGHT", CalendarFrame, "TOPRIGHT", 640, 0)
 	CalendarTexturePickerScrollFrame:CreateBackdrop("Transparent")
 
 	for i=1, 16 do
