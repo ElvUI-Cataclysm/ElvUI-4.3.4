@@ -163,7 +163,7 @@ local function LoadSkin(event)
 	local function SkinStatusBar(bar)
 		bar:StripTextures();
 		bar:SetStatusBarTexture(E["media"].normTex);
-		bar:SetStatusBarColor(4/255, 179/255, 30/255);
+		bar:SetStatusBarColor(0.11, 0.50, 1.00);
 		bar:CreateBackdrop("Default");
 		E:RegisterStatusBar(bar);
 		
@@ -244,7 +244,7 @@ local function LoadSkin(event)
 				frame:StripTextures();
 				frame:SetStatusBarTexture(E["media"].normTex);
 				E:RegisterStatusBar(frame);
-				frame:SetStatusBarColor(4/255, 179/255, 30/255);
+				frame:SetStatusBarColor(0.11, 0.50, 1.00);
 				frame:GetStatusBarTexture():SetDrawLayer("OVERLAY");
 				frame:Height(frame:GetHeight() - 2);
 				

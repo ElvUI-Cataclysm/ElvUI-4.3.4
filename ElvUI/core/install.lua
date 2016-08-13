@@ -591,10 +591,10 @@ function E:SetupLayout(layout, noDataReset)
 			E.db.datatexts.panels.LeftChatDataPanel.right = DEFENSE;
 		elseif layout == 'healer' or layout == 'dpsCaster' then
 			E.db.datatexts.panels.LeftChatDataPanel.left = L['Spell/Heal Power'];
-			E.db.datatexts.panels.LeftChatDataPanel.right = SPEED;
+			E.db.datatexts.panels.LeftChatDataPanel.right = L['Haste'];
 		else
 			E.db.datatexts.panels.LeftChatDataPanel.left = ATTACK_POWER;
-			E.db.datatexts.panels.LeftChatDataPanel.right = SPEED;
+			E.db.datatexts.panels.LeftChatDataPanel.right = L['Haste'];
 		end
 
 		if InstallStepComplete then

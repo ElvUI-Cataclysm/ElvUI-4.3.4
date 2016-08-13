@@ -10,6 +10,7 @@ local function LoadSkin()
 		"PlayerTalentFrameToggleSummariesButton",
 		"PlayerTalentFrameActivateButton",
 	}
+
 	PlayerTalentFrameToggleSummariesButton:Point("BOTTOM", PlayerTalentFrame, "BOTTOM",0,5)
 
 	for i = 1, #buttons do
@@ -30,7 +31,7 @@ local function LoadSkin()
 	for _, object in pairs(StripAllTextures) do
 		_G[object]:StripTextures()
 	end
-	
+
 	local function StripTalentFramePanelTextures(object)
 		for i=1, object:GetNumRegions() do
 			local region = select(i, object:GetRegions())
@@ -76,17 +77,16 @@ local function LoadSkin()
 	end
 	PlayerTalentFramePetPanelArrow:SetFrameStrata("HIGH")
 
-
 	PlayerTalentFrame:SetTemplate("Transparent")
 	PlayerTalentFramePanel1:CreateBackdrop("Transparent")
-	PlayerTalentFramePanel1.backdrop:Point( "TOPLEFT", PlayerTalentFramePanel1, "TOPLEFT", 3, -3 )
-	PlayerTalentFramePanel1.backdrop:Point( "BOTTOMRIGHT", PlayerTalentFramePanel1, "BOTTOMRIGHT", -3, 3 )
+	PlayerTalentFramePanel1.backdrop:Point("TOPLEFT", PlayerTalentFramePanel1, "TOPLEFT", 3, -3 )
+	PlayerTalentFramePanel1.backdrop:Point("BOTTOMRIGHT", PlayerTalentFramePanel1, "BOTTOMRIGHT", -3, 3 )
 	PlayerTalentFramePanel2:CreateBackdrop("Transparent")
-	PlayerTalentFramePanel2.backdrop:Point( "TOPLEFT", PlayerTalentFramePanel2, "TOPLEFT", 3, -3 )
-	PlayerTalentFramePanel2.backdrop:Point( "BOTTOMRIGHT", PlayerTalentFramePanel2, "BOTTOMRIGHT", -3, 3 )
+	PlayerTalentFramePanel2.backdrop:Point("TOPLEFT", PlayerTalentFramePanel2, "TOPLEFT", 3, -3 )
+	PlayerTalentFramePanel2.backdrop:Point("BOTTOMRIGHT", PlayerTalentFramePanel2, "BOTTOMRIGHT", -3, 3 )
 	PlayerTalentFramePanel3:CreateBackdrop("Transparent")
-	PlayerTalentFramePanel3.backdrop:Point( "TOPLEFT", PlayerTalentFramePanel3, "TOPLEFT", 3, -3 )
-	PlayerTalentFramePanel3.backdrop:Point( "BOTTOMRIGHT", PlayerTalentFramePanel3, "BOTTOMRIGHT", -3, 3 )
+	PlayerTalentFramePanel3.backdrop:Point("TOPLEFT", PlayerTalentFramePanel3, "TOPLEFT", 3, -3 )
+	PlayerTalentFramePanel3.backdrop:Point("BOTTOMRIGHT", PlayerTalentFramePanel3, "BOTTOMRIGHT", -3, 3 )
 	S:HandleCloseButton(PlayerTalentFrameCloseButton)
 
 	function talentpairs(inspect,pet)
@@ -111,13 +111,13 @@ local function LoadSkin()
 		if first then
 			button:StripTextures()
 		end
-		
+
 		if button.Rank then
 			button.Rank:FontTemplate(nil, 12, 'OUTLINE')
 			button.Rank:ClearAllPoints()
 			button.Rank:SetPoint("BOTTOMRIGHT", 9, -12)
 		end
-		
+
 		if icon then
 			icon:SetTexCoord(unpack(E.TexCoords))
 			button:StyleButton()
@@ -127,7 +127,7 @@ local function LoadSkin()
 			button:GetPushedTexture():SetTexCoord(unpack(E.TexCoords))
 			button:GetHighlightTexture():SetAllPoints(icon)
 			button:GetPushedTexture():SetAllPoints(icon)
-			
+
 			icon:ClearAllPoints()
 			icon:SetAllPoints()
 			button:SetFrameLevel(button:GetFrameLevel() +1)
@@ -155,8 +155,8 @@ local function LoadSkin()
 			frame:CreateBackdrop("Default", true)
 			frame:SetFrameLevel(button:GetFrameLevel() -1)
 			frame:ClearAllPoints()
-			frame:Point( "TOPLEFT", icon, "TOPLEFT", 0, 0 )
-			frame:Point( "BOTTOMRIGHT", icon, "BOTTOMRIGHT", 0, 0 )
+			frame:Point("TOPLEFT", icon, "TOPLEFT", 0, 0 )
+			frame:Point("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 0, 0 )
 		end
 	end
 
@@ -169,12 +169,11 @@ local function LoadSkin()
 			tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
 			
 			tab:GetNormalTexture():ClearAllPoints()
-			tab:GetNormalTexture():Point("TOPLEFT", 2, -2)
-			tab:GetNormalTexture():Point("BOTTOMRIGHT", -2, 2)
+			tab:GetNormalTexture():SetInside()
 
 			tab:CreateBackdrop("Default")
 			tab.backdrop:SetAllPoints()
-			tab:StyleButton(true)
+			tab:StyleButton(false)
 		end
 	end
 
@@ -193,7 +192,7 @@ local function LoadSkin()
 		b:Hide()
 		d:Hide()
 		m:Hide()
-		
+
 		_G["PlayerTalentFramePanel"..i.."SummaryIcon"]:SetTexCoord(unpack(E.TexCoords))
 	end
 
@@ -218,8 +217,8 @@ local function LoadSkin()
 			frame:CreateBackdrop("Default", true)
 			frame:SetFrameLevel(button:GetFrameLevel() +1)
 			frame:ClearAllPoints()
-			frame:Point( "TOPLEFT", icon, "TOPLEFT", 0, 0 )
-			frame:Point( "BOTTOMRIGHT", icon, "BOTTOMRIGHT", 0, 0 )
+			frame:Point("TOPLEFT", icon, "TOPLEFT", 0, 0 )
+			frame:Point("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 0, 0 )
 		end
 	end		
 
@@ -246,11 +245,11 @@ local function LoadSkin()
 	PlayerTalentFramePetModelRotateLeftButton:Point("BOTTOM", PlayerTalentFramePetModel, "BOTTOM", -4, 4)
 	PlayerTalentFramePetModelRotateRightButton:Point("TOPLEFT", PlayerTalentFramePetModelRotateLeftButton, "TOPRIGHT", 4, 0)
 	PlayerTalentFramePetPanel:CreateBackdrop("Transparent")
-	PlayerTalentFramePetPanel.backdrop:Point( "TOPLEFT", PlayerTalentFramePetPanel, "TOPLEFT", 3, -3 )
-	PlayerTalentFramePetPanel.backdrop:Point( "BOTTOMRIGHT", PlayerTalentFramePetPanel, "BOTTOMRIGHT", -3, 3 )
+	PlayerTalentFramePetPanel.backdrop:Point("TOPLEFT", PlayerTalentFramePetPanel, "TOPLEFT", 3, -3 )
+	PlayerTalentFramePetPanel.backdrop:Point("BOTTOMRIGHT", PlayerTalentFramePetPanel, "BOTTOMRIGHT", -3, 3 )
 	PlayerTalentFramePetModel:CreateBackdrop("Transparent")
-	PlayerTalentFramePetModel.backdrop:Point( "TOPLEFT", PlayerTalentFramePetModel, "TOPLEFT")
-	PlayerTalentFramePetModel.backdrop:Point( "BOTTOMRIGHT", PlayerTalentFramePetModel, "BOTTOMRIGHT")
+	PlayerTalentFramePetModel.backdrop:Point("TOPLEFT", PlayerTalentFramePetModel, "TOPLEFT")
+	PlayerTalentFramePetModel.backdrop:Point("BOTTOMRIGHT", PlayerTalentFramePetModel, "BOTTOMRIGHT")
 	S:HandleButton(PlayerTalentFrameLearnButton, true)
 	S:HandleButton(PlayerTalentFrameResetButton, true)
 
@@ -279,8 +278,8 @@ local function LoadSkin()
 			frame:CreateBackdrop("Default", true)
 			frame:SetFrameLevel(button:GetFrameLevel() +1)
 			frame:ClearAllPoints()
-			frame:Point( "TOPLEFT", icon, "TOPLEFT", 0, 0 )
-			frame:Point( "BOTTOMRIGHT", icon, "BOTTOMRIGHT", 0, 0 )
+			frame:Point("TOPLEFT", icon, "TOPLEFT", 0, 0 )
+			frame:Point("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 0, 0 )
 		end
 	end
 
@@ -315,8 +314,8 @@ local function LoadSkin()
 			frame:CreateBackdrop("Default", true)
 			frame:SetFrameLevel(button:GetFrameLevel() +1)
 			frame:ClearAllPoints()
-			frame:Point( "TOPLEFT", icon, "TOPLEFT", 0, 0 )
-			frame:Point( "BOTTOMRIGHT", icon, "BOTTOMRIGHT", 0, 0 )
+			frame:Point("TOPLEFT", icon, "TOPLEFT", 0, 0 )
+			frame:Point("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 0, 0 )
 		end
 	end	
 
@@ -327,13 +326,13 @@ local function LoadSkin()
 		if first then
 			button:StripTextures()
 		end
-		
+
 		if button.Rank then
 			button.Rank:FontTemplate(nil, 12, 'OUTLINE')
 			button.Rank:ClearAllPoints()
 			button.Rank:SetPoint("BOTTOMRIGHT", 9, -12)
 		end
-		
+
 		if icon then
 			button:StyleButton()
 			button.SetHighlightTexture = E.noop
@@ -342,7 +341,7 @@ local function LoadSkin()
 			button:GetPushedTexture():SetTexCoord(unpack(E.TexCoords))
 			button:GetHighlightTexture():SetAllPoints(icon)
 			button:GetPushedTexture():SetAllPoints(icon)
-			
+
 			icon:SetTexCoord(unpack(E.TexCoords))
 			icon:ClearAllPoints()
 			icon:SetAllPoints()
@@ -356,7 +355,7 @@ local function LoadSkin()
 	for i=1,GetNumTalents(1,false,true) do
 		PetTalentButtons(nil,true,i)
 	end
-	
+
 	PlayerTalentFrameLearnButtonTutorial:StripTextures()
 	PlayerTalentFrameLearnButtonTutorial:SetTemplate("Default")
 	S:HandleCloseButton(PlayerTalentFrameLearnButtonTutorialCloseButton)
