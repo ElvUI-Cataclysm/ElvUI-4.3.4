@@ -81,6 +81,32 @@ P['general'] = {
 	['kittys'] = false
 };
 
+P["databars"] = {
+	["experience"] = {
+		["enable"] = true,
+		["width"] = 10,
+		["height"] = 180,
+		["textSize"] = 10,
+		["textFont"] = "Homespun",
+		["textFormat"] = "NONE",
+		["mouseover"] = false,
+		["orientation"] = "VERTICAL",
+		["hideAtMaxLevel"] = true,
+		["hideInVehicle"] = false
+	},
+	["reputation"] = {
+		["enable"] = false,
+		["width"] = 10,
+		["height"] = 180,
+		["textSize"] = 10,
+		["textFont"] = "Homespun",
+		["textFormat"] = "NONE",
+		["mouseover"] = false,
+		["orientation"] = "VERTICAL",
+		["hideInVehicle"] = false
+	}
+};
+
 P["nameplate"] = {
 	['font'] = 'Homespun',
 	['fontSize'] = 8,

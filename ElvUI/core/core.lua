@@ -48,6 +48,7 @@ E['RegisteredInitialModules'] = {};
 E['valueColorUpdateFuncs'] = {};
 E.TexCoords = {.08, .92, .08, .92};
 E.FrameLocks = {};
+E.VehicleLocks = {};
 E.CreditsList = {};
 E.PixelMode = false;
 
@@ -646,10 +647,11 @@ function E:UpdateAll(ignoreInstall)
 	NP.db = self.db.nameplate;
 	NP:UpdateAllPlates();
 	
-	local M = self:GetModule("Misc");
-	M:UpdateExpRepDimensions();
-	M:EnableDisable_ExperienceBar();
-	M:EnableDisable_ReputationBar()	;
+	local DataBars = self:GetModule("DataBars");
+	DataBars.db = E.db.databars;
+	DataBars:UpdateDataBarDimensions();
+	DataBars:EnableDisable_ExperienceBar();
+	DataBars:EnableDisable_ReputationBar();
 	
 	local T = self:GetModule("Threat");
 	T.db = self.db.general.threat;
@@ -688,6 +690,60 @@ function E:UpdateAll(ignoreInstall)
 	LO:SetDataPanelStyle();
 	
 	collectgarbage("collect");
+end
+
+function E:EnterVehicleHideFrames(event, unit)
+	if(unit ~= "player") then return; end
+
+	for object in pairs(E.VehicleLocks) do
+		object:SetParent(E.HiddenFrame);
+	end
+end
+
+function E:ExitVehicleShowFrames(event, unit)
+	if(unit ~= "player") then return; end
+
+	for object, originalParent in pairs(E.VehicleLocks) do
+		object:SetParent(originalParent);
+	end
+end
+
+function E:RegisterObjectForVehicleLock(object, originalParent)
+	if(not object or not originalParent) then
+		E:Print("Error. Usage: RegisterObjectForVehicleLock(object, originalParent)");
+		return;
+	end
+
+	local object = _G[object] or object;
+	if(object.IsProtected and object:IsProtected()) then
+		E:Print("Error. Object is protected and cannot be changed in combat.");
+		return;
+	end
+
+	if(UnitHasVehicleUI("player")) then
+		object:SetParent(E.HiddenFrame);
+	end
+
+	E.VehicleLocks[object] = originalParent;
+end
+
+function E:UnregisterObjectForVehicleLock(object)
+	if(not object) then
+		E:Print("Error. Usage: UnregisterObjectForVehicleLock(object)");
+		return;
+	end
+
+	local object = _G[object] or object;
+	if(not E.VehicleLocks[object]) then
+		return;
+	end
+
+	local originalParent = E.VehicleLocks[object];
+	if(originalParent) then
+		object:SetParent(originalParent);
+	end
+
+	E.VehicleLocks[object] = nil;
 end
 
 function E:ResetAllUI()
@@ -868,48 +924,81 @@ function E:DBConversions()
 			E.global.unitframe.buffwatch[class][id] = nil;
 		end
 	end
+
+	if(type(E.global.general.WorldMapCoordinates) == "boolean") then
+		local enabledState = E.global.general.WorldMapCoordinates;
+		E.global.general.WorldMapCoordinates = nil;
+		E.global.general.WorldMapCoordinates.enable = enabledState;
+	end
 end
 
 local CPU_USAGE = {};
 local function CompareCPUDiff(module, minCalls)
-	local greatestUsage, greatestCalls, greatestName;
-	local greatestDiff = 0;
-	local mod = E:GetModule(module, true) or E;
-	
+	local greatestUsage, greatestCalls, greatestName, newName, newFunc;
+	local greatestDiff, lastModule, mod, newUsage, calls, differance = 0;
+
 	for name, oldUsage in pairs(CPU_USAGE) do
-		local newUsage, calls = GetFunctionCPUUsage(mod[name], true);
-		local differance = newUsage - oldUsage;
-		
-		if(differance > greatestDiff and calls > (minCalls or 15)) then
-			greatestName = name;
-			greatestUsage = newUsage;
-			greatestCalls = calls;
-			greatestDiff = differance;
+		newName, newFunc = name:match("^([^:]+):(.+)$");
+		if(not newFunc) then
+			E:Print("CPU_USAGE:", name, newFunc);
+		else
+			if(newName ~= lastModule) then
+				mod = E:GetModule(newName, true) or E;
+				lastModule = newName;
+			end
+			newUsage, calls = GetFunctionCPUUsage(mod[newFunc], true);
+			differance = newUsage - oldUsage;
+			if(showall and calls > minCalls) then
+				E:Print(calls, name, differance);
+			end
+			
+			if((differance > greatestDiff) and calls > minCalls) then
+				greatestName, greatestUsage, greatestCalls, greatestDiff = name, newUsage, calls, differance;
+			end
 		end
 	end
 	
 	if(greatestName) then
-		E:Print(greatestName .. " had the CPU usage of: " .. greatestUsage .. "ms. And has been called " .. greatestCalls .. " times.");
+		E:Print(greatestName .. " had the CPU usage difference of: " .. greatestUsage .. "ms. And has been called " .. greatestCalls .. " times.");
+	else
+		E:Print("CPU Usage: No CPU Usage differences found.");
 	end
 end
 
 function E:GetTopCPUFunc(msg)
-	local module, delay, minCalls = msg:match("^([^%s]+)%s+(.*)$");
-	
-	module = module == "nil" and nil or module;
-	delay = delay == "nil" and nil or tonumber(delay);
-	minCalls = minCalls == "nil" and nil or tonumber(minCalls);
+	local module, showall, delay, minCalls = msg:match("^([^%s]+)%s*([^%s]*)%s*([^%s]*)%s*(.*)$");
+	local mod;
+
+	module = (module == "nil" and nil) or module;
+	if not module then
+		E:Print("cpuusage: module (arg1) is required! This can be set as 'all' too.");
+		return;
+	end
+	showall = (showall == "true" and true) or false;
+	delay = (delay == "nil" and nil) or tonumber(delay) or 5;
+	minCalls = (minCalls == "nil" and nil) or tonumber(minCalls) or 15;
 	
 	twipe(CPU_USAGE);
-	local mod = self:GetModule(module, true) or self;
-	for name, func in pairs(mod) do
-		if(type(mod[name]) == "function" and name ~= "GetModule") then
-			CPU_USAGE[name] = GetFunctionCPUUsage(mod[name], true);
+	if(module == "all") then
+		for _, registeredModule in pairs(self["RegisteredModules"]) do
+			mod = self:GetModule(registeredModule, true) or self;
+			for name, func in pairs(mod) do
+				if(type(mod[name]) == "function" and name ~= "GetModule") then
+					CPU_USAGE[registeredModule .. ":" .. name] = GetFunctionCPUUsage(mod[name], true);
+				end
+			end
+		end
+	else
+		mod = self:GetModule(module, true) or self;
+		for name, func in pairs(mod) do
+			if(type(mod[name]) == "function" and name ~= "GetModule") then
+				CPU_USAGE[module .. ":" .. name] = GetFunctionCPUUsage(mod[name], true);
+			end
 		end
 	end
 	
-	self:Delay(delay or 5, CompareCPUDiff, module, minCalls);
-	self:Print("Calculating CPU Usage..");
+	self:Delay(delay, CompareCPUDiff, showall, module, minCalls);
+	self:Print("Calculating CPU Usage differences (module: " .. (module or "?") .. ", showall: " .. tostring(showall) .. ", minCalls: " .. tostring(minCalls) .. ", delay: " .. tostring(delay) .. ")");
 end
 
 function E:Initialize()

@@ -44,6 +44,7 @@ local function LoadSkin()
 			if _G["MerchantToken"..i] then
 				_G["MerchantToken"..i]:CreateBackdrop()
 				_G["MerchantToken"..i].backdrop:SetOutside(_G["MerchantToken"..i].icon)
+				_G["MerchantToken"..i].icon:Size(14)
 				_G["MerchantToken"..i].icon:SetTexCoord(unpack(E.TexCoords));
 				_G["MerchantToken"..i].icon:SetPoint("LEFT", _G["MerchantToken"..i].count, "RIGHT", 2, 0)
 			end

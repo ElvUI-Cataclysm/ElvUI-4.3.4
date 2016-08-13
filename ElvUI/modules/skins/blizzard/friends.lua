@@ -159,6 +159,19 @@ local function LoadSkin()
 		_G["ChannelMemberButton"..i]:StyleButton()
 	end
 
+	local function Channel()
+		for i=1, MAX_DISPLAY_CHANNEL_BUTTONS do
+			local button = _G["ChannelButton"..i]
+			if button then
+				_G["ChannelButton"..i.."NormalTexture"]:SetAlpha(0)
+				_G["ChannelButton"..i.."Text"]:FontTemplate(nil, 12)
+				_G["ChannelButton"..i.."Collapsed"]:SetTextColor(1, 1, 1);
+				_G["ChannelButton"..i]:StyleButton();
+			end
+		end
+	end
+	hooksecurefunc("ChannelList_Update", Channel)
+	
 	--BNet Frame
 	FriendsFrameBroadcastInput:CreateBackdrop("Default")
 	ChannelFrameDaughterFrameChannelName:CreateBackdrop("Default")
@@ -188,19 +201,6 @@ local function LoadSkin()
 		SkinSocialHeaderTab(_G["FriendsTabHeaderTab"..i])
 	end
 
-	local function Channel()
-		for i=1, MAX_DISPLAY_CHANNEL_BUTTONS do
-			local button = _G["ChannelButton"..i]
-			if button then
-				button:StripTextures()
-				
-				_G["ChannelButton"..i.."Text"]:FontTemplate(nil, 12)
-				_G["ChannelButton"..i.."Collapsed"]:SetTextColor(1, 1, 1);
-			end
-		end
-	end
-	hooksecurefunc("ChannelList_Update", Channel)
-	
 	--View Friends BN Frame
 	FriendsFriendsFrame:CreateBackdrop("Transparent")
 
@@ -304,16 +304,16 @@ local function LoadSkin()
 	}
 
 	local cc = {
-	["HUNTER"]="ABD473",
-	["WARLOCK"]="9482C9",
-	["PRIEST"]="FFFFFF",
-	["PALADIN"]="F58CBA",
-	["MAGE"]="69CCF0",
-	["ROGUE"]="FFF569",
-	["DRUID"]="FF7D0A",
-	["SHAMAN"]="2459FF",
-	["WARRIOR"]="C79C6E",
-	["DEATHKNIGHT"]="C41F3B",
+		["HUNTER"]="ABD473",
+		["WARLOCK"]="9482C9",
+		["PRIEST"]="FFFFFF",
+		["PALADIN"]="F58CBA",
+		["MAGE"]="69CCF0",
+		["ROGUE"]="FFF569",
+		["DRUID"]="FF7D0A",
+		["SHAMAN"]="1783D1",
+		["WARRIOR"]="C79C6E",
+		["DEATHKNIGHT"]="C41F3B",
 	}
 
 	local locclasses = {}
@@ -325,13 +325,13 @@ local function LoadSkin()
 
 	local updFunc = function()
 	if GetNumFriends() < 1 then return end
-	local off, name, level, class, zone, connected, status, note, tmp, tmpcol, tmpcol2 = FauxScrollFrame_GetOffset(FriendsFrameFriendsScrollFrame)
+		local off, name, level, class, zone, connected, status, note, tmp, tmpcol, tmpcol2 = FauxScrollFrame_GetOffset(FriendsFrameFriendsScrollFrame)
 		for i = 1, GetNumFriends() do
-		name, level, class, zone, connected, status, note = GetFriendInfo(i)
+			name, level, class, zone, connected, status, note = GetFriendInfo(i)
 			if connected then
-			local friend = _G["FriendsFrameFriendsScrollFrameButton"..(i-off)]
+				local friend = _G["FriendsFrameFriendsScrollFrameButton"..(i-off)]
 				if friend and friend.buttonType == FRIENDS_BUTTON_TYPE_WOW then
-				tmpcol = cc[(locclasses[class] or ""):gsub(" ",""):upper()]
+					tmpcol = cc[(locclasses[class] or ""):gsub(" ",""):upper()]
 					if (tmpcol or ""):len() > 0 then
 						tmp = format("|cff%s%s%s, ", tmpcol, name, FONT_COLOR_CODE_CLOSE) -- Name
 						tmp = tmp..format("|cff%s%s%d%s ", tmpcol, cfg.USE_SHORT_LEVEL and "L" or LEVEL.." ", level, FONT_COLOR_CODE_CLOSE) --Level

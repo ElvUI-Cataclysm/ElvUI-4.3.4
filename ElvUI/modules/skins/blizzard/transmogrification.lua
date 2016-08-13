@@ -50,6 +50,23 @@ local function LoadSkin()
 			icon:Point("BOTTOMRIGHT", -2, 2)
 		end
 	end
+	
+	TransmogrifyModelFrameControlFrame:StripTextures()
+	
+	local controlbuttons = {
+		"TransmogrifyModelFrameControlFrameZoomInButton",
+		"TransmogrifyModelFrameControlFrameZoomOutButton",
+		"TransmogrifyModelFrameControlFramePanButton",
+		"TransmogrifyModelFrameControlFrameRotateRightButton",
+		"TransmogrifyModelFrameControlFrameRotateLeftButton",
+		"TransmogrifyModelFrameControlFrameRotateResetButton",
+	}
+	
+	for i = 1, getn(controlbuttons) do
+		S:HandleButton(_G[controlbuttons[i]]);
+		_G[controlbuttons[i]]:StyleButton()
+		_G[controlbuttons[i].."Bg"]:Hide()
+	end
 end
 
 S:RegisterSkin("Blizzard_ItemAlterationUI", LoadSkin)

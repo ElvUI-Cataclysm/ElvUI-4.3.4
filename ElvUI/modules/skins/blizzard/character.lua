@@ -33,6 +33,8 @@ local function LoadSkin()
 	}
 	for _, slot in pairs(slots) do
 		local icon = _G["Character"..slot.."IconTexture"]
+		local cooldown = _G["Character"..slot.."Cooldown"];
+		
 		local slot = _G["Character"..slot]
 		slot:StripTextures()
 		slot:StyleButton(false)
@@ -42,6 +44,10 @@ local function LoadSkin()
 		icon:ClearAllPoints()
 		icon:Point("TOPLEFT", 2, -2)
 		icon:Point("BOTTOMRIGHT", -2, 2)
+		
+		if(cooldown) then
+			E:RegisterCooldown(cooldown);
+		end
 	end
 
 	local function ColorItemBorder()
@@ -81,7 +87,6 @@ local function LoadSkin()
 		"PaperDollEquipmentManagerPane",
 	}
 
-	
 	CharacterFrameExpandButton:Size(CharacterFrameExpandButton:GetWidth() - 5, CharacterFrameExpandButton:GetHeight() - 5)
 	S:HandleNextPrevButton(CharacterFrameExpandButton)
 
@@ -109,7 +114,6 @@ local function LoadSkin()
 	local function SkinItemFlyouts()
 		EquipmentFlyoutFrameButtons:StripTextures()
 
-		
 		for i=1, EQUIPMENTFLYOUT_MAXITEMS do
 			local button = _G["EquipmentFlyoutFrameButton"..i]
 			local icon = _G["EquipmentFlyoutFrameButton"..i.."IconTexture"]
@@ -131,6 +135,13 @@ local function LoadSkin()
 		end	
 	end
 	
+	EquipmentFlyoutFrame:HookScript("OnShow", SkinItemFlyouts)
+	hooksecurefunc("EquipmentFlyout_Show", SkinItemFlyouts)	
+	
+	--Icon in upper right corner of character frame
+	CharacterFramePortrait:Kill()
+	CharacterModelFrame:CreateBackdrop("Default")
+
 	local controlbuttons = {
 		"CharacterModelFrameControlFrameZoomInButton",
 		"CharacterModelFrameControlFrameZoomOutButton",
@@ -148,15 +159,6 @@ local function LoadSkin()
 
 	CharacterModelFrameControlFrame:StripTextures()
 	
-	
-	--Swap item flyout frame (shown when holding alt over a slot)
-	EquipmentFlyoutFrame:HookScript("OnShow", SkinItemFlyouts)
-	hooksecurefunc("EquipmentFlyout_Show", SkinItemFlyouts)	
-	
-	--Icon in upper right corner of character frame
-	CharacterFramePortrait:Kill()
-	CharacterModelFrame:CreateBackdrop("Default")
-
 	local scrollbars = {
 		"PaperDollTitlesPaneScrollBar",
 		"PaperDollEquipmentManagerPaneScrollBar",
@@ -183,7 +185,7 @@ local function LoadSkin()
 			object.text:FontTemplate()
 			object.text.SetFont = E.noop
 			object:StyleButton()
-			object.SelectedBar:SetTexture(0, 0.7, 1, 0.5)
+			object.SelectedBar:SetTexture(0, 0.7, 1, 0.75)
 		end
 	end)
 
@@ -205,7 +207,7 @@ local function LoadSkin()
 			object.icon:SetTexCoord(unpack(E.TexCoords))
 			
 			object:StyleButton()
-			object.SelectedBar:SetTexture(0, 0.7, 1, 0.5)
+			object.SelectedBar:SetTexture(0, 0.7, 1, 0.75)
 			object.HighlightBar:SetTexture(nil)
 			
 			if not object.backdrop then
@@ -217,9 +219,9 @@ local function LoadSkin()
 			object.icon:SetParent(object.backdrop)
 
 			--Making all icons the same size and position because otherwise BlizzardUI tries to attach itself to itself when it refreshes
-			object.icon:SetPoint("LEFT", object, "LEFT", 4, 0)
+			object.icon:SetPoint("LEFT", object, "LEFT", 3, 0)
 			object.icon.SetPoint = E.noop
-			object.icon:Size(36, 36)
+			object.icon:Size(38, 38)
 			object.icon.SetSize = E.noop
 		end
 		GearManagerDialogPopup:StripTextures()

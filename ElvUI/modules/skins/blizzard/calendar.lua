@@ -46,7 +46,7 @@ local function LoadSkin()
 	local bg = CreateFrame("Frame", "CalendarFrameBackdrop", CalendarFrame)
 	bg:SetTemplate("Default")
 	bg:Point("TOPLEFT", 10, -72)
-	bg:Point("BOTTOMRIGHT", -8, 3)
+	bg:Point("BOTTOMRIGHT", -9, 3)
 	
 	CalendarContextMenu:SetTemplate("Transparent")
 	CalendarContextMenu.SetBackdropColor = E.noop
@@ -59,16 +59,29 @@ local function LoadSkin()
 	end
 
 	for i = 1, 42 do
-		local Button = _G["CalendarDayButton"..i]
-		Button:SetFrameLevel(Button:GetFrameLevel() + 1)
-		Button:StripTextures()
-		Button:CreateBackdrop("Default")
-		Button:SetBackdropColor(0,0,0,0)
-		Button:GetHighlightTexture():SetTexture(1, 1, 1, 0.10)
+		local button = _G["CalendarDayButton"..i]
+		local eventTexture = _G["CalendarDayButton" .. i .. "EventTexture"];
+		local overlayFrame = _G["CalendarDayButton" .. i .. "OverlayFrame"];
+		button:SetFrameLevel(button:GetFrameLevel() + 1);
+		button:Size(91 - E.Border);
+		button:StripTextures();
+		button:CreateBackdrop("Default");
+		button:GetHighlightTexture():SetInside();
+		button:GetHighlightTexture():SetTexture(1, 1, 1, 0.10);
+		eventTexture:SetInside();
+		overlayFrame:SetInside();
 		for j = 1, 4 do
 			local EventButton = _G["CalendarDayButton"..i.."EventButton"..j]
 			EventButton:StripTextures()
 			EventButton:StyleButton()
+		end
+		button:ClearAllPoints();
+		if(i == 1) then
+			button:SetPoint("TOPLEFT", CalendarWeekday1Background, "BOTTOMLEFT", E.Spacing, 0);
+		elseif(mod(i, 7) == 1) then
+			button:SetPoint("TOPLEFT", _G["CalendarDayButton" .. (i - 7)], "BOTTOMLEFT", 0, -E.Border);
+		else
+			button:SetPoint("TOPLEFT", _G["CalendarDayButton" .. (i - 1)], "TOPRIGHT", E.Border, 0);
 		end
 	end
 	

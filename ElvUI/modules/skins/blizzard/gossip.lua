@@ -43,14 +43,17 @@ local function LoadSkin()
 		S:HandleButton(_G[buttons[i]])
 	end
 
+	GossipFrameGreetingGoodbyeButton:Point("BOTTOMRIGHT", GossipFrame, "BOTTOMRIGHT", -49, 72)
+	
 	for i = 1, NUMGOSSIPBUTTONS do
 		obj = select(3,_G["GossipTitleButton"..i]:GetRegions())
 		obj:SetTextColor(1,1,1)
 	end
-
+	
 	GossipGreetingText:SetTextColor(1,1,1)
+	
 	GossipFrame:CreateBackdrop("Transparent")
-	GossipFrame.backdrop:Point("TOPLEFT", GossipFrame, "TOPLEFT", 15, -20)
+	GossipFrame.backdrop:Point("TOPLEFT", GossipFrame, "TOPLEFT", 6, -8)
 	GossipFrame.backdrop:Point("BOTTOMRIGHT", GossipFrame, "BOTTOMRIGHT", -30, 65)
 	S:HandleCloseButton(GossipFrameCloseButton,GossipFrame.backdrop)
 	

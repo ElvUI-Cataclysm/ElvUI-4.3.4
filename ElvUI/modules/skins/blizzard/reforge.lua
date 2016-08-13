@@ -6,7 +6,6 @@ local function LoadSkin()
 
 	ReforgingFrame:StripTextures()
 	ReforgingFrame:SetTemplate("Transparent")
-	ReforgingFrame:SetScale(0.95)
 
 	ReforgingFrameButtonFrame:StripTextures()
 	ReforgingFrameReforgeButton:ClearAllPoints()
@@ -31,6 +30,11 @@ local function LoadSkin()
 			ReforgingFrameItemButtonIconTexture:SetTexCoord(unpack(E.TexCoords))
 		else
 			ReforgingFrameItemButtonIconTexture:SetTexture(nil)
+		end
+		if (quality and quality > 1) then
+			ReforgingFrameItemButton:SetBackdropBorderColor(GetItemQualityColor(quality));
+		else
+			ReforgingFrameItemButton:SetTemplate("Default", true)
 		end
 	end)
 
