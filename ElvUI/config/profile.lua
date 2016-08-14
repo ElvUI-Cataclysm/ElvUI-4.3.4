@@ -19,7 +19,7 @@ P['general'] = {
 	
 	['afk'] = true,
 	
-	['fontSize'] = 12, -- Медия\Шрифты
+	['fontSize'] = 12,
 	['font'] = 'PT Sans Narrow',
 
 	["bordercolor"] = { r = 0.1, g = 0.1, b = 0.1 },
@@ -29,40 +29,18 @@ P['general'] = {
 	
 	['mapAlpha'] = 1,
 	
-	['minimap'] = { -- Мини-карта
+	['minimap'] = {
 		['size'] = 176,
 		['locationText'] = 'MOUSEOVER',
 	},
-	['experience'] = { -- Полоса опыта
-		['enable'] = true,
-		['width'] = 10,
-		['height'] = 180,
-		['textFormat'] = 'NONE',
-		['textFont'] = 'Homespun',
-		['textSize'] = 10,
-		['textOutline'] = 'MONOCHROMEOUTLINE',
-		['mouseover'] = false,
-		['orientation'] = 'VERTICAL',
-	},
-	['reputation'] = { -- Полоса репутации
-		['enable'] = true,
-		['width'] = 10,
-		['height'] = 180,
-		['textFormat'] = 'NONE',
-		['textFont'] = 'Homespun',
-		['textSize'] = 10,
-		['textOutline'] = 'MONOCHROMEOUTLINE',
-		['mouseover'] = false,
-		['orientation'] = 'VERTICAL',
-	},
-	['threat'] = { -- Угроза
+	['threat'] = {
 		['enable'] = true,
 		['position'] = 'RIGHTCHAT',
 		['textfont'] = 'PT Sans Narrow',
 		['textSize'] = 12,
 		['textOutline'] = 'OUTLINE',
 	},
-	['totems'] = { -- Панель тотемов
+	['totems'] = {
 		['enable'] = true,
 		['growthDirection'] = 'VERTICAL',
 		['sortDirection'] = 'ASCENDING',
@@ -89,6 +67,7 @@ P["databars"] = {
 		["textSize"] = 10,
 		["textFont"] = "Homespun",
 		["textFormat"] = "NONE",
+		['textOutline'] = 'MONOCHROMEOUTLINE',
 		["mouseover"] = false,
 		["orientation"] = "VERTICAL",
 		["hideAtMaxLevel"] = true,
@@ -101,6 +80,7 @@ P["databars"] = {
 		["textSize"] = 10,
 		["textFont"] = "Homespun",
 		["textFormat"] = "NONE",
+		['textOutline'] = 'MONOCHROMEOUTLINE',
 		["mouseover"] = false,
 		["orientation"] = "VERTICAL",
 		["hideInVehicle"] = false
@@ -2276,7 +2256,7 @@ P['auras'] = {
 	},
 }
 
-P['chat'] = { -- Чат
+P['chat'] = {
 	['lockPositions'] = true,
 	['url'] = true,
 	['shortChannels'] = true,
@@ -2289,7 +2269,7 @@ P['chat'] = { -- Чат
 	['sticky'] = true,
 	['emotionIcons'] = true,
 	['keywordSound'] = 'None',
-	['whisperSound'] = 'ElvUI Aska',
+	['whisperSound'] = 'Whisper Alert',
 	["noAlertInCombat"] = false,
 	['chatHistory'] = true,
 	['timeStampFormat'] = 'NONE',
