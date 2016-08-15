@@ -96,7 +96,7 @@ local function createSlot(id)
 	local iconFrame = CreateFrame('Frame', nil, frame)
 	iconFrame:Height(iconsize)
 	iconFrame:Width(iconsize)
-	iconFrame:SetPoint('RIGHT', frame)
+	iconFrame:Point('RIGHT', frame)
 	iconFrame:SetTemplate('Default')
 	frame.iconFrame = iconFrame
 	E['frames'][iconFrame] = nil;
@@ -113,21 +113,27 @@ local function createSlot(id)
 	count:SetText(1)
 	frame.count = count
 
-	local name = frame:CreateFontString(nil, 'OVERLAY')
-	name:SetJustifyH('LEFT')
-	name:SetPoint('LEFT', frame)
-	name:SetPoint('RIGHT', icon, 'LEFT')
+	local name = frame:CreateFontString(nil, "OVERLAY")
+	name:SetJustifyH("LEFT")
+	name:Point("LEFT", frame)
+	name:Point("RIGHT", icon, "LEFT")
 	name:SetNonSpaceWrap(true)
 	name:FontTemplate(nil, nil, 'OUTLINE')
 	frame.name = name
 
-	local drop = frame:CreateTexture(nil, 'ARTWORK')
-	drop:SetTexture'Interface\\QuestFrame\\UI-QuestLogTitleHighlight'
-	drop:SetPoint('LEFT', icon, 'RIGHT', 0, 0)
-	drop:SetPoint('RIGHT', frame)
+	local drop = frame:CreateTexture(nil, "ARTWORK")
+	drop:SetTexture"Interface\\QuestFrame\\UI-QuestLogTitleHighlight"
+	drop:Point("LEFT", icon, "RIGHT", 0, 0)
+	drop:Point("RIGHT", frame)
 	drop:SetAllPoints(frame)
 	drop:SetAlpha(.3)
 	frame.drop = drop
+
+	local questTexture = iconFrame:CreateTexture(nil, 'OVERLAY')
+	questTexture:SetInside()
+	questTexture:SetTexture(TEXTURE_ITEM_QUEST_BANG);
+	questTexture:SetTexCoord(unpack(E.TexCoords))
+	frame.questTexture = questTexture
 
 	lootFrame.slots[id] = frame
 	return frame
@@ -187,7 +193,7 @@ function M:LOOT_OPENED(event, autoloot)
 		E:DisableMover("LootFrameMover");
 	else
 		lootFrame:ClearAllPoints()
-		lootFrame:SetPoint('TOPLEFT', lootFrameHolder, 'TOPLEFT')
+		lootFrame:Point("TOPLEFT", lootFrameHolder, "TOPLEFT")
 		E:EnableMover("LootFrameMover");
 	end
 
@@ -195,7 +201,7 @@ function M:LOOT_OPENED(event, autoloot)
 	if(items > 0) then
 		for i=1, items do
 			local slot = lootFrame.slots[i] or createSlot(i)
-			local texture, item, quantity, quality, locked = GetLootSlotInfo(i)
+			local texture, item, quantity, quality, locked, isQuestItem, questId, isActive = GetLootSlotInfo(i)
 			local color = ITEM_QUALITY_COLORS[quality]
 
 			if(LootSlotIsCoin(i)) then
@@ -228,6 +234,15 @@ function M:LOOT_OPENED(event, autoloot)
 			end
 			w = max(w, slot.name:GetStringWidth())
 
+			local questTexture = slot.questTexture
+			if ( questId and not isActive ) then
+				questTexture:Show();
+			elseif ( questId or isQuestItem ) then
+				questTexture:Hide();
+			else
+				questTexture:Hide();
+			end
+			
 			slot:Enable()
 			slot:Show()
 		end
@@ -271,7 +286,7 @@ function M:LoadLoot()
 	lootFrame:SetPoint('TOPLEFT')
 	lootFrame:Size(256, 64)
 	lootFrame:SetTemplate('Transparent')
-	lootFrame:SetFrameStrata'FULLSCREEN'
+	lootFrame:SetFrameStrata(LootFrame:GetFrameStrata())
 	lootFrame:SetToplevel(true)	
 	lootFrame.title = lootFrame:CreateFontString(nil, 'OVERLAY')
 	lootFrame.title:FontTemplate(nil, nil, 'OUTLINE')
