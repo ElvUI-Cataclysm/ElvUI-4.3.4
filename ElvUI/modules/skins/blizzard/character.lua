@@ -9,7 +9,7 @@ local function LoadSkin()
 	S:HandleScrollBar(ReputationListScrollFrameScrollBar)
 	S:HandleScrollBar(TokenFrameContainerScrollBar)
 	S:HandleScrollBar(GearManagerDialogPopupScrollFrameScrollBar)
-	
+
 	local slots = {
 		"HeadSlot",
 		"NeckSlot",
@@ -35,15 +35,15 @@ local function LoadSkin()
 		local icon = _G["Character"..slot.."IconTexture"]
 		local cooldown = _G["Character"..slot.."Cooldown"];
 		
-		local slot = _G["Character"..slot]
+		slot = _G["Character"..slot]
 		slot:StripTextures()
 		slot:StyleButton(false)
 		slot.ignoreTexture:SetTexture([[Interface\PaperDollInfoFrame\UI-GearManager-LeaveItem-Transparent]])
-		slot:SetTemplate("Default", true)
+		slot:SetTemplate("Default", true, true);
 		icon:SetTexCoord(unpack(E.TexCoords))
-		icon:ClearAllPoints()
-		icon:Point("TOPLEFT", 2, -2)
-		icon:Point("BOTTOMRIGHT", -2, 2)
+		icon:SetInside();
+		
+		slot:SetFrameLevel(PaperDollFrame:GetFrameLevel() + 2);
 		
 		if(cooldown) then
 			E:RegisterCooldown(cooldown);
@@ -52,20 +52,19 @@ local function LoadSkin()
 
 	local function ColorItemBorder()
 		for _, slot in pairs(slots) do
-			-- Colour the equipment slots by rarity
-			local target = _G["Character"..slot]
+			local target = _G['Character'..slot]
 			local slotId, _, _ = GetInventorySlotInfo(slot)
-			local itemId = GetInventoryItemID("player", slotId)
+			local itemId = GetInventoryItemID('player', slotId)
 
 			if itemId then
-				local _, _, rarity, _, _, _, _, _, _, _, _ = GetItemInfo(itemId)
+				local rarity = GetInventoryItemQuality("player", slotId);
 				if rarity and rarity > 1 then
 					target:SetBackdropBorderColor(GetItemQualityColor(rarity))
 				else
-					target:SetBackdropBorderColor(unpack(E.media.bordercolor))
+					target:SetBackdropBorderColor(unpack(E['media'].bordercolor))
 				end
 			else
-				target:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				target:SetBackdropBorderColor(unpack(E['media'].bordercolor))
 			end
 		end
 	end
@@ -111,33 +110,42 @@ local function LoadSkin()
 	end
 
 	EquipmentFlyoutFrameHighlight:Kill()
-	local function SkinItemFlyouts()
-		EquipmentFlyoutFrameButtons:StripTextures()
+	local function SkinItemFlyouts(button)
+		if(not button.isSkinned) then
+			EquipmentFlyoutFrameButtons:StripTextures();
+			button.icon = _G[button:GetName() .. "IconTexture"];
 
-		for i=1, EQUIPMENTFLYOUT_MAXITEMS do
-			local button = _G["EquipmentFlyoutFrameButton"..i]
-			local icon = _G["EquipmentFlyoutFrameButton"..i.."IconTexture"]
-			if button then
-				button:StyleButton(false)
-				
-				icon:SetTexCoord(unpack(E.TexCoords))
-				button:GetNormalTexture():SetTexture(nil)
-				
-				icon:ClearAllPoints()
-				icon:Point("TOPLEFT", 2, -2)
-				icon:Point("BOTTOMRIGHT", -2, 2)	
-				button:SetFrameLevel(button:GetFrameLevel() + 2)
-				if not button.backdrop then
-					button:CreateBackdrop("Default")
-					button.backdrop:SetAllPoints()			
-				end
-			end
-		end	
+			button:GetNormalTexture():SetTexture(nil);
+			button:SetTemplate("Default");
+			button:StyleButton(false);
+
+			button.icon:SetInside();
+			button.icon:SetTexCoord(unpack(E.TexCoords));
+			
+ 		end
+		
+		cooldown = _G[button:GetName() .."Cooldown"];
+		if(cooldown) then
+			E:RegisterCooldown(cooldown);
+		end
+		
+		local location = button.location;
+		if(not location) then return; end
+		if(location and location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION) then return; end
+
+		local id = EquipmentManager_GetItemInfoByLocation(location);
+		local _, _, quality = GetItemInfo(id);
+		local r, g, b = GetItemQualityColor(quality);
+
+		button:SetBackdropBorderColor(r, g, b);
+ 	end
+ 	hooksecurefunc("EquipmentFlyout_DisplayButton", SkinItemFlyouts);
+	
+	local function SkinFrameFlyouts(button)
+		EquipmentFlyoutFrameButtons:StripTextures();
 	end
-	
-	EquipmentFlyoutFrame:HookScript("OnShow", SkinItemFlyouts)
-	hooksecurefunc("EquipmentFlyout_Show", SkinItemFlyouts)	
-	
+	hooksecurefunc("EquipmentFlyout_Show", SkinFrameFlyouts)	
+
 	--Icon in upper right corner of character frame
 	CharacterFramePortrait:Kill()
 	CharacterModelFrame:CreateBackdrop("Default")
