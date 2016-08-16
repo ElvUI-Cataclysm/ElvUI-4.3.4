@@ -224,22 +224,29 @@ local function BuildABConfig()
 				min = 0, max = 10, step = 1,	
 				order = 10,
 			},	
-			heightMult = {
+			backdropSpacing = {
 				order = 11,
+				type = 'range',
+				name = L["Backdrop Spacing"],
+				desc = L["The spacing between the backdrop and the buttons."],
+				min = 0, max = 10, step = 1,
+			},
+			heightMult = {
+				order = 12,
 				type = 'range',
 				name = L['Height Multiplier'],
 				desc = L['Multiply the backdrops height or width by this value. This is usefull if you wish to have more than one bar behind a backdrop.'],
 				min = 1, max = 5, step = 1,					
 			},
 			widthMult = {
-				order = 12,
+				order = 13,
 				type = 'range',
 				name = L['Width Multiplier'],
 				desc = L['Multiply the backdrops height or width by this value. This is usefull if you wish to have more than one bar behind a backdrop.'],
 				min = 1, max = 5, step = 1,					
 			},
 			alpha = {
-				order = 13,
+				order = 14,
 				type = 'range',
 				name = L['Alpha'],
 				isPercent = true,
@@ -247,7 +254,7 @@ local function BuildABConfig()
 			},
 			visibility = {
 				type = 'input',
-				order = 14,
+				order = 15,
 				name = L['Visibility State'],
 				desc = L["This works like a macro, you can run different situations to get the actionbar to show/hide differently.\n Example: '[combat] show;hide'"],
 				width = 'full',
@@ -333,30 +340,37 @@ local function BuildABConfig()
 				desc = L['The spacing between buttons.'],
 				min = 0, max = 10, step = 1,	
 				order = 10,
-			},	
-			heightMult = {
+			},
+			backdropSpacing = {
 				order = 11,
+				type = 'range',
+				name = L["Backdrop Spacing"],
+				desc = L["The spacing between the backdrop and the buttons."],
+				min = 0, max = 10, step = 1,
+			},
+			heightMult = {
+				order = 12,
 				type = 'range',
 				name = L['Height Multiplier'],
 				desc = L['Multiply the backdrops height or width by this value. This is usefull if you wish to have more than one bar behind a backdrop.'],
 				min = 1, max = 5, step = 1,					
 			},
 			widthMult = {
-				order = 12,
+				order = 13,
 				type = 'range',
 				name = L['Width Multiplier'],
 				desc = L['Multiply the backdrops height or width by this value. This is usefull if you wish to have more than one bar behind a backdrop.'],
 				min = 1, max = 5, step = 1,					
 			},
 			alpha = {
-				order = 13,
+				order = 14,
 				type = 'range',
 				name = L['Alpha'],
 				isPercent = true,
 				min = 0, max = 1, step = 0.01,
 			},
 			style = {
-				order = 14,
+				order = 15,
 				type = 'select',
 				name = L['Style'],
 				desc = L["This setting will be updated upon changing stances."],
@@ -447,40 +461,6 @@ E.Options.args.actionbar = {
 					type = "toggle",
 					name = L['Self Cast'],
 					desc = L['Self cast on right click.'],
-				},
-				noRangeColor = {
-					type = 'color',
-					order = 9,
-					name = L['Out of Range'],
-					desc = L['Color of the actionbutton when out of range.'],
-					get = function(info)
-						local t = E.db.actionbar[ info[#info] ]
-						local d = P.actionbar[ info[#info] ]
-						return t.r, t.g, t.b, t.a, d.r, d.g, d.b
-					end,
-					set = function(info, r, g, b)
-						E.db.actionbar[ info[#info] ] = {}
-						local t = E.db.actionbar[ info[#info] ]
-						t.r, t.g, t.b = r, g, b
-						tullaRange:Reset();
-					end,
-				},
-				noPowerColor = {
-					type = 'color',
-					order = 10,
-					name = L['Out of Power'],
-					desc = L["Color of the actionbutton when out of power (Mana, Rage)."],
-					get = function(info)
-						local t = E.db.actionbar[ info[#info] ]
-						local d = P.actionbar[ info[#info] ]
-						return t.r, t.g, t.b, t.a, d.r, d.g, d.b
-					end,
-					set = function(info, r, g, b)
-						E.db.actionbar[ info[#info] ] = {}
-						local t = E.db.actionbar[ info[#info] ]
-						t.r, t.g, t.b = r, g, b
-						tullaRange:Reset();
-					end,
 				},
 			},
 		},

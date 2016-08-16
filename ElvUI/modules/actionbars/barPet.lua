@@ -36,11 +36,13 @@ function AB:UpdatePet()
 			if IsPetAttackAction(i) then
 				PetActionButton_StopFlash(button);
 			end			
-		end		
+		end			
 		
 		if autoCastAllowed then
-			autoCast:Kill();
-		end		
+			autoCast:Show();
+		else
+			autoCast:Hide();
+		end	
 		
 		if autoCastEnabled then
 			AutoCastShine_AutoCastStart(shine);
@@ -59,7 +61,7 @@ function AB:UpdatePet()
 			icon:Show();
 		else
 			icon:Hide();
-		end		
+		end
 		
 		if not PetHasActionBar() and texture and name ~= "PET_ACTION_FOLLOW" then
 			PetActionButton_StopFlash(button);
@@ -72,10 +74,12 @@ function AB:UpdatePet()
 end
 
 function AB:PositionAndSizeBarPet()
-	local spacing = E:Scale(self.db['barPet'].buttonspacing);
+	local buttonSpacing = E:Scale(self.db['barPet'].buttonspacing);
+	local backdropSpacing = E:Scale((self.db['barPet'].backdropSpacing or self.db['barPet'].buttonspacing));
 	local buttonsPerRow = self.db['barPet'].buttonsPerRow;
 	local numButtons = self.db['barPet'].buttons;
 	local size = E:Scale(self.db['barPet'].buttonsize);
+	local autoCastSize = (size / 2) - (size / 7.5)
 	local point = self.db['barPet'].point;
 	local numColumns = ceil(numButtons / buttonsPerRow);
 	local widthMult = self.db['barPet'].widthMult;
@@ -90,9 +94,13 @@ function AB:PositionAndSizeBarPet()
 		numColumns = 1;
 	end
 
-	bar:SetWidth(spacing + ((size * (buttonsPerRow * widthMult)) + ((spacing * (buttonsPerRow - 1)) * widthMult) + (spacing * widthMult)));
-	bar:SetHeight(spacing + ((size * (numColumns * heightMult)) + ((spacing * (numColumns - 1)) * heightMult) + (spacing * heightMult)));
+	local barWidth = (size * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult-1)) + (backdropSpacing*2) + ((self.db['barPet'].backdrop == true and E.Border or E.Spacing)*2);
+	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult-1)) + (backdropSpacing*2) + ((self.db['barPet'].backdrop == true and E.Border or E.Spacing)*2);
+	bar:Width(barWidth);
+	bar:Height(barHeight);
+	
 	bar.mouseover = self.db['barPet'].mouseover
+	
 	if self.db['barPet'].enabled then
 		bar:SetScale(1);
 		bar:SetAlpha(self.db['barPet'].alpha);
@@ -126,17 +134,19 @@ function AB:PositionAndSizeBarPet()
 		bar:SetParent(E.UIParent);
 	end
 	
-	local button, lastButton, lastColumnButton; 
-	local possibleButtons = {};
+	local button, lastButton, lastColumnButton, autoCast;
+	local firstButtonSpacing = backdropSpacing + (self.db['barPet'].backdrop == true and E.Border or E.Spacing);
 	for i=1, NUM_PET_ACTION_SLOTS do
 		button = _G["PetActionButton"..i];
 		lastButton = _G["PetActionButton"..i-1];
+		autoCast = _G["PetActionButton"..i..'AutoCastable'];
 		lastColumnButton = _G["PetActionButton"..i-buttonsPerRow];
 		button:SetParent(bar);
 		button:ClearAllPoints();
 		button:Size(size);
-		
-		possibleButtons[((i * buttonsPerRow) + 1)] = true;
+
+		autoCast:SetOutside(button, autoCastSize, autoCastSize)
+
 		button:SetAttribute("showgrid", 1);
 
 		if self.db['barPet'].mouseover == true then
@@ -151,7 +161,7 @@ function AB:PositionAndSizeBarPet()
 				self:HookScript(button, 'OnLeave', 'Button_OnLeave');					
 			end
 		else
-			bar:SetAlpha(self.db["barPet"].alpha);
+			bar:SetAlpha(1);
 			if self.hooks[bar] then
 				self:Unhook(bar, 'OnEnter');
 				self:Unhook(bar, 'OnLeave');	
@@ -163,63 +173,52 @@ function AB:PositionAndSizeBarPet()
 			end
 		end
 		
-		if i == 1 then
+		if(i == 1) then
 			local x, y;
-			if point == "BOTTOMLEFT" then
-				x, y = spacing, spacing;
-			elseif point == "TOPRIGHT" then
-				x, y = -spacing, -spacing;
-			elseif point == "TOPLEFT" then
-				x, y = spacing, -spacing;
+			if(point == "BOTTOMLEFT") then
+				x, y = firstButtonSpacing, firstButtonSpacing;
+			elseif(point == "TOPRIGHT") then
+				x, y = -firstButtonSpacing, -firstButtonSpacing;
+			elseif(point == "TOPLEFT") then
+				x, y = firstButtonSpacing, -firstButtonSpacing;
 			else
-				x, y = -spacing, spacing;
+				x, y = -firstButtonSpacing, firstButtonSpacing;
 			end
-
+			
 			button:Point(point, bar, point, x, y);
-		elseif possibleButtons[i] then
+		elseif((i - 1) % buttonsPerRow == 0) then
 			local x = 0;
-			local y = -spacing;
+			local y = -buttonSpacing;
 			local buttonPoint, anchorPoint = "TOP", "BOTTOM";
-			if verticalGrowth == 'UP' then
-				y = spacing;
+			if(verticalGrowth == "UP") then
+				y = buttonSpacing;
 				buttonPoint = "BOTTOM";
 				anchorPoint = "TOP";
 			end
-			button:Point(buttonPoint, lastColumnButton, anchorPoint, x, y);			
+			button:Point(buttonPoint, lastColumnButton, anchorPoint, x, y);
 		else
-			local x = spacing;
+			local x = buttonSpacing;
 			local y = 0;
 			local buttonPoint, anchorPoint = "LEFT", "RIGHT";
-			if horizontalGrowth == 'LEFT' then
-				x = -spacing;
+			if(horizontalGrowth == "LEFT") then
+				x = -buttonSpacing;
 				buttonPoint = "RIGHT";
 				anchorPoint = "LEFT";
 			end
 			
 			button:Point(buttonPoint, lastButton, anchorPoint, x, y);
 		end
-		
+
 		if i > numButtons then
 			button:SetScale(0.000001);
 			button:SetAlpha(0);
 		else
 			button:SetScale(1);
-			button:SetAlpha(1);
+			button:SetAlpha(bar.db.alpha);
 		end
-		
-		self:StyleButton(button);
 
-		if not button.CheckFixed then 
-			hooksecurefunc(button:GetCheckedTexture(), 'SetAlpha', function(self, value)
-				if value == 1 then
-					self:SetAlpha(0.3)
-				end
-			end)
-			button.CheckFixed = true;
-		end
+		self:StyleButton(button);
 	end
-	possibleButtons = nil;
-	
 	RegisterStateDriver(bar, "show", self.db['barPet'].visibility);
 end
 

@@ -2388,7 +2388,7 @@ P["cooldown"] = {
 	daysColor = { r = 0.4, g = 0.4, b = 1 },
 }
 
-P['actionbar'] = { -- Панели команд
+P['actionbar'] = {
 	['font'] = 'Homespun',
 	['fontSize'] = 10,
 	['fontOutline'] = 'MONOCHROMEOUTLINE',
@@ -2397,10 +2397,6 @@ P['actionbar'] = { -- Панели команд
 	['macrotext'] = false,
 	['hotkeytext'] = true,
 	['selfcast'] = true,
-	
-	['noRangeColor'] = { r = 0.8, g = 0.1, b = 0.1 },
-	['noPowerColor'] = { r = 0.5, g = 0.5, b = 1 },
-	
 	['enablecd'] = true,
 	['treshold'] = 3,
 	['microbar'] = {
@@ -2521,7 +2517,7 @@ P['actionbar'] = { -- Панели команд
 		["inheritGlobalFade"] = false,
 		['visibility'] = '[pet,novehicleui,nobonusbar:5] show;hide',
 	},
-	['barShapeShift'] = { -- Панель стоек
+	['barShapeShift'] = {
 		['enabled'] = true,
 		['style'] = 'darkenInactive',
 		['mouseover'] = false,
