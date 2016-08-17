@@ -22,10 +22,10 @@ function AB:UpdatePet()
 			icon:SetTexture(_G[texture]);
 			button.tooltipName = _G[name];
 		end		
-		
+
 		button.isToken = isToken;
 		button.tooltipSubtext = subtext;	
-		
+
 		if isActive and name ~= "PET_ACTION_FOLLOW" then
 			button:SetChecked(1);
 			if IsPetAttackAction(i) then
@@ -37,21 +37,21 @@ function AB:UpdatePet()
 				PetActionButton_StopFlash(button);
 			end			
 		end			
-		
+
 		if autoCastAllowed then
 			autoCast:Show();
 		else
 			autoCast:Hide();
 		end	
-		
+
 		if autoCastEnabled then
 			AutoCastShine_AutoCastStart(shine);
 		else
 			AutoCastShine_AutoCastStop(shine);
 		end		
-		
+
 		button:SetAlpha(1);
-		
+
 		if texture then
 			if GetPetActionSlotUsable(i) then
 				SetDesaturation(icon, nil);
@@ -62,13 +62,13 @@ function AB:UpdatePet()
 		else
 			icon:Hide();
 		end
-		
+
 		if not PetHasActionBar() and texture and name ~= "PET_ACTION_FOLLOW" then
 			PetActionButton_StopFlash(button);
 			SetDesaturation(icon, 1);
 			button:SetChecked(0);
 		end		
-		
+
 		checked:SetAlpha(0.3);
 	end
 end
@@ -85,7 +85,7 @@ function AB:PositionAndSizeBarPet()
 	local widthMult = self.db['barPet'].widthMult;
 	local heightMult = self.db['barPet'].heightMult;
 	bar.db = self.db['barPet']
-	bar.db.position = nil; --Depreciated
+	bar.db.position = nil;
 	if numButtons < buttonsPerRow then
 		buttonsPerRow = numButtons;
 	end
@@ -98,9 +98,9 @@ function AB:PositionAndSizeBarPet()
 	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult-1)) + (backdropSpacing*2) + ((self.db['barPet'].backdrop == true and E.Border or E.Spacing)*2);
 	bar:Width(barWidth);
 	bar:Height(barHeight);
-	
+
 	bar.mouseover = self.db['barPet'].mouseover
-	
+
 	if self.db['barPet'].enabled then
 		bar:SetScale(1);
 		bar:SetAlpha(self.db['barPet'].alpha);
@@ -108,32 +108,32 @@ function AB:PositionAndSizeBarPet()
 		bar:SetScale(0.000001);
 		bar:SetAlpha(0);
 	end
-	
+
 	if self.db['barPet'].backdrop == true then
 		bar.backdrop:Show();
 	else
 		bar.backdrop:Hide();
 	end
-	
+
 	local horizontalGrowth, verticalGrowth;
 	if point == "TOPLEFT" or point == "TOPRIGHT" then
 		verticalGrowth = "DOWN";
 	else
 		verticalGrowth = "UP";
 	end
-	
+
 	if point == "BOTTOMLEFT" or point == "TOPLEFT" then
 		horizontalGrowth = "RIGHT";
 	else
 		horizontalGrowth = "LEFT";
 	end
-	
+
 	if(self.db["barPet"].inheritGlobalFade) then
 		bar:SetParent(self.fadeParent);
 	else
 		bar:SetParent(E.UIParent);
 	end
-	
+
 	local button, lastButton, lastColumnButton, autoCast;
 	local firstButtonSpacing = backdropSpacing + (self.db['barPet'].backdrop == true and E.Border or E.Spacing);
 	for i=1, NUM_PET_ACTION_SLOTS do
@@ -166,13 +166,13 @@ function AB:PositionAndSizeBarPet()
 				self:Unhook(bar, 'OnEnter');
 				self:Unhook(bar, 'OnLeave');	
 			end
-			
+
 			if self.hooks[button] then
 				self:Unhook(button, 'OnEnter');	
 				self:Unhook(button, 'OnLeave');		
 			end
 		end
-		
+
 		if(i == 1) then
 			local x, y;
 			if(point == "BOTTOMLEFT") then
@@ -184,7 +184,7 @@ function AB:PositionAndSizeBarPet()
 			else
 				x, y = -firstButtonSpacing, firstButtonSpacing;
 			end
-			
+
 			button:Point(point, bar, point, x, y);
 		elseif((i - 1) % buttonsPerRow == 0) then
 			local x = 0;
@@ -205,7 +205,7 @@ function AB:PositionAndSizeBarPet()
 				buttonPoint = "RIGHT";
 				anchorPoint = "LEFT";
 			end
-			
+
 			button:Point(buttonPoint, lastButton, anchorPoint, x, y);
 		end
 
@@ -251,10 +251,10 @@ function AB:CreateBarPet()
 			self:Show();
 		end	
 	]]);
-	
+
 	PetActionBarFrame.showgrid = 1;
 	PetActionBar_ShowGrid();
-	
+
 	self:RegisterEvent('SPELLS_CHANGED', 'UpdatePet');
 	self:RegisterEvent('PLAYER_CONTROL_GAINED', 'UpdatePet');
 	self:RegisterEvent('PLAYER_ENTERING_WORLD', 'UpdatePet');
@@ -265,7 +265,7 @@ function AB:CreateBarPet()
 	self:RegisterEvent('UNIT_AURA', 'UpdatePet');
 	self:RegisterEvent('PLAYER_FARSIGHT_FOCUS_CHANGED', 'UpdatePet');
 	self:RegisterEvent('PET_BAR_UPDATE_COOLDOWN', PetActionBar_UpdateCooldowns);
-	
+
 	E:CreateMover(bar, 'ElvBar_Pet', L['Pet Bar'], nil, nil, nil,'ALL,ACTIONBARS');
 	self:PositionAndSizeBarPet();
 	self:UpdatePetBindings();

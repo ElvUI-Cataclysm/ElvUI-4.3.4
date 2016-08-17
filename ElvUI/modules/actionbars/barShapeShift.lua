@@ -52,7 +52,7 @@ function AB:StyleShapeShift(event)
 			if (type(texture) == "string" and (lower(texture) == "interface\\icons\\spell_nature_wispsplode" or lower(texture) == "interface\\icons\\ability_rogue_envelopingshadows")) and self.db.barShapeShift.style == 'darkenInactive' then
 				_, _, texture = GetSpellInfo(name)
 			end
-			
+
 			icon:SetTexture(texture);
 
 			if texture then
@@ -115,21 +115,21 @@ function AB:PositionAndSizeBarShapeShift()
 	if bar.LastButton and buttonsPerRow > bar.LastButton then
 		buttonsPerRow = bar.LastButton;
 	end
-	
+
 	if numButtons < buttonsPerRow then
 		buttonsPerRow = numButtons;
 	end
-	
+
 	local numColumns = ceil(numButtons / buttonsPerRow);
 	if numColumns < 1 then
 		numColumns = 1;
 	end
-	
+
 	local barWidth = (size * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult-1)) + (backdropSpacing*2) + ((self.db['barShapeShift'].backdrop == true and E.Border or E.Spacing)*2);
 	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult-1)) + (backdropSpacing*2) + ((self.db['barShapeShift'].backdrop == true and E.Border or E.Spacing)*2);
 	bar:Width(barWidth);
 	bar:Height(barHeight);
-	
+
 	bar.mouseover = self.db['barShapeShift'].mouseover
 	if self.db['barShapeShift'].enabled then
 		bar:SetScale(1);
@@ -140,7 +140,7 @@ function AB:PositionAndSizeBarShapeShift()
 		bar:SetAlpha(0);
 		E:DisableMover(bar.mover:GetName());
 	end
-	
+
 	if self.db['barShapeShift'].backdrop == true then
 		bar.backdrop:Show();
 	else
@@ -153,19 +153,19 @@ function AB:PositionAndSizeBarShapeShift()
 	else
 		verticalGrowth = "UP";
 	end
-	
+
 	if point == "BOTTOMLEFT" or point == "TOPLEFT" then
 		horizontalGrowth = "RIGHT";
 	else
 		horizontalGrowth = "LEFT";
 	end
-	
+
 	if(self.db["barShapeShift"].inheritGlobalFade) then
 		bar:SetParent(self.fadeParent);
 	else
 		bar:SetParent(E.UIParent);
 	end
-	
+
 	local button, lastButton, lastColumnButton;
 	local firstButtonSpacing = backdropSpacing + (self.db['barShapeShift'].backdrop == true and E.Border or E.Spacing);
 	for i=1, NUM_SHAPESHIFT_SLOTS do
@@ -175,13 +175,13 @@ function AB:PositionAndSizeBarShapeShift()
 		button:SetParent(bar);
 		button:ClearAllPoints();
 		button:Size(size);
-		
+
 		if self.db['barShapeShift'].mouseover == true then
 			bar:SetAlpha(0);
 		else
 			bar:SetAlpha(bar.db.alpha);
 		end
-		
+
 		if(i == 1) then
 			local x, y;
 			if(point == "BOTTOMLEFT") then
@@ -193,7 +193,7 @@ function AB:PositionAndSizeBarShapeShift()
 			else
 				x, y = -firstButtonSpacing, firstButtonSpacing;
 			end
-			
+
 			button:Point(point, bar, point, x, y);
 		elseif((i - 1) % buttonsPerRow == 0) then
 			local x = 0;
@@ -214,10 +214,10 @@ function AB:PositionAndSizeBarShapeShift()
 				buttonPoint = "RIGHT";
 				anchorPoint = "LEFT";
 			end
-			
+
 			button:Point(buttonPoint, lastButton, anchorPoint, x, y);
 		end
-		
+
 		if i > numButtons then
 			button:SetScale(0.000001);
 			button:SetAlpha(0);
@@ -225,7 +225,7 @@ function AB:PositionAndSizeBarShapeShift()
 			button:SetScale(1);
 			button:SetAlpha(bar.db.alpha);
 		end
-		
+
 		if(not button.FlyoutUpdateFunc) then
 			self:StyleButton(button, nil, true);
 		end
@@ -234,7 +234,7 @@ end
 
 function AB:AdjustMaxStanceButtons(event)
 	if InCombatLockdown() then return; end
-	
+
 	for i=1, #bar.buttons do
 		bar.buttons[i]:Hide()
 	end
@@ -254,9 +254,9 @@ function AB:AdjustMaxStanceButtons(event)
 			bar.buttons[i]:Hide();
 		end
 	end
-		
+
 	self:PositionAndSizeBarShapeShift();
-	
+
 	if event == 'UPDATE_SHAPESHIFT_FORMS' then
 		self:StyleShapeShift()
 	end
@@ -287,16 +287,16 @@ function AB:CreateBarShapeShift()
 			self:Show();
 		end
 	]]);
-	
+
 	self:HookScript(bar, "OnEnter", "Bar_OnEnter");
 	self:HookScript(bar, "OnLeave", "Bar_OnLeave");
-	
+
 	self:RegisterEvent('UPDATE_SHAPESHIFT_FORMS', 'AdjustMaxStanceButtons');
 	self:RegisterEvent('UPDATE_SHAPESHIFT_COOLDOWN');
 	self:RegisterEvent('UPDATE_SHAPESHIFT_USABLE', 'StyleShapeShift');
 	self:RegisterEvent('UPDATE_SHAPESHIFT_FORM', 'StyleShapeShift');
 	self:RegisterEvent('ACTIONBAR_PAGE_CHANGED', 'StyleShapeShift');
-	
+
 	E:CreateMover(bar, 'ShiftAB', L['Stance Bar'], nil, -3, nil, 'ALL,ACTIONBARS');
 	self:AdjustMaxStanceButtons();
 	self:PositionAndSizeBarShapeShift();

@@ -45,7 +45,7 @@ function AB:StyleTotemFlyout(flyout)
 	flyout.top:SetTexture(nil)
 	flyout.middle:SetTexture(nil)
 	flyout:SetFrameStrata('MEDIUM')
-	
+
 	-- Skin buttons
 	local last
 	for _,button in ipairs(flyout.buttons) do
@@ -64,14 +64,14 @@ function AB:StyleTotemFlyout(flyout)
 		button:SetBackdropBorderColor(flyout.parent:GetBackdropBorderColor())
 		button:StyleButton()
 	end
-	
+
 	flyout.buttons[1]:SetPoint("BOTTOM",flyout,"BOTTOM")
-	
+
 	if flyout.type == "slot" then
 		local tcoords = SLOT_EMPTY_TCOORDS[flyout.parent:GetID()]
 		flyout.buttons[1].icon:SetTexCoord(tcoords.left,tcoords.right,tcoords.top,tcoords.bottom)
 	end
-	
+
 	-- Skin Close button
 	local close = MultiCastFlyoutFrameCloseButton
 	close:SetTemplate("Default")	
@@ -84,10 +84,10 @@ function AB:StyleTotemFlyout(flyout)
 	close:Point("BOTTOMRIGHT",last,"TOPRIGHT",0,4)	
 	close:SetBackdropBorderColor(last:GetBackdropBorderColor())
 	close:Height(15)
-	
+
 	flyout:ClearAllPoints()
 	flyout:Point("BOTTOM",flyout.parent,"TOP",0,4)
-	
+
 	bar.buttons[close] = true
 	bar.buttons[flyout] = true
 	self:AdjustTotemSettings()
@@ -197,24 +197,24 @@ function AB:AdjustTotemSettings()
 			bar:SetAlpha(0)
 			if not self.hooks[bar] then
 				self:HookScript(bar, 'OnEnter', 'TotemOnEnter')
-				self:HookScript(bar, 'OnLeave', 'TotemOnLeave')	
+				self:HookScript(bar, 'OnLeave', 'TotemOnLeave')
 			end
-			
+
 			if not self.hooks[button] then
 				self:HookScript(button, 'OnEnter', 'TotemOnEnter')
 				self:HookScript(button, 'OnLeave', 'TotemOnLeave')
-			end			
+			end
 		else
 			bar:SetAlpha(1)
 			if self.hooks[bar] then
 				self:Unhook(bar, 'OnEnter')
-				self:Unhook(bar, 'OnLeave')	
+				self:Unhook(bar, 'OnLeave')
 			end
 			
 			if self.hooks[button] then
-				self:Unhook(button, 'OnEnter')	
-				self:Unhook(button, 'OnLeave')		
-			end		
+				self:Unhook(button, 'OnEnter')
+				self:Unhook(button, 'OnLeave')
+			end
 		end
 	end
 end
@@ -222,28 +222,28 @@ end
 function AB:PositionAndSizeBarTotem()
 	local spacing = E:Scale(self.db["barTotem"].buttonspacing);
 	local size = E:Scale(self.db["barTotem"].buttonsize);
-	
+
 	MultiCastSummonSpellButton:ClearAllPoints();
 	MultiCastSummonSpellButton:SetSize(size, size);
 	MultiCastSummonSpellButton:Point("BOTTOMLEFT", 1 + spacing, 2);
-	
+
 	for i = 1, 4 do
 		local button = _G["MultiCastSlotButton" .. i];
 		local lastButton = _G["MultiCastSlotButton"..i-1];
 		button:ClearAllPoints();
 		button:SetSize(size, size);
-		
+
 		if(i == 1) then
 			button:Point("BOTTOMLEFT", 36 + spacing, 3);
 		else
 			button:Point("LEFT", lastButton, "RIGHT", spacing, 0);
 		end
 	end
-	
+
 	MultiCastRecallSpellButton:SetSize(size, size);
-	
+
 	MultiCastFlyoutFrameCloseButton:Width(size);
-	
+
 	MultiCastFlyoutFrameOpenButton:Width(size);
 end
 
@@ -259,7 +259,7 @@ function AB:CreateTotemBar()
 	MultiCastActionBarFrame.SetParent = E.noop
 	MultiCastActionBarFrame.SetPoint = E.noop
 	MultiCastRecallSpellButton.SetPoint = E.noop
-	
+
 	bar:Width(MultiCastActionBarFrame:GetWidth())
 	bar:Height(MultiCastActionBarFrame:GetHeight())
 

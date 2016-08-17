@@ -109,8 +109,12 @@ local function formatResetTime(sec)
 	end
 end
 
-local function Click()
-	GameTimeFrame:Click();
+local function Click(self, btn)
+	if(btn == "RightButton") then
+ 		TimeManagerClockButton_OnClick(TimeManagerClockButton);
+ 	else
+ 		GameTimeFrame:Click();
+ 	end
 end
 
 local function OnLeave(self)

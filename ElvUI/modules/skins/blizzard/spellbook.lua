@@ -24,7 +24,8 @@ local function LoadSkin()
 		for i=1, SPELLS_PER_PAGE do
 			local button = _G["SpellButton"..i]
 			local icon = _G["SpellButton"..i.."IconTexture"]
-			
+			local cooldown = _G["SpellButton"..i.."Cooldown"];
+
 			if first then
 				for i=1, button:GetNumRegions() do
 					local region = select(i, button:GetRegions())
@@ -35,24 +36,20 @@ local function LoadSkin()
 					end
 				end
 			end
-			
+
 			if _G["SpellButton"..i.."Highlight"] then
 				_G["SpellButton"..i.."Highlight"]:SetTexture(1, 1, 1, 0.3)
-				_G["SpellButton"..i.."Highlight"]:ClearAllPoints()
-				_G["SpellButton"..i.."Highlight"]:SetAllPoints(icon)
 			end
 
 			if icon then
 				icon:SetTexCoord(unpack(E.TexCoords))
-				icon:ClearAllPoints()
-				icon:SetAllPoints()
 
 				if not button.backdrop then
 					button:CreateBackdrop("Default", true)
-					button.backdrop:SetFrameLevel(button.backdrop:GetFrameLevel() - 2)
+					button.backdrop:SetFrameLevel(button.backdrop:GetFrameLevel() - 1)
 				end
 			end	
-			
+
 			local r, g, b = _G["SpellButton"..i.."SpellName"]:GetTextColor()
 
 			if r < 0.8 then
@@ -60,6 +57,10 @@ local function LoadSkin()
 			end
 			_G["SpellButton"..i.."SubSpellName"]:SetTextColor(0.6, 0.6, 0.6)
 			_G["SpellButton"..i.."RequiredLevelString"]:SetTextColor(0.6, 0.6, 0.6)
+
+			if(cooldown) then
+				E:RegisterCooldown(cooldown);
+			end
 		end
 	end
 	SpellButtons(nil, true)
@@ -99,8 +100,6 @@ local function LoadSkin()
 
 		if icon then
 			icon:SetTexCoord(unpack(E.TexCoords))
-			icon:ClearAllPoints()
-			icon:SetAllPoints()
 
 			if not button.backdrop then
 				button:CreateBackdrop("Default", true)
@@ -137,12 +136,24 @@ local function LoadSkin()
 
 	for i = 1, 12 do
 		_G["SpellButton" .. i]:CreateBackdrop("Transparent", true);
-		_G["SpellButton" .. i].backdrop:Point("TOPLEFT", -7, 6);
-		_G["SpellButton" .. i].backdrop:Point("BOTTOMRIGHT", 155, -10);
+		_G["SpellButton" .. i].backdrop:Point("TOPLEFT", -7, 8);
+		_G["SpellButton" .. i].backdrop:Point("BOTTOMRIGHT", 170, -10);
+		_G["SpellButton" .. i].backdrop:SetFrameLevel(_G["SpellButton" .. i].backdrop:GetFrameLevel() - 1)
 	end
-	
-	SpellButton1:SetPoint("TOPLEFT", SpellBookSpellIconsFrame, "TOPLEFT", 23, -75)
-	
+
+	SpellButton1:SetPoint("TOPLEFT", SpellBookSpellIconsFrame, "TOPLEFT", 15, -75)
+	SpellButton2:SetPoint("TOPLEFT", SpellButton1, "TOPLEFT", 225, 0)
+	SpellButton3:SetPoint("TOPLEFT", SpellButton1, "BOTTOMLEFT", 0, -27)
+	SpellButton4:SetPoint("TOPLEFT", SpellButton3, "TOPLEFT", 225, 0)
+	SpellButton5:SetPoint("TOPLEFT", SpellButton3, "BOTTOMLEFT", 0, -27)
+	SpellButton6:SetPoint("TOPLEFT", SpellButton5, "TOPLEFT", 225, 0)
+	SpellButton7:SetPoint("TOPLEFT", SpellButton5, "BOTTOMLEFT", 0, -27)
+	SpellButton8:SetPoint("TOPLEFT", SpellButton7, "TOPLEFT", 225, 0)
+	SpellButton9:SetPoint("TOPLEFT", SpellButton7, "BOTTOMLEFT", 0, -27)
+	SpellButton10:SetPoint("TOPLEFT", SpellButton9, "TOPLEFT", 225, 0)
+	SpellButton11:SetPoint("TOPLEFT", SpellButton9, "BOTTOMLEFT", 0, -27)
+	SpellButton12:SetPoint("TOPLEFT", SpellButton11, "TOPLEFT", 225, 0)
+
 	--Skill Line Tabs
 	for i=1, MAX_SKILLLINE_TABS do
 		local tab = _G["SpellBookSkillLineTab"..i]
@@ -204,12 +215,10 @@ local function LoadSkin()
 
 		if icon then
 			icon:SetTexCoord(unpack(E.TexCoords))
-			icon:SetInside()
 
 			button:SetFrameLevel(button:GetFrameLevel() + 2)
 			if not button.backdrop then
 				button:CreateBackdrop("Default", true)
-				button.backdrop:SetAllPoints()
 			end
 		end
 	end
@@ -312,17 +321,13 @@ local function LoadSkin()
 		local icon = _G["SpellBookCompanionButton"..i.."IconTexture"]
 		button:StripTextures()
 		button:StyleButton(false)
-		
+
 		if icon then
 			icon:SetTexCoord(unpack(E.TexCoords))
-			icon:ClearAllPoints()
-			icon:Point("TOPLEFT", 2, -2)
-			icon:Point("BOTTOMRIGHT", -2, 2)
-			
+
 			button:SetFrameLevel(button:GetFrameLevel() + 2)
 			if not button.backdrop then
 				button:CreateBackdrop("Default", true)	
-				button.backdrop:SetAllPoints()
 			end
 		end					
 	end
@@ -355,23 +360,22 @@ local function LoadSkin()
 	S:HandleRotateButton(SpellBookCompanionModelFrameRotateLeftButton)
 	SpellBookCompanionModelFrameRotateLeftButton:ClearAllPoints()
 	SpellBookCompanionModelFrameRotateLeftButton:SetPoint("TOPLEFT", SpellBookCompanionModelFrame, "TOPLEFT", 2, -2)
-	
+
 	SpellBookCompanionModelFrameRotateRightButton:SetAlpha(0)
 	SpellBookCompanionModelFrameRotateLeftButton:SetAlpha(0)
-	
 
 	SpellBookCompanionModelFrame:HookScript("OnEnter", function()
 		SpellBookCompanionModelFrameRotateRightButton:SetAlpha(1)
 		SpellBookCompanionModelFrameRotateLeftButton:SetAlpha(1)
 	end)
-	
+
 	SpellBookFrame:HookScript("OnEnter", function()
 		SpellBookCompanionModelFrameRotateRightButton:SetAlpha(0)
 		SpellBookCompanionModelFrameRotateLeftButton:SetAlpha(0)
 	end)
 
 	S:HandleCloseButton(SpellBookFrameCloseButton)
-	
+
 	SpellBookPageText:SetTextColor(1, 1, 1)
 	SpellBookPageText:SetPoint("BOTTOMRIGHT", SpellBookFrame, "BOTTOMRIGHT", -90, 15)
 	SpellBookPrevPageButton:SetPoint("BOTTOMRIGHT", SpellBookFrame, "BOTTOMRIGHT", -45, 10)
