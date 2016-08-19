@@ -220,6 +220,8 @@ function AB:PositionAndSizeBarPet()
 		self:StyleButton(button);
 	end
 	RegisterStateDriver(bar, "show", self.db['barPet'].visibility);
+	
+	bar:GetScript("OnSizeChanged")(bar)
 end
 
 function AB:UpdatePetBindings()

@@ -491,22 +491,6 @@ function mod:SetUnitInfo(myPlate)
 	end
 end
 
-function mod:CombatToggle(noToggle)
-	if(self.db.combatHide) then
-		self:RegisterEvent("PLAYER_REGEN_DISABLED")
-		self:RegisterEvent("PLAYER_REGEN_ENABLED")
-		if(not noToggle) then
-			SetCVar("nameplateShowEnemies", 0)
-		end
-	else
-		self:UnregisterEvent("PLAYER_REGEN_DISABLED")
-		self:UnregisterEvent("PLAYER_REGEN_ENABLED")
-		if(not noToggle) then
-			SetCVar("nameplateShowEnemies", 1)
-		end
-	end
-end
-
 function mod:UpdateAllPlates()
 	if E.private["nameplate"].enable ~= true then return end
 	self:ForEachPlate("UpdateSettings");
@@ -625,7 +609,7 @@ end
 function mod:CreatePlate(frame)
 	frame.HealthBar, frame.CastBar = frame:GetChildren();
 	frame.threat, frame.border, frame.highlight, frame.Name, frame.Level, frame.bossIcon, frame.RaidIcon, frame.eliteIcon = frame:GetRegions();
-	frame.CastBar.Shield, frame.CastBar.Border, frame.CastBar.Icon = frame:GetRegions();
+	frame.CastBar.Shield, frame.CastBar.Border, frame.CastBar.Icon = frame.CastBar:GetRegions()
 
 	local _, cbborder, cbshield, cbicon = frame.CastBar:GetRegions()
 
@@ -1021,11 +1005,32 @@ function mod:SearchForFrame(guid, raidIcon, name)
 end
 
 function mod:PLAYER_REGEN_DISABLED()
-	SetCVar("nameplateShowEnemies", 1);
+	if(self.db.showFriendlyCombat == "TOGGLE_ON") then
+		SetCVar("nameplateShowFriends", 1);
+	elseif(self.db.showFriendlyCombat == "TOGGLE_OFF") then
+		SetCVar("nameplateShowFriends", 0);
+	end
+
+	if(self.db.showEnemyCombat == "TOGGLE_ON") then
+		SetCVar("nameplateShowEnemies", 1);
+	elseif(self.db.showEnemyCombat == "TOGGLE_OFF") then
+		SetCVar("nameplateShowEnemies", 0);
+	end
+
 end
 
 function mod:PLAYER_REGEN_ENABLED()
-	SetCVar("nameplateShowEnemies", 0);
+	if(self.db.showFriendlyCombat == "TOGGLE_ON") then
+		SetCVar("nameplateShowFriends", 0);
+	elseif(self.db.showFriendlyCombat == "TOGGLE_OFF") then
+		SetCVar("nameplateShowFriends", 1);
+	end
+
+	if(self.db.showEnemyCombat == "TOGGLE_ON") then
+		SetCVar("nameplateShowEnemies", 0);
+	elseif(self.db.showEnemyCombat == "TOGGLE_OFF") then
+		SetCVar("nameplateShowEnemies", 1);
+	end
 end
 
 function mod:PLAYER_ENTERING_WORLD()
@@ -1112,6 +1117,8 @@ function mod:Initialize()
 	WorldFrame:HookScript("OnUpdate", self.OnUpdate);
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
+	self:RegisterEvent("PLAYER_REGEN_ENABLED");
+	self:RegisterEvent("PLAYER_REGEN_DISABLED");
 	self:RegisterEvent("UNIT_AURA");
 	self:RegisterEvent("PLAYER_TARGET_CHANGED");
 	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT");
@@ -1139,7 +1146,6 @@ function mod:Initialize()
 
 	self:SetTargetIndicator();
 	self.viewPort = IsAddOnLoaded("SunnArt");
-	self:CombatToggle(true);
 
 	E.NamePlates = self;
 end

@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, Private
 local DT = E:GetModule('DataTexts')
 
 local displayString = ""
-local configText = "ElvUI Config"
+local configText = "ElvUI"
 local reloadText = L["Reload UI"]
 local plugins
 local find = string.find
