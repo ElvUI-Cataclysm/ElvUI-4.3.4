@@ -138,7 +138,7 @@ local function LoadSkin()
 		_G["SpellButton" .. i]:CreateBackdrop("Transparent", true);
 		_G["SpellButton" .. i].backdrop:Point("TOPLEFT", -7, 8);
 		_G["SpellButton" .. i].backdrop:Point("BOTTOMRIGHT", 170, -10);
-		_G["SpellButton" .. i].backdrop:SetFrameLevel(_G["SpellButton" .. i].backdrop:GetFrameLevel() - 1)
+		_G["SpellButton" .. i].backdrop:SetFrameLevel(_G["SpellButton" .. i].backdrop:GetFrameLevel() - 2)
 	end
 
 	SpellButton1:SetPoint("TOPLEFT", SpellBookSpellIconsFrame, "TOPLEFT", 15, -75)
