@@ -32,6 +32,7 @@ function UF:Construct_Threat(frame, glow)
 end
 
 function UF:Configure_Threat(frame)
+	if not frame.VARIABLES_SET then return end
 	local threat = frame.Threat;
 	local db = frame.db;
 	
