@@ -162,7 +162,7 @@ E.Options.args.chat = {
 						['%I:%M %p '] = '03:27 PM',
 						['%I:%M:%S %p '] = '03:27:32 PM',
 						['%H:%M '] = '15:27',
-						['%H:%M:%S '] =	'15:27:32'					
+						['%H:%M:%S '] =	'15:27:32'
 					},
 				},
 				chatDirection = {
@@ -172,8 +172,31 @@ E.Options.args.chat = {
 					desc = 'Controls where text is added to the chat frame.',
 					values = {
 						['BOTTOM'] = 'Bottom to top',
-						['TOP'] = 'Top to bottom',				
+						['TOP'] = 'Top to bottom',
 					},
+				},
+				chatLines = {
+					order = 15,
+					type = 'range',
+					name = L['Max Chat Lines'],
+					desc = L['Number of chat messages to be kept in the frame before old messages are discarded. The interface has to be reloaded to show effect.'],
+					min = 125, max = 5000, step = 5,
+					set = function(info, value)
+						E.db.chat.chatLines = value
+						E:StaticPopup_Show('PRIVATE_RL')
+					end,					
+				},
+				chatHistoryLines = {
+					order = 16,
+					type = 'range',
+					name = L['Chat History Lines'],
+					desc = L['Number of chat messages to be stores in the chat history.'],
+					disabled = function() return not E.db.chat.chatHistory end,
+					hidden = function() return not E.db.chat.chatHistory end,
+					min = 250, max = 10000, step = 10,
+					set = function(info, value) 
+						E.db.chat.chatHistoryLines = value 
+					end,					
 				},
 			},
 		},
