@@ -1062,7 +1062,7 @@ function mod:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, ...)
 
 		for iconName, bitmask in pairs(self.RaidTargetReference) do
 			if band(destRaidFlags, bitmask) > 0  then
-				NP.ByRaidIcon[iconName] = destGUID
+				self.ByRaidIcon[iconName] = destGUID
 				raidIcon = iconName
 				break
 			end
