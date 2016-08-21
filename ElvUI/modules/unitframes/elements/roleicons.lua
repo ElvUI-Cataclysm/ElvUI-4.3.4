@@ -41,7 +41,6 @@ function UF:UpdateRoleIcon()
 end
 
 function UF:Configure_RoleIcon(frame)
-	if not frame.VARIABLES_SET then return end
 	local role = frame.LFDRole;
 	local db = frame.db;
 	

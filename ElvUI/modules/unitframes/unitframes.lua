@@ -786,15 +786,6 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 	
 	self[group].numGroups = numGroups;
 	if(numGroups) then
-		if(db.enable ~= true and group ~= "raidpet") then
-			UnregisterStateDriver(self[group], "visibility");
-			self[group]:Hide();
-			if(self[group].mover) then
-				E:DisableMover(self[group].mover:GetName());
-			end
-			return;
-		end
-
 		if(db.raidWideSorting) then
 			if(not self[group].groups[1]) then
 				self[group].groups[1] = self:CreateHeader(self[group], nil, "ElvUF_"..E:StringTitle(self[group].groupName) .. "Group1", template or self[group].template, nil, headerTemplate or self[group].headerTemplate);
@@ -807,31 +798,25 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 		end
 		
 		UF["headerFunctions"][group]:AdjustVisibility(self[group]);
-		
 		if(headerUpdate or not self[group].mover) then
 			UF["headerFunctions"][group]:Configure_Groups(self[group]);
 			if(not self[group].isForced and not self[group].blockVisibilityChanges) then
 				RegisterStateDriver(self[group], "visibility", db.visibility);
 			end
-			
-			if(not self[group].mover) then
-				UF["headerFunctions"][group]:Update(self[group]);
-				UF["headerFunctions"][group]:UpdateHeader(self[group]);
-			end
 		else
 			UF["headerFunctions"][group]:Configure_Groups(self[group]);
 			UF["headerFunctions"][group]:Update(self[group]);
 		end
-		
 		if(db.enable) then
-			E:EnableMover(self[group].mover:GetName());
+			if self[group].mover then
+				E:EnableMover(self[group].mover:GetName())
+			end
 		else
-			E:DisableMover(self[group].mover:GetName());
-		end
-		
-		if(db.enable ~= true and group == "raidpet") then
 			UnregisterStateDriver(self[group], "visibility");
 			self[group]:Hide();
+			if self[group].mover then
+				E:DisableMover(self[group].mover:GetName())
+			end
 			return;
 		end
 	else
@@ -862,7 +847,6 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 					UF["Update_" .. E:StringTitle(group) .. "Frames"](UF, _G[child:GetName() .. "Pet"], UF.db["units"][group]);
 				end
 			end
-			
 			E:EnableMover(UF[group].mover:GetName());
 		end
 		
