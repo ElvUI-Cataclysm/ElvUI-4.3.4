@@ -2679,7 +2679,7 @@ E.Options.args.unitframe.args.player = {
 							order = 5,
 							type = "range",
 							name = L["Frame Level"],
-							min = 0, max = 128, step = 1,
+							min = 2, max = 128, step = 1,
 						},
 					},
 				},

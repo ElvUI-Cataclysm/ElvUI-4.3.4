@@ -156,7 +156,6 @@ L["Layout"] = true;
 L["Lock"] = true;
 L['Low Resolution'] = true;
 L["low"] = true;
-L["Movers unlocked. Move them now and click Lock when you are done."] = true;
 L['Nudge'] = true;
 L['Physical DPS'] = true;
 L["Pixel Perfect Set"] = true;
@@ -268,6 +267,12 @@ L['TargetTarget Frame'] = true;
 L['Tooltip'] = true;
 L['Totems'] = true;
 L["Vehicle Seat Frame"] = true;
+L["DESC_MOVERCONFIG"] = [=[Movers unlocked. Move them now and click Lock when you are done.
+
+Options:
+  Shift + RightClick - Hides mover temporarily.
+  Ctrl + RightClick - Resets mover position to default.
+]=]
 L['Watch Frame'] = true;
 L['Weapons'] = true;
 
