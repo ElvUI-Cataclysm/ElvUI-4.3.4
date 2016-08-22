@@ -71,11 +71,11 @@ local length = len(E.UIName)
 for i = 1, length do
 	local letter = sub(E.UIName, i, i);
 	if(i == 1) then
-		colorizedName = format("|cffA11313%s", letter);
+		colorizedName = format("|cff1784d1%s", letter);
 	elseif(i == 2) then
-		colorizedName = format("%s|r|cffC4C4C4%s", colorizedName, letter);
+		colorizedName = format("%s|r|cfffffff3%s", colorizedName, letter);
 	elseif(i == length) then
-		colorizedName = format("%s%s|r|cffA11313:|r", colorizedName, letter);
+		colorizedName = format("%s%s|r|cff1784d1:|r", colorizedName, letter);
 	else
 		colorizedName = colorizedName .. letter;
 	end
