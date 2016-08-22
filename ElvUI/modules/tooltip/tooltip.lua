@@ -787,7 +787,7 @@ function TT:Initialize()
 	local GameTooltipAnchor = CreateFrame('Frame', 'GameTooltipAnchor', E.UIParent)
 	GameTooltipAnchor:Point('BOTTOMRIGHT', RightChatToggleButton, 'BOTTOMRIGHT')
 	GameTooltipAnchor:Size(130, 20)
-	GameTooltipAnchor:SetFrameLevel(GameTooltipAnchor:GetFrameLevel() + 400)
+	GameTooltipAnchor:SetFrameLevel(GameTooltipAnchor:GetFrameLevel() + 50)
 	E:CreateMover(GameTooltipAnchor, 'TooltipMover', L['Tooltip'])
 	
 	self:SecureHook('GameTooltip_SetDefaultAnchor')
