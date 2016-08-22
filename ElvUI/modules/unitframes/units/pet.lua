@@ -19,6 +19,7 @@ function UF:Construct_PetFrame(frame)
 	frame.Portrait3D = self:Construct_Portrait(frame, "model");
 	frame.Portrait2D = self:Construct_Portrait(frame, "texture");
 	frame.Buffs = self:Construct_Buffs(frame);
+	frame.HealPrediction = self:Construct_HealComm(frame)
 	frame.Debuffs = self:Construct_Debuffs(frame);
 	frame.Castbar = self:Construct_Castbar(frame, "LEFT", L["Pet Castbar"]);
 	frame.Castbar.SafeZone = nil;
@@ -84,6 +85,8 @@ function UF:Update_PetFrame(frame, db)
 	UF:EnableDisable_Auras(frame);
 	UF:Configure_Auras(frame, "Buffs");
 	UF:Configure_Auras(frame, "Debuffs");
+	
+	UF:Configure_HealComm(frame)
 	
 	UF:Configure_Castbar(frame);
 	

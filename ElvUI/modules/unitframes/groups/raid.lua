@@ -45,6 +45,7 @@ function UF:Construct_RaidFrames(unitGroup)
 	self.Threat = UF:Construct_Threat(self)
 	self.RaidIcon = UF:Construct_RaidIcon(self);
 	self.ReadyCheck = UF:Construct_ReadyCheckIcon(self);
+	self.HealPrediction = UF:Construct_HealComm(self)
 	self.GPS = UF:Construct_GPS(self);
 	self.Range = UF:Construct_Range(self);
 	self.customTexts = {};
@@ -202,6 +203,8 @@ function UF:Update_RaidFrames(frame, db)
 	UF:Configure_DebuffHighlight(frame);
 	
 	UF:Configure_RoleIcon(frame);
+	
+	UF:Configure_HealComm(frame)
 	
 	UF:Configure_GPS(frame);
 	

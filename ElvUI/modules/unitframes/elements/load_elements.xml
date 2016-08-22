@@ -10,6 +10,7 @@
 	<Script file="debuffhighlight.lua"/>
 	<Script file="gps.lua"/>
 	<Script file="health.lua"/>
+	<Script file="healprediction.lua"/>
 	<Script file="name.lua"/>
 	<Script file="portrait.lua"/>
 	<Script file="power.lua"/>

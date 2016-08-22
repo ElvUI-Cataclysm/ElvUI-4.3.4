@@ -15,6 +15,7 @@
 	<Script file='elements\combat.lua' />
 	<Script file='elements\cpoints.lua' />
 	<Script file='elements\health.lua' />
+	<Script file='elements\healprediction.lua' />
 	<Script file='elements\leader.lua' />
 	<Script file='elements\lfdrole.lua' />
 	<Script file='elements\masterlooter.lua' />

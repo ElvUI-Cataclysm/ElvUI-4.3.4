@@ -23,6 +23,7 @@ function UF:Construct_ArenaFrames(frame)
 	frame.Buffs = self:Construct_Buffs(frame);
 	frame.Debuffs = self:Construct_Debuffs(frame);
 	frame.Castbar = self:Construct_Castbar(frame, "RIGHT");
+	frame.HealPrediction = UF:Construct_HealComm(frame)
 	frame.Trinket = self:Construct_Trinket(frame);
 	frame.Range = UF:Construct_Range(frame);
 	frame:SetAttribute("type2", "focus");
@@ -97,6 +98,8 @@ function UF:Update_ArenaFrames(frame, db)
 	UF:Configure_Trinket(frame);
 	
 	UF:Configure_Range(frame);
+	
+	UF:Configure_HealComm(frame)
 	
 	UF:Configure_CustomTexts(frame);
 	
