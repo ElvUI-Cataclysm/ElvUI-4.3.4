@@ -64,7 +64,9 @@ function UF:Configure_ClassBar(frame)
 		else
 			CLASSBAR_WIDTH = CLASSBAR_WIDTH * (frame.MAX_CLASS_BAR - 1) / frame.MAX_CLASS_BAR;
 		end
+
 		bars:SetFrameStrata("MEDIUM");
+		bars:SetFrameLevel(frame:GetFrameLevel() + 5)
 		
 		if(bars.Holder and bars.Holder.mover) then
 			bars.Holder.mover:SetScale(0.000001);
@@ -78,7 +80,9 @@ function UF:Configure_ClassBar(frame)
 		else
 			bars:Point("BOTTOMLEFT", frame.Health.backdrop, "TOPLEFT", frame.BORDER, frame.SPACING*3);
 		end
+
 		bars:SetFrameStrata("LOW");
+		bars:SetFrameLevel(frame:GetFrameLevel() + 5)
 		
 		if(bars.Holder and bars.Holder.mover) then
 			bars.Holder.mover:SetScale(0.000001);
@@ -104,7 +108,17 @@ function UF:Configure_ClassBar(frame)
 			bars.Holder.mover:SetAlpha(1);
 		end
 		
-		bars:SetFrameStrata("LOW");
+		if not db.classbar.strataAndLevel.useCustomStrata then
+			bars:SetFrameStrata("LOW")
+		else
+			bars:SetFrameStrata(db.classbar.strataAndLevel.frameStrata)
+		end
+
+		if not db.classbar.strataAndLevel.useCustomLevel then
+			bars:SetFrameLevel(frame:GetFrameLevel() + 5)
+		else
+			bars:SetFrameLevel(db.classbar.strataAndLevel.frameLevel)
+		end
 	end
 	
 	bars:Width(CLASSBAR_WIDTH);
