@@ -400,7 +400,7 @@ function UF:Construct_DruidAltManaBar(frame)
 	dpower:SetFrameStrata("LOW")
 	dpower:SetAllPoints(frame.EclipseBar.backdrop)
 	dpower:SetTemplate("Default")
-	dpower:SetFrameLevel(dpower:GetFrameLevel() + 1)
+	dpower:SetFrameLevel(dpower:GetFrameLevel() + 5)
 	dpower.colorPower = true
 	dpower.PostUpdateVisibility = UF.DruidManaPostUpdateVisibility
 	dpower.PostUpdatePower = UF.DruidPostUpdateAltPower
