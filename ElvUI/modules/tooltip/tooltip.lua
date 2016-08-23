@@ -458,6 +458,8 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 		
 		color = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class];
 		
+		if not color then color = "|CFFFFFFFF" end
+
 		if(self.db.playerTitles and pvpName) then
 			name = pvpName
 		end
