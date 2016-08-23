@@ -254,8 +254,8 @@ local initObject = function(unit, style, styleFunc, header, ...)
 	local num = select("#", ...);
 	for i = 1, num do
 		local object = select(i, ...);
-		local objectUnit = object.guessUnit or unit;
-		local suffix = object:GetAttribute("unitsuffix");
+		local objectUnit = object:GetAttribute'oUF-guessUnit' or unit
+		local suffix = object:GetAttribute'unitsuffix'
 		
 		object.__elements = {};
 		object.style = style;
@@ -279,13 +279,13 @@ local initObject = function(unit, style, styleFunc, header, ...)
 		end
 		
 		if(not header) then
-			if(not (objectUnit:match"target" or suffix == "target")) then
-				object:SetAttribute('toggleForVehicle', true);
-			end
-			
 			object:SetAttribute("*type1", "target")
 			object.menu = togglemenu;
 			object:SetAttribute('*type2', 'menu')
+			
+			if(not (unit:match'target' or suffix == 'target')) then
+				object:SetAttribute('toggleForVehicle', true)
+			end
 			
 			if(suffix == "target") then
 				enableTargetUpdate(object);
@@ -310,7 +310,7 @@ local initObject = function(unit, style, styleFunc, header, ...)
 		
 		Private.UpdateUnits(object, objectUnit);
 		
-		styleFunc(object, objectUnit);
+		styleFunc(object, objectUnit, not header)
 		
 		object:SetScript("OnAttributeChanged", OnAttributeChanged);
 		object:SetScript("OnShow", OnShow);
