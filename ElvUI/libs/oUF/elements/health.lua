@@ -47,8 +47,7 @@ local Update = function(self, event, unit)
 		health:SetStatusBarColor(r, g, b)
 
 		local bg = health.bg
-		if(bg) then
-			local mu = bg.multiplier or 1
+		if(bg) then local mu = bg.multiplier or 1
 			bg:SetVertexColor(r * mu, g * mu, b * mu)
 		end
 	end
@@ -66,46 +65,28 @@ local ForceUpdate = function(element)
 	return Path(element.__owner, 'ForceUpdate', element.__owner.unit)
 end
 
-local OnHealthUpdate
-do
-	local UnitHealth = UnitHealth
-	OnHealthUpdate = function(self)
-		if(self.disconnected) then return end
-		local unit = self.__owner.unit
-		local health = UnitHealth(unit)
-
-		if(health ~= self.min) then
-			self.min = health
-
-			return Path(self.__owner, "OnHealthUpdate", unit)
-		end
-	end
-end
-
 local Enable = function(self, unit)
 	local health = self.Health
 	if(health) then
 		health.__owner = self
 		health.ForceUpdate = ForceUpdate
 
-		if(health.frequentUpdates and (unit and not unit:match'%w+target$')) then
-			health:SetScript('OnUpdate', OnHealthUpdate)
-
-			-- The party frames need this to handle disconnect states correctly.
-			if(unit == 'party') then
-				self:RegisterEvent("UNIT_HEALTH", Path)
+		if(health.frequentUpdates) then
+			if GetCVarBool("predictedHealth") ~= 1 then
+				SetCVar("predictedHealth", 1)
 			end
+		
+			self:RegisterEvent('UNIT_HEALTH_FREQUENT', Path)
 		else
-			self:RegisterEvent("UNIT_HEALTH", Path)
+			self:RegisterEvent('UNIT_HEALTH', Path)
 		end
 
 		self:RegisterEvent("UNIT_MAXHEALTH", Path)
 		self:RegisterEvent('UNIT_CONNECTION', Path)
 
-		-- For tapping.
 		self:RegisterEvent('UNIT_FACTION', Path)
 
-		if(not health:GetStatusBarTexture()) then
+		if(health:IsObjectType'StatusBar' and not health:GetStatusBarTexture()) then
 			health:SetStatusBarTexture[[Interface\TargetingFrame\UI-StatusBar]]
 		end
 
@@ -116,10 +97,7 @@ end
 local Disable = function(self)
 	local health = self.Health
 	if(health) then
-		if(health:GetScript'OnUpdate') then
-			health:SetScript('OnUpdate', nil)
-		end
-
+		self:UnregisterEvent('UNIT_HEALTH_FREQUENT', Path)
 		self:UnregisterEvent('UNIT_HEALTH', Path)
 		self:UnregisterEvent('UNIT_MAXHEALTH', Path)
 		self:UnregisterEvent('UNIT_CONNECTION', Path)
@@ -128,4 +106,4 @@ local Disable = function(self)
 	end
 end
 
-oUF:AddElement('Health', Update, Enable, Disable)
+oUF:AddElement('Health', Path, Enable, Disable)

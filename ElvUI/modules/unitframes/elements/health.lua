@@ -33,7 +33,6 @@ function UF:Construct_HealthBar(frame, bg, text, textPos)
 	if(text) then
 		health.value = frame.RaisedElementParent:CreateFontString(nil, "OVERLAY");
 		UF:Configure_FontString(health.value);
-		
 		health.value:SetParent(frame);
 		
 		local x = -2;
@@ -182,6 +181,10 @@ function UF:PostUpdateHealth(unit, min, max)
 	if(parent.isForced) then
 		min = random(1, max);
 		self:SetValue(min);
+	end
+
+	if parent.ResurrectIcon then
+		parent.ResurrectIcon:SetAlpha(min == 0 and 1 or 0)
 	end
 	
 	local r, g, b = self:GetStatusBarColor();
