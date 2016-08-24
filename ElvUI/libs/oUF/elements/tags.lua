@@ -1,7 +1,3 @@
---[[
--- Credits: Vika, Cladhaire, Tekkub
-]]
-
 local parent, ns = ...
 local oUF = ns.oUF
 
@@ -180,7 +176,7 @@ local tagStrings = {
 
 	["cpoints"] = [[function(u)
 		local cp
-		if(UnitExists'vehicle') then
+		if(UnitHasVehicleUI'player') then
 			cp = GetComboPoints('vehicle', 'target')
 		else
 			cp = GetComboPoints('player', 'target')
@@ -246,7 +242,7 @@ local tagStrings = {
 		end
 	end]],
 
-	["defict:name"] = [[function(u)
+	["deficit:name"] = [[function(u)
 		local missinghp = _TAGS['missinghp'](u)
 		if(missinghp) then
 			return '-' .. missinghp
@@ -288,69 +284,64 @@ local tagStrings = {
 }
 
 local tags = setmetatable(
-{
-	curhp = UnitHealth,
-	curpp = UnitPower,
-	maxhp = UnitHealthMax,
-	maxpp = UnitPowerMax,
-	class = UnitClass,
-	faction = UnitFactionGroup,
-	race = UnitRace,
-},
+	{
+		curhp = UnitHealth,
+		curpp = UnitPower,
+		maxhp = UnitHealthMax,
+		maxpp = UnitPowerMax,
+		class = UnitClass,
+		faction = UnitFactionGroup,
+		race = UnitRace,
+	},
 
-{
-	__index = function(self, key)
-		local tagFunc = tagStrings[key]
-		if(tagFunc) then
-			local func, err = loadstring('return ' .. tagFunc)
-			if(func) then
-				func = func()
+	{
+		__index = function(self, key)
+			local tagFunc = tagStrings[key]
+			if(tagFunc) then
+				local func, err = loadstring('return ' .. tagFunc)
+				if(func) then
+					func = func()
 
-				-- Want to trigger __newindex, so no rawset.
-				self[key] = func
-				tagStrings[key] = nil
+					-- Want to trigger __newindex, so no rawset.
+					self[key] = func
+					tagStrings[key] = nil
 
-				return func
-			else
-				error(err, 3)
+					return func
+				else
+					error(err, 3)
+				end
 			end
-		end
-	end,
-	__newindex = function(self, key, val)
-		if(type(val) == 'string') then
-			tagStrings[key] = val
-		elseif(type(val) == 'function') then
-			-- So we don't clash with any custom envs.
-			if(getfenv(val) == _G) then
-				setfenv(val, _PROXY)
-			end
+		end,
+		__newindex = function(self, key, val)
+			if(type(val) == 'string') then
+				tagStrings[key] = val
+			elseif(type(val) == 'function') then
+				-- So we don't clash with any custom envs.
+				if(getfenv(val) == _G) then
+					setfenv(val, _PROXY)
+				end
 
-			rawset(self, key, val)
-		end
-	end,
-})
+				rawset(self, key, val)
+			end
+		end,
+	}
+)
 
 _ENV._TAGS = tags
 
 local onUpdateDelay = {}
 local tagEvents = {
 	["curhp"]               = "UNIT_HEALTH",
-	["curpp"]               = "UNIT_POWER",
 	["dead"]                = "UNIT_HEALTH",
 	["leader"]              = "PARTY_LEADER_CHANGED",
 	["leaderlong"]          = "PARTY_LEADER_CHANGED",
 	["level"]               = "UNIT_LEVEL PLAYER_LEVEL_UP",
 	["maxhp"]               = "UNIT_MAXHEALTH",
-	["maxpp"]               = "UNIT_MAXPOWER",
 	["missinghp"]           = "UNIT_HEALTH UNIT_MAXHEALTH",
-	["missingpp"]           = "UNIT_MAXPOWER UNIT_POWER",
 	["name"]                = "UNIT_NAME_UPDATE",
-	["offline"]             = "UNIT_HEALTH",
 	["perhp"]               = "UNIT_HEALTH UNIT_MAXHEALTH",
-	["perpp"]               = 'UNIT_MAXPOWER UNIT_POWER',
 	["pvp"]                 = "UNIT_FACTION",
 	["resting"]             = "PLAYER_UPDATE_RESTING",
-	["status"]              = "UNIT_HEALTH PLAYER_UPDATE_RESTING",
 	["smartlevel"]          = "UNIT_LEVEL PLAYER_LEVEL_UP UNIT_CLASSIFICATION_CHANGED",
 	["threat"]              = "UNIT_THREAT_SITUATION_UPDATE",
 	["threatcolor"]         = "UNIT_THREAT_SITUATION_UPDATE",
@@ -359,6 +350,12 @@ local tagEvents = {
 	['classification']      = 'UNIT_CLASSIFICATION_CHANGED',
 	['shortclassification'] = 'UNIT_CLASSIFICATION_CHANGED',
 	["group"]               = "RAID_ROSTER_UPDATE",
+	["curpp"]               = 'UNIT_POWER',
+	["maxpp"]               = 'UNIT_MAXPOWER',
+	["missingpp"]           = 'UNIT_MAXPOWER UNIT_POWER',
+	["perpp"]               = 'UNIT_MAXPOWER UNIT_POWER',
+	["offline"]             = "UNIT_HEALTH UNIT_CONNECTION",
+	["status"]              = "UNIT_HEALTH PLAYER_UPDATE_RESTING UNIT_CONNECTION",
 	["pereclipse"]          = 'UNIT_POWER',
 	['curmana']             = 'UNIT_POWER UNIT_MAXPOWER',
 	['maxmana']             = 'UNIT_POWER UNIT_MAXPOWER',
@@ -543,14 +540,13 @@ local Tag = function(self, fs, tagstr)
 	
 	local func = tagPool[tagstr]
 	if(not func) then
-		local format = tagstr:gsub('%%', '%%%%'):gsub(_PATTERN, '%%s')
+		local format, numTags = tagstr:gsub('%%', '%%%%'):gsub(_PATTERN, '%%s')
 		local args = {}
 
 		for bracket in tagstr:gmatch(_PATTERN) do
 			local tagFunc = funcPool[bracket] or tags[bracket:sub(2, -2)]
 			if(not tagFunc) then
 				local tagName, s, e = getTagName(bracket)
-
 				local tag = tags[tagName]
 				if(tag) then
 					s = s - 2
@@ -597,16 +593,70 @@ local Tag = function(self, fs, tagstr)
 			end
 		end
 
-		func = function(self)
-			local unit = self.parent.unit
-			local __unit = self.parent.realUnit
+		if(numTags == 1) then
+			func = function(self)
+				local parent = self.parent
+				local realUnit
+				if(self.overrideUnit) then
+					realUnit = parent.realUnit
+				end
 
-			_ENV._COLORS = self.parent.colors
-			for i, func in next, args do
-				tmp[i] = func(unit, __unit) or ''
+				_ENV._COLORS = parent.colors
+				return self:SetFormattedText(
+					format,
+					args[1](parent.unit, realUnit) or ''
+				)
 			end
+		elseif(numTags == 2) then
+			func = function(self)
+				local parent = self.parent
+				local unit = parent.unit
+				local realUnit
+				if(self.overrideUnit) then
+					realUnit = parent.realUnit
+				end
 
-			self:SetFormattedText(format, unpack(tmp))
+				_ENV._COLORS = parent.colors
+				return self:SetFormattedText(
+					format,
+					args[1](unit, realUnit) or '',
+					args[2](unit, realUnit) or ''
+				)
+			end
+		elseif(numTags == 3) then
+			func = function(self)
+				local parent = self.parent
+				local unit = parent.unit
+				local realUnit
+				if(self.overrideUnit) then
+					realUnit = parent.realUnit
+				end
+
+				_ENV._COLORS = parent.colors
+				return self:SetFormattedText(
+					format,
+					args[1](unit, realUnit) or '',
+					args[2](unit, realUnit) or '',
+					args[3](unit, realUnit) or ''
+				)
+			end
+		else
+			func = function(self)
+				local parent = self.parent
+				local unit = parent.unit
+				local realUnit
+				if(self.overrideUnit) then
+					realUnit = parent.realUnit
+				end
+
+				_ENV._COLORS = parent.colors
+				for i, func in next, args do
+					tmp[i] = func(unit, realUnit) or ''
+				end
+
+				-- We do 1, numTags because tmp can hold several unneeded variables.
+				return self:SetFormattedText(format, unpack(tmp, 1, numTags))
+			end
 		end
 
 		tagPool[tagstr] = func
@@ -656,10 +706,12 @@ local Untag = function(self, fs)
 	fs.UpdateTag = nil
 end
 
-oUF.Tags = tags
-oUF.TagEvents = tagEvents
-oUF.UnitlessTagEvents = unitlessEvents
-oUF.OnUpdateThrottle = onUpdateDelay,
+oUF.Tags = {
+	Methods = tags,
+	Events = tagEvents,
+	SharedEvents = unitlessEvents,
+	OnUpdateThrottle = onUpdateDelay,
+}
 
 oUF:RegisterMetaFunction('Tag', Tag)
 oUF:RegisterMetaFunction('Untag', Untag)
