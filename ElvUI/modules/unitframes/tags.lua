@@ -30,6 +30,8 @@ local UnitIsDND = UnitIsDND;
 local UnitIsPVPFreeForAll = UnitIsPVPFreeForAll;
 local UnitIsPVP = UnitIsPVP;
 local GetPVPTimer = GetPVPTimer;
+local GetShapeshiftFormID = GetShapeshiftFormID
+local UnitGetIncomingHeals = UnitGetIncomingHeals
 local GetEclipseDirection = GetEclipseDirection
 local GetNumPartyMembers = GetNumPartyMembers;
 local UnitClassification = UnitClassification;
@@ -472,6 +474,104 @@ local function GetClassPower(class)
 	end
 
 	return min, max, r, g, b
+end
+
+ElvUF.TagEvents['classpowercolor'] = 'UNIT_POWER_FREQUENT PLAYER_TALENT_UPDATE UPDATE_SHAPESHIFT_FORM'
+ElvUF.Tags['classpowercolor'] = function()
+	local _, _, r, g, b = GetClassPower(E.myclass)
+	return Hex(r, g, b)
+end
+
+ElvUF.TagEvents['classpower:current'] = 'UNIT_POWER_FREQUENT PLAYER_TALENT_UPDATE UPDATE_SHAPESHIFT_FORM'
+ElvUF.Tags['classpower:current'] = function()
+	local min, max = GetClassPower(E.myclass)
+	if min == 0 then
+		return ' '
+	else
+		return E:GetFormattedText('CURRENT', min, max)
+	end
+end
+
+ElvUF.TagEvents['classpower:deficit'] = 'UNIT_POWER_FREQUENT PLAYER_TALENT_UPDATE UPDATE_SHAPESHIFT_FORM'
+ElvUF.Tags['classpower:deficit'] = function()
+	local min, max = GetClassPower(E.myclass)
+	if min == 0 then
+		return ' '
+	else
+		return E:GetFormattedText('DEFICIT', min, max)
+	end
+end
+
+ElvUF.TagEvents['classpower:current-percent'] = 'UNIT_POWER_FREQUENT PLAYER_TALENT_UPDATE UPDATE_SHAPESHIFT_FORM'
+ElvUF.Tags['classpower:current-percent'] = function()
+	local min, max = GetClassPower(E.myclass)
+	if min == 0 then
+		return ' '
+	else
+		return E:GetFormattedText('CURRENT_PERCENT', min, max)
+	end
+end
+
+ElvUF.TagEvents['classpower:current-max'] = 'UNIT_POWER_FREQUENT PLAYER_TALENT_UPDATE UPDATE_SHAPESHIFT_FORM'
+ElvUF.Tags['classpower:current-max'] = function()
+	local min, max = GetClassPower(E.myclass)
+	if min == 0 then
+		return ' '
+	else
+		return E:GetFormattedText('CURRENT_MAX', min, max)
+	end
+end
+
+ElvUF.TagEvents['classpower:current-max-percent'] = 'UNIT_POWER_FREQUENT PLAYER_TALENT_UPDATE UPDATE_SHAPESHIFT_FORM'
+ElvUF.Tags['classpower:current-max-percent'] = function()
+	local min, max = GetClassPower(E.myclass)
+	if min == 0 then
+		return ' '
+	else
+		return E:GetFormattedText('CURRENT_MAX_PERCENT', min, max)
+	end
+end
+
+ElvUF.TagEvents['classpower:percent'] = 'UNIT_POWER_FREQUENT PLAYER_TALENT_UPDATE UPDATE_SHAPESHIFT_FORM'
+ElvUF.Tags['classpower:percent'] = function()
+	local min, max = GetClassPower(E.myclass)
+	if min == 0 then
+		return ' '
+	else
+		return E:GetFormattedText('PERCENT', min, max)
+	end
+end
+
+ElvUF.TagEvents['incomingheals:personal'] = 'UNIT_HEAL_PREDICTION'
+ElvUF.Tags['incomingheals:personal'] = function(unit)
+	local heal = UnitGetIncomingHeals(unit, 'player') or 0
+	if heal == 0 then
+		return ' '
+	else
+		return E:ShortValue(heal)
+	end
+end
+
+ElvUF.TagEvents['incomingheals:others'] = 'UNIT_HEAL_PREDICTION'
+ElvUF.Tags['incomingheals:others'] = function(unit)
+	local heal = UnitGetIncomingHeals(unit) or 0
+	if heal == 0 then
+		return ' '
+	else
+		return E:ShortValue(heal)
+	end
+end
+
+ElvUF.TagEvents['incomingheals'] = 'UNIT_HEAL_PREDICTION'
+ElvUF.Tags['incomingheals'] = function(unit)
+	local personal = UnitGetIncomingHeals(unit, 'player') or 0
+	local others = UnitGetIncomingHeals(unit) or 0
+	local heal = personal + others
+	if heal == 0 then
+		return ' '
+	else
+		return E:ShortValue(heal)
+	end
 end
 
 local baseSpeed = 7;
