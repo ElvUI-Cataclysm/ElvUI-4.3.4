@@ -2417,10 +2417,14 @@ P['actionbar'] = {
 	['fontSize'] = 10,
 	['fontOutline'] = 'MONOCHROMEOUTLINE',
 	['fontColor'] = { r = 1, g = 1, b = 1 },
-	
+
 	['enable'] = true,
 	['macrotext'] = false,
 	['hotkeytext'] = true,
+
+	['noRangeColor'] = { r = 0.8, g = 0.1, b = 0.1 },
+	['noPowerColor'] = { r = 0.5, g = 0.5, b = 1 },
+
 	['selfcast'] = true,
 	['enablecd'] = true,
 	['treshold'] = 3,
@@ -2433,9 +2437,9 @@ P['actionbar'] = {
 		['alpha'] = 1,
 		['mouseover'] = false
 	},
-	
+
 	["globalFadeAlpha"] = 0,
-	
+
 	['bar1'] = {
 		['enabled'] = true,
 		['buttons'] = 12,

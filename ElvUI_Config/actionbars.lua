@@ -473,8 +473,42 @@ E.Options.args.actionbar = {
 			isPercent = true,
 			set = function(info, value) E.db.actionbar[ info[#info] ] = value; AB.fadeParent:SetAlpha(1-value); end,
 		},
-		fontGroup = {
+		noRangeColor = {
+			type = 'color',
 			order = 5,
+			name = L["Out of Range"],
+			desc = L["Color of the actionbutton when out of range."],
+			get = function(info)
+				local t = E.db.actionbar[ info[#info] ]
+				local d = P.actionbar[info[#info]]
+				return t.r, t.g, t.b, t.a, d.r, d.g, d.b
+			end,
+			set = function(info, r, g, b)
+				E.db.actionbar[ info[#info] ] = {}
+				local t = E.db.actionbar[ info[#info] ]
+				t.r, t.g, t.b = r, g, b
+				AB:UpdateButtonSettings();
+			end,
+		},
+		noPowerColor = {
+			type = 'color',
+			order = 6,
+			name = L["Out of Power"],
+			desc = L["Color of the actionbutton when out of power (Mana, Rage, Focus, Holy Power)."],
+			get = function(info)
+				local t = E.db.actionbar[ info[#info] ]
+				local d = P.actionbar[info[#info]]
+				return t.r, t.g, t.b, t.a, d.r, d.g, d.b
+			end,
+			set = function(info, r, g, b)
+				E.db.actionbar[ info[#info] ] = {}
+				local t = E.db.actionbar[ info[#info] ]
+				t.r, t.g, t.b = r, g, b
+				AB:UpdateButtonSettings();
+			end,
+		},
+		fontGroup = {
+			order = 7,
 			type = 'group',
 			guiInline = true,
 			disabled = function() return not E.private.actionbar.enable end,
