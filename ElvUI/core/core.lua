@@ -67,8 +67,7 @@ E.InversePoints = {
 E.DispelClasses = {
 	['PRIEST'] = {
 		['Magic'] = true,
-		['Disease'] = true,
-		['Poison'] = false
+		['Disease'] = true
 	},
 	['SHAMAN'] = {
 		['Magic'] = false,
@@ -89,12 +88,12 @@ E.DispelClasses = {
 	},
 };
 
---[[E.HealingClasses = {
+E.HealingClasses = {
 	PALADIN = 1,
 	SHAMAN = 3,
 	DRUID = 3,
 	PRIEST = {1, 2}
-};]]
+};
 
 E.noop = function() end;
 
@@ -332,65 +331,16 @@ function E:CheckRole()
 			E.Role = "Caster"
 		end
 	end
-	--[[if self.HealingClasses[E.myclass] ~= nil and E.myclass ~= 'PRIEST' then
+	if self.HealingClasses[E.myclass] ~= nil and E.myclass ~= 'PRIEST' then
 		if self:CheckTalentTree(self.HealingClasses[E.myclass]) then
 			self.DispelClasses[E.myclass].Magic = true;
 		else
 			self.DispelClasses[E.myclass].Magic = false;
 		end
-	end]]
-end
-
-function E:CheckForKnownTalent(spellid)
-	local wanted_name = GetSpellInfo(spellid)
-	if not wanted_name then return nil end
-	local num_tabs = GetNumTalentTabs()
-	for t=1, num_tabs do
-		local num_talents = GetNumTalents(t)
-		for i=1, num_talents do
-			local name_talent, _, _, _, current_rank = GetTalentInfo(t,i)
-			if name_talent and (name_talent == wanted_name) then
-				if current_rank and (current_rank > 0) then
-					return true
-				else
-					return false
-				end
-			end
-		end
-	end
-	return false
-end
-
-function E:CheckSpec(event, levels)
-	if event == "CHARACTER_POINTS_CHANGED" and levels > 0 then return end
-	if E.myclass == "PRIEST" then
-		if CheckForKnownTalent(64129) then -- 'Body and Soul'
-			E.DispelClasses[E.myclass].Poison = true
-		else
-			E.DispelClasses[E.myclass].Poison = false
-		end
-	elseif playerClass == "PALADIN" then
-		if CheckForKnownTalent(53551) then --'Sacred Cleansing'
-			E.DispelClasses[E.myclass].Magic = true
-		else
-			E.DispelClasses[E.myclass].Magic = false	
-		end
-	elseif playerClass == "SHAMAN" then
-		if CheckForKnownTalent(77130) then --'Improved Cleanse Spirit'
-			E.DispelClasses[E.myclass].Magic = true
-		else
-			E.DispelClasses[E.myclass].Magic = false	
-		end
-	elseif playerClass == "DRUID" then
-		if CheckForKnownTalent(88423) then --'Nature's Cure'
-			E.DispelClasses[E.myclass].Magic = true
-		else
-			E.DispelClasses[E.myclass].Magic = false
-		end
 	end
 end
 
---[[function E:CheckTalentTree(tree)
+function E:CheckTalentTree(tree)
 	local activeGroup = GetActiveTalentGroup(false,false)
 	if type(tree) == 'number' then
 		if activeGroup and GetPrimaryTalentTree(activeGroup-1) then
@@ -404,7 +354,7 @@ end
 			end
 		end
 	end
-end]]
+end
 
 function E:IsDispellableByMe(debuffType)
 	if not self.DispelClasses[E.myclass] then return; end
@@ -1166,8 +1116,6 @@ function E:Initialize()
 	self:RegisterEvent("UPDATE_BONUS_ACTIONBAR", "CheckRole");
 	self:RegisterEvent("UPDATE_FLOATING_CHAT_WINDOWS", "UIScale");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
-	self:RegisterEvent("PLAYER_TALENT_UPDATE", "CheckSpec");
-	self:RegisterEvent("CHARACTER_POINTS_CHANGED", "CheckSpec");
 	
 	if(self.db.general.kittys) then
 		self:CreateKittys();
