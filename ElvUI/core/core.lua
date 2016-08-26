@@ -67,7 +67,8 @@ E.InversePoints = {
 E.DispelClasses = {
 	['PRIEST'] = {
 		['Magic'] = true,
-		['Disease'] = true
+		['Disease'] = true,
+		['Poison'] = false
 	},
 	['SHAMAN'] = {
 		['Magic'] = false,
@@ -336,6 +337,37 @@ function E:CheckRole()
 			self.DispelClasses[E.myclass].Magic = true;
 		else
 			self.DispelClasses[E.myclass].Magic = false;
+		end
+	end
+end
+
+function CheckForKnownTalent(spellid)
+	local wanted_name = GetSpellInfo(spellid)
+	if not wanted_name then return nil end
+	local num_tabs = GetNumTalentTabs()
+	for t=1, num_tabs do
+		local num_talents = GetNumTalents(t)
+		for i=1, num_talents do
+			local name_talent, _, _, _, current_rank = GetTalentInfo(t,i)
+			if name_talent and (name_talent == wanted_name) then
+				if current_rank and (current_rank > 0) then
+					return true
+				else
+					return false
+				end
+			end
+		end
+	end
+	return false
+end
+
+function CheckSpec(event, levels)
+	if event == "CHARACTER_POINTS_CHANGED" and levels > 0 then return end
+	if E.myclass == "PRIEST" then
+		if CheckForKnownTalent(64129) then -- 'Body and Soul'
+			E.DispelClasses[E.myclass].Poison = true
+		else
+			E.DispelClasses[E.myclass].Poison = false
 		end
 	end
 end
@@ -1116,6 +1148,8 @@ function E:Initialize()
 	self:RegisterEvent("UPDATE_BONUS_ACTIONBAR", "CheckRole");
 	self:RegisterEvent("UPDATE_FLOATING_CHAT_WINDOWS", "UIScale");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
+	self:RegisterEvent("PLAYER_TALENT_UPDATE", CheckSpec)
+	self:RegisterEvent("CHARACTER_POINTS_CHANGED", CheckSpec)
 	
 	if(self.db.general.kittys) then
 		self:CreateKittys();
