@@ -216,6 +216,7 @@ G.unitframe.aurafilters["Blacklist"] = {
 		[SpellName(24755)] = Defaults(), -- Trick or Treat
 		[SpellName(25163)] = Defaults(), -- Oozeling Disgusting Aura
 		[SpellName(80354)] = Defaults(), -- Timewarp
+		[SpellName(95809)] = Defaults(), -- Insanity
 		[SpellName(95223)] = Defaults() -- Group Res
 	}
 };

@@ -4,7 +4,7 @@ if not oUF then return end
  
 local playerClass = select(2,UnitClass("player"))
 local CanDispel = {
-	PRIEST = { Magic = true, Disease = true, },
+	PRIEST = { Magic = true, Disease = true, Poison = false, },
 	SHAMAN = { Magic = false, Curse = true, },
 	PALADIN = { Magic = false, Poison = true, Disease = true, },
 	MAGE = { Curse = true, },
@@ -75,6 +75,13 @@ local function CheckSpec(self, event, levels)
 			dispellist.Magic = true
 		else
 			dispellist.Magic = false	
+		end
+	elseif playerClass == "PRIEST" then
+		--Check to see if we have the 'Body and Soul' talent.
+		if CheckForKnownTalent(64129) then
+			dispellist.Poison = true
+		else
+			dispellist.Poison = false
 		end
 	end
 end
