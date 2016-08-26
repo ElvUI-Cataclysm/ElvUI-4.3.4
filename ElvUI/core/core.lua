@@ -89,12 +89,12 @@ E.DispelClasses = {
 	},
 };
 
-E.HealingClasses = {
+--[[E.HealingClasses = {
 	PALADIN = 1,
 	SHAMAN = 3,
 	DRUID = 3,
 	PRIEST = {1, 2}
-};
+};]]
 
 E.noop = function() end;
 
@@ -332,13 +332,13 @@ function E:CheckRole()
 			E.Role = "Caster"
 		end
 	end
-	if self.HealingClasses[E.myclass] ~= nil and E.myclass ~= 'PRIEST' then
+	--[[if self.HealingClasses[E.myclass] ~= nil and E.myclass ~= 'PRIEST' then
 		if self:CheckTalentTree(self.HealingClasses[E.myclass]) then
 			self.DispelClasses[E.myclass].Magic = true;
 		else
 			self.DispelClasses[E.myclass].Magic = false;
 		end
-	end
+	end]]
 end
 
 function E:CheckForKnownTalent(spellid)
@@ -369,10 +369,28 @@ function E:CheckSpec(event, levels)
 		else
 			E.DispelClasses[E.myclass].Poison = false
 		end
+	elseif playerClass == "PALADIN" then
+		if CheckForKnownTalent(53551) then --'Sacred Cleansing'
+			E.DispelClasses[E.myclass].Magic = true
+		else
+			E.DispelClasses[E.myclass].Magic = false	
+		end
+	elseif playerClass == "SHAMAN" then
+		if CheckForKnownTalent(77130) then --'Improved Cleanse Spirit'
+			E.DispelClasses[E.myclass].Magic = true
+		else
+			E.DispelClasses[E.myclass].Magic = false	
+		end
+	elseif playerClass == "DRUID" then
+		if CheckForKnownTalent(88423) then --'Nature's Cure'
+			E.DispelClasses[E.myclass].Magic = true
+		else
+			E.DispelClasses[E.myclass].Magic = false
+		end
 	end
 end
 
-function E:CheckTalentTree(tree)
+--[[function E:CheckTalentTree(tree)
 	local activeGroup = GetActiveTalentGroup(false,false)
 	if type(tree) == 'number' then
 		if activeGroup and GetPrimaryTalentTree(activeGroup-1) then
@@ -386,7 +404,7 @@ function E:CheckTalentTree(tree)
 			end
 		end
 	end
-end
+end]]
 
 function E:IsDispellableByMe(debuffType)
 	if not self.DispelClasses[E.myclass] then return; end
