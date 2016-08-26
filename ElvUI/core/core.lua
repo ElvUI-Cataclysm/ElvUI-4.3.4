@@ -341,7 +341,7 @@ function E:CheckRole()
 	end
 end
 
-function CheckForKnownTalent(spellid)
+function E:CheckForKnownTalent(spellid)
 	local wanted_name = GetSpellInfo(spellid)
 	if not wanted_name then return nil end
 	local num_tabs = GetNumTalentTabs()
@@ -361,7 +361,7 @@ function CheckForKnownTalent(spellid)
 	return false
 end
 
-function CheckSpec(event, levels)
+function E:CheckSpec(event, levels)
 	if event == "CHARACTER_POINTS_CHANGED" and levels > 0 then return end
 	if E.myclass == "PRIEST" then
 		if CheckForKnownTalent(64129) then -- 'Body and Soul'
@@ -1148,8 +1148,8 @@ function E:Initialize()
 	self:RegisterEvent("UPDATE_BONUS_ACTIONBAR", "CheckRole");
 	self:RegisterEvent("UPDATE_FLOATING_CHAT_WINDOWS", "UIScale");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
-	self:RegisterEvent("PLAYER_TALENT_UPDATE", CheckSpec)
-	self:RegisterEvent("CHARACTER_POINTS_CHANGED", CheckSpec)
+	self:RegisterEvent("PLAYER_TALENT_UPDATE", "CheckSpec");
+	self:RegisterEvent("CHARACTER_POINTS_CHANGED", "CheckSpec");
 	
 	if(self.db.general.kittys) then
 		self:CreateKittys();
