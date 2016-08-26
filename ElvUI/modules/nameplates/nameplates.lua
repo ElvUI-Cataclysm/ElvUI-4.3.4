@@ -28,6 +28,7 @@ local FSPAT = "%s*"..((_G.FOREIGN_SERVER_LABEL:gsub("^%s", "")):gsub("[%*()]", "
 
 mod.NumTargetChecks = -1;
 mod.CreatedPlates = {};
+mod.Healers = {};
 mod.ComboPoints = {};
 mod.ByRaidIcon = {};
 mod.ByName = {};
@@ -43,6 +44,12 @@ mod.AuraTarget = {};
 mod.CachedAuraDurations = {};
 mod.BuffCache = {};
 mod.DebuffCache = {};
+
+mod.HealerSpecs = {
+	[L["Restoration"]] = true,
+	[L["Holy"]] = true,
+	[L["Discipline"]] = true
+};
 
 mod.RaidTargetReference = {
 	["STAR"] = 0x00000001,
@@ -246,7 +253,29 @@ function mod:CheckFilter(myPlate)
 	elseif(not myPlate:IsShown()) then
 		myPlate:Show()
 	end
+ 
+	if(mod.Healers[name]) then
+		myPlate.HealerIcon:Show();
+	else
+		myPlate.HealerIcon:Hide();
+	end
+
 	return true
+end
+
+function mod:CheckBGHealers()
+	local name, _, talentSpec
+	for i = 1, GetNumBattlefieldScores() do
+		name, _, _, _, _, _, _, _, _, _, _, _, _, _, _, talentSpec = GetBattlefieldScore(i);
+		if name then
+			name = name:match("(.+)%-.+") or name
+			if name and self.HealerSpecs[talentSpec] then
+				self.Healers[name] = talentSpec
+			elseif name and self.Healers[name] then
+				self.Healers[name] = nil;
+			end
+		end
+	end
 end
 
 function mod:UpdateLevelAndName(myPlate)
@@ -268,12 +297,12 @@ function mod:UpdateLevelAndName(myPlate)
 		end
 	end
 
-	if(mod.db.showName) then
-		myPlate.Name:SetText(self.Name:GetText());
-		if(not myPlate.Name:IsShown()) then myPlate.Name:Show(); end
-	elseif(myPlate.Name:IsShown()) then
+	if(not mod.db.showName) then
 		myPlate.Name:SetText("");
 		myPlate.Name:Hide();
+	else
+		myPlate.Name:SetText(self.Name:GetText());
+		if(not myPlate.Name:IsShown()) then myPlate.Name:Show(); end
 	end
 
 	if(self.RaidIcon:IsShown()) then
@@ -630,6 +659,7 @@ function mod:CreatePlate(frame)
 	myPlate.Buffs.db = self.db.buffs;
 	myPlate.Debuffs = self:ConstructElement_Auras(myPlate, 5, "LEFT");
 	myPlate.Debuffs.db = self.db.debuffs;
+	myPlate.HealerIcon = self:ConstructElement_HealerIcon(myPlate);
 	myPlate.CPoints = self:ConstructElement_CPoints(myPlate);
 
 	--Overlay
@@ -1035,6 +1065,17 @@ end
 
 function mod:PLAYER_ENTERING_WORLD()
 	twipe(self.ComboPoints);
+	twipe(self.Healers);
+	local inInstance, instanceType = IsInInstance()
+	if inInstance and instanceType == 'pvp' and self.db.markHealers then
+		self.CheckHealerTimer = self:ScheduleRepeatingTimer("CheckBGHealers", 3)
+		self:CheckBGHealers();
+	else
+		if(self.CheckHealerTimer) then
+			self:CancelTimer(self.CheckHealerTimer);
+			self.CheckHealerTimer = nil;
+		end
+	end
 end
 
 function mod:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, ...)

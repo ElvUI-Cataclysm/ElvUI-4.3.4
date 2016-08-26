@@ -61,6 +61,7 @@ function mod:ConfigureElement_HealthBar(frame, customScale)
 
 	healthBar:SetStatusBarTexture(LSM:Fetch("statusbar", self.db.statusbar));
 	healthBar.text:SetFont(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline);
+	healthBar.anim.progress:SetDuration(self.db.healthBar.healthAnimationSpeed);
 end
 
 function mod:ConstructElement_HealthBar(parent)
@@ -71,7 +72,6 @@ function mod:ConstructElement_HealthBar(parent)
 	frame.anim = CreateAnimationGroup(frame);
 	frame.anim.progress = frame.anim:CreateAnimation("Progress");
 	frame.anim.progress:SetSmoothing("Out");
-	frame.anim.progress:SetDuration(.2);
 	frame.text = frame:CreateFontString(nil, "OVERLAY");
 	frame.text:SetAllPoints(frame);
 	frame.text:SetWordWrap(false);

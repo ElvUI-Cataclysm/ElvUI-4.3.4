@@ -137,12 +137,14 @@ E.Options.args.nameplate = {
 						["TOGGLE_OFF"] = L["Toggle Off While In Combat"],
 					},					
 					set = function(info, value) E.db.nameplate[ info[#info] ] = value; NP:PLAYER_REGEN_ENABLED() end,
-				}, 
-				comboPoints = {
-					type = "toggle",
+				},
+				lowHealthThreshold = {
 					order = 3,
-					name = L["Combo Points"],
-					desc = L["Display combo points on nameplates."],
+					type = "range",
+					name = L["Low Health Threshold"],
+					desc = L["Make the unitframe glow yellow when it is below this percent of health, it will glow red when the health value is half of this value."],
+					isPercent = true,
+					min = 0, max = 1, step = 0.01
 				},
 				nonTargetAlpha = {
 					type = "range",
@@ -163,14 +165,18 @@ E.Options.args.nameplate = {
 					order = 6,
 					name = L["Color Name By Health Value"],		
 				},
-				lowHealthThreshold = {
+				comboPoints = {
+					type = "toggle",
 					order = 7,
-					type = "range",
-					name = L["Low Health Threshold"],
-					desc = L["Make the unitframe glow yellow when it is below this percent of health, it will glow red when the health value is half of this value."],
-					isPercent = true,
-					min = 0, max = 1, step = 0.01
-				},	
+					name = L["Combo Points"],
+					desc = L["Display combo points on nameplates."],
+				},
+				markHealers = {
+					type = 'toggle',
+					order = 8,
+					name = L['Healer Icon'],
+					desc = L['Display a healer icon over known healers inside battlegrounds or arenas.'],
+				},
 				fontGroup = {
 					order = 100,
 					type = "group",
@@ -324,6 +330,13 @@ E.Options.args.nameplate = {
 					desc = L["Controls the height of the nameplate"],
 					type = "range",
 					min = 4, max = 30, step = 1,
+				},
+				healthAnimationSpeed = {
+ 					order = 3,
+					type = "range",
+					name = L["Animation Speed"],
+					desc = L["Controls the animation of the nameplate"],
+					min = 0, max = 1, step = 0.01
 				},
 				colorByRaidIcon = {
 					type = "toggle",

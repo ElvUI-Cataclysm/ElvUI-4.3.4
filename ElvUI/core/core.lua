@@ -14,7 +14,7 @@ local IsAddOnLoaded = IsAddOnLoaded;
 local GetSpellInfo = GetSpellInfo;
 local IsInInstance, GetNumPartyMembers, GetNumRaidMembers = IsInInstance, GetNumPartyMembers, GetNumRaidMembers;
 local RequestBattlefieldScoreData = RequestBattlefieldScoreData;
-local GetSpecialization, GetActiveSpecGroup = GetSpecialization, GetActiveSpecGroup;
+local GetPrimaryTalentTree, GetActiveTalentGroup = GetPrimaryTalentTree, GetActiveTalentGroup;
 local GetCombatRatingBonus = GetCombatRatingBonus;
 local UnitLevel, UnitStat, UnitAttackPower, UnitBuff = UnitLevel, UnitStat, UnitAttackPower, UnitBuff;
 local SendAddonMessage = SendAddonMessage;
@@ -62,6 +62,37 @@ E.InversePoints = {
 	BOTTOMLEFT = "TOPLEFT",
 	BOTTOMRIGHT = "TOPRIGHT",
 	CENTER = "CENTER"
+};
+
+E.DispelClasses = {
+	['PRIEST'] = {
+		['Magic'] = true,
+		['Disease'] = true
+	},
+	['SHAMAN'] = {
+		['Magic'] = false,
+		['Curse'] = true
+	},
+	['PALADIN'] = {
+		['Poison'] = true,
+		['Magic'] = false,
+		['Disease'] = true
+	},
+	['MAGE'] = {
+		['Curse'] = true
+	},
+	['DRUID'] = {
+		['Magic'] = false,
+		['Curse'] = true,
+		['Poison'] = true
+	},
+};
+
+E.HealingClasses = {
+	PALADIN = 1,
+	SHAMAN = 3,
+	DRUID = 3,
+	PRIEST = {1, 2}
 };
 
 E.noop = function() end;
@@ -299,6 +330,37 @@ function E:CheckRole()
 		else
 			E.Role = "Caster"
 		end
+	end
+	if self.HealingClasses[E.myclass] ~= nil and E.myclass ~= 'PRIEST' then
+		if self:CheckTalentTree(self.HealingClasses[E.myclass]) then
+			self.DispelClasses[E.myclass].Magic = true;
+		else
+			self.DispelClasses[E.myclass].Magic = false;
+		end
+	end
+end
+
+function E:CheckTalentTree(tree)
+	local activeGroup = GetActiveTalentGroup(false,false)
+	if type(tree) == 'number' then
+		if activeGroup and GetPrimaryTalentTree(activeGroup-1) then
+			return tree == GetPrimaryTalentTree(activeGroup-1)
+		end
+	elseif type(tree) == 'table' then
+		local activeGroup = GetActiveTalentGroup(false,false)
+		for _, index in pairs(tree) do
+			if activeGroup and GetPrimaryTalentTree(activeGroup-1) then
+				return index == GetPrimaryTalentTree(activeGroup-1)
+			end
+		end
+	end
+end
+
+function E:IsDispellableByMe(debuffType)
+	if not self.DispelClasses[E.myclass] then return; end
+
+	if self.DispelClasses[E.myclass][debuffType] then
+		return true;
 	end
 end
 
