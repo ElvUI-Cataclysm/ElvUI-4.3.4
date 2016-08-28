@@ -47,6 +47,12 @@ AB["barDefaults"] = {
 		['conditions'] = "",
 		['position'] = "RIGHT,ElvUI_Bar1,LEFT,-4,0",
 	},
+	["bar6"] = {
+		['page'] = 2,
+		['bindButtons'] = "ELVUIBAR6BUTTON",
+		['conditions'] = "",
+		['position'] = "BOTTOM,ElvUI_Bar2,TOP,0,2",
+	}
 }
 
 AB.customExitButton = {
@@ -195,7 +201,7 @@ function AB:PositionAndSizeBar(barName)
 		end
 
 		if(i > numButtons) then
-			button:SetScale(0.000001);
+			button:SetScale(0.00001);
 			button:SetAlpha(0);
 		else
 			button:SetScale(1);
@@ -275,18 +281,19 @@ function AB:CreateBar(id)
 		bar:SetAttribute("hasTempBar", false)
 	end
 
-	bar:SetAttribute("_onstate-page", [[ 
-		self:SetAttribute("state", newstate)
-		control:ChildUpdate("state", newstate)
-	]]);
-
-	bar:SetAttribute("_onstate-show", [[
-		if newstate == "hide" then
-			self:Hide();
+	bar:SetAttribute("_onstate-page", [[
+		if newstate ~= 0 then
+			self:SetAttribute("state", newstate)
+			control:ChildUpdate("state", newstate)
 		else
-			self:Show();
-		end	
-	]])	
+			local newCondition = self:GetAttribute("newCondition")
+			if newCondition then
+				newstate = SecureCmdOptionParse(newCondition)
+				self:SetAttribute("state", newstate)
+				control:ChildUpdate("state", newstate)
+			end
+		end
+	]]);
 
 	self["handledBars"]['bar'..id] = bar;
 	E:CreateMover(bar, 'ElvAB_'..id, L["Bar "]..id, nil, nil, nil,'ALL,ACTIONBARS')
@@ -356,11 +363,6 @@ function AB:UpdateButtonSettings()
 
 	for button, _ in pairs(self["handledbuttons"]) do
 		if button then
-			if(E.db.actionbar.selfcast) then
-				button:SetAttribute("unit2", "player");
-			else
-				button:SetAttribute("unit2", "target");
-			end
 			self:StyleButton(button, button.noBackdrop)
 			self:StyleFlyout(button)
 		else
@@ -374,13 +376,11 @@ function AB:UpdateButtonSettings()
 		self:UpdateButtonConfig(bar, bar.bindButtons)
 	end
 
-	for i=1, 5 do
+	for i=1, 6 do
 		self:PositionAndSizeBar('bar'..i)
 	end
 	self:PositionAndSizeBarPet()
 	self:PositionAndSizeBarShapeShift()
-
-	self:MultiActionBar_Update()
 end
 
 function AB:CVAR_UPDATE(event)
@@ -440,7 +440,7 @@ function AB:StyleButton(button, noBackdrop)
 		icon:SetTexCoord(unpack(E.TexCoords));
 		icon:SetInside()
 	end
-	
+
 	if shine then
 		shine:SetAllPoints()
 	end
@@ -652,9 +652,13 @@ function AB:UpdateButtonConfig(bar, buttonName)
 		button.keyBoundTarget = bar.buttonConfig.keyBoundTarget
 		button.postKeybind = AB.FixKeybindText
 		button:SetAttribute("buttonlock", GetCVar('lockActionBars') == '1' and true or false)
+		if(E.db.actionbar.selfcast) then
+			button:SetAttribute("unit2", "player")
+		else
+			button:SetAttribute("unit2", "target");
+		end
 		button:SetAttribute("checkselfcast", true)
 		button:SetAttribute("checkfocuscast", true)
-		
 		button:UpdateConfig(bar.buttonConfig)
 	end
 end
@@ -662,7 +666,7 @@ end
 function AB:FixKeybindText(button)
 	local hotkey = _G[button:GetName()..'HotKey'];
 	local text = hotkey:GetText();
-	
+
 	if text then
 		text = gsub(text, 'SHIFT%-', L['KEY_SHIFT']);
 		text = gsub(text, 'ALT%-', L['KEY_ALT']);
@@ -791,69 +795,6 @@ function AB:StyleFlyout(button)
 	end
 end
 
---BugFix: Prevent the main actionbar from displaying other actionbar pages..
-function AB:MultiActionBar_Update()
-	if self.db.useMaxPaging then
-		if self.db['bar2'].enabled then
-			if not InterfaceOptionsActionBarsPanelBottomRight:GetChecked() then
-				InterfaceOptionsActionBarsPanelBottomRight:Click()
-			end
-		else
-			if InterfaceOptionsActionBarsPanelBottomRight:GetChecked() then
-				InterfaceOptionsActionBarsPanelBottomRight:Click()
-			end
-		end
-
-		if self.db['bar3'].enabled then
-			if not InterfaceOptionsActionBarsPanelBottomLeft:GetChecked() then
-				InterfaceOptionsActionBarsPanelBottomLeft:Click()
-			end
-		else
-			if InterfaceOptionsActionBarsPanelBottomLeft:GetChecked() then
-				InterfaceOptionsActionBarsPanelBottomLeft:Click()
-			end
-		end
-
-		if not self.db['bar5'].enabled and not self.db['bar4'].enabled then
-			if InterfaceOptionsActionBarsPanelRight:GetChecked() then
-				InterfaceOptionsActionBarsPanelRight:Click()
-			end
-		else
-			if not InterfaceOptionsActionBarsPanelRight:GetChecked() then
-				InterfaceOptionsActionBarsPanelRight:Click()
-			end
-		end
-
-		if self.db['bar4'].enabled then
-			InterfaceOptionsActionBarsPanelRightTwo:Enable()
-			if not InterfaceOptionsActionBarsPanelRightTwo:GetChecked() then
-				InterfaceOptionsActionBarsPanelRightTwo:Click()
-			end
-		else
-			if InterfaceOptionsActionBarsPanelRightTwo:GetChecked() then
-				InterfaceOptionsActionBarsPanelRightTwo:Click()
-			end
-		end
-	else
-		if not InterfaceOptionsActionBarsPanelBottomRight:GetChecked() then
-			InterfaceOptionsActionBarsPanelBottomRight:Click()
-		end
-
-		if not InterfaceOptionsActionBarsPanelBottomLeft:GetChecked() then
-			InterfaceOptionsActionBarsPanelBottomLeft:Click()
-		end
-
-		if not InterfaceOptionsActionBarsPanelRight:GetChecked() then
-			InterfaceOptionsActionBarsPanelRight:Click()
-		end
-
-		InterfaceOptionsActionBarsPanelRightTwo:Enable()
-		if not InterfaceOptionsActionBarsPanelRightTwo:GetChecked() then
-			InterfaceOptionsActionBarsPanelRightTwo:Click()
-		end
-	end
-end
-
 local color
 function AB:LAB_ButtonUpdate(button)
 	color = AB.db.fontColor
@@ -885,7 +826,7 @@ function AB:Initialize()
 	self:SetupExtraButton()
 	self:SetupMicroBar()
 
-	for i=1, 5 do
+	for i=1, 6 do
 		self:CreateBar(i)
 	end
 
