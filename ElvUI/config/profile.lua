@@ -71,7 +71,8 @@ P["databars"] = {
 		["mouseover"] = false,
 		["orientation"] = "VERTICAL",
 		["hideAtMaxLevel"] = true,
-		["hideInVehicle"] = false
+		["hideInVehicle"] = false,
+		["reverseFill"] = false
 	},
 	["reputation"] = {
 		["enable"] = false,
@@ -83,7 +84,9 @@ P["databars"] = {
 		['textOutline'] = 'MONOCHROMEOUTLINE',
 		["mouseover"] = false,
 		["orientation"] = "VERTICAL",
-		["hideInVehicle"] = false
+		["hideInVehicle"] = false,
+		["reverseFill"] = false,
+		["combat"] = false
 	}
 };
 

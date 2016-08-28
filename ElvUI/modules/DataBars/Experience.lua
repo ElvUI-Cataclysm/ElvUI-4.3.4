@@ -88,8 +88,10 @@ function mod:UpdateExperienceDimensions()
 
 	self.expBar.text:FontTemplate(E.LSM:Fetch("font", self.db.experience.textFont), self.db.experience.textSize, self.db.experience.textOutline);
 	self.expBar.rested:SetOrientation(self.db.experience.orientation);
+	self.expBar.statusBar:SetReverseFill(self.db.experience.reverseFill)
 
 	self.expBar.statusBar:SetOrientation(self.db.experience.orientation);
+	self.expBar.rested:SetReverseFill(self.db.experience.reverseFill)
 
 	if(self.db.experience.mouseover) then
 		self.expBar:SetAlpha(0);

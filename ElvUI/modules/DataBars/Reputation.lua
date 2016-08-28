@@ -20,6 +20,14 @@ function mod:UpdateReputation(event)
 			E:UnregisterObjectForVehicleLock(bar);
 		end
 
+		if self.db.reputation.combat then
+			if event == "PLAYER_REGEN_DISABLED" then
+				bar:Hide()
+			end
+		elseif event == "PLAYER_REGEN_ENABLED" then
+			bar:Show()
+		end
+
 		local text = "";
 		local textFormat = self.db.reputation.textFormat;
 		local color = FACTION_BAR_COLORS[reaction] or backupColor;
@@ -69,6 +77,7 @@ function mod:UpdateReputationDimensions()
 	self.repBar:Width(self.db.reputation.width);
 	self.repBar:Height(self.db.reputation.height);
 	self.repBar.statusBar:SetOrientation(self.db.reputation.orientation);
+	self.repBar.statusBar:SetReverseFill(self.db.reputation.reverseFill)
 	self.repBar.text:FontTemplate(E.LSM:Fetch("font", self.db.reputation.textFont), self.db.reputation.textSize, self.db.reputation.textOutline);
 	if(self.db.reputation.mouseover) then
 		self.repBar:SetAlpha(0);
@@ -93,6 +102,9 @@ end
 function mod:LoadReputationBar()
 	self.repBar = self:CreateBar("ElvUI_ReputationBar", self.ReputationBar_OnEnter, "RIGHT", RightChatPanel, "LEFT", E.Border - E.Spacing*3, 0);
 	E:RegisterStatusBar(self.repBar.statusBar);
+
+	self:RegisterEvent("PLAYER_REGEN_DISABLED", "UpdateReputation")
+	self:RegisterEvent("PLAYER_REGEN_ENABLED", "UpdateReputation")
 
 	self:UpdateReputationDimensions();
 

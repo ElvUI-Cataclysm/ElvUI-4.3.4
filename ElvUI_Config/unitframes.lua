@@ -69,7 +69,8 @@ local auraSortValues = {
 	["TIME_REMAINING"] = L["Time Remaining"],
 	["DURATION"] = L["Duration"],
 	["NAME"] = NAME,
-	["INDEX"] = L["Index"]
+	["INDEX"] = L["Index"],
+	["PLAYER"] = PLAYER,
 };
 
 local auraSortMethodValues = {

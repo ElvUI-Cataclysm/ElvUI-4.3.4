@@ -473,9 +473,14 @@ E.Options.args.actionbar = {
 			isPercent = true,
 			set = function(info, value) E.db.actionbar[ info[#info] ] = value; AB.fadeParent:SetAlpha(1-value); end,
 		},
+		spacer = {
+			order = 5,
+			type = "description",
+			name = ""
+		},
 		noRangeColor = {
 			type = 'color',
-			order = 5,
+			order = 6,
 			name = L["Out of Range"],
 			desc = L["Color of the actionbutton when out of range."],
 			get = function(info)
@@ -492,7 +497,7 @@ E.Options.args.actionbar = {
 		},
 		noPowerColor = {
 			type = 'color',
-			order = 6,
+			order = 7,
 			name = L["Out of Power"],
 			desc = L["Color of the actionbutton when out of power (Mana, Rage, Focus, Holy Power)."],
 			get = function(info)
@@ -508,7 +513,7 @@ E.Options.args.actionbar = {
 			end,
 		},
 		fontGroup = {
-			order = 7,
+			order = 8,
 			type = 'group',
 			guiInline = true,
 			disabled = function() return not E.private.actionbar.enable end,
