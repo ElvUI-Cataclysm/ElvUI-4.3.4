@@ -72,7 +72,8 @@ P["databars"] = {
 		["orientation"] = "VERTICAL",
 		["hideAtMaxLevel"] = true,
 		["hideInVehicle"] = false,
-		["reverseFill"] = false
+		["reverseFill"] = false,
+		["hideInCombat"] = false
 	},
 	["reputation"] = {
 		["enable"] = false,
@@ -86,7 +87,7 @@ P["databars"] = {
 		["orientation"] = "VERTICAL",
 		["hideInVehicle"] = false,
 		["reverseFill"] = false,
-		["combat"] = false
+		["hideInCombat"] = false
 	}
 };
 

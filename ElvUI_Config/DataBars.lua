@@ -58,18 +58,24 @@ E.Options.args.databars = {
 							name = L["Hide In Vehicle"],
 							set = function(info, value) mod.db.experience[ info[#info] ] = value; mod:UpdateExperience(); end
 						},
+						hideInCombat = {
+ 							order = 4,
+ 							type = "toggle",
+							name = L["Hide in Combat"],
+							set = function(info, value) mod.db.experience[ info[#info] ] = value; mod:UpdateExperience() end,
+						},
 						reverseFill = {
-							order = 4,
+							order = 5,
 							type = "toggle",
 							name = L["Reverse Fill Direction"],
 						},
 						spacer = {
-							order = 5,
+							order = 6,
 							type = "description",
 							name = ""
 						},
 						orientation = {
-							order = 6,
+							order = 7,
 							type = "select",
 							name = L["Orientation"],
 							desc = L["Direction the bar moves on gains/losses"],
@@ -79,13 +85,13 @@ E.Options.args.databars = {
 							}
 						},
 						width = {
-							order = 7,
+							order = 8,
 							type = "range",
 							name = L["Width"],
 							min = 5, max = ceil(GetScreenWidth() or 800), step = 1
 						},
 						height = {
-							order = 8,
+							order = 9,
 							type = "range",
 							name = L["Height"],
 							min = 5, max = ceil(GetScreenHeight() or 800), step = 1
@@ -174,7 +180,7 @@ E.Options.args.databars = {
 							name = L["Hide In Vehicle"],
 							set = function(info, value) mod.db.reputation[ info[#info] ] = value; mod:UpdateReputation() end
 						},
-						combat = {
+						hideInCombat = {
  							order = 3,
  							type = "toggle",
 							name = L["Hide in Combat"],
