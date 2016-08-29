@@ -536,15 +536,15 @@ local function LoadSkin()
 	WatchFrameCollapseExpandButton.backdrop:SetAllPoints()
 	WatchFrameCollapseExpandButton.text:SetText('-')
 	WatchFrameCollapseExpandButton:SetFrameStrata('MEDIUM')
-	
+
 	hooksecurefunc('WatchFrame_Expand', function()
 		WatchFrameCollapseExpandButton.text:SetText('-')
 	end)
-	
+
 	hooksecurefunc('WatchFrame_Collapse', function()
 		WatchFrameCollapseExpandButton.text:SetText('+')
 	end)	
-	
+
 	local function SkinWatchFrameItems()
 		for i=1, WATCHFRAME_NUM_ITEMS do
 			local button = _G["WatchFrameItem"..i]
@@ -560,8 +560,32 @@ local function LoadSkin()
 			end
 		end
 	end
-	
 	WatchFrame:HookScript("OnEvent", SkinWatchFrameItems)
+
+	local function SkinWatchFramePopUp()
+		if WatchFrameAutoQuestPopUp1 then
+			WatchFrameLines:StripTextures()
+			WatchFrameAutoQuestPopUp1ScrollChildBg:Kill()
+			WatchFrameAutoQuestPopUp1ScrollChildQuestIconBg:Kill()
+			WatchFrameAutoQuestPopUp1ScrollChildFlash:Kill()
+			WatchFrameAutoQuestPopUp1ScrollChildShine:Kill()
+			WatchFrameAutoQuestPopUp1ScrollChildIconShine:Kill()
+			WatchFrameAutoQuestPopUp1ScrollChildFlashIconFlash:Kill()
+			WatchFrameAutoQuestPopUp1ScrollChildBorderBotLeft:Kill()
+			WatchFrameAutoQuestPopUp1ScrollChildBorderBotRight:Kill()
+			WatchFrameAutoQuestPopUp1ScrollChildBorderBottom:Kill()
+			WatchFrameAutoQuestPopUp1ScrollChildBorderLeft:Kill()
+			WatchFrameAutoQuestPopUp1ScrollChildBorderRight:Kill()
+			WatchFrameAutoQuestPopUp1ScrollChildBorderTop:Kill()
+			WatchFrameAutoQuestPopUp1ScrollChildBorderTopLeft:Kill()
+			WatchFrameAutoQuestPopUp1ScrollChildBorderTopRight:Kill()
+
+			WatchFrameAutoQuestPopUp1:CreateBackdrop("Transparent", true, true)
+			WatchFrameAutoQuestPopUp1.backdrop:SetBackdropBorderColor(0, 0.44, .87, 1)
+			WatchFrameAutoQuestPopUp1.backdrop:CreateShadow()
+		end
+	end
+	WatchFrame:HookScript("OnEvent", SkinWatchFramePopUp)
 
 	--Chat Config
 	ChatConfigFrame:StripTextures();
