@@ -648,7 +648,8 @@ function mod:CreatePlate(frame)
 	myPlate.hiddenFrame:Hide()
 
 	myPlate.HealthBar = self:ConstructElement_HealthBar(myPlate);
-	frame.CastBar.Icon:SetParent(myPlate.hiddenFrame);
+	--frame.CastBar.Icon:SetParent(myPlate.hiddenFrame);
+	cbicon:SetParent(myPlate.hiddenFrame);
 	myPlate.CastBar = self:ConstructElement_CastBar(myPlate);
 	myPlate.Level = self:ConstructElement_Level(myPlate);
 	myPlate.Name = self:ConstructElement_Name(myPlate);
