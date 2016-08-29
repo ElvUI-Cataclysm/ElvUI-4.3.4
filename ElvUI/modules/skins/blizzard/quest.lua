@@ -106,7 +106,7 @@ local function LoadSkin()
 	end);
 
 	EmptyQuestLogFrame:StripTextures()
-	
+
 	S:HandleScrollBar(QuestDetailScrollFrameScrollBar)
 
 	QuestLogFrameShowMapButton:StripTextures()
@@ -140,13 +140,13 @@ local function LoadSkin()
 					objective:SetTextColor(0.6, 0.6, 0.6)
 				end
 			end
-		end			
+		end
 	end
-	
-	hooksecurefunc("QuestInfo_Display", function(template, parentFrame, acceptButton, material)								
+
+	hooksecurefunc("QuestInfo_Display", function(template, parentFrame, acceptButton, material)
 		local textColor = {1, 1, 1}
 		local titleTextColor = {1, 1, 0}
-		
+
 		-- headers
 		QuestInfoTitleHeader:SetTextColor(unpack(titleTextColor))
 		QuestInfoDescriptionHeader:SetTextColor(unpack(titleTextColor))
@@ -165,7 +165,7 @@ local function LoadSkin()
 		
 		QuestObjectiveText()
 	end)
-	
+
 	hooksecurefunc("QuestInfo_ShowRequiredMoney", function()
 		local requiredMoney = GetQuestLogRequiredMoney()
 		if ( requiredMoney > 0 ) then
@@ -175,9 +175,9 @@ local function LoadSkin()
 			else
 				QuestInfoRequiredMoneyText:SetTextColor(1, 1, 0)
 			end
-		end			
-	end)		
-	
+		end
+	end)
+
 	QuestLogFrame:HookScript("OnShow", function()
 		QuestLogScrollFrame:Height(331)
 		QuestLogDetailScrollFrame:Height(328)
@@ -206,29 +206,34 @@ local function LoadSkin()
 	S:HandleButton(QuestFrameGoodbyeButton, true)
 	S:HandleButton(QuestFrameCompleteQuestButton, true)
 	S:HandleCloseButton(QuestFrameCloseButton, QuestFrame.backdrop)
-	
+
 	for i=1, 6 do
 		local button = _G["QuestProgressItem"..i]
 		local texture = _G["QuestProgressItem"..i.."IconTexture"]
+		local count = _G["QuestProgressItem"..i.."Count"]
 		button:StripTextures()
 		button:StyleButton()
-		button:Width(_G["QuestProgressItem"..i]:GetWidth() - 4)
+		button:Width(button:GetWidth() - 4)
 		button:SetFrameLevel(button:GetFrameLevel() + 2)
 		texture:SetTexCoord(unpack(E.TexCoords))
 		texture:SetDrawLayer("OVERLAY")
 		texture:Point("TOPLEFT", 2, -2)
 		texture:Size(texture:GetWidth() - 2, texture:GetHeight() - 2)
-		_G["QuestProgressItem"..i.."Count"]:SetDrawLayer("OVERLAY")
-		button:SetTemplate("Default")
+		button:SetTemplate("Default")	
+		button:CreateBackdrop()
+		button.backdrop:SetOutside(texture)
+		texture:SetParent(button.backdrop)
+		count:SetParent(button.backdrop)
+		count:SetDrawLayer("OVERLAY")
 	end
-	
+
 	hooksecurefunc("QuestFrameProgressItems_Update", function()
 		QuestProgressTitleText:SetTextColor(1, 1, 0)
 		QuestProgressText:SetTextColor(1, 1, 1)
 		QuestProgressRequiredItemsText:SetTextColor(1, 1, 0)
 		QuestProgressRequiredMoneyText:SetTextColor(1, 1, 0)
 	end)
-	
+
 	QuestNPCModel:StripTextures()
 	QuestNPCModel:CreateBackdrop("Transparent")
 	QuestNPCModel:Point("TOPLEFT", QuestLogDetailFrame, "TOPRIGHT", 4, -34)
@@ -239,11 +244,11 @@ local function LoadSkin()
 	QuestLogDetailFrame:SetTemplate("Transparent")
 	QuestLogDetailScrollFrame:StripTextures()
 	S:HandleCloseButton(QuestLogDetailFrameCloseButton)
-	
+
 	hooksecurefunc("QuestFrame_ShowQuestPortrait", function(parentFrame, portrait, text, name, x, y)
 		QuestNPCModel:ClearAllPoints();
-		QuestNPCModel:SetPoint("TOPLEFT", parentFrame, "TOPRIGHT", x + 18, y);			
-	end)	
+		QuestNPCModel:SetPoint("TOPLEFT", parentFrame, "TOPRIGHT", x + 18, y);
+	end)
 end
 
 S:RegisterSkin("ElvUI", LoadSkin);
