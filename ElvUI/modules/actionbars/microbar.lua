@@ -28,14 +28,6 @@ local function Button_OnLeave(self)
 	end
 end
 
-function AB:MainMenuMicroButton_SetNormal()
-	MainMenuBarPerformanceBar:SetPoint('TOPLEFT', MainMenuMicroButton, 'TOPLEFT', 9, -36);
-end
-
-function AB:MainMenuMicroButton_SetPushed()
-	MainMenuBarPerformanceBar:SetPoint('TOPLEFT', MainMenuMicroButton, 'TOPLEFT', 8, -37);
-end
-
 function AB:HandleMicroButton(button)
 	local pushed = button:GetPushedTexture();
 	local normal = button:GetNormalTexture();
@@ -66,6 +58,14 @@ function AB:HandleMicroButton(button)
 		disabled:SetTexCoord(0.17, 0.87, 0.5, 0.908);
 		disabled:SetInside(f);
 	end
+end
+
+function AB:MainMenuMicroButton_SetNormal()
+	MainMenuBarPerformanceBar:SetPoint('TOPLEFT', MainMenuMicroButton, 'TOPLEFT', 9, -36);
+end
+
+function AB:MainMenuMicroButton_SetPushed()
+	MainMenuBarPerformanceBar:SetPoint('TOPLEFT', MainMenuMicroButton, 'TOPLEFT', 8, -37);
 end
 
 function AB:UpdateMicroButtonsParent(parent)
@@ -108,20 +108,17 @@ function AB:UpdateMicroPositionDimensions()
 
 	if(self.db.microbar.enabled) then
 		ElvUI_MicroBar:Show();
-		if(ElvUI_MicroBar.mover) then
-			E:EnableMover(ElvUI_MicroBar.mover:GetName());
-		end
+		if ElvUI_MicroBar.mover then E:EnableMover(ElvUI_MicroBar.mover:GetName()) end
 	else
 		ElvUI_MicroBar:Hide();
-		if(ElvUI_MicroBar.mover) then
-			E:DisableMover(ElvUI_MicroBar.mover:GetName());
-		end
+		if ElvUI_MicroBar.mover then E:DisableMover(ElvUI_MicroBar.mover:GetName()) end
 	end
 end
 
 function AB:UpdateMicroButtons()
 	GuildMicroButtonTabard:ClearAllPoints()
 	GuildMicroButtonTabard:SetPoint("TOP", GuildMicroButton.backdrop, "TOP", 0, 25)
+	self:UpdateMicroPositionDimensions()
 end
 
 function AB:SetupMicroBar()
@@ -135,11 +132,13 @@ function AB:SetupMicroBar()
 
 	self:SecureHook('MainMenuMicroButton_SetPushed');
 	self:SecureHook('MainMenuMicroButton_SetNormal');
-
-	self:MainMenuMicroButton_SetNormal();
-
-	self:UpdateMicroPositionDimensions();
+	self:SecureHook('UpdateMicroButtonsParent')
+	self:SecureHook('MoveMicroButtons', 'UpdateMicroPositionDimensions')
 	self:SecureHook('UpdateMicroButtons')
+	UpdateMicroButtonsParent(microBar)
+	self:MainMenuMicroButton_SetNormal();
+	self:UpdateMicroPositionDimensions();
 	MainMenuBarPerformanceBar:Kill()
+	
 	E:CreateMover(microBar, 'MicrobarMover', L['Micro Bar'], nil, nil, nil, 'ALL,ACTIONBARS');
 end
