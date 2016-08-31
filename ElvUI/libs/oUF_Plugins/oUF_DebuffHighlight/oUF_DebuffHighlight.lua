@@ -10,6 +10,7 @@ local CanDispel = {
 	MAGE = { Curse = true, },
 	DRUID = { Magic = false, Curse = true, Poison = true, }
 }
+
 local dispellist = CanDispel[playerClass] or {}
 local origColors = {}
 local origBorderColors = {}
@@ -51,9 +52,9 @@ function CheckForKnownTalent(spellid)
 end
 
 local function CheckSpec(self, event, levels)
-	-- Not interested in gained points from leveling	
+	-- Not interested in gained points from leveling
 	if event == "CHARACTER_POINTS_CHANGED" and levels > 0 then return end
-	
+
 	--Check for certain talents to see if we can dispel magic or not
 	if playerClass == "PALADIN" then
 		--Check to see if we have the 'Sacred Cleansing' talent.
@@ -74,7 +75,7 @@ local function CheckSpec(self, event, levels)
 		if CheckForKnownTalent(88423) then
 			dispellist.Magic = true
 		else
-			dispellist.Magic = false	
+			dispellist.Magic = false
 		end
 	end
 end
@@ -123,37 +124,25 @@ local function Enable(object)
 	if object.DebuffHighlightFilter and not CanDispel[playerClass] then
 		return
 	end
-
 	-- make sure aura scanning is active for this object
 	object:RegisterEvent("UNIT_AURA", Update)
 	object:RegisterEvent("PLAYER_TALENT_UPDATE", CheckSpec)
 	object:RegisterEvent("CHARACTER_POINTS_CHANGED", CheckSpec)
 
-	--[[if object.DebuffHighlightBackdrop then
-		local r, g, b, a = object:GetBackdropColor()
-		origColors[object] = { r = r, g = g, b = b, a = a}
-		r, g, b, a = object:GetBackdropBorderColor()
-		origBorderColors[object] = { r = r, g = g, b = b, a = a}
-	elseif not object.DebuffHighlightUseTexture then
-		local r, g, b, a = object.DebuffHighlight:GetVertexColor()
-		origColors[object] = { r = r, g = g, b = b, a = a}
-	end]]
-
 	return true
 end
 
 local function Disable(object)
-	--object:UnregisterEvent("UNIT_AURA", Update)
 	object:UnregisterEvent("PLAYER_TALENT_UPDATE", CheckSpec)
 	object:UnregisterEvent("CHARACTER_POINTS_CHANGED", CheckSpec)
 
 	if object.DebuffHighlightBackdrop or object.DebuffHighlight or object.DBHGlow then
 		object:UnregisterEvent("UNIT_AURA", Update)
-		
+
 		if(object.DBHGlow) then
 			object.DBHGlow:Hide();
 		end
-		
+
 		if(object.DebuffHighlight) then
 			local color = origColors[object];
 			if(color) then

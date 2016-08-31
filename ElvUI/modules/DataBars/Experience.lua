@@ -1,6 +1,17 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local mod = E:GetModule("DataBars");
 
+local _G = _G;
+local format = format;
+local min = min;
+
+local GetPetExperience, UnitXP, UnitXPMax = GetPetExperience, UnitXP, UnitXPMax;
+local UnitLevel = UnitLevel;
+local IsXPUserDisabled, GetXPExhaustion = IsXPUserDisabled, GetXPExhaustion;
+local MAX_PLAYER_LEVEL = MAX_PLAYER_LEVEL;
+local MAX_PLAYER_LEVEL_TABLE = MAX_PLAYER_LEVEL_TABLE;
+local InCombatLockdown = InCombatLockdown;
+
 function mod:GetXP(unit)
 	if(unit == "pet") then
 		return GetPetExperience();
@@ -85,6 +96,10 @@ function mod:ExperienceBar_OnEnter()
 	GameTooltip:Show();
 end
 
+function mod:ExperienceBar_OnClick()
+
+end
+
 function mod:UpdateExperienceDimensions()
 	self.expBar:Width(self.db.experience.width);
 	self.expBar:Height(self.db.experience.height);
@@ -125,7 +140,7 @@ function mod:EnableDisable_ExperienceBar()
 end
 
 function mod:LoadExperienceBar()
-	self.expBar = self:CreateBar("ElvUI_ExperienceBar", self.ExperienceBar_OnEnter, "LEFT", LeftChatPanel, "RIGHT", -E.Border + E.Spacing*3, 0);
+	self.expBar = self:CreateBar("ElvUI_ExperienceBar", self.ExperienceBar_OnEnter, self.ExperienceBar_OnClick, "LEFT", LeftChatPanel, "RIGHT", -E.Border + E.Spacing*3, 0);
 	self.expBar.statusBar:SetStatusBarColor(0, 0.4, 1, .8);
 	self.expBar.rested = CreateFrame("StatusBar", nil, self.expBar);
 	self.expBar.rested:SetInside();
@@ -133,11 +148,11 @@ function mod:LoadExperienceBar()
 	E:RegisterStatusBar(self.expBar.rested);
 	self.expBar.rested:SetStatusBarColor(1, 0, 1, 0.2);
 
-	self.expBar.eventFrame = CreateFrame("Frame")
-	self.expBar.eventFrame:Hide()
-	self.expBar.eventFrame:RegisterEvent("PLAYER_REGEN_DISABLED")
-	self.expBar.eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
-	self.expBar.eventFrame:SetScript("OnEvent", function(self, event) mod:UpdateExperience(event) end)
+	self.expBar.eventFrame = CreateFrame("Frame");
+	self.expBar.eventFrame:Hide();
+	self.expBar.eventFrame:RegisterEvent("PLAYER_REGEN_DISABLED");
+	self.expBar.eventFrame:RegisterEvent("PLAYER_REGEN_ENABLED");
+	self.expBar.eventFrame:SetScript("OnEvent", function(self, event) mod:UpdateExperience(event); end);
 
 	self:UpdateExperienceDimensions();
 
