@@ -2318,6 +2318,8 @@ P['chat'] = {
 	["useAltKey"] = false,
 	["classColorMentionsChat"] = true,
 	["numAllowedCombatRepeat"] = 3,
+	["useCustomTimeColor"] = true,
+	["customTimeColor"] = {r = 0.7, g = 0.7, b = 0.7},
 	
 	['tabFont'] = 'PT Sans Narrow',
 	['tabFontSize'] = 12,
