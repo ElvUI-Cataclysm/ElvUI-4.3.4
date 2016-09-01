@@ -4,6 +4,7 @@ local CH = E:GetModule('Chat');
 E.Options.args.chat = {
 	type = 'group',
 	name = L['Chat'],
+	childGroups = "select",
 	get = function(info) return E.db.chat[ info[#info] ] end,
 	set = function(info, value) E.db.chat[ info[#info] ] = value end,
 	args = {
@@ -11,20 +12,24 @@ E.Options.args.chat = {
 			order = 1,
 			type = 'description',
 			name = L['CHAT_DESC'],
-		},		
+		},
 		enable = {
 			order = 2,
 			type = 'toggle',
 			name = L['Enable'],
 			get = function(info) return E.private.chat.enable end,
 			set = function(info, value) E.private.chat.enable = value; E:StaticPopup_Show('PRIVATE_RL') end
-		},				
+		},
 		general = {
 			order = 3,
 			type = 'group',
 			name = L['General'],
-			guiInline = true,
-			args = {	
+ 			args = {
+				header = {
+					order = 0,
+					type = "header",
+					name = L["General"],
+				},
 				url = {
 					order = 1,
 					type = 'toggle',
@@ -36,7 +41,7 @@ E.Options.args.chat = {
 					type = 'toggle',
 					name = L['Short Channels'],
 					desc = L['Shorten the channel names in chat.'],
-				},		
+				},
 				hyperlinkHover = {
 					order = 3,
 					type = 'toggle',
@@ -50,7 +55,7 @@ E.Options.args.chat = {
 							CH:DisableHyperlink()
 						end
 					end,
-				},	
+				},
 				sticky = {
 					order = 3,
 					type = 'toggle',
@@ -68,7 +73,7 @@ E.Options.args.chat = {
 					set = function(info, value)
 						E.db.chat[ info[#info] ] = value
 						CH:UpdateFading()
-					end,					
+					end,
 				},
 				emotionIcons = {
 					order = 5,
@@ -137,7 +142,7 @@ E.Options.args.chat = {
 						if value == 0 then
 							CH:DisableChatThrottle()
 						end
-					end,					
+					end,
 				},
 				scrollDownInterval = {
 					order = 13,
@@ -147,7 +152,7 @@ E.Options.args.chat = {
 					min = 0, max = 120, step = 5,
 					set = function(info, value) 
 						E.db.chat[ info[#info] ] = value 
-					end,					
+					end,
 				},
 				numAllowedCombatRepeat = {
  					order = 14,
@@ -213,7 +218,7 @@ E.Options.args.chat = {
 					set = function(info, value)
 						E.db.chat.chatLines = value
 						E:StaticPopup_Show('PRIVATE_RL')
-					end,					
+					end,
 				},
 				chatHistoryLines = {
 					order = 20,
@@ -225,7 +230,7 @@ E.Options.args.chat = {
 					min = 250, max = 10000, step = 10,
 					set = function(info, value) 
 						E.db.chat.chatHistoryLines = value 
-					end,					
+					end,
 				},
 			},
 		},
@@ -233,8 +238,12 @@ E.Options.args.chat = {
 			order = 4,
 			type = 'group',
 			name = L['Alerts'],
-			guiInline = true,
 			args = {
+				header = {
+					order = 0,
+					type = "header",
+					name = L["Alerts"],
+				},
 				whisperSound = {
 					order = 1,
 					type = 'select', dialogControl = 'LSM30_Sound',
@@ -270,8 +279,12 @@ E.Options.args.chat = {
 			order = 5,
 			type = 'group',
 			name = L['Panels'],
-			guiInline = true,
 			args = {
+				header = {
+					order = 0,
+					type = "header",
+					name = L["Panels"],
+				},
 				lockPositions = {
 					order = 1,
 					type = 'toggle',
@@ -314,7 +327,7 @@ E.Options.args.chat = {
 						['LEFT'] = L['Left Only'],
 						['RIGHT'] = L['Right Only'],
 					},
-				},	
+				},
 				separateSizes = {
 					order = 6,
 					type = 'toggle',
@@ -411,10 +424,14 @@ E.Options.args.chat = {
 		fontGroup = {
 			order = 120,
 			type = 'group',
-			guiInline = true,
 			name = L['Fonts'],
 			set = function(info, value) E.db.chat[ info[#info] ] = value; CH:SetupChat() end,
 			args = {
+				header = {
+					order = 0,
+					type = "header",
+					name = L["Fonts"],
+				},
 				font = {
 					type = 'select', dialogControl = 'LSM30_Font',
 					order = 1,
@@ -427,11 +444,10 @@ E.Options.args.chat = {
 					desc = L['Set the font outline.'],
 					type = 'select',
 					values = {
-						['NONE'] = L['None'],
-						['OUTLINE'] = 'OUTLINE',
-						['MONOCHROME'] = (not E.isMacClient) and 'MONOCHROME' or nil,
-						['MONOCHROMEOUTLINE'] = 'MONOCHROMEOUTLINE',
-						['THICKOUTLINE'] = 'THICKOUTLINE',
+						["NONE"] = L["None"],
+						["OUTLINE"] = "OUTLINE",
+						["MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
+						["THICKOUTLINE"] = "THICKOUTLINE"
 					},
 				},
 				tabFont = {
@@ -445,21 +461,20 @@ E.Options.args.chat = {
 					name = L['Tab Font Size'],
 					type = 'range',
 					min = 6, max = 22, step = 1,
-				},	
+				},
 				tabFontOutline = {
 					order = 6,
 					name = L['Tab Font Outline'],
 					desc = L['Set the font outline.'],
 					type = 'select',
 					values = {
-						['NONE'] = L['None'],
-						['OUTLINE'] = 'OUTLINE',
-						['MONOCHROME'] = (not E.isMacClient) and 'MONOCHROME' or nil,
-						['MONOCHROMEOUTLINE'] = 'MONOCHROMEOUTLINE',
-						['THICKOUTLINE'] = 'THICKOUTLINE',
+						["NONE"] = L["None"],
+						["OUTLINE"] = "OUTLINE",
+						["MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
+						["THICKOUTLINE"] = "THICKOUTLINE"
 					},
-				},	
+				},
 			},
-		},			
+		},
 	},
 }

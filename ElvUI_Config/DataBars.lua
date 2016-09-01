@@ -6,7 +6,7 @@ local databars = {};
 E.Options.args.databars = {
 	type = "group",
 	name = L["DataBars"],
-	childGroups = "tab",
+	childGroups = "select",
 	get = function(info) return E.db.databars[ info[#info] ]; end,
 	set = function(info, value) E.db.databars[ info[#info] ] = value; end,
 	args = {
@@ -25,6 +25,11 @@ E.Options.args.databars = {
 			type = "group",
 			name = XPBAR_LABEL,
 			args = {
+				header = {
+ 					order = 0,
+					type = "header",
+					name = L["Experience Bar"],
+				},
 				enable = {
 					order = 1,
 					type = "toggle",
@@ -153,6 +158,11 @@ E.Options.args.databars = {
 			type = "group",
 			name = REPUTATION,
 			args = {
+				header = {
+ 					order = 0,
+					type = "header",
+					name = L["Reputation Bar"],
+				},
 				enable = {
 					order = 1,
 					type = "toggle",

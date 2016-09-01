@@ -3,7 +3,7 @@ local E, L, V, P, G = unpack(select(2, ...));
 local select, tonumber, assert, type, unpack = select, tonumber, assert, type, unpack;
 local tinsert, tremove = tinsert, tremove;
 local modf, ceil, floor, abs, mod = math.modf, math.ceil, math.floor, math.abs, mod;
-local format, sub, upper = format, string.sub, string.upper;
+local format, sub, upper, string_char, string_byte, split = string.format, string.sub, string.upper, string.char, string.byte, string.split
 
 function E:ShortValue(v)
 	if(abs(v) >= 1e9) then
@@ -211,6 +211,20 @@ function E:ShortenString(string, numChars, dots)
 			return string;
 		end
 	end
+end
+
+function E:AbbreviateString(string, allUpper)
+    local newString = ""
+    local words = {split(" ", string)}
+    for _, word in pairs(words) do
+        word = sub(word, 1, 1) --get only first letter of each word
+        if(allUpper) then
+            word = word:upper()
+        end
+        newString = newString .. word
+    end
+    
+    return newString
 end
 
 local waitTable = {};

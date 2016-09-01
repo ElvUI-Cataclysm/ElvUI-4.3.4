@@ -189,8 +189,10 @@ local function LoadSkin()
 	
 	S:HandleCloseButton(ChannelFrameDaughterFrameDetailCloseButton,ChannelFrameDaughterFrame)
 	S:HandleCloseButton(FriendsFrameCloseButton,FriendsFrame.backdrop)
-	S:HandleDropDownBox(WhoFrameDropDown,150)
-	S:HandleDropDownBox(FriendsFrameStatusDropDown, 100)
+
+	S:HandleDropDownBox(WhoFrameDropDown, 150)
+	S:HandleDropDownBox(FriendsFrameStatusDropDown, 70)
+	FriendsFrameStatusDropDown:Point("TOPLEFT", FreindsListFrame, "TOPLEFT", 5, -25);
 
 	--Bottom Tabs
 	for i=1, 4 do

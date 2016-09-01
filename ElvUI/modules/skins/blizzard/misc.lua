@@ -140,6 +140,12 @@ local function LoadSkin()
 	ReadyCheckFrame:SetHeight(80)
 
 	-- others
+	CoinPickupFrame:StripTextures();
+	CoinPickupFrame:SetTemplate("Transparent");
+
+	S:HandleButton(CoinPickupOkayButton);
+	S:HandleButton(CoinPickupCancelButton);
+
 	ReadyCheckListenerFrame:SetAlpha(0)
 	ReadyCheckFrame:HookScript("OnShow", function(self) if UnitIsUnit("player", self.initiator) then self:Hide() end end) -- bug fix, don't show it if initiator
 	StackSplitFrame:GetRegions():Hide()

@@ -110,7 +110,7 @@ function M:UpdateCoords()
 end
 
 function M:PositionCoords()
-	local db = E.global.general.worldMapCoordinates;
+	local db = E.global.general.WorldMapCoordinates;
 	local position = db.position;
 	local xOffset = db.xOffset;
 	local yOffset = db.yOffset;
@@ -126,7 +126,7 @@ function M:PositionCoords()
 end
 
 function M:Initialize()
-	if(E.global.general.worldMapCoordinates.enable) then
+	if(E.global.general.WorldMapCoordinates.enable) then
 		local coordsHolder = CreateFrame("Frame", "CoordsHolder", WorldMapFrame);
 		coordsHolder:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() + 1);
 		coordsHolder:SetFrameStrata(WorldMapDetailFrame:GetFrameStrata());

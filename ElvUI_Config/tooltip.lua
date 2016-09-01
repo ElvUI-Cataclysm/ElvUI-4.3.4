@@ -1,6 +1,5 @@
-local E, L, V, P, G = unpack(ElvUI); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(ElvUI);
 local TT = E:GetModule('Tooltip')
-
 
 E.Options.args.tooltip = {
 	type = "group",
@@ -27,6 +26,11 @@ E.Options.args.tooltip = {
 			name = L["General"],
 			disabled = function() return not E.Tooltip; end,
 			args = {
+				header = {
+					order = 0,
+					type = "header",
+					name = L["General"],
+				},
 				cursorAnchor = {
 					order = 1,
 					type = 'toggle',
@@ -61,7 +65,7 @@ E.Options.args.tooltip = {
 					order = 6,
 					type = 'toggle',
 					name = L['Spell/Item IDs'],
-					desc = L['Display the spell or item ID when mousing over a spell or item tooltip.'],				
+					desc = L['Display the spell or item ID when mousing over a spell or item tooltip.'],
 				},
 				itemCount = {
 					order = 7,
@@ -75,13 +79,8 @@ E.Options.args.tooltip = {
 						["NONE"] = L["None"],
 					},
 				},
-				useCustomFactionColors = {
-					order = 8,
-					type = 'toggle',
-					name = L['Custom Faction Colors'],
-				},
 				fontGroup = {
-					order = 9,
+					order = 8,
 					type = "group",
 					guiInline = true,
 					name = L["Tooltip Font Settings"],
@@ -140,11 +139,19 @@ E.Options.args.tooltip = {
 					},
 				},
 				factionColors = {
-					order = 10,
+					order = 9,
 					type = 'group',
 					name = L['Custom Faction Colors'],
 					guiInline = true,
-					args = {},
+					args = {
+						useCustomFactionColors = {
+							order = 0,
+							type = 'toggle',
+							name = L["Custom Faction Colors"],
+							get = function(info) return E.db.tooltip.useCustomFactionColors end,
+							set = function(info, value) E.db.tooltip.useCustomFactionColors = value; end,
+						},
+					},
 					get = function(info)
 						local t = E.db.tooltip.factionColors[ info[#info] ]
 						local d = P.tooltip.factionColors[ info[#info] ]
@@ -165,6 +172,11 @@ E.Options.args.tooltip = {
 			get = function(info) return E.db.tooltip.visibility[ info[#info] ] end,
 			set = function(info, value) E.db.tooltip.visibility[ info[#info] ] = value; end,
 			args = {
+				header = {
+					order = 0,
+					type = "header",
+					name = L["Visibility"],
+				},
 				actionbars = {
  					order = 1,
  					type = 'select',
@@ -201,7 +213,7 @@ E.Options.args.tooltip = {
 						['NONE'] = L['Never Hide'],
 						['SHIFT'] = SHIFT_KEY,
 						['ALT'] = ALT_KEY,
-						['CTRL'] = CTRL_KEY					
+						['CTRL'] = CTRL_KEY
 					},
 				},
 				combat = {
@@ -209,7 +221,7 @@ E.Options.args.tooltip = {
 					type = 'toggle',
 					name = COMBAT,
 					desc = L["Hide tooltip while in combat."],
-				},						
+				},
 			},
 		},
 		healthBar = {
@@ -217,8 +229,13 @@ E.Options.args.tooltip = {
 			type = "group",
 			name = L["Health Bar"],
 			get = function(info) return E.db.tooltip.healthBar[ info[#info] ] end,
-			set = function(info, value) E.db.tooltip.healthBar[ info[#info] ] = value; end,			
+			set = function(info, value) E.db.tooltip.healthBar[ info[#info] ] = value; end,
 			args = {
+				header = {
+					order = 0,
+					type = "header",
+					name = L["Health Bar"],
+				},
 				height = {
 					order = 1,
 					name = L['Height'],
@@ -256,12 +273,12 @@ E.Options.args.tooltip = {
 							set = function(info, value) 
 								E.db.tooltip.healthBar.fontSize = value; 
 								GameTooltipStatusBar.text:FontTemplate(E.LSM:Fetch("font", E.db.tooltip.healthBar.font), E.db.tooltip.healthBar.fontSize, "OUTLINE")
-							end,								
+							end,
 						},
 					},
 				},
 			},
-		},		
+		},
 	},
 }
 

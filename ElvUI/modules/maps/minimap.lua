@@ -311,6 +311,10 @@ function M:Initialize()
 	MiniMapInstanceDifficulty:SetParent(Minimap);
 	MiniMapInstanceDifficulty:Point('TOPLEFT', Minimap, 'TOPLEFT', 0, 0);
 	
+	GuildInstanceDifficulty:ClearAllPoints()
+	GuildInstanceDifficulty:SetParent(Minimap);
+	GuildInstanceDifficulty:Point('TOPLEFT', Minimap, 'TOPLEFT', 0, 0);
+	
 	E:CreateMover(MMHolder, 'MinimapMover', L['Minimap']);
 	
 	Minimap:EnableMouseWheel(true);
