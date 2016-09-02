@@ -495,9 +495,9 @@ local blackListQueries = {};
 local function buildBlacklist(...)
 	twipe(blackList)
 	twipe(blackListQueries);
-	for index = 1, select('#', ...) do
-		local entry = select(index, ...);
+	for entry in pairs(...) do
 		local itemName = GetItemInfo(entry);
+
 		if(itemName) then
 			blackList[itemName] = true;
 		elseif(entry ~= "") then
@@ -512,14 +512,12 @@ end
 function B.Sort(bags, sorter, invertDirection)
 	if not sorter then sorter = invertDirection and ReverseSort or DefaultSort end
 	if not itemTypes then BuildSortOrder() end
-	
+
 	twipe(blackListedSlots)
-	
-	local ignoreItems = B.db.ignoreItems
-	ignoreItems = ignoreItems:gsub(';%s', ';') --remove spaces that follow a semicolon
-	ignoreItems = ignoreItems:gsub("\n", "");
-	buildBlacklist(split(";", ignoreItems))
-	
+
+	local ignoredItems = B.db.ignoredItems
+	buildBlacklist(ignoredItems)
+
 	for i, bag, slot in B.IterateBags(bags, nil, 'both') do
 		local bagSlot = B:Encode_BagSlot(bag, slot)
 		local link = B:GetItemLink(bag, slot);
