@@ -25,10 +25,56 @@ P['general'] = {
 	["backdropcolor"] = { r = 0.1, g = 0.1, b = 0.1 },
 	["backdropfadecolor"] = { r = .06, g = .06, b = .06, a = 0.8 },
 	["valuecolor"] = { r = 23/255, g = 132/255, b = 209/255 },
-	
+
 	['minimap'] = {
 		['size'] = 176,
 		['locationText'] = 'MOUSEOVER',
+		['icons'] = {
+			['calendar'] = {
+				['scale'] = 1,
+				['position'] = "TOPRIGHT",
+				['xOffset'] = 0,
+				['yOffset'] = 0,
+				["hide"] = true,
+			},
+			['mail'] = {
+				['scale'] = 1,
+				['position'] = "TOPRIGHT",
+				['xOffset'] = 3,
+				['yOffset'] = 4,
+			},
+			['lfgEye'] = {
+				['scale'] = 1,
+				['position'] = "BOTTOMRIGHT",
+				['xOffset'] = 3,
+				['yOffset'] = 0,
+			},
+			['battlefield'] = {
+				['scale'] = 1,
+				['position'] = "BOTTOMRIGHT",
+				['xOffset'] = 3,
+				['yOffset'] = 0,
+			},
+			['difficulty'] = {
+				['scale'] = 1,
+				['position'] = "TOPLEFT",
+				['xOffset'] = 0,
+				['yOffset'] = 0,
+			},
+			['vehicleLeave'] = {
+				['size'] = 26,
+				['position'] = "BOTTOMLEFT",
+				['xOffset'] = 2,
+				['yOffset'] = 2,
+				["hide"] = false,
+			},
+			['ticket'] = {
+				['scale'] = 1,
+				['position'] = "TOPRIGHT",
+				['xOffset'] = 0,
+				['yOffset'] = 0,
+			},
+		}
 	},
 	['threat'] = {
 		['enable'] = true,

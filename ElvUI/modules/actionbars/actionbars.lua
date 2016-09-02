@@ -306,6 +306,31 @@ function AB:PLAYER_REGEN_ENABLED()
 	self:UnregisterEvent('PLAYER_REGEN_ENABLED')
 end
 
+local function Vehicle_OnEvent(self, event)
+	if ( CanExitVehicle() ) and not E.db.general.minimap.icons.vehicleLeave.hide then
+		self:Show()
+		self:GetNormalTexture():SetVertexColor(1, 1, 1)
+		self:EnableMouse(true)
+	else
+		self:Hide()
+	end
+end
+
+local function Vehicle_OnClick(self)
+	VehicleExit();
+end
+
+function AB:UpdateVehicleLeave()
+	local button = LeaveVehicleButton
+	if not button then return; end
+
+	local pos = E.db.general.minimap.icons.vehicleLeave.position or "BOTTOMLEFT"
+	local size = E.db.general.minimap.icons.vehicleLeave.size or 26
+	button:ClearAllPoints()
+	button:Point(pos, Minimap, pos, E.db.general.minimap.icons.vehicleLeave.xOffset or 2, E.db.general.minimap.icons.vehicleLeave.yOffset or 2)
+	button:SetSize(size, size)
+end
+
 function AB:CreateVehicleLeave()
 	local vehicle = CreateFrame("Button", 'LeaveVehicleButton', E.UIParent, "SecureHandlerClickTemplate")
 	vehicle:Size(26)
@@ -316,8 +341,21 @@ function AB:CreateVehicleLeave()
 	vehicle:SetHighlightTexture("Interface\\AddOns\\ElvUI\\media\\textures\\vehicleexit")
 	vehicle:SetTemplate("Default")
 	vehicle:RegisterForClicks("AnyUp")
-	vehicle:SetScript("OnClick", function() VehicleExit() end)
-	RegisterStateDriver(vehicle, "visibility", "[vehicleui] show;[target=vehicle,exists] show;hide")
+
+	vehicle:SetScript("OnClick", Vehicle_OnClick)
+	vehicle:SetScript("OnEnter", MainMenuBarVehicleLeaveButton_OnEnter)
+	vehicle:SetScript("OnLeave", GameTooltip_Hide)
+	vehicle:RegisterEvent("PLAYER_ENTERING_WORLD");
+	vehicle:RegisterEvent("UPDATE_BONUS_ACTIONBAR");
+	vehicle:RegisterEvent("UPDATE_MULTI_CAST_ACTIONBAR");
+	vehicle:RegisterEvent("UNIT_ENTERED_VEHICLE");
+	vehicle:RegisterEvent("UNIT_EXITED_VEHICLE");
+	vehicle:RegisterEvent("VEHICLE_UPDATE");
+	vehicle:SetScript("OnEvent", Vehicle_OnEvent)
+
+	self:UpdateVehicleLeave()
+
+	vehicle:Hide()
 end
 
 function AB:ReassignBindings(event)
