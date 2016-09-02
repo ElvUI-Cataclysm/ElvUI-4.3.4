@@ -19,6 +19,7 @@ local ToggleDropDownMenu = ToggleDropDownMenu;
 local Minimap_OnClick = Minimap_OnClick;
 local GetMinimapZoneText = GetMinimapZoneText;
 local InCombatLockdown = InCombatLockdown;
+local GuildInstanceDifficulty = GuildInstanceDifficulty
 
 local menuFrame = CreateFrame('Frame', 'MinimapRightClickMenu', E.UIParent, 'UIDropDownMenuTemplate');
 local menuList = {
@@ -115,7 +116,7 @@ end
 function M:Update_ZoneText()
 	if E.db.general.minimap.locationText == 'HIDE' or not E.private.general.minimap.enable then return; end
 	Minimap.location:SetText(strsub(GetMinimapZoneText(),1,46))
-	Minimap.location:SetTextColor(M:GetLocTextColor())
+	Minimap.location:SetTextColor(self:GetLocTextColor())
 end
 
 function M:PLAYER_REGEN_ENABLED()
@@ -365,12 +366,14 @@ function M:Initialize()
 	MiniMapMailIcon:SetTexture('Interface\\AddOns\\ElvUI\\media\\textures\\mail');
 
 	MiniMapBattlefieldBorder:Hide();
+
 	MiniMapLFGFrameBorder:Hide()
 	MiniMapLFGFrame:SetClampedToScreen(true)
 
 	MiniMapWorldMapButton:Hide();
 
 	MiniMapInstanceDifficulty:SetParent(Minimap)
+
 	GuildInstanceDifficulty:SetParent(Minimap)
 
 	if TimeManagerClockButton then
@@ -388,6 +391,7 @@ function M:Initialize()
 	self:RegisterEvent("ZONE_CHANGED", "Update_ZoneText")
 	self:RegisterEvent("ZONE_CHANGED_INDOORS", "Update_ZoneText")
 	self:RegisterEvent('ADDON_LOADED');
+	self:UpdateSettings()
 
 	MinimapCluster:ClearAllPoints();
 	MinimapCluster:SetAllPoints(Minimap);
