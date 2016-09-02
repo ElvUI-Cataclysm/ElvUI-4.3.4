@@ -104,14 +104,24 @@ E.Options.args.chat = {
 						CH:UpdateChatTabs()
 					end,
 				},
+				lfgIcons = {
+ 					order = 8,
+ 					type = 'toggle',
+					name = L['LFG Icons'],
+					desc = L['Display LFG Icons in group chat.'],
+					set = function(self, value)
+						E.db.chat.lfgIcons = value;
+						CH:CheckLFGRoles()
+					end,
+				},
 				chatHistory = {
-					order = 8,
+					order = 9,
 					type = 'toggle',
 					name = L['Chat History'],
 					desc = L['Log the main chat frames history. So when you reloadui or log in and out you see the history from your last session.'],
 				},
 				useAltKey = {
- 					order = 9,
+ 					order = 10,
 					type = "toggle",
 					name = L["Use Alt Key"],
 					desc = L["Require holding the Alt key down to move cursor or cycle through messages in the editbox."],
@@ -121,18 +131,18 @@ E.Options.args.chat = {
 					end
 				},
 				classColorMentionsChat = {
-					order = 10,
+					order = 11,
 					type = "toggle",
 					name = L["Class Color Mentions"],
 					desc = L["Use class color for the names of players when they are mentioned."],
 				},
 				spacer = {
-					order = 11,
+					order = 12,
 					type = 'description',
 					name = '',
 				},
 				throttleInterval = {
-					order = 12,
+					order = 13,
 					type = 'range',
 					name = L['Spam Interval'],
 					desc = L['Prevent the same messages from displaying in chat more than once within this set amount of seconds, set to zero to disable.'],
@@ -145,7 +155,7 @@ E.Options.args.chat = {
 					end,
 				},
 				scrollDownInterval = {
-					order = 13,
+					order = 14,
 					type = 'range',
 					name = L['Scroll Interval'],
 					desc = L['Number of time in seconds to scroll down to the bottom of the chat window if you are not scrolled down completely.'],
@@ -155,14 +165,14 @@ E.Options.args.chat = {
 					end,
 				},
 				numAllowedCombatRepeat = {
- 					order = 14,
+ 					order = 15,
 					type = "range",
 					name = L["Allowed Combat Repeat"],
 					desc = L["Number of repeat characters while in combat before the chat editbox is automatically closed."],
 					min = 2, max = 10, step = 1,
 				},
 				timeStampFormat = {
-					order = 15,
+					order = 16,
 					type = 'select',
 					name = TIMESTAMPS_LABEL,
 					desc = OPTION_TOOLTIP_TIMESTAMPS,
@@ -177,13 +187,13 @@ E.Options.args.chat = {
 					},
 				},
 				useCustomTimeColor = {
-					order = 16,
+					order = 17,
 					type = "toggle",
 					name = L["Custom Timestamp Color"],
 					disabled = function() return not E.db.chat.timeStampFormat == "NONE" end,
 				},
 				customTimeColor = {
-					order = 17,
+					order = 18,
 					type = "color",
 					hasAlpha = false,
 					name = L["Timestamp Color"],
@@ -200,7 +210,7 @@ E.Options.args.chat = {
 					end,
 				},
 				chatDirection = {
-					order = 18,
+					order = 19,
 					type = 'select',
 					name = 'Chat Direction',
 					desc = 'Controls where text is added to the chat frame.',
@@ -210,7 +220,7 @@ E.Options.args.chat = {
 					},
 				},
 				chatLines = {
-					order = 19,
+					order = 20,
 					type = 'range',
 					name = L['Max Chat Lines'],
 					desc = L['Number of chat messages to be kept in the frame before old messages are discarded. The interface has to be reloaded to show effect.'],
@@ -221,7 +231,7 @@ E.Options.args.chat = {
 					end,
 				},
 				chatHistoryLines = {
-					order = 20,
+					order = 21,
 					type = 'range',
 					name = L['Chat History Lines'],
 					desc = L['Number of chat messages to be stores in the chat history.'],

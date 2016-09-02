@@ -219,7 +219,6 @@ E.Options.args.nameplate = {
 							values = {
 								["NONE"] = L["None"],
 								["OUTLINE"] = "OUTLINE",
-								
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE",
 							},
@@ -271,7 +270,7 @@ E.Options.args.nameplate = {
 						local t = E.db.nameplate.reactions[ info[#info] ]
 						t.r, t.g, t.b = r, g, b
 						NP:UpdateAllPlates()
-					end,				
+					end,
 					args = {
 						friendlyNPC = {
 							type = "color",
@@ -303,7 +302,7 @@ E.Options.args.nameplate = {
 							type = "color",
 							hasAlpha = false,
 						},
-					},		
+					},
 				},
 			},
 		},
@@ -354,7 +353,7 @@ E.Options.args.nameplate = {
 					name = L["Scale if Low Health"],
 					guiInline = true,
 					get = function(info) return E.db.nameplate.healthBar.lowHPScale[ info[#info] ] end,
-					set = function(info, value) E.db.nameplate.healthBar.lowHPScale[ info[#info] ] = value; NP:UpdateAllPlates() end,			
+					set = function(info, value) E.db.nameplate.healthBar.lowHPScale[ info[#info] ] = value; NP:UpdateAllPlates() end,
 					args = {
 						enable = {
 							type = "toggle",
@@ -368,8 +367,8 @@ E.Options.args.nameplate = {
 							name = L["Low HP Width"],
 							desc = L["Controls the width of the nameplate on low health"],
 							type = "range",
-							min = 50, max = 125, step = 1,		
-						},	
+							min = 50, max = 125, step = 1,
+						},
 						height = {
 							type = "range",
 							order = 3,
@@ -401,7 +400,7 @@ E.Options.args.nameplate = {
 								local t = E.db.nameplate.healthBar.lowHPScale.color
 								t.r, t.g, t.b = r, g, b
 								NP:UpdateAllPlates()
-							end,				
+							end,
 							name = L["Color on low health"],
 							order = 6,
 							type = "color",
@@ -493,7 +492,7 @@ E.Options.args.nameplate = {
 					min = 0, max = 220, step = 1,
 					disabled = function() return (NP.db.targetIndicator.style == "glow") end,
 					set = function(info, value) E.db.nameplate.targetIndicator[ info[#info] ] = value; NP:SetTargetIndicatorDimensions() end,
-				},			
+				},
 				style = {
 					order = 4,
 					name = L["Style"],
@@ -512,7 +511,7 @@ E.Options.args.nameplate = {
 					type = "range",
 					min = -100, max = 100, step = 1,
 					disabled = function() return (NP.db.targetIndicator.style ~= "doubleArrow" and NP.db.targetIndicator.style ~= "doubleArrowInverted") end
-				},					
+				},
 				yOffset = {
 					order = 6,
 					name = L["Y-Offset"],

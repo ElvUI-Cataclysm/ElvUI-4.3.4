@@ -13,7 +13,7 @@ E.Options.args.databars = {
 		intro = {
 			order = 1,
 			type = "description",
-			name = L["Setup the Experience and Reputation Bars"]
+			name = L["DATABAR_DESC"]
 		},
 		spacer = {
 			order = 2,

@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(ElvUI); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(ElvUI);
 local S = E:GetModule('Skins')
 
 E.Options.args.skins = {
@@ -30,7 +30,7 @@ E.Options.args.skins = {
 			type = 'group',
 			name = 'Blizzard',
 			get = function(info) return E.private.skins.blizzard[ info[#info] ] end,
-			set = function(info, value) E.private.skins.blizzard[ info[#info] ] = value; E:StaticPopup_Show("CONFIG_RL") end,	
+			set = function(info, value) E.private.skins.blizzard[ info[#info] ] = value; E:StaticPopup_Show("CONFIG_RL") end,
 			guiInline = true,
 			args = {
 				achievement = {
@@ -41,7 +41,7 @@ E.Options.args.skins = {
 				achievement_popup = {
 					type = "toggle",
 					name = L["Achievement Popup Frames"],
-					desc = L["TOGGLESKIN_DESC"],								
+					desc = L["TOGGLESKIN_DESC"],
 				},
 				arena = {
 					type = "toggle",

@@ -2294,6 +2294,7 @@ P['chat'] = {
 	['whisperSound'] = 'Whisper Alert',
 	["noAlertInCombat"] = false,
 	['chatHistory'] = true,
+	['lfgIcons'] = false,
 	['timeStampFormat'] = 'NONE',
 	['chatDirection'] = 'BOTTOM',
 	['chatLines'] = 125,
@@ -2317,7 +2318,7 @@ P['chat'] = {
 	["numAllowedCombatRepeat"] = 3,
 	["useCustomTimeColor"] = true,
 	["customTimeColor"] = {r = 0.7, g = 0.7, b = 0.7},
-	
+
 	['tabFont'] = 'PT Sans Narrow',
 	['tabFontSize'] = 12,
 	['tabFontOutline'] = 'NONE',

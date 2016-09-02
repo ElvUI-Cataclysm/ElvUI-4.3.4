@@ -181,7 +181,7 @@ local function UpdateFilterGroup()
 					order = -9,
 					guiInline = true,
 					get = function(info) return selectedSpell; end,
-					set = function(info, value) selectedSpell = value; UpdateFilterGroup(); end,							
+					set = function(info, value) selectedSpell = value; UpdateFilterGroup(); end,
 					values = function()
 						local filters = {};
 						filters[""] = NONE;

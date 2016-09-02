@@ -1,4 +1,4 @@
-﻿local E, L, V, P, G, _ = unpack(ElvUI); --Import: Engine, Locales, ProfileDB, GlobalDB
+﻿local E, L, V, P, G, _ = unpack(ElvUI);
 local A = E:GetModule('Auras')
 
 local function GetAuraOptions(headerName)
@@ -6,7 +6,7 @@ local function GetAuraOptions(headerName)
 		header = {
 			order = 0,
 			type = "header",
-			name = headerName,							
+			name = headerName,
 		},
 		size = {
 			order = 1,
@@ -30,7 +30,7 @@ local function GetAuraOptions(headerName)
 				LEFT_DOWN = format(L["%s and then %s"], L["Left"], L["Down"]),
 				LEFT_UP = format(L["%s and then %s"], L["Left"], L["Up"]),
 			},
-		},				
+		},
 		wrapAfter = {
 			type = 'range',
 			order = 3,
@@ -90,7 +90,7 @@ local function GetAuraOptions(headerName)
 			},
 		},
 	}
-	
+
 	return auraOptions
 end
 
@@ -114,8 +114,8 @@ E.Options.args.auras = {
 			set = function(info, value) 
 				E.private.auras[ info[#info] ] = value; 
 				E:StaticPopup_Show("PRIVATE_RL")
-			end,		
-		},	
+			end,
+		},
 		disableBlizzard = {
 			order = 3,
 			type = 'toggle',
@@ -124,8 +124,8 @@ E.Options.args.auras = {
 			set = function(info, value) 
 				E.private.auras[ info[#info] ] = value; 
 				E:StaticPopup_Show("PRIVATE_RL")
-			end,		
-		},			
+			end,
+		},
 		general = {
 			order = 5,
 			type = 'group',
@@ -142,7 +142,7 @@ E.Options.args.auras = {
 					desc = L['Threshold before text changes red, goes into decimal form, and the icon will fade. Set to -1 to disable.'],
 					min = -1, max = 30, step = 1,
 					order = 1,
-				},	
+				},
 				font = {
 					type = "select", dialogControl = 'LSM30_Font',
 					order = 2,
@@ -154,7 +154,7 @@ E.Options.args.auras = {
 					name = L["Font Size"],
 					type = "range",
 					min = 6, max = 22, step = 1,
-				},	
+				},
 				fontOutline = {
 					order = 4,
 					name = L["Font Outline"],
@@ -163,7 +163,6 @@ E.Options.args.auras = {
 					values = {
 						['NONE'] = L['None'],
 						['OUTLINE'] = 'OUTLINE',
-						
 						['MONOCHROMEOUTLINE'] = 'MONOCROMEOUTLINE',
 						['THICKOUTLINE'] = 'THICKOUTLINE',
 					},
@@ -179,19 +178,19 @@ E.Options.args.auras = {
 					name = L['Time yOffset'],
 					type = 'range',
 					min = -60, max = 60, step = 1,
-				},	
+				},
 				countXOffset = {
 					order = 7,
 					name = L['Count xOffset'],
 					type = 'range',
 					min = -60, max = 60, step = 1,
-				},		
+				},
 				countYOffset = {
 					order = 8,
 					name = L['Count yOffset'],
 					type = 'range',
 					min = -60, max = 60, step = 1,
-				},															
+				},
 			},
 		},
 		buffs = {
@@ -199,15 +198,15 @@ E.Options.args.auras = {
 			type = 'group',
 			name = L['Buffs'],
 			get = function(info) return E.db.auras.buffs[ info[#info] ] end,
-			set = function(info, value) E.db.auras.buffs[ info[#info] ] = value; A:UpdateHeader(ElvUIPlayerBuffs) end,			
+			set = function(info, value) E.db.auras.buffs[ info[#info] ] = value; A:UpdateHeader(ElvUIPlayerBuffs) end,
 			args = GetAuraOptions(L["Buffs"]),
-		},	
+		},
 		debuffs = {
 			order = 20,
 			type = 'group',
 			name = L['Debuffs'],
 			get = function(info) return E.db.auras.debuffs[ info[#info] ] end,
-			set = function(info, value) E.db.auras.debuffs[ info[#info] ] = value; A:UpdateHeader(ElvUIPlayerDebuffs) end,				
+			set = function(info, value) E.db.auras.debuffs[ info[#info] ] = value; A:UpdateHeader(ElvUIPlayerDebuffs) end,
 			args = GetAuraOptions(L["Debuffs"]),
 		},
 	},

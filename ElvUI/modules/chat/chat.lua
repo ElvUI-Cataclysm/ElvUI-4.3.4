@@ -63,6 +63,7 @@ local Var = {
 
 local CreatedFrames = 0;
 local lines = {};
+local lfgRoles = {};
 local msgList, msgCount, msgTime = {}, {}, {}
 local good, maybe, filter, login = {}, {}, {}, false
 local chatFilters = {};
@@ -107,7 +108,6 @@ local tabTexs = {
 	'Selected',
 	'Highlight'
 }
-
 
 local smileyPack = {
 	["Angry"] = [[Interface\AddOns\ElvUI\media\textures\smileys\angry.blp]],
@@ -165,6 +165,12 @@ local smileyKeys = {
 	["<3"]="Heart",
 	["</3"]="BrokenHeart",
 };
+
+local rolePaths = {
+	TANK = [[|TInterface\AddOns\ElvUI\media\textures\tank.tga:15:15:0:0:64:64:2:56:2:56|t]],
+	HEALER = [[|TInterface\AddOns\ElvUI\media\textures\healer.tga:15:15:0:0:64:64:2:56:2:56|t]],
+	DAMAGER = [[|TInterface\AddOns\ElvUI\media\textures\dps.tga:15:15|t]]
+}
 
 local specialChatIcons = {
 	["WoW Circle 3.3.5a x25"] = {
@@ -1222,9 +1228,11 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 					end					
 				end
 
-				if not pflag then
-					pflag = "";
-				end
+				if(not pflag and lfgRoles[arg2] and (type == "PARTY_LEADER" or type == "PARTY" or type == "RAID" or type == "RAID_LEADER" or type == "INSTANCE_CHAT" or type == "INSTANCE_CHAT_LEADER")) then
+					pflag = lfgRoles[arg2]
+ 				end
+
+				pflag = pflag or ""
 			end
 			if ( type == "WHISPER_INFORM" and GMChatFrame_IsGM and GMChatFrame_IsGM(arg2) ) then
 				return;
@@ -1766,9 +1774,32 @@ function CH:ON_FCF_SavePositionAndDimensions(_, noLoop)
 	if not noLoop then
 		CH:PositionChat()
 	end
-	
+
 	if not E.db.chat.lockPositions then
 		CH:UpdateChatTabs() --It was not done in PositionChat, so do it now
+	end
+end
+
+function CH:CheckLFGRoles()
+	local numParty, numRaid = GetNumPartyMembers(), GetNumRaidMembers();
+	local unit = numRaid and "raid" or "party"
+
+	twipe(lfgRoles)
+	if(not numParty or not self.db.lfgIcons) then return end
+
+	local role = UnitGroupRolesAssigned("player")
+	if(role) then
+		lfgRoles[E.myname] = rolePaths[role]
+	end
+
+	for i = 1, (numRaid > 0 and numRaid or numParty) do
+		if(UnitExists(unit..i) and not UnitIsUnit(unit..i, "player")) then
+			role = UnitGroupRolesAssigned(unit..i)
+			local name = GetUnitName(unit..i, true)
+			if(role and name) then
+				lfgRoles[name] = rolePaths[role]
+			end
+		end
 	end
 end
 
@@ -1825,7 +1856,10 @@ function CH:Initialize()
 	if not E.db.chat.lockPositions then
 		CH:UpdateChatTabs() --It was not done in PositionChat, so do it now
 	end
-	
+
+	self:RegisterEvent("RAID_ROSTER_UPDATE", "CheckLFGRoles")
+	self:RegisterEvent("PARTY_MEMBERS_CHANGED", "CheckLFGRoles")
+
 	self:RegisterEvent("CHAT_MSG_BATTLEGROUND", 'SaveChatHistory')
 	self:RegisterEvent("CHAT_MSG_BATTLEGROUND_LEADER", 'SaveChatHistory')
 	self:RegisterEvent("CHAT_MSG_BN_WHISPER", 'SaveChatHistory')
