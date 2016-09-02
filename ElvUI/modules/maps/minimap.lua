@@ -124,13 +124,6 @@ function M:PLAYER_REGEN_ENABLED()
 	self:UpdateSettings()
 end
 
---[[local function PositionTicketButtons()
-	local pos = E.db.general.minimap.icons.ticket.position or "TOPRIGHT"
-	HelpOpenTicketButton:ClearAllPoints()
-	HelpOpenTicketButton:Point(pos, Minimap, pos, E.db.general.minimap.icons.ticket.xOffset or 0, E.db.general.minimap.icons.ticket.yOffset or 0)
-end
-hooksecurefunc("HelpOpenTicketButton_Move", PositionTicketButtons)]]
-
 function M:UpdateSettings()
 	if InCombatLockdown() then
 		self:RegisterEvent('PLAYER_REGEN_ENABLED')
@@ -287,11 +280,15 @@ function M:UpdateSettings()
 		GuildInstanceDifficulty:SetScale(scale)
 	end
 
-	--[[if HelpOpenTicketButton then
+	if HelpOpenTicketButton then
+		local pos = E.db.general.minimap.icons.ticket.position or "TOPRIGHT"
 		local scale = E.db.general.minimap.icons.ticket.scale or 1
+		local x = E.db.general.minimap.icons.ticket.xOffset or 0
+		local y = E.db.general.minimap.icons.ticket.yOffset or 0
+		HelpOpenTicketButton:ClearAllPoints()
+		HelpOpenTicketButton:Point(pos, Minimap, pos, x, y)
 		HelpOpenTicketButton:SetScale(scale)
-		PositionTicketButtons()
-	end]]
+	end
 
 	if(ElvConfigToggle) then
 		if(E.db.general.reminder.enable and E.db.datatexts.minimapPanels and E.private.general.minimap.enable and not E.global.tukuiMode) then

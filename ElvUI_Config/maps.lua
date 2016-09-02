@@ -419,10 +419,10 @@ E.Options.args.maps = {
 								},
 							},
 						},
-						--[[ticket = {
+						ticket = {
 							order = 7,
 							type = "group",
-							name = L["Open Ticket"],
+							name = L["GM Ticket"],
 							get = function(info) return E.db.general.minimap.icons.ticket[ info[#info] ] end,
 							set = function(info, value) E.db.general.minimap.icons.ticket[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
 							args = {
@@ -460,7 +460,7 @@ E.Options.args.maps = {
 									min = -50, max = 50, step = 1,
 								},
 							},
-						},]]
+						},
 					},
 				},
 			},
