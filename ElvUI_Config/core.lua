@@ -206,6 +206,9 @@ local function ExportImport_Open(mode)
 	box:SetLabel("");
 	frame:AddChild(box);
 	box.editBox.OnTextChangedOrig = box.editBox:GetScript("OnTextChanged");
+	box.editBox.OnCursorChangedOrig = box.editBox:GetScript("OnCursorChanged")
+	--Remove OnCursorChanged script as it causes weird behaviour with long text
+	box.editBox:SetScript("OnCursorChanged", nil)
 
 	local label1 = AceGUI:Create("Label");
 	local font = GameFontHighlightSmall:GetFont();
@@ -309,6 +312,7 @@ local function ExportImport_Open(mode)
 		end)
 		frame:AddChild(decodeButton);
 
+		local oldText = ""
 		local function OnTextChanged()
 			local text = box:GetText();
 			if(text == "") then
@@ -316,7 +320,7 @@ local function ExportImport_Open(mode)
 				label2:SetText("");
 				importButton:SetDisabled(true);
 				decodeButton:SetDisabled(true)
-			else
+			elseif oldText ~= text then
 				local stringType = D:GetImportStringType(text);
 				if(stringType == "Base64") then
 					decodeButton:SetDisabled(false);
@@ -338,7 +342,10 @@ local function ExportImport_Open(mode)
 					importButton:SetDisabled(false);
 				end
 
+				box.scrollFrame:UpdateScrollChildRect()
 				box.scrollFrame:SetVerticalScroll(box.scrollFrame:GetVerticalScrollRange());
+
+				oldText = text
 			end
 		end
 
@@ -350,7 +357,9 @@ local function ExportImport_Open(mode)
 	frame:SetCallback("OnClose", function(widget)
 		box.editBox:SetScript("OnChar", nil);
 		box.editBox:SetScript("OnTextChanged", box.editBox.OnTextChangedOrig);
+		box.editBox:SetScript("OnCursorChanged", box.editBox.OnCursorChangedOrig)
 		box.editBox.OnTextChangedOrig = nil;
+		box.editBox.OnCursorChangedOrig = nil
 
 		exportString = "";
 
