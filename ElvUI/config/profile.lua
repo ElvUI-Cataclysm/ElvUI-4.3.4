@@ -17,6 +17,7 @@ P['general'] = {
 	["enhancedPvpMessages"] = true,
 	["watchFrameHeight"] = 480,
 	['afk'] = true,
+	["numberPrefixStyle"] = "METRIC",
 
 	['fontSize'] = 12,
 	['font'] = 'PT Sans Narrow',
