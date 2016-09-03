@@ -2470,6 +2470,8 @@ P['actionbar'] = {
 
 	['noRangeColor'] = { r = 0.8, g = 0.1, b = 0.1 },
 	['noPowerColor'] = { r = 0.5, g = 0.5, b = 1 },
+	["usableColor"] = { r = 1, g = 1, b = 1 },
+	["notUsableColor"] = { r = 0.4, g = 0.4, b = 0.4 },
 
 	['selfcast'] = true,
 	['enablecd'] = true,

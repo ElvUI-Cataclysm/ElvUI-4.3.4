@@ -683,7 +683,9 @@ function AB:UpdateButtonConfig(bar, buttonName)
 	bar.buttonConfig.clickOnDown = GetCVar('ActionButtonUseKeyDown') == '1' and true or false
 	bar.buttonConfig.colors.range = E:GetColorTable(self.db.noRangeColor)
 	bar.buttonConfig.colors.mana = E:GetColorTable(self.db.noPowerColor)
-	bar.buttonConfig.colors.hp = E:GetColorTable(self.db.noPowerColor)
+	--bar.buttonConfig.colors.hp = E:GetColorTable(self.db.noPowerColor)
+	bar.buttonConfig.colors.usable = E:GetColorTable(self.db.usableColor)
+	bar.buttonConfig.colors.notUsable = E:GetColorTable(self.db.notUsableColor)
 
 	for i, button in pairs(bar.buttons) do
 		bar.buttonConfig.keyBoundTarget = format(buttonName.."%d", i)
