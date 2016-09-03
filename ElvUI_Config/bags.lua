@@ -178,10 +178,10 @@ E.Options.args.bags = {
 				},
 			},
 		},
-		sizeAndPos = {
+		sizeGroup = {
 			order = 4,
 			type = "group",
-			name = L["Size and Positions"],
+			name = L["Size"],
 			disabled = function() return not E.bags; end,
 			args = {
 				header = {
@@ -189,15 +189,8 @@ E.Options.args.bags = {
 					type = "header",
 					name = L["Size and Positions"],
 				},
-				alignToChat = {
-					order = 1,
-					type = "toggle",
-					name = L["Align To Chat"],
-					desc = L["Align the width of the bag frame to fit inside the chat box."],
-					set = function(info, value) E.db.bags[ info[#info] ] = value; B:Layout(); B:Layout(true); end
-				},
 				bagSize = {
-					order = 2,
+					order = 1,
 					type = "range",
 					name = L["Button Size (Bag)"],
 					desc = L["The size of the individual buttons on the bag frame."],
@@ -205,7 +198,7 @@ E.Options.args.bags = {
 					set = function(info, value) E.db.bags[ info[#info] ] = value; B:Layout(); end
 				},
 				bankSize = {
-					order = 3,
+					order = 2,
 					type = "range",
 					name = L["Button Size (Bank)"],
 					desc = L["The size of the individual buttons on the bank frame."],
@@ -213,50 +206,20 @@ E.Options.args.bags = {
 					set = function(info, value) E.db.bags[ info[#info] ] = value; B:Layout(true); end
 				},
 				bagWidth = {
-					order = 4,
+					order = 3,
 					type = "range",
 					name = L["Panel Width (Bags)"],
 					desc = L["Adjust the width of the bag frame."],
 					min = 150, max = 1400, step = 1,
-					set = function(info, value) E.db.bags[ info[#info] ] = value; B:Layout(); end,
-					disabled = function() return E.db.bags.alignToChat end
+					set = function(info, value) E.db.bags[ info[#info] ] = value; B:Layout(); end
 				},
 				bankWidth = {
-					order = 5,
+					order = 4,
 					type = "range",
 					name = L["Panel Width (Bank)"],
 					desc = L["Adjust the width of the bank frame."],
 					min = 150, max = 1400, step = 1,
-					set = function(info, value) E.db.bags[ info[#info] ] = value; B:Layout(true); end,
-					disabled = function() return E.db.bags.alignToChat; end
-				},
-				xOffset = {
-					order = 6,
-					type = "range",
-					name = L["X Offset Bags"],
-					min = -5000, max = 5000, step = 1,
-					set = function(info, value) E.db.bags[ info[#info] ] = value; B:PositionBagFrames(); end
-				},
-				yOffset = {
-					order = 7,
-					type = "range",
-					name = L["Y Offset Bags"],
-					min = -3000, max = 3000, step = 1,
-					set = function(info, value) E.db.bags[ info[#info] ] = value; B:PositionBagFrames(); end
-				},
-				xOffsetBank = {
-					order = 8,
-					type = "range",
-					name = L["X Offset Bank"],
-					min = -5000, max = 5000, step = 1,
-					set = function(info, value) E.db.bags[ info[#info] ] = value; B:PositionBagFrames(); end
-				},
-				yOffsetBank = {
-					order = 9,
-					type = "range",
-					name = L["Y Offset Bank"],
-					min = -3000, max = 3000, step = 1,
-					set = function(info, value) E.db.bags[ info[#info] ] = value; B:PositionBagFrames(); end
+					set = function(info, value) E.db.bags[ info[#info] ] = value; B:Layout(true); end
 				},
 			},
 		},
@@ -371,8 +334,8 @@ E.Options.args.bags = {
 					order = 5,
 					type = "multiselect",
 					name = L["Ignored Items and Search Syntax"],
-					values = E.db.bags.ignoredItems,
-					get = function(info, value)	return E.db.bags.ignoredItems[value] end,
+					values = function() return E.db.bags.ignoredItems; end,
+					get = function(info, value) return E.db.bags.ignoredItems[value] end,
 					set = function(info, value)
 						E.db.bags.ignoredItems[value] = nil
 						GameTooltip:Hide()--Make sure tooltip is properly hidden

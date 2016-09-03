@@ -689,7 +689,6 @@ function E:UpdateAll(ignoreInstall)
 	bags.db = self.db.bags;
 	bags:Layout();
 	bags:Layout(true);
-	bags:PositionBagFrames();
 	bags:SizeAndPositionBagBar();
 	bags:UpdateItemLevelDisplay();
 	bags:UpdateCountDisplay();
