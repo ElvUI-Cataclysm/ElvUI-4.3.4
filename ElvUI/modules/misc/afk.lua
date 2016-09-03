@@ -8,6 +8,10 @@ local GetTime = GetTime;
 local tostring = tostring;
 local floor = floor;
 local format, strsub = string.format, string.sub;
+
+local InCombatLockdown = InCombatLockdown
+local CinematicFrame = CinematicFrame
+local MovieFrame = MovieFrame
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
 local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 local DND = DND;
@@ -25,7 +29,7 @@ function AFK:UpdateTimer()
 end
 
 function AFK:SetAFK(status)
-	if(InCombatLockdown()) then
+	if(InCombatLockdown() or CinematicFrame:IsShown() or MovieFrame:IsShown()) then
 		return;
 	end
 	
