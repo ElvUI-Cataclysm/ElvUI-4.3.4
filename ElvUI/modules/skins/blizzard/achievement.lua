@@ -160,8 +160,6 @@ local function LoadSkin(event)
 		S:HandleTab(_G["AchievementFrameTab" .. i]);
 	end
 
-	AchievementFrameTab1:Point("BOTTOMLEFT", AchievementFrame, "BOTTOMLEFT", 11, -29)
-
 	local function AnimationStatusBar(bar, noNumber)
 		bar.anim = CreateAnimationGroup(bar);
 		bar.anim.progress = bar.anim:CreateAnimation("Progress");

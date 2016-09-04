@@ -8,7 +8,7 @@ local ipairs, pairs, tonumber, select, unpack = ipairs, pairs, tonumber, select,
 local tinsert, tremove, tsort, twipe = table.insert, table.remove, table.sort, table.wipe;
 local floor = math.floor;
 local band = bit.band;
-local match, split, gmatch, find = string.match, string.split, string.gmatch, string.find;
+local match, gmatch, find = string.match, string.gmatch, string.find;
 
 local GetTime = GetTime;
 local InCombatLockdown = InCombatLockdown;
@@ -450,6 +450,12 @@ end
 
 function B.Stack(sourceBags, targetBags, canMove)
 	if not canMove then canMove = DefaultCanMove end
+
+	twipe(blackListedSlots);
+
+	local ignoredItems = B.db.ignoredItems;
+	buildBlacklist(ignoredItems);
+
 	for _, bag, slot in B.IterateBags(targetBags, nil, "deposit") do
 		local bagSlot = B:Encode_BagSlot(bag, slot)
 		local itemID = bagIDs[bagSlot]
@@ -604,8 +610,14 @@ function B.Fill(sourceBags, targetBags, reverse, canMove)
 		if #emptySlots == 0 then break end
 		local bagSlot = B:Encode_BagSlot(bag, slot)
 		local targetBag, targetSlot = B:Decode_BagSlot(emptySlots[1])
-		if bagIDs[bagSlot] and B:CanItemGoInBag(bag, slot, targetBag) and canMove(bagIDs[bagSlot], bag, slot) then
-			B:AddMove(bagSlot, tremove(emptySlots, 1))
+		local link = B:GetItemLink(bag, slot);
+
+		if(link and blackList[GetItemInfo(link)]) then
+			blackListedSlots[bagSlot] = true;
+		end
+
+		if(bagIDs[bagSlot] and B:CanItemGoInBag(bag, slot, targetBag) and canMove(bagIDs[bagSlot], bag, slot) and not blackListedSlots[bagSlot]) then
+			B:AddMove(bagSlot, tremove(emptySlots, 1));
 		end
 	end
 	twipe(emptySlots)

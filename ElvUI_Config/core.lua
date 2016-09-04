@@ -2,50 +2,57 @@
 local D = E:GetModule("Distributor");
 local AceGUI = LibStub("AceGUI-3.0");
 
-local tsort, tinsert = table.sort, table.insert
-local floor, ceil = math.floor, math.ceil
+local tsort, tinsert = table.sort, table.insert;
+local floor, ceil = math.floor, math.ceil;
+local format = string.format;
 local DEFAULT_WIDTH = 890;
 local DEFAULT_HEIGHT = 651;
-local AC = LibStub("AceConfig-3.0-ElvUI")
-local ACD = LibStub("AceConfigDialog-3.0-ElvUI")
-local ACR = LibStub("AceConfigRegistry-3.0-ElvUI")
+local AC = LibStub("AceConfig-3.0-ElvUI");
+local ACD = LibStub("AceConfigDialog-3.0-ElvUI");
+local ACR = LibStub("AceConfigRegistry-3.0-ElvUI");
 
-AC:RegisterOptionsTable("ElvUI", E.Options)
-ACD:SetDefaultSize("ElvUI", DEFAULT_WIDTH, DEFAULT_HEIGHT)
+AC:RegisterOptionsTable("ElvUI", E.Options);
+ACD:SetDefaultSize("ElvUI", DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
+function E:RefreshGUI()
+	self:RefreshCustomTextsConfigs();
+	ACR:NotifyChange("ElvUI");
+end
+
+E.Options.name = E.UIName;
 E.Options.args = {
 	ElvUI_Header = {
 		order = 1,
 		type = "header",
-		name = L["Version"]..format(": |cff99ff33%s|r",E.version),
+		name = L["Version"] .. format(": |cff99ff33%s|r", E.version),
 		width = "full",
 	},
 	LoginMessage = {
 		order = 2,
-		type = 'toggle',
-		name = L['Login Message'],
-		get = function(info) return E.db.general.loginmessage end,
-		set = function(info, value) E.db.general.loginmessage = value end,
+		type = "toggle",
+		name = L["Login Message"],
+		get = function(info) return E.db.general.loginmessage; end,
+		set = function(info, value) E.db.general.loginmessage = value; end
 	},
 	ToggleTutorial = {
 		order = 3,
-		type = 'execute',
-		name = L['Toggle Tutorials'],
-		func = function() E:Tutorials(true); E:ToggleConfig()  end,
+		type = "execute",
+		name = L["Toggle Tutorials"],
+		func = function() E:Tutorials(true); E:ToggleConfig(); end
 	},
 	Install = {
 		order = 4,
-		type = 'execute',
-		name = L['Install'],
-		desc = L['Run the installation process.'],
-		func = function() E:Install(); E:ToggleConfig() end,
+		type = "execute",
+		name = L["Install"],
+		desc = L["Run the installation process."],
+		func = function() E:Install(); E:ToggleConfig(); end
 	},
 	ToggleAnchors = {
 		order = 5,
 		type = "execute",
 		name = L["Toggle Anchors"],
 		desc = L["Unlock various elements of the UI to be repositioned."],
-		func = function() E:ToggleConfigMode() end,
+		func = function() E:ToggleConfigMode(); end
 	},
 	ResetAllMovers = {
 		order = 6,
@@ -56,10 +63,10 @@ E.Options.args = {
 	},
 }
 
-local DONATOR_STRING = ""
-local DEVELOPER_STRING = ""
-local TESTER_STRING = ""
-local LINE_BREAK = "\n"
+local DONATOR_STRING = "";
+local DEVELOPER_STRING = "";
+local TESTER_STRING = "";
+local LINE_BREAK = "\n";
 local DONATORS = {
 	"Dandruff",
 	"Tobur/Tarilya",
@@ -97,8 +104,10 @@ local DONATORS = {
 	"Adorno",
 	"Domoaligato",
 	"Smorg",
-	"Pyrokee"
-}
+	"Pyrokee",
+	"Portable",
+	"Ithilyn"
+};
 
 local DEVELOPERS = {
 	"Tukz",
@@ -120,30 +129,30 @@ local TESTERS = {
 	"Blazeflack",
 	"Repooc",
 	"Darth Predator",
-	'Alex',
-	'Nidra',
-	'Kurhyus',
-	'BuG',
-	'Yachanay',
-	'Catok'
+	"Alex",
+	"Nidra",
+	"Kurhyus",
+	"BuG",
+	"Yachanay",
+	"Catok"
 }
 
-tsort(DONATORS, function(a,b) return a < b end) --Alphabetize
+tsort(DONATORS, function(a, b) return a < b end);
 for _, donatorName in pairs(DONATORS) do
-	tinsert(E.CreditsList, donatorName)
-	DONATOR_STRING = DONATOR_STRING..LINE_BREAK..donatorName
+	tinsert(E.CreditsList, donatorName);
+	DONATOR_STRING = DONATOR_STRING .. LINE_BREAK .. donatorName;
 end
 
-tsort(DEVELOPERS, function(a,b) return a < b end) --Alphabetize
+tsort(DEVELOPERS, function(a,b) return a < b end);
 for _, devName in pairs(DEVELOPERS) do
-	tinsert(E.CreditsList, devName)
-	DEVELOPER_STRING = DEVELOPER_STRING..LINE_BREAK..devName
+	tinsert(E.CreditsList, devName);
+	DEVELOPER_STRING = DEVELOPER_STRING .. LINE_BREAK .. devName;
 end
 
-tsort(TESTERS, function(a,b) return a < b end) --Alphabetize
+tsort(TESTERS, function(a, b) return a < b end)
 for _, testerName in pairs(TESTERS) do
-	tinsert(E.CreditsList, testerName)
-	TESTER_STRING = TESTER_STRING..LINE_BREAK..testerName
+	tinsert(E.CreditsList, testerName);
+	TESTER_STRING = TESTER_STRING .. LINE_BREAK .. testerName;
 end
 
 E.Options.args.credits = {
@@ -154,10 +163,10 @@ E.Options.args.credits = {
 		text = {
 			order = 1,
 			type = "description",
-			name = L['ELVUI_CREDITS']..'\n\n'..L['Coding:']..DEVELOPER_STRING..'\n\n'..L['Testing:']..TESTER_STRING..'\n\n'..L['Donations:']..DONATOR_STRING,
-		},
-	},
-}
+			name = L["ELVUI_CREDITS"] .. "\n\n" .. L["Coding:"] .. DEVELOPER_STRING .. "\n\n" .. L["Testing:"] .. TESTER_STRING .. "\n\n" .. L["Donations:"] .. DONATOR_STRING
+		}
+	}
+};
 
 local profileTypeItems = {
 	["profile"] = L["Profile"],
@@ -206,21 +215,20 @@ local function ExportImport_Open(mode)
 	box:SetLabel("");
 	frame:AddChild(box);
 	box.editBox.OnTextChangedOrig = box.editBox:GetScript("OnTextChanged");
-	box.editBox.OnCursorChangedOrig = box.editBox:GetScript("OnCursorChanged")
-	--Remove OnCursorChanged script as it causes weird behaviour with long text
-	box.editBox:SetScript("OnCursorChanged", nil)
+	box.editBox.OnCursorChangedOrig = box.editBox:GetScript("OnCursorChanged");
+	box.editBox:SetScript("OnCursorChanged", nil);
 
 	local label1 = AceGUI:Create("Label");
 	local font = GameFontHighlightSmall:GetFont();
 	label1:SetFont(font, 14);
-	label1:SetText(" ");
+	label1:SetText(".");
 	label1:SetWidth(800);
 	frame:AddChild(label1);
 
 	local label2 = AceGUI:Create("Label");
 	local font = GameFontHighlightSmall:GetFont();
 	label2:SetFont(font, 14);
-	label2:SetText(" ")
+	label2:SetText(".\n.")
 	label2:SetWidth(800);
 	frame:AddChild(label2);
 
@@ -312,7 +320,7 @@ local function ExportImport_Open(mode)
 		end)
 		frame:AddChild(decodeButton);
 
-		local oldText = ""
+		local oldText = "";
 		local function OnTextChanged()
 			local text = box:GetText();
 			if(text == "") then
@@ -320,7 +328,7 @@ local function ExportImport_Open(mode)
 				label2:SetText("");
 				importButton:SetDisabled(true);
 				decodeButton:SetDisabled(true)
-			elseif oldText ~= text then
+			elseif(oldText ~= text) then
 				local stringType = D:GetImportStringType(text);
 				if(stringType == "Base64") then
 					decodeButton:SetDisabled(false);
@@ -345,7 +353,7 @@ local function ExportImport_Open(mode)
 				box.scrollFrame:UpdateScrollChildRect()
 				box.scrollFrame:SetVerticalScroll(box.scrollFrame:GetVerticalScrollRange());
 
-				oldText = text
+				oldText = text;
 			end
 		end
 
@@ -357,9 +365,9 @@ local function ExportImport_Open(mode)
 	frame:SetCallback("OnClose", function(widget)
 		box.editBox:SetScript("OnChar", nil);
 		box.editBox:SetScript("OnTextChanged", box.editBox.OnTextChangedOrig);
-		box.editBox:SetScript("OnCursorChanged", box.editBox.OnCursorChangedOrig)
+		box.editBox:SetScript("OnCursorChanged", box.editBox.OnCursorChangedOrig);
 		box.editBox.OnTextChangedOrig = nil;
-		box.editBox.OnCursorChangedOrig = nil
+		box.editBox.OnCursorChangedOrig = nil;
 
 		exportString = "";
 
@@ -367,8 +375,8 @@ local function ExportImport_Open(mode)
 		ACD:Open("ElvUI");
 	end);
 
-	--label1:SetText("");
-	--label2:SetText("");
+	label1:SetText("");
+	label2:SetText("");
 
 	ACD:Close("ElvUI");
 
@@ -377,73 +385,77 @@ end
 
 --Create Profiles Table
 E.Options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(E.data);
-AC:RegisterOptionsTable("ElvProfiles", E.Options.args.profiles)
-E.Options.args.profiles.order = -10
+AC:RegisterOptionsTable("ElvProfiles", E.Options.args.profiles);
+E.Options.args.profiles.order = -10;
 
-LibStub('LibDualSpec-1.0'):EnhanceOptions(E.Options.args.profiles, E.data)
+LibStub("LibDualSpec-1.0"):EnhanceOptions(E.Options.args.profiles, E.data);
 
-if not E.Options.args.profiles.plugins then
-	E.Options.args.profiles.plugins = {}
+if(not E.Options.args.profiles.plugins) then
+	E.Options.args.profiles.plugins = {};
 end
 
 E.Options.args.profiles.plugins["ElvUI"] = {
+	spacer = {
+		order = 89,
+		type = "description",
+		name = "\n\n"
+	},
 	desc = {
-		name = L["This feature will allow you to transfer, settings to other characters."],
-		type = 'description',
-		order = 40.4,
+		order = 90,
+		type = "description",
+		name = L["This feature will allow you to transfer settings to other characters."]
 	},
 	distributeProfile = {
+		order = 91,
 		name = L["Share Current Profile"],
 		desc = L["Sends your current profile to your target."],
-		type = 'execute',
-		order = 40.5,
+		type = "execute",
 		func = function()
-			if not UnitExists("target") or not UnitIsPlayer("target") or not UnitIsFriend("player", "target") or UnitIsUnit("player", "target") then
-				E:Print(L["You must be targeting a player."])
-				return
+			if(not UnitExists("target") or not UnitIsPlayer("target") or not UnitIsFriend("player", "target") or UnitIsUnit("player", "target")) then
+				E:Print(L["You must be targeting a player."]);
+				return;
 			end
-			local name, server = UnitName("target")
-			if name and (not server or server == "") then
-				D:Distribute(name)
-			elseif server then
-				D:Distribute(name, true)
+			local name, server = UnitName("target");
+			if(name and (not server or server == "")) then
+				D:Distribute(name);
+			elseif(server) then
+				D:Distribute(name, true);
 			end
-		end,
+		end
 	},
 	distributeGlobal = {
+		order = 92,
+		type = "execute",
 		name = L["Share Filters"],
 		desc = L["Sends your filter settings to your target."],
-		type = 'execute',
-		order = 40.6,
 		func = function()
-			if not UnitExists("target") or not UnitIsPlayer("target") or not UnitIsFriend("player", "target") or UnitIsUnit("player", "target") then
-				E:Print(L["You must be targeting a player."])
-				return
+			if(not UnitExists("target") or not UnitIsPlayer("target") or not UnitIsFriend("player", "target") or UnitIsUnit("player", "target")) then
+				E:Print(L["You must be targeting a player."]);
+				return;
 			end
-			
 			local name, server = UnitName("target")
-			if name and (not server or server == "") then
-				D:Distribute(name, false, true)
-			elseif server then
-				D:Distribute(name, true, true)
+			if(name and (not server or server == "")) then
+				D:Distribute(name, false, true);
+			elseif(server) then
+				D:Distribute(name, true, true);
 			end
 		end,
 	},
-	spacer = {
-		order = 40.7,
+	spacer2 = {
+		order = 93,
 		type = "description",
 		name = ""
 	},
 	exportProfile = {
-		name = L["Export Profile"],
+		order = 94,
 		type = "execute",
-		order = 40.8,
+		name = L["Export Profile"],
 		func = function() ExportImport_Open("export"); end
 	},
 	importProfile = {
-		name = L["Import Profile"],
+		order = 95,
 		type = "execute",
-		order = 40.9,
+		name = L["Import Profile"],
 		func = function() ExportImport_Open("import"); end
 	}
 };
