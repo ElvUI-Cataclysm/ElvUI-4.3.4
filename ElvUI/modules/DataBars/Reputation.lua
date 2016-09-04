@@ -8,6 +8,7 @@ local GetWatchedFactionInfo, GetNumFactions, GetFactionInfo = GetWatchedFactionI
 local REPUTATION, STANDING = REPUTATION, STANDING;
 local FACTION_BAR_COLORS = FACTION_BAR_COLORS;
 local InCombatLockdown = InCombatLockdown;
+local ToggleCharacter = ToggleCharacter;
 
 local backupColor = FACTION_BAR_COLORS[1];
 function mod:UpdateReputation(event)
@@ -50,6 +51,12 @@ function mod:UpdateReputation(event)
 			text = format("%s: %s - %s [%s]", name, E:ShortValue(value - min), E:ShortValue(max - min), _G["FACTION_STANDING_LABEL" .. ID]);
 		elseif(textFormat == "CURPERC") then
 			text = format("%s: %s - %d%% [%s]", name, E:ShortValue(value - min), ((value - min) / (max - min) * 100), _G["FACTION_STANDING_LABEL" .. ID]);
+		elseif textFormat == 'CUR' then
+			text = format('%s: %s [%s]', name, E:ShortValue(value - min), _G["FACTION_STANDING_LABEL" .. ID]);
+		elseif textFormat == 'REM' then
+			text = format('%s: %s [%s]', name, E:ShortValue((max - min) - (value-min)), _G["FACTION_STANDING_LABEL" .. ID]);
+		elseif textFormat == 'CURREM' then
+			text = format('%s: %s - %s [%s]', name, E:ShortValue(value - min), E:ShortValue((max - min) - (value-min)), _G["FACTION_STANDING_LABEL" .. ID]);
 		end
 
 		bar.text:SetText(text)
