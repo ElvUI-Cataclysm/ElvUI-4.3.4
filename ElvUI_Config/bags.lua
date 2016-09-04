@@ -4,7 +4,7 @@ local B = E:GetModule("Bags");
 E.Options.args.bags = {
 	type = "group",
 	name = L["Bags"],
-	childGroups = "select",
+	childGroups = "tab",
 	get = function(info) return E.db.bags[ info[#info] ]; end,
 	set = function(info, value) E.db.bags[ info[#info] ] = value; end,
 	args = {

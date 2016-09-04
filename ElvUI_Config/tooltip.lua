@@ -4,7 +4,7 @@ local TT = E:GetModule('Tooltip')
 E.Options.args.tooltip = {
 	type = "group",
 	name = L["Tooltip"],
-	childGroups = "select",
+	childGroups = "tab",
 	get = function(info) return E.db.tooltip[ info[#info] ] end,
 	set = function(info, value) E.db.tooltip[ info[#info] ] = value; end,
 	args = {

@@ -5,7 +5,7 @@ E.Options.args.general = {
 	type = "group",
 	name = L["General"],
 	order = 1,
-	childGroups = "select",
+	childGroups = "tab",
 	get = function(info) return E.db.general[ info[#info] ] end,
 	set = function(info, value) E.db.general[ info[#info] ] = value end,
 	args = {

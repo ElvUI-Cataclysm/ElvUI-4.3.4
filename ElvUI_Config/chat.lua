@@ -4,7 +4,7 @@ local CH = E:GetModule('Chat');
 E.Options.args.chat = {
 	type = 'group',
 	name = L['Chat'],
-	childGroups = "select",
+	childGroups = "tab",
 	get = function(info) return E.db.chat[ info[#info] ] end,
 	set = function(info, value) E.db.chat[ info[#info] ] = value end,
 	args = {

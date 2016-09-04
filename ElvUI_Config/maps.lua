@@ -3,7 +3,7 @@
 E.Options.args.maps = {
 	type = "group",
 	name = L["Maps"],
-	childGroups = "select",
+	childGroups = "tab",
 	args = {
 		worldMap = {
 			order = 1,
