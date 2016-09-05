@@ -1,181 +1,172 @@
-﻿local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
-local AB = E:GetModule('ActionBars');
+﻿local E, L, V, P, G = unpack(select(2, ...));
+local AB = E:GetModule("ActionBars");
 
-if E.myclass ~= "SHAMAN" then return end
+if(E.myclass ~= "SHAMAN") then return; end
 
-local bar = CreateFrame('Frame', 'ElvUI_BarTotem', E.UIParent)
-bar.buttons = {}
+local bar = CreateFrame("Frame", "ElvUI_BarTotem", E.UIParent, "SecureHandlerStateTemplate");
 
 local bordercolors = {
-	{.23,.45,.13},   -- Earth
-	{.58,.23,.10},   -- Fire
-	{.19,.48,.60},   -- Water
-	{.42,.18,.74}   -- Air
-}
+	{.23, .45, .13},
+	{.58, .23, .10},
+	{.19, .48, .60},
+	{.42, .18, .74},
+	{.39, .39, .12}
+};
 
 local SLOT_EMPTY_TCOORDS = {
 	[EARTH_TOTEM_SLOT] = {
 		left	= 66 / 128,
 		right	= 96 / 128,
-		top	= 3 / 256,
-		bottom	= 33 / 256,
+		top		= 3 / 256,
+		bottom	= 33 / 256
 	},
 	[FIRE_TOTEM_SLOT] = {
 		left	= 67 / 128,
 		right	= 97 / 128,
-		top	= 100 / 256,
-		bottom	= 130 / 256,
+		top		= 100 / 256,
+		bottom	= 130 / 256
 	},
 	[WATER_TOTEM_SLOT] = {
 		left	= 39 / 128,
 		right	= 69 / 128,
-		top	= 209 / 256,
-		bottom	= 239 / 256,
+		top		= 209 / 256,
+		bottom	= 239 / 256
 	},
 	[AIR_TOTEM_SLOT] = {
 		left	= 66 / 128,
 		right	= 96 / 128,
-		top	= 36 / 256,
-		bottom	= 66 / 256,
-	},
-}
+		top		= 36 / 256,
+		bottom	= 66 / 256
+	}
+};
 
-function AB:StyleTotemFlyout(flyout)
-	-- remove blizzard flyout texture
-	flyout.top:SetTexture(nil)
-	flyout.middle:SetTexture(nil)
-	flyout:SetFrameStrata('MEDIUM')
+function AB:MultiCastFlyoutFrameOpenButton_Show(button, _, parent)
+	button.backdrop:SetBackdropBorderColor(parent:GetBackdropBorderColor());
 
-	-- Skin buttons
-	local last
-	for _,button in ipairs(flyout.buttons) do
-		button:SetTemplate("Default")
-		bar.buttons[button] = true
-		local icon = select(1,button:GetRegions())
-		icon:SetTexCoord(.09,.91,.09,.91)
-		icon:SetDrawLayer("ARTWORK")
-		icon:Point("TOPLEFT",button,"TOPLEFT",2,-2)
-		icon:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-2,2)		
-		if not InCombatLockdown() then
-			button:ClearAllPoints()
-			button:Point("BOTTOM",last,"TOP",0,4)
-		end
-		if button:IsVisible() then last = button end
-		button:SetBackdropBorderColor(flyout.parent:GetBackdropBorderColor())
-		button:StyleButton()
+	if(not bar.buttons[button]) then
+		bar.buttons[button] = true;
 	end
-
-	flyout.buttons[1]:SetPoint("BOTTOM",flyout,"BOTTOM")
-
-	if flyout.type == "slot" then
-		local tcoords = SLOT_EMPTY_TCOORDS[flyout.parent:GetID()]
-		flyout.buttons[1].icon:SetTexCoord(tcoords.left,tcoords.right,tcoords.top,tcoords.bottom)
-	end
-
-	-- Skin Close button
-	local close = MultiCastFlyoutFrameCloseButton
-	close:SetTemplate("Default")	
-	close:GetHighlightTexture():SetTexture([[Interface\Buttons\ButtonHilight-Square]])
-	close:GetHighlightTexture():Point("TOPLEFT",close,"TOPLEFT",1,-1)
-	close:GetHighlightTexture():Point("BOTTOMRIGHT",close,"BOTTOMRIGHT",-1,1)
-	close:GetNormalTexture():SetTexture(nil)
-	close:ClearAllPoints()
-	close:Point("BOTTOMLEFT",last,"TOPLEFT",0,4)
-	close:Point("BOTTOMRIGHT",last,"TOPRIGHT",0,4)	
-	close:SetBackdropBorderColor(last:GetBackdropBorderColor())
-	close:Height(15)
-
-	flyout:ClearAllPoints()
-	flyout:Point("BOTTOM",flyout.parent,"TOP",0,4)
-
-	bar.buttons[close] = true
-	bar.buttons[flyout] = true
-	self:AdjustTotemSettings()
 end
-AB:SecureHook('MultiCastFlyoutFrame_ToggleFlyout', 'StyleTotemFlyout')
-
-function AB:StyleTotemOpenButton(button, _, parent)
-	button:GetHighlightTexture():SetAlpha(0)
-	button:GetNormalTexture():SetAlpha(0)
-
-	button:Height(20)
-	button:ClearAllPoints()
-	button:Point("BOTTOMLEFT", parent, "TOPLEFT", 0, 0)
-	button:Point("BOTTOMRIGHT", parent, "TOPRIGHT", 0, 0)
-	if not button.visibleBut then
-		button.visibleBut = CreateFrame("Frame",nil,button)
-		button.visibleBut:Height(15)
-		button.visibleBut:Width(parent:GetWidth())
-		button.visibleBut:SetPoint("CENTER")
-		button.visibleBut.highlight = button.visibleBut:CreateTexture(nil,"HIGHLIGHT")
-		button.visibleBut.highlight:SetTexture([[Interface\Buttons\ButtonHilight-Square]])
-		button.visibleBut.highlight:Point("TOPLEFT",button.visibleBut,"TOPLEFT",1,-1)
-		button.visibleBut.highlight:Point("BOTTOMRIGHT",button.visibleBut,"BOTTOMRIGHT",-1,1)
-		button.visibleBut:SetTemplate("Default")
-	end	
-
-	bar.buttons[button] = true
-	self:AdjustTotemSettings()
-	button.visibleBut:SetBackdropBorderColor(parent:GetBackdropBorderColor())
-end
-AB:SecureHook('MultiCastFlyoutFrameOpenButton_Show', 'StyleTotemOpenButton')
 
 function AB:StyleTotemSlotButton(button, index)
-	button:SetTemplate("Default")
-	button.overlayTex:SetTexture(nil)
-	button.background:SetDrawLayer("ARTWORK")
-	button.background:ClearAllPoints()
-	button.background:Point("TOPLEFT",button,"TOPLEFT",2, -2)
-	button.background:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-2, 2)
-	button:SetBackdropBorderColor(unpack(bordercolors[((index-1) % 4) + 1]))
-	button:StyleButton()
-	bar.buttons[button] = true
-	self:AdjustTotemSettings()
-end
-hooksecurefunc("MultiCastSlotButton_Update",function(self, slot) AB:StyleTotemSlotButton(self,tonumber( string.match(self:GetName(),"MultiCastSlotButton(%d)"))) end)
+	if(bar.buttons[button]) then return; end
 
-function AB:StyleTotemActionButton(button, _, index)
-	local icon = select(1,button:GetRegions())
-	local combat = InCombatLockdown()
-	icon:SetTexCoord(.09,.91,.09,.91)
-	icon:SetDrawLayer("ARTWORK")
-	icon:Point("TOPLEFT",button,"TOPLEFT",2,-2)
-	icon:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-2,2)
-	button.overlayTex:SetTexture(nil)
-	button.overlayTex:Hide()
-	button:GetNormalTexture():SetAlpha(0)
-	if button.slotButton and not combat then
-		button:ClearAllPoints()
-		button:SetAllPoints(button.slotButton)
-		button:SetFrameLevel(button.slotButton:GetFrameLevel()+1)
+	button:SetTemplate("Default");
+	button:StyleButton();
+
+	if(button.actionButton) then
+		button.actionButton:SetTemplate("Default");
+		button.actionButton:StyleButton();
 	end
-	button:SetBackdropBorderColor(unpack(bordercolors[((index-1) % 4) + 1]))
-	button:SetBackdropColor(0,0,0,0)
-	button:StyleButton()
-	button.noBackdrop = true
-	bar.buttons[button] = true
-	self:StyleButton(button, true)
-	self:AdjustTotemSettings()
-end
-AB:SecureHook("MultiCastActionButton_Update", "StyleTotemActionButton")
 
-function AB:StyleTotemSpellButton(button, index)
-	if not button then return end
-	local icon = select(1,button:GetRegions())
-	icon:SetTexCoord(.09,.91,.09,.91)
-	icon:SetDrawLayer("ARTWORK")
-	icon:Point("TOPLEFT",button,"TOPLEFT",2,-2)
-	icon:Point("BOTTOMRIGHT",button,"BOTTOMRIGHT",-2,2)
-	button:SetTemplate("Default")
-	button:GetNormalTexture():SetTexture(nil)
-	_G[button:GetName().."Highlight"]:SetTexture(nil)
-	_G[button:GetName().."NormalTexture"]:SetTexture(nil)
-	button:StyleButton()
-	bar.buttons[button] = true
-	self:AdjustTotemSettings()
+	button.background:SetDrawLayer("ARTWORK");
+	button.background:SetInside(button);
+
+	button.overlayTex:SetTexture(nil)
+	button:SetBackdropBorderColor(unpack(bordercolors[((index-1) % 5) + 1]));
+
+	bar.buttons[button] = true;
 end
-hooksecurefunc("MultiCastSummonSpellButton_Update", function(self) AB:StyleTotemSpellButton(self,0) end)
-hooksecurefunc("MultiCastRecallSpellButton_Update", function(self) AB:StyleTotemSpellButton(self,5) end)
+
+function AB:MultiCastActionButton_Update(button, _, index)
+	if(bar.buttons[button]) then return; end
+
+	local icon = select(1,button:GetRegions())
+
+	button:SetTemplate("Default");
+
+	icon:SetTexCoord(unpack(E.TexCoords));
+	icon:SetDrawLayer("ARTWORK")
+	icon:SetInside(button);
+
+	button:ClearAllPoints();
+	button:SetAllPoints(button.slotButton);
+	button.overlayTex:SetTexture(nil)
+	button.overlayTex:SetAlpha(0)
+	button:GetNormalTexture():SetAlpha(0)
+	button:GetRegions():SetDrawLayer("ARTWORK");
+	button:SetBackdropBorderColor(unpack(bordercolors[((index-1) % 5) + 1]));
+	button:SetBackdropColor(0, 0, 0, 0);
+	button:StyleButton()
+
+	button.noBackdrop = true
+
+	bar.buttons[button] = true;
+end
+
+function AB:SkinSummonButton(button)
+	if(bar.buttons[button]) then return; end
+
+	local name = button:GetName();
+	local icon = select(1, button:GetRegions());
+	local highlight = _G[name .. "Highlight"];
+	local normal = _G[name .. "NormalTexture"];
+
+	button:SetTemplate("Default");
+	button:StyleButton();
+
+	icon:SetTexCoord(unpack(E.TexCoords));
+	icon:SetDrawLayer("ARTWORK");
+	icon:SetInside(button);
+
+	highlight:SetTexture(nil);
+	normal:SetTexture(nil);
+
+	bar.buttons[button] = true;
+end
+
+function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
+	self.top:SetTexture(nil);
+	self.middle:SetTexture(nil);
+
+	local numButtons = 0;
+	for i, button in ipairs(self.buttons) do
+		if(not bar.buttons[button]) then
+			button:SetTemplate("Default");
+
+			local buttonIcon = select(1, button:GetRegions());
+			buttonIcon:SetTexCoord(unpack(E.TexCoords));
+			buttonIcon:SetDrawLayer("ARTWORK");
+			buttonIcon:SetInside(button);
+			button:StyleButton();
+		end
+
+		if(button:IsShown()) then
+			numButtons = numButtons + 1;
+			button:Size(AB.db["barTotem"].buttonsize);
+			if(i == 1) then
+				button:Point("BOTTOM", parent, "TOP", 0, AB.db["barTotem"].buttonspacing);
+			else
+				button:Point("BOTTOM", self.buttons[i-1], "TOP", 0, AB.db["barTotem"].buttonspacing);
+			end
+
+			button:SetBackdropBorderColor(parent:GetBackdropBorderColor());
+		end
+	end
+
+	if(type == "slot") then
+		local tCoords = SLOT_EMPTY_TCOORDS[parent:GetID()];
+		self.buttons[1].icon:SetTexCoord(tCoords.left, tCoords.right, tCoords.top, tCoords.bottom);
+	end
+
+	MultiCastFlyoutFrameCloseButton.backdrop:SetBackdropBorderColor(parent:GetBackdropBorderColor());
+	self:Height(((AB.db["barTotem"].buttonsize + AB.db["barTotem"].buttonspacing) * numButtons) + MultiCastFlyoutFrameCloseButton:GetHeight());
+end
+
+function AB:MultiCastRecallSpellButton_Update(self)
+	if(HasMultiCastActionBar()) then
+		local activeSlots = MultiCastActionBarFrame.numActiveSlots;
+		if(activeSlots > 0) then
+			self:SetPoint("LEFT", _G["MultiCastSlotButton" .. activeSlots], "RIGHT", AB.db["barTotem"].buttonspacing, 0);
+		end
+	end
+
+	AB:SkinSummonButton(self);
+end
+
+function AB:ShowMultiCastActionBar()
+	self:PositionAndSizeBarTotem();
+end
 
 function AB:TotemOnEnter()
 	E:UIFrameFadeIn(bar, 0.2, bar:GetAlpha(), 1)
@@ -192,6 +183,13 @@ function AB:AdjustTotemSettings()
 	elseif not combat then
 		bar:Hide()
 	end
+
+	if(self.db["barTotem"].inheritGlobalFade) then
+		bar:SetParent(self.fadeParent);
+	else
+		bar:SetParent(E.UIParent);
+	end
+
 	for button, _ in pairs(bar.buttons) do
 		if self.db['barTotem'].mouseover == true then
 			bar:SetAlpha(0)
@@ -210,7 +208,7 @@ function AB:AdjustTotemSettings()
 				self:Unhook(bar, 'OnEnter')
 				self:Unhook(bar, 'OnLeave')
 			end
-			
+
 			if self.hooks[button] then
 				self:Unhook(button, 'OnEnter')
 				self:Unhook(button, 'OnLeave')
@@ -220,27 +218,33 @@ function AB:AdjustTotemSettings()
 end
 
 function AB:PositionAndSizeBarTotem()
-	local spacing = E:Scale(self.db["barTotem"].buttonspacing);
+	local buttonSpacing = E:Scale(self.db["barTotem"].buttonspacing);
 	local size = E:Scale(self.db["barTotem"].buttonsize);
+	local numActiveSlots = MultiCastActionBarFrame.numActiveSlots;
+
+	bar:Width((size * (2 + numActiveSlots)) + (buttonSpacing * (2 + numActiveSlots - 1)));
+	bar:Height(size);
 
 	MultiCastSummonSpellButton:ClearAllPoints();
-	MultiCastSummonSpellButton:SetSize(size, size);
-	MultiCastSummonSpellButton:Point("BOTTOMLEFT", 1 + spacing, 2);
+	MultiCastSummonSpellButton:Size(size);
+	MultiCastSummonSpellButton:Point("BOTTOMLEFT", E.Border*2, E.Border*2);
 
-	for i = 1, 4 do
+	for i = 1, numActiveSlots do
 		local button = _G["MultiCastSlotButton" .. i];
-		local lastButton = _G["MultiCastSlotButton"..i-1];
+		local lastButton = _G["MultiCastSlotButton" .. i-1];
 		button:ClearAllPoints();
-		button:SetSize(size, size);
+		button:Size(size);
 
 		if(i == 1) then
-			button:Point("BOTTOMLEFT", 36 + spacing, 3);
+			button:Point("LEFT", MultiCastSummonSpellButton, "RIGHT", buttonSpacing, 0);
 		else
-			button:Point("LEFT", lastButton, "RIGHT", spacing, 0);
+			button:Point("LEFT", lastButton, "RIGHT", buttonSpacing, 0);
 		end
 	end
 
+	MultiCastRecallSpellButton:ClearAllPoints();
 	MultiCastRecallSpellButton:SetSize(size, size);
+	MultiCastRecallSpellButton:SetPoint("LEFT", MultiCastActionButton4, "RIGHT", buttonSpacing, 0);
 
 	MultiCastFlyoutFrameCloseButton:Width(size);
 
@@ -248,23 +252,49 @@ function AB:PositionAndSizeBarTotem()
 end
 
 function AB:CreateTotemBar()
-	bar:Point('BOTTOM', E.UIParent, 'BOTTOM', 0, 250)
+	bar:Point("BOTTOM", E.UIParent, "BOTTOM", 0, 250);
+	bar.buttons = {};
 
-	MultiCastActionBarFrame:SetParent(bar)
-	MultiCastActionBarFrame:ClearAllPoints()
-	MultiCastActionBarFrame:SetPoint("BOTTOMLEFT", bar, "BOTTOMLEFT", -2, -2)
-	MultiCastActionBarFrame:SetScript("OnUpdate", nil)
-	MultiCastActionBarFrame:SetScript("OnShow", nil)
-	MultiCastActionBarFrame:SetScript("OnHide", nil)
-	MultiCastActionBarFrame.SetParent = E.noop
-	MultiCastActionBarFrame.SetPoint = E.noop
-	MultiCastRecallSpellButton.SetPoint = E.noop
+	MultiCastActionBarFrame:SetParent(bar);
+	MultiCastActionBarFrame:ClearAllPoints();
+	MultiCastActionBarFrame:SetPoint("BOTTOMLEFT", bar, "BOTTOMLEFT", -2, -2);
+	MultiCastActionBarFrame:SetScript("OnUpdate", nil);
+	MultiCastActionBarFrame:SetScript("OnShow", nil);
+	MultiCastActionBarFrame:SetScript("OnHide", nil);
+	MultiCastActionBarFrame.SetParent = E.noop;
+	MultiCastActionBarFrame.SetPoint = E.noop;
 
-	bar:Width(MultiCastActionBarFrame:GetWidth())
-	bar:Height(MultiCastActionBarFrame:GetHeight())
+	local closeButton = MultiCastFlyoutFrameCloseButton;
+	closeButton:CreateBackdrop("Default", true, true);
+	closeButton.backdrop:SetPoint("TOPLEFT", 0, -(E.Border + E.Spacing));
+	closeButton.backdrop:SetPoint("BOTTOMRIGHT", 0, E.Border + E.Spacing);
+	closeButton.normalTexture:SetTexture("");
+	closeButton:StyleButton();
+	closeButton.hover:SetInside(closeButton.backdrop);
+	closeButton.pushed:SetInside(closeButton.backdrop);
 
-	AB:PositionAndSizeBarTotem();
-	bar.buttons[MultiCastActionBarFrame] = true
-	E:CreateMover(bar, 'ElvBar_Totem', L['Totems'], nil, nil, nil,'ALL,ACTIONBARS');
-	self:AdjustTotemSettings()
+	local openButton = MultiCastFlyoutFrameOpenButton;
+	openButton:CreateBackdrop("Default", true, true);
+	openButton.backdrop:SetPoint("TOPLEFT", 0, -(E.Border + E.Spacing));
+	openButton.backdrop:SetPoint("BOTTOMRIGHT", 0, E.Border + E.Spacing);
+	openButton.normalTexture:SetTexture("");
+	openButton:StyleButton();
+	openButton.hover:SetInside(openButton.backdrop);
+	openButton.pushed:SetInside(openButton.backdrop);
+
+	self:SecureHook("MultiCastFlyoutFrameOpenButton_Show");
+	self:SecureHook("MultiCastActionButton_Update");
+
+	self:SecureHook("MultiCastSlotButton_Update", function(self, slot)
+		AB:StyleTotemSlotButton(self, tonumber( string.match(self:GetName(), "MultiCastSlotButton(%d)")));
+	end);
+
+	self:SecureHook("MultiCastSummonSpellButton_Update", function(self) AB:SkinSummonButton(self); end);
+	self:SecureHook("MultiCastFlyoutFrame_ToggleFlyout");
+	self:SecureHook("MultiCastRecallSpellButton_Update");
+	self:SecureHook("ShowMultiCastActionBar");
+
+	bar.buttons[MultiCastActionBarFrame] = true;
+	E:CreateMover(bar, "ElvBar_Totem", L["Totems"], nil, nil, nil,"ALL,ACTIONBARS");
+	self:AdjustTotemSettings();
 end

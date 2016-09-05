@@ -2627,12 +2627,13 @@ P['actionbar'] = {
 		['alpha'] = 1,
 		["inheritGlobalFade"] = false
 	},
-	['barTotem'] = {
-		['enabled'] = true,
-		['mouseover'] = false,
+	["barTotem"] = {
+		["enabled"] = true,
+		["mouseover"] = false,
 		["buttonsize"] = 32,
 		["buttonspacing"] = 2,
-		['backdrop'] = false,
+		["alpha"] = 1,
+		["inheritGlobalFade"] = false
 	},
 	['extraActionButton'] = {
 		['alpha'] = 1,
