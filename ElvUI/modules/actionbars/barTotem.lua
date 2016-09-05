@@ -168,7 +168,7 @@ function AB:ShowMultiCastActionBar()
 end
 
 function AB:TotemOnEnter()
-	E:UIFrameFadeIn(bar, 0.2, bar:GetAlpha(), 1)
+	E:UIFrameFadeIn(bar, 0.2, bar:GetAlpha(), self.db["barTotem"].alpha)
 end
 
 function AB:TotemOnLeave()
@@ -176,12 +176,6 @@ function AB:TotemOnLeave()
 end
 
 function AB:AdjustTotemSettings()
-	local combat = InCombatLockdown()
-	if self.db['barTotem'].enabled and not combat then
-		bar:Show()
-	elseif not combat then
-		bar:Hide()
-	end
 
 	if(self.db["barTotem"].inheritGlobalFade) then
 		bar:SetParent(self.fadeParent);
@@ -202,7 +196,7 @@ function AB:AdjustTotemSettings()
 				self:HookScript(button, 'OnLeave', 'TotemOnLeave')
 			end
 		else
-			bar:SetAlpha(1)
+			bar:SetAlpha(self.db["barTotem"].alpha);
 			if self.hooks[bar] then
 				self:Unhook(bar, 'OnEnter')
 				self:Unhook(bar, 'OnLeave')
