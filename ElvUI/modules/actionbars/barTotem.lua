@@ -71,6 +71,7 @@ function AB:MultiCastActionButton_Update(button, _, index)
 	if(bar.buttons[button]) then return; end
 
 	local icon = select(1,button:GetRegions())
+	local combat = InCombatLockdown()
 
 	button:SetTemplate("Default");
 
@@ -84,6 +85,11 @@ function AB:MultiCastActionButton_Update(button, _, index)
 	button.overlayTex:SetAlpha(0)
 	button:GetNormalTexture():SetAlpha(0)
 	button:GetRegions():SetDrawLayer("ARTWORK");
+	if(button.slotButton) and not(combat) then
+		button:ClearAllPoints()
+		button:SetAllPoints(button.slotButton)
+		button:SetFrameLevel(button.slotButton:GetFrameLevel()+1)
+	end
 	button:SetBackdropBorderColor(unpack(bordercolors[((index-1) % 4) + 1]));
 	button:SetBackdropColor(0, 0, 0, 0);
 	button:StyleButton()
@@ -176,6 +182,13 @@ function AB:TotemOnLeave()
 end
 
 function AB:AdjustTotemSettings()
+	local combat = InCombatLockdown()
+
+	if self.db['barTotem'].enabled and not combat then
+		bar:Show()
+	elseif not combat then
+		bar:Hide()
+	end
 
 	if(self.db["barTotem"].inheritGlobalFade) then
 		bar:SetParent(self.fadeParent);
