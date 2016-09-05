@@ -1,9 +1,31 @@
-﻿local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+﻿local E, L, V, P, G = unpack(select(2, ...));
 local AB = E:GetModule('ActionBars');
 
+local _G = _G;
+local select, tonumber, pairs = select, tonumber, pairs;
+local floor = math.floor;
+local find, format = string.find, string.format;
+
+local hooksecurefunc = hooksecurefunc;
+local EnumerateFrames = EnumerateFrames;
+local CreateFrame = CreateFrame;
+local IsAddOnLoaded = IsAddOnLoaded;
+local LoadBindings, SaveBindings = LoadBindings, SaveBindings;
+local GetCurrentBindingSet = GetCurrentBindingSet;
+local SetBinding = SetBinding;
+local GetBindingKey = GetBindingKey;
+local IsAltKeyDown, IsControlKeyDown = IsAltKeyDown, IsControlKeyDown;
+local IsShiftKeyDown, IsModifiedClick = IsShiftKeyDown, IsModifiedClick;
+local InCombatLockdown = InCombatLockdown;
+local GameTooltip_ShowCompareItem = GameTooltip_ShowCompareItem;
+local GetMacroInfo = GetMacroInfo;
+local SecureActionButton_OnClick = SecureActionButton_OnClick;
+local GameTooltip_Hide = GameTooltip_Hide;
+local MAX_ACCOUNT_MACROS = MAX_ACCOUNT_MACROS;
+local CHARACTER_SPECIFIC_KEYBINDING_TOOLTIP = CHARACTER_SPECIFIC_KEYBINDING_TOOLTIP;
+local CHARACTER_SPECIFIC_KEYBINDINGS = CHARACTER_SPECIFIC_KEYBINDINGS;
+
 local bind = CreateFrame("Frame", "ElvUI_KeyBinder", E.UIParent);
-local find = string.find;
-local _G = getfenv(0);
 
 function AB:ActivateBindMode()
 	bind.active = true;
@@ -141,7 +163,7 @@ function AB:BindUpdate(button, spellmacro)
 	elseif spellmacro == "MACRO" then
 		bind.button.id = bind.button:GetID();
 
-		if floor(.5+select(2,MacroFrameTab1Text:GetTextColor())*10)/10==.8 then bind.button.id = bind.button.id + 36; end
+		if floor(.5+select(2,MacroFrameTab1Text:GetTextColor())*10)/10==.8 then bind.button.id = bind.button.id + MAX_ACCOUNT_MACROS; end
 
 		bind.button.name = GetMacroInfo(bind.button.id);
 
@@ -285,7 +307,7 @@ end
 
 function AB:RegisterMacro(addon)
 	if addon == "Blizzard_MacroUI" then
-		for i=1, 36 do
+		for i=1, MAX_ACCOUNT_MACROS do
 			local b = _G["MacroButton"..i];
 			b:HookScript("OnEnter", function(b) AB:BindUpdate(b, "MACRO"); end);
 		end
@@ -389,7 +411,7 @@ function AB:LoadKeyBinder()
 		self:SetChecked(GetCurrentBindingSet() == 2)
 	end)
 
-	perCharCheck:SetScript("OnClick", function(self)
+	perCharCheck:SetScript("OnClick", function()
 		if ( AB.bindingsChanged ) then
 			E:StaticPopup_Show("CONFIRM_LOSE_BINDING_CHANGES");
 		else
@@ -407,7 +429,7 @@ function AB:LoadKeyBinder()
 	local save = CreateFrame("Button", f:GetName()..'SaveButton', f, "OptionsButtonTemplate")
 	_G[save:GetName() .. "Text"]:SetText(L["Save"])
 	save:Width(150)
-	save:SetScript("OnClick", function(self)
+	save:SetScript("OnClick", function()
 		AB:DeactivateBindMode(true)
 	end)
 
@@ -415,7 +437,7 @@ function AB:LoadKeyBinder()
 	discard:Width(150)
 	_G[discard:GetName() .. "Text"]:SetText(L["Discard"])
 
-	discard:SetScript("OnClick", function(self)
+	discard:SetScript("OnClick", function()
 		AB:DeactivateBindMode(false)
 	end)	
 

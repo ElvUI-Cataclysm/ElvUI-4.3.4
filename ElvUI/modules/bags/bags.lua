@@ -1,11 +1,11 @@
-﻿local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+﻿local E, L, V, P, G = unpack(select(2, ...));
 local B = E:NewModule('Bags', 'AceHook-3.0', 'AceEvent-3.0', 'AceTimer-3.0');
 local Search = LibStub("LibItemSearch-1.2");
 
 local _G = _G;
 local type, ipairs, pairs, unpack, select, assert = type, ipairs, pairs, unpack, select, assert;
 local tinsert = table.insert;
-local floor, abs, ceil = math.floor, math.abs, math.ceil;
+local floor, ceil = math.floor, math.ceil;
 local len, sub, find, format, gsub = string.len, string.sub, string.find, string.format, string.gsub;
 
 local CreateFrame = CreateFrame;
@@ -13,7 +13,6 @@ local GetContainerNumSlots = GetContainerNumSlots;
 local GetContainerItemInfo = GetContainerItemInfo;
 local SetItemButtonDesaturated = SetItemButtonDesaturated;
 local GetContainerItemInfo = GetContainerItemInfo;
-local GetScreenWidth, GetScreenHeight = GetScreenWidth, GetScreenHeight;
 local IsBagOpen, IsOptionFrameOpen = IsBagOpen, IsOptionFrameOpen
 local CloseBag, CloseBackpack, CloseBankFrame = CloseBag, CloseBackpack, CloseBankFrame
 local ToggleFrame = ToggleFrame;

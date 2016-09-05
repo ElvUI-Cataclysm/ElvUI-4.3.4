@@ -1,4 +1,4 @@
-﻿local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+﻿local E, L, V, P, G = unpack(select(2, ...));
 local AB = E:GetModule('ActionBars');
 
 local ceil = math.ceil;
@@ -31,7 +31,7 @@ function AB:UPDATE_SHAPESHIFT_COOLDOWN()
 	self:StyleShapeShift("UPDATE_SHAPESHIFT_COOLDOWN")
 end
 
-function AB:StyleShapeShift(event)
+function AB:StyleShapeShift()
 	local numForms = GetNumShapeshiftForms();
 	local texture, name, isActive, isCastable, _;
 	local buttonName, button, icon, cooldown;

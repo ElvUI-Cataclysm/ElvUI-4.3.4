@@ -29,6 +29,7 @@ local statusColors = {
 	"|cffFF9000",
 	"|cffD80909"
 }
+local resetInfoFormatter = join("", "|cffaaaaaa", L["Right Click: Reset CPU Usage"], "|r")
 
 local enteredFrame = false;
 local bandwidthString = "%.2f Mbps"
@@ -101,9 +102,13 @@ local function UpdateCPU()
 	return totalCPU
 end
 
-local function Click()
-	collectgarbage("collect");
-	ResetCPUUsage();
+local function Click(self, btn)
+	if btn == "RightButton" then
+		collectgarbage("collect");
+		ResetCPUUsage();
+	else
+		ToggleGameMenu()
+	end
 end
 
 local function OnEnter(self)
@@ -153,6 +158,9 @@ local function OnEnter(self)
 		DT.tooltip:AddLine(" ")
 		DT.tooltip:AddLine(L["(Hold Shift) Memory Usage"])
 	end
+
+	DT.tooltip:AddLine' '
+	DT.tooltip:AddLine(resetInfoFormatter)
 
 	DT.tooltip:Show()
 end

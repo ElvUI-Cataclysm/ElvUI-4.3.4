@@ -80,7 +80,7 @@ AB["barDefaults"] = {
 };
 
 AB.customExitButton = {
-	func = function(button)
+	func = function()
 		if(UnitExists("vehicle")) then
 			VehicleExit();
 		else
@@ -312,7 +312,7 @@ function AB:PLAYER_REGEN_ENABLED()
 	self:UnregisterEvent("PLAYER_REGEN_ENABLED");
 end
 
-local function Vehicle_OnEvent(self, event)
+local function Vehicle_OnEvent(self)
 	if(CanExitVehicle() and not E.db.general.minimap.icons.vehicleLeave.hide) then
 		self:Show();
 		self:GetNormalTexture():SetVertexColor(1, 1, 1);
@@ -322,7 +322,7 @@ local function Vehicle_OnEvent(self, event)
 	end
 end
 
-local function Vehicle_OnClick(self)
+local function Vehicle_OnClick()
 	VehicleExit();
 end
 
@@ -476,7 +476,7 @@ function AB:UpdateButtonSettings()
 	self:PositionAndSizeBarShapeShift();
 end
 
-function AB:CVAR_UPDATE(event)
+function AB:CVAR_UPDATE()
 	for barName, bar in pairs(self["handledBars"]) do
 		self:UpdateButtonConfig(bar, bar.bindButtons);
 	end
@@ -506,7 +506,6 @@ function AB:StyleButton(button, noBackdrop)
 	local normal2 = button:GetNormalTexture()
 	local shine = _G[name.."Shine"];
 	local buttonCooldown = _G[name.."Cooldown"];
-	local combat = InCombatLockdown()
 	local color = self.db.fontColor
 
 	if(flash) then flash:SetTexture(nil); end
@@ -627,7 +626,7 @@ function AB:BlizzardOptionsPanel_OnEvent()
 	InterfaceOptionsActionBarsPanelRight:SetScript("OnEnter", nil);
 end
 
-function AB:FadeParent_OnEvent(event)
+function AB:FadeParent_OnEvent()
 	local cur, max = UnitHealth("player"), UnitHealthMax("player")
 	local cast, channel = UnitCastingInfo("player"), UnitChannelInfo("player")
 	local target, focus = UnitExists("target"), UnitExists("focus")
