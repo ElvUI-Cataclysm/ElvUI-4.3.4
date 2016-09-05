@@ -9,8 +9,7 @@ local bordercolors = {
 	{.23, .45, .13},
 	{.58, .23, .10},
 	{.19, .48, .60},
-	{.42, .18, .74},
-	{.39, .39, .12}
+	{.42, .18, .74}
 };
 
 local SLOT_EMPTY_TCOORDS = {
@@ -63,7 +62,7 @@ function AB:StyleTotemSlotButton(button, index)
 	button.background:SetInside(button);
 
 	button.overlayTex:SetTexture(nil)
-	button:SetBackdropBorderColor(unpack(bordercolors[((index-1) % 5) + 1]));
+	button:SetBackdropBorderColor(unpack(bordercolors[((index-1) % 4) + 1]));
 
 	bar.buttons[button] = true;
 end
@@ -85,7 +84,7 @@ function AB:MultiCastActionButton_Update(button, _, index)
 	button.overlayTex:SetAlpha(0)
 	button:GetNormalTexture():SetAlpha(0)
 	button:GetRegions():SetDrawLayer("ARTWORK");
-	button:SetBackdropBorderColor(unpack(bordercolors[((index-1) % 5) + 1]));
+	button:SetBackdropBorderColor(unpack(bordercolors[((index-1) % 4) + 1]));
 	button:SetBackdropColor(0, 0, 0, 0);
 	button:StyleButton()
 
