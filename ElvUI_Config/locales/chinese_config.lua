@@ -37,7 +37,12 @@ The following search keywords can also be used:
     • bou : Bind on use items.
     • boe : Bind on equip items.
     • boa : Bind on account items.
-    • quest : Quest bound items.]=];
+    • quest : Quest bound items.
+    • reagents, reagent, crafting : Profession reagents.
+    • naval : Naval equipment.
+    • follower, followe, follow : Follower items.
+    • relic, reli, rel : Artifact Relics.
+    • power, powe, pow : Items granting Artifact Power.]=];
 L["TEXT_FORMAT_DESC"] = [=[提供一个更改文字格式的方式
 
 例如:
@@ -73,8 +78,10 @@ L["Button Spacing"] = "按钮间距"
 L["Buttons Per Row"] = "每行按钮数"
 L["Buttons"] = "按钮数"
 L["Change the alpha level of the frame."] = "改变框架透明度."
+L["Color of the actionbutton when not usable."] = true;
 L["Color of the actionbutton when out of power (Mana, Rage, Focus, Holy Power)."] = "当能量不足时(如法力，怒力等)动作条按键的颜色."
 L["Color of the actionbutton when out of range."] = "当超出距离时动作条按键的颜色."
+L["Color of the actionbutton when usable."] = true;
 L["Color when the text is about to expire"] = "即将冷却完毕的数字颜色."
 L["Color when the text is in the days format."] = "以天显示的文字颜色."
 L["Color when the text is in the hours format."] = "以小时显示的文字颜色."
@@ -104,6 +111,7 @@ L["Masque Support"] = "Masque支持"
 L["Minutes"] = "分"
 L["Mouse Over"] = "滑鼠滑过显示"
 L["Multiply the backdrops height or width by this value. This is usefull if you wish to have more than one bar behind a backdrop."] = "根据此值增加背景的高度或宽度. 一般用来在一个背景框里放置多条动作条"
+L["Not Usable"] = true;
 L["Out of Power"] = "能量不足"
 L["Out of Range"] = "超出范围"
 L["Restore Bar"] = "还原动作条"
@@ -120,6 +128,7 @@ L["This setting will be updated upon changing stances."] = "这个设置会在�
 L["Threshold before text turns red and is in decimal form. Set to -1 for it to never turn red"] = "冷却时间低于此秒数后将变为红色数字，并以小数显示，设为-1来使其不会变为红色"
 L["Toggles the display of the actionbars backdrop."] = "切换动作条显示背景框"
 L["Transparency level when not in combat, no target exists, full health, not casting, and no focus target exists."] = "在非战斗，无目标存在，满血，未施法，无焦点目标存在时的不透明度"
+L["Usable"] = true;
 L["Visibility State"] = "可见状态"
 L["Width Multiplier"] = "宽度倍增"
 L[ [=[This works like a macro, you can run different situations to get the actionbar to page differently.
@@ -135,7 +144,6 @@ L["Add Item or Search Syntax"] = true;
 L["Adjust the width of the bag frame."] = '调整背包框架宽度'
 L["Adjust the width of the bank frame."] = '调整银行框架宽度'
 L["Align the width of the bag frame to fit inside the chat box."] = '调整背包框的宽度以适应聊天框'
-L["Align To Chat"] = '对齐到聊天框'
 L["Ascending"] = "升序"
 L["Bag Sorting"] = "背包排序"
 L["Bag-Bar"] = "背包条"
@@ -186,10 +194,6 @@ L["This makes the item level display more reliable but uses more resources. If t
 L["Top to Bottom"] = '顶部到底部'
 L["Use coin icons instead of colored text."] = "显示硬币图标而不是颜色文字"
 L["Use Tooltip Scanning"] = "使用高级扫描"
-L["X Offset Bags"] = "背包X偏移"
-L["X Offset Bank"] = "银行X偏移"
-L["Y Offset Bags"] = "背包Y偏移"
-L["Y Offset Bank"] = "银行Y偏移"
 
 --Buffs and Debuffs
 L["Begin a new row or column after this many auras."] = "在这些光环旁开始新的行或列."
@@ -317,6 +321,7 @@ L["Testing:"] = "测试:"
 
 --DataBars
 L["DATABAR_DESC"] = "设置各种数据条"
+L["Current - Remaining"] = true;
 L["DataBars"] = "数据条"
 L["Hide in Combat"] = true;
 
@@ -388,6 +393,7 @@ L["Bottom Panel"] = "底部面板"
 L["Chat Bubbles Style"] = "聊天气泡样式"
 L["Chat Bubbles"] = "聊天气泡"
 L["Direction the bar moves on gains/losses"] = true;
+L["Disable OrderHall Bar"] = true;
 L["Disable Tutorial Buttons"] = "禁用教程按钮"
 L["Disables the tutorial button found on some frames."] = "禁用部分框体上的教程按钮"
 L["Display a panel across the bottom of the screen. This is for cosmetic only."] = '显示跨越屏幕底部的面板,仅仅是用于装饰.'
@@ -395,6 +401,7 @@ L["Display a panel across the top of the screen. This is for cosmetic only."] = 
 L["Display battleground messages in the middle of the screen."] = "屏幕中间显示战场信息"
 L["Display emotion icons in chat."] = "在对话中显示表情图标."
 L["Emotion Icons"] = "表情图标"
+L["Enable + Adjust Movers"] = true;
 L["Enable/Disable the loot frame."] = "开/关物品掉落框架。"
 L["Enable/Disable the loot roll frame."] = "开/关掷骰子框架。"
 L["Enhanced PVP Messages"] = "PVP增强信息"
