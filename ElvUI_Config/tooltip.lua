@@ -87,7 +87,7 @@ E.Options.args.tooltip = {
 					min = 0, max = 1, step = 0.01,
 				},
 				fontGroup = {
-					order = 8,
+					order = 9,
 					type = "group",
 					guiInline = true,
 					name = L["Tooltip Font Settings"],
@@ -146,7 +146,7 @@ E.Options.args.tooltip = {
 					},
 				},
 				factionColors = {
-					order = 9,
+					order = 10,
 					type = 'group',
 					name = L['Custom Faction Colors'],
 					guiInline = true,
