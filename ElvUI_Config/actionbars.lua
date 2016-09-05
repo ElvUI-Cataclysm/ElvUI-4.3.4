@@ -402,7 +402,7 @@ local function BuildABConfig()
 					type = 'execute',
 					name = L['Restore Bar'],
 					desc = L['Restore the actionbars default settings'],
-					func = function() E:CopyTable(E.db.actionbar['barTotem'], P.actionbar['barTotem']); E:ResetMovers(L['Totems']); AB:AdjustTotemSettings() end,
+					func = function() E:CopyTable(E.db.actionbar['barTotem'], P.actionbar['barTotem']); E:ResetMovers(L['Totems']); AB:AdjustTotemSettings(); AB:PositionAndSizeBarTotem(); end,
 				},
 				mouseover = {
 					order = 3,
