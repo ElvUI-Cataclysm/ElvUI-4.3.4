@@ -738,12 +738,12 @@ function AB:UpdateButtonConfig(bar, buttonName)
 		bar.buttonConfig.keyBoundTarget = format(buttonName .. "%d", i);
 		button.keyBoundTarget = bar.buttonConfig.keyBoundTarget;
 		button.postKeybind = AB.FixKeybindText;
-		button:SetAttribute("buttonlock", GetCVar("lockActionBars") == "1" and true or false);
 		if(E.db.actionbar.selfcast) then
 			button:SetAttribute("unit2", "player");
 		else
 			button:SetAttribute("unit2", "target");
 		end
+		button:SetAttribute("buttonlock", self.db.lockActionBars)
 		button:SetAttribute("checkselfcast", true);
 		button:SetAttribute("checkfocuscast", true);
 
@@ -929,9 +929,8 @@ function AB:Initialize()
 	self:RegisterEvent('CVAR_UPDATE');
 	self:ReassignBindings();
 
-	if(not GetCVarBool("lockActionBars")) then
-		SetCVar("lockActionBars", 1);
-	end
+	SetCVar('lockActionBars', (self.db.lockActionBars == true and 1 or 0))
+	LOCK_ACTIONBAR = (self.db.lockActionBars == true and "1" or "0")
 
 	SpellFlyout:HookScript("OnShow", SetupFlyoutButton);
 end
