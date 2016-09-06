@@ -1,11 +1,30 @@
-﻿local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+﻿local E, L, V, P, G = unpack(select(2, ...));
 local AB = E:GetModule('ActionBars');
 
+local _G = _G
 local ceil = math.ceil;
+
+local hooksecurefunc = hooksecurefunc
+local RegisterStateDriver = RegisterStateDriver
+local GetBindingKey = GetBindingKey
+local PetHasActionBar = PetHasActionBar
+local GetPetActionInfo = GetPetActionInfo
+local IsPetAttackAction = IsPetAttackAction
+local PetActionButton_StartFlash = PetActionButton_StartFlash
+local PetActionButton_StopFlash = PetActionButton_StopFlash
+local AutoCastShine_AutoCastStart = AutoCastShine_AutoCastStart
+local AutoCastShine_AutoCastStop = AutoCastShine_AutoCastStop
+local GetPetActionSlotUsable = GetPetActionSlotUsable
+local SetDesaturation = SetDesaturation
+local PetActionBar_ShowGrid = PetActionBar_ShowGrid
+local PetActionBar_UpdateCooldowns = PetActionBar_UpdateCooldowns
+local NUM_PET_ACTION_SLOTS = NUM_PET_ACTION_SLOTS
 
 local bar = CreateFrame('Frame', 'ElvUI_BarPet', E.UIParent, 'SecureHandlerStateTemplate');
 
 function AB:UpdatePet()
+	if(event == "UNIT_AURA" and unit ~= "pet") then return end
+
 	for i=1, NUM_PET_ACTION_SLOTS, 1 do
 		local buttonName = "PetActionButton"..i;
 		local button = _G[buttonName];
@@ -21,22 +40,25 @@ function AB:UpdatePet()
 		else
 			icon:SetTexture(_G[texture]);
 			button.tooltipName = _G[name];
-		end		
+		end
 
 		button.isToken = isToken;
-		button.tooltipSubtext = subtext;	
+		button.tooltipSubtext = subtext;
 
 		if isActive and name ~= "PET_ACTION_FOLLOW" then
-			button:SetChecked(1);
+			button:GetCheckedTexture():SetTexture(1, 1, 1)
+			button:SetChecked(true);
+
 			if IsPetAttackAction(i) then
 				PetActionButton_StartFlash(button);
 			end
 		else
-			button:SetChecked(0);
+			button:SetCheckedTexture("")
+			button:SetChecked(false);
 			if IsPetAttackAction(i) then
 				PetActionButton_StopFlash(button);
-			end			
-		end			
+			end
+		end	
 
 		if autoCastAllowed then
 			autoCast:Show();
@@ -48,7 +70,7 @@ function AB:UpdatePet()
 			AutoCastShine_AutoCastStart(shine);
 		else
 			AutoCastShine_AutoCastStop(shine);
-		end		
+		end
 
 		button:SetAlpha(1);
 
@@ -67,7 +89,7 @@ function AB:UpdatePet()
 			PetActionButton_StopFlash(button);
 			SetDesaturation(icon, 1);
 			button:SetChecked(0);
-		end		
+		end
 
 		checked:SetAlpha(0.3);
 	end
@@ -158,18 +180,18 @@ function AB:PositionAndSizeBarPet()
 			
 			if not self.hooks[button] then
 				self:HookScript(button, 'OnEnter', 'Button_OnEnter');
-				self:HookScript(button, 'OnLeave', 'Button_OnLeave');					
+				self:HookScript(button, 'OnLeave', 'Button_OnLeave');
 			end
 		else
 			bar:SetAlpha(1);
 			if self.hooks[bar] then
 				self:Unhook(bar, 'OnEnter');
-				self:Unhook(bar, 'OnLeave');	
+				self:Unhook(bar, 'OnLeave');
 			end
 
 			if self.hooks[button] then
-				self:Unhook(button, 'OnEnter');	
-				self:Unhook(button, 'OnLeave');		
+				self:Unhook(button, 'OnEnter');
+				self:Unhook(button, 'OnLeave');
 			end
 		end
 
@@ -218,9 +240,18 @@ function AB:PositionAndSizeBarPet()
 		end
 
 		self:StyleButton(button);
+		
+		if not button.CheckFixed then
+			hooksecurefunc(button:GetCheckedTexture(), 'SetAlpha', function(self, value)
+				if value == 1 then
+					self:SetAlpha(0.3)
+				end
+			end)
+			button.CheckFixed = true;
+		end
 	end
 	RegisterStateDriver(bar, "show", self.db['barPet'].visibility);
-	
+
 	bar:GetScript("OnSizeChanged")(bar)
 end
 
@@ -246,7 +277,7 @@ function AB:CreateBarPet()
 		bar:Point('RIGHT', E.UIParent, 'RIGHT', -4, 0);
 	end
 
-	bar:SetAttribute("_onstate-show", [[		
+	bar:SetAttribute("_onstate-show", [[
 		if newstate == "hide" then
 			self:Hide();
 		else
@@ -256,6 +287,12 @@ function AB:CreateBarPet()
 
 	PetActionBarFrame.showgrid = 1;
 	PetActionBar_ShowGrid();
+	self:HookScript(bar, 'OnEnter', 'Bar_OnEnter');
+	self:HookScript(bar, 'OnLeave', 'Bar_OnLeave');
+	for i=1, NUM_PET_ACTION_SLOTS do
+		self:HookScript(_G["PetActionButton"..i], 'OnEnter', 'Button_OnEnter');
+		self:HookScript(_G["PetActionButton"..i], 'OnLeave', 'Button_OnLeave');
+	end
 
 	self:RegisterEvent('SPELLS_CHANGED', 'UpdatePet');
 	self:RegisterEvent('PLAYER_CONTROL_GAINED', 'UpdatePet');
