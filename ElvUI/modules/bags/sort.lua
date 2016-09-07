@@ -450,12 +450,6 @@ end
 
 function B.Stack(sourceBags, targetBags, canMove)
 	if not canMove then canMove = DefaultCanMove end
-
-	twipe(blackListedSlots);
-
-	local ignoredItems = B.db.ignoredItems;
-	buildBlacklist(ignoredItems);
-
 	for _, bag, slot in B.IterateBags(targetBags, nil, "deposit") do
 		local bagSlot = B:Encode_BagSlot(bag, slot)
 		local itemID = bagIDs[bagSlot]
@@ -503,7 +497,6 @@ local function buildBlacklist(...)
 	twipe(blackListQueries);
 	for entry in pairs(...) do
 		local itemName = GetItemInfo(entry);
-
 		if(itemName) then
 			blackList[itemName] = true;
 		elseif(entry ~= "") then
@@ -598,6 +591,11 @@ end
 
 function B.Fill(sourceBags, targetBags, reverse, canMove)
 	if not canMove then canMove = DefaultCanMove end
+
+	twipe(blackListedSlots);
+
+	local ignoredItems = B.db.ignoredItems;
+	buildBlacklist(ignoredItems);
 
 	for _, bag, slot in B.IterateBags(targetBags, reverse, "deposit") do
 		local bagSlot = B:Encode_BagSlot(bag, slot)

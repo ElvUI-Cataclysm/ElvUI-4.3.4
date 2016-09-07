@@ -2,6 +2,8 @@ local E, L, P, G = unpack(select(2, ...));
 local S = E:GetModule("Skins");
 
 local _G = _G;
+local find = string.find;
+
 local MAX_ARENA_TEAMS = MAX_ARENA_TEAMS;
 
 local function LoadSkin()
@@ -15,12 +17,12 @@ local function LoadSkin()
 		"PVPColorPickerButton3",
 		"PVPBannerFrameAcceptButton",
 	}
-		
+
 	for i = 1, #buttons do
 		_G[buttons[i]]:StripTextures()
 		S:HandleButton(_G[buttons[i]])
 	end
-	
+
 	local KillTextures = {
 		"PVPHonorFrameBGTex",
 		"PVPHonorFrameInfoScrollFrameScrollBar",
@@ -165,14 +167,29 @@ local function LoadSkin()
 	S:HandleButton(WarGameStartButton, true)
 	WarGamesFrame:StripTextures()
 	S:HandleScrollBar(WarGamesFrameScrollFrameScrollBar, 5)
-	
+
 	WarGameStartButton:ClearAllPoints()
 	WarGameStartButton:Point("LEFT", PVPFrameLeftButton, "RIGHT", 2, 0)
 	WarGamesFrameDescription:SetTextColor(1, 1, 1)
 
-	for i=1,7 do
-		_G["WarGamesFrameScrollFrameButton"..i.."WarGame"]:StyleButton()
-		_G["WarGamesFrameScrollFrameButton"..i.."WarGame"].selectedTex:SetTexture(1, 1, 1, 0.3)
+	for i = 1, 7 do
+		local warGamesHeader = _G["WarGamesFrameScrollFrameButton" .. i .. "Header"];
+		_G["WarGamesFrameScrollFrameButton"..i.."WarGame"]:StyleButton();
+		_G["WarGamesFrameScrollFrameButton"..i.."WarGame"].selectedTex:SetTexture(1, 1, 1, 0.3);
+		warGamesHeader:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
+		warGamesHeader.SetNormalTexture = E.noop;
+		warGamesHeader:GetNormalTexture():Size(11);
+		warGamesHeader:GetNormalTexture():Point("LEFT", 3, 0);
+		warGamesHeader:SetHighlightTexture("");
+		warGamesHeader.SetHighlightTexture = E.noop;
+
+		hooksecurefunc(warGamesHeader, "SetNormalTexture", function(self, texture)
+			if(find(texture, "MinusButton")) then
+				self:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375);
+			elseif(find(texture, "PlusButton")) then
+				self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375);
+ 			end
+		end);
 	end
 
 	--Freaking gay Cancel Button FFSlocal
@@ -246,32 +263,7 @@ local function LoadSkin()
 	
 	PVPConquestFrameWinRewardArenaSymbol:SetTexCoord(unpack(E.TexCoords))
 	PVPConquestFrameWinRewardArenaSymbol:Size(30)
-	
-	--[[hooksecurefunc('WarGamesFrame_Update', function()
-		local scrollFrame = WarGamesFrame.scrollFrame;
-		local offset = HybridScrollFrame_GetOffset(scrollFrame);
-		local buttons = scrollFrame.buttons;
-		local numButtons = #buttons;
-		local numWarGames = GetNumWarGameTypes();
-		for i = 1, numButtons do
-			local button = buttons[i];
-			local index = offset + i;
-			local name, pvpType, collapsed, id, minPlayers, maxPlayers, isRandom = GetWarGameTypeInfo(index)
-			if index <= numWarGames  then
-				if name == "header" then
-					button.header:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
-					button.header.SetNormalTexture = function() end
-					button.header:GetNormalTexture():Size(10)
-					button.header:SetHighlightTexture('')
-					if collapsed then
-						button.header:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
-					else
-						button.header:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
-					end
-				end
-			end
-		end
-	end)]]
+
 end
 
 S:RegisterSkin("ElvUI", LoadSkin);

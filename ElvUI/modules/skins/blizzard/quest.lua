@@ -1,11 +1,14 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule("Skins")
 
+local find = string.find;
+
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.quest ~= true then return end
 
 	S:HandleCloseButton(QuestLogFrameCloseButton)
 	QuestLogFrameCloseButton:Point("TOPRIGHT", QuestLogFrame, "TOPRIGHT", 1, 1)
+
 	S:HandleScrollBar(QuestLogDetailScrollFrameScrollBar)
 	S:HandleScrollBar(QuestLogScrollFrameScrollBar, 5)
 	QuestLogScrollFrameScrollBar:Point("RIGHT", 25, 0)
@@ -249,6 +252,26 @@ local function LoadSkin()
 		QuestNPCModel:ClearAllPoints();
 		QuestNPCModel:SetPoint("TOPLEFT", parentFrame, "TOPRIGHT", x + 18, y);
 	end)
+
+	for i = 1, #QuestLogScrollFrame.buttons do
+		local questLogTitle = _G["QuestLogScrollFrameButton" .. i];
+		questLogTitle:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
+		questLogTitle.SetNormalTexture = E.noop;
+		questLogTitle:GetNormalTexture():Size(10);
+		questLogTitle:GetNormalTexture():Point("LEFT", 3, 0);
+		questLogTitle:SetHighlightTexture("");
+		questLogTitle.SetHighlightTexture = E.noop;
+
+		hooksecurefunc(questLogTitle, "SetNormalTexture", function(self, texture)
+			if(find(texture, "MinusButton")) then
+				self:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375);
+			elseif(find(texture, "PlusButton")) then
+				self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375);
+			else
+				self:GetNormalTexture():SetTexCoord(0, 0, 0, 0);
+ 			end
+		end);
+	end
 end
 
 S:RegisterSkin("ElvUI", LoadSkin);
