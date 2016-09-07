@@ -338,7 +338,7 @@ function AB:UpdateVehicleLeave()
 end
 
 function AB:CreateVehicleLeave()
-	local vehicle = CreateFrame("Button", "LeaveVehicleButton", E.UIParent, "SecureHandlerClickTemplate");
+	local vehicle = CreateFrame("Button", "LeaveVehicleButton", E.UIParent);
 	vehicle:Size(26);
 	vehicle:SetFrameStrata("HIGH");
 	vehicle:Point("BOTTOMLEFT", Minimap, "BOTTOMLEFT", 2, 2);

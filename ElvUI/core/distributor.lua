@@ -344,7 +344,7 @@ function D:GetImportStringType(dataString)
 end
 
 function D:Decode(dataString)
-	local profileType, profileKey, profileData, message;
+	local profileInfo, profileType, profileKey, profileData, message;
 	local stringType = self:GetImportStringType(dataString);
 	
 	if(stringType == "Base64") then
@@ -357,7 +357,9 @@ function D:Decode(dataString)
 		end
 		
 		local serializedData, success;
-		serializedData, profileType, profileKey = E:StringSplitMultiDelim(decompressedData, "::");
+		serializedData, profileInfo = E:StringSplitMultiDelim(decompressedData, "^^::");
+		serializedData = format("%s%s", serializedData, "^^");
+		profileType, profileKey = E:StringSplitMultiDelim(profileInfo, "::");
 		success, profileData = D:Deserialize(serializedData);
 		if(not success) then
 			E:Print("Error deserializing:", profileData);
@@ -365,7 +367,9 @@ function D:Decode(dataString)
 		end
 	elseif(stringType == "Table") then
 		local profileDataAsString;
-		profileDataAsString, profileType, profileKey = E:StringSplitMultiDelim(dataString, "::");
+		profileDataAsString, profileInfo = E:StringSplitMultiDelim(dataString, "}::");
+		profileDataAsString = format("%s%s", profileDataAsString, "}");
+		profileType, profileKey = E:StringSplitMultiDelim(profileInfo, "::");
 		if(not profileDataAsString) then
 			E:Print("Error extracting profile data. Invalid import string!");
 			return;
