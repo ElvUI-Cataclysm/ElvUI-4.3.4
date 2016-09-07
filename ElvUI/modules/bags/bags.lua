@@ -1075,15 +1075,16 @@ end
 function B:PostBagMove()
 	if(not E.private.bags.enable) then return; end
 
-	local _, y = self:GetCenter();
+	local x, y = self:GetCenter();
 	local screenHeight = E.UIParent:GetTop();
+	local screenWidth = E.UIParent:GetRight();
 
 	if(y > (screenHeight / 2)) then
 		self:SetText(self.textGrowDown);
-		self.POINT = "TOP";
+		self.POINT = ((x > (screenWidth/2)) and "TOPRIGHT" or "TOPLEFT");
 	else
 		self:SetText(self.textGrowUp);
-		self.POINT = "BOTTOM";
+		self.POINT = ((x > (screenWidth/2)) and "BOTTOMRIGHT" or "BOTTOMLEFT");
 	end
 
 	local bagFrame;
@@ -1119,13 +1120,13 @@ function B:Initialize()
 	self.db = E.db.bags;
 	self.BagFrames = {};
 	
-	BagFrameHolder:Point("BOTTOM", RightChatPanel, "BOTTOM", 0, 22 + E.Border*4 - E.Spacing*2);
+	BagFrameHolder:Point("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", 0, 22 + E.Border*4 - E.Spacing*2);
 	E:CreateMover(BagFrameHolder, 'ElvUIBagMover', L["Bag Mover (Grow Up)"], nil, nil, B.PostBagMove);
 
 	local BankFrameHolder = CreateFrame("Frame", nil, E.UIParent);
 	BankFrameHolder:Width(200);
 	BankFrameHolder:Height(22);
-	BankFrameHolder:Point("BOTTOM", LeftChatPanel, "BOTTOM", 0, 22 + E.Border*4 - E.Spacing*2);
+	BankFrameHolder:Point("BOTTOMLEFT", LeftChatPanel, "BOTTOMLEFT", 0, 22 + E.Border*4 - E.Spacing*2);
 	BankFrameHolder:SetFrameLevel(BankFrameHolder:GetFrameLevel() + 400);
 	E:CreateMover(BankFrameHolder, "ElvUIBankMover", L["Bank Mover (Grow Up)"], nil, nil, B.PostBagMove);
 
