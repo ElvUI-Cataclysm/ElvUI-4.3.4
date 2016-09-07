@@ -1,5 +1,7 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
+
+local find = string.find;
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.lfr ~= true then return end
@@ -18,11 +20,6 @@ local function LoadSkin()
 		_G[button.."Left"]:Kill()
 		_G[button.."Middle"]:Kill()
 		_G[button.."Right"]:Kill()
-	end
-
-	for i=1, NUM_LFR_CHOICE_BUTTONS do
-		local button = _G["LFRQueueFrameSpecificListButton"..i]
-		S:HandleCheckBox(button.enableButton)
 	end
 	
 	--DPS, Healer, Tank check button's don't have a name, use it's parent as a referance.
@@ -142,22 +139,24 @@ local function LoadSkin()
 	S:HandleButton(LFRQueueFrameNoLFRWhileLFDLeaveQueueButton)
 	S:HandleCloseButton(RaidParentFrameCloseButton)
 	
-	hooksecurefunc('LFRQueueFrameSpecificListButton_SetDungeon', function(button, dungeonID, mode, submode)
-		for i = 1, NUM_LFR_CHOICE_BUTTONS do
-			local rbutton = _G["LFRQueueFrameSpecificListButton"..i.."ExpandOrCollapseButton"]
-			rbutton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons")
-			rbutton:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
-			rbutton:GetNormalTexture():Size(12)
-			rbutton:SetHighlightTexture('')
+	for i = 1, NUM_LFR_CHOICE_BUTTONS do
+		S:HandleCheckBox(_G["LFRQueueFrameSpecificListButton"..i.."EnableButton"]);
 
-			--[[local isCollapsed = LFGCollapseList[dungeonID];
-			if ( isCollapsed ) then
-				rbutton:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
+		local buttonToggle = _G["LFRQueueFrameSpecificListButton" .. i .. "ExpandOrCollapseButton"];
+		buttonToggle:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
+		buttonToggle.SetNormalTexture = E.noop;
+		buttonToggle:SetHighlightTexture(nil);
+		buttonToggle:GetNormalTexture():Size(12)
+		buttonToggle:GetNormalTexture():Point("CENTER", 4, 0);
+
+		hooksecurefunc(buttonToggle, "SetNormalTexture", function(self, texture)
+			if(find(texture, "MinusButton")) then
+				buttonToggle:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
 			else
-				rbutton:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
-			end]]   --Partially working
-		end
-	end)
+				buttonToggle:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
+			end
+		end);
+ 	end
 end
 
 S:RegisterSkin('ElvUI', LoadSkin)

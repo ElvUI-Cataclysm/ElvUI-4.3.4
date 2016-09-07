@@ -2,6 +2,7 @@ local E, L, V, P, G, _ = unpack(select(2, ...)); --Inport: Engine, Locales, Priv
 local S = E:GetModule('Skins')
 
 local ceil = math.ceil
+local find = string.find;
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.misc ~= true then return end
@@ -297,11 +298,34 @@ local function LoadSkin()
 	
 	InterfaceOptionsFrameAddOnsList:StripTextures();
 	S:HandleScrollBar(InterfaceOptionsFrameAddOnsListScrollBar);
-	
+
 	-- Game Menu Interface/Tabs
 	for i = 1, 2 do
  	   S:HandleTab(_G["InterfaceOptionsFrameTab" .. i]);
 	   (_G["InterfaceOptionsFrameTab" .. i]):StripTextures()
+	end
+
+	local maxButtons = (InterfaceOptionsFrameAddOns:GetHeight() - 8) / InterfaceOptionsFrameAddOns.buttonHeight;
+	for i = 1, maxButtons do
+		local buttonToggle = _G["InterfaceOptionsFrameAddOnsButton" .. i .. "Toggle"];
+		buttonToggle:SetNormalTexture("");
+		buttonToggle.SetNormalTexture = E.noop;
+		buttonToggle:SetPushedTexture("");
+		buttonToggle.SetPushedTexture = E.noop;
+		buttonToggle:SetHighlightTexture(nil);
+
+		buttonToggle.Text = buttonToggle:CreateFontString(nil, "OVERLAY");
+		buttonToggle.Text:FontTemplate(nil, 22);
+		buttonToggle.Text:Point("CENTER");
+		buttonToggle.Text:SetText("+");
+		
+		hooksecurefunc(buttonToggle, "SetNormalTexture", function(self, texture)
+			if(find(texture, "MinusButton")) then
+				self.Text:SetText("-");
+			else
+				self.Text:SetText("+");
+			end
+		end);
 	end
 
 	-- Game Menu Interface/Controls
