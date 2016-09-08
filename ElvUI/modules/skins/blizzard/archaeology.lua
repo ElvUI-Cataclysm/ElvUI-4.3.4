@@ -24,12 +24,12 @@ local function LoadSkin()
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:CreateBackdrop("Default")
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:Width(460)
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:SetStatusBarColor(0.7, 0.2, 0)
-	ArchaeologyFrameArtifactPageSolveFrameStatusBar:SetPoint("TOP", ArchaeologyFrameArtifactPageSolveFrame, "TOP", -15, -40)
+	ArchaeologyFrameArtifactPageSolveFrameStatusBar:Point("TOP", ArchaeologyFrameArtifactPageSolveFrame, "TOP", -15, -40)
 
 	--Help Button
 	ArchaeologyFrameInfoButton:GetHighlightTexture():Kill()
 	ArchaeologyFrameInfoButtonTexture:SetTexCoord(unpack(E.TexCoords))
-	ArchaeologyFrameInfoButton:SetPoint("TOPLEFT", ArchaeologyFrame, "TOPLEFT", 5, -5)
+	ArchaeologyFrameInfoButton:Point("TOPLEFT", ArchaeologyFrame, "TOPLEFT", 5, -5)
 
 	--Help Frame
 	select(2, ArchaeologyFrameHelpPage:GetRegions()):SetTexture("")
@@ -46,13 +46,13 @@ local function LoadSkin()
 	ArchaeologyFrameHelpPageHelpScroll.backdrop:Point("TOPLEFT", -15, 30);
 	ArchaeologyFrameHelpPageHelpScroll.backdrop:Point("BOTTOMRIGHT", 10, 37);
 	ArchaeologyFrameHelpPageHelpScroll:ClearAllPoints()
-	ArchaeologyFrameHelpPageHelpScroll:SetPoint("TOP", ArchaeologyFrameHelpPage, "TOP", -22, -60)
+	ArchaeologyFrameHelpPageHelpScroll:Point("TOP", ArchaeologyFrameHelpPage, "TOP", -22, -60)
 
 	ArchaeologyFrameHelpPageTitle:SetTextColor(1, 0.80, 0.10)
-	ArchaeologyFrameHelpPageTitle:SetPoint("TOP", ArchaeologyFrameHelpPage, "TOP", -22, -40)
+	ArchaeologyFrameHelpPageTitle:Point("TOP", ArchaeologyFrameHelpPage, "TOP", -22, -40)
 
 	ArchaeologyFrameHelpPageDigTitle:SetTextColor(1, 0.80, 0.10)
-	ArchaeologyFrameHelpPageDigTitle:SetPoint("TOP", ArchaeologyFrameHelpPageDigTex, "TOP", 0, -10)
+	ArchaeologyFrameHelpPageDigTitle:Point("TOP", ArchaeologyFrameHelpPageDigTex, "TOP", 0, -10)
 
 	ArchaeologyFrameHelpPageHelpScrollHelpText:SetTextColor(1, 1, 1)
 
@@ -62,7 +62,7 @@ local function LoadSkin()
 	ArchaeologyFrameArtifactPage.backdrop:Point("BOTTOMRIGHT", 0, 95);
 
 	ArchaeologyFrameArtifactPageHistoryScroll:ClearAllPoints()
-	ArchaeologyFrameArtifactPageHistoryScroll:SetPoint("BOTTOMLEFT", ArchaeologyFrameArtifactPageSolveFrame, "BOTTOMLEFT", -40, 70)
+	ArchaeologyFrameArtifactPageHistoryScroll:Point("BOTTOMLEFT", ArchaeologyFrameArtifactPageSolveFrame, "BOTTOMLEFT", -40, 70)
 	ArchaeologyFrameArtifactPageHistoryScrollChildText:SetTextColor(1, 1, 1)
 
 	select(2, ArchaeologyFrameArtifactPage:GetRegions()):SetTexture("")
@@ -77,41 +77,39 @@ local function LoadSkin()
 	ArchaeologyFrameArtifactPageIcon.backdrop:Point("BOTTOMRIGHT", ArchaeologyFrameArtifactPageIcon, "BOTTOMRIGHT", 1, -1)
 	ArchaeologyFrameArtifactPageIcon:SetParent(ArchaeologyFrameArtifactPageIcon.backdrop)
 	ArchaeologyFrameArtifactPageIcon:SetDrawLayer("OVERLAY")
-	ArchaeologyFrameArtifactPageIcon:SetPoint("TOPLEFT", ArchaeologyFrameArtifactPage, "TOPLEFT", -42, -47)
-	
+	ArchaeologyFrameArtifactPageIcon:Point("TOPLEFT", ArchaeologyFrameArtifactPage, "TOPLEFT", -42, -47)
+
 	ArchaeologyFrameArtifactPage.glow:Kill()
  
 	ArchaeologyFrameArtifactPageRaceBG:ClearAllPoints()
-	ArchaeologyFrameArtifactPageRaceBG:SetPoint("TOPRIGHT", ArchaeologyFrameArtifactPage, "TOPRIGHT", 10, -40)
+	ArchaeologyFrameArtifactPageRaceBG:Point("TOPRIGHT", ArchaeologyFrameArtifactPage, "TOPRIGHT", 10, -40)
 
 	ArchaeologyFrameArtifactPageArtifactBG:ClearAllPoints()
-	ArchaeologyFrameArtifactPageArtifactBG:SetPoint("TOPRIGHT", ArchaeologyFrameArtifactPage, "TOPRIGHT", 0, -45)
+	ArchaeologyFrameArtifactPageArtifactBG:Point("TOPRIGHT", ArchaeologyFrameArtifactPage, "TOPRIGHT", 0, -45)
 
 	S:HandleButton(ArchaeologyFrameArtifactPageSolveFrameSolveButton, true)
-	ArchaeologyFrameArtifactPageSolveFrameSolveButton:SetPoint("BOTTOMRIGHT", ArchaeologyFrameArtifactPageSolveFrame, "BOTTOMRIGHT", 0, -10)
-	
-	S:HandleButton(ArchaeologyFrameArtifactPageBackButton, true)
-	ArchaeologyFrameArtifactPageBackButton:SetPoint("BOTTOMLEFT", ArchaeologyFrameArtifactPage, "BOTTOMLEFT", 350, 15)
+	ArchaeologyFrameArtifactPageSolveFrameSolveButton:Point("BOTTOMRIGHT", ArchaeologyFrameArtifactPageSolveFrame, "BOTTOMRIGHT", 0, -10)
 
-	ArchaeologyFrameArtifactPageSolveFrameKeystone1:SetPoint("BOTTOMLEFT", ArchaeologyFrameArtifactPageSolveFrame, "BOTTOMLEFT", -25, -30)
+	S:HandleButton(ArchaeologyFrameArtifactPageBackButton, true)
+	ArchaeologyFrameArtifactPageBackButton:Point("BOTTOMLEFT", ArchaeologyFrameArtifactPage, "BOTTOMLEFT", 350, 15)
+
+	ArchaeologyFrameArtifactPageSolveFrameKeystone1:Point("BOTTOMLEFT", ArchaeologyFrameArtifactPageSolveFrame, "BOTTOMLEFT", -25, -30)
 
 	--Summary Page
 	select(2, ArchaeologyFrameSummaryPage:GetRegions()):SetTexture("")
 	select(3, ArchaeologyFrameSummaryPage:GetRegions()):SetTexture("")
-	
-	ArchaeologyFrameSummaryPageRace1:SetPoint("TOPLEFT", ArchaeologyFrameSummaryPage, "TOPLEFT", 15, -85)
 
-	for i=1, 10 do
-		_G["ArchaeologyFrameSummaryPageRace"..i]:CreateBackdrop("Transparent", true)
-		_G["ArchaeologyFrameSummaryPageRace"..i].backdrop:Point("TOPLEFT", -5, 1);
-		_G["ArchaeologyFrameSummaryPageRace"..i].backdrop:Point("BOTTOMRIGHT", 5, -25);
-	end
+	ArchaeologyFrameSummaryPageRace1:SetPoint("TOPLEFT", ArchaeologyFrameSummaryPage, "TOPLEFT", 15, -85)
 
 	for i=1, ARCHAEOLOGY_MAX_RACES do
 		local frame = _G["ArchaeologyFrameSummaryPageRace"..i]
+		local frameIcon = frame:GetNormalTexture()
 
 		if frame then
 			frame.raceName:SetTextColor(1, 1, 1)
+			frame:CreateBackdrop("Transparent", true)
+			frame.backdrop:Point("TOPLEFT", -5, 1);
+			frame.backdrop:Point("BOTTOMRIGHT", 5, -25);
 		end
 	end
 
@@ -135,8 +133,7 @@ local function LoadSkin()
 			_G["ArchaeologyFrameCompletedPageArtifact"..i.."ArtifactName"]:SetTextColor(1, 0.80, 0.10)
 			_G["ArchaeologyFrameCompletedPageArtifact"..i.."ArtifactSubText"]:SetTextColor(0.6, 0.6, 0.6)
 
-			artifact:CreateBackdrop("Transparent", true);
-			artifact.backdrop:SetOutside()
+			artifact:SetTemplate("Transparent");
 			artifact:StyleButton()
 
 			icon:SetTexCoord(unpack(E.TexCoords))
