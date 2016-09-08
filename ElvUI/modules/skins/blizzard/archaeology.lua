@@ -122,24 +122,31 @@ local function LoadSkin()
 		end
 	end
 
-	--ArchaeologyFrameSummaryPageTitle:SetPoint("TOPRIGHT", ArchaeologyFrame, "TOPRIGHT", -240, 0)
 	ArchaeologyFrameSummaryPageTitle:SetAlpha(0)
 
 	--Completed Page
 	for i=1, ARCHAEOLOGY_MAX_COMPLETED_SHOWN do
 		local artifact = _G["ArchaeologyFrameCompletedPageArtifact"..i]
+		local icon = _G["ArchaeologyFrameCompletedPageArtifact"..i.."Icon"]
 
 		if artifact then
 			_G["ArchaeologyFrameCompletedPageArtifact"..i.."Border"]:Kill()
 			_G["ArchaeologyFrameCompletedPageArtifact"..i.."Bg"]:Kill()
-			_G["ArchaeologyFrameCompletedPageArtifact"..i.."Icon"]:SetTexCoord(unpack(E.TexCoords))
-			_G["ArchaeologyFrameCompletedPageArtifact"..i.."Icon"]:SetDrawLayer("OVERLAY")
 			_G["ArchaeologyFrameCompletedPageArtifact"..i.."ArtifactName"]:SetTextColor(1, 0.80, 0.10)
 			_G["ArchaeologyFrameCompletedPageArtifact"..i.."ArtifactSubText"]:SetTextColor(0.6, 0.6, 0.6)
-			_G["ArchaeologyFrameCompletedPageArtifact"..i]:CreateBackdrop("Transparent", true);
-			_G["ArchaeologyFrameCompletedPageArtifact"..i].backdrop:Point("TOPLEFT", -2, 2);
-			_G["ArchaeologyFrameCompletedPageArtifact"..i].backdrop:Point("BOTTOMRIGHT", 2, -2);
-			_G["ArchaeologyFrameCompletedPageArtifact"..i]:StyleButton()
+
+			artifact:CreateBackdrop("Transparent", true);
+			artifact.backdrop:SetOutside()
+			artifact:StyleButton()
+
+			icon:SetTexCoord(unpack(E.TexCoords))
+			icon:SetDrawLayer("OVERLAY")
+			icon:Size(icon:GetWidth() - 2, icon:GetHeight() - 2)
+
+			artifact.bg1 = CreateFrame("Frame", nil, artifact)
+			artifact.bg1:CreateBackdrop()
+			artifact.bg1:SetInside(icon)
+			icon:SetParent(artifact.bg1)
 		end
 	end
 
