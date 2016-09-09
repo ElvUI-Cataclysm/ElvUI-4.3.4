@@ -122,6 +122,7 @@ end
 
 local buttons = {};
 local function configureAuras(header, auraTable)
+	if(not E.private.auras.enable) then return end
 	local db = A.db.debuffs;
 	if(header.filter == 'HELPFUL') then
 		db = A.db.buffs;
@@ -334,6 +335,7 @@ end
 sorters.TIME = sorters.EXPIRES;
 
 function A:UpdateHeader(self)
+	if(not E.private.auras.enable) then return end
 	local db = A.db.debuffs;
 	if(self.filter == 'HELPFUL') then
 		db = A.db.buffs;
