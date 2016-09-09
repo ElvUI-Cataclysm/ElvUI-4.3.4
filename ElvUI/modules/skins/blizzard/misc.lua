@@ -1,4 +1,4 @@
-local E, L, V, P, G, _ = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB, Localize Underscore
+local E, L, V, P, G, _ = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
 local ceil = math.ceil
@@ -24,19 +24,18 @@ local function LoadSkin()
 		"ReadyCheckFrame",
 		"StackSplitFrame",
 	}
-	
+
 	for i = 1, getn(skins) do
 		_G[skins[i]]:SetTemplate("Transparent")
 	end
 
-	
 	local ChatMenus = {
 		"ChatMenu",
 		"EmoteMenu",
 		"LanguageMenu",
-		"VoiceMacroMenu",		
+		"VoiceMacroMenu",
 	}
-	--
+
 	for i = 1, getn(ChatMenus) do
 		if _G[ChatMenus[i]] == _G["ChatMenu"] then
 			_G[ChatMenus[i]]:HookScript("OnShow", function(self) self:SetTemplate("Default", true) self:SetBackdropColor(unpack(E['media'].backdropfadecolor)) self:ClearAllPoints() self:Point("BOTTOMLEFT", ChatFrame1, "TOPLEFT", 0, 30) end)
@@ -65,7 +64,7 @@ local function LoadSkin()
 			_G["StaticPopup"..i.."ItemFrameIconTexture"]:Point("BOTTOMRIGHT", -2, 2)
 		end
 	end
-	
+
 	S:HandleCloseButton(StaticPopup1CloseButton)
 
 	-- Return to Graveyard Button
@@ -111,7 +110,7 @@ local function LoadSkin()
 		"StackSplitCancelButton",
 		"RolePollPopupAcceptButton"
 	}
-	
+
 	for i = 1, getn(BlizzardButtons) do
 		local ElvuiButtons = _G[BlizzardButtons[i]]
 		if ElvuiButtons then
@@ -166,7 +165,7 @@ local function LoadSkin()
 		"Continue",
 		"Help"
 	}
-	
+
 	for i = 1, getn(BlizzardMenuButtons) do
 		local ElvuiMenuButtons = _G["GameMenuButton"..BlizzardMenuButtons[i]]
 		if ElvuiMenuButtons then
@@ -551,7 +550,7 @@ local function LoadSkin()
 	InterfaceOptionsFrame:RegisterForDrag("LeftButton", "RightButton")
 	InterfaceOptionsFrame:SetScript("OnDragStart", function(self) 
 		if InCombatLockdown() then return end
-		
+
 		if IsShiftKeyDown() then
 			self:StartMoving() 
 		end
@@ -573,7 +572,7 @@ local function LoadSkin()
 
 	hooksecurefunc('WatchFrame_Collapse', function()
 		WatchFrameCollapseExpandButton.text:SetText('+')
-	end)	
+	end)
 
 	local function SkinWatchFrameItems()
 		for i=1, WATCHFRAME_NUM_ITEMS do
@@ -622,21 +621,21 @@ local function LoadSkin()
 	ChatConfigFrame:SetTemplate("Transparent");
 	ChatConfigCategoryFrame:SetTemplate("Transparent");
 	ChatConfigBackgroundFrame:SetTemplate("Transparent");
-	
+
 	ChatConfigChatSettingsClassColorLegend:SetTemplate("Transparent");
 	ChatConfigChannelSettingsClassColorLegend:SetTemplate("Transparent");
-	
+
 	ChatConfigCombatSettingsFilters:SetTemplate("Transparent");
-	
+
 	ChatConfigCombatSettingsFiltersScrollFrame:StripTextures();
 	S:HandleScrollBar(ChatConfigCombatSettingsFiltersScrollFrameScrollBar);
-	
+
 	S:HandleButton(ChatConfigCombatSettingsFiltersDeleteButton);
 	S:HandleButton(ChatConfigCombatSettingsFiltersAddFilterButton);
 	ChatConfigCombatSettingsFiltersAddFilterButton:Point("RIGHT", ChatConfigCombatSettingsFiltersDeleteButton, "LEFT", -1, 0);
 	S:HandleButton(ChatConfigCombatSettingsFiltersCopyFilterButton);
 	ChatConfigCombatSettingsFiltersCopyFilterButton:Point("RIGHT", ChatConfigCombatSettingsFiltersAddFilterButton, "LEFT", -1, 0);
-	
+
 	S:HandleNextPrevButton(ChatConfigMoveFilterUpButton, true);
 	S:SquareButton_SetIcon(ChatConfigMoveFilterUpButton, "UP");
 	ChatConfigMoveFilterUpButton:Size(26);
@@ -644,19 +643,19 @@ local function LoadSkin()
 	S:HandleNextPrevButton(ChatConfigMoveFilterDownButton, true);
 	ChatConfigMoveFilterDownButton:Size(26);
 	ChatConfigMoveFilterDownButton:Point("LEFT", ChatConfigMoveFilterUpButton, "RIGHT", 1, 0);
-	
+
 	CombatConfigColorsHighlighting:StripTextures();
 	CombatConfigColorsColorizeUnitName:StripTextures();
 	CombatConfigColorsColorizeSpellNames:StripTextures();
-	
+
 	CombatConfigColorsColorizeDamageNumber:StripTextures();
 	CombatConfigColorsColorizeDamageSchool:StripTextures();
 	CombatConfigColorsColorizeEntireLine:StripTextures();
-	
+
 	S:HandleEditBox(CombatConfigSettingsNameEditBox);
-	
+
 	S:HandleButton(CombatConfigSettingsSaveButton);
-	
+
 	local combatConfigCheck = {
 		"CombatConfigColorsHighlightingLine",
 		"CombatConfigColorsHighlightingAbility",
@@ -680,28 +679,28 @@ local function LoadSkin()
 		"CombatConfigSettingsParty",
 		"CombatConfigSettingsRaid"
 	};
-	
+
 	for i = 1, getn(combatConfigCheck) do
 		S:HandleCheckBox(_G[combatConfigCheck[i]]);
 	end
-	
+
 	for i = 1, 5 do
 		local tab = _G["CombatConfigTab"..i];
 		tab:StripTextures();
-		
+
 		tab:CreateBackdrop("Default", true);
 		tab.backdrop:Point("TOPLEFT", 1, -10);
 		tab.backdrop:Point("BOTTOMRIGHT", -1, 2);
-		
+
 		tab:HookScript("OnEnter", S.SetModifiedBackdrop);
 		tab:HookScript("OnLeave", S.SetOriginalBackdrop);
 	end
-	
+
 	S:HandleButton(ChatConfigFrameDefaultButton);
 	S:HandleButton(CombatLogDefaultButton);
 	S:HandleButton(ChatConfigFrameCancelButton);
 	S:HandleButton(ChatConfigFrameOkayButton);
-	
+
 	S:SecureHook("ChatConfig_CreateCheckboxes", function(frame, checkBoxTable, checkBoxTemplate)
 		local checkBoxNameString = frame:GetName().."CheckBox";
 		if(checkBoxTemplate == "ChatConfigCheckBoxTemplate") then
@@ -741,7 +740,7 @@ local function LoadSkin()
 			end
 		end
 	end);
-	
+
 	S:SecureHook("ChatConfig_CreateTieredCheckboxes", function(frame, checkBoxTable, checkBoxTemplate, subCheckBoxTemplate)
 		local checkBoxNameString = frame:GetName().."CheckBox";
 		for index, value in ipairs(checkBoxTable) do
@@ -760,7 +759,7 @@ local function LoadSkin()
 			end
 		end
 	end);
-	
+
 	S:SecureHook("ChatConfig_CreateColorSwatches", function(frame, swatchTable, swatchTemplate)
 		frame:SetTemplate("Transparent");
 		local nameString = frame:GetName().."Swatch";
@@ -850,7 +849,7 @@ local function LoadSkin()
 		end
 	end
 	hooksecurefunc("NavBar_AddButton", SkinNavBarButtons)
-	
+
 	--This is necessary to fix position of button right next to homebutton.
 	local function SetHomeButtonOffsetX(self)
 		local homeButton = self.homeButton
@@ -874,7 +873,7 @@ local function LoadSkin()
 	GuildInviteFrameBackground:Kill()
 	GuildInviteFrameTabardBorder:Kill()
 	GuildInviteFrameTabardRing:Kill()
-	
+
 	S:HandleButton(GuildInviteFrameJoinButton)
 	S:HandleButton(GuildInviteFrameDeclineButton)
 
@@ -892,37 +891,36 @@ local function LoadSkin()
 	S:HandleEditBox(ReportPlayerNameDialogCommentFrameEditBox)
 	S:HandleButton(ReportPlayerNameDialogCancelButton)
 	S:HandleButton(ReportPlayerNameDialogReportButton)
-	
+
 	-- Cinematic Popup
 	CinematicFrameCloseDialog:StripTextures()
 	CinematicFrameCloseDialog:SetTemplate("Transparent")
 	CinematicFrameCloseDialog:SetScale(UIParent:GetScale())
 	S:HandleButton(CinematicFrameCloseDialogConfirmButton)
 	S:HandleButton(CinematicFrameCloseDialogResumeButton)
-	
+
 	-- Level Up Popup
 	LevelUpDisplay:StripTextures()
 	LevelUpDisplayLevelFrame:StripTextures()
 	LevelUpDisplaySpellFrame:StripTextures()
 	LevelUpDisplaySpellFrameIcon:SetTexCoord(unpack(E.TexCoords))
 	LevelUpDisplaySpellFrameSubIcon:SetTexCoord(unpack(E.TexCoords))
-	
+
 	--Minimap GM Ticket Button
 	local ticketbutton = HelpOpenTicketButton
 	local ticketbuttonIcon = ticketbutton:GetNormalTexture()
 	local ticketbuttonPushed = ticketbutton:GetPushedTexture()
-	
+
 	ticketbutton:StripTextures()
 	S:HandleButton(ticketbutton)
 	ticketbutton:CreateBackdrop("Default")
-	ticketbutton:SetWidth(30)
-	ticketbutton:SetHeight(30)
-	
+	ticketbutton:Size(30)
+
 	ticketbuttonIcon:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-Blizz")
 	ticketbuttonIcon:ClearAllPoints()
 	ticketbuttonIcon:SetPoint("CENTER", HelpOpenTicketButton, "CENTER", 0, 0)
 	ticketbuttonIcon:SetTexCoord(unpack(E.TexCoords))
-	
+
 	ticketbuttonPushed:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-Blizz")
 	ticketbuttonPushed:ClearAllPoints()
 	ticketbuttonPushed:SetTexCoord(unpack(E.TexCoords))
@@ -933,9 +931,8 @@ local function LoadSkin()
 
 	battlefieldButton:StripTextures()
 	battlefieldButton:CreateBackdrop("Default")
-	battlefieldButton:SetWidth(30)
-	battlefieldButton:SetHeight(30)
-	
+	battlefieldButton:Size(30)
+
 	battlefieldButton.texture = battlefieldButton:CreateTexture(nil, "OVERLAY");
 	if UnitFactionGroup("player") == "Horde" then
 		battlefieldButton.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Horde")
@@ -950,7 +947,7 @@ local function LoadSkin()
 	LFDQueueFrameRoleButtonTank:Point("BOTTOMLEFT", LFDQueueFrame, "BOTTOMLEFT", 25, 334)
 	LFDQueueFrameRoleButtonHealer:Point("LEFT", LFDQueueFrameRoleButtonTank,"RIGHT", 23, 0)
 	LFDQueueFrameRoleButtonLeader:Point("LEFT", LFDQueueFrameRoleButtonDPS, "RIGHT", 50, 0)
-	
+
 	LFDQueueFrameRoleButtonTank:StripTextures()
 	LFDQueueFrameRoleButtonTank:CreateBackdrop("Default", true, true);
 	LFDQueueFrameRoleButtonTank.backdrop:SetTemplate("Default", true, true);
@@ -960,7 +957,7 @@ local function LoadSkin()
 	LFDQueueFrameRoleButtonTank.icon:SetTexCoord(unpack(E.TexCoords))
 	LFDQueueFrameRoleButtonTank.icon:SetTexture('Interface\\Icons\\Ability_Defend');
 	LFDQueueFrameRoleButtonTank.icon:SetInside(LFDQueueFrameRoleButtonTank.backdrop)
-	
+
 	LFDQueueFrameRoleButtonHealer:StripTextures()
 	LFDQueueFrameRoleButtonHealer:CreateBackdrop("Default", true, true);
 	LFDQueueFrameRoleButtonHealer.backdrop:SetTemplate("Default", true, true);
