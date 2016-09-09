@@ -112,20 +112,14 @@ E.Options.args.general = {
 					get = function(info) return E.global.general.eyefinity; end,
 					set = function(info, value) E.global.general[ info[#info] ] = value; E:StaticPopup_Show("GLOBAL_RL"); end
 				},
-				hideErrorFrame = {
-					order = 11,
-					type = "toggle",
-					name = L["Hide Error Text"],
-					desc = L["Hides the red error text at the top of the screen while in combat."]
-				},
 				taintLog = {
-					order = 12,
+					order = 11,
 					type = "toggle",
 					name = L["Log Taints"],
 					desc = L["Send ADDON_ACTION_BLOCKED errors to the Lua Error frame. These errors are less important in most cases and will not effect your game performance. Also a lot of these errors cannot be fixed. Please only report these errors if you notice a Defect in gameplay."]
 				},
 				bottomPanel = {
-					order = 13,
+					order = 12,
 					type = "toggle",
 					name = L["Bottom Panel"],
 					desc = L["Display a panel across the bottom of the screen. This is for cosmetic only."],
@@ -133,7 +127,7 @@ E.Options.args.general = {
 					set = function(info, value) E.db.general.bottomPanel = value; E:GetModule("Layout"):BottomPanelVisibility(); end
 				},
 				topPanel = {
-					order = 14,
+					order = 13,
 					type = "toggle",
 					name = L["Top Panel"],
 					desc = L["Display a panel across the top of the screen. This is for cosmetic only."],
@@ -141,7 +135,7 @@ E.Options.args.general = {
 					set = function(info, value) E.db.general.topPanel = value; E:GetModule("Layout"):TopPanelVisibility(); end
 				},
 				afk = {
-					order = 15,
+					order = 14,
 					type = "toggle",
 					name = L["AFK Mode"],
 					desc = L["When you go AFK display the AFK screen."],
@@ -149,13 +143,13 @@ E.Options.args.general = {
 					set = function(info, value) E.db.general.afk = value; E:GetModule("AFK"):Toggle(); end
 				},
 				enhancedPvpMessages = {
-					order = 16,
+					order = 15,
 					type = "toggle",
 					name = L["Enhanced PVP Messages"],
 					desc = L["Display battleground messages in the middle of the screen."],
 				},
 				autoScale = {
-					order = 17,
+					order = 16,
 					name = L["Auto Scale"],
 					desc = L["Automatically scale the User Interface based on your screen resolution"],
 					type = "toggle",
@@ -163,7 +157,7 @@ E.Options.args.general = {
 					set = function(info, value) E.global.general[ info[#info] ] = value; E:StaticPopup_Show("GLOBAL_RL") end
 				},
 				minUiScale = {
-					order = 18,
+					order = 17,
 					type = "range",
 					name = L["Lowest Allowed UI Scale"],
 					min = 0.32, max = 0.64, step = 0.01,
@@ -171,7 +165,7 @@ E.Options.args.general = {
 					set = function(info, value) E.global.general.minUiScale = value; E:StaticPopup_Show("GLOBAL_RL"); end
 				},
 				numberPrefixStyle = {
-					order = 19,
+					order = 18,
 					type = "select",
 					name = L["Number Prefix"],
 					desc = L["The unit prefixes you want to use when values are shortened in ElvUI. This is mostly used on UnitFrames."],
@@ -372,7 +366,7 @@ E.Options.args.general = {
 				},
 				backdropcolor = {
 					type = "color",
-					order = 32,
+					order = 16,
 					name = L["Backdrop Color"],
 					desc = L["Main backdrop color of the UI."],
 					hasAlpha = false,
@@ -391,7 +385,7 @@ E.Options.args.general = {
 				},
 				backdropfadecolor = {
 					type = "color",
-					order = 33,
+					order = 17,
 					name = L["Backdrop Faded Color"],
 					desc = L["Backdrop color of transparent frames"],
 					hasAlpha = true,
@@ -410,7 +404,7 @@ E.Options.args.general = {
 				},
 				valuecolor = {
 					type = "color",
-					order = 34,
+					order = 18,
 					name = L["Value Color"],
 					desc = L["Color some texts use."],
 					hasAlpha = false,
@@ -704,6 +698,44 @@ E.Options.args.general = {
 					},
 					get = function(info) return E.db.general.threat.textOutline; end,
 					set = function(info, value) E.db.general.threat.textOutline = value; E:GetModule('Threat'):UpdatePosition() end
+				}
+			}
+		},
+		errorFrame = {
+			order = 11,
+			type = "group",
+			name = L["Error Frame"],
+			args = {
+				header = {
+					order = 1,
+					type = "header",
+					name = L["Error Frame"],
+				},
+				hideErrorFrame = {
+					order = 2,
+					name = L["Hide Error Text"],
+					desc = L["Hides the red error text at the top of the screen while in combat."],
+					type = "toggle",
+					get = function(info) return E.db.general[ info[#info] ] end,
+					set = function(info, value) E.db.general[ info[#info] ] = value end,
+				},
+				width = {
+					order = 3,
+					name = L["Width"],
+					desc = L["Set the width of Error Frame. Too narrow frame may cause messages to be split in several lines"],
+					type = "range",
+					min = 100, max = 1000, step = 1,
+					get = function(info) return E.db.general.errorFrame.width end,
+					set = function(info, value) E.db.general.errorFrame.width = value;  E:GetModule('Blizzard'):ErrorFrameSize() end
+				},
+				height = {
+					order = 4,
+					name = L["Height"],
+					desc = L["Set the height of Error Frame. Higher frame can show more lines at once."],
+					type = "range",
+					min = 30, max = 300, step = 1,
+					get = function(info) return E.db.general.errorFrame.height end,
+					set = function(info, value) E.db.general.errorFrame.height = value;  E:GetModule('Blizzard'):ErrorFrameSize() end
 				}
 			}
 		}

@@ -907,7 +907,7 @@ local function LoadSkin()
 	LevelUpDisplaySpellFrameIcon:SetTexCoord(unpack(E.TexCoords))
 	LevelUpDisplaySpellFrameSubIcon:SetTexCoord(unpack(E.TexCoords))
 	
-	--Active Ticket Button	
+	--Minimap GM Ticket Button
 	local ticketbutton = HelpOpenTicketButton
 	local ticketbuttonIcon = ticketbutton:GetNormalTexture()
 	local ticketbuttonPushed = ticketbutton:GetPushedTexture()
@@ -915,8 +915,8 @@ local function LoadSkin()
 	ticketbutton:StripTextures()
 	S:HandleButton(ticketbutton)
 	ticketbutton:CreateBackdrop("Default")
-	ticketbutton:SetWidth(32)
-	ticketbutton:SetHeight(32)
+	ticketbutton:SetWidth(30)
+	ticketbutton:SetHeight(30)
 	
 	ticketbuttonIcon:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-Blizz")
 	ticketbuttonIcon:ClearAllPoints()
@@ -927,7 +927,24 @@ local function LoadSkin()
 	ticketbuttonPushed:ClearAllPoints()
 	ticketbuttonPushed:SetTexCoord(unpack(E.TexCoords))
 	ticketbuttonPushed:SetPoint("CENTER", HelpOpenTicketButton, "CENTER", 0, 0)
+
+	--Minimap PVP Queue Button
+	local battlefieldButton = MiniMapBattlefieldFrame
+
+	battlefieldButton:StripTextures()
+	battlefieldButton:CreateBackdrop("Default")
+	battlefieldButton:SetWidth(30)
+	battlefieldButton:SetHeight(30)
 	
+	battlefieldButton.texture = battlefieldButton:CreateTexture(nil, "OVERLAY");
+	if UnitFactionGroup("player") == "Horde" then
+		battlefieldButton.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Horde")
+	elseif UnitFactionGroup("player") == "Alliance" then
+		battlefieldButton.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Alliance")
+	end
+	battlefieldButton.texture:SetTexCoord(unpack(E.TexCoords))
+	battlefieldButton.texture:SetInside(battlefieldButton.backdrop)
+
 	--Role Icons
 	--Dungeon Finder Role Icons
 	LFDQueueFrameRoleButtonTank:Point("BOTTOMLEFT", LFDQueueFrame, "BOTTOMLEFT", 25, 334)

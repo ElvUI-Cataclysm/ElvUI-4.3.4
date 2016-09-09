@@ -10,4 +10,5 @@
 	<Script file='durability.lua'/>
 	<Script file='capturebar.lua'/>
 	<Script file='altpower.lua'/>
+	<Script file='errorframe.lua'/>
 </Ui>

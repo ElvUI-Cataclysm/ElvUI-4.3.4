@@ -14,6 +14,7 @@ function B:Initialize()
 	self:MoveWatchFrame();
 	self:SkinBlizzTimers();
 	self:PositionAltPowerBar();
+	self:ErrorFrameSize()
 end
 
 E:RegisterModule(B:GetName());

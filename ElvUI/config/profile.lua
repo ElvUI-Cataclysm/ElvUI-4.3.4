@@ -14,6 +14,10 @@ P['general'] = {
 	['autoAcceptInvite'] = false,
 	['bottomPanel'] = true,
 	['hideErrorFrame'] = true,
+	['errorFrame'] = {
+		['height'] = 60,
+		['width'] = 300,
+	},
 	["enhancedPvpMessages"] = true,
 	["watchFrameHeight"] = 480,
 	['afk'] = true,
@@ -53,7 +57,7 @@ P['general'] = {
 			['battlefield'] = {
 				['scale'] = 1,
 				['position'] = "BOTTOMRIGHT",
-				['xOffset'] = 3,
+				['xOffset'] = 0,
 				['yOffset'] = 0,
 			},
 			['difficulty'] = {
@@ -65,8 +69,8 @@ P['general'] = {
 			['vehicleLeave'] = {
 				['size'] = 26,
 				['position'] = "BOTTOMLEFT",
-				['xOffset'] = 2,
-				['yOffset'] = 2,
+				['xOffset'] = 0,
+				['yOffset'] = 0,
 				["hide"] = false,
 			},
 			['ticket'] = {
