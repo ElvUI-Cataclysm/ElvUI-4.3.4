@@ -159,6 +159,7 @@ local function LoadSkin()
 		local tab = _G["SpellBookSkillLineTab"..i]
 		_G["SpellBookSkillLineTab"..i.."Flash"]:Kill()
 		SkinTab(tab)
+		tab:StyleButton(nil, true);
 	end
 
 	local function SkinSkillLine()
@@ -168,6 +169,7 @@ local function LoadSkin()
 			if isGuild then
 				tab:GetNormalTexture():SetInside()
 				tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
+				tab:StyleButton(nil, true);
 			end
 		end
 	end

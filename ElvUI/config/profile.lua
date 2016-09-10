@@ -205,6 +205,8 @@ P["nameplate"] = {
 		['height'] = 6,
 		["hideSpellName"] = false,
 		["hideTime"] = false,
+		["castTimeFormat"] = "CURRENT",
+		["channelTimeFormat"] = "CURRENT"
 	},
 	['raidIcon'] = {
 		['xOffset'] = -4,
@@ -2377,17 +2379,17 @@ P["datatexts"] = {
 	["wordWrap"] = false,
 	["panels"] = {
 		["LeftChatDataPanel"] = {
-			["left"] = ARMOR,
-			["middle"] = DURABILITY,
-			["right"] = DEFENSE
+			["left"] = "Armor",
+			["middle"] = "Durability",
+			["right"] = "Avoidance"
 		},
 		["RightChatDataPanel"] = {
-			["left"] = L["System"],
-			["middle"] = L["Time"],
+			["left"] = "System",
+			["middle"] = "Time",
 			["right"] = "Gold"
 		},
-		["LeftMiniPanel"] = GUILD,
-		["RightMiniPanel"] = L["Friends"],
+		["LeftMiniPanel"] = "Guild",
+		["RightMiniPanel"] = "Friends",
 		['BottomMiniPanel'] = '',
 		['TopMiniPanel'] = '',
 		['BottomLeftMiniPanel'] = '',

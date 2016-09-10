@@ -1,31 +1,47 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local DT = E:GetModule('DataTexts')
+local DT = E:GetModule("DataTexts");
 
-local APM = { TIMEMANAGER_PM, TIMEMANAGER_AM }
-local europeDisplayFormat = '';
-local ukDisplayFormat = '';
+local date = date;
+local format, join = string.format, string.join;
+
+local GetGameTime = GetGameTime;
+local GetNumSavedInstances = GetNumSavedInstances;
+local GetSavedInstanceInfo = GetSavedInstanceInfo;
+local GetWintergraspWaitTime = GetWintergraspWaitTime;
+local RequestRaidInfo = RequestRaidInfo;
+local SecondsToTime = SecondsToTime;
+local QUEUE_TIME_UNAVAILABLE = QUEUE_TIME_UNAVAILABLE;
+local TIMEMANAGER_TOOLTIP_LOCALTIME = TIMEMANAGER_TOOLTIP_LOCALTIME;
+local TIMEMANAGER_TOOLTIP_REALMTIME = TIMEMANAGER_TOOLTIP_REALMTIME;
+local WINTERGRASP_IN_PROGRESS = WINTERGRASP_IN_PROGRESS;
+
+local APM = {TIMEMANAGER_PM, TIMEMANAGER_AM};
+local europeDisplayFormat = "";
+local ukDisplayFormat = "";
 local europeDisplayFormat_nocolor = string.join("", "%02d", ":|r%02d")
 local ukDisplayFormat_nocolor = string.join("", "", "%d", ":|r%02d", " %s|r")
 local timerLongFormat = "%d:%02d:%02d"
 local timerShortFormat = "%d:%02d"
 local lockoutInfoFormat = "|cffcccccc[%d%s]|r %s |cfff04000(%s/%s)|r"
 local formatBattleGroundInfo = "%s: "
-local lockoutColorExtended, lockoutColorNormal = { r=0.3,g=1,b=0.3 }, { r=.8,g=.8,b=.8 }
-local difficultyInfo = { "N", "N", "H", "H" }
+local difficultyInfo = {"N", "N", "H", "H"};
+local lockoutColorExtended, lockoutColorNormal = {r = 0.3, g = 1, b = 0.3}, {r = .8, g = .8, b = .8};
 local lockoutFormatString = { "%dd %02dh %02dm", "%dd %dh %02dm", "%02dh %02dm", "%dh %02dm", "%dh %02dm", "%dm" }
 local curHr, curMin, curAmPm
 local enteredFrame = false;
 
 local Update, lastPanel; -- UpValue
-local function ValueColorUpdate(hex, r, g, b)
+local name, instanceID, reset, difficultyId, locked, extended, isRaid, maxPlayers, difficulty;
+
+local function ValueColorUpdate(hex)
 	europeDisplayFormat = string.join("", "%02d", hex, ":|r%02d ", format("%s", date(hex .. "%d.%m.%y|r")));
 	ukDisplayFormat = string.join("", "", "%d", hex, ":|r%02d", hex, " %s|r ", format("%s", date(hex .. "%d.%m.%y|r")));
-	
+
 	if lastPanel ~= nil then
 		Update(lastPanel, 20000)
 	end
 end
-E['valueColorUpdateFuncs'][ValueColorUpdate] = true
+E["valueColorUpdateFuncs"][ValueColorUpdate] = true;
 
 local function CalculateTimeValues(tt)
 	local Hr, Min, AmPm
@@ -109,7 +125,7 @@ local function formatResetTime(sec)
 	end
 end
 
-local function Click(self, btn)
+local function Click(_, btn)
 	if(btn == "RightButton") then
  		TimeManagerClockButton_OnClick(TimeManagerClockButton);
  	else
@@ -117,9 +133,15 @@ local function Click(self, btn)
  	end
 end
 
-local function OnLeave(self)
+local function OnLeave()
 	DT.tooltip:Hide();
 	enteredFrame = false;
+end
+
+local function OnEvent(_, event)
+	if(event == "UPDATE_INSTANCE_INFO" and enteredFrame) then
+		RequestRaidInfo();
+	end
 end
 
 local function OnEnter(self)
@@ -205,4 +227,4 @@ function Update(self, t)
 	int = 2
 end
 
-DT:RegisterDatatext('Time', nil, nil, Update, Click, OnEnter, OnLeave)
+DT:RegisterDatatext("Time", {"UPDATE_INSTANCE_INFO"}, OnEvent, Update, Click, OnEnter, OnLeave); 

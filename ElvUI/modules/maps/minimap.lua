@@ -3,8 +3,7 @@ local M = E:NewModule('Minimap', 'AceEvent-3.0');
 E.Minimap = M;
 
 local _G = _G;
-local tinsert = table.insert;
-local gsub, upper, strsub = string.gsub, string.upper, strsub;
+local strsub = strsub;
 
 local CreateFrame = CreateFrame;
 local ToggleCharacter = ToggleCharacter;
@@ -79,7 +78,7 @@ function M:GetLocTextColor()
 	end
 end
 
-function M:ADDON_LOADED(event, addon)
+function M:ADDON_LOADED(_, addon)
 	if(addon == 'Blizzard_TimeManager') then
 		TimeManagerClockButton:Kill();
 	end
@@ -94,11 +93,6 @@ function M:Minimap_OnMouseUp(btn)
 			EasyMenu(menuList, menuFrame, 'cursor', -160, 0, 'MENU', 2);
 		end
 	elseif(btn == 'RightButton') then
-		local xoff = -1;
-		if(position:match('RIGHT')) then
-			xoff = E:Scale(-16);
-		end
-
 		ToggleDropDownMenu(1, nil, MiniMapTrackingDropDown, self, xoff, E:Scale(-3));
 	else
 		Minimap_OnClick(self);

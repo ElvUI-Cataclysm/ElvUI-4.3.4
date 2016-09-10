@@ -6,7 +6,6 @@ local unpack = unpack;
 local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.trainer ~= true) then return; end
 
-	--Class Trainer Frame
 	local StripAllTextures = {
 		"ClassTrainerFrame",
 		"ClassTrainerScrollFrameScrollChild",
@@ -32,7 +31,7 @@ local function LoadSkin()
 		_G["ClassTrainerScrollFrameButton"..i]:StyleButton()
 		_G["ClassTrainerScrollFrameButton"..i.."Icon"]:SetTexCoord(unpack(E.TexCoords))
 		_G["ClassTrainerScrollFrameButton"..i.."Icon"]:Point("TOPLEFT", 0, -1)
-		_G["ClassTrainerScrollFrameButton"..i.."Icon"]:Size(44, 44)
+		_G["ClassTrainerScrollFrameButton"..i.."Icon"]:Size(44)
 		_G["ClassTrainerScrollFrameButton"..i]:CreateBackdrop()
 		_G["ClassTrainerScrollFrameButton"..i].backdrop:SetOutside(_G["ClassTrainerScrollFrameButton"..i.."Icon"])
 		_G["ClassTrainerScrollFrameButton"..i.."Icon"]:SetParent(_G["ClassTrainerScrollFrameButton"..i].backdrop)
@@ -70,13 +69,18 @@ local function LoadSkin()
 
 	ClassTrainerFrameSkillStepButton:StyleButton()
 	ClassTrainerFrameSkillStepButton.icon:SetTexCoord(unpack(E.TexCoords))
-	ClassTrainerFrameSkillStepButton.icon:Point("TOPLEFT", 1, -1)
-	ClassTrainerFrameSkillStepButton.icon:Size(38, 38)
+	ClassTrainerFrameSkillStepButton.icon:Point("TOPLEFT", 1, 0)
+	ClassTrainerFrameSkillStepButton.icon:Size(40)
 	ClassTrainerFrameSkillStepButton:CreateBackdrop()
-	ClassTrainerFrameSkillStepButton.selectedTex:SetTexture(1,1,1,0.3)
+	ClassTrainerFrameSkillStepButton.selectedTex:SetTexture(1, 1, 1, 0.3)
 	ClassTrainerFrameSkillStepButton.selectedTex:SetInside()
 	ClassTrainerFrameSkillStepButtonMoneyFrame:SetScale(0.90)
 	ClassTrainerFrameSkillStepButtonMoneyFrame:Point("TOPRIGHT", 10, -3)
+	
+	ClassTrainerFrameSkillStepButton.bg = CreateFrame("Frame", nil, ClassTrainerFrameSkillStepButton)
+	ClassTrainerFrameSkillStepButton.bg:CreateBackdrop()
+	ClassTrainerFrameSkillStepButton.bg:SetInside(ClassTrainerFrameSkillStepButton.icon)
+	ClassTrainerFrameSkillStepButton.icon:SetParent(ClassTrainerFrameSkillStepButton.bg)
 
 	ClassTrainerStatusBar:StripTextures()
 	ClassTrainerStatusBar:SetStatusBarTexture(E["media"].normTex)

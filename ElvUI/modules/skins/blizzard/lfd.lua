@@ -186,20 +186,20 @@ local function LoadSkin()
 	LFGSearchStatus:SetTemplate('Transparent');
 
 	for i = 1, NUM_LFD_CHOICE_BUTTONS do
-		S:HandleCheckBox(_G["LFDQueueFrameSpecificListButton"..i.."EnableButton"]);
+		local button = _G["LFDQueueFrameSpecificListButton" .. i];
+		S:HandleCheckBox(button.enableButton);
 
-		local buttonToggle = _G["LFDQueueFrameSpecificListButton" .. i .. "ExpandOrCollapseButton"];
-		buttonToggle:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
-		buttonToggle.SetNormalTexture = E.noop;
-		buttonToggle:SetHighlightTexture(nil);
-		buttonToggle:GetNormalTexture():Size(12)
-		buttonToggle:GetNormalTexture():Point("CENTER", 4, 0);
+		button.expandOrCollapseButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
+		button.expandOrCollapseButton.SetNormalTexture = E.noop;
+		button.expandOrCollapseButton:SetHighlightTexture(nil);
+		button.expandOrCollapseButton:GetNormalTexture():Size(12)
+		button.expandOrCollapseButton:GetNormalTexture():Point("CENTER", 4, 0);
 
-		hooksecurefunc(buttonToggle, "SetNormalTexture", function(self, texture)
+		hooksecurefunc(button.expandOrCollapseButton, "SetNormalTexture", function(self, texture)
 			if(find(texture, "MinusButton")) then
-				buttonToggle:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
+				self:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
 			else
-				buttonToggle:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
+				self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
 			end
 		end);
  	end

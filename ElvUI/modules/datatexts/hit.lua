@@ -1,29 +1,31 @@
-﻿local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
-local DT = E:GetModule('DataTexts')
+﻿local E, L, V, P, G = unpack(select(2, ...));
+local DT = E:GetModule("DataTexts");
 
 local join = string.join
 
-local lastPanel
-local displayString = '';
-local hitRating, hitRatingBonus;
+local GetCombatRatingBonus = GetCombatRatingBonus;
+local CR_HIT_MELEE = CR_HIT_MELEE;
+local CR_HIT_RANGED = CR_HIT_RANGED;
+local CR_HIT_SPELL = CR_HIT_SPELL;
 
-local function OnEvent(self, event, unit)
-	if E.role == "Caster" then
-		local expertise = GetExpertise();
-		hitRating = GetCombatRating(CR_HIT_SPELL)
-		hitRatingBonus = GetCombatRatingBonus(CR_HIT_SPELL) + expertise
+local hitRatingBonus;
+local displayString = "";
+local lastPanel
+
+local function OnEvent(self)
+	if(E.Role == "Caster") then
+		hitRatingBonus = GetCombatRatingBonus(CR_HIT_SPELL);
 	else
-		if E.myclass == "HUNTER" then
-			hitRating = GetCombatRating(CR_HIT_RANGED)
-			hitRatingBonus = GetCombatRatingBonus(CR_HIT_RANGED)
+		if(E.myclass == "HUNTER") then
+			hitRatingBonus = GetCombatRatingBonus(CR_HIT_RANGED);
 		else
-			hitRating = GetCombatRating(CR_HIT_MELEE)
-			hitRatingBonus = GetCombatRatingBonus(CR_HIT_MELEE)
+			hitRatingBonus = GetCombatRatingBonus(CR_HIT_MELEE);
 		end
 	end
 
-	self.text:SetFormattedText(displayString, L['Hit']..': ', hitRatingBonus)
-	lastPanel = self
+	self.text:SetFormattedText(displayString, L["Hit"], hitRatingBonus);
+
+	lastPanel = self;
 end
 
 
@@ -91,11 +93,11 @@ local function OnEnter(self)
 	DT.tooltip:Show()
 end
 
-local function ValueColorUpdate(hex, r, g, b)
-	displayString = join("", "%s", hex, "%.2f%%|r")
+local function ValueColorUpdate(hex)
+	displayString = join("", "%s: ", hex, "%.2f%%|r");
 
-	if lastPanel ~= nil then
-		OnEvent(lastPanel)
+	if(lastPanel ~= nil) then
+		OnEvent(lastPanel);
 	end
 end
 E['valueColorUpdateFuncs'][ValueColorUpdate] = true

@@ -155,4 +155,44 @@ S:RegisterSkin('ElvUI', function()
 	BankItemSearchBox:SetWidth(150)
 
 	S:SecureHook('BankFrameItemButton_Update');
+
+	local function UpdateBagIcon()
+		for i = 1, 12 do
+			for j = 1, 30 do
+				local ItemButton = _G["ContainerFrame"..i.."Item"..j]
+				if ItemButton then
+					local QuestIcon = _G["ContainerFrame"..i.."Item"..j.."IconQuestTexture"]
+					local QuestTexture = QuestIcon:GetTexture()
+					if QuestTexture == TEXTURE_ITEM_QUEST_BANG then
+						QuestIcon:SetAlpha(1)
+						QuestIcon:SetInside()
+						QuestIcon:SetTexCoord(unpack(E.TexCoords));
+					else
+						QuestIcon:SetAlpha(0)
+					end
+				end
+			end
+		end
+	end
+
+	local function UpdateBankFrameIcon()
+		for i = 1, 28 do
+			local ItemButton = _G["BankFrameItem"..i]
+			if ItemButton then
+				local QuestIcon = _G["BankFrameItem"..i.."IconQuestTexture"]
+				local QuestTexture = QuestIcon:GetTexture()
+				if QuestTexture == TEXTURE_ITEM_QUEST_BANG then
+					QuestIcon:SetAlpha(1)
+					QuestIcon:SetInside()
+					QuestIcon:SetTexCoord(unpack(E.TexCoords));
+				else
+					QuestIcon:SetAlpha(0)
+				end
+			end
+		end
+	end
+
+	hooksecurefunc('ContainerFrame_Update', UpdateBagIcon)
+	hooksecurefunc('BankFrameItemButton_Update', UpdateBagIcon)
+	hooksecurefunc('BankFrameItemButton_Update', UpdateBankFrameIcon)
 end);

@@ -158,6 +158,10 @@ local function LoadSkin()
 		_G[controlbuttons[i]]:StyleButton()
 		_G[controlbuttons[i].."Bg"]:Hide()
 	end
+
+	VoidStorageHelpBox:StripTextures()
+	VoidStorageHelpBox:SetTemplate()
+
 end
 
 S:RegisterSkin("Blizzard_VoidStorageUI", LoadSkin)

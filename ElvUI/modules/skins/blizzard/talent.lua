@@ -162,19 +162,11 @@ local function LoadSkin()
 
 	for i=1, 2 do
 		local tab = _G["PlayerSpecTab"..i]
-		if tab then
-			local a = tab:GetRegions()
-			a:Hide()
-			tab:StripTextures()
-			tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
-			
-			tab:GetNormalTexture():ClearAllPoints()
-			tab:GetNormalTexture():SetInside()
-
-			tab:CreateBackdrop("Default")
-			tab.backdrop:SetAllPoints()
-			tab:StyleButton(false)
-		end
+		tab:GetRegions():Hide();
+		tab:SetTemplate("Default");
+		tab:StyleButton(nil, true);
+		tab:GetNormalTexture():SetInside();
+		tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
 	end
 
 	--Reposition tabs

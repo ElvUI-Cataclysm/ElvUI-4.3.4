@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
 local _G = _G
@@ -64,7 +64,7 @@ local function LoadSkin()
 	}
 
 	for _, scrollFrame in pairs(scrollFrames) do
-		scrollFrame:CreateBackdrop("Transparent")
+		scrollFrame:CreateBackdrop("Transparent", true)
 	end
 
 	EncounterInfo.lootScroll.filter:StripTextures()
@@ -281,11 +281,11 @@ local function LoadSkin()
 	end
 
 	for i=1, 5 do
+		_G["EncounterJournalSearchBoxSearchButton"..i]:CreateBackdrop()
 		_G["EncounterJournalSearchBoxSearchButton"..i]:StripTextures();
 		_G["EncounterJournalSearchBoxSearchButton"..i]:StyleButton()
 		_G["EncounterJournalSearchBoxSearchButton"..i.."Icon"]:SetTexCoord(unpack(E.TexCoords))
 		_G["EncounterJournalSearchBoxSearchButton"..i.."Icon"]:Point("TOPLEFT", 2, -2)
-		_G["EncounterJournalSearchBoxSearchButton"..i]:CreateBackdrop()
 	end
 
 	S:HandleButton(EncounterJournalSearchBoxShowALL)

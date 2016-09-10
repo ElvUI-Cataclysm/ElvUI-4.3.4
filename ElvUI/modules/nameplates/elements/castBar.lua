@@ -14,7 +14,24 @@ function mod:UpdateElement_CastBarOnValueChanged(value)
 	local isChannel = value < myPlate.CastBar:GetValue();
 	myPlate.CastBar:SetMinMaxValues(min, max);
 	myPlate.CastBar:SetValue(value);
-	myPlate.CastBar.Time:SetFormattedText("%.1f ", value);
+
+	if(isChannel) then
+		if(myPlate.CastBar.channelTimeFormat == "CURRENT") then
+			myPlate.CastBar.Time:SetFormattedText("%.1f", (max - value));
+		elseif(myPlate.CastBar.channelTimeFormat == "CURRENT_MAX") then
+			myPlate.CastBar.Time:SetFormattedText("%.1f / %.1f", (max - value), max);
+		else
+			myPlate.CastBar.Time:SetFormattedText("%.1f", value);
+		end
+	else
+		if(myPlate.CastBar.castTimeFormat == "CURRENT") then
+			myPlate.CastBar.Time:SetFormattedText("%.1f", value);
+		elseif(myPlate.CastBar.castTimeFormat == "CURRENT_MAX") then
+			myPlate.CastBar.Time:SetFormattedText("%.1f / %.1f", value, max);
+		else
+			myPlate.CastBar.Time:SetFormattedText("%.1f", (max - value));
+		end
+	end
 
 	if(myPlate.CastBar.Spark) then
 		local sparkPosition = (value / max) * myPlate.CastBar:GetWidth();
@@ -73,6 +90,9 @@ function mod:ConfigureElement_CastBar(frame)
 	end
 
 	castBar:SetStatusBarTexture(LSM:Fetch("statusbar", self.db.statusbar));
+
+	castBar.castTimeFormat = self.db.castBar.castTimeFormat;
+	castBar.channelTimeFormat = self.db.castBar.channelTimeFormat;
 end
 
 function mod:ConstructElement_CastBar(parent)

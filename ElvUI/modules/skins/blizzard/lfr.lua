@@ -33,16 +33,11 @@ local function LoadSkin()
 
 	for i = 1, 2 do
 		local tab = _G["LFRParentFrameSideTab"..i]
-		local tex = tab:GetNormalTexture():GetTexture()
-		tab:StripTextures()
-		tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
-		tab:GetNormalTexture():ClearAllPoints()
-		tab:GetNormalTexture():SetInside()
-		tab:SetNormalTexture(tex)
-
-		tab:CreateBackdrop("Default")
-		tab.backdrop:SetAllPoints()
-		tab:StyleButton(true)
+		tab:GetRegions():Hide();
+		tab:SetTemplate("Default");
+		tab:StyleButton(nil, true);
+		tab:GetNormalTexture():SetInside();
+		tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
 	end
 
 	LFRParentFrameSideTab1:Point("TOPLEFT", LFRParentFrame, "TOPRIGHT", -1, -35)
@@ -129,20 +124,20 @@ local function LoadSkin()
 	S:HandleCloseButton(RaidParentFrameCloseButton)
 
 	for i = 1, NUM_LFR_CHOICE_BUTTONS do
-		S:HandleCheckBox(_G["LFRQueueFrameSpecificListButton"..i.."EnableButton"]);
+		local button = _G["LFRQueueFrameSpecificListButton" .. i];
+		S:HandleCheckBox(button.enableButton);
 
-		local buttonToggle = _G["LFRQueueFrameSpecificListButton" .. i .. "ExpandOrCollapseButton"];
-		buttonToggle:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
-		buttonToggle.SetNormalTexture = E.noop;
-		buttonToggle:SetHighlightTexture(nil);
-		buttonToggle:GetNormalTexture():Size(12)
-		buttonToggle:GetNormalTexture():Point("CENTER", 4, 0);
+		button.expandOrCollapseButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
+		button.expandOrCollapseButton.SetNormalTexture = E.noop;
+		button.expandOrCollapseButton:SetHighlightTexture(nil);
+		button.expandOrCollapseButton:GetNormalTexture():Size(12)
+		button.expandOrCollapseButton:GetNormalTexture():Point("CENTER", 4, 0);
 
-		hooksecurefunc(buttonToggle, "SetNormalTexture", function(self, texture)
+		hooksecurefunc(button.expandOrCollapseButton, "SetNormalTexture", function(self, texture)
 			if(find(texture, "MinusButton")) then
-				buttonToggle:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
+				self:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
 			else
-				buttonToggle:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
+				self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
 			end
 		end);
  	end
