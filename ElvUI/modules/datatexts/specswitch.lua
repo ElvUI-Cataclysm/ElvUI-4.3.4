@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule('DataTexts')
 
 local format = string.format
@@ -17,14 +17,14 @@ local function LoadTalentTrees()
 	end
 end
 
-local function OnEvent(self, event)
+local function OnEvent(self)
 	lastPanel = self
 	if not GetTalentTabInfo(1) then
 		return
-	end	
+	end
 
 	LoadTalentTrees()
-	
+
 	active = GetActiveTalentGroup(false, false)
 	if GetPrimaryTalentTree(false, false, active) then
 		self.text:SetFormattedText(displayString, select(2, GetTalentTabInfo(GetPrimaryTalentTree(false, false, active))), talent[active][1], talent[active][2], talent[active][3])
@@ -39,7 +39,7 @@ local function OnEnter(self)
 			DT.tooltip:AddLine(string.join(" ", string.format(displayString, select(2, GetTalentTabInfo(GetPrimaryTalentTree(false, false, i))), talent[i][1], talent[i][2], talent[i][3]), (i == active and activeString or inactiveString)),1,1,1)
 		end
 	end
-	
+
 	DT.tooltip:Show()
 end
 
@@ -47,7 +47,7 @@ local function OnClick(self)
 	SetActiveTalentGroup(active == 1 and 2 or 1)
 end
 
-local function ValueColorUpdate(hex, r, g, b)
+local function ValueColorUpdate(hex)
 	displayString = string.join("", "|cffFFFFFF%s:|r ", hex, "%d|r / ", hex, "%d|r / ", hex, "%d|r")
 
 	if lastPanel ~= nil then

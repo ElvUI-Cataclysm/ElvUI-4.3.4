@@ -4,6 +4,7 @@ local DT = E:GetModule('DataTexts')
 local lastPanel
 local displayString = ''
 local classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass];
+
 local dataLayout = {
 	['LeftChatDataPanel'] = {
 		['left'] = 10,
@@ -14,7 +15,7 @@ local dataLayout = {
 		['left'] = 4,
 		['middle'] = 3,
 		['right'] = 11,
-	},	
+	},
 }
 
 local dataStrings = {
@@ -48,7 +49,7 @@ end
 function DT:BattlegroundStats()
 	DT:SetupTooltip(self)
 	local CurrentMapID = GetCurrentMapAreaID()
-	
+
 	for index=1, GetNumBattlefieldScores() do
 		local name = GetBattlefieldScore(index)
 		if name and name == E.myname then
@@ -71,10 +72,10 @@ function DT:BattlegroundStats()
 			elseif CurrentMapID == IOC or CurrentMapID == TBFG or CurrentMapID == AB then
 				DT.tooltip:AddDoubleLine(L['Bases Assaulted'], GetBattlefieldStatData(index, 1),1,1,1)
 				DT.tooltip:AddDoubleLine(L['Bases Defended'], GetBattlefieldStatData(index, 2),1,1,1)
-			end		
+			end
 		end
 	end	
-	
+
 	DT.tooltip:Show();
 end
 
@@ -84,7 +85,7 @@ function DT:HideBattlegroundTexts()
 	E:Print(L['Battleground datatexts temporarily hidden, to show type /bgstats or right click the "C" icon near the minimap.'])
 end
 
-local function ValueColorUpdate(hex, r, g, b)
+local function ValueColorUpdate(hex)
 	displayString = string.join("", "%s: ", hex, "%s|r")
 
 	if lastPanel ~= nil then

@@ -1,12 +1,11 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule('DataTexts')
 
 local lastPanel
 local displayString = '';
 
-local function OnEvent(self, event)
+local function OnEvent(self)
 	lastPanel = self
-	--STAT_MASTERY
 	local masteryspell, masteryTag
 	if GetCombatRating(CR_MASTERY) ~= 0 and GetPrimaryTalentTree() then
 		masteryTag = STAT_MASTERY..": "
@@ -33,7 +32,7 @@ local function OnEnter(self)
 	DT.tooltip:Show()
 end
 
-local function ValueColorUpdate(hex, r, g, b)
+local function ValueColorUpdate(hex)
 	displayString = string.join("", "%s", hex, "%.2f|r")
 
 	if lastPanel ~= nil then

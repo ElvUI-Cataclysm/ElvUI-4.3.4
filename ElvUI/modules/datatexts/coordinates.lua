@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule('DataTexts')
 
 local join = string.join
@@ -26,7 +26,7 @@ local function Click()
 	ToggleFrame(WorldMapFrame)
 end
 
-local function ValueColorUpdate(hex, r, g, b)
+local function ValueColorUpdate(hex)
 	displayString = join("", hex, "%.1f|r", " , ", hex, "%.1f|r")
 end
 E['valueColorUpdateFuncs'][ValueColorUpdate] = true
