@@ -7,6 +7,7 @@ local CreateFrame = CreateFrame;
 function mod:ConstructElement_Glow(frame)
 	local f = CreateFrame("Frame", nil, frame);
 	f:SetFrameLevel(0);
+	f:SetFrameStrata("BACKGROUND");
 	f:SetOutside(frame.HealthBar, 3, 3);
 	f:SetBackdrop({
 		edgeFile = LSM:Fetch("border", "ElvUI GlowBorder"), edgeSize = E:Scale(3),
