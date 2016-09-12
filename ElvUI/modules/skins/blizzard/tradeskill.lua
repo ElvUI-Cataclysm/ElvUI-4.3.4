@@ -97,8 +97,8 @@ local function LoadSkin()
 
 				icon:SetTexCoord(unpack(E.TexCoords));
 				icon:SetDrawLayer("OVERLAY");
-				icon:Size(icon:GetWidth() - 2, icon:GetHeight() - 1)
-				icon:Point("TOPLEFT", 2, -2)
+				icon:Size(icon:GetWidth() - 1, icon:GetHeight() - 1)
+				icon:Point("TOPLEFT", 0, -2)
 
 				icon.backdrop = CreateFrame("Frame", nil, reagent);
 				icon.backdrop:SetFrameLevel(reagent:GetFrameLevel() - 1);

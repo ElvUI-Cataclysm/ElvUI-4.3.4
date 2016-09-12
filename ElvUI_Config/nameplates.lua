@@ -503,7 +503,7 @@ E.Options.args.nameplate = {
  					order = 6,
 					name = L["Offset"],
 					type = "range",
-					min = 0, max = 30, step = 1
+					min = 0, max = 15, step = 1
 				}
 			}
 		},
