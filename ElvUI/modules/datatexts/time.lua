@@ -59,7 +59,7 @@ local function CalculateTimeValues(tt)
 					AmPm = 2
 				end
 				return Hr, Min, AmPm
-			end			
+			end
 		else
 			local Hr24 = tonumber(date("%H"))
 			Hr = tonumber(date("%I"))
@@ -96,7 +96,7 @@ local function CalculateTimeValues(tt)
 				end
 				return Hr, Min, AmPm
 			end
-		end	
+		end
 	end
 end
 
@@ -104,7 +104,7 @@ local function CalculateTimeLeft(time)
 	local hour = floor(time / 3600)
 	local min = floor(time / 60 - (hour*60))
 	local sec = time - (hour * 3600) - (min * 60)
-	
+
 	return hour, min, sec
 end
 
@@ -113,7 +113,7 @@ local function formatResetTime(sec)
 	if not type(d) == 'number' or not type(h)== 'number' or not type(m) == 'number' or not type(s) == 'number' then
 		return 'N/A'
 	end
-	
+
 	if d > 0 and lockoutFormatString[h>10 and 1 or 2] then 
 		return format(lockoutFormatString[h>10 and 1 or 2], d, h, m)
 	end
@@ -192,32 +192,32 @@ local function OnEnter(self)
 			if extended then lockoutColor = lockoutColorExtended else lockoutColor = lockoutColorNormal end
 			DT.tooltip:AddDoubleLine(format(lockoutInfoFormat, maxPlayers, difficultyInfo[difficulty], name, encounterProgress, numEncounters), formatResetTime(reset), 1,1,1, lockoutColor.r,lockoutColor.g,lockoutColor.b)
 		end
-	end	
-	
+	end
+
 	DT.tooltip:Show()
 end
 
 local int = 1
 function Update(self, t)
 	int = int - t
-	
+
 	if enteredFrame then
 		OnEnter(self)
 	end
-	
+
 	if int > 0 then return end
-	
+
 	local Hr, Min, AmPm = CalculateTimeValues(false)
 
 	if (Hr == curHr and Min == curMin and AmPm == curAmPm) and not (int < -15000) then
 		int = 2
 		return
 	end
-	
+
 	curHr = Hr
 	curMin = Min
 	curAmPm = AmPm
-		
+
 	if AmPm == -1 then
 		self.text:SetFormattedText(europeDisplayFormat, Hr, Min)
 	else

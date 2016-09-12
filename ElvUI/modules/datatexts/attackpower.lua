@@ -36,7 +36,7 @@ end
 
 local function OnEnter(self)
 	DT:SetupTooltip(self);
-	
+
 	if(E.myclass == "HUNTER") then
 		DT.tooltip:AddDoubleLine(RANGED_ATTACK_POWER, pwr, 1, 1, 1);
 
@@ -64,7 +64,7 @@ end
 
 local function ValueColorUpdate(hex)
 	displayNumberString = join("", "%s: ", hex, "%d|r");
-	
+
 	if(lastPanel ~= nil) then
 		OnEvent(lastPanel);
 	end

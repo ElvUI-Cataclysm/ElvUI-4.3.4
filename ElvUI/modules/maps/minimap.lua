@@ -260,7 +260,7 @@ function M:UpdateSettings()
 		MiniMapBattlefieldFrame:Point(pos, Minimap, pos, E.db.general.minimap.icons.battlefield.xOffset or 3, E.db.general.minimap.icons.battlefield.yOffset or 0)
 		MiniMapBattlefieldFrame:SetScale(scale)
 	end
-	
+
 	if MiniMapInstanceDifficulty and GuildInstanceDifficulty then
 		local pos = E.db.general.minimap.icons.difficulty.position or "TOPLEFT"
 		local scale = E.db.general.minimap.icons.difficulty.scale or 1

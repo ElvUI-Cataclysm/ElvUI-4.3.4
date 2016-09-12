@@ -13,7 +13,7 @@ function B:WorldStateAlwaysUpFrame_Update()
 			captureBar:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -25, -235);
 		end
 	end
-	
+
 	WorldStateAlwaysUpFrame:ClearAllPoints()
 	WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -10)
 

@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
 local function LoadSkin()
@@ -12,17 +12,17 @@ local function LoadSkin()
 		"LookingForGuildQuestButton",
 		"LookingForGuildDungeonButton",
 	}
+
 	-- skin checkboxes
 	for _, v in pairs(checkbox) do
 		S:HandleCheckBox(_G[v])
 	end
-	
 
 	-- have to skin these checkboxes seperate for some reason o_O
 	S:HandleCheckBox(LookingForGuildTankButton.checkButton)
 	S:HandleCheckBox(LookingForGuildHealerButton.checkButton)
 	S:HandleCheckBox(LookingForGuildDamagerButton.checkButton)
-	
+
 	-- skinning other frames
 	LookingForGuildFrameInset:StripTextures(false)
 	LookingForGuildFrame:StripTextures()
@@ -35,7 +35,7 @@ local function LoadSkin()
 	S:HandleCloseButton(LookingForGuildFrameCloseButton)
 	LookingForGuildCommentInputFrame:CreateBackdrop("Transparent")
 	LookingForGuildCommentInputFrame:StripTextures(false)
-	
+
 	-- skin container buttons on browse and request page
 	for i = 1, 5 do
 		local b = _G["LookingForGuildBrowseFrameContainerButton"..i]
@@ -44,7 +44,7 @@ local function LoadSkin()
 		b:SetTemplate("Transparent")
 		b:StyleButton()
 	end
-	
+
 	for i = 1, 5 do
 		_G["LookingForGuildBrowseFrameContainerButton"..i.."Ring"]:SetAlpha(0)
 		_G["LookingForGuildBrowseFrameContainerButton"..i.."LevelRing"]:SetAlpha(0)
@@ -58,7 +58,7 @@ local function LoadSkin()
 		t:SetTemplate("Transparent")
 		t:StyleButton()
 	end
-		
+
 	-- skin tabs
 	for i= 1, 3 do
 		_G["LookingForGuildFrameTab"..i]:StripTextures()
@@ -66,14 +66,14 @@ local function LoadSkin()
 		_G["LookingForGuildFrameTab"..i].backdrop:Point("TOPLEFT", 3, -7)
 		_G["LookingForGuildFrameTab"..i].backdrop:Point("BOTTOMRIGHT", -2, -1)
 	end
-	
+
 	GuildFinderRequestMembershipFrame:StripTextures(true)
 	GuildFinderRequestMembershipFrame:SetTemplate("Transparent")
 	S:HandleButton(GuildFinderRequestMembershipFrameAcceptButton)
 	S:HandleButton(GuildFinderRequestMembershipFrameCancelButton)
 	GuildFinderRequestMembershipFrameInputFrame:StripTextures()
 	GuildFinderRequestMembershipFrameInputFrame:SetTemplate("Default")
-	
+
 	--Tank Icon
 	LookingForGuildTankButton:StripTextures()
 	LookingForGuildTankButton:CreateBackdrop("Default");
@@ -83,7 +83,7 @@ local function LoadSkin()
 	LookingForGuildTankButton.icon:SetTexCoord(unpack(E.TexCoords))
 	LookingForGuildTankButton.icon:SetTexture('Interface\\Icons\\Ability_Defend');
 	LookingForGuildTankButton.icon:SetInside(LookingForGuildTankButton.backdrop)
-	
+
 	--Healer Icon
 	LookingForGuildHealerButton:StripTextures()
 	LookingForGuildHealerButton:CreateBackdrop("Default");
@@ -93,7 +93,7 @@ local function LoadSkin()
 	LookingForGuildHealerButton.icon:SetTexCoord(unpack(E.TexCoords))
 	LookingForGuildHealerButton.icon:SetTexture('Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH');
 	LookingForGuildHealerButton.icon:SetInside(LookingForGuildHealerButton.backdrop)
-	
+
 	--Damage Icon
 	LookingForGuildDamagerButton:StripTextures()
 	LookingForGuildDamagerButton:CreateBackdrop("Default");

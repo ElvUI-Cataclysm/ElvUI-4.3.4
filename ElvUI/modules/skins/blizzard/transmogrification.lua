@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
 local function LoadSkin()
@@ -29,7 +29,7 @@ local function LoadSkin()
 	TransmogrifyApplyButton:Point("BOTTOMRIGHT", TransmogrifyFrame, "BOTTOMRIGHT", -4, 4)
 	S:HandleCloseButton(TransmogrifyArtFrameCloseButton)
 	TransmogrifyArtFrame:StripTextures()
-	
+
 	local slots = {"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet",
 	"Wrist", "Hands", "Back", "MainHand", "SecondaryHand", "Ranged"}
 
@@ -50,9 +50,9 @@ local function LoadSkin()
 			icon:Point("BOTTOMRIGHT", -2, 2)
 		end
 	end
-	
+
 	TransmogrifyModelFrameControlFrame:StripTextures()
-	
+
 	local controlbuttons = {
 		"TransmogrifyModelFrameControlFrameZoomInButton",
 		"TransmogrifyModelFrameControlFrameZoomOutButton",
@@ -61,7 +61,7 @@ local function LoadSkin()
 		"TransmogrifyModelFrameControlFrameRotateLeftButton",
 		"TransmogrifyModelFrameControlFrameRotateResetButton",
 	}
-	
+
 	for i = 1, getn(controlbuttons) do
 		S:HandleButton(_G[controlbuttons[i]]);
 		_G[controlbuttons[i]]:StyleButton()

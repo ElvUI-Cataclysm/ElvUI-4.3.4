@@ -283,7 +283,6 @@ function UF:Construct_PaladinResourceBar(frame, useBG, overrideFunc)
 	return bars
 end
 
-
 function UF:Update_HolyPower(event, unit, powerType)
 	if not (powerType == nil or powerType == 'HOLY_POWER') then return end
 
@@ -366,7 +365,7 @@ function UF:Construct_DeathKnightResourceBar(frame)
 		runes[i].bg:SetTexture(E["media"].blankTex);
 		runes[i].bg.multiplier = 0.2;
 	end
-	
+
 	return runes;
 end
 
@@ -421,7 +420,7 @@ function UF:Construct_DruidAltManaBar(frame)
 	return dpower
 end
 
-function UF:DruidResourceBarVisibilityUpdate(unit)
+function UF:DruidResourceBarVisibilityUpdate()
 	local parent = self:GetParent();
 
 	UF:UpdatePlayerFrameAnchors(parent, self:IsShown());
@@ -440,7 +439,7 @@ function UF:EclipseDirection()
 	end
 end
 
-function UF:DruidPostUpdateAltPower(unit, min, max)
+function UF:DruidPostUpdateAltPower(_, min, max)
 	local powerText = self:GetParent().Power.value
 
 	if min ~= max then
@@ -451,7 +450,7 @@ function UF:DruidPostUpdateAltPower(unit, min, max)
 		if powerText:GetText() then
 			if select(4, powerText:GetPoint()) < 0 then
 				self.Text:SetPoint("RIGHT", powerText, "LEFT", 3, 0)
-				self.Text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(min / max * 100))			
+				self.Text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(min / max * 100))
 			else
 				self.Text:SetPoint("LEFT", powerText, "RIGHT", -3, 0)
 				self.Text:SetFormattedText("|cffD7BEA5-|r"..color.." %d%%|r", floor(min / max * 100))

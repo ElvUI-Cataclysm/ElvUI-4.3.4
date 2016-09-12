@@ -1,5 +1,7 @@
-local parent, ns = ...
+local _, ns = ...;
 local oUF = ns.oUF
+
+local UnitGroupRolesAssigned = UnitGroupRolesAssigned;
 
 local Update = function(self, event)
 	local lfdrole = self.LFDRole

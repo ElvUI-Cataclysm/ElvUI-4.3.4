@@ -1,7 +1,7 @@
 if(select(2, UnitClass('player')) ~= 'PALADIN') then return end
 
-local parent, ns = ...
-local oUF = ns.oUF
+local _, ns = ...;
+local oUF = ns.oUF;
 
 local SPELL_POWER_HOLY_POWER = SPELL_POWER_HOLY_POWER
 local MAX_HOLY_POWER = MAX_HOLY_POWER

@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
 local function LoadSkin()
@@ -6,13 +6,13 @@ local function LoadSkin()
 	GuildControlUI:StripTextures()
 	GuildControlUIHbar:StripTextures()
 	GuildControlUI:SetTemplate("Transparent")
-	
+
 	GuildControlUIRankBankFrameInset:StripTextures()
 	GuildControlUIRankBankFrameInset:SetTemplate("Transparent", true)
-	
+
 	GuildControlUIRankBankFrameInsetScrollFrame:StripTextures()
 	S:HandleScrollBar(GuildControlUIRankBankFrameInsetScrollFrameScrollBar);
-	
+
 	local function SkinGuildRanks()
 		for i=1, GuildControlGetNumRanks() do
 			local rankFrame = _G["GuildControlUIRankOrderFrameRank"..i]
@@ -34,25 +34,25 @@ local function LoadSkin()
 	GuildControlUIRankOrderFrameNewButton:HookScript("OnClick", function()
 		E.Delay(1, SkinGuildRanks)
 	end)
-	
+
 	S:HandleDropDownBox(GuildControlUINavigationDropDown)
 	S:HandleDropDownBox(GuildControlUIRankSettingsFrameRankDropDown, 180)
 	GuildControlUINavigationDropDownButton:Width(20)
 	GuildControlUIRankSettingsFrameRankDropDownButton:Width(20)
-	
+
 	for i=1, NUM_RANK_FLAGS do
 		if _G["GuildControlUIRankSettingsFrameCheckbox"..i] then
 			S:HandleCheckBox(_G["GuildControlUIRankSettingsFrameCheckbox"..i])
 		end
 	end
-	
+
 	S:HandleButton(GuildControlUIRankOrderFrameNewButton)
-	
+
 	S:HandleEditBox(GuildControlUIRankSettingsFrameGoldBox)
 	GuildControlUIRankSettingsFrameGoldBox.backdrop:Point("TOPLEFT", -2, -4)
 	GuildControlUIRankSettingsFrameGoldBox.backdrop:Point("BOTTOMRIGHT", 2, 4)
 	GuildControlUIRankSettingsFrameGoldBox:StripTextures()
-	
+
 	local function fixSkin(frame)
 		frame.backdrop:Hide();
 		if not E.PixelMode then
@@ -95,7 +95,7 @@ local function LoadSkin()
 			frame.bg3:SetAllPoints(frame.backdrop)
 		end
 	end
-	
+
 	local once = false
 	hooksecurefunc("GuildControlUI_BankTabPermissions_Update", function()
 		local numTabs = GetNumGuildBankTabs()
@@ -120,12 +120,11 @@ local function LoadSkin()
 				fixSkin(_G["GuildControlBankTab"..i.."OwnedViewCheck"])
 				fixSkin(_G["GuildControlBankTab"..i.."OwnedDepositCheck"])
 				fixSkin(_G["GuildControlBankTab"..i.."OwnedUpdateInfoCheck"])
-
 			end
 		end
 		once = true
 	end)
-	
+
 	S:HandleDropDownBox(GuildControlUIRankBankFrameRankDropDown, 180)
 	GuildControlUIRankBankFrameRankDropDownButton:Width(20)
 

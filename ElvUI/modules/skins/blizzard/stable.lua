@@ -28,7 +28,7 @@ local function LoadSkin()
 	PetStableDiet.icon:SetPoint("BOTTOMRIGHT", PetStableDiet, "BOTTOMRIGHT", 0, 0)
 	PetStableDiet.icon:SetTexture("Interface\\Icons\\Ability_Hunter_BeastTraining")
 	PetStableDiet:SetPoint("TOPRIGHT", PetStablePetInfo, "TOPRIGHT", -2, -2)
-	
+
 	for i = 1, NUM_PET_ACTIVE_SLOTS do
 	   S:HandleItemButton(_G['PetStableActivePet' .. i], true)
 	end

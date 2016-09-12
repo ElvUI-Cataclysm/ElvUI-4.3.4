@@ -11,14 +11,14 @@ assert(ElvUF, "ElvUI was unable to locate oUF.");
 function UF:Construct_AssistFrames(unitGroup)
 	self:SetScript("OnEnter", UnitFrame_OnEnter);
 	self:SetScript("OnLeave", UnitFrame_OnLeave);
-	
+
 	self.menu = UF.SpawnMenu
 	self.Health = UF:Construct_HealthBar(self, true);
 	self.Name = UF:Construct_NameText(self);
 	self.Threat = UF:Construct_Threat(self);
 	self.RaidIcon = UF:Construct_RaidIcon(self);
 	self.Range = UF:Construct_Range(self);
-	
+
 	if(not self.isChild) then
 		self.Buffs = UF:Construct_Buffs(self);
 		self.Debuffs = UF:Construct_Debuffs(self);
@@ -29,11 +29,11 @@ function UF:Construct_AssistFrames(unitGroup)
 	else
 		self.unitframeType = "assisttarget";
 	end
-	
+
 	UF:Update_AssistFrames(self, E.db["unitframe"]["units"]["assist"]);
 	UF:Update_StatusBars();
 	UF:Update_FontStrings();
-	
+
 	self.originalParent = self:GetParent();
 
 	self:SetAttribute("initial-width", UF.db["units"]["assist"].width);
@@ -45,17 +45,17 @@ end
 function UF:Update_AssistHeader(header, db)
 	header:Hide();
 	header.db = db;
-	
+
 	UF:ClearChildPoints(header:GetChildren());
-	
+
 	header:SetAttribute("startingIndex", -1);
 	RegisterStateDriver(header, "visibility", "show");
 	RegisterStateDriver(header, "visibility", "[@raid1,exists] show;hide");
 	header:SetAttribute("startingIndex", 1);
-	
+
 	header:SetAttribute("point", "BOTTOM");
 	header:SetAttribute("columnAnchorPoint", "LEFT");
-	
+
 	UF:ClearChildPoints(header:GetChildren());
 	header:SetAttribute("yOffset", db.verticalSpacing);
 
@@ -65,7 +65,7 @@ function UF:Update_AssistHeader(header, db)
 	if(not header.positioned) then
 		header:ClearAllPoints();
 		header:Point("TOPLEFT", E.UIParent, "TOPLEFT", 4, -248);
-		
+
 		E:CreateMover(header, header:GetName().."Mover", L["MA Frames"], nil, nil, nil, "ALL,RAID");
 		header.mover.positionOverride = "TOPLEFT";
 		header:SetAttribute("minHeight", header.dirtyHeight);
@@ -76,7 +76,7 @@ end
 
 function UF:Update_AssistFrames(frame, db)
 	frame.db = db;
-	
+
 	do
 		frame.ORIENTATION = db.orientation;
 		if(self.thinBorders) then
@@ -89,7 +89,7 @@ function UF:Update_AssistFrames(frame, db)
 		frame.SHADOW_SPACING = 3;
 		frame.UNIT_WIDTH = db.width;
 		frame.UNIT_HEIGHT = db.height;
-		
+
 		frame.USE_POWERBAR = false;
 		frame.POWERBAR_DETACHED = false;
 		frame.USE_INSET_POWERBAR = false;
@@ -98,21 +98,20 @@ function UF:Update_AssistFrames(frame, db)
 		frame.POWERBAR_OFFSET = 0;
 		frame.POWERBAR_HEIGHT = 0;
 		frame.POWERBAR_WIDTH = 0;
-		
+
 		frame.USE_PORTRAIT = false;
 		frame.USE_PORTRAIT_OVERLAY = false;
 		frame.PORTRAIT_WIDTH = 0;
-		
+
 		frame.CLASSBAR_WIDTH = 0;
 		frame.CLASSBAR_YOFFSET = 0;
 		frame.BOTTOM_OFFSET = 0;
 		frame.VARIABLES_SET = true
 	end
-	
+
 	frame.colors = ElvUF.colors;
 	frame:RegisterForClicks(self.db.targetOnMouseDown and "AnyDown" or "AnyUp");
 
-	
 	if(frame.isChild and frame.originalParent) then
 		local childDB = db.targetsGroup;
 		frame.db = db.targetsGroup;
@@ -120,7 +119,7 @@ function UF:Update_AssistFrames(frame, db)
 			frame.originalParent.childList = {};
 		end
 		frame.originalParent.childList[frame] = true;
-		
+
 		if(not InCombatLockdown()) then
 			if(childDB.enable) then
 				frame:SetParent(frame.originalParent);
@@ -135,7 +134,7 @@ function UF:Update_AssistFrames(frame, db)
 			frame:SetAttribute("initial-width", childDB.width);
 		end
 	end
-	
+
 	if(not InCombatLockdown()) then
 		frame.db = db;
 		frame:Size(db.width, db.height);
@@ -143,11 +142,11 @@ function UF:Update_AssistFrames(frame, db)
 		frame:SetAttribute("initial-height", frame.UNIT_HEIGHT);
 		frame:SetAttribute("initial-width", frame.UNIT_WIDTH);
 	end
-	
+
 	UF:Configure_HealthBar(frame);
-	
+
 	UF:Configure_Threat(frame);
-	
+
 	local name = frame.Name;
 	name:Point("CENTER", frame.Health, "CENTER");
 	if(UF.db.colors.healthclass) then
@@ -155,21 +154,21 @@ function UF:Update_AssistFrames(frame, db)
 	else
 		frame:Tag(name, "[namecolor][name:medium]");
 	end
-	
+
 	UF:Configure_Range(frame);
-	
+
 	if(not frame.isChild) then
 		UF:EnableDisable_Auras(frame);
 		UF:Configure_Auras(frame, "Buffs");
 		UF:Configure_Auras(frame, "Debuffs");
-		
+
 		UF:Configure_RaidDebuffs(frame);
-		
+
 		UF:Configure_DebuffHighlight(frame);
-		
+
 		UF:UpdateAuraWatch(frame);
 	end
-	
+
 	frame:UpdateAllElements();
 end
 

@@ -497,6 +497,13 @@ E.Options.args.nameplate = {
 						["CURRENT_MAX"] = L["Current / Max"],
 						["REMAINING"] = L["Remaining"]
 					}
+				},
+				offset = {
+					type = "range",
+ 					order = 6,
+					name = L["Offset"],
+					type = "range",
+					min = 0, max = 30, step = 1
 				}
 			}
 		},
@@ -781,43 +788,19 @@ E.Options.args.nameplate = {
 			end,
 			args = {
 				header = {
- 					order = 0,
+ 					order = 1,
 					type = "header",
 					name = L["Threat"]
 				},
 				useThreatColor = {
-					order = 1,
+					order = 2,
 					type = "toggle",
 					name = L["Use Threat Color"],
 					get = function(info) return E.db.nameplate.threat.useThreatColor; end,
 					set = function(info, value) E.db.nameplate.threat.useThreatColor = value; end
 				},
-				goodColor = {
-					order = 2,
-					type = "color",
-					name = L["Good"],
-					hasAlpha = false
-				},
-				badColor = {
-					order = 3,
-					type = "color",
-					name = L["Bad"],
-					hasAlpha = false
-				},
-				goodTransition = {
-					order = 4,
-					type = "color",
-					name = L["Good Transition"],
-					hasAlpha = false
-				},
-				badTransition = {
-					order = 5,
-					type = "color",
-					name = L["Bad Transition"],
-					hasAlpha = false
-				},
 				goodScale = {
-					order = 6,
+					order = 3,
 					type = "range",
 					name = L["Good"],
 					min = 0.5, max = 1.5, step = 0.01, isPercent = true,
@@ -825,12 +808,36 @@ E.Options.args.nameplate = {
 					set = function(info, value) E.db.nameplate.threat[ info[#info] ] = value; end
 				},
 				badScale = {
-					order = 7,
+					order = 4,
 					type = "range",
 					name = L["Bad"],
 					min = 0.5, max = 1.5, step = 0.01, isPercent = true,
 					get = function(info) return E.db.nameplate.threat[ info[#info] ] end,
 					set = function(info, value) E.db.nameplate.threat[ info[#info] ] = value; end
+				},
+				goodColor = {
+					order = 5,
+					type = "color",
+					name = L["Good"],
+					hasAlpha = false
+				},
+				badColor = {
+					order = 6,
+					type = "color",
+					name = L["Bad"],
+					hasAlpha = false
+				},
+				goodTransition = {
+					order = 7,
+					type = "color",
+					name = L["Good Transition"],
+					hasAlpha = false
+				},
+				badTransition = {
+					order = 8,
+					type = "color",
+					name = L["Bad Transition"],
+					hasAlpha = false
 				}
 			}
 		},

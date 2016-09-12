@@ -23,7 +23,7 @@ end
 
 local function OnEnter(self)
 	DT:SetupTooltip(self);
-	
+
 	DT.tooltip:AddLine(L["Mitigation By Level: "]);
 	DT.tooltip:AddLine(" ");
 

@@ -56,7 +56,7 @@ local function Spawn(type)
 	bg:SetTexture(E['media'].blankTex);
 	bg:SetVertexColor(color.r, color.g, color.b);
 	bg:SetAlpha(0.2)
-	
+
 	local border = CreateFrame('Frame', nil, frame)
 	border:SetOutside()
 	border:SetTemplate('Default')
@@ -120,7 +120,7 @@ end
 
 function M:LoadMirrorBars()
 	UIParent:UnregisterEvent('MIRROR_TIMER_START')
-	
+
 	self:RegisterEvent('PLAYER_ENTERING_WORLD', 'OnEnterWorld')
 	self:RegisterEvent('MIRROR_TIMER_START', 'MirrorStart')
 	self:RegisterEvent('MIRROR_TIMER_STOP', 'MirrorStop')

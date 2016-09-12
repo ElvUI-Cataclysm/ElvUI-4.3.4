@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 
 local _G = _G;
 
@@ -25,22 +25,22 @@ E.TutorialList = {
 function E:SetNextTutorial()
 	self.db.currentTutorial = self.db.currentTutorial or 0
 	self.db.currentTutorial = self.db.currentTutorial + 1
-	
+
 	if self.db.currentTutorial > #E.TutorialList then
 		self.db.currentTutorial = 1
 	end
-	
+
 	ElvUITutorialWindow.desc:SetText(E.TutorialList[self.db.currentTutorial])
 end
 
 function E:SetPrevTutorial()
 	self.db.currentTutorial = self.db.currentTutorial or 0
 	self.db.currentTutorial = self.db.currentTutorial - 1
-	
+
 	if self.db.currentTutorial <= 0 then
 		self.db.currentTutorial = #E.TutorialList
 	end
-	
+
 	ElvUITutorialWindow.desc:SetText(E.TutorialList[self.db.currentTutorial])
 end
 
@@ -66,7 +66,7 @@ function E:SpawnTutorialFrame()
 	title:FontTemplate()
 	title:SetPoint("CENTER", header, "CENTER")
 	title:SetText("ElvUI")
-		
+
 	local desc = f:CreateFontString("ARTWORK")
 	desc:SetFontObject("GameFontHighlight")
 	desc:SetJustifyV("TOP")
@@ -74,7 +74,7 @@ function E:SpawnTutorialFrame()
 	desc:SetPoint("TOPLEFT", 18, -32)
 	desc:SetPoint("BOTTOMRIGHT", -18, 30)
 	f.desc = desc
-	
+
 	f.disableButton = CreateFrame("CheckButton", f:GetName().."DisableButton", f, "OptionsCheckButtonTemplate")
 	_G[f.disableButton:GetName() .. "Text"]:SetText(DISABLE)
 	f.disableButton:SetPoint("BOTTOMLEFT")
@@ -88,7 +88,7 @@ function E:SpawnTutorialFrame()
 	S:HandleButton(f.hideButton)	
 	_G[f.hideButton:GetName() .. "Text"]:SetText(HIDE)
 	f.hideButton:SetScript("OnClick", function(self) E:StaticPopupSpecial_Hide(self:GetParent()) end)
-	
+
 	f.nextButton = CreateFrame("Button", f:GetName().."NextButton", f, "OptionsButtonTemplate")
 	f.nextButton:SetPoint("RIGHT", f.hideButton, "LEFT", -4, 0)	
 	f.nextButton:Width(20)
@@ -114,6 +114,6 @@ function E:Tutorials(forceShow)
 	end
 
 	E:StaticPopupSpecial_Show(f)
-	
+
 	self:SetNextTutorial()
 end

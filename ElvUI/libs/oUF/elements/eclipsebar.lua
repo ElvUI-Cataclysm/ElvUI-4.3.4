@@ -1,7 +1,7 @@
 if(select(2, UnitClass('player')) ~= 'DRUID') then return end
 
-local parent, ns = ...
-local oUF = ns.oUF
+local _, ns = ...;
+local oUF = ns.oUF;
 
 local ECLIPSE_BAR_SOLAR_BUFF_ID = ECLIPSE_BAR_SOLAR_BUFF_ID
 local ECLIPSE_BAR_LUNAR_BUFF_ID = ECLIPSE_BAR_LUNAR_BUFF_ID

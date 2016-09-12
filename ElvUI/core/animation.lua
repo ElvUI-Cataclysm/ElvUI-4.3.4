@@ -1,11 +1,11 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 
 local tremove = tremove;
 local random = math.random;
 
 function E:SetUpAnimGroup(object, type, ...)
 	if not type then type = 'Flash' end
-	
+
 	if type == 'Flash' then
 		object.anim = object:CreateAnimationGroup("Flash")
 		object.anim.fadein = object.anim:CreateAnimation("ALPHA", "FadeIn")
@@ -64,7 +64,7 @@ function E:SetUpAnimGroup(object, type, ...)
 		object.shakeh.path[4] = object.shakeh.path:CreateControlPoint()
 		object.shakeh.path[5] = object.shakeh.path:CreateControlPoint()
 		object.shakeh.path[6] = object.shakeh.path:CreateControlPoint()
-		
+
 		object.shakeh.path:SetDuration(2)		
 		object.shakeh.path[1]:SetOffset(-5, 0)
 		object.shakeh.path[1]:SetOrder(1)
@@ -107,7 +107,7 @@ function E:Shake(object)
 	if not object.shake then
 		E:SetUpAnimGroup(object, 'Shake')
 	end
-	
+
 	object.shake:Play()	
 end
 
@@ -121,8 +121,8 @@ function E:ShakeHorizontal(object)
 	if not object.shakeh then
 		E:SetUpAnimGroup(object, 'Shake_Horizontal')
 	end
-	
-	object.shakeh:Play()	
+
+	object.shakeh:Play()
 end
 
 function E:StopShakeHorizontal(object)
@@ -152,7 +152,7 @@ function E:SlideIn(object, customName)
 		customName = 'anim'
 	end
 	if not object[customName] then return end
-	
+
 	object[customName].out1:Stop()
 	object:Show()
 	object[customName]:Play()
@@ -163,7 +163,7 @@ function E:SlideOut(object, customName)
 		customName = 'anim'
 	end
 	if not object[customName] then return end
-	
+
 	object[customName]:Finish() 
 	object[customName]:Stop()
 	object[customName].out1:Play()
@@ -203,10 +203,10 @@ function E:UIFrameFade_OnUpdate(elapsed)
 				end
 			end
 		end
-		
+
 		index = index + 1;
 	end
-	
+
 	if ( #FADEFRAMES == 0 ) then
 		frameFadeManager:SetScript("OnUpdate", nil);
 	end
@@ -241,7 +241,7 @@ function E:UIFrameFade(frame, fadeInfo)
 	if not frame:IsProtected() then
 		frame:Show();
 	end
-	
+
 	local index = 1;
 	while FADEFRAMES[index] do
 		-- If frame is already set to fade then return

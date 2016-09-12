@@ -17,7 +17,7 @@ local function MakeIconString(tank, healer, damage)
 	end
 	if damage then
 		str = str..DPS_ICON
-	end	
+	end
 
 	return str
 end
@@ -35,7 +35,7 @@ local function OnEvent(self)
 			if eligible and forHealer and itemCount > 0 then healerReward = true; unavailable = false; end
 			if eligible and forDamage and itemCount > 0 then dpsReward = true; unavailable = false; end
 		end
-	end	
+	end
 
 	if unavailable then
 		self.text:SetText(NOBONUSREWARDS)

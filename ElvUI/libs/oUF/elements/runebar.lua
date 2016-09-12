@@ -41,9 +41,16 @@
 if select(2, UnitClass("player")) ~= "DEATHKNIGHT" then return end
 
 
-local parent, ns = ...
+local _, ns = ...
 local oUF = ns.oUF
+
 local floor = math.floor
+
+local GetSpellInfo = GetSpellInfo
+local IsUsableSpell = IsUsableSpell
+local GetRuneCooldown = GetRuneCooldown
+local GetTime = GetTime
+local GetRuneType = GetRuneType
 
 oUF.colors.Runes = {
 	{1, 0, 0},   -- blood
@@ -125,9 +132,9 @@ local Enable = function(self, unit)
 		self:RegisterEvent("RUNE_POWER_UPDATE", UpdateRune, true)
 		self:RegisterEvent("RUNE_TYPE_UPDATE", UpdateType, true)	--I have no idea why this won't fire on initial login.
 		self:RegisterEvent("PLAYER_ENTERING_WORLD", UpdateAllRuneTypes)
-		
+
 		if not runes.UpdateAllRuneTypes then runes.UpdateAllRuneTypes = UpdateAllRuneTypes end;
-		
+
 		for i=1, 6 do
 			local rune = runes[runemap[i]]
 			if(rune:IsObjectType'StatusBar' and not rune:GetStatusBarTexture()) then

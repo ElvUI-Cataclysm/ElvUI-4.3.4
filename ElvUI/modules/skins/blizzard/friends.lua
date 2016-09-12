@@ -1,5 +1,8 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
+
+local _G = _G;
+local unpack = unpack;
 
 --Tab Regions
 local tabs = {
@@ -28,11 +31,12 @@ end
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.friends ~= true then return end
+
 	S:HandleScrollBar(FriendsFrameFriendsScrollFrameScrollBar, 5)
 	S:HandleScrollBar(WhoListScrollFrameScrollBar, 5)
 	S:HandleScrollBar(ChannelRosterScrollFrameScrollBar, 5)
 	S:HandleScrollBar(FriendsFriendsScrollFrameScrollBar)
-	
+
 	local StripAllTextures = {
 		"ScrollOfResurrectionSelectionFrame",
 		"ScrollOfResurrectionSelectionFrameList",
@@ -52,7 +56,7 @@ local function LoadSkin()
 		"ChannelFrameDaughterFrame",
 		"AddFriendFrame",
 		"AddFriendNoteFrame",
-	}			
+	}
 
 	local KillTextures = {
 		"FriendsFrameBroadcastInputLeft",
@@ -62,8 +66,8 @@ local function LoadSkin()
 		"ChannelFrameDaughterFrameChannelNameRight",
 		"ChannelFrameDaughterFrameChannelNameMiddle",
 		"ChannelFrameDaughterFrameChannelPasswordLeft",
-		"ChannelFrameDaughterFrameChannelPasswordRight",				
-		"ChannelFrameDaughterFrameChannelPasswordMiddle",			
+		"ChannelFrameDaughterFrameChannelPasswordRight",
+		"ChannelFrameDaughterFrameChannelPasswordMiddle",
 	}
 
 	FriendsFrameInset:StripTextures()
@@ -99,12 +103,12 @@ local function LoadSkin()
 		"AddFriendInfoFrameContinueButton",
 		"ScrollOfResurrectionSelectionFrameAcceptButton",
 		"ScrollOfResurrectionSelectionFrameCancelButton",
-	}			
+	}
 
 	for _, button in pairs(buttons) do
 		S:HandleButton(_G[button])
 	end
-	
+
 	for _, texture in pairs(KillTextures) do
 		_G[texture]:Kill()
 	end
@@ -121,15 +125,15 @@ local function LoadSkin()
 			region:SetTexture(nil)
 			region:SetAlpha(0)
 		end
-	end	
+	end
 
 	S:HandleEditBox(AddFriendNameEditBox)
-	AddFriendFrame:SetTemplate("Transparent")			
+	AddFriendFrame:SetTemplate("Transparent")
 	ScrollOfResurrectionSelectionFrame:SetTemplate('Transparent')
 	ScrollOfResurrectionSelectionFrameList:SetTemplate('Default')
 	S:HandleScrollBar(ScrollOfResurrectionSelectionFrameListScrollFrameScrollBar, 4)
 	S:HandleEditBox(ScrollOfResurrectionSelectionFrameTargetEditBox)
-	
+
 	for i=1, 11 do
 		_G["FriendsFrameFriendsScrollFrameButton"..i.."SummonButtonIcon"]:SetTexCoord(unpack(E.TexCoords))
 		_G["FriendsFrameFriendsScrollFrameButton"..i.."SummonButtonNormalTexture"]:SetAlpha(0)
@@ -171,11 +175,11 @@ local function LoadSkin()
 		end
 	end
 	hooksecurefunc("ChannelList_Update", Channel)
-	
+
 	--BNet Frame
 	FriendsFrameBroadcastInput:CreateBackdrop("Default")
 	ChannelFrameDaughterFrameChannelName:CreateBackdrop("Default")
-	ChannelFrameDaughterFrameChannelPassword:CreateBackdrop("Default")			
+	ChannelFrameDaughterFrameChannelPassword:CreateBackdrop("Default")
 
 	ChannelFrame:HookScript("OnShow", UpdateChannel)
 	hooksecurefunc("FriendsFrame_OnEvent", UpdateChannel)
@@ -184,9 +188,9 @@ local function LoadSkin()
 	hooksecurefunc("FriendsFrame_OnEvent", UpdateWhoSkins)
 
 	ChannelFrameDaughterFrame:CreateBackdrop("Transparent")
-	
+
 	FriendsFrame:SetTemplate('Transparent')
-	
+
 	S:HandleCloseButton(ChannelFrameDaughterFrameDetailCloseButton,ChannelFrameDaughterFrame)
 	S:HandleCloseButton(FriendsFrameCloseButton,FriendsFrame.backdrop)
 
@@ -228,18 +232,18 @@ local function LoadSkin()
 	S:HandleEditBox(FriendsFriendsList)
 	S:HandleEditBox(FriendsFriendsNoteFrame)
 	S:HandleDropDownBox(FriendsFriendsFrameDropDown, 150)
-	
+
 	BNConversationInviteDialog:StripTextures()
 	BNConversationInviteDialog:CreateBackdrop('Transparent')
 	BNConversationInviteDialogList:StripTextures()
 	BNConversationInviteDialogList:SetTemplate('Default')
 	S:HandleButton(BNConversationInviteDialogInviteButton)
 	S:HandleButton(BNConversationInviteDialogCancelButton)
-	
+
 	for i=1, BN_CONVERSATION_INVITE_NUM_DISPLAYED do
 		S:HandleCheckBox(_G["BNConversationInviteDialogListFriend"..i].checkButton)
 	end
-	
+
 	FriendsTabHeaderSoRButton:SetTemplate('Default')
 	FriendsTabHeaderSoRButton:StyleButton()
 	FriendsTabHeaderSoRButtonIcon:SetDrawLayer('OVERLAY')
@@ -261,11 +265,11 @@ local function LoadSkin()
 	for i=1, 19 do
 		_G["FriendsFrameIgnoreButton"..i]:StyleButton()
 	end
-	
+
 	ScrollOfResurrectionFrame:StripTextures()
 	S:HandleButton(ScrollOfResurrectionFrameAcceptButton)
 	S:HandleButton(ScrollOfResurrectionFrameCancelButton)
-	
+
 	ScrollOfResurrectionFrameTargetEditBoxLeft:SetTexture(nil)
 	ScrollOfResurrectionFrameTargetEditBoxMiddle:SetTexture(nil)
 	ScrollOfResurrectionFrameTargetEditBoxRight:SetTexture(nil)
@@ -276,7 +280,7 @@ local function LoadSkin()
 
 	S:HandleButton(RaidFrameConvertToRaidButton);
 	S:HandleButton(RaidFrameRaidInfoButton);
-	
+
 	 -- Raid Info Frame
 	RaidInfoFrame:StripTextures(true);
 	RaidInfoFrame:SetTemplate("Transparent");
@@ -286,11 +290,11 @@ local function LoadSkin()
 
 	RaidInfoInstanceLabel:StripTextures();
 	RaidInfoIDLabel:StripTextures();
-	
+
 	S:HandleCloseButton(RaidInfoCloseButton);
 	RaidInfoCloseButton:ClearAllPoints()
 	RaidInfoCloseButton:SetPoint("TOPRIGHT", RaidInfoFrame, "TOPRIGHT", 2, 0)
-	
+
 	S:HandleScrollBar(RaidInfoScrollFrameScrollBar);
 
 	for i=1, 7 do

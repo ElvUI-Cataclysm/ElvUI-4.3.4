@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local B = E:GetModule('Bags');
 
 local _G = _G;
@@ -23,7 +23,7 @@ end
 function B:SkinBag(bag)
 	local icon = _G[bag:GetName().."IconTexture"];
 	bag.oldTex = icon:GetTexture();
-	
+
 	bag:StripTextures();
 	bag:CreateBackdrop('Default', true);
 	bag.backdrop:SetAllPoints();
@@ -35,19 +35,19 @@ end
 
 function B:SizeAndPositionBagBar()
 	if not ElvUIBags then return; end
-	
+
 	if E.db.bags.bagBar.mouseover then
 		ElvUIBags:SetAlpha(0);
 	else
 		ElvUIBags:SetAlpha(1);
 	end
-	
+
 	if E.db.bags.bagBar.showBackdrop then
 		ElvUIBags.backdrop:Show();
 	else
 		ElvUIBags.backdrop:Hide();
 	end
-	
+
 	for i=1, #ElvUIBags.buttons do
 		local button = ElvUIBags.buttons[i];
 		local prevButton = ElvUIBags.buttons[i-1];
@@ -79,7 +79,7 @@ function B:SizeAndPositionBagBar()
 			end
 		end
 	end
-	
+
 	if E.db.bags.bagBar.growthDirection == 'HORIZONTAL' then
 		ElvUIBags:Width(E.db.bags.bagBar.size*(TOTAL_BAGS) + E.db.bags.bagBar.spacing*(TOTAL_BAGS) + E.db.bags.bagBar.spacing);
 		ElvUIBags:Height(E.db.bags.bagBar.size + E.db.bags.bagBar.spacing*2);
@@ -93,7 +93,7 @@ function B:LoadBagBar()
 	if not E.private.bags.bagBar then 
 		return 
 	end
-	
+
 	local ElvUIBags = CreateFrame("Frame", "ElvUIBags", E.UIParent);
 	ElvUIBags:SetPoint('TOPRIGHT', RightChatPanel, 'TOPLEFT', -4, 0);
 	ElvUIBags.buttons = {};
@@ -102,7 +102,7 @@ function B:LoadBagBar()
 	ElvUIBags:EnableMouse(true);
 	ElvUIBags:SetScript("OnEnter", OnEnter);
 	ElvUIBags:SetScript("OnLeave", OnLeave);
-	
+
 	MainMenuBarBackpackButton:SetParent(ElvUIBags);
 	MainMenuBarBackpackButton.SetParent = E.dummy;
 	MainMenuBarBackpackButton:ClearAllPoints();
@@ -113,7 +113,7 @@ function B:LoadBagBar()
 	MainMenuBarBackpackButton:HookScript('OnLeave', OnLeave);
 	tinsert(ElvUIBags.buttons, MainMenuBarBackpackButton);
 	self:SkinBag(MainMenuBarBackpackButton);
-	
+
 	for i=0, NUM_BAG_FRAMES-1 do
 		local b = _G["CharacterBag"..i.."Slot"];
 		b:SetParent(ElvUIBags);
@@ -124,7 +124,7 @@ function B:LoadBagBar()
 		self:SkinBag(b);
 		tinsert(ElvUIBags.buttons, b);
 	end
-	
+
 	self:SizeAndPositionBagBar();
 	E:CreateMover(ElvUIBags, 'BagsMover', L['Bags']);
 end

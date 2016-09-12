@@ -1,8 +1,9 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.gbank ~= true then return end
+
 	GuildBankFrame:StripTextures()
 	GuildBankFrame:SetTemplate("Transparent")
 	GuildBankFrame:SetWidth(654)
@@ -29,7 +30,7 @@ local function LoadSkin()
 	GuildBankInfoScrollFrame:SetWidth(572)
 	GuildBankTransactionsScrollFrame:StripTextures()
 	GuildBankTabInfoEditBox:SetWidth(560)
-	
+
 	GuildBankFrame.inset = CreateFrame("Frame", nil, GuildBankFrame)
 	GuildBankFrame.inset:SetTemplate("Default")
 	GuildBankFrame.inset:Point("TOPLEFT", 30, -65)
@@ -47,7 +48,7 @@ local function LoadSkin()
 			end
 			button:StyleButton()
 			button:SetTemplate("Default", true)
-			
+
 			icon:ClearAllPoints()
 			icon:Point("TOPLEFT", 2, -2)
 			icon:Point("BOTTOMRIGHT", -2, 2)
@@ -59,11 +60,11 @@ local function LoadSkin()
 		local button = _G["GuildBankTab"..i.."Button"]
 		local texture = _G["GuildBankTab"..i.."ButtonIconTexture"]
 		_G["GuildBankTab"..i]:StripTextures(true)
-		
+
 		button:StripTextures()
 		button:StyleButton(true)
 		button:SetTemplate("Default", true)
-		
+
 		texture:ClearAllPoints()
 		texture:Point("TOPLEFT", 2, -2)
 		texture:Point("BOTTOMRIGHT", -2, 2)
@@ -129,7 +130,7 @@ local function LoadSkin()
 	GuildItemSearchBox:StripTextures()
 	GuildItemSearchBox:CreateBackdrop("Overlay")
 	GuildItemSearchBox.backdrop:Point("TOPLEFT", 10, -1)
-	GuildItemSearchBox.backdrop:Point("BOTTOMRIGHT", 4, 1)	
+	GuildItemSearchBox.backdrop:Point("BOTTOMRIGHT", 4, 1)
 	GuildItemSearchBox:Point("TOPRIGHT", GuildBankFrame, "TOPRIGHT", -25, -42)
 
 	for i=1, 16 do

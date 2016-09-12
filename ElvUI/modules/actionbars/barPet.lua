@@ -1,7 +1,8 @@
 ﻿local E, L, V, P, G = unpack(select(2, ...));
 local AB = E:GetModule('ActionBars');
 
-local _G = _G
+local _G = _G;
+local select = select;
 local ceil = math.ceil;
 
 local hooksecurefunc = hooksecurefunc

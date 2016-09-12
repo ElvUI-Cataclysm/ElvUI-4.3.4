@@ -1,5 +1,18 @@
-local parent, ns = ...
-local oUF = ns.oUF
+ local parent, ns = ...
+ local oUF = ns.oUF
+ 
+local _G = _G
+local unpack = unpack
+local format = string.format
+local tinsert, tremove = table.insert, table.remove
+
+local UnitHealth = UnitHealth
+local UnitPower = UnitPower
+local UnitHealthMax = UnitHealthMax
+local UnitPowerMax = UnitPowerMax
+local UnitClass = UnitClass
+local UnitFactionGroup = UnitFactionGroup
+local UnitRace = UnitRace
 
 local _PATTERN = '%[..-%]+'
 
@@ -377,7 +390,7 @@ local unitlessEvents = {
 
 local events = {}
 local frame = CreateFrame"Frame"
-frame:SetScript('OnEvent', function(self, event, unit)
+frame:SetScript('OnEvent', function(_, event, unit)
 	local strings = events[event]
 	if(strings) then
 		for k, fontstring in next, strings do
@@ -399,7 +412,7 @@ local createOnUpdate = function(timer)
 		local frame = CreateFrame'Frame'
 		local strings = eventlessUnits[timer]
 
-		frame:SetScript('OnUpdate', function(self, elapsed)
+		frame:SetScript('OnUpdate', function(_, elapsed)
 			if(total >= timer) then
 				for k, fs in next, strings do
 					if(fs.parent:IsShown() and UnitExists(fs.parent.unit)) then
@@ -435,7 +448,7 @@ local RegisterEvent = function(fontstr, event)
 	if(not events[event]) then events[event] = {} end
 
 	frame:RegisterEvent(event)
-	table.insert(events[event], fontstr)
+	tinsert(events[event], fontstr)
 end
 
 local RegisterEvents = function(fontstr, tagstr)
@@ -458,7 +471,7 @@ local UnregisterEvents = function(fontstr)
 					frame:UnregisterEvent(event)
 				end
 
-				table.remove(data, k)
+				tremove(data, k)
 			end
 		end
 	end
@@ -492,7 +505,7 @@ local Tag = function(self, fs, tagstr)
 	if(not self.__tags) then
 		self.__tags = {}
 		self.__mousetags = {}
-		table.insert(self.__elements, OnShow)
+		tinsert(self.__elements, OnShow)
 	else
 		-- Since people ignore everything that's good practice - unregister the tag
 		-- if it already exists.
@@ -512,7 +525,7 @@ local Tag = function(self, fs, tagstr)
 			tagstr = tagstr:gsub(escapeSequence, replacement)
 		end
 	end
-	
+
 	if tagstr:find('%[mouseover%]') then
 		tinsert(self.__mousetags, fs)
 		fs:SetAlpha(0)
@@ -530,14 +543,14 @@ local Tag = function(self, fs, tagstr)
 			end
 		end
 	end
-	
+
 	local containsOnUpdate
 	for tag in tagstr:gmatch(_PATTERN) do
 		if not tagEvents[tag:sub(2, -2)] then
 			containsOnUpdate = onUpdateDelay[tag:sub(2, -2)] or 0.15;
 		end
 	end
-	
+
 	local func = tagPool[tagstr]
 	if(not func) then
 		local format, numTags = tagstr:gsub('%%', '%%%%'):gsub(_PATTERN, '%%s')
@@ -587,7 +600,7 @@ local Tag = function(self, fs, tagstr)
 			end
 
 			if(tagFunc) then
-				table.insert(args, tagFunc)
+				tinsert(args, tagFunc)
 			else
 				return error(('Attempted to use invalid tag %s.'):format(bracket), 3)
 			end
@@ -675,14 +688,14 @@ local Tag = function(self, fs, tagstr)
 		end
 
 		if(not eventlessUnits[timer]) then eventlessUnits[timer] = {} end
-		table.insert(eventlessUnits[timer], fs)
+		tinsert(eventlessUnits[timer], fs)
 
 		createOnUpdate(timer)
 	else
 		RegisterEvents(fs, tagstr)
 	end
 
-	table.insert(self.__tags, fs)
+	tinsert(self.__tags, fs)
 end
 
 local Untag = function(self, fs)
@@ -692,14 +705,14 @@ local Untag = function(self, fs)
 	for _, timers in next, eventlessUnits do
 		for k, fontstr in next, timers do
 			if(fs == fontstr) then
-				table.remove(timers, k)
+				tremove(timers, k)
 			end
 		end
 	end
 
 	for k, fontstr in next, self.__tags do
 		if(fontstr == fs) then
-			table.remove(self.__tags, k)
+			tremove(self.__tags, k)
 		end
 	end
 

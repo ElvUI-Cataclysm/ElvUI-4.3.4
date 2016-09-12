@@ -329,9 +329,9 @@ local function LoadSkin()
 
 			button:SetFrameLevel(button:GetFrameLevel() + 2)
 			if not button.backdrop then
-				button:CreateBackdrop("Default", true)	
+				button:CreateBackdrop("Default", true)
 			end
-		end					
+		end
 	end
 
 	for i = 1, 12 do

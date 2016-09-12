@@ -1,7 +1,6 @@
 if(select(2, UnitClass('player')) ~= 'DRUID') then return end
 local E, L, DF = unpack(select(2, ...)) -- Import Functions/Constants, Config, Locales
 
-
 local _, ns = ...
 local oUF = ns.oUF or oUF
 
@@ -18,7 +17,7 @@ local UPDATE_VISIBILITY = function(self, event)
 	else
 		druidmana:Hide()
 	end
-	
+
 	if(druidmana.PostUpdateVisibility) then
 		return druidmana:PostUpdateVisibility(self.unit)
 	end	
@@ -65,9 +64,9 @@ local UNIT_POWER = function(self, event, unit, powerType)
 			bg:SetVertexColor(r * mu, g * mu, b * mu)
 		end
 	end
-	
+
 	UPDATE_VISIBILITY(self)
-	
+
 	if(druidmana.PostUpdatePower) then
 		return druidmana:PostUpdatePower(unit, min, max)
 	end
@@ -91,7 +90,7 @@ local Enable = function(self, unit)
 		self:RegisterEvent('UNIT_POWER', UNIT_POWER)
 		self:RegisterEvent('UNIT_MAXPOWER', UNIT_POWER)
 		self:RegisterEvent('UPDATE_SHAPESHIFT_FORM', UPDATE_VISIBILITY)
-		
+
 		return true
 	end
 end

@@ -1,5 +1,5 @@
-local parent, ns = ...
-local oUF = ns.oUF
+local _, ns = ...;
+local oUF = ns.oUF;
 
 local Update = function(self, event)
 	if not self.unit then return; end

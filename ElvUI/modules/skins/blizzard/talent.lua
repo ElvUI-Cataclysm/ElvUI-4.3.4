@@ -212,7 +212,7 @@ local function LoadSkin()
 			frame:Point("TOPLEFT", icon, "TOPLEFT", 0, 0 )
 			frame:Point("BOTTOMRIGHT", icon, "BOTTOMRIGHT", 0, 0 )
 		end
-	end		
+	end
 
 	for i=1, 3 do
 		TalentSummaryClean(i)

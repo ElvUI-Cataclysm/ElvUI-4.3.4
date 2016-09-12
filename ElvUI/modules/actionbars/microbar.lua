@@ -1,6 +1,11 @@
 ﻿local E, L, V, P, G = unpack(select(2, ...));
 local AB = E:GetModule('ActionBars');
 
+local _G = _G;
+local select = select;
+
+local CreateFrame = CreateFrame;
+
 local MICRO_BUTTONS = {
 	'CharacterMicroButton',
 	'SpellbookMicroButton',
@@ -92,7 +97,7 @@ function AB:UpdateMicroPositionDimensions()
 		if(prevButton == ElvUI_MicroBar) then
 			button:SetPoint('TOPLEFT', prevButton, 'TOPLEFT', -2 + E.Border, 28 - E.Border);
 		elseif((i - 1) % self.db.microbar.buttonsPerRow == 0) then
-			button:Point('TOP', lastColumnButton, 'BOTTOM', 0, 28 - self.db.microbar.yOffset);	
+			button:Point('TOP', lastColumnButton, 'BOTTOM', 0, 28 - self.db.microbar.yOffset);
 			numRows = numRows + 1;
 		else
 			button:Point('LEFT', prevButton, 'RIGHT', - 4 + self.db.microbar.xOffset, 0);
@@ -145,6 +150,6 @@ function AB:SetupMicroBar()
 	self:MainMenuMicroButton_SetNormal();
 	self:UpdateMicroPositionDimensions();
 	MainMenuBarPerformanceBar:Kill()
-	
+
 	E:CreateMover(microBar, 'MicrobarMover', L['Micro Bar'], nil, nil, nil, 'ALL,ACTIONBARS');
 end

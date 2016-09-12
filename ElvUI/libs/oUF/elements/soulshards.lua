@@ -1,6 +1,6 @@
 if(select(2, UnitClass('player')) ~= 'WARLOCK') then return end
 
-local parent, ns = ...
+local _, ns = ...
 local oUF = ns.oUF
 
 local SPELL_POWER_SOUL_SHARDS = SPELL_POWER_SOUL_SHARDS

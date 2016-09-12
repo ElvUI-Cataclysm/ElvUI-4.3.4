@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
 local function LoadSkin()
@@ -11,7 +11,7 @@ local function LoadSkin()
 	GlyphFrameSparkleFrame.backdrop:Point( "BOTTOMRIGHT", GlyphFrameSparkleFrame, "BOTTOMRIGHT", -3, 3 )
 	S:HandleEditBox(GlyphFrameSearchBox)
 	S:HandleDropDownBox(GlyphFrameFilterDropDown, 212)
-	
+
 	GlyphFrameBackground:SetParent(GlyphFrameSparkleFrame)
 	GlyphFrameBackground:SetPoint("TOPLEFT", 4, -4)
 	GlyphFrameBackground:SetPoint("BOTTOMRIGHT", -4, 4)
@@ -20,11 +20,11 @@ local function LoadSkin()
 	GlyphFrame.levelOverlayText1:SetParent(GlyphFrameSparkleFrame)
 	GlyphFrame.levelOverlay2:SetParent(GlyphFrameSparkleFrame)
 	GlyphFrame.levelOverlayText2:SetParent(GlyphFrameSparkleFrame)
-	
+
 	for i=1, 9 do
 		_G["GlyphFrameGlyph"..i]:SetFrameLevel(_G["GlyphFrameGlyph"..i]:GetFrameLevel() + 5)
 	end
-	
+
 	for i=1, 3 do
 		_G["GlyphFrameHeader"..i]:StripTextures()
 	end
@@ -51,14 +51,14 @@ local function LoadSkin()
 	GlyphFrameClearInfoFrameIcon:ClearAllPoints()
 	GlyphFrameClearInfoFrameIcon:Point("TOPLEFT", 2, -2)
 	GlyphFrameClearInfoFrameIcon:Point("BOTTOMRIGHT", -2, 2)
-	
+
 	GlyphFrameClearInfoFrame:CreateBackdrop("Default", true)
 	GlyphFrameClearInfoFrame.backdrop:SetAllPoints()
 	GlyphFrameClearInfoFrame:StyleButton()
 	GlyphFrameClearInfoFrame:Size(25, 25)
 	GlyphFrameClearInfoFrame.count:ClearAllPoints()
 	GlyphFrameClearInfoFrame.count:SetPoint("TOPRIGHT", GlyphFrameClearInfoFrame, "TOPRIGHT", 135, -6)
-	
+
 	S:HandleScrollBar(GlyphFrameScrollFrameScrollBar, 5)
 
 	local StripAllTextures = {

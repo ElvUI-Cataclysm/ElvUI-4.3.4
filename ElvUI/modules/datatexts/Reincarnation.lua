@@ -46,7 +46,7 @@ local function OnEvent(self, event, timerType, timeSeconds, totalTime)
 	lastPanel = self
 end
 
-local function ValueColorUpdate(hex, r, g, b)
+local function ValueColorUpdate(hex)
 	_hex = hex
 	if lastPanel ~= nil then OnEvent(lastPanel) end
 end

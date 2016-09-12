@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...)); -- Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
 local function LoadSkin()
@@ -12,7 +12,6 @@ local function LoadSkin()
 	ReforgingFrameReforgeButton:Point("LEFT", ReforgingFrameRestoreButton, "RIGHT", 2, 0)
 	ReforgingFrameReforgeButton:Point("BOTTOMRIGHT", -3, 3)
 	ReforgingFrameRestoreMessage:SetTextColor(1, 1, 1);
-
 
 	S:HandleButton(ReforgingFrameRestoreButton, true)
 	S:HandleButton(ReforgingFrameReforgeButton, true)

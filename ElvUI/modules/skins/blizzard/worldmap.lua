@@ -108,7 +108,7 @@ local function LoadSkin()
 		else
 			WorldMapFrameSizeDownButton:Disable()
 			WorldMapFrameSizeUpButton:Disable()
-		end	
+		end
 
 		WorldMapFrameAreaLabel:FontTemplate(nil, 50, "OUTLINE")
 		WorldMapFrameAreaLabel:SetShadowOffset(2, -2)
@@ -155,7 +155,7 @@ local function LoadSkin()
 		end
 	end)
 
-	WorldMapZoneDropDownButton:HookScript('OnClick', function(self) 
+	WorldMapZoneDropDownButton:HookScript('OnClick', function(self)
 		DropDownList1:ClearAllPoints()
 		DropDownList1:Point("TOPRIGHT", self, "BOTTOMRIGHT", -17, -4)
 	end)

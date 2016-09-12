@@ -29,7 +29,7 @@ function E:PostAlertMove(screenQuadrant)
 		YOFFSET = 10;
 		AlertFrameMover:SetText(AlertFrameMover.textString .. ' [Grow Up]');
 	end
-	
+
 	local rollBars = E:GetModule('Misc').RollBars;
 	if E.private.general.lootRoll then
 		local lastframe, lastShownFrame;
@@ -49,15 +49,15 @@ function E:PostAlertMove(screenQuadrant)
 				end
 			end
 			lastframe = frame;
-			
+
 			if frame:IsShown() then
 				lastShownFrame = frame;
 			end
 		end
-		
+
 		AlertFrame:ClearAllPoints();
 		if lastShownFrame then
-			AlertFrame:SetAllPoints(lastShownFrame);	
+			AlertFrame:SetAllPoints(lastShownFrame);
 		else
 			AlertFrame:SetAllPoints(AlertFrameHolder);
 		end
@@ -65,7 +65,7 @@ function E:PostAlertMove(screenQuadrant)
 		AlertFrame:ClearAllPoints();
 		AlertFrame:SetAllPoints(AlertFrameHolder);
 	end
-	
+
 	if screenQuadrant then
 		FORCE_POSITION = true;
 		AlertFrame_FixAnchors();
@@ -84,7 +84,7 @@ function B:AchievementAlertFrame_FixAnchors()
 			else
 				frame:SetPoint(POSITION, AlertFrame, ANCHOR_POINT);
 			end
-			
+
 			alertAnchor = frame;
 		end
 	end
@@ -98,7 +98,7 @@ function B:DungeonCompletionAlertFrame_FixAnchors()
 			DungeonCompletionAlertFrame1:Point(POSITION, frame, ANCHOR_POINT, 0, YOFFSET);
 			return;
 		end
-		
+
 		DungeonCompletionAlertFrame1:ClearAllPoints();
 		DungeonCompletionAlertFrame1:Point(POSITION, AlertFrame, ANCHOR_POINT);
 	end
@@ -110,15 +110,15 @@ function B:GuildChallengeAlertFrame_FixAnchors()
 			aFrame = _G["AchievementAlertFrame"..i]
 		end
 	end
-		
+
 	if DungeonCompletionAlertFrame1:IsShown() then
 		aFrame = DungeonCompletionAlertFrame1
 	end
-		
+
 	if aFrame == nil then
 		aFrame = AlertFrame
 	end
-		
+
 	GuildChallengeAlertFrame:ClearAllPoints()
 	if POSITION == "TOP" then
 		GuildChallengeAlertFrame:SetPoint("TOP", aFrame, "BOTTOM", 0, -10)
@@ -132,6 +132,6 @@ function B:AlertMovers()
 	self:SecureHook('AchievementAlertFrame_FixAnchors')
 	self:SecureHook('DungeonCompletionAlertFrame_FixAnchors')
 	self:SecureHook('GuildChallengeAlertFrame_FixAnchors')
-	
+
 	E:CreateMover(AlertFrameHolder, 'AlertFrameMover', L['Loot / Alert Frames'], nil, nil, E.PostAlertMove);
 end

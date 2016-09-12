@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
 local function LoadSkin()
@@ -25,14 +25,14 @@ local function LoadSkin()
 	VoidStorageFrameMarbleBg:Kill()
 	VoidStorageFrameLines:Kill()
 	select(2, VoidStorageFrame:GetRegions()):Kill()
-	
+
 	VoidStorageDepositFrame:CreateBackdrop("Default")
 	VoidStorageWithdrawFrame:CreateBackdrop("Default")
-	
+
 	VoidStorageStorageFrame:CreateBackdrop("Default")
 	VoidStorageStorageFrame.backdrop:Point("TOPLEFT", 0, -1)
 	VoidStorageStorageFrame.backdrop:Point("BOTTOMRIGHT", -27, 1)
-	
+
 	S:HandleButton(VoidStoragePurchaseButton)
 	S:HandleButton(VoidStorageHelpBoxButton)
 	S:HandleButton(VoidStorageTransferButton)
@@ -46,7 +46,7 @@ local function LoadSkin()
 	VoidStorageStorageButton33:Point("LEFT", VoidStorageStorageButton25, "RIGHT", 7, 0)
 	VoidStorageStorageButton49:Point("LEFT", VoidStorageStorageButton41, "RIGHT", 7, 0)
 	VoidStorageStorageButton65:Point("LEFT", VoidStorageStorageButton57, "RIGHT", 7, 0)
-	
+
 	for i = 1, 9 do
 		local button_d = _G["VoidStorageDepositButton"..i]
 		local button_w = _G["VoidStorageWithdrawButton"..i]
@@ -86,8 +86,8 @@ local function LoadSkin()
 		icon:ClearAllPoints()
 		icon:Point("TOPLEFT", 2, -2)
 		icon:Point("BOTTOMRIGHT", -2, 2)
-	end	
-	
+	end
+
 	hooksecurefunc("VoidStorage_ItemsUpdate", function(doDeposit, doContents)
 		local self = VoidStorageFrame;
 		if ( doDeposit ) then
@@ -133,17 +133,17 @@ local function LoadSkin()
 			end
 		end
 	end)
-	
+
 	--DressUp Frame
 	S:HandleCloseButton(SideDressUpModelCloseButton)
 	S:HandleButton(SideDressUpModelResetButton)
 	SideDressUpModelResetButton:Point("BOTTOM", SideDressUpModel, "BOTTOM", 0, 10)
-	
+
 	SideDressUpFrame:StripTextures()
 	SideDressUpFrame:SetTemplate("Transparent")
-	
+
 	SideDressUpModelControlFrame:StripTextures()
-	
+
 	local controlbuttons = {
 		"SideDressUpModelControlFrameZoomInButton",
 		"SideDressUpModelControlFrameZoomOutButton",
@@ -152,7 +152,7 @@ local function LoadSkin()
 		"SideDressUpModelControlFrameRotateLeftButton",
 		"SideDressUpModelControlFrameRotateResetButton",
 	}
-	
+
 	for i = 1, getn(controlbuttons) do
 		S:HandleButton(_G[controlbuttons[i]]);
 		_G[controlbuttons[i]]:StyleButton()

@@ -95,7 +95,7 @@ function mod:UpdateReputationDimensions()
 		self.repBar:SetAlpha(0);
 	else
 		self.repBar:SetAlpha(1);
-	end	
+	end
 end
 
 function mod:EnableDisable_ReputationBar()
@@ -109,7 +109,6 @@ function mod:EnableDisable_ReputationBar()
 		E:DisableMover(self.repBar.mover:GetName());
 	end
 end
-
 
 function mod:LoadReputationBar()
 	self.repBar = self:CreateBar("ElvUI_ReputationBar", self.ReputationBar_OnEnter, self.ReputationBar_OnClick, "RIGHT", RightChatPanel, "LEFT", E.Border - E.Spacing*3, 0);

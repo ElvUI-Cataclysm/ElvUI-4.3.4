@@ -42,13 +42,13 @@ E.Options.args.tooltip = {
 					type = 'toggle',
 					name = L["Target Info"],
 					desc = L["When in a raid group display if anyone in your raid is targeting the current tooltip unit."],
-				},	
+				},
 				playerTitles = {
 					order = 3,
 					type = 'toggle',
 					name = L['Player Titles'],
 					desc = L['Display player titles.'],
-				},				
+				},
 				guildRanks = {
 					order = 4,
 					type = 'toggle',

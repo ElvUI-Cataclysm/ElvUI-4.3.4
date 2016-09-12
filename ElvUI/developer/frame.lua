@@ -7,7 +7,7 @@ local FrameStackTooltip_Toggle = FrameStackTooltip_Toggle;
 
 --[[
 	Command to grab frame information when mouseing over a frame
-	
+
 	Frame Name
 	Width
 	Height
@@ -33,12 +33,12 @@ SlashCmdList["FRAME"] = function(arg)
 		if arg:GetParent() and arg:GetParent():GetName() then
 			ChatFrame1:AddMessage("Parent: |cffFFD100"..arg:GetParent():GetName())
 		end
- 
+
 		ChatFrame1:AddMessage("Width: |cffFFD100"..format("%.2f",arg:GetWidth()))
 		ChatFrame1:AddMessage("Height: |cffFFD100"..format("%.2f",arg:GetHeight()))
 		ChatFrame1:AddMessage("Strata: |cffFFD100"..arg:GetFrameStrata())
 		ChatFrame1:AddMessage("Level: |cffFFD100"..arg:GetFrameLevel())
- 
+
 		if xOfs then
 			ChatFrame1:AddMessage("X: |cffFFD100"..format("%.2f",xOfs))
 		end
@@ -146,7 +146,7 @@ local function GetPoint(frame)
 	else
 		frame = GetMouseFocus()
 	end
-	
+
 	local point, relativeTo, relativePoint, xOffset, yOffset = frame:GetPoint()
 	local frameName = frame.GetName and frame:GetName() or "nil"
 	local relativeToName = relativeTo.GetName and relativeTo:GetName() or "nil"

@@ -9,7 +9,7 @@ function UF:Construct_Trinket(frame)
 	trinket.bg:SetTemplate("Default", nil, nil, self.thinBorders);
 	trinket.bg:SetFrameLevel(trinket:GetFrameLevel() - 1);
 	trinket:SetInside(trinket.bg);
-	
+
 	return trinket;
 end
 
@@ -17,7 +17,7 @@ function UF:Configure_Trinket(frame)
 	if not frame.VARIABLES_SET then return end
 	local db = frame.db;
 	local trinket = frame.Trinket;
-	
+
 	trinket.bg:Size(db.pvpTrinket.size);
 	trinket.bg:ClearAllPoints()
 	if(db.pvpTrinket.position == "RIGHT") then
@@ -25,7 +25,7 @@ function UF:Configure_Trinket(frame)
 	else
 		trinket.bg:Point("RIGHT", frame, "LEFT", db.pvpTrinket.xOffset, db.pvpTrinket.yOffset);
 	end
-	
+
 	if(db.pvpTrinket.enable and not frame:IsElementEnabled("Trinket")) then
 		frame:EnableElement("Trinket");
 	elseif(not db.pvpTrinket.enable and frame:IsElementEnabled("Trinket")) then

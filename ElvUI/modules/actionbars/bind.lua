@@ -366,7 +366,7 @@ function AB:LoadKeyBinder()
 
 	self:SecureHook("ActionButton_UpdateFlyout", "UpdateFlyouts")
 	self:UpdateFlyouts()
-	
+
 	--Special Popup
 	local f = CreateFrame("Frame", "ElvUIBindPopupWindow", UIParent)
 	f:SetFrameStrata("DIALOG")
@@ -438,7 +438,7 @@ function AB:LoadKeyBinder()
 
 	discard:SetScript("OnClick", function()
 		AB:DeactivateBindMode(false)
-	end)	
+	end)
 
 	--position buttons
 	perCharCheck:SetPoint("BOTTOMLEFT", discard, "TOPLEFT", 0, 2)

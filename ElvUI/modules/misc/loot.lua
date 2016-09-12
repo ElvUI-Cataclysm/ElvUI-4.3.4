@@ -21,7 +21,7 @@ local OnEnter = function(self)
 		GameTooltip:SetLootItem(slot);
 		CursorUpdate(self);
 	end
-	
+
 	self.drop:Show();
 	self.drop:SetVertexColor(1, 1, 0);
 end
@@ -33,7 +33,7 @@ local OnLeave = function(self)
 	else
 		self.drop:Hide();
 	end
-	
+
 	GameTooltip:Hide();
 	ResetCursor();
 end
@@ -43,7 +43,7 @@ local OnClick = function(self)
 	LootFrame.selectedItemName = self.name:GetText()
 	LootFrame.selectedSlot = self:GetID()
 	LootFrame.selectedLootButton = self:GetName()
-	
+
 	if(IsModifiedClick()) then
 		HandleModifiedItemClick(GetLootSlotLink(self:GetID()))
 	else
@@ -185,7 +185,7 @@ function M:LOOT_OPENED(event, autoloot)
 		local x, y = GetCursorPosition()
 		x = x / lootFrame:GetEffectiveScale()
 		y = y / lootFrame:GetEffectiveScale()
-		
+
 		lootFrame:ClearAllPoints()
 		lootFrame:Point('TOPLEFT', UIParent, 'BOTTOMLEFT', x - 40, y + 20)
 		lootFrame:GetCenter()
@@ -228,7 +228,7 @@ function M:LOOT_OPENED(event, autoloot)
 				slot.name:SetTextColor(color.r, color.g, color.b)
 			end
 			slot.icon:SetTexture(texture)
-			
+
 			if quality then
 				m = max(m, quality)
 			end
@@ -242,7 +242,7 @@ function M:LOOT_OPENED(event, autoloot)
 			else
 				questTexture:Hide();
 			end
-			
+
 			slot:Enable()
 			slot:Show()
 		end
@@ -280,7 +280,7 @@ function M:LoadLoot()
 	lootFrameHolder:Point('TOP', 0, -50)
 	lootFrameHolder:Width(150)
 	lootFrameHolder:Height(22)
-	
+
 	lootFrame = CreateFrame('Button', 'ElvLootFrame', lootFrameHolder)
 	lootFrame:SetClampedToScreen(true)
 	lootFrame:SetPoint('TOPLEFT')
@@ -303,13 +303,13 @@ function M:LoadLoot()
 	self:RegisterEvent('LOOT_CLOSED')
 	self:RegisterEvent('OPEN_MASTER_LOOT_LIST')
 	self:RegisterEvent('UPDATE_MASTER_LOOT_LIST')
-	
+
 	E:CreateMover(lootFrameHolder, 'LootFrameMover', L['Loot Frame'])
-	
+
 	if(GetCVar("lootUnderMouse") == "1") then
 		E:DisableMover("LootFrameMover");
 	end
-	
+
 	-- Fuzz
 	LootFrame:UnregisterAllEvents()
 	tinsert(UISpecialFrames, 'ElvLootFrame')

@@ -241,13 +241,13 @@ local function LoadSkin()
 	backdrop2:SetTemplate("Default")
 	backdrop2:SetFrameLevel(GuildInfoFrameInfo:GetFrameLevel() - 1)
 	backdrop2:Point("TOPLEFT", GuildInfoFrameInfo, "TOPLEFT", 2, -158)
-	backdrop2:Point("BOTTOMRIGHT", GuildInfoFrameInfo, "BOTTOMRIGHT", 0, 118)	
+	backdrop2:Point("BOTTOMRIGHT", GuildInfoFrameInfo, "BOTTOMRIGHT", 0, 118)
 
 	local backdrop3 = CreateFrame("Frame", nil, GuildInfoFrameInfo)
 	backdrop3:SetTemplate("Default")
 	backdrop3:SetFrameLevel(GuildInfoFrameInfo:GetFrameLevel() - 1)
 	backdrop3:Point("TOPLEFT", GuildInfoFrameInfo, "TOPLEFT", 2, -233)
-	backdrop3:Point("BOTTOMRIGHT", GuildInfoFrameInfo, "BOTTOMRIGHT", 0, 3)	
+	backdrop3:Point("BOTTOMRIGHT", GuildInfoFrameInfo, "BOTTOMRIGHT", 0, 3)
 
 	GuildRecruitmentCommentInputFrame:SetTemplate("Default")
 

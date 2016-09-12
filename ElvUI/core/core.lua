@@ -133,7 +133,7 @@ function E:CheckClassColor(r, g, b)
 			end
 		end
 	end
-	
+
 	return matchFound;
 end
 
@@ -141,7 +141,7 @@ function E:GetColorTable(data)
 	if(not data.r or not data.g or not data.b) then
 		error("Could not unpack color values.");
 	end
-	
+
 	if(data.a) then
 		return {data.r, data.g, data.b, data.a};
 	else
@@ -151,13 +151,13 @@ end
 
 function E:UpdateMedia()
 	if(not self.db["general"] or not self.private["general"]) then return; end
-	
+
 	self["media"].normFont = LSM:Fetch("font", self.db["general"].font);
 	self["media"].combatFont = LSM:Fetch("font", self.db["general"].dmgfont);
 	self["media"].blankTex = LSM:Fetch("background", "ElvUI Blank");
 	self["media"].normTex = LSM:Fetch("statusbar", self.private["general"].normTex);
 	self["media"].glossTex = LSM:Fetch("statusbar", self.private["general"].glossTex);
-	
+
 	local border = E.db["general"].bordercolor;
 	if(self:CheckClassColor(border.r, border.g, border.b)) then
 		local classColor = E.myclass == "PRIEST" and E.PriestColors or (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass]);
@@ -167,15 +167,15 @@ function E:UpdateMedia()
 	elseif(E.PixelMode) then
 		border = {r = 0, g = 0, b = 0};
 	end
-	
+
 	if(self.global.tukuiMode) then
 		border = {r=0.6, g = 0.6, b = 0.6};
 	end
-	
+
 	self["media"].bordercolor = {border.r, border.g, border.b};
 	self["media"].backdropcolor = E:GetColorTable(self.db["general"].backdropcolor);
 	self["media"].backdropfadecolor = E:GetColorTable(self.db["general"].backdropfadecolor);
-	
+
 	local value = self.db["general"].valuecolor;
 	if(self:CheckClassColor(value.r, value.g, value.b)) then
 		value = E.myclass == "PRIEST" and E.PriestColors or (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass]);
@@ -183,23 +183,23 @@ function E:UpdateMedia()
 		self.db["general"].valuecolor.g = value.g;
 		self.db["general"].valuecolor.b = value.b;
 	end
-	
+
 	if(self.global.tukuiMode) then
 		value = {r = 1, g = 1, b = 1};
 	end
-	
+
 	self["media"].hexvaluecolor = self:RGBToHex(value.r, value.g, value.b);
 	self["media"].rgbvaluecolor = {value.r, value.g, value.b};
-	
+
 	if(LeftChatPanel and LeftChatPanel.tex and RightChatPanel and RightChatPanel.tex) then
 		LeftChatPanel.tex:SetTexture(E.db.chat.panelBackdropNameLeft);
 		local a = E.db.general.backdropfadecolor.a or 0.5;
 		LeftChatPanel.tex:SetAlpha(a);
-		
+
 		RightChatPanel.tex:SetTexture(E.db.chat.panelBackdropNameRight);
 		RightChatPanel.tex:SetAlpha(a);
 	end
-	
+
 	self:ValueFuncCall();
 	self:UpdateBlizzardFonts();
 end
@@ -219,7 +219,7 @@ function E:PLAYER_ENTERING_WORLD()
 		self:UpdateMedia();
 		self.MediaUpdated = true;
 	end
-	
+
 	local _, instanceType = IsInInstance();
 	if(instanceType == "pvp") then
 		self.BGTimer = self:ScheduleRepeatingTimer("RequestBGInfo", 5);
@@ -377,11 +377,11 @@ function E:CheckIncompatible()
 	if(IsAddOnLoaded("Prat-3.0") and E.private.chat.enable) then
 		E:IncompatibleAddOn("Prat-3.0", "Chat");
 	end
-	
+
 	if(IsAddOnLoaded("Chatter") and E.private.chat.enable) then
 		E:IncompatibleAddOn("Chatter", "Chat");
 	end
-	
+
 	if(IsAddOnLoaded("TidyPlates") and E.private.nameplate.enable) then
 		E:IncompatibleAddOn("TidyPlates", "NamePlate");
 	end
@@ -397,13 +397,13 @@ end
 
 function E:CopyTable(currentTable, defaultTable)
 	if(type(currentTable) ~= "table") then currentTable = {}; end
-	
+
 	if type(defaultTable) == "table" then
 		for option, value in pairs(defaultTable) do
 			if(type(value) == "table") then
 				value = self:CopyTable(currentTable[option], value);
 			end
-			
+
 			currentTable[option] = value;
 		end
 	end
@@ -423,7 +423,7 @@ function E:RemoveEmptySubTables(tbl)
 		E:Print("Bad argument #1 to 'RemoveEmptySubTables' (table expected)");
 		return;
 	end
-	
+
 	for k, v in pairs(tbl) do
 		if(type(v) == "table") then
 			if(IsTableEmpty(v)) then
@@ -444,7 +444,7 @@ function E:RemoveTableDuplicates(cleanTable, checkTable)
 		E:Print("Bad argument #2 to 'RemoveTableDuplicates' (table expected)");
 		return;
 	end
-	
+
 	local cleaned = {};
 	for option, value in pairs(cleanTable) do
 		if(type(value) == "table" and checkTable[option] and type(checkTable[option]) == "table") then
@@ -455,9 +455,9 @@ function E:RemoveTableDuplicates(cleanTable, checkTable)
 			end
 		end
 	end
-	
+
 	self:RemoveEmptySubTables(cleaned);
-	
+
 	return cleaned;
 end
 
@@ -477,7 +477,7 @@ function E:TableToLuaString(inTable)
 				ret = ret .. i;
 			end
 			ret = ret .. "] = ";
-			
+
 			if(type(v) == "number") then
 				ret = ret .. v .. ",\n"
 			elseif(type(v) == "string") then
@@ -497,12 +497,12 @@ function E:TableToLuaString(inTable)
 			end
 		end
 	end
-	
+
 	if(inTable) then
 		recurse(inTable, 1);
 	end
 	ret = ret.."}";
-	
+
 	return ret;
 end
 
@@ -522,12 +522,12 @@ function E:ProfileTableToPluginFormat(inTable, profileType)
 	if(not profileText) then
 		return;
 	end
-	
+
 	twipe(lineStructureTable);
 	local returnString = "";
 	local lineStructure = "";
 	local sameLine = false;
-	
+
 	local function buildLineStructure()
 		local str = profileText;
 		for _, v in ipairs(lineStructureTable) do
@@ -537,25 +537,25 @@ function E:ProfileTableToPluginFormat(inTable, profileType)
 				str = str .. "[" .. v .. "]";
 			end
 		end
-		
+
 		return str;
 	end
-	
+
 	local function recurse(tbl)
 		lineStructure = buildLineStructure();
 		for k, v in pairs(tbl) do
 			if(not sameLine) then
 				returnString = returnString .. lineStructure;
 			end
-			
+
 			returnString = returnString .. "[";
-			
+
 			if(type(k) == "string") then
 				returnString = returnString.."\"" .. k .. "\"";
 			else
 				returnString = returnString .. k;
 			end
-			
+
 			if(type(v) == "table") then
 				tinsert(lineStructureTable, k);
 				sameLine = true;
@@ -564,7 +564,7 @@ function E:ProfileTableToPluginFormat(inTable, profileType)
 			else
 				sameLine = false;
 				returnString = returnString .. "] = ";
-				
+
 				if(type(v) == "number") then
 					returnString = returnString .. v .. ";\n";
 				elseif(type(v) == "string") then
@@ -580,24 +580,24 @@ function E:ProfileTableToPluginFormat(inTable, profileType)
 				end
 			end
 		end
-		
+
 		tremove(lineStructureTable);
 		lineStructure = buildLineStructure();
 	end
-	
+
 	if(inTable and profileType) then
 		recurse(inTable);
 	end
-	
+
 	return returnString;
 end
 
 function E:StringSplitMultiDelim(s, delim)
 	assert(type (delim) == "string" and len(delim) > 0, "bad delimiter");
-	
+
 	local start = 1;
 	local t = {};
-	
+
 	while(true) do
 		local pos = find(s, delim, start, true);
 		if(not pos) then
@@ -607,9 +607,9 @@ function E:StringSplitMultiDelim(s, delim)
 		tinsert(t, sub(s, start, pos - 1));
 		start = pos + len(delim);
 	end
-	
+
 	tinsert(t, sub(s, start));
-	
+
 	return unpack(t);
 end
 
@@ -625,7 +625,7 @@ function E:SendMessage()
 			SendAddonMessage("ELVUI_VERSIONCHK", E.version, "PARTY");
 		end
 	end
-	
+
 	if(E.SendMSGTimer) then
 		self:CancelTimer(E.SendMSGTimer);
 		E.SendMSGTimer = nil;
@@ -640,11 +640,11 @@ local function SendRecieve(_, event, prefix, message, _, sender)
 		if(prefix == "ELVUI_VERSIONCHK" and not E.recievedOutOfDateMessage) then
 			if(tonumber(message) ~= nil and tonumber(message) > tonumber(E.version)) then
 				E:Print(L["ElvUI is out of date. You can download the newest version from www.tukui.org. Get premium membership and have ElvUI automatically updated with the Tukui Client!"]:gsub("ElvUI", E.UIName));
-				
+
 				if((tonumber(message) - tonumber(E.version)) >= 0.05) then
 					E:StaticPopup_Show("ELVUI_UPDATE_AVAILABLE");
 				end
-				
+
 				E.recievedOutOfDateMessage = true;
 			end
 		end
@@ -666,24 +666,24 @@ function E:UpdateAll(ignoreInstall)
 	self.db.theme = nil;
 	self.db.install_complete = nil;
 	--LibStub('LibDualSpec-1.0'):EnhanceDatabase(self.data, "ElvUI");
-	
+
 	self:SetMoversPositions();
 	self:UpdateMedia();
 	self:UpdateCooldownSettings();
-	
+
 	local UF = self:GetModule("UnitFrames")
 	UF.db = self.db.unitframe;
 	UF:Update_AllFrames();
-	
+
 	local CH = self:GetModule("Chat");
 	CH.db = self.db.chat;
 	CH:PositionChat(true);
 	CH:SetupChat();
-	
+
 	local AB = self:GetModule("ActionBars");
 	AB.db = self.db.actionbar;
 	AB:UpdateButtonSettings();
-	
+
 	local bags = E:GetModule("Bags"); 
 	bags.db = self.db.bags;
 	bags:Layout();
@@ -691,64 +691,64 @@ function E:UpdateAll(ignoreInstall)
 	bags:SizeAndPositionBagBar();
 	bags:UpdateItemLevelDisplay();
 	bags:UpdateCountDisplay();
-	
+
 	local totems = E:GetModule("Totems"); 
 	totems.db = self.db.general.totems;
 	totems:PositionAndSize();
 	totems:ToggleEnable();
-	
+
 	self:GetModule("Layout"):ToggleChatPanels();
-	
+
 	local DT = self:GetModule("DataTexts");
 	DT.db = self.db.datatexts;
 	DT:LoadDataTexts();
-	
+
 	local NP = self:GetModule("NamePlates");
 	NP.db = self.db.nameplate;
 	NP:UpdateAllPlates();
-	
+
 	local DataBars = self:GetModule("DataBars");
 	DataBars.db = E.db.databars;
 	DataBars:UpdateDataBarDimensions();
 	DataBars:EnableDisable_ExperienceBar();
 	DataBars:EnableDisable_ReputationBar();
-	
+
 	local T = self:GetModule("Threat");
 	T.db = self.db.general.threat;
 	T:UpdatePosition();
 	T:ToggleEnable();
-	
+
 	self:GetModule("Auras").db = self.db.auras
 	self:GetModule("Tooltip").db = self.db.tooltip
-	
+
 	if(ElvUIPlayerBuffs) then
 		E:GetModule("Auras"):UpdateHeader(ElvUIPlayerBuffs);
 	end
-	
+
 	if(ElvUIPlayerDebuffs) then
 		E:GetModule("Auras"):UpdateHeader(ElvUIPlayerDebuffs);
 	end
-	
+
 	if(self.private.install_complete == nil or (self.private.install_complete and type(self.private.install_complete) == 'boolean') or (self.private.install_complete and type(tonumber(self.private.install_complete)) == 'number' and tonumber(self.private.install_complete) <= 3.83)) then
 		if(not ignoreInstall) then
 			self:Install();
 		end
 	end
-	
+
 	self:GetModule("Minimap"):UpdateSettings();
-	
+
 	self:UpdateBorderColors();
 	self:UpdateBackdropColors();
-	
+
 	self:UpdateFrameTemplates();
 	self:UpdateStatusBars();
-	
+
 	local LO = E:GetModule("Layout");
 	LO:ToggleChatPanels();
 	LO:BottomPanelVisibility();
 	LO:TopPanelVisibility();
 	LO:SetDataPanelStyle();
-	
+
 	collectgarbage("collect");
 end
 
@@ -808,11 +808,11 @@ end
 
 function E:ResetAllUI()
 	self:ResetMovers();
-	
+
 	if(E.db.lowresolutionset) then
 		E:SetupResolution(true)
 	end
-	
+
 	if(E.db.layoutSet) then
 		E:SetupLayout(E.db.layoutSet, true);
 	end
@@ -820,12 +820,12 @@ end
 
 function E:ResetUI(...)
 	if(InCombatLockdown()) then E:Print(ERR_NOT_IN_COMBAT) return; end
-	
+
 	if(... == "" or ... == " " or ... == nil) then
 		E:StaticPopup_Show("RESETUI_CHECK");
 		return;
 	end
-	
+
 	self:ResetMovers(...);
 end
 
@@ -900,7 +900,7 @@ local function CompareCPUDiff(showall, module, minCalls)
 			end
 		end
 	end
-	
+
 	if(greatestName) then
 		E:Print(greatestName .. " had the CPU usage difference of: " .. greatestUsage .. "ms. And has been called " .. greatestCalls .. " times.");
 	else
@@ -920,7 +920,7 @@ function E:GetTopCPUFunc(msg)
 	showall = (showall == "true" and true) or false;
 	delay = (delay == "nil" and nil) or tonumber(delay) or 5;
 	minCalls = (minCalls == "nil" and nil) or tonumber(minCalls) or 15;
-	
+
 	twipe(CPU_USAGE);
 	if(module == "all") then
 		for _, registeredModule in pairs(self["RegisteredModules"]) do
@@ -939,7 +939,7 @@ function E:GetTopCPUFunc(msg)
 			end
 		end
 	end
-	
+
 	self:Delay(delay, CompareCPUDiff, showall, module, minCalls);
 	self:Print("Calculating CPU Usage differences (module: " .. (module or "?") .. ", showall: " .. tostring(showall) .. ", minCalls: " .. tostring(minCalls) .. ", delay: " .. tostring(delay) .. ")");
 end
@@ -948,44 +948,44 @@ function E:Initialize()
 	twipe(self.db);
 	twipe(self.global);
 	twipe(self.private)
-	
+
 	self.data = LibStub("AceDB-3.0"):New("ElvDB", self.DF);
 	self.data.RegisterCallback(self, "OnProfileChanged", "UpdateAll");
 	self.data.RegisterCallback(self, "OnProfileCopied", "UpdateAll");
 	self.data.RegisterCallback(self, "OnProfileReset", "OnProfileReset");
 	LibStub("LibDualSpec-1.0"):EnhanceDatabase(self.data, "ElvUI");
-	self.charSettings = LibStub("AceDB-3.0"):New("ElvPrivateDB", self.privateVars);	
+	self.charSettings = LibStub("AceDB-3.0"):New("ElvPrivateDB", self.privateVars);
 	self.private = self.charSettings.profile;
 	self.db = self.data.profile;
 	self.global = self.data.global;
 	self:CheckIncompatible();
 	self:DBConversions();
-	
+
 	self:CheckRole();
 	self:UIScale("PLAYER_LOGIN");
-	
+
 	self:LoadCommands();
 	self:InitializeModules();
 	self:LoadMovers();
 	self:UpdateCooldownSettings();
 	self.initialized = true;
-	
+
 	if(self.private.install_complete == nil) then
 		self:Install();
 	end
-	
+
 	if(not find(date(), "04/01/")) then
 		E.global.aprilFools = nil;
 	end
-	
+
 	if(self:HelloKittyFixCheck()) then
 		self:HelloKittyFix();
 	end
-	
+
 	if(self.global.tukuiMode) then
 		self.UIName = "Tukui";
 	end
-	
+
 	self:UpdateMedia();
 	self:UpdateFrameTemplates();
 	self:RegisterEvent("UNIT_AURA", "CheckRole");
@@ -997,25 +997,25 @@ function E:Initialize()
 	self:RegisterEvent("UPDATE_BONUS_ACTIONBAR", "CheckRole");
 	self:RegisterEvent("UPDATE_FLOATING_CHAT_WINDOWS", "UIScale");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
-	
+
 	if(self.db.general.kittys) then
 		self:CreateKittys();
 		self:Delay(5, self.Print, self, L["Type /hellokitty to revert to old settings."]);
 	end
-	
+
 	self:Tutorials();
 	self:GetModule("Minimap"):UpdateSettings();
 	self:RefreshModulesDB()
 	collectgarbage("collect");
-	
+
 	if(self:IsFoolsDay() and not E.global.aprilFools and not self.global.tukuiMode) then
 		self:StaticPopup_Show("TUKUI_MODE");
 	end
-	
+
 	if(self.db.general.loginmessage) then
 		print(select(2, E:GetModule("Chat"):FindURL("CHAT_MSG_DUMMY", format(L["LOGIN_MSG"]:gsub("ElvUI", E.UIName), self["media"].hexvaluecolor, self["media"].hexvaluecolor, self.version)))..".");
 	end
-	
+
 	if(self.global.tukuiMode) then
 		if(self:IsFoolsDay()) then
 			self:ShowTukuiFrame();

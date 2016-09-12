@@ -7,51 +7,48 @@ local function LoadSkin()
 	local frames = {
 		"CalendarFrame",
 	}
-	
+
 	for _, frame in pairs(frames) do
 		_G[frame]:StripTextures()
 	end
-	
+
 	CalendarFrame:SetTemplate("Transparent")
 	S:HandleCloseButton(CalendarCloseButton)
 	CalendarCloseButton:Point("TOPRIGHT", CalendarFrame, "TOPRIGHT", 2, 2)
-	
+
 	S:HandleNextPrevButton(CalendarPrevMonthButton)
 	S:HandleNextPrevButton(CalendarNextMonthButton)
-	
+
 	do --Handle drop down button, this one is different than the others
 		local frame = CalendarFilterFrame
 		local button = CalendarFilterButton
 
 		frame:StripTextures()
 		frame:Width(155)
-		
+
 		_G[frame:GetName().."Text"]:ClearAllPoints()
 		_G[frame:GetName().."Text"]:Point("RIGHT", button, "LEFT", -2, 0)
 
-		
 		button:ClearAllPoints()
 		button:Point("RIGHT", frame, "RIGHT", -10, 3)
 		button.SetPoint = E.noop
-		
+
 		S:HandleNextPrevButton(button, true)
-		
+
 		frame:CreateBackdrop("Default")
 		frame.backdrop:Point("TOPLEFT", 20, 2)
 		frame.backdrop:Point("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2)
 	end
-	
-	
+
 	--backdrop
 	local bg = CreateFrame("Frame", "CalendarFrameBackdrop", CalendarFrame)
 	bg:SetTemplate("Default")
 	bg:Point("TOPLEFT", 10, -72)
 	bg:Point("BOTTOMRIGHT", -9, 3)
-	
+
 	CalendarContextMenu:SetTemplate("Transparent")
 	CalendarContextMenu.SetBackdropColor = E.noop
 	CalendarContextMenu.SetBackdropBorderColor = E.noop
-
 	CalendarContextMenuButton1:StyleButton()
 
 	for i=1, 7 do
@@ -84,7 +81,7 @@ local function LoadSkin()
 			button:SetPoint("TOPLEFT", _G["CalendarDayButton" .. (i - 1)], "TOPRIGHT", E.Border, 0);
 		end
 	end
-	
+
 	CalendarTodayFrame:StripTextures()
 	CalendarTodayFrame:CreateBackdrop("Default")
 	CalendarTodayFrame:Size(CalendarDayButton1:GetWidth(), CalendarDayButton1:GetHeight())
@@ -101,18 +98,17 @@ local function LoadSkin()
 	CalendarCreateEventFrame:SetTemplate("Transparent")
 	CalendarCreateEventFrame:Point("TOPLEFT", CalendarFrame, "TOPRIGHT", 1, 0)
 	CalendarCreateEventTitleFrame:StripTextures()
-	
+
 	S:HandleButton(CalendarCreateEventCreateButton, true)
 	S:HandleButton(CalendarCreateEventMassInviteButton, true)
 	S:HandleButton(CalendarCreateEventInviteButton, true)
 	CalendarCreateEventInviteButton:Point("TOPLEFT", CalendarCreateEventInviteEdit, "TOPRIGHT", 4, 1)
 	CalendarCreateEventInviteEdit:Width(CalendarCreateEventInviteEdit:GetWidth() - 2)
-	
+
 	CalendarCreateEventInviteList:StripTextures()
 	CalendarCreateEventInviteList:SetTemplate("Transparent",true)
-	
-	S:HandleEditBox(CalendarCreateEventInviteEdit)
 
+	S:HandleEditBox(CalendarCreateEventInviteEdit)
 	S:HandleEditBox(CalendarCreateEventTitleEdit)
 	CalendarCreateEventTitleEdit:ClearAllPoints()
 	CalendarCreateEventTitleEdit:SetPoint("TOPLEFT", CalendarCreateEventFrame, "TOPLEFT", 23, -90)
@@ -125,18 +121,18 @@ local function LoadSkin()
 
 	CalendarCreateEventDescriptionContainer:StripTextures()
 	CalendarCreateEventDescriptionContainer:SetTemplate("Default")
-	
+
 	S:HandleCloseButton(CalendarCreateEventCloseButton)
-	
+
 	S:HandleCheckBox(CalendarCreateEventLockEventCheck)
-	
+
 	S:HandleDropDownBox(CalendarCreateEventHourDropDown, 68)
 	S:HandleDropDownBox(CalendarCreateEventMinuteDropDown, 68)
 	S:HandleDropDownBox(CalendarCreateEventAMPMDropDown, 68)
 	S:HandleDropDownBox(CalendarCreateEventRepeatOptionDropDown, 120)
 	CalendarCreateEventIcon:SetTexCoord(unpack(E.TexCoords))
 	CalendarCreateEventIcon.SetTexCoord = E.noop
-	
+
 	CalendarCreateEventInviteListSection:StripTextures()
 
 	CalendarClassButtonContainer:HookScript("OnShow", function()
@@ -145,15 +141,15 @@ local function LoadSkin()
 			button:StripTextures()
 			button:CreateBackdrop("Default")
 			button:Size(23)
-			
+
 			local tcoords = CLASS_ICON_TCOORDS[class]
 			local buttonIcon = button:GetNormalTexture()
 			buttonIcon:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes")
 			buttonIcon:SetTexCoord(tcoords[1] + 0.015, tcoords[2] - 0.02, tcoords[3] + 0.018, tcoords[4] - 0.02) --F U C K I N G H A X
 		end
-		
+
 		CalendarClassButton1:Point("TOPLEFT", CalendarClassButtonContainer, "TOPLEFT", 2, 0)
-		
+
 		CalendarClassTotalsButton:StripTextures()
 		CalendarClassTotalsButton:CreateBackdrop("Default")
 		CalendarClassTotalsButton:Size(23)
@@ -189,33 +185,33 @@ local function LoadSkin()
 	CalendarMassInviteFrame:SetTemplate("Transparent")
 	CalendarMassInviteFrame:ClearAllPoints()
 	CalendarMassInviteFrame:SetPoint("TOPLEFT", CalendarCreateEventFrame, "TOPRIGHT", 25, 0)
-	
+
 	CalendarMassInviteTitleFrame:StripTextures()
-	
+
 	S:HandleCloseButton(CalendarMassInviteCloseButton)
 	S:HandleButton(CalendarMassInviteGuildAcceptButton)
 	S:HandleButton(CalendarMassInviteArenaButton2)
 	S:HandleButton(CalendarMassInviteArenaButton3)
 	S:HandleButton(CalendarMassInviteArenaButton5)
 	S:HandleDropDownBox(CalendarMassInviteGuildRankMenu, 130)
-	
+
 	S:HandleEditBox(CalendarMassInviteGuildMinLevelEdit)
 	S:HandleEditBox(CalendarMassInviteGuildMaxLevelEdit)
-	
+
 	--Raid View
 	CalendarViewRaidFrame:StripTextures()
 	CalendarViewRaidFrame:SetTemplate("Transparent")
 	CalendarViewRaidFrame:Point("TOPLEFT", CalendarFrame, "TOPRIGHT", 1, 0)
 	CalendarViewRaidTitleFrame:StripTextures()
 	S:HandleCloseButton(CalendarViewRaidCloseButton)
-	
+
 	--Holiday View
 	CalendarViewHolidayFrame:StripTextures(true)
 	CalendarViewHolidayFrame:SetTemplate("Transparent")
 	CalendarViewHolidayFrame:Point("TOPLEFT", CalendarFrame, "TOPRIGHT", 1, 0)
 	CalendarViewHolidayTitleFrame:StripTextures()
 	S:HandleCloseButton(CalendarViewHolidayCloseButton)
-	
+
 	-- Event View
 	CalendarViewEventFrame:StripTextures()
 	CalendarViewEventFrame:SetTemplate("Transparent")
@@ -238,8 +234,8 @@ local function LoadSkin()
 
 	for _, button in pairs(buttons) do
 		S:HandleButton(_G[button])
-	end	
-	
+	end
+
 	--Event Picker Frame
 	CalendarEventPickerFrame:StripTextures()
 	CalendarEventPickerTitleFrame:StripTextures()

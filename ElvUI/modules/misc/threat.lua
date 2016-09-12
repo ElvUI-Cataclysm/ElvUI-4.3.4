@@ -28,7 +28,7 @@ function THREAT:UpdatePosition()
 		self.bar:SetParent(RightChatDataPanel);
 	else
 		self.bar:SetInside(LeftChatDataPanel);
-		self.bar:SetParent(LeftChatDataPanel);	
+		self.bar:SetParent(LeftChatDataPanel);
 	end
 	local fontTemplate = LSM:Fetch("font", self.db.textfont);
 	self.bar.text:FontTemplate(fontTemplate, self.db.textSize, self.db.textOutline);

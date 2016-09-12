@@ -4,8 +4,7 @@ local ElvUF = ns.oUF
 assert(ElvUF, "ElvUI was unable to locate oUF.")
 
 local _G = _G;
-local unpack, pairs = unpack, pairs;
-local ceil, sqrt, floor = math.ceil, math.sqrt, math.floor;
+local floor = math.floor;
 local format = string.format;
 
 local GetTime = GetTime;
@@ -174,7 +173,7 @@ end
 
 ElvUF.Tags.Events['powercolor'] = 'UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT UNIT_MAXPOWER'
 ElvUF.Tags.Methods['powercolor'] = function(unit)
-	local pType, pToken, altR, altG, altB = UnitPowerType(unit)
+	local _, pToken, altR, altG, altB = UnitPowerType(unit)
 	local color = ElvUF['colors'].power[pToken]
 	if color then
 		return Hex(color[1], color[2], color[3])
@@ -255,7 +254,7 @@ ElvUF.Tags.Methods['difficultycolor'] = function(unit)
 			r, g, b = 0.55, 0.57, 0.61
 		end
 	end
-	
+
 	return Hex(r, g, b)
 end
 

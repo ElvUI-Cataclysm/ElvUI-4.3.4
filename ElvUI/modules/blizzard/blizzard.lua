@@ -15,6 +15,12 @@ function B:Initialize()
 	self:SkinBlizzTimers();
 	self:PositionAltPowerBar();
 	self:ErrorFrameSize()
+
+	CreateFrame("Frame"):SetScript("OnUpdate", function(self, elapsed)
+		if LFRBrowseFrame.timeToClear then
+			LFRBrowseFrame.timeToClear = nil
+		end
+	end)
 end
 
 E:RegisterModule(B:GetName());

@@ -1,20 +1,20 @@
-local E, L, V, P, G = unpack(select(2, ...)); -- Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.inspect ~= true then return end
-	
+
 	InspectFrame:StripTextures(true)
 	InspectFrameInset:StripTextures(true)
 	InspectTalentFramePointsBar:StripTextures()
 	InspectFrame:CreateBackdrop("Transparent")
 	InspectFrame.backdrop:SetAllPoints()
 	S:HandleCloseButton(InspectFrameCloseButton)
-	
+
 	for i=1, 4 do
 		S:HandleTab(_G["InspectFrameTab"..i])
 	end
-	
+
 	InspectModelFrameBorderTopLeft:Kill()
 	InspectModelFrameBorderTopRight:Kill()
 	InspectModelFrameBorderTop:Kill()
@@ -26,7 +26,7 @@ local function LoadSkin()
 	InspectModelFrameBorderBottom2:Kill()
 	InspectModelFrameBackgroundOverlay:Kill()
 	InspectModelFrame:CreateBackdrop("Default")
-	
+
 	local slots = {
 		"HeadSlot",
 		"NeckSlot",
@@ -48,6 +48,7 @@ local function LoadSkin()
 		"SecondaryHandSlot",
 		"RangedSlot",
 	}
+
 	for _, slot in pairs(slots) do
 		local icon = _G["Inspect"..slot.."IconTexture"]
 		local slot = _G["Inspect"..slot]
@@ -58,8 +59,8 @@ local function LoadSkin()
 		icon:ClearAllPoints()
 		icon:Point("TOPLEFT", 2, -2)
 		icon:Point("BOTTOMRIGHT", -2, 2)
-	end		
-	
+	end
+
 	local CheckItemBorderColor = CreateFrame("Frame")
 	local function ScanSlots()
 		local notFound
@@ -80,16 +81,16 @@ local function LoadSkin()
 			else
 				target:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end
-		end	
-		
+		end
+
 		if notFound == true then
 			return false
 		else
 			CheckItemBorderColor:SetScript('OnUpdate', nil) --Stop updating
 			return true
-		end		
+		end
 	end
-	
+
 	local function ColorItemBorder(self)
 		if self and not ScanSlots() then
 			self:SetScript("OnUpdate", ScanSlots) --Run function until all items borders are colored, sometimes when you have never seen an item before GetItemInfo will return nil, when this happens we have to wait for the server to send information.
@@ -99,14 +100,14 @@ local function LoadSkin()
 	CheckItemBorderColor:RegisterEvent("PLAYER_TARGET_CHANGED")
 	CheckItemBorderColor:RegisterEvent("UNIT_PORTRAIT_UPDATE")
 	CheckItemBorderColor:RegisterEvent("PARTY_MEMBERS_CHANGED")
-	CheckItemBorderColor:SetScript("OnEvent", ColorItemBorder)	
+	CheckItemBorderColor:SetScript("OnEvent", ColorItemBorder)
 	InspectFrame:HookScript("OnShow", ColorItemBorder)
-	ColorItemBorder(CheckItemBorderColor)	
-	
+	ColorItemBorder(CheckItemBorderColor)
+
 	InspectPVPFrameBottom:Kill()
 	InspectGuildFrameBG:Kill()
 	InspectPVPFrame:HookScript("OnShow", function() InspectPVPFrameBG:Kill() end)
-	
+
 	for i=1, 3 do
 		_G["InspectPVPTeam"..i]:StripTextures()
 		_G["InspectTalentFrameTab"..i]:StripTextures()
@@ -120,7 +121,7 @@ local function LoadSkin()
 	InspectTalentFrame.bg:Point("TOPLEFT", InspectTalentFrameBackgroundTopLeft, "TOPLEFT", -2, 2)
 	InspectTalentFrame.bg:Point("BOTTOMRIGHT", InspectTalentFrameBackgroundBottomRight, "BOTTOMRIGHT", -20, 52)
 	InspectTalentFrame.bg:SetFrameLevel(InspectTalentFrame.bg:GetFrameLevel() - 2)
-	
+
 	for i = 1, MAX_NUM_TALENTS do
 		local button = _G["InspectTalentFrameTalent"..i]
 		local icon = _G["InspectTalentFrameTalent"..i.."IconTexture"]
@@ -134,19 +135,19 @@ local function LoadSkin()
 			button:GetPushedTexture():SetTexCoord(unpack(E.TexCoords))
 			button:GetHighlightTexture():SetAllPoints(icon)
 			button:GetPushedTexture():SetAllPoints(icon)
-			
+
 			if button.Rank then
 				button.Rank:FontTemplate(nil, 12, 'OUTLINE')
 				button.Rank:ClearAllPoints()
 				button.Rank:SetPoint("BOTTOMRIGHT", 9, -12)
-			end		
-			
+			end
+
 			icon:ClearAllPoints()
 			icon:Point("TOPLEFT", 2, -2)
 			icon:Point("BOTTOMRIGHT", -2, 2)
 			icon:SetTexCoord(unpack(E.TexCoords))
 		end
-	end		
+	end
 end
 
 S:RegisterSkin('Blizzard_InspectUI', LoadSkin)

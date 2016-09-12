@@ -8,7 +8,7 @@
 	<Script file="units.lua"/>
 	<Script file="colors.lua"/>
 	<Script file="finalize.lua"/>
-	
+
 	<Script file='elements\assistant.lua' />
 	<Script file='elements\aura.lua' />
 	<Script file='elements\castbar.lua' />
@@ -29,13 +29,12 @@
 	<Script file='elements\runebar.lua' />
 	<Script file='elements\tags.lua' />
 	<Script file='elements\threat.lua' />
-	<Script file='elements\vehicle.lua' />
 	<Script file='elements\holypower.lua' />
 	<Script file='elements\eclipsebar.lua' />
 	<Script file='elements\soulshards.lua' />
 	<Script file='elements\resurrect.lua' />
 	<Script file='elements\readycheck.lua' />
-	
+
 	<!-- Clique support -->
 	<Button name="oUF_ClickCastUnitTemplate" virtual="true" inherits="SecureUnitButtonTemplate,SecureHandlerEnterLeaveTemplate">
 		<Attributes>

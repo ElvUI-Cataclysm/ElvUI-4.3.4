@@ -21,7 +21,7 @@ end
 
 local function ValueColorUpdate(hex)
 	displayNumberString = join("", "%s: ", hex, "%d|r");
-	
+
 	if(lastPanel ~= nil) then
 		OnEvent(lastPanel);
 	end

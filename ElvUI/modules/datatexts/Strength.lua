@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(ElvUI); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(ElvUI);
 local DT = E:GetModule('DataTexts')
 
 local displayNumberString = ''
@@ -9,11 +9,11 @@ local function OnEvent(self, event, ...)
 
 	local stren = UnitStat("player", 1)
 	self.text:SetFormattedText(displayNumberString, L['Strength: '], stren)
-	
+
 	lastPanel = self
 end
 
-local function ValueColorUpdate(hex, r, g, b)
+local function ValueColorUpdate(hex)
 	displayNumberString = string.join("", "%s", hex, "%.f|r")
 	
 	if lastPanel ~= nil then
@@ -31,4 +31,3 @@ local events = {
 }
 
 DT:RegisterDatatext('Strength', events, OnEvent)
-

@@ -72,7 +72,7 @@ local function LoadSkin()
 
 	local CheckItemBorderColor = CreateFrame("Frame")
 	CheckItemBorderColor:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
-	CheckItemBorderColor:SetScript("OnEvent", ColorItemBorder)	
+	CheckItemBorderColor:SetScript("OnEvent", ColorItemBorder)
 	CharacterFrame:HookScript("OnShow", ColorItemBorder)
 	ColorItemBorder()
 
@@ -138,7 +138,7 @@ local function LoadSkin()
  	end
  	hooksecurefunc("EquipmentFlyout_DisplayButton", SkinItemFlyouts);
 
-	local function SkinFrameFlyouts(button)
+	local function SkinFrameFlyouts()
 		EquipmentFlyoutFrameButtons:StripTextures();
 		EquipmentFlyoutFrameHighlight:Kill()
 	end

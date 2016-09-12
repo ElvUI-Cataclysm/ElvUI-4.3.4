@@ -76,7 +76,7 @@ local function LoadSkin()
 	ClassTrainerFrameSkillStepButton.selectedTex:SetInside()
 	ClassTrainerFrameSkillStepButtonMoneyFrame:SetScale(0.90)
 	ClassTrainerFrameSkillStepButtonMoneyFrame:Point("TOPRIGHT", 10, -3)
-	
+
 	ClassTrainerFrameSkillStepButton.bg = CreateFrame("Frame", nil, ClassTrainerFrameSkillStepButton)
 	ClassTrainerFrameSkillStepButton.bg:CreateBackdrop()
 	ClassTrainerFrameSkillStepButton.bg:SetInside(ClassTrainerFrameSkillStepButton.icon)

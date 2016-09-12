@@ -90,11 +90,11 @@ RB.MeleeSpell6Buffs = {
 
 function RB:CheckFilterForActiveBuff(filter)
 	local spellName, texture, name, duration, expirationTime;
-	
+
 	for _, spell in pairs(filter) do
 		spellName = GetSpellInfo(spell);
 		name, _, texture, _, _, duration, expirationTime = UnitAura('player', spellName);
-		
+
 		if(name) then
 			return true, texture, duration, expirationTime;
 		end
@@ -105,20 +105,20 @@ end
 
 function RB:UpdateReminderTime(elapsed)
 	self.expiration = self.expiration - elapsed;
-	
+
 	if(self.nextupdate > 0) then
 		self.nextupdate = self.nextupdate - elapsed;
-		
+
 		return;
 	end
-	
+
 	if(self.expiration <= 0) then
 		self.timer:SetText('');
 		self:SetScript('OnUpdate', nil);
-		
+
 		return;
 	end
-	
+
 	local timervalue, formatid;
 	timervalue, formatid, self.nextupdate = E:GetTimeInfo(self.expiration, 4);
 	self.timer:SetFormattedText(('%s%s|r'):format(E.TimeColors[formatid], E.TimeFormats[formatid][1]), timervalue);
@@ -128,9 +128,9 @@ function RB:UpdateReminder(event, unit)
 	if(event == 'UNIT_AURA' and unit ~= 'player') then
 		return;
 	end
-	
+
 	local frame = self.frame;
-	
+
 	if(E.Role == 'Caster') then
 		self.Spell5Buffs = self.CasterSpell5Buffs;
 		self.Spell6Buffs = self.CasterSpell6Buffs;
@@ -138,16 +138,16 @@ function RB:UpdateReminder(event, unit)
 		self.Spell5Buffs = self.MeleeSpell5Buffs;
 		self.Spell6Buffs = self.MeleeSpell6Buffs;
 	end
-	
+
 	for i = 1, 6 do
 		local hasBuff, texture, duration, expirationTime = self:CheckFilterForActiveBuff(self['Spell'..i..'Buffs']);
 		local button = frame[i];
-		
+
 		if(hasBuff) then
 			button.expiration = expirationTime - GetTime();
 			button.nextupdate = 0;
 			button.t:SetTexture(texture);
-			
+
 			if(duration == 0.1 and expirationTime == 0.1) then
 			--	button.t:SetAlpha(0.3);
 				button:SetScript('OnUpdate', nil);
@@ -171,21 +171,21 @@ end
 function RB:CreateButton()
 	local button = CreateFrame('Button', nil, ElvUI_ReminderBuffs);
 	button:SetTemplate('Default');
-	
+
 	button.t = button:CreateTexture(nil, 'OVERLAY');
 	button.t:SetTexCoord(unpack(E.TexCoords));
 	button.t:SetInside();
 	button.t:SetTexture('Interface\\Icons\\INV_Misc_QuestionMark');
-	
+
 	button.cd = CreateFrame('Cooldown', nil, button, 'CooldownFrameTemplate');
 	button.cd:SetInside();
 	button.cd.noOCC = true;
 	button.cd.noCooldownCount = true;
 	button.cd:SetReverse(true);
-	
+
 	button.timer = button.cd:CreateFontString(nil, 'OVERLAY');
 	button.timer:SetPoint('CENTER');
-	
+
 	return button;
 end
 
@@ -219,35 +219,35 @@ end
 function RB:UpdateSettings(isCallback)
 	local frame = self.frame;
 	frame:Width(E.RBRWidth);
-	
+
 	for i = 1, 6 do
 		local button = frame[i];
 		button:ClearAllPoints();
 		button:SetWidth(E.RBRWidth);
 		button:SetHeight(E.RBRWidth);
-		
+
 		if(i == 1) then
 			button:Point("TOP", ElvUI_ReminderBuffs, "TOP", 0, 0);
 		else
 			button:Point("TOP", frame[i - 1], "BOTTOM", 0, E.Border - E.Spacing);
 		end
-		
+
 		if(i == 6) then
 			button:Point('BOTTOM', ElvUI_ReminderBuffs, 'BOTTOM', 0, (E.PixelMode and 0 or 2));
 		end
-		
+
 		if(E.db.general.reminder.durations) then
 			button.cd:SetAlpha(1);
 		else
 			button.cd:SetAlpha(0);
 		end
-		
+
 		button.cd:SetReverse(E.db.general.reminder.reverse);
 
 		local font = LSM:Fetch("font", E.db.general.reminder.font);
 		button.timer:FontTemplate(font, E.db.general.reminder.fontSize, E.db.general.reminder.fontOutline);
 	end
-	
+
 	if(not isCallback) then
 		if(E.db.general.reminder.enable) then
 			RB:EnableRB();
@@ -278,7 +278,7 @@ end
 
 function RB:Initialize()
 	self.db = E.db.general.reminder;
-	
+
 	self.DefaultIcons = {
 		[1] = 'Interface\\Icons\\INV_PotionE_4',
 		[2] = 'Interface\\Icons\\INV_Misc_Food_68',
@@ -287,7 +287,7 @@ function RB:Initialize()
 		[5] = 'Interface\\Icons\\Ability_Warrior_BattleShout',
 		[6] = 'Interface\\Icons\\Spell_Holy_GreaterBlessingofKings'
 	};
-	
+
 	local frame = CreateFrame('Frame', 'ElvUI_ReminderBuffs', Minimap);
 	frame:SetTemplate('Default');
 	frame:Width(E.RBRWidth);
@@ -299,12 +299,12 @@ function RB:Initialize()
 		frame:Point('BOTTOMLEFT', Minimap.backdrop, 'BOTTOMRIGHT', -E.Border + E.Spacing*3, 0);
 	end
 	self.frame = frame;
-	
+
 	for i = 1, 6 do
 		frame[i] = self:CreateButton();
 		frame[i]:SetID(i);
 	end
-	
+
 	self:UpdateSettings();
 end
 

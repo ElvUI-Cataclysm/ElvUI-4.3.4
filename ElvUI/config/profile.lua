@@ -198,11 +198,12 @@ P["nameplate"] = {
 		},
 		['text'] = {
 			['enable'] = false,
-			['format'] = 'CURRENT',		
+			['format'] = 'CURRENT',
 		}
 	},
 	['castBar'] = {
 		['height'] = 6,
+		['offset'] = 0,
 		["hideSpellName"] = false,
 		["hideTime"] = false,
 		["castTimeFormat"] = "CURRENT",
@@ -298,7 +299,7 @@ P["unitframe"] = {
 		["castFailColor"] = { r = 1.0, g = 0.09, b = 0 },
 		["castClassColor"] = false,
 		["castReactionColor"] = false,
-		
+
 		["health"] = { r = .31,g = .31,b = .31 },
 		["health_backdrop"] = { r = .8,g = .01,b = .01 },
 		["health_backdrop_dead"] = { r = .8,g = .01,b = .01 },

@@ -16,7 +16,7 @@ local BOSS = BOSS;
 local DODGE_CHANCE = DODGE_CHANCE;
 local PARRY_CHANCE = PARRY_CHANCE;
 local BLOCK_CHANCE = BLOCK_CHANCE;
- 
+
 local displayString, lastPanel;
 local targetlv, playerlv;
 local basemisschance, leveldifference, dodge, parry, block, avoidance, unhittable, avoided, blocked, numAvoidances, unhittableMax;
@@ -34,7 +34,7 @@ end
 
 local function OnEvent(self)
 	targetlv, playerlv = UnitLevel("target"), UnitLevel("player");
-	
+
 	baseMissChance = E.myrace == "NightElf" and 7 or 5;
 	if(targetlv == -1 ) then
 		levelDifference = 3;
@@ -113,7 +113,6 @@ if(targetlv > 1 ) then
 
 	DT.tooltip:Show();
 end
-
 
 local function ValueColorUpdate(hex)
 	displayString = join("", "%s: ", hex, "%.2f%%|r");

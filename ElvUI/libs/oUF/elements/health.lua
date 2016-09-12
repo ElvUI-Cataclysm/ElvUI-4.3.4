@@ -1,5 +1,17 @@
-local parent, ns = ...
+local _, ns = ...
 local oUF = ns.oUF
+
+local unpack = unpack
+
+local UnitHealth = UnitHealth
+local UnitHealthMax = UnitHealthMax
+local UnitIsConnected = UnitIsConnected
+local UnitIsPlayer = UnitIsPlayer
+local UnitPlayerControlled = UnitPlayerControlled
+local UnitClass = UnitClass
+local UnitReaction = UnitReaction
+local UnitIsTapped = UnitIsTapped
+local UnitIsTappedByPlayer = UnitIsTappedByPlayer
 
 oUF.colors.health = {49/255, 207/255, 37/255}
 
@@ -75,7 +87,7 @@ local Enable = function(self, unit)
 			if GetCVarBool("predictedHealth") ~= 1 then
 				SetCVar("predictedHealth", 1)
 			end
-		
+
 			self:RegisterEvent('UNIT_HEALTH_FREQUENT', Path)
 		else
 			self:RegisterEvent('UNIT_HEALTH', Path)

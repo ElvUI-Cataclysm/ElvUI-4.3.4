@@ -71,11 +71,17 @@ end
 
 function mod:ConfigureElement_CastBar(frame)
 	local castBar = frame.CastBar;
-	castBar:SetHeight(self.db.castBar.height);
+
+	castBar:SetPoint("TOPLEFT", frame.HealthBar, "BOTTOMLEFT", 0, -(E.Border - E.Spacing*3 + self.db.castBar.offset));
+	castBar:SetPoint("TOPRIGHT", frame.HealthBar, "BOTTOMRIGHT", 0, -(E.Border - E.Spacing*3 + self.db.castBar.offset));
+ 	castBar:SetHeight(self.db.castBar.height);
+
+	castBar.Icon:SetPoint("TOPLEFT", frame.HealthBar, "TOPRIGHT", (E.Border + E.Spacing*3) + self.db.castBar.offset, 0);
+	castBar.Icon:SetPoint("BOTTOMLEFT", castBar, "BOTTOMRIGHT", (E.Border + E.Spacing*3) + self.db.castBar.offset, 0);
 	castBar.Icon:SetWidth(self.db.castBar.height + self.db.healthBar.height + E.Border + E.Spacing*3);
 
 	castBar.Time:SetFont(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline);
-	
+
 	castBar.Name:SetFont(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline);
 
 	if (self.db.castBar.hideSpellName) then
@@ -97,24 +103,20 @@ end
 
 function mod:ConstructElement_CastBar(parent)
 	local frame = CreateFrame("StatusBar", nil, parent);
-	frame:SetPoint("TOPLEFT", parent.HealthBar, "BOTTOMLEFT", 0, -E.Border - E.Spacing*3);
-	frame:SetPoint("TOPRIGHT", parent.HealthBar, "BOTTOMRIGHT", 0, -E.Border - E.Spacing*3);
 	self:StyleFrame(frame);
 
 	frame.Icon = CreateFrame("Frame", nil, frame);
-	frame.Icon:SetPoint("TOPLEFT", parent.HealthBar, "TOPRIGHT", E.Border + E.Spacing*3, 0)
-	frame.Icon:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", E.Border + E.Spacing*3, 0)
 	frame.Icon.texture = frame.Icon:CreateTexture(nil, "BORDER");
 	frame.Icon.texture:SetAllPoints();
 	frame.Icon.texture:SetTexCoord(unpack(E.TexCoords));
 	self:StyleFrame(frame.Icon, true);
-	
+
 	frame.Time = frame:CreateFontString(nil, "OVERLAY");
 	frame.Time:SetPoint("TOPRIGHT", frame, "BOTTOMRIGHT", 0, -E.Border*3);
 	frame.Time:SetJustifyH("RIGHT");
 	frame.Time:SetJustifyV("TOP");
 	frame.Time:SetWordWrap(false);
-	
+
 	frame.Name = frame:CreateFontString(nil, "OVERLAY")
 	frame.Name:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 0, -E.Border*3)
 	frame.Name:SetPoint("TOPRIGHT", frame.Time, "TOPLEFT")

@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule('DataTexts')
 
 local select, collectgarbage = select, collectgarbage
@@ -21,7 +21,6 @@ local GetDownloadedPercentage = GetDownloadedPercentage
 local IsShiftKeyDown = IsShiftKeyDown
 local GetFramerate = GetFramerate
 
-
 local int, int2 = 6, 5
 local statusColors = {
 	"|cff0CD809",
@@ -30,7 +29,6 @@ local statusColors = {
 	"|cffD80909"
 }
 local resetInfoFormatter = join("", "|cffaaaaaa", L["Right Click: Reset CPU Usage"], "|r")
-
 local enteredFrame = false;
 local bandwidthString = "%.2f Mbps"
 local percentageString = "%.2f%%"
@@ -62,7 +60,6 @@ local cpuTable = {}
 local function RebuildAddonList()
 	local addOnCount = GetNumAddOns()
 	if (addOnCount == #memoryTable) then return end
-
 
 	wipe(memoryTable)
 	wipe(cpuTable)
@@ -188,7 +185,7 @@ local function Update(self, t)
 		RebuildAddonList();
 		int = 10;
 	end
-	
+
 	if ( int2 < 0 ) then
 		local framerate = floor(GetFramerate()), 4;
 		local latency = select(3, GetNetStats()), 4;

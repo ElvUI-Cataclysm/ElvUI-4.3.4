@@ -92,7 +92,6 @@ function TOTEMS:PositionAndSize()
 	self:Update();
 end
 
-
 function TOTEMS:Initialize()
 	self.db = E.db.general.totems;
 

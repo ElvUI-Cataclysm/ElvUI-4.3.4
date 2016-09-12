@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule('DataTexts')
 
 local format = string.format
@@ -22,7 +22,7 @@ end
 
 local function OnEnter(self)
 	DT:SetupTooltip(self)
-	
+
 	local expertisePercent, offhandExpertisePercent = GetExpertisePercent();
 	expertisePercent = format("%.2f", expertisePercent);
 	offhandExpertisePercent = format("%.2f", offhandExpertisePercent);
@@ -33,7 +33,7 @@ local function OnEnter(self)
 	else
 		expertisePercentDisplay = expertisePercent.."%";
 	end
-	
+
 	DT.tooltip:AddLine(format(CR_EXPERTISE_TOOLTIP, expertisePercentDisplay, GetCombatRating(CR_EXPERTISE), GetCombatRatingBonus(CR_EXPERTISE)), NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, true);
 	DT.tooltip:AddLine(" ");
 

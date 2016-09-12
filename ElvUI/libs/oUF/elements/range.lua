@@ -1,11 +1,24 @@
-﻿local parent, ns = ...
+﻿local _, ns = ...
 local oUF = ns.oUF
+
+local ipairs = ipairs
+local tinsert, tremove, twipe = table.insert, table.remove, table.wipe
+
+local UnitIsConnected = UnitIsConnected
+local GetSpellInfo = GetSpellInfo
+local IsUsableSpell = IsUsableSpell
+local UnitClass = UnitClass
+local UnitIsUnit = UnitIsUnit
+local CheckInteractDistance = CheckInteractDistance
+local UnitIsDeadOrGhost = UnitIsDeadOrGhost
+local IsSpellInRange = IsSpellInRange
+local UnitInParty = UnitInParty
+local UnitInRaid = UnitInRaid
+local UnitInRange = UnitInRange
+local UnitCanAttack = UnitCanAttack
 
 local _FRAMES = {}
 local OnRangeFrame
-
-local UnitIsConnected = UnitIsConnected
-local tinsert, tremove, twipe = table.insert, table.remove, table.wipe
 
 local friendlySpells, resSpells, longEnemySpells, enemySpells, petSpells = {}, {}, {}, {}, {}
 
@@ -26,7 +39,7 @@ local function UpdateSpellList()
 	twipe(longEnemySpells)
 	twipe(enemySpells)
 	twipe(petSpells)
-	
+
 	if class == "PRIEST" then
 		AddSpell(enemySpells, 585) -- Smite
 		AddSpell(longEnemySpells, 589) -- Shadow Word: Pain
@@ -121,7 +134,7 @@ local function friendlyIsInRange(unit)
 			end
 		end
 	end
-	
+
 	return false
 end
 
@@ -129,7 +142,7 @@ local function petIsInRange(unit)
 	if CheckInteractDistance(unit, 2) then
 		return true
 	end
-	
+
 	for _, name in ipairs(friendlySpells) do
 		if IsSpellInRange(name, unit) == 1 then
 			return true
@@ -140,7 +153,7 @@ local function petIsInRange(unit)
 			return true
 		end
 	end
-	
+
 	return false
 end
 
@@ -148,13 +161,13 @@ local function enemyIsInRange(unit)
 	if CheckInteractDistance(unit, 2) then
 		return true
 	end
-	
+
 	for _, name in ipairs(enemySpells) do
 		if IsSpellInRange(name, unit) == 1 then
 			return true
 		end
 	end
-	
+
 	return false
 end
 
@@ -164,13 +177,13 @@ local function enemyIsInLongRange(unit)
 			return true
 		end
 	end
-	
+
 	return false
 end
 
 -- updating of range.
 local timer = 0
-local OnRangeUpdate = function(self, elapsed)
+local OnRangeUpdate = function(_, elapsed)
 	timer = timer + elapsed
 
 	if(timer >= .20) then
@@ -201,7 +214,7 @@ local OnRangeUpdate = function(self, elapsed)
 						end
 					end
 				else
-					object:SetAlpha(range.insideAlpha)	
+					object:SetAlpha(range.insideAlpha)
 				end
 			end
 		end

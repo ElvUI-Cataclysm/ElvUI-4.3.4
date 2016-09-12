@@ -15,9 +15,9 @@ local function LoadSkin()
  
 	TimeManagerCloseButton:Point("TOPRIGHT", 4, 5);
 	S:HandleCloseButton(TimeManagerCloseButton);
-	
+
 	TimeManagerStopwatchFrame:Point("TOPRIGHT", 10, -12);
-	
+
 	TimeManagerStopwatchFrameBackground:SetTexture(nil);
 
 	TimeManagerStopwatchCheck:SetTemplate("Default");

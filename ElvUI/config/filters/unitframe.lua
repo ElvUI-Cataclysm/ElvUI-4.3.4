@@ -156,13 +156,13 @@ G.unitframe.aurafilters["PlayerBuffs"] = {
 		[SpellName(47585)] = Defaults(), -- Dispersion
 		[SpellName(47788)] = Defaults(), -- Guardian spirit
 	-- Warlock
-	
+
 	-- Druid
-	
+
 	-- Hunter
-	
+
 	-- Rogue
-	
+
 	-- Shaman
 		[SpellName(2825)] = Defaults(), -- Bloodlust
 		[SpellName(8178)] = Defaults(), -- Grounding Totem Effect
@@ -173,9 +173,9 @@ G.unitframe.aurafilters["PlayerBuffs"] = {
 		[SpellName(32182)] = Defaults(), -- Heroism
 		[SpellName(58875)] = Defaults(), -- Spirit Walk
 	-- Paladin
-	
+
 	-- Warrior
-	
+
 	-- Racial
 		[SpellName(20594)] = Defaults(), -- Stone shape
 		[SpellName(59545)] = Defaults(), -- Gift of the naaru
@@ -256,7 +256,7 @@ G.unitframe.aurafilters["Whitelist"] = {
 G.unitframe.aurafilters["Whitelist (Strict)"] = {
 	["type"] = "Whitelist",
 	["spells"] = {
-		
+
 	}
 };
 
@@ -388,7 +388,7 @@ G.unitframe.aurafilters["RaidDebuffs"] = {
 		--Al'Akir
 		[SpellName(93260)] = Defaults(), -- Ice Storm
 		[SpellName(93295)] = Defaults(), -- Lightning Rod
-		
+
 	--Firelands	
 		--Beth'tilac
 		[SpellName(99506)] = Defaults(), -- Widows Kiss
@@ -468,7 +468,7 @@ local function ClassBuff(id, point, color, anyUnit, onlyShowMissing, style, disp
 	if(textColor) then
 		r2, g2, b2 = unpack(textColor);
 	end
-	
+
 	return {["enabled"] = true, ["id"] = id, ["point"] = point, ["color"] = {["r"] = r, ["g"] = g, ["b"] = b},
 	["anyUnit"] = anyUnit, ["onlyShowMissing"] = onlyShowMissing, ["style"] = style or "coloredIcon", ["displayText"] = displayText or false, ["decimalThreshold"] = decimalThreshold or 5,
 	["textColor"] = {["r"] = r2, ["g"] = g2, ["b"] = b2}, ["textThreshold"] = textThreshold or -1, ["xOffset"] = xOffset or 0, ["yOffset"] = yOffset or 0};

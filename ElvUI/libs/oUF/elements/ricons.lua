@@ -1,5 +1,5 @@
-local parent, ns = ...
-local oUF = ns.oUF
+local _, ns = ...;
+local oUF = ns.oUF;
 
 local GetRaidTargetIndex = GetRaidTargetIndex
 local SetRaidTargetIconTexture = SetRaidTargetIconTexture

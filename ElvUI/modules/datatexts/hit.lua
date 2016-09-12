@@ -28,10 +28,9 @@ local function OnEvent(self)
 	lastPanel = self;
 end
 
-
 local function OnEnter(self)
 	DT:SetupTooltip(self)
-	
+
 	if E.role == "Caster" then
 		DT.tooltip:AddLine(format(STAT_HIT_SPELL_TOOLTIP, GetCombatRating(CR_HIT_SPELL), GetCombatRatingBonus(CR_HIT_SPELL)));
 		DT.tooltip:AddLine(" ");
@@ -44,7 +43,7 @@ local function OnEnter(self)
 					level = level.." / |TInterface\\TargetingFrame\\UI-TargetingFrame-Skull:0|t";
 				end
 			DT.tooltip:AddDoubleLine("      "..level, missChance.."    ", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
-		end	
+		end
 	else
 		if E.myclass == "HUNTER" then
 			DT.tooltip:AddLine(format(STAT_HIT_RANGED_TOOLTIP, GetCombatRating(CR_HIT_RANGED), GetCombatRatingBonus(CR_HIT_RANGED)));
@@ -58,7 +57,7 @@ local function OnEnter(self)
 						level = level.." / |TInterface\\TargetingFrame\\UI-TargetingFrame-Skull:0|t";
 					end
 				DT.tooltip:AddDoubleLine("      "..level, missChance.."    ", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
-			end		
+			end
 		else
 			DT.tooltip:AddLine(format(STAT_HIT_MELEE_TOOLTIP, GetCombatRating(CR_HIT_MELEE), GetCombatRatingBonus(CR_HIT_MELEE)));
 			DT.tooltip:AddLine(" ");
@@ -75,7 +74,7 @@ local function OnEnter(self)
 					end
 				DT.tooltip:AddDoubleLine("      "..level, missChance.."    ", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
 			end
-			
+
 			if (IsDualWielding()) then
 				DT.tooltip:AddLine(STAT_HIT_SPECIAL_ATTACKS, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 				for i=0, 3 do
@@ -86,10 +85,10 @@ local function OnEnter(self)
 					end
 					DT.tooltip:AddDoubleLine("      "..level, missChance.."    ", NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b);
 				end
-			end		
+			end
 		end
 	end
-	
+
 	DT.tooltip:Show()
 end
 

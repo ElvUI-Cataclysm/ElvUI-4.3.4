@@ -1,7 +1,6 @@
 local E, L, V, P, G, _ = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
-local ceil = math.ceil
 local find = string.find;
 
 local function LoadSkin()
@@ -294,7 +293,7 @@ local function LoadSkin()
 
 	InterfaceOptionsFrameCategoriesList:StripTextures();
 	S:HandleScrollBar(InterfaceOptionsFrameCategoriesListScrollBar);
-	
+
 	InterfaceOptionsFrameAddOnsList:StripTextures();
 	S:HandleScrollBar(InterfaceOptionsFrameAddOnsListScrollBar);
 
@@ -317,7 +316,7 @@ local function LoadSkin()
 		buttonToggle.Text:FontTemplate(nil, 22);
 		buttonToggle.Text:Point("CENTER");
 		buttonToggle.Text:SetText("+");
-		
+
 		hooksecurefunc(buttonToggle, "SetNormalTexture", function(self, texture)
 			if(find(texture, "MinusButton")) then
 				self.Text:SetText("-");
@@ -548,7 +547,7 @@ local function LoadSkin()
 	InterfaceOptionsFrame:SetMovable(true)
 	InterfaceOptionsFrame:EnableMouse(true)
 	InterfaceOptionsFrame:RegisterForDrag("LeftButton", "RightButton")
-	InterfaceOptionsFrame:SetScript("OnDragStart", function(self) 
+	InterfaceOptionsFrame:SetScript("OnDragStart", function(self)
 		if InCombatLockdown() then return end
 
 		if IsShiftKeyDown() then
@@ -714,7 +713,7 @@ local function LoadSkin()
 					checkbox.backdrop:Point("TOPLEFT", 3, -1);
 					checkbox.backdrop:Point("BOTTOMRIGHT", -3, 1);
 					checkbox.backdrop:SetFrameLevel(checkbox:GetParent():GetFrameLevel() + 1);
-					
+
 					S:HandleCheckBox(_G[checkBoxName.."Check"]);
 				end
 			end
@@ -725,14 +724,14 @@ local function LoadSkin()
 				local checkbox = _G[checkBoxName];
 				if(not checkbox.backdrop) then
 					checkbox:StripTextures();
-					
+
 					checkbox:CreateBackdrop();
 					checkbox.backdrop:Point("TOPLEFT", 3, -1);
 					checkbox.backdrop:Point("BOTTOMRIGHT", -3, 1);
 					checkbox.backdrop:SetFrameLevel(checkbox:GetParent():GetFrameLevel() + 1);
-					
+
 					S:HandleCheckBox(_G[checkBoxName.."Check"]);
-					
+
 					if(checkBoxTemplate == "ChatConfigCheckBoxWithSwatchAndClassColorTemplate") then
 						S:HandleCheckBox(_G[checkBoxName.."ColorClasses"]);
 					end
@@ -741,7 +740,7 @@ local function LoadSkin()
 		end
 	end);
 
-	S:SecureHook("ChatConfig_CreateTieredCheckboxes", function(frame, checkBoxTable, checkBoxTemplate, subCheckBoxTemplate)
+	S:SecureHook("ChatConfig_CreateTieredCheckboxes", function(frame, checkBoxTable)
 		local checkBoxNameString = frame:GetName().."CheckBox";
 		for index, value in ipairs(checkBoxTable) do
 			local checkBoxName = checkBoxNameString..index;
@@ -760,7 +759,7 @@ local function LoadSkin()
 		end
 	end);
 
-	S:SecureHook("ChatConfig_CreateColorSwatches", function(frame, swatchTable, swatchTemplate)
+	S:SecureHook("ChatConfig_CreateColorSwatches", function(frame, swatchTable)
 		frame:SetTemplate("Transparent");
 		local nameString = frame:GetName().."Swatch";
 		for index, value in ipairs(swatchTable) do
@@ -768,7 +767,6 @@ local function LoadSkin()
 			local swatch = _G[swatchName];
 			if(not swatch.backdrop) then
 				swatch:StripTextures();
-				
 				swatch:CreateBackdrop();
 				swatch.backdrop:Point("TOPLEFT", 3, -1);
 				swatch.backdrop:Point("BOTTOMRIGHT", -3, 1);
@@ -967,7 +965,7 @@ local function LoadSkin()
 	LFDQueueFrameRoleButtonHealer.icon:SetTexCoord(unpack(E.TexCoords))
 	LFDQueueFrameRoleButtonHealer.icon:SetTexture('Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH');
 	LFDQueueFrameRoleButtonHealer.icon:SetInside(LFDQueueFrameRoleButtonHealer.backdrop)
-	
+
 	LFDQueueFrameRoleButtonDPS:StripTextures()
 	LFDQueueFrameRoleButtonDPS:CreateBackdrop("Default", true, true);
 	LFDQueueFrameRoleButtonDPS.backdrop:SetTemplate("Default", true, true);
@@ -977,7 +975,7 @@ local function LoadSkin()
 	LFDQueueFrameRoleButtonDPS.icon:SetTexCoord(unpack(E.TexCoords))
 	LFDQueueFrameRoleButtonDPS.icon:SetTexture('Interface\\Icons\\INV_Knife_1H_Common_B_01');
 	LFDQueueFrameRoleButtonDPS.icon:SetInside(LFDQueueFrameRoleButtonDPS.backdrop)
-	
+
 	LFDQueueFrameRoleButtonLeader:StripTextures()
 	LFDQueueFrameRoleButtonLeader:CreateBackdrop("Default");
 	LFDQueueFrameRoleButtonLeader.backdrop:Point("TOPLEFT", LFDQueueFrameRoleButtonLeader, "TOPLEFT", 3, -3)
@@ -1001,7 +999,7 @@ local function LoadSkin()
 	RaidFinderQueueFrameRoleButtonTank.icon:SetTexCoord(unpack(E.TexCoords))
 	RaidFinderQueueFrameRoleButtonTank.icon:SetTexture('Interface\\Icons\\Ability_Defend');
 	RaidFinderQueueFrameRoleButtonTank.icon:SetInside(RaidFinderQueueFrameRoleButtonTank.backdrop)
-	
+
 	RaidFinderQueueFrameRoleButtonHealer:StripTextures()
 	RaidFinderQueueFrameRoleButtonHealer:CreateBackdrop("Default", true, true);
 	RaidFinderQueueFrameRoleButtonHealer.backdrop:SetTemplate("Default", true, true);
@@ -1011,7 +1009,7 @@ local function LoadSkin()
 	RaidFinderQueueFrameRoleButtonHealer.icon:SetTexCoord(unpack(E.TexCoords))
 	RaidFinderQueueFrameRoleButtonHealer.icon:SetTexture('Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH');
 	RaidFinderQueueFrameRoleButtonHealer.icon:SetInside(RaidFinderQueueFrameRoleButtonHealer.backdrop)
-	
+
 	RaidFinderQueueFrameRoleButtonDPS:StripTextures()
 	RaidFinderQueueFrameRoleButtonDPS:CreateBackdrop("Default", true, true);
 	RaidFinderQueueFrameRoleButtonDPS.backdrop:SetTemplate("Default", true, true);
@@ -1043,7 +1041,7 @@ local function LoadSkin()
 	LFRQueueFrameRoleButtonTank.icon:SetTexCoord(unpack(E.TexCoords))
 	LFRQueueFrameRoleButtonTank.icon:SetTexture('Interface\\Icons\\Ability_Defend');
 	LFRQueueFrameRoleButtonTank.icon:SetInside(LFRQueueFrameRoleButtonTank.backdrop)
-	
+
 	LFRQueueFrameRoleButtonHealer:StripTextures()
 	LFRQueueFrameRoleButtonHealer:CreateBackdrop("Default", true, true);
 	LFRQueueFrameRoleButtonHealer.backdrop:SetTemplate("Default", true, true);
@@ -1094,31 +1092,31 @@ local function LoadSkin()
 	LFDRoleCheckPopupRoleButtonDPS.icon:SetTexCoord(unpack(E.TexCoords))
 	LFDRoleCheckPopupRoleButtonDPS.icon:SetTexture('Interface\\Icons\\INV_Knife_1H_Common_B_01');
 	LFDRoleCheckPopupRoleButtonDPS.icon:SetInside(LFDRoleCheckPopupRoleButtonDPS.backdrop)
-	
+
 	hooksecurefunc("LFG_SetRoleIconIncentive", function(roleButton, incentiveIndex)
 		if incentiveIndex then
 			roleButton.backdrop:SetBackdropBorderColor(1, 0.80, 0.10)
 		end
 	end)
-	
+
 	hooksecurefunc("LFG_PermanentlyDisableRoleButton", function(button)
 		if button.icon then
 			button.icon:SetDesaturated(true)
 		end
 	end)
-	
+
 	hooksecurefunc("LFG_DisableRoleButton", function(button)
 		if button.icon then
 			button.icon:SetDesaturated(true)
 		end
 	end)
-	
+
 	hooksecurefunc("LFG_EnableRoleButton", function(button)
 		if button.icon then
 			button.icon:SetDesaturated(false)
 		end
 	end)
-	
+
 	--Role Check
 	RolePollPopupRoleButtonTank:Point("TOPLEFT", RolePollPopup, "TOPLEFT", 32, -35)
 
@@ -1130,7 +1128,7 @@ local function LoadSkin()
 	RolePollPopupRoleButtonTank.icon:SetTexCoord(unpack(E.TexCoords))
 	RolePollPopupRoleButtonTank.icon:SetTexture('Interface\\Icons\\Ability_Defend');
 	RolePollPopupRoleButtonTank.icon:SetInside(RolePollPopupRoleButtonTank.backdrop)
-	
+
 	RolePollPopupRoleButtonHealer:StripTextures()
 	RolePollPopupRoleButtonHealer:CreateBackdrop("Default");
 	RolePollPopupRoleButtonHealer.backdrop:Point("TOPLEFT", RolePollPopupRoleButtonHealer, "TOPLEFT", 7, -7)
@@ -1177,7 +1175,7 @@ local function LoadSkin()
 	LFGSearchStatusIndividualRoleDisplayTank1.icon:SetTexCoord(unpack(E.TexCoords))
 	LFGSearchStatusIndividualRoleDisplayTank1.icon:SetTexture('Interface\\Icons\\Ability_Defend');
 	LFGSearchStatusIndividualRoleDisplayTank1.icon:SetInside(LFGSearchStatusIndividualRoleDisplayTank1.backdrop)
-	
+
 	LFGSearchStatusIndividualRoleDisplayHealer1:StripTextures()
 	LFGSearchStatusIndividualRoleDisplayHealer1:CreateBackdrop("Default");
 	LFGSearchStatusIndividualRoleDisplayHealer1.backdrop:Point("TOPLEFT", LFGSearchStatusIndividualRoleDisplayHealer1, "TOPLEFT", 5, -5)
@@ -1197,7 +1195,7 @@ local function LoadSkin()
 		_G["LFGSearchStatusIndividualRoleDisplayDamage"..i].icon:SetTexture('Interface\\Icons\\INV_Knife_1H_Common_B_01');
 		_G["LFGSearchStatusIndividualRoleDisplayDamage"..i].icon:SetInside(_G["LFGSearchStatusIndividualRoleDisplayDamage"..i].backdrop)
 	end
-	
+
 	hooksecurefunc("LFGSearchStatusPlayer_SetFound", function(button, isFound)
 		if button.icon then
 			if ( isFound ) then
@@ -1207,7 +1205,7 @@ local function LoadSkin()
 			end
 		end
 	end)
-	
+
 	--Dungeon Ready PopUp
 	hooksecurefunc("LFGDungeonReadyPopup_Update", function()
 	local b, c, d, e, f, g, h, i, j, k, l, m = GetLFGProposal()
@@ -1228,7 +1226,7 @@ local function LoadSkin()
 			LFGDungeonReadyDialogRoleIcon.icon:SetInside(LFGDungeonReadyDialogRoleIcon.backdrop)
 		end
 	end)
-	
+
 	do
 		local roleButtons = {LFGDungeonReadyStatusGroupedTank, LFGDungeonReadyStatusGroupedHealer, LFGDungeonReadyStatusGroupedDamager}
 		for i = 1, 5 do

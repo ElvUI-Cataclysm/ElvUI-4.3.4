@@ -73,7 +73,7 @@ local function BuildGuildTable()
 			status = '';
 		end
 
-		if connected then 
+		if connected then
 			count = count + 1
 			guildTable[count] = { name, rank, level, zone, note, officernote, connected, status, class, rankIndex }
 		end
@@ -87,7 +87,7 @@ local function UpdateGuildXP()
 	local percentTotal
 	if currentXP > 0 then
 		percentTotal = ceil((currentXP / nextLevelXP) * 100)
-	else 
+	else
 		percentTotal = 0
 	end
 
@@ -210,7 +210,7 @@ local function OnEnter(self)
 
 	if guildMotD ~= "" then
 		DT.tooltip:AddLine(' ')
-		DT.tooltip:AddLine(format(guildMotDString, GUILD_MOTD, guildMotD), ttsubh.r, ttsubh.g, ttsubh.b, 1) 
+		DT.tooltip:AddLine(format(guildMotDString, GUILD_MOTD, guildMotD), ttsubh.r, ttsubh.g, ttsubh.b, 1)
 	end
 
 	local col = E:RGBToHex(ttsubh.r, ttsubh.g, ttsubh.b)
