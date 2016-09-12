@@ -91,8 +91,14 @@ local function LoadSkin()
 			local count = _G["TradeSkillReagent" .. i .. "Count"];
 
 			if((reagentName or reagentTexture) and not reagent.isSkinned) then
+				reagent:SetTemplate("Transparent", true)
+				reagent:StyleButton(nil, true)
+				reagent:Size(reagent:GetWidth(), reagent:GetHeight() + 1)
+
 				icon:SetTexCoord(unpack(E.TexCoords));
 				icon:SetDrawLayer("OVERLAY");
+				icon:Size(icon:GetWidth() - 2, icon:GetHeight() - 1)
+				icon:Point("TOPLEFT", 2, -2)
 
 				icon.backdrop = CreateFrame("Frame", nil, reagent);
 				icon.backdrop:SetFrameLevel(reagent:GetFrameLevel() - 1);
