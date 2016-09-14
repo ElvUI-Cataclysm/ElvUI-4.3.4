@@ -28,12 +28,12 @@ E.Options.args.bags = {
 			disabled = function() return not E.bags end,
 			args = {
 				header = {
-					order = 0,
+					order = 1,
 					type = "header",
 					name = L["General"],
 				},
 				currencyFormat = {
-					order = 1,
+					order = 2,
 					type = "select",
 					name = L["Currency Format"],
 					desc = L["The display format of the currency icons that get displayed below the main bag. (You have to be watching a currency for this to display)"],
@@ -45,7 +45,7 @@ E.Options.args.bags = {
 					set = function(info, value) E.db.bags[ info[#info] ] = value; B:UpdateTokens(); end
 				},
 				moneyFormat = {
-					order = 2,
+					order = 3,
 					type = "select",
 					name = L["Money Format"],
 					desc = L["The display format of the money text that is shown at the top of the main bag."],
@@ -60,14 +60,20 @@ E.Options.args.bags = {
 					set = function(info, value) E.db.bags[ info[#info] ] = value; B:UpdateGoldText(); end
 				},
 				moneyCoins = {
-					order = 3,
+					order = 4,
 					type = "toggle",
 					name = L["Show Coins"],
 					desc = L["Use coin icons instead of colored text."],
 					set = function(info, value) E.db.bags[ info[#info] ] = value; B:UpdateGoldText(); end
 				},
+				clearSearchOnClose = {
+ 					order = 5,
+					type = 'toggle',
+					name = L["Clear Search On Close"],
+					set = function(info, value) E.db.bags[info[#info]] = value; end
+				},
 				countGroup = {
-					order = 5,
+					order = 6,
 					type = "group",
 					name = L["Item Count Font"],
 					guiInline = true,
@@ -118,7 +124,7 @@ E.Options.args.bags = {
 					},
 				},
 				itemLevelGroup = {
-					order = 6,
+					order = 7,
 					type = "group",
 					name = L["Item Level"],
 					guiInline = true,

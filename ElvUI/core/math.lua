@@ -3,7 +3,7 @@ local E, L, V, P, G = unpack(select(2, ...));
 local select, tonumber, assert, type, unpack = select, tonumber, assert, type, unpack;
 local tinsert, tremove = tinsert, tremove;
 local modf, ceil, floor, abs, mod = math.modf, math.ceil, math.floor, math.abs, mod;
-local format, sub, upper, string_char, string_byte, split = string.format, string.sub, string.upper, string.char, string.byte, string.split
+local format, sub, upper, split = string.format, string.sub, string.upper, string.split
 
 function E:ShortValue(v)
 	if E.db.general.numberPrefixStyle == "METRIC" then

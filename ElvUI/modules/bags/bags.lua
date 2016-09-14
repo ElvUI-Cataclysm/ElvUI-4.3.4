@@ -867,7 +867,13 @@ function B:ContructContainerFrame(name, isBank)
 			end
 		end);
 
-		f:SetScript('OnHide', CloseBankFrame);
+		f:SetScript('OnHide', function()
+			CloseBankFrame()
+
+			if E.db.bags.clearSearchOnClose then
+				B.ResetAndClear(f.editBox);
+			end
+		end)
 
 		f.editBox = CreateFrame('EditBox', name..'EditBox', f);
 		f.editBox:SetFrameLevel(f.editBox:GetFrameLevel() + 2);
@@ -992,13 +998,16 @@ function B:ContructContainerFrame(name, isBank)
 		f:SetScript('OnHide', function()
 			CloseBackpack()
 			for i = 1, NUM_BAG_FRAMES do
-				CloseBag(i)
+				CloseBag(i);
 			end
 
 			if ElvUIBags and ElvUIBags.buttons then
 				for _, bagButton in pairs(ElvUIBags.buttons) do
-					bagButton:SetChecked(false)
+					bagButton:SetChecked(false);
 				end
+			end
+			if E.db.bags.clearSearchOnClose then
+				B.ResetAndClear(f.editBox);
 			end
 		end)
 	end
