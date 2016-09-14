@@ -43,7 +43,7 @@ local function LoadSkin()
 
 	S:HandleCloseButton(GuildFrameCloseButton)
 
-	for i=1, 7 do
+	for i = 1, 7 do
 		_G["GuildUpdatesButton"..i]:StyleButton()
 	end
 
@@ -99,14 +99,14 @@ local function LoadSkin()
 	S:HandleCheckBox(GuildRecruitmentHealerButton:GetChildren())
 	S:HandleCheckBox(GuildRecruitmentDamagerButton:GetChildren())
 
-	for i=1,5 do
+	for i = 1, 5 do
 		S:HandleTab(_G["GuildFrameTab"..i])
 	end
 
 	GuildXPFrame:ClearAllPoints()
 	GuildXPFrame:Point("TOP", GuildFrame, "TOP", 0, -40)
 
-	for i=1,4 do
+	for i = 1, 4 do
 		_G["GuildXPBarDivider"..i]:Kill()
 	end
 
@@ -131,51 +131,36 @@ local function LoadSkin()
 	GuildXPBar.backdrop:Point("TOPLEFT", GuildXPBar.progress, "TOPLEFT", -2, 2)
 	GuildXPBar.backdrop:Point("BOTTOMRIGHT", GuildXPBar, "BOTTOMRIGHT", -2, 4)
 
-	GuildLatestPerkButton:StripTextures()
-	GuildLatestPerkButtonIconTexture:SetTexCoord(unpack(E.TexCoords))
-	GuildLatestPerkButtonIconTexture:ClearAllPoints()
-	GuildLatestPerkButtonIconTexture:Point("TOPLEFT", 2, -2)
-	GuildLatestPerkButton:CreateBackdrop("Default")
-	GuildLatestPerkButton.backdrop:Point("TOPLEFT", GuildLatestPerkButtonIconTexture, "TOPLEFT", -2, 2)
-	GuildLatestPerkButton.backdrop:Point("BOTTOMRIGHT", GuildLatestPerkButtonIconTexture, "BOTTOMRIGHT", 2, -2)
+	if GuildLatestPerkButton then
+		GuildLatestPerkButton:StripTextures()
+		GuildLatestPerkButtonIconTexture:SetTexCoord(unpack(E.TexCoords))
+		GuildLatestPerkButtonIconTexture:ClearAllPoints()
+		GuildLatestPerkButtonIconTexture:Point("TOPLEFT", 2, -2)
+		GuildLatestPerkButton:CreateBackdrop("Default")
+		GuildLatestPerkButton.backdrop:SetOutside(GuildLatestPerkButtonIconTexture)
+	end
 
-	GuildNextPerkButton:StripTextures()
-	GuildNextPerkButtonIconTexture:SetTexCoord(unpack(E.TexCoords))
-	GuildNextPerkButtonIconTexture:ClearAllPoints()
-	GuildNextPerkButtonIconTexture:Point("TOPLEFT", 2, -2)
-	GuildNextPerkButton:CreateBackdrop("Default")
-	GuildNextPerkButton.backdrop:Point("TOPLEFT", GuildNextPerkButtonIconTexture, "TOPLEFT", -2, 2)
-	GuildNextPerkButton.backdrop:Point("BOTTOMRIGHT", GuildNextPerkButtonIconTexture, "BOTTOMRIGHT", 2, -2)
-
-	--Guild Perk buttons list
-	for i=1, 8 do
-		local button = _G["GuildPerksContainerButton"..i]
-		button:StripTextures()
-		button:StyleButton()
-
-		if button.icon then
-			button.icon:SetTexCoord(unpack(E.TexCoords))
-			button.icon:ClearAllPoints()
-			button.icon:Point("TOPLEFT", 2, -2)
-			button:CreateBackdrop("Default")
-			button.backdrop:Point("TOPLEFT", button.icon, "TOPLEFT", -2, 2)
-			button.backdrop:Point("BOTTOMRIGHT", button.icon, "BOTTOMRIGHT", 2, -2)
-			button.icon:SetParent(button.backdrop)
-		end
+	if GuildNextPerkButton then
+		GuildNextPerkButton:StripTextures()
+		GuildNextPerkButtonIconTexture:SetTexCoord(unpack(E.TexCoords))
+		GuildNextPerkButtonIconTexture:ClearAllPoints()
+		GuildNextPerkButtonIconTexture:Point("TOPLEFT", 2, -3)
+		GuildNextPerkButton:CreateBackdrop("Default")
+		GuildNextPerkButton.backdrop:SetOutside(GuildNextPerkButtonIconTexture)
 	end
 
 	--Roster
 	S:HandleScrollBar(GuildRosterContainerScrollBar, 5)
 	S:HandleCheckBox(GuildRosterShowOfflineButton)
 
-	for i=1, 4 do
+	for i = 1, 4 do
 		_G["GuildRosterColumnButton"..i]:StripTextures(true)
 		_G["GuildRosterColumnButton"..i]:StyleButton()
 	end
 
 	S:HandleDropDownBox(GuildRosterViewDropdown, 200)
 
-	for i=1, 14 do
+	for i = 1, 14 do
 		S:HandleButton(_G["GuildRosterContainerButton"..i.."HeaderButton"], true)
 		_G["GuildRosterContainerButton"..i]:StyleButton()
 		_G["GuildRosterContainerButton"..i.."BarTexture"]:SetTexture(E["media"].normTex)
@@ -295,37 +280,34 @@ local function LoadSkin()
 		end
 	end
 
-	--Rewards
 	S:HandleScrollBar(GuildRewardsContainerScrollBar, 5)
 
-	for i=1, 8 do
-		local button = _G["GuildRewardsContainerButton"..i]
-		button:StripTextures()
-		button:SetTemplate("Default",true)
-		button:StyleButton()
-		button.icon:SetTexCoord(unpack(E.TexCoords))
-		button.icon:ClearAllPoints()
-		button.icon:Point("TOPLEFT", 2, -3)
-		button.icon:Size(41, 41)
-		button:CreateBackdrop("Default")
-		button.backdrop:SetOutside(button.icon)
-		button.icon:SetParent(button.backdrop)
-	end
-
-	for _, Object in pairs({'Rewards'}) do
+	for _, Object in pairs({"Rewards", "Perks"}) do
 		for i = 1, 8 do
-			local Button = _G["Guild"..Object.."ContainerButton"..i]
-			if Object == 'Rewards' then
+			local Button = _G["Guild"..Object.."ContainerButton"..i];
+
+			Button:StripTextures();
+			Button:CreateBackdrop("Default");
+			Button.backdrop:SetOutside(Button.icon);
+			Button:StyleButton(nil, true);
+
+			Button.icon:SetTexCoord(unpack(E.TexCoords));
+			Button.icon:ClearAllPoints()
+			Button.icon:Point("TOPLEFT", 2, -2);
+			Button.icon:Size(42);
+			Button.icon:SetParent(Button.backdrop);
+
+			if(Object == "Rewards") then
 				Button.backdrop:SetScript('OnUpdate', function(self)
 					local achievementID, itemID, itemName, iconTexture, repLevel, moneyCost = GetGuildRewardInfo(Button.index);
 					self:SetBackdropBorderColor(unpack(E["media"].bordercolor));
-					if itemID then
-						local quality = select(3, GetItemInfo(itemID)) 
-						if (quality and quality > 1) then
+					if(itemID) then
+						local quality = select(3, GetItemInfo(itemID));
+						if(quality and quality > 1) then
 							self:SetBackdropBorderColor(GetItemQualityColor(quality));
 						end
 					end
-				end)
+				end);
 			end
 		end
 	end

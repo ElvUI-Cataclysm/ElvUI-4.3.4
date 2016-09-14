@@ -425,11 +425,11 @@ function CH:StyleChat(frame)
 	frame.button.tex:SetTexture([[Interface\AddOns\ElvUI\media\textures\copy.tga]])
 
 	frame.button:SetScript("OnMouseUp", function(self, btn)
-		if btn == "RightButton" and id == 1 then
+		if btn == "LeftButton" then
+ 			CH:CopyChat(frame)
+		elseif btn == "RightButton" and id ~= 2 then
 			ToggleFrame(ChatMenu)
-		else
-			CH:CopyChat(frame)
-		end
+ 		end
 	end)
 
 	frame.button:SetScript("OnEnter", function(self) self:SetAlpha(1) end)

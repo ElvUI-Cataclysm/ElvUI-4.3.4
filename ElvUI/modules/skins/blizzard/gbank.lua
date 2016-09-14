@@ -43,16 +43,18 @@ local function LoadSkin()
 			local button = _G["GuildBankColumn"..i.."Button"..x]
 			local icon = _G["GuildBankColumn"..i.."Button"..x.."IconTexture"]
 			local texture = _G["GuildBankColumn"..i.."Button"..x.."NormalTexture"]
+			local count = _G["GuildBankColumn"..i.."Button"..x.."Count"]
 			if texture then
 				texture:SetTexture(nil)
 			end
 			button:StyleButton()
 			button:SetTemplate("Default", true)
 
-			icon:ClearAllPoints()
-			icon:Point("TOPLEFT", 2, -2)
-			icon:Point("BOTTOMRIGHT", -2, 2)
+			icon:SetInside()
 			icon:SetTexCoord(unpack(E.TexCoords))
+			icon:SetDrawLayer("OVERLAY")
+
+			count:SetDrawLayer("OVERLAY")
 		end
 	end
 
@@ -65,10 +67,9 @@ local function LoadSkin()
 		button:StyleButton(true)
 		button:SetTemplate("Default", true)
 
-		texture:ClearAllPoints()
-		texture:Point("TOPLEFT", 2, -2)
-		texture:Point("BOTTOMRIGHT", -2, 2)
+		texture:SetInside()
 		texture:SetTexCoord(unpack(E.TexCoords))
+		texture:SetDrawLayer("OVERLAY")
 	end
 
 	for i=1, 4 do
@@ -139,9 +140,7 @@ local function LoadSkin()
 		button:StripTextures()
 		button:SetTemplate("Default")
 		button:StyleButton(true)
-		icon:ClearAllPoints()
-		icon:Point("TOPLEFT", 2, -2)
-		icon:Point("BOTTOMRIGHT", -2, 2)
+		icon:SetInside()
 		icon:SetTexCoord(unpack(E.TexCoords))
 	end
 
