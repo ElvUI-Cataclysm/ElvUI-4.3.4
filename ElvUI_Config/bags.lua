@@ -72,8 +72,20 @@ E.Options.args.bags = {
 					name = L["Clear Search On Close"],
 					set = function(info, value) E.db.bags[info[#info]] = value; end
 				},
+				disableBagSort = {
+ 					order = 6,
+					type = "toggle",
+					name = L["Disable Bag Sort"],
+					set = function(info, value) E.db.bags[info[#info]] = value; B:ToggleSortButtonState(false); end
+				},
+				disableBankSort = {
+					order = 7,
+					type = "toggle",
+					name = L["Disable Bank Sort"],
+					set = function(info, value) E.db.bags[info[#info]] = value; B:ToggleSortButtonState(true); end
+				},
 				countGroup = {
-					order = 6,
+					order = 8,
 					type = "group",
 					name = L["Item Count Font"],
 					guiInline = true,
@@ -119,12 +131,12 @@ E.Options.args.bags = {
 								["OUTLINE"] = "OUTLINE",
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"
-							},
-						},
-					},
+							}
+						}
+					}
 				},
 				itemLevelGroup = {
-					order = 7,
+					order = 9,
 					type = "group",
 					name = L["Item Level"],
 					guiInline = true,
@@ -178,11 +190,11 @@ E.Options.args.bags = {
 								["OUTLINE"] = "OUTLINE",
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"
-							},
-						},
-					},
-				},
-			},
+							}
+						}
+					}
+				}
+			}
 		},
 		sizeGroup = {
 			order = 4,
@@ -226,8 +238,8 @@ E.Options.args.bags = {
 					desc = L["Adjust the width of the bank frame."],
 					min = 150, max = 1400, step = 1,
 					set = function(info, value) E.db.bags[ info[#info] ] = value; B:Layout(true); end
-				},
-			},
+				}
+			}
 		},
 		bagBar = {
 			order = 5,
@@ -239,7 +251,7 @@ E.Options.args.bags = {
 				header = {
 					order = 0,
 					type = "header",
-					name = L["Bag-Bar"],
+					name = L["Bag-Bar"]
 				},
 				enable = {
 					order = 1,
@@ -261,7 +273,7 @@ E.Options.args.bags = {
 					type = "range",
 					name = L["Button Spacing"],
 					desc = L["The spacing between buttons."],
-					min = 1, max = 10, step = 1,
+					min = 1, max = 10, step = 1
 				},
 				showBackdrop = {
 					order = 4,
@@ -282,7 +294,7 @@ E.Options.args.bags = {
 					values = {
 						["ASCENDING"] = L["Ascending"],
 						["DESCENDING"] = L["Descending"]
-					},
+					}
 				},
 				growthDirection = {
 					order = 7,
@@ -292,9 +304,9 @@ E.Options.args.bags = {
 					values = {
 						["VERTICAL"] = L["Vertical"],
 						["HORIZONTAL"] = L["Horizontal"]
-					},
-				},
-			},
+					}
+				}
+			}
 		},
 		bagSortingGroup  = {
 			order = 6,
@@ -304,24 +316,24 @@ E.Options.args.bags = {
 				header = {
 					order = 0,
 					type = "header",
-					name = L["Bag Sorting"],
+					name = L["Bag Sorting"]
 				},
 				sortInverted = {
 					order = 1,
 					type = 'toggle',
 					name = L["Sort Inverted"],
-					desc = L["Direction the bag sorting will use to allocate the items."],
+					desc = L["Direction the bag sorting will use to allocate the items."]
 				},
 				spacer = {
 					order = 2,
 					type = "description",
-					name = " ",
+					name = " "
 				},
 				description = {
 					order = 3,
 					type = "description",
 					width = "double",
-					name = L["Here you can add items or search terms that you want to be excluded from sorting. To remove an item just click on its name in the list."],
+					name = L["Here you can add items or search terms that you want to be excluded from sorting. To remove an item just click on its name in the list."]
 				},
 				addEntry = {
 					order = 4,
@@ -334,7 +346,7 @@ E.Options.args.bags = {
 						--Store by itemID if possible
 						local itemID = string.match(value, "item:(%d+)")
 						E.db.bags.ignoredItems[(itemID or value)] = value
-					end,
+					end
 				},
 				ignoredEntries = {
 					order = 5,
@@ -345,9 +357,9 @@ E.Options.args.bags = {
 					set = function(info, value)
 						E.db.bags.ignoredItems[value] = nil
 						GameTooltip:Hide()--Make sure tooltip is properly hidden
-					end,
-				},
-			},
+					end
+				}
+			}
 		},
 		search_syntax = {
 			order = 7,

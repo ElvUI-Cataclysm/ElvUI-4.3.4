@@ -72,4 +72,4 @@ local function LoadSkin()
 	end
 end
 
-S:RegisterSkin("Blizzard_GlyphUI", LoadSkin)
+S:AddCallbackForAddon("Blizzard_GlyphUI", "Glyph", LoadSkin);

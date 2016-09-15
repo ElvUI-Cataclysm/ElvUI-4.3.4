@@ -1,8 +1,15 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule('Skins')
+local S = E:GetModule("Skins");
+
+local _G = _G;
+local unpack, select = unpack, select;
+
+local CreateFrame = CreateFrame;
+local MAX_ACHIEVEMENT_ALERTS = MAX_ACHIEVEMENT_ALERTS;
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.achievement_popup ~= true then return end
+	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.alertframes ~= true) then return; end
+
 	local function SkinAchievePopUp()
 		for i = 1, MAX_ACHIEVEMENT_ALERTS do
 			local frame = _G["AchievementAlertFrame"..i]
@@ -94,9 +101,9 @@ local function LoadSkin()
 	end
 
 	GuildChallengeAlertFrame:SetTemplate('Transparent', true)
-	GuildChallengeAlertFrame.backdropTexture:SetVertexColor(unpack(E.media.bordercolor))
-	GuildChallengeAlertFrame.backdropTexture.SetVertexColor = E.noop
+	GuildChallengeAlertFrameEmblemBackground:SetVertexColor(unpack(E.media.bordercolor))
+	GuildChallengeAlertFrameEmblemBackground.SetVertexColor = E.noop
 	GuildChallengeAlertFrame:Height(65)
 end
 
-S:RegisterSkin('ElvUI', LoadSkin)
+S:AddCallback("Alerts", LoadSkin);

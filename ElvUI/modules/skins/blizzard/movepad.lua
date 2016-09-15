@@ -13,11 +13,9 @@ local function LoadSkin()
 	S:HandleButton(MovePadBackward)
 	S:HandleButton(MovePadJump)
 
-	S:HandleButton(MovePadLock)
-	MovePadLock:StripTextures()
-	MovePadLock:SetScale(0.70)
-	MovePadLock:Point("BOTTOMRIGHT", MovePadFrame, "BOTTOMRIGHT", -4, 4);
+	S:HandleCloseButton(MovePadLock, nil, " ");
+	MovePadLock:Point("BOTTOMRIGHT", MovePadFrame, "BOTTOMRIGHT", 5, -5);
 
 end
 
-S:RegisterSkin('Blizzard_MovePad', LoadSkin);
+S:AddCallbackForAddon("Blizzard_MovePad", "MovePad", LoadSkin);

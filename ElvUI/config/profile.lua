@@ -257,6 +257,8 @@ P["bags"] = {
 	["countFontOutline"] = "MONOCHROMEOUTLINE",
 	["countFontColor"] = {r = 1, g = 1, b = 1},
 	["clearSearchOnClose"] = false,
+	["disableBagSort"] = false,
+	["disableBankSort"] = false,
 	["bagBar"] = {
 		["growthDirection"] = "VERTICAL",
 		["sortDirection"] = "ASCENDING",

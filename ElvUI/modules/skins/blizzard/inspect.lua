@@ -1,6 +1,10 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
+local unpack = unpack
+
+local GetItemQualityColor = GetItemQualityColor
+
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.inspect ~= true then return end
 
@@ -150,4 +154,4 @@ local function LoadSkin()
 	end
 end
 
-S:RegisterSkin('Blizzard_InspectUI', LoadSkin)
+S:AddCallbackForAddon("Blizzard_InspectUI", "Inspect", LoadSkin);

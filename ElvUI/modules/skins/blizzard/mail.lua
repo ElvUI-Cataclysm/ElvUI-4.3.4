@@ -1,6 +1,11 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
+local _G = _G
+local unpack = unpack
+
+local ATTACHMENTS_MAX_SEND = ATTACHMENTS_MAX_SEND
+
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.mail ~= true then return end
 
@@ -168,4 +173,4 @@ local function LoadSkin()
 	SendMailMailButton:Point("RIGHT", SendMailCancelButton, "LEFT", -2, 0)
 end
 
-S:RegisterSkin('ElvUI', LoadSkin)
+S:AddCallback("Mail", LoadSkin);

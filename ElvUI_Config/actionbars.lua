@@ -490,6 +490,11 @@ E.Options.args.actionbar = {
 	get = function(info) return E.db.actionbar[ info[#info] ] end,
 	set = function(info, value) E.db.actionbar[ info[#info] ] = value; AB:UpdateButtonSettings() end,
 	args = {
+		info = {
+			order = 0,
+			type = 'header',
+			name = L["ActionBars"]
+		},
 		enable = {
 			order = 1,
 			type = "toggle",

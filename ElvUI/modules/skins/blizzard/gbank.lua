@@ -1,6 +1,8 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
+local unpack = unpack
+
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.gbank ~= true then return end
 
@@ -163,4 +165,4 @@ local function LoadSkin()
 	GuildBankColumn7Button8:Point("TOPLEFT", GuildBankColumn7Button1, "TOPRIGHT", 5, 0)
 end
 
-S:RegisterSkin("Blizzard_GuildBankUI", LoadSkin)
+S:AddCallbackForAddon("Blizzard_GuildBankUI", "GuildBank", LoadSkin);

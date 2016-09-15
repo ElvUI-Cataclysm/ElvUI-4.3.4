@@ -45,20 +45,10 @@ E.Options.args.skins = {
 					name = L["Achievement Frame"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
-				achievement_popup = {
+				alertframes = {
 					type = "toggle",
-					name = L["Achievement Popup Frames"],
-					desc = L["TOGGLESKIN_DESC"]
-				},
-				arena = {
-					type = "toggle",
-					name = L["Arena Frame"],
-					desc = L["TOGGLESKIN_DESC"]
-				},
-				arenaregistrar = {
-					type = "toggle",
-					name = L["Arena Registrar"],
-					desc = L["TOGGLESKIN_DESC"]
+					name = L['Alert Frames'],
+					desc = L["TOGGLESKIN_DESC"],
 				},
 				archaeology = {
 					type = "toggle",

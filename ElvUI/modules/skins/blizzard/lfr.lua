@@ -1,6 +1,8 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
+local _G = _G
+local unpack, pairs = unpack, pairs
 local find = string.find;
 
 local function LoadSkin()
@@ -143,4 +145,4 @@ local function LoadSkin()
  	end
 end
 
-S:RegisterSkin('ElvUI', LoadSkin)
+S:AddCallback("LFR", LoadSkin);

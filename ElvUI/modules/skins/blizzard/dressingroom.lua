@@ -35,4 +35,4 @@ local function LoadSkin()
 
 end
 
-S:RegisterSkin('ElvUI', LoadSkin)
+S:AddCallback("DressingRoom", LoadSkin);

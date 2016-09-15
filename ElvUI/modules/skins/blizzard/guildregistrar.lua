@@ -35,4 +35,4 @@ local function LoadSkin()
 	AvailableServicesText:SetTextColor(1, 1, 0)
 end
 
-S:RegisterSkin('ElvUI', LoadSkin)
+S:AddCallback("GuildRegistrar", LoadSkin);

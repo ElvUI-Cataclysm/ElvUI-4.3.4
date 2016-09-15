@@ -384,4 +384,4 @@ local function LoadSkin()
 	SpellBookNextPageButton:SetPoint("BOTTOMRIGHT", SpellBookPageNavigationFrame, "BOTTOMRIGHT", -10, 10)
 end
 
-S:RegisterSkin("ElvUI", LoadSkin);
+S:AddCallback("Spellbook", LoadSkin);

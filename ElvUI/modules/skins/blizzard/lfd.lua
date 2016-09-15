@@ -1,6 +1,8 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
+local _G = _G
+local unpack, pairs = unpack, pairs
 local find = string.find;
 
 local function LoadSkin()
@@ -58,7 +60,7 @@ local function LoadSkin()
 			local role2 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."RoleIcon2"]
 			local role3 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."RoleIcon3"]
 
-			if button then
+			if(button) then
 				local __texture = _G[button:GetName().."IconTexture"]:GetTexture()
 				button:StripTextures()
 				icon:SetTexture(__texture)
@@ -71,31 +73,23 @@ local function LoadSkin()
 					button.backdrop:SetOutside(icon)
 					icon:SetParent(button.backdrop)
 					icon.SetPoint = E.noop
-					button:HookScript('OnUpdate', function(self)
+					button:HookScript("OnUpdate", function(self)
 						button.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor));
-						if button.dungeonID then
+						if(button.dungeonID) then
 							local Link = GetLFGDungeonRewardLink(button.dungeonID, i)
-							if Link then
+							if(Link) then
 								local quality = select(3, GetItemInfo(Link))
-								if quality and quality > 1 then
+								if(quality and quality > 1) then
 									button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality));
 								end
 							end
 						end
 					end)
 
-					if count then
-						count:SetParent(button.backdrop)
-					end
-					if role1 then
-						role1:SetParent(button.backdrop)
-					end
-					if role2 then
-						role2:SetParent(button.backdrop)
-					end
-					if role3 then
-						role3:SetParent(button.backdrop)
-					end
+					if(count) then count:SetParent(button.backdrop) end
+					if(role1) then role1:SetParent(button.backdrop) end
+					if(role2) then role2:SetParent(button.backdrop) end
+					if(role3) then role3:SetParent(button.backdrop) end
 				end
 			end
 		end
@@ -187,7 +181,9 @@ local function LoadSkin()
 
 	for i = 1, NUM_LFD_CHOICE_BUTTONS do
 		local button = _G["LFDQueueFrameSpecificListButton" .. i];
-		S:HandleCheckBox(button.enableButton);
+		button.enableButton:StripTextures();
+		button.enableButton:CreateBackdrop("Default");
+		button.enableButton.backdrop:SetInside(nil, 4, 4);
 
 		button.expandOrCollapseButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
 		button.expandOrCollapseButton.SetNormalTexture = E.noop;
@@ -205,4 +201,4 @@ local function LoadSkin()
  	end
 end
 
-S:RegisterSkin('ElvUI', LoadSkin)
+S:AddCallback("LFD", LoadSkin);

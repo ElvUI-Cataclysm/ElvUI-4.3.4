@@ -1,6 +1,10 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
+local unpack = unpack
+
+local GetAuctionSellItemInfo = GetAuctionSellItemInfo
+
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.auctionhouse ~= true then return end
 
@@ -335,4 +339,4 @@ local function LoadSkin()
 	AuctionFrameAuctions.bg2:SetFrameLevel(AuctionFrameAuctions.bg2:GetFrameLevel() - 3)
 end
 
-S:RegisterSkin("Blizzard_AuctionUI", LoadSkin)
+S:AddCallbackForAddon("Blizzard_AuctionUI", "AuctionHouse", LoadSkin);

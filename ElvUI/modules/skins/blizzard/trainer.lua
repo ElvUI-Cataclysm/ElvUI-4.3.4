@@ -94,4 +94,4 @@ local function LoadSkin()
 	ClassTrainerStatusBar.rankText:SetPoint("CENTER", ClassTrainerStatusBar, "CENTER", 0, 0)
 end
 
-S:RegisterSkin("Blizzard_TrainerUI", LoadSkin);
+S:AddCallbackForAddon("Blizzard_TrainerUI", "Trainer", LoadSkin);

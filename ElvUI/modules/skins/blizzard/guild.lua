@@ -340,4 +340,4 @@ local function LoadSkin()
 	GuildRecruitmentDamagerButton.icon:SetInside(GuildRecruitmentDamagerButton.backdrop)
 end
 
-S:RegisterSkin("Blizzard_GuildUI", LoadSkin)
+S:AddCallbackForAddon("Blizzard_GuildUI", "Guild", LoadSkin);

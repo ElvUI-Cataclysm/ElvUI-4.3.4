@@ -4,6 +4,8 @@ local S = E:GetModule('Skins')
 local _G = _G;
 local unpack = unpack;
 
+local MAX_DISPLAY_CHANNEL_BUTTONS = MAX_DISPLAY_CHANNEL_BUTTONS
+
 --Tab Regions
 local tabs = {
 	"LeftDisabled",
@@ -355,4 +357,5 @@ local function LoadSkin()
 		hooksecurefunc(v, updFunc)
 	end
 end
-S:RegisterSkin('ElvUI', LoadSkin)
+
+S:AddCallback("Friends", LoadSkin);

@@ -69,4 +69,4 @@ local function LoadSkin()
 	end
 end
 
-S:RegisterSkin("Blizzard_ItemAlterationUI", LoadSkin)
+S:AddCallbackForAddon("Blizzard_ItemAlterationUI", "ItemAlterationUI", LoadSkin);

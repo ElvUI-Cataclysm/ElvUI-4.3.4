@@ -1,6 +1,20 @@
 local E, L, DF = unpack(select(2, ...))
 local RU = E:NewModule('RaidUtility', 'AceEvent-3.0');
 
+local _G = _G
+local unpack, pairs = unpack, pairs
+local find = string.find;
+
+local CreateFrame = CreateFrame;
+local IsInInstance = IsInInstance;
+local UnitInRaid = UnitInRaid;
+local InCombatLockdown = InCombatLockdown;
+local IsRaidLeader = IsRaidLeader;
+local IsRaidOfficer = IsRaidOfficer;
+local InitiateRolePoll = InitiateRolePoll;
+local DoReadyCheck = DoReadyCheck
+local ToggleFriendsFrame = ToggleFriendsFrame;
+
 E.RaidUtility = RU
 
 local PANEL_HEIGHT = 125
@@ -59,7 +73,7 @@ function RU:ToggleRaidUtil(event)
 	if CheckRaidStatus() then
 		if RaidUtilityPanel.toggled == true then
 			RaidUtility_ShowButton:Hide()
-			RaidUtilityPanel:Show()		
+			RaidUtilityPanel:Show()
 		else
 			RaidUtility_ShowButton:Show()
 			RaidUtilityPanel:Hide()
@@ -88,7 +102,7 @@ function RU:Initialize()
 	--Show Button
 	self:CreateUtilButton("RaidUtility_ShowButton", E.UIParent, "UIMenuButtonStretchTemplate, SecureHandlerClickTemplate", 136, 18, "TOP", E.UIParent, "TOP", -400, 2, RAID_CONTROL, nil)
 	RaidUtility_ShowButton:SetFrameRef("RaidUtilityPanel", RaidUtilityPanel)
-	RaidUtility_ShowButton:SetAttribute("_onclick", [=[
+	RaidUtility_ShowButton:SetAttribute("_onclick", ([=[
 		local raidUtil = self:GetFrameRef("RaidUtilityPanel")
 		local closeButton = raidUtil:GetFrameRef("RaidUtility_CloseButton")
 		self:Hide();
@@ -106,11 +120,13 @@ function RU:Initialize()
 			yOffset = -1
 		end
 
+		yOffset = yOffset * (tonumber(%d))
+
 		raidUtil:ClearAllPoints()
 		closeButton:ClearAllPoints()
 		raidUtil:SetPoint(raidUtilPoint, self, raidUtilPoint)
 		closeButton:SetPoint(raidUtilPoint, raidUtil, closeButtonPoint, 0, yOffset)
-	]=])
+	]=]):format(-E.Border + E.Spacing*3))
 	RaidUtility_ShowButton:SetScript("OnMouseUp", function(self) RaidUtilityPanel.toggled = true end)
 	RaidUtility_ShowButton:SetMovable(true)
 	RaidUtility_ShowButton:SetClampedToScreen(true)
@@ -118,6 +134,7 @@ function RU:Initialize()
 	RaidUtility_ShowButton:RegisterForDrag("RightButton")
 	RaidUtility_ShowButton:SetFrameStrata("TOOLTIP")
 	RaidUtility_ShowButton:SetScript("OnDragStart", function(self)
+		if(InCombatLockdown()) then E:Print(ERR_NOT_IN_COMBAT); return; end
 		self:StartMoving()
 	end)
 
@@ -128,10 +145,10 @@ function RU:Initialize()
 		local screenWidth = E.UIParent:GetWidth() / 2
 		xOffset = xOffset - screenWidth
 		self:ClearAllPoints()
-		if string.find(point, "BOTTOM") then
-			self:SetPoint('BOTTOM', E.UIParent, 'BOTTOM', xOffset, -1)
+		if find(point, "BOTTOM") then
+			self:Point('BOTTOM', E.UIParent, 'BOTTOM', xOffset, -1)
 		else
-			self:SetPoint('TOP', E.UIParent, 'TOP', xOffset, 1)
+			self:Point('TOP', E.UIParent, 'TOP', xOffset, 1)
 		end
 	end)
 

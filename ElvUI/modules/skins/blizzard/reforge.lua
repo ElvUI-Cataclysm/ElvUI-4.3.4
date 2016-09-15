@@ -40,4 +40,4 @@ local function LoadSkin()
 	S:HandleCloseButton(ReforgingFrameCloseButton)
 end
 
-S:RegisterSkin("Blizzard_ReforgingUI", LoadSkin)
+S:AddCallbackForAddon("Blizzard_ReforgingUI", "ReforgingUI", LoadSkin);

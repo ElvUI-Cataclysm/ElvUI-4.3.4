@@ -353,4 +353,4 @@ local function LoadSkin()
 	S:HandleCloseButton(PlayerTalentFrameLearnButtonTutorialCloseButton)
 end
 
-S:RegisterSkin("Blizzard_TalentUI", LoadSkin);
+S:AddCallbackForAddon("Blizzard_TalentUI", "Talent", LoadSkin);

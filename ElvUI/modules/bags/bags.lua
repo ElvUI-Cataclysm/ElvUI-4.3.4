@@ -813,12 +813,19 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton:GetNormalTexture():SetInside();
 		f.sortButton:SetPushedTexture('Interface\\ICONS\\INV_Pet_RatCage');
 		f.sortButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords));
-		f.sortButton:GetPushedTexture():SetInside()		;
+		f.sortButton:GetPushedTexture():SetInside();
+		f.sortButton:SetDisabledTexture("Interface\\ICONS\\INV_Pet_RatCage");
+		f.sortButton:GetDisabledTexture():SetTexCoord(unpack(E.TexCoords));
+		f.sortButton:GetDisabledTexture():SetInside();
+		f.sortButton:GetDisabledTexture():SetDesaturated(true);
 		f.sortButton:StyleButton(nil, true);
 		f.sortButton.ttText = L['Sort Bags'];
 		f.sortButton:SetScript('OnEnter', self.Tooltip_Show);
 		f.sortButton:SetScript('OnLeave', self.Tooltip_Hide);
 		f.sortButton:SetScript('OnClick', function() B:CommandDecorator(B.SortBags, 'bank')(); end);
+		if(E.db.bags.disableBankSort) then
+			f.sortButton:Disable();
+		end
 
 		f.bagsButton = CreateFrame('Button', name..'BagsButton', f.holderFrame);
 		f.bagsButton:SetSize(16 + E.Border, 16 + E.Border);
@@ -912,11 +919,18 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton:SetPushedTexture('Interface\\ICONS\\INV_Pet_RatCage');
 		f.sortButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords));
 		f.sortButton:GetPushedTexture():SetInside();
+		f.sortButton:SetDisabledTexture("Interface\\ICONS\\INV_Pet_RatCage");
+		f.sortButton:GetDisabledTexture():SetTexCoord(unpack(E.TexCoords));
+		f.sortButton:GetDisabledTexture():SetInside();
+		f.sortButton:GetDisabledTexture():SetDesaturated(true);
 		f.sortButton:StyleButton(nil, true);
 		f.sortButton.ttText = L['Sort Bags'];
 		f.sortButton:SetScript('OnEnter', self.Tooltip_Show);
 		f.sortButton:SetScript('OnLeave', self.Tooltip_Hide);
 		f.sortButton:SetScript('OnClick', function() B:CommandDecorator(B.SortBags, 'bags')(); end);
+		if(E.db.bags.disableBagSort) then
+			f.sortButton:Disable();
+		end
 
 		f.bagsButton = CreateFrame('Button', name..'BagsButton', f);
 		f.bagsButton:SetSize(16 + E.Border, 16 + E.Border);
@@ -1028,14 +1042,31 @@ function B:ToggleBags(id)
 end
 
 function B:ToggleBackpack()
-	if ( IsOptionFrameOpen() ) then
+	if(IsOptionFrameOpen()) then
 		return;
 	end
 
-	if IsBagOpen(0) then
+	if(IsBagOpen(0)) then
 		self:OpenBags()
 	else
 		self:CloseBags()
+	end
+end
+
+function B:ToggleSortButtonState(isBank)
+	local button, disable;
+	if isBank and self.BankFrame then
+		button = self.BankFrame.sortButton
+		disable = E.db.bags.disableBankSort
+	elseif not isBank and self.BagFrame then
+		button = self.BagFrame.sortButton
+		disable = E.db.bags.disableBagSort
+	end
+
+	if button and disable then
+		button:Disable()
+	elseif button and not disable then
+		button:Enable()
 	end
 end
 

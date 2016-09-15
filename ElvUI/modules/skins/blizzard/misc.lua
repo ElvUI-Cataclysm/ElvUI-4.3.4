@@ -3,6 +3,12 @@ local S = E:GetModule('Skins')
 
 local find = string.find;
 
+local _G = _G
+local unpack = unpack
+
+local UnitIsUnit = UnitIsUnit
+local UIDROPDOWNMENU_MAXLEVELS = UIDROPDOWNMENU_MAXLEVELS
+
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.misc ~= true then return end
 
@@ -1240,4 +1246,4 @@ local function LoadSkin()
 	end
 end
 
-S:RegisterSkin('ElvUI', LoadSkin)
+S:AddCallback("Misc", LoadSkin);

@@ -230,4 +230,5 @@ local function LoadSkin()
 	--Close Button
 	S:HandleCloseButton(ArchaeologyFrameCloseButton)
 end
-S:RegisterSkin("Blizzard_ArchaeologyUI", LoadSkin)
+
+S:AddCallbackForAddon("Blizzard_ArchaeologyUI", "Archaeology", LoadSkin);

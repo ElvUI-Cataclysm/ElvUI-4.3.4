@@ -1,8 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file='achievement.lua'/>
-	<Script file='achievement_popup.lua'/>
-	<Script file='arena.lua'/>
-	<Script file='arenaregistrar.lua'/>
+	<Script file='alerts.lua'/>
 	<Script file='archaeology.lua'/>
 	<Script file='auctionhouse.lua'/>
 	<Script file='bags.lua'/>

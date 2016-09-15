@@ -77,4 +77,4 @@ local function LoadSkin()
 
 end
 
-S:RegisterSkin("Blizzard_BattlefieldMinimap", LoadSkin)
+S:AddCallbackForAddon("Blizzard_BattlefieldMinimap", "BattlefieldMinimap", LoadSkin);

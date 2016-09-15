@@ -302,4 +302,4 @@ local function LoadSkin()
 	S:HandleScrollBar(EncounterJournalEncounterFrameInstanceFrameLoreScrollFrameScrollBar, 4)
 end
 
-S:RegisterSkin('Blizzard_EncounterJournal', LoadSkin)
+S:AddCallbackForAddon("Blizzard_EncounterJournal", "EncounterJournal", LoadSkin);

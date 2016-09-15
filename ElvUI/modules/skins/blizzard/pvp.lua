@@ -136,7 +136,7 @@ local function LoadSkin()
 	PVPFrameConquestBarCap2:SetTexture(E["media"].normTex)
 
 	PVPFrame:SetTemplate("Transparent")
-	PVPBannerFrame:CreateBackdrop("Transparent")
+	PVPBannerFrame:SetTemplate("Transparent")
 	PVPFrameLowLevelFrame:CreateBackdrop("Transparent")
 
 	PVPBannerFrameCustomization1:CreateBackdrop("Default")
@@ -178,12 +178,22 @@ local function LoadSkin()
 	WarGamesFrameDescription:SetTextColor(1, 1, 1)
 
 	for i = 1, 7 do
+		local warGames = _G["WarGamesFrameScrollFrameButton"..i.."WarGame"]
 		local warGamesHeader = _G["WarGamesFrameScrollFrameButton" .. i .. "Header"];
-		_G["WarGamesFrameScrollFrameButton"..i.."WarGame"]:StyleButton();
-		_G["WarGamesFrameScrollFrameButton"..i.."WarGame"].selectedTex:SetTexture(1, 1, 1, 0.3);
+		local warGamesIcon = _G["WarGamesFrameScrollFrameButton"..i.."WarGameIcon"];
+		_G["WarGamesFrameScrollFrameButton"..i.."WarGameBorder"]:Kill();
+		warGames:StyleButton();
+		warGames.selectedTex:SetTexture(1, 1, 1, 0.3);
+		warGames:CreateBackdrop();
+		warGames.backdrop:SetOutside(warGamesIcon);
+
+		warGamesIcon:Point("TOPLEFT", 2, -1);
+		warGamesIcon:Size(37);
+		warGamesIcon:SetParent(warGames.backdrop);
+
 		warGamesHeader:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
 		warGamesHeader.SetNormalTexture = E.noop;
-		warGamesHeader:GetNormalTexture():Size(11);
+		warGamesHeader:GetNormalTexture():Size(13);
 		warGamesHeader:GetNormalTexture():Point("LEFT", 3, 0);
 		warGamesHeader:SetHighlightTexture("");
 		warGamesHeader.SetHighlightTexture = E.noop;
@@ -261,4 +271,4 @@ local function LoadSkin()
 	PVPConquestFrameWinRewardArenaSymbol:Size(30)
 end
 
-S:RegisterSkin("ElvUI", LoadSkin);
+S:AddCallback("PvP", LoadSkin);

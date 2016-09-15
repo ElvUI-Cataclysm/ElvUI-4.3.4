@@ -58,4 +58,4 @@ local function LoadSkin()
 	S:HandleCloseButton(EventTraceFrameCloseButton)
 end
 
-S:RegisterSkin("Blizzard_DebugTools", LoadSkin)
+S:AddCallbackForAddon("Blizzard_DebugTools", "DebugTools", LoadSkin);

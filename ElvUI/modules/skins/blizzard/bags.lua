@@ -1,6 +1,14 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins');
 
+local _G = _G
+local unpack = unpack
+
+local GetItemQualityColor = GetItemQualityColor
+local GetContainerItemInfo = GetContainerItemInfo
+local GetContainerItemQuestInfo = GetContainerItemQuestInfo
+local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES
+
 function S:ContainerFrame_Update(self)
 	local id = self:GetID();
 	local name = self:GetName();
@@ -48,7 +56,7 @@ function S:BankFrameItemButton_Update(button)
 	end
 end
 
-S:RegisterSkin('ElvUI', function()
+local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true
 		or E.private.skins.blizzard.bags ~= true
 		or E.private.bags.enable)
@@ -195,4 +203,6 @@ S:RegisterSkin('ElvUI', function()
 	hooksecurefunc('ContainerFrame_Update', UpdateBagIcon)
 	hooksecurefunc('BankFrameItemButton_Update', UpdateBagIcon)
 	hooksecurefunc('BankFrameItemButton_Update', UpdateBankFrameIcon)
-end);
+end
+
+S:AddCallback("Bags", LoadSkin)
