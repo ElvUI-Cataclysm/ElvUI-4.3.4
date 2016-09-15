@@ -107,8 +107,8 @@ local function LoadSkin()
 	PVPFrameTab1:SetPoint("BOTTOMLEFT", PVPFrame, "BOTTOMLEFT", 0, -30)
 
 	PVPBannerFrameEditBox:CreateBackdrop("Default")
-	PVPBannerFrameEditBox.backdrop:Point("TOPLEFT", PVPBannerFrameEditBox, "TOPLEFT" ,-5,-5)
-	PVPBannerFrameEditBox.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameEditBox, "BOTTOMRIGHT",5,5)
+	PVPBannerFrameEditBox.backdrop:Point("TOPLEFT", PVPBannerFrameEditBox, "TOPLEFT", -5, -5)
+	PVPBannerFrameEditBox.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameEditBox, "BOTTOMRIGHT", 5, 5)
 
 	PVPHonorFrameInfoScrollFrameChildFrameDescription:SetTextColor(1,1,1)
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfo.description:SetTextColor(1,1,1)
@@ -118,7 +118,11 @@ local function LoadSkin()
 	PVPTeamManagementFrameInvalidTeamFrame.backdrop:SetFrameLevel(PVPTeamManagementFrameInvalidTeamFrame:GetFrameLevel())
 
 	PVPHonorFrameTypeScrollFrame:CreateBackdrop("Transparent")
-	PVPTeamManagementFrameNoTeamsFrame:SetTemplate("Default")
+
+	PVPTeamManagementFrameNoTeamsFrame:CreateBackdrop("Default")
+	PVPTeamManagementFrameNoTeamsFrame.backdrop:SetFrameLevel(PVPTeamManagementFrameNoTeamsFrame.backdrop:GetFrameLevel() + 1)
+	PVPTeamManagementFrameNoTeamsFrame.backdrop:Point("TOPLEFT", PVPTeamManagementFrameNoTeamsFrame, "TOPLEFT", 0, -15)
+	PVPTeamManagementFrameNoTeamsFrame.backdrop:Point("BOTTOMRIGHT", PVPTeamManagementFrameNoTeamsFrame, "BOTTOMRIGHT", 1, -2)
 
 	S:HandleScrollBar(PVPTeamManagementFrameTeamScrollFrameScrollBar)
 	S:HandleScrollBar(PVPHonorFrameTypeScrollFrameScrollBar)
@@ -136,8 +140,12 @@ local function LoadSkin()
 	PVPFrameConquestBarCap2:SetTexture(E["media"].normTex)
 
 	PVPFrame:SetTemplate("Transparent")
+
 	PVPBannerFrame:SetTemplate("Transparent")
-	PVPFrameLowLevelFrame:CreateBackdrop("Transparent")
+
+	PVPFrameLowLevelFrame:CreateBackdrop("Default")
+	PVPFrameLowLevelFrame.backdrop:Point("TOPLEFT", PVPFrameLowLevelFrame, "TOPLEFT", -2, -40)
+	PVPFrameLowLevelFrame.backdrop:Point("BOTTOMRIGHT", PVPFrameLowLevelFrame, "BOTTOMRIGHT", 5, 80)
 
 	PVPBannerFrameCustomization1:CreateBackdrop("Default")
 	PVPBannerFrameCustomization1.backdrop:Point("TOPLEFT", PVPBannerFrameCustomization1LeftButton, "TOPRIGHT" ,2,0)
@@ -169,7 +177,6 @@ local function LoadSkin()
 	PVPColorPickerButton2:Height(PVPColorPickerButton1:GetHeight())
 	PVPColorPickerButton3:Height(PVPColorPickerButton1:GetHeight())
 
-	--War Games
 	S:HandleButton(WarGameStartButton, true)
 	S:HandleScrollBar(WarGamesFrameScrollFrameScrollBar, 5)
 
@@ -220,7 +227,6 @@ local function LoadSkin()
 	f.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameAcceptButton, "BOTTOMRIGHT", PVPBannerFrame:GetWidth()-PVPBannerFrameAcceptButton:GetWidth()-10, 0)
 	f.backdrop:SetFrameLevel(f:GetFrameLevel()-1)
 
-	--PVP Reward Icons
 	if PVPFrameCurrencyIcon then
 		PVPFrameCurrency:CreateBackdrop()
 		PVPFrameCurrency.backdrop:Point("TOPLEFT", PVPFrameCurrency, "TOPLEFT", 8, -8)
