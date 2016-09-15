@@ -34,6 +34,7 @@
 	<Script file='elements\soulshards.lua' />
 	<Script file='elements\resurrect.lua' />
 	<Script file='elements\readycheck.lua' />
+	<Script file='elements\altpowerbar.lua' />
 
 	<!-- Clique support -->
 	<Button name="oUF_ClickCastUnitTemplate" virtual="true" inherits="SecureUnitButtonTemplate,SecureHandlerEnterLeaveTemplate">

@@ -33,10 +33,10 @@ local HandleFrame = function(baseName)
 			spell:UnregisterAllEvents();
 		end
 
-		--[[local altpowerbar = frame.powerBarAlt
+		local altpowerbar = frame.powerBarAlt
 		if(altpowerbar) then
 			altpowerbar:UnregisterAllEvents()
-		end]]
+		end
 	end
 end
 
