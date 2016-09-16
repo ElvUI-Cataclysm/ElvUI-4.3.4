@@ -60,6 +60,7 @@ local function LoadSkin()
 
 	QuestInfoTalentFrame:StripTextures()
 	QuestInfoTalentFrame:StyleButton()
+	QuestInfoTalentFrame:Width(QuestInfoTalentFrame:GetWidth() - 7)
 	--QuestInfoTalentFrameIconTexture:SetTexCoord(unpack(E.TexCoords))
 	QuestInfoTalentFrameIconTexture:SetDrawLayer("OVERLAY")
 	QuestInfoTalentFrameIconTexture:Point("TOPLEFT", 2, -2)
@@ -76,18 +77,24 @@ local function LoadSkin()
 	QuestLogCount:SetTemplate("Default")
 
 	for i = 1, MAX_NUM_ITEMS do
-		_G["QuestInfoItem" .. i]:StripTextures();
-		_G["QuestInfoItem" .. i]:StyleButton();
-		_G["QuestInfoItem" .. i]:Width(_G["QuestInfoItem" .. i]:GetWidth() - 4);
-		_G["QuestInfoItem" .. i]:SetFrameLevel(_G["QuestInfoItem" .. i]:GetFrameLevel() + 2);
-		_G["QuestInfoItem" .. i .. "IconTexture"]:SetTexCoord(unpack(E.TexCoords));
-		_G["QuestInfoItem" .. i .. "IconTexture"]:SetDrawLayer("OVERLAY");
-		_G["QuestInfoItem" .. i .. "IconTexture"]:Size(_G["QuestInfoItem" .. i .. "IconTexture"]:GetWidth() -(E.Spacing*2), _G["QuestInfoItem" .. i .. "IconTexture"]:GetHeight() -(E.Spacing*2));
-		_G["QuestInfoItem" .. i .. "IconTexture"]:Point("TOPLEFT", E.Border, -E.Border);
-		S:HandleIcon(_G["QuestInfoItem" .. i .. "IconTexture"]);
-		_G["QuestInfoItem" .. i]:SetTemplate("Default");
-		_G["QuestInfoItem" .. i .. "Count"]:SetParent(_G["QuestInfoItem" .. i].backdrop);
-		_G["QuestInfoItem" .. i .. "Count"]:SetDrawLayer("OVERLAY");
+		local questItem = _G["QuestInfoItem" .. i]
+		local questIcon = _G["QuestInfoItem" .. i .. "IconTexture"]
+		local questCount = _G["QuestInfoItem" .. i .. "Count"]
+
+		questItem:StripTextures();
+		questItem:SetTemplate("Default");
+		questItem:StyleButton();
+		questItem:Width(questItem:GetWidth() - 4);
+		questItem:SetFrameLevel(questItem:GetFrameLevel() + 2);
+
+		questIcon:SetTexCoord(unpack(E.TexCoords));
+		questIcon:SetDrawLayer("OVERLAY");
+		questIcon:Size(questIcon:GetWidth() -(E.Spacing*2), questIcon:GetHeight() -(E.Spacing*2));
+		questIcon:Point("TOPLEFT", E.Border, -E.Border);
+		S:HandleIcon(questIcon);
+
+		questCount:SetParent(questItem.backdrop);
+		questCount:SetDrawLayer("OVERLAY");
 	end
 
 	QuestInfoItemHighlight:StripTextures();
@@ -166,7 +173,7 @@ local function LoadSkin()
 		QuestInfoItemReceiveText:SetTextColor(unpack(textColor))
 		QuestInfoSpellLearnText:SetTextColor(unpack(textColor))
 		QuestInfoXPFrameReceiveText:SetTextColor(unpack(textColor))	
-		
+
 		QuestObjectiveText()
 	end)
 
@@ -211,7 +218,7 @@ local function LoadSkin()
 	S:HandleButton(QuestFrameCompleteQuestButton, true)
 	S:HandleCloseButton(QuestFrameCloseButton, QuestFrame.backdrop)
 
-	for i=1, 6 do
+	for i = 1, 6 do
 		local button = _G["QuestProgressItem"..i]
 		local texture = _G["QuestProgressItem"..i.."IconTexture"]
 		local count = _G["QuestProgressItem"..i.."Count"]
@@ -219,13 +226,16 @@ local function LoadSkin()
 		button:StyleButton()
 		button:Width(button:GetWidth() - 4)
 		button:SetFrameLevel(button:GetFrameLevel() + 2)
+
 		texture:SetTexCoord(unpack(E.TexCoords))
 		texture:SetDrawLayer("OVERLAY")
 		texture:Point("TOPLEFT", 2, -2)
 		texture:Size(texture:GetWidth() - 2, texture:GetHeight() - 2)
-		button:SetTemplate("Default")	
+
+		button:SetTemplate("Default")
 		button:CreateBackdrop()
 		button.backdrop:SetOutside(texture)
+
 		texture:SetParent(button.backdrop)
 		count:SetParent(button.backdrop)
 		count:SetDrawLayer("OVERLAY")
