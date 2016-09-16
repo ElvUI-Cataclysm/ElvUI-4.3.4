@@ -2,13 +2,19 @@
 
 local _G = _G;
 local tonumber, type = tonumber, type;
-local format, lower = string.format, string.lower;
+local format, lower, split = string.format, string.lower, string.split;
 
 local InCombatLockdown = InCombatLockdown;
 local UIFrameFadeOut, UIFrameFadeIn = UIFrameFadeOut, UIFrameFadeIn;
 local EnableAddOn, DisableAddOn, DisableAllAddOns = EnableAddOn, DisableAddOn, DisableAllAddOns;
 local SetCVar = SetCVar;
 local ReloadUI = ReloadUI;
+local GuildControlGetNumRanks = GuildControlGetNumRanks;
+local GuildControlGetRankName = GuildControlGetRankName;
+local GetNumGuildMembers, GetGuildRosterInfo = GetNumGuildMembers, GetGuildRosterInfo;
+local GetGuildRosterLastOnline = GetGuildRosterLastOnline;
+local GuildUninvite = GuildUninvite;
+local SendChatMessage = SendChatMessage;
 local debugprofilestart, debugprofilestop = debugprofilestart, debugprofilestop;
 local UpdateAddOnCPUUsage, GetAddOnCPUUsage = UpdateAddOnCPUUsage, GetAddOnCPUUsage;
 local ResetCPUUsage = ResetCPUUsage;
@@ -20,14 +26,14 @@ function E:EnableAddon(addon)
 	if(reason ~= "MISSING") then
 		EnableAddOn(addon);
 		ReloadUI();
-	else 
+	else
 		E:Print(format("Addon '%s' not found.", addon));
 	end
 end
 
 function E:DisableAddon(addon)
 	local _, _, _, _, _, reason, _ = GetAddOnInfo(addon);
-	if(reason ~= "MISSING") then 
+	if(reason ~= "MISSING") then
 		DisableAddOn(addon);
 		ReloadUI();
 	else
@@ -113,6 +119,43 @@ function E:DelayScriptCall(msg)
 	end
 end
 
+function E:MassGuildKick(msg)
+	local minLevel, minDays, minRankIndex = split(',', msg)
+	minRankIndex = tonumber(minRankIndex);
+	minLevel = tonumber(minLevel);
+	minDays = tonumber(minDays);
+
+	if not minLevel or not minDays then
+		E:Print("Usage: /cleanguild <minLevel>, <minDays>, [<minRankIndex>]");
+		return;
+	end
+
+	if minDays > 31 then
+		E:Print("Maximum days value must be below 32.");
+		return;
+	end
+
+	if not minRankIndex then minRankIndex = GuildControlGetNumRanks() - 1 end
+
+	for i = 1, GetNumGuildMembers() do
+		local name, _, rankIndex, level, _, _, note, officerNote, connected, _, classFileName = GetGuildRosterInfo(i)
+		local minLevelx = minLevel
+
+		if classFileName == "DEATHKNIGHT" then
+			minLevelx = minLevelx + 55
+		end
+
+		if not connected then
+			local years, months, days = GetGuildRosterLastOnline(i)
+			if days ~= nil and ((years > 0 or months > 0 or days >= minDays) and rankIndex >= minRankIndex) and note ~= nil and officerNote ~= nil and (level <= minLevelx) then
+				GuildUninvite(name)
+			end
+		end
+	end
+
+	SendChatMessage("Guild Cleanup Results: Removed all guild members below rank "..GuildControlGetRankName(minRankIndex)..", that have a minimal level of "..minLevel..", and have not been online for at least: "..minDays.." days.", "GUILD")
+end
+
 local num_frames = 0;
 local function OnUpdate()
 	num_frames = num_frames + 1;
@@ -155,6 +198,54 @@ function E:DisableTukuiMode()
 	ReloadUI();
 end
 
+local BLIZZARD_ADDONS = {
+	"Blizzard_AchievementUI",
+	"Blizzard_ArchaeologyUI",
+	"Blizzard_ArenaUI",
+	"Blizzard_AuctionUI",
+	"Blizzard_BarbershopUI",
+	"Blizzard_BattlefieldMinimap",
+	"Blizzard_BindingUI",
+	"Blizzard_Calendar",
+	"Blizzard_ClientSavedVariables",
+	"Blizzard_CombatLog",
+	"Blizzard_CombatText",
+	"Blizzard_CompactRaidFrames",
+	"Blizzard_CUFProfiles",
+	"Blizzard_DebugTools",
+	"Blizzard_EncounterJournal",
+	"Blizzard_GlyphUI",
+	"Blizzard_GMChatUI",
+	"Blizzard_GMSurveyUI",
+	"Blizzard_GuildBankUI",
+	"Blizzard_GuildControlUI",
+	"Blizzard_GuildUI",
+	"Blizzard_InspectUI",
+	"Blizzard_ItemAlterationUI",
+	"Blizzard_ItemSocketingUI",
+	"Blizzard_LookingForGuildUI",
+	"Blizzard_MacroUI",
+	"Blizzard_MovePad",
+	"Blizzard_RaidUI",
+	"Blizzard_ReforgingUI",
+	"Blizzard_TalentUI",
+	"Blizzard_TokenUI",
+	"Blizzard_TimeManager",
+	"Blizzard_TradeSkillUI",
+	"Blizzard_TrainerUI",
+	"Blizzard_VoidStorageUI",
+}
+
+function E:EnableBlizzardAddOns()
+	for _, addon in pairs(BLIZZARD_ADDONS) do
+		local reason = select(5, GetAddOnInfo(addon))
+		if reason == "DISABLED" then
+			EnableAddOn(addon)
+			E:Print("The following addon was re-enabled: "..addon)
+		end
+	end
+end
+
 function E:LoadCommands()
 	self:RegisterChatCommand("in", "DelayScriptCall");
 	self:RegisterChatCommand("ec", "ToggleConfig");
@@ -174,6 +265,8 @@ function E:LoadCommands()
 	self:RegisterChatCommand("farmmode", "FarmMode");
 	self:RegisterChatCommand("aprilfools", "DisableTukuiMode");
 	self:RegisterChatCommand("tukuimode", "ToggleTukuiMode");
+	self:RegisterChatCommand("cleanguild", "MassGuildKick")
+	self:RegisterChatCommand("enableblizzard", "EnableBlizzardAddOns")
 
 	if(E:GetModule("ActionBars")) then
 		self:RegisterChatCommand("kb", E:GetModule("ActionBars").ActivateBindMode);
