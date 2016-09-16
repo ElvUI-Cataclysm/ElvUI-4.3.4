@@ -15,7 +15,7 @@ local function LoadSkin()
 	InspectFrame.backdrop:SetAllPoints()
 	S:HandleCloseButton(InspectFrameCloseButton)
 
-	for i=1, 4 do
+	for i = 1, 4 do
 		S:HandleTab(_G["InspectFrameTab"..i])
 	end
 
@@ -60,9 +60,7 @@ local function LoadSkin()
 		slot:StyleButton(false)
 		slot:SetTemplate("Default", true)
 		icon:SetTexCoord(unpack(E.TexCoords))
-		icon:ClearAllPoints()
-		icon:Point("TOPLEFT", 2, -2)
-		icon:Point("BOTTOMRIGHT", -2, 2)
+		icon:SetInside()
 	end
 
 	local CheckItemBorderColor = CreateFrame("Frame")
@@ -112,7 +110,7 @@ local function LoadSkin()
 	InspectGuildFrameBG:Kill()
 	InspectPVPFrame:HookScript("OnShow", function() InspectPVPFrameBG:Kill() end)
 
-	for i=1, 3 do
+	for i = 1, 3 do
 		_G["InspectPVPTeam"..i]:StripTextures()
 		_G["InspectTalentFrameTab"..i]:StripTextures()
 		_G["InspectTalentFrameTab"..i]:CreateBackdrop("Default",true)
@@ -146,10 +144,8 @@ local function LoadSkin()
 				button.Rank:SetPoint("BOTTOMRIGHT", 9, -12)
 			end
 
-			icon:ClearAllPoints()
-			icon:Point("TOPLEFT", 2, -2)
-			icon:Point("BOTTOMRIGHT", -2, 2)
 			icon:SetTexCoord(unpack(E.TexCoords))
+			icon:SetInside()
 		end
 	end
 end

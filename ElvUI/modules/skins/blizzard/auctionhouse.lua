@@ -121,7 +121,6 @@ local function LoadSkin()
 	AuctionsItemButton:SetScript("OnUpdate", function()
 		if AuctionsItemButton:GetNormalTexture() then
 			AuctionsItemButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
-			AuctionsItemButton:GetNormalTexture():ClearAllPoints()
 			AuctionsItemButton:GetNormalTexture():SetInside();
 		end
 

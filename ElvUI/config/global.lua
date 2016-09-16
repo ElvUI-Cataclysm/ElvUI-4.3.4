@@ -23,3 +23,7 @@ G["unitframe"] = {
 	["aurafilters"] = {},
 	["buffwatch"] = {}
 };
+
+G["bags"] = {
+	["ignoredItems"] = {},
+}
