@@ -21,7 +21,10 @@ local _ENV = {
 		if type(r) == "table" then
 			if r.r then r, g, b = r.r, r.g, r.b else r, g, b = unpack(r) end
 		end
-		return string.format("|cff%02x%02x%02x", r*255, g*255, b*255)
+		if not r or type(r) == 'string' then
+			return '|cffFFFFFF'
+		end
+		return format("|cff%02x%02x%02x", r*255, g*255, b*255)
 	end,
 	ColorGradient = oUF.ColorGradient,
 }
@@ -602,7 +605,10 @@ local Tag = function(self, fs, tagstr)
 			if(tagFunc) then
 				tinsert(args, tagFunc)
 			else
-				return error(('Attempted to use invalid tag %s.'):format(bracket), 3)
+				numTags = -1
+				func = function(self)
+					return self:SetFormattedText('[invalid tag]')
+				end
 			end
 		end
 
@@ -653,7 +659,7 @@ local Tag = function(self, fs, tagstr)
 					args[3](unit, realUnit) or ''
 				)
 			end
-		else
+		elseif numTags ~= -1 then
 			func = function(self)
 				local parent = self.parent
 				local unit = parent.unit
@@ -672,7 +678,9 @@ local Tag = function(self, fs, tagstr)
 			end
 		end
 
-		tagPool[tagstr] = func
+		if numTags ~= -1 then
+			tagPool[tagstr] = func
+		end
 	end
 	fs.UpdateTag = func
 

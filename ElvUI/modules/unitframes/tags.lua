@@ -114,7 +114,7 @@ ElvUF.Tags.Methods['altpower:current-max-percent'] = function(u)
 	if cur > 0 then
 		local max = UnitPowerMax(u, ALTERNATE_POWER_INDEX)
 
-		E:GetFormattedText('CURRENT_MAX_PERCENT', cur, max)
+		return E:GetFormattedText('CURRENT_MAX_PERCENT', cur, max)
 	else
 		return ''
 	end
