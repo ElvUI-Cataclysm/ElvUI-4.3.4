@@ -22,6 +22,7 @@ RB.Spell1Buffs = {
 	79468, -- 'Spirit',
 	79480, -- 'Armor',
 	79631, -- 'Resistance+90',
+	53752, -- 'Lesser Flask of Toughness' (50 Resilience)
 };
 
 RB.Spell2Buffs = {
