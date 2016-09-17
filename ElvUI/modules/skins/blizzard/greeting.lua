@@ -6,11 +6,16 @@ local function LoadSkin()
 
 	QuestFrameGreetingPanel:HookScript("OnShow", function()
 		QuestFrameGreetingPanel:StripTextures()
+
 		S:HandleButton(QuestFrameGreetingGoodbyeButton, true)
+		QuestFrameGreetingGoodbyeButton:Point("BOTTOMRIGHT", QuestFrameGreetingPanel, "BOTTOMRIGHT", -49, 72)
+
 		GreetingText:SetTextColor(1, 1, 1)
-		CurrentQuestsText:SetTextColor(1, 1, 0)
+		CurrentQuestsText:SetTextColor(1, 0.80, 0.10)
+		AvailableQuestsText:SetTextColor(1, 0.80, 0.10)
+
 		QuestGreetingFrameHorizontalBreak:Kill()
-		AvailableQuestsText:SetTextColor(1, 1, 0)
+
 		S:HandleScrollBar(QuestGreetingScrollFrameScrollBar)
 
 		for i=1, MAX_NUM_QUESTS do

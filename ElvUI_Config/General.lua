@@ -24,7 +24,7 @@ E.Options.args.general = {
 		intro = {
 			order = 3,
 			type = "description",
-			name = L["ELVUI_DESC"],
+			name = L["ELVUI_DESC"]
 		},
 		general = {
 			order = 4,
@@ -34,7 +34,7 @@ E.Options.args.general = {
 				generalHeader = {
  					order = 1,
 					type = "header",
-					name = L["General"],
+					name = L["General"]
 				},
 				pixelPerfect = {
 					order = 2,
@@ -205,7 +205,7 @@ E.Options.args.general = {
 					name = L["Default Font"],
 					desc = L["The font that the core of the UI will use."],
 					values = AceGUIWidgetLSMlists.font,
-					set = function(info, value) E.db.general[ info[#info] ] = value; E:UpdateMedia(); E:UpdateFontTemplates(); end,
+					set = function(info, value) E.db.general[ info[#info] ] = value; E:UpdateMedia(); E:UpdateFontTemplates(); end
 				},
 				applyFontToAll = {
 					order = 4,
@@ -709,7 +709,7 @@ E.Options.args.general = {
 				header = {
 					order = 1,
 					type = "header",
-					name = L["Error Frame"],
+					name = L["Error Frame"]
 				},
 				hideErrorFrame = {
 					order = 2,
@@ -717,7 +717,7 @@ E.Options.args.general = {
 					desc = L["Hides the red error text at the top of the screen while in combat."],
 					type = "toggle",
 					get = function(info) return E.db.general[ info[#info] ] end,
-					set = function(info, value) E.db.general[ info[#info] ] = value end,
+					set = function(info, value) E.db.general[ info[#info] ] = value end
 				},
 				width = {
 					order = 3,

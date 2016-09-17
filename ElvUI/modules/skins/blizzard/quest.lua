@@ -73,8 +73,9 @@ local function LoadSkin()
 
 	QuestLogFrame:StripTextures()
 	QuestLogFrame:SetTemplate("Transparent")
+
 	QuestLogCount:StripTextures()
-	QuestLogCount:SetTemplate("Default")
+	QuestLogCount:SetTemplate("Transparent")
 
 	for i = 1, MAX_NUM_ITEMS do
 		local questItem = _G["QuestInfoItem" .. i]
@@ -123,7 +124,7 @@ local function LoadSkin()
 	QuestLogFrameShowMapButton:StripTextures()
 	S:HandleButton(QuestLogFrameShowMapButton)
 	QuestLogFrameShowMapButton.text:ClearAllPoints()
-	QuestLogFrameShowMapButton.text:SetPoint("CENTER")
+	QuestLogFrameShowMapButton.text:Point("CENTER")
 	QuestLogFrameShowMapButton:Size(QuestLogFrameShowMapButton:GetWidth() - 30, QuestLogFrameShowMapButton:GetHeight(), - 40)
 
 	S:HandleButton(QuestLogFrameAbandonButton)
@@ -146,7 +147,7 @@ local function LoadSkin()
 				numVisibleObjectives = numVisibleObjectives+1
 				objective = _G["QuestInfoObjective"..numVisibleObjectives]
 				if ( finished ) then
-					objective:SetTextColor(1, 1, 0)
+					objective:SetTextColor(1, 0.80, 0.10)
 				else
 					objective:SetTextColor(0.6, 0.6, 0.6)
 				end
@@ -156,7 +157,7 @@ local function LoadSkin()
 
 	hooksecurefunc("QuestInfo_Display", function()
 		local textColor = {1, 1, 1}
-		local titleTextColor = {1, 1, 0}
+		local titleTextColor = {1, 0.80, 0.10}
 
 		-- headers
 		QuestInfoTitleHeader:SetTextColor(unpack(titleTextColor))
@@ -184,7 +185,7 @@ local function LoadSkin()
 				-- Not enough money
 				QuestInfoRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
 			else
-				QuestInfoRequiredMoneyText:SetTextColor(1, 1, 0)
+				QuestInfoRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
 			end
 		end
 	end)
@@ -201,6 +202,10 @@ local function LoadSkin()
 	--Quest Frame
 	QuestFrame:StripTextures(true)
 	QuestFrame:SetWidth(374)
+	QuestFrame:CreateBackdrop("Transparent")
+	QuestFrame.backdrop:Point("TOPLEFT", 6, -8)
+	QuestFrame.backdrop:Point("BOTTOMRIGHT", -20, 65)
+
 	QuestFrameDetailPanel:StripTextures(true)
 	QuestDetailScrollFrame:StripTextures(true)
 	QuestDetailScrollChildFrame:StripTextures(true)
@@ -208,20 +213,20 @@ local function LoadSkin()
 	QuestRewardScrollChildFrame:StripTextures(true)
 	QuestFrameProgressPanel:StripTextures(true)
 	QuestFrameRewardPanel:StripTextures(true)
-	QuestFrame:CreateBackdrop("Transparent")
-	QuestFrame.backdrop:Point("TOPLEFT", 6, -8)
-	QuestFrame.backdrop:Point("BOTTOMRIGHT", -20, 65)
+
 	S:HandleButton(QuestFrameAcceptButton, true)
 	S:HandleButton(QuestFrameDeclineButton, true)
 	S:HandleButton(QuestFrameCompleteButton, true)
 	S:HandleButton(QuestFrameGoodbyeButton, true)
 	S:HandleButton(QuestFrameCompleteQuestButton, true)
+
 	S:HandleCloseButton(QuestFrameCloseButton, QuestFrame.backdrop)
 
 	for i = 1, 6 do
 		local button = _G["QuestProgressItem"..i]
 		local texture = _G["QuestProgressItem"..i.."IconTexture"]
 		local count = _G["QuestProgressItem"..i.."Count"]
+
 		button:StripTextures()
 		button:StyleButton()
 		button:Width(button:GetWidth() - 4)
@@ -242,26 +247,30 @@ local function LoadSkin()
 	end
 
 	hooksecurefunc("QuestFrameProgressItems_Update", function()
-		QuestProgressTitleText:SetTextColor(1, 1, 0)
+		QuestProgressTitleText:SetTextColor(1, 0.80, 0.10)
 		QuestProgressText:SetTextColor(1, 1, 1)
-		QuestProgressRequiredItemsText:SetTextColor(1, 1, 0)
-		QuestProgressRequiredMoneyText:SetTextColor(1, 1, 0)
+		QuestProgressRequiredItemsText:SetTextColor(1, 0.80, 0.10)
+		QuestProgressRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
 	end)
 
 	QuestNPCModel:StripTextures()
 	QuestNPCModel:CreateBackdrop("Transparent")
 	QuestNPCModel:Point("TOPLEFT", QuestLogDetailFrame, "TOPRIGHT", 4, -34)
+
 	QuestNPCModelTextFrame:StripTextures()
 	QuestNPCModelTextFrame:CreateBackdrop("Default")
 	QuestNPCModelTextFrame.backdrop:Point("TOPLEFT", QuestNPCModel.backdrop, "BOTTOMLEFT", 0, -2)
+
 	QuestLogDetailFrame:StripTextures()
 	QuestLogDetailFrame:SetTemplate("Transparent")
+
 	QuestLogDetailScrollFrame:StripTextures()
+
 	S:HandleCloseButton(QuestLogDetailFrameCloseButton)
 
 	hooksecurefunc("QuestFrame_ShowQuestPortrait", function(parentFrame, portrait, text, name, x, y)
 		QuestNPCModel:ClearAllPoints();
-		QuestNPCModel:SetPoint("TOPLEFT", parentFrame, "TOPRIGHT", x + 18, y);
+		QuestNPCModel:Point("TOPLEFT", parentFrame, "TOPRIGHT", x + 18, y);
 	end)
 
 	for i = 1, #QuestLogScrollFrame.buttons do
@@ -269,7 +278,7 @@ local function LoadSkin()
 		questLogTitle:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
 		questLogTitle.SetNormalTexture = E.noop;
 		questLogTitle:GetNormalTexture():Size(10);
-		questLogTitle:GetNormalTexture():Point("LEFT", 3, 0);
+		questLogTitle:GetNormalTexture():Point("LEFT", 5, 0);
 		questLogTitle:SetHighlightTexture("");
 		questLogTitle.SetHighlightTexture = E.noop;
 

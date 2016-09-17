@@ -30,7 +30,7 @@ E.Options.args.skins = {
 			type = 'toggle',
 			name = 'Animations',
 			get = function(info) return E.private.skins.animations; end,
-			set = function(info, value) E.private.skins.animations = value; end,
+			set = function(info, value) E.private.skins.animations = value; E:StaticPopup_Show("PRIVATE_RL") end
 		},
 		blizzard = {
 			order = 100,
@@ -48,7 +48,7 @@ E.Options.args.skins = {
 				alertframes = {
 					type = "toggle",
 					name = L['Alert Frames'],
-					desc = L["TOGGLESKIN_DESC"],
+					desc = L["TOGGLESKIN_DESC"]
 				},
 				archaeology = {
 					type = "toggle",
