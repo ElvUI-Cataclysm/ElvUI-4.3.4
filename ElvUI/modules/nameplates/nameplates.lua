@@ -1,29 +1,38 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local mod = E:NewModule("NamePlates", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0");
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = LibStub("LibSharedMedia-3.0");
 
-local numChildren = 0
-local twipe = table.wipe
-local tsort = table.sort
-local tinsert = table.insert
-local band = bit.band
-local gsub = string.gsub
-local tolower = string.lower
-local targetIndicator
-local _G = _G
-local targetAlpha = 1
-local WorldFrame = WorldFrame
-local tonumber = tonumber
-local pairs = pairs
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
-local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS
-local UnitGUID = UnitGUID
-local UnitHealthMax = UnitHealthMax
-local floor = math.floor
-local select = select
-local tostring = tostring
-local unpack = unpack
+local _G = _G;
+local tonumber, pairs, select, tostring, unpack = tonumber, pairs, select, tostring, unpack;
+local twipe, tinsert, wipe = table.wipe, table.insert, wipe;
+local band = bit.band;
+local floor = math.floor;
+local gsub, format, strsplit = string.gsub, format, strsplit;
 
+local CreateFrame = CreateFrame;
+local GetTime = GetTime;
+local UnitGUID = UnitGUID;
+local UnitName = UnitName;
+local InCombatLockdown = InCombatLockdown;
+local UnitExists = UnitExists;
+local UnitHealthMax = UnitHealthMax;
+local SetCVar = SetCVar;
+local IsAddOnLoaded = IsAddOnLoaded;
+local GetSpellInfo = GetSpellInfo;
+local GetSpellTexture = GetSpellTexture;
+local UnitBuff, UnitDebuff = UnitBuff, UnitDebuff;
+local UnitPlayerControlled = UnitPlayerControlled;
+local GetRaidTargetIndex = GetRaidTargetIndex;
+local WorldFrame = WorldFrame;
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
+local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
+local COMBATLOG_OBJECT_CONTROL_PLAYER = COMBATLOG_OBJECT_CONTROL_PLAYER;
+
+local numChildren = 0;
+local targetIndicator;
+local targetAlpha = 1;
+
+local OVERLAY = [=[Interface\TargetingFrame\UI-TargetingFrame-Flash]=];
 local FSPAT = "%s*"..((_G.FOREIGN_SERVER_LABEL:gsub("^%s", "")):gsub("[%*()]", "%%%1")).."$"
 
 mod.NumTargetChecks = -1;
