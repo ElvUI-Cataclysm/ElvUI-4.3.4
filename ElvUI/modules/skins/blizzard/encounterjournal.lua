@@ -120,8 +120,8 @@ local function LoadSkin()
 	EncounterJournalEncounterFrameInstanceFrameMapButton:StripTextures();
 	S:HandleButton(EncounterJournalEncounterFrameInstanceFrameMapButton)
 	EncounterJournalEncounterFrameInstanceFrameMapButton:ClearAllPoints()
-	EncounterJournalEncounterFrameInstanceFrameMapButton:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInstanceFrame, "TOPLEFT", 5, 37)
-	EncounterJournalEncounterFrameInstanceFrameMapButton:SetSize(43, 32)
+	EncounterJournalEncounterFrameInstanceFrameMapButton:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInstanceFrame, "TOPLEFT", 505, 36)
+	EncounterJournalEncounterFrameInstanceFrameMapButton:SetSize(50, 30)
 	EncounterJournalEncounterFrameInstanceFrameMapButtonText:ClearAllPoints()
 	EncounterJournalEncounterFrameInstanceFrameMapButtonText:SetPoint("CENTER", EncounterJournalEncounterFrameInstanceFrameMapButton, "CENTER", 0, 0)
 

@@ -4,12 +4,10 @@ local S = E:GetModule("Skins");
 local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.help ~= true) then return; end
 
-
 	local frames = {
 		"HelpFrameLeftInset",
 		"HelpFrameMainInset",
-		"HelpFrameKnowledgebase",
-		"HelpFrameKnowledgebaseErrorFrame",
+		"HelpFrameKnowledgebase"
 	}
 
 	local buttons = {
@@ -28,7 +26,7 @@ local function LoadSkin()
 		"HelpFrameReportBugSubmit",
 	}
 
-	-- skin main frames
+	--skin main frames
 	for i = 1, #frames do
 		_G[frames[i]]:StripTextures(true)
 		_G[frames[i]]:CreateBackdrop("Transparent")
@@ -36,6 +34,9 @@ local function LoadSkin()
 
 	HelpFrameHeader:StripTextures(true)
 
+	HelpFrameKnowledgebaseErrorFrame:StripTextures(true)
+	HelpFrameKnowledgebaseErrorFrame:CreateBackdrop("Default")
+	
 	HelpFrameReportBugScrollFrame:StripTextures()
 	HelpFrameReportBugScrollFrame:CreateBackdrop("Transparent")
 	HelpFrameReportBugScrollFrame.backdrop:Point("TOPLEFT", -4, 4)
@@ -48,7 +49,6 @@ local function LoadSkin()
 	end
 
 	S:HandleScrollBar(HelpFrameReportBugScrollFrameScrollBar)
-
 	S:HandleScrollBar(HelpFrameTicketScrollFrameScrollBar)
 
 	HelpFrameTicketScrollFrame:StripTextures()
@@ -118,8 +118,8 @@ local function LoadSkin()
 	S:HandleCloseButton(HelpFrameKnowledgebaseErrorFrameCloseButton, HelpFrameKnowledgebaseErrorFrame.backdrop)
 
 	--Hearth Stone Button
-	HelpFrameCharacterStuckHearthstone:StyleButton()
 	HelpFrameCharacterStuckHearthstone:SetTemplate("Default", true)
+	HelpFrameCharacterStuckHearthstone:GetHighlightTexture():Hide()
 	HelpFrameCharacterStuckHearthstone.IconTexture:SetInside()
 	HelpFrameCharacterStuckHearthstone.IconTexture:SetTexCoord(unpack(E.TexCoords))
 
