@@ -218,6 +218,19 @@ function M:UpdateSettings()
 		MinimapMover:Size(MMHolder:GetSize());
 	end
 
+	if(ElvConfigToggle) then
+		if(E.db.general.reminder.enable and E.db.datatexts.minimapPanels and E.private.general.minimap.enable and not E.global.tukuiMode) then
+			ElvConfigToggle:Show();
+			ElvConfigToggle:Width(E.RBRWidth);
+		else
+			ElvConfigToggle:Hide();
+		end
+	end
+
+	if(ElvUI_ReminderBuffs) then
+		E:GetModule('ReminderBuffs'):UpdateSettings();
+	end
+
 	--Stop here if ElvUI Minimap is disabled.
 	if not E.private.general.minimap.enable then
 		return;
@@ -282,19 +295,6 @@ function M:UpdateSettings()
 		HelpOpenTicketButton:ClearAllPoints()
 		HelpOpenTicketButton:Point(pos, Minimap, pos, x, y)
 		HelpOpenTicketButton:SetScale(scale)
-	end
-
-	if(ElvConfigToggle) then
-		if(E.db.general.reminder.enable and E.db.datatexts.minimapPanels and E.private.general.minimap.enable and not E.global.tukuiMode) then
-			ElvConfigToggle:Show();
-			ElvConfigToggle:Width(E.RBRWidth);
-		else
-			ElvConfigToggle:Hide();
-		end
-	end
-
-	if(ElvUI_ReminderBuffs) then
-		E:GetModule('ReminderBuffs'):UpdateSettings();
 	end
 end
 

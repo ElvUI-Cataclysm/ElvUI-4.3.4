@@ -13,7 +13,6 @@ local function BuildABConfig()
 	for i = 1, 6 do
 		local name = L["Bar "] .. i;
 		group["bar" .. i] = {
-			order = i,
 			order = 200,
 			name = name,
 			type = "group",
@@ -175,10 +174,9 @@ local function BuildABConfig()
 	end
 
 	group["barPet"] = {
-		order = i,
+		order = 300,
 		name = L["Pet Bar"],
 		type = "group",
-		order = 300,
 		guiInline = false,
 		disabled = function() return not E.private.actionbar.enable end,
 		get = function(info) return E.db.actionbar["barPet"][ info[#info] ] end,
@@ -297,10 +295,9 @@ local function BuildABConfig()
 		}
 	}
 	group["stanceBar"] = {
-		order = i,
+		order = 400,
 		name = L["Stance Bar"],
 		type = "group",
-		order = 400,
 		guiInline = false,
 		disabled = function() return not E.private.actionbar.enable end,
 		get = function(info) return E.db.actionbar["barShapeShift"][ info[#info] ] end,
@@ -419,10 +416,9 @@ local function BuildABConfig()
 
 	if E.myclass == "SHAMAN" then
 		group["barTotem"] = {
-			order = i,
+			order = 100,
 			name = L["Totems"],
 			type = "group",
-			order = 100,
 			guiInline = false,
 			disabled = function() return not E.private.actionbar.enable or not E.myclass == "SHAMAN" end,
 			get = function(info) return E.db.actionbar["barTotem"][ info[#info] ] end,
@@ -491,58 +487,58 @@ E.Options.args.actionbar = {
 	set = function(info, value) E.db.actionbar[ info[#info] ] = value; AB:UpdateButtonSettings() end,
 	args = {
 		info = {
-			order = 0,
+			order = 1,
 			type = 'header',
 			name = L["ActionBars"]
 		},
 		enable = {
-			order = 1,
+			order = 2,
 			type = "toggle",
 			name = L["Enable"],
 			get = function(info) return E.private.actionbar[ info[#info] ] end,
 			set = function(info, value) E.private.actionbar[ info[#info] ] = value; E:StaticPopup_Show("PRIVATE_RL") end
 		},
 		toggleKeybind = {
-			order = 2,
+			order = 3,
 			type = "execute",
 			name = L["Keybind Mode"],
 			func = function() AB:ActivateBindMode(); E:ToggleConfig(); GameTooltip:Hide(); end,
 			disabled = function() return not E.private.actionbar.enable; end
 		},
 		spacer = {
-			order = 3,
+			order = 4,
 			type = "description",
 			name = ""
 		},
 		macrotext = {
-			order = 4,
+			order = 5,
 			type = "toggle",
 			name = L["Macro Text"],
 			desc = L["Display macro names on action buttons."],
 			disabled = function() return not E.private.actionbar.enable; end
 		},
 		hotkeytext = {
-			order = 5,
+			order = 6,
 			type = "toggle",
 			name = L["Keybind Text"],
 			desc = L["Display bind names on action buttons."],
 			disabled = function() return not E.private.actionbar.enable; end
 		},
 		selfcast = {
-			order = 6,
+			order = 7,
 			type = "toggle",
 			name = L['Self Cast'],
 			desc = L['Self cast on right click.']
 		},
 		keyDown = {
-			order = 7,
+			order = 8,
 			type = "toggle",
 			name = L["Key Down"],
 			desc = L["Action button keybinds will respond on key down, rather than on key up"],
 			disabled = function() return not E.private.actionbar.enable; end
 		},
 		lockActionBars = {
-			order = 8,
+			order = 9,
 			type = "toggle",
 			name = LOCK_ACTIONBAR_TEXT,
 			desc = L["If you unlock actionbars then trying to move a spell might instantly cast it if you cast spells on key press instead of key release."],
@@ -554,7 +550,7 @@ E.Options.args.actionbar = {
 			end
 		},
 		movementModifier = {
-			order = 9,
+			order = 10,
 			type = "select",
 			name = L["Pick Up Action Key"],
 			desc = L["The button you must hold down in order to drag an ability to another action button."],
@@ -567,7 +563,7 @@ E.Options.args.actionbar = {
 			}
 		},
 		globalFadeAlpha = {
- 			order = 10,
+ 			order = 11,
 			type = "range",
 			name = L["Global Fade Transparency"],
 			desc = L["Transparency level when not in combat, no target exists, full health, not casting, and no focus target exists."],
@@ -576,7 +572,7 @@ E.Options.args.actionbar = {
 			set = function(info, value) E.db.actionbar[ info[#info] ] = value; AB.fadeParent:SetAlpha(1-value); end
 		},
 		colorGroup = {
-			order = 11,
+			order = 12,
 			type = "group",
 			name = L["Colors"],
 			guiInline = true,
@@ -619,7 +615,7 @@ E.Options.args.actionbar = {
 			}
 		},
 		fontGroup = {
-			order = 12,
+			order = 13,
 			type = "group",
 			guiInline = true,
 			disabled = function() return not E.private.actionbar.enable end,

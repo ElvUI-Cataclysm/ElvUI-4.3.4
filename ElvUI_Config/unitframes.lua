@@ -5588,7 +5588,6 @@ E.Options.args.unitframe.args.raidpet = {
 							name = L["Visibility"],
 							desc = L["The following macro must be true in order for the group to be shown, in addition to any filter that may already be set."],
 							width = "full",
-							desc = L["TEXT_FORMAT_DESC"],
 						},
 					},
 				},
