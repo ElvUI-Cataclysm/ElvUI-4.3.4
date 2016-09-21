@@ -54,6 +54,7 @@ local function LoadSkin()
 	function SkinDungeonPopUP()
 		for i = 1, DUNGEON_COMPLETION_MAX_REWARDS do
 			local frame = _G["DungeonCompletionAlertFrame"..i]
+			local reward = _G["DungeonCompletionAlertFrame"..i.."Reward1"]
 			if frame then
 				frame:SetAlpha(1)
 				frame.SetAlpha = E.noop
@@ -66,6 +67,7 @@ local function LoadSkin()
 				frame.shine:Kill()
 				frame.glowFrame:Kill()
 				frame.glowFrame.glow:Kill()
+				reward:Hide()
 
 				frame.raidArt:Kill()
 				frame.dungeonArt1:Kill()
@@ -91,6 +93,11 @@ local function LoadSkin()
 	end
 
 	hooksecurefunc("DungeonCompletionAlertFrame_FixAnchors", SkinDungeonPopUP)
+
+	local function DungeonCompletionAlertFrameReward_SetReward(self)
+		self:Hide()
+	end
+	hooksecurefunc("DungeonCompletionAlertFrameReward_SetReward", DungeonCompletionAlertFrameReward_SetReward)
 
 	--Guild Alert
 	for i=1, GuildChallengeAlertFrame:GetNumRegions() do
