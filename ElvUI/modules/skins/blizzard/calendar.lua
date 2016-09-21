@@ -161,6 +161,9 @@ local function LoadSkin()
 		CalendarClassTotalsButton:Size(23)
 	end)
 
+	CalendarInviteStatusContextMenu:StripTextures()
+	CalendarInviteStatusContextMenu:SetTemplate("Transparent")
+
 	--Texture Picker Frame
 	CalendarTexturePickerFrame:StripTextures()
 	CalendarTexturePickerTitleFrame:StripTextures()
