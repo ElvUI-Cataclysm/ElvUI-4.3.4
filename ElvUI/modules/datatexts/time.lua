@@ -21,10 +21,11 @@ local dateDisplayFormat = "";
 local europeDisplayFormat_nocolor = join("", "%02d", ":|r%02d")
 local timerLongFormat = "%d:%02d:%02d"
 local timerShortFormat = "%d:%02d"
-local lockoutInfoFormat = "%s%s |cffaaaaaa(%s, %s/%s)"
+local lockoutInfoFormat = "%s%s |cffaaaaaa(%s, |cfff04000%s/%s|r|cffaaaaaa)"
 local lockoutInfoFormatNoEnc = "%s%s |cffaaaaaa(%s)"
 local formatBattleGroundInfo = "%s: "
-local lockoutColorExtended, lockoutColorNormal = { r=0.3,g=1,b=0.3 }, { r=.8,g=.8,b=.8 }
+local difficultyInfo = {"N", "N", "H", "H"};
+local lockoutColorExtended, lockoutColorNormal = {r = 0.3, g = 1, b = 0.3}, {r = 0.8, g = 0.8, b = 0.8};
 local lockoutFormatString = { "%dd %02dh %02dm", "%dd %dh %02dm", "%02dh %02dm", "%dh %02dm", "%dh %02dm", "%dm" }
 local curHr, curMin, curAmPm
 local enteredFrame = false;
@@ -33,7 +34,7 @@ local Update, lastPanel; -- UpValue
 local localizedName, isActive, canQueue, startTime, canEnter, _
 local name, instanceID, reset, difficultyId, locked, extended, isRaid, maxPlayers, difficulty, numEncounters, encounterProgress
 
-local function ValueColorUpdate(hex, r, g, b)
+local function ValueColorUpdate(hex)
 	timeDisplayFormat = join("", hex, ":|r");
 	dateDisplayFormat = join("", hex, " ");
 
@@ -51,9 +52,15 @@ local function Click(_, btn)
  	end
 end
 
-local function OnLeave(self)
+local function OnLeave()
 	DT.tooltip:Hide();
 	enteredFrame = false;
+end
+
+local function OnEvent(_, event)
+	if(event == "UPDATE_INSTANCE_INFO" and enteredFrame) then
+		RequestRaidInfo();
+	end
 end
 
 local function OnEnter(self)
@@ -85,12 +92,7 @@ local function OnEnter(self)
 				DT.tooltip:AddLine(L["Saved Raid(s)"])
 				oneraid = true
 			end
-			if extended then
-				lockoutColor = lockoutColorExtended
-			else
-				lockoutColor = lockoutColorNormal
-			end
-
+			if extended then lockoutColor = lockoutColorExtended else lockoutColor = lockoutColorNormal end
 			DT.tooltip:AddDoubleLine(format(lockoutInfoFormat, maxPlayers, difficultyInfo[difficulty], name, encounterProgress, numEncounters), SecondsToTime(reset, false, nil, 3), 1, 1, 1, lockoutColor.r, lockoutColor.g, lockoutColor.b)
 		end
 	end
@@ -100,12 +102,6 @@ local function OnEnter(self)
 	DT.tooltip:AddDoubleLine(TIMEMANAGER_TOOLTIP_REALMTIME, format(europeDisplayFormat_nocolor, GetGameTime()), 1, 1, 1, lockoutColorNormal.r, lockoutColorNormal.g, lockoutColorNormal.b);
 
 	DT.tooltip:Show()
-end
-
-local function OnEvent(_, event)
-	if(event == "UPDATE_INSTANCE_INFO" and enteredFrame) then
-		RequestRaidInfo();
-	end
 end
 
 local int = 5
