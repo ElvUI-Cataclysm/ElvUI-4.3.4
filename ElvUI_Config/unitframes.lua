@@ -489,25 +489,25 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 		set = function(info, value) E.db.unitframe.units[groupName][auraType][ info[#info] ] = value; updateFunc(UF, groupName, numUnits); end,
 		args = {
 			enable = {
-				type = "toggle",
 				order = 1,
+				type = "toggle",
 				name = L["Enable"]
 			},
 			perrow = {
-				type = "range",
 				order = 2,
+				type = "range",
 				name = L["Per Row"],
 				min = 1, max = 20, step = 1,
 			},
 			numrows = {
-				type = "range",
 				order = 3,
+				type = "range",
 				name = L["Num Rows"],
 				min = 1, max = 10, step = 1
 			},
 			sizeOverride = {
-				type = "range",
 				order = 4,
+				type = "range",
 				name = L["Size Override"],
 				desc = L["If not set to 0 then override the size of the aura icon to this."],
 				min = 0, max = 60, step = 1
@@ -524,37 +524,43 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 				name = L["yOffset"],
 				min = -300, max = 300, step = 1
 			},
-			anchorPoint = {
-				type = "select",
+			spacing = {
 				order = 7,
+				type = "range",
+				name = L["Spacing"],
+				min = 0, max = 40, step = 1
+			},
+			anchorPoint = {
+				order = 8,
+				type = "select",
 				name = L["Anchor Point"],
 				desc = L["What point to anchor to the frame you set to attach to."],
 				values = positionValues
 			},
 			fontSize = {
-				order = 8,
-				name = L["Font Size"],
+				order = 9,
 				type = "range",
+				name = L["Font Size"],
 				min = 6, max = 22, step = 1
 			},	
 			clickThrough = {
-				order = 9,
+				order = 10,
+				type = "toggle",
 				name = L["Click Through"],
-				desc = L["Ignore mouse events."],
-				type = "toggle"
+				desc = L["Ignore mouse events."]
 			},
 			sortMethod = {
-				order = 10,
+				order = 11,
+				type = "select",
 				name = L["Sort By"],
 				desc = L["Method to sort by."],
-				type = "select",
 				values = auraSortValues
 			},
 			sortDirection = {
-				order = 11,
+				order = 12,
+				type = "select",
 				name = L["Sort Direction"],
 				desc = L["Ascending or Descending order."],
-				type = "select",
 				values = auraSortMethodValues
 			},
 			filters = {
@@ -569,8 +575,8 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 	
 	if(auraType == "buffs") then
 		config.args.attachTo = {
-			type = "select",
 			order = 7,
+			type = "select",
 			name = L["Attach To"],
 			desc = L["What to attach the buff anchor frame to."],
 			values = {
@@ -582,8 +588,8 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 		};
 	else
 		config.args.attachTo = {
-			type = "select",
 			order = 7,
+			type = "select",
 			name = L["Attach To"],
 			desc = L["What to attach the debuff anchor frame to."],
 			values = {
@@ -598,8 +604,8 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 	if(isGroupFrame) then
 		config.args.countFontSize = {
 			order = 10,
-			name = L["Count Font Size"],
 			type = "range",
+			name = L["Count Font Size"],
 			min = 6, max = 22, step = 1
 		};
 	end
@@ -647,9 +653,9 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 
 		config.args.filters.args.useFilter = {
 			order = 16,
+			type = "select",
 			name = L["Additional Filter"],
 			desc = L["Select an additional filter to use. If the selected filter is a whitelist and no other filters are being used (with the exception of Block Non-Personal Auras) then it will block anything not on the whitelist, otherwise it will simply add auras on the whitelist in addition to any other filter settings."],
-			type = "select",
 			values = function()
 				filters = {};
 				filters[""] = NONE;
@@ -662,8 +668,8 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 	else
 		config.args.filters.args.playerOnly = {
 			order = 10,
-			guiInline = true,
 			type = "group",
+			guiInline = true,
 			name = L["Block Non-Personal Auras"],
 			args = {
 				friendly = {
@@ -686,8 +692,8 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 		};
 		config.args.filters.args.useBlacklist = {
 			order = 11,
-			guiInline = true,
 			type = "group",
+			guiInline = true,
 			name = L["Block Blacklisted Auras"],
 			args = {
 				friendly = {
@@ -710,8 +716,8 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 		};
 		config.args.filters.args.useWhitelist = {
 			order = 12,
-			guiInline = true,
 			type = "group",
+			guiInline = true,
 			name = L["Allow Whitelisted Auras"],
 			args = {
 				friendly = {
@@ -734,8 +740,8 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 		};
 		config.args.filters.args.noDuration = {
 			order = 13,
-			guiInline = true,
 			type = "group",
+			guiInline = true,
 			name = L["Block Auras Without Duration"],
 			args = {
 				friendly = {
@@ -758,8 +764,8 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 		};
 		config.args.filters.args.onlyDispellable = {
 			order = 14,
-			guiInline = true,
 			type = "group",
+			guiInline = true,
 			name = L["Block Non-Dispellable Auras"],
 			args = {
 				friendly = {
@@ -783,8 +789,8 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 		if(auraType == "buffs") then
 			config.args.filters.args.noConsolidated = {
 				order = 15,
-				guiInline = true,
 				type = "group",
+				guiInline = true,
 				name = L["Block Raid Buffs"],
 				args = {
 					friendly = {
@@ -838,7 +844,7 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 				order = 1,
 				type = "execute",
 				name = L["Match Frame Width"],
-				func = function() E.db.unitframe.units[groupName]["castbar"]["width"] = E.db.unitframe.units[groupName]["width"]; updateFunc(UF, groupName, numUnits); end,
+				func = function() E.db.unitframe.units[groupName]["castbar"]["width"] = E.db.unitframe.units[groupName]["width"]; updateFunc(UF, groupName, numUnits); end
 			},
 			forceshow = {
 				order = 2,

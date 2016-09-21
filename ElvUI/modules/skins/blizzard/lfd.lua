@@ -158,22 +158,24 @@ local function LoadSkin()
 	S:HandleButton(LFGDungeonReadyDialogEnterDungeonButton)
 	S:HandleCloseButton(LFGDungeonReadyDialogCloseButton)
 
-	LFGDungeonReadyDialogRewardsFrameReward1Border:SetAlpha(0)
-	LFGDungeonReadyDialogRewardsFrameReward1:CreateBackdrop()
-	LFGDungeonReadyDialogRewardsFrameReward1.backdrop:Point("TOPLEFT", LFGDungeonReadyDialogRewardsFrameReward1, "TOPLEFT", 8, -8)
-	LFGDungeonReadyDialogRewardsFrameReward1.backdrop:Point("BOTTOMRIGHT", LFGDungeonReadyDialogRewardsFrameReward1, "BOTTOMRIGHT", -8, 8)
-	LFGDungeonReadyDialogRewardsFrameReward1Texture:SetTexCoord(unpack(E.TexCoords))
-	LFGDungeonReadyDialogRewardsFrameReward1Texture:SetInside(LFGDungeonReadyDialogRewardsFrameReward1.backdrop)
-
-	LFGDungeonReadyDialogRewardsFrameReward2Border:SetAlpha(0)
-	LFGDungeonReadyDialogRewardsFrameReward2:CreateBackdrop()
-	LFGDungeonReadyDialogRewardsFrameReward2.backdrop:Point("TOPLEFT", LFGDungeonReadyDialogRewardsFrameReward2, "TOPLEFT", 8, -8)
-	LFGDungeonReadyDialogRewardsFrameReward2.backdrop:Point("BOTTOMRIGHT", LFGDungeonReadyDialogRewardsFrameReward2, "BOTTOMRIGHT", -8, 8)
-	LFGDungeonReadyDialogRewardsFrameReward2Texture:SetTexCoord(unpack(E.TexCoords))
-	LFGDungeonReadyDialogRewardsFrameReward2Texture:SetInside(LFGDungeonReadyDialogRewardsFrameReward2.backdrop)
+	local function SkinIcons()
+		for i = 1, LFG_ROLE_NUM_SHORTAGE_TYPES do
+			if _G['LFGDungeonReadyDialogRewardsFrameReward'..i] and not _G['LFGDungeonReadyDialogRewardsFrameReward'..i].IsDone then
+				_G['LFGDungeonReadyDialogRewardsFrameReward'..i..'Border']:Kill()
+				_G['LFGDungeonReadyDialogRewardsFrameReward'..i]:CreateBackdrop()
+				_G['LFGDungeonReadyDialogRewardsFrameReward'..i].backdrop:Point("TOPLEFT", 7, -7)
+				_G['LFGDungeonReadyDialogRewardsFrameReward'..i].backdrop:Point("BOTTOMRIGHT", -7, 7)
+				_G['LFGDungeonReadyDialogRewardsFrameReward'..i..'Texture']:SetTexCoord(unpack(E.TexCoords))
+				_G['LFGDungeonReadyDialogRewardsFrameReward'..i..'Texture']:SetInside(_G['LFGDungeonReadyDialogRewardsFrameReward'..i].backdrop)
+				_G['LFGDungeonReadyDialogRewardsFrameReward'..i].IsDone = true
+			end
+		end
+	end
+	hooksecurefunc('LFGDungeonReadyDialog_UpdateRewards', SkinIcons)
 
 	LFGDungeonReadyStatus:StripTextures()
 	LFGDungeonReadyStatus:SetTemplate('Transparent');
+
 	S:HandleCloseButton(LFGDungeonReadyStatusCloseButton)
 
 	LFGSearchStatus:StripTextures()
