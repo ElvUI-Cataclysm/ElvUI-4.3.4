@@ -7,6 +7,8 @@ local CreateFrame = CreateFrame
 local GetActionCooldown = GetActionCooldown
 local HasExtraActionBar = HasExtraActionBar
 
+local ExtraActionBarHolder
+
 local function FixExtraActionCD(cd)
 	local start, duration = GetActionCooldown(cd:GetParent().action)
 	E.OnSetCooldown(cd, start, duration, 0, 0)
@@ -26,17 +28,18 @@ function AB:Extra_SetScale()
 	local scale = E.db.actionbar.extraActionButton.scale
 	if ExtraActionBarFrame then
 		ExtraActionBarFrame:SetScale(scale)
+		ExtraActionBarHolder:Size(ExtraActionBarFrame:GetWidth() * scale)
 	end
 end
 
 function AB:SetupExtraButton()
-	local holder = CreateFrame('Frame', nil, E.UIParent)
-	holder:Point('BOTTOM', E.UIParent, 'BOTTOM', 0, 150)
-	holder:Size(ExtraActionBarFrame:GetSize())
+	ExtraActionBarHolder = CreateFrame('Frame', nil, E.UIParent)
+	ExtraActionBarHolder:Point('BOTTOM', E.UIParent, 'BOTTOM', 0, 150)
+	ExtraActionBarHolder:Size(ExtraActionBarFrame:GetSize())
 
-	ExtraActionBarFrame:SetParent(holder)
+	ExtraActionBarFrame:SetParent(ExtraActionBarHolder)
 	ExtraActionBarFrame:ClearAllPoints()
-	ExtraActionBarFrame:Point('CENTER', holder, 'CENTER')
+	ExtraActionBarFrame:Point('CENTER', ExtraActionBarHolder, 'CENTER')
 
 	ExtraActionBarFrame.ignoreFramePositionManager  = true
 
@@ -66,8 +69,8 @@ function AB:SetupExtraButton()
 		ExtraActionBarFrame:Show();
 	end
 
+	E:CreateMover(ExtraActionBarHolder, 'BossButton', L["Boss Button"], nil, nil, nil, 'ALL,ACTIONBARS');
+
 	AB:Extra_SetAlpha()
 	AB:Extra_SetScale()
-
-	E:CreateMover(holder, 'BossButton', L["Boss Button"], nil, nil, nil, 'ALL,ACTIONBARS');
 end
