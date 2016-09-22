@@ -111,11 +111,20 @@ function M:Update_ZoneText()
 	if E.db.general.minimap.locationText == 'HIDE' or not E.private.general.minimap.enable then return; end
 	Minimap.location:SetText(strsub(GetMinimapZoneText(),1,46))
 	Minimap.location:SetTextColor(self:GetLocTextColor())
+	Minimap.location:FontTemplate(E.LSM:Fetch("font", E.db.general.minimap.font), E.db.general.minimap.fontSize, E.db.general.minimap.textOutline)
 end
 
 function M:PLAYER_REGEN_ENABLED()
 	self:UnregisterEvent('PLAYER_REGEN_ENABLED')
+	Minimap:Show()
 	self:UpdateSettings()
+end
+
+function M:PLAYER_REGEN_DISABLED()
+	if E.db.general.minimap.combatHide then
+		Minimap:Hide()
+		self:RegisterEvent("PLAYER_REGEN_ENABLED")
+	end
 end
 
 function M:UpdateSettings()
@@ -377,6 +386,7 @@ function M:Initialize()
 	Minimap:SetScript('OnMouseWheel', M.Minimap_OnMouseWheel);
 	Minimap:SetScript('OnMouseUp', M.Minimap_OnMouseUp);
 
+	self:RegisterEvent("PLAYER_REGEN_DISABLED")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "Update_ZoneText")
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "Update_ZoneText")
 	self:RegisterEvent("ZONE_CHANGED", "Update_ZoneText")

@@ -1,5 +1,7 @@
 ﻿local E, L, V, P, G, _ = unpack(ElvUI);
 
+local M = E:GetModule("Minimap")
+
 E.Options.args.maps = {
 	type = "group",
 	name = L["Maps"],
@@ -92,21 +94,28 @@ E.Options.args.maps = {
 			get = function(info) return E.db.general.minimap[ info[#info] ]; end,
 			args = {
 				header = {
-					order = 0,
+					order = 1,
 					type = "header",
 					name = MINIMAP_LABEL
 				},
 				enable = {
-					order = 1,
+					order = 2,
 					type = "toggle",
 					name = L["Enable"],
 					desc = L["Enable/Disable the minimap. |cffFF0000Warning: This will prevent you from seeing the minimap datatexts.|r"],
 					get = function(info) return E.private.general.minimap[ info[#info] ]; end,
-					set = function(info, value) E.private.general.minimap[ info[#info] ] = value; E:StaticPopup_Show("PRIVATE_RL"); end,
-					width = "full"
+					set = function(info, value) E.private.general.minimap[ info[#info] ] = value; E:StaticPopup_Show("PRIVATE_RL"); end
+				},
+				combatHide = {
+ 					order = 3,
+					type = "toggle",
+					name = L["Hide in Combat"],
+					get = function(info) return E.db.general.minimap[ info[#info] ] end,
+					set = function(info, value) E.db.general.minimap[ info[#info] ] = value end,
+					disabled = function() return not E.private.general.minimap.enable end
 				},
 				size = {
-					order = 2,
+					order = 4,
 					type = "range",
 					name = L["Size"],
 					desc = L["Adjust the size of the minimap."],
@@ -115,27 +124,68 @@ E.Options.args.maps = {
 					set = function(info, value) E.db.general.minimap[ info[#info] ] = value; E:GetModule("Minimap"):UpdateSettings(); end,
 					disabled = function() return not E.private.general.minimap.enable end
 				},
-				locationText = {
-					order = 3,
-					type = "select",
+				locationTextGroup = {
+					order = 5,
+					type = "group",
 					name = L["Location Text"],
-					desc = L["Change settings for the display of the location text that is on the minimap."],
-					get = function(info) return E.db.general.minimap.locationText; end,
-					set = function(info, value) E.db.general.minimap.locationText = value; E:GetModule("Minimap"):UpdateSettings(); E:GetModule("Minimap"):Update_ZoneText(); end,
-					values = {
-						["MOUSEOVER"] = L["Minimap Mouseover"],
-						["SHOW"] = L["Always Display"],
-						["HIDE"] = L["Hide"]
-					},
-					disabled = function() return not E.private.general.minimap.enable; end
+					inline = true,
+					args = {
+						font = {
+						    order = 1,
+						    type = "select",
+						    dialogControl = 'LSM30_Font',
+						    name = L["Font"],
+						    values = AceGUIWidgetLSMlists.font,
+							get = function(info) return E.db.general.minimap[ info[#info] ]; end,
+						    set = function(info, value) E.db.general.minimap.font = value; M:Update_ZoneText() end,
+							disabled = function() return not E.private.general.minimap.enable end
+						},
+						fontSize = {
+						    order = 2,
+						    type = "range",
+						    name = L["Font Size"],
+						    min = 4, max = 212, step = 1,
+							get = function(info) return E.db.general.minimap[ info[#info] ]; end,
+						    set = function(info, value) E.db.general.minimap.fontSize = value; M:Update_ZoneText() end,
+							disabled = function() return not E.private.general.minimap.enable end
+						},
+						textOutline = {
+						    order = 3,
+						    type = "select",
+						    name = L["Font Outline"],
+							get = function(info) return E.db.general.minimap[ info[#info] ]; end,
+						    set = function(info, value) E.db.general.minimap.textOutline = value; M:Update_ZoneText() end,
+						    values = {
+						        ['NONE'] = L["None"],
+						        ['OUTLINE'] = 'OUTLINE',
+						        ['MONOCHROMEOUTLINE'] = 'MONOCROMEOUTLINE',
+						        ['THICKOUTLINE'] = 'THICKOUTLINE'
+						    },
+							disabled = function() return not E.private.general.minimap.enable end
+						},
+						locationText = {
+						    order = 4,
+						    type = 'select',
+						    name = L["Visibility"],
+						    desc = L["Change settings for the display of the location text that is on the minimap."],
+						    get = function(info) return E.db.general.minimap.locationText end,
+						    set = function(info, value) E.db.general.minimap.locationText = value; M:UpdateSettings(); M:Update_ZoneText() end,
+						    values = {
+						        ['MOUSEOVER'] = L["Minimap Mouseover"],
+						        ['SHOW'] = L["Always Display"],
+						        ['HIDE'] = L["Hide"]
+						    },
+						    disabled = function() return not E.private.general.minimap.enable end
+						}
+					}
 				},
 				spacer = {
-					order = 4,
+					order = 6,
 					type = "description",
 					name = "\n"
 				},
 				icons = {
-					order = 5,
+					order = 7,
 					type = "group",
 					name = L["Minimap Buttons"],
 					args = {
@@ -438,32 +488,32 @@ E.Options.args.maps = {
 										["TOPLEFT"] = L["Top Left"],
 										["TOPRIGHT"] = L["Top Right"],
 										["BOTTOMLEFT"] = L["Bottom Left"],
-										["BOTTOMRIGHT"] = L["Bottom Right"],
-									},
+										["BOTTOMRIGHT"] = L["Bottom Right"]
+									}
 								},
 								scale = {
 									order = 2,
 									type = "range",
 									name = L["Scale"],
-									min = 0.5, max = 2, step = 0.05,
+									min = 0.5, max = 2, step = 0.05
 								},
 								xOffset = {
 									order = 3,
 									type = "range",
 									name = L["xOffset"],
-									min = -50, max = 50, step = 1,
+									min = -50, max = 50, step = 1
 								},
 								yOffset = {
 									order = 4,
 									type = "range",
 									name = L["yOffset"],
-									min = -50, max = 50, step = 1,
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-	},
+									min = -50, max = 50, step = 1
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 };

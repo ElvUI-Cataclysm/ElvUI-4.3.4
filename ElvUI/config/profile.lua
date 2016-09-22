@@ -32,8 +32,12 @@ P['general'] = {
 	["valuecolor"] = { r = 23/255, g = 132/255, b = 209/255 },
 
 	['minimap'] = {
+		['combatHide'] = false,
 		['size'] = 176,
 		['locationText'] = 'MOUSEOVER',
+		['font'] = 'PT Sans Narrow',
+		['fontSize'] = 12,
+		['textOutline'] = 'OUTLINE',
 		['icons'] = {
 			['calendar'] = {
 				['scale'] = 1,
