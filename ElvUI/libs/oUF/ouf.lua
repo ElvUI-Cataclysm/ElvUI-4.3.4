@@ -177,6 +177,12 @@ for k, v in pairs{
 	frame_metatable.__index[k] = v;
 end
 
+local OnShow = function(self)
+	if(not updateActiveUnit(self, "OnShow")) then
+		return self:UpdateAllElements("OnShow");
+	end
+end
+
 local secureDropdown;
 local InitializeSecureMenu = function(self)
 	local unit = self.unit;
@@ -233,12 +239,6 @@ local togglemenu = function(self, unit)
 	secureDropdown.openedFor = self;
 
 	ToggleDropDownMenu(1, nil, secureDropdown, "cursor");
-end
-
-local OnShow = function(self)
-	if(not updateActiveUnit(self, "OnShow")) then
-		return self:UpdateAllElements("OnShow");
-	end
 end
 
 local UpdatePet = function(self, event, unit)
@@ -301,6 +301,7 @@ local initObject = function(unit, style, styleFunc, header, ...)
 				oUF:HandleUnit(object);
 			end
 		else
+			object:RegisterEvent('PARTY_MEMBERS_CHANGED', object.UpdateAllElements);
 			object:RegisterEvent("RAID_ROSTER_UPDATE", object.UpdateAllElements);
 
 			if(num > 1) then
