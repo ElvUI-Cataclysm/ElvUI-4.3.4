@@ -81,8 +81,20 @@ P['general'] = {
 				['scale'] = 1,
 				['position'] = "TOPRIGHT",
 				['xOffset'] = 0,
-				['yOffset'] = 0,
+				['yOffset'] = 0
 			},
+			['zoomIn'] = {
+				['scale'] = 1,
+				['position'] = "BOTTOMLEFT",
+				['xOffset'] = -8,
+				['yOffset'] = 16
+			},
+			['zoomOut'] = {
+				['scale'] = 1,
+				['position'] = "BOTTOMLEFT",
+				['xOffset'] = -8,
+				['yOffset'] = -8
+			}
 		}
 	},
 	['threat'] = {

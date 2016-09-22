@@ -946,6 +946,17 @@ local function LoadSkin()
 	battlefieldButton.texture:SetTexCoord(unpack(E.TexCoords))
 	battlefieldButton.texture:SetInside(battlefieldButton.backdrop)
 
+	--Minimap ZoomIn/ZoomOut Buttons
+	S:HandleCloseButton(MinimapZoomIn)
+	MinimapZoomIn.text:SetText('+')
+	MinimapZoomIn:Size(40)
+	MinimapZoomIn:SetFrameStrata('MEDIUM')
+
+	S:HandleCloseButton(MinimapZoomOut)
+	MinimapZoomOut.text:SetText('-')
+	MinimapZoomOut:Size(40)
+	MinimapZoomOut:SetFrameStrata('MEDIUM')
+
 	--Role Icons
 	--Dungeon Finder Role Icons
 	LFDQueueFrameRoleButtonTank:Point("BOTTOMLEFT", LFDQueueFrame, "BOTTOMLEFT", 25, 334)

@@ -305,6 +305,36 @@ function M:UpdateSettings()
 		HelpOpenTicketButton:Point(pos, Minimap, pos, x, y)
 		HelpOpenTicketButton:SetScale(scale)
 	end
+
+	if MinimapZoomIn then
+		if E.private.general.minimap.hideZoomIn then
+			MinimapZoomIn:Hide()
+		else
+			local pos = E.db.general.minimap.icons.zoomIn.position or "TOPRIGHT"
+			local scale = E.db.general.minimap.icons.zoomIn.scale or 1
+			local x = E.db.general.minimap.icons.zoomIn.xOffset or 0
+			local y = E.db.general.minimap.icons.zoomIn.yOffset or 0
+			MinimapZoomIn:ClearAllPoints()
+			MinimapZoomIn:Point(pos, Minimap, pos, x, y)
+			MinimapZoomIn:SetScale(scale)
+			MinimapZoomIn:Show()
+		end
+	end
+
+	if MinimapZoomOut then
+		if E.private.general.minimap.hideZoomOut then
+			MinimapZoomOut:Hide()
+		else
+			local pos = E.db.general.minimap.icons.zoomOut.position or "TOPRIGHT"
+			local scale = E.db.general.minimap.icons.zoomOut.scale or 1
+			local x = E.db.general.minimap.icons.zoomOut.xOffset or 0
+			local y = E.db.general.minimap.icons.zoomOut.yOffset or 0
+			MinimapZoomOut:ClearAllPoints()
+			MinimapZoomOut:Point(pos, Minimap, pos, x, y)
+			MinimapZoomOut:SetScale(scale)
+			MinimapZoomOut:Show()
+		end
+	end
 end
 
 function M:Initialize()	
@@ -350,9 +380,6 @@ function M:Initialize()
 
 	MinimapBorder:Hide();
 	MinimapBorderTop:Hide();
-
-	MinimapZoomIn:Hide();
-	MinimapZoomOut:Hide();
 
 	MiniMapVoiceChatFrame:Hide();
 

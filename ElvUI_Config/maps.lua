@@ -228,7 +228,8 @@ E.Options.args.maps = {
 									order = 4,
 									type = "range",
 									name = L["Scale"],
-									min = 0.5, max = 2, step = 0.05
+									min = 0.5, max = 2, step = 0.05,
+									disabled = function() return E.private.general.minimap.hideCalendar end,
 								},
 								xOffset = {
 									order = 5,
@@ -512,6 +513,116 @@ E.Options.args.maps = {
 									type = "range",
 									name = L["yOffset"],
 									min = -50, max = 50, step = 1
+								}
+							}
+						},
+						zoomIn = {
+							order = 8,
+							type = "group",
+							name = L["Zoom In"],
+							get = function(info) return E.db.general.minimap.icons.zoomIn[ info[#info] ] end,
+							set = function(info, value) E.db.general.minimap.icons.zoomIn[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
+							disabled = function() return not E.private.general.minimap.enable end,
+							args = {
+								hideZoomIn = {
+									order = 1,
+									type = "toggle",
+									name = L["Hide"],
+									get = function(info) return E.private.general.minimap.hideZoomIn end,
+									set = function(info, value) E.private.general.minimap.hideZoomIn = value; E:GetModule('Minimap'):UpdateSettings() end,
+									width = "full"
+								},
+								position = {
+									order = 2,
+									type = "select",
+									name = L["Position"],
+									values = {
+										["LEFT"] = L["Left"],
+										["RIGHT"] = L["Right"],
+										["TOP"] = L["Top"],
+										["BOTTOM"] = L["Bottom"],
+										["TOPLEFT"] = L["Top Left"],
+										["TOPRIGHT"] = L["Top Right"],
+										["BOTTOMLEFT"] = L["Bottom Left"],
+										["BOTTOMRIGHT"] = L["Bottom Right"]
+									},
+									disabled = function() return E.private.general.minimap.hideZoomIn end
+								},
+								scale = {
+									order = 3,
+									type = "range",
+									name = L["Scale"],
+									min = 0.5, max = 2, step = 0.05,
+									disabled = function() return E.private.general.minimap.hideZoomIn end
+								},
+								xOffset = {
+									order = 4,
+									type = "range",
+									name = L["xOffset"],
+									min = -50, max = 50, step = 1,
+									disabled = function() return E.private.general.minimap.hideZoomIn end
+								},
+								yOffset = {
+									order = 5,
+									type = "range",
+									name = L["yOffset"],
+									min = -50, max = 50, step = 1,
+									disabled = function() return E.private.general.minimap.hideZoomIn end
+								}
+							}
+						},
+						zoomOut = {
+							order = 9,
+							type = "group",
+							name = L["Zoom Out"],
+							get = function(info) return E.db.general.minimap.icons.zoomOut[ info[#info] ] end,
+							set = function(info, value) E.db.general.minimap.icons.zoomOut[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
+							disabled = function() return not E.private.general.minimap.enable end,
+							args = {
+								hideZoomOut = {
+									order = 1,
+									type = "toggle",
+									name = L["Hide"],
+									get = function(info) return E.private.general.minimap.hideZoomOut end,
+									set = function(info, value) E.private.general.minimap.hideZoomOut = value; E:GetModule('Minimap'):UpdateSettings() end,
+									width = "full"
+								},
+								position = {
+									order = 2,
+									type = "select",
+									name = L["Position"],
+									values = {
+										["LEFT"] = L["Left"],
+										["RIGHT"] = L["Right"],
+										["TOP"] = L["Top"],
+										["BOTTOM"] = L["Bottom"],
+										["TOPLEFT"] = L["Top Left"],
+										["TOPRIGHT"] = L["Top Right"],
+										["BOTTOMLEFT"] = L["Bottom Left"],
+										["BOTTOMRIGHT"] = L["Bottom Right"]
+									},
+									disabled = function() return E.private.general.minimap.hideZoomOut end
+								},
+								scale = {
+									order = 3,
+									type = "range",
+									name = L["Scale"],
+									min = 0.5, max = 2, step = 0.05,
+									disabled = function() return E.private.general.minimap.hideZoomOut end
+								},
+								xOffset = {
+									order = 4,
+									type = "range",
+									name = L["xOffset"],
+									min = -50, max = 50, step = 1,
+									disabled = function() return E.private.general.minimap.hideZoomOut end
+								},
+								yOffset = {
+									order = 5,
+									type = "range",
+									name = L["yOffset"],
+									min = -50, max = 50, step = 1,
+									disabled = function() return E.private.general.minimap.hideZoomOut end
 								}
 							}
 						}
