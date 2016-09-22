@@ -949,11 +949,13 @@ local function LoadSkin()
 	--Minimap ZoomIn/ZoomOut Buttons
 	S:HandleCloseButton(MinimapZoomIn)
 	MinimapZoomIn.text:SetText('+')
+	MinimapZoomIn.text:FontTemplate(nil, 22)
 	MinimapZoomIn:Size(40)
 	MinimapZoomIn:SetFrameStrata('MEDIUM')
 
 	S:HandleCloseButton(MinimapZoomOut)
 	MinimapZoomOut.text:SetText('-')
+	MinimapZoomOut.text:FontTemplate(nil, 22)
 	MinimapZoomOut:Size(40)
 	MinimapZoomOut:SetFrameStrata('MEDIUM')
 
