@@ -93,7 +93,7 @@ E.Options.args.maps = {
 			name = MINIMAP_LABEL,
 			get = function(info) return E.db.general.minimap[ info[#info] ]; end,
 			args = {
-				header = {
+				minimapHeader = {
 					order = 1,
 					type = "header",
 					name = MINIMAP_LABEL
@@ -124,70 +124,67 @@ E.Options.args.maps = {
 					set = function(info, value) E.db.general.minimap[ info[#info] ] = value; E:GetModule("Minimap"):UpdateSettings(); end,
 					disabled = function() return not E.private.general.minimap.enable end
 				},
-				locationTextGroup = {
+				locationTextHeader = {
 					order = 5,
-					type = "group",
-					name = L["Location Text"],
-					inline = true,
-					args = {
-						font = {
-						    order = 1,
-						    type = "select",
-						    dialogControl = 'LSM30_Font',
-						    name = L["Font"],
-						    values = AceGUIWidgetLSMlists.font,
-							get = function(info) return E.db.general.minimap[ info[#info] ]; end,
-						    set = function(info, value) E.db.general.minimap.font = value; M:Update_ZoneText() end,
-							disabled = function() return not E.private.general.minimap.enable end
-						},
-						fontSize = {
-						    order = 2,
-						    type = "range",
-						    name = L["Font Size"],
-						    min = 4, max = 212, step = 1,
-							get = function(info) return E.db.general.minimap[ info[#info] ]; end,
-						    set = function(info, value) E.db.general.minimap.fontSize = value; M:Update_ZoneText() end,
-							disabled = function() return not E.private.general.minimap.enable end
-						},
-						textOutline = {
-						    order = 3,
-						    type = "select",
-						    name = L["Font Outline"],
-							get = function(info) return E.db.general.minimap[ info[#info] ]; end,
-						    set = function(info, value) E.db.general.minimap.textOutline = value; M:Update_ZoneText() end,
-						    values = {
-						        ['NONE'] = L["None"],
-						        ['OUTLINE'] = 'OUTLINE',
-						        ['MONOCHROMEOUTLINE'] = 'MONOCROMEOUTLINE',
-						        ['THICKOUTLINE'] = 'THICKOUTLINE'
-						    },
-							disabled = function() return not E.private.general.minimap.enable end
-						},
-						locationText = {
-						    order = 4,
-						    type = 'select',
-						    name = L["Visibility"],
-						    desc = L["Change settings for the display of the location text that is on the minimap."],
-						    get = function(info) return E.db.general.minimap.locationText end,
-						    set = function(info, value) E.db.general.minimap.locationText = value; M:UpdateSettings(); M:Update_ZoneText() end,
-						    values = {
-						        ['MOUSEOVER'] = L["Minimap Mouseover"],
-						        ['SHOW'] = L["Always Display"],
-						        ['HIDE'] = L["Hide"]
-						    },
-						    disabled = function() return not E.private.general.minimap.enable end
-						}
-					}
+					type = "header",
+					name = L["Location Text"]
 				},
-				spacer = {
-					order = 6,
-					type = "description",
-					name = "\n"
+				font = {
+				    order = 6,
+				    type = "select",
+				    dialogControl = 'LSM30_Font',
+				    name = L["Font"],
+				    values = AceGUIWidgetLSMlists.font,
+					get = function(info) return E.db.general.minimap[ info[#info] ]; end,
+				    set = function(info, value) E.db.general.minimap.font = value; M:Update_ZoneText() end,
+					disabled = function() return not E.private.general.minimap.enable end
+				},
+				fontSize = {
+				    order = 7,
+				    type = "range",
+				    name = L["Font Size"],
+				    min = 4, max = 212, step = 1,
+					get = function(info) return E.db.general.minimap[ info[#info] ]; end,
+				    set = function(info, value) E.db.general.minimap.fontSize = value; M:Update_ZoneText() end,
+					disabled = function() return not E.private.general.minimap.enable end
+				},
+				textOutline = {
+				    order = 8,
+				    type = "select",
+				    name = L["Font Outline"],
+					get = function(info) return E.db.general.minimap[ info[#info] ]; end,
+				    set = function(info, value) E.db.general.minimap.textOutline = value; M:Update_ZoneText() end,
+				    values = {
+				        ['NONE'] = L["None"],
+				        ['OUTLINE'] = 'OUTLINE',
+				        ['MONOCHROMEOUTLINE'] = 'MONOCROMEOUTLINE',
+				        ['THICKOUTLINE'] = 'THICKOUTLINE'
+				    },
+					disabled = function() return not E.private.general.minimap.enable end
+				},
+				locationText = {
+				    order = 9,
+				    type = 'select',
+				    name = L["Visibility"],
+				    desc = L["Change settings for the display of the location text that is on the minimap."],
+				    get = function(info) return E.db.general.minimap.locationText end,
+				    set = function(info, value) E.db.general.minimap.locationText = value; M:UpdateSettings(); M:Update_ZoneText() end,
+				    values = {
+				        ['MOUSEOVER'] = L["Minimap Mouseover"],
+				        ['SHOW'] = L["Always Display"],
+				        ['HIDE'] = L["Hide"]
+				    },
+				    disabled = function() return not E.private.general.minimap.enable end
+				},
+				minimapButtonsHeader = {
+					order = 10,
+					type = "header",
+					name = L["Minimap Buttons"]
 				},
 				icons = {
-					order = 7,
+					order = 11,
 					type = "group",
-					name = L["Minimap Buttons"],
+					name = L["Buttons"],
 					args = {
 						calendar = {
 							order = 1,
@@ -195,6 +192,7 @@ E.Options.args.maps = {
 							name = L["Calendar"],
 							get = function(info) return E.db.general.minimap.icons.calendar[ info[#info] ] end,
 							set = function(info, value) E.db.general.minimap.icons.calendar[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
+							disabled = function() return not E.private.general.minimap.enable end,
 							args = {
 								hideCalendar = {
 									order = 1,
@@ -223,30 +221,30 @@ E.Options.args.maps = {
 										["TOPLEFT"] = L["Top Left"],
 										["TOPRIGHT"] = L["Top Right"],
 										["BOTTOMLEFT"] = L["Bottom Left"],
-										["BOTTOMRIGHT"] = L["Bottom Right"],
-									},
+										["BOTTOMRIGHT"] = L["Bottom Right"]
+									}
 								},
 								scale = {
 									order = 4,
 									type = "range",
 									name = L["Scale"],
-									min = 0.5, max = 2, step = 0.05,
+									min = 0.5, max = 2, step = 0.05
 								},
 								xOffset = {
 									order = 5,
 									type = "range",
 									name = L["xOffset"],
 									min = -50, max = 50, step = 1,
-									disabled = function() return E.private.general.minimap.hideCalendar end,
+									disabled = function() return E.private.general.minimap.hideCalendar end
 								},
 								yOffset = {
 									order = 6,
 									type = "range",
 									name = L["yOffset"],
 									min = -50, max = 50, step = 1,
-									disabled = function() return E.private.general.minimap.hideCalendar end,
-								},
-							},
+									disabled = function() return E.private.general.minimap.hideCalendar end
+								}
+							}
 						},
 						mail = {
 							order = 2,
@@ -254,6 +252,7 @@ E.Options.args.maps = {
 							name = MAIL_LABEL,
 							get = function(info) return E.db.general.minimap.icons.mail[ info[#info] ] end,
 							set = function(info, value) E.db.general.minimap.icons.mail[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
+							disabled = function() return not E.private.general.minimap.enable end,
 							args = {
 								position = {
 									order = 1,
@@ -267,28 +266,28 @@ E.Options.args.maps = {
 										["TOPLEFT"] = L["Top Left"],
 										["TOPRIGHT"] = L["Top Right"],
 										["BOTTOMLEFT"] = L["Bottom Left"],
-										["BOTTOMRIGHT"] = L["Bottom Right"],
-									},
+										["BOTTOMRIGHT"] = L["Bottom Right"]
+									}
 								},
 								scale = {
 									order = 2,
 									type = "range",
 									name = L["Scale"],
-									min = 0.5, max = 2, step = 0.05,
+									min = 0.5, max = 2, step = 0.05
 								},
 								xOffset = {
 									order = 3,
 									type = "range",
 									name = L["xOffset"],
-									min = -50, max = 50, step = 1,
+									min = -50, max = 50, step = 1
 								},
 								yOffset = {
 									order = 4,
 									type = "range",
 									name = L["yOffset"],
-									min = -50, max = 50, step = 1,
-								},
-							},
+									min = -50, max = 50, step = 1
+								}
+							}
 						},
 						lfgEye = {
 							order = 3,
@@ -296,6 +295,7 @@ E.Options.args.maps = {
 							name = L["LFG Queue"],
 							get = function(info) return E.db.general.minimap.icons.lfgEye[ info[#info] ] end,
 							set = function(info, value) E.db.general.minimap.icons.lfgEye[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
+							disabled = function() return not E.private.general.minimap.enable end,
 							args = {
 								position = {
 									order = 1,
@@ -309,28 +309,28 @@ E.Options.args.maps = {
 										["TOPLEFT"] = L["Top Left"],
 										["TOPRIGHT"] = L["Top Right"],
 										["BOTTOMLEFT"] = L["Bottom Left"],
-										["BOTTOMRIGHT"] = L["Bottom Right"],
-									},
+										["BOTTOMRIGHT"] = L["Bottom Right"]
+									}
 								},
 								scale = {
 									order = 2,
 									type = "range",
 									name = L["Scale"],
-									min = 0.5, max = 2, step = 0.05,
+									min = 0.5, max = 2, step = 0.05
 								},
 								xOffset = {
 									order = 3,
 									type = "range",
 									name = L["xOffset"],
-									min = -50, max = 50, step = 1,
+									min = -50, max = 50, step = 1
 								},
 								yOffset = {
 									order = 4,
 									type = "range",
 									name = L["yOffset"],
-									min = -50, max = 50, step = 1,
-								},
-							},
+									min = -50, max = 50, step = 1
+								}
+							}
 						},
 						battlefield = {
 							order = 4,
@@ -338,6 +338,7 @@ E.Options.args.maps = {
 							name = L["PvP Queue"],
 							get = function(info) return E.db.general.minimap.icons.battlefield[ info[#info] ] end,
 							set = function(info, value) E.db.general.minimap.icons.battlefield[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
+							disabled = function() return not E.private.general.minimap.enable end,
 							args = {
 								position = {
 									order = 1,
@@ -351,28 +352,28 @@ E.Options.args.maps = {
 										["TOPLEFT"] = L["Top Left"],
 										["TOPRIGHT"] = L["Top Right"],
 										["BOTTOMLEFT"] = L["Bottom Left"],
-										["BOTTOMRIGHT"] = L["Bottom Right"],
-									},
+										["BOTTOMRIGHT"] = L["Bottom Right"]
+									}
 								},
 								scale = {
 									order = 2,
 									type = "range",
 									name = L["Scale"],
-									min = 0.5, max = 2, step = 0.05,
+									min = 0.5, max = 2, step = 0.05
 								},
 								xOffset = {
 									order = 3,
 									type = "range",
 									name = L["xOffset"],
-									min = -50, max = 50, step = 1,
+									min = -50, max = 50, step = 1
 								},
 								yOffset = {
 									order = 4,
 									type = "range",
 									name = L["yOffset"],
-									min = -50, max = 50, step = 1,
-								},
-							},
+									min = -50, max = 50, step = 1
+								}
+							}
 						},
 						difficulty = {
 							order = 5,
@@ -380,6 +381,7 @@ E.Options.args.maps = {
 							name = L["Instance Difficulty"],
 							get = function(info) return E.db.general.minimap.icons.difficulty[ info[#info] ] end,
 							set = function(info, value) E.db.general.minimap.icons.difficulty[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
+							disabled = function() return not E.private.general.minimap.enable end,
 							args = {
 								position = {
 									order = 1,
@@ -393,28 +395,28 @@ E.Options.args.maps = {
 										["TOPLEFT"] = L["Top Left"],
 										["TOPRIGHT"] = L["Top Right"],
 										["BOTTOMLEFT"] = L["Bottom Left"],
-										["BOTTOMRIGHT"] = L["Bottom Right"],
-									},
+										["BOTTOMRIGHT"] = L["Bottom Right"]
+									}
 								},
 								scale = {
 									order = 2,
 									type = "range",
 									name = L["Scale"],
-									min = 0.5, max = 2, step = 0.05,
+									min = 0.5, max = 2, step = 0.05
 								},
 								xOffset = {
 									order = 3,
 									type = "range",
 									name = L["xOffset"],
-									min = -50, max = 50, step = 1,
+									min = -50, max = 50, step = 1
 								},
 								yOffset = {
 									order = 4,
 									type = "range",
 									name = L["yOffset"],
-									min = -50, max = 50, step = 1,
-								},
-							},
+									min = -50, max = 50, step = 1
+								}
+							}
 						},
 						vehicleLeave = {
 							order = 6,
@@ -422,11 +424,12 @@ E.Options.args.maps = {
 							name = LEAVE_VEHICLE,
 							get = function(info) return E.db.general.minimap.icons.vehicleLeave[ info[#info] ] end,
 							set = function(info, value) E.db.general.minimap.icons.vehicleLeave[ info[#info] ] = value; E:GetModule('ActionBars'):UpdateVehicleLeave() end,
+							disabled = function() return not E.private.general.minimap.enable end,
 							args = {
 								hide = {
 									order = 1,
 									type = "toggle",
-									name = L["Hide"],
+									name = L["Hide"]
 								},
 								spacer = {
 									order = 2,
@@ -446,28 +449,28 @@ E.Options.args.maps = {
 										["TOPLEFT"] = L["Top Left"],
 										["TOPRIGHT"] = L["Top Right"],
 										["BOTTOMLEFT"] = L["Bottom Left"],
-										["BOTTOMRIGHT"] = L["Bottom Right"],
-									},
+										["BOTTOMRIGHT"] = L["Bottom Right"]
+									}
 								},
 								size = {
 									order = 4,
 									type = "range",
 									name = L["Size"],
-									min = 1, max = 50, step = 1,
+									min = 1, max = 50, step = 1
 								},
 								xOffset = {
 									order = 5,
 									type = "range",
 									name = L["xOffset"],
-									min = -50, max = 50, step = 1,
+									min = -50, max = 50, step = 1
 								},
 								yOffset = {
 									order = 6,
 									type = "range",
 									name = L["yOffset"],
-									min = -50, max = 50, step = 1,
-								},
-							},
+									min = -50, max = 50, step = 1
+								}
+							}
 						},
 						ticket = {
 							order = 7,
@@ -475,6 +478,7 @@ E.Options.args.maps = {
 							name = L["GM Ticket"],
 							get = function(info) return E.db.general.minimap.icons.ticket[ info[#info] ] end,
 							set = function(info, value) E.db.general.minimap.icons.ticket[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
+							disabled = function() return not E.private.general.minimap.enable end,
 							args = {
 								position = {
 									order = 1,
