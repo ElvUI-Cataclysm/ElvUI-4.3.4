@@ -8,11 +8,11 @@ local function LoadSkin()
 	MerchantFrame:CreateBackdrop("Transparent");
 	MerchantFrame.backdrop:Point("TOPLEFT", 10, -11);
 	MerchantFrame.backdrop:Point("BOTTOMRIGHT", -28, 60);
-	MerchantFrame:SetHeight(532)
 
 	S:HandleCloseButton(MerchantFrameCloseButton, MerchantFrame.backdrop);
 
 	for i = 1, 10 do
+		_G["MerchantItem" .. i .. "AltCurrencyFrameItem1"]:Point("LEFT", _G["MerchantItem"..i.."AltCurrencyFrame"], "LEFT", 15, 4);
 		_G["MerchantItem" .. i .. "AltCurrencyFrameItem1Texture"]:SetTexCoord(unpack(E.TexCoords));
 		_G["MerchantItem" .. i .. "AltCurrencyFrameItem2Texture"]:SetTexCoord(unpack(E.TexCoords));
 	end
@@ -24,13 +24,12 @@ local function LoadSkin()
 
 		item:StripTextures(true);
 		item:CreateBackdrop("Default");
-		item:SetHeight(48)
 
 		itemButton:StripTextures();
 		itemButton:StyleButton();
 		itemButton:SetTemplate("Default", true);
-		itemButton:Size(38,38)
-		itemButton:Point("TOPLEFT", item, "TOPLEFT", 3, -5);
+		itemButton:Size(40);
+		itemButton:Point("TOPLEFT", 2, -2);
 
 		iconTexture:SetTexCoord(unpack(E.TexCoords));
 		iconTexture:SetInside();
@@ -50,7 +49,7 @@ local function LoadSkin()
 			end
 		end
 	end)
-	
+
 	S:HandleNextPrevButton(MerchantNextPageButton);
 	S:HandleNextPrevButton(MerchantPrevPageButton);
 
@@ -75,6 +74,7 @@ local function LoadSkin()
 	MerchantGuildBankRepairButtonIcon:SetInside();
 
 	MerchantBuyBackItem:StripTextures(true);
+	MerchantBuyBackItem:Point("TOPLEFT", MerchantItem10, "BOTTOMLEFT", 0, -48)
 	MerchantBuyBackItem:CreateBackdrop("Transparent");
 	MerchantBuyBackItem.backdrop:Point("TOPLEFT", -6, 6);
 	MerchantBuyBackItem.backdrop:Point("BOTTOMRIGHT", 6, -6);
