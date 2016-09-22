@@ -127,6 +127,19 @@ function M:PLAYER_REGEN_DISABLED()
 	end
 end
 
+local zoomResetTimer = nil
+local function ResetZoomTimer()
+	if E.db.general.minimap.resetZoom.enable then
+		if zoomResetTimer ~= nil then
+			zoomResetTimer = nil
+		end
+		if Minimap:GetZoom() ~= 0 then
+			zoomResetTimer = C_Timer.After(E.db.general.minimap.resetZoom.time, function() Minimap:SetZoom(0); end)
+		end
+	end
+end
+hooksecurefunc(Minimap, "SetZoom", ResetZoomTimer)
+
 function M:UpdateSettings()
 	if InCombatLockdown() then
 		self:RegisterEvent('PLAYER_REGEN_ENABLED')
@@ -493,3 +506,35 @@ function M:Initialize()
 end
 
 E:RegisterInitialModule(M:GetName());
+
+local waitTable = {}
+local waitFrame = nil
+
+C_Timer = {}
+function C_Timer.After(delay, func, ...)
+	if(type(delay) ~= "number" or type(func) ~= "function") then
+		return false
+	end
+	if(waitFrame == nil) then
+		waitFrame = CreateFrame("Frame", "WaitFrame", UIParent)
+		waitFrame:SetScript("onUpdate", function (self, elapse)
+			local count = #waitTable
+			local i = 1
+			while(i <= count) do
+				local waitRecord = tremove(waitTable, i)
+				local d = tremove(waitRecord, 1)
+				local f = tremove(waitRecord, 1)
+				local p = tremove(waitRecord, 1)
+				if(d > elapse) then
+					tinsert(waitTable, i, {d-elapse, f, p})
+					i = i + 1
+				else
+					count = count - 1
+					f(unpack(p))
+				end
+			end
+		end)
+	end
+	tinsert(waitTable, {delay, func, {...}})
+	return true
+end

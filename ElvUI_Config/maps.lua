@@ -124,13 +124,30 @@ E.Options.args.maps = {
 					set = function(info, value) E.db.general.minimap[ info[#info] ] = value; E:GetModule("Minimap"):UpdateSettings(); end,
 					disabled = function() return not E.private.general.minimap.enable end
 				},
-				locationTextHeader = {
+				enableZoomReset = {
 					order = 5,
+					type = "toggle",
+					name = L["Zoom Reset"],
+					get = function(info) return E.db.general.minimap.resetZoom.enable end,
+					set = function(info, value) E.db.general.minimap.resetZoom.enable = value; M:UpdateSettings() end,
+					disabled = function() return not E.private.general.minimap.enable end
+				},
+				zoomRestTime = {
+					order = 6,
+					type = "range",
+					name = L["Zoom Reset Timer"],
+					min = 1, max = 15, step = 1,
+					get = function(info) return E.db.general.minimap.resetZoom.time end,
+					set = function(info, value) E.db.general.minimap.resetZoom.time = value; M:UpdateSettings() end,
+					disabled = function() return not E.db.general.minimap.resetZoom.enable or not E.private.general.minimap.enable end
+				},
+				locationTextHeader = {
+					order = 7,
 					type = "header",
 					name = L["Location Text"]
 				},
 				font = {
-				    order = 6,
+				    order = 8,
 				    type = "select",
 				    dialogControl = 'LSM30_Font',
 				    name = L["Font"],
@@ -140,7 +157,7 @@ E.Options.args.maps = {
 					disabled = function() return not E.private.general.minimap.enable end
 				},
 				fontSize = {
-				    order = 7,
+				    order = 9,
 				    type = "range",
 				    name = L["Font Size"],
 				    min = 4, max = 212, step = 1,
@@ -149,7 +166,7 @@ E.Options.args.maps = {
 					disabled = function() return not E.private.general.minimap.enable end
 				},
 				textOutline = {
-				    order = 8,
+				    order = 10,
 				    type = "select",
 				    name = L["Font Outline"],
 					get = function(info) return E.db.general.minimap[ info[#info] ]; end,
@@ -163,7 +180,7 @@ E.Options.args.maps = {
 					disabled = function() return not E.private.general.minimap.enable end
 				},
 				locationText = {
-				    order = 9,
+				    order = 11,
 				    type = 'select',
 				    name = L["Visibility"],
 				    desc = L["Change settings for the display of the location text that is on the minimap."],
@@ -177,12 +194,12 @@ E.Options.args.maps = {
 				    disabled = function() return not E.private.general.minimap.enable end
 				},
 				minimapButtonsHeader = {
-					order = 10,
+					order = 12,
 					type = "header",
 					name = L["Minimap Buttons"]
 				},
 				icons = {
-					order = 11,
+					order = 13,
 					type = "group",
 					name = L["Buttons"],
 					args = {

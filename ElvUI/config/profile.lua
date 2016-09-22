@@ -32,6 +32,10 @@ P['general'] = {
 	["valuecolor"] = { r = 23/255, g = 132/255, b = 209/255 },
 
 	['minimap'] = {
+		['resetZoom'] = {
+			['enable'] = false,
+			['time'] = 3
+		},
 		['combatHide'] = false,
 		['size'] = 176,
 		['locationText'] = 'MOUSEOVER',
