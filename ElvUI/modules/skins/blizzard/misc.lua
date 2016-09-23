@@ -910,10 +910,11 @@ local function LoadSkin()
 	LevelUpDisplaySpellFrameIcon:SetTexCoord(unpack(E.TexCoords))
 	LevelUpDisplaySpellFrameSubIcon:SetTexCoord(unpack(E.TexCoords))
 
-	--Minimap GM Ticket Button
+	--Minimap Buttons
 	if(not E.private.general.minimap.enable) then
 		return
 	else
+		--Minimap GM Ticket Button
 		local ticketbutton = HelpOpenTicketButton
 		local ticketbuttonIcon = ticketbutton:GetNormalTexture()
 		local ticketbuttonPushed = ticketbutton:GetPushedTexture()
@@ -933,12 +934,8 @@ local function LoadSkin()
 		ticketbuttonPushed:ClearAllPoints()
 		ticketbuttonPushed:SetTexCoord(unpack(E.TexCoords))
 		ticketbuttonPushed:SetPoint("CENTER", HelpOpenTicketButton, "CENTER", 0, 0)
-	end
 
-	--Minimap PVP Queue Button
-	if(not E.private.general.minimap.enable) then
-		return
-	else
+		--Minimap PVP Queue Button
 		MiniMapBattlefieldFrame:StripTextures()
 		MiniMapBattlefieldFrame:CreateBackdrop("Default")
 		MiniMapBattlefieldFrame:Size(30)
@@ -951,12 +948,8 @@ local function LoadSkin()
 		end
 		MiniMapBattlefieldFrame.texture:SetTexCoord(unpack(E.TexCoords))
 		MiniMapBattlefieldFrame.texture:SetInside(MiniMapBattlefieldFrame.backdrop)
-	end
 
-	--Minimap ZoomIn/ZoomOut Buttons
-	if(not E.private.general.minimap.enable) then
-		return
-	else
+		--Minimap ZoomIn/ZoomOut Buttons
 		S:HandleCloseButton(MinimapZoomIn)
 		MinimapZoomIn.text:SetText('+')
 		MinimapZoomIn.text:FontTemplate(nil, 22)
