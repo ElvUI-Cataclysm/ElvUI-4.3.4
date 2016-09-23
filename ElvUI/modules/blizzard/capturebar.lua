@@ -3,19 +3,21 @@ local B = E:GetModule("Blizzard");
 
 local _G = _G;
 
+local pvpHolder = CreateFrame("Frame", "PvPHolder", E.UIParent)
+
 function B:WorldStateAlwaysUpFrame_Update()
 	local captureBar;
 	for i = 1, NUM_EXTENDED_UI_FRAMES do
 		captureBar = _G["WorldStateCaptureBar" .. i];
-		_G["WorldStateCaptureBar" .. i]:SetScale(0.9)
+		captureBar:SetScale(0.9)
 		if(captureBar and captureBar:IsShown()) then
 			captureBar:ClearAllPoints();
-			captureBar:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -25, -235);
+			captureBar:SetPoint("TOP", WorldStateAlwaysUpFrame, "BOTTOM", 0, -25)
 		end
 	end
 
 	WorldStateAlwaysUpFrame:ClearAllPoints()
-	WorldStateAlwaysUpFrame:SetPoint("TOP", UIParent, "TOP", 0, -10)
+	WorldStateAlwaysUpFrame:SetPoint("TOP", pvpHolder, "TOP", 0, 10)
 
 	alwaysUpShown = 1
 	frame = "AlwaysUpFrame"..alwaysUpShown
@@ -35,7 +37,9 @@ function B:WorldStateAlwaysUpFrame_Update()
 		frameText:SetPoint("CENTER", WorldStateAlwaysUpFrame, "CENTER", 0, offset)
 		frameText:SetJustifyH("CENTER")
 		frameIcon:SetPoint("CENTER", frameText, "LEFT", -13, -9)
+		frameIcon:Size(40)
 		frameIcon2:SetPoint("LEFT", frameText, "RIGHT", 5, 0)
+		frameIcon2:Size(40)
 
 		offset = offset - 25
 	end
@@ -43,4 +47,7 @@ end
 
 function B:PositionCaptureBar()
 	self:SecureHook("WorldStateAlwaysUpFrame_Update");
+	pvpHolder:SetSize(30, 70)
+	pvpHolder:SetPoint("TOP", E.UIParent, "TOP", 0, -4)
+	E:CreateMover(pvpHolder, "PvPMover", "PvP", nil, nil, nil, "ALL")
 end
