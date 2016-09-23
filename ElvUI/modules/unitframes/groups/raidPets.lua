@@ -165,7 +165,7 @@ function UF:Update_RaidpetFrames(frame, db)
 
 	UF:Configure_CustomTexts(frame);
 
-	frame:UpdateAllElements();
+	frame:UpdateAllElements("ElvUI_UpdateAllElements");
 end
 
 UF["headerstoload"]["raidpet"] = {nil, nil, "SecureGroupPetHeaderTemplate"};

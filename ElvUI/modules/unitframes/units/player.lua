@@ -148,7 +148,7 @@ function UF:Update_PlayerFrame(frame, db)
 	UF:Configure_CustomTexts(frame);
 
 	E:SetMoverSnapOffset(frame:GetName() .. "Mover", -(12 + db.castbar.height));
-	frame:UpdateAllElements();
+	frame:UpdateAllElements("ElvUI_UpdateAllElements");
 
 end
 

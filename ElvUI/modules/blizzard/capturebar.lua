@@ -12,7 +12,7 @@ function B:WorldStateAlwaysUpFrame_Update()
 		captureBar:SetScale(0.9)
 		if(captureBar and captureBar:IsShown()) then
 			captureBar:ClearAllPoints();
-			captureBar:SetPoint("TOP", WorldStateAlwaysUpFrame, "BOTTOM", 0, -25)
+			captureBar:SetPoint("TOP", WorldStateAlwaysUpFrame, "BOTTOM", 0, -35)
 		end
 	end
 
