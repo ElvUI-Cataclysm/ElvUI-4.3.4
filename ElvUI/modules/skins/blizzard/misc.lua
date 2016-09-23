@@ -911,53 +911,64 @@ local function LoadSkin()
 	LevelUpDisplaySpellFrameSubIcon:SetTexCoord(unpack(E.TexCoords))
 
 	--Minimap GM Ticket Button
-	local ticketbutton = HelpOpenTicketButton
-	local ticketbuttonIcon = ticketbutton:GetNormalTexture()
-	local ticketbuttonPushed = ticketbutton:GetPushedTexture()
+	if(not E.private.general.minimap.enable) then
+		return
+	else
+		local ticketbutton = HelpOpenTicketButton
+		local ticketbuttonIcon = ticketbutton:GetNormalTexture()
+		local ticketbuttonPushed = ticketbutton:GetPushedTexture()
 
-	ticketbutton:StripTextures()
-	S:HandleButton(ticketbutton)
-	ticketbutton:CreateBackdrop("Default")
-	ticketbutton:Size(30)
+		ticketbutton:StripTextures()
+		S:HandleButton(ticketbutton)
+		ticketbutton:CreateBackdrop("Default")
+		ticketbutton:Size(30)
+		ticketbutton:SetFrameStrata('MEDIUM')
 
-	ticketbuttonIcon:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-Blizz")
-	ticketbuttonIcon:ClearAllPoints()
-	ticketbuttonIcon:SetPoint("CENTER", HelpOpenTicketButton, "CENTER", 0, 0)
-	ticketbuttonIcon:SetTexCoord(unpack(E.TexCoords))
+		ticketbuttonIcon:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-Blizz")
+		ticketbuttonIcon:ClearAllPoints()
+		ticketbuttonIcon:SetPoint("CENTER", HelpOpenTicketButton, "CENTER", 0, 0)
+		ticketbuttonIcon:SetTexCoord(unpack(E.TexCoords))
 
-	ticketbuttonPushed:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-Blizz")
-	ticketbuttonPushed:ClearAllPoints()
-	ticketbuttonPushed:SetTexCoord(unpack(E.TexCoords))
-	ticketbuttonPushed:SetPoint("CENTER", HelpOpenTicketButton, "CENTER", 0, 0)
+		ticketbuttonPushed:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-Blizz")
+		ticketbuttonPushed:ClearAllPoints()
+		ticketbuttonPushed:SetTexCoord(unpack(E.TexCoords))
+		ticketbuttonPushed:SetPoint("CENTER", HelpOpenTicketButton, "CENTER", 0, 0)
+	end
 
 	--Minimap PVP Queue Button
-	local battlefieldButton = MiniMapBattlefieldFrame
+	if(not E.private.general.minimap.enable) then
+		return
+	else
+		MiniMapBattlefieldFrame:StripTextures()
+		MiniMapBattlefieldFrame:CreateBackdrop("Default")
+		MiniMapBattlefieldFrame:Size(30)
 
-	battlefieldButton:StripTextures()
-	battlefieldButton:CreateBackdrop("Default")
-	battlefieldButton:Size(30)
-
-	battlefieldButton.texture = battlefieldButton:CreateTexture(nil, "OVERLAY");
-	if UnitFactionGroup("player") == "Horde" then
-		battlefieldButton.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Horde")
-	elseif UnitFactionGroup("player") == "Alliance" then
-		battlefieldButton.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Alliance")
+		MiniMapBattlefieldFrame.texture = MiniMapBattlefieldFrame:CreateTexture(nil, "OVERLAY");
+		if UnitFactionGroup("player") == "Horde" then
+			MiniMapBattlefieldFrame.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Horde")
+		elseif UnitFactionGroup("player") == "Alliance" then
+			MiniMapBattlefieldFrame.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Alliance")
+		end
+		MiniMapBattlefieldFrame.texture:SetTexCoord(unpack(E.TexCoords))
+		MiniMapBattlefieldFrame.texture:SetInside(MiniMapBattlefieldFrame.backdrop)
 	end
-	battlefieldButton.texture:SetTexCoord(unpack(E.TexCoords))
-	battlefieldButton.texture:SetInside(battlefieldButton.backdrop)
 
 	--Minimap ZoomIn/ZoomOut Buttons
-	S:HandleCloseButton(MinimapZoomIn)
-	MinimapZoomIn.text:SetText('+')
-	MinimapZoomIn.text:FontTemplate(nil, 22)
-	MinimapZoomIn:Size(40)
-	MinimapZoomIn:SetFrameStrata('MEDIUM')
+	if(not E.private.general.minimap.enable) then
+		return
+	else
+		S:HandleCloseButton(MinimapZoomIn)
+		MinimapZoomIn.text:SetText('+')
+		MinimapZoomIn.text:FontTemplate(nil, 22)
+		MinimapZoomIn:Size(40)
+		MinimapZoomIn:SetFrameStrata('MEDIUM')
 
-	S:HandleCloseButton(MinimapZoomOut)
-	MinimapZoomOut.text:SetText('-')
-	MinimapZoomOut.text:FontTemplate(nil, 22)
-	MinimapZoomOut:Size(40)
-	MinimapZoomOut:SetFrameStrata('MEDIUM')
+		S:HandleCloseButton(MinimapZoomOut)
+		MinimapZoomOut.text:SetText('-')
+		MinimapZoomOut.text:FontTemplate(nil, 22)
+		MinimapZoomOut:Size(40)
+		MinimapZoomOut:SetFrameStrata('MEDIUM')
+	end
 
 	--Role Icons
 	--Dungeon Finder Role Icons
