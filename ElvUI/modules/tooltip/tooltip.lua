@@ -252,7 +252,6 @@ function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 			return
 		else
 			tt:SetOwner(parent, "ANCHOR_NONE")
-			tt:ClearAllPoints()
 			if(GameTooltipStatusBar.anchoredToTop) then
 				GameTooltipStatusBar:ClearAllPoints()
 				GameTooltipStatusBar:SetPoint("TOPLEFT", GameTooltip, "BOTTOMLEFT", E.Border, -(E.Spacing * 3))
@@ -263,25 +262,29 @@ function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 		end
 	end
 
-	if(not E:HasMoverBeenMoved('TooltipMover')) then
-		if ElvUI_ContainerFrame and ElvUI_ContainerFrame:IsShown() then
-			tt:SetPoint('BOTTOMRIGHT', ElvUI_ContainerFrame, 'TOPRIGHT', 0, 18)	
-		elseif RightChatPanel:GetAlpha() == 1 and RightChatPanel:IsShown() then
-			tt:SetPoint('BOTTOMRIGHT', RightChatPanel, 'TOPRIGHT', 0, 18)
-		else
-			tt:SetPoint('BOTTOMRIGHT', RightChatPanel, 'BOTTOMRIGHT', 0, 18)
-		end
-	else
-		local point = E:GetScreenQuadrant(TooltipMover);
-		if(point == "TOPLEFT") then
-			tt:SetPoint("TOPLEFT", TooltipMover);
-		elseif(point == "TOPRIGHT") then
-			tt:SetPoint("TOPRIGHT", TooltipMover);
-		elseif(point == "BOTTOMLEFT" or point == "LEFT") then
-			tt:SetPoint("BOTTOMLEFT", TooltipMover);
-		else
-			tt:SetPoint("BOTTOMRIGHT", TooltipMover);
-		end
+	local _, anchor = tt:GetPoint()
+	if (anchor == nil or (ElvUI_ContainerFrame and anchor == ElvUI_ContainerFrame) or anchor == RightChatPanel or anchor == TooltipMover or anchor == UIParent or anchor == E.UIParent) then
+		tt:ClearAllPoints()
+		if(not E:HasMoverBeenMoved('TooltipMover')) then
+			if ElvUI_ContainerFrame and ElvUI_ContainerFrame:IsShown() then
+				tt:Point('BOTTOMRIGHT', ElvUI_ContainerFrame, 'TOPRIGHT', 0, 18)
+			elseif RightChatPanel:GetAlpha() == 1 and RightChatPanel:IsShown() then
+				tt:Point('BOTTOMRIGHT', RightChatPanel, 'TOPRIGHT', 0, 18)
+			else
+				tt:Point('BOTTOMRIGHT', RightChatPanel, 'BOTTOMRIGHT', 0, 18)
+			end
+ 		else
+			local point = E:GetScreenQuadrant(TooltipMover)
+			if point == "TOPLEFT" then
+				tt:Point("TOPLEFT", TooltipMover, "BOTTOMLEFT", 1, -4)
+			elseif point == "TOPRIGHT" then
+				tt:Point("TOPRIGHT", TooltipMover, "BOTTOMRIGHT", -1, -4)
+			elseif point == "BOTTOMLEFT" or point == "LEFT" then
+				tt:Point("BOTTOMLEFT", TooltipMover, "TOPLEFT", 1, 18)
+			else
+				tt:Point("BOTTOMRIGHT", TooltipMover, "TOPRIGHT", -1, 18)
+			end
+ 		end
 	end
 end
 
