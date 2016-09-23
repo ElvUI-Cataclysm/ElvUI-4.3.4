@@ -136,7 +136,7 @@ E.Options.args.maps = {
 					order = 6,
 					type = "range",
 					name = L["Zoom Reset Timer"],
-					min = 1, max = 15, step = 1,
+					min = 1, max = 60, step = 1,
 					get = function(info) return E.db.general.minimap.resetZoom.time end,
 					set = function(info, value) E.db.general.minimap.resetZoom.time = value; M:UpdateSettings() end,
 					disabled = function() return not E.db.general.minimap.resetZoom.enable or not E.private.general.minimap.enable end

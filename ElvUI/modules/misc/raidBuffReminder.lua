@@ -250,7 +250,7 @@ function RB:UpdateSettings(isCallback)
 	end
 
 	if(not isCallback) then
-		if(E.db.general.reminder.enable) then
+		if(E.db.general.reminder.enable and E.private.general.minimap.enable and E.private.auras.disableBlizzard) then
 			RB:EnableRB();
 		else
 			RB:DisableRB();

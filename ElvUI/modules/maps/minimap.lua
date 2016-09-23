@@ -99,11 +99,32 @@ function M:Minimap_OnMouseUp(btn)
 	end
 end
 
+local animGroup, anim
+local function ResetZoomTimer()
+	if(E.db.general.minimap.resetZoom.enable) then
+		animGroup = Minimap:CreateAnimationGroup();
+		anim = animGroup:CreateAnimation();
+		animGroup:SetScript("OnFinished", function()
+			for i = 1, 5 do
+				MinimapZoomOut:Click();
+			end
+		end)
+		anim:SetOrder(1);
+		anim:SetDuration(1);
+	end
+end
+hooksecurefunc(Minimap, "SetZoom", ResetZoomTimer)
+
 function M:Minimap_OnMouseWheel(d)
 	if(d > 0) then
 		_G.MinimapZoomIn:Click();
 	elseif(d < 0) then
 		_G.MinimapZoomOut:Click();
+	end
+	if(E.db.general.minimap.resetZoom.enable) then
+		animGroup:Stop();
+		anim:SetDuration(E.db.general.minimap.resetZoom.time);
+		animGroup:Play();
 	end
 end
 
@@ -126,19 +147,6 @@ function M:PLAYER_REGEN_DISABLED()
 		self:RegisterEvent("PLAYER_REGEN_ENABLED")
 	end
 end
-
-local zoomResetTimer = nil
-local function ResetZoomTimer()
-	if E.db.general.minimap.resetZoom.enable then
-		if zoomResetTimer ~= nil then
-			zoomResetTimer = nil
-		end
-		if Minimap:GetZoom() ~= 0 then
-			zoomResetTimer = C_Timer.After(E.db.general.minimap.resetZoom.time, function() Minimap:SetZoom(0); end)
-		end
-	end
-end
-hooksecurefunc(Minimap, "SetZoom", ResetZoomTimer)
 
 function M:UpdateSettings()
 	if InCombatLockdown() then
@@ -506,35 +514,3 @@ function M:Initialize()
 end
 
 E:RegisterInitialModule(M:GetName());
-
-local waitTable = {}
-local waitFrame = nil
-
-C_Timer = {}
-function C_Timer.After(delay, func, ...)
-	if(type(delay) ~= "number" or type(func) ~= "function") then
-		return false
-	end
-	if(waitFrame == nil) then
-		waitFrame = CreateFrame("Frame", "WaitFrame", UIParent)
-		waitFrame:SetScript("onUpdate", function (self, elapse)
-			local count = #waitTable
-			local i = 1
-			while(i <= count) do
-				local waitRecord = tremove(waitTable, i)
-				local d = tremove(waitRecord, 1)
-				local f = tremove(waitRecord, 1)
-				local p = tremove(waitRecord, 1)
-				if(d > elapse) then
-					tinsert(waitTable, i, {d-elapse, f, p})
-					i = i + 1
-				else
-					count = count - 1
-					f(unpack(p))
-				end
-			end
-		end)
-	end
-	tinsert(waitTable, {delay, func, {...}})
-	return true
-end
