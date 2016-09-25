@@ -96,6 +96,14 @@ function AB:UpdatePet()
 	end
 end
 
+function AB:PetOnEnter()
+	E:UIFrameFadeIn(bar, 0.2, bar:GetAlpha(), self.db["barPet"].alpha)
+end
+
+function AB:PetOnLeave()
+	E:UIFrameFadeOut(bar, 0.2, bar:GetAlpha(), 0)
+end
+
 function AB:PositionAndSizeBarPet()
 	local buttonSpacing = E:Scale(self.db['barPet'].buttonspacing);
 	local backdropSpacing = E:Scale((self.db['barPet'].backdropSpacing or self.db['barPet'].buttonspacing));
@@ -128,7 +136,7 @@ function AB:PositionAndSizeBarPet()
 		bar:SetScale(1);
 		bar:SetAlpha(self.db['barPet'].alpha);
 	else
-		bar:SetScale(0.000001);
+		bar:SetScale(0.0001);
 		bar:SetAlpha(0);
 	end
 
@@ -151,12 +159,6 @@ function AB:PositionAndSizeBarPet()
 		horizontalGrowth = "LEFT";
 	end
 
-	if(self.db["barPet"].inheritGlobalFade) then
-		bar:SetParent(self.fadeParent);
-	else
-		bar:SetParent(E.UIParent);
-	end
-
 	local button, lastButton, lastColumnButton, autoCast;
 	local firstButtonSpacing = backdropSpacing + (self.db['barPet'].backdrop == true and E.Border or E.Spacing);
 	for i=1, NUM_PET_ACTION_SLOTS do
@@ -167,30 +169,34 @@ function AB:PositionAndSizeBarPet()
 		button:SetParent(bar);
 		button:ClearAllPoints();
 		button:Size(size);
-
 		autoCast:SetOutside(button, autoCastSize, autoCastSize)
-
 		button:SetAttribute("showgrid", 1);
 
-		if self.db['barPet'].mouseover == true then
+		if(self.db["barPet"].inheritGlobalFade) then
+			bar:SetParent(self.fadeParent);
+		else
+			bar:SetParent(E.UIParent);
+		end
+
+		if(self.db['barPet'].mouseover == true) then
 			bar:SetAlpha(0);
-			if not self.hooks[bar] then
-				self:HookScript(bar, 'OnEnter', 'Bar_OnEnter');
-				self:HookScript(bar, 'OnLeave', 'Bar_OnLeave');	
+			if(not self.hooks[bar]) then
+				self:HookScript(bar, 'OnEnter', 'PetOnEnter');
+				self:HookScript(bar, 'OnLeave', 'PetOnLeave');	
 			end
 			
-			if not self.hooks[button] then
-				self:HookScript(button, 'OnEnter', 'Button_OnEnter');
-				self:HookScript(button, 'OnLeave', 'Button_OnLeave');
+			if(not self.hooks[button]) then
+				self:HookScript(button, 'OnEnter', 'PetOnEnter');
+				self:HookScript(button, 'OnLeave', 'PetOnLeave');
 			end
 		else
 			bar:SetAlpha(1);
-			if self.hooks[bar] then
+			if(self.hooks[bar]) then
 				self:Unhook(bar, 'OnEnter');
 				self:Unhook(bar, 'OnLeave');
 			end
 
-			if self.hooks[button] then
+			if(self.hooks[button]) then
 				self:Unhook(button, 'OnEnter');
 				self:Unhook(button, 'OnLeave');
 			end
@@ -233,7 +239,7 @@ function AB:PositionAndSizeBarPet()
 		end
 
 		if i > numButtons then
-			button:SetScale(0.000001);
+			button:SetScale(0.0001);
 			button:SetAlpha(0);
 		else
 			button:SetScale(1);
@@ -288,12 +294,6 @@ function AB:CreateBarPet()
 
 	PetActionBarFrame.showgrid = 1;
 	PetActionBar_ShowGrid();
-	self:HookScript(bar, 'OnEnter', 'Bar_OnEnter');
-	self:HookScript(bar, 'OnLeave', 'Bar_OnLeave');
-	for i=1, NUM_PET_ACTION_SLOTS do
-		self:HookScript(_G["PetActionButton"..i], 'OnEnter', 'Button_OnEnter');
-		self:HookScript(_G["PetActionButton"..i], 'OnLeave', 'Button_OnLeave');
-	end
 
 	self:RegisterEvent('SPELLS_CHANGED', 'UpdatePet');
 	self:RegisterEvent('PLAYER_CONTROL_GAINED', 'UpdatePet');
