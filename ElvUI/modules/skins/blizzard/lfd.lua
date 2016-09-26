@@ -178,7 +178,6 @@ local function LoadSkin()
 
 	S:HandleCloseButton(LFGDungeonReadyStatusCloseButton)
 
-	LFGSearchStatus:StripTextures()
 	LFGSearchStatus:SetTemplate('Transparent');
 
 	for i = 1, NUM_LFD_CHOICE_BUTTONS do

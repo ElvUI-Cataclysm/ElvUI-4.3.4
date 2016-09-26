@@ -572,93 +572,8 @@ E.Options.args.general = {
 				}
 			}
 		},
-		reminder = {
-			type = 'group',
-			order = 9,
-			name = L['Reminder'],
-			get = function(info) return E.db.general.reminder[ info[#info] ] end,
-			set = function(info, value) E.db.general.reminder[ info[#info] ] = value; E:GetModule('ReminderBuffs'):UpdateSettings(); end,
-			disabled = function() return not E.private.general.minimap.enable end,
-			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L['Reminder']
-				},
-				enable = {
-					order = 2,
-					name = L['Enable'],
-					desc = L['Display reminder bar on the minimap.'],
-					type = 'toggle',
-					set = function(info, value) E.db.general.reminder[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings(); end
-				},
-				generalGroup = {
-					order = 3,
-					type = 'group',
-					guiInline = true,
-					name = L['General'],
-					disabled = function() return not E.db.general.reminder.enable end,
-					args = {
-						durations = {
-							order = 1,
-							name = L['Remaining Time'],
-							type = 'toggle'
-						},
-						reverse = {
-							order = 2,
-							name = L['Reverse highlight'],
-							type = 'toggle'
-						},
-						position = {
-							order = 3,
-							type = "select",
-							name = L["Position"],
-							set = function(info, value) E.db.general.reminder[ info[#info] ] = value; E:GetModule("ReminderBuffs"):UpdatePosition(); end,
-							values = {
-								["LEFT"] = L["Left"],
-								["RIGHT"] = L["Right"]
-							}
-						}
-					}
-				},
-				fontGroup = {
-					order = 4,
-					type = 'group',
-					guiInline = true,
-					name = L['Font'],
-					disabled = function() return not E.db.general.reminder.enable or not E.db.general.reminder.durations end,
-					args = {
-						font = {
-							type = 'select', dialogControl = 'LSM30_Font',
-							order = 1,
-							name = L['Font'],
-							values = AceGUIWidgetLSMlists.font
-						},
-						fontSize = {
-							order = 2,
-							name = L['Font Size'],
-							type = 'range',
-							min = 6, max = 22, step = 1
-						},
-						fontOutline = {
-							order = 3,
-							name = L['Font Outline'],
-							desc = L['Set the font outline.'],
-							type = 'select',
-							values = {
-								['NONE'] = L['None'],
-								['OUTLINE'] = 'OUTLINE',
-								['MONOCHROME'] = (not E.isMacClient) and 'MONOCHROME' or nil,
-								['MONOCHROMEOUTLINE'] = 'MONOCROMEOUTLINE',
-								['THICKOUTLINE'] = 'THICKOUTLINE'
-							}
-						}
-					}
-				}
-			}
-		},
 		watchFrame = {
-			order = 10,
+			order = 9,
 			type = "group",
 			name = L["Watch Frame"],
 			get = function(info) return E.db.general[ info[#info] ]; end,
@@ -680,7 +595,7 @@ E.Options.args.general = {
 			}
 		},
 		threatGroup = {
-			order = 11,
+			order = 10,
 			type = "group",
 			name = L["Threat"],
 			args = {
@@ -747,7 +662,7 @@ E.Options.args.general = {
 			}
 		},
 		errorFrame = {
-			order = 12,
+			order = 11,
 			type = "group",
 			name = L["Error Frame"],
 			args = {

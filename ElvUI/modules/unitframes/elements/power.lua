@@ -193,6 +193,7 @@ function UF:Configure_Power(frame)
 	elseif(frame:IsElementEnabled("Power")) then
 		frame:DisableElement("Power");
 		power:Hide();
+		frame:Tag(power.value, "")
 	end
 
 	if(frame.DruidAltMana) then
