@@ -11,4 +11,5 @@
 	<Script file='raidUtility.lua'/>
 	<Script file='afk.lua'/>
 	<Script file="addonList.lua"/>
+	<Script file="deathRecap.lua"/>
 </Ui>

@@ -121,7 +121,7 @@ function updateFrequentUpdates(self)
 
 		if self:IsEventRegistered('UNIT_POWER_FREQUENT') then
 			self:UnregisterEvent('UNIT_POWER_FREQUENT', Path)
-		end		
+		end
 	end
 end
 

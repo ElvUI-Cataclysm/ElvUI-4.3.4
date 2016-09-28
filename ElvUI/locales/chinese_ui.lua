@@ -119,6 +119,19 @@ L["Wrist"] = "护腕"
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFF左键点击:|r 更改当前专精"
 L["|cffFFFFFFRight Click:|r Change Loot Specialization"] = "|cffFFFFFF右键点击:|r 更改拾取专精"
 
+-- Death Recap
+L["%s %s"] = true;
+L["%s by %s"] = true;
+L["%s sec before death at %s%% health."] = true;
+L["(%d Absorbed)"] = true;
+L["(%d Blocked)"] = true;
+L["(%d Overkill)"] = true;
+L["(%d Resisted)"] = true;
+L["Death Recap unavailable."] = true;
+L["Death Recap"] = true;
+L["Killing blow at %s%% health."] = true;
+L["Recap"] = true;
+
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = "%s: %s 尝试调用保护函数 '%s'."
 L["No locals to dump"] = "没有本地文件"
@@ -373,5 +386,6 @@ L["You can toggle the microbar by using your middle mouse button on the minimap 
 L["You can use the /resetui command to reset all of your movers. You can also use the command to reset a specific mover, /resetui <mover name>.\nExample: /resetui Player Frame"] = "使用 /resetui 命令可以重置你的所有框架位置. 你也可以通过命令 /resetui <框架名称> 单独重置某个框架.\n例如: /resetui Player Frame"
 
 --UnitFrames
+L["Dead"] = true;
 L["Ghost"] = "鬼魂"
 L["Offline"] = "离线"

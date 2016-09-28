@@ -482,18 +482,10 @@ function A:Initialize()
 	E:CreateMover(self.WeaponFrame, "WeaponsMover", L["Player Weapons"]);
 
 	for i = 1, 3 do
-		_G["TempEnchant"..i]:ClearAllPoints()
-	end
-
-	TempEnchant1:Point("TOPRIGHT", ElvUIPlayerWeapons, "TOPRIGHT")
-	TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -7, 0)
-	TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -7, 0)
-
-	for i = 1, 3 do
 		local font = LSM:Fetch('font', self.db.font);
+		_G["TempEnchant"..i]:ClearAllPoints()
 		_G["TempEnchant"..i]:Size(32);
 		_G["TempEnchant"..i]:CreateBackdrop("Default", true, true);
-		_G["TempEnchant"..i].backdrop:SetTemplate("Default", true, true);
 		_G["TempEnchant"..i].backdrop:SetBackdropBorderColor(0.5, 0, 0.8, 1);
 		_G["TempEnchant"..i].highlight = _G["TempEnchant"..i]:CreateTexture(nil, 'HIGHLIGHT');
 		_G["TempEnchant"..i].highlight:SetTexture(1, 1, 1, 0.45);
@@ -505,6 +497,10 @@ function A:Initialize()
 		_G["TempEnchant"..i.."Duration"]:Point("BOTTOM", 1, -12)
 		_G["TempEnchant"..i.."Duration"]:FontTemplate(font, self.db.fontSize, self.db.fontOutline);
 	end
+
+	TempEnchant1:Point("TOPRIGHT", ElvUIPlayerWeapons, "TOPRIGHT")
+	TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -7, 0)
+	TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -7, 0)
 end
 
 E:RegisterModule(A:GetName());

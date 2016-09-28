@@ -119,6 +119,19 @@ L["Wrist"] = true;
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = true;
 L["|cffFFFFFFRight Click:|r Change Loot Specialization"] = true;
 
+-- Death Recap
+L["%s %s"] = true;
+L["%s by %s"] = true;
+L["%s sec before death at %s%% health."] = true;
+L["(%d Absorbed)"] = true;
+L["(%d Blocked)"] = true;
+L["(%d Overkill)"] = true;
+L["(%d Resisted)"] = true;
+L["Death Recap unavailable."] = true;
+L["Death Recap"] = true;
+L["Killing blow at %s%% health."] = true;
+L["Recap"] = true;
+
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = true;
 L["No locals to dump"] = true;
@@ -374,5 +387,6 @@ L["You can toggle the microbar by using your middle mouse button on the minimap 
 L["You can use the /resetui command to reset all of your movers. You can also use the command to reset a specific mover, /resetui <mover name>.\nExample: /resetui Player Frame"] = true;
 
 --UnitFrames
+L["Dead"] = true;
 L["Ghost"] = true;
 L["Offline"] = true;	

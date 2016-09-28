@@ -187,6 +187,26 @@ function AL:Initialize()
 
 	addonList:SetScript("OnShow", function()
 		self:Update();
+		PlaySound("igMainMenuOption");
+	end);
+
+	addonList:SetScript("OnHide", function()
+		PlaySound("igMainMenuOptionCheckBoxOn");
+	end);
+
+	addonList:SetClampedToScreen(true);
+	addonList:SetMovable(true);
+	addonList:EnableMouse(true);
+	addonList:RegisterForDrag("LeftButton", "RightButton");
+
+	addonList:SetScript("OnDragStart", function(self)
+		if IsShiftKeyDown() then
+			self:StartMoving();
+		end
+	end);
+
+	addonList:SetScript("OnDragStop", function(self)
+		self:StopMovingOrSizing();
 	end);
 
 	local addonTitle = addonList:CreateFontString("$parentTitle", "BACKGROUND", "GameFontNormal")
@@ -208,6 +228,15 @@ function AL:Initialize()
 	S:HandleButton(cancelButton);
 
 	cancelButton:SetScript("OnClick", function()
+		ElvUI_AddonList:Hide();
+	end);
+
+	local closeButton = CreateFrame("Button", "$parentCloseButton", addonList, "UIPanelButtonTemplate");
+	closeButton:Size(32, 32);
+	closeButton:Point("TOPRIGHT", 1, 1);
+	S:HandleCloseButton(closeButton);
+
+	closeButton:SetScript("OnClick", function()
 		ElvUI_AddonList:Hide();
 	end);
 

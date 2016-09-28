@@ -667,6 +667,8 @@ function E:UpdateAll(ignoreInstall)
 	self.db.install_complete = nil;
 	--LibStub('LibDualSpec-1.0'):EnhanceDatabase(self.data, "ElvUI");
 
+	self:SetMoversClampedToScreen(false)
+
 	self:SetMoversPositions();
 	self:UpdateMedia();
 	self:UpdateCooldownSettings();
@@ -749,6 +751,8 @@ function E:UpdateAll(ignoreInstall)
 	LO:BottomPanelVisibility();
 	LO:TopPanelVisibility();
 	LO:SetDataPanelStyle();
+
+	self:SetMoversClampedToScreen(true)
 
 	collectgarbage("collect");
 end

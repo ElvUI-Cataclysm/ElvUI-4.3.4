@@ -119,6 +119,19 @@ L["silverabbrev"] = "|cffc7c7cfс|r" --Also used in Bags
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFFЛКМ:|r Изменить набор талантов"
 L["|cffFFFFFFRight Click:|r Change Loot Specialization"] = "|cffFFFFFFПКМ:|r Изменить специализацию для получения добычи"
 
+-- Death Recap
+L["%s %s"] = "Урон: %s %s";
+L["%s by %s"] = "%s - %s";
+L["%s sec before death at %s%% health."] = "%s сек. до смерти при объеме здоровья %s%%";
+L["(%d Absorbed)"] = "Поглощено: %d ед. урона.";
+L["(%d Blocked)"] = "Заблокировано: %d уд. урона.";
+L["(%d Overkill)"] = "Избыточный урон: %d ед.";
+L["(%d Resisted)"] = "Сопротивление %d еденицам урона.";
+L["Death Recap unavailable."] = "Информация о смерти не доступна.";
+L["Death Recap"] = "Информация о смерти";
+L["Killing blow at %s%% health."] = "Объем здоровья при получении смертельного удара: %s%%";
+L["Recap"] = "Информация";
+
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = "%s: %s tried to call the protected function '%s'."
 L["No locals to dump"] = "No locals to dump"
@@ -373,6 +386,7 @@ L["You can toggle the microbar by using your middle mouse button on the minimap 
 L["You can use the /resetui command to reset all of your movers. You can also use the command to reset a specific mover, /resetui <mover name>.\nExample: /resetui Player Frame"] = 'Вы можете использовать команду /resetui чтобы сбросить положения всех фиксаторов. Вы также можете использовать команду /resetui <имя фиксатора> для сброса определенного фиксатора.\nПример: /resetui Player Frame'
 
 --UnitFrames
+L["Dead"] = "Труп"
 L["Ghost"] = "Призрак"
 L["Offline"] = "Не в сети"
 

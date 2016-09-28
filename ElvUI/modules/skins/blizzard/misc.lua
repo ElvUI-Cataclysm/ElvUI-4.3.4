@@ -74,28 +74,19 @@ local function LoadSkin()
 
 	-- Return to Graveyard Button
 	do
-		S:HandleButton(GhostFrame)
-		GhostFrame:SetBackdropColor(0,0,0,0)
-		GhostFrame:SetBackdropBorderColor(0,0,0,0)
-
-		local function forceBackdropColor(self, r, g, b, a)
-			if r ~= 0 or g ~= 0 or b ~= 0 or a ~= 0 then
-				GhostFrame:SetBackdropColor(0,0,0,0)
-				GhostFrame:SetBackdropBorderColor(0,0,0,0)
-			end
-		end
-
-		hooksecurefunc(GhostFrame, "SetBackdropColor", forceBackdropColor)
-		hooksecurefunc(GhostFrame, "SetBackdropBorderColor", forceBackdropColor)
-
+		GhostFrame:StripTextures()
+		GhostFrame:CreateBackdrop()
 		GhostFrame:ClearAllPoints()
-		GhostFrame:Point("TOP", E.UIParent, "TOP", 0, -150)
+		GhostFrame:Point("TOP", E.UIParent, "TOP", 0, -175)
+
 		S:HandleButton(GhostFrameContentsFrame)
 		GhostFrameContentsFrameIcon:SetTexture(nil)
+
 		local x = CreateFrame("Frame", nil, GhostFrame)
 		x:SetFrameStrata("MEDIUM")
 		x:SetTemplate("Default")
 		x:SetOutside(GhostFrameContentsFrameIcon)
+
 		local tex = x:CreateTexture(nil, "OVERLAY")
 		tex:SetTexture("Interface\\Icons\\spell_holy_guardianspirit")
 		tex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
@@ -963,7 +954,6 @@ local function LoadSkin()
 		MinimapZoomOut:SetFrameStrata('MEDIUM')
 	end
 
-	--Role Icons
 	--Dungeon Finder Role Icons
 	LFDQueueFrameRoleButtonTank:Point("BOTTOMLEFT", LFDQueueFrame, "BOTTOMLEFT", 25, 334)
 	LFDQueueFrameRoleButtonHealer:Point("LEFT", LFDQueueFrameRoleButtonTank,"RIGHT", 23, 0)
@@ -1221,7 +1211,7 @@ local function LoadSkin()
 
 	--Dungeon Ready PopUp
 	hooksecurefunc("LFGDungeonReadyPopup_Update", function()
-	local b, c, d, e, f, g, h, i, j, k, l, m = GetLFGProposal()
+	local proposalExists, id, typeID, subtypeID, name, texture, role, hasResponded, totalEncounters, completedEncounters, numMembers, isLeader = GetLFGProposal();
 		if LFGDungeonReadyDialogRoleIcon:IsShown() then
 			LFGDungeonReadyDialogRoleIcon:StripTextures()
 			LFGDungeonReadyDialogRoleIcon:CreateBackdrop();
@@ -1229,11 +1219,11 @@ local function LoadSkin()
 			LFGDungeonReadyDialogRoleIcon.backdrop:Point("BOTTOMRIGHT", -7, 7)
 			LFGDungeonReadyDialogRoleIcon.icon = LFGDungeonReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY");
 			LFGDungeonReadyDialogRoleIcon.icon:SetTexCoord(unpack(E.TexCoords))
-			if(h == "DAMAGER") then
+			if(role == "DAMAGER") then
 				LFGDungeonReadyDialogRoleIcon.icon:SetTexture('Interface\\Icons\\INV_Knife_1H_Common_B_01');
-			elseif(h == "TANK") then
+			elseif(role == "TANK") then
 				LFGDungeonReadyDialogRoleIcon.icon:SetTexture('Interface\\Icons\\Ability_Defend');
-			elseif(h == "HEALER") then
+			elseif(role == "HEALER") then
 				LFGDungeonReadyDialogRoleIcon.icon:SetTexture('Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH');
 			end
 			LFGDungeonReadyDialogRoleIcon.icon:SetInside(LFGDungeonReadyDialogRoleIcon.backdrop)

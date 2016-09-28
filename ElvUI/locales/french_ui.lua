@@ -119,6 +119,19 @@ L["Wrist"] = "Poignets"
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = '|cffFFFFFFClick Gauche:|r Changer de spécialisation des talents'
 L["|cffFFFFFFRight Click:|r Change Loot Specialization"] = '|cffFFFFFFClick Droit:|r Changer la spécialisation de butin'
 
+-- Death Recap
+L["%s %s"] = true;
+L["%s by %s"] = true;
+L["%s sec before death at %s%% health."] = true;
+L["(%d Absorbed)"] = true;
+L["(%d Blocked)"] = true;
+L["(%d Overkill)"] = true;
+L["(%d Resisted)"] = true;
+L["Death Recap unavailable."] = true;
+L["Death Recap"] = true;
+L["Killing blow at %s%% health."] = true;
+L["Recap"] = true;
+
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = "%s: %s a essayé d'appeler la fonction protégée '%s'."
 L["No locals to dump"] = "Aucunes données à vider"
@@ -373,5 +386,6 @@ L["You can toggle the microbar by using your middle mouse button on the minimap 
 L["You can use the /resetui command to reset all of your movers. You can also use the command to reset a specific mover, /resetui <mover name>.\nExample: /resetui Player Frame"] = "Vous pouvez utiliser la commande /resetui pour réinitialiser l'ensemble de vos cadres. Vous pouvez aussi utiliser la commande /resetui <nom du cadre> pour réinitialiser un cadre spécifique.\nExemple: /resetui Player Frame"
 
 --UnitFrames
+L["Dead"] = true;
 L["Ghost"] = "Fantôme"
 L["Offline"] = "Déconnecté"
