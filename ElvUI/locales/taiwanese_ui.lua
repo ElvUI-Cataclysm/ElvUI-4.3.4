@@ -131,6 +131,7 @@ L["Death Recap unavailable."] = true;
 L["Death Recap"] = true;
 L["Killing blow at %s%% health."] = true;
 L["Recap"] = true;
+L["You died."] = true;
 
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = "%s: %s 嘗試調用保護函數'%s'."

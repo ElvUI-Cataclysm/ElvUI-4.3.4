@@ -36,10 +36,10 @@ function B:WorldStateAlwaysUpFrame_Update()
 
 		frameText:SetPoint("CENTER", WorldStateAlwaysUpFrame, "CENTER", 0, offset)
 		frameText:SetJustifyH("CENTER")
-		frameIcon:SetPoint("CENTER", frameText, "LEFT", -13, -9)
-		frameIcon:Size(40)
+		frameIcon:SetPoint("CENTER", frameText, "LEFT", -7, -9)
+		frameIcon:Size(38)
 		frameIcon2:SetPoint("LEFT", frameText, "RIGHT", 5, 0)
-		frameIcon2:Size(40)
+		frameIcon2:Size(38)
 
 		offset = offset - 25
 	end

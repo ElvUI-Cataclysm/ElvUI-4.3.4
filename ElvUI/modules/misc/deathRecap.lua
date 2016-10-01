@@ -1,30 +1,39 @@
 local E, L, V, P, G, _ = unpack(ElvUI);
-local mod = E:NewModule("DeathRecap", "AceEvent-3.0");
+local mod = E:NewModule("DeathRecap", "AceHook-3.0", "AceEvent-3.0");
 
-local floor = math.floor
-local format, upper = string.format, string.upper
-local tsort, twipe = table.sort, table.wipe
-local band = bit.band
-local tonumber, strsub = tonumber, strsub
+local format, upper = string.format, string.upper;
+local floor = math.floor;
+local tsort, twipe = table.sort, table.wipe;
+local band = bit.band;
+local tonumber, strsub = tonumber, strsub;
 
-local UnitHealth = UnitHealth
-local UnitHealthMax = UnitHealthMax
-local COMBATLOG_FILTER_ME = COMBATLOG_FILTER_ME
+local UnitHealth = UnitHealth;
+local UnitHealthMax = UnitHealthMax;
+local COMBATLOG_FILTER_ME = COMBATLOG_FILTER_ME;
+local GetReleaseTimeRemaining = GetReleaseTimeRemaining;
+local RepopMe = RepopMe;
 
+local lastDeathEvents;
 local index = 0;
+local deathList = {};
 local eventList = {};
 
 function mod:AddEvent(timestamp, event, sourceName, spellId, spellName, environmentalType, amount, overkill, school, resisted, blocked, absorbed)
+	if((index > 0) and (eventList[index].timestamp + 10 <= timestamp)) then
+		index = 0;
+		twipe(eventList);
+	end
+
 	if(index < 5) then
-		index = index + 1
+		index = index + 1;
 	elseif(index == 5) then
-		index = 1
+		index = 1;
 	end
 
 	if(not eventList[index]) then
-		eventList[index] = {}
+		eventList[index] = {};
 	else
-		twipe(eventList[index])
+		twipe(eventList[index]);
 	end
 
 	eventList[index].timestamp = timestamp;
@@ -43,32 +52,90 @@ function mod:AddEvent(timestamp, event, sourceName, spellId, spellName, environm
 	eventList[index].maxHP = UnitHealthMax("player");
 end
 
-function mod:HasEvents()
-	return #eventList > 0
+function mod:EraseEvents()
+	if(index > 0) then
+		index = 0;
+		twipe(eventList);
+	end
 end
 
-function mod:OpenRecap()
+function mod:AddDeath()
+	if #eventList > 0 then
+		local _, deathEvents = self:HasEvents();
+		local deathIndex = deathEvents + 1;
+		deathList[deathIndex] = CopyTable(eventList);
+		self:EraseEvents();
+
+		DEFAULT_CHAT_FRAME:AddMessage("|cff71d5ff|Hdeath:" .. deathIndex .. "|h[" .. L["You died."] .. "]|h|r");
+
+		return true;
+	end
+end
+
+function mod:GetDeathEvents(recapID)
+	if(recapID and deathList[recapID]) then
+		local deathEvents = deathList[recapID];
+		tsort(deathEvents, function(a, b) return a.timestamp > b.timestamp end);
+		return deathEvents;
+	end
+end
+
+function mod:HasEvents()
+	if lastDeathEvents then
+		return #deathList > 0, #deathList;
+	else
+		return false, #deathList;
+	end
+end
+
+function mod:PLAYER_DEAD()
+	if(StaticPopup_FindVisible("DEATH")) then
+		if(self:AddDeath()) then
+			lastDeathEvents = true
+		else
+			lastDeathEvents = false
+		end
+
+		StaticPopup_Hide("DEATH");
+
+		E:StaticPopup_Show("DEATH", GetReleaseTimeRemaining(), SECONDS);
+	end
+end
+
+function mod:HidePopup()
+	E:StaticPopup_Hide("DEATH");
+end
+
+function mod:OpenRecap(recapID)
 	local self = DeathRecapFrame;
-	ShowUIPanel(DeathRecapFrame);
 
-	tsort(eventList, function(a, b) return a.timestamp > b.timestamp end);
+	if(self:IsShown() and self.recapID == recapID) then
+		HideUIPanel(self);
+		return;
+	end
 
-	if(not eventList or #eventList <= 0) then
+	local deathEvents = mod:GetDeathEvents(recapID);
+	if(not deathEvents) then return; end
+
+	self.recapID = recapID;
+	ShowUIPanel(self);
+
+	if(not deathEvents or #deathEvents <= 0) then
 		for i = 1, 5 do
 			self.DeathRecapEntry[i]:Hide();
 		end
-		DeathRecapFrame.Unavailable:Show();
+		self.Unavailable:Show();
 		return;
 	end
-	DeathRecapFrame.Unavailable:Hide();
+	self.Unavailable:Hide();
 
 	local highestDmgIdx, highestDmgAmount = 1, 0;
 	self.DeathTimeStamp = nil;
 
-	for i = 1, #eventList do
+	for i = 1, #deathEvents do
 		local entry = self.DeathRecapEntry[i];
 		local dmgInfo = entry.DamageInfo;
-		local evtData = eventList[i];
+		local evtData = deathEvents[i];
 		local spellId, spellName, texture = mod:GetTableInfo(evtData);
 
 		entry:Show();
@@ -91,11 +158,11 @@ function mod:OpenRecap()
 			end
 			if(evtData.resisted and evtData.resisted > 0) then
 				dmgInfo.dmgExtraStr = dmgInfo.dmgExtraStr .. " " .. format(L["(%d Resisted)"], evtData.resisted);
-				dmgInfo.amount = evtData.amount - evtData.resisted
+				dmgInfo.amount = evtData.amount - evtData.resisted;
 			end
 			if(evtData.blocked and evtData.blocked > 0) then
 				dmgInfo.dmgExtraStr = dmgInfo.dmgExtraStr .. " " .. format(L["(%d Blocked)"], evtData.blocked);
-				dmgInfo.amount = evtData.amount - evtData.blocked
+				dmgInfo.amount = evtData.amount - evtData.blocked;
 			end
 
 			if(evtData.amount > highestDmgAmount) then
@@ -117,7 +184,7 @@ function mod:OpenRecap()
 
 		dmgInfo.spellName = spellName;
 
-		dmgInfo.caster = evtData.sourceName or COMBATLOG_UNKNOWN_UNIT
+		dmgInfo.caster = evtData.sourceName or COMBATLOG_UNKNOWN_UNIT;
 
 		if(evtData.school and evtData.school > 1) then
 			local colorArray = CombatLog_Color_ColorArrayBySchool(evtData.school);
@@ -125,6 +192,7 @@ function mod:OpenRecap()
 		else
 			entry.SpellInfo.FrameIcom:SetBackdropBorderColor(unpack(E.media.bordercolor));
 		end
+
 		dmgInfo.school = evtData.school;
 
 		entry.SpellInfo.Caster:SetText(dmgInfo.caster);
@@ -135,7 +203,7 @@ function mod:OpenRecap()
 		entry.SpellInfo.spellId = spellId;
 	end
 
-	for i = #eventList + 1, #(self.DeathRecapEntry) do
+	for i = #deathEvents + 1, #(self.DeathRecapEntry) do
 		self.DeathRecapEntry[i]:Hide();
 	end
 
@@ -155,9 +223,7 @@ end
 function mod:Spell_OnEnter()
 	if(self.spellId) then
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
-		GameTooltip:SetHyperlink(GetSpellLink(self.spellId)); --GetSpellLink(): Invalid spell slot
-	--	local spellLink = tostring(self.spellId)
-	--	GameTooltip:SetHyperlink("|cff71d5ff|Hspell:"..spellLink);
+		GameTooltip:SetHyperlink(GetSpellLink(self.spellId));
 		GameTooltip:Show();
 	end
 end
@@ -203,8 +269,7 @@ function mod:GetTableInfo(data)
 		nameIsNotSpell = true;
 	elseif(event == "RANGE_DAMAGE") then
 		nameIsNotSpell = true;
-	elseif(strsub(event, 1, 5) == "SPELL") then
-
+--	elseif(strsub(event, 1, 5) == "SPELL") then
 	elseif(event == "ENVIRONMENTAL_DAMAGE") then
 		local environmentalType = data.environmentalType;
 		environmentalType = upper(environmentalType);
@@ -244,10 +309,6 @@ end
 
 function mod:COMBAT_LOG_EVENT_UNFILTERED(_, timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, ...)
 	if((band(destFlags, COMBATLOG_FILTER_ME) ~= COMBATLOG_FILTER_ME) or (band(sourceFlags, COMBATLOG_FILTER_ME) == COMBATLOG_FILTER_ME)) then return; end
-
-	local environmentalType, amount, overkill, school, critical, glancing, crushing;
-	local spellId, spellName;
-	local subVal = strsub(event, 1, 5);
 	if ((event ~= "ENVIRONMENTAL_DAMAGE")
 	and (event ~= "RANGE_DAMAGE")
 	and (event ~= "SPELL_DAMAGE")
@@ -256,7 +317,11 @@ function mod:COMBAT_LOG_EVENT_UNFILTERED(_, timestamp, event, hideCaster, source
 	and (event ~= "SPELL_PERIODIC_DAMAGE")
 	and (event ~= "SWING_DAMAGE"))
 	then return end
-	
+
+	local environmentalType, amount, overkill, school, critical, glancing, crushing;
+	local spellId, spellName;
+	local subVal = strsub(event, 1, 5);
+
 	if(event == "SWING_DAMAGE") then
 		amount, overkill, school, resisted, blocked, absorbed = ...;
 	elseif(subVal == "SPELL") then
@@ -267,16 +332,17 @@ function mod:COMBAT_LOG_EVENT_UNFILTERED(_, timestamp, event, hideCaster, source
 
 	if(not tonumber(amount)) then return; end
 
-	self:AddEvent(timestamp, event, sourceName, spellId, spellName, environmentalType, amount, overkill, school, resisted, blocked, absorbed)
+	self:AddEvent(timestamp, event, sourceName, spellId, spellName, environmentalType, amount, overkill, school, resisted, blocked, absorbed);
 end
 
-function mod:PLAYER_DEAD()
-	StaticPopup_Hide("DEATH");
-	E:StaticPopup_Show("DEATH");
-end
-
-function mod:RESURRECT_REQUEST()
-	E:StaticPopup_Hide("DEATH")
+function mod:SetItemRef(link, ...)
+	if(strsub(link, 1, 5) == "death") then
+		local _, id = strsplit(":", link);
+		mod:OpenRecap(tonumber(id));
+		return;
+	else
+		self.hooks.SetItemRef(link, ...)
+	end
 end
 
 function mod:Initialize()
@@ -304,21 +370,6 @@ function mod:Initialize()
 	S:HandleCloseButton(frame.CloseXButton);
 
 	frame.DeathRecapEntry = {};
-
-	frame:SetClampedToScreen(true);
-	frame:SetMovable(true);
-	frame:EnableMouse(true);
-	frame:RegisterForDrag("LeftButton", "RightButton");
-
-	frame:SetScript("OnDragStart", function(self)
-		if IsShiftKeyDown() then
-			self:StartMoving();
-		end
-	end)
-
-	frame:SetScript("OnDragStop", function(self)
-		self:StopMovingOrSizing();
-	end)
 
 	frame:SetScript("OnShow", function()
 		PlaySound("igMainMenuOption");
@@ -403,24 +454,29 @@ function mod:Initialize()
 	frame.CloseButton:SetScript("OnClick", function(self) HideUIPanel(DeathRecapFrame); end);
 	S:HandleButton(frame.CloseButton);
 
+	frame:SetClampedToScreen(true);
+	frame:SetMovable(true);
+	frame:EnableMouse(true);
+	frame:RegisterForDrag("LeftButton", "RightButton");
+
+	frame:SetScript("OnDragStart", function(self)
+		if IsShiftKeyDown() then
+			self:StartMoving();
+		end
+	end)
+
+	frame:SetScript("OnDragStop", function(self)
+		self:StopMovingOrSizing();
+	end)
+
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
 	self:RegisterEvent("PLAYER_DEAD");
-	self:RegisterEvent("RESURRECT_REQUEST");
+	self:RegisterEvent("PLAYER_ENTERING_WORLD", "HidePopup");
+	self:RegisterEvent("RESURRECT_REQUEST", "HidePopup");
+	self:RegisterEvent("PLAYER_ALIVE", "HidePopup");
+	self:RegisterEvent("RAISED_AS_GHOUL", "HidePopup");
 
-	E.PopupDialogs["RECOVER_CORPSE"] = {
-		StartDelay = GetCorpseRecoveryDelay,
-		delayText = RECOVER_CORPSE_TIMER,
-		text = RECOVER_CORPSE,
-		button1 = ACCEPT,
-		OnAccept = function(self)
-			RetrieveCorpse();
-			return 1;
-		end,
-		timeout = 0,
-		whileDead = 1,
-		interruptCinematic = 1,
-		notClosableByLogout = 1
-	};
+	self:RawHook("SetItemRef", true);
 
 	E.PopupDialogs["DEATH"] = {
 		text = DEATH_RELEASE_TIMER,
@@ -447,7 +503,7 @@ function mod:Initialize()
 				self.button3:Disable();
 				self.button3:SetScript("OnEnter", function(self)
 					GameTooltip:SetOwner(self, "ANCHOR_BOTTOMRIGHT");
-					GameTooltip:SetText(DEATH_RECAP_UNAVAILABLE);
+					GameTooltip:SetText(L["Death Recap unavailable."]);
 					GameTooltip:Show();
 				end);
 				self.button3:SetScript("OnLeave", GameTooltip_Hide);
@@ -470,6 +526,7 @@ function mod:Initialize()
 		end,
 		OnCancel = function(self, data, reason)
 			if(reason == "override") then
+				StaticPopup_Show("RECOVER_CORPSE");
 				return;
 			end
 			if(reason == "timeout") then
@@ -482,14 +539,26 @@ function mod:Initialize()
 					RepopMe();
 				end
 				if(CannotBeResurrected()) then
-					return 1
+					return 1;
 				end
 			end
 		end,
 		OnAlt = function()
-			mod:OpenRecap();
+			local _, recapID = self:HasEvents();
+			mod:OpenRecap(recapID);
 		end,
 		OnUpdate = function(self, elapsed)
+			if(self.timeleft > 0) then
+				local text = _G[self:GetName() .. "Text"];
+				local timeleft = self.timeleft;
+
+				if(timeleft < 60) then
+					text:SetFormattedText(DEATH_RELEASE_TIMER, timeleft, SECONDS);
+				else
+					text:SetFormattedText(DEATH_RELEASE_TIMER, ceil(timeleft / 60), MINUTES);
+				end
+			end
+
 			if(IsFalling() and not IsOutOfBounds()) then
 				self.button1:Disable();
 				self.button2:Disable();
@@ -510,11 +579,9 @@ function mod:Initialize()
 		timeout = 0,
 		whileDead = 1,
 		interruptCinematic = 1,
-	--	notClosableByLogout = 1,
 		noCancelOnReuse = 1,
 		hideOnEscape = false,
-		noCloseOnAlt = true,
-		cancels = "RECOVER_CORPSE"
+		noCloseOnAlt = true
 	};
 end
 

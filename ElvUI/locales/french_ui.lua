@@ -128,9 +128,10 @@ L["(%d Blocked)"] = true;
 L["(%d Overkill)"] = true;
 L["(%d Resisted)"] = true;
 L["Death Recap unavailable."] = true;
-L["Death Recap"] = true;
+L["Death Recap"] = "Récapitulatif lors de la mort";
 L["Killing blow at %s%% health."] = true;
 L["Recap"] = true;
+L["You died."] = true;
 
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = "%s: %s a essayé d'appeler la fonction protégée '%s'."

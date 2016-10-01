@@ -131,6 +131,7 @@ L["Death Recap unavailable."] = true;
 L["Death Recap"] = true;
 L["Killing blow at %s%% health."] = true;
 L["Recap"] = true;
+L["You died."] = true;
 
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = "%s: %s 기능이 사용할 수 없는 %s 함수를 사용하려 합니다."

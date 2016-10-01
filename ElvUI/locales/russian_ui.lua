@@ -131,6 +131,7 @@ L["Death Recap unavailable."] = "Информация о смерти не до�
 L["Death Recap"] = "Информация о смерти";
 L["Killing blow at %s%% health."] = "Объем здоровья при получении смертельного удара: %s%%";
 L["Recap"] = "Информация";
+L["You died."] = "Вы умерли.";
 
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = "%s: %s tried to call the protected function '%s'."
