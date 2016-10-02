@@ -783,7 +783,7 @@ function B:ContructContainerFrame(name, isBank)
 	f:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 4);
 		GameTooltip:ClearLines();
-		GameTooltip:AddDoubleLine(--[["DRAG_MODEL"]]L["Hold Shift + Drag:"], L["Temporary Move"], 1, 1, 1);
+		GameTooltip:AddDoubleLine(L["Hold Shift + Drag:"], L["Temporary Move"], 1, 1, 1);
 		GameTooltip:AddDoubleLine(L["Hold Control + Right Click:"], L["Reset Position"], 1, 1, 1);
 
 		GameTooltip:Show();

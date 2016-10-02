@@ -13,12 +13,12 @@ E.Options.args.maps = {
 			name = WORLD_MAP,
 			args = {
 				header = {
-					order = 0,
+					order = 1,
 					type = "header",
 					name = WORLD_MAP
 				},
 				smallerWorldMap = {
-					order = 1,
+					order = 2,
 					type = "toggle",
 					name = L["Smaller World Map"],
 					desc = L["Make the world map smaller."],
@@ -28,7 +28,7 @@ E.Options.args.maps = {
 					width = "double"
 				},
 				mapAlphaWhenMoving = {
-					order = 2,
+					order = 3,
 					type = "range",
 					name = L["Map Opacity When Moving"],
 					isPercent = true,
@@ -37,12 +37,12 @@ E.Options.args.maps = {
 					set = function(info, value) E.global.general.mapAlphaWhenMoving = value; E:GetModule("Misc"):UpdateMapAlpha(); end
 				},
 				spacer  = {
-					order = 3,
+					order = 4,
 					type = "description",
 					name = "\n"
 				},
 				worldMapCoordinatesEnable = {
-					order = 4,
+					order = 5,
 					type = "toggle",
 					name = L["World Map Coordinates"],
 					desc = L["Puts coordinates on the world map."],
@@ -52,7 +52,7 @@ E.Options.args.maps = {
 					width = "full"
 				},
 				position = {
-					order = 5,
+					order = 6,
 					type = "select",
 					name = L["Position"],
 					get = function(info) return E.global.general.WorldMapCoordinates.position; end,
@@ -68,7 +68,7 @@ E.Options.args.maps = {
 					}
 				},
 				xOffset = {
-					order = 6,
+					order = 7,
 					type = "range",
 					name = L["X-Offset"],
 					get = function(info) return E.global.general.WorldMapCoordinates.xOffset; end,
@@ -77,7 +77,7 @@ E.Options.args.maps = {
 					min = -200, max = 200, step = 1
 				},
 				yOffset = {
-					order = 7,
+					order = 8,
 					type = "range",
 					name = L["Y-Offset"],
 					get = function(info) return E.global.general.WorldMapCoordinates.yOffset end,
