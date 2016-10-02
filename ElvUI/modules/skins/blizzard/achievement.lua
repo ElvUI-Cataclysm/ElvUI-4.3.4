@@ -358,6 +358,11 @@ local function LoadSkin(event)
 			if(criteriaType == CRITERIA_TYPE_ACHIEVEMENT and assetID) then
 				metas = metas + 1;
 				local metaCriteria = AchievementButton_GetMeta(metas);
+
+				metaCriteria:StyleButton()
+				metaCriteria.border:Kill()
+				metaCriteria.icon:SetTexCoord(unpack(E.TexCoords))
+
 				if(objectivesFrame.completed and completed) then
 					metaCriteria.label:SetShadowOffset(0, 0)
 					metaCriteria.label:SetTextColor(1, 1, 1, 1);

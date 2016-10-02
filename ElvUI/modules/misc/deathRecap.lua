@@ -369,6 +369,30 @@ function mod:Initialize()
 	frame.CloseXButton:SetScript("OnClick", function(self) HideUIPanel(self:GetParent()); end);
 	S:HandleCloseButton(frame.CloseXButton);
 
+	frame:SetClampedToScreen(true);
+	frame:SetMovable(true);
+	frame:EnableMouse(true);
+	frame:RegisterForDrag("LeftButton");
+
+	frame:SetScript("OnDragStart", function(self)
+		if IsShiftKeyDown() then
+			self:StartMoving();
+		end
+	end)
+
+	frame:SetScript("OnDragStop", function(self)
+		self:StopMovingOrSizing();
+	end)
+
+	frame:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 4);
+		GameTooltip:ClearLines();
+		GameTooltip:AddDoubleLine(L["Hold Shift + Drag:"], L["Temporary Move"], 1, 1, 1);
+
+		GameTooltip:Show();
+	end);
+	frame:SetScript("OnLeave", function(self) GameTooltip:Hide(); end);
+
 	frame.DeathRecapEntry = {};
 
 	frame:SetScript("OnShow", function()
@@ -453,21 +477,6 @@ function mod:Initialize()
 	frame.CloseButton:SetText(CLOSE);
 	frame.CloseButton:SetScript("OnClick", function(self) HideUIPanel(DeathRecapFrame); end);
 	S:HandleButton(frame.CloseButton);
-
-	frame:SetClampedToScreen(true);
-	frame:SetMovable(true);
-	frame:EnableMouse(true);
-	frame:RegisterForDrag("LeftButton", "RightButton");
-
-	frame:SetScript("OnDragStart", function(self)
-		if IsShiftKeyDown() then
-			self:StartMoving();
-		end
-	end)
-
-	frame:SetScript("OnDragStop", function(self)
-		self:StopMovingOrSizing();
-	end)
 
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
 	self:RegisterEvent("PLAYER_DEAD");

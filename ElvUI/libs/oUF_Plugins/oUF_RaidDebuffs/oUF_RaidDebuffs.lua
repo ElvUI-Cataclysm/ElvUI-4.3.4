@@ -27,7 +27,7 @@ local function add(spell, priority, stackThreshold)
  	if(spell) then
  		debuff_data[spell] = {
  			priority = (addon.priority + priority),
- 			stackThreshold = (stackThreshold or 0),
+ 			stackThreshold = (stackThreshold or 0)
 		}
 	end
 end
@@ -91,7 +91,7 @@ do
 			['Magic'] = false,
 			['Curse'] = true,
 			['Poison'] = true
-		},
+		}
 	}
 
 	DispellFilter = dispellClasses[select(2, UnitClass('player'))] or {}
@@ -224,7 +224,7 @@ end
 
 local blackList = {
 	[105171] = true, -- Deep Corruption
-	[108220] = true, -- Deep Corruption
+	[108220] = true  -- Deep Corruption
 }
 
 local function Update(self, event, unit)

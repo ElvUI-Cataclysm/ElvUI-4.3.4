@@ -1,6 +1,10 @@
 local E, L, V, P, G, _ = unpack(ElvUI);
 local AL = E:NewModule("AddOnList", "AceEvent-3.0", "AceTimer-3.0");
 
+local floor = math.floor;
+
+local IsShiftKeyDown = IsShiftKeyDown;
+
 function AL:HasAnyChanged()
 	for i = 1, GetNumAddOns() do
 		local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i);
@@ -185,6 +189,8 @@ function AL:Initialize()
 	addonList.startStatus = {};
 	addonList.shouldReload = false;
 
+	tinsert(UISpecialFrames, addonList:GetName());
+
 	addonList:SetScript("OnShow", function()
 		self:Update();
 		PlaySound("igMainMenuOption");
@@ -197,7 +203,7 @@ function AL:Initialize()
 	addonList:SetClampedToScreen(true);
 	addonList:SetMovable(true);
 	addonList:EnableMouse(true);
-	addonList:RegisterForDrag("LeftButton", "RightButton");
+	addonList:RegisterForDrag("LeftButton");
 
 	addonList:SetScript("OnDragStart", function(self)
 		if IsShiftKeyDown() then
@@ -208,6 +214,15 @@ function AL:Initialize()
 	addonList:SetScript("OnDragStop", function(self)
 		self:StopMovingOrSizing();
 	end);
+
+	addonList:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", 0, 4);
+		GameTooltip:ClearLines();
+		GameTooltip:AddDoubleLine(L["Hold Shift + Drag:"], L["Temporary Move"], 1, 1, 1);
+
+		GameTooltip:Show();
+	end);
+	addonList:SetScript("OnLeave", function(self) GameTooltip:Hide(); end);
 
 	local addonTitle = addonList:CreateFontString("$parentTitle", "BACKGROUND", "GameFontNormal")
 	addonTitle:SetSize(220, 12);

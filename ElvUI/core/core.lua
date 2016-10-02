@@ -313,9 +313,17 @@ E.HiddenFrame:Hide();
 function E:CheckRole()
 	if event == "UNIT_AURA" and unit ~= "player" then return end
 	local tree = GetPrimaryTalentTree();
+	local resilience;
+	local resilperc = GetCombatRatingBonus(COMBAT_RATING_RESILIENCE_PLAYER_DAMAGE_TAKEN)
+	if resilperc > GetDodgeChance() and resilperc > GetParryChance() and UnitLevel('player') == MAX_PLAYER_LEVEL then
+		resilience = true;
+	else
+		resilience = false;
+	end
 	if (E.myclass == "PALADIN" and tree == 2) or
 	(E.myclass == "WARRIOR" and tree == 3) or
-	(E.myclass == "DEATHKNIGHT" and tree == 1) or
+	(E.myclass == "DEATHKNIGHT" and tree == 1) and
+	resilience == false or
 	(E.myclass == "DRUID" and tree == 2 and GetBonusBarOffset() == 3) then
 		E.Role = "Tank"
 	else
