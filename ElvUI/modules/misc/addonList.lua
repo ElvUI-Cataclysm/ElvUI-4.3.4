@@ -327,6 +327,7 @@ function AL:Initialize()
 
 		enabled:SetScript("OnClick", function(self)
 			AL:Enable(self:GetParent():GetID(), self:GetChecked());
+			PlaySound("igMainMenuOptionCheckBoxOn");
 		end);
 
 		enabled:SetScript("OnEnter", function(self)
