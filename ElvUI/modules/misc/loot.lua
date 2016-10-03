@@ -2,16 +2,35 @@ local E, L, V, P, G = unpack(select(2, ...));
 local M = E:GetModule('Misc');
 
 local unpack, pairs = unpack, pairs;
+local tinsert = table.insert
+local max = math.max
+
+local CreateFrame = CreateFrame
+local LootSlotIsItem = LootSlotIsItem
+local CursorUpdate = CursorUpdate
+local ResetCursor = ResetCursor
+local IsModifiedClick = IsModifiedClick
+local HandleModifiedItemClick = HandleModifiedItemClick
+local GetLootSlotLink = GetLootSlotLink
+local StaticPopup_Hide = StaticPopup_Hide
+local CursorOnUpdate = CursorOnUpdate
+local ToggleDropDownMenu = ToggleDropDownMenu
+local CloseLoot = CloseLoot
+local GetNumLootItems = GetNumLootItems
+local IsFishingLoot = IsFishingLoot
+local UnitIsFriend = UnitIsFriend
+local UnitIsDead = UnitIsDead
+local UnitName = UnitName
+local GetCVar = GetCVar
+local GetCursorPosition = GetCursorPosition
+local GetLootSlotInfo = GetLootSlotInfo
+local GiveMasterLoot = GiveMasterLoot
 local ITEM_QUALITY_COLORS = ITEM_QUALITY_COLORS;
 local TEXTURE_ITEM_QUEST_BANG = TEXTURE_ITEM_QUEST_BANG;
 local LOOT = LOOT;
 
--- Credit Haste
 local lootFrame, lootFrameHolder
 local iconSize = 30;
-
-local max = math.max
-local tinsert = table.insert
 
 local sq, ss, sn;
 local OnEnter = function(self)
@@ -23,7 +42,7 @@ local OnEnter = function(self)
 	end
 
 	self.drop:Show();
-	self.drop:SetVertexColor(1, 1, 0);
+	self.drop:SetVertexColor(1, 1, 1);
 end
 
 local OnLeave = function(self)
@@ -43,6 +62,7 @@ local OnClick = function(self)
 	LootFrame.selectedItemName = self.name:GetText()
 	LootFrame.selectedSlot = self:GetID()
 	LootFrame.selectedLootButton = self:GetName()
+	LootFrame.selectedTexture = self.icon:GetTexture()
 
 	if(IsModifiedClick()) then
 		HandleModifiedItemClick(GetLootSlotLink(self:GetID()))
@@ -122,11 +142,12 @@ local function createSlot(id)
 	frame.name = name
 
 	local drop = frame:CreateTexture(nil, "ARTWORK")
-	drop:SetTexture"Interface\\QuestFrame\\UI-QuestLogTitleHighlight"
+	drop:SetTexture(1, 1, 1, 0.15)
+	--drop:SetTexture"Interface\\QuestFrame\\UI-QuestLogTitleHighlight"
 	drop:Point("LEFT", icon, "RIGHT", 0, 0)
 	drop:Point("RIGHT", frame)
 	drop:SetAllPoints(frame)
-	drop:SetAlpha(.3)
+	--drop:SetAlpha(0.15)
 	frame.drop = drop
 
 	local questTexture = iconFrame:CreateTexture(nil, 'OVERLAY')

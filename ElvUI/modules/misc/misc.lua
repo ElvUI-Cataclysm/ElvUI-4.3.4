@@ -3,6 +3,34 @@ local M = E:NewModule("Misc", "AceEvent-3.0", "AceTimer-3.0");
 E.Misc = M;
 
 local format, gsub = string.format, string.gsub;
+
+local UnitInRaid = UnitInRaid;
+local IsInInstance = IsInInstance;
+local SendChatMessage = SendChatMessage;
+local IsShiftKeyDown = IsShiftKeyDown;
+local CanMerchantRepair = CanMerchantRepair;
+local GetRepairAllCost = GetRepairAllCost;
+local GetGuildBankWithdrawMoney = GetGuildBankWithdrawMoney;
+local CanGuildBankRepair = CanGuildBankRepair;
+local RepairAllItems = RepairAllItems;
+local InCombatLockdown = InCombatLockdown;
+local GetRaidRosterInfo = GetRaidRosterInfo;
+local UninviteUnit = UninviteUnit;
+local UnitName = UnitName;
+local LeaveParty = LeaveParty;
+local RaidNotice_AddMessage = RaidNotice_AddMessage;
+local GetNumFriends = GetNumFriends;
+local ShowFriends = ShowFriends;
+local IsInGuild = IsInGuild;
+local GuildRoster = GuildRoster;
+local GetFriendInfo = GetFriendInfo;
+local AcceptGroup = AcceptGroup;
+local GetNumGuildMembers = GetNumGuildMembers;
+local GetGuildRosterInfo = GetGuildRosterInfo;
+local BNGetNumFriends = BNGetNumFriends;
+local BNGetFriendInfo = BNGetFriendInfo;
+local StaticPopup_Hide = StaticPopup_Hide;
+local GetCVarBool, SetCVar = GetCVarBool, SetCVar;
 local UIErrorsFrame = UIErrorsFrame;
 local MAX_PARTY_MEMBERS = MAX_PARTY_MEMBERS;
 

@@ -9,9 +9,24 @@ local tostring = tostring;
 local floor = floor;
 local format, strsub = string.format, string.sub;
 
-local InCombatLockdown = InCombatLockdown
-local CinematicFrame = CinematicFrame
-local MovieFrame = MovieFrame
+local CreateFrame = CreateFrame;
+local InCombatLockdown = InCombatLockdown;
+local CinematicFrame = CinematicFrame;
+local MovieFrame = MovieFrame;
+local MoveViewLeftStart = MoveViewLeftStart;
+local MoveViewLeftStop = MoveViewLeftStop;
+local IsInGuild = IsInGuild;
+local GetGuildInfo = GetGuildInfo;
+local GetBattlefieldStatus = GetBattlefieldStatus;
+local UnitIsAFK = UnitIsAFK;
+local SetCVar = SetCVar;
+local IsShiftKeyDown = IsShiftKeyDown;
+local GetColoredName = GetColoredName;
+local Chat_GetChatCategory = Chat_GetChatCategory;
+local ChatHistory_GetAccessID = ChatHistory_GetAccessID;
+local GetScreenWidth = GetScreenWidth;
+local GetScreenHeight = GetScreenHeight;
+local UnitFactionGroup = UnitFactionGroup;
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
 local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 local DND = DND;
@@ -22,6 +37,14 @@ local ignoreKeys = {
 	LSHIFT = true,
 	RSHIFT = true
 };
+
+local printKeys = {
+	["PRINTSCREEN"] = true,
+};
+
+if IsMacClient() then
+	printKeys[_G["KEY_PRINTSCREEN_MAC"]] = true
+end
 
 function AFK:UpdateTimer()
 	local time = GetTime() - self.startTime;
@@ -74,7 +97,7 @@ function AFK:SetAFK(status)
 end
 
 function AFK:OnEvent(event, ...)
-	if(event == 'PLAYER_REGEN_DISABLED' or event == 'UPDATE_BATTLEFIELD_STATUS') then
+	if(event == "PLAYER_REGEN_DISABLED" or event == "LFG_PROPOSAL_SHOW" or event == "UPDATE_BATTLEFIELD_STATUS") then
 		if(event == 'UPDATE_BATTLEFIELD_STATUS') then
 			local status = GetBattlefieldStatus(...);
 			if(status == 'confirm') then
@@ -87,7 +110,6 @@ function AFK:OnEvent(event, ...)
 		if(event == 'PLAYER_REGEN_DISABLED') then
 			self:RegisterEvent('PLAYER_REGEN_ENABLED', 'OnEvent');
 		end
-
 		return;
 	end
 
@@ -106,23 +128,26 @@ function AFK:Toggle()
 	if(E.db.general.afk) then
 		self:RegisterEvent('PLAYER_FLAGS_CHANGED', 'OnEvent');
 		self:RegisterEvent('PLAYER_REGEN_DISABLED', 'OnEvent');
+		self:RegisterEvent("LFG_PROPOSAL_SHOW", "OnEvent");
 		self:RegisterEvent('UPDATE_BATTLEFIELD_STATUS', 'OnEvent');
 
 		SetCVar('autoClearAFK', '1');
 	else
 		self:UnregisterEvent('PLAYER_FLAGS_CHANGED');
 		self:UnregisterEvent('PLAYER_REGEN_DISABLED');
+		self:UnregisterEvent("LFG_PROPOSAL_SHOW");
 		self:UnregisterEvent('UPDATE_BATTLEFIELD_STATUS');
 	end
 end
 
 local function OnKeyDown(self, key)
-	if(ignoreKeys[key]) then
-		return;
+	if(ignoreKeys[key]) then return end
+	if printKeys[key] then
+		Screenshot()
+	else
+		AFK:SetAFK(false);
+		AFK:ScheduleTimer('OnEvent', 60);
 	end
-
-	AFK:SetAFK(false);
-	AFK:ScheduleTimer('OnEvent', 60);
 end
 
 local function Chat_OnMouseWheel(self, delta)
@@ -188,7 +213,7 @@ function AFK:Initialize()
 
 	self.AFKMode.chat = CreateFrame('ScrollingMessageFrame', 'AFKChat', self.AFKMode);
 	self.AFKMode.chat:SetSize(500, 200);
-	self.AFKMode.chat:SetPoint('TOPLEFT', self.AFKMode, 'TOPLEFT', 4, -4);
+	self.AFKMode.chat:Point('TOPLEFT', self.AFKMode, 'TOPLEFT', 4, -4);
 	self.AFKMode.chat:FontTemplate();
 	self.AFKMode.chat:SetJustifyH('LEFT');
 	self.AFKMode.chat:SetMaxLines(500);
@@ -199,41 +224,41 @@ function AFK:Initialize()
 
 	self.AFKMode.bottom = CreateFrame('Frame', nil, self.AFKMode);
 	self.AFKMode.bottom:SetTemplate('Transparent');
-	self.AFKMode.bottom:SetPoint('BOTTOM', self.AFKMode, 'BOTTOM', 0, -2);
+	self.AFKMode.bottom:Point('BOTTOM', self.AFKMode, 'BOTTOM', 0, -2);
 	self.AFKMode.bottom:SetWidth(GetScreenWidth());
 	self.AFKMode.bottom:SetHeight(GetScreenHeight() * (1 / 10));
 
 	self.AFKMode.bottom.logo = self.AFKMode.bottom:CreateTexture(nil, 'OVERLAY');
 	self.AFKMode.bottom.logo:SetSize(320, 150);
-	self.AFKMode.bottom.logo:SetPoint('CENTER', self.AFKMode.bottom, 'CENTER', 0, 50);
+	self.AFKMode.bottom.logo:Point('CENTER', self.AFKMode.bottom, 'CENTER', 0, 50);
 	self.AFKMode.bottom.logo:SetTexture('Interface\\AddOns\\ElvUI\\media\\textures\\logo_elvui');
 
 	local factionGroup = UnitFactionGroup('player');
 	self.AFKMode.bottom.faction = self.AFKMode.bottom:CreateTexture(nil, 'OVERLAY');
-	self.AFKMode.bottom.faction:SetPoint('BOTTOMLEFT', self.AFKMode.bottom, 'BOTTOMLEFT', -20, -16);
+	self.AFKMode.bottom.faction:Point('BOTTOMLEFT', self.AFKMode.bottom, 'BOTTOMLEFT', -20, -16);
 	self.AFKMode.bottom.faction:SetTexture('Interface\\AddOns\\ElvUI\\media\\textures\\'..factionGroup..'-Logo');
 	self.AFKMode.bottom.faction:SetSize(140, 140);
 
 	self.AFKMode.bottom.name = self.AFKMode.bottom:CreateFontString(nil, 'OVERLAY');
 	self.AFKMode.bottom.name:FontTemplate(nil, 20);
 	self.AFKMode.bottom.name:SetFormattedText("%s-%s", E.myname, E.myrealm);
-	self.AFKMode.bottom.name:SetPoint('TOPLEFT', self.AFKMode.bottom.faction, 'TOPRIGHT', -10, -28);
+	self.AFKMode.bottom.name:Point('TOPLEFT', self.AFKMode.bottom.faction, 'TOPRIGHT', -10, -28);
 	self.AFKMode.bottom.name:SetTextColor(classColor.r, classColor.g, classColor.b);
 
 	self.AFKMode.bottom.guild = self.AFKMode.bottom:CreateFontString(nil, 'OVERLAY');
 	self.AFKMode.bottom.guild:FontTemplate(nil, 20);
 	self.AFKMode.bottom.guild:SetText(L['No Guild']);
-	self.AFKMode.bottom.guild:SetPoint('TOPLEFT', self.AFKMode.bottom.name, 'BOTTOMLEFT', 0, -6);
+	self.AFKMode.bottom.guild:Point('TOPLEFT', self.AFKMode.bottom.name, 'BOTTOMLEFT', 0, -6);
 	self.AFKMode.bottom.guild:SetTextColor(0.7, 0.7, 0.7);
 
 	self.AFKMode.bottom.time = self.AFKMode.bottom:CreateFontString(nil, 'OVERLAY');
 	self.AFKMode.bottom.time:FontTemplate(nil, 20);
 	self.AFKMode.bottom.time:SetText('00:00');
-	self.AFKMode.bottom.time:SetPoint('TOPLEFT', self.AFKMode.bottom.guild, 'BOTTOMLEFT', 0, -6);
+	self.AFKMode.bottom.time:Point('TOPLEFT', self.AFKMode.bottom.guild, 'BOTTOMLEFT', 0, -6);
 	self.AFKMode.bottom.time:SetTextColor(0.7, 0.7, 0.7);
 
 	self.AFKMode.bottom.model = CreateFrame('PlayerModel', 'ElvUIAFKPlayerModel', self.AFKMode.bottom);
-	self.AFKMode.bottom.model:SetPoint('BOTTOMRIGHT', self.AFKMode.bottom, 'BOTTOMRIGHT', 120, -100);
+	self.AFKMode.bottom.model:Point('BOTTOMRIGHT', self.AFKMode.bottom, 'BOTTOMRIGHT', 120, -100);
 	self.AFKMode.bottom.model:SetSize(800, 800);
 	self.AFKMode.bottom.model:SetFacing(6);
 

@@ -1,6 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local TOTEMS = E:NewModule("Totems", "AceEvent-3.0");
-
 E.TotemBar = TOTEMS
 
 local _G = _G;
@@ -11,7 +10,7 @@ local GetTotemInfo = GetTotemInfo;
 local CooldownFrame_SetTimer = CooldownFrame_SetTimer;
 local MAX_TOTEMS = MAX_TOTEMS;
 
-function TOTEMS:Update(event)
+function TOTEMS:Update()
 	local displayedTotems = 0;
 	for i = 1, MAX_TOTEMS do
 		local haveTotem, name, startTime, duration, icon = GetTotemInfo(i);
@@ -25,7 +24,7 @@ function TOTEMS:Update(event)
 				if(_G["TotemFrameTotem" .. d .. "IconTexture"]:GetTexture() == icon) then
 					_G["TotemFrameTotem" .. d]:ClearAllPoints();
 					_G["TotemFrameTotem" .. d]:SetParent(self.bar[i].holder);
-					_G["TotemFrameTotem" .. d]:SetAllPoints(self.bar[i].holder);		
+					_G["TotemFrameTotem" .. d]:SetAllPoints(self.bar[i].holder);
 				end
 			end
 		else

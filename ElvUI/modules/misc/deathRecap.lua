@@ -12,6 +12,7 @@ local UnitHealthMax = UnitHealthMax;
 local COMBATLOG_FILTER_ME = COMBATLOG_FILTER_ME;
 local GetReleaseTimeRemaining = GetReleaseTimeRemaining;
 local RepopMe = RepopMe;
+local IsShiftKeyDown = IsShiftKeyDown;
 
 local lastDeathEvents;
 local index = 0;

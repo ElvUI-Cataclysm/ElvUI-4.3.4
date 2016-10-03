@@ -3,18 +3,33 @@ local M = E:GetModule("Misc");
 
 local pairs, unpack, ipairs, next, tonumber = pairs, unpack, ipairs, next, tonumber;
 local tinsert = table.insert;
-local ITEM_QUALITY_COLORS = ITEM_QUALITY_COLORS;
+local find = string.find;
+
+local CreateFrame = CreateFrame
+local RollOnLoot = RollOnLoot
+local ResetCursor = ResetCursor
+local IsShiftKeyDown = IsShiftKeyDown
+local GameTooltip_ShowCompareItem = GameTooltip_ShowCompareItem
+local IsModifiedClick = IsModifiedClick
+local ShowInspectCursor = ShowInspectCursor
+local CursorOnUpdate = CursorOnUpdate
+local IsControlKeyDown = IsControlKeyDown
+local DressUpItemLink = DressUpItemLink
+local ChatEdit_InsertLink = ChatEdit_InsertLink
+local GetLootRollTimeLeft = GetLootRollTimeLeft
+local GetLootRollItemInfo = GetLootRollItemInfo
+local GetLootRollItemLink = GetLootRollItemLink
+local SetDesaturation = SetDesaturation
+local UnitLevel = UnitLevel
+local ITEM_QUALITY_COLORS = ITEM_QUALITY_COLORS
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS
+local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS
+local ROLL_DISENCHANT = ROLL_DISENCHANT
 
 local pos = "TOP";
 local cancelled_rolls = {};
 local FRAME_WIDTH, FRAME_HEIGHT = 328, 28;
 M.RollBars = {};
-
-local tinsert = table.insert;
-local find = string.find;
-
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
-local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 
 local locale = GetLocale()
 local rollpairs = locale == "deDE" and {

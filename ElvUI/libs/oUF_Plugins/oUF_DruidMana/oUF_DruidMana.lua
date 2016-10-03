@@ -1,12 +1,11 @@
 if(select(2, UnitClass('player')) ~= 'DRUID') then return end
-local E, L, DF = unpack(select(2, ...)) -- Import Functions/Constants, Config, Locales
+local E, L, DF = unpack(select(2, ...))
 
 local _, ns = ...
 local oUF = ns.oUF or oUF
 
 local UPDATE_VISIBILITY = function(self, event)
 	local druidmana = self.DruidAltMana
-	-- check form
 	local form = GetShapeshiftFormID()
 	local min, max = druidmana.ManaBar:GetMinMaxValues()
 
@@ -20,15 +19,15 @@ local UPDATE_VISIBILITY = function(self, event)
 
 	if(druidmana.PostUpdateVisibility) then
 		return druidmana:PostUpdateVisibility(self.unit)
-	end	
+	end
 end
 
 local UNIT_POWER = function(self, event, unit, powerType)
 	if(self.unit ~= unit) then return end
 	local druidmana = self.DruidAltMana
-	
+
 	if not (druidmana.ManaBar) then return end
-	
+
 	if(druidmana.PreUpdate) then
 		druidmana:PreUpdate(unit)
 	end
