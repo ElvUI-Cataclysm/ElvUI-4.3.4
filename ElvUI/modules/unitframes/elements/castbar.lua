@@ -29,6 +29,7 @@ local INVERT_ANCHORPOINT = {
 function UF:Construct_Castbar(frame, direction, moverName)
 	local castbar = CreateFrame("StatusBar", nil, frame);
 	castbar:SetFrameStrata("MEDIUM");
+	castbar:SetFrameLevel(frame:GetFrameLevel() + 20)
 	self["statusbars"][castbar] = true;
 	
 	castbar.OnUpdate = self.OnCastUpdate;
@@ -158,8 +159,6 @@ function UF:Configure_Castbar(frame)
 		if(castbar.Holder.mover) then
 			E:DisableMover(castbar.Holder.mover:GetName());
 		end
-
-		castbar:SetFrameStrata("HIGH");
 	else
 		local isMoved = E:HasMoverBeenMoved(frame:GetName() .. "CastbarMover") or not castbar.Holder.mover;
 		if(not isMoved) then	
@@ -182,8 +181,6 @@ function UF:Configure_Castbar(frame)
 		if(castbar.Holder.mover) then
 			E:EnableMover(castbar.Holder.mover:GetName());
 		end
-
-		castbar:SetFrameStrata("MEDIUM");
 	end
 	
 	if(E.global.tukuiMode and db.castbar.icon) then
@@ -206,7 +203,6 @@ function UF:Configure_Castbar(frame)
 		else
 			castbar.Icon.bg:Point("RIGHT", castbar, "LEFT", -frame.SPACING*3, 0);
 		end
-		castbar.Icon.bg:SetFrameStrata(castbar:GetFrameStrata());
 	end
 	
 	if(db.castbar.enable and not frame:IsElementEnabled("Castbar")) then

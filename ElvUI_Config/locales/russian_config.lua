@@ -666,7 +666,7 @@ L["Trade Frame"] = "Обмен"
 L["TradeSkill Frame"] = "Профессия"
 L["Trainer Frame"] = "Тренер"
 L["Transmogrify Frame"] = "Окно трансмогрификации"
-L["Tutorial Frame"] = true;
+L["Tutorial Frame"] = "Обучение";
 L["Void Storage"] = "Хранилище бездны"
 L["World Map"] = "Карта мира"
 
