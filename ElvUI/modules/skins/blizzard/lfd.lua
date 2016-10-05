@@ -114,6 +114,7 @@ local function LoadSkin()
 			local button = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i]
 			local icon = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."IconTexture"]
 			local count = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."Count"]
+			local name  = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."Name"]
 			local role1 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."RoleIcon1"]
 			local role2 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."RoleIcon2"]
 			local role3 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."RoleIcon3"]
@@ -145,6 +146,7 @@ local function LoadSkin()
 							local quality = select(3, GetItemInfo(Link))
 							if(quality and quality > 1) then
 								button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality));
+								name:SetTextColor(GetItemQualityColor(quality));
 							else
 								button.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor));
 							end
