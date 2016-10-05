@@ -77,17 +77,20 @@ local function LoadSkin()
 			local quality = select(3, GetItemInfo(skillLink));
 			if(quality and quality > 1) then
 				TradeSkillSkillIcon:SetBackdropBorderColor(GetItemQualityColor(quality));
+				TradeSkillSkillName:SetTextColor(GetItemQualityColor(quality));
 			else
 				TradeSkillSkillIcon:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+				TradeSkillSkillName:SetTextColor(1, 1, 1);
 			end
 		end
 
 		local numReagents = GetTradeSkillNumReagents(id);
 		for i = 1, numReagents, 1 do
-			local reagentName, reagentTexture = GetTradeSkillReagentInfo(id, i);
+			local reagentName, reagentTexture, reagentCount, playerReagentCount = GetTradeSkillReagentInfo(id, i);
 			local reagentLink = GetTradeSkillReagentItemLink(id, i);
 			local reagent = _G["TradeSkillReagent" .. i];
 			local icon = _G["TradeSkillReagent" .. i .. "IconTexture"];
+			local name = _G["TradeSkillReagent" .. i .. "Name"];
 			local count = _G["TradeSkillReagent" .. i .. "Count"];
 
 			if((reagentName or reagentTexture) and not reagent.isSkinned) then
@@ -97,8 +100,8 @@ local function LoadSkin()
 
 				icon:SetTexCoord(unpack(E.TexCoords));
 				icon:SetDrawLayer("OVERLAY");
-				icon:Size(icon:GetWidth() - 1, icon:GetHeight() - 1)
-				icon:Point("TOPLEFT", 0, -2)
+				icon:Size(icon:GetWidth() - 1, icon:GetHeight() - 1);
+				icon:Point("TOPLEFT", 0, -2);
 
 				icon.backdrop = CreateFrame("Frame", nil, reagent);
 				icon.backdrop:SetFrameLevel(reagent:GetFrameLevel() - 1);
@@ -116,9 +119,19 @@ local function LoadSkin()
 			if(reagentLink) then
 				local quality = select(3, GetItemInfo(reagentLink));
 				if(quality and quality > 1) then
-					_G["TradeSkillReagent" .. i .. "IconTexture"].backdrop:SetBackdropBorderColor(GetItemQualityColor(quality));
+					icon.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality));
+					 if(playerReagentCount < reagentCount) then
+						name:SetTextColor(0.5, 0.5, 0.5);
+					else
+						name:SetTextColor(GetItemQualityColor(quality));
+					end
 				else
-					_G["TradeSkillReagent" .. i .. "IconTexture"].backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+					icon.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+					 if(playerReagentCount < reagentCount) then
+						name:SetTextColor(0.5, 0.5, 0.5);
+					else
+						name:SetTextColor(1, 1, 1);
+					end
  				end
 			end
 		end
