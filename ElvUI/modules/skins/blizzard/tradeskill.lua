@@ -127,11 +127,6 @@ local function LoadSkin()
 					end
 				else
 					icon.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor));
-					 if(playerReagentCount < reagentCount) then
-						name:SetTextColor(0.5, 0.5, 0.5);
-					else
-						name:SetTextColor(1, 1, 1);
-					end
  				end
 			end
 		end
