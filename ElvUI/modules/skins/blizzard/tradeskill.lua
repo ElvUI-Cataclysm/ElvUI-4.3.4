@@ -74,6 +74,7 @@ local function LoadSkin()
 
 		local skillLink = GetTradeSkillItemLink(id)
 		if(skillLink) then
+			TradeSkillRequirementLabel:SetTextColor(1, 0.80, 0.10);
 			local quality = select(3, GetItemInfo(skillLink));
 			if(quality and quality > 1) then
 				TradeSkillSkillIcon:SetBackdropBorderColor(GetItemQualityColor(quality));
