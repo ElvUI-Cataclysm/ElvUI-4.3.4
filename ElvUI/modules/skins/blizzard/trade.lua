@@ -93,10 +93,9 @@ local function LoadSkin()
 		local tradeItemName = _G["TradePlayerItem" .. id .. "Name"];
 		if(link) then
 			local quality = select(3, GetItemInfo(link));
-			local r, g, b = GetItemQualityColor(quality);
-			tradeItemName:SetTextColor(r, g, b);
+			tradeItemName:SetTextColor(GetItemQualityColor(quality));
 			if(quality and quality > 1) then
-				tradeItemButton:SetBackdropBorderColor(r, g, b);
+				tradeItemButton:SetBackdropBorderColor(GetItemQualityColor(quality));
  			end
 		else
 			tradeItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor));
@@ -109,10 +108,9 @@ local function LoadSkin()
 		local tradeItemName = _G["TradeRecipientItem" .. id .. "Name"];
 		if(link) then
 			local quality = select(3, GetItemInfo(link));
-			local r, g, b = GetItemQualityColor(quality);
-			tradeItemName:SetTextColor(r, g, b);
+			tradeItemName:SetTextColor(GetItemQualityColor(quality));
 			if(quality and quality > 1) then
-				tradeItemButton:SetBackdropBorderColor(r, g, b);
+				tradeItemButton:SetBackdropBorderColor(GetItemQualityColor(quality));
  			end
 		else
 			tradeItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor));
