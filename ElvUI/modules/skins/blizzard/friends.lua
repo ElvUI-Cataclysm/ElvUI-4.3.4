@@ -2,47 +2,29 @@ local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
 local _G = _G;
-local unpack = unpack;
+local pairs, unpack = pairs, unpack;
+local format, len, upper, gsub = string.format, string.len, string.upper, string.gsub;
 
+local hooksecurefunc = hooksecurefunc;
+local GetWhoInfo = GetWhoInfo;
 local MAX_DISPLAY_CHANNEL_BUTTONS = MAX_DISPLAY_CHANNEL_BUTTONS
-
---Tab Regions
-local tabs = {
-	"LeftDisabled",
-	"MiddleDisabled",
-	"RightDisabled",
-	"Left",
-	"Middle",
-	"Right",
-}
-
---Social Frame
-local function SkinSocialHeaderTab(tab)
-	if not tab then return end
-	for _, object in pairs(tabs) do
-		local tex = _G[tab:GetName()..object]
-		tex:SetTexture(nil)
-	end
-	tab:GetHighlightTexture():SetTexture(nil)
-	tab.backdrop = CreateFrame("Frame", nil, tab)
-	tab.backdrop:SetTemplate("Default", true)
-	tab.backdrop:SetFrameLevel(tab:GetFrameLevel() - 1)
-	tab.backdrop:Point("TOPLEFT", 3, -7)
-	tab.backdrop:Point("BOTTOMRIGHT", -2, -1)
-end
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
+local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.friends ~= true then return end
 
-	S:HandleScrollBar(FriendsFrameFriendsScrollFrameScrollBar, 5)
-	S:HandleScrollBar(WhoListScrollFrameScrollBar, 5)
-	S:HandleScrollBar(ChannelRosterScrollFrameScrollBar, 5)
-	S:HandleScrollBar(FriendsFriendsScrollFrameScrollBar)
-
 	local StripAllTextures = {
 		"ScrollOfResurrectionSelectionFrame",
 		"ScrollOfResurrectionSelectionFrameList",
+		"ScrollOfResurrectionFrame",
+		"ScrollOfResurrectionFrameNoteFrame",
+		"FriendsFriendsFrame",
+		"FriendsFriendsList",
+		"FriendsFriendsNoteFrame",
 		"FriendsListFrame",
+		"IgnoreListFrame",
+		"PendingListFrame",
 		"FriendsTabHeader",
 		"FriendsFrameFriendsScrollFrame",
 		"WhoFrameColumnHeader1",
@@ -58,7 +40,21 @@ local function LoadSkin()
 		"ChannelFrameDaughterFrame",
 		"AddFriendFrame",
 		"AddFriendNoteFrame",
+		"FriendsFrameInset",
+		"WhoFrameListInset",
+		"WhoFrameEditBoxInset",
+		"ChannelFrameRightInset",
+		"ChannelFrameLeftInset",
+		"LFRQueueFrameListInset",
+		"LFRQueueFrameRoleInset",
+		"LFRQueueFrameCommentInset",
+		"BNConversationInviteDialog",
+		"BNConversationInviteDialogList"
 	}
+
+	for _, object in pairs(StripAllTextures) do
+		_G[object]:StripTextures()
+	end
 
 	local KillTextures = {
 		"FriendsFrameBroadcastInputLeft",
@@ -72,14 +68,9 @@ local function LoadSkin()
 		"ChannelFrameDaughterFrameChannelPasswordMiddle",
 	}
 
-	FriendsFrameInset:StripTextures()
-	WhoFrameListInset:StripTextures()
-	WhoFrameEditBoxInset:StripTextures()
-	ChannelFrameRightInset:StripTextures()
-	ChannelFrameLeftInset:StripTextures()
-	LFRQueueFrameListInset:StripTextures()
-	LFRQueueFrameRoleInset:StripTextures()
-	LFRQueueFrameCommentInset:StripTextures()
+	for _, texture in pairs(KillTextures) do
+		_G[texture]:Kill()
+	end
 
 	local buttons = {
 		"FriendsFrameAddFriendButton",
@@ -88,6 +79,8 @@ local function LoadSkin()
 		"WhoFrameAddFriendButton",
 		"WhoFrameGroupInviteButton",
 		"ChannelFrameNewButton",
+		"FriendsFriendsSendRequestButton",
+		"FriendsFriendsCloseButton",
 		"FriendsFrameIgnorePlayerButton",
 		"FriendsFrameUnsquelchButton",
 		"FriendsFramePendingButton1AcceptButton",
@@ -111,17 +104,7 @@ local function LoadSkin()
 		S:HandleButton(_G[button])
 	end
 
-	for _, texture in pairs(KillTextures) do
-		_G[texture]:Kill()
-	end
-
-	for _, object in pairs(StripAllTextures) do
-		_G[object]:StripTextures()
-	end
-
-	ChannelFrameNewButton:Point("BOTTOMRIGHT", ChannelFrame, "BOTTOMRIGHT", -255, 30)
-
-	for i=1, FriendsFrame:GetNumRegions() do
+	for i = 1, FriendsFrame:GetNumRegions() do
 		local region = select(i, FriendsFrame:GetRegions())
 		if region:GetObjectType() == "Texture" then
 			region:SetTexture(nil)
@@ -129,44 +112,137 @@ local function LoadSkin()
 		end
 	end
 
-	S:HandleEditBox(AddFriendNameEditBox)
-	AddFriendFrame:SetTemplate("Transparent")
-	ScrollOfResurrectionSelectionFrame:SetTemplate('Transparent')
-	ScrollOfResurrectionSelectionFrameList:SetTemplate('Default')
-	S:HandleScrollBar(ScrollOfResurrectionSelectionFrameListScrollFrameScrollBar, 4)
-	S:HandleEditBox(ScrollOfResurrectionSelectionFrameTargetEditBox)
+	for i = 1, 3 do
+		local headerTab = _G["FriendsTabHeaderTab"..i]
+		headerTab:StripTextures()
+		headerTab.backdrop = CreateFrame("Frame", nil, headerTab)
+		headerTab.backdrop:SetTemplate("Default", true)
+		headerTab.backdrop:SetFrameLevel(headerTab:GetFrameLevel() - 1)
+		headerTab.backdrop:Point("TOPLEFT", 3, -7)
+		headerTab.backdrop:Point("BOTTOMRIGHT", -2, -1)
 
-	for i=1, 11 do
+		headerTab:HookScript("OnEnter", S.SetModifiedBackdrop);
+		headerTab:HookScript("OnLeave", S.SetOriginalBackdrop);
+	end
+
+	for i = 1, 11 do
 		_G["FriendsFrameFriendsScrollFrameButton"..i.."SummonButtonIcon"]:SetTexCoord(unpack(E.TexCoords))
 		_G["FriendsFrameFriendsScrollFrameButton"..i.."SummonButtonNormalTexture"]:SetAlpha(0)
 		_G["FriendsFrameFriendsScrollFrameButton"..i.."SummonButton"]:StyleButton()
 		_G["FriendsFrameFriendsScrollFrameButton"..i]:StyleButton()
 	end
 
+	FriendsFrame:SetTemplate('Transparent')
+	FriendsFrameBroadcastInput:CreateBackdrop("Default")
+
+	S:HandleEditBox(AddFriendNameEditBox)
+	AddFriendFrame:SetTemplate("Transparent")
+
+	FriendsFriendsFrame:CreateBackdrop("Transparent")
+
+	S:HandleEditBox(FriendsFriendsList)
+	S:HandleEditBox(FriendsFriendsNoteFrame)
+	S:HandleDropDownBox(FriendsFriendsFrameDropDown, 150)
+
+	S:HandleDropDownBox(FriendsFrameStatusDropDown, 70)
+	FriendsFrameStatusDropDown:Point("TOPLEFT", FreindsListFrame, "TOPLEFT", 5, -25);
+
+	S:HandleScrollBar(FriendsFrameFriendsScrollFrameScrollBar, 5)
+	S:HandleScrollBar(FriendsFriendsScrollFrameScrollBar)
+
+	S:HandleCloseButton(FriendsFrameCloseButton,FriendsFrame.backdrop)
+
 	--Who Frame
 	local function UpdateWhoSkins()
 		WhoListScrollFrame:StripTextures()
 	end
+	WhoFrame:HookScript("OnShow", UpdateWhoSkins)
+	hooksecurefunc("FriendsFrame_OnEvent", UpdateWhoSkins)
 
-	for i=1, 17 do
-		_G["WhoFrameButton"..i]:StyleButton()
-	end
-
-	for i=1, 4 do
+	for i = 1, 4 do
 		_G["WhoFrameColumnHeader"..i]:StyleButton()
 	end
+
+	WhoFrameColumnHeader3:ClearAllPoints();
+	WhoFrameColumnHeader3:SetPoint("TOPLEFT", WhoFrame, "TOPLEFT", 7, -57);
+
+	WhoFrameColumnHeader4:ClearAllPoints();
+	WhoFrameColumnHeader4:SetPoint("LEFT", WhoFrameColumnHeader3, "RIGHT", -2, -0);
+	WhoFrameColumn_SetWidth(WhoFrameColumnHeader4, 48);
+
+	WhoFrameColumnHeader1:ClearAllPoints();
+	WhoFrameColumnHeader1:SetPoint("LEFT", WhoFrameColumnHeader4, "RIGHT", -2, -0);
+	WhoFrameColumn_SetWidth(WhoFrameColumnHeader1, 105);
+
+	WhoFrameColumnHeader2:ClearAllPoints();
+	WhoFrameColumnHeader2:SetPoint("LEFT", WhoFrameColumnHeader1, "RIGHT", -2, 2);
+
+	S:HandleDropDownBox(WhoFrameDropDown, 150)
+
+	S:HandleScrollBar(WhoListScrollFrameScrollBar, 5)
+
+	for i = 1, 17 do
+		local button = _G["WhoFrameButton"..i];
+
+		button.icon = button:CreateTexture("$parentIcon", "ARTWORK");
+		button.icon:SetPoint("LEFT", 48, 0);
+		button.icon:SetSize(16, 16);
+		button.icon:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes");
+		--button.icon:SetTexCoord(0.03, 0.22, 0.03, 0.23);
+
+		button:StyleButton()
+
+		_G["WhoFrameButton" .. i .. "Level"]:ClearAllPoints();
+		_G["WhoFrameButton" .. i .. "Level"]:SetPoint("TOPLEFT", 10, 0);
+
+		_G["WhoFrameButton" .. i .. "Name"]:SetSize(100, 14);
+		_G["WhoFrameButton" .. i .. "Name"]:ClearAllPoints();
+		_G["WhoFrameButton" .. i .. "Name"]:SetPoint("LEFT", 85, 0);
+
+		_G["WhoFrameButton" .. i .. "Class"]:Hide();
+	end
+
+	hooksecurefunc("WhoList_Update", function()
+		local _, level;
+		local button, buttonText, classTextColor, classFileName, levelTextColor;
+
+		for i = 1, WHOS_TO_DISPLAY, 1 do
+			button = _G["WhoFrameButton"..i];
+			_, _, level, _, _, _, classFileName = GetWhoInfo(button.whoIndex);
+
+			if(classFileName) then
+				classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classFileName] or RAID_CLASS_COLORS[classFileName];
+				button.icon:Show();
+				button.icon:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFileName]));
+			else
+				classTextColor = HIGHLIGHT_FONT_COLOR;
+				button.icon:Hide();
+			end
+
+			levelTextColor = GetQuestDifficultyColor(level);
+
+			buttonText = _G["WhoFrameButton" .. i .. "Name"];
+			buttonText:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b);
+			buttonText = _G["WhoFrameButton" .. i .. "Level"];
+			buttonText:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b);
+			buttonText = _G["WhoFrameButton" .. i .. "Class"];
+			buttonText:SetTextColor(1.0, 1.0, 1.0);
+		end
+	end);
 
 	--Channel Frame
 	local function UpdateChannel()
 		ChannelRosterScrollFrame:StripTextures()
 	end
+	ChannelFrame:HookScript("OnShow", UpdateChannel)
+	hooksecurefunc("FriendsFrame_OnEvent", UpdateChannel)
 
-	for i=1, 22 do
+	for i = 1, 22 do
 		_G["ChannelMemberButton"..i]:StyleButton()
 	end
 
 	local function Channel()
-		for i=1, MAX_DISPLAY_CHANNEL_BUTTONS do
+		for i = 1, MAX_DISPLAY_CHANNEL_BUTTONS do
 			local button = _G["ChannelButton"..i]
 			if button then
 				_G["ChannelButton"..i.."NormalTexture"]:SetAlpha(0)
@@ -178,112 +254,74 @@ local function LoadSkin()
 	end
 	hooksecurefunc("ChannelList_Update", Channel)
 
-	--BNet Frame
-	FriendsFrameBroadcastInput:CreateBackdrop("Default")
+	ChannelFrameDaughterFrame:CreateBackdrop("Transparent")
 	ChannelFrameDaughterFrameChannelName:CreateBackdrop("Default")
 	ChannelFrameDaughterFrameChannelPassword:CreateBackdrop("Default")
+	ChannelFrameNewButton:Point("BOTTOMRIGHT", ChannelFrame, "BOTTOMRIGHT", -255, 30)
 
-	ChannelFrame:HookScript("OnShow", UpdateChannel)
-	hooksecurefunc("FriendsFrame_OnEvent", UpdateChannel)
-
-	WhoFrame:HookScript("OnShow", UpdateWhoSkins)
-	hooksecurefunc("FriendsFrame_OnEvent", UpdateWhoSkins)
-
-	ChannelFrameDaughterFrame:CreateBackdrop("Transparent")
-
-	FriendsFrame:SetTemplate('Transparent')
+	S:HandleScrollBar(ChannelRosterScrollFrameScrollBar, 5)
 
 	S:HandleCloseButton(ChannelFrameDaughterFrameDetailCloseButton,ChannelFrameDaughterFrame)
-	S:HandleCloseButton(FriendsFrameCloseButton,FriendsFrame.backdrop)
-
-	S:HandleDropDownBox(WhoFrameDropDown, 150)
-	S:HandleDropDownBox(FriendsFrameStatusDropDown, 70)
-	FriendsFrameStatusDropDown:Point("TOPLEFT", FreindsListFrame, "TOPLEFT", 5, -25);
 
 	--Bottom Tabs
-	for i=1, 4 do
+	for i = 1, 4 do
 		S:HandleTab(_G["FriendsFrameTab"..i])
 	end
 
-	for i=1, 3 do
-		SkinSocialHeaderTab(_G["FriendsTabHeaderTab"..i])
-	end
-
-	--View Friends BN Frame
-	FriendsFriendsFrame:CreateBackdrop("Transparent")
-
-	local StripAllTextures = {
-		"FriendsFriendsFrame",
-		"FriendsFriendsList",
-		"FriendsFriendsNoteFrame",
-	}
-
-	local buttons = {
-		"FriendsFriendsSendRequestButton",
-		"FriendsFriendsCloseButton",
-	}
-
-	for _, object in pairs(StripAllTextures) do
-		_G[object]:StripTextures()
-	end
-
-	for _, button in pairs(buttons) do
-		S:HandleButton(_G[button])
-	end
-
-	S:HandleEditBox(FriendsFriendsList)
-	S:HandleEditBox(FriendsFriendsNoteFrame)
-	S:HandleDropDownBox(FriendsFriendsFrameDropDown, 150)
-
-	BNConversationInviteDialog:StripTextures()
+	--BN Frame
 	BNConversationInviteDialog:CreateBackdrop('Transparent')
-	BNConversationInviteDialogList:StripTextures()
 	BNConversationInviteDialogList:SetTemplate('Default')
+
 	S:HandleButton(BNConversationInviteDialogInviteButton)
 	S:HandleButton(BNConversationInviteDialogCancelButton)
 
-	for i=1, BN_CONVERSATION_INVITE_NUM_DISPLAYED do
+	for i = 1, BN_CONVERSATION_INVITE_NUM_DISPLAYED do
 		S:HandleCheckBox(_G["BNConversationInviteDialogListFriend"..i].checkButton)
 	end
 
-	FriendsTabHeaderSoRButton:SetTemplate('Default')
-	FriendsTabHeaderSoRButton:StyleButton()
-	FriendsTabHeaderSoRButtonIcon:SetDrawLayer('OVERLAY')
-	FriendsTabHeaderSoRButtonIcon:SetTexCoord(unpack(E.TexCoords))
-	FriendsTabHeaderSoRButtonIcon:ClearAllPoints()
-	FriendsTabHeaderSoRButtonIcon:Point('TOPLEFT', 2, -2)
-	FriendsTabHeaderSoRButtonIcon:Point('BOTTOMRIGHT', -2, 2)
-	FriendsTabHeaderSoRButton:Point('TOPRIGHT', FriendsTabHeader, 'TOPRIGHT', -8, -56)
-
+	--Ignore List
 	S:HandleScrollBar(FriendsFrameIgnoreScrollFrameScrollBar)
 	FriendsFrameIgnoreScrollFrameScrollBar:Point("RIGHT", 88, 0)
-	S:HandleScrollBar(FriendsFramePendingScrollFrameScrollBar, 4)
 
-	FriendsFrameUnsquelchButton:Point("RIGHT", -30, 0)
-
-	IgnoreListFrame:StripTextures()
-	PendingListFrame:StripTextures()
-
-	for i=1, 19 do
+	for i = 1, 19 do
 		_G["FriendsFrameIgnoreButton"..i]:StyleButton()
 	end
 
-	ScrollOfResurrectionFrame:StripTextures()
-	S:HandleButton(ScrollOfResurrectionFrameAcceptButton)
-	S:HandleButton(ScrollOfResurrectionFrameCancelButton)
+	S:HandleScrollBar(FriendsFramePendingScrollFrameScrollBar, 4)
+
+	--Scroll of Resurrection
+	ScrollOfResurrectionFrame:SetTemplate('Transparent')
+	ScrollOfResurrectionSelectionFrame:SetTemplate('Transparent')
+	ScrollOfResurrectionFrameNoteFrame:SetTemplate('Default')
+	ScrollOfResurrectionFrameTargetEditBox:SetTemplate('Default')
+	ScrollOfResurrectionSelectionFrameList:SetTemplate('Default')
 
 	ScrollOfResurrectionFrameTargetEditBoxLeft:SetTexture(nil)
 	ScrollOfResurrectionFrameTargetEditBoxMiddle:SetTexture(nil)
 	ScrollOfResurrectionFrameTargetEditBoxRight:SetTexture(nil)
-	ScrollOfResurrectionFrameNoteFrame:StripTextures()
-	ScrollOfResurrectionFrameNoteFrame:SetTemplate()
-	ScrollOfResurrectionFrameTargetEditBox:SetTemplate()
-	ScrollOfResurrectionFrame:SetTemplate('Transparent')
 
-	S:HandleButton(RaidFrameConvertToRaidButton);
-	S:HandleButton(RaidFrameRaidInfoButton);
+	S:HandleEditBox(ScrollOfResurrectionSelectionFrameTargetEditBox)
 
-	 -- Raid Info Frame
+	S:HandleButton(ScrollOfResurrectionFrameAcceptButton)
+	S:HandleButton(ScrollOfResurrectionFrameCancelButton)
+
+	S:HandleScrollBar(ScrollOfResurrectionSelectionFrameListScrollFrameScrollBar, 4)
+
+	FriendsTabHeaderSoRButton:SetTemplate('Default')
+	FriendsTabHeaderSoRButton:StyleButton()
+	FriendsTabHeaderSoRButton:Point('TOPRIGHT', FriendsTabHeader, 'TOPRIGHT', -8, -56)
+
+	FriendsTabHeaderSoRButtonIcon:ClearAllPoints()
+	FriendsTabHeaderSoRButtonIcon:Point('TOPLEFT', 2, -2)
+	FriendsTabHeaderSoRButtonIcon:Point('BOTTOMRIGHT', -2, 2)
+	FriendsTabHeaderSoRButtonIcon:SetTexCoord(unpack(E.TexCoords))
+	FriendsTabHeaderSoRButtonIcon:SetDrawLayer('OVERLAY')
+
+	-- Raid Info Frame
+	for i = 1, 7 do
+		_G["RaidInfoScrollFrameButton"..i]:StyleButton()
+	end
+
 	RaidInfoFrame:StripTextures(true);
 	RaidInfoFrame:SetTemplate("Transparent");
 
@@ -299,16 +337,14 @@ local function LoadSkin()
 
 	S:HandleScrollBar(RaidInfoScrollFrameScrollBar);
 
-	for i=1, 7 do
-		_G["RaidInfoScrollFrameButton"..i]:StyleButton()
-	end
-
 	S:HandleButton(RaidInfoExtendButton);
 	S:HandleButton(RaidInfoCancelButton);
+	S:HandleButton(RaidFrameConvertToRaidButton);
+	S:HandleButton(RaidFrameRaidInfoButton);
 
 	--Friend List Class Colors
 	local cfg = {
-		USE_SHORT_LEVEL = 0, -- 1 = true, 0 = false
+		USE_SHORT_LEVEL = false
 	}
 
 	local cc = {
@@ -325,22 +361,22 @@ local function LoadSkin()
 	}
 
 	local locclasses = {}
-	for k,v in pairs(LOCALIZED_CLASS_NAMES_MALE)do locclasses[v] = k end
-	for k,v in pairs(LOCALIZED_CLASS_NAMES_FEMALE)do locclasses[v] = k end
+	for k,v in pairs(LOCALIZED_CLASS_NAMES_MALE) do locclasses[v] = k end
+	for k,v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do locclasses[v] = k end
 
 	cfg = type(cfg) ~= "table" and {} or cfg
-	cfg.USE_SHORT_LEVEL = cfg.USE_SHORT_LEVEL and (cfg.USE_SHORT_LEVEL == 1 or cfg.USE_SHORT_LEVEL == "1" or cfg.USE_SHORT_LEVEL == true) and 1
+	cfg.USE_SHORT_LEVEL = cfg.USE_SHORT_LEVEL and cfg.USE_SHORT_LEVEL == true
 
 	local updFunc = function()
-	if GetNumFriends() < 1 then return end
+	if(GetNumFriends() < 1) then return end
 		local off, name, level, class, zone, connected, status, note, tmp, tmpcol, tmpcol2 = FauxScrollFrame_GetOffset(FriendsFrameFriendsScrollFrame)
 		for i = 1, GetNumFriends() do
 			name, level, class, zone, connected, status, note = GetFriendInfo(i)
-			if connected then
+			if(connected) then
 				local friend = _G["FriendsFrameFriendsScrollFrameButton"..(i-off)]
-				if friend and friend.buttonType == FRIENDS_BUTTON_TYPE_WOW then
+				if(friend and friend.buttonType == FRIENDS_BUTTON_TYPE_WOW) then
 					tmpcol = cc[(locclasses[class] or ""):gsub(" ",""):upper()]
-					if (tmpcol or ""):len() > 0 then
+					if(tmpcol or ""):len() > 0 then
 						tmp = format("|cff%s%s%s, ", tmpcol, name, FONT_COLOR_CODE_CLOSE) -- Name
 						tmp = tmp..format("|cff%s%s%d%s ", tmpcol, cfg.USE_SHORT_LEVEL and "L" or LEVEL.." ", level, FONT_COLOR_CODE_CLOSE) --Level
 						tmp = tmp..format("|cff%s%s%s ", tmpcol, class, FONT_COLOR_CODE_CLOSE) --Class
