@@ -164,36 +164,44 @@ local function LoadSkin()
 	end
 
 	WhoFrameColumnHeader3:ClearAllPoints();
-	WhoFrameColumnHeader3:SetPoint("TOPLEFT", WhoFrame, "TOPLEFT", 7, -57);
+	WhoFrameColumnHeader3:SetPoint("TOPLEFT", WhoFrame, "TOPLEFT", 15, -57);
 
 	WhoFrameColumnHeader4:ClearAllPoints();
-	WhoFrameColumnHeader4:SetPoint("LEFT", WhoFrameColumnHeader3, "RIGHT", -2, -0);
+	WhoFrameColumnHeader4:SetPoint("LEFT", WhoFrameColumnHeader3, "RIGHT", -2, 0);
 	WhoFrameColumn_SetWidth(WhoFrameColumnHeader4, 48);
 
 	WhoFrameColumnHeader1:ClearAllPoints();
-	WhoFrameColumnHeader1:SetPoint("LEFT", WhoFrameColumnHeader4, "RIGHT", -2, -0);
+	WhoFrameColumnHeader1:SetPoint("LEFT", WhoFrameColumnHeader4, "RIGHT", -2, 0);
 	WhoFrameColumn_SetWidth(WhoFrameColumnHeader1, 105);
 
 	WhoFrameColumnHeader2:ClearAllPoints();
-	WhoFrameColumnHeader2:SetPoint("LEFT", WhoFrameColumnHeader1, "RIGHT", -2, 2);
+	WhoFrameColumnHeader2:SetPoint("LEFT", WhoFrameColumnHeader1, "RIGHT", -5, 0);
+
+	WhoFrameButton1:Point("TOPLEFT", WhoFrame, "TOPLEFT", 10, -82)
 
 	S:HandleDropDownBox(WhoFrameDropDown, 150)
 
 	S:HandleScrollBar(WhoListScrollFrameScrollBar, 5)
+
+	WhoFrameEditBox:Point("BOTTOM", WhoFrame, "BOTTOM", -3, 20)
 
 	for i = 1, 17 do
 		local button = _G["WhoFrameButton"..i];
 
 		button.icon = button:CreateTexture("$parentIcon", "ARTWORK");
 		button.icon:SetPoint("LEFT", 48, 0);
-		button.icon:SetSize(16, 16);
+		button.icon:SetSize(15, 15);
 		button.icon:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes");
-		--button.icon:SetTexCoord(0.03, 0.22, 0.03, 0.23);
+
+		button.stripe = button:CreateTexture(nil, "OVERLAY");
+		button.stripe:SetTexture('Interface\\GuildFrame\\GuildFrame');
+		button.stripe:SetTexCoord(0.51660156, 0.53613281, 0.88281250, 0.92187500);
+		button.stripe:SetInside()
 
 		button:StyleButton()
 
 		_G["WhoFrameButton" .. i .. "Level"]:ClearAllPoints();
-		_G["WhoFrameButton" .. i .. "Level"]:SetPoint("TOPLEFT", 10, 0);
+		_G["WhoFrameButton" .. i .. "Level"]:SetPoint("TOPLEFT", 10, -2);
 
 		_G["WhoFrameButton" .. i .. "Name"]:SetSize(100, 14);
 		_G["WhoFrameButton" .. i .. "Name"]:ClearAllPoints();
@@ -280,11 +288,23 @@ local function LoadSkin()
 	end
 
 	--Ignore List
+	FriendsFrameIgnoreButton1:Point("TOPLEFT", FriendsFrame, "TOPLEFT", 10, -89)
+
+	FriendsFrameUnsquelchButton:Point("RIGHT", -23, 0)
+
 	S:HandleScrollBar(FriendsFrameIgnoreScrollFrameScrollBar)
-	FriendsFrameIgnoreScrollFrameScrollBar:Point("RIGHT", 88, 0)
+	FriendsFrameIgnoreScrollFrameScrollBar:SetPoint("TOPLEFT", FriendsFrameIgnoreScrollFrame, "TOPRIGHT", 45, 0)
 
 	for i = 1, 19 do
-		_G["FriendsFrameIgnoreButton"..i]:StyleButton()
+		local button = _G["FriendsFrameIgnoreButton"..i]
+
+		button.stripe = button:CreateTexture(nil, "OVERLAY");
+		button.stripe:SetTexture('Interface\\GuildFrame\\GuildFrame');
+		button.stripe:SetTexCoord(0.51660156, 0.53613281, 0.88281250, 0.92187500);
+		button.stripe:SetAllPoints()
+
+		button:StyleButton()
+		button:SetWidth(310)
 	end
 
 	S:HandleScrollBar(FriendsFramePendingScrollFrameScrollBar, 4)
@@ -376,7 +396,7 @@ local function LoadSkin()
 				local friend = _G["FriendsFrameFriendsScrollFrameButton"..(i-off)]
 				if(friend and friend.buttonType == FRIENDS_BUTTON_TYPE_WOW) then
 					tmpcol = cc[(locclasses[class] or ""):gsub(" ",""):upper()]
-					if(tmpcol or ""):len() > 0 then
+					if((tmpcol or ""):len() > 0) then
 						tmp = format("|cff%s%s%s, ", tmpcol, name, FONT_COLOR_CODE_CLOSE) -- Name
 						tmp = tmp..format("|cff%s%s%d%s ", tmpcol, cfg.USE_SHORT_LEVEL and "L" or LEVEL.." ", level, FONT_COLOR_CODE_CLOSE) --Level
 						tmp = tmp..format("|cff%s%s%s ", tmpcol, class, FONT_COLOR_CODE_CLOSE) --Class

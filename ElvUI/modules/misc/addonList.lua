@@ -1,5 +1,5 @@
 local E, L, V, P, G, _ = unpack(ElvUI);
-local AL = E:NewModule("AddOnList", "AceEvent-3.0", "AceTimer-3.0");
+local AL = E:NewModule("AddOnList");
 
 local floor = math.floor;
 
@@ -7,7 +7,7 @@ local IsShiftKeyDown = IsShiftKeyDown;
 
 function AL:HasAnyChanged()
 	for i = 1, GetNumAddOns() do
-		local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i);
+		local _, _, _, enabled, _, reason = GetAddOnInfo(i);
 		if(enabled ~= ElvUI_AddonList.startStatus[i] and reason ~= "DEP_DISABLED" ) then
 			return true;
 		end
@@ -42,9 +42,8 @@ end
 
 function AL:Update()
 	local numEntrys = GetNumAddOns();
-	local name, title, notes, enabled, loadable, reason, security;
 	local addonIndex;
-	local entry, checkbox, string, status, urlButton, securityIcon, versionButton;
+	local entry, checkbox, string;
 
 	for i = 1, 19 do
 		addonIndex = ElvUI_AddonList.offset + i;
@@ -52,7 +51,7 @@ function AL:Update()
 		if ( addonIndex > numEntrys ) then
 			entry:Hide();
 		else
-			name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(addonIndex);
+			local name, title, _, enabled, loadable, reason = GetAddOnInfo(addonIndex);
 
 			checkbox = _G["ElvUI_AddonListEntry"..i.."Enabled"];
 			checkbox:SetChecked(enabled);
@@ -229,8 +228,8 @@ function AL:Initialize()
 	addonTitle:SetPoint("TOP", 0, -12);
 	addonTitle:SetText(ADDONS);
 
-	for i = 1,GetNumAddOns() do
-		local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo(i);
+	for i = 1, GetNumAddOns() do
+		local _, _, _, enabled = GetAddOnInfo(i);
 		addonList.startStatus[i] = enabled;
 	end
 

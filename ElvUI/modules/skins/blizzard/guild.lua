@@ -294,17 +294,18 @@ local function LoadSkin()
 			Button.icon:SetTexCoord(unpack(E.TexCoords));
 			Button.icon:ClearAllPoints()
 			Button.icon:Point("TOPLEFT", 2, -2);
-			Button.icon:Size(42);
+			Button.icon:Size(43);
 			Button.icon:SetParent(Button.backdrop);
 
 			if(Object == "Rewards") then
 				Button.backdrop:SetScript('OnUpdate', function(self)
 					local achievementID, itemID, itemName, iconTexture, repLevel, moneyCost = GetGuildRewardInfo(Button.index);
-					self:SetBackdropBorderColor(unpack(E["media"].bordercolor));
 					if(itemID) then
 						local quality = select(3, GetItemInfo(itemID));
 						if(quality and quality > 1) then
 							self:SetBackdropBorderColor(GetItemQualityColor(quality));
+						else
+							self:SetBackdropBorderColor(unpack(E["media"].bordercolor));
 						end
 					end
 				end);

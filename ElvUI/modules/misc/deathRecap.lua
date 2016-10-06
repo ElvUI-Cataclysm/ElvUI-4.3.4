@@ -27,7 +27,7 @@ function mod:AddEvent(timestamp, event, sourceName, spellId, spellName, environm
 
 	if(index < 5) then
 		index = index + 1;
-	elseif(index == 5) then
+	else
 		index = 1;
 	end
 
@@ -98,7 +98,6 @@ function mod:PLAYER_DEAD()
 		end
 
 		StaticPopup_Hide("DEATH");
-
 		E:StaticPopup_Show("DEATH", GetReleaseTimeRemaining(), SECONDS);
 	end
 end
@@ -319,9 +318,8 @@ function mod:COMBAT_LOG_EVENT_UNFILTERED(_, timestamp, event, hideCaster, source
 	and (event ~= "SWING_DAMAGE"))
 	then return end
 
-	local environmentalType, amount, overkill, school, critical, glancing, crushing;
-	local spellId, spellName;
 	local subVal = strsub(event, 1, 5);
+	local environmentalType, spellId, spellName, amount, overkill, school, resisted, blocked, absorbed;
 
 	if(event == "SWING_DAMAGE") then
 		amount, overkill, school, resisted, blocked, absorbed = ...;
@@ -554,14 +552,13 @@ function mod:Initialize()
 			end
 		end,
 		OnAlt = function()
-			local _, recapID = self:HasEvents();
+			local _, recapID = mod:HasEvents();
 			mod:OpenRecap(recapID);
 		end,
 		OnUpdate = function(self, elapsed)
 			if(self.timeleft > 0) then
 				local text = _G[self:GetName() .. "Text"];
 				local timeleft = self.timeleft;
-
 				if(timeleft < 60) then
 					text:SetFormattedText(DEATH_RELEASE_TIMER, timeleft, SECONDS);
 				else

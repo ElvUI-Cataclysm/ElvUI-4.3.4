@@ -122,9 +122,11 @@ function M:Minimap_OnMouseWheel(d)
 		_G.MinimapZoomOut:Click();
 	end
 	if(E.db.general.minimap.resetZoom.enable) then
-		animGroup:Stop();
-		anim:SetDuration(E.db.general.minimap.resetZoom.time);
-		animGroup:Play();
+		if animGroup then
+			animGroup:Stop();
+			anim:SetDuration(E.db.general.minimap.resetZoom.time);
+			animGroup:Play();
+		end
 	end
 end
 
