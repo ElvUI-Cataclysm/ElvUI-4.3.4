@@ -387,6 +387,7 @@ function UF:Update_StatusBars()
 	for statusbar in pairs(UF["statusbars"]) do
 		if(statusbar and statusbar:GetObjectType() == "StatusBar" and not statusbar.isTransparent) then
 			statusbar:SetStatusBarTexture(statusBarTexture);
+			if statusbar.texture then statusbar.texture = statusBarTexture end --Update .texture on oUF Power element
 		elseif(statusBar and statusbar:GetObjectType() == "Texture") then
 			statusbar:SetTexture(statusBarTexture);
 		end
@@ -1095,6 +1096,7 @@ function UF:Initialize()
 	E.UnitFrames = UF;
 
 	local ElvUF_Parent = CreateFrame('Frame', 'ElvUF_Parent', E.UIParent, 'SecureHandlerStateTemplate');
+	ElvUF_Parent:SetFrameStrata("LOW")
 
 	self:UpdateColors()
 	ElvUF:RegisterStyle('ElvUF', function(frame, unit)

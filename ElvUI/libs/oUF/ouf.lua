@@ -161,6 +161,8 @@ for k, v in pairs{
 		local unit = self.unit;
 		if(not unit or not UnitExists(unit)) then return; end
 
+		assert(type(event) == 'string', 'Invalid argument "event" in UpdateAllElements.')
+
 		if(self.PreUpdate) then
 			self:PreUpdate(event);
 		end

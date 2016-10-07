@@ -39,7 +39,8 @@ local function UpdateOverride(self, event)
 end
 
 function UF:Construct_RaidRoleFrames(frame)
-	local anchor = CreateFrame("Frame", nil, frame);
+ 	local anchor = CreateFrame('Frame', nil, frame)
+	anchor:SetFrameStrata("MEDIUM")
 	frame.Leader = anchor:CreateTexture(nil, "OVERLAY");
 	frame.Assistant = anchor:CreateTexture(nil, "OVERLAY");
 	frame.MasterLooter = anchor:CreateTexture(nil, "OVERLAY");
