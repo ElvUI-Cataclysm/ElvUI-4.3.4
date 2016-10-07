@@ -1,6 +1,11 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
+local _G = _G
+local unpack, select, pairs = unpack, select, pairs
+
+local CreateFrame = CreateFrame
+
 local RegisterAsWidget, RegisterAsContainer
 local function SetModifiedBackdrop(self)
 	if self.backdrop then self = self.backdrop end
@@ -51,10 +56,10 @@ local function SkinScrollBar(frame, thumbTrim)
 				frame.thumbbg = CreateFrame("Frame", nil, frame)
 				frame.thumbbg:Point("TOPLEFT", frame:GetThumbTexture(), "TOPLEFT", 2, -thumbTrim)
 				frame.thumbbg:Point("BOTTOMRIGHT", frame:GetThumbTexture(), "BOTTOMRIGHT", -2, thumbTrim)
-				frame.thumbbg:SetTemplate("Default", true)
-				frame.thumbbg:SetBackdropColor(0.6, 0.6, 0.6)
+				frame.thumbbg:SetTemplate("Default", true, true)
+				frame.thumbbg:SetBackdropColor(0.3, 0.3, 0.3)
 				if frame.trackbg then
-					frame.thumbbg:SetFrameLevel(frame.trackbg:GetFrameLevel())
+					frame.thumbbg:SetFrameLevel(frame.trackbg:GetFrameLevel() + 1)
 				end
 			end
 		end
@@ -151,8 +156,21 @@ function S:SkinAce3()
 			button:SetParent(frame.backdrop)
 			text:SetParent(frame.backdrop)
 			button:HookScript('OnClick', function(this)
-				local self = this.obj
-				self.pullout.frame:SetTemplate('Default', true)
+				local dropdown = this.obj.pullout
+				if dropdown.frame then
+					dropdown.frame:SetTemplate('Default', true)
+					if dropdown.slider then
+						dropdown.slider:SetTemplate("Default")
+						dropdown.slider:Point("TOPRIGHT", dropdown.frame, "TOPRIGHT", -10, -10)
+						dropdown.slider:Point("BOTTOMRIGHT", dropdown.frame, "BOTTOMRIGHT", -10, 10)
+
+						if dropdown.slider:GetThumbTexture() then
+							dropdown.slider:SetThumbTexture(E["media"].blankTex)
+							dropdown.slider:GetThumbTexture():SetVertexColor(0.3, 0.3, 0.3)
+							dropdown.slider:GetThumbTexture():Size(10, 12)
+						end
+					end
+				end
 			end)
 		elseif TYPE == "LSM30_Font" or TYPE == "LSM30_Sound" or TYPE == "LSM30_Border" or TYPE == "LSM30_Background" or TYPE == "LSM30_Statusbar" then
 			local frame = widget.frame
@@ -188,10 +206,28 @@ function S:SkinAce3()
 			end
 			button:SetParent(frame.backdrop)
 			text:SetParent(frame.backdrop)
-			button:HookScript('OnClick', function(this)
-				local self = this.obj
-				if self.dropdown then
-					self.dropdown:SetTemplate('Default', true)
+			button:HookScript('OnClick', function(this, button)
+				local dropdown = this.obj.dropdown
+				if dropdown then
+					dropdown:SetTemplate('Default', true)
+					if dropdown.slider then
+						dropdown.slider:SetTemplate("Transparent")
+						dropdown.slider:Point("TOPRIGHT", dropdown, "TOPRIGHT", -10, -10)
+						dropdown.slider:Point("BOTTOMRIGHT", dropdown, "BOTTOMRIGHT", -10, 10)
+
+						if dropdown.slider:GetThumbTexture() then
+							dropdown.slider:SetThumbTexture(E["media"].blankTex)
+							dropdown.slider:GetThumbTexture():SetVertexColor(0.3, 0.3, 0.3)
+							dropdown.slider:GetThumbTexture():Size(10, 12)
+						end
+					end
+
+					if TYPE == "LSM30_Sound" then
+						local frame = this.obj.frame
+						local width = frame:GetWidth()
+						dropdown:Point("TOPLEFT", frame, "BOTTOMLEFT")
+						dropdown:Point("TOPRIGHT", frame, "BOTTOMRIGHT", width < 160 and (160 - width) or 30, 0)
+					end
 				end
 			end)
 		elseif TYPE == "EditBox" then
@@ -275,7 +311,7 @@ function S:SkinAce3()
 		if TYPE == "ScrollFrame" then
 			local frame = widget.scrollbar
 			SkinScrollBar(frame)
-		elseif TYPE == "InlineGroup" or TYPE == "TreeGroup" or TYPE == "TabGroup" or TYPE == "SimpleGroup" or TYPE == "Frame" or TYPE == "DropdownGroup" then
+		elseif TYPE == "InlineGroup" or TYPE == "TreeGroup" or TYPE == "TabGroup" or TYPE == "SimpleGroup" or TYPE == "Frame" or TYPE == "DropdownGroup" or TYPE == "Window" then
 			local frame = widget.content:GetParent()
 			if TYPE == "Frame" then
 				frame:StripTextures()
@@ -290,6 +326,9 @@ function S:SkinAce3()
 						child:StripTextures()
 					end
 				end
+			elseif TYPE == "Window" then
+				frame:StripTextures()
+				S:HandleCloseButton(frame.obj.closebutton)
 			end
 			frame:SetTemplate('Transparent')
 
