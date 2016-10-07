@@ -161,9 +161,14 @@ local function LoadSkin()
 	S:HandleDropDownBox(GuildRosterViewDropdown, 200)
 
 	for i = 1, 14 do
-		S:HandleButton(_G["GuildRosterContainerButton"..i.."HeaderButton"], true)
 		_G["GuildRosterContainerButton"..i]:StyleButton()
+
 		_G["GuildRosterContainerButton"..i.."BarTexture"]:SetTexture(E["media"].normTex)
+
+		_G["GuildRosterContainerButton"..i.."Icon"]:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
+		_G["GuildRosterContainerButton"..i.."Icon"]:Size(20);
+
+		S:HandleButton(_G["GuildRosterContainerButton"..i.."HeaderButton"], true)
 	end
 
 	--Detail Frame
