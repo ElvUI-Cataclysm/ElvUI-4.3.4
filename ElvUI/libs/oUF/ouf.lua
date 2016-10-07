@@ -53,11 +53,11 @@ local updateActiveUnit = function(self, event, unit)
 		realUnit = "target";
 	end
 
-	if(modUnit == "pet" and realUnit ~= "pet") then
-		modUnit = "vehicle";
+ 	if(modUnit == "pet" and realUnit ~= "pet") then
+ 		modUnit = "vehicle";
 	end
 
-	if(not UnitExists(modUnit) or unit and unit ~= realUnit and unit ~= modUnit) then return; end
+	if(not UnitExists(modUnit)) then return end
 
 	if(Private.UpdateUnits(self, modUnit, realUnit)) then
 		self:UpdateAllElements("RefreshUnit");
