@@ -476,12 +476,6 @@ function AB:UpdateButtonSettings()
 	self:PositionAndSizeBarShapeShift();
 end
 
-function AB:CVAR_UPDATE()
-	for barName, bar in pairs(self["handledBars"]) do
-		self:UpdateButtonConfig(bar, bar.bindButtons);
-	end
-end
-
 function AB:GetPage(bar, defaultPage, condition)
 	local page = self.db[bar]["paging"][E.myclass];
 	if(not condition) then condition = ""; end
@@ -943,7 +937,6 @@ function AB:Initialize()
 
 	self:LoadKeyBinder();
 	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings");
-	self:RegisterEvent('CVAR_UPDATE');
 	self:ReassignBindings();
 
 	SetCVar('lockActionBars', (self.db.lockActionBars == true and 1 or 0))
