@@ -493,7 +493,7 @@ E.Options.args.maps = {
 						ticket = {
 							order = 7,
 							type = "group",
-							name = L["GM Ticket"],
+							name = L["Open Ticket"],
 							get = function(info) return E.db.general.minimap.icons.ticket[ info[#info] ] end,
 							set = function(info, value) E.db.general.minimap.icons.ticket[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
 							disabled = function() return not E.private.general.minimap.enable end,

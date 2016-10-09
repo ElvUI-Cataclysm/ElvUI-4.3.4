@@ -256,6 +256,7 @@ L["Boss Button"] = true;
 L["Boss Frames"] = true; --Also used in UnitFrames
 L["Class Bar"] = true;
 L["Classbar"] = true; --Also used in UnitFrames
+L["Error Frame"] = true;
 L["Experience Bar"] = true;
 L["Focus Castbar"] = true;
 L["Focus Frame"] = true; --Also used in UnitFrames

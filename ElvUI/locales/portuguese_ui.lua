@@ -255,6 +255,7 @@ L["Boss Button"] = "Botão de Chefe"
 L["Boss Frames"] = "Quadros dos Chefes"
 L["Class Bar"] = true;
 L["Classbar"] = "Barra da Classe"
+L["Error Frame"] = true;
 L["Experience Bar"] = "Barra de Experiência"
 L["Focus Castbar"] = "Barra de Lançamento do Foco"
 L["Focus Frame"] = "Quadro do Foco"

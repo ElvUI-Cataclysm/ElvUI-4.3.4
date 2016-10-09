@@ -575,19 +575,19 @@ E.Options.args.general = {
 		watchFrame = {
 			order = 9,
 			type = "group",
-			name = L["Watch Frame"],
+			name = L["Objective Frame"],
 			get = function(info) return E.db.general[ info[#info] ]; end,
 			set = function(info, value) E.db.general[ info[#info] ] = value; end,
 			args = {
 				watchFrameHeader = {
 					order = 1,
 					type = "header",
-					name = L["Watch Frame"],
+					name = L["Objective Frame"],
 				},
 				watchFrameHeight = {
 					order = 2,
 					type = "range",
-					name = L["Watch Frame Height"],
+					name = L["Objective Frame Height"],
 					desc = L["Height of the watch tracker. Increase size to be able to see more objectives."],
 					min = 400, max = E.screenheight, step = 1,
 					set = function(info, value) E.db.general.watchFrameHeight = value; E:GetModule('Blizzard'):WatchFrameHeight(); end

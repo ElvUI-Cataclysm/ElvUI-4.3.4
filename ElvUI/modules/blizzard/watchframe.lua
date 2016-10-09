@@ -15,7 +15,7 @@ function B:WatchFrameHeight()
 end
 
 function B:MoveWatchFrame()
-	E:CreateMover(WatchFrameHolder, "WatchFrameMover", L["Watch Frame"]);
+	E:CreateMover(WatchFrameHolder, "WatchFrameMover", L["Objective Frame"]);
 	WatchFrameHolder:SetAllPoints(WatchFrameMover);
 
 	WatchFrame:ClearAllPoints();

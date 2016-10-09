@@ -255,6 +255,7 @@ L["Boss Button"] = "Bouton du Boss"
 L["Boss Frames"] = "Cadre du Boss" --Also used in UnitFrames
 L["Class Bar"] = "Barre de classe";
 L["Classbar"] = "Barre de Classe"
+L["Error Frame"] = true;
 L["Experience Bar"] = "Barre d'expérience"
 L["Focus Castbar"] = "Barre d'incantation du Focus"
 L["Focus Frame"] = "Cadre Focus" --Also used in UnitFrames

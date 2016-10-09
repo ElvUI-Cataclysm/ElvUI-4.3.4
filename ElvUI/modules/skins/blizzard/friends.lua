@@ -189,7 +189,7 @@ local function LoadSkin()
 		local button = _G["WhoFrameButton"..i];
 
 		button.icon = button:CreateTexture("$parentIcon", "ARTWORK");
-		button.icon:SetPoint("LEFT", 48, 0);
+		button.icon:SetPoint("LEFT", 45, 0);
 		button.icon:SetSize(18, 18);
 		button.icon:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
 
@@ -201,7 +201,7 @@ local function LoadSkin()
 		button:StyleButton()
 
 		_G["WhoFrameButton" .. i .. "Level"]:ClearAllPoints();
-		_G["WhoFrameButton" .. i .. "Level"]:SetPoint("TOPLEFT", 10, -2);
+		_G["WhoFrameButton" .. i .. "Level"]:SetPoint("TOPLEFT", 12, -2);
 
 		_G["WhoFrameButton" .. i .. "Name"]:SetSize(100, 14);
 		_G["WhoFrameButton" .. i .. "Name"]:ClearAllPoints();

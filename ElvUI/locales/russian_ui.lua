@@ -255,6 +255,7 @@ L["Boss Button"] = "Кнопка босса"
 L["Boss Frames"] = "Боссы" --Also used in UnitFrames
 L["Class Bar"] = "Классовая полоса"
 L["Classbar"] = "Полоса класса"
+L["Error Frame"] = "Фрейм ошибок"
 L["Experience Bar"] = "Полоса опыта"
 L["Focus Castbar"] = "Полоса заклинаний фокуса"
 L["Focus Frame"] = "Фокус" --Also used in UnitFrames

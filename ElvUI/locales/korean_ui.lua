@@ -255,6 +255,7 @@ L["Boss Button"] = "특수능력 버튼"
 L["Boss Frames"] = "보스 프레임"
 L["Class Bar"] = "직업바 (토템)"
 L["Classbar"] = "직업바"
+L["Error Frame"] = true;
 L["Experience Bar"] = "경험치 바"
 L["Focus Castbar"] = "주시대상 시전바"
 L["Focus Frame"] = "주시대상 프레임"

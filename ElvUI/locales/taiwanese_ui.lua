@@ -255,6 +255,7 @@ L["Boss Button"] = "特殊技能鍵"
 L["Boss Frames"] = "首領框架" --Also used in UnitFrames
 L["Class Bar"] = true;
 L["Classbar"] = "職業特有條"
+L["Error Frame"] = true;
 L["Experience Bar"] = "經驗條"
 L["Focus Castbar"] = "焦點目標施法條"
 L["Focus Frame"] = "焦點目標框架" --Also used in UnitFrames
