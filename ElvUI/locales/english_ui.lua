@@ -35,7 +35,6 @@ L["Deposit Reagents"] = true;
 L["Hold Control + Right Click:"] = true;
 L["Purchase Bags"] = true;
 L["Purchase"] = true;
-L["Reagent Bank"] = true;
 L["Reset Position"] = true;
 L["Show/Hide Reagents"] = true;
 L["Sort Tab"] = true; --Not used, yet?
@@ -241,9 +240,7 @@ L["You don't have permission to mark targets."] = true;
 
 --Movers
 L["Alternative Power"] = true;
-L["Archeology Progress Bar"] = true;
 L["Arena Frames"] = true; --Also used in UnitFrames
-L["Artifact Bar"] = true;
 L["Bag Mover (Grow Down)"] = true;
 L["Bag Mover (Grow Up)"] = true;
 L["Bag Mover"] = true;
@@ -262,11 +259,9 @@ L["Focus Castbar"] = true;
 L["Focus Frame"] = true; --Also used in UnitFrames
 L["FocusTarget Frame"] = true; --Also used in UnitFrames
 L["GM Ticket Frame"] = true;
-L["Honor Bar"] = true;
 L["Left Chat"] = true;
 L["Loot / Alert Frames"] = true;
 L["Loot Frame"] = true;
-L["Loss Control Icon"] = true;
 L["MA Frames"] = true;
 L["Micro Bar"] = true; --Also in ActionBars
 L["Minimap"] = true;
@@ -284,19 +279,21 @@ L["Player Debuffs"] = true;
 L["Player Frame"] = true; --Also used in UnitFrames
 L["Player Nameplate"] = true;
 L["Player Powerbar"] = true;
+L["PvP"] = true;
 L["Raid Frames"] = true;
 L["Raid Pet Frames"] = true;
 L["Raid-40 Frames"] = true;
 L["Reputation Bar"] = true;
 L["Right Chat"] = true;
 L["Stance Bar"] = true; --Also in ActionBars
-L["Talking Head Frame"] = true
 L["Target Castbar"] = true;
 L["Target Frame"] = true; --Also used in UnitFrames
 L["Target Powerbar"] = true;
 L["TargetTarget Frame"] = true; --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = true; --Also used in UnitFrames
+L["Time Manager Frame"] = true;
 L["Tooltip"] = true;
+L["Totems"] = true;
 L["Vehicle Seat Frame"] = true;
 L["DESC_MOVERCONFIG"] = [=[Movers unlocked. Move them now and click Lock when you are done.
 
@@ -304,6 +301,11 @@ Options:
   Shift + RightClick - Hides mover temporarily.
   Ctrl + RightClick - Resets mover position to default.
 ]=]
+
+--NamePlates
+L["Discipline"] = true;
+L["Holy"] = true;
+L["Restoration"] = true;
 
 --Plugin Installer
 L["ElvUI Plugin Installation"] = true;

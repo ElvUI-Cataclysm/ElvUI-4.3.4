@@ -63,11 +63,10 @@ local GameTooltip, GameTooltipStatusBar = _G["GameTooltip"], _G["GameTooltipStat
 local S_ITEM_LEVEL = ITEM_LEVEL:gsub( "%%d", "(%%d+)" )
 local playerGUID = UnitGUID("player")
 local targetList, inspectCache = {}, {}
-local NIL_COLOR = { r=1, g=1, b=1 }
-local TAPPED_COLOR = { r=.6, g=.6, b=.6 }
+local TAPPED_COLOR = {r = .6, g = .6, b = .6}
 local AFK_LABEL = " |cffFFFFFF[|r|cffE7E716"..L["AFK"].."|r|cffFFFFFF]|r"
 local DND_LABEL = " |cffFFFFFF[|r|cffFF0000"..L["DND"].."|r|cffFFFFFF]|r"
-local TALENTS_PREFIX = TALENTS..":|cffffffff ";
+local keybindFrame
 
 local tooltips = {
 	GameTooltip,
@@ -106,11 +105,11 @@ local SlotName = {
 
 --All this does is increase the spacing between tooltips when you compare items
 function TT:GameTooltip_ShowCompareItem(tt, shift)
-	if ( not tt ) then
+	if(not tt) then
 		tt = GameTooltip;
 	end
 	local item, link = tt:GetItem();
-	if ( not link ) then
+	if(not link) then
 		return;
 	end
 
@@ -120,13 +119,13 @@ function TT:GameTooltip_ShowCompareItem(tt, shift)
 	local item2 = nil;
 	local item3 = nil;
 	local side = "left";
-	if ( shoppingTooltip1:SetHyperlinkCompareItem(link, 1, shift, tt) ) then
+	if(shoppingTooltip1:SetHyperlinkCompareItem(link, 1, shift, tt)) then
 		item1 = true;
 	end
-	if ( shoppingTooltip2:SetHyperlinkCompareItem(link, 2, shift, tt) ) then
+	if(shoppingTooltip2:SetHyperlinkCompareItem(link, 2, shift, tt)) then
 		item2 = true;
 	end
-	if ( shoppingTooltip3:SetHyperlinkCompareItem(link, 3, shift, tt) ) then
+	if(shoppingTooltip3:SetHyperlinkCompareItem(link, 3, shift, tt)) then
 		item3 = true;
 	end
 
@@ -134,23 +133,23 @@ function TT:GameTooltip_ShowCompareItem(tt, shift)
 	local rightDist = 0;
 	local leftPos = tt:GetLeft();
 	local rightPos = tt:GetRight();
-	if ( not rightPos ) then
+	if(not rightPos) then
 		rightPos = 0;
 	end
-	if ( not leftPos ) then
+	if(not leftPos) then
 		leftPos = 0;
 	end
 
 	rightDist = GetScreenWidth() - rightPos;
 
-	if (leftPos and (rightDist < leftPos)) then
+	if(leftPos and (rightDist < leftPos)) then
 		side = "left";
 	else
 		side = "right";
 	end
 
 	-- see if we should slide the tooltip
-	if ( tt:GetAnchorType() and tt:GetAnchorType() ~= "ANCHOR_PRESERVE" ) then
+	if(tt:GetAnchorType() and tt:GetAnchorType() ~= "ANCHOR_PRESERVE") then
 		local totalWidth = 0;
 		if(item1) then
 			totalWidth = totalWidth + shoppingTooltip1:GetWidth();
@@ -162,7 +161,7 @@ function TT:GameTooltip_ShowCompareItem(tt, shift)
 			totalWidth = totalWidth + shoppingTooltip3:GetWidth();
 		end
 
-		if ( (side == "left") and (totalWidth > leftPos) ) then
+		if((side == "left") and (totalWidth > leftPos)) then
 			tt:SetAnchorType(tt:GetAnchorType(), (totalWidth - leftPos), 0);
 		elseif((side == "right") and (rightPos + totalWidth) > GetScreenWidth()) then
 			tt:SetAnchorType(tt:GetAnchorType(), -((rightPos + totalWidth) - GetScreenWidth()), 0);
@@ -170,48 +169,48 @@ function TT:GameTooltip_ShowCompareItem(tt, shift)
 	end
 
 	-- anchor the compare tooltips
-	if ( item3 ) then
+	if(item3) then
 		shoppingTooltip3:SetOwner(tt, "ANCHOR_NONE");
 		shoppingTooltip3:ClearAllPoints();
-		if ( side and side == "left" ) then
-			shoppingTooltip3:SetPoint("TOPRIGHT", tt, "TOPLEFT", -2, -10);
+		if(side and side == "left") then
+			shoppingTooltip3:Point("TOPRIGHT", tt, "TOPLEFT", -2, -10);
 		else
-			shoppingTooltip3:SetPoint("TOPLEFT", tt, "TOPRIGHT", 2, -10);
+			shoppingTooltip3:Point("TOPLEFT", tt, "TOPRIGHT", 2, -10);
 		end
 		shoppingTooltip3:SetHyperlinkCompareItem(link, 3, shift, tt);
 		shoppingTooltip3:Show();
 	end
 
-	if ( item1 ) then
-		if( item3 ) then
+	if(item1) then
+		if(item3) then
 			shoppingTooltip1:SetOwner(shoppingTooltip3, "ANCHOR_NONE");
 		else
 			shoppingTooltip1:SetOwner(tt, "ANCHOR_NONE");
 		end
 		shoppingTooltip1:ClearAllPoints();
-		if ( side and side == "left" ) then
-			if( item3 ) then
-				shoppingTooltip1:SetPoint("TOPRIGHT", shoppingTooltip3, "TOPLEFT", -2, 0);
+		if(side and side == "left") then
+			if(item3) then
+				shoppingTooltip1:Point("TOPRIGHT", shoppingTooltip3, "TOPLEFT", -2, 0);
 			else
-				shoppingTooltip1:SetPoint("TOPRIGHT", tt, "TOPLEFT", -2, -10);
+				shoppingTooltip1:Point("TOPRIGHT", tt, "TOPLEFT", -2, -10);
 			end
 		else
-			if( item3 ) then
-				shoppingTooltip1:SetPoint("TOPLEFT", shoppingTooltip3, "TOPRIGHT", 2, 0);
+			if(item3) then
+				shoppingTooltip1:Point("TOPLEFT", shoppingTooltip3, "TOPRIGHT", 2, 0);
 			else
-				shoppingTooltip1:SetPoint("TOPLEFT", tt, "TOPRIGHT", 2, -10);
+				shoppingTooltip1:Point("TOPLEFT", tt, "TOPRIGHT", 2, -10);
 			end
 		end
 		shoppingTooltip1:SetHyperlinkCompareItem(link, 1, shift, tt);
 		shoppingTooltip1:Show();
 
-		if ( item2 ) then
+		if(item2) then
 			shoppingTooltip2:SetOwner(shoppingTooltip1, "ANCHOR_NONE");
 			shoppingTooltip2:ClearAllPoints();
-			if ( side and side == "left" ) then
-				shoppingTooltip2:SetPoint("TOPRIGHT", shoppingTooltip1, "TOPLEFT", -2, 0);
+			if(side and side == "left") then
+				shoppingTooltip2:Point("TOPRIGHT", shoppingTooltip1, "TOPLEFT", -2, 0);
 			else
-				shoppingTooltip2:SetPoint("TOPLEFT", shoppingTooltip1, "TOPRIGHT", 2, 0);
+				shoppingTooltip2:Point("TOPLEFT", shoppingTooltip1, "TOPRIGHT", 2, 0);
 			end
 			shoppingTooltip2:SetHyperlinkCompareItem(link, 2, shift, tt);
 			shoppingTooltip2:Show();
@@ -230,7 +229,7 @@ function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 	end
 
 	local ownerName = tt:GetOwner() and tt:GetOwner().GetName and tt:GetOwner():GetName()
-	if (self.db.visibility.actionbars ~= 'NONE' and ownerName and (find(ownerName, "ActionButton") or find(ownerName, "MultiBar") or find(ownerName, "ElvUI_StanceBar") or find(ownerName, "PetAction"))) then
+	if(self.db.visibility.actionbars ~= 'NONE' and ownerName and (find(ownerName, "ElvUI_Bar") or find(ownerName, "MultiBar") or find(ownerName, "ElvUI_StanceBar") or find(ownerName, "PetAction")) and not keybindFrame.active) then
 		local modifier = self.db.visibility.actionbars
 
 		if(modifier == 'ALL' or not ((modifier == 'SHIFT' and IsShiftKeyDown()) or (modifier == 'CTRL' and IsControlKeyDown()) or (modifier == 'ALT' and IsAltKeyDown()))) then
@@ -244,18 +243,19 @@ function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 			tt:SetOwner(parent, "ANCHOR_CURSOR")	
 			if(not GameTooltipStatusBar.anchoredToTop) then
 				GameTooltipStatusBar:ClearAllPoints()
-				GameTooltipStatusBar:SetPoint("BOTTOMLEFT", GameTooltip, "TOPLEFT", E.Border, (E.Spacing * 3))
-				GameTooltipStatusBar:SetPoint("BOTTOMRIGHT", GameTooltip, "TOPRIGHT", -E.Border, (E.Spacing * 3))
+				GameTooltipStatusBar:Point("BOTTOMLEFT", GameTooltip, "TOPLEFT", E.Border, (E.Spacing * 3))
+				GameTooltipStatusBar:Point("BOTTOMRIGHT", GameTooltip, "TOPRIGHT", -E.Border, (E.Spacing * 3))
 				GameTooltipStatusBar.text:Point("CENTER", GameTooltipStatusBar, 0, 3)
 				GameTooltipStatusBar.anchoredToTop = true
 			end
 			return
 		else
 			tt:SetOwner(parent, "ANCHOR_NONE")
+			tt:ClearAllPoints()
 			if(GameTooltipStatusBar.anchoredToTop) then
 				GameTooltipStatusBar:ClearAllPoints()
-				GameTooltipStatusBar:SetPoint("TOPLEFT", GameTooltip, "BOTTOMLEFT", E.Border, -(E.Spacing * 3))
-				GameTooltipStatusBar:SetPoint("TOPRIGHT", GameTooltip, "BOTTOMRIGHT", -E.Border, -(E.Spacing * 3))
+				GameTooltipStatusBar:Point("TOPLEFT", GameTooltip, "BOTTOMLEFT", E.Border, -(E.Spacing * 3))
+				GameTooltipStatusBar:Point("TOPRIGHT", GameTooltip, "BOTTOMRIGHT", -E.Border, -(E.Spacing * 3))
 				GameTooltipStatusBar.text:Point("CENTER", GameTooltipStatusBar, 0, -3)
 				GameTooltipStatusBar.anchoredToTop = nil
 			end
@@ -263,7 +263,7 @@ function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 	end
 
 	local _, anchor = tt:GetPoint()
-	if (anchor == nil or (ElvUI_ContainerFrame and anchor == ElvUI_ContainerFrame) or anchor == RightChatPanel or anchor == TooltipMover or anchor == UIParent or anchor == E.UIParent) then
+	if(anchor == nil or (ElvUI_ContainerFrame and anchor == ElvUI_ContainerFrame) or anchor == RightChatPanel or anchor == TooltipMover or anchor == UIParent or anchor == E.UIParent) then
 		tt:ClearAllPoints()
 		if(not E:HasMoverBeenMoved('TooltipMover')) then
 			if ElvUI_ContainerFrame and ElvUI_ContainerFrame:IsShown() then
@@ -275,7 +275,7 @@ function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 			end
  		else
 			local point = E:GetScreenQuadrant(TooltipMover)
-			if point == "TOPLEFT" then
+			if(point == "TOPLEFT") then
 				tt:Point("TOPLEFT", TooltipMover, "BOTTOMLEFT", 1, -4)
 			elseif point == "TOPRIGHT" then
 				tt:Point("TOPRIGHT", TooltipMover, "BOTTOMRIGHT", -1, -4)
@@ -289,7 +289,7 @@ function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 end
 
 function TT:GetAvailableTooltip()
-	for i=1, #GameTooltip.shoppingTooltips do
+	for i = 1, #GameTooltip.shoppingTooltips do
 		if(not GameTooltip.shoppingTooltips[i]:IsShown()) then
 			return GameTooltip.shoppingTooltips[i]
 		end
@@ -321,7 +321,7 @@ function TT:GetItemLvL(unit)
 	local total, item = 0, 0;
 	for i = 1, #SlotName do
 		local itemLink = GetInventoryItemLink(unit, GetInventorySlotInfo(("%sSlot"):format(SlotName[i])));
-		if (itemLink ~= nil) then
+		if(itemLink ~= nil) then
 			local itemLevel = self:ScanForItemLevel(itemLink);
 			if(itemLevel and itemLevel > 0) then
 				item = item + 1;
@@ -350,7 +350,7 @@ function TT:RemoveTrashLines(tt)
 end
 
 function TT:GetLevelLine(tt, offset)
-	for i=offset, tt:NumLines() do
+	for i = offset, tt:NumLines() do
 		local tipText = _G["GameTooltipTextLeft"..i]
 		if(tipText:GetText() and tipText:GetText():find(LEVEL)) then
 			return tipText
@@ -371,8 +371,7 @@ function TT:GetTalentSpec(unit, isInspect)
 	end
 	local _, tabName = GetTalentTabInfo(primaryTree,isInspect,nil,group);
 
-	name = tabName;
-	return name;
+	return tabName;
 end
 
 function TT:INSPECT_READY(event, ...)
@@ -455,7 +454,7 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 	if(UnitIsPlayer(unit)) then
 		local localeClass, class = UnitClass(unit)
 		local name, realm = UnitName(unit)
-		local guildName, guildRankName, _, guildRealm = GetGuildInfo(unit)
+		local guildName, guildRankName = GetGuildInfo(unit)
 		local pvpName = UnitPVPName(unit)
 		if(not localeClass or not class) then
 			return;
@@ -485,10 +484,6 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 
 		local lineOffset = 2
 		if(guildName) then
-			if(guildRealm and isShiftKeyDown) then
-				guildName = guildName.."-"..guildRealm
-			end
-
 			if(self.db.guildRanks) then
 				GameTooltipTextLeft2:SetText(("<|cff00ff10%s|r> [|cff00ff10%s|r]"):format(guildName, guildRankName))
 			else
@@ -555,14 +550,14 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 	if(self.db.targetInfo and (numParty > 0 or numRaid > 0)) then
 		for i = 1, (numRaid > 0 and numRaid or numParty) do
 			local groupUnit = (numRaid > 0 and "raid"..i or "party"..i);
-			if (UnitIsUnit(groupUnit.."target", unit)) and (not UnitIsUnit(groupUnit,"player")) then
+			if(UnitIsUnit(groupUnit.."target", unit)) and (not UnitIsUnit(groupUnit,"player")) then
 				local _, class = UnitClass(groupUnit);
 				local color = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class];
 				tinsert(targetList, format("%s%s", E:RGBToHex(color.r, color.g, color.b), UnitName(groupUnit)))
 			end
 		end
 		local numList = #targetList
-		if (numList > 0) then
+		if(numList > 0) then
 			GameTooltip:AddLine(format("%s (|cffffffff%d|r): %s", L['Targeted By:'], numList, tconcat(targetList, ", ")), nil, nil, nil, true);
 			twipe(targetList);
 		end
@@ -602,7 +597,7 @@ end
 
 function TT:GameTooltip_OnTooltipSetItem(tt)
 	local ownerName = tt:GetOwner() and tt:GetOwner().GetName and tt:GetOwner():GetName()
-	if (self.db.visibility.bags ~= 'NONE' and ownerName and (find(ownerName, "ElvUI_Container") or find(ownerName, "ElvUI_BankContainer"))) then
+	if(self.db.visibility.bags ~= 'NONE' and ownerName and (find(ownerName, "ElvUI_Container") or find(ownerName, "ElvUI_BankContainer"))) then
 		local modifier = self.db.visibility.bags
 
 		if(modifier == 'ALL' or not ((modifier == 'SHIFT' and IsShiftKeyDown()) or (modifier == 'CTRL' and IsControlKeyDown()) or (modifier == 'ALT' and IsAltKeyDown()))) then
@@ -612,7 +607,7 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 		end
 	end
 
-	if not tt.itemCleared then
+	if(not tt.itemCleared) then
 		local item, link = tt:GetItem()
 		local num = GetItemCount(link)
 		local numall = GetItemCount(link, true)
@@ -624,11 +619,11 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 			left = (("|cFFCA3C3C%s|r %s"):format(ID, link)):match(":(%w+)")
 		end
 
-		if self.db.itemCount == "BAGS_ONLY" then
+		if(self.db.itemCount == "BAGS_ONLY") then
 			right = ("|cFFCA3C3C%s|r %d"):format(L['Count'], num)
-		elseif self.db.itemCount == "BANK_ONLY" then
+		elseif(self.db.itemCount == "BANK_ONLY") then
 			bankCount = ("|cFFCA3C3C%s|r %d"):format(L['Bank'],(numall - num))
-		elseif self.db.itemCount == "BOTH" then
+		elseif(self.db.itemCount == "BOTH") then
 			right = ("|cFFCA3C3C%s|r %d"):format(L['Count'], num)
 			bankCount = ("|cFFCA3C3C%s|r %d"):format(L['Bank'],(numall - num))
 		end
@@ -637,7 +632,7 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 			tt:AddLine(" ")
 			tt:AddDoubleLine(left, right)
 		end
-		if bankCount ~= " " then
+		if(bankCount ~= " ") then
 			tt:AddDoubleLine(" ", bankCount)
 		end
 
@@ -691,7 +686,7 @@ function TT:GameTooltip_OnTooltipSetSpell(tt)
 	local displayString = ("|cFFCA3C3C%s|r %d"):format(ID, id)
 	local lines = tt:NumLines()
 	local isFound
-	for i= 1, lines do
+	for i = 1, lines do
 		local line = _G[("GameTooltipTextLeft%d"):format(i)]
 		if line and line:GetText() and line:GetText():find(displayString) then
 			isFound = true;
@@ -699,7 +694,7 @@ function TT:GameTooltip_OnTooltipSetSpell(tt)
 		end
 	end
 
-	if not isFound then
+	if(not isFound) then
 		tt:AddLine(displayString)
 		tt:Show()
 	end
@@ -714,9 +709,9 @@ function TT:SetItemRef(link, ...)
 end
 
 function TT:RepositionBNET(_, point, anchor, anchorPoint, xOffset, yOffset)
-	if anchor ~= BNETMover then
+	if(anchor ~= BNETMover) then
 		BNToastFrame:ClearAllPoints()
-		BNToastFrame:Point('TOPLEFT', BNETMover, 'TOPLEFT');
+		BNToastFrame:SetPoint('TOPLEFT', BNETMover, 'TOPLEFT');
 	end
 end
 
@@ -787,8 +782,8 @@ function TT:Initialize()
 	GameTooltipStatusBar:CreateBackdrop('Transparent')
 	GameTooltipStatusBar:SetScript("OnValueChanged", self.OnValueChanged)
 	GameTooltipStatusBar:ClearAllPoints()
-	GameTooltipStatusBar:SetPoint("TOPLEFT", GameTooltip, "BOTTOMLEFT", E.Border, -(E.Spacing * 3))
-	GameTooltipStatusBar:SetPoint("TOPRIGHT", GameTooltip, "BOTTOMRIGHT", -E.Border, -(E.Spacing * 3))
+	GameTooltipStatusBar:Point("TOPLEFT", GameTooltip, "BOTTOMLEFT", E.Border, -(E.Spacing * 3))
+	GameTooltipStatusBar:Point("TOPRIGHT", GameTooltip, "BOTTOMRIGHT", -E.Border, -(E.Spacing * 3))
 	GameTooltipStatusBar.text = GameTooltipStatusBar:CreateFontString(nil, "OVERLAY")
 	GameTooltipStatusBar.text:Point("CENTER", GameTooltipStatusBar, 0, -3)
 	GameTooltipStatusBar.text:FontTemplate(E.LSM:Fetch("font", self.db.healthBar.font), self.db.healthBar.fontSize, "OUTLINE")
@@ -828,6 +823,8 @@ function TT:Initialize()
 	for _, tt in pairs(tooltips) do
 		self:HookScript(tt, 'OnShow', 'SetStyle')
 	end
+
+	keybindFrame = ElvUI_KeyBinder
 end
 
 E:RegisterModule(TT:GetName())

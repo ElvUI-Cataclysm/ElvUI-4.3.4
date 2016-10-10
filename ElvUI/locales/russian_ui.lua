@@ -35,7 +35,6 @@ L["Deposit Reagents"] = "Сложить материалы"
 L["Hold Control + Right Click:"] = "Зажать Control + ПКМ:"
 L["Purchase Bags"] = "Приобрести слот"
 L["Purchase"] = "Приобрести слот"
-L["Reagent Bank"] = "Банк материалов"
 L["Reset Position"] = "Сбросить позицию"
 L["Show/Hide Reagents"] = "Показать/скрыть материалы"
 L["Sort Tab"] = "Сортировать вкладки"; --Not used, yet?
@@ -240,9 +239,7 @@ L["You don't have permission to mark targets."] = "У вас нет разреш
 
 --Movers
 L["Alternative Power"] = "Альтернативный ресурс"
-L["Archeology Progress Bar"] = "Прогресс археологии"
 L["Arena Frames"] = "Арена" --Also used in UnitFrames
-L["Artifact Bar"] = "Полоса Артефакта"
 L["Bag Mover (Grow Down)"] = "Сумки (Рост вниз)"
 L["Bag Mover (Grow Up)"] = "Сумки (Рост вверх)"
 L["Bag Mover"] = "Фиксатор сумок"
@@ -261,11 +258,9 @@ L["Focus Castbar"] = "Полоса заклинаний фокуса"
 L["Focus Frame"] = "Фокус" --Also used in UnitFrames
 L["FocusTarget Frame"] = "Цель фокуса" --Also used in UnitFrames
 L["GM Ticket Frame"] = "Запрос ГМу"
-L["Honor Bar"] = "Полоса Чести"
 L["Left Chat"] = "Левый чат"
 L["Loot / Alert Frames"] = "Розыгрыш/оповещения"
 L["Loot Frame"] = "Окно добычи"
-L["Loss Control Icon"] = "Иконка потери контроля"
 L["MA Frames"] = "Помощники"
 L["Micro Bar"] = "Микроменю" --Also in ActionBars
 L["Minimap"] = "Миникарта"
@@ -283,19 +278,21 @@ L["Player Debuffs"] = "Дебаффы игрока"
 L["Player Frame"] = "Игрок" --Also used in UnitFrames
 L["Player Nameplate"] = "Индикатор игрока"
 L["Player Powerbar"] = "Полоса ресурса игрока"
+L["PvP"] = true;
 L["Raid Frames"] = "Рейд"
 L["Raid Pet Frames"] = "Питомцы рейда"
 L["Raid-40 Frames"] = "Рейд 40"
 L["Reputation Bar"] = "Полоса репутации"
 L["Right Chat"] = "Правый чат"
 L["Stance Bar"] = "Панель стоек" --Also in ActionBars
-L["Talking Head Frame"] = "Говорящая голова"
 L["Target Castbar"] = "Полоса заклинаний цели"
 L["Target Frame"] = "Цель" --Also used in UnitFrames
 L["Target Powerbar"] = "Полоса ресурса цели"
 L["TargetTarget Frame"] = "Цель цели" --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = "Цель цели цели"
+L["Time Manager Frame"] = true;
 L["Tooltip"] = "Подсказка"
+L["Totems"] = true;
 L["Vehicle Seat Frame"] = "Техника"
 L["DESC_MOVERCONFIG"] = [=[Блокировка отключена. Передвиньте фреймы и нажмите 'Закрепить', когда закончите.
 
@@ -303,6 +300,11 @@ Options:
   Shift + RightClick - Hides mover temporarily.
   Ctrl + RightClick - Resets mover position to default.
 ]=]
+
+--NamePlates
+L["Discipline"] = "Послушание"
+L["Holy"] = "Свет"
+L["Restoration"] = "Исцеление"
 
 --Plugin Installer
 L["ElvUI Plugin Installation"] = "Установка плагина ElvUI"

@@ -35,7 +35,6 @@ L["Deposit Reagents"] = "Reagenzien einlagern"
 L["Hold Control + Right Click:"] = "Halte Steuerung + Rechtsklick:"
 L["Purchase Bags"] = "Taschen kaufen"
 L["Purchase"] = "Kaufen"
-L["Reagent Bank"] = "Reagenzien Bank"
 L["Reset Position"] = "Position zurücksetzen"
 L["Show/Hide Reagents"] = "Reagenzien anzeigen/ausblenden"
 L["Sort Tab"] = "Tab sortieren" --Not used, yet?
@@ -240,9 +239,7 @@ L["You don't have permission to mark targets."] = "Du hast keine Rechte um ein Z
 
 --Movers
 L["Alternative Power"] = "Alternative Energie"
-L["Archeology Progress Bar"] = "Archeologie Fortschrittsleiste"
 L["Arena Frames"] = "Arena Fenster" --Also used in UnitFrames
-L["Artifact Bar"] = "Artefaktleiste"
 L["Bag Mover (Grow Down)"] = "Taschen Anker (Nach unten wachsen)"
 L["Bag Mover (Grow Up)"] = "Taschen Anker (Nach oben wachsen)"
 L["Bag Mover"] = "Taschen Anker"
@@ -261,11 +258,9 @@ L["Focus Castbar"] = "Fokus Zauberbalken"
 L["Focus Frame"] = "Fokusfenster" --Also used in UnitFrames
 L["FocusTarget Frame"] = "Fokus-Ziel Fenster" --Also used in UnitFrames
 L["GM Ticket Frame"] = "GM-Ticket-Fenster"
-L["Honor Bar"] = "Ehreleiste"
 L["Left Chat"] = "Linker Chat"
 L["Loot / Alert Frames"] = "Beute-/Alarmfenster"
 L["Loot Frame"] = "Beute-Fenster"
-L["Loss Control Icon"] = "Kontrollverlustsymbol"
 L["MA Frames"] = "MA-Fenster"
 L["Micro Bar"] = "Mikroleiste" --Also in ActionBars
 L["Minimap"] = "Minimap"
@@ -283,19 +278,21 @@ L["Player Debuffs"] = "Spieler Debuffs"
 L["Player Frame"] = "Spielerfenster" --Also used in UnitFrames
 L["Player Nameplate"] = "Spieler Namensplaketten"
 L["Player Powerbar"] = "Spieler Kraftleiste"
+L["PvP"] = true;
 L["Raid Frames"] = "Schlachtzugsfenster" --Also used in UnitFrames
 L["Raid Pet Frames"] = "Schlachtzugspets-Fenster"
 L["Raid-40 Frames"] = "40er Schlachtzugsfenster" --Also used in UnitFrames
 L["Reputation Bar"] = "Rufleiste"
 L["Right Chat"] = "Rechter Chat"
 L["Stance Bar"] = "Haltungsleiste" --Also in ActionBars
-L["Talking Head Frame"] = "Sprechender Kopf Fenster"
 L["Target Castbar"] = "Ziel Zauberbalken"
 L["Target Frame"] = "Zielfenster" --Also used in UnitFrames
 L["Target Powerbar"] = "Ziel Kraftleiste"
 L["TargetTarget Frame"] = "Ziel des Ziels Fenster" --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = "Ziel des Ziels des Ziels Fenster"
+L["Time Manager Frame"] = true;
 L["Tooltip"] = "Tooltip"
+L["Totems"] = true;
 L["Vehicle Seat Frame"] = "Fahrzeugfenster"
 L["DESC_MOVERCONFIG"] = [=[Ankerpunkte entriegelt. Bewege die Ankerpunkte und klicke 'sperren', wenn du fertig bist.
 
@@ -303,6 +300,11 @@ Options:
   Shift + Rechtsklick - Blendet den Anker vorübergehend aus.
   Strg + Rechtsklick - Setzt den Anker auf Ursprungsposition zurück.
 ]=]
+
+--NamePlates
+L["Discipline"] = "Disziplin"
+L["Holy"] = "Heilig"
+L["Restoration"] = "Wiederherstellung"
 
 --Plugin Installer
 L["ElvUI Plugin Installation"] = true;

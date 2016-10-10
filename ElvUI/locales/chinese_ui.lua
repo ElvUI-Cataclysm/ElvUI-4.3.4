@@ -35,7 +35,6 @@ L["Deposit Reagents"] = "导入材料"
 L["Hold Control + Right Click:"] = '按住 Ctrl 并按鼠标右键：'
 L["Purchase Bags"] = "购买背包"
 L["Purchase"] = "购买"
-L["Reagent Bank"] = "材料银行"
 L["Reset Position"] = "重设位置"
 L["Show/Hide Reagents"] = "显示/隐藏材料"
 L["Sort Tab"] = "选项排列" --Not used, yet?
@@ -240,9 +239,7 @@ L["You don't have permission to mark targets."] = "你没有标记目标的权�
 
 --Movers
 L["Alternative Power"] = "特殊能量条"
-L["Archeology Progress Bar"] = "考古进度条"
 L["Arena Frames"] = "竞技场框架"
-L["Artifact Bar"] = "神器能量条"
 L["Bag Mover (Grow Down)"] = "背包框架(向下)"
 L["Bag Mover (Grow Up)"] = "背包框架(向上)"
 L["Bag Mover"] = "背包框架"
@@ -260,11 +257,9 @@ L["Focus Castbar"] = "焦点目标施法条"
 L["Focus Frame"] = "专注目标框架"
 L["FocusTarget Frame"] = "专注目标的目标框架"
 L["GM Ticket Frame"] = "GM 对话框"
-L["Honor Bar"] = "荣誉条"
 L["Left Chat"] = "左侧对话框"
 L["Loot / Alert Frames"] = "拾取 / 提醒框"
 L["Loot Frame"] = "拾取框架"
-L["Loss Control Icon"] = "失去控制图标"
 L["MA Frames"] = "主助理框"
 L["Micro Bar"] = "微型系统菜单" --Also in ActionBars
 L["Minimap"] = "小地图"
@@ -282,19 +277,21 @@ L["Player Debuffs"] = "玩家减益"
 L["Player Frame"] = "玩家框架"
 L["Player Nameplate"] = "玩家姓名板"
 L["Player Powerbar"] = "玩家能量条"
+L["PvP"] = true;
 L["Raid Frames"] = "团队框架"
 L["Raid Pet Frames"] = "团队宠物框架"
 L["Raid-40 Frames"] = "40人团队框架"
 L["Reputation Bar"] = "声望条"
 L["Right Chat"] = "右侧对话框"
 L["Stance Bar"] = "姿态条" --Also in ActionBars
-L["Talking Head Frame"] = "特写框体"
 L["Target Castbar"] = "目标施法条"
 L["Target Frame"] = "目标框架"
 L["Target Powerbar"] = "目标能量条"
 L["TargetTarget Frame"] = "目标的目标框架"
 L["TargetTargetTarget Frame"] = "目标的目标的目标框架"
+L["Time Manager Frame"] = true;
 L["Tooltip"] = "鼠标提示"
+L["Totems"] = true;
 L["Vehicle Seat Frame"] = "载具座位框"
 L["DESC_MOVERCONFIG"] = [=[解除框架移动锁定. 现在可以移动它们, 移好后请点击「锁定」.
 
@@ -302,6 +299,11 @@ Options:
   Shift + RightClick - Hides mover temporarily.
   Ctrl + RightClick - Resets mover position to default.
 ]=]
+
+--NamePlates
+L["Discipline"] = "戒律"
+L["Holy"] = "神圣"
+L["Restoration"] = "恢复"
 
 --Plugin Installer
 L["ElvUI Plugin Installation"] = "ElvUI插件安装"

@@ -414,7 +414,7 @@ local function BuildABConfig()
 		}
 	}
 
-	if E.myclass == "SHAMAN" then
+	if(E.myclass == "SHAMAN") then
 		group["barTotem"] = {
 			order = 100,
 			name = L["Totems"],
@@ -527,8 +527,8 @@ E.Options.args.actionbar = {
 		selfcast = {
 			order = 7,
 			type = "toggle",
-			name = L['Self Cast'],
-			desc = L['Self cast on right click.']
+			name = L["Self Cast"],
+			desc = L["Self cast on right click."]
 		},
 		keyDown = {
 			order = 8,

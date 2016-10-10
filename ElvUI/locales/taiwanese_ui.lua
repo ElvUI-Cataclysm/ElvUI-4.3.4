@@ -35,7 +35,6 @@ L["Deposit Reagents"] = true;
 L["Hold Control + Right Click:"] = '按住 Ctrl 並按滑鼠右鍵：'
 L["Purchase Bags"] = true;
 L["Purchase"] = "購買銀行欄位"
-L["Reagent Bank"] = true;
 L["Reset Position"] = '重設位置'
 L["Show/Hide Reagents"] = true;
 L["Sort Tab"] = true; --Not used, yet?
@@ -240,9 +239,7 @@ L["You don't have permission to mark targets."] = "你沒有標記目標的權�
 
 --Movers
 L["Alternative Power"] = "特殊能量條框架"
-L["Archeology Progress Bar"] = true;
 L["Arena Frames"] = "競技場框架" --Also used in UnitFrames
-L["Artifact Bar"] = true;
 L["Bag Mover (Grow Down)"] = true;
 L["Bag Mover (Grow Up)"] = true;
 L["Bag Mover"] = true;
@@ -261,11 +258,9 @@ L["Focus Castbar"] = "焦點目標施法條"
 L["Focus Frame"] = "焦點目標框架" --Also used in UnitFrames
 L["FocusTarget Frame"] = "焦點目標的目標框架" --Also used in UnitFrames
 L["GM Ticket Frame"] = "GM 對話框"
-L["Honor Bar"] = true;
 L["Left Chat"] = "左側對話框"
 L["Loot / Alert Frames"] = "拾取 / 提醒框架"
 L["Loot Frame"] = true;
-L["Loss Control Icon"] = "失去控制圖示"
 L["MA Frames"] = "主助理框架"
 L["Micro Bar"] = "微型系統菜單" --Also in ActionBars
 L["Minimap"] = "小地圖"
@@ -283,19 +278,21 @@ L["Player Debuffs"] = true;
 L["Player Frame"] = "玩家框架" --Also used in UnitFrames
 L["Player Nameplate"] = true;
 L["Player Powerbar"] = true;
+L["PvP"] = true;
 L["Raid Frames"] = true;
 L["Raid Pet Frames"] = true;
 L["Raid-40 Frames"] = true;
 L["Reputation Bar"] = "聲望條"
 L["Right Chat"] = "右側對話框"
 L["Stance Bar"] = "姿態列" --Also in ActionBars
-L["Talking Head Frame"] = true
 L["Target Castbar"] = "目標施法條"
 L["Target Frame"] = "目標框架" --Also used in UnitFrames
 L["Target Powerbar"] = true;
 L["TargetTarget Frame"] = "目標的目標框架" --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = true;
+L["Time Manager Frame"] = true;
 L["Tooltip"] = "浮動提示"
+L["Totems"] = true;
 L["Vehicle Seat Frame"] = "載具座位框"
 L["DESC_MOVERCONFIG"] = [=[解除框架移動鎖定. 現在可以移動它們, 移好後請點擊「鎖定」.
 
@@ -303,6 +300,11 @@ Options:
   Shift + RightClick - Hides mover temporarily.
   Ctrl + RightClick - Resets mover position to default.
 ]=]
+
+--NamePlates
+L["Discipline"] = "戒律"
+L["Holy"] = "神聖"
+L["Restoration"] = "恢復"
 
 --Plugin Installer
 L["ElvUI Plugin Installation"] = true;

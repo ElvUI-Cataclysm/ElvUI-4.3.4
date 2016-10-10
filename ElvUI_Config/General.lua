@@ -588,7 +588,7 @@ E.Options.args.general = {
 					order = 2,
 					type = "range",
 					name = L["Objective Frame Height"],
-					desc = L["Height of the watch tracker. Increase size to be able to see more objectives."],
+					desc = L["Height of the objective tracker. Increase size to be able to see more objectives."],
 					min = 400, max = E.screenheight, step = 1,
 					set = function(info, value) E.db.general.watchFrameHeight = value; E:GetModule('Blizzard'):WatchFrameHeight(); end
 				}

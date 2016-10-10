@@ -23,7 +23,7 @@ function B:WorldStateAlwaysUpFrame_Update()
 	frame = "AlwaysUpFrame"..alwaysUpShown
 	offset = 0
 
-	for i=alwaysUpShown, NUM_ALWAYS_UP_UI_FRAMES do
+	for i = alwaysUpShown, NUM_ALWAYS_UP_UI_FRAMES do
 		frame = _G["AlwaysUpFrame"..i]
 		frameText = _G["AlwaysUpFrame"..i.."Text"]
 		frameIcon = _G["AlwaysUpFrame"..i.."Icon"]
@@ -49,5 +49,5 @@ function B:PositionCaptureBar()
 	self:SecureHook("WorldStateAlwaysUpFrame_Update");
 	pvpHolder:SetSize(30, 70)
 	pvpHolder:SetPoint("TOP", E.UIParent, "TOP", 0, -4)
-	E:CreateMover(pvpHolder, "PvPMover", "PvP", nil, nil, nil, "ALL")
+	E:CreateMover(pvpHolder, "PvPMover", L["PvP"], nil, nil, nil, "ALL")
 end

@@ -35,7 +35,6 @@ L["Deposit Reagents"] = REAGENTBANK_DEPOSIT
 L["Hold Control + Right Click:"] = "Shift 우클릭:"
 L["Purchase Bags"] = "가방 슬롯 구입"
 L["Purchase"] = "구입"
-L["Reagent Bank"] = REAGENT_BANK
 L["Reset Position"] = "위치 초기화"
 L["Show/Hide Reagents"] = "재료은행 표시";
 L["Sort Tab"] = "탭 정렬" --Not used, yet?
@@ -240,9 +239,7 @@ L["You don't have permission to mark targets."] = "레이드 아이콘을 지정
 
 --Movers
 L["Alternative Power"] = "특수상황 진행 바"
-L["Archeology Progress Bar"] = "고고학 진척도 바"
 L["Arena Frames"] = "투기장 프레임"
-L["Artifact Bar"] = true;
 L["Bag Mover (Grow Down)"] = true;
 L["Bag Mover (Grow Up)"] = true;
 L["Bag Mover"] = true;
@@ -261,11 +258,9 @@ L["Focus Castbar"] = "주시대상 시전바"
 L["Focus Frame"] = "주시대상 프레임"
 L["FocusTarget Frame"] = "주시대상의 대상 프레임"
 L["GM Ticket Frame"] = "GM요청 번호표"
-L["Honor Bar"] = true;
 L["Left Chat"] = "좌측 패널"
 L["Loot / Alert Frames"] = "획득/알림 창"
 L["Loot Frame"] = "전리품 프레임";
-L["Loss Control Icon"] = "제어손실 표시"
 L["MA Frames"] = "지원공격 전담 프레임"
 L["Micro Bar"] = "메뉴모음 바"
 L["Minimap"] = "미니맵"
@@ -283,19 +278,21 @@ L["Player Debuffs"] = "플레이어 디버프"
 L["Player Frame"] = "플레이어 프레임"
 L["Player Nameplate"] = true;
 L["Player Powerbar"] = true;
+L["PvP"] = true;
 L["Raid Frames"] = "레이드 프레임"
 L["Raid Pet Frames"] = "레이드 소환수 프레임"
 L["Raid-40 Frames"] = "레이드 프레임(40인)"
 L["Reputation Bar"] = "평판 바"
 L["Right Chat"] = "우측 패널"
 L["Stance Bar"] = "태세 바"
-L["Talking Head Frame"] = true
 L["Target Castbar"] = "대상 시전바"
 L["Target Frame"] = "대상 프레임"
 L["Target Powerbar"] = true;
 L["TargetTarget Frame"] = "대상의대상 프레임"
 L["TargetTargetTarget Frame"] = "대상의대상의대상 프레임"
+L["Time Manager Frame"] = true;
 L["Tooltip"] = "툴팁"
+L["Totems"] = true;
 L["Vehicle Seat Frame"] = "차량 좌석 프레임"
 L["DESC_MOVERCONFIG"] = [=[프레임을 드래그로 원하는 위치로 이동시키세요.|n[잠금] 버튼을 누르면 이동모드가 종료됩니다.
 
@@ -303,6 +300,11 @@ Options:
   Shift + RightClick - Hides mover temporarily.
   Ctrl + RightClick - Resets mover position to default.
 ]=]
+
+--NamePlates
+L["Discipline"] = "수양"
+L["Holy"] = "신성"
+L["Restoration"] = "회복"
 
 --Plugin Installer
 L["ElvUI Plugin Installation"] = true;

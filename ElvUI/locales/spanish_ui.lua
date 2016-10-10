@@ -35,7 +35,6 @@ L["Deposit Reagents"] = true;
 L["Hold Control + Right Click:"] = "Mantén Control y Haz Clic Derecho:"
 L["Purchase Bags"] = true;
 L["Purchase"] = "Comprar"
-L["Reagent Bank"] = true;
 L["Reset Position"] = "Reestablecer Posición"
 L["Show/Hide Reagents"] = true;
 L["Sort Tab"] = true
@@ -240,9 +239,7 @@ L["You don't have permission to mark targets."] = "No tienes permiso para marcar
 
 --Movers
 L["Alternative Power"] = "Poder Alternativo"
-L["Archeology Progress Bar"] = true;
 L["Arena Frames"] = "Marcos de Arena"
-L["Artifact Bar"] = true;
 L["Bag Mover (Grow Down)"] = true;
 L["Bag Mover (Grow Up)"] = true;
 L["Bag Mover"] = true;
@@ -261,11 +258,9 @@ L["Focus Castbar"] = "Barra de Lanzamiento del Foco"
 L["Focus Frame"] = "Marco de Foco"
 L["FocusTarget Frame"] = "Marco de Objetivo del Foco"
 L["GM Ticket Frame"] = "Marco de Consultas para el MJ"
-L["Honor Bar"] = true;
 L["Left Chat"] = "Chat Izquierdo"
 L["Loot / Alert Frames"] = "Marcos de Botín / Alerta"
 L["Loot Frame"] = true;
-L["Loss Control Icon"] = "Icono de Pérdida de Control"
 L["MA Frames"] = "Marcos de AP"
 L["Micro Bar"] = "Micro Barra"
 L["Minimap"] = "Minimapa"
@@ -283,19 +278,21 @@ L["Player Debuffs"] = true;
 L["Player Frame"] = "Marco de Jugador"
 L["Player Nameplate"] = true;
 L["Player Powerbar"] = true;
+L["PvP"] = true;
 L["Raid Frames"] = true;
 L["Raid Pet Frames"] = true;
 L["Raid-40 Frames"] = true;
 L["Reputation Bar"] = "Barra de Reputación"
 L["Right Chat"] = "Chat Derecho"
 L["Stance Bar"] = "Barra de Forma"
-L["Talking Head Frame"] = true
 L["Target Castbar"] = "Barra de Lanzamiento del Objetivo"
 L["Target Frame"] = "Marco de Objetivo"
 L["Target Powerbar"] = true;
 L["TargetTarget Frame"] = "Marco de Objetivo de Objetivo"
 L["TargetTargetTarget Frame"] = true;
+L["Time Manager Frame"] = true;
 L["Tooltip"] = "Descripción Emergente"
+L["Totems"] = true;
 L["Vehicle Seat Frame"] = "Marco del Asiento del Vehículo"
 L["DESC_MOVERCONFIG"] = [=[Fijadores desbloqueados. Muévelos ahora y haz click en Bloquear cuando termines.
 
@@ -303,6 +300,11 @@ Options:
   Shift + RightClick - Hides mover temporarily.
   Ctrl + RightClick - Resets mover position to default.
 ]=]
+
+--NamePlates
+L["Discipline"] = "Disciplina"
+L["Holy"] = "Sagrado"
+L["Restoration"] = "Restauración"
 
 --Plugin Installer
 L["ElvUI Plugin Installation"] = true;

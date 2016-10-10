@@ -35,7 +35,6 @@ L["Deposit Reagents"] = "Déposer les composants";
 L["Hold Control + Right Click:"] = "Contrôle enfoncé + Clique droit"
 L["Purchase Bags"] = "Acheter des sacs";
 L["Purchase"] = "Acheter"
-L["Reagent Bank"] = "Banque de composants";
 L["Reset Position"] = "Réinitialiser la position"
 L["Show/Hide Reagents"] = "Afficher / Masquer les composants";
 L["Sort Tab"] = 'Organiser les onglets' --Not used, yet?
@@ -240,9 +239,7 @@ L["You don't have permission to mark targets."] = "Vous n'avez pas la permission
 
 --Movers
 L["Alternative Power"] = "Puissance Alternative"
-L["Archeology Progress Bar"] = "Barre de progression d'Archéologie";
 L["Arena Frames"] = "Cadre d'arène" --Also used in UnitFrames
-L["Artifact Bar"] = true;
 L["Bag Mover (Grow Down)"] = true;
 L["Bag Mover (Grow Up)"] = true;
 L["Bag Mover"] = true;
@@ -261,11 +258,9 @@ L["Focus Castbar"] = "Barre d'incantation du Focus"
 L["Focus Frame"] = "Cadre Focus" --Also used in UnitFrames
 L["FocusTarget Frame"] = "Cadre de la cible de votre Focus" --Also used in UnitFrames
 L["GM Ticket Frame"] = "Cadre du ticket MJ"
-L["Honor Bar"] = true;
 L["Left Chat"] = "Chat gauche"
 L["Loot / Alert Frames"] = "Cadres de butin / Alerte"
 L["Loot Frame"] = "Cadre de butin";
-L["Loss Control Icon"] = "Icône de la perte de contrôle"
 L["MA Frames"] = "Cadres de l`assistant principal"
 L["Micro Bar"] = "Micro Barre" --Also in ActionBars
 L["Minimap"] = "Mini-carte"
@@ -283,19 +278,21 @@ L["Player Debuffs"] = "Affaiblissements du joueur";
 L["Player Frame"] = "Cadre du joueur" --Also used in UnitFrames
 L["Player Nameplate"] = true;
 L["Player Powerbar"] = "Barre de pouvoir du joueur";  -- need review.
+L["PvP"] = true;
 L["Raid Frames"] = "Cadres de Raid";
 L["Raid Pet Frames"] = "Cadres de Raid des Familiers";
 L["Raid-40 Frames"] = "Cadres de Raid 40";
 L["Reputation Bar"] = "Barre de réputation"
 L["Right Chat"] = "Chat de droite"
 L["Stance Bar"] = "Barre de posture" --Also in ActionBars
-L["Talking Head Frame"] = true
 L["Target Castbar"] = "Barre d'incantation de la cible"
 L["Target Frame"] = "Cadre de la cible" --Also used in UnitFrames
 L["Target Powerbar"] = "Barre de pouvoir de la cible";  -- need review.
 L["TargetTarget Frame"] = "Cadre de la cible de votre cible" --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = "Cadre de la cible de la cible de la cible";
+L["Time Manager Frame"] = true;
 L["Tooltip"] = "Infobulle"
+L["Totems"] = true;
 L["Vehicle Seat Frame"] = "Cadre de siège du véhicule"
 L["DESC_MOVERCONFIG"] = [=[Cadres déverrouillés. Déplacez-les et cliquez sur Verrouiller une fois terminé.
 
@@ -303,6 +300,11 @@ Options:
   Shift + RightClick - Hides mover temporarily.
   Ctrl + RightClick - Resets mover position to default.
 ]=]
+
+--NamePlates
+L["Discipline"] = "Discipline"
+L["Holy"] = "Sacré"
+L["Restoration"] = "Restauration"
 
 --Plugin Installer
 L["ElvUI Plugin Installation"] = true;
