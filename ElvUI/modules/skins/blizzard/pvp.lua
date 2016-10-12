@@ -88,7 +88,7 @@ local function LoadSkin()
 	local function ArenaHeader(self, first, i)
 		local button = _G["PVPTeamManagementFrameHeader"..i]
 
-		if first then
+		if(first) then
 			button:StripTextures()
 		end
 	end
@@ -131,8 +131,8 @@ local function LoadSkin()
 	PVPConquestFrameConquestButtonRated:StyleButton()
 
 	PVPFrameConquestBar:CreateBackdrop("Default")
-	PVPFrameConquestBar.backdrop:Point("TOPLEFT", PVPFrameConquestBar.progress, "TOPLEFT", -2, 2)
-	PVPFrameConquestBar.backdrop:Point("BOTTOMRIGHT", PVPFrameConquestBar, "BOTTOMRIGHT", -2, 2)
+	PVPFrameConquestBar.backdrop:Point("TOPLEFT", PVPFrameConquestBar.progress, "TOPLEFT", -1, 1)
+	PVPFrameConquestBar.backdrop:Point("BOTTOMRIGHT", PVPFrameConquestBar, "BOTTOMRIGHT", 1, 2)
 	PVPFrameConquestBar:Point("LEFT", 40, 0)
 
 	PVPFrameConquestBar.progress:SetTexture(E["media"].normTex)
