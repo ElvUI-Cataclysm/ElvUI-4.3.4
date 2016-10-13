@@ -22,6 +22,7 @@ local PetActionBar_UpdateCooldowns = PetActionBar_UpdateCooldowns
 local NUM_PET_ACTION_SLOTS = NUM_PET_ACTION_SLOTS
 
 local bar = CreateFrame('Frame', 'ElvUI_BarPet', E.UIParent, 'SecureHandlerStateTemplate');
+bar:SetFrameStrata("LOW");
 
 function AB:UpdatePet()
 	if(event == "UNIT_AURA" and unit ~= "pet") then return end
