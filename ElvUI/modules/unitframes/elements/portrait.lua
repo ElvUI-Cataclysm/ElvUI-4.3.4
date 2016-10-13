@@ -15,13 +15,12 @@ function UF:Construct_Portrait(frame, type)
 		portrait.backdrop = backdrop;
 	else
 		portrait = CreateFrame("PlayerModel", nil, frame);
-		portrait:SetFrameStrata("LOW");
 		portrait:CreateBackdrop("Default", nil, nil, self.thinBorders);
 	end
 
 	portrait.PostUpdate = self.PortraitUpdate;
 	portrait.overlay = CreateFrame("Frame", nil, frame);
-	portrait.overlay:SetFrameLevel(frame.Health:GetFrameLevel() + 5)
+	portrait.overlay:SetFrameLevel(frame.Health:GetFrameLevel())
 
 	return portrait;
 end
