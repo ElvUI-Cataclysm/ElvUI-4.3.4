@@ -156,8 +156,16 @@ E.Options.args.general = {
 					get = function(info) return E.global.general.autoScale; end,
 					set = function(info, value) E.global.general[ info[#info] ] = value; E:StaticPopup_Show("GLOBAL_RL") end
 				},
-				minUiScale = {
+				pvpAutoRelease = {
 					order = 17,
+					name = L["PvP Autorelease"],
+					desc = L["Automatically release body when killed inside a battleground."],
+					type = "toggle",
+					get = function(info) return E.private.general.pvpAutoRelease; end,
+					set = function(info, value) E.private.general.pvpAutoRelease = value; E:StaticPopup_Show("PRIVATE_RL"); end
+				},
+				minUiScale = {
+					order = 18,
 					type = "range",
 					name = L["Lowest Allowed UI Scale"],
 					min = 0.32, max = 0.64, step = 0.01,
@@ -165,7 +173,7 @@ E.Options.args.general = {
 					set = function(info, value) E.global.general.minUiScale = value; E:StaticPopup_Show("GLOBAL_RL"); end
 				},
 				numberPrefixStyle = {
-					order = 18,
+					order = 19,
 					type = "select",
 					name = L["Number Prefix"],
 					desc = L["The unit prefixes you want to use when values are shortened in ElvUI. This is mostly used on UnitFrames."],
@@ -176,6 +184,16 @@ E.Options.args.general = {
 						["ENGLISH"] = "K, M, B",
 						["CHINESE"] = "W, Y"
 					}
+				},
+				moverTransparancy = {
+					order = 20,
+					type = "range",
+					name = L["Mover Transparency"],
+					desc = L["Changes the transparency of all the movers."],
+					isPercent = true,
+					min = 0, max = 1, step = 0.01,
+					get = function(info) return E.db.general.moverTransparancy; end,
+					set = function(info, value) E.db.general.moverTransparancy = value E:GetModule("Misc"):UpdateMoverTransparancy(); end
 				}
 			}
 		},
@@ -576,8 +594,6 @@ E.Options.args.general = {
 			order = 9,
 			type = "group",
 			name = L["Objective Frame"],
-			get = function(info) return E.db.general[ info[#info] ]; end,
-			set = function(info, value) E.db.general[ info[#info] ] = value; end,
 			args = {
 				watchFrameHeader = {
 					order = 1,
@@ -590,7 +606,88 @@ E.Options.args.general = {
 					name = L["Objective Frame Height"],
 					desc = L["Height of the objective tracker. Increase size to be able to see more objectives."],
 					min = 400, max = E.screenheight, step = 1,
-					set = function(info, value) E.db.general.watchFrameHeight = value; E:GetModule('Blizzard'):WatchFrameHeight(); end
+					get = function(info) return E.db.general[ info[#info] ]; end,
+					set = function(info, value) E.db.general[ info[#info] ] = value; E:GetModule('Blizzard'):WatchFrameHeight(); end
+				},
+				watchFrameVisibility = {
+					order = 3,
+					type = "group",
+					name = L["Visibility State"],
+					guiInline = true,
+					args = {
+						enable = {
+							order = 4,
+							type = "toggle",
+							name = L["Enable"],
+							get = function(info) return E.private.watchframe[ info[#info] ] end,
+							set = function(info, value) E.private.watchframe[ info[#info] ] = value; E:GetModule('WatchFrame'):UpdateSettings(); end,
+						},
+						city = {
+							order = 5,
+							type = "select",
+							name = L["City (Resting)"],
+							disabled = function() return not E.private.watchframe.enable end,
+							get = function(info) return E.db.watchframe[ info[#info] ] end,
+							set = function(info, value) E.db.watchframe[ info[#info] ] = value end,
+							values = {
+								["NONE"] = L["None"],
+								["COLLAPSED"] = L["Collapsed"],
+								["HIDDEN"] = L["Hidden"]
+							}
+						},
+						pvp = {
+							order = 6,
+							type = "select",
+							name = L["PvP"],
+							disabled = function() return not E.private.watchframe.enable end,
+							get = function(info) return E.db.watchframe[ info[#info] ] end,
+							set = function(info, value) E.db.watchframe[ info[#info] ] = value end,
+							values = {
+								["NONE"] = L["None"],
+								["COLLAPSED"] = L["Collapsed"],
+								["HIDDEN"] = L["Hidden"]
+							}
+						},
+						arena = {
+							order = 7,
+							type = "select",
+							name = L["Arena"],
+							disabled = function() return not E.private.watchframe.enable end,
+							get = function(info) return E.db.watchframe[ info[#info] ] end,
+							set = function(info, value) E.db.watchframe[ info[#info] ] = value end,
+							values = {
+								["NONE"] = L["None"],
+								["COLLAPSED"] = L["Collapsed"],
+								["HIDDEN"] = L["Hidden"]
+							}
+						},
+						party = {
+							order = 8,
+							type = "select",
+							name = L["Party"],
+							disabled = function() return not E.private.watchframe.enable end,
+							get = function(info) return E.db.watchframe[ info[#info] ] end,
+							set = function(info, value) E.db.watchframe[ info[#info] ] = value end,
+							values = {
+								["NONE"] = L["None"],
+								["COLLAPSED"] = L["Collapsed"],
+								["HIDDEN"] = L["Hidden"]
+							}
+						},
+						raid = {
+							order = 9,
+							type = "select",
+							name = L["Raid"],
+							disabled = function() return not E.private.watchframe.enable end,
+							get = function(info) return E.db.watchframe[ info[#info] ] end,
+							set = function(info, value) E.db.watchframe[ info[#info] ] = value end,
+							values = {
+								["NONE"] = L["None"],
+								["COLLAPSED"] = L["Collapsed"],
+								["HIDDEN"] = L["Hidden"]
+							}
+						}
+					}
 				}
 			}
 		},

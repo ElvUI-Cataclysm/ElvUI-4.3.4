@@ -72,8 +72,8 @@ local function LoadSkin()
 
 	LFDQueueFrameCapBar:SetPoint("LEFT", 40, 0)
 	LFDQueueFrameCapBar:CreateBackdrop("Default")
-	LFDQueueFrameCapBar.backdrop:Point("TOPLEFT", LFDQueueFrameCapBar, "TOPLEFT", -1, -1)
-	LFDQueueFrameCapBar.backdrop:Point("BOTTOMRIGHT", LFDQueueFrameCapBar, "BOTTOMRIGHT", 0, 1 )
+	LFDQueueFrameCapBar.backdrop:Point("TOPLEFT", LFDQueueFrameCapBar, "TOPLEFT", -1, -2)
+	LFDQueueFrameCapBar.backdrop:Point("BOTTOMRIGHT", LFDQueueFrameCapBar, "BOTTOMRIGHT", 1, 2)
 
 	LFDQueueFrameCapBarProgress:SetTexture(E["media"].normTex)
 	LFDQueueFrameCapBarCap1Marker:Kill()

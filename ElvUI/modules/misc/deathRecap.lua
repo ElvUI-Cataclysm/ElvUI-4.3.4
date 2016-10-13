@@ -1,4 +1,4 @@
-local E, L, V, P, G, _ = unpack(ElvUI);
+local E, L, V, P, G = unpack(select(2, ...));
 local mod = E:NewModule("DeathRecap", "AceHook-3.0", "AceEvent-3.0");
 
 local format, upper = string.format, string.upper;

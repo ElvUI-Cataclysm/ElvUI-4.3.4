@@ -1,4 +1,4 @@
-local E, L, V, P, G, _ = unpack(ElvUI);
+local E, L, V, P, G = unpack(select(2, ...));
 local AL = E:NewModule("AddOnList");
 
 local floor = math.floor;

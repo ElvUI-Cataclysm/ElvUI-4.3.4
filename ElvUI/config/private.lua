@@ -20,7 +20,12 @@ V['general'] = {
 		['hideZoomIn'] = true,
 		['hideZoomOut'] = true,
 	},
-	["classColorMentionsSpeech"] = true
+	["classColorMentionsSpeech"] = true,
+	["pvpAutoRelease"] = true
+}
+
+V["watchframe"] = {
+	["enable"] = true
 }
 
 V['bags'] = {

@@ -69,11 +69,10 @@ function UF:Configure_ClassBar(frame)
 			CLASSBAR_WIDTH = CLASSBAR_WIDTH * (frame.MAX_CLASS_BAR - 1) / frame.MAX_CLASS_BAR;
 		end
 
-		bars:SetFrameStrata("MEDIUM");
-		bars:SetFrameLevel(frame:GetFrameLevel() + 5)
+		bars:SetFrameLevel(50) --RaisedElementParent uses 100, we want it lower than this
 
 		if(bars.Holder and bars.Holder.mover) then
-			bars.Holder.mover:SetScale(0.000001);
+			bars.Holder.mover:SetScale(0.0001);
 			bars.Holder.mover:SetAlpha(0);
 		end
 	elseif(not frame.CLASSBAR_DETACHED) then
@@ -85,11 +84,10 @@ function UF:Configure_ClassBar(frame)
 			bars:Point("BOTTOMLEFT", frame.Health.backdrop, "TOPLEFT", frame.BORDER, frame.SPACING*3);
 		end
 
-		bars:SetFrameStrata("LOW");
 		bars:SetFrameLevel(frame:GetFrameLevel() + 5)
 
 		if(bars.Holder and bars.Holder.mover) then
-			bars.Holder.mover:SetScale(0.000001);
+			bars.Holder.mover:SetScale(0.0001);
 			bars.Holder.mover:SetAlpha(0);
 		end
 	else
@@ -396,10 +394,9 @@ end
 
 function UF:Construct_DruidAltManaBar(frame)
 	local dpower = CreateFrame('Frame', nil, frame)
-	dpower:SetFrameStrata("LOW")
 	dpower:SetAllPoints(frame.EclipseBar.backdrop)
 	dpower:SetTemplate("Default")
-	dpower:SetFrameLevel(dpower:GetFrameLevel() + 5)
+	dpower:SetFrameLevel(dpower:GetFrameLevel() + 1)
 	dpower.colorPower = true
 	dpower.PostUpdateVisibility = UF.DruidManaPostUpdateVisibility
 	dpower.PostUpdatePower = UF.DruidPostUpdateAltPower

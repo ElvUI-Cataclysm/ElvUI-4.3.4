@@ -12,4 +12,5 @@
 	<Script file='afk.lua'/>
 	<Script file="addonList.lua"/>
 	<Script file="deathRecap.lua"/>
+	<Script file="watchFrame.lua"/>
 </Ui>
