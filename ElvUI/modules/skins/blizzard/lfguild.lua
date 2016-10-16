@@ -3,6 +3,7 @@ local S = E:GetModule('Skins')
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.lfguild ~= true then return end
+
 	local checkbox = {
 		"LookingForGuildPvPButton",
 		"LookingForGuildWeekendsButton",
@@ -60,11 +61,17 @@ local function LoadSkin()
 	end
 
 	-- skin tabs
-	for i= 1, 3 do
-		_G["LookingForGuildFrameTab"..i]:StripTextures()
-		_G["LookingForGuildFrameTab"..i]:CreateBackdrop("Default",true)
-		_G["LookingForGuildFrameTab"..i].backdrop:Point("TOPLEFT", 3, -7)
-		_G["LookingForGuildFrameTab"..i].backdrop:Point("BOTTOMRIGHT", -2, -1)
+	for i = 1, 3 do
+		local headerTab = _G["LookingForGuildFrameTab"..i]
+		headerTab:StripTextures()
+		headerTab.backdrop = CreateFrame("Frame", nil, headerTab)
+		headerTab.backdrop:SetTemplate("Default", true)
+		headerTab.backdrop:SetFrameLevel(headerTab:GetFrameLevel() - 1)
+		headerTab.backdrop:Point("TOPLEFT", 3, -7)
+		headerTab.backdrop:Point("BOTTOMRIGHT", -2, -1)
+
+		headerTab:HookScript("OnEnter", S.SetModifiedBackdrop);
+		headerTab:HookScript("OnLeave", S.SetOriginalBackdrop);
 	end
 
 	GuildFinderRequestMembershipFrame:StripTextures(true)

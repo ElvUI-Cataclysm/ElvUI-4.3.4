@@ -31,15 +31,23 @@ local function LoadSkin()
 
 	--Dungeon/Raid Tabs
 	InstanceSelect.dungeonsTab:StripTextures()
-	InstanceSelect.dungeonsTab:CreateBackdrop("Default",true)
+	InstanceSelect.dungeonsTab.backdrop = CreateFrame("Frame", nil, InstanceSelect.dungeonsTab)
+	InstanceSelect.dungeonsTab.backdrop:SetTemplate("Default", true)
+	InstanceSelect.dungeonsTab.backdrop:SetFrameLevel(InstanceSelect.dungeonsTab:GetFrameLevel() - 1)
 	InstanceSelect.dungeonsTab.backdrop:Point("TOPLEFT", 3, -7)
 	InstanceSelect.dungeonsTab.backdrop:Point("BOTTOMRIGHT", -2, -1)
 	InstanceSelect.dungeonsTab:Point("BOTTOMRIGHT", EncounterJournalInstanceSelectRaidTab, "BOTTOMLEFT", 0, 0)
+	InstanceSelect.dungeonsTab:HookScript("OnEnter", S.SetModifiedBackdrop);
+	InstanceSelect.dungeonsTab:HookScript("OnLeave", S.SetOriginalBackdrop);
 
-	InstanceSelect.raidsTab:StripTextures()	
-	InstanceSelect.raidsTab:CreateBackdrop("Default",true)
+	InstanceSelect.raidsTab:StripTextures()
+	InstanceSelect.raidsTab.backdrop = CreateFrame("Frame", nil, InstanceSelect.raidsTab)
+	InstanceSelect.raidsTab.backdrop:SetTemplate("Default", true)
+	InstanceSelect.raidsTab.backdrop:SetFrameLevel(InstanceSelect.raidsTab:GetFrameLevel() - 1)
 	InstanceSelect.raidsTab.backdrop:Point("TOPLEFT", 3, -7)
 	InstanceSelect.raidsTab.backdrop:Point("BOTTOMRIGHT", -2, -1)
+	InstanceSelect.raidsTab:HookScript("OnEnter", S.SetModifiedBackdrop);
+	InstanceSelect.raidsTab:HookScript("OnLeave", S.SetOriginalBackdrop);
 
 	--Encounter Info Frame
 	local EncounterInfo = EJ.encounter.info

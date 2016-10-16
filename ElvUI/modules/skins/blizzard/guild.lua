@@ -128,8 +128,8 @@ local function LoadSkin()
 	GuildXPBarCap:Kill()
 	GuildXPBar.progress:SetTexture(E["media"].normTex)
 	GuildXPBar:CreateBackdrop("Default")
-	GuildXPBar.backdrop:Point("TOPLEFT", GuildXPBar.progress, "TOPLEFT", -2, 2)
-	GuildXPBar.backdrop:Point("BOTTOMRIGHT", GuildXPBar, "BOTTOMRIGHT", -2, 4)
+	GuildXPBar.backdrop:Point("TOPLEFT", GuildXPBar.progress, "TOPLEFT", -1, 1)
+	GuildXPBar.backdrop:Point("BOTTOMRIGHT", GuildXPBar, "BOTTOMRIGHT", -2, 5)
 
 	if GuildLatestPerkButton then
 		GuildLatestPerkButton:StripTextures()
@@ -212,11 +212,17 @@ local function LoadSkin()
 	S:HandleScrollBar(GuildInfoDetailsFrameScrollBar, 4)
 	S:HandleScrollBar(GuildInfoFrameApplicantsContainerScrollBar)
 
-	for i=1, 3 do
-		_G["GuildInfoFrameTab"..i]:StripTextures()
-		_G["GuildInfoFrameTab"..i]:CreateBackdrop("Default",true)
-		_G["GuildInfoFrameTab"..i].backdrop:Point("TOPLEFT", 3, -7)
-		_G["GuildInfoFrameTab"..i].backdrop:Point("BOTTOMRIGHT", -2, -1)
+	for i = 1, 3 do
+		local headerTab = _G["GuildInfoFrameTab"..i]
+		headerTab:StripTextures()
+		headerTab.backdrop = CreateFrame("Frame", nil, headerTab)
+		headerTab.backdrop:SetTemplate("Default", true)
+		headerTab.backdrop:SetFrameLevel(headerTab:GetFrameLevel() - 1)
+		headerTab.backdrop:Point("TOPLEFT", 3, -7)
+		headerTab.backdrop:Point("BOTTOMRIGHT", -2, -1)
+
+		headerTab:HookScript("OnEnter", S.SetModifiedBackdrop);
+		headerTab:HookScript("OnLeave", S.SetOriginalBackdrop);
 	end
 
 	GuildInfoFrameTab1:SetPoint("TOPLEFT", GuildInfoFrame, "TOPLEFT", 45, 33)

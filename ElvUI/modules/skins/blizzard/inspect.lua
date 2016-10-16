@@ -67,7 +67,6 @@ local function LoadSkin()
 	local function ScanSlots()
 		local notFound
 		for _, slot in pairs(slots) do
-			-- Colour the equipment slots by rarity
 			local target = _G["Inspect"..slot]
 			local slotId, _, _ = GetInventorySlotInfo(slot)
 			local itemId = GetInventoryItemID("target", slotId)
@@ -112,10 +111,17 @@ local function LoadSkin()
 
 	for i = 1, 3 do
 		_G["InspectPVPTeam"..i]:StripTextures()
-		_G["InspectTalentFrameTab"..i]:StripTextures()
-		_G["InspectTalentFrameTab"..i]:CreateBackdrop("Default",true)
-		_G["InspectTalentFrameTab"..i].backdrop:Point("TOPLEFT", 3, -7)
-		_G["InspectTalentFrameTab"..i].backdrop:Point("BOTTOMRIGHT", -2, 1)
+
+		local headerTab = _G["InspectTalentFrameTab"..i]
+		headerTab:StripTextures()
+		headerTab.backdrop = CreateFrame("Frame", nil, headerTab)
+		headerTab.backdrop:SetTemplate("Default", true)
+		headerTab.backdrop:SetFrameLevel(headerTab:GetFrameLevel() - 1)
+		headerTab.backdrop:Point("TOPLEFT", 3, -7)
+		headerTab.backdrop:Point("BOTTOMRIGHT", -2, -1)
+
+		headerTab:HookScript("OnEnter", S.SetModifiedBackdrop);
+		headerTab:HookScript("OnLeave", S.SetOriginalBackdrop);
 	end
 
 	InspectTalentFrame.bg = CreateFrame("Frame", nil, InspectTalentFrame)
@@ -147,6 +153,23 @@ local function LoadSkin()
 			icon:SetTexCoord(unpack(E.TexCoords))
 			icon:SetInside()
 		end
+	end
+
+	InspectModelFrameControlFrame:StripTextures()
+
+	local controlbuttons = {
+		"InspectModelFrameControlFrameZoomInButton",
+		"InspectModelFrameControlFrameZoomOutButton",
+		"InspectModelFrameControlFramePanButton",
+		"InspectModelFrameControlFrameRotateRightButton",
+		"InspectModelFrameControlFrameRotateLeftButton",
+		"InspectModelFrameControlFrameRotateResetButton",
+	}
+
+	for i = 1, getn(controlbuttons) do
+		S:HandleButton(_G[controlbuttons[i]]);
+		_G[controlbuttons[i]]:StyleButton()
+		_G[controlbuttons[i].."Bg"]:Hide()
 	end
 end
 
