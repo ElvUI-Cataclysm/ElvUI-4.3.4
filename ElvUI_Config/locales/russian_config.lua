@@ -495,6 +495,7 @@ L["Minimap Buttons"] = "Кнопки миникарты"
 L["Minimap Mouseover"] = "При наведении мыши"
 L["Open Ticket"] = "Открытый запрос"
 L["Puts coordinates on the world map."] = "Добавляет координаты на карту мира."
+L["Reset Zoom"] = true;
 L["PvP Queue"] = true;
 L["Right"] = "Правый"
 L["Scale"] = "Масштаб"
@@ -506,8 +507,6 @@ L["X-Offset"] = "Отступ по X"
 L["Y-Offset"] = "Отступ по Y"
 L["Zoom In"] = true;
 L["Zoom Out"] = true;
-L["Zoom Reset"] = true;
-L["Zoom Reset Timer"] = true;
 
 --Misc
 L["Install"] = "Установка"

@@ -76,15 +76,14 @@ local function LoadSkin()
 	LFDQueueFrameCapBar.backdrop:Point("BOTTOMRIGHT", LFDQueueFrameCapBar, "BOTTOMRIGHT", 1, 2)
 
 	LFDQueueFrameCapBarProgress:SetTexture(E["media"].normTex)
+
 	LFDQueueFrameCapBarCap1Marker:Kill()
 	LFDQueueFrameCapBarCap1:SetTexture(E["media"].normTex)
+
 	LFDQueueFrameCapBarCap2Marker:Kill()
 	LFDQueueFrameCapBarCap2:SetTexture(E["media"].normTex)
 
 	LFGDungeonReadyDialogBackground:Kill()
-	S:HandleButton(LFGDungeonReadyDialogEnterDungeonButton)
-	S:HandleButton(LFGDungeonReadyDialogLeaveQueueButton)
-
 	LFGDungeonReadyDialog:SetTemplate("Transparent")
 	LFGDungeonReadyDialog.SetBackdrop = E.noop
 	LFGDungeonReadyDialog.filigree:SetAlpha(0)
@@ -105,72 +104,68 @@ local function LoadSkin()
 	LFGDungeonReadyDialogCloseButton.text:SetText('-')
 	LFGDungeonReadyDialogCloseButton.text:FontTemplate(nil, 22)
 
-	hooksecurefunc("LFDQueueFrameRandom_UpdateFrame", function()
-		local dungeonID = LFDQueueFrame.type
-		if type(dungeonID) == "string" then return end
-		local _, _, _, _, _, numRewards = GetLFGDungeonRewards(dungeonID)
+	for i = 1, LFD_MAX_REWARDS do
+		local button = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i];
+		local icon = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" ..  i .. "IconTexture"];
+		local count = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "Count"];
+		local name  = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "Name"];
+		local role1 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "RoleIcon1"];
+		local role2 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "RoleIcon2"];
+		local role3 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "RoleIcon3"];
 
-		for i = 1, LFD_MAX_REWARDS do
-			local button = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i]
-			local icon = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."IconTexture"]
-			local count = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."Count"]
-			local name  = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."Name"]
-			local role1 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."RoleIcon1"]
-			local role2 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."RoleIcon2"]
-			local role3 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."RoleIcon3"]
+		if(button and not button.reskinned) then
+			button:StripTextures();
+			button:CreateBackdrop();
+			button.backdrop:SetOutside(icon);
 
-			if(button) then
-				local __texture = _G[button:GetName().."IconTexture"]:GetTexture()
-				button:StripTextures()
-				button:CreateBackdrop()
-				button.backdrop:SetOutside(icon)
+			icon:SetTexCoord(unpack(E.TexCoords));
+			icon:SetParent(button.backdrop);
 
-				icon:SetTexture(__texture)
-				icon:SetTexCoord(unpack(E.TexCoords))
-				icon:Point("TOPLEFT", 2, -2)
-				icon:SetParent(button.backdrop)
-				icon.SetPoint = E.noop
+			icon:SetDrawLayer("OVERLAY");
+			count:SetDrawLayer("OVERLAY");
 
-				icon:SetDrawLayer("OVERLAY")
-				count:SetDrawLayer("OVERLAY")
+			if(count) then count:SetParent(button.backdrop); end
+			if(role1) then role1:SetParent(button.backdrop); end
+			if(role2) then role2:SetParent(button.backdrop); end
+			if(role3) then role3:SetParent(button.backdrop); end
 
-				if(count) then count:SetParent(button.backdrop) end
-				if(role1) then role1:SetParent(button.backdrop) end
-				if(role2) then role2:SetParent(button.backdrop) end
-				if(role3) then role3:SetParent(button.backdrop) end
-
-				button:HookScript("OnUpdate", function(self)
-					if(button.dungeonID) then
-						local Link = GetLFGDungeonRewardLink(button.dungeonID, i)
-						if(Link) then
-							local quality = select(3, GetItemInfo(Link))
-							if(quality and quality > 1) then
-								button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality));
-								name:SetTextColor(GetItemQualityColor(quality));
-							else
-								button.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor));
-							end
+			button:HookScript("OnUpdate", function(self)
+				button.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+				name:SetTextColor(1, 1, 1);
+				if(button.dungeonID) then
+					local Link = GetLFGDungeonRewardLink(button.dungeonID, i);
+					if(Link) then
+						local quality = select(3, GetItemInfo(Link));
+						if(quality and quality > 1) then
+							button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality));
+							name:SetTextColor(GetItemQualityColor(quality));
 						end
 					end
-				end)
-			end
-		end
-	end)
+				end
+			end)
 
-	local function SkinIcons()
-		for i = 1, LFG_ROLE_NUM_SHORTAGE_TYPES do
-			if _G['LFGDungeonReadyDialogRewardsFrameReward'..i] and not _G['LFGDungeonReadyDialogRewardsFrameReward'..i].IsDone then
-				_G['LFGDungeonReadyDialogRewardsFrameReward'..i..'Border']:Kill()
-				_G['LFGDungeonReadyDialogRewardsFrameReward'..i]:CreateBackdrop()
-				_G['LFGDungeonReadyDialogRewardsFrameReward'..i].backdrop:Point("TOPLEFT", 7, -7)
-				_G['LFGDungeonReadyDialogRewardsFrameReward'..i].backdrop:Point("BOTTOMRIGHT", -7, 7)
-				_G['LFGDungeonReadyDialogRewardsFrameReward'..i..'Texture']:SetTexCoord(unpack(E.TexCoords))
-				_G['LFGDungeonReadyDialogRewardsFrameReward'..i..'Texture']:SetInside(_G['LFGDungeonReadyDialogRewardsFrameReward'..i].backdrop)
-				_G['LFGDungeonReadyDialogRewardsFrameReward'..i].IsDone = true
-			end
+			button.reskinned = true;
 		end
 	end
-	hooksecurefunc('LFGDungeonReadyDialog_UpdateRewards', SkinIcons)
+
+	for i = 1, LFG_ROLE_NUM_SHORTAGE_TYPES do
+		local reward = _G["LFGDungeonReadyDialogRewardsFrameReward" .. i];
+		local texture = _G["LFGDungeonReadyDialogRewardsFrameReward" .. i .. "Texture"];
+		local border = _G["LFGDungeonReadyDialogRewardsFrameReward" .. i .. "Border"];
+
+		if(reward and not reward.IsDone) then
+			border:Kill();
+
+			reward:CreateBackdrop();
+			reward.backdrop:Point("TOPLEFT", 7, -7);
+			reward.backdrop:Point("BOTTOMRIGHT", -7, 7);
+
+			texture:SetTexCoord(unpack(E.TexCoords));
+			texture:SetInside(reward.backdrop);
+
+			reward.IsDone = true;
+		end
+	end
 
 	for i = 1, NUM_LFD_CHOICE_BUTTONS do
 		local button = _G["LFDQueueFrameSpecificListButton" .. i];

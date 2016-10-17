@@ -1,12 +1,8 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule('Skins')
-
-local unpack = unpack
-
-local GetItemQualityColor = GetItemQualityColor
+local S = E:GetModule("Skins")
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.inspect ~= true then return end
+	if(not E.private.skins.blizzard.enable or not E.private.skins.blizzard.inspect) then return; end
 
 	InspectFrame:StripTextures(true)
 	InspectFrameInset:StripTextures(true)
@@ -50,60 +46,41 @@ local function LoadSkin()
 		"Trinket1Slot",
 		"MainHandSlot",
 		"SecondaryHandSlot",
-		"RangedSlot",
+		"RangedSlot"
 	}
 
 	for _, slot in pairs(slots) do
 		local icon = _G["Inspect"..slot.."IconTexture"]
 		local slot = _G["Inspect"..slot]
 		slot:StripTextures()
-		slot:StyleButton(false)
-		slot:SetTemplate("Default", true)
+		slot:StyleButton()
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetInside()
+		slot:SetFrameLevel(slot:GetFrameLevel() + 2)
+		slot:CreateBackdrop("Default")
+		slot.backdrop:SetAllPoints()
 	end
 
-	local CheckItemBorderColor = CreateFrame("Frame")
-	local function ScanSlots()
-		local notFound
-		for _, slot in pairs(slots) do
-			local target = _G["Inspect"..slot]
-			local slotId, _, _ = GetInventorySlotInfo(slot)
-			local itemId = GetInventoryItemID("target", slotId)
-
-			if itemId then
-				local _, _, rarity, _, _, _, _, _, _, _, _ = GetItemInfo(itemId)
-				if not rarity then notFound = true end
-				if rarity and rarity > 1 then
-					target:SetBackdropBorderColor(GetItemQualityColor(rarity))
-				else
-					target:SetBackdropBorderColor(unpack(E.media.bordercolor))
-				end
-			else
-				target:SetBackdropBorderColor(unpack(E.media.bordercolor))
+	hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button)
+		if(button.hasItem) then
+			local itemID = GetInventoryItemID(InspectFrame.unit, button:GetID())
+			if(itemID) then
+				local _, _, quality = GetItemInfo(itemID)
+				if(not quality) then
+					E:Delay(0.1, function()
+						if(InspectFrame.unit) then
+							InspectPaperDollItemSlotButton_Update(button);
+						end
+					end);
+					return
+				elseif(quality and quality > 1) then
+					button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality));
+					return
+ 				end
 			end
 		end
-
-		if notFound == true then
-			return false
-		else
-			CheckItemBorderColor:SetScript('OnUpdate', nil) --Stop updating
-			return true
-		end
-	end
-
-	local function ColorItemBorder(self)
-		if self and not ScanSlots() then
-			self:SetScript("OnUpdate", ScanSlots) --Run function until all items borders are colored, sometimes when you have never seen an item before GetItemInfo will return nil, when this happens we have to wait for the server to send information.
-		end 
-	end
-
-	CheckItemBorderColor:RegisterEvent("PLAYER_TARGET_CHANGED")
-	CheckItemBorderColor:RegisterEvent("UNIT_PORTRAIT_UPDATE")
-	CheckItemBorderColor:RegisterEvent("PARTY_MEMBERS_CHANGED")
-	CheckItemBorderColor:SetScript("OnEvent", ColorItemBorder)
-	InspectFrame:HookScript("OnShow", ColorItemBorder)
-	ColorItemBorder(CheckItemBorderColor)
+		button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor));
+ 	end)
 
 	InspectPVPFrameBottom:Kill()
 	InspectGuildFrameBG:Kill()
@@ -133,7 +110,8 @@ local function LoadSkin()
 	for i = 1, MAX_NUM_TALENTS do
 		local button = _G["InspectTalentFrameTalent"..i]
 		local icon = _G["InspectTalentFrameTalent"..i.."IconTexture"]
-		if button then
+
+		if(button) then
 			button:StripTextures()
 			button:StyleButton()
 			button:SetTemplate("Default")
@@ -144,8 +122,8 @@ local function LoadSkin()
 			button:GetHighlightTexture():SetAllPoints(icon)
 			button:GetPushedTexture():SetAllPoints(icon)
 
-			if button.Rank then
-				button.Rank:FontTemplate(nil, 12, 'OUTLINE')
+			if(button.Rank) then
+				button.Rank:FontTemplate(nil, 12, "OUTLINE")
 				button.Rank:ClearAllPoints()
 				button.Rank:SetPoint("BOTTOMRIGHT", 9, -12)
 			end
@@ -163,7 +141,7 @@ local function LoadSkin()
 		"InspectModelFrameControlFramePanButton",
 		"InspectModelFrameControlFrameRotateRightButton",
 		"InspectModelFrameControlFrameRotateLeftButton",
-		"InspectModelFrameControlFrameRotateResetButton",
+		"InspectModelFrameControlFrameRotateResetButton"
 	}
 
 	for i = 1, getn(controlbuttons) do

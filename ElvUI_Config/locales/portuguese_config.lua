@@ -494,6 +494,7 @@ L["Minimap Buttons"] = true;
 L["Minimap Mouseover"] = "Passar com o rato(mouse) sobre o minimapa"
 L["Open Ticket"] = true;
 L["Puts coordinates on the world map."] = true;
+L["Reset Zoom"] = true;
 L["PvP Queue"] = true;
 L["Right"] = "Direita"
 L["Scale"] = true;
@@ -506,8 +507,6 @@ L["X-Offset"] = true;
 L["Y-Offset"] = true;
 L["Zoom In"] = true;
 L["Zoom Out"] = true;
-L["Zoom Reset"] = true;
-L["Zoom Reset Timer"] = true;
 
 --Misc
 L["Install"] = "Instalação"

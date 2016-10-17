@@ -494,6 +494,7 @@ L["Minimap Buttons"] = "Minimap Tasten"
 L["Minimap Mouseover"] = "Minimap Mouseover"
 L["Open Ticket"] = "Offenes Ticket"
 L["Puts coordinates on the world map."] = "Platziert Koordinaten auf der Weltkarte."
+L["Reset Zoom"] = "Zoom zurücksetzen"
 L["PvP Queue"] = "PvP Warteschlange"
 L["Right"] = "Rechts"
 L["Scale"] = "Skalierung"
@@ -506,8 +507,6 @@ L["X-Offset"] = "X-Versatz"
 L["Y-Offset"] = "Y-Versatz"
 L["Zoom In"] = true;
 L["Zoom Out"] = true;
-L["Zoom Reset"] = true;
-L["Zoom Reset Timer"] = true;
 
 --Misc
 L["Enable"] = "Eingeschaltet"

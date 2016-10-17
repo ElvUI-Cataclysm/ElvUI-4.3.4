@@ -69,6 +69,7 @@ local coreGroups = {
 
 local bagCache = {};
 local bagIDs = {};
+local bagQualities = {};
 local bagStacks = {};
 local bagMaxStacks = {};
 local bagGroups = {};
@@ -159,10 +160,12 @@ local function UpdateLocation(from, to)
 			bagStacks[to] = bagStacks[to] + bagStacks[from]
 			bagStacks[from] = nil
 			bagIDs[from] = nil
+			bagQualities[from] = nil
 			bagMaxStacks[from] = nil
 		end
 	else
 		bagIDs[from], bagIDs[to] = bagIDs[to], bagIDs[from]
+		bagQualities[from], bagQualities[to] = bagQualities[to], bagQualities[from]
 		bagStacks[from], bagStacks[to] = bagStacks[to], bagStacks[from]
 		bagMaxStacks[from], bagMaxStacks[to] = bagMaxStacks[to], bagMaxStacks[from]
 	end
@@ -204,6 +207,9 @@ local function DefaultSort(a, b)
 
 	local _, _, aRarity, _, _, aType, aSubType, _, aEquipLoc = GetItemInfo(aID)
 	local _, _, bRarity, _, _, bType, bSubType, _, bEquipLoc = GetItemInfo(bID)
+
+ 	aRarity = bagQualities[a]
+	bRarity = bagQualities[b]
 
 	if aRarity ~= bRarity and aRarity and bRarity then
 		return aRarity > bRarity
@@ -402,6 +408,7 @@ function B:ScanBags()
 		if(itemID) then
 			bagMaxStacks[bagSlot] = select(8, GetItemInfo(itemID));
 			bagIDs[bagSlot] = itemID;
+			bagQualities[bagSlot] = select(3, GetItemInfo(B:GetItemLink(bag, slot)))
 			bagStacks[bagSlot] = select(2, B:GetItemInfo(bag, slot));
 		end
 	end
@@ -660,6 +667,7 @@ function B:StartStacking()
 	twipe(bagMaxStacks)
 	twipe(bagStacks)
 	twipe(bagIDs)
+	twipe(bagQualities)
 	twipe(moveTracker)
 
 	if #moves > 0 then

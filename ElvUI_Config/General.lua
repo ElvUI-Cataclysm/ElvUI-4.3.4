@@ -598,7 +598,7 @@ E.Options.args.general = {
 				watchFrameHeader = {
 					order = 1,
 					type = "header",
-					name = L["Objective Frame"],
+					name = L["Objective Frame"]
 				},
 				watchFrameHeight = {
 					order = 2,
@@ -607,7 +607,7 @@ E.Options.args.general = {
 					desc = L["Height of the objective tracker. Increase size to be able to see more objectives."],
 					min = 400, max = E.screenheight, step = 1,
 					get = function(info) return E.db.general[ info[#info] ]; end,
-					set = function(info, value) E.db.general[ info[#info] ] = value; E:GetModule('Blizzard'):WatchFrameHeight(); end
+					set = function(info, value) E.db.general[ info[#info] ] = value; E:GetModule('Blizzard'):SetWatchFrameHeight(); end
 				},
 				watchFrameVisibility = {
 					order = 3,
@@ -620,7 +620,7 @@ E.Options.args.general = {
 							type = "toggle",
 							name = L["Enable"],
 							get = function(info) return E.private.watchframe[ info[#info] ] end,
-							set = function(info, value) E.private.watchframe[ info[#info] ] = value; E:GetModule('WatchFrame'):UpdateSettings(); end,
+							set = function(info, value) E.private.watchframe[ info[#info] ] = value; E:GetModule('WatchFrame'):UpdateSettings(); end
 						},
 						city = {
 							order = 5,

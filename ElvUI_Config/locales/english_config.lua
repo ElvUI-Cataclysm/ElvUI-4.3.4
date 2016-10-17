@@ -483,6 +483,7 @@ L["Minimap Buttons"] = true;
 L["Minimap Mouseover"] = true;
 L["Open Ticket"] = true;
 L["Puts coordinates on the world map."] = true;
+L["Reset Zoom"] = true;
 L["PvP Queue"] = true;
 L["Right"] = true;
 L["Scale"] = true;
@@ -495,8 +496,6 @@ L["X-Offset"] = true;
 L["Y-Offset"] = true;
 L["Zoom In"] = true;
 L["Zoom Out"] = true;
-L["Zoom Reset"] = true;
-L["Zoom Reset Timer"] = true;
 
 --Misc
 L["Install"] = true;

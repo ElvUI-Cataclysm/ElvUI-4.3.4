@@ -494,6 +494,7 @@ L["Minimap Buttons"] = "小地图按钮"
 L["Minimap Mouseover"] = "小地图鼠标滑过"
 L["Open Ticket"] = "表单"
 L["Puts coordinates on the world map."] = "在世界地图上放置坐标"
+L["Reset Zoom"] = true;
 L["PvP Queue"] = true;
 L["Right"] = "右"
 L["Scale"] = "缩放"
@@ -506,8 +507,6 @@ L["X-Offset"] = "X偏移"
 L["Y-Offset"] = "Y偏移"
 L["Zoom In"] = true;
 L["Zoom Out"] = true;
-L["Zoom Reset"] = true;
-L["Zoom Reset Timer"] = true;
 
 --Misc
 L["Install"] = "安装"

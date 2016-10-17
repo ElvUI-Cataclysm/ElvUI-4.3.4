@@ -15,6 +15,8 @@ local function FixExtraActionCD(cd)
 end
 
 function AB:Extra_SetAlpha()
+	if not E.private.actionbar.enable then return; end
+
 	local alpha = E.db.actionbar.extraActionButton.alpha
 	for i=1, ExtraActionBarFrame:GetNumChildren() do
 		local button = _G["ExtraActionButton"..i]
@@ -25,6 +27,8 @@ function AB:Extra_SetAlpha()
 end
 
 function AB:Extra_SetScale()
+	if not E.private.actionbar.enable then return; end
+
 	local scale = E.db.actionbar.extraActionButton.scale
 	if ExtraActionBarFrame then
 		ExtraActionBarFrame:SetScale(scale)

@@ -1098,6 +1098,8 @@ local function LoadSkin()
 	hooksecurefunc("LFG_SetRoleIconIncentive", function(roleButton, incentiveIndex)
 		if(incentiveIndex) then
 			roleButton.backdrop:SetBackdropBorderColor(1, 0.80, 0.10)
+		else
+			roleButton.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 		end
 	end)
 
@@ -1150,7 +1152,7 @@ local function LoadSkin()
 	RolePollPopupRoleButtonDPS.icon:SetInside(RolePollPopupRoleButtonDPS.backdrop)
 
 	hooksecurefunc("RolePollPopup_Show", function(self)
-	local canBeTank, canBeHealer, canBeDamager = UnitGetAvailableRoles("player");
+		local canBeTank, canBeHealer, canBeDamager = UnitGetAvailableRoles("player");
 		if(canBeTank) then
 			RolePollPopupRoleButtonTank.icon:SetDesaturated(false)
 		else
@@ -1211,22 +1213,22 @@ local function LoadSkin()
 
 	--Dungeon Ready PopUp
 	hooksecurefunc("LFGDungeonReadyPopup_Update", function()
-	local proposalExists, id, typeID, subtypeID, name, texture, role, hasResponded, totalEncounters, completedEncounters, numMembers, isLeader = GetLFGProposal();
-		if LFGDungeonReadyDialogRoleIcon:IsShown() then
-			LFGDungeonReadyDialogRoleIcon:StripTextures()
+		local _, _, _, _, _, _, role = GetLFGProposal();
+		if(LFGDungeonReadyDialogRoleIcon:IsShown()) then
+			LFGDungeonReadyDialogRoleIcon:StripTextures();
 			LFGDungeonReadyDialogRoleIcon:CreateBackdrop();
-			LFGDungeonReadyDialogRoleIcon.backdrop:Point("TOPLEFT", 7, -7)
-			LFGDungeonReadyDialogRoleIcon.backdrop:Point("BOTTOMRIGHT", -7, 7)
+			LFGDungeonReadyDialogRoleIcon.backdrop:Point("TOPLEFT", 7, -7);
+			LFGDungeonReadyDialogRoleIcon.backdrop:Point("BOTTOMRIGHT", -7, 7);
 			LFGDungeonReadyDialogRoleIcon.icon = LFGDungeonReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY");
-			LFGDungeonReadyDialogRoleIcon.icon:SetTexCoord(unpack(E.TexCoords))
+			LFGDungeonReadyDialogRoleIcon.icon:SetTexCoord(unpack(E.TexCoords));
 			if(role == "DAMAGER") then
-				LFGDungeonReadyDialogRoleIcon.icon:SetTexture('Interface\\Icons\\INV_Knife_1H_Common_B_01');
+				LFGDungeonReadyDialogRoleIcon.icon:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01");
 			elseif(role == "TANK") then
-				LFGDungeonReadyDialogRoleIcon.icon:SetTexture('Interface\\Icons\\Ability_Defend');
+				LFGDungeonReadyDialogRoleIcon.icon:SetTexture("Interface\\Icons\\Ability_Defend");
 			elseif(role == "HEALER") then
-				LFGDungeonReadyDialogRoleIcon.icon:SetTexture('Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH');
+				LFGDungeonReadyDialogRoleIcon.icon:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH");
 			end
-			LFGDungeonReadyDialogRoleIcon.icon:SetInside(LFGDungeonReadyDialogRoleIcon.backdrop)
+			LFGDungeonReadyDialogRoleIcon.icon:SetInside(LFGDungeonReadyDialogRoleIcon.backdrop);
 		end
 	end)
 

@@ -3,118 +3,118 @@
 P.gridSize = 64
 P.farmSize = 340
 
-P['general'] = {
-	['taingLog'] = false,
-	['stickyFrames'] = true,
-	['loginmessage'] = true,
-	['interruptAnnounce'] = 'NONE',
-	['autoRepair'] = 'NONE',
-	['autoRoll'] = false,
-	['vendorGrays'] = false,
-	['autoAcceptInvite'] = false,
-	['bottomPanel'] = true,
-	['hideErrorFrame'] = true,
-	['errorFrame'] = {
-		['height'] = 60,
-		['width'] = 300,
+P["general"] = {
+	["taingLog"] = false,
+	["stickyFrames"] = true,
+	["loginmessage"] = true,
+	["interruptAnnounce"] = "NONE",
+	["autoRepair"] = "NONE",
+	["autoRoll"] = false,
+	["vendorGrays"] = false,
+	["autoAcceptInvite"] = false,
+	["bottomPanel"] = true,
+	["hideErrorFrame"] = true,
+	["errorFrame"] = {
+		["height"] = 60,
+		["width"] = 300
 	},
 	["enhancedPvpMessages"] = true,
 	["watchFrameHeight"] = 480,
-	['afk'] = true,
+	["afk"] = true,
 	["numberPrefixStyle"] = "METRIC",
 	["moverTransparancy"] = 1,
 
-	['fontSize'] = 12,
-	['font'] = 'PT Sans Narrow',
+	["fontSize"] = 12,
+	["font"] = "PT Sans Narrow",
 
 	["bordercolor"] = { r = 0.1, g = 0.1, b = 0.1 },
 	["backdropcolor"] = { r = 0.1, g = 0.1, b = 0.1 },
 	["backdropfadecolor"] = { r = .06, g = .06, b = .06, a = 0.8 },
 	["valuecolor"] = { r = 23/255, g = 132/255, b = 209/255 },
 
-	['minimap'] = {
-		['resetZoom'] = {
-			['enable'] = false,
-			['time'] = 3
+	["minimap"] = {
+		["combatHide"] = false,
+		["size"] = 176,
+		["locationText"] = "MOUSEOVER",
+		["locationFontSize"] = 12,
+		["locationFontOutline"] = "OUTLINE",
+		["locationFont"] = "PT Sans Narrow",
+		["resetZoom"] = {
+			["enable"] = false,
+			["time"] = 3
 		},
-		['combatHide'] = false,
-		['size'] = 176,
-		['locationText'] = 'MOUSEOVER',
-		['font'] = 'PT Sans Narrow',
-		['fontSize'] = 12,
-		['textOutline'] = 'OUTLINE',
-		['icons'] = {
-			['calendar'] = {
-				['scale'] = 1,
-				['position'] = "TOPRIGHT",
-				['xOffset'] = 0,
-				['yOffset'] = 0,
-				["hide"] = true,
+		["icons"] = {
+			["calendar"] = {
+				["scale"] = 1,
+				["position"] = "TOPRIGHT",
+				["xOffset"] = 0,
+				["yOffset"] = 0,
+				["hide"] = true
 			},
-			['mail'] = {
-				['scale'] = 1,
-				['position'] = "TOPRIGHT",
-				['xOffset'] = 3,
-				['yOffset'] = 4,
+			["mail"] = {
+				["scale"] = 1,
+				["position"] = "TOPRIGHT",
+				["xOffset"] = 3,
+				["yOffset"] = 4
 			},
-			['lfgEye'] = {
-				['scale'] = 1,
-				['position'] = "BOTTOMRIGHT",
-				['xOffset'] = 3,
-				['yOffset'] = 0,
+			["lfgEye"] = {
+				["scale"] = 1,
+				["position"] = "BOTTOMRIGHT",
+				["xOffset"] = 3,
+				["yOffset"] = 0
 			},
-			['battlefield'] = {
-				['scale'] = 1,
-				['position'] = "BOTTOMRIGHT",
-				['xOffset'] = 0,
-				['yOffset'] = 0,
+			["battlefield"] = {
+				["scale"] = 1,
+				["position"] = "BOTTOMRIGHT",
+				["xOffset"] = 0,
+				["yOffset"] = 0
 			},
-			['difficulty'] = {
-				['scale'] = 1,
-				['position'] = "TOPLEFT",
-				['xOffset'] = 0,
-				['yOffset'] = 0,
+			["difficulty"] = {
+				["scale"] = 1,
+				["position"] = "TOPLEFT",
+				["xOffset"] = 0,
+				["yOffset"] = 0
 			},
-			['vehicleLeave'] = {
-				['size'] = 26,
-				['position'] = "BOTTOMLEFT",
-				['xOffset'] = 0,
-				['yOffset'] = 0,
-				["hide"] = false,
+			["vehicleLeave"] = {
+				["size"] = 26,
+				["position"] = "BOTTOMLEFT",
+				["xOffset"] = 0,
+				["yOffset"] = 0,
+				["hide"] = false
 			},
-			['ticket'] = {
-				['scale'] = 1,
-				['position'] = "TOPRIGHT",
-				['xOffset'] = 0,
-				['yOffset'] = 0
+			["ticket"] = {
+				["scale"] = 1,
+				["position"] = "TOPRIGHT",
+				["xOffset"] = 0,
+				["yOffset"] = 0
 			},
-			['zoomIn'] = {
-				['scale'] = 1,
-				['position'] = "BOTTOMLEFT",
-				['xOffset'] = -8,
-				['yOffset'] = 16
+			["zoomIn"] = {
+				["scale"] = 1,
+				["position"] = "BOTTOMLEFT",
+				["xOffset"] = -8,
+				["yOffset"] = 16
 			},
-			['zoomOut'] = {
-				['scale'] = 1,
-				['position'] = "BOTTOMLEFT",
-				['xOffset'] = -8,
-				['yOffset'] = -8
+			["zoomOut"] = {
+				["scale"] = 1,
+				["position"] = "BOTTOMLEFT",
+				["xOffset"] = -8,
+				["yOffset"] = -8
 			}
 		}
 	},
-	['threat'] = {
-		['enable'] = true,
-		['position'] = 'RIGHTCHAT',
-		['textfont'] = 'PT Sans Narrow',
-		['textSize'] = 12,
-		['textOutline'] = 'OUTLINE',
+	["threat"] = {
+		["enable"] = true,
+		["position"] = "RIGHTCHAT",
+		["textfont"] = "PT Sans Narrow",
+		["textSize"] = 12,
+		["textOutline"] = "OUTLINE"
 	},
-	['totems'] = {
-		['enable'] = true,
-		['growthDirection'] = 'VERTICAL',
-		['sortDirection'] = 'ASCENDING',
-		['size'] = 40,
-		['spacing'] = 4,
+	["totems"] = {
+		["enable"] = true,
+		["growthDirection"] = "VERTICAL",
+		["sortDirection"] = "ASCENDING",
+		["size"] = 40,
+		["spacing"] = 4
 	},
 	["reminder"] = {
 		["enable"] = true,
@@ -125,7 +125,7 @@ P['general'] = {
 		["fontSize"] = 10,
 		["fontOutline"] = "MONOCHROMEOUTLINE"
 	},
-	['kittys'] = false
+	["kittys"] = false
 };
 
 P["watchframe"] = {
@@ -133,7 +133,7 @@ P["watchframe"] = {
 	["pvp"] = "HIDDEN",
 	["arena"] = "HIDDEN",
 	["party"] = "COLLAPSED",
-	["raid"] = "COLLAPSED",
+	["raid"] = "COLLAPSED"
 };
 
 P["databars"] = {
