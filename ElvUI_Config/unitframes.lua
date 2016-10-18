@@ -1063,8 +1063,7 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 				values = {
 					["FRAME"] = L["Frame"],
 					["DEBUFFS"] = L["Debuffs"],
-					["BUFFS"] = L["Buffs"],
-					["POWER"] = L["Power"]
+					["BUFFS"] = L["Buffs"]
 				}
 			},
 			height = {

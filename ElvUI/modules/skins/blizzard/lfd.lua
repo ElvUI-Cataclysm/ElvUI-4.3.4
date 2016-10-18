@@ -68,20 +68,23 @@ local function LoadSkin()
 	S:HandleScrollBar(LFDQueueFrameSpecificListScrollFrameScrollBar)
 
 	S:HandleDropDownBox(LFDQueueFrameTypeDropDown, 300)
-	LFDQueueFrameTypeDropDown:Point("RIGHT",-10,0)
+	LFDQueueFrameTypeDropDown:Point("RIGHT", -10, 0)
 
-	LFDQueueFrameCapBar:SetPoint("LEFT", 40, 0)
+	S:HandleCloseButton(LFDParentFrameCloseButton,LFDParentFrame)
+
+	LFDQueueFrameCapBar.label:Point("CENTER", 12, 0)
+	LFDQueueFrameCapBar:Point("LEFT", 40, 0)
+
 	LFDQueueFrameCapBar:CreateBackdrop("Default")
 	LFDQueueFrameCapBar.backdrop:Point("TOPLEFT", LFDQueueFrameCapBar, "TOPLEFT", -1, -2)
 	LFDQueueFrameCapBar.backdrop:Point("BOTTOMRIGHT", LFDQueueFrameCapBar, "BOTTOMRIGHT", 1, 2)
 
 	LFDQueueFrameCapBarProgress:SetTexture(E["media"].normTex)
 
-	LFDQueueFrameCapBarCap1Marker:Kill()
-	LFDQueueFrameCapBarCap1:SetTexture(E["media"].normTex)
-
-	LFDQueueFrameCapBarCap2Marker:Kill()
-	LFDQueueFrameCapBarCap2:SetTexture(E["media"].normTex)
+	for i = 1, 2 do
+		_G["LFDQueueFrameCapBarCap"..i.."Marker"]:Kill()
+		_G["LFDQueueFrameCapBarCap"..i]:SetTexture(E["media"].normTex)
+	end
 
 	LFGDungeonReadyDialogBackground:Kill()
 	LFGDungeonReadyDialog:SetTemplate("Transparent")
@@ -92,17 +95,16 @@ local function LoadSkin()
 	S:HandleButton(LFGDungeonReadyDialogLeaveQueueButton)
 	S:HandleButton(LFGDungeonReadyDialogEnterDungeonButton)
 
-	S:HandleCloseButton(LFDParentFrameCloseButton,LFDParentFrame)
-	S:HandleCloseButton(LFGDungeonReadyStatusCloseButton)
-
-	LFGSearchStatus:SetTemplate('Transparent');
+	S:HandleCloseButton(LFGDungeonReadyDialogCloseButton)
+	LFGDungeonReadyDialogCloseButton.text:SetText('-')
+	LFGDungeonReadyDialogCloseButton.text:FontTemplate(nil, 22)
 
 	LFGDungeonReadyStatus:StripTextures()
 	LFGDungeonReadyStatus:SetTemplate('Transparent');
 
-	S:HandleCloseButton(LFGDungeonReadyDialogCloseButton)
-	LFGDungeonReadyDialogCloseButton.text:SetText('-')
-	LFGDungeonReadyDialogCloseButton.text:FontTemplate(nil, 22)
+	S:HandleCloseButton(LFGDungeonReadyStatusCloseButton)
+
+	LFGSearchStatus:SetTemplate('Transparent');
 
 	for i = 1, LFD_MAX_REWARDS do
 		local button = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i];

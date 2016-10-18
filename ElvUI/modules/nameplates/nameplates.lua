@@ -928,7 +928,7 @@ function mod:GetAuraInstance(guid, auraID)
 	end
 end
 
-function mod:SetAuraInstance(guid, spellID, expiration, stacks, caster, duration, texture, auraType, auraTarget)
+function mod:SetAuraInstance(guid, name, spellID, expiration, stacks, caster, duration, texture, auraType, auraTarget)
 	local filter = false;
 	local db = self.db.buffs;
 	if(auraType == AURA_TYPE_DEBUFF) then
@@ -941,25 +941,18 @@ function mod:SetAuraInstance(guid, spellID, expiration, stacks, caster, duration
 
 	local trackFilter = E.global["unitframe"]["aurafilters"][db.filters.filter];
 	if(db.filters.filter and trackFilter) then
-		local name = GetSpellInfo(spellID);
-		local spellList = trackFilter.spells;
+		local spellName = name or GetSpellInfo(spellID);
 		local type = trackFilter.type;
-		if(type == "Blacklist") then
-			if(spellList[name] and spellList[name].enable) then
-				filter = false;
-			end
-		else
-			if(spellList[name] and spellList[name].enable) then
+		local spellList = trackFilter.spells;
+		local spell = (spellList[spellID] or spellList[spellName]);
+
+		if(type == "Whitelist") then
+			if(spell and spell.enable) then
 				filter = true;
 			end
-			if trackFilter == 'Whitelist (Strict)' and spellList[name].spellID and not spellList[name].spellID == spellID then
-				filter = false;
-			end
+		elseif(type == "Blacklist" and spell and spell.enable) then
+			filter = false;
 		end
-	end
-
-	if(E.global.unitframe.InvalidSpells[spellID]) then
-		filter = false;
 	end
 
 	if(filter ~= true) then
@@ -1094,12 +1087,12 @@ function mod:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, ...)
 	if(event == "SPELL_AURA_APPLIED" or event == "SPELL_AURA_REFRESH" or event == "SPELL_AURA_APPLIED_DOSE" or event == "SPELL_AURA_REMOVED_DOSE" or event == "SPELL_AURA_BROKEN" or event == "SPELL_AURA_BROKEN_SPELL" or event == "SPELL_AURA_REMOVED") then
 		if(event == "SPELL_AURA_APPLIED" or event == "SPELL_AURA_REFRESH") then
 			local duration = self:GetSpellDuration(spellID);
-			local texture = GetSpellTexture(spellID);
-			self:SetAuraInstance(destGUID, spellID, GetTime() + (duration or 0), 1, sourceGUID, duration, texture, auraType, AURA_TARGET_HOSTILE);
+			local texture = select(3, GetSpellInfo(spellID));
+			self:SetAuraInstance(destGUID, spellName, spellID, GetTime() + (duration or 0), 1, sourceGUID, duration, texture, auraType, AURA_TARGET_HOSTILE);
 		elseif event == "SPELL_AURA_APPLIED_DOSE" or event == "SPELL_AURA_REMOVED_DOSE" then
 			local duration = self:GetSpellDuration(spellID);
-			local texture = GetSpellTexture(spellID);
-			self:SetAuraInstance(destGUID, spellID, GetTime() + (duration or 0), stackCount, sourceGUID, duration, texture, auraType, AURA_TARGET_HOSTILE);
+			local texture = select(3, GetSpellInfo(spellID));
+			self:SetAuraInstance(destGUID, spellName, spellID, GetTime() + (duration or 0), stackCount, sourceGUID, duration, texture, auraType, AURA_TARGET_HOSTILE);
 		elseif(event == "SPELL_AURA_BROKEN" or event == "SPELL_AURA_BROKEN_SPELL" or event == "SPELL_AURA_REMOVED") then
 			self:RemoveAuraInstance(destGUID, spellID, sourceGUID);
 		end
