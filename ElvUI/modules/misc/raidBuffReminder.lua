@@ -285,7 +285,7 @@ function RB:Initialize()
 		[2] = 'Interface\\Icons\\INV_Misc_Food_68',
 		[3] = 'Interface\\Icons\\Spell_Nature_Regeneration',
 		[4] = 'Interface\\Icons\\Spell_Holy_WordFortitude',
-		[5] = 'Interface\\Icons\\Ability_Warrior_BattleShout',
+		[5] = (E.Role == 'Caster' and 'Interface\\Icons\\Spell_Holy_MagicalSentry') or 'Interface\\Icons\\Ability_Warrior_BattleShout',
 		[6] = 'Interface\\Icons\\Spell_Holy_GreaterBlessingofKings'
 	};
 

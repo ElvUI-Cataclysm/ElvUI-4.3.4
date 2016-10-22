@@ -3,6 +3,7 @@ local AL = E:NewModule("AddOnList");
 
 local floor = math.floor;
 
+local IsAddOnLoaded = IsAddOnLoaded;
 local IsShiftKeyDown = IsShiftKeyDown;
 
 function AL:HasAnyChanged()
@@ -177,6 +178,8 @@ function AL:TooltipUpdate(owner)
 end
 
 function AL:Initialize()
+	if(IsAddOnLoaded("ACP")) then return end
+
 	local S = E:GetModule("Skins");
 
 	local addonList = CreateFrame("Frame", "ElvUI_AddonList", UIParent);
