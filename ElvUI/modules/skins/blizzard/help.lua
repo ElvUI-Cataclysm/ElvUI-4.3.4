@@ -10,6 +10,11 @@ local function LoadSkin()
 		"HelpFrameKnowledgebase"
 	}
 
+	for i = 1, #frames do
+		_G[frames[i]]:StripTextures(true)
+		_G[frames[i]]:CreateBackdrop("Transparent")
+	end
+
 	local buttons = {
 		"HelpFrameOpenTicketHelpItemRestoration",
 		"HelpFrameAccountSecurityOpenTicket",
@@ -23,60 +28,9 @@ local function LoadSkin()
 		"GMChatOpenLog",
 		"HelpFrameTicketSubmit",
 		"HelpFrameTicketCancel",
-		"HelpFrameReportBugSubmit",
+		"HelpFrameReportBugSubmit"
 	}
 
-	--skin main frames
-	for i = 1, #frames do
-		_G[frames[i]]:StripTextures(true)
-		_G[frames[i]]:CreateBackdrop("Transparent")
-	end
-
-	HelpFrameHeader:StripTextures(true)
-
-	HelpFrameKnowledgebaseErrorFrame:StripTextures(true)
-	HelpFrameKnowledgebaseErrorFrame:CreateBackdrop("Default")
-	
-	HelpFrameReportBugScrollFrame:StripTextures()
-	HelpFrameReportBugScrollFrame:CreateBackdrop("Transparent")
-	HelpFrameReportBugScrollFrame.backdrop:Point("TOPLEFT", -4, 4)
-	HelpFrameReportBugScrollFrame.backdrop:Point("BOTTOMRIGHT", 6, -4)
-	for i=1, HelpFrameReportBug:GetNumChildren() do
-		local child = select(i, HelpFrameReportBug:GetChildren())
-		if not child:GetName() then
-			child:StripTextures()
-		end
-	end
-
-	S:HandleScrollBar(HelpFrameReportBugScrollFrameScrollBar)
-	S:HandleScrollBar(HelpFrameTicketScrollFrameScrollBar)
-
-	HelpFrameTicketScrollFrame:StripTextures()
-	HelpFrameTicketScrollFrame:CreateBackdrop("Transparent")
-	HelpFrameTicketScrollFrame.backdrop:Point("TOPLEFT", -4, 4)
-	HelpFrameTicketScrollFrame.backdrop:Point("BOTTOMRIGHT", 6, -4)
-	for i=1, HelpFrameTicket:GetNumChildren() do
-		local child = select(i, HelpFrameTicket:GetChildren())
-		if not child:GetName() then
-			child:StripTextures()
-		end
-	end
-
-	HelpFrameSubmitSuggestionScrollFrame:StripTextures()
-	HelpFrameSubmitSuggestionScrollFrame:CreateBackdrop("Transparent")
-	HelpFrameSubmitSuggestionScrollFrame.backdrop:Point("TOPLEFT", -4, 4)
-	HelpFrameSubmitSuggestionScrollFrame.backdrop:Point("BOTTOMRIGHT", 6, -4)
-	for i=1, HelpFrameSubmitSuggestion:GetNumChildren() do
-		local child = select(i, HelpFrameSubmitSuggestion:GetChildren())
-		if not child:GetName() then
-			child:StripTextures()
-		end
-	end
-
-	S:HandleScrollBar(HelpFrameSubmitSuggestionScrollFrameScrollBar)
-	S:HandleScrollBar(HelpFrameKnowledgebaseScrollFrame2ScrollBar)
-
-	-- skin sub buttons
 	for i = 1, #buttons do
 		_G[buttons[i]]:StripTextures(true)
 		S:HandleButton(_G[buttons[i]], true)
@@ -88,20 +42,66 @@ local function LoadSkin()
 		end
 	end
 
-	-- skin main buttons
+	HelpFrameHeader:StripTextures(true)
+
+	HelpFrameKnowledgebaseErrorFrame:StripTextures(true)
+	HelpFrameKnowledgebaseErrorFrame:CreateBackdrop("Default")
+	
+	HelpFrameReportBugScrollFrame:StripTextures()
+	HelpFrameReportBugScrollFrame:CreateBackdrop("Transparent")
+	HelpFrameReportBugScrollFrame.backdrop:Point("TOPLEFT", -4, 4)
+	HelpFrameReportBugScrollFrame.backdrop:Point("BOTTOMRIGHT", 6, -4)
+
+	for i = 1, HelpFrameReportBug:GetNumChildren() do
+		local child = select(i, HelpFrameReportBug:GetChildren())
+		if(not child:GetName()) then
+			child:StripTextures()
+		end
+	end
+
+	S:HandleScrollBar(HelpFrameReportBugScrollFrameScrollBar)
+	S:HandleScrollBar(HelpFrameTicketScrollFrameScrollBar)
+
+	HelpFrameTicketScrollFrame:StripTextures()
+	HelpFrameTicketScrollFrame:CreateBackdrop("Transparent")
+	HelpFrameTicketScrollFrame.backdrop:Point("TOPLEFT", -4, 4)
+	HelpFrameTicketScrollFrame.backdrop:Point("BOTTOMRIGHT", 6, -4)
+
+	for i = 1, HelpFrameTicket:GetNumChildren() do
+		local child = select(i, HelpFrameTicket:GetChildren())
+		if(not child:GetName()) then
+			child:StripTextures()
+		end
+	end
+
+	HelpFrameSubmitSuggestionScrollFrame:StripTextures()
+	HelpFrameSubmitSuggestionScrollFrame:CreateBackdrop("Transparent")
+	HelpFrameSubmitSuggestionScrollFrame.backdrop:Point("TOPLEFT", -4, 4)
+	HelpFrameSubmitSuggestionScrollFrame.backdrop:Point("BOTTOMRIGHT", 6, -4)
+
+	for i = 1, HelpFrameSubmitSuggestion:GetNumChildren() do
+		local child = select(i, HelpFrameSubmitSuggestion:GetChildren())
+		if(not child:GetName()) then
+			child:StripTextures()
+		end
+	end
+
+	S:HandleScrollBar(HelpFrameSubmitSuggestionScrollFrameScrollBar)
+	S:HandleScrollBar(HelpFrameKnowledgebaseScrollFrame2ScrollBar)
+
 	for i = 1, 6 do
-		local b = _G["HelpFrameButton"..i]
-		S:HandleButton(b, true)
-		b.text:ClearAllPoints()
-		b.text:SetPoint("CENTER")
-		b.text:SetJustifyH("CENTER")
+		local button = _G["HelpFrameButton"..i]
+		S:HandleButton(button, true)
+		button.text:ClearAllPoints()
+		button.text:SetPoint("CENTER")
+		button.text:SetJustifyH("CENTER")
 	end
 
 	-- skin table options
 	for i = 1, HelpFrameKnowledgebaseScrollFrameScrollChild:GetNumChildren() do
-		local b = _G["HelpFrameKnowledgebaseScrollFrameButton"..i]
-		b:StripTextures(true)
-		S:HandleButton(b, true)
+		local button = _G["HelpFrameKnowledgebaseScrollFrameButton"..i]
+		button:StripTextures(true)
+		S:HandleButton(button, true)
 	end
 
 	-- skin misc items
@@ -112,6 +112,7 @@ local function LoadSkin()
 
 	HelpFrame:StripTextures(true)
 	HelpFrame:CreateBackdrop("Transparent")
+
 	S:HandleEditBox(HelpFrameKnowledgebaseSearchBox)
 	S:HandleScrollBar(HelpFrameKnowledgebaseScrollFrameScrollBar, 5)
 	S:HandleCloseButton(HelpFrameCloseButton, HelpFrame.backdrop)
@@ -125,7 +126,8 @@ local function LoadSkin()
 
 	S:HandleButton(HelpFrameGM_ResponseNeedMoreHelp)
 	S:HandleButton(HelpFrameGM_ResponseCancel)
-	for i=1, HelpFrameGM_Response:GetNumChildren() do
+
+	for i = 1, HelpFrameGM_Response:GetNumChildren() do
 		local child = select(i, HelpFrameGM_Response:GetChildren())
 		if child and child:GetObjectType() == "Frame" and not child:GetName() then
 			child:SetTemplate("Default")

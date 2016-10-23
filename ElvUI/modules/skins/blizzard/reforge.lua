@@ -24,13 +24,13 @@ local function LoadSkin()
 	ReforgingFrameItemButtonIconTexture:Point("BOTTOMRIGHT", -2, 2)
 
 	hooksecurefunc("ReforgingFrame_Update", function(self)
-		local currentReforge, icon, name, quality, bound, cost = GetReforgeItemInfo()
-		if icon then
+		local _, icon, _, quality = GetReforgeItemInfo()
+		if(icon) then
 			ReforgingFrameItemButtonIconTexture:SetTexCoord(unpack(E.TexCoords))
 		else
 			ReforgingFrameItemButtonIconTexture:SetTexture(nil)
 		end
-		if (quality and quality > 1) then
+		if(quality and quality > 1) then
 			ReforgingFrameItemButton:SetBackdropBorderColor(GetItemQualityColor(quality));
 		else
 			ReforgingFrameItemButton:SetTemplate("Default", true)

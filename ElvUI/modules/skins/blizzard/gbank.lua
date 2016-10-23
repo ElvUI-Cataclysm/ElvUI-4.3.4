@@ -9,10 +9,11 @@ local function LoadSkin()
 	GuildBankFrame:StripTextures()
 	GuildBankFrame:SetTemplate("Transparent")
 	GuildBankFrame:SetWidth(654)
+
 	GuildBankEmblemFrame:StripTextures(true)
 
 	--Close button doesn't have a fucking name, extreme hackage
-	for i=1, GuildBankFrame:GetNumChildren() do
+	for i = 1, GuildBankFrame:GetNumChildren() do
 		local child = select(i, GuildBankFrame:GetChildren())
 		if child.GetPushedTexture and child:GetPushedTexture() and not child:GetName() then
 			S:HandleCloseButton(child)
@@ -38,15 +39,15 @@ local function LoadSkin()
 	GuildBankFrame.inset:Point("TOPLEFT", 30, -65)
 	GuildBankFrame.inset:Point("BOTTOMRIGHT", -20, 63)
 
-	for i=1, NUM_GUILDBANK_COLUMNS do
+	for i = 1, NUM_GUILDBANK_COLUMNS do
 		_G["GuildBankColumn"..i]:StripTextures()
 
-		for x=1, NUM_SLOTS_PER_GUILDBANK_GROUP do
+		for x = 1, NUM_SLOTS_PER_GUILDBANK_GROUP do
 			local button = _G["GuildBankColumn"..i.."Button"..x]
 			local icon = _G["GuildBankColumn"..i.."Button"..x.."IconTexture"]
 			local texture = _G["GuildBankColumn"..i.."Button"..x.."NormalTexture"]
 			local count = _G["GuildBankColumn"..i.."Button"..x.."Count"]
-			if texture then
+			if(texture) then
 				texture:SetTexture(nil)
 			end
 			button:StyleButton()
@@ -60,7 +61,7 @@ local function LoadSkin()
 		end
 	end
 
-	for i=1, 8 do
+	for i = 1, 8 do
 		local button = _G["GuildBankTab"..i.."Button"]
 		local texture = _G["GuildBankTab"..i.."ButtonIconTexture"]
 		_G["GuildBankTab"..i]:StripTextures(true)
@@ -74,26 +75,27 @@ local function LoadSkin()
 		texture:SetDrawLayer("OVERLAY")
 	end
 
-	for i=1, 4 do
+	for i = 1, 4 do
 		S:HandleTab(_G["GuildBankFrameTab"..i])
 	end
 
 	hooksecurefunc('GuildBankFrame_Update', function()
-		if GuildBankFrame.mode ~= "bank" then return; end
+		if(GuildBankFrame.mode ~= "bank") then return; end
+
 		local tab = GetCurrentGuildBankTab();
 		local button, index, column, itemLink, itemRarity, r, g, b;
-		for i=1, MAX_GUILDBANK_SLOTS_PER_TAB do
+		for i = 1, MAX_GUILDBANK_SLOTS_PER_TAB do
 			index = mod(i, NUM_SLOTS_PER_GUILDBANK_GROUP);
-			if ( index == 0 ) then
+			if(index == 0) then
 				index = NUM_SLOTS_PER_GUILDBANK_GROUP;
 			end
 			column = ceil((i-0.5)/NUM_SLOTS_PER_GUILDBANK_GROUP);
 			button = _G["GuildBankColumn"..column.."Button"..index];
 
 			itemLink = GetGuildBankItemLink(tab, i);
-			if itemLink then
+			if(itemLink) then
 				itemRarity = select(3, GetItemInfo(itemLink))
-				if itemRarity > 1 then
+				if(itemRarity > 1) then
 					r, g, b = GetItemQualityColor(itemRarity)
 				else
 					r, g, b = unpack(E.media.bordercolor)
@@ -120,12 +122,15 @@ local function LoadSkin()
 
 	--Popup
 	GuildBankPopupFrame:StripTextures()
-	GuildBankPopupScrollFrame:StripTextures()
 	GuildBankPopupFrame:SetTemplate("Transparent")
 	GuildBankPopupFrame:Point("TOPLEFT", GuildBankFrame, "TOPRIGHT", 1, -30)
+
+	GuildBankPopupScrollFrame:StripTextures()
+
 	S:HandleButton(GuildBankPopupOkayButton)
 	S:HandleButton(GuildBankPopupCancelButton)
 	S:HandleEditBox(GuildBankPopupEditBox)
+
 	GuildBankPopupNameLeft:Kill()
 	GuildBankPopupNameRight:Kill()
 	GuildBankPopupNameMiddle:Kill()
@@ -136,12 +141,13 @@ local function LoadSkin()
 	GuildItemSearchBox.backdrop:Point("BOTTOMRIGHT", 4, 1)
 	GuildItemSearchBox:Point("TOPRIGHT", GuildBankFrame, "TOPRIGHT", -25, -42)
 
-	for i=1, 16 do
+	for i = 1, 16 do
 		local button = _G["GuildBankPopupButton"..i]
 		local icon = _G[button:GetName().."Icon"]
 		button:StripTextures()
 		button:SetTemplate("Default")
 		button:StyleButton(true)
+
 		icon:SetInside()
 		icon:SetTexCoord(unpack(E.TexCoords))
 	end

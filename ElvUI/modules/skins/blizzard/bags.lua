@@ -95,7 +95,7 @@ local function LoadSkin()
 
 	BackpackTokenFrame:StripTextures()
 
-	for i=1, MAX_WATCHED_TOKENS do
+	for i = 1, MAX_WATCHED_TOKENS do
 		_G["BackpackTokenFrameToken"..i].icon:SetTexCoord(unpack(E.TexCoords));
 		_G["BackpackTokenFrameToken"..i]:CreateBackdrop("Default");
 		_G["BackpackTokenFrameToken"..i].backdrop:SetOutside(_G["BackpackTokenFrameToken"..i].icon);
@@ -168,10 +168,10 @@ local function LoadSkin()
 		for i = 1, 12 do
 			for j = 1, 30 do
 				local ItemButton = _G["ContainerFrame"..i.."Item"..j]
-				if ItemButton then
+				if(ItemButton) then
 					local QuestIcon = _G["ContainerFrame"..i.."Item"..j.."IconQuestTexture"]
 					local QuestTexture = QuestIcon:GetTexture()
-					if QuestTexture == TEXTURE_ITEM_QUEST_BANG then
+					if(QuestTexture == TEXTURE_ITEM_QUEST_BANG) then
 						QuestIcon:SetAlpha(1)
 						QuestIcon:SetInside()
 						QuestIcon:SetTexCoord(unpack(E.TexCoords));
@@ -186,10 +186,10 @@ local function LoadSkin()
 	local function UpdateBankFrameIcon()
 		for i = 1, 28 do
 			local ItemButton = _G["BankFrameItem"..i]
-			if ItemButton then
+			if(ItemButton) then
 				local QuestIcon = _G["BankFrameItem"..i.."IconQuestTexture"]
 				local QuestTexture = QuestIcon:GetTexture()
-				if QuestTexture == TEXTURE_ITEM_QUEST_BANG then
+				if(QuestTexture == TEXTURE_ITEM_QUEST_BANG) then
 					QuestIcon:SetAlpha(1)
 					QuestIcon:SetInside()
 					QuestIcon:SetTexCoord(unpack(E.TexCoords));

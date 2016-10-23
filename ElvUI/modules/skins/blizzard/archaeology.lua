@@ -80,7 +80,7 @@ local function LoadSkin()
 	ArchaeologyFrameArtifactPageIcon:Point("TOPLEFT", ArchaeologyFrameArtifactPage, "TOPLEFT", -42, -47)
 
 	ArchaeologyFrameArtifactPage.glow:Kill()
- 
+
 	ArchaeologyFrameArtifactPageRaceBG:ClearAllPoints()
 	ArchaeologyFrameArtifactPageRaceBG:Point("TOPRIGHT", ArchaeologyFrameArtifactPage, "TOPRIGHT", 10, -40)
 

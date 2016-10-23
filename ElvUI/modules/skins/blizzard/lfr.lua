@@ -77,7 +77,7 @@ local function LoadSkin()
 	LFRQueueFrameCommentTextButton:Height(35)
 
 	LFRBrowseFrame:HookScript('OnShow', function()
-		if not LFRBrowseFrameListScrollFrameScrollBar.skinned then
+		if(not LFRBrowseFrameListScrollFrameScrollBar.skinned) then
 			S:HandleScrollBar(LFRBrowseFrameListScrollFrameScrollBar)
 			LFRBrowseFrameListScrollFrameScrollBar.skinned = true
 		end
@@ -87,7 +87,7 @@ local function LoadSkin()
 		"RaidFinderQueueFrameRoleButtonTank",
 		"RaidFinderQueueFrameRoleButtonHealer",
 		"RaidFinderQueueFrameRoleButtonDPS",
-		"RaidFinderQueueFrameRoleButtonLeader",
+		"RaidFinderQueueFrameRoleButtonLeader"
 	}
 
 	for _, object in pairs(checkButtons) do
@@ -100,24 +100,18 @@ local function LoadSkin()
 		local icon = _G["RaidFinderQueueFrameScrollFrameChildFrameItem"..i.."IconTexture"]
 		local count = _G["RaidFinderQueueFrameScrollFrameChildFrameItem"..i.."Count"]
 
-		if button then
-			local __texture = _G[button:GetName().."IconTexture"]:GetTexture()
+		if(button) then
 			button:StripTextures()
-			icon:SetTexture(__texture)
+			button:CreateBackdrop("Default")
+			button.backdrop:SetOutside(icon)
+
 			icon:SetTexCoord(unpack(E.TexCoords))
-			icon:Point("TOPLEFT", 2, -2)
+			icon:SetParent(button.backdrop);
+
 			icon:SetDrawLayer("OVERLAY")
 			count:SetDrawLayer("OVERLAY")
-			if not button.backdrop then
-				button:CreateBackdrop("Default")
-				button.backdrop:SetOutside(icon)
-				icon:SetParent(button.backdrop)
-				icon.SetPoint = E.noop
 
-				if count then
-					count:SetParent(button.backdrop)
-				end
-			end
+			if(count) then count:SetParent(button.backdrop) end
 		end
 	end
 

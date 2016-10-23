@@ -21,6 +21,7 @@ local function LoadSkin()
 		local item = _G["MerchantItem" .. i];
 		local itemButton = _G["MerchantItem" .. i .. "ItemButton"];
 		local iconTexture = _G["MerchantItem" .. i .. "ItemButtonIconTexture"];
+		local moneyFrame = _G["MerchantItem" .. i .. "MoneyFrame"];
 
 		item:StripTextures(true);
 		item:CreateBackdrop("Default");
@@ -34,18 +35,20 @@ local function LoadSkin()
 		iconTexture:SetTexCoord(unpack(E.TexCoords));
 		iconTexture:SetInside();
 
-		_G["MerchantItem" .. i .. "MoneyFrame"]:ClearAllPoints();
-		_G["MerchantItem" .. i .. "MoneyFrame"]:Point("BOTTOMLEFT", itemButton, "BOTTOMRIGHT", 3, 0);
+		moneyFrame:ClearAllPoints();
+		moneyFrame:Point("BOTTOMLEFT", itemButton, "BOTTOMRIGHT", 3, 0);
 	end
 
-	hooksecurefunc('MerchantFrame_UpdateCurrencies', function()
+	hooksecurefunc("MerchantFrame_UpdateCurrencies", function()
 		for i = 1, MAX_MERCHANT_CURRENCIES do
-			if _G["MerchantToken"..i] then
-				_G["MerchantToken"..i]:CreateBackdrop()
-				_G["MerchantToken"..i].backdrop:SetOutside(_G["MerchantToken"..i].icon)
-				_G["MerchantToken"..i].icon:Size(14)
-				_G["MerchantToken"..i].icon:SetTexCoord(unpack(E.TexCoords));
-				_G["MerchantToken"..i].icon:SetPoint("LEFT", _G["MerchantToken"..i].count, "RIGHT", 2, 0)
+			local token = _G["MerchantToken"..i]
+			if(token) then
+				token:CreateBackdrop()
+				token.backdrop:SetOutside(token.icon)
+
+				token.icon:Size(14)
+				token.icon:SetTexCoord(unpack(E.TexCoords));
+				token.icon:SetPoint("LEFT", token.count, "RIGHT", 2, 0)
 			end
 		end
 	end)
@@ -55,6 +58,7 @@ local function LoadSkin()
 
 	MerchantRepairItemButton:StyleButton();
 	MerchantRepairItemButton:SetTemplate("Default", true);
+
 	for i = 1, MerchantRepairItemButton:GetNumRegions() do
 		local region = select(i, MerchantRepairItemButton:GetRegions());
 		if(region:GetObjectType() == "Texture") then

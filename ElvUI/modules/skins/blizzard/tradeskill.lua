@@ -52,7 +52,7 @@ local function LoadSkin()
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(id)
 		TradeSkillSkillIcon:StyleButton(nil, true)
 		TradeSkillSkillIcon:SetTemplate("Default")
-		if TradeSkillSkillIcon:GetNormalTexture() then
+		if(TradeSkillSkillIcon:GetNormalTexture()) then
 			TradeSkillSkillIcon:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
 			TradeSkillSkillIcon:GetNormalTexture():SetInside()
 		end
@@ -137,17 +137,17 @@ local function LoadSkin()
 		local skillOffset = FauxScrollFrame_GetOffset(TradeSkillListScrollFrame);
 		local hasFilterBar = TradeSkillFilterBar:IsShown();
 		local diplayedSkills = TRADE_SKILLS_DISPLAYED;
-		if  hasFilterBar then
+		if(hasFilterBar) then
 			diplayedSkills = TRADE_SKILLS_DISPLAYED - 1;
 		end
 		local numTradeSkills = GetNumTradeSkills();
 		local buttonIndex = 1
 		for i = 1, diplayedSkills, 1 do
 			local skillIndex = i + skillOffset
-			local skillName, skillType, numAvailable, isExpanded, altVerb, numSkillUps = GetTradeSkillInfo(skillIndex);
-			if ( skillIndex <= numTradeSkills ) then
-				if ( skillType == "header" ) then
-					if hasFilterBar then
+			local _, skillType, _, isExpanded = GetTradeSkillInfo(skillIndex);
+			if(skillIndex <= numTradeSkills) then
+				if(skillType == "header") then
+					if(hasFilterBar) then
 						buttonIndex = i + 1;
 					else
 						buttonIndex = i;
@@ -157,7 +157,7 @@ local function LoadSkin()
 					skillButton:GetNormalTexture():Size(10)
 					skillButton:GetNormalTexture():SetPoint("LEFT", 3, 2);
 					skillButton:SetHighlightTexture('')
-					if (isExpanded) then
+					if(isExpanded) then
 						skillButton:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
 					else
 						skillButton:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
@@ -173,7 +173,7 @@ local function LoadSkin()
 		self:SetHighlightTexture("")
 		self:GetNormalTexture():SetPoint("LEFT", 3, 2)
 		self:GetNormalTexture():Size(10)
-		if (self.collapsed) then
+		if(self.collapsed) then
 			self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
 		else
 			self:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)

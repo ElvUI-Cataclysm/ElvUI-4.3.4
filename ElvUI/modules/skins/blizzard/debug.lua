@@ -27,12 +27,12 @@ local function LoadSkin()
 		"DialogBG",
 	}
 
-	for i=1, #texs do
+	for i = 1, #texs do
 		_G["ScriptErrorsFrame"..texs[i]]:SetTexture(nil)
 		_G["EventTraceFrame"..texs[i]]:SetTexture(nil)
 	end
 
-	for i=1, ScriptErrorsFrame:GetNumChildren() do
+	for i = 1, ScriptErrorsFrame:GetNumChildren() do
 		local child = select(i, ScriptErrorsFrame:GetChildren())
 		if child:GetObjectType() == "Button" and not child:GetName() then
 			S:HandleButton(child)

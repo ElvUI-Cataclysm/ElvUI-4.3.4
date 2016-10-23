@@ -63,9 +63,9 @@ local function LoadSkin()
 			local slotId, _, _ = GetInventorySlotInfo(slot)
 			local itemId = GetInventoryItemID('player', slotId)
 
-			if itemId then
+			if(itemId) then
 				local rarity = GetInventoryItemQuality("player", slotId);
-				if rarity and rarity > 1 then
+				if(rarity and rarity > 1) then
 					target:SetBackdropBorderColor(GetItemQualityColor(rarity))
 				else
 					target:SetBackdropBorderColor(unpack(E['media'].bordercolor))
@@ -110,7 +110,7 @@ local function LoadSkin()
 		SquareButton_SetIcon(CharacterFrameExpandButton, 'LEFT');
 	end)
 
-	if (GetCVar("characterFrameCollapsed") ~= "0") then
+	if(GetCVar("characterFrameCollapsed") ~= "0") then
 		SquareButton_SetIcon(CharacterFrameExpandButton, 'RIGHT')
 	else
 		SquareButton_SetIcon(CharacterFrameExpandButton, 'LEFT');
@@ -247,7 +247,7 @@ local function LoadSkin()
 		S:HandleButton(GearManagerDialogPopupOkay)
 		S:HandleButton(GearManagerDialogPopupCancel)
 
-		for i=1, NUM_GEARSET_ICONS_SHOWN do
+		for i = 1, NUM_GEARSET_ICONS_SHOWN do
 			local button = _G["GearManagerDialogPopupButton"..i]
 			local icon = button.icon
 
@@ -271,9 +271,9 @@ local function LoadSkin()
 
 	--Buttons used to toggle between equipment manager, titles, and character stats
 	local function FixSidebarTabCoords()
-		for i=1, #PAPERDOLL_SIDEBARS do
+		for i = 1, #PAPERDOLL_SIDEBARS do
 			local tab = _G["PaperDollSidebarTab"..i]
-			if tab then
+			if(tab) then
 				tab.Highlight:SetTexture(1, 1, 1, 0.3)
 				tab.Highlight:Point("TOPLEFT", 3, -4)
 				tab.Highlight:Point("BOTTOMRIGHT", -1, 0)
@@ -282,8 +282,8 @@ local function LoadSkin()
 				tab.Hider:Point("BOTTOMRIGHT", -1, 0)
 				tab.TabBg:Kill()
 
-				if i == 1 then
-					for i=1, tab:GetNumRegions() do
+				if(i == 1) then
+					for i = 1, tab:GetNumRegions() do
 						local region = select(i, tab:GetRegions())
 						region:SetTexCoord(0.16, 0.86, 0.16, 0.86)
 						region.SetTexCoord = E.noop
@@ -298,7 +298,7 @@ local function LoadSkin()
 	hooksecurefunc("PaperDollFrame_UpdateSidebarTabs", FixSidebarTabCoords)
 
 	--Stat panels, atm it looks like 7 is the max
-	for i=1, 7 do
+	for i = 1, 7 do
 		_G["CharacterStatsPaneCategory"..i]:StripTextures()
 	end
 
@@ -307,9 +307,9 @@ local function LoadSkin()
 	ReputationListScrollFrame:StripTextures()
 
 	local function UpdateFactionSkins()
-		for i=1, GetNumFactions() do
+		for i = 1, GetNumFactions() do
 			local statusbar = _G["ReputationBar"..i.."ReputationBar"]
-			if statusbar then
+			if(statusbar) then
 				statusbar:SetStatusBarTexture(E["media"].normTex)
 				statusbar:CreateBackdrop("Default")
 				_G["ReputationBar"..i.."Background"]:SetTexture(nil)
@@ -337,17 +337,17 @@ local function LoadSkin()
 			local Button = _G["ReputationBar"..i.."ExpandOrCollapseButton"]
 			local FactionName = _G["ReputationBar"..i.."FactionName"]
 			local factionIndex = factionOffset + i
-			if ( factionIndex <= numFactions ) then
+			if(factionIndex <= numFactions) then
 				local name, _, _, _, _, _, atWarWith, canToggleAtWar, _, isCollapsed = GetFactionInfo(factionIndex);
 
-				if isCollapsed then
+				if(isCollapsed) then
 					Button:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
 				else
 					Button:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
 				end
 
 				FactionName:SetText(name)
-				if atWarWith and canToggleAtWar then
+				if(atWarWith and canToggleAtWar) then
 					FactionName:SetFormattedText("%s|TInterface\\Buttons\\UI-CheckBox-SwordCheck:16:16:%d:0:32:32:0:16:0:16|t", name, -(20 + FactionName:GetStringWidth()))
 				end
 			end
@@ -376,10 +376,10 @@ local function LoadSkin()
 
 	--Currency
 	TokenFrame:HookScript("OnShow", function()
-		for i=1, GetCurrencyListSize() do
+		for i = 1, GetCurrencyListSize() do
 			local button = _G["TokenFrameContainerButton"..i]
 
-			if button then
+			if(button) then
 				button.highlight:Kill()
 				button.categoryMiddle:Kill()	
 				button.categoryLeft:Kill()	

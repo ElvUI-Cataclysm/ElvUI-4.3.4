@@ -11,8 +11,8 @@ local function LoadSkin()
 	PetStableLeftInset:StripTextures()
 	PetStableBottomInset:StripTextures()
 
-	PetStableFrame:SetTemplate('Transparent')
-	PetStableFrameInset:CreateBackdrop('Default')
+	PetStableFrame:SetTemplate("Transparent")
+	PetStableFrameInset:CreateBackdrop("Default")
 
 	S:HandleCloseButton(PetStableFrameCloseButton)
 	S:HandleButton(PetStablePrevPageButton)
@@ -24,8 +24,7 @@ local function LoadSkin()
 	PetStableDiet:CreateBackdrop()
 	PetStableDiet.icon = PetStableDiet:CreateTexture(nil, "OVERLAY");
 	PetStableDiet.icon:SetTexCoord(unpack(E.TexCoords))
-	PetStableDiet.icon:SetPoint("TOPLEFT", PetStableDiet, "TOPLEFT", 0, 0)
-	PetStableDiet.icon:SetPoint("BOTTOMRIGHT", PetStableDiet, "BOTTOMRIGHT", 0, 0)
+	PetStableDiet.icon:SetAllPoints()
 	PetStableDiet.icon:SetTexture("Interface\\Icons\\Ability_Hunter_BeastTraining")
 	PetStableDiet:SetPoint("TOPRIGHT", PetStablePetInfo, "TOPRIGHT", -2, -2)
 

@@ -9,14 +9,19 @@ local function LoadSkin()
 	TabardFrame:CreateBackdrop("Transparent");
 	TabardFrame.backdrop:Point("TOPLEFT", 10, -12);
 	TabardFrame.backdrop:Point("BOTTOMRIGHT", -32, 74);
-	TabardModel:CreateBackdrop("Default");
-	S:HandleButton(TabardFrameCancelButton);
-	S:HandleButton(TabardFrameAcceptButton);
-	S:HandleCloseButton(TabardFrameCloseButton);
-	S:HandleRotateButton(TabardCharacterModelRotateLeftButton);
-	S:HandleRotateButton(TabardCharacterModelRotateRightButton);
+
 	TabardFrameCostFrame:StripTextures();
 	TabardFrameCustomizationFrame:StripTextures();
+
+	TabardModel:CreateBackdrop("Default");
+
+	S:HandleButton(TabardFrameCancelButton);
+	S:HandleButton(TabardFrameAcceptButton);
+
+	S:HandleCloseButton(TabardFrameCloseButton);
+
+	S:HandleRotateButton(TabardCharacterModelRotateLeftButton);
+	S:HandleRotateButton(TabardCharacterModelRotateRightButton);
 
 	for i = 1, 5 do
 		local custom = "TabardFrameCustomization" .. i;

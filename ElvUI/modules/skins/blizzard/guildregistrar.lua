@@ -16,9 +16,9 @@ local function LoadSkin()
 	S:HandleCloseButton(GuildRegistrarFrameCloseButton)
 	S:HandleEditBox(GuildRegistrarFrameEditBox)
 
-	for i=1, GuildRegistrarFrameEditBox:GetNumRegions() do
+	for i = 1, GuildRegistrarFrameEditBox:GetNumRegions() do
 		local region = select(i, GuildRegistrarFrameEditBox:GetRegions())
-		if region and region:GetObjectType() == "Texture" then
+		if(region and region:GetObjectType() == "Texture") then
 			if region:GetTexture() == "Interface\\ChatFrame\\UI-ChatInputBorder-Left" or region:GetTexture() == "Interface\\ChatFrame\\UI-ChatInputBorder-Right" then
 				region:Kill()
 			end
@@ -27,7 +27,7 @@ local function LoadSkin()
 
 	GuildRegistrarFrameEditBox:Height(20)
 
-	for i=1, 2 do
+	for i = 1, 2 do
 		_G["GuildRegistrarButton"..i]:GetFontString():SetTextColor(1, 1, 1)
 	end
 

@@ -4,7 +4,7 @@ local S = E:GetModule('Skins')
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.bgscore ~= true then return end
 
-	for i=19, MAX_WORLDSTATE_SCORE_BUTTONS do
+	for i = 19, MAX_WORLDSTATE_SCORE_BUTTONS do
 		_G['WorldStateScoreButton'..i]:StripTextures()
 	end
 	MAX_WORLDSTATE_SCORE_BUTTONS = 18; WorldStateScoreFrame_Resize()

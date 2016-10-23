@@ -27,22 +27,67 @@ local function LoadSkin()
 		"AutoCompleteBox",
 		"ConsolidatedBuffsTooltip",
 		"ReadyCheckFrame",
-		"StackSplitFrame",
+		"StackSplitFrame"
 	}
 
 	for i = 1, getn(skins) do
 		_G[skins[i]]:SetTemplate("Transparent")
 	end
 
+	-- here we reskin all "normal" buttons
+	local BlizzardButtons = {
+		"VideoOptionsFrameOkay", 
+		"VideoOptionsFrameCancel", 
+		"VideoOptionsFrameDefaults", 
+		"VideoOptionsFrameApply", 
+		"InterfaceOptionsFrameDefaults", 
+		"InterfaceOptionsFrameOkay", 
+		"InterfaceOptionsFrameCancel",
+		"StackSplitOkayButton",
+		"StackSplitCancelButton",
+		"RolePollPopupAcceptButton"
+	}
+
+	for i = 1, getn(BlizzardButtons) do
+		local ElvuiButtons = _G[BlizzardButtons[i]]
+		if(ElvuiButtons) then
+			S:HandleButton(ElvuiButtons)
+		end
+	end
+
+	-- ESC/Menu Buttons
+	local BlizzardMenuButtons = {
+		"Options",
+		"UIOptions",
+		"Keybindings",
+		"Macros",
+		"AddOns",
+		"Logout",
+		"Quit",
+		"Continue",
+		"Help"
+	}
+
+	for i = 1, getn(BlizzardMenuButtons) do
+		local ElvuiMenuButtons = _G["GameMenuButton"..BlizzardMenuButtons[i]]
+		if(ElvuiMenuButtons) then
+			S:HandleButton(ElvuiMenuButtons)
+		end
+	end
+	
+	if(IsAddOnLoaded("OptionHouse")) then
+		S:HandleButton(GameMenuButtonOptionHouse)
+	end
+
 	local ChatMenus = {
 		"ChatMenu",
 		"EmoteMenu",
 		"LanguageMenu",
-		"VoiceMacroMenu",
+		"VoiceMacroMenu"
 	}
 
 	for i = 1, getn(ChatMenus) do
-		if _G[ChatMenus[i]] == _G["ChatMenu"] then
+		if(_G[ChatMenus[i]] == _G["ChatMenu"]) then
 			_G[ChatMenus[i]]:HookScript("OnShow", function(self) self:SetTemplate("Default", true) self:SetBackdropColor(unpack(E['media'].backdropfadecolor)) self:ClearAllPoints() self:Point("BOTTOMLEFT", ChatFrame1, "TOPLEFT", 0, 30) end)
 		else
 			_G[ChatMenus[i]]:HookScript("OnShow", function(self) self:SetTemplate("Default", true) self:SetBackdropColor(unpack(E['media'].backdropfadecolor)) end)
@@ -93,27 +138,6 @@ local function LoadSkin()
 		tex:SetInside()
 	end
 
-	-- here we reskin all "normal" buttons
-	local BlizzardButtons = {
-		"VideoOptionsFrameOkay", 
-		"VideoOptionsFrameCancel", 
-		"VideoOptionsFrameDefaults", 
-		"VideoOptionsFrameApply", 
-		"InterfaceOptionsFrameDefaults", 
-		"InterfaceOptionsFrameOkay", 
-		"InterfaceOptionsFrameCancel",
-		"StackSplitOkayButton",
-		"StackSplitCancelButton",
-		"RolePollPopupAcceptButton"
-	}
-
-	for i = 1, getn(BlizzardButtons) do
-		local ElvuiButtons = _G[BlizzardButtons[i]]
-		if ElvuiButtons then
-			S:HandleButton(ElvuiButtons)
-		end
-	end
-
 	-- BNToast Frame
 	BNToastFrameCloseButton:Size(32);
 	BNToastFrameCloseButton:Point("TOPRIGHT", "BNToastFrame", 4, 4);
@@ -135,6 +159,9 @@ local function LoadSkin()
 	ReadyCheckFrame:SetWidth(290)
 	ReadyCheckFrame:SetHeight(80)
 
+	ReadyCheckListenerFrame:SetAlpha(0)
+	ReadyCheckFrame:HookScript("OnShow", function(self) if UnitIsUnit("player", self.initiator) then self:Hide() end end) -- bug fix, don't show it if initiator
+
 	-- others
 	CoinPickupFrame:StripTextures();
 	CoinPickupFrame:SetTemplate("Transparent");
@@ -142,36 +169,10 @@ local function LoadSkin()
 	S:HandleButton(CoinPickupOkayButton);
 	S:HandleButton(CoinPickupCancelButton);
 
-	ReadyCheckListenerFrame:SetAlpha(0)
-	ReadyCheckFrame:HookScript("OnShow", function(self) if UnitIsUnit("player", self.initiator) then self:Hide() end end) -- bug fix, don't show it if initiator
 	StackSplitFrame:GetRegions():Hide()
 
 	RolePollPopup:SetTemplate("Transparent")
 	S:HandleCloseButton(RolePollPopupCloseButton)
-
-	-- ESC/Menu Buttons
-	local BlizzardMenuButtons = {
-		"Options",
-		"UIOptions",
-		"Keybindings",
-		"Macros",
-		"AddOns",
-		"Logout",
-		"Quit",
-		"Continue",
-		"Help"
-	}
-
-	for i = 1, getn(BlizzardMenuButtons) do
-		local ElvuiMenuButtons = _G["GameMenuButton"..BlizzardMenuButtons[i]]
-		if ElvuiMenuButtons then
-			S:HandleButton(ElvuiMenuButtons)
-		end
-	end
-	
-	if IsAddOnLoaded("OptionHouse") then
-		S:HandleButton(GameMenuButtonOptionHouse)
-	end
 
 	OpacityFrame:StripTextures()
 	OpacityFrame:SetTemplate("Transparent")
@@ -545,9 +546,9 @@ local function LoadSkin()
 	InterfaceOptionsFrame:EnableMouse(true)
 	InterfaceOptionsFrame:RegisterForDrag("LeftButton", "RightButton")
 	InterfaceOptionsFrame:SetScript("OnDragStart", function(self)
-		if InCombatLockdown() then return end
+		if(InCombatLockdown()) then return end
 
-		if IsShiftKeyDown() then
+		if(IsShiftKeyDown()) then
 			self:StartMoving() 
 		end
 	end)
@@ -571,16 +572,21 @@ local function LoadSkin()
 	end)
 
 	local function SkinWatchFrameItems()
-		for i=1, WATCHFRAME_NUM_ITEMS do
+		for i = 1, WATCHFRAME_NUM_ITEMS do
 			local button = _G["WatchFrameItem"..i]
-			if not button.skinned then
+			local icon = _G["WatchFrameItem"..i.."IconTexture"]
+			local normal = _G["WatchFrameItem"..i.."NormalTexture"]
+			local cooldown = _G["WatchFrameItem"..i.."Cooldown"]
+			if(not button.skinned) then
 				button:CreateBackdrop('Default')
 				button.backdrop:SetAllPoints()
 				button:StyleButton()
-				_G["WatchFrameItem"..i.."NormalTexture"]:SetAlpha(0)
-				_G["WatchFrameItem"..i.."IconTexture"]:SetInside()
-				_G["WatchFrameItem"..i.."IconTexture"]:SetTexCoord(unpack(E.TexCoords))
-				E:RegisterCooldown(_G["WatchFrameItem"..i.."Cooldown"])
+
+				normal:SetAlpha(0)
+				icon:SetInside()
+				icon:SetTexCoord(unpack(E.TexCoords))
+
+				E:RegisterCooldown(cooldown)
 				button.skinned = true
 			end
 		end
@@ -588,7 +594,7 @@ local function LoadSkin()
 	WatchFrame:HookScript("OnEvent", SkinWatchFrameItems)
 
 	local function SkinWatchFramePopUp()
-		if WatchFrameAutoQuestPopUp1 then
+		if(WatchFrameAutoQuestPopUp1) then
 			WatchFrameLines:StripTextures()
 			WatchFrameAutoQuestPopUp1ScrollChildBg:Kill()
 			WatchFrameAutoQuestPopUp1ScrollChildQuestIconBg:Kill()
@@ -624,11 +630,14 @@ local function LoadSkin()
 	ChatConfigCombatSettingsFilters:SetTemplate("Transparent");
 
 	ChatConfigCombatSettingsFiltersScrollFrame:StripTextures();
+
 	S:HandleScrollBar(ChatConfigCombatSettingsFiltersScrollFrameScrollBar);
 
 	S:HandleButton(ChatConfigCombatSettingsFiltersDeleteButton);
+
 	S:HandleButton(ChatConfigCombatSettingsFiltersAddFilterButton);
 	ChatConfigCombatSettingsFiltersAddFilterButton:Point("RIGHT", ChatConfigCombatSettingsFiltersDeleteButton, "LEFT", -1, 0);
+
 	S:HandleButton(ChatConfigCombatSettingsFiltersCopyFilterButton);
 	ChatConfigCombatSettingsFiltersCopyFilterButton:Point("RIGHT", ChatConfigCombatSettingsFiltersAddFilterButton, "LEFT", -1, 0);
 
@@ -636,6 +645,7 @@ local function LoadSkin()
 	S:SquareButton_SetIcon(ChatConfigMoveFilterUpButton, "UP");
 	ChatConfigMoveFilterUpButton:Size(26);
 	ChatConfigMoveFilterUpButton:Point("TOPLEFT", ChatConfigCombatSettingsFilters, "BOTTOMLEFT", 3, -1);
+
 	S:HandleNextPrevButton(ChatConfigMoveFilterDownButton, true);
 	ChatConfigMoveFilterDownButton:Size(26);
 	ChatConfigMoveFilterDownButton:Point("LEFT", ChatConfigMoveFilterUpButton, "RIGHT", 1, 0);
@@ -786,16 +796,18 @@ local function LoadSkin()
 	--LFD Role Picker PopUp Frame
 	LFDRoleCheckPopup:StripTextures()
 	LFDRoleCheckPopup:SetTemplate("Transparent")
+
 	S:HandleButton(LFDRoleCheckPopupAcceptButton)
 	S:HandleButton(LFDRoleCheckPopupDeclineButton)
 	S:HandleCheckBox(LFDRoleCheckPopupRoleButtonTank:GetChildren())
 	S:HandleCheckBox(LFDRoleCheckPopupRoleButtonDPS:GetChildren())
 	S:HandleCheckBox(LFDRoleCheckPopupRoleButtonHealer:GetChildren())
+
 	LFDRoleCheckPopupRoleButtonTank:GetChildren():SetFrameLevel(LFDRoleCheckPopupRoleButtonTank:GetChildren():GetFrameLevel() + 1)
 	LFDRoleCheckPopupRoleButtonDPS:GetChildren():SetFrameLevel(LFDRoleCheckPopupRoleButtonDPS:GetChildren():GetFrameLevel() + 1)
 	LFDRoleCheckPopupRoleButtonHealer:GetChildren():SetFrameLevel(LFDRoleCheckPopupRoleButtonHealer:GetChildren():GetFrameLevel() + 1)
 
-	--Compact Raid Frame Manager (Not Finished)
+	--Compact Raid Frame Manager
 	CompactRaidFrameManager:StripTextures()
 	CompactRaidFrameManager:SetTemplate("Transparent")
 	CompactRaidFrameManagerDisplayFrame:StripTextures()
@@ -932,9 +944,9 @@ local function LoadSkin()
 		MiniMapBattlefieldFrame:Size(30)
 
 		MiniMapBattlefieldFrame.texture = MiniMapBattlefieldFrame:CreateTexture(nil, "OVERLAY");
-		if UnitFactionGroup("player") == "Horde" then
+		if(UnitFactionGroup("player") == "Horde") then
 			MiniMapBattlefieldFrame.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Horde")
-		elseif UnitFactionGroup("player") == "Alliance" then
+		elseif(UnitFactionGroup("player") == "Alliance") then
 			MiniMapBattlefieldFrame.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Alliance")
 		end
 		MiniMapBattlefieldFrame.texture:SetTexCoord(unpack(E.TexCoords))

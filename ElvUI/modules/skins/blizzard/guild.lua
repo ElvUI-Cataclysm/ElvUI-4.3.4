@@ -131,7 +131,7 @@ local function LoadSkin()
 	GuildXPBar.backdrop:Point("TOPLEFT", GuildXPBar.progress, "TOPLEFT", -1, 1)
 	GuildXPBar.backdrop:Point("BOTTOMRIGHT", GuildXPBar, "BOTTOMRIGHT", -2, 5)
 
-	if GuildLatestPerkButton then
+	if(GuildLatestPerkButton) then
 		GuildLatestPerkButton:StripTextures()
 		GuildLatestPerkButtonIconTexture:SetTexCoord(unpack(E.TexCoords))
 		GuildLatestPerkButtonIconTexture:ClearAllPoints()
@@ -140,7 +140,7 @@ local function LoadSkin()
 		GuildLatestPerkButton.backdrop:SetOutside(GuildLatestPerkButtonIconTexture)
 	end
 
-	if GuildNextPerkButton then
+	if(GuildNextPerkButton) then
 		GuildNextPerkButton:StripTextures()
 		GuildNextPerkButtonIconTexture:SetTexCoord(unpack(E.TexCoords))
 		GuildNextPerkButtonIconTexture:ClearAllPoints()
@@ -174,20 +174,24 @@ local function LoadSkin()
 	--Detail Frame
 	GuildMemberDetailFrame:SetTemplate("Transparent")
 	GuildMemberDetailFrame:Point("TOPLEFT", GuildFrame, "TOPRIGHT", 1, 0)
+
 	GuildMemberNoteBackground:SetTemplate("Transparent")
 	GuildMemberOfficerNoteBackground:SetTemplate("Transparent")
+
 	GuildMemberRankDropdown:SetFrameLevel(GuildMemberRankDropdown:GetFrameLevel() + 5)
 	GuildMemberRankDropdown:ClearAllPoints()
 	GuildMemberRankDropdown:SetPoint("CENTER", GuildMemberDetailFrame, "CENTER", 8, 42)
 	S:HandleDropDownBox(GuildMemberRankDropdown, 175)
+
 	S:HandleCloseButton(GuildMemberDetailCloseButton)
 	GuildMemberDetailCloseButton:Point("TOPRIGHT", GuildMemberDetail, "TOPRIGHT", 2, 2)
+
 	GuildMemberRemoveButton:ClearAllPoints()
 	GuildMemberRemoveButton:SetPoint("BOTTOMLEFT", GuildMemberDetailFrame, "BOTTOMLEFT", 9, 4)
 
 	--News
 	GuildNewsFrame:StripTextures()
-	for i=1, 17 do
+	for i = 1, 17 do
 		if _G["GuildNewsContainerButton"..i] then
 			_G["GuildNewsContainerButton"..i].header:Kill()
 			_G["GuildNewsContainerButton"..i]:StyleButton()
@@ -201,7 +205,7 @@ local function LoadSkin()
 
 	GuildNewsFiltersFrameCloseButton:SetPoint("TOPRIGHT", GuildNewsFiltersFrame, "TOPRIGHT", 2, 2)
 
-	for i=1, 7 do
+	for i = 1, 7 do
 		S:HandleCheckBox(_G["GuildNewsFilterButton"..i])
 	end
 
@@ -255,7 +259,7 @@ local function LoadSkin()
 		button:SetTemplate("Transparent")
 	end
 
-	for i=1, 5 do
+	for i = 1, 5 do
 		_G["GuildInfoFrameApplicantsContainerButton"..i.."Ring"]:SetAlpha(0)
 		_G["GuildInfoFrameApplicantsContainerButton"..i.."LevelRing"]:SetAlpha(0)
 		_G["GuildInfoFrameApplicantsContainerButton"..i.."LevelRing"]:SetPoint("TOPLEFT", -42, 33)
@@ -267,11 +271,11 @@ local function LoadSkin()
 	GuildTextEditFrame:SetTemplate("Transparent")
 	S:HandleScrollBar(GuildTextEditScrollFrameScrollBar, 5)
 	GuildTextEditContainer:SetTemplate("Transparent")
-	for i=1, GuildTextEditFrame:GetNumChildren() do
+	for i = 1, GuildTextEditFrame:GetNumChildren() do
 		local child = select(i, GuildTextEditFrame:GetChildren())
-		if child:GetName() == "GuildTextEditFrameCloseButton" and child:GetWidth() < 33 then
+		if(child:GetName() == "GuildTextEditFrameCloseButton" and child:GetWidth() < 33) then
 			S:HandleCloseButton(child)
-		elseif child:GetName() == "GuildTextEditFrameCloseButton" then
+		elseif(child:GetName() == "GuildTextEditFrameCloseButton") then
 			S:HandleButton(child, true)
 		end
 	end
@@ -282,11 +286,11 @@ local function LoadSkin()
 	GuildLogScrollFrame:SetTemplate("Transparent")
 
 	--Blizzard has two buttons with the same name, this is a fucked up way of determining that it isn't the other button
-	for i=1, GuildLogFrame:GetNumChildren() do
+	for i = 1, GuildLogFrame:GetNumChildren() do
 		local child = select(i, GuildLogFrame:GetChildren())
-		if child:GetName() == "GuildLogFrameCloseButton" and child:GetWidth() < 33 then
+		if(child:GetName() == "GuildLogFrameCloseButton" and child:GetWidth() < 33) then
 			S:HandleCloseButton(child)
-		elseif child:GetName() == "GuildLogFrameCloseButton" then
+		elseif(child:GetName() == "GuildLogFrameCloseButton") then
 			S:HandleButton(child, true)
 		end
 	end

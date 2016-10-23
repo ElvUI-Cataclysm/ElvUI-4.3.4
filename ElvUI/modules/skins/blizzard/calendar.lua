@@ -10,15 +10,9 @@ local CLASS_ICON_TCOORDS = CLASS_ICON_TCOORDS
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.calendar ~= true then return end
 
-	local frames = {
-		"CalendarFrame",
-	}
-
-	for _, frame in pairs(frames) do
-		_G[frame]:StripTextures()
-	end
-
+	CalendarFrame:StripTextures()
 	CalendarFrame:SetTemplate("Transparent")
+
 	S:HandleCloseButton(CalendarCloseButton)
 	CalendarCloseButton:Point("TOPRIGHT", CalendarFrame, "TOPRIGHT", 2, 2)
 
@@ -57,7 +51,7 @@ local function LoadSkin()
 	CalendarContextMenu.SetBackdropBorderColor = E.noop
 	CalendarContextMenuButton1:StyleButton()
 
-	for i=1, 7 do
+	for i = 1, 7 do
 		_G["CalendarContextMenuButton"..i]:StyleButton()
 	end
 
@@ -171,7 +165,7 @@ local function LoadSkin()
 	CalendarTexturePickerFrame:Point("TOPRIGHT", CalendarFrame, "TOPRIGHT", 640, 0)
 	CalendarTexturePickerScrollFrame:CreateBackdrop("Transparent")
 
-	for i=1, 16 do
+	for i = 1, 16 do
 		_G["CalendarTexturePickerScrollFrameButton"..i]:StyleButton()
 	end
 

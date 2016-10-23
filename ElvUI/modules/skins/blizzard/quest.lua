@@ -7,15 +7,6 @@ local find = string.find;
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.quest ~= true then return end
 
-	S:HandleCloseButton(QuestLogFrameCloseButton)
-	QuestLogFrameCloseButton:Point("TOPRIGHT", QuestLogFrame, "TOPRIGHT", 1, 1)
-
-	S:HandleScrollBar(QuestLogDetailScrollFrameScrollBar)
-	S:HandleScrollBar(QuestLogScrollFrameScrollBar, 5)
-	QuestLogScrollFrameScrollBar:Point("RIGHT", 25, 0)
-	S:HandleScrollBar(QuestProgressScrollFrameScrollBar)
-	S:HandleScrollBar(QuestRewardScrollFrameScrollBar)
-
 	QuestInfoSkillPointFrame:StripTextures()
 	QuestInfoSkillPointFrame:StyleButton()
 	QuestInfoSkillPointFrame:Width(QuestInfoSkillPointFrame:GetWidth() - 7)
@@ -143,10 +134,10 @@ local function LoadSkin()
 		local numVisibleObjectives = 0
 		for i = 1, numObjectives do
 			_, type, finished = GetQuestLogLeaderBoard(i)
-			if (type ~= "spell") then
+			if(type ~= "spell") then
 				numVisibleObjectives = numVisibleObjectives+1
 				objective = _G["QuestInfoObjective"..numVisibleObjectives]
-				if ( finished ) then
+				if(finished) then
 					objective:SetTextColor(1, 0.80, 0.10)
 				else
 					objective:SetTextColor(0.6, 0.6, 0.6)
@@ -180,9 +171,8 @@ local function LoadSkin()
 
 	hooksecurefunc("QuestInfo_ShowRequiredMoney", function()
 		local requiredMoney = GetQuestLogRequiredMoney()
-		if ( requiredMoney > 0 ) then
-			if ( requiredMoney > GetMoney() ) then
-				-- Not enough money
+		if(requiredMoney > 0) then
+			if(requiredMoney > GetMoney()) then
 				QuestInfoRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
 			else
 				QuestInfoRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
@@ -192,12 +182,27 @@ local function LoadSkin()
 
 	QuestLogFrame:HookScript("OnShow", function()
 		QuestLogScrollFrame:Height(331)
-		QuestLogDetailScrollFrame:Height(328)
+		QuestLogScrollFrame:Width(302)
 		QuestLogScrollFrame:CreateBackdrop("Default")
+		QuestLogScrollFrame.backdrop:SetFrameLevel(QuestLogScrollFrame:GetFrameLevel() - 2)
+
+		QuestLogDetailScrollFrame:Height(331)
 		QuestLogDetailScrollFrame:CreateBackdrop("Default")
 		QuestLogDetailScrollFrame.backdrop:SetFrameLevel(QuestLogDetailScrollFrame:GetFrameLevel() - 2)
-		QuestLogScrollFrame.backdrop:SetFrameLevel(QuestLogScrollFrame:GetFrameLevel() - 2)
+		QuestLogDetailScrollFrame:Point("TOPRIGHT", QuestLogFrame, "TOPRIGHT", -32, -75)
 	end)
+
+	S:HandleCloseButton(QuestLogFrameCloseButton)
+	QuestLogFrameCloseButton:Point("TOPRIGHT", QuestLogFrame, "TOPRIGHT", 1, 1)
+
+	S:HandleScrollBar(QuestLogDetailScrollFrameScrollBar)
+	QuestLogDetailScrollFrameScrollBar:Point("RIGHT", 22, 0)
+
+	S:HandleScrollBar(QuestLogScrollFrameScrollBar, 5)
+	QuestLogScrollFrameScrollBar:Point("RIGHT", 25, 0)
+
+	S:HandleScrollBar(QuestProgressScrollFrameScrollBar)
+	S:HandleScrollBar(QuestRewardScrollFrameScrollBar)
 
 	--Quest Frame
 	QuestFrame:StripTextures(true)

@@ -13,8 +13,11 @@ function B:Initialize()
 	self:PositionVehicleFrame();
 	self:MoveWatchFrame();
 	self:SkinBlizzTimers();
-	self:PositionAltPowerBar();
 	self:ErrorFrameSize()
+
+ 	if(not IsAddOnLoaded("SimplePowerBar")) then
+ 		self:PositionAltPowerBar();
+	end
 
 	CreateFrame("Frame"):SetScript("OnUpdate", function(self, elapsed)
 		if LFRBrowseFrame.timeToClear then

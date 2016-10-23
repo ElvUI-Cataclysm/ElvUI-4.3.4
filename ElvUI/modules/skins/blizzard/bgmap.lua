@@ -3,6 +3,7 @@ local S = E:GetModule('Skins')
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.bgmap ~= true then return end
+
 	BattlefieldMinimap:SetClampedToScreen(true)
 	BattlefieldMinimapCorner:Kill()
 	BattlefieldMinimapBackground:Kill()
@@ -14,6 +15,7 @@ local function LoadSkin()
 	BattlefieldMinimap:CreateBackdrop('Default')
 	BattlefieldMinimap.backdrop:Point('BOTTOMRIGHT', -4, 2)
 	BattlefieldMinimap:SetFrameStrata('LOW')
+
 	BattlefieldMinimapCloseButton:ClearAllPoints()
 	BattlefieldMinimapCloseButton:SetPoint("TOPRIGHT", -4, 0)
 	S:HandleCloseButton(BattlefieldMinimapCloseButton)
@@ -25,19 +27,19 @@ local function LoadSkin()
 	BattlefieldMinimap:SetMovable(true)
 
 	BattlefieldMinimap:SetScript("OnMouseDown", function(_, btn)
-		if btn == "LeftButton" then
+		if(btn == "LeftButton") then
 			BattlefieldMinimapTab:StopMovingOrSizing()
 			BattlefieldMinimapTab:SetUserPlaced(true)
-			if OpacityFrame:IsShown() then OpacityFrame:Hide() end
-		elseif btn == "RightButton" then
+			if(OpacityFrame:IsShown()) then OpacityFrame:Hide() end
+		elseif(btn == "RightButton") then
 			ToggleDropDownMenu(1, nil, BattlefieldMinimapTabDropDown, self:GetName(), 0, -4)
-			if OpacityFrame:IsShown() then OpacityFrame:Hide() end
+			if(OpacityFrame:IsShown()) then OpacityFrame:Hide() end
 		end
 	end)
 
 	BattlefieldMinimap:SetScript("OnMouseDown", function(self, btn)
-		if btn == "LeftButton" then
-			if BattlefieldMinimapOptions and BattlefieldMinimapOptions.locked then
+		if(btn == "LeftButton") then
+			if(BattlefieldMinimapOptions and BattlefieldMinimapOptions.locked) then
 				return
 			else
 				BattlefieldMinimapTab:StartMoving()
@@ -57,7 +59,7 @@ local function LoadSkin()
 	end)
 
 	BattlefieldMinimap:HookScript('OnLeave', function()
-		if oldAlpha then
+		if(oldAlpha) then
 			BattlefieldMinimap_UpdateOpacity(oldAlpha)
 			oldAlpha = nil;
 		end
@@ -69,12 +71,11 @@ local function LoadSkin()
 	end)
 
 	BattlefieldMinimapCloseButton:HookScript('OnLeave', function()
-		if oldAlpha then
+		if(oldAlpha) then
 			BattlefieldMinimap_UpdateOpacity(oldAlpha)
 			oldAlpha = nil;
 		end
 	end)
-
 end
 
 S:AddCallbackForAddon("Blizzard_BattlefieldMinimap", "BattlefieldMinimap", LoadSkin);

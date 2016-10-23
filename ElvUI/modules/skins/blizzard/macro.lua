@@ -89,25 +89,25 @@ local function LoadSkin()
 		local macroButton = _G["MacroPopupButton"..i]
 		local macroButtonIcon = _G["MacroPopupButton"..i.."Icon"]
 
-		if button then
+		if(button) then
 			button:StripTextures()
 			button:StyleButton(nil, true)
 			button:SetTemplate("Default", true)
 		end
 
-		if buttonIcon then
+		if(buttonIcon) then
 			buttonIcon:SetTexCoord(unpack(E.TexCoords))
 			buttonIcon:ClearAllPoints()
 			buttonIcon:SetInside()
 		end
 
-		if macroButton then
+		if(macroButton) then
 			macroButton:StripTextures()
 			macroButton:StyleButton(nil, true)
 			macroButton:CreateBackdrop("Default", true)
 		end
 
-		if macroButtonIcon then
+		if(macroButtonIcon) then
 			macroButtonIcon:SetTexCoord(unpack(E.TexCoords))
 			macroButtonIcon:ClearAllPoints()
 			macroButtonIcon:SetInside()
