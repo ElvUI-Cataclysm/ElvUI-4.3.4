@@ -37,7 +37,7 @@ local function LoadSkin()
 		local icon = _G["TransmogrifyFrame"..slot.."SlotIconTexture"]
 		local slot = _G["TransmogrifyFrame"..slot.."Slot"]
 
-		if slot then
+		if(slot) then
 			slot:StripTextures()
 			slot:StyleButton(false)
 			slot:SetFrameLevel(slot:GetFrameLevel() + 2)

@@ -13,7 +13,7 @@ local function LoadSkin()
 		"PVPColorPickerButton1",
 		"PVPColorPickerButton2",
 		"PVPColorPickerButton3",
-		"PVPBannerFrameAcceptButton",
+		"PVPBannerFrameAcceptButton"
 	}
 
 	for i = 1, #buttons do
@@ -214,41 +214,35 @@ local function LoadSkin()
 		end);
 	end
 
-	local f = PVPBannerFrameCancelButton
-	local l = _G[f:GetName().."Left"]
-	local m = _G[f:GetName().."Middle"]
-	local r = _G[f:GetName().."Right"]
-	if l then l:SetAlpha(0) end
-	if m then m:SetAlpha(0) end
-	if r then r:SetAlpha(0) end
-	f:CreateBackdrop("Default",true)
-	f:SetFrameLevel(PVPBannerFrameAcceptButton:GetFrameLevel()+1)
-	f.backdrop:Point("TOPLEFT", PVPBannerFrameAcceptButton, "TOPLEFT", PVPBannerFrame:GetWidth()-PVPBannerFrameAcceptButton:GetWidth()-10,0)
-	f.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameAcceptButton, "BOTTOMRIGHT", PVPBannerFrame:GetWidth()-PVPBannerFrameAcceptButton:GetWidth()-10, 0)
-	f.backdrop:SetFrameLevel(f:GetFrameLevel()-1)
+	S:HandleButton(PVPBannerFrameCancelButton)
+	PVPBannerFrameCancelButton.backdrop = CreateFrame("Frame", nil, PVPBannerFrameCancelButton)
+	PVPBannerFrameCancelButton.backdrop:SetTemplate("Default", true)
+	PVPBannerFrameCancelButton.backdrop:SetFrameLevel(PVPBannerFrameCancelButton:GetFrameLevel() - 2)
+	PVPBannerFrameCancelButton.backdrop:Point("TOPLEFT", PVPBannerFrameAcceptButton, "TOPLEFT", PVPBannerFrame:GetWidth() - PVPBannerFrameAcceptButton:GetWidth() -10, 0)
+	PVPBannerFrameCancelButton.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameAcceptButton, "BOTTOMRIGHT", PVPBannerFrame:GetWidth() - PVPBannerFrameAcceptButton:GetWidth() -10, 0)
 
-	if PVPFrameCurrencyIcon then
+	if(PVPFrameCurrencyIcon) then
 		PVPFrameCurrency:CreateBackdrop()
 		PVPFrameCurrency.backdrop:Point("TOPLEFT", PVPFrameCurrency, "TOPLEFT", 8, -8)
 		PVPFrameCurrency.backdrop:Point("BOTTOMRIGHT", PVPFrameCurrency, "BOTTOMRIGHT", -8, 8)
 		PVPFrameCurrencyIcon:SetAlpha(0)
 		PVPFrameCurrency.texture = PVPFrameCurrency:CreateTexture(nil, "OVERLAY");
 		PVPFrameCurrency.texture:SetTexCoord(unpack(E.TexCoords))
-		if UnitFactionGroup("player") == "Horde" then
+		if(UnitFactionGroup("player") == "Horde") then
 			PVPFrameCurrency.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Horde")
-		elseif UnitFactionGroup("player") == "Alliance" then
+		elseif(UnitFactionGroup("player") == "Alliance") then
 			PVPFrameCurrency.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Alliance")
 		end
 		PVPFrameCurrency.texture:SetInside(PVPFrameCurrency.backdrop)
 	end
 
 	hooksecurefunc("PVPHonor_UpdateRandomInfo", function()
-		if UnitFactionGroup("player") == "Horde" then
+		if(UnitFactionGroup("player") == "Horde") then
 			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Horde")
 			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-Horde")
 			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Horde")
 			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-Horde")
-		elseif UnitFactionGroup("player") == "Alliance" then
+		elseif(UnitFactionGroup("player") == "Alliance") then
 			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Alliance")
 			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-Alliance")
 			PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Alliance")
@@ -266,9 +260,9 @@ local function LoadSkin()
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:Size(30)
 
 	hooksecurefunc("PVPConquestFrame_Update", function()
-		if UnitFactionGroup("player") == "Horde" then
+		if(UnitFactionGroup("player") == "Horde") then
 			PVPConquestFrameWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-Horde")
-		elseif UnitFactionGroup("player") == "Alliance" then
+		elseif(UnitFactionGroup("player") == "Alliance") then
 			PVPConquestFrameWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-Alliance")
 		end
 	end)

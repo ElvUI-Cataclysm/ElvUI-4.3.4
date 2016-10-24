@@ -35,9 +35,7 @@ local function LoadSkin()
 	end
 
 	S:HandleButton(RaidFrameReadyCheckButton);
-
 	S:HandleCheckBox(RaidFrameAllAssistCheckButton);
-
 end
 
 S:AddCallbackForAddon("Blizzard_RaidUI", "RaidUI", LoadSkin);

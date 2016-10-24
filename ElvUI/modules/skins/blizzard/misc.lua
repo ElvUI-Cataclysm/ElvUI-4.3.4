@@ -79,43 +79,39 @@ local function LoadSkin()
 		S:HandleButton(GameMenuButtonOptionHouse)
 	end
 
-	local ChatMenus = {
-		"ChatMenu",
-		"EmoteMenu",
-		"LanguageMenu",
-		"VoiceMacroMenu"
-	}
-
-	for i = 1, getn(ChatMenus) do
-		if(_G[ChatMenus[i]] == _G["ChatMenu"]) then
-			_G[ChatMenus[i]]:HookScript("OnShow", function(self) self:SetTemplate("Default", true) self:SetBackdropColor(unpack(E['media'].backdropfadecolor)) self:ClearAllPoints() self:Point("BOTTOMLEFT", ChatFrame1, "TOPLEFT", 0, 30) end)
-		else
-			_G[ChatMenus[i]]:HookScript("OnShow", function(self) self:SetTemplate("Default", true) self:SetBackdropColor(unpack(E['media'].backdropfadecolor)) end)
-		end
-	end
-
-	-- reskin popup buttons
+	-- Static Popups
 	for i = 1, 4 do
+		local itemFrame = _G["StaticPopup"..i.."ItemFrame"];
+		local itemFrameBox = _G["StaticPopup"..i.."EditBox"];
+		local itemFrameTexture = _G["StaticPopup"..i.."ItemFrameIconTexture"];
+		local itemFrameNormal = _G["StaticPopup"..i.."ItemFrameNormalTexture"];
+		local itemFrameName = _G["StaticPopup"..i.."ItemFrameNameFrame"];
+
+		S:HandleEditBox(itemFrameBox);
+		itemFrameBox.backdrop:Point("TOPLEFT", -2, -4);
+		itemFrameBox.backdrop:Point("BOTTOMRIGHT", 2, 4);
+
+		S:HandleEditBox(_G["StaticPopup"..i.."MoneyInputFrameGold"]);
+		S:HandleEditBox(_G["StaticPopup"..i.."MoneyInputFrameSilver"]);
+		S:HandleEditBox(_G["StaticPopup"..i.."MoneyInputFrameCopper"]);
+
+		S:HandleCloseButton(_G["StaticPopup"..i.."CloseButton"]);
+
+		itemFrame:GetNormalTexture():Kill();
+		itemFrame:SetTemplate();
+		itemFrame:StyleButton();
+
+		itemFrameTexture:SetTexCoord(unpack(E.TexCoords));
+		itemFrameTexture:SetInside();
+
+		itemFrameNormal:SetAlpha(0);
+
+		itemFrameName:Kill();
+
 		for j = 1, 3 do
-			S:HandleButton(_G["StaticPopup"..i.."Button"..j])
-			S:HandleEditBox(_G["StaticPopup"..i.."EditBox"])
-			S:HandleEditBox(_G["StaticPopup"..i.."MoneyInputFrameGold"])
-			S:HandleEditBox(_G["StaticPopup"..i.."MoneyInputFrameSilver"])
-			S:HandleEditBox(_G["StaticPopup"..i.."MoneyInputFrameCopper"])
-			_G["StaticPopup"..i.."EditBox"].backdrop:Point("TOPLEFT", -2, -4)
-			_G["StaticPopup"..i.."EditBox"].backdrop:Point("BOTTOMRIGHT", 2, 4)
-			_G["StaticPopup"..i.."ItemFrameNameFrame"]:Kill()
-			_G["StaticPopup"..i.."ItemFrame"]:GetNormalTexture():Kill()
-			_G["StaticPopup"..i.."ItemFrame"]:SetTemplate("Default")
-			_G["StaticPopup"..i.."ItemFrame"]:StyleButton()
-			_G["StaticPopup"..i.."ItemFrameIconTexture"]:SetTexCoord(unpack(E.TexCoords))
-			_G["StaticPopup"..i.."ItemFrameIconTexture"]:ClearAllPoints()
-			_G["StaticPopup"..i.."ItemFrameIconTexture"]:Point("TOPLEFT", 2, -2)
-			_G["StaticPopup"..i.."ItemFrameIconTexture"]:Point("BOTTOMRIGHT", -2, 2)
+			S:HandleButton(_G["StaticPopup"..i.."Button"..j]);
 		end
 	end
-
-	S:HandleCloseButton(StaticPopup1CloseButton)
 
 	-- Return to Graveyard Button
 	do
@@ -144,23 +140,33 @@ local function LoadSkin()
 	S:HandleCloseButton(BNToastFrameCloseButton);
 
 	-- ReadyCheck Buttons
-	S:HandleButton(ReadyCheckFrameYesButton)
-	S:HandleButton(ReadyCheckFrameNoButton)
-	ReadyCheckFrameYesButton:SetParent(ReadyCheckFrame)
-	ReadyCheckFrameNoButton:SetParent(ReadyCheckFrame)
-	ReadyCheckFrameYesButton:ClearAllPoints()
-	ReadyCheckFrameNoButton:ClearAllPoints()
-	ReadyCheckFrameYesButton:SetPoint("LEFT", ReadyCheckFrame, 15, -15)
-	ReadyCheckFrameNoButton:SetPoint("RIGHT", ReadyCheckFrame, -15, -15)
-	ReadyCheckFrameText:SetParent(ReadyCheckFrame)	
-	ReadyCheckFrameText:ClearAllPoints()
-	ReadyCheckFrameText:SetPoint("TOP", 0, 0)
-	ReadyCheckFrameText:SetTextColor(1, 1, 1)
 	ReadyCheckFrame:SetWidth(290)
 	ReadyCheckFrame:SetHeight(80)
 
+	S:HandleButton(ReadyCheckFrameYesButton)
+	S:HandleButton(ReadyCheckFrameNoButton)
+
+	ReadyCheckFrameYesButton:SetParent(ReadyCheckFrame)
+	ReadyCheckFrameNoButton:SetParent(ReadyCheckFrame)
+
+	ReadyCheckFrameYesButton:ClearAllPoints()
+	ReadyCheckFrameNoButton:ClearAllPoints()
+
+	ReadyCheckFrameYesButton:Point("LEFT", ReadyCheckFrame, 15, -15)
+	ReadyCheckFrameNoButton:Point("RIGHT", ReadyCheckFrame, -15, -15)
+
+	ReadyCheckFrameText:SetParent(ReadyCheckFrame)	
+	ReadyCheckFrameText:ClearAllPoints()
+	ReadyCheckFrameText:Point("TOP")
+	ReadyCheckFrameText:SetTextColor(1, 1, 1)
+
 	ReadyCheckListenerFrame:SetAlpha(0)
-	ReadyCheckFrame:HookScript("OnShow", function(self) if UnitIsUnit("player", self.initiator) then self:Hide() end end) -- bug fix, don't show it if initiator
+
+	ReadyCheckFrame:HookScript("OnShow", function(self) -- bug fix, don't show it if initiator
+		if(UnitIsUnit("player", self.initiator)) then
+			self:Hide()
+		end
+	end)
 
 	-- others
 	CoinPickupFrame:StripTextures();
@@ -662,6 +668,21 @@ local function LoadSkin()
 
 	S:HandleButton(CombatConfigSettingsSaveButton);
 
+	local ChatMenus = {
+		"ChatMenu",
+		"EmoteMenu",
+		"LanguageMenu",
+		"VoiceMacroMenu"
+	}
+
+	for i = 1, getn(ChatMenus) do
+		if(_G[ChatMenus[i]] == _G["ChatMenu"]) then
+			_G[ChatMenus[i]]:HookScript("OnShow", function(self) self:SetTemplate("Default", true) self:SetBackdropColor(unpack(E['media'].backdropfadecolor)) self:ClearAllPoints() self:Point("BOTTOMLEFT", ChatFrame1, "TOPLEFT", 0, 30) end)
+		else
+			_G[ChatMenus[i]]:HookScript("OnShow", function(self) self:SetTemplate("Default", true) self:SetBackdropColor(unpack(E['media'].backdropfadecolor)) end)
+		end
+	end
+
 	local combatConfigCheck = {
 		"CombatConfigColorsHighlightingLine",
 		"CombatConfigColorsHighlightingAbility",
@@ -914,9 +935,7 @@ local function LoadSkin()
 	LevelUpDisplaySpellFrameSubIcon:SetTexCoord(unpack(E.TexCoords))
 
 	--Minimap Buttons
-	if(not E.private.general.minimap.enable) then
-		return
-	else
+	if(E.private.general.minimap.enable) then
 		--Minimap GM Ticket Button
 		local ticketbutton = HelpOpenTicketButton
 		local ticketbuttonIcon = ticketbutton:GetNormalTexture()
