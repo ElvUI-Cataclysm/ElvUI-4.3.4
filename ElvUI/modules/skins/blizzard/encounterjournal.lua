@@ -158,7 +158,7 @@ local function LoadSkin()
 	--Dungeon/raid selection buttons
 	local function SkinDungeons()
 		local b1 = EncounterJournalInstanceSelectScrollFrameScrollChildInstanceButton1
-		if b1 and not b1.isSkinned then
+		if(b1 and not b1.isSkinned) then
 			S:HandleButton(b1)
 			b1.bgImage:SetInside()
 			b1.bgImage:SetTexCoord(.08, .6, .08, .6)
@@ -168,7 +168,7 @@ local function LoadSkin()
 
 		for i = 1, 100 do
 			local b = _G["EncounterJournalInstanceSelectScrollFrameinstance"..i]
-			if b and not b.isSkinned then
+			if(b and not b.isSkinned) then
 				S:HandleButton(b)
 				b.bgImage:SetInside()
 				b.bgImage:SetTexCoord(0.08,.6,0.08,.6)
@@ -189,7 +189,7 @@ local function LoadSkin()
 
 		while bossID do
 			bossButton = _G["EncounterJournalBossButton"..bossIndex];
-			if bossButton and not bossButton.isSkinned then
+			if(bossButton and not bossButton.isSkinned) then
 				S:HandleButton(bossButton)
 				bossButton.isSkinned = true
 			end
@@ -225,7 +225,7 @@ local function LoadSkin()
 		item:SetTemplate("Default");
 		item:StyleButton()
 
-		if i == 1 then
+		if(i == 1) then
 			item:ClearAllPoints()
 			item:Point("TOPLEFT", EncounterInfo.lootScroll.scrollChild, "TOPLEFT", 5, 0)
 		end
@@ -236,7 +236,7 @@ local function LoadSkin()
 		local index = 1
 		local header = _G["EncounterJournalInfoHeader"..index]
 		while header do
-			if not header.isSkinned then
+			if(not header.isSkinned) then
 				header.flashAnim.Play = E.noop
 
 				header.descriptionBG:SetAlpha(0)
@@ -261,7 +261,7 @@ local function LoadSkin()
 				header.isSkinned = true
 			end
 
-			if header.button.abilityIcon:IsShown() then
+			if(header.button.abilityIcon:IsShown()) then
 				header.button.bg:Show()
 			else
 				header.button.bg:Hide()
@@ -277,23 +277,30 @@ local function LoadSkin()
 	EncounterJournalSearchResultsScrollFrame:StripTextures();
 	EncounterJournalSearchResultsScrollFrameScrollChild:StripTextures();
 
-	for i=1, 9 do
-		_G["EncounterJournalSearchResultsScrollFrameButton"..i]:StripTextures();
-		_G["EncounterJournalSearchResultsScrollFrameButton"..i]:SetTemplate("Default")
-		_G["EncounterJournalSearchResultsScrollFrameButton"..i]:StyleButton()
-		_G["EncounterJournalSearchResultsScrollFrameButton"..i.."Icon"]:SetTexCoord(.08, .92, .08, .92)
-		_G["EncounterJournalSearchResultsScrollFrameButton"..i.."Icon"]:Point("TOPLEFT", 1, -6)
-		_G["EncounterJournalSearchResultsScrollFrameButton"..i]:CreateBackdrop()
-		_G["EncounterJournalSearchResultsScrollFrameButton"..i].backdrop:SetOutside(_G["EncounterJournalSearchResultsScrollFrameButton"..i.."Icon"])
-		_G["EncounterJournalSearchResultsScrollFrameButton"..i.."Icon"]:SetParent(_G["EncounterJournalSearchResultsScrollFrameButton"..i].backdrop)
+	for i = 1, 9 do
+		local button = _G["EncounterJournalSearchResultsScrollFrameButton"..i]
+		local icon = _G["EncounterJournalSearchResultsScrollFrameButton"..i.."Icon"]
+		button:StripTextures();
+		button:SetTemplate("Default")
+		button:StyleButton()
+
+		icon:SetTexCoord(unpack(E.TexCoords))
+		icon:Point("TOPLEFT", 1, -6)
+
+		button:CreateBackdrop()
+		button.backdrop:SetOutside(icon)
+		icon:SetParent(button.backdrop)
 	end
 
-	for i=1, 5 do
-		_G["EncounterJournalSearchBoxSearchButton"..i]:CreateBackdrop()
-		_G["EncounterJournalSearchBoxSearchButton"..i]:StripTextures();
-		_G["EncounterJournalSearchBoxSearchButton"..i]:StyleButton()
-		_G["EncounterJournalSearchBoxSearchButton"..i.."Icon"]:SetTexCoord(unpack(E.TexCoords))
-		_G["EncounterJournalSearchBoxSearchButton"..i.."Icon"]:Point("TOPLEFT", 2, -2)
+	for i = 1, 5 do
+		local button = _G["EncounterJournalSearchBoxSearchButton"..i]
+		local icon = _G["EncounterJournalSearchBoxSearchButton"..i.."Icon"]
+		button:CreateBackdrop()
+		button:StripTextures();
+		button:StyleButton()
+
+		icon:SetTexCoord(unpack(E.TexCoords))
+		icon:Point("TOPLEFT", 2, -2)
 	end
 
 	S:HandleButton(EncounterJournalSearchBoxShowALL)

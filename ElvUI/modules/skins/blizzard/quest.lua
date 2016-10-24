@@ -199,7 +199,7 @@ local function LoadSkin()
 	QuestLogDetailScrollFrameScrollBar:Point("RIGHT", 22, 0)
 
 	S:HandleScrollBar(QuestLogScrollFrameScrollBar, 5)
-	QuestLogScrollFrameScrollBar:Point("RIGHT", 25, 0)
+	QuestLogScrollFrameScrollBar:Point("RIGHT", 27, 0)
 
 	S:HandleScrollBar(QuestProgressScrollFrameScrollBar)
 	S:HandleScrollBar(QuestRewardScrollFrameScrollBar)
@@ -282,7 +282,7 @@ local function LoadSkin()
 		local questLogTitle = _G["QuestLogScrollFrameButton" .. i];
 		questLogTitle:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
 		questLogTitle.SetNormalTexture = E.noop;
-		questLogTitle:GetNormalTexture():Size(10);
+		questLogTitle:GetNormalTexture():Size(11);
 		questLogTitle:GetNormalTexture():Point("LEFT", 5, 0);
 		questLogTitle:SetHighlightTexture("");
 		questLogTitle.SetHighlightTexture = E.noop;

@@ -145,7 +145,6 @@ local function LoadSkin()
 					end
 				end
 			end)
-
 			button.reskinned = true;
 		end
 	end

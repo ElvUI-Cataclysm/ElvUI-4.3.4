@@ -1,6 +1,9 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
+local _G = _G;
+local unpack, select = unpack, select;
+
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.archaeology ~= true then return end
 
@@ -101,11 +104,11 @@ local function LoadSkin()
 
 	ArchaeologyFrameSummaryPageRace1:SetPoint("TOPLEFT", ArchaeologyFrameSummaryPage, "TOPLEFT", 15, -85)
 
-	for i=1, ARCHAEOLOGY_MAX_RACES do
+	for i = 1, ARCHAEOLOGY_MAX_RACES do
 		local frame = _G["ArchaeologyFrameSummaryPageRace"..i]
 		local frameIcon = frame:GetNormalTexture()
 
-		if frame then
+		if(frame) then
 			frame.raceName:SetTextColor(1, 1, 1)
 			frame:CreateBackdrop("Transparent", true)
 			frame.backdrop:Point("TOPLEFT", -5, 1);
@@ -113,9 +116,9 @@ local function LoadSkin()
 		end
 	end
 
-	for i=1, ArchaeologyFrameSummaryPage:GetNumRegions() do
+	for i = 1, ArchaeologyFrameSummaryPage:GetNumRegions() do
 		local region = select(i, ArchaeologyFrameSummaryPage:GetRegions())
-		if region:GetObjectType() == "FontString" then
+		if(region:GetObjectType() == "FontString") then
 			region:SetTextColor(1, 0.80, 0.10)
 		end
 	end
@@ -123,11 +126,11 @@ local function LoadSkin()
 	ArchaeologyFrameSummaryPageTitle:SetAlpha(0)
 
 	--Completed Page
-	for i=1, ARCHAEOLOGY_MAX_COMPLETED_SHOWN do
+	for i = 1, ARCHAEOLOGY_MAX_COMPLETED_SHOWN do
 		local artifact = _G["ArchaeologyFrameCompletedPageArtifact"..i]
 		local icon = _G["ArchaeologyFrameCompletedPageArtifact"..i.."Icon"]
 
-		if artifact then
+		if(artifact) then
 			_G["ArchaeologyFrameCompletedPageArtifact"..i.."Border"]:Kill()
 			_G["ArchaeologyFrameCompletedPageArtifact"..i.."Bg"]:Kill()
 			_G["ArchaeologyFrameCompletedPageArtifact"..i.."ArtifactName"]:SetTextColor(1, 0.80, 0.10)
@@ -147,9 +150,9 @@ local function LoadSkin()
 		end
 	end
 
-	for i=1, ArchaeologyFrameCompletedPage:GetNumRegions() do
+	for i = 1, ArchaeologyFrameCompletedPage:GetNumRegions() do
 		local region = select(i, ArchaeologyFrameCompletedPage:GetRegions())
-		if region:GetObjectType() == "FontString" then
+		if(region:GetObjectType() == "FontString") then
 			region:SetTextColor(1, 1, 1)
 			region:SetPoint("LEFT", -10, 0)
 		end

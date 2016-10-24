@@ -45,7 +45,7 @@ local function LoadSkin()
 
 	--Large
 	local function LargeSkin()
-		if not InCombatLockdown() then
+		if(not InCombatLockdown()) then
 			WorldMapFrame:SetParent(E.UIParent)
 			WorldMapFrame:EnableMouse(false)
 			WorldMapFrame:EnableKeyboard(false)
@@ -59,7 +59,7 @@ local function LoadSkin()
 	end
 
 	local function QuestSkin()
-		if not InCombatLockdown() then
+		if(not InCombatLockdown()) then
 			WorldMapFrame:SetParent(E.UIParent)
 			WorldMapFrame:EnableMouse(false)
 			WorldMapFrame:EnableKeyboard(false)
@@ -71,19 +71,19 @@ local function LoadSkin()
 		WorldMapFrame.backdrop:Point("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -8, 70)
 		WorldMapFrame.backdrop:Point("BOTTOMRIGHT", WorldMapDetailFrame, "BOTTOMRIGHT", 321, -235)
 
-		if not WorldMapQuestDetailScrollFrame.backdrop then
+		if(not WorldMapQuestDetailScrollFrame.backdrop) then
 			WorldMapQuestDetailScrollFrame:CreateBackdrop("Transparent")
 			WorldMapQuestDetailScrollFrame.backdrop:Point("TOPLEFT", -22, 2)
 			WorldMapQuestDetailScrollFrame.backdrop:Point("BOTTOMRIGHT", 23, -4)
 		end
 
-		if not WorldMapQuestRewardScrollFrame.backdrop then
+		if(not WorldMapQuestRewardScrollFrame.backdrop) then
 			WorldMapQuestRewardScrollFrame:CreateBackdrop("Transparent")
 			WorldMapQuestRewardScrollFrame.backdrop:Point("TOPLEFT", -2, 2)
 			WorldMapQuestRewardScrollFrame.backdrop:Point("BOTTOMRIGHT", 22, -4)
 		end
 
-		if not WorldMapQuestScrollFrame.backdrop then
+		if(not WorldMapQuestScrollFrame.backdrop) then
 			WorldMapQuestScrollFrame:CreateBackdrop("Transparent")
 			WorldMapQuestScrollFrame.backdrop:Point("TOPLEFT", 0, 2)
 			WorldMapQuestScrollFrame.backdrop:Point("BOTTOMRIGHT", 25, -3)
@@ -92,15 +92,15 @@ local function LoadSkin()
 
 	local function FixSkin()
 		WorldMapFrame:StripTextures()
-		if WORLDMAP_SETTINGS.size == WORLDMAP_FULLMAP_SIZE then
+		if(WORLDMAP_SETTINGS.size == WORLDMAP_FULLMAP_SIZE) then
 			LargeSkin()
-		elseif WORLDMAP_SETTINGS.size == WORLDMAP_WINDOWED_SIZE then
+		elseif(WORLDMAP_SETTINGS.size == WORLDMAP_WINDOWED_SIZE) then
 			SmallSkin()
-		elseif WORLDMAP_SETTINGS.size == WORLDMAP_QUESTLIST_SIZE then
+		elseif(WORLDMAP_SETTINGS.size == WORLDMAP_QUESTLIST_SIZE) then
 			QuestSkin()
 		end
 
-		if not InCombatLockdown() then
+		if(not InCombatLockdown()) then
 			WorldMapFrame:SetScale(1)
 			WorldMapFrameSizeDownButton:Show()
 			WorldMapFrame:SetFrameLevel(30)
@@ -131,7 +131,7 @@ local function LoadSkin()
 
 	WorldMapFrame:HookScript("OnUpdate", function(self, elapsed)
 		--For some reason these buttons aren't functioning correctly, and we can't afford for it to fuckup because toggling to a big map in combat will cause a taint.
-		if InCombatLockdown() then
+		if(InCombatLockdown()) then
 			WorldMapFrameSizeDownButton:Disable()
 			WorldMapFrameSizeUpButton:Disable()
 		else
@@ -139,18 +139,18 @@ local function LoadSkin()
 			WorldMapFrameSizeUpButton:Enable()
 		end
 
-		if WORLDMAP_SETTINGS.size == WORLDMAP_FULLMAP_SIZE then
+		if(WORLDMAP_SETTINGS.size == WORLDMAP_FULLMAP_SIZE) then
 			WorldMapFrameSizeUpButton:Hide()
 			WorldMapFrameSizeDownButton:Show()
-		elseif WORLDMAP_SETTINGS.size == WORLDMAP_WINDOWED_SIZE then
+		elseif(WORLDMAP_SETTINGS.size == WORLDMAP_WINDOWED_SIZE) then
 			WorldMapFrameSizeUpButton:Show()
 			WorldMapFrameSizeDownButton:Hide()
-		elseif WORLDMAP_SETTINGS.size == WORLDMAP_QUESTLIST_SIZE then
+		elseif(WORLDMAP_SETTINGS.size == WORLDMAP_QUESTLIST_SIZE) then
 			WorldMapFrameSizeUpButton:Hide()
 			WorldMapFrameSizeDownButton:Show()
 		end
 
-		if DropDownList1:GetScale() ~= UIParent:GetScale() then
+		if(DropDownList1:GetScale() ~= UIParent:GetScale()) then
 			DropDownList1:SetScale(UIParent:GetScale())
 		end
 	end)

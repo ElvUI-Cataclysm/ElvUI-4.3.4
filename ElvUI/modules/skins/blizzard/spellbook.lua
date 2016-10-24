@@ -21,38 +21,37 @@ local function LoadSkin()
 
 	--Skin SpellButtons
 	local function SpellButtons(self, first)
-		for i=1, SPELLS_PER_PAGE do
+		for i = 1, SPELLS_PER_PAGE do
 			local button = _G["SpellButton"..i]
 			local icon = _G["SpellButton"..i.."IconTexture"]
-			local cooldown = _G["SpellButton"..i.."Cooldown"];
+			local cooldown = _G["SpellButton"..i.."Cooldown"]
+			local highlight = _G["SpellButton"..i.."Highlight"]
 
-			if first then
-				for i=1, button:GetNumRegions() do
+			if(first) then
+				for i = 1, button:GetNumRegions() do
 					local region = select(i, button:GetRegions())
-					if region:GetObjectType() == "Texture" then
-						if region:GetTexture() ~= "Interface\\Buttons\\ActionBarFlyoutButton" then
+					if(region:GetObjectType() == "Texture") then
+						if(region:GetTexture() ~= "Interface\\Buttons\\ActionBarFlyoutButton") then
 							region:SetTexture(nil)
 						end
 					end
 				end
 			end
 
-			if _G["SpellButton"..i.."Highlight"] then
-				_G["SpellButton"..i.."Highlight"]:SetTexture(1, 1, 1, 0.3)
+			if(highlight) then
+				highlight:SetTexture(1, 1, 1, 0.3)
 			end
 
-			if icon then
+			if(icon) then
 				icon:SetTexCoord(unpack(E.TexCoords))
 
-				if not button.backdrop then
-					button:CreateBackdrop("Default", true)
-					button.backdrop:SetFrameLevel(button.backdrop:GetFrameLevel() - 1)
-				end
+				button:CreateBackdrop("Default", true)
+				button.backdrop:SetFrameLevel(button.backdrop:GetFrameLevel() - 1)
 			end	
 
 			local r, g, b = _G["SpellButton"..i.."SpellName"]:GetTextColor()
 
-			if r < 0.8 then
+			if(r < 0.8) then
 				_G["SpellButton"..i.."SpellName"]:SetTextColor(0.6, 0.6, 0.6)
 			end
 			_G["SpellButton"..i.."SubSpellName"]:SetTextColor(0.6, 0.6, 0.6)
@@ -76,13 +75,13 @@ local function LoadSkin()
 		tab.backdrop:SetAllPoints()
 		tab:StyleButton(true)
 		hooksecurefunc(tab:GetHighlightTexture(), "SetTexture", function(self, texPath)
-			if texPath ~= nil then
+			if(texPath ~= nil) then
 				self:SetPushedTexture(nil);
 			end
 		end)
 
 		hooksecurefunc(tab:GetCheckedTexture(), "SetTexture", function(self, texPath)
-			if texPath ~= nil then
+			if(texPath ~= nil) then
 				self:SetHighlightTexture(nil);
 			end
 		end)
@@ -92,10 +91,11 @@ local function LoadSkin()
 	end
 
 	for i = 1, 12 do
-		_G["SpellButton" .. i]:CreateBackdrop("Transparent", true);
-		_G["SpellButton" .. i].backdrop:Point("TOPLEFT", -7, 8);
-		_G["SpellButton" .. i].backdrop:Point("BOTTOMRIGHT", 170, -10);
-		_G["SpellButton" .. i].backdrop:SetFrameLevel(_G["SpellButton" .. i].backdrop:GetFrameLevel() - 2)
+		local button = _G["SpellButton" .. i]
+		button:CreateBackdrop("Transparent", true);
+		button.backdrop:Point("TOPLEFT", -7, 8);
+		button.backdrop:Point("BOTTOMRIGHT", 170, -10);
+		button.backdrop:SetFrameLevel(button.backdrop:GetFrameLevel() - 2)
 	end
 
 	SpellButton1:SetPoint("TOPLEFT", SpellBookSpellIconsFrame, "TOPLEFT", 15, -75)
@@ -112,7 +112,7 @@ local function LoadSkin()
 	SpellButton12:SetPoint("TOPLEFT", SpellButton11, "TOPLEFT", 225, 0)
 
 	--Skill Line Tabs
-	for i=1, MAX_SKILLLINE_TABS do
+	for i = 1, MAX_SKILLLINE_TABS do
 		local tab = _G["SpellBookSkillLineTab"..i]
 		_G["SpellBookSkillLineTab"..i.."Flash"]:Kill()
 		SkinTab(tab)
@@ -120,10 +120,10 @@ local function LoadSkin()
 	end
 
 	local function SkinSkillLine()
-		for i=1, MAX_SKILLLINE_TABS do
+		for i = 1, MAX_SKILLLINE_TABS do
 			local tab = _G["SpellBookSkillLineTab"..i]
 			local _, _, _, _, isGuild = GetSpellTabInfo(i)
-			if isGuild then
+			if(isGuild) then
 				tab:GetNormalTexture():SetInside()
 				tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
 				tab:StyleButton(nil, true);
@@ -147,23 +147,8 @@ local function LoadSkin()
 		"SecondaryProfession3SpellButtonLeft",
 		"SecondaryProfession3SpellButtonRight",
 		"SecondaryProfession4SpellButtonLeft",
-		"SecondaryProfession4SpellButtonRight",
+		"SecondaryProfession4SpellButtonRight"
 	}
-
-	local professionheaders = {
-		"PrimaryProfession1",
-		"PrimaryProfession2",
-		"SecondaryProfession1",
-		"SecondaryProfession2",
-		"SecondaryProfession3",
-		"SecondaryProfession4",
-	}
-
-	for _, header in pairs(professionheaders) do
-		_G[header.."Missing"]:SetTextColor(1, 0.80, 0.10)
-		_G[header].missingText:SetTextColor(1, 1, 1)
-		_G[header].missingText:FontTemplate(nil, 12, 'OUTLINE')
-	end
 
 	for _, button in pairs(professionbuttons) do
 		local icon = _G[button.."IconTexture"]
@@ -172,14 +157,27 @@ local function LoadSkin()
 		button:GetHighlightTexture():Hide()
 		button:StyleButton(true)
 
-		if icon then
+		if(icon) then
 			icon:SetTexCoord(unpack(E.TexCoords))
 
 			button:SetFrameLevel(button:GetFrameLevel() + 2)
-			if not button.backdrop then
-				button:CreateBackdrop("Default", true)
-			end
+			button:CreateBackdrop("Default", true)
 		end
+	end
+
+	local professionheaders = {
+		"PrimaryProfession1",
+		"PrimaryProfession2",
+		"SecondaryProfession1",
+		"SecondaryProfession2",
+		"SecondaryProfession3",
+		"SecondaryProfession4"
+	}
+
+	for _, header in pairs(professionheaders) do
+		_G[header.."Missing"]:SetTextColor(1, 0.80, 0.10)
+		_G[header].missingText:SetTextColor(1, 1, 1)
+		_G[header].missingText:FontTemplate(nil, 12, 'OUTLINE')
 	end
 
 	local professionstatusbars = {
@@ -259,7 +257,7 @@ local function LoadSkin()
 		_G["SecondaryProfession"..i.."SpellButtonLeftSubSpellName"]:SetTextColor(1, 1, 1)
 	end
 
-	for i=1, 2 do
+	for i = 1, 2 do
 		_G["PrimaryProfession"..i.."SpellButtonTopSubSpellName"]:SetTextColor(1, 1, 1)
 		_G["PrimaryProfession"..i.."SpellButtonBottomSubSpellName"]:SetTextColor(1, 1, 1)
 		_G["PrimaryProfession"..i.."IconBorder"]:Hide()
@@ -267,7 +265,7 @@ local function LoadSkin()
 	end
 
 	--Bottom Tabs
-	for i=1, 5 do
+	for i = 1, 5 do
 		S:HandleTab(_G["SpellBookFrameTabButton"..i])
 	end
 
@@ -281,13 +279,11 @@ local function LoadSkin()
 		button:StripTextures()
 		button:StyleButton(false)
 
-		if icon then
+		if(icon) then
 			icon:SetTexCoord(unpack(E.TexCoords))
 
 			button:SetFrameLevel(button:GetFrameLevel() + 2)
-			if not button.backdrop then
-				button:CreateBackdrop("Default", true)
-			end
+			button:CreateBackdrop("Default", true)
 		end
 	end
 
