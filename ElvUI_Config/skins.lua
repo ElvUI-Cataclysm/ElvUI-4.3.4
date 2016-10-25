@@ -156,14 +156,9 @@ E.Options.args.skins = {
 					name = L["LF Guild Frame"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
-				lfd = {
+				lfg = {
 					type = "toggle",
-					name = L["LFD Frame"],
-					desc = L["TOGGLESKIN_DESC"]
-				},
-				lfr = {
-					type = "toggle",
-					name = L["LFR Frame"],
+					name = L["LFG Frame"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				macro = {

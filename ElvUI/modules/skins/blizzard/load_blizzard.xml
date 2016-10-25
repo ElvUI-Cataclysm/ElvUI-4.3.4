@@ -24,8 +24,7 @@
 	<Script file='help.lua'/>
 	<Script file='inspect.lua'/>
 	<Script file='lfguild.lua'/>
-	<Script file='lfd.lua'/>
-	<Script file='lfr.lua'/>
+	<Script file='lfg.lua'/>
 	<Script file='macro.lua'/>
 	<Script file='mail.lua'/>
 	<Script file='merchant.lua'/>
