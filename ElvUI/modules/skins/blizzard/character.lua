@@ -160,7 +160,7 @@ local function LoadSkin()
 		"CharacterModelFrameControlFramePanButton",
 		"CharacterModelFrameControlFrameRotateLeftButton",
 		"CharacterModelFrameControlFrameRotateRightButton",
-		"CharacterModelFrameControlFrameRotateResetButton",
+		"CharacterModelFrameControlFrameRotateResetButton"
 	}
 
 	for i = 1, getn(controlbuttons) do
@@ -213,56 +213,35 @@ local function LoadSkin()
 	PaperDollEquipmentManagerPaneSaveSet:Width(PaperDollEquipmentManagerPaneSaveSet:GetWidth() - 8)
 
 	PaperDollEquipmentManagerPane:HookScript("OnShow", function(self)
-		for x, object in pairs(PaperDollEquipmentManagerPane.buttons) do
+		for _, object in pairs(PaperDollEquipmentManagerPane.buttons) do
 			object.BgTop:SetTexture(nil)
 			object.BgBottom:SetTexture(nil)
 			object.BgMiddle:SetTexture(nil)
 
-			object.Check:SetTexture(nil)
-			object.icon:SetTexCoord(unpack(E.TexCoords))
-
 			object:StyleButton()
+			object.Check:SetTexture(nil)
 			object.SelectedBar:SetTexture(0, 0.7, 1, 0.75)
 			object.HighlightBar:SetTexture(nil)
 
 			object:CreateBackdrop("Default")
 			object.backdrop:SetOutside(object.icon)
-			object.icon:SetParent(object.backdrop)
 
+			object.icon:SetTexCoord(unpack(E.TexCoords))
+			object.icon:SetParent(object.backdrop)
 			object.icon:SetPoint("LEFT", object, "LEFT", 1, 0)
 			object.icon.SetPoint = E.noop
 			object.icon:Size(42)
 			object.icon.SetSize = E.noop
 		end
-
-		GearManagerDialogPopup:StripTextures()
-		GearManagerDialogPopup:SetTemplate("Transparent")
-		GearManagerDialogPopup:Point("TOPLEFT", PaperDollFrame, "TOPRIGHT", 1, 0)
-
-		GearManagerDialogPopupEditBox:StripTextures()
-		GearManagerDialogPopupEditBox:SetTemplate("Default")
-
-		GearManagerDialogPopupScrollFrame:StripTextures()
-
-		S:HandleButton(GearManagerDialogPopupOkay)
-		S:HandleButton(GearManagerDialogPopupCancel)
-
-		for i = 1, NUM_GEARSET_ICONS_SHOWN do
-			local button = _G["GearManagerDialogPopupButton"..i]
-			local icon = button.icon
-
-			icon:SetTexture(nil)
-
-			button:StripTextures()
-			button:CreateBackdrop()
-			button.backdrop:SetOutside(icon)
-			button:SetFrameLevel(button:GetFrameLevel() + 3)
-			button:StyleButton(nil, true)
-
-			icon:SetTexCoord(unpack(E.TexCoords))
-			icon:SetParent(button.backdrop)
-		end
 	end)
+
+	S:HandleIconSelectionFrame(GearManagerDialogPopup, NUM_GEARSET_ICONS_SHOWN, "GearManagerDialogPopupButton", frameNameOverride)
+
+	GearManagerDialogPopupScrollFrame:CreateBackdrop("Transparent")
+	GearManagerDialogPopupScrollFrame.backdrop:Point("TOPLEFT", 51, 2)
+	GearManagerDialogPopupScrollFrame.backdrop:Point("BOTTOMRIGHT", 0, 4)
+
+	GearManagerDialogPopup:Point("TOPLEFT", PaperDollFrame, "TOPRIGHT", 1, 0)
 
 	--Handle Tabs at bottom of character frame
 	for i = 1, 4 do

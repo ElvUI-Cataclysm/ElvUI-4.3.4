@@ -1,10 +1,13 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule('Skins')
 
-local unpack = unpack
+local ceil = math.ceil;
+
+local _G = _G
+local unpack, select = unpack, select
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.gbank ~= true then return end
+	if(E.private.skins.blizzard.enable ~= true) or (E.private.skins.blizzard.gbank ~= true) then return end
 
 	GuildBankFrame:StripTextures()
 	GuildBankFrame:SetTemplate("Transparent")
@@ -22,22 +25,35 @@ local function LoadSkin()
 
 	S:HandleButton(GuildBankFrameDepositButton, true)
 	GuildBankFrameDepositButton:SetWidth(85)
+
 	S:HandleButton(GuildBankFrameWithdrawButton, true)
 	GuildBankFrameWithdrawButton:SetWidth(85)
+	GuildBankFrameWithdrawButton:Point("RIGHT", GuildBankFrameDepositButton, "LEFT", -2, 0)
+
 	S:HandleButton(GuildBankInfoSaveButton, true)
 	S:HandleButton(GuildBankFramePurchaseButton, true)
 
-	GuildBankFrameWithdrawButton:Point("RIGHT", GuildBankFrameDepositButton, "LEFT", -2, 0)
-
 	GuildBankInfoScrollFrame:StripTextures()
 	GuildBankInfoScrollFrame:SetWidth(572)
-	GuildBankTransactionsScrollFrame:StripTextures()
+
+	S:HandleScrollBar(GuildBankInfoScrollFrameScrollBar)
+
 	GuildBankTabInfoEditBox:SetWidth(560)
+
+	GuildBankTransactionsScrollFrame:StripTextures()
+
+	S:HandleScrollBar(GuildBankTransactionsScrollFrameScrollBar)
 
 	GuildBankFrame.inset = CreateFrame("Frame", nil, GuildBankFrame)
 	GuildBankFrame.inset:SetTemplate("Default")
 	GuildBankFrame.inset:Point("TOPLEFT", 30, -65)
 	GuildBankFrame.inset:Point("BOTTOMRIGHT", -20, 63)
+
+	GuildItemSearchBox:StripTextures()
+	GuildItemSearchBox:CreateBackdrop("Overlay")
+	GuildItemSearchBox.backdrop:Point("TOPLEFT", 10, -1)
+	GuildItemSearchBox.backdrop:Point("BOTTOMRIGHT", 4, 1)
+	GuildItemSearchBox:Point("TOPRIGHT", GuildBankFrame, "TOPRIGHT", -25, -42)
 
 	for i = 1, NUM_GUILDBANK_COLUMNS do
 		_G["GuildBankColumn"..i]:StripTextures()
@@ -67,8 +83,7 @@ local function LoadSkin()
 		_G["GuildBankTab"..i]:StripTextures(true)
 
 		button:StripTextures()
-		button:StyleButton(true)
-		button:SetTemplate("Default", true)
+		button:StyleButton(nil, true)
 
 		texture:SetInside()
 		texture:SetTexCoord(unpack(E.TexCoords))
@@ -107,7 +122,20 @@ local function LoadSkin()
 		end
 	end)
 
-	--Reposition tab
+	--Popup
+	S:HandleIconSelectionFrame(GuildBankPopupFrame, NUM_GUILDBANK_ICONS_SHOWN, "GuildBankPopupButton", "GuildBankPopup")
+
+	S:HandleScrollBar(GuildBankPopupScrollFrameScrollBar)
+
+	GuildBankPopupScrollFrame:CreateBackdrop("Transparent")
+	GuildBankPopupScrollFrame.backdrop:Point("TOPLEFT", 92, 2)
+	GuildBankPopupScrollFrame.backdrop:Point("BOTTOMRIGHT", -5, 2)
+	GuildBankPopupScrollFrame:Point("TOPRIGHT", GuildBankPopupFrame, "TOPRIGHT", -30, -66)
+
+	GuildBankPopupButton1:Point("TOPLEFT", GuildBankPopupFrame, "TOPLEFT", 30, -86)
+	GuildBankPopupFrame:Point("TOPLEFT", GuildBankFrame, "TOPRIGHT", 36, 0)
+
+	--Reposition tabs
 	GuildBankFrameTab1:ClearAllPoints()
 	GuildBankFrameTab1:SetPoint("BOTTOMLEFT", GuildBankFrame, "BOTTOMLEFT", 0, -30)
 
@@ -119,41 +147,6 @@ local function LoadSkin()
 	GuildBankTab6:Point("TOPLEFT", GuildBankTab5, "BOTTOMLEFT", 0, 7)
 	GuildBankTab7:Point("TOPLEFT", GuildBankTab6, "BOTTOMLEFT", 0, 7)
 	GuildBankTab8:Point("TOPLEFT", GuildBankTab7, "BOTTOMLEFT", 0, 7)
-
-	--Popup
-	GuildBankPopupFrame:StripTextures()
-	GuildBankPopupFrame:SetTemplate("Transparent")
-	GuildBankPopupFrame:Point("TOPLEFT", GuildBankFrame, "TOPRIGHT", 1, -30)
-
-	GuildBankPopupScrollFrame:StripTextures()
-
-	S:HandleButton(GuildBankPopupOkayButton)
-	S:HandleButton(GuildBankPopupCancelButton)
-	S:HandleEditBox(GuildBankPopupEditBox)
-
-	GuildBankPopupNameLeft:Kill()
-	GuildBankPopupNameRight:Kill()
-	GuildBankPopupNameMiddle:Kill()
-
-	GuildItemSearchBox:StripTextures()
-	GuildItemSearchBox:CreateBackdrop("Overlay")
-	GuildItemSearchBox.backdrop:Point("TOPLEFT", 10, -1)
-	GuildItemSearchBox.backdrop:Point("BOTTOMRIGHT", 4, 1)
-	GuildItemSearchBox:Point("TOPRIGHT", GuildBankFrame, "TOPRIGHT", -25, -42)
-
-	for i = 1, 16 do
-		local button = _G["GuildBankPopupButton"..i]
-		local icon = _G[button:GetName().."Icon"]
-		button:StripTextures()
-		button:SetTemplate("Default")
-		button:StyleButton(true)
-
-		icon:SetInside()
-		icon:SetTexCoord(unpack(E.TexCoords))
-	end
-
-	S:HandleScrollBar(GuildBankTransactionsScrollFrameScrollBar)
-	S:HandleScrollBar(GuildBankInfoScrollFrameScrollBar)
 
 	GuildBankColumn2:Point("TOPLEFT", GuildBankColumn1, "TOPRIGHT", -15, 0)
 	GuildBankColumn3:Point("TOPLEFT", GuildBankColumn2, "TOPRIGHT", -15, 0)
