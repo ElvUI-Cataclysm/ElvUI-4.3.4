@@ -55,10 +55,6 @@ local menuList = {
 	end}
 };
 
-function GetMinimapShape() 
-	return "SQUARE";
-end
-
 function M:GetLocTextColor()
 	local pvpType = GetZonePVPInfo()
 	if(pvpType == "arena") then
@@ -359,6 +355,11 @@ function M:Initialize()
 	if(not E.private.general.minimap.enable) then 
 		Minimap:SetMaskTexture("Textures\\MinimapMask");
 		return; 
+	end
+
+	--Support for other mods
+	function GetMinimapShape()
+		return "SQUARE"
 	end
 
 	local mmholder = CreateFrame("Frame", "MMHolder", Minimap);

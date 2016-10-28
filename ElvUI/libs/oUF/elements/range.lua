@@ -22,11 +22,12 @@ local OnRangeFrame
 
 local friendlySpells, resSpells, longEnemySpells, enemySpells, petSpells = {}, {}, {}, {}, {}
 
+
 local function AddSpell(table, spellID)
 	local name = GetSpellInfo(spellID)
 	if name then
 		local usable, nomana = IsUsableSpell(name)
-		if usable or nomana then
+		if((usable or nomana) or (spellID == 20271)) then
 			table[#table + 1] = name
 		end
 	end
@@ -53,6 +54,7 @@ local function UpdateSpellList()
 		AddSpell(resSpells, 20484) -- Rebirth 
 	elseif class == "PALADIN" then
 		AddSpell(enemySpells, 20271) -- Judgement
+		AddSpell(enemySpells, 62124) -- Hand of Reckoning
 		AddSpell(friendlySpells, 635) -- Holy Light
 		AddSpell(resSpells, 7328) -- Redemption
 	elseif class == "SHAMAN" then

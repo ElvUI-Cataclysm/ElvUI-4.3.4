@@ -11,29 +11,31 @@ local function LoadSkin()
 		"LookingForGuildRPButton",
 		"LookingForGuildRaidButton",
 		"LookingForGuildQuestButton",
-		"LookingForGuildDungeonButton",
+		"LookingForGuildDungeonButton"
 	}
 
-	-- skin checkboxes
 	for _, v in pairs(checkbox) do
 		S:HandleCheckBox(_G[v])
 	end
 
-	-- have to skin these checkboxes seperate for some reason o_O
 	S:HandleCheckBox(LookingForGuildTankButton.checkButton)
 	S:HandleCheckBox(LookingForGuildHealerButton.checkButton)
 	S:HandleCheckBox(LookingForGuildDamagerButton.checkButton)
 
-	-- skinning other frames
 	LookingForGuildFrameInset:StripTextures(false)
 	LookingForGuildFrame:StripTextures()
 	LookingForGuildFrame:SetTemplate("Transparent")
+
 	LookingForGuildBrowseButton_LeftSeparator:Kill()
 	LookingForGuildRequestButton_RightSeparator:Kill()
+
 	S:HandleScrollBar(LookingForGuildBrowseFrameContainerScrollBar)
+
 	S:HandleButton(LookingForGuildBrowseButton)
 	S:HandleButton(LookingForGuildRequestButton)
+
 	S:HandleCloseButton(LookingForGuildFrameCloseButton)
+
 	LookingForGuildCommentInputFrame:CreateBackdrop("Transparent")
 	LookingForGuildCommentInputFrame:StripTextures(false)
 
@@ -76,39 +78,43 @@ local function LoadSkin()
 
 	GuildFinderRequestMembershipFrame:StripTextures(true)
 	GuildFinderRequestMembershipFrame:SetTemplate("Transparent")
+
 	S:HandleButton(GuildFinderRequestMembershipFrameAcceptButton)
 	S:HandleButton(GuildFinderRequestMembershipFrameCancelButton)
-	GuildFinderRequestMembershipFrameInputFrame:StripTextures()
-	GuildFinderRequestMembershipFrameInputFrame:SetTemplate("Default")
 
-	--Tank Icon
+	GuildFinderRequestMembershipFrameInputFrame:StripTextures()
+	GuildFinderRequestMembershipFrameInputFrame:SetTemplate()
+
+	-- Role Icons
+	LookingForGuildTankButton:GetChildren():SetFrameLevel(LookingForGuildTankButton:GetChildren():GetFrameLevel() + 2);
+	LookingForGuildHealerButton:GetChildren():SetFrameLevel(LookingForGuildHealerButton:GetChildren():GetFrameLevel() + 2);
+	LookingForGuildDamagerButton:GetChildren():SetFrameLevel(LookingForGuildDamagerButton:GetChildren():GetFrameLevel() + 2);
+
 	LookingForGuildTankButton:StripTextures()
-	LookingForGuildTankButton:CreateBackdrop("Default");
-	LookingForGuildTankButton.backdrop:Point("TOPLEFT", LookingForGuildTankButton, "TOPLEFT", 3, -3)
-	LookingForGuildTankButton.backdrop:Point("BOTTOMRIGHT", LookingForGuildTankButton, "BOTTOMRIGHT", -3, 3)
+	LookingForGuildTankButton:CreateBackdrop();
+	LookingForGuildTankButton.backdrop:Point("TOPLEFT", 3, -3)
+	LookingForGuildTankButton.backdrop:Point("BOTTOMRIGHT", -3, 3)
 	LookingForGuildTankButton.icon = LookingForGuildTankButton:CreateTexture(nil, "OVERLAY");
 	LookingForGuildTankButton.icon:SetTexCoord(unpack(E.TexCoords))
-	LookingForGuildTankButton.icon:SetTexture('Interface\\Icons\\Ability_Defend');
+	LookingForGuildTankButton.icon:SetTexture("Interface\\Icons\\Ability_Defend");
 	LookingForGuildTankButton.icon:SetInside(LookingForGuildTankButton.backdrop)
 
-	--Healer Icon
 	LookingForGuildHealerButton:StripTextures()
-	LookingForGuildHealerButton:CreateBackdrop("Default");
-	LookingForGuildHealerButton.backdrop:Point("TOPLEFT", LookingForGuildHealerButton, "TOPLEFT", 3, -3)
-	LookingForGuildHealerButton.backdrop:Point("BOTTOMRIGHT", LookingForGuildHealerButton, "BOTTOMRIGHT", -3, 3)
+	LookingForGuildHealerButton:CreateBackdrop();
+	LookingForGuildHealerButton.backdrop:Point("TOPLEFT", 3, -3)
+	LookingForGuildHealerButton.backdrop:Point("BOTTOMRIGHT", -3, 3)
 	LookingForGuildHealerButton.icon = LookingForGuildHealerButton:CreateTexture(nil, "OVERLAY");
 	LookingForGuildHealerButton.icon:SetTexCoord(unpack(E.TexCoords))
-	LookingForGuildHealerButton.icon:SetTexture('Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH');
+	LookingForGuildHealerButton.icon:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH");
 	LookingForGuildHealerButton.icon:SetInside(LookingForGuildHealerButton.backdrop)
 
-	--Damage Icon
 	LookingForGuildDamagerButton:StripTextures()
-	LookingForGuildDamagerButton:CreateBackdrop("Default");
-	LookingForGuildDamagerButton.backdrop:Point("TOPLEFT", LookingForGuildDamagerButton, "TOPLEFT", 3, -3)
-	LookingForGuildDamagerButton.backdrop:Point("BOTTOMRIGHT", LookingForGuildDamagerButton, "BOTTOMRIGHT", -3, 3)
+	LookingForGuildDamagerButton:CreateBackdrop();
+	LookingForGuildDamagerButton.backdrop:Point("TOPLEFT", 3, -3)
+	LookingForGuildDamagerButton.backdrop:Point("BOTTOMRIGHT", -3, 3)
 	LookingForGuildDamagerButton.icon = LookingForGuildDamagerButton:CreateTexture(nil, "OVERLAY");
 	LookingForGuildDamagerButton.icon:SetTexCoord(unpack(E.TexCoords))
-	LookingForGuildDamagerButton.icon:SetTexture('Interface\\Icons\\INV_Knife_1H_Common_B_01');
+	LookingForGuildDamagerButton.icon:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01");
 	LookingForGuildDamagerButton.icon:SetInside(LookingForGuildDamagerButton.backdrop)
 end
 

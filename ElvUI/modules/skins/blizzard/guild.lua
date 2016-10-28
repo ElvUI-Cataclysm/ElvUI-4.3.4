@@ -30,7 +30,7 @@ local function LoadSkin()
 		"GuildInfoFrameApplicantsContainer",
 		"GuildInfoFrameApplicants",
 		"GuildNewsBossModel",
-		"GuildNewsBossModelTextFrame",
+		"GuildNewsBossModelTextFrame"
 	}
 
 	for _, frame in pairs(striptextures) do
@@ -68,11 +68,11 @@ local function LoadSkin()
 		"GuildTextEditFrameAcceptButton",
 		"GuildRecruitmentInviteButton",
 		"GuildRecruitmentMessageButton",
-		"GuildRecruitmentDeclineButton",
+		"GuildRecruitmentDeclineButton"
 	}
 
 	for i, button in pairs(buttons) do
-		if i == 1 then
+		if(i == 1) then
 			S:HandleButton(_G[button])
 		else
 			S:HandleButton(_G[button], true)
@@ -88,7 +88,7 @@ local function LoadSkin()
 		"Weekdays",
 		"Weekends",
 		"LevelAny",
-		"LevelMax",
+		"LevelMax"
 	}
 
 	for _, frame in pairs(checkbuttons) do
@@ -181,6 +181,7 @@ local function LoadSkin()
 	GuildMemberRankDropdown:SetFrameLevel(GuildMemberRankDropdown:GetFrameLevel() + 5)
 	GuildMemberRankDropdown:ClearAllPoints()
 	GuildMemberRankDropdown:SetPoint("CENTER", GuildMemberDetailFrame, "CENTER", 8, 42)
+
 	S:HandleDropDownBox(GuildMemberRankDropdown, 175)
 
 	S:HandleCloseButton(GuildMemberDetailCloseButton)
@@ -200,8 +201,10 @@ local function LoadSkin()
 
 	GuildNewsFiltersFrame:StripTextures()
 	GuildNewsFiltersFrame:SetTemplate("Transparent")
-	S:HandleCloseButton(GuildNewsFiltersFrameCloseButton)
+
 	GuildNewsContainer:SetTemplate("Transparent")
+
+	S:HandleCloseButton(GuildNewsFiltersFrameCloseButton)
 
 	GuildNewsFiltersFrameCloseButton:SetPoint("TOPRIGHT", GuildNewsFiltersFrame, "TOPRIGHT", 2, 2)
 
@@ -328,31 +331,36 @@ local function LoadSkin()
 		end
 	end
 
-	--Tank Icon
+	-- Recruitment Role Icons
+	GuildRecruitmentTankButton:GetChildren():SetFrameLevel(GuildRecruitmentTankButton:GetChildren():GetFrameLevel() + 2);
+	GuildRecruitmentHealerButton:GetChildren():SetFrameLevel(GuildRecruitmentHealerButton:GetChildren():GetFrameLevel() + 2);
+	GuildRecruitmentDamagerButton:GetChildren():SetFrameLevel(GuildRecruitmentDamagerButton:GetChildren():GetFrameLevel() + 2);
+
 	GuildRecruitmentTankButton:StripTextures()
-	GuildRecruitmentTankButton:CreateBackdrop("Default");
-	GuildRecruitmentTankButton.backdrop:SetOutside(GuildRecruitmentTankButton)
+	GuildRecruitmentTankButton:CreateBackdrop();
+	GuildRecruitmentTankButton.backdrop:Point("TOPLEFT", 2, -2)
+	GuildRecruitmentTankButton.backdrop:Point("BOTTOMRIGHT", -2, 2)
 	GuildRecruitmentTankButton.icon = GuildRecruitmentTankButton:CreateTexture(nil, "OVERLAY");
 	GuildRecruitmentTankButton.icon:SetTexCoord(unpack(E.TexCoords))
-	GuildRecruitmentTankButton.icon:SetTexture('Interface\\Icons\\Ability_Defend');
+	GuildRecruitmentTankButton.icon:SetTexture("Interface\\Icons\\Ability_Defend");
 	GuildRecruitmentTankButton.icon:SetInside(GuildRecruitmentTankButton.backdrop)
 
-	--Healer Icon
 	GuildRecruitmentHealerButton:StripTextures()
-	GuildRecruitmentHealerButton:CreateBackdrop("Default");
-	GuildRecruitmentHealerButton.backdrop:SetOutside(GuildRecruitmentHealerButton)
+	GuildRecruitmentHealerButton:CreateBackdrop();
+	GuildRecruitmentHealerButton.backdrop:Point("TOPLEFT", 2, -2)
+	GuildRecruitmentHealerButton.backdrop:Point("BOTTOMRIGHT", -2, 2)
 	GuildRecruitmentHealerButton.icon = GuildRecruitmentHealerButton:CreateTexture(nil, "OVERLAY");
 	GuildRecruitmentHealerButton.icon:SetTexCoord(unpack(E.TexCoords))
-	GuildRecruitmentHealerButton.icon:SetTexture('Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH');
+	GuildRecruitmentHealerButton.icon:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH");
 	GuildRecruitmentHealerButton.icon:SetInside(GuildRecruitmentHealerButton.backdrop)
 
-	--Damage Icon
 	GuildRecruitmentDamagerButton:StripTextures()
-	GuildRecruitmentDamagerButton:CreateBackdrop("Default");
-	GuildRecruitmentDamagerButton.backdrop:SetOutside(GuildRecruitmentDamagerButton)
+	GuildRecruitmentDamagerButton:CreateBackdrop();
+	GuildRecruitmentDamagerButton.backdrop:Point("TOPLEFT", 2, -2)
+	GuildRecruitmentDamagerButton.backdrop:Point("BOTTOMRIGHT", -2, 2)
 	GuildRecruitmentDamagerButton.icon = GuildRecruitmentDamagerButton:CreateTexture(nil, "OVERLAY");
 	GuildRecruitmentDamagerButton.icon:SetTexCoord(unpack(E.TexCoords))
-	GuildRecruitmentDamagerButton.icon:SetTexture('Interface\\Icons\\INV_Knife_1H_Common_B_01');
+	GuildRecruitmentDamagerButton.icon:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01");
 	GuildRecruitmentDamagerButton.icon:SetInside(GuildRecruitmentDamagerButton.backdrop)
 end
 
