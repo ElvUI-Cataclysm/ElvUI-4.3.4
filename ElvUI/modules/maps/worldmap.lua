@@ -47,6 +47,10 @@ function M:SetLargeWorldMap()
 	WorldMapFrame:SetScale(1);
 	WorldMapFrame:EnableMouse(false);
 
+	WorldMapTooltip:SetFrameStrata("TOOLTIP")
+	WorldMapCompareTooltip1:SetFrameStrata("TOOLTIP")
+	WorldMapCompareTooltip2:SetFrameStrata("TOOLTIP")
+
 	if(WorldMapFrame:GetAttribute('UIPanelLayout-area') ~= 'center') then
 		SetUIPanelAttribute(WorldMapFrame, "area", "center");
 	end
