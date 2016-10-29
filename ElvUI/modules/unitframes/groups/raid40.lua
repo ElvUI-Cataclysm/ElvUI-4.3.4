@@ -1,20 +1,19 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule("UnitFrames");
-
-local tinsert = table.insert;
-
-local CreateFrame = CreateFrame;
-local IsInInstance = IsInInstance;
-local InCombatLockdown = InCombatLockdown;
-local GetInstanceInfo = GetInstanceInfo;
-local UnregisterStateDriver = UnregisterStateDriver;
-local RegisterStateDriver = RegisterStateDriver;
-
 local _, ns = ...;
 local ElvUF = ns.oUF;
 assert(ElvUF, "ElvUI was unable to locate oUF.");
 
-function UF:Construct_Raid40Frames(unitGroup)
+local tinsert = table.insert;
+
+local CreateFrame = CreateFrame;
+local GetInstanceInfo = GetInstanceInfo;
+local IsInInstance = IsInInstance;
+local InCombatLockdown = InCombatLockdown;
+local RegisterStateDriver = RegisterStateDriver;
+local UnregisterStateDriver = UnregisterStateDriver;
+
+function UF:Construct_Raid40Frames()
 	self:SetScript("OnEnter", UnitFrame_OnEnter);
 	self:SetScript("OnLeave", UnitFrame_OnLeave);
 
@@ -103,7 +102,7 @@ function UF:Raid40SmartVisibility(event)
 	end
 end
 
-function UF:Update_Raid40Header(header, db, isForced)
+function UF:Update_Raid40Header(header, db)
 	header:GetParent().db = db;
 
 	local headerHolder = header:GetParent();

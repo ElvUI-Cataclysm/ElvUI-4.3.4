@@ -5,6 +5,9 @@ UF.LSM = LSM;
 
 local _G = _G;
 local select, pairs, type, unpack, assert, tostring = select, pairs, type, unpack, assert, tostring;
+local min = math.min;
+local tremove, tinsert = table.remove, table.insert;
+local find, gsub, format = string.find, string.gsub, string.format;
 
 local hooksecurefunc = hooksecurefunc;
 local CreateFrame = CreateFrame;
@@ -193,10 +196,6 @@ local DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER = {
 	LEFT_DOWN = -1,
 	LEFT_UP = 1
 };
-
-local find, gsub, format = string.find, string.gsub, string.format;
-local min = math.min;
-local tremove, tinsert = table.remove, table.insert;
 
 function UF:ConvertGroupDB(group)
 	local db = self.db.units[group.groupName];
@@ -445,7 +444,7 @@ function UF:Update_AllFrames()
 	self:UpdateAllHeaders();
 end
 
-function UF:CreateAndUpdateUFGroup(group, numGroup, template)
+function UF:CreateAndUpdateUFGroup(group, numGroup)
 	if(InCombatLockdown()) then self:RegisterEvent("PLAYER_REGEN_ENABLED"); return; end
 
 	for i = 1, numGroup do
@@ -965,7 +964,7 @@ local function HideRaid()
 	end
 end
 
-function UF:DisableBlizzard(event)
+function UF:DisableBlizzard()
 	if (not E.private["unitframe"]["disabledBlizzardFrames"].raid) and (not E.private["unitframe"]["disabledBlizzardFrames"].party) then return; end
 	if not CompactRaidFrameManager_UpdateShown then
 		E:StaticPopup_Show("WARNING_BLIZZARD_ADDONS")

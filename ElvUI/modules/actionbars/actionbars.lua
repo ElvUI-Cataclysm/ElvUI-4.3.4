@@ -29,10 +29,9 @@ local SetClampedTextureRotation = SetClampedTextureRotation;
 local SetModifiedClick = SetModifiedClick;
 local GetNumFlyouts, GetFlyoutInfo = GetNumFlyouts, GetFlyoutInfo;
 local GetFlyoutID = GetFlyoutID;
-local GetCVarBool, SetCVar = GetCVarBool, SetCVar;
+local SetCVar = SetCVar;
 local NUM_ACTIONBAR_BUTTONS = NUM_ACTIONBAR_BUTTONS;
 
-local Sticky = LibStub("LibSimpleSticky-1.0");
 local _LOCK
 local LAB = LibStub("LibActionButton-1.0");
 local LSM = LibStub("LibSharedMedia-3.0");
@@ -571,7 +570,7 @@ function AB:StyleButton(button, noBackdrop)
 end
 
 function AB:Bar_OnEnter(bar)
-	if bar:GetParent() == self.fadeParent then
+	if(bar:GetParent() == self.fadeParent) then
 		if(not self.fadeParent.mouseLock) then
 			E:UIFrameFadeIn(self.fadeParent, 0.2, self.fadeParent:GetAlpha(), 1)
 		end
@@ -581,7 +580,7 @@ function AB:Bar_OnEnter(bar)
 end
 
 function AB:Bar_OnLeave(bar)
-	if bar:GetParent() == self.fadeParent then
+	if(bar:GetParent() == self.fadeParent) then
 		if(not self.fadeParent.mouseLock) then
 			E:UIFrameFadeOut(self.fadeParent, 0.2, self.fadeParent:GetAlpha(), 1 - self.db.globalFadeAlpha)
 		end
@@ -592,7 +591,7 @@ end
 
 function AB:Button_OnEnter(button)
 	local bar = button:GetParent()
-	if bar:GetParent() == self.fadeParent then
+	if(bar:GetParent() == self.fadeParent) then
 		if(not self.fadeParent.mouseLock) then
 			E:UIFrameFadeIn(self.fadeParent, 0.2, self.fadeParent:GetAlpha(), 1)
 		end
@@ -603,7 +602,7 @@ end
 
 function AB:Button_OnLeave(button)
 	local bar = button:GetParent()
-	if bar:GetParent() == self.fadeParent then
+	if(bar:GetParent() == self.fadeParent) then
 		if(not self.fadeParent.mouseLock) then
 			E:UIFrameFadeOut(self.fadeParent, 0.2, self.fadeParent:GetAlpha(), 1 - self.db.globalFadeAlpha)
 		end
@@ -629,7 +628,7 @@ function AB:FadeParent_OnEvent()
 	local cast, channel = UnitCastingInfo("player"), UnitChannelInfo("player")
 	local target, focus = UnitExists("target"), UnitExists("focus")
 	local combat = UnitAffectingCombat("player")
-	if (cast or channel) or (cur ~= max) or (target or focus) or combat then
+	if(cast or channel) or (cur ~= max) or (target or focus) or combat then
 		self.mouseLock = true
 		E:UIFrameFadeIn(self, 0.2, self:GetAlpha(), 1)
 	else
@@ -647,7 +646,7 @@ function AB:DisableBlizzard()
 	MultiBarLeft:SetParent(UIHider);
 	MultiBarRight:SetParent(UIHider);
 
-	for i = 1,12 do
+	for i = 1, 12 do
 		_G["ActionButton" .. i]:Hide();
 		_G["ActionButton" .. i]:UnregisterAllEvents();
 		_G["ActionButton" .. i]:SetAttribute("statehidden", true);
@@ -799,15 +798,15 @@ end
 
 local buttons = 0
 local function SetupFlyoutButton()
-	for i=1, buttons do
-		if _G["SpellFlyoutButton"..i] then
+	for i = 1, buttons do
+		if(_G["SpellFlyoutButton"..i]) then
 			AB:StyleButton(_G["SpellFlyoutButton"..i])
 			_G["SpellFlyoutButton"..i]:StyleButton()
 			_G["SpellFlyoutButton"..i]:CreateBackdrop("Default")
 			_G["SpellFlyoutButton"..i]:HookScript('OnEnter', function(self)
 				local parent = self:GetParent()
 				local parentAnchorButton = select(2, parent:GetPoint())
-				if not AB["handledbuttons"][parentAnchorButton] then return end
+				if(not AB["handledbuttons"][parentAnchorButton]) then return end
 
 				local parentAnchorBar = parentAnchorButton:GetParent()
 				AB:Bar_OnEnter(parentAnchorBar)
@@ -815,7 +814,7 @@ local function SetupFlyoutButton()
 			_G["SpellFlyoutButton"..i]:HookScript('OnLeave', function(self)
 				local parent = self:GetParent()
 				local parentAnchorButton = select(2, parent:GetPoint())
-				if not AB["handledbuttons"][parentAnchorButton] then return end
+				if(not AB["handledbuttons"][parentAnchorButton]) then return end
 
 				local parentAnchorBar = parentAnchorButton:GetParent()
 				AB:Bar_OnLeave(parentAnchorBar)
@@ -823,17 +822,17 @@ local function SetupFlyoutButton()
 		end
 	end
 
-	SpellFlyout:HookScript('OnEnter', function(self)
+	SpellFlyout:HookScript("OnEnter", function(self)
 		local anchorButton = select(2, self:GetPoint())
-		if not AB["handledbuttons"][anchorButton] then return end
+		if(not AB["handledbuttons"][anchorButton]) then return end
 
 		local parentAnchorBar = anchorButton:GetParent()
 		AB:Bar_OnEnter(parentAnchorBar)
 	end)
 
-	SpellFlyout:HookScript('OnLeave', function(self)
+	SpellFlyout:HookScript("OnLeave", function(self)
 		local anchorButton = select(2, self:GetPoint())
-		if not AB["handledbuttons"][anchorButton] then return end
+		if(not AB["handledbuttons"][anchorButton]) then return end
 
 		local parentAnchorBar = anchorButton:GetParent()
 		AB:Bar_OnLeave(parentAnchorBar)
@@ -841,14 +840,14 @@ local function SetupFlyoutButton()
 end
 
 function AB:StyleFlyout(button)
-	if not button.FlyoutBorder then return end
+	if(not button.FlyoutBorder) then return end
 	local combat = InCombatLockdown();
 
 	SpellFlyoutHorizontalBackground:SetAlpha(0);
 	SpellFlyoutVerticalBackground:SetAlpha(0);
 	SpellFlyoutBackgroundEnd:SetAlpha(0);
 
-	for i=1, GetNumFlyouts() do
+	for i = 1, GetNumFlyouts() do
 		local x = GetFlyoutID(i);
 		local _, _, numSlots, isKnown = GetFlyoutInfo(x);
 		if(isKnown) then
@@ -858,7 +857,7 @@ function AB:StyleFlyout(button)
 	end
 
 	local arrowDistance
-	if ((SpellFlyout:IsShown() and SpellFlyout:GetParent() == button) or GetMouseFocus() == button) then
+	if((SpellFlyout:IsShown() and SpellFlyout:GetParent() == button) or GetMouseFocus() == button) then
 		arrowDistance = 5
 	else
 		arrowDistance = 2
@@ -868,30 +867,30 @@ function AB:StyleFlyout(button)
 		return
 	end
 
-	if button:GetParent() then
+	if(button:GetParent()) then
 		local point = E:GetScreenQuadrant(button:GetParent())
-		if point == "UNKNOWN" then return end
+		if(point == "UNKNOWN") then return end
 
-		if strfind(point, "TOP") then
+		if(strfind(point, "TOP")) then
 			button.FlyoutArrow:ClearAllPoints()
 			button.FlyoutArrow:Point("BOTTOM", button, "BOTTOM", 0, -arrowDistance)
 			SetClampedTextureRotation(button.FlyoutArrow, 180)
-			if not combat then button:SetAttribute("flyoutDirection", "DOWN") end
-		elseif point == "RIGHT" then
+			if(not combat) then button:SetAttribute("flyoutDirection", "DOWN") end
+		elseif(point == "RIGHT") then
 			button.FlyoutArrow:ClearAllPoints()
 			button.FlyoutArrow:Point("LEFT", button, "LEFT", -arrowDistance, 0)
 			SetClampedTextureRotation(button.FlyoutArrow, 270)
-			if not combat then button:SetAttribute("flyoutDirection", "LEFT") end
-		elseif point == "LEFT" then
+			if(not combat) then button:SetAttribute("flyoutDirection", "LEFT") end
+		elseif(point == "LEFT") then
 			button.FlyoutArrow:ClearAllPoints()
 			button.FlyoutArrow:Point("RIGHT", button, "RIGHT", arrowDistance, 0)
 			SetClampedTextureRotation(button.FlyoutArrow, 90)
-			if not combat then button:SetAttribute("flyoutDirection", "RIGHT") end
-		elseif point == "CENTER" or strfind(point, "BOTTOM") then
+			if(not combat) then button:SetAttribute("flyoutDirection", "RIGHT") end
+		elseif(point == "CENTER" or strfind(point, "BOTTOM")) then
 			button.FlyoutArrow:ClearAllPoints()
 			button.FlyoutArrow:Point("TOP", button, "TOP", 0, arrowDistance)
 			SetClampedTextureRotation(button.FlyoutArrow, 0)
-			if not combat then button:SetAttribute("flyoutDirection", "UP") end
+			if(not combat) then button:SetAttribute("flyoutDirection", "UP") end
 		end
 	end
 end
@@ -943,7 +942,7 @@ function AB:Initialize()
 	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings");
 	self:ReassignBindings();
 
-	SetCVar('lockActionBars', (self.db.lockActionBars == true and 1 or 0))
+	SetCVar("lockActionBars", (self.db.lockActionBars == true and 1 or 0))
 	LOCK_ACTIONBAR = (self.db.lockActionBars == true and "1" or "0")
 
 	SpellFlyout:HookScript("OnShow", SetupFlyoutButton);

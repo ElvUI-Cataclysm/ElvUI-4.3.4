@@ -1,20 +1,19 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule("UnitFrames");
+local _, ns = ...;
+local ElvUF = ns.oUF;
+assert(ElvUF, "ElvUI was unable to locate oUF.");
 
 local _G = _G
 local tinsert = table.insert
 
 local CreateFrame = CreateFrame;
 local InCombatLockdown = InCombatLockdown;
-local UnregisterStateDriver = UnregisterStateDriver;
-local RegisterStateDriver = RegisterStateDriver;
 local IsInInstance = IsInInstance;
+local RegisterStateDriver = RegisterStateDriver;
+local UnregisterStateDriver = UnregisterStateDriver;
 
-local _, ns = ...;
-local ElvUF = ns.oUF;
-assert(ElvUF, "ElvUI was unable to locate oUF.");
-
-function UF:Construct_PartyFrames(unitGroup)
+function UF:Construct_PartyFrames()
 	self:SetScript("OnEnter", UnitFrame_OnEnter);
 	self:SetScript("OnLeave", UnitFrame_OnLeave);
 

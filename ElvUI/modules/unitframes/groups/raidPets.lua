@@ -1,19 +1,18 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule("UnitFrames");
-
-local tinsert = table.insert;
-
-local CreateFrame = CreateFrame;
-local IsInInstance = IsInInstance;
-local InCombatLockdown = InCombatLockdown;
-local UnregisterStateDriver = UnregisterStateDriver;
-local RegisterStateDriver = RegisterStateDriver;
-
 local _, ns = ...;
 local ElvUF = ns.oUF;
 assert(ElvUF, "ElvUI was unable to locate oUF.");
 
-function UF:Construct_RaidpetFrames(unitGroup)
+local tinsert = table.insert;
+
+local CreateFrame = CreateFrame;
+local InCombatLockdown = InCombatLockdown;
+local IsInInstance = IsInInstance;
+local RegisterStateDriver = RegisterStateDriver;
+local UnregisterStateDriver = UnregisterStateDriver;
+
+function UF:Construct_RaidpetFrames()
 	self:SetScript("OnEnter", UnitFrame_OnEnter);
 	self:SetScript("OnLeave", UnitFrame_OnLeave);
 

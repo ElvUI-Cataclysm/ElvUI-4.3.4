@@ -1,15 +1,14 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule("UnitFrames");
+local _, ns = ...;
+local ElvUF = ns.oUF;
+assert(ElvUF, "ElvUI was unable to locate oUF.");
 
 local _G = _G;
 local tinsert = table.insert;
 
 local IsAddOnLoaded = IsAddOnLoaded;
 local MAX_COMBO_POINTS = MAX_COMBO_POINTS;
-
-local _, ns = ...;
-local ElvUF = ns.oUF;
-assert(ElvUF, "ElvUI was unable to locate oUF.");
 
 function UF:Construct_TargetFrame(frame)
 	frame.Health = self:Construct_HealthBar(frame, true, true, "RIGHT");
@@ -22,7 +21,7 @@ function UF:Construct_TargetFrame(frame)
 	frame.Buffs = self:Construct_Buffs(frame);
 	frame.Debuffs = self:Construct_Debuffs(frame);
 	frame.Threat = self:Construct_Threat(frame);
-	frame.Castbar = self:Construct_Castbar(frame, "RIGHT", L["Target Castbar"]);
+	frame.Castbar = self:Construct_Castbar(frame, L["Target Castbar"]);
 	frame.Castbar.SafeZone = nil;
 	frame.Castbar.LatencyTexture:Hide();
 	frame.RaidIcon = UF:Construct_RaidIcon(frame);

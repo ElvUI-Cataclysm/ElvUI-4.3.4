@@ -1,16 +1,16 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule("UnitFrames");
-
-local _G = _G;
-
 local _, ns = ...;
 local ElvUF = ns.oUF;
 assert(ElvUF, "ElvUI was unable to locate oUF.");
 
+local _G = _G;
+local tinsert = table.insert;
+
 local CAN_HAVE_CLASSBAR = (E.myclass == "PALADIN" or E.myclass == "DEATHKNIGHT" or E.myclass == "DRUID" or E.myclass == "WARLOCK");
 
 function UF:Construct_PlayerFrame(frame)
-	frame.Threat = self:Construct_Threat(frame, true);
+	frame.Threat = self:Construct_Threat(frame);
 	frame.Health = self:Construct_HealthBar(frame, true, true, "RIGHT");
 	frame.Health.frequentUpdates = true;
 	frame.Power = self:Construct_PowerBar(frame, true, true, "LEFT");
@@ -20,7 +20,7 @@ function UF:Construct_PlayerFrame(frame)
 	frame.Portrait2D = self:Construct_Portrait(frame, "texture");
 	frame.Buffs = self:Construct_Buffs(frame);
 	frame.Debuffs = self:Construct_Debuffs(frame);
-	frame.Castbar = self:Construct_Castbar(frame, "LEFT", L["Player Castbar"]);
+	frame.Castbar = self:Construct_Castbar(frame, L["Player Castbar"]);
 
 	if(E.myclass == "DEATHKNIGHT") then
 		frame.Runes = self:Construct_DeathKnightResourceBar(frame);

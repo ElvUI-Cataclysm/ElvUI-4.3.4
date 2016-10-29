@@ -1,16 +1,14 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule("UnitFrames");
-
-local _G = _G;
-local pairs = pairs;
-local tinsert = table.insert;
-local format = format;
-
-local MAX_BOSS_FRAMES = MAX_BOSS_FRAMES;
-
 local _, ns = ...;
 local ElvUF = ns.oUF;
 assert(ElvUF, "ElvUI was unable to locate oUF.");
+
+local _G = _G;
+local tinsert = table.insert;
+
+local CreateFrame = CreateFrame
+local MAX_BOSS_FRAMES = MAX_BOSS_FRAMES;
 
 local BossHeader = CreateFrame("Frame", "BossHeader", UIParent);
 function UF:Construct_BossFrames(frame)
@@ -31,7 +29,7 @@ function UF:Construct_BossFrames(frame)
 	frame:RegisterEvent("PLAYER_TARGET_CHANGED", UF.UpdateTargetGlow);
 	frame:RegisterEvent("PLAYER_ENTERING_WORLD", UF.UpdateTargetGlow);
 	frame:RegisterEvent("RAID_ROSTER_UPDATE", UF.UpdateTargetGlow);
-	frame.Castbar = self:Construct_Castbar(frame, "RIGHT");
+	frame.Castbar = self:Construct_Castbar(frame);
 	frame.RaidIcon = UF:Construct_RaidIcon(frame);
 	frame.AltPowerBar = self:Construct_AltPowerBar(frame)
 	frame.Range = UF:Construct_Range(frame);

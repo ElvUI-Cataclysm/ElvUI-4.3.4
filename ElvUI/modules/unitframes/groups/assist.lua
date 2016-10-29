@@ -1,14 +1,14 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule("UnitFrames");
-
-local RegisterStateDriver = RegisterStateDriver;
-local InCombatLockdown = InCombatLockdown;
-
 local _, ns = ...;
 local ElvUF = ns.oUF;
 assert(ElvUF, "ElvUI was unable to locate oUF.");
 
-function UF:Construct_AssistFrames(unitGroup)
+local CreateFrame = CreateFrame;
+local InCombatLockdown = InCombatLockdown;
+local RegisterStateDriver = RegisterStateDriver;
+
+function UF:Construct_AssistFrames()
 	self:SetScript("OnEnter", UnitFrame_OnEnter);
 	self:SetScript("OnLeave", UnitFrame_OnLeave);
 

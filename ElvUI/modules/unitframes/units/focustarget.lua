@@ -1,11 +1,11 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule("UnitFrames");
-
-local _G = _G;
-
 local _, ns = ...;
 local ElvUF = ns.oUF;
 assert(ElvUF, "ElvUI was unable to locate oUF.");
+
+local _G = _G;
+local tinsert = table.insert;
 
 function UF:Construct_FocusTargetFrame(frame)
 	frame.Health = self:Construct_HealthBar(frame, true, true, "RIGHT");

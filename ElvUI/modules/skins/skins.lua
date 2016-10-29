@@ -262,8 +262,8 @@ function S:HandleDropDownBox(frame, width)
 		button:Point("RIGHT", frame, "RIGHT", -10, 3);
 		hooksecurefunc(button, "SetPoint", function(_, _, _, _, _, _, noReset)
 			if(not noReset) then
-				button:ClearAllPoints();
-				button:SetPoint("RIGHT", frame, "RIGHT", E:Scale(-10), E:Scale(3), true);
+				self:ClearAllPoints();
+				self:SetPoint("RIGHT", frame, "RIGHT", E:Scale(-10), E:Scale(3), true);
 			end
 		end);
 

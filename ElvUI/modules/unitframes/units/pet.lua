@@ -1,13 +1,13 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule("UnitFrames");
-
-local _G = _G;
-
-local InCombatLockdown = InCombatLockdown;
-
 local _, ns = ...;
 local ElvUF = ns.oUF;
 assert(ElvUF, "ElvUI was unable to locate oUF.");
+
+local _G = _G;
+local tinsert = table.insert;
+
+local InCombatLockdown = InCombatLockdown;
 
 function UF:Construct_PetFrame(frame)
 	frame.Health = self:Construct_HealthBar(frame, true, true, "RIGHT");
@@ -19,7 +19,7 @@ function UF:Construct_PetFrame(frame)
 	frame.Buffs = self:Construct_Buffs(frame);
 	frame.HealPrediction = self:Construct_HealComm(frame)
 	frame.Debuffs = self:Construct_Debuffs(frame);
-	frame.Castbar = self:Construct_Castbar(frame, "LEFT", L["Pet Castbar"]);
+	frame.Castbar = self:Construct_Castbar(frame, L["Pet Castbar"]);
 	frame.Castbar.SafeZone = nil;
 	frame.Castbar.LatencyTexture:Hide();
 	frame.Threat = self:Construct_Threat(frame);

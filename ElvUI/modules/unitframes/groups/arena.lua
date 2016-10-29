@@ -1,14 +1,13 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule("UnitFrames");
+local _, ns = ...;
+local ElvUF = ns.oUF;
+assert(ElvUF, "ElvUI was unable to locate oUF.");
 
 local _G = _G;
 local tinsert = table.insert;
 
 local CreateFrame = CreateFrame;
-
-local _, ns = ...;
-local ElvUF = ns.oUF;
-assert(ElvUF, "ElvUI was unable to locate oUF.");
 
 local ArenaHeader = CreateFrame("Frame", "ArenaHeader", UIParent);
 
@@ -23,7 +22,7 @@ function UF:Construct_ArenaFrames(frame)
 	frame.Portrait2D = self:Construct_Portrait(frame, "texture");
 	frame.Buffs = self:Construct_Buffs(frame);
 	frame.Debuffs = self:Construct_Debuffs(frame);
-	frame.Castbar = self:Construct_Castbar(frame, "RIGHT");
+	frame.Castbar = self:Construct_Castbar(frame);
 	frame.HealPrediction = UF:Construct_HealComm(frame)
 	frame.Trinket = self:Construct_Trinket(frame);
 	frame.Range = UF:Construct_Range(frame);
