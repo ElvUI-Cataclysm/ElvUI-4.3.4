@@ -9,6 +9,8 @@ local IsShiftKeyDown = IsShiftKeyDown;
 local IsAltKeyDown = IsAltKeyDown;
 local IsControlKeyDown = IsControlKeyDown;
 local UnitIsFriend = UnitIsFriend;
+local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
 
 function UF:Construct_AuraBars()
 	local bar = self.statusBar;

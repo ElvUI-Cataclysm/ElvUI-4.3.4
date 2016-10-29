@@ -3,9 +3,11 @@ local M = E:GetModule("Misc");
 local CH = E:GetModule("Chat");
 
 local select, unpack, type = select, unpack, type;
-local strlower = strlower;
+local strlower, format = strlower, string.format;
 
 local CreateFrame = CreateFrame;
+local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
 
 function M:UpdateBubbleBorder()
 	if(not self.text) then return; end

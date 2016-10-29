@@ -7,7 +7,7 @@ local _G = _G;
 local GetTime = GetTime;
 local tostring = tostring;
 local floor = floor;
-local format, strsub = string.format, string.sub;
+local format, strsub, gsub = string.format, string.sub, string.gsub
 
 local CreateFrame = CreateFrame;
 local InCombatLockdown = InCombatLockdown;
@@ -27,6 +27,7 @@ local ChatHistory_GetAccessID = ChatHistory_GetAccessID;
 local GetScreenWidth = GetScreenWidth;
 local GetScreenHeight = GetScreenHeight;
 local UnitFactionGroup = UnitFactionGroup;
+local Screenshot = Screenshot;
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
 local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 local DND = DND;

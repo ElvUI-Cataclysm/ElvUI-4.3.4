@@ -389,7 +389,6 @@ function B:Layout(isBank)
 	local numContainerColumns = floor(containerWidth / (buttonSize + buttonSpacing));
 	local holderWidth = ((buttonSize + buttonSpacing) * numContainerColumns) - buttonSpacing;
 	local numContainerRows = 0;
-	local bottomPadding = (containerWidth - holderWidth) / 2;
 	local countColor = E.db.bags.countFontColor;
 	f.holderFrame:Width(holderWidth);
 
@@ -397,7 +396,7 @@ function B:Layout(isBank)
 	local lastButton;
 	local lastRowButton;
 	local lastContainerButton;
-	local numContainerSlots, fullContainerSlots = GetNumBankSlots();
+	local numContainerSlots = GetNumBankSlots();
 	for i, bagID in ipairs(f.BagIDs) do
 		--Bag Containers
 		if (not isBank and bagID <= 3 ) or (isBank and bagID ~= -1 and numContainerSlots >= 1 and not (i - 1 > numContainerSlots)) then
@@ -851,7 +850,7 @@ function B:ContructContainerFrame(name, isBank)
 		f.bagsButton:SetScript('OnEnter', self.Tooltip_Show);
 		f.bagsButton:SetScript('OnLeave', self.Tooltip_Hide);
 		f.bagsButton:SetScript('OnClick', function()
-			local numSlots, full = GetNumBankSlots();
+			local numSlots = GetNumBankSlots();
 			PlaySound('igMainMenuOption');
 			if(numSlots >= 1) then
 				ToggleFrame(f.ContainerHolder)

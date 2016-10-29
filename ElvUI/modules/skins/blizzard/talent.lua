@@ -8,42 +8,33 @@ local _G = _G;
 local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.talent ~= true) then return; end
 
-	local StripAllTextures = {
-		"PlayerTalentFrame",
-		"PlayerTalentFrameInset",
-		"PlayerTalentFrameTalents",
-		"PlayerTalentFramePanel1HeaderIcon",
-		"PlayerTalentFramePanel2HeaderIcon",
-		"PlayerTalentFramePanel3HeaderIcon",
-		"PlayerTalentFramePetTalents",
-		"PlayerTalentFrameToggleSummariesButton",
-		"PlayerTalentFrameActivateButton"
-	}
-
-	for _, object in pairs(StripAllTextures) do
-		_G[object]:StripTextures()
-	end
-
-	local KillTextures = {
-		"PlayerTalentFramePanel1InactiveShadow",
-		"PlayerTalentFramePanel2InactiveShadow",
-		"PlayerTalentFramePanel3InactiveShadow",
-		"PlayerTalentFramePanel1SummaryRoleIcon",
-		"PlayerTalentFramePanel2SummaryRoleIcon",
-		"PlayerTalentFramePanel2SummaryRoleIcon2",
-		"PlayerTalentFramePanel3SummaryRoleIcon",
-		"PlayerTalentFramePetShadowOverlay",
-		"PlayerTalentFrameHeaderHelpBox",
-	}
-
-	for _, texture in pairs(KillTextures) do
-		_G[texture]:Kill()
-	end
+	PlayerTalentFrame:StripTextures()
+	PlayerTalentFrameInset:StripTextures()
+	PlayerTalentFrameTalents:StripTextures()
+	PlayerTalentFramePetTalents:StripTextures()
+	PlayerTalentFrameToggleSummariesButton:StripTextures()
+	PlayerTalentFrameActivateButton:StripTextures()
 
 	S:HandleButton(PlayerTalentFrameActivateButton)
 
 	S:HandleButton(PlayerTalentFrameToggleSummariesButton)
 	PlayerTalentFrameToggleSummariesButton:Point("BOTTOM", PlayerTalentFrame, "BOTTOM", 0, 5)
+
+	for i = 1, 3 do
+		_G["PlayerTalentFramePanel"..i.."HeaderIcon"]:StripTextures()
+		_G["PlayerTalentFramePanel"..i.."InactiveShadow"]:Kill()
+		_G["PlayerTalentFramePanel"..i.."SummaryRoleIcon"]:Kill()
+
+		_G["PlayerTalentFramePanel"..i.."SelectTreeButton"]:SetFrameLevel(_G["PlayerTalentFramePanel"..i.."SelectTreeButton"]:GetFrameLevel() + 5)
+		_G["PlayerTalentFramePanel"..i.."SelectTreeButton"]:StripTextures(true)
+		S:HandleButton(_G["PlayerTalentFramePanel"..i.."SelectTreeButton"])
+
+		_G["PlayerTalentFramePanel"..i.."Arrow"]:SetFrameLevel(_G["PlayerTalentFramePanel"..i.."Arrow"]:GetFrameLevel() + 2)
+	end
+
+	PlayerTalentFramePanel2SummaryRoleIcon2:Kill()
+	PlayerTalentFramePetShadowOverlay:Kill()
+	PlayerTalentFrameHeaderHelpBox:Kill()
 
 	local function StripTalentFramePanelTextures(object)
 		for i = 1, object:GetNumRegions() do
@@ -63,14 +54,6 @@ local function LoadSkin()
 	StripTalentFramePanelTextures(PlayerTalentFramePanel3)
 	StripTalentFramePanelTextures(PlayerTalentFramePetPanel)
 
-	for i = 1, 3 do
-		_G["PlayerTalentFramePanel"..i.."SelectTreeButton"]:SetFrameLevel(_G["PlayerTalentFramePanel"..i.."SelectTreeButton"]:GetFrameLevel() + 5)
-		_G["PlayerTalentFramePanel"..i.."SelectTreeButton"]:StripTextures(true)
-		S:HandleButton(_G["PlayerTalentFramePanel"..i.."SelectTreeButton"])
-
-		_G["PlayerTalentFramePanel"..i.."Arrow"]:SetFrameLevel(_G["PlayerTalentFramePanel"..i.."Arrow"]:GetFrameLevel() + 2)
-	end
-
 	PlayerTalentFramePetPanelArrow:SetFrameStrata("HIGH")
 
 	PlayerTalentFrame:SetTemplate("Transparent")
@@ -89,7 +72,7 @@ local function LoadSkin()
 
 	S:HandleCloseButton(PlayerTalentFrameCloseButton)
 
-	function talentpairs(inspect,pet)
+	function talentpairs(inspect, pet)
 	   local tab, tal = 1, 0
 	   return function()
 		  tal = tal + 1
@@ -154,7 +137,7 @@ local function LoadSkin()
 			local frame = CreateFrame("Frame", nil, button)
 			frame:CreateBackdrop()
 			frame:SetFrameLevel(button:GetFrameLevel() - 1)
-			frame:SetOutside(icon)
+			frame.backdrop:SetOutside(icon)
 		end
 	end
 

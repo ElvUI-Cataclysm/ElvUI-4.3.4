@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...));
 local LSM = LibStub("LibSharedMedia-3.0")
 
 local _G = _G;
-local unpack, type, select, getmetatable = unpack, type, select, getmetatable;
+local unpack, type, select, getmetatable, assert = unpack, type, select, getmetatable, assert;
 
 local CreateFrame = CreateFrame;
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
