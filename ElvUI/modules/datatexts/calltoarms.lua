@@ -1,5 +1,12 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local DT = E:GetModule('DataTexts')
+local DT = E:GetModule("DataTexts")
+
+local GetLFGRandomDungeonInfo = GetLFGRandomDungeonInfo;
+local GetLFGRoleShortageRewards = GetLFGRoleShortageRewards;
+local GetNumRandomDungeons = GetNumRandomDungeons;
+local ToggleFrame = ToggleFrame;
+local LFG_ROLE_NUM_SHORTAGE_TYPES = LFG_ROLE_NUM_SHORTAGE_TYPES;
+local BATTLEGROUND_HOLIDAY = BATTLEGROUND_HOLIDAY;
 
 local TANK_ICON = "|TInterface\\AddOns\\ElvUI\\media\\textures\\tank.tga:14:14|t"
 local HEALER_ICON = "|TInterface\\AddOns\\ElvUI\\media\\textures\\healer.tga:14:14|t"
@@ -9,13 +16,13 @@ local lastPanel
 
 local function MakeIconString(tank, healer, damage)
 	local str = ""
-	if tank then
+	if(tank) then
 		str = str..TANK_ICON
 	end
-	if healer then
+	if(healer) then
 		str = str..HEALER_ICON
 	end
-	if damage then
+	if(damage) then
 		str = str..DPS_ICON
 	end
 
@@ -27,7 +34,7 @@ local function OnEvent(self)
 	local healerReward = false
 	local dpsReward = false
 	local unavailable = true
-	for i=1, GetNumRandomDungeons() do
+	for i = 1, GetNumRandomDungeons() do
 		local id, name = GetLFGRandomDungeonInfo(i)
 		for x = 1,LFG_ROLE_NUM_SHORTAGE_TYPES do
 			local eligible, forTank, forHealer, forDamage, itemCount = GetLFGRoleShortageRewards(id, x)
@@ -37,7 +44,7 @@ local function OnEvent(self)
 		end
 	end
 
-	if unavailable then
+	if(unavailable) then
 		self.text:SetText(NOBONUSREWARDS)
 	else
 		self.text:SetText(BATTLEGROUND_HOLIDAY..": "..MakeIconString(tankReward, healerReward, dpsReward))
@@ -52,23 +59,23 @@ end
 local function ValueColorUpdate(hex)
 	NOBONUSREWARDS = BATTLEGROUND_HOLIDAY..": "..hex.."N/A|r"
 
-	if lastPanel ~= nil then
+	if(lastPanel ~= nil) then
 		OnEvent(lastPanel)
 	end
 end
-E['valueColorUpdateFuncs'][ValueColorUpdate] = true
+E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
 local function OnEnter(self)
 	DT:SetupTooltip(self)
 	local allUnavailable = true
 	local numCTA = 0
-	for i=1, GetNumRandomDungeons() do
+	for i = 1, GetNumRandomDungeons() do
 		local id, name = GetLFGRandomDungeonInfo(i)
 		local tankReward = false
 		local healerReward = false
 		local dpsReward = false
 		local unavailable = true
-		for x=1, LFG_ROLE_NUM_SHORTAGE_TYPES do
+		for x = 1, LFG_ROLE_NUM_SHORTAGE_TYPES do
 			local eligible, forTank, forHealer, forDamage, itemCount = GetLFGRoleShortageRewards(id, x)
 			if eligible then unavailable = false end
 			if eligible and forTank and itemCount > 0 then tankReward = true end
@@ -76,7 +83,7 @@ local function OnEnter(self)
 			if eligible and forDamage and itemCount > 0 then dpsReward = true end
 		end
 
-		if not unavailable then
+		if(not unavailable) then
 			allUnavailable = false
 			local rolesString = MakeIconString(tankReward, healerReward, dpsReward)
 			if rolesString ~= ""  then
@@ -89,4 +96,4 @@ local function OnEnter(self)
 	DT.tooltip:Show()
 end
 
-DT:RegisterDatatext('Call to Arms', {"PLAYER_ENTERING_WORLD", "LFG_UPDATE_RANDOM_INFO"}, OnEvent, nil, OnClick, OnEnter)
+DT:RegisterDatatext("Call to Arms", {"PLAYER_ENTERING_WORLD", "LFG_UPDATE_RANDOM_INFO"}, OnEvent, nil, OnClick, OnEnter)

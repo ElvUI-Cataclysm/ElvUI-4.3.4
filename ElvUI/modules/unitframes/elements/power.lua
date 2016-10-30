@@ -210,10 +210,10 @@ function UF:PostUpdatePower(unit, min, max)
 	local parent = self:GetParent();
 
 	if(parent.isForced) then
+		local pType = random(0, 4);
+		local color = ElvUF['colors'].power[tokens[pType]];
 		min = random(1, max);
-		pType = random(0, 4);
 		self:SetValue(min);
-		local color = ElvUF["colors"].power[tokens[pType]];
 
 		if(not self.colorClass) then
 			self:SetStatusBarColor(color[1], color[2], color[3]);

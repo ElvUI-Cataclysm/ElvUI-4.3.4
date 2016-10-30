@@ -1,8 +1,8 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule("UnitFrames");
 
-local select = select;
-local floor = math.floor;
+local select, unpack = select, unpack;
+local floor, max = math.floor, math.max;
 local find = string.find;
 
 local CreateFrame = CreateFrame;

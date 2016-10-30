@@ -1,12 +1,19 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local DT = E:GetModule('DataTexts')
+local DT = E:GetModule("DataTexts")
 
-local format = string.format
+local select = select;
+local format, join = string.format, string.join;
+
+local GetNumTalentTabs = GetNumTalentTabs;
+local GetTalentTabInfo = GetTalentTabInfo;
+local GetNumTalentGroups = GetNumTalentGroups;
+local GetPrimaryTalentTree = GetPrimaryTalentTree;
+
 local lastPanel, active
 local displayString = '';
 local talent = {}
-local activeString = string.join("", "|cff00FF00" , ACTIVE_PETS, "|r")
-local inactiveString = string.join("", "|cffFF0000", FACTION_INACTIVE, "|r")
+local activeString = join("", "|cff00FF00" , ACTIVE_PETS, "|r")
+local inactiveString = join("", "|cffFF0000", FACTION_INACTIVE, "|r")
 
 local function LoadTalentTrees()
 	for i = 1, GetNumTalentGroups(false, false) do
@@ -36,7 +43,7 @@ local function OnEnter(self)
 
 	for i = 1, GetNumTalentGroups() do
 		if GetPrimaryTalentTree(false, false, i) then
-			DT.tooltip:AddLine(string.join(" ", string.format(displayString, select(2, GetTalentTabInfo(GetPrimaryTalentTree(false, false, i))), talent[i][1], talent[i][2], talent[i][3]), (i == active and activeString or inactiveString)),1,1,1)
+			DT.tooltip:AddLine(join(" ", format(displayString, select(2, GetTalentTabInfo(GetPrimaryTalentTree(false, false, i))), talent[i][1], talent[i][2], talent[i][3]), (i == active and activeString or inactiveString)),1,1,1)
 		end
 	end
 
@@ -48,7 +55,7 @@ local function OnClick(self)
 end
 
 local function ValueColorUpdate(hex)
-	displayString = string.join("", "|cffFFFFFF%s:|r ", hex, "%d|r / ", hex, "%d|r / ", hex, "%d|r")
+	displayString = join("", "|cffFFFFFF%s:|r ", hex, "%d|r / ", hex, "%d|r / ", hex, "%d|r")
 
 	if lastPanel ~= nil then
 		OnEvent(lastPanel)
