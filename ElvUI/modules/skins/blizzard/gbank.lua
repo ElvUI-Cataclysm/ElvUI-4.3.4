@@ -38,7 +38,7 @@ local function LoadSkin()
 
 	S:HandleScrollBar(GuildBankInfoScrollFrameScrollBar)
 
-	GuildBankTabInfoEditBox:SetWidth(560)
+	GuildBankTabInfoEditBox:SetWidth(565)
 
 	GuildBankTransactionsScrollFrame:StripTextures()
 
@@ -46,8 +46,8 @@ local function LoadSkin()
 
 	GuildBankFrame.inset = CreateFrame("Frame", nil, GuildBankFrame)
 	GuildBankFrame.inset:SetTemplate("Default")
-	GuildBankFrame.inset:Point("TOPLEFT", 30, -65)
-	GuildBankFrame.inset:Point("BOTTOMRIGHT", -20, 63)
+	GuildBankFrame.inset:Point("TOPLEFT", 25, -65)
+	GuildBankFrame.inset:Point("BOTTOMRIGHT", -25, 63)
 
 	GuildItemSearchBox:StripTextures()
 	GuildItemSearchBox:CreateBackdrop("Overlay")
@@ -148,6 +148,7 @@ local function LoadSkin()
 	GuildBankTab7:Point("TOPLEFT", GuildBankTab6, "BOTTOMLEFT", 0, 7)
 	GuildBankTab8:Point("TOPLEFT", GuildBankTab7, "BOTTOMLEFT", 0, 7)
 
+	GuildBankColumn1:Point("TOPLEFT", GuildBankFrame, "TOPLEFT", 25, -70)
 	GuildBankColumn2:Point("TOPLEFT", GuildBankColumn1, "TOPRIGHT", -15, 0)
 	GuildBankColumn3:Point("TOPLEFT", GuildBankColumn2, "TOPRIGHT", -15, 0)
 	GuildBankColumn4:Point("TOPLEFT", GuildBankColumn3, "TOPRIGHT", -15, 0)

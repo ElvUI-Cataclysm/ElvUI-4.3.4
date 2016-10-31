@@ -444,14 +444,10 @@ function S:HandleIconSelectionFrame(frame, numIcons, buttonNameTemplate, frameNa
 	local cancelButton = _G[frameName.."CancelButton"] or _G[frameName.."Cancel"]
 
 	frame:StripTextures()
+	frame:SetTemplate("Transparent")
 
 	scrollFrame:StripTextures()
-
 	editBox:DisableDrawLayer("BACKGROUND") --Removes textures around it
-
-	frame:SetTemplate("Transparent")
-	frame:Height(frame:GetHeight() + 10)
-	scrollFrame:Height(scrollFrame:GetHeight() + 10)
 
 	S:HandleButton(okayButton)
 	S:HandleButton(cancelButton)
