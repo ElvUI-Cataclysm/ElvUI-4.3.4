@@ -46,11 +46,10 @@ local Enable = function(self)
 
 		self:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE", Path)
 		self:RegisterEvent("UNIT_THREAT_LIST_UPDATE", Path)
-		threat:Hide()
 
 		if(threat:IsObjectType"Texture" and not threat:GetTexture()) then
 			threat:SetTexture[[Interface\Minimap\ObjectIcons]]
-			threat:SetTexCoord(1/4, 3/8, 0, 1/4)
+			threat:SetTexCoord(6/8, 7/8, 1/8, 2/8)
 		end
 
 		return true
@@ -60,6 +59,7 @@ end
 local Disable = function(self)
 	local threat = self.Threat
 	if(threat) then
+		threat:Hide()
 		self:UnregisterEvent("UNIT_THREAT_SITUATION_UPDATE", Path)
 		self:UnregisterEvent("UNIT_THREAT_LIST_UPDATE", Path)
 		threat:Hide()

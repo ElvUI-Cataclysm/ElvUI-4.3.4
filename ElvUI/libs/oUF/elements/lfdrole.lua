@@ -53,6 +53,7 @@ end
 local Disable = function(self)
 	local lfdrole = self.LFDRole
 	if(lfdrole) then
+		lfdrole:Hide()
 		self:UnregisterEvent("PLAYER_ROLES_ASSIGNED", Path)
 		self:UnregisterEvent("PARTY_MEMBERS_CHANGED", Path)
 	end

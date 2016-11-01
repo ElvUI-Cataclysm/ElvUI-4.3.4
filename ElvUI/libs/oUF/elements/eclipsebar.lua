@@ -27,7 +27,7 @@ local UNIT_POWER = function(self, event, unit, powerType)
 	end
 
 	if(eb.PostUpdatePower) then
-		return eb:PostUpdatePower(unit)
+		return eb:PostUpdatePower(unit, power, maxPower)
 	end
 end
 
@@ -44,6 +44,10 @@ local UPDATE_VISIBILITY = function(self, event)
 		end
 	elseif(form == MOONKIN_FORM) then
 		showBar = true
+	end
+
+	if(UnitHasVehicleUI'player') then
+		showBar = false
 	end
 
 	if(showBar) then
@@ -129,6 +133,7 @@ end
 local function Disable(self)
 	local eb = self.EclipseBar
 	if(eb) then
+		eb:Hide()
 		self:UnregisterEvent('ECLIPSE_DIRECTION_CHANGE', ECLIPSE_DIRECTION_CHANGE)
 		self:UnregisterEvent('PLAYER_TALENT_UPDATE', UPDATE_VISIBILITY)
 		self:UnregisterEvent('UNIT_AURA', UNIT_AURA)

@@ -54,6 +54,7 @@ local Disable = function(self)
 	local assistant = self.Assistant;
 	if(assistant) then
 		self:UnregisterEvent("PARTY_MEMBERS_CHANGED", Path);
+		assistant:Hide()
 	end
 end
 
