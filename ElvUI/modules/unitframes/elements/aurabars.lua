@@ -14,7 +14,7 @@ local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
 
 function UF:Construct_AuraBars()
 	local bar = self.statusBar;
-
+	auraBar:SetFrameLevel(frame.RaisedElementParent:GetFrameLevel() + 10) --Make them appear above any text element
 	self:SetTemplate("Default", nil, nil, UF.thinBorders);
 	local inset = UF.thinBorders and E.mult or nil;
 	bar:SetInside(self, inset, inset);
