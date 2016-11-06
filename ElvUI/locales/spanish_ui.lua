@@ -30,12 +30,13 @@ L["Remove Bar %d Action Page"] = "Quitar Barra %d de la paginación"
 L["Trigger"] = "Disparador"
 
 --Bags
-L["Bank"] = true;
+L["Bank"] = "Banco";
 L["Hold Control + Right Click:"] = "Mantén Control y Haz Clic Derecho:"
-L["Purchase Bags"] = true;
+L["Hold Shift + Drag:"] = "Mantén Shift y Arrastra:"
+L["Purchase Bags"] = "Comprar Bolsas";
 L["Purchase"] = "Comprar"
 L["Reset Position"] = "Reestablecer Posición"
-L["Sort Tab"] = true
+L["Sort Tab"] = "Ordenar Pestaña"
 L["Temporary Move"] = "Movimiento Temporal"
 L["Toggle Bags"] = "Mostrar/Ocultar Bolsas"
 L["Vendor Grays"] = "Vender Objetos Grises"

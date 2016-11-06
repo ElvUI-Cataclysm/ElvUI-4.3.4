@@ -32,6 +32,7 @@ L["Trigger"] = "觸發器"
 --Bags
 L["Bank"] = "銀行"
 L["Hold Control + Right Click:"] = "按住 Ctrl 並按滑鼠右鍵："
+L["Hold Shift + Drag:"] = "按住 Shift 並拖曳："
 L["Purchase Bags"] = "購買背包"
 L["Purchase"] = "購買銀行欄位"
 L["Reset Position"] = "重設位置"

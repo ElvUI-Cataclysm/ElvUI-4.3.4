@@ -32,6 +32,7 @@ L["Trigger"] = "Auslöser"
 --Bags
 L["Bank"] = true;
 L["Hold Control + Right Click:"] = "Halte Steuerung + Rechtsklick:"
+L["Hold Shift + Drag:"] = "Halte Shift + Ziehen:"
 L["Purchase Bags"] = "Taschen kaufen"
 L["Purchase"] = "Kaufen"
 L["Reset Position"] = "Position zurücksetzen"

@@ -32,6 +32,7 @@ L["Trigger"] = "Gatilho"
 --Bags
 L["Bank"] = true;
 L["Hold Control + Right Click:"] = "Segurar Control + Clique Direito:"
+L["Hold Shift + Drag:"] = "Segurar Shift + Arrastar:"
 L["Purchase Bags"] = true;
 L["Purchase"] = "Comprar"
 L["Reset Position"] = "Redefinir Posição"

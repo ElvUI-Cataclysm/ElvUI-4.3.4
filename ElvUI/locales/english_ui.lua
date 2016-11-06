@@ -32,6 +32,7 @@ L["Trigger"] = true;
 --Bags
 L["Bank"] = true;
 L["Hold Control + Right Click:"] = true;
+L["Hold Shift + Drag:"] = true;
 L["Purchase Bags"] = true;
 L["Purchase"] = true;
 L["Reset Position"] = true;

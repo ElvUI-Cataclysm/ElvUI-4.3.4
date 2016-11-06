@@ -32,6 +32,7 @@ L["Trigger"] = "Déclencheur"
 --Bags
 L["Bank"] = "Banque";
 L["Hold Control + Right Click:"] = "Contrôle enfoncé + Clique droit"
+L["Hold Shift + Drag:"] = "Majuscule enfoncée + Déplacer"
 L["Purchase Bags"] = "Acheter des sacs";
 L["Purchase"] = "Acheter"
 L["Reset Position"] = "Réinitialiser la position"

@@ -32,6 +32,7 @@ L["Trigger"] = "Триггер"
 --Bags
 L["Bank"] = "Банк"
 L["Hold Control + Right Click:"] = "Зажать Control + ПКМ:"
+L["Hold Shift + Drag:"] = "Зажать shift и перетаскивать:"
 L["Purchase Bags"] = "Приобрести слот"
 L["Purchase"] = "Приобрести слот"
 L["Reset Position"] = "Сбросить позицию"
