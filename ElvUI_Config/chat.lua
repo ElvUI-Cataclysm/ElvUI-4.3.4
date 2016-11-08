@@ -171,8 +171,15 @@ E.Options.args.chat = {
 					desc = L["Number of repeat characters while in combat before the chat editbox is automatically closed."],
 					min = 2, max = 10, step = 1
 				},
+ 				numScrollMessages = {
+ 					order = 18,
+ 					type = "range",
+ 					name = L["Scroll Messages"],
+ 					desc = L["Number of messages you scroll for each step."],
+ 					min = 1, max = 10, step = 1,
+				},
 				timeStampFormat = {
-					order = 18,
+					order = 19,
 					type = 'select',
 					name = TIMESTAMPS_LABEL,
 					desc = OPTION_TOOLTIP_TIMESTAMPS,
@@ -187,13 +194,13 @@ E.Options.args.chat = {
 					}
 				},
 				useCustomTimeColor = {
-					order = 19,
+					order = 20,
 					type = "toggle",
 					name = L["Custom Timestamp Color"],
 					disabled = function() return not E.db.chat.timeStampFormat == "NONE" end
 				},
 				customTimeColor = {
-					order = 20,
+					order = 21,
 					type = "color",
 					hasAlpha = false,
 					name = L["Timestamp Color"],
@@ -210,7 +217,7 @@ E.Options.args.chat = {
 					end
 				},
 				chatDirection = {
-					order = 21,
+					order = 22,
 					type = 'select',
 					name = L["Chat Direction"],
 					desc = 'Controls where text is added to the chat frame.',
@@ -220,7 +227,7 @@ E.Options.args.chat = {
 					}
 				},
 				chatLines = {
-					order = 22,
+					order = 23,
 					type = 'range',
 					name = L['Max Chat Lines'],
 					desc = L['Number of chat messages to be kept in the frame before old messages are discarded. The interface has to be reloaded to show effect.'],
@@ -231,7 +238,7 @@ E.Options.args.chat = {
 					end
 				},
 				chatHistoryLines = {
-					order = 23,
+					order = 24,
 					type = 'range',
 					name = L['Chat History Lines'],
 					desc = L['Number of chat messages to be stores in the chat history.'],

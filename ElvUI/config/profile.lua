@@ -2415,6 +2415,7 @@ P['chat'] = {
 	["numAllowedCombatRepeat"] = 3,
 	["useCustomTimeColor"] = true,
 	["customTimeColor"] = {r = 0.7, g = 0.7, b = 0.7},
+	["numScrollMessages"] = 3,
 
 	['tabFont'] = 'PT Sans Narrow',
 	['tabFontSize'] = 12,
