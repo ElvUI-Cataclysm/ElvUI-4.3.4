@@ -7,7 +7,6 @@ local join = string.join;
 local IsLoggedIn = IsLoggedIn;
 local GetMoney = GetMoney;
 local IsShiftKeyDown = IsShiftKeyDown;
-local OpenAllBags = OpenAllBags;
 local GetBackpackCurrencyInfo = GetBackpackCurrencyInfo;
 
 local MAX_WATCHED_TOKENS = MAX_WATCHED_TOKENS;

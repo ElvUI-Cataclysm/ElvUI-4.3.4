@@ -18,7 +18,7 @@ V['general'] = {
 		['enable'] = true,
 		['hideCalendar'] = true,
 		['hideZoomIn'] = true,
-		['hideZoomOut'] = true,
+		['hideZoomOut'] = true
 	},
 	["classColorMentionsSpeech"] = true,
 	["pvpAutoRelease"] = true
@@ -30,7 +30,7 @@ V["watchframe"] = {
 
 V['bags'] = {
 	['enable'] = true,
-	['bagBar'] = false,
+	['bagBar'] = false
 }
 
 V["nameplate"] = {
@@ -39,7 +39,7 @@ V["nameplate"] = {
 
 V['auras'] = {
 	['enable'] = true,
-	['disableBlizzard'] = true,
+	['disableBlizzard'] = true
 }
 
 V['chat'] = {
@@ -49,7 +49,7 @@ V['chat'] = {
 V['skins'] = {
 	['ace3'] = {
 		["animations"] = true,
-		['enable'] = true,
+		['enable'] = true
 	},
 	['blizzard'] = {
 		['enable'] = true,
@@ -120,7 +120,7 @@ V['unitframe'] = {
 		["boss"] = true,
 		["arena"] = true,
 		["party"] = true,
-		['raid'] = true,
+		['raid'] = true
 	}
 }
 
