@@ -13,8 +13,9 @@ local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.trade ~= true then return end
 
 	TradeFrame:StripTextures(true)
-	TradeFrame:CreateBackdrop("Transparent")
 	TradeFrame:Height(493)
+
+	TradeFrame:CreateBackdrop("Transparent")
 	TradeFrame.backdrop:Point("TOPLEFT", 10, -4)
 	TradeFrame.backdrop:Point("BOTTOMRIGHT", -16, 35)
 
