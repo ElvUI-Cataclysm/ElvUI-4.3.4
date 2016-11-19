@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule('UnitFrames');
 
 function UF:Construct_ReadyCheckIcon(frame)
-	local tex = frame.RaisedElementParent:CreateTexture(nil, "OVERLAY", nil, 7)
+	local tex = frame.RaisedElementParent.TextureParent:CreateTexture(nil, "OVERLAY", nil, 7)
 	tex:Size(12)
 	tex:Point("BOTTOM", frame.Health, "BOTTOM", 0, 2)
 

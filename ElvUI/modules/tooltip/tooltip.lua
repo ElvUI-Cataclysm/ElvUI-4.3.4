@@ -31,7 +31,6 @@ local UnitIsAFK = UnitIsAFK;
 local UnitIsDND = UnitIsDND;
 local GetQuestDifficultyColor = GetQuestDifficultyColor;
 local UnitRace = UnitRace;
-local UnitFactionGroup = UnitFactionGroup;
 local UnitIsTapped = UnitIsTapped;
 local UnitIsTappedByPlayer = UnitIsTappedByPlayer;
 local UnitReaction = UnitReaction;
@@ -108,7 +107,7 @@ function TT:GameTooltip_ShowCompareItem(tt, shift)
 	if(not tt) then
 		tt = GameTooltip;
 	end
-	local item, link = tt:GetItem();
+	local _, link = tt:GetItem();
 	if(not link) then
 		return;
 	end
@@ -376,7 +375,7 @@ function TT:GetTalentSpec(unit, isInspect)
 	return tabName;
 end
 
-function TT:INSPECT_READY(event, ...)
+function TT:INSPECT_READY()
 	local GUID = UnitGUID("mouseover");
 	if(self.lastGUID ~= GUID) then return end
 
@@ -610,7 +609,7 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 	end
 
 	if(not tt.itemCleared) then
-		local item, link = tt:GetItem()
+		local _, link = tt:GetItem()
 		local num = GetItemCount(link)
 		local numall = GetItemCount(link, true)
 		local left = " "
@@ -642,7 +641,7 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 	end
 end
 
-function TT:GameTooltip_ShowStatusBar(tt, _, max, value, text)
+function TT:GameTooltip_ShowStatusBar(tt)
 	local statusBar = _G[tt:GetName().."StatusBar"..tt.shownStatusBars];
 	if statusBar and not statusBar.skinned then
 		statusBar:StripTextures()
@@ -659,7 +658,7 @@ function TT:SetStyle(tt)
 	tt:SetBackdropColor(r, g, b, self.db.colorAlpha)
 end
 
-function TT:MODIFIER_STATE_CHANGED(event, key)
+function TT:MODIFIER_STATE_CHANGED(_, key)
 	if((key == "LSHIFT" or key == "RSHIFT") and UnitExists("mouseover")) then
 		GameTooltip:SetUnit('mouseover')
 	end
@@ -702,7 +701,7 @@ function TT:GameTooltip_OnTooltipSetSpell(tt)
 	end
 end
 
-function TT:SetItemRef(link, ...)
+function TT:SetItemRef(link)
 	if(find(link,"^spell:") and self.db.spellID) then
 		local id = tonumber(link:match("spell:(%d+)"));
 		ItemRefTooltip:AddLine(("|cFFCA3C3C%s|r %d"):format(ID, id))
@@ -710,7 +709,7 @@ function TT:SetItemRef(link, ...)
 	end
 end
 
-function TT:RepositionBNET(_, point, anchor, anchorPoint, xOffset, yOffset)
+function TT:RepositionBNET(_, _, anchor)
 	if(anchor ~= BNETMover) then
 		BNToastFrame:ClearAllPoints()
 		BNToastFrame:SetPoint('TOPLEFT', BNETMover, 'TOPLEFT');

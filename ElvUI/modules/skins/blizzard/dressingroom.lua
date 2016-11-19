@@ -1,19 +1,36 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule('Skins')
+local S = E:GetModule("Skins")
+
+local SetDressUpBackground = SetDressUpBackground;
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.dressingroom ~= true then return end
 
-	DressUpFrame:StripTextures(true)
-	DressUpFrame:CreateBackdrop("Transparent")
-	DressUpFrame.backdrop:Point("TOPLEFT", 6, 0)
-	DressUpFrame.backdrop:Point("BOTTOMRIGHT", -32, 70)
+	DressUpFrame:CreateBackdrop("Transparent");
+	DressUpFrame.backdrop:Point("TOPLEFT", 10, -12);
+	DressUpFrame.backdrop:Point("BOTTOMRIGHT", -33, 73);
 
-	S:HandleButton(DressUpFrameResetButton)
-	S:HandleButton(DressUpFrameCancelButton)
+	DressUpFrame:StripTextures();
+	DressUpFramePortrait:Kill();
+
+	SetDressUpBackground();
+	DressUpBackgroundTopLeft:SetDesaturated(true);
+	DressUpBackgroundTopRight:SetDesaturated(true);
+	DressUpBackgroundBotLeft:SetDesaturated(true);
+	DressUpBackgroundBotRight:SetDesaturated(true);
+
 	S:HandleCloseButton(DressUpFrameCloseButton, DressUpFrame.backdrop)
 
-	DressUpFrameResetButton:Point("RIGHT", DressUpFrameCancelButton, "LEFT", -2, 0)
+	S:HandleButton(DressUpFrameResetButton)
+	DressUpFrameResetButton:Point("RIGHT", DressUpFrameCancelButton, "LEFT", -3, 0)
+
+	S:HandleButton(DressUpFrameCancelButton)
+	DressUpFrameCancelButton:Point("CENTER", DressUpFrame, "TOPLEFT", 306, -423);
+
+	DressUpFrameDescriptionText:Point("CENTER", DressUpFrameTitleText, "BOTTOM", -7, -22)
+
+	DressUpModel:CreateBackdrop("Default");
+	DressUpModel.backdrop:SetOutside(DressUpBackgroundTopLeft, nil, nil, DressUpModel);
 
 	local controlbuttons = {
 		"DressUpModelControlFrameZoomInButton",
@@ -21,7 +38,7 @@ local function LoadSkin()
 		"DressUpModelControlFramePanButton",
 		"DressUpModelControlFrameRotateLeftButton",
 		"DressUpModelControlFrameRotateRightButton",
-		"DressUpModelControlFrameRotateResetButton",
+		"DressUpModelControlFrameRotateResetButton"
 	}
 
 	for i = 1, getn(controlbuttons) do
@@ -31,8 +48,6 @@ local function LoadSkin()
 	end
 
 	DressUpModelControlFrame:StripTextures()
-	DressUpModelControlFrame:Point("TOP", DressUpModel, "TOP", 0, 10)
-
 end
 
 S:AddCallback("DressingRoom", LoadSkin);

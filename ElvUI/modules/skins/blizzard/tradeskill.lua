@@ -13,22 +13,34 @@ local GetTradeSkillReagentItemLink = GetTradeSkillReagentItemLink;
 local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tradeskill ~= true) then return; end
 
-	TradeSkillFrame:StripTextures(true)
 	TradeSkillListScrollFrame:StripTextures()
 	TradeSkillDetailScrollFrame:StripTextures()
 	TradeSkillFrameInset:StripTextures()
 	TradeSkillExpandButtonFrame:StripTextures()
 	TradeSkillDetailScrollChildFrame:StripTextures()
 
+	TradeSkillFrame:StripTextures(true)
 	TradeSkillFrame:SetTemplate("Transparent")
+
 	TradeSkillRankFrame:StripTextures()
 	TradeSkillRankFrame:CreateBackdrop("Default")
+	TradeSkillRankFrame:Size(280, 16)
 	TradeSkillRankFrame:SetStatusBarTexture(E["media"].normTex)
+	TradeSkillRankFrame:Point("TOPLEFT", TradeSkillFrame, "TOPLEFT", 28, -30)
+	E:RegisterStatusBar(TradeSkillRankFrame);
+
+	TradeSkillRankFrameSkillRank:FontTemplate(nil, 12, "OUTLINE");
+
 	TradeSkillFilterButton:StripTextures(true)
-	S:HandleButton(TradeSkillCreateButton, true)
-	S:HandleButton(TradeSkillCancelButton, true)
 	TradeSkillFilterButton:CreateBackdrop('Default', true)
 	TradeSkillFilterButton.backdrop:SetAllPoints()
+	TradeSkillFilterButton:Height(20)
+	TradeSkillFilterButton:Width(60)
+	TradeSkillFilterButton:Point("LEFT", TradeSkillFilterFrame, "LEFT", 5, 0)
+
+	S:HandleButton(TradeSkillCreateButton, true)
+	S:HandleButton(TradeSkillCancelButton, true)
+
 	S:HandleButton(TradeSkillCreateAllButton, true)
 	S:HandleButton(TradeSkillViewGuildCraftersButton, true)
 
@@ -40,37 +52,37 @@ local function LoadSkin()
 	TradeSkillLinkButton:GetHighlightTexture():Kill()
 	TradeSkillLinkButton:CreateBackdrop("Default")
 	TradeSkillLinkButton:Size(17, 14)
-	TradeSkillLinkButton:Point("LEFT", TradeSkillLinkFrame, "LEFT", 5, -1)
+	TradeSkillLinkButton:Point("LEFT", TradeSkillLinkFrame, "LEFT", 0, -27)
+
 	S:HandleEditBox(TradeSkillFrameSearchBox)
+	TradeSkillFrameSearchBox:Height(17)
+	TradeSkillFrameSearchBox:Width(170)
+	TradeSkillFrameSearchBox:Point("TOPLEFT", TradeSkillRankFrame, "BOTTOMLEFT", 30, -10)
+
 	S:HandleEditBox(TradeSkillInputBox)
+
 	S:HandleNextPrevButton(TradeSkillDecrementButton)
+	TradeSkillDecrementButton:Point("LEFT", TradeSkillCreateAllButton, "RIGHT", 8, 0)
+
 	S:HandleNextPrevButton(TradeSkillIncrementButton)
-	TradeSkillIncrementButton:Point("RIGHT", TradeSkillCreateButton, "LEFT", -13, 0)
+	TradeSkillIncrementButton:Point("RIGHT", TradeSkillCreateButton, "LEFT", -9, 0)
 
 	S:HandleCloseButton(TradeSkillFrameCloseButton)
 
+	TradeSkillReagent1:Point("TOPLEFT", TradeSkillReagentLabel, "BOTTOMLEFT", -2, -3)
+	TradeSkillReagent2:Point("LEFT", TradeSkillReagent1, "RIGHT", 3, 0)
+	TradeSkillReagent4:Point("LEFT", TradeSkillReagent3, "RIGHT", 3, 0)
+	TradeSkillReagent6:Point("LEFT", TradeSkillReagent5, "RIGHT", 3, 0)
+	TradeSkillReagent8:Point("LEFT", TradeSkillReagent7, "RIGHT", 3, 0)
+
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(id)
 		TradeSkillSkillIcon:StyleButton(nil, true)
-		TradeSkillSkillIcon:SetTemplate("Default")
+		TradeSkillSkillIcon:SetTemplate()
+		TradeSkillRankFrame:SetStatusBarColor(0.11, 0.50, 1.00)
 		if(TradeSkillSkillIcon:GetNormalTexture()) then
 			TradeSkillSkillIcon:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
 			TradeSkillSkillIcon:GetNormalTexture():SetInside()
 		end
-
-		TradeSkillRankFrame:SetStatusBarColor(0.11, 0.50, 1.00)
-		TradeSkillRankFrame:Height(17)
-		TradeSkillRankFrame:Width(275)
-		TradeSkillRankFrame:Point("TOPLEFT", TradeSkillFrame, "TOPLEFT", 30, -30)
-
-		TradeSkillFrameSearchBox:Point("TOPLEFT", TradeSkillRankFrame, "BOTTOMLEFT", 30, -10)
-		TradeSkillFrameSearchBox:Height(17)
-		TradeSkillFrameSearchBox:Width(170)
-
-		TradeSkillFilterButton:Height(20)
-		TradeSkillFilterButton:Width(60)
-		TradeSkillFilterButton:Point("LEFT", TradeSkillFilterFrame, "LEFT", 5, 0)
-
-		TradeSkillLinkButton:Point("LEFT", TradeSkillLinkFrame, "LEFT", 5, -28)
 
 		local skillLink = GetTradeSkillItemLink(id)
 		if(skillLink) then
@@ -93,6 +105,7 @@ local function LoadSkin()
 			local icon = _G["TradeSkillReagent" .. i .. "IconTexture"];
 			local name = _G["TradeSkillReagent" .. i .. "Name"];
 			local count = _G["TradeSkillReagent" .. i .. "Count"];
+			local nameFrame = _G["TradeSkillReagent" .. i .. "NameFrame"];
 
 			if((reagentName or reagentTexture) and not reagent.isSkinned) then
 				reagent:SetTemplate("Transparent", true)
@@ -101,19 +114,20 @@ local function LoadSkin()
 
 				icon:SetTexCoord(unpack(E.TexCoords));
 				icon:SetDrawLayer("OVERLAY");
-				icon:Size(icon:GetWidth() - 1, icon:GetHeight() - 1);
-				icon:Point("TOPLEFT", 0, -2);
+				icon:Size(38);
+				icon:Point("TOPLEFT", 2, -2);
 
 				icon.backdrop = CreateFrame("Frame", nil, reagent);
 				icon.backdrop:SetFrameLevel(reagent:GetFrameLevel() - 1);
-				icon.backdrop:SetTemplate("Default");
+				icon.backdrop:SetTemplate();
 				icon.backdrop:SetOutside(icon);
 
 				icon:SetParent(icon.backdrop);
 				count:SetParent(icon.backdrop);
 				count:SetDrawLayer("OVERLAY");
 
-				_G["TradeSkillReagent" .. i .. "NameFrame"]:Kill();
+				nameFrame:Kill();
+
 				reagent.isSkinned = true;
 			end
 
@@ -154,7 +168,7 @@ local function LoadSkin()
 					end
 					local skillButton = _G["TradeSkillSkill"..buttonIndex];
 					skillButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
-					skillButton:GetNormalTexture():Size(10)
+					skillButton:GetNormalTexture():Size(11)
 					skillButton:GetNormalTexture():SetPoint("LEFT", 3, 2);
 					skillButton:SetHighlightTexture('')
 					if(isExpanded) then
@@ -172,7 +186,7 @@ local function LoadSkin()
 		self:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons")
 		self:SetHighlightTexture("")
 		self:GetNormalTexture():SetPoint("LEFT", 3, 2)
-		self:GetNormalTexture():Size(10)
+		self:GetNormalTexture():Size(11)
 		if(self.collapsed) then
 			self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
 		else
@@ -180,7 +194,7 @@ local function LoadSkin()
 		end
 		self:SetDisabledTexture("Interface\\Buttons\\UI-PlusMinus-Buttons")
 		self:GetDisabledTexture():SetPoint("LEFT", 3, 2)
-		self:GetDisabledTexture():Size(10)
+		self:GetDisabledTexture():Size(11)
 		self:GetDisabledTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
 		self:GetDisabledTexture():SetDesaturated(true)
 	end)
@@ -189,10 +203,11 @@ local function LoadSkin()
 	TradeSkillGuildFrame:StripTextures()
 	TradeSkillGuildFrame:SetTemplate("Transparent")
 	TradeSkillGuildFrame:Point("BOTTOMLEFT", TradeSkillFrame, "BOTTOMRIGHT", 3, 19)
+
 	TradeSkillGuildFrameContainer:StripTextures()
 	TradeSkillGuildFrameContainer:SetTemplate("Default")
-	S:HandleCloseButton(TradeSkillGuildFrameCloseButton)
 
+	S:HandleCloseButton(TradeSkillGuildFrameCloseButton)
 end
 
 S:AddCallbackForAddon("Blizzard_TradeSkillUI", "TradeSkill", LoadSkin);

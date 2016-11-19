@@ -1,6 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local mod = E:GetModule("NamePlates");
-local LSM = LibStub("LibSharedMedia-3.0");
 
 function mod:HideComboPoints(frame)
 	for i = 1, MAX_COMBO_POINTS do
@@ -47,7 +46,7 @@ function mod:ConfigureElement_CPoints(frame)
 end
 
 function mod:ConstructElement_CPoints(parent)
-	frame = CreateFrame("Frame", nil, parent.HealthBar);
+	local frame = CreateFrame("Frame", nil, parent.HealthBar);
 	frame:Point("CENTER", parent.HealthBar, "BOTTOM");
 	frame:SetSize(68, 1);
 	frame:Hide();

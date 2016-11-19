@@ -15,6 +15,7 @@ function UF:Construct_TankFrames()
 	self:SetScript("OnLeave", UnitFrame_OnLeave);
 
  	self.RaisedElementParent = CreateFrame('Frame', nil, self)
+	self.RaisedElementParent.TextureParent = CreateFrame('Frame', nil, self.RaisedElementParent)
 	self.RaisedElementParent:SetFrameLevel(self:GetFrameLevel() + 100)
 
 	self.menu = UF.SpawnMenu

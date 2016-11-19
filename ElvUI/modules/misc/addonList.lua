@@ -9,7 +9,7 @@ local IsShiftKeyDown = IsShiftKeyDown;
 function AL:HasAnyChanged()
 	for i = 1, GetNumAddOns() do
 		local _, _, _, enabled, _, reason = GetAddOnInfo(i);
-		if(enabled ~= ElvUI_AddonList.startStatus[i] and reason ~= "DEP_DISABLED" ) then
+		if(enabled ~= ElvUI_AddonList.startStatus[i] and reason ~= "DEP_DISABLED") then
 			return true;
 		end
 	end
@@ -157,6 +157,8 @@ function AL:TooltipBuildDeps(...)
 end
 
 function AL:TooltipUpdate(owner)
+	if(owner:GetID() == 0) then return; end
+
 	local name, title, notes, _, _, security = GetAddOnInfo(owner:GetID());
 
 	GameTooltip:ClearLines();
@@ -186,7 +188,7 @@ function AL:Initialize()
 	addonList:SetSize(500, 438);
 	addonList:SetPoint("CENTER", 0, -24);
 	addonList:SetTemplate("Transparent");
-	addonList:Hide()
+	addonList:Hide();
 	addonList.offset = 0;
 	addonList.startStatus = {};
 	addonList.shouldReload = false;
@@ -377,7 +379,7 @@ function AL:Initialize()
 		addonList.offset = floor((offset / 16) + 0.5);
 		AL:Update();
 		if(GameTooltip:IsShown() ) then
-			--AL:TooltipUpdate(GameTooltip:GetOwner());
+			AL:TooltipUpdate(GameTooltip:GetOwner());
 			GameTooltip:Show()
 		end
 	end);

@@ -137,7 +137,7 @@ local function LootClick(frame)
 	end
 end
 
-local function OnEvent(frame, event, rollID)
+local function OnEvent(frame, _, rollID)
 	cancelled_rolls[rollID] = true;
 	if(frame.rollID ~= rollID) then return; end
 
@@ -271,7 +271,7 @@ local function GetFrame()
 	return f;
 end
 
-function M:START_LOOT_ROLL(event, rollID, time)
+function M:START_LOOT_ROLL(_, rollID, time)
 	if(cancelled_rolls[rollID]) then return; end
 
 	local f = GetFrame();
@@ -333,7 +333,7 @@ function M:ParseRollChoice(msg)
 	end
 end
 
-function M:CHAT_MSG_LOOT(event, msg)
+function M:CHAT_MSG_LOOT(_, msg)
 	local playername, itemname, rolltype = self:ParseRollChoice(msg);
 	if(playername and itemname and rolltype) then
 		local class = select(2, UnitClass(playername));

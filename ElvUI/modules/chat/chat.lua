@@ -65,7 +65,6 @@ local CreatedFrames = 0;
 local lines = {};
 local lfgRoles = {};
 local msgList, msgCount, msgTime = {}, {}, {}
-local good, maybe, filter, login = {}, {}, {}, false
 local chatFilters = {};
 local cvars = {
 	["bnWhisperMode"] = true,
@@ -79,7 +78,6 @@ local PLAYER_NAME = E.myname.."-"..PLAYER_REALM
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
 local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 
-local TIMESTAMP_FORMAT
 local DEFAULT_STRINGS = {
 	BATTLEGROUND = L['BG'],
 	GUILD = L['G'],
@@ -203,6 +201,13 @@ local function ChatFrame_OnMouseScroll(frame, delta)
 					frame:ScrollDown()
 				end
 			end
+			if CH.db.scrollDownInterval ~= 0 then
+				if frame.ScrollTimer then
+					CH:CancelTimer(frame.ScrollTimer, true)
+				end
+			
+				frame.ScrollTimer = CH:ScheduleTimer('ScrollToTop', CH.db.scrollDownInterval, frame)
+			end
 		end
 	else
 		if delta < 0 then
@@ -302,7 +307,7 @@ function CH:StyleChat(frame)
 	else
 		tab.text:SetTextColor(0.8, 0.8, 0);
 	end
-	hooksecurefunc(tab.text, "SetTextColor", function(t, r, g, b, a)
+	hooksecurefunc(tab.text, "SetTextColor", function(self, r, g, b)
 		local rR, gG, bB = unpack(E["media"].rgbvaluecolor)
 
 		if(E.global.tukuiMode) then
@@ -310,7 +315,7 @@ function CH:StyleChat(frame)
 		end
 
 		if r ~= rR or g ~= gG or b ~= bB then
-			t:SetTextColor(rR, gG, bB)
+			self:SetTextColor(rR, gG, bB)
 		end
 	end)
 
@@ -419,9 +424,11 @@ function CH:StyleChat(frame)
 
 	--copy chat button
 	frame.button = CreateFrame('Button', format("CopyChatButton%d", id), frame)
+	frame.button:EnableMouse(true)
 	frame.button:SetAlpha(0.35)
 	frame.button:Size(20, 22)
 	frame.button:SetPoint('TOPRIGHT')
+	frame.button:SetFrameLevel(frame:GetFrameLevel() + 5)
 
 	frame.button.tex = frame.button:CreateTexture(nil, 'OVERLAY')
 	frame.button.tex:SetInside()
@@ -459,7 +466,7 @@ function CH:UpdateSettings()
 end
 
 local function removeIconFromLine(text)
-	for i=1, 8 do
+	for i = 1, 8 do
 		text = gsub(text, "|TInterface\\TargetingFrame\\UI%-RaidTargetingIcon_"..i..":0|t", "{"..strlower(_G["RAID_TARGET_"..i]).."}")
 	end
 	text = gsub(text, "(|TInterface(.*)|t)", "")
@@ -467,14 +474,31 @@ local function removeIconFromLine(text)
 	return text
 end
 
+local function colorizeLine(text, r, g, b)
+	local hexCode = E:RGBToHex(r, g, b)
+	local hexReplacement = format("|r%s", hexCode)
+
+	text = gsub(text, "|r", hexReplacement) -- If the message contains color strings then we need to add message color hex code after every "|r"
+	text = format("%s%s|r", hexCode, text) -- Add message color
+
+	return text
+end
+
 function CH:GetLines(...)
 	local index = 1
+	wipe(lines);
 	for i = select("#", ...), 1, -1 do
 		local region = select(i, ...)
 		if region:GetObjectType() == "FontString" then
 			local line = tostring(region:GetText())
-			lines[index] = removeIconFromLine(line)
-			index = index + 1
+			local r, g, b = region:GetTextColor();
+
+			line = removeIconFromLine(line);
+
+			line = colorizeLine(line, r, g, b);
+
+			lines[index] = line;
+			index = index + 1;
 		end
 	end
 	return index - 1
@@ -511,7 +535,6 @@ function CH:OnLeave(frame)
 	end
 end
 
-local x = CreateFrame('Frame')
 function CH:SetupChatTabs(frame, hook)
 	if hook and (not self.hooks or not self.hooks[frame] or not self.hooks[frame].OnEnter) then
 		self:HookScript(frame, 'OnEnter')
@@ -632,7 +655,7 @@ function CH:PositionChat(override)
 
 	if not self.db.lockPositions or E.private.chat.enable ~= true then return end
 
-	local chat, chatbg, tab, id, point, button, isDocked
+	local chat, chatbg, tab, id, point, isDocked
 	local fadeUndockedTabs = E.db["chat"].fadeUndockedTabs
 	local fadeTabsNoBackdrop = E.db["chat"].fadeTabsNoBackdrop
 
@@ -641,7 +664,6 @@ function CH:PositionChat(override)
 
 		chat = _G[format("ChatFrame%d", i)]
 		chatbg = format("ChatFrame%dBackground", i)
-		button = _G[format("ButtonCF%d", i)]
 		id = chat:GetID()
 		tab = _G[format("ChatFrame%sTab", i)]
 		point = GetChatWindowSavedPosition(id)
@@ -1114,6 +1136,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				self:AddMessage(format(globalstring, arg8, arg4, arg2), info.r, info.g, info.b, info.id);
 			end
 		elseif (type == "CHANNEL_NOTICE") then
+			if arg1 == "NOT_IN_LFG" then return; end
 			local globalstring = _G["CHAT_"..arg1.."_NOTICE_BN"];
 			if ( not globalstring ) then
 				globalstring = _G["CHAT_"..arg1.."_NOTICE"];
@@ -1181,7 +1204,6 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			self:AddMessage(format(CH:ConcatenateTimeStamp(BN_INLINE_TOAST_CONVERSATION), arg1), info.r, info.g, info.b, info.id);
 		else
 			local body;
-
 			local _, fontHeight = FCF_GetChatWindowInfo(self:GetID());
 
 			if ( fontHeight == 0 ) then
@@ -1449,7 +1471,7 @@ function CH:SetupChat(event, ...)
 end
 
 local function PrepareMessage(author, message)
-	return author:upper() .. message
+	return format("%s%s", author:upper(), message)
 end
 
 function CH:ChatThrottleHandler(event, ...)
@@ -1467,7 +1489,6 @@ function CH:ChatThrottleHandler(event, ...)
 	end
 end
 
-local locale = GetLocale()
 function CH:CHAT_MSG_CHANNEL(event, message, author, ...)
 	local blockFlag = false
 	local msg = PrepareMessage(author, message)
@@ -1539,7 +1560,7 @@ function CH:CheckKeyword(message)
 		end
 	end
 
-	local rebuiltString, lowerCaseWord
+	local classColorTable, tempWord, rebuiltString, lowerCaseWord
 	local isFirstWord = true
 	for word in message:gmatch("[^%s]+") do
 		lowerCaseWord = word:lower()
@@ -1547,8 +1568,8 @@ function CH:CheckKeyword(message)
 		for keyword, _ in pairs(CH.Keywords) do
 			if lowerCaseWord == keyword:lower() then
 				local tempWord = word:gsub("%p", "")
-				word = word:gsub(tempWord, E.media.hexvaluecolor..tempWord..'|r')
-				if(self.db.keywordSound ~= "None" and not self.SoundPlayed) then
+				word = word:gsub(tempWord, format("%s%s|r", E.media.hexvaluecolor, tempWord))
+				if self.db.keywordSound ~= 'None' and not self.SoundPlayed then
 					if (self.db.noAlertInCombat and not InCombatLockdown()) or not self.db.noAlertInCombat then
 						PlaySoundFile(LSM:Fetch("sound", self.db.keywordSound), "Master")
 					end
@@ -1562,7 +1583,10 @@ function CH:CheckKeyword(message)
 			if(CH.ClassNames[lowerCaseWord]) then
 				local classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[CH.ClassNames[lowerCaseWord]] or RAID_CLASS_COLORS[CH.ClassNames[lowerCaseWord]];
 				tempWord = word:gsub("%p", "")
-				word = word:gsub(tempWord, format("\124cff%.2x%.2x%.2x", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255)..tempWord.."\124r")
+				word = word:gsub(tempWord, format("\124cff%.2x%.2x%.2x%s\124r", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255, tempWord))
+			elseif(CH.ClassNames[word]) then
+				classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[CH.ClassNames[word]] or RAID_CLASS_COLORS[CH.ClassNames[word]];
+				word = word:gsub(word:gsub("%-","%%-"), format("\124cff%.2x%.2x%.2x%s\124r", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255, word))
 			end
 		end
 
@@ -1747,7 +1771,7 @@ function CH:ChatFrame_RemoveMessageEventFilter (event, filter)
 	end
 end
 
-function CH:FCF_SetWindowAlpha(frame, alpha, doNotSave)
+function CH:FCF_SetWindowAlpha(frame, alpha)
 	frame.oldAlpha = alpha or 1;
 end
 

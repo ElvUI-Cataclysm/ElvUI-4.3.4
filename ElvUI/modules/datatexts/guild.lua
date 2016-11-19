@@ -136,12 +136,12 @@ local menuList = {
 	{ text = CHAT_MSG_WHISPER_INFORM, hasArrow = true, notCheckable=true,}
 }
 
-local function inviteClick(self, arg1, arg2, checked)
+local function inviteClick(_, arg1, arg2, checked)
 	menuFrame:Hide()
 	InviteUnit(arg1)
 end
 
-local function whisperClick(self,arg1,arg2,checked)
+local function whisperClick(_, arg1, arg2, checked)
 	menuFrame:Hide()
 	SetItemRef( "player:"..arg1, ("|Hplayer:%1$s|h[%1$s]|h"):format(arg1), "LeftButton" )
 end
@@ -157,7 +157,7 @@ local function ToggleGuildFrame()
 	end
 end
 
-local function Click(self, btn)
+local function Click(_, btn)
 	if btn == "RightButton" and IsInGuild() then
 		DT.tooltip:Hide()
 

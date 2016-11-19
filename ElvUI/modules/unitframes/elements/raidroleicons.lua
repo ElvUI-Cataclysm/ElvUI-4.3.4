@@ -19,7 +19,7 @@ local function CheckLeader(unit)
 	end
 end
 
-local function UpdateOverride(self, event)
+local function UpdateOverride(self)
 	local leader = self.Leader;
 	if(leader.PreUpdate) then
 		leader:PreUpdate();

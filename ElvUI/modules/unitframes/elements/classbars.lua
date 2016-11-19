@@ -3,7 +3,6 @@ local UF = E:GetModule("UnitFrames");
 
 local select, unpack = select, unpack;
 local floor, max = math.floor, math.max;
-local find = string.find;
 
 local CreateFrame = CreateFrame;
 local UnitPower = UnitPower;

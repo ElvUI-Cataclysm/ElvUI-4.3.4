@@ -4,7 +4,7 @@ local LSM = LibStub("LibSharedMedia-3.0");
 
 local _G = _G;
 local tonumber, pairs, select, tostring, unpack = tonumber, pairs, select, tostring, unpack;
-local twipe, tinsert, wipe = table.wipe, table.insert, wipe;
+local twipe = table.wipe;
 local band = bit.band;
 local floor = math.floor;
 local gsub, format, strsplit = string.gsub, format, strsplit;
@@ -19,10 +19,6 @@ local UnitHealthMax = UnitHealthMax;
 local SetCVar = SetCVar;
 local IsAddOnLoaded = IsAddOnLoaded;
 local GetSpellInfo = GetSpellInfo;
-local GetSpellTexture = GetSpellTexture;
-local UnitBuff, UnitDebuff = UnitBuff, UnitDebuff;
-local UnitPlayerControlled = UnitPlayerControlled;
-local GetRaidTargetIndex = GetRaidTargetIndex;
 local WorldFrame = WorldFrame;
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
 local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
@@ -99,19 +95,7 @@ mod.RaidMarkColors = {
 
 local AURA_UPDATE_INTERVAL = 0.1;
 local AURA_TARGET_HOSTILE = 1;
-local AURA_TARGET_FRIENDLY = 2;
-local AuraList, AuraGUID = {}, {}
-
-local RaidIconIndex = {
-	"STAR",
-	"CIRCLE",
-	"DIAMOND",
-	"TRIANGLE",
-	"MOON",
-	"SQUARE",
-	"CROSS",
-	"SKULL"
-}
+local AuraList = {};
 
 local TimeColors = {
 	[0] = '|cffeeeeee',
@@ -353,7 +337,7 @@ end
 
 function mod:GetThreatReaction(frame)
 	if frame.threat:IsShown() then
-		local r, g, b = frame.threat:GetVertexColor()
+		local _, g, b = frame.threat:GetVertexColor()
 		if g + b == 0 then
 			return 'FULL_THREAT'
 		else
@@ -368,10 +352,10 @@ function mod:GetThreatReaction(frame)
 	end
 end
 
-local color, scale
+local color;
 function mod:ColorizeAndScale(myPlate)
 	local unitType = mod:GetReaction(self);
-	local scale = 1
+	local scale = 1;
 	local canAttack = false
 
 	self.unitType = unitType
@@ -665,9 +649,9 @@ function mod:CreatePlate(frame)
 	frame.RaidIcon:SetAlpha(0);
 	myPlate.RaidIcon = self:ConstructElement_RaidIcon(myPlate);
 	myPlate.Glow = self:ConstructElement_Glow(myPlate);
-	myPlate.Buffs = self:ConstructElement_Auras(myPlate, 5, "RIGHT");
+	myPlate.Buffs = self:ConstructElement_Auras(myPlate, "RIGHT");
 	myPlate.Buffs.db = self.db.buffs;
-	myPlate.Debuffs = self:ConstructElement_Auras(myPlate, 5, "LEFT");
+	myPlate.Debuffs = self:ConstructElement_Auras(myPlate, "LEFT");
 	myPlate.Debuffs.db = self.db.debuffs;
 	myPlate.HealerIcon = self:ConstructElement_HealerIcon(myPlate);
 	myPlate.CPoints = self:ConstructElement_CPoints(myPlate);
@@ -831,10 +815,9 @@ do
 	local Framelist = {};
 	local Watcherframe = CreateFrame("Frame");
 	local WatcherframeActive = false;
-	local select = select;
 	local timeToUpdate = 0;
 
-	local function CheckFramelist(self)
+	local function CheckFramelist()
 		local curTime = GetTime();
 		if(curTime < timeToUpdate) then return; end
 		local framecount = 0;
@@ -1119,7 +1102,7 @@ function mod:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, ...)
 	end
 end
 
-function mod:UNIT_AURA(event, unit)
+function mod:UNIT_AURA(_, unit)
 	if(unit == "target") then
 		self:UpdateElement_AurasByUnitID("target");
 	elseif(unit == "focus") then
@@ -1145,7 +1128,7 @@ function mod:UPDATE_MOUSEOVER_UNIT()
 	WorldFrame.elapsed = 0.1;
 end
 
-function mod:UNIT_COMBO_POINTS(event, unit)
+function mod:UNIT_COMBO_POINTS(_, unit)
 	if(unit == "player" or unit == "vehicle") then
 		self:UpdateElement_CPointsByUnitID("target");
 	end

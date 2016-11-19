@@ -229,9 +229,9 @@ function UF:Construct_UF(frame, unit)
 	frame.SHADOW_SPACING = 3;
 	frame.CLASSBAR_YOFFSET = 0;
 	frame.BOTTOM_OFFSET = 0;
-	--frame:SetFrameLevel(5);
 
 	frame.RaisedElementParent = CreateFrame("Frame", nil, frame);
+	frame.RaisedElementParent.TextureParent = CreateFrame('Frame', nil, frame.RaisedElementParent)
 	frame.RaisedElementParent:SetFrameLevel(frame:GetFrameLevel() + 100)
 
 	if(not self["groupunits"][unit]) then
@@ -616,6 +616,7 @@ function UF.groupPrototype:Configure_Groups(self)
 	if(self.mover) then
 		self.mover.positionOverride = DIRECTION_TO_GROUP_ANCHOR_POINT[direction];
 		E:UpdatePositionOverride(self.mover:GetName());
+		self:GetScript("OnSizeChanged")(self)
 	end
 
 	self:SetSize(width - db.horizontalSpacing, height - db.verticalSpacing);

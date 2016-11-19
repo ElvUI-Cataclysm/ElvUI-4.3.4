@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule('UnitFrames');
 
 function UF:Construct_PvPIcon(frame)
-	local PvP = frame.RaisedElementParent:CreateTexture(nil, 'ARTWORK')
+	local PvP = frame.RaisedElementParent.TextureParent:CreateTexture(nil, 'ARTWORK', nil, 1)
 	PvP:SetSize(30, 30)
 	PvP:SetPoint('CENTER', frame, 'CENTER')
 
