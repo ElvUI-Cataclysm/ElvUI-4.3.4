@@ -44,7 +44,6 @@ local DeleteCursorItem = DeleteCursorItem;
 local UseContainerItem = UseContainerItem;
 local PickupMerchantItem = PickupMerchantItem;
 local IsShiftKeyDown, IsControlKeyDown = IsShiftKeyDown, IsControlKeyDown;
-local StaticPopup_Show = StaticPopup_Show;
 local SEARCH = SEARCH;
 local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES;
 local MAX_CONTAINER_ITEMS = MAX_CONTAINER_ITEMS;
@@ -105,7 +104,7 @@ end
 function B:DisableBlizzard()
 	BankFrame:UnregisterAllEvents();
 
-	for i=1, NUM_CONTAINER_FRAMES do
+	for i = 1, NUM_CONTAINER_FRAMES do
 		_G['ContainerFrame'..i]:Kill();
 	end
 end
@@ -126,15 +125,15 @@ function B:UpdateSearch()
 	local MIN_REPEAT_CHARACTERS = 3;
 	local searchString = self:GetText();
 	local prevSearchString = SEARCH_STRING;
-	if (len(searchString) > MIN_REPEAT_CHARACTERS) then
+	if(len(searchString) > MIN_REPEAT_CHARACTERS) then
 		local repeatChar = true;
 		for i=1, MIN_REPEAT_CHARACTERS, 1 do
-			if ( sub(searchString,(0-i), (0-i)) ~= sub(searchString,(-1-i),(-1-i)) ) then
+			if(sub(searchString,(0-i), (0-i)) ~= sub(searchString,(-1-i),(-1-i))) then
 				repeatChar = false;
 				break;
 			end
 		end
-		if ( repeatChar ) then
+		if(repeatChar) then
 			B.ResetAndClear(self);
 			return;
 		end
@@ -143,7 +142,7 @@ function B:UpdateSearch()
 	--Keep active search term when switching between bank and reagent bank
 	if searchString == SEARCH and prevSearchString ~= "" then
 		searchString = prevSearchString
-	elseif searchString == SEARCH then
+	elseif(searchString == SEARCH) then
 		searchString = ''
 	end
 	
@@ -162,7 +161,7 @@ end
 
 function B:ResetAndClear()
 	local editbox = self:GetParent().editBox or self
-	if editbox then editbox:SetText(SEARCH) end
+	if(editbox) then editbox:SetText(SEARCH) end
 
 	self:ClearFocus();
 	B:SearchReset();
@@ -194,14 +193,14 @@ function B:SetGuildBankSearch(query)
 		local tab = GetCurrentGuildBankTab()
 		local _, _, isViewable = GetGuildBankTabInfo(tab)
 
-		if isViewable then
+		if(isViewable) then
 			for slotID = 1, MAX_GUILDBANK_SLOTS_PER_TAB do
 				local link = GetGuildBankItemLink(tab, slotID)
 				--A column goes from 1-14, e.g. GuildBankColumn1Button14 (slotID 14) or GuildBankColumn2Button3 (slotID 17)
 				local col = ceil(slotID / 14)
 				local btn = (slotID % 14)
-				if col == 0 then col = 1 end
-				if btn == 0 then btn = 14 end
+				if(col == 0) then col = 1 end
+				if(btn == 0) then btn = 14 end
 				local button = _G["GuildBankColumn"..col.."Button"..btn]
 				local success, result = pcall(Search.Matches, Search, link, query);
 				if(empty or (success and result)) then
@@ -255,7 +254,7 @@ function B:UpdateCountDisplay()
 end
 
 function B:UpdateSlot(bagID, slotID)
-	if (self.Bags[bagID] and self.Bags[bagID].numSlots ~= GetContainerNumSlots(bagID)) or not self.Bags[bagID] or not self.Bags[bagID][slotID] then
+	if(self.Bags[bagID] and self.Bags[bagID].numSlots ~= GetContainerNumSlots(bagID)) or not self.Bags[bagID] or not self.Bags[bagID][slotID] then
 		return;
 	end
 
@@ -263,7 +262,6 @@ function B:UpdateSlot(bagID, slotID)
 	local bagType = self.Bags[bagID].type;
 	local texture, count, locked = GetContainerItemInfo(bagID, slotID);
 	local clink = GetContainerItemLink(bagID, slotID);
-	local specialType = select(2, GetContainerNumFreeSlots(bagID))
 
 	slot:Show();
 	if(slot.questIcon) then
@@ -273,7 +271,7 @@ function B:UpdateSlot(bagID, slotID)
 
 	local start, duration, enable = GetContainerItemCooldown(bagID, slotID)
 	CooldownFrame_SetTimer(slot.cooldown, start, duration, enable)
-	if ( duration > 0 and enable == 0 ) then
+	if(duration > 0 and enable == 0) then
 		SetItemButtonTextureVertexColor(slot, 0.4, 0.4, 0.4);
 	else
 		SetItemButtonTextureVertexColor(slot, 1, 1, 1);
@@ -302,14 +300,14 @@ function B:UpdateSlot(bagID, slotID)
 		end
 
 		-- color slot according to item quality
-		if questId and not isActiveQuest then
+		if(questId and not isActiveQuest) then
 			slot:SetBackdropBorderColor(1.0, 1.0, 0.0);
 			if(slot.questIcon) then
 				slot.questIcon:Show();
 			end
-		elseif questId or isQuestItem then
+		elseif(questId or isQuestItem) then
 			slot:SetBackdropBorderColor(1.0, 0.3, 0.3);
-		elseif slot.rarity and slot.rarity > 1 then
+		elseif(slot.rarity and slot.rarity > 1) then
 			slot:SetBackdropBorderColor(r, g, b);
 		else
 			slot:SetBackdropBorderColor(unpack(E.media.bordercolor));
@@ -329,7 +327,7 @@ end
 
 function B:UpdateBagSlots(bagID)
 	for slotID = 1, GetContainerNumSlots(bagID) do
-		if self.UpdateSlot then
+		if(self.UpdateSlot) then
 			self:UpdateSlot(bagID, slotID);	
 		else
 			self:GetParent():UpdateSlot(bagID, slotID);
@@ -342,7 +340,7 @@ function B:UpdateCooldowns()
 		for slotID = 1, GetContainerNumSlots(bagID) do
 			local start, duration, enable = GetContainerItemCooldown(bagID, slotID)
 			CooldownFrame_SetTimer(self.Bags[bagID][slotID].cooldown, start, duration, enable)
-			if ( duration > 0 and enable == 0 ) then
+			if(duration > 0 and enable == 0) then
 				SetItemButtonTextureVertexColor(self.Bags[bagID][slotID], 0.4, 0.4, 0.4);
 			else
 				SetItemButtonTextureVertexColor(self.Bags[bagID][slotID], 1, 1, 1);
@@ -353,7 +351,7 @@ end
 
 function B:UpdateAllSlots()
 	for _, bagID in ipairs(self.BagIDs) do
-		if self.Bags[bagID] then
+		if(self.Bags[bagID]) then
 			self.Bags[bagID]:UpdateBagSlots(bagID);
 		end
 	end
@@ -361,7 +359,7 @@ end
 
 function B:SetSlotAlphaForBag(f)
 	for _, bagID in ipairs(f.BagIDs) do
-		if f.Bags[bagID] then
+		if(f.Bags[bagID]) then
 			local numSlots = GetContainerNumSlots(bagID);
 			for slotID = 1, numSlots do
 				if f.Bags[bagID][slotID] then
@@ -378,10 +376,10 @@ end
 
 function B:ResetSlotAlphaForBags(f)
 	for _, bagID in ipairs(f.BagIDs) do
-		if f.Bags[bagID] then
+		if(f.Bags[bagID]) then
 			local numSlots = GetContainerNumSlots(bagID);
 			for slotID = 1, numSlots do
-				if f.Bags[bagID][slotID] then
+				if(f.Bags[bagID][slotID]) then
 					f.Bags[bagID][slotID]:SetAlpha(1)
 				end
 			end
@@ -696,7 +694,7 @@ function B:GetGraysValue()
 	return c;
 end
 
-function B:VendorGrays(delete, nomsg, getValue)
+function B:VendorGrays(delete, _, getValue)
 	if (not MerchantFrame or not MerchantFrame:IsShown()) and not delete and not getValue then
 		E:Print(L['You must be at a vendor.'])
 		return
@@ -801,7 +799,7 @@ function B:ContructContainerFrame(name, isBank)
 
 		GameTooltip:Show();
 	end);
-	f:SetScript("OnLeave", function(self) GameTooltip:Hide(); end);
+	f:SetScript("OnLeave", function() GameTooltip:Hide(); end);
 
 	f.closeButton = CreateFrame('Button', name..'CloseButton', f, 'UIPanelCloseButton');
 	f.closeButton:Point('TOPRIGHT', -4, -4);

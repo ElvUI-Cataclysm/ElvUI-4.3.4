@@ -399,6 +399,7 @@ local function LoadSkin()
 	-- Compact Raid Frame Manager
 	CompactRaidFrameManager:StripTextures();
 	CompactRaidFrameManager:SetTemplate("Transparent");
+
 	CompactRaidFrameManagerDisplayFrame:StripTextures();
 	CompactRaidFrameManagerDisplayFrameFilterOptions:StripTextures();
 
@@ -407,13 +408,14 @@ local function LoadSkin()
 	S:HandleButton(CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateReadyCheck);
 	S:HandleButton(CompactRaidFrameManagerDisplayFrameLockedModeToggle);
 	S:HandleButton(CompactRaidFrameManagerDisplayFrameConvertToRaid);
-	for i = 1, 8 do
-		S:HandleButton(_G["CompactRaidFrameManagerDisplayFrameFilterOptionsFilterGroup"..i]);
-	end
 	S:HandleButton(CompactRaidFrameManagerDisplayFrameFilterOptionsFilterRoleDamager);
 	S:HandleButton(CompactRaidFrameManagerDisplayFrameFilterOptionsFilterRoleHealer);
 	S:HandleButton(CompactRaidFrameManagerDisplayFrameFilterOptionsFilterRoleTank);
 	S:HandleButton(CompactRaidFrameManagerToggleButton)
+
+	for i = 1, 8 do
+		S:HandleButton(_G["CompactRaidFrameManagerDisplayFrameFilterOptionsFilterGroup"..i]);
+	end
 
 	CompactRaidFrameManagerToggleButton:SetHeight(40);
 	CompactRaidFrameManagerToggleButton:SetWidth(15);
@@ -579,8 +581,10 @@ local function LoadSkin()
 
 	-- Game Menu Interface/Tabs
 	for i = 1, 2 do
- 	   S:HandleTab(_G["InterfaceOptionsFrameTab" .. i]);
-	   (_G["InterfaceOptionsFrameTab" .. i]):StripTextures();
+		local tab = _G["InterfaceOptionsFrameTab" .. i];
+
+		S:HandleTab(tab);
+		tab:StripTextures();
 	end
 
 	local maxButtons = (InterfaceOptionsFrameAddOns:GetHeight() - 8) / InterfaceOptionsFrameAddOns.buttonHeight;
@@ -913,33 +917,27 @@ local function LoadSkin()
 
 	S:HandleButton(CombatConfigSettingsSaveButton);
 
-	local combatConfigCheck = {
-		"CombatConfigColorsHighlightingLine",
-		"CombatConfigColorsHighlightingAbility",
-		"CombatConfigColorsHighlightingDamage",
-		"CombatConfigColorsHighlightingSchool",
-		"CombatConfigColorsColorizeUnitNameCheck",
-		"CombatConfigColorsColorizeSpellNamesCheck",
-		"CombatConfigColorsColorizeSpellNamesSchoolColoring",
-		"CombatConfigColorsColorizeDamageNumberCheck",
-		"CombatConfigColorsColorizeDamageNumberSchoolColoring",
-		"CombatConfigColorsColorizeDamageSchoolCheck",
-		"CombatConfigColorsColorizeEntireLineCheck",
-		"CombatConfigFormattingShowTimeStamp",
-		"CombatConfigFormattingShowBraces",
-		"CombatConfigFormattingUnitNames",
-		"CombatConfigFormattingSpellNames",
-		"CombatConfigFormattingItemNames",
-		"CombatConfigFormattingFullText",
-		"CombatConfigSettingsShowQuickButton",
-		"CombatConfigSettingsSolo",
-		"CombatConfigSettingsParty",
-		"CombatConfigSettingsRaid"
-	};
-
-	for i = 1, getn(combatConfigCheck) do
-		S:HandleCheckBox(_G[combatConfigCheck[i]]);
-	end
+	S:HandleCheckBox(CombatConfigColorsHighlightingLine)
+	S:HandleCheckBox(CombatConfigColorsHighlightingAbility)
+	S:HandleCheckBox(CombatConfigColorsHighlightingDamage)
+	S:HandleCheckBox(CombatConfigColorsHighlightingSchool)
+	S:HandleCheckBox(CombatConfigColorsColorizeUnitNameCheck)
+	S:HandleCheckBox(CombatConfigColorsColorizeSpellNamesCheck)
+	S:HandleCheckBox(CombatConfigColorsColorizeSpellNamesSchoolColoring)
+	S:HandleCheckBox(CombatConfigColorsColorizeDamageNumberCheck)
+	S:HandleCheckBox(CombatConfigColorsColorizeDamageNumberSchoolColoring)
+	S:HandleCheckBox(CombatConfigColorsColorizeDamageSchoolCheck)
+	S:HandleCheckBox(CombatConfigColorsColorizeEntireLineCheck)
+	S:HandleCheckBox(CombatConfigFormattingShowTimeStamp)
+	S:HandleCheckBox(CombatConfigFormattingShowBraces)
+	S:HandleCheckBox(CombatConfigFormattingUnitNames)
+	S:HandleCheckBox(CombatConfigFormattingSpellNames)
+	S:HandleCheckBox(CombatConfigFormattingItemNames)
+	S:HandleCheckBox(CombatConfigFormattingFullText)
+	S:HandleCheckBox(CombatConfigSettingsShowQuickButton)
+	S:HandleCheckBox(CombatConfigSettingsSolo)
+	S:HandleCheckBox(CombatConfigSettingsParty)
+	S:HandleCheckBox(CombatConfigSettingsRaid)
 
 	for i = 1, 5 do
 		local tab = _G["CombatConfigTab"..i];

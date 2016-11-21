@@ -4,8 +4,9 @@ local S = E:GetModule("Skins");
 local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tabard ~= true) then return; end
 
-	TabardFrame:StripTextures();
 	TabardFramePortrait:Kill();
+
+	TabardFrame:StripTextures();
 	TabardFrame:CreateBackdrop("Transparent");
 	TabardFrame.backdrop:Point("TOPLEFT", 10, -12);
 	TabardFrame.backdrop:Point("BOTTOMRIGHT", -32, 74);
@@ -40,6 +41,7 @@ local function LoadSkin()
 
 	TabardCharacterModelRotateLeftButton:Point("BOTTOMLEFT", 4, 4);
 	TabardCharacterModelRotateRightButton:Point("TOPLEFT", TabardCharacterModelRotateLeftButton, "TOPRIGHT", 4, 0);
+
 	hooksecurefunc(TabardCharacterModelRotateLeftButton, "SetPoint", function(self, point, _, _, xOffset, yOffset)
 		if(point ~= "BOTTOMLEFT" or xOffset ~= 4 or yOffset ~= 4)then
 			self:Point("BOTTOMLEFT", 4, 4);

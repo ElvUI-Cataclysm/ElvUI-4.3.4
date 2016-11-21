@@ -35,7 +35,7 @@ local function LoadSkin()
 		"Trinket1Slot",
 		"MainHandSlot",
 		"SecondaryHandSlot",
-		"RangedSlot",
+		"RangedSlot"
 	}
 
 	for _, slot in pairs(slots) do
@@ -90,7 +90,7 @@ local function LoadSkin()
 		"CharacterStatsPane",
 		"CharacterFrameInsetRight",
 		"PaperDollSidebarTabs",
-		"PaperDollEquipmentManagerPane",
+		"PaperDollEquipmentManagerPane"
 	}
 
 	CharacterFrameExpandButton:Size(CharacterFrameExpandButton:GetWidth() - 5, CharacterFrameExpandButton:GetHeight() - 5)
@@ -173,7 +173,7 @@ local function LoadSkin()
 
 	local scrollbars = {
 		"PaperDollTitlesPaneScrollBar",
-		"PaperDollEquipmentManagerPaneScrollBar",
+		"PaperDollEquipmentManagerPaneScrollBar"
 	}
 
 	for _, scrollbar in pairs(scrollbars) do

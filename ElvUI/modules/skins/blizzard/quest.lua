@@ -62,8 +62,10 @@ local function LoadSkin()
 	QuestInfoTalentFrameIconTexture:SetParent(QuestInfoTalentFrame.backdrop)
 	QuestInfoTalentFramePoints:Point("LEFT", 42, -1)
 
-	QuestLogFrame:StripTextures()
-	QuestLogFrame:SetTemplate("Transparent")
+	QuestLogFrame:StripTextures();
+	QuestLogFrame:CreateBackdrop("Transparent");
+	QuestLogFrame.backdrop:Point("TOPLEFT", QuestLogFrame, "TOPLEFT", 10, -12);
+	QuestLogFrame.backdrop:Point("BOTTOMRIGHT", QuestLogFrame, "BOTTOMRIGHT", -1, 8);
 
 	QuestLogCount:StripTextures()
 	QuestLogCount:SetTemplate("Transparent")
@@ -183,17 +185,17 @@ local function LoadSkin()
 	QuestLogFrame:HookScript("OnShow", function()
 		QuestLogScrollFrame:Height(331)
 		QuestLogScrollFrame:Width(302)
-		QuestLogScrollFrame:CreateBackdrop("Default")
+		QuestLogScrollFrame:CreateBackdrop("Transparent", true)
 		QuestLogScrollFrame.backdrop:SetFrameLevel(QuestLogScrollFrame:GetFrameLevel() - 2)
 
 		QuestLogDetailScrollFrame:Height(331)
-		QuestLogDetailScrollFrame:CreateBackdrop("Default")
+		QuestLogDetailScrollFrame:CreateBackdrop("Transparent", true)
 		QuestLogDetailScrollFrame.backdrop:SetFrameLevel(QuestLogDetailScrollFrame:GetFrameLevel() - 2)
 		QuestLogDetailScrollFrame:Point("TOPRIGHT", QuestLogFrame, "TOPRIGHT", -32, -75)
 	end)
 
 	S:HandleCloseButton(QuestLogFrameCloseButton)
-	QuestLogFrameCloseButton:Point("TOPRIGHT", QuestLogFrame, "TOPRIGHT", 1, 1)
+	QuestLogFrameCloseButton:Point("TOPRIGHT", QuestLogFrame, "TOPRIGHT", 3, -7)
 
 	S:HandleScrollBar(QuestLogDetailScrollFrameScrollBar)
 	QuestLogDetailScrollFrameScrollBar:Point("RIGHT", 22, 0)

@@ -11,17 +11,15 @@ local function LoadSkin()
 
 	S:HandleCloseButton(MerchantFrameCloseButton, MerchantFrame.backdrop);
 
-	for i = 1, 10 do
-		_G["MerchantItem" .. i .. "AltCurrencyFrameItem1"]:Point("LEFT", _G["MerchantItem"..i.."AltCurrencyFrame"], "LEFT", 15, 4);
-		_G["MerchantItem" .. i .. "AltCurrencyFrameItem1Texture"]:SetTexCoord(unpack(E.TexCoords));
-		_G["MerchantItem" .. i .. "AltCurrencyFrameItem2Texture"]:SetTexCoord(unpack(E.TexCoords));
-	end
-
 	for i = 1, 12 do
 		local item = _G["MerchantItem" .. i];
 		local itemButton = _G["MerchantItem" .. i .. "ItemButton"];
 		local iconTexture = _G["MerchantItem" .. i .. "ItemButtonIconTexture"];
 		local moneyFrame = _G["MerchantItem" .. i .. "MoneyFrame"];
+		local altCurrencyFrame = _G["MerchantItem"..i.."AltCurrencyFrame"];
+		local altCurrencyItem1 = _G["MerchantItem" .. i .. "AltCurrencyFrameItem1"];
+		local altCurrencyTex1 = _G["MerchantItem" .. i .. "AltCurrencyFrameItem1Texture"];
+		local altCurrencyTex2 = _G["MerchantItem" .. i .. "AltCurrencyFrameItem2Texture"];
 
 		item:StripTextures(true);
 		item:CreateBackdrop("Default");
@@ -34,6 +32,11 @@ local function LoadSkin()
 
 		iconTexture:SetTexCoord(unpack(E.TexCoords));
 		iconTexture:SetInside();
+
+		altCurrencyItem1:Point("LEFT", altCurrencyFrame, "LEFT", 15, 4);
+
+		altCurrencyTex1:SetTexCoord(unpack(E.TexCoords));
+		altCurrencyTex2:SetTexCoord(unpack(E.TexCoords));
 
 		moneyFrame:ClearAllPoints();
 		moneyFrame:Point("BOTTOMLEFT", itemButton, "BOTTOMRIGHT", 3, 0);
@@ -48,7 +51,7 @@ local function LoadSkin()
 
 				token.icon:Size(14)
 				token.icon:SetTexCoord(unpack(E.TexCoords));
-				token.icon:SetPoint("LEFT", token.count, "RIGHT", 2, 0)
+				token.icon:Point("LEFT", token.count, "RIGHT", 2, 0)
 			end
 		end
 	end)
@@ -69,23 +72,26 @@ local function LoadSkin()
 
 	MerchantRepairAllButton:StyleButton();
 	MerchantRepairAllButton:SetTemplate("Default", true);
+
 	MerchantRepairAllIcon:SetTexCoord(0.34, 0.1, 0.34, 0.535, 0.535, 0.1, 0.535, 0.535);
 	MerchantRepairAllIcon:SetInside();
 
 	MerchantGuildBankRepairButton:StyleButton();
 	MerchantGuildBankRepairButton:SetTemplate("Default", true);
+
 	MerchantGuildBankRepairButtonIcon:SetTexCoord(0.61, 0.82, 0.1, 0.52);
 	MerchantGuildBankRepairButtonIcon:SetInside();
 
 	MerchantBuyBackItem:StripTextures(true);
-	MerchantBuyBackItem:Point("TOPLEFT", MerchantItem10, "BOTTOMLEFT", 0, -48)
 	MerchantBuyBackItem:CreateBackdrop("Transparent");
 	MerchantBuyBackItem.backdrop:Point("TOPLEFT", -6, 6);
 	MerchantBuyBackItem.backdrop:Point("BOTTOMRIGHT", 6, -6);
+	MerchantBuyBackItem:Point("TOPLEFT", MerchantItem10, "BOTTOMLEFT", 0, -48)
 
 	MerchantBuyBackItemItemButton:StripTextures();
-	MerchantBuyBackItemItemButton:StyleButton();
 	MerchantBuyBackItemItemButton:SetTemplate("Default", true);
+	MerchantBuyBackItemItemButton:StyleButton();
+
 	MerchantBuyBackItemItemButtonIconTexture:SetTexCoord(unpack(E.TexCoords));
 	MerchantBuyBackItemItemButtonIconTexture:SetInside();
 
