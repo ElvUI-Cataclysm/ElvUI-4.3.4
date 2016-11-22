@@ -132,7 +132,7 @@ local function Constructor()
 		widget[method] = func
 	end
 
-	widget.SetText = widget.SetLabel
+	widget.SetText = function(self, ...) print("AceGUI-3.0-Icon: SetText is deprecated! Use SetLabel instead!"); self:SetLabel(...) end
 
 	return AceGUI:RegisterAsWidget(widget)
 end

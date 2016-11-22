@@ -1,6 +1,6 @@
-﻿--[[
+--[[
 Name: LibSharedMedia-3.0
-Revision: $Revision: 62 $
+Revision: $Revision: 69 $
 Author: Elkano (elkano@gmx.de)
 Inspired By: SurfaceLib by Haste/Otravi (troeks@gmail.com)
 Website: http://www.wowace.com/projects/libsharedmedia-3-0/
@@ -9,7 +9,7 @@ Dependencies: LibStub, CallbackHandler-1.0
 License: LGPL v2.1
 ]]
 
-local MAJOR, MINOR = "LibSharedMedia-3.0", 100001 -- increase manualy on changes
+local MAJOR, MINOR = "LibSharedMedia-3.0", 4030402 -- 4.3.4 / increase manually on changes
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not lib then return end
@@ -83,6 +83,7 @@ lib.MediaTable.border["Blizzard Dialog"]					= [[Interface\DialogFrame\UI-Dialog
 lib.MediaTable.border["Blizzard Dialog Gold"]				= [[Interface\DialogFrame\UI-DialogBox-Gold-Border]]
 lib.MediaTable.border["Blizzard Party"]						= [[Interface\CHARACTERFRAME\UI-Party-Border]]
 lib.MediaTable.border["Blizzard Tooltip"]					= [[Interface\Tooltips\UI-Tooltip-Border]]
+lib.DefaultMedia.border = "None"
 
 -- FONT
 if not lib.MediaTable.font then lib.MediaTable.font = {} end
@@ -100,7 +101,7 @@ if locale == "koKR" then
 elseif locale == "zhCN" then
 	LOCALE_MASK = lib.LOCALE_BIT_zhCN
 --
-	SML_MT_font["伤害数字"]		= [[Fonts\ARKai_DB.ttf]]
+	SML_MT_font["伤害数字"]		= [[Fonts\ARKai_C.ttf]]
 	SML_MT_font["默认"]			= [[Fonts\ARKai_T.ttf]]
 	SML_MT_font["聊天"]			= [[Fonts\ARHei.ttf]]
 --
@@ -120,9 +121,12 @@ elseif locale == "ruRU" then
 	LOCALE_MASK = lib.LOCALE_BIT_ruRU
 --
 	SML_MT_font["Arial Narrow"]			= [[Fonts\ARIALN.TTF]]
+	SML_MT_font["Friz Quadrata TT"]		= [[Fonts\FRIZQT__.TTF]]
+	SML_MT_font["Morpheus"]				= [[Fonts\MORPHEUS.TTF]]
 	SML_MT_font["Nimrod MT"]			= [[Fonts\NIM_____.ttf]]
-
-	lib.DefaultMedia.font = "Arial Narrow"
+	SML_MT_font["Skurri"]				= [[Fonts\SKURRI.TTF]]
+--
+	lib.DefaultMedia.font = "Friz Quadrata TT"
 --
 else
 	LOCALE_MASK = lib.LOCALE_BIT_western
@@ -181,7 +185,7 @@ function lib:Register(mediatype, key, data, langmask)
 	if not mediaTable[mediatype] then mediaTable[mediatype] = {} end
 	local mtable = mediaTable[mediatype]
 	if mtable[key] then return false end
-	
+
 	mtable[key] = data
 	rebuildMediaList(mediatype)
 	self.callbacks:Fire("LibSharedMedia_Registered", mediatype, key)
@@ -192,7 +196,6 @@ function lib:Fetch(mediatype, key, noDefault)
 	local mtt = mediaTable[mediatype]
 	local overridekey = overrideMedia[mediatype]
 	local result = mtt and ((overridekey and mtt[overridekey] or mtt[key]) or (not noDefault and defaultMedia[mediatype] and mtt[defaultMedia[mediatype]])) or nil
-
 	return result ~= "" and result or nil
 end
 
