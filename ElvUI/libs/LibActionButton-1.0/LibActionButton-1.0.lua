@@ -792,13 +792,6 @@ function OnEvent(frame, event, arg1, ...)
 			local spellId = button:GetSpellId()
 			if spellId and spellId == arg1 then
 				ShowOverlayGlow(button)
-			else
-				if button._state_type == "action" then
-					local actionType, id = GetActionInfo(button._state_action)
-					if actionType == "flyout" and FlyoutHasSpell(id, arg1) then
-						ShowOverlayGlow(button)
-					end
-				end
 			end
 		end
 	elseif event == "SPELL_ACTIVATION_OVERLAY_GLOW_HIDE" then
@@ -806,13 +799,6 @@ function OnEvent(frame, event, arg1, ...)
 			local spellId = button:GetSpellId()
 			if spellId and spellId == arg1 then
 				HideOverlayGlow(button)
-			else
-				if button._state_type == "action" then
-					local actionType, id = GetActionInfo(button._state_action)
-					if actionType == "flyout" and FlyoutHasSpell(id, arg1) then
-						HideOverlayGlow(button)
-					end
-				end
 			end
 		end
 	elseif event == "PLAYER_EQUIPMENT_CHANGED" then
@@ -1324,6 +1310,10 @@ function UpdateFlyout(self)
 			else
 				self.FlyoutArrow:SetPoint("TOP", self, "TOP", 0, arrowDistance)
 				SetClampedTextureRotation(self.FlyoutArrow, 0)
+			end
+
+			if self.FlyoutUpdateFunc then
+				self.FlyoutUpdateFunc(nil, self)
 			end
 
 			-- return here, otherwise flyout is hidden
