@@ -32,7 +32,15 @@ local function LoadSkin()
 		local button = _G["SpellButton"..i]
 		local icon = _G["SpellButton"..i.."IconTexture"]
 		local cooldown = _G["SpellButton"..i.."Cooldown"]
-		local spellName = _G["SpellButton"..i.."SpellName"]
+
+		for i = 1, button:GetNumRegions() do
+			local region = select(i, button:GetRegions())
+			if(region:GetObjectType() == "Texture") then
+				if(region:GetTexture() ~= "Interface\\Buttons\\ActionBarFlyoutButton") then
+					region:SetTexture(nil)
+				end
+			end
+		end
 
 		button:CreateBackdrop("Default", true)
 		button.backdrop:SetFrameLevel(button.backdrop:GetFrameLevel() - 1)
@@ -66,36 +74,21 @@ local function LoadSkin()
 	SpellButton11:Point("TOPLEFT", SpellButton9, "BOTTOMLEFT", 0, -27)
 	SpellButton12:Point("TOPLEFT", SpellButton11, "TOPLEFT", 225, 0)
 
-	local function SpellButtons(_, first)
-		for i = 1, SPELLS_PER_PAGE do
-			local button = _G["SpellButton"..i]
-			local highlight = _G["SpellButton"..i.."Highlight"]
-			local spellName = _G["SpellButton"..i.."SpellName"]
+	hooksecurefunc("SpellButton_UpdateButton", function(self)
+		local name = self:GetName()
+		local spellName = _G[name .. "SpellName"]
+		local highlight = _G[name .. "Highlight"]
 
-			if(first) then
-				for i = 1, button:GetNumRegions() do
-					local region = select(i, button:GetRegions())
-					if(region:GetObjectType() == "Texture") then
-						if(region:GetTexture() ~= "Interface\\Buttons\\ActionBarFlyoutButton") then
-							region:SetTexture(nil)
-						end
-					end
-				end
-			end
-
-			if(highlight) then
-				highlight:SetTexture(1, 1, 1, 0.3)
-			end
-
-			local r, g, b = spellName:GetTextColor()
-
-			if(r < 0.8) then
-				spellName:SetTextColor(0.6, 0.6, 0.6)
-			end
+		if(highlight) then
+			highlight:SetTexture(1, 1, 1, 0.3)
 		end
-	end
-	SpellButtons(nil, true)
-	hooksecurefunc("SpellButton_UpdateButton", SpellButtons)
+
+		local r, g, b = spellName:GetTextColor()
+
+		if(r < 0.8) then
+			spellName:SetTextColor(0.6, 0.6, 0.6)
+		end
+	end)
 
 	--Skill Line Tabs
 	local function SkinTab(tab)
