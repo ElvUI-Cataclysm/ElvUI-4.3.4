@@ -1094,7 +1094,6 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				self:AddMessage(format(globalstring, arg8, arg4, arg2), info.r, info.g, info.b, info.id);
 			end
 		elseif (type == "CHANNEL_NOTICE") then
-			if arg1 == "NOT_IN_LFG" then return; end
 			local globalstring = _G["CHAT_"..arg1.."_NOTICE_BN"];
 			if ( not globalstring ) then
 				globalstring = _G["CHAT_"..arg1.."_NOTICE"];
