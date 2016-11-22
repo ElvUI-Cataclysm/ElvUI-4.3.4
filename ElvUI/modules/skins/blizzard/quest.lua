@@ -186,11 +186,9 @@ local function LoadSkin()
 		QuestLogScrollFrame:Height(331)
 		QuestLogScrollFrame:Width(302)
 		QuestLogScrollFrame:CreateBackdrop("Default", true)
-		QuestLogScrollFrame.backdrop:SetFrameLevel(QuestLogScrollFrame:GetFrameLevel() - 2)
 
 		QuestLogDetailScrollFrame:Height(331)
 		QuestLogDetailScrollFrame:CreateBackdrop("Default", true)
-		QuestLogDetailScrollFrame.backdrop:SetFrameLevel(QuestLogDetailScrollFrame:GetFrameLevel() - 2)
 		QuestLogDetailScrollFrame:Point("TOPRIGHT", QuestLogFrame, "TOPRIGHT", -32, -75)
 	end)
 
