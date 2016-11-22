@@ -35,10 +35,11 @@ if not LibStub then error(MAJOR_VERSION .. " requires LibStub.") end
 local lib, oldversion = LibStub:NewLibrary(MAJOR_VERSION, MINOR_VERSION)
 if not lib then return end
 
+-- Lua functions
 local _G = _G
 local type, error, tostring, tonumber, assert, select = type, error, tostring, tonumber, assert, select
 local setmetatable, wipe, unpack, pairs, next = setmetatable, wipe, unpack, pairs, next
-local match, format = string.match, format
+local match, format, tinsert, tremove = string.match, format, tinsert, tremove
 
 local KeyBound = LibStub("LibKeyBound-1.0", true)
 local CBH = LibStub("CallbackHandler-1.0")
@@ -50,6 +51,9 @@ lib.buttonRegistry = lib.buttonRegistry or {}
 lib.activeButtons = lib.activeButtons or {}
 lib.actionButtons = lib.actionButtons or {}
 lib.nonActionButtons = lib.nonActionButtons or {}
+
+lib.unusedOverlayGlows = lib.unusedOverlayGlows or {}
+lib.numOverlays = lib.numOverlays or 0
 
 lib.callbacks = lib.callbacks or CBH:New(lib)
 
@@ -89,18 +93,20 @@ local ButtonRegistry, ActiveButtons, ActionButtons, NonActionButtons = lib.butto
 local Update, UpdateButtonState, UpdateUsable, UpdateCount, UpdateCooldown, UpdateTooltip
 local StartFlash, StopFlash, UpdateFlash, UpdateHotkeys, UpdateRangeTimer, UpdateOverlayGlow
 local UpdateFlyout, ShowGrid, HideGrid, UpdateGrid, SetupSecureSnippets, WrapOnClick
+local ShowOverlayGlow, HideOverlayGlow, GetOverlayGlow, OverlayGlowAnimOutFinished
 
 local InitializeEventHandler, OnEvent, ForAllButtons, OnUpdate
 
 
---[[local SPELL_POWER_HOLY_POWER = SPELL_POWER_HOLY_POWER;
+--[[
+local SPELL_POWER_HOLY_POWER = SPELL_POWER_HOLY_POWER;
 local HAND_OF_LIGHT = GetSpellInfo(90174);
 local PLAYERCLASS = select(2, UnitClass('player'))
 local HOLY_POWER_SPELLS = {
 	[85256] = GetSpellInfo(85256), --Templar's Verdict
 	[53600] = GetSpellInfo(53600), --Shield of the Righteous
-};]]
-
+};
+]]
 
 local DefaultConfig = {
 	outOfRangeColoring = "button",
@@ -112,7 +118,7 @@ local DefaultConfig = {
 		mana = { 0.5, 0.5, 1.0 },
 		usable = { 1.0, 1.0, 1.0 },
 		notUsable = { 0.4, 0.4, 0.4 },
-		--hp = { 0.5, 0.5, 1.0 }
+	--	hp = { 0.5, 0.5, 1.0 }
 	},
 	hideElements = {
 		macro = false,
@@ -121,6 +127,7 @@ local DefaultConfig = {
 	},
 	keyBoundTarget = false,
 	clickOnDown = false,
+	flyoutDirection = "UP",
 }
 
 --- Create a new action button.
@@ -541,7 +548,7 @@ function Generic:OnEnter()
 	if KeyBound then
 		KeyBound:Set(self)
 	end
-	
+
 	if self.config.clickOnDown then
 		self:SetScript('OnUpdate', Generic.OnUpdate)
 	end
@@ -588,13 +595,13 @@ function Generic:PostClick()
 			self._old_type = nil
 		end
 		local oldType, oldAction = self._state_type, self._state_action
-		local kind, data, subtype = GetCursorInfo()
+		local kind, data, subtype, extra = GetCursorInfo()
 		self.header:SetFrameRef("updateButton", self)
 		self.header:Execute(format([[
 			local frame = self:GetFrameRef("updateButton")
-			control:RunFor(frame, frame:GetAttribute("OnReceiveDrag"), %s, %s, %s)
+			control:RunFor(frame, frame:GetAttribute("OnReceiveDrag"), %s, %s, %s, %s)
 			control:RunFor(frame, frame:GetAttribute("UpdateState"), %s)
-		]], formatHelper(kind), formatHelper(data), formatHelper(subtype), formatHelper(self:GetAttribute("state"))))
+		]], formatHelper(kind), formatHelper(data), formatHelper(subtype), formatHelper(extra), formatHelper(self:GetAttribute("state"))))
 		PickupAny("clear", oldType, oldAction)
 	end
 	self._receiving_drag = nil
@@ -642,6 +649,9 @@ function Generic:UpdateConfig(config)
 	else
 		self.actionName:Show()
 	end
+
+	self:SetAttribute("flyoutDirection", self.config.flyoutDirection)
+
 	UpdateHotkeys(self)
 	UpdateGrid(self)
 	Update(self)
@@ -781,14 +791,28 @@ function OnEvent(frame, event, arg1, ...)
 		for button in next, ActiveButtons do
 			local spellId = button:GetSpellId()
 			if spellId and spellId == arg1 then
-				ActionButton_ShowOverlayGlow(button)
+				ShowOverlayGlow(button)
+			else
+				if button._state_type == "action" then
+					local actionType, id = GetActionInfo(button._state_action)
+					if actionType == "flyout" and FlyoutHasSpell(id, arg1) then
+						ShowOverlayGlow(button)
+					end
+				end
 			end
 		end
 	elseif event == "SPELL_ACTIVATION_OVERLAY_GLOW_HIDE" then
 		for button in next, ActiveButtons do
 			local spellId = button:GetSpellId()
 			if spellId and spellId == arg1 then
-				ActionButton_HideOverlayGlow(button)
+				HideOverlayGlow(button)
+			else
+				if button._state_type == "action" then
+					local actionType, id = GetActionInfo(button._state_action)
+					if actionType == "flyout" and FlyoutHasSpell(id, arg1) then
+						HideOverlayGlow(button)
+					end
+				end
 			end
 		end
 	elseif event == "PLAYER_EQUIPMENT_CHANGED" then
@@ -816,7 +840,7 @@ function OnUpdate(_, elapsed)
 					button.flash:Show()
 				end
 			end
-			
+
 			-- Range
 			if rangeTimer <= 0 then
 				local inRange = button:IsInRange()
@@ -889,6 +913,7 @@ end
 
 -----------------------------------------------------------
 --- KeyBound integration
+
 function Generic:GetBindingAction()
 	return self.config.keyBoundTarget or "CLICK "..self:GetName()..":LeftButton"
 end
@@ -1073,7 +1098,8 @@ function UpdateButtonState(self)
 	lib.callbacks:Fire("OnButtonState", self)
 end
 
---[[local function IsHolyPowerAbility(actionId)
+--[[
+local function IsHolyPowerAbility(actionId)
 	if not actionId or type(actionId) ~= 'number' then return false; end
 	local actionType, id = GetActionInfo(actionId);
 	if actionType == 'macro' then
@@ -1089,7 +1115,8 @@ end
 		return HOLY_POWER_SPELLS[id];
 	end
 	return false;
-end]]
+end
+]]
 
 function UpdateUsable(self)
 	if self.config.useColoring then
@@ -1097,20 +1124,22 @@ function UpdateUsable(self)
 			self.icon:SetVertexColor(unpack(self.config.colors.range))
 		else
 			local isUsable, notEnoughMana = self:IsUsable()
-			--[[local action = self._state_action
+		--[[
+			local action = self._state_action
 			if PLAYERCLASS == 'PALADIN' and IsHolyPowerAbility(action) and not(UnitPower('player', SPELL_POWER_HOLY_POWER) == 3 or UnitBuff('player', HAND_OF_LIGHT)) then
-			self.icon:SetVertexColor(unpack(self.config.colors.hp))]]
+				self.icon:SetVertexColor(unpack(self.config.colors.hp))
+		]]
 			if isUsable then
 				self.icon:SetVertexColor(unpack(self.config.colors.usable))
-				--self.NormalTexture:SetVertexColor(1.0, 1.0, 1.0)
+				--self.normalTexture:SetVertexColor(1.0, 1.0, 1.0)
 			elseif notEnoughMana then
 				self.icon:SetVertexColor(unpack(self.config.colors.mana))
-				--self.NormalTexture:SetVertexColor(0.5, 0.5, 1.0)
+				--self.normalTexture:SetVertexColor(0.5, 0.5, 1.0)
 			else
 				self.icon:SetVertexColor(unpack(self.config.colors.notUsable))
-				--self.NormalTexture:SetVertexColor(1.0, 1.0, 1.0)
+				--self.normalTexture:SetVertexColor(1.0, 1.0, 1.0)
 			end
- 		end
+		end
 	else
 		self.icon:SetVertexColor(unpack(self.config.colors.usable))
  	end
@@ -1122,7 +1151,6 @@ function UpdateCount(self)
 		self.count:SetText("")
 		return
 	end
-
 	if self:IsConsumableOrStackable() then
 		local count = self:GetCount()
 		if count > (self.maxDisplayCount or 9999) then
@@ -1177,11 +1205,11 @@ function UpdateHotkeys(self)
 	local key = self:GetHotkey()
 	if not key or key == "" or not self.config.hideElements.hotkey then
 		self.hotkey:SetText(RANGE_INDICATOR)
-		self.hotkey:SetPoint("TOPRIGHT", 0, -3);	
+		self.hotkey:SetPoint("TOPRIGHT", 0, -3);
 		self.hotkey:Hide()
-	else		
+	else
 		self.hotkey:SetText(key)
-		self.hotkey:SetPoint("TOPRIGHT", 0, -3);	
+		self.hotkey:SetPoint("TOPRIGHT", 0, -3);
 		self.hotkey:Show()
 	end
 
@@ -1190,12 +1218,70 @@ function UpdateHotkeys(self)
 	end
 end
 
+local function OverlayGlow_OnHide(self)
+	if self.animOut:IsPlaying() then
+		self.animOut:Stop()
+		OverlayGlowAnimOutFinished(self.animOut)
+	end
+end
+
+function GetOverlayGlow()
+	local overlay = tremove(lib.unusedOverlayGlows);
+	if not overlay then
+		lib.numOverlays = lib.numOverlays + 1
+		overlay = CreateFrame("Frame", "LAB10ActionButtonOverlay"..lib.numOverlays, UIParent, "ActionBarButtonSpellActivationAlert")
+		overlay.animOut:SetScript("OnFinished", OverlayGlowAnimOutFinished)
+		overlay:SetScript("OnHide", OverlayGlow_OnHide)
+	end
+	return overlay
+end
+
+function ShowOverlayGlow(self)
+	if self.overlay then
+		if self.overlay.animOut:IsPlaying() then
+			self.overlay.animOut:Stop()
+			self.overlay.animIn:Play()
+		end
+	else
+		self.overlay = GetOverlayGlow()
+		local frameWidth, frameHeight = self:GetSize()
+		self.overlay:SetParent(self)
+		self.overlay:ClearAllPoints()
+		--Make the height/width available before the next frame:
+		self.overlay:SetSize(frameWidth * 1.4, frameHeight * 1.4)
+		self.overlay:SetPoint("TOPLEFT", self, "TOPLEFT", -frameWidth * 0.2, frameHeight * 0.2)
+		self.overlay:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", frameWidth * 0.2, -frameHeight * 0.2)
+		self.overlay.animIn:Play()
+	end
+end
+
+function HideOverlayGlow(self)
+	if self.overlay then
+		if self.overlay.animIn:IsPlaying() then
+			self.overlay.animIn:Stop()
+		end
+		if self:IsVisible() then
+			self.overlay.animOut:Play()
+		else
+			OverlayGlowAnimOutFinished(self.overlay.animOut)
+		end
+	end
+end
+
+function OverlayGlowAnimOutFinished(animGroup)
+	local overlay = animGroup:GetParent()
+	local actionButton = overlay:GetParent()
+	overlay:Hide()
+	tinsert(lib.unusedOverlayGlows, overlay)
+	actionButton.overlay = nil
+end
+
 function UpdateOverlayGlow(self)
 	local spellId = self:GetSpellId()
 	if spellId and IsSpellOverlayed(spellId) then
-		ActionButton_ShowOverlayGlow(self)
+		ShowOverlayGlow(self)
 	else
-		ActionButton_HideOverlayGlow(self)
+		HideOverlayGlow(self)
 	end
 end
 
@@ -1243,24 +1329,12 @@ function UpdateFlyout(self)
 			-- return here, otherwise flyout is hidden
 			return
 		end
-		if self.FlyoutUpdateFunc then
-			self.FlyoutUpdateFunc(nil, self)
-		end
 	end
 	self.FlyoutArrow:Hide()
 end
 
 function UpdateRangeTimer()
 	rangeTimer = -1
-end
-
-local function GetSpellIdByName(spellName)
-	if not spellName then return end
-	local spellLink = GetSpellLink(spellName)
-	if spellLink then
-		return tonumber(spellLink:match("spell:(%d+)"))
-	end
-	return nil
 end
 
 -----------------------------------------------------------
@@ -1400,6 +1474,14 @@ if oldversion and next(lib.buttonRegistry) then
 		SetupSecureSnippets(button)
 		if oldversion < 12 then
 			WrapOnClick(button)
+		end
+		if oldversion < 23 then
+			if button.overlay then
+				button.overlay:Hide()
+				ActionButton_HideOverlayGlow(button)
+				button.overlay = nil
+				UpdateOverlayGlow(button)
+			end
 		end
 	end
 end
