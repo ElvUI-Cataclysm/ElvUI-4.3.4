@@ -260,6 +260,7 @@ local function LoadSkin()
 		secondarySpellButtonLeft:GetHighlightTexture():Hide()
 		secondarySpellButtonLeft:StyleButton(true)
 		secondarySpellButtonLeft:SetFrameLevel(secondarySpellButtonLeft:GetFrameLevel() + 2)
+		secondarySpellButtonLeft:Point("TOPRIGHT", secondarySpellButtonRight, "TOPLEFT", -96, 0)
 
 		secondarySpellButtonLeftTex:SetTexCoord(unpack(E.TexCoords))
 		secondarySpellButtonLeftTex:SetInside()
@@ -285,9 +286,6 @@ local function LoadSkin()
 		end
 	end
 
-	SecondaryProfession1SpellButtonLeft:Point("TOPRIGHT", SecondaryProfession1SpellButtonRight, "TOPLEFT", -96, 0)
-	SecondaryProfession3SpellButtonLeft:Point("TOPRIGHT", SecondaryProfession3SpellButtonRight, "TOPLEFT", -96, 0)
-
 	--Mounts/Companions
 	for i = 1, NUM_COMPANIONS_PER_PAGE do
 		local button = _G["SpellBookCompanionButton"..i]
@@ -302,36 +300,33 @@ local function LoadSkin()
 			button:SetFrameLevel(button:GetFrameLevel() + 2)
 			button:CreateBackdrop("Default", true)
 		end
+
+		button.bg = CreateFrame("Frame", nil, button)
+		button.bg:CreateBackdrop("Transparent", true);
+		button.bg:Point("TOPLEFT", -1, 1);
+		button.bg:Point("BOTTOMRIGHT", 105, -1);
 	end
 
-	for i = 1, 12 do
-		_G["SpellBookCompanionButton" .. i]:CreateBackdrop("Transparent", true);
-		_G["SpellBookCompanionButton" .. i].backdrop:Point("TOPLEFT", -3, 3);
-		_G["SpellBookCompanionButton" .. i].backdrop:Point("BOTTOMRIGHT", 105, -3);
-	end
-
-	SpellBookCompanionButton1:Point("TOPLEFT",  SpellBookCompanionsFrame, "TOPLEFT", 10, -280)
+	SpellBookCompanionButton1:Point("TOPLEFT", 9, -300)
 
 	SpellBookCompanionModelFrame:StripTextures()
-	SpellBookCompanionModelFrame:SetTemplate("Transparent")
+	SpellBookCompanionModelFrame:CreateBackdrop()
+	SpellBookCompanionModelFrame:Size(380, 240)
 	SpellBookCompanionModelFrame:ClearAllPoints()
-	SpellBookCompanionModelFrame:Point("TOP", SpellBookCompanionsFrame, "TOP", 0, -60)
-	SpellBookCompanionModelFrame:Width(270)
-	SpellBookCompanionModelFrame:Height(185)
+	SpellBookCompanionModelFrame:Point("TOP", SpellBookCompanionsFrame, "TOP", 0, -47)
 
-	SpellBookCompanionModelFrameShadowOverlay:StripTextures()
-	SpellBookCompanionsModelFrame:Kill()
+	SpellBookCompanionsModelFrame:SetInside(SpellBookCompanionModelFrame.backdrop)
+	SpellBookCompanionsModelFrame:SetDesaturated(true)
 
 	S:HandleButton(SpellBookCompanionSummonButton)
-	SpellBookCompanionSummonButton:Point("BOTTOM", SpellBookCompanionModelFrame, "BOTTOM", -3, -235)
-	SpellBookCompanionSummonButton:SetScale(1.1)
+	SpellBookCompanionSummonButton:Point("BOTTOM", -3, 10)
+	SpellBookCompanionSummonButton:Size(140, 25)
 
-	SpellBookCompanionSelectedName:Point("TOP", SpellBookCompanionModelFrame, "TOP", 0, 175)
+	SpellBookCompanionSelectedName:Point("TOP", 0, 238)
 
 	S:HandleRotateButton(SpellBookCompanionModelFrameRotateRightButton)
 	S:HandleRotateButton(SpellBookCompanionModelFrameRotateLeftButton)
-	SpellBookCompanionModelFrameRotateLeftButton:ClearAllPoints()
-	SpellBookCompanionModelFrameRotateLeftButton:Point("TOPLEFT", SpellBookCompanionModelFrame, "TOPLEFT", 2, -2)
+	SpellBookCompanionModelFrameRotateLeftButton:Point("TOPLEFT", 2, -2)
 
 	SpellBookCompanionModelFrameRotateRightButton:SetAlpha(0)
 	SpellBookCompanionModelFrameRotateLeftButton:SetAlpha(0)
