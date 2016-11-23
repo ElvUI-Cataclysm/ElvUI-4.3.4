@@ -307,13 +307,13 @@ local function LoadSkin()
 		button.bg:Point("BOTTOMRIGHT", 105, -1);
 	end
 
-	SpellBookCompanionButton1:Point("TOPLEFT", 9, -300)
+	SpellBookCompanionButton1:Point("TOPLEFT", 9, -310)
 
 	SpellBookCompanionModelFrame:StripTextures()
 	SpellBookCompanionModelFrame:CreateBackdrop()
-	SpellBookCompanionModelFrame:Size(380, 240)
+	SpellBookCompanionModelFrame:Size(380, 260)
 	SpellBookCompanionModelFrame:ClearAllPoints()
-	SpellBookCompanionModelFrame:Point("TOP", SpellBookCompanionsFrame, "TOP", 0, -47)
+	SpellBookCompanionModelFrame:Point("TOP", SpellBookCompanionsFrame, "TOP", 0, -42)
 
 	SpellBookCompanionsModelFrame:SetInside(SpellBookCompanionModelFrame.backdrop)
 	SpellBookCompanionsModelFrame:SetDesaturated(true)
@@ -322,7 +322,7 @@ local function LoadSkin()
 	SpellBookCompanionSummonButton:Point("BOTTOM", -3, 10)
 	SpellBookCompanionSummonButton:Size(140, 25)
 
-	SpellBookCompanionSelectedName:Point("TOP", 0, 238)
+	SpellBookCompanionSelectedName:Point("TOP", 0, 255)
 
 	S:HandleRotateButton(SpellBookCompanionModelFrameRotateRightButton)
 	S:HandleRotateButton(SpellBookCompanionModelFrameRotateLeftButton)
