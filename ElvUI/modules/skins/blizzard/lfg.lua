@@ -337,24 +337,13 @@ local function LoadSkin()
 		end
 	end
 
-	-- LFR Frames
-	S:HandleButton(LFRQueueFrameFindGroupButton);
-	S:HandleButton(LFRQueueFrameAcceptCommentButton);
-	S:HandleButton(LFRBrowseFrameSendMessageButton);
-	S:HandleButton(LFRBrowseFrameInviteButton);
-	S:HandleButton(LFRBrowseFrameRefreshButton);
+	-- Raid Finder
+	RaidParentFrame:StripTextures();
+	RaidParentFrame:SetTemplate("Transparent");
 
-	S:HandleDropDownBox(LFRBrowseFrameRaidDropDown);
+	RaidParentFrameInset:StripTextures();
 
-	for i = 1, 7 do
-		local button = "LFRBrowseFrameColumnHeader"..i;
-		_G[button.."Left"]:Kill();
-		_G[button.."Middle"]:Kill();
-		_G[button.."Right"]:Kill();
-		_G[button]:StyleButton();
-	end
-
-	LFRQueueFrameSpecificListScrollFrame:StripTextures();
+	S:HandleCloseButton(RaidParentFrameCloseButton);
 
 	for i = 1, 2 do
 		local tab = _G["LFRParentFrameSideTab"..i];
@@ -365,46 +354,23 @@ local function LoadSkin()
 		tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
 	end
 
-	LFRParentFrameSideTab1:Point("TOPLEFT", LFRParentFrame, "TOPRIGHT", -1, -35);
-
-	RaidParentFrame:StripTextures();
-	RaidParentFrame:SetTemplate("Transparent");
-
 	for i = 1, 3 do 
 		S:HandleTab(_G['RaidParentFrameTab'..i]);
 	end
 
-	S:HandleButton(RaidFinderFrameFindRaidButton, true);
-	S:HandleButton(RaidFinderFrameCancelButton, true);
-	S:HandleDropDownBox(RaidFinderQueueFrameSelectionDropDown);
+	LFRParentFrameSideTab1:Point("TOPLEFT", LFRParentFrame, "TOPRIGHT", -1, -35);
 
-	RaidFinderQueueFrame:StripTextures();
-	RaidParentFrameInset:StripTextures();
 	RaidFinderQueueFrame:StripTextures(true);
+	RaidFinderFrame:StripTextures();
 	RaidFinderFrameRoleInset:StripTextures();
 
-	RaidFinderFrame:StripTextures();
-	LFRParentFrame:StripTextures();
-	LFRQueueFrame:StripTextures();
-	LFRQueueFrameListInset:StripTextures();
-	LFRQueueFrameRoleInset:StripTextures();
-	LFRQueueFrameCommentInset:StripTextures();
-	LFRBrowseFrame:StripTextures();
-
-	S:HandleScrollBar(LFRQueueFrameCommentScrollFrameScrollBar);
-
+	S:HandleDropDownBox(RaidFinderQueueFrameSelectionDropDown);
 	RaidFinderQueueFrameSelectionDropDown:Width(225);
 	RaidFinderQueueFrameSelectionDropDown.SetWidth = E.noop;
 
-	LFRQueueFrameCommentTextButton:CreateBackdrop("Default");
-	LFRQueueFrameCommentTextButton:Height(35);
-
-	LFRBrowseFrame:HookScript("OnShow", function()
-		if(not LFRBrowseFrameListScrollFrameScrollBar.skinned) then
-			S:HandleScrollBar(LFRBrowseFrameListScrollFrameScrollBar);
-			LFRBrowseFrameListScrollFrameScrollBar.skinned = true;
-		end
-	end)
+	S:HandleButton(RaidFinderFrameFindRaidButton, true);
+	S:HandleButton(RaidFinderFrameCancelButton, true);
+	S:HandleButton(RaidFinderQueueFrameIneligibleFrameLeaveQueueButton);
 
 	for i = 1, 1 do
 		local button = _G["RaidFinderQueueFrameScrollFrameChildFrameItem"..i];
@@ -426,30 +392,6 @@ local function LoadSkin()
 		end
 	end
 
-	S:HandleButton(RaidFinderQueueFrameIneligibleFrameLeaveQueueButton);
-	S:HandleButton(LFRQueueFrameNoLFRWhileLFDLeaveQueueButton);
-	S:HandleCloseButton(RaidParentFrameCloseButton);
-
-	for i = 1, NUM_LFR_CHOICE_BUTTONS do
-		local button = _G["LFRQueueFrameSpecificListButton" .. i];
-		S:HandleCheckBox(button.enableButton);
-
-		button.expandOrCollapseButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
-		button.expandOrCollapseButton.SetNormalTexture = E.noop;
-		button.expandOrCollapseButton:SetHighlightTexture(nil);
-		button.expandOrCollapseButton:GetNormalTexture():Size(12);
-		button.expandOrCollapseButton:GetNormalTexture():Point("CENTER", 4, 0);
-
-		hooksecurefunc(button.expandOrCollapseButton, "SetNormalTexture", function(self, texture)
-			if(find(texture, "MinusButton")) then
-				self:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375);
-			else
-				self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375);
-			end
-		end);
- 	end
-
-	-- Raid Finder Roles
 	RaidFinderQueueFrameRoleButtonTank:Point("BOTTOMLEFT", RaidFinderQueueFrame, "BOTTOMLEFT", 25, 334);
 	RaidFinderQueueFrameRoleButtonHealer:Point("LEFT", RaidFinderQueueFrameRoleButtonTank, "RIGHT", 23, 0);
 	RaidFinderQueueFrameRoleButtonLeader:Point("LEFT", RaidFinderQueueFrameRoleButtonDPS, "RIGHT", 50, 0);
@@ -502,7 +444,30 @@ local function LoadSkin()
 	RaidFinderQueueFrameRoleButtonLeader.icon:SetTexture("Interface\\Icons\\Ability_Vehicle_LaunchPlayer");
 	RaidFinderQueueFrameRoleButtonLeader.icon:SetInside(RaidFinderQueueFrameRoleButtonLeader.backdrop);
 
-	-- Raid Finder Other Raids Roles
+	-- LFR Queue Frame
+	LFRParentFrame:StripTextures();
+	LFRQueueFrame:StripTextures();
+	LFRQueueFrameListInset:StripTextures();
+	LFRQueueFrameRoleInset:StripTextures();
+	LFRQueueFrameCommentInset:StripTextures();
+
+	S:HandleScrollBar(LFRQueueFrameCommentScrollFrameScrollBar);
+
+	S:HandleButton(LFRQueueFrameFindGroupButton);
+	S:HandleButton(LFRQueueFrameAcceptCommentButton);
+
+	LFRQueueFrameCommentTextButton:CreateBackdrop("Default");
+	LFRQueueFrameCommentTextButton:Height(35);
+
+	LFRQueueFrameSpecificListScrollFrame:StripTextures();
+	LFRQueueFrameSpecificListScrollFrame:ClearAllPoints()
+	LFRQueueFrameSpecificListScrollFrame:Point("TOPLEFT", LFRQueueFrameSpecificListButton1, "TOPLEFT", 0, 0)
+	LFRQueueFrameSpecificListScrollFrame:Point("BOTTOMRIGHT", LFRQueueFrameSpecificListButton14, "BOTTOMRIGHT", 0, -2)
+
+	S:HandleScrollBar(LFRQueueFrameSpecificListScrollFrameScrollBar)
+
+	S:HandleButton(LFRQueueFrameNoLFRWhileLFDLeaveQueueButton);
+
 	LFRQueueFrameRoleButtonTank:Point("TOPLEFT", LFRQueueFrame, "TOPLEFT", 50, -45);
 	LFRQueueFrameRoleButtonHealer:Point("LEFT", LFRQueueFrameRoleButtonTank, "RIGHT", 43, 0);
 
@@ -541,6 +506,52 @@ local function LoadSkin()
 	LFRQueueFrameRoleButtonDPS.icon:SetTexCoord(unpack(E.TexCoords));
 	LFRQueueFrameRoleButtonDPS.icon:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01");
 	LFRQueueFrameRoleButtonDPS.icon:SetInside(LFRQueueFrameRoleButtonDPS.backdrop);
+
+	for i = 1, NUM_LFR_CHOICE_BUTTONS do
+		local button = _G["LFRQueueFrameSpecificListButton" .. i];
+		S:HandleCheckBox(button.enableButton);
+
+		button.expandOrCollapseButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
+		button.expandOrCollapseButton.SetNormalTexture = E.noop;
+		button.expandOrCollapseButton:SetHighlightTexture(nil);
+		button.expandOrCollapseButton:GetNormalTexture():Size(12);
+		button.expandOrCollapseButton:GetNormalTexture():Point("CENTER", 4, 0);
+
+		hooksecurefunc(button.expandOrCollapseButton, "SetNormalTexture", function(self, texture)
+			if(find(texture, "MinusButton")) then
+				self:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375);
+			else
+				self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375);
+			end
+		end);
+ 	end
+
+	-- LFR Browse Frame
+	LFRBrowseFrame:StripTextures();
+	LFRBrowseFrame:HookScript("OnShow", function()
+		if(not LFRBrowseFrameListScrollFrameScrollBar.skinned) then
+			S:HandleScrollBar(LFRBrowseFrameListScrollFrameScrollBar);
+			LFRBrowseFrameListScrollFrameScrollBar.skinned = true;
+		end
+	end)
+
+	LFRBrowseFrameListScrollFrame:ClearAllPoints()
+	LFRBrowseFrameListScrollFrame:Point("TOPLEFT", LFRBrowseFrameListButton1, "TOPLEFT", 0, 0)
+	LFRBrowseFrameListScrollFrame:Point("BOTTOMRIGHT", LFRBrowseFrameListButton19, "BOTTOMRIGHT", 5, -2)
+
+	S:HandleDropDownBox(LFRBrowseFrameRaidDropDown);
+
+	S:HandleButton(LFRBrowseFrameSendMessageButton);
+	S:HandleButton(LFRBrowseFrameInviteButton);
+	S:HandleButton(LFRBrowseFrameRefreshButton);
+
+	for i = 1, 7 do
+		local button = "LFRBrowseFrameColumnHeader"..i;
+		_G[button.."Left"]:Kill();
+		_G[button.."Middle"]:Kill();
+		_G[button.."Right"]:Kill();
+		_G[button]:StyleButton();
+	end
 
 	-- Desaturate/Incentive Scripts (Role Icons)
 	hooksecurefunc("LFG_SetRoleIconIncentive", function(roleButton, incentiveIndex)

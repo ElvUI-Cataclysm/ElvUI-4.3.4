@@ -222,6 +222,7 @@ function AFK:Initialize()
 	self.AFKMode.chat:SetFading(false);
 	self.AFKMode.chat:SetMovable(true);
 	self.AFKMode.chat:EnableMouse(true);
+	self.AFKMode.chat:SetClampedToScreen(true);
 	self.AFKMode.chat:RegisterForDrag("LeftButton");
 	self.AFKMode.chat:SetScript("OnDragStart", self.AFKMode.chat.StartMoving);
 	self.AFKMode.chat:SetScript("OnDragStop", self.AFKMode.chat.StopMovingOrSizing);
