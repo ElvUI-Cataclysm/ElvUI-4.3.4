@@ -311,7 +311,7 @@ local function LoadSkin()
 
 	SpellBookCompanionModelFrame:StripTextures()
 	SpellBookCompanionModelFrame:CreateBackdrop()
-	SpellBookCompanionModelFrame:Size(380, 260)
+	SpellBookCompanionModelFrame:Size(350, 230)
 	SpellBookCompanionModelFrame:ClearAllPoints()
 	SpellBookCompanionModelFrame:Point("TOP", SpellBookCompanionsFrame, "TOP", 0, -42)
 
@@ -322,7 +322,7 @@ local function LoadSkin()
 	SpellBookCompanionSummonButton:Point("BOTTOM", -3, 10)
 	SpellBookCompanionSummonButton:Size(140, 25)
 
-	SpellBookCompanionSelectedName:Point("TOP", 0, 255)
+	SpellBookCompanionSelectedName:Point("TOP", 0, 228)
 
 	S:HandleRotateButton(SpellBookCompanionModelFrameRotateRightButton)
 	S:HandleRotateButton(SpellBookCompanionModelFrameRotateLeftButton)
@@ -339,6 +339,32 @@ local function LoadSkin()
 	SpellBookFrame:HookScript("OnEnter", function()
 		SpellBookCompanionModelFrameRotateRightButton:SetAlpha(0)
 		SpellBookCompanionModelFrameRotateLeftButton:SetAlpha(0)
+	end)
+
+	local progress = CreateFrame("StatusBar", "CompanionCountProgress", SpellBookCompanionsFrame, "ProfessionStatusBarTemplate")
+	progress:StripTextures()
+	progress:CreateBackdrop("Default")
+	progress:Size(250, 17)
+	progress:Point("CENTER", 0, -28)
+	progress:SetStatusBarTexture(E["media"].normTex)
+	progress:SetStatusBarColor(0.11, 0.50, 1.00)
+
+	local MAX_COMPANIONS = {
+		CRITTER = 207,
+		MOUNT = 227
+	}
+
+	hooksecurefunc("SpellBookFrame_UpdatePages", function()
+		local mode = SpellBookCompanionsFrame.mode
+
+		if(mode) then
+			local cur, max = GetNumCompanions(mode), MAX_COMPANIONS[mode]
+			progress:SetMinMaxValues(1, max)
+			progress:SetValue(cur)
+			progress.rankText:SetFormattedText("%d/%d", cur, max)
+			progress.rankText:FontTemplate(nil, 12, "OUTLINE");
+			progress.rankText:Point("CENTER")
+		end
 	end)
 end
 
