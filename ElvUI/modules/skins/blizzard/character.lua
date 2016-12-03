@@ -10,11 +10,19 @@ local SquareButton_SetIcon = SquareButton_SetIcon
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.character ~= true then return end
 
+	CharacterFrameInset:StripTextures()
+	CharacterFrameInsetRight:StripTextures()
+	PaperDollSidebarTabs:StripTextures()
+
+	CharacterFramePortrait:Kill()
+
+	CharacterFrame:StripTextures()
+	CharacterFrame:SetTemplate("Transparent")
+
+	CharacterModelFrame:StripTextures()
+	CharacterModelFrame:CreateBackdrop("Default")
+
 	S:HandleCloseButton(CharacterFrameCloseButton)
-	S:HandleScrollBar(CharacterStatsPaneScrollBar)
-	S:HandleScrollBar(ReputationListScrollFrameScrollBar)
-	S:HandleScrollBar(TokenFrameContainerScrollBar)
-	S:HandleScrollBar(GearManagerDialogPopupScrollFrameScrollBar)
 
 	local slots = {
 		"HeadSlot",
@@ -82,17 +90,6 @@ local function LoadSkin()
 	CharacterFrame:HookScript("OnShow", ColorItemBorder)
 	ColorItemBorder()
 
-	--Strip Textures
-	local charframe = {
-		"CharacterFrame",
-		"CharacterModelFrame",
-		"CharacterFrameInset", 
-		"CharacterStatsPane",
-		"CharacterFrameInsetRight",
-		"PaperDollSidebarTabs",
-		"PaperDollEquipmentManagerPane"
-	}
-
 	CharacterFrameExpandButton:Size(CharacterFrameExpandButton:GetWidth() - 5, CharacterFrameExpandButton:GetHeight() - 5)
 	S:HandleNextPrevButton(CharacterFrameExpandButton)
 
@@ -150,10 +147,6 @@ local function LoadSkin()
 	end
 	hooksecurefunc("EquipmentFlyout_Show", SkinFrameFlyouts)
 
-	--Icon in upper right corner of character frame
-	CharacterFramePortrait:Kill()
-	CharacterModelFrame:CreateBackdrop("Default")
-
 	local controlbuttons = {
 		"CharacterModelFrameControlFrameZoomInButton",
 		"CharacterModelFrameControlFrameZoomOutButton",
@@ -171,21 +164,6 @@ local function LoadSkin()
 
 	CharacterModelFrameControlFrame:StripTextures()
 
-	local scrollbars = {
-		"PaperDollTitlesPaneScrollBar",
-		"PaperDollEquipmentManagerPaneScrollBar"
-	}
-
-	for _, scrollbar in pairs(scrollbars) do
-		S:HandleScrollBar(_G[scrollbar], 5)
-	end
-
-	for _, object in pairs(charframe) do
-		_G[object]:StripTextures()
-	end
-
-	CharacterFrame:SetTemplate("Transparent")
-
 	--Titles
 	PaperDollTitlesPane:HookScript("OnShow", function(self)
 		for x, object in pairs(PaperDollTitlesPane.buttons) do
@@ -201,9 +179,15 @@ local function LoadSkin()
 		end
 	end)
 
+	S:HandleScrollBar(PaperDollTitlesPaneScrollBar)
+
 	--Equipement Manager
+	PaperDollEquipmentManagerPane:StripTextures()
+
 	S:HandleButton(PaperDollEquipmentManagerPaneEquipSet)
 	S:HandleButton(PaperDollEquipmentManagerPaneSaveSet)
+
+	S:HandleScrollBar(PaperDollEquipmentManagerPaneScrollBar)
 
 	PaperDollEquipmentManagerPaneEquipSet:Point("TOPLEFT", PaperDollEquipmentManagerPane, "TOPLEFT", 8, 0)
 	PaperDollEquipmentManagerPaneEquipSet:Width(PaperDollEquipmentManagerPaneEquipSet:GetWidth() - 8)
@@ -236,6 +220,8 @@ local function LoadSkin()
 	end)
 
 	S:HandleIconSelectionFrame(GearManagerDialogPopup, NUM_GEARSET_ICONS_SHOWN, "GearManagerDialogPopupButton", frameNameOverride)
+
+	S:HandleScrollBar(GearManagerDialogPopupScrollFrameScrollBar)
 
 	GearManagerDialogPopupScrollFrame:CreateBackdrop("Transparent")
 	GearManagerDialogPopupScrollFrame.backdrop:Point("TOPLEFT", 51, 2)
@@ -276,36 +262,37 @@ local function LoadSkin()
 	end
 	hooksecurefunc("PaperDollFrame_UpdateSidebarTabs", FixSidebarTabCoords)
 
-	--Stat panels, atm it looks like 7 is the max
+	--Stat Panels
+	CharacterStatsPane:StripTextures()
+
+	S:HandleScrollBar(CharacterStatsPaneScrollBar)
+
 	for i = 1, 7 do
 		_G["CharacterStatsPaneCategory"..i]:StripTextures()
 	end
 
 	--Reputation
 	ReputationFrame:StripTextures(true)
-	ReputationListScrollFrame:StripTextures()
 
-	local function UpdateFactionSkins()
-		for i = 1, GetNumFactions() do
-			local statusbar = _G["ReputationBar"..i.."ReputationBar"]
-			if(statusbar) then
-				statusbar:SetStatusBarTexture(E["media"].normTex)
-				statusbar:CreateBackdrop("Default")
-				_G["ReputationBar"..i.."Background"]:SetTexture(nil)
-				_G["ReputationBar"..i.."LeftLine"]:Kill()
-				_G["ReputationBar"..i.."BottomLine"]:Kill()
-				_G["ReputationBar"..i.."ReputationBarHighlight1"]:SetTexture(nil)
-				_G["ReputationBar"..i.."ReputationBarHighlight2"]:SetTexture(nil)	
-				_G["ReputationBar"..i.."ReputationBarAtWarHighlight1"]:SetTexture(nil)
-				_G["ReputationBar"..i.."ReputationBarAtWarHighlight2"]:SetTexture(nil)
-				_G["ReputationBar"..i.."ReputationBarLeftTexture"]:SetTexture(nil)
-				_G["ReputationBar"..i.."ReputationBarRightTexture"]:SetTexture(nil)
-				_G["ReputationBar"..i.."ExpandOrCollapseButton"]:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons")
-				_G["ReputationBar"..i.."ExpandOrCollapseButton"].SetNormalTexture = function() end
-				_G["ReputationBar"..i.."ExpandOrCollapseButton"]:GetNormalTexture():SetInside()
-				_G["ReputationBar"..i.."ExpandOrCollapseButton"]:SetHighlightTexture(nil)
-			end
-		end
+	ReputationListScrollFrame:StripTextures()
+	S:HandleScrollBar(ReputationListScrollFrameScrollBar)
+
+	for i = 1, NUM_FACTIONS_DISPLAYED do
+		local factionRow = _G["ReputationBar" .. i];
+		local factionBar = _G["ReputationBar" .. i .. "ReputationBar"];
+		local factionButton = _G["ReputationBar" .. i .. "ExpandOrCollapseButton"];
+
+		factionRow:StripTextures(true);
+
+		factionBar:StripTextures();
+		factionBar:CreateBackdrop("Default");
+		factionBar:SetStatusBarTexture(E["media"].normTex);
+		E:RegisterStatusBar(factionBar);
+
+		factionButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons")
+		factionButton.SetNormalTexture = function() end
+		factionButton:GetNormalTexture():SetInside()
+		factionButton:SetHighlightTexture(nil)
 	end
 
 	local function UpdateFaction()
@@ -332,10 +319,6 @@ local function LoadSkin()
 			end
 		end
 	end
-
-	ReputationFrame:HookScript("OnShow", UpdateFactionSkins)
-	hooksecurefunc("ExpandFactionHeader", UpdateFactionSkins)
-	hooksecurefunc("CollapseFactionHeader", UpdateFactionSkins)
 	hooksecurefunc("ReputationFrame_Update", UpdateFaction)
 
 	ReputationDetailFrame:StripTextures()
@@ -371,6 +354,8 @@ local function LoadSkin()
 		TokenFramePopup:SetTemplate("Transparent")
 		TokenFramePopup:Point("TOPLEFT", TokenFrame, "TOPRIGHT", 1, 0)
 	end)
+
+	S:HandleScrollBar(TokenFrameContainerScrollBar)
 
 	S:HandleCheckBox(TokenFramePopupInactiveCheckBox)
 	S:HandleCheckBox(TokenFramePopupBackpackCheckBox)
