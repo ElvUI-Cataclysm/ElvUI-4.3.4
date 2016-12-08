@@ -324,6 +324,10 @@ local function LoadSkin()
 
 	SpellBookCompanionSelectedName:Point("TOP", 0, 228)
 
+	SpellBookCompanionModelFrameRotateRightButton:Kill()
+	SpellBookCompanionModelFrameRotateLeftButton:Kill()
+
+	--[[
 	S:HandleRotateButton(SpellBookCompanionModelFrameRotateRightButton)
 	S:HandleRotateButton(SpellBookCompanionModelFrameRotateLeftButton)
 	SpellBookCompanionModelFrameRotateLeftButton:Point("TOPLEFT", 2, -2)
@@ -340,11 +344,12 @@ local function LoadSkin()
 		SpellBookCompanionModelFrameRotateRightButton:SetAlpha(0)
 		SpellBookCompanionModelFrameRotateLeftButton:SetAlpha(0)
 	end)
+	]]
 
 	local progress = CreateFrame("StatusBar", "CompanionCountProgress", SpellBookCompanionsFrame, "ProfessionStatusBarTemplate")
 	progress:StripTextures()
 	progress:CreateBackdrop("Default")
-	progress:Size(250, 17)
+	progress:Size(290, 19)
 	progress:Point("CENTER", 0, -28)
 	progress:SetStatusBarTexture(E["media"].normTex)
 	progress:SetStatusBarColor(0.11, 0.50, 1.00)

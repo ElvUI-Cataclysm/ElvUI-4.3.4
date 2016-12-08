@@ -663,6 +663,7 @@ L["Auction Frame"] = "경매장"
 L["Barbershop Frame"] = "미용실"
 L["BG Map"] = "전장 맵"
 L["BG Score"] = "전장 점수판"
+L["Bigger Tradeskill"] = true;
 L["Calendar Frame"] = "달력"
 L["Character Frame"] = "캐릭터 창"
 L["Debug Tools"] = "오류 확인 창"

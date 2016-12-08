@@ -7,38 +7,31 @@ local unpack, pairs, select = unpack, pairs, select
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.voidstorage ~= true then return end
 
-	local StripAllTextures = {
-		"VoidStorageBorderFrame",
-		"VoidStorageDepositFrame",
-		"VoidStorageWithdrawFrame",
-		"VoidStorageCostFrame",
-		"VoidStorageStorageFrame",
-		"VoidStoragePurchaseFrame",
-		"VoidItemSearchBox",
-	}
+	VoidStorageFrameMarbleBg:Kill()
+	VoidStorageFrameLines:Kill()
 
-	for _, object in pairs(StripAllTextures) do
-		_G[object]:StripTextures()
-	end
+	VoidStorageBorderFrame:StripTextures()
+	VoidStorageCostFrame:StripTextures()
 
+	select(2, VoidStorageFrame:GetRegions()):Kill()
 	VoidStorageFrame:SetTemplate("Transparent")
 	VoidStorageFrame:SetHeight(410)
 	VoidStorageFrame:SetWidth(675)
 
+	VoidStoragePurchaseFrame:StripTextures()
 	VoidStoragePurchaseFrame:SetTemplate("Default")
 
-	VoidStorageFrameMarbleBg:Kill()
-	VoidStorageFrameLines:Kill()
-	select(2, VoidStorageFrame:GetRegions()):Kill()
-
+	VoidStorageDepositFrame:StripTextures()
 	VoidStorageDepositFrame:CreateBackdrop("Default")
 	VoidStorageDepositFrame.backdrop:Point("TOPLEFT", 3, -3)
 	VoidStorageDepositFrame.backdrop:Point("BOTTOMRIGHT", -3, 3)
 
+	VoidStorageWithdrawFrame:StripTextures()
 	VoidStorageWithdrawFrame:CreateBackdrop("Default")
 	VoidStorageWithdrawFrame.backdrop:Point("TOPLEFT", 3, -3)
 	VoidStorageWithdrawFrame.backdrop:Point("BOTTOMRIGHT", -3, 3)
 
+	VoidStorageStorageFrame:StripTextures()
 	VoidStorageStorageFrame:CreateBackdrop("Default")
 	VoidStorageStorageFrame.backdrop:Point("TOPLEFT", 3, -3)
 	VoidStorageStorageFrame.backdrop:Point("BOTTOMRIGHT", -31, 3)
@@ -47,17 +40,21 @@ local function LoadSkin()
 	S:HandleButton(VoidStorageHelpBoxButton)
 	S:HandleButton(VoidStorageTransferButton)
 
-	S:HandleCloseButton(VoidStorageBorderFrameCloseButton)
+	VoidStorageHelpBox:StripTextures()
+	VoidStorageHelpBox:SetTemplate()
 
+	VoidItemSearchBox:StripTextures()
 	VoidItemSearchBox:CreateBackdrop("Overlay")
 	VoidItemSearchBox.backdrop:Point("TOPLEFT", 10, -1)
 	VoidItemSearchBox.backdrop:Point("BOTTOMRIGHT", 4, 1)
+
+	S:HandleCloseButton(VoidStorageBorderFrameCloseButton)
 
 	VoidStorageStorageButton17:Point("LEFT", VoidStorageStorageButton9, "RIGHT", 7, 0)
 	VoidStorageStorageButton33:Point("LEFT", VoidStorageStorageButton25, "RIGHT", 7, 0)
 	VoidStorageStorageButton49:Point("LEFT", VoidStorageStorageButton41, "RIGHT", 7, 0)
 	VoidStorageStorageButton65:Point("LEFT", VoidStorageStorageButton57, "RIGHT", 7, 0)
-	
+
 	hooksecurefunc("VoidStorage_ItemsUpdate", function(doDeposit, doContents)
 		if(doDeposit) then
 			for i = 1, 9 do
@@ -134,12 +131,13 @@ local function LoadSkin()
 	end)
 
 	--DressUp Frame
-	S:HandleCloseButton(SideDressUpModelCloseButton)
-	S:HandleButton(SideDressUpModelResetButton)
-	SideDressUpModelResetButton:Point("BOTTOM", SideDressUpModel, "BOTTOM", 0, 10)
-
 	SideDressUpFrame:StripTextures()
 	SideDressUpFrame:SetTemplate("Transparent")
+
+	S:HandleCloseButton(SideDressUpModelCloseButton)
+
+	S:HandleButton(SideDressUpModelResetButton)
+	SideDressUpModelResetButton:Point("BOTTOM", SideDressUpModel, "BOTTOM", 0, 10)
 
 	SideDressUpModelControlFrame:StripTextures()
 
@@ -149,7 +147,7 @@ local function LoadSkin()
 		"SideDressUpModelControlFramePanButton",
 		"SideDressUpModelControlFrameRotateRightButton",
 		"SideDressUpModelControlFrameRotateLeftButton",
-		"SideDressUpModelControlFrameRotateResetButton",
+		"SideDressUpModelControlFrameRotateResetButton"
 	}
 
 	for i = 1, getn(controlbuttons) do
@@ -157,10 +155,6 @@ local function LoadSkin()
 		_G[controlbuttons[i]]:StyleButton()
 		_G[controlbuttons[i].."Bg"]:Hide()
 	end
-
-	VoidStorageHelpBox:StripTextures()
-	VoidStorageHelpBox:SetTemplate()
-
 end
 
 S:AddCallbackForAddon("Blizzard_VoidStorageUI", "VoidStorageUI", LoadSkin);

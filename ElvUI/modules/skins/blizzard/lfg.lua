@@ -106,48 +106,59 @@ local function LoadSkin()
 	LFDQueueFrameRoleButtonLeader.icon:SetInside(LFDQueueFrameRoleButtonLeader.backdrop);
 
 	-- LFD Rewards
-	for i = 1, LFD_MAX_REWARDS do
-		local button = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i];
-		local icon = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" ..  i .. "IconTexture"];
-		local count = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "Count"];
-		local name  = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "Name"];
-		local role1 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "RoleIcon1"];
-		local role2 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "RoleIcon2"];
-		local role3 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "RoleIcon3"];
+	hooksecurefunc("LFDQueueFrameRandom_UpdateFrame", function()
+		local dungeonID = LFDQueueFrame.type
+		if type(dungeonID) == "string" then return end
+		local _, _, _, _, _, numRewards = GetLFGDungeonRewards(dungeonID)
 
-		if(button and not button.reskinned) then
-			button:StripTextures();
-			button:CreateBackdrop();
-			button.backdrop:SetOutside(icon);
+		for i = 1, LFD_MAX_REWARDS do
+			local button = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i];
+			local icon = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "IconTexture"];
+			local count = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "Count"];
+			local name  = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "Name"];
+			local role1 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "RoleIcon1"];
+			local role2 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "RoleIcon2"];
+			local role3 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "RoleIcon3"];
 
-			icon:SetTexCoord(unpack(E.TexCoords));
-			icon:SetParent(button.backdrop);
+			if(button and not button.reskinned) then
+				local __texture = _G[button:GetName().."IconTexture"]:GetTexture()
 
-			icon:SetDrawLayer("OVERLAY");
-			count:SetDrawLayer("OVERLAY");
+				button:StripTextures();
+				button:CreateBackdrop();
+				button.backdrop:SetOutside(icon);
 
-			if(count) then count:SetParent(button.backdrop); end
-			if(role1) then role1:SetParent(button.backdrop); end
-			if(role2) then role2:SetParent(button.backdrop); end
-			if(role3) then role3:SetParent(button.backdrop); end
+				icon:SetTexture(__texture)
+				icon:SetTexCoord(unpack(E.TexCoords));
+				icon:SetParent(button.backdrop);
+				icon.SetPoint = E.noop;
 
-			button:HookScript("OnUpdate", function(self)
-				button.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor));
-				name:SetTextColor(1, 1, 1);
-				if(button.dungeonID) then
-					local Link = GetLFGDungeonRewardLink(button.dungeonID, i);
-					if(Link) then
-						local quality = select(3, GetItemInfo(Link));
-						if(quality and quality > 1) then
-							button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality));
-							name:SetTextColor(GetItemQualityColor(quality));
+				icon:SetDrawLayer("OVERLAY");
+				count:SetDrawLayer("OVERLAY");
+
+				if(count) then count:SetParent(button.backdrop); end
+				if(role1) then role1:SetParent(button.backdrop); end
+				if(role2) then role2:SetParent(button.backdrop); end
+				if(role3) then role3:SetParent(button.backdrop); end
+
+				button:HookScript("OnUpdate", function(self)
+					button.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+					name:SetTextColor(1, 1, 1);
+					if(button.dungeonID) then
+						local Link = GetLFGDungeonRewardLink(button.dungeonID, i);
+						if(Link) then
+							local quality = select(3, GetItemInfo(Link));
+							if(quality and quality > 1) then
+								button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality));
+								name:SetTextColor(GetItemQualityColor(quality));
+							end
 						end
 					end
-				end
-			end)
-			button.reskinned = true;
+				end)
+
+				button.reskinned = true;
+			end
 		end
-	end
+	end)
 
 	-- LFD Specific List
 	LFDQueueFrameSpecific:StripTextures()

@@ -605,6 +605,7 @@ L["Auction Frame"] = true;
 L["Barbershop Frame"] = true;
 L["BG Map"] = true;
 L["BG Score"] = true;
+L["Bigger Tradeskill"] = true;
 L["Calendar Frame"] = true;
 L["Character Frame"] = true;
 L["Debug Tools"] = true;

@@ -9,31 +9,28 @@ local function LoadSkin()
 
 	tutorialbutton:StripTextures()
 	tutorialbutton:CreateBackdrop("Default", true)
-	tutorialbutton:SetWidth(50)
-	tutorialbutton:SetHeight(50)
+	tutorialbutton:Size(50, 50)
 
 	tutorialbuttonIcon:SetTexture("INTERFACE\\ICONS\\INV_Letter_18")
-	tutorialbuttonIcon:ClearAllPoints()
-	tutorialbuttonIcon:SetPoint("TOPLEFT", TutorialFrameAlertButton, "TOPLEFT", 5, -5)
-	tutorialbuttonIcon:SetPoint("BOTTOMRIGHT", TutorialFrameAlertButton, "BOTTOMRIGHT",  -5, 5)
+	tutorialbuttonIcon:Point("TOPLEFT", 5, -5)
+	tutorialbuttonIcon:Point("BOTTOMRIGHT", -5, 5)
 	tutorialbuttonIcon:SetTexCoord(unpack(E.TexCoords))
 
 	TutorialFrame:StripTextures()
 	TutorialFrame:SetTemplate("Transparent")
 
 	S:HandleNextPrevButton(TutorialFrameNextButton)
-	TutorialFrameNextButton:SetPoint("BOTTOMRIGHT", TutorialFrame, "BOTTOMRIGHT", -132, 7)
-	TutorialFrameNextButton:SetWidth(22)
-	TutorialFrameNextButton:SetHeight(22)
+	TutorialFrameNextButton:Point("BOTTOMRIGHT", -132, 7)
+	TutorialFrameNextButton:Size(22, 22)
 
 	S:HandleNextPrevButton(TutorialFramePrevButton)
-	TutorialFramePrevButton:SetPoint("BOTTOMLEFT", TutorialFrame, "BOTTOMLEFT", 30, 7)
-	TutorialFramePrevButton:SetWidth(22)
-	TutorialFramePrevButton:SetHeight(22)
+	TutorialFramePrevButton:Point("BOTTOMLEFT", 30, 7)
+	TutorialFramePrevButton:Size(22, 22)
 
 	S:HandleButton(TutorialFrameOkayButton)
+
 	S:HandleCloseButton(TutorialFrameCloseButton)
-	TutorialFrameCloseButton:SetPoint("TOPRIGHT", TutorialFrame, "TOPRIGHT", 0, 0)
+	TutorialFrameCloseButton:Point("TOPRIGHT", 0, 0)
 
 	TutorialFrameCallOut:Kill()
 

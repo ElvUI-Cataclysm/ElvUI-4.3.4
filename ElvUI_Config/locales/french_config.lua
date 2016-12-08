@@ -616,6 +616,7 @@ L["Auction Frame"] = "Fenêtre de l'Hôtel des ventes"
 L["Barbershop Frame"] = "Salon de Coiffure"
 L["BG Map"] = "Carte Champs de bataille"
 L["BG Score"] = "Scores Champs de bataille"
+L["Bigger Tradeskill"] = true;
 L["Calendar Frame"] = "Fenêtre du Calendrier"
 L["Character Frame"] = "Fenêtre du Personnage"
 L["Debug Tools"] = "Outils de débogage"

@@ -615,6 +615,7 @@ L["Auction Frame"] = "Subastas"
 L["Barbershop Frame"] = "Barbería"
 L["BG Map"] = "Mapa de CB"
 L["BG Score"] = "Puntuación de CB"
+L["Bigger Tradeskill"] = true;
 L["Calendar Frame"] = "Calendario"
 L["Character Frame"] = "Personaje"
 L["Debug Tools"] = "Herramientas de Depuración"

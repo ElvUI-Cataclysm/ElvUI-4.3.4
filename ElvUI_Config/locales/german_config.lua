@@ -617,6 +617,7 @@ L["Auction Frame"] = "Auktionsfenster"
 L["Barbershop Frame"] = "Barbier Fenster"
 L["BG Map"] = "Schlachtfeldkarte"
 L["BG Score"] = "Schlachtfeldpunkte"
+L["Bigger Tradeskill"] = true;
 L["Calendar Frame"] = "Kalender Fenster"
 L["Character Frame"] = "Charakterfenster"
 L["Debug Tools"] = "Debug Tools"

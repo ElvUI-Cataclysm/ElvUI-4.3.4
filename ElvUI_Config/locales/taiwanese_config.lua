@@ -37,7 +37,7 @@ L["SEARCH_SYNTAX_DESC"] = [=[因為新增加的 LibItemSearch，你現在可以�
     • bou : 使用後綁定.
     • boe : 裝備後綁定.
     • boa : 帳號綁定.
-    • quest : 任務綁定
+    • quest : 任務綁定]=];
 L["TEXT_FORMAT_DESC"] = [=[請填入代碼以變更文字格式。
 
 範例：
@@ -614,6 +614,7 @@ L["Auction Frame"] = "拍賣"
 L["Barbershop Frame"] = "美容院"
 L["BG Map"] = "戰場地圖"
 L["BG Score"] = "戰場積分"
+L["Bigger Tradeskill"] = true;
 L["Calendar Frame"] = "行事曆"
 L["Character Frame"] = "角色"
 L["Debug Tools"] = "除錯工具"

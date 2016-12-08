@@ -49,7 +49,8 @@ V['chat'] = {
 V['skins'] = {
 	['ace3'] = {
 		["animations"] = true,
-		['enable'] = true
+		['enable'] = true,
+		["tradeSkillBig"] = true
 	},
 	['blizzard'] = {
 		['enable'] = true,
