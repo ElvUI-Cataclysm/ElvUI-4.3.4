@@ -171,6 +171,48 @@ local function LoadSkin()
 		S:HandleButton(_G["GuildRosterContainerButton"..i.."HeaderButton"], true)
 	end
 
+	local VIEW;
+	local function viewChanged(view)
+		VIEW = view;
+	end
+
+	local function update()
+		VIEW = VIEW or GetCVar("guildRosterView");
+		local playerArea = GetRealZoneText();
+		local buttons = GuildRosterContainer.buttons;
+
+		for i, button in ipairs(buttons) do
+			if(button:IsShown() and button.online and button.guildIndex) then
+				if(VIEW == "tradeskill") then
+					local _, _, _, headerName, _, _, _, playerName, _, _, zone = GetGuildTradeSkillInfo(button.guildIndex);
+					if(not headerName and playerName) then
+						if(zone == playerArea) then
+							button.string2:SetText("|cff00ff00"..zone);
+						end
+					end
+				else
+					local name, _, _, level, _, zone, _, _, _, _, classFileName = GetGuildRosterInfo(button.guildIndex);
+					local classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classFileName] or RAID_CLASS_COLORS[classFileName];
+					local levelTextColor = GetQuestDifficultyColor(level);
+
+					if(VIEW == "playerStatus") then
+						button.string1:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b);
+						if(zone == playerArea) then
+							button.string3:SetText("|cff00ff00"..zone);
+						end
+					elseif(VIEW == "achievement") then
+						button.string1:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b);
+					elseif(VIEW == "weeklyxp" or VIEW == "totalxp") then
+						button.string1:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b);
+					end
+				end
+			end
+		end
+	end
+	hooksecurefunc("GuildRoster_SetView", viewChanged)
+	hooksecurefunc("GuildRoster_Update", update)
+	hooksecurefunc(GuildRosterContainer, "update", update)
+
 	--Detail Frame
 	GuildMemberDetailFrame:SetTemplate("Transparent")
 	GuildMemberDetailFrame:Point("TOPLEFT", GuildFrame, "TOPRIGHT", 1, 0)
