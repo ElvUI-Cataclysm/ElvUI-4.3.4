@@ -164,18 +164,18 @@ local function LoadSkin()
 	end
 
 	WhoFrameColumnHeader3:ClearAllPoints();
-	WhoFrameColumnHeader3:SetPoint("TOPLEFT", WhoFrame, "TOPLEFT", 15, -57);
+	WhoFrameColumnHeader3:Point("TOPLEFT", WhoFrame, "TOPLEFT", 15, -57);
 
 	WhoFrameColumnHeader4:ClearAllPoints();
-	WhoFrameColumnHeader4:SetPoint("LEFT", WhoFrameColumnHeader3, "RIGHT", -2, 0);
+	WhoFrameColumnHeader4:Point("LEFT", WhoFrameColumnHeader3, "RIGHT", -2, 0);
 	WhoFrameColumn_SetWidth(WhoFrameColumnHeader4, 48);
 
 	WhoFrameColumnHeader1:ClearAllPoints();
-	WhoFrameColumnHeader1:SetPoint("LEFT", WhoFrameColumnHeader4, "RIGHT", -2, 0);
+	WhoFrameColumnHeader1:Point("LEFT", WhoFrameColumnHeader4, "RIGHT", -2, 0);
 	WhoFrameColumn_SetWidth(WhoFrameColumnHeader1, 105);
 
 	WhoFrameColumnHeader2:ClearAllPoints();
-	WhoFrameColumnHeader2:SetPoint("LEFT", WhoFrameColumnHeader1, "RIGHT", -5, 0);
+	WhoFrameColumnHeader2:Point("LEFT", WhoFrameColumnHeader1, "RIGHT", -5, 0);
 
 	WhoFrameButton1:Point("TOPLEFT", WhoFrame, "TOPLEFT", 10, -82)
 
@@ -189,8 +189,8 @@ local function LoadSkin()
 		local button = _G["WhoFrameButton"..i];
 
 		button.icon = button:CreateTexture("$parentIcon", "ARTWORK");
-		button.icon:SetPoint("LEFT", 45, 0);
-		button.icon:SetSize(18, 18);
+		button.icon:Point("LEFT", 45, 0);
+		button.icon:Size(18);
 		button.icon:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
 
 		button.stripe = button:CreateTexture(nil, "BACKGROUND");
@@ -201,11 +201,11 @@ local function LoadSkin()
 		button:StyleButton()
 
 		_G["WhoFrameButton" .. i .. "Level"]:ClearAllPoints();
-		_G["WhoFrameButton" .. i .. "Level"]:SetPoint("TOPLEFT", 12, -2);
+		_G["WhoFrameButton" .. i .. "Level"]:Point("TOPLEFT", 12, -2);
 
-		_G["WhoFrameButton" .. i .. "Name"]:SetSize(100, 14);
+		_G["WhoFrameButton" .. i .. "Name"]:Size(100, 14);
 		_G["WhoFrameButton" .. i .. "Name"]:ClearAllPoints();
-		_G["WhoFrameButton" .. i .. "Name"]:SetPoint("LEFT", 85, 0);
+		_G["WhoFrameButton" .. i .. "Name"]:Point("LEFT", 85, 0);
 
 		_G["WhoFrameButton" .. i .. "Class"]:Hide();
 	end
@@ -293,7 +293,7 @@ local function LoadSkin()
 	FriendsFrameUnsquelchButton:Point("RIGHT", -23, 0)
 
 	S:HandleScrollBar(FriendsFrameIgnoreScrollFrameScrollBar)
-	FriendsFrameIgnoreScrollFrameScrollBar:SetPoint("TOPLEFT", FriendsFrameIgnoreScrollFrame, "TOPRIGHT", 45, 0)
+	FriendsFrameIgnoreScrollFrameScrollBar:Point("TOPLEFT", FriendsFrameIgnoreScrollFrame, "TOPRIGHT", 45, 0)
 
 	for i = 1, 19 do
 		local button = _G["FriendsFrameIgnoreButton"..i]
@@ -346,14 +346,14 @@ local function LoadSkin()
 	RaidInfoFrame:SetTemplate("Transparent");
 
 	RaidInfoFrame:ClearAllPoints()
-	RaidInfoFrame:SetPoint("TOPLEFT", RaidFrame, "TOPRIGHT", 1, 0)
+	RaidInfoFrame:Point("TOPLEFT", RaidFrame, "TOPRIGHT", 1, 0)
 
 	RaidInfoInstanceLabel:StripTextures();
 	RaidInfoIDLabel:StripTextures();
 
 	S:HandleCloseButton(RaidInfoCloseButton);
 	RaidInfoCloseButton:ClearAllPoints()
-	RaidInfoCloseButton:SetPoint("TOPRIGHT", RaidInfoFrame, "TOPRIGHT", 2, 0)
+	RaidInfoCloseButton:Point("TOPRIGHT", RaidInfoFrame, "TOPRIGHT", 2, 0)
 
 	S:HandleScrollBar(RaidInfoScrollFrameScrollBar);
 

@@ -46,11 +46,11 @@ V['chat'] = {
 	['enable'] = true,
 }
 
-V['skins'] = {
-	['ace3'] = {
-		["animations"] = true,
-		['enable'] = true,
-		["tradeSkillBig"] = true
+V["skins"] = {
+	["animations"] = true,
+	["tradeSkillBig"] = true,
+	["ace3"] = {
+		["enable"] = true
 	},
 	['blizzard'] = {
 		['enable'] = true,

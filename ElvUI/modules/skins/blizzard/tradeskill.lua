@@ -3,7 +3,6 @@ local S = E:GetModule("Skins");
 
 local _G = _G;
 local unpack, select = unpack, select;
-local find = string.find;
 
 local GetItemInfo = GetItemInfo;
 local GetItemQualityColor = GetItemQualityColor;
@@ -32,11 +31,14 @@ local function LoadSkin()
 
 		TradeSkillFrameSearchBox:Size(170, 17);
 		TradeSkillFrameSearchBox:Point("TOPLEFT", TradeSkillRankFrame, "BOTTOMLEFT", 0, -5);
-		
+
 		TradeSkillExpandButtonFrame:Point("TOPLEFT", TradeSkillFrame, "TOPLEFT", 0, -60)
+
+		TradeSkillDecrementButton:Point("LEFT", TradeSkillCreateAllButton, "RIGHT", 8, 0);
+		TradeSkillIncrementButton:Point("RIGHT", TradeSkillCreateButton, "LEFT", -9, 0);
 	else
 		TRADE_SKILLS_DISPLAYED = 25;
-	
+
 		TradeSkillFrame:SetAttribute("UIPanelLayout-width", E:Scale(720));
 		TradeSkillFrame:SetAttribute("UIPanelLayout-height", E:Scale(508));
 		TradeSkillFrame:Size(720, 508);
@@ -58,12 +60,12 @@ local function LoadSkin()
 		TradeSkillListScrollFrame:Size(285, 405);
 		TradeSkillListScrollFrame:ClearAllPoints();
 		TradeSkillListScrollFrame:Point("TOPLEFT", 17, -95);
-		
+
 		TradeSkillDetailScrollFrame:Size(300, 381);
 		TradeSkillDetailScrollFrame:ClearAllPoints();
 		TradeSkillDetailScrollFrame:Point("TOPRIGHT", TradeSkillFrame, -90, -95);
 		TradeSkillDetailScrollFrame.scrollBarHideable = nil;
-		
+
 		for i = 9, 25 do
 			CreateFrame("Button", "TradeSkillSkill" .. i, TradeSkillFrame, "TradeSkillSkillButtonTemplate"):Point("TOPLEFT", _G["TradeSkillSkill" .. i - 1], "BOTTOMLEFT");
 		end
@@ -79,13 +81,13 @@ local function LoadSkin()
 
 		TradeSkillCancelButton:ClearAllPoints();
 		TradeSkillCancelButton:Point("TOPRIGHT", TradeSkillDetailScrollFrame, "BOTTOMRIGHT", 23, -3);
-	
+
 		TradeSkillCreateButton:ClearAllPoints();
 		TradeSkillCreateButton:Point("TOPRIGHT", TradeSkillCancelButton, "TOPLEFT", -3, 0);
-		
+
 		TradeSkillCreateAllButton:ClearAllPoints();
 		TradeSkillCreateAllButton:Point("TOPLEFT", TradeSkillDetailScrollFrame, "BOTTOMLEFT", 4, -3);
-	
+
 		TradeSkillFrameCloseButton:Point("TOPRIGHT", TradeSkillFrame, "TOPRIGHT", -55, 5)
 
 		TradeSkillExpandButtonFrame:Point("TOPLEFT", TradeSkillFrame, "TOPLEFT", 2, -58)
@@ -174,7 +176,6 @@ local function LoadSkin()
 
 	TradeSkillSkillIcon:StyleButton(nil, true);
 	TradeSkillSkillIcon:SetTemplate();
-	TradeSkillSkillIcon:SetAlpha(0);
 
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(id)
 		TradeSkillRankFrame:SetStatusBarColor(0.11, 0.50, 1.00);

@@ -8,19 +8,23 @@ local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.encounterjournal ~= true then return end
 
 	local EJ = EncounterJournal
+
 	EJ:StripTextures(true)
-	EJ.inset:StripTextures(true)
 	EJ:CreateBackdrop("Transparent")
 
-	EJ.navBar:StripTextures(true)
-	EJ.navBar.overlay:StripTextures(true)
+	EJ.inset:StripTextures(true)
 
+	EJ.navBar:StripTextures(true)
 	EJ.navBar:CreateBackdrop("Default")
 	EJ.navBar.backdrop:Point("TOPLEFT", -2, 0)
 	EJ.navBar.backdrop:Point("BOTTOMRIGHT")
+
+	EJ.navBar.overlay:StripTextures(true)
+
 	S:HandleButton(EJ.navBar.home, true)
 
 	S:HandleEditBox(EJ.searchBox)
+
 	S:HandleCloseButton(EncounterJournalCloseButton)
 
 	--Instance Selection Frame
@@ -51,14 +55,16 @@ local function LoadSkin()
 
 	--Encounter Info Frame
 	local EncounterInfo = EJ.encounter.info
+
 	EncounterJournalEncounterFrameInfoBG:Kill()
 
 	EncounterInfo.difficulty:StripTextures()
 	S:HandleButton(EncounterInfo.difficulty)
 	EncounterInfo.difficulty:Width(100)
-	EncounterJournalEncounterFrameInfoResetButton:StripTextures()
 
+	EncounterJournalEncounterFrameInfoResetButton:StripTextures()
 	S:HandleButton(EncounterJournalEncounterFrameInfoResetButton)
+
 	EncounterJournalEncounterFrameInfoResetButtonTexture:SetTexture("Interface\\EncounterJournal\\UI-EncounterJournalTextures")
 	EncounterJournalEncounterFrameInfoResetButtonTexture:SetTexCoord(0.90625000, 0.94726563, 0.00097656, 0.02050781)
 
@@ -68,7 +74,7 @@ local function LoadSkin()
 	local scrollFrames = {
 		EncounterInfo.overviewScroll,
 		EncounterInfo.lootScroll,
-		EncounterInfo.detailsScroll,
+		EncounterInfo.detailsScroll
 	}
 
 	for _, scrollFrame in pairs(scrollFrames) do
@@ -80,31 +86,32 @@ local function LoadSkin()
 
 	EncounterInfo.detailsScroll.child.description:SetTextColor(1, 1, 1)
 
-	--Boss/Loot Tab
+	--Boss Tab
 	EncounterJournalEncounterFrameInfoBossTab:StripTextures()
 	EncounterJournalEncounterFrameInfoBossTab:CreateBackdrop('Transparent')
 	EncounterJournalEncounterFrameInfoBossTab.backdrop:Point('TOPLEFT', 11, -8)
 	EncounterJournalEncounterFrameInfoBossTab.backdrop:Point('BOTTOMRIGHT', -6, 8)
-	EncounterJournalEncounterFrameInfoBossTab:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInfo, "TOPRIGHT", -2, 40)
+	EncounterJournalEncounterFrameInfoBossTab:Point("TOPLEFT", EncounterJournalEncounterFrameInfo, "TOPRIGHT", -2, 40)
 
 	EncounterJournalEncounterFrameInfoBossTab.icon = EncounterJournalEncounterFrameInfoBossTab:CreateTexture(nil, "OVERLAY");
 	EncounterJournalEncounterFrameInfoBossTab.icon:SetTexture("Interface\\EncounterJournal\\UI-EncounterJournalTextures")
 	EncounterJournalEncounterFrameInfoBossTab.icon:SetTexCoord(0.902, 0.996, 0.269, 0.311)
-	EncounterJournalEncounterFrameInfoBossTab.icon:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInfoBossTab, "TOPLEFT", 7, -7)
-	EncounterJournalEncounterFrameInfoBossTab.icon:SetPoint("BOTTOMRIGHT", EncounterJournalEncounterFrameInfoBossTab, "BOTTOMRIGHT", -7, 7)
+	EncounterJournalEncounterFrameInfoBossTab.icon:Point("TOPLEFT", 7, -7)
+	EncounterJournalEncounterFrameInfoBossTab.icon:Point("BOTTOMRIGHT", -7, 7)
 	EncounterJournalEncounterFrameInfoBossTab.icon:SetDesaturated(false)
 
+	--Loot Tab
 	EncounterJournalEncounterFrameInfoLootTab:StripTextures()
 	EncounterJournalEncounterFrameInfoLootTab:CreateBackdrop('Transparent')
 	EncounterJournalEncounterFrameInfoLootTab.backdrop:Point('TOPLEFT', 11, -8)
 	EncounterJournalEncounterFrameInfoLootTab.backdrop:Point('BOTTOMRIGHT', -6, 8)
-	EncounterJournalEncounterFrameInfoLootTab:SetPoint("TOP", EncounterJournalEncounterFrameInfoBossTab, "BOTTOM", 0, 10)
+	EncounterJournalEncounterFrameInfoLootTab:Point("TOP", EncounterJournalEncounterFrameInfoBossTab, "BOTTOM", 0, 10)
 
 	EncounterJournalEncounterFrameInfoLootTab.icon = EncounterJournalEncounterFrameInfoLootTab:CreateTexture(nil, "OVERLAY");
 	EncounterJournalEncounterFrameInfoLootTab.icon:SetTexture("Interface\\EncounterJournal\\UI-EncounterJournalTextures")
 	EncounterJournalEncounterFrameInfoLootTab.icon:SetTexCoord(0.632, 0.726, 0.618, 0.660)
-	EncounterJournalEncounterFrameInfoLootTab.icon:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInfoLootTab, "TOPLEFT", 7, -7)
-	EncounterJournalEncounterFrameInfoLootTab.icon:SetPoint("BOTTOMRIGHT", EncounterJournalEncounterFrameInfoLootTab, "BOTTOMRIGHT", -7, 7)
+	EncounterJournalEncounterFrameInfoLootTab.icon:Point("TOPLEFT", 5, -7)
+	EncounterJournalEncounterFrameInfoLootTab.icon:Point("BOTTOMRIGHT", -2, 7)
 	EncounterJournalEncounterFrameInfoLootTab.icon:SetDesaturated(true)
 
 	EncounterJournalEncounterFrameInfoBossTab:HookScript("OnClick", function()
@@ -121,6 +128,7 @@ local function LoadSkin()
 	local EncounterInstance = EJ.encounter.instance
 
 	EncounterInstance:CreateBackdrop("Transparent", true)
+
 	EncounterInstance.loreScroll.child.lore:SetTextColor(1, 1, 1)
 
 	EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterClearFrame:StripTextures()
@@ -128,10 +136,11 @@ local function LoadSkin()
 	EncounterJournalEncounterFrameInstanceFrameMapButton:StripTextures();
 	S:HandleButton(EncounterJournalEncounterFrameInstanceFrameMapButton)
 	EncounterJournalEncounterFrameInstanceFrameMapButton:ClearAllPoints()
-	EncounterJournalEncounterFrameInstanceFrameMapButton:SetPoint("TOPLEFT", EncounterJournalEncounterFrameInstanceFrame, "TOPLEFT", 505, 36)
-	EncounterJournalEncounterFrameInstanceFrameMapButton:SetSize(50, 30)
+	EncounterJournalEncounterFrameInstanceFrameMapButton:Point("TOPLEFT", EncounterJournalEncounterFrameInstanceFrame, "TOPLEFT", 505, 36)
+	EncounterJournalEncounterFrameInstanceFrameMapButton:Size(50, 30)
+
 	EncounterJournalEncounterFrameInstanceFrameMapButtonText:ClearAllPoints()
-	EncounterJournalEncounterFrameInstanceFrameMapButtonText:SetPoint("CENTER", EncounterJournalEncounterFrameInstanceFrameMapButton, "CENTER", 0, 0)
+	EncounterJournalEncounterFrameInstanceFrameMapButtonText:Point("CENTER")
 
 	--Class Filter Frame
 	EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrame:StripTextures()
@@ -148,9 +157,12 @@ local function LoadSkin()
 		local buttonIcon = button:GetNormalTexture()
 		local buttonHighlight = button:GetHighlightTexture()
 		local buttonPushed = button:GetPushedTexture()
+
 		buttonIcon:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes")
 		buttonIcon:SetTexCoord(tcoords[1] + 0.023, tcoords[2] - 0.02, tcoords[3] + 0.018, tcoords[4] - 0.02)
+
 		buttonHighlight:SetTexture()
+
 		buttonPushed:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes")
 		buttonPushed:SetTexCoord(tcoords[1] + 0.023, tcoords[2] - 0.02, tcoords[3] + 0.018, tcoords[4] - 0.02)
 	end

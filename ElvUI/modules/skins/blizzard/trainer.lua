@@ -21,7 +21,7 @@ local function LoadSkin()
 		local button = _G["ClassTrainerScrollFrameButton"..i]
 		local icon = _G["ClassTrainerScrollFrameButton"..i.."Icon"]
 		local money = _G["ClassTrainerScrollFrameButton"..i.."MoneyFrame"]
-	
+
 		button:StripTextures()
 		button:SetTemplate("Default")
 		button:CreateBackdrop()
@@ -48,7 +48,7 @@ local function LoadSkin()
 	S:HandleScrollBar(ClassTrainerScrollFrameScrollBar, 5)
 
 	S:HandleDropDownBox(ClassTrainerFrameFilterDropDown)
-	ClassTrainerFrameFilterDropDown:Point("TOPRIGHT", 0, -37)
+	ClassTrainerFrameFilterDropDown:Point("TOPRIGHT", -10, -50)
 
 	ClassTrainerFrame:StripTextures()
 	ClassTrainerFrame:CreateBackdrop("Transparent")
@@ -76,12 +76,14 @@ local function LoadSkin()
 
 	ClassTrainerStatusBar:StripTextures()
 	ClassTrainerStatusBar:CreateBackdrop("Default")
-	ClassTrainerStatusBar:Size(190, 20)
+	ClassTrainerStatusBar:Size(300, 18)
 	ClassTrainerStatusBar:SetStatusBarTexture(E["media"].normTex)
 	ClassTrainerStatusBar:SetStatusBarColor(0.11, 0.50, 1.00)
-	ClassTrainerStatusBar:Point("TOPLEFT", ClassTrainerFrame, "TOPLEFT", 10, -40)
+	ClassTrainerStatusBar:ClearAllPoints()
+	ClassTrainerStatusBar:Point("TOP", ClassTrainerFrame, "TOP", 0, -30)
 
 	ClassTrainerStatusBar.rankText:Point("CENTER")
+	ClassTrainerStatusBar.rankText:FontTemplate(nil, 12, "OUTLINE");
 end
 
 S:AddCallbackForAddon("Blizzard_TrainerUI", "Trainer", LoadSkin);

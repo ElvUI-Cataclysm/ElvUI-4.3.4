@@ -8,25 +8,27 @@ local GetAuctionSellItemInfo = GetAuctionSellItemInfo
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.auctionhouse ~= true then return end
 
-	S:HandleCloseButton(AuctionFrameCloseButton)
-	AuctionFrameCloseButton:Point("TOPRIGHT", AuctionFrame, "TOPRIGHT", 2, 2)
-	S:HandleScrollBar(AuctionsScrollFrameScrollBar)
-	AuctionFrame:StripTextures(true)
-	AuctionFrame:SetTemplate("Transparent")
-
 	BrowseFilterScrollFrame:StripTextures()
 	BrowseScrollFrame:StripTextures()
 	AuctionsScrollFrame:StripTextures()
 	BidScrollFrame:StripTextures()
 
+	AuctionFrame:StripTextures(true)
+	AuctionFrame:SetTemplate("Transparent")
+
 	S:HandleDropDownBox(BrowseDropDown)
 	S:HandleDropDownBox(PriceDropDown)
 	S:HandleDropDownBox(DurationDropDown)
+
 	S:HandleScrollBar(BrowseFilterScrollFrameScrollBar)
 	S:HandleScrollBar(BrowseScrollFrameScrollBar)
+	S:HandleScrollBar(AuctionsScrollFrameScrollBar)
 
 	S:HandleCheckBox(IsUsableCheckButton)
 	S:HandleCheckBox(ShowOnPlayerCheckButton)
+
+	S:HandleCloseButton(AuctionFrameCloseButton)
+	AuctionFrameCloseButton:Point("TOPRIGHT", AuctionFrame, "TOPRIGHT", 2, 2)
 
 	--DressUp Frame
 	SideDressUpFrame:StripTextures()
@@ -44,7 +46,7 @@ local function LoadSkin()
 		"SideDressUpModelControlFramePanButton",
 		"SideDressUpModelControlFrameRotateLeftButton",
 		"SideDressUpModelControlFrameRotateRightButton",
-		"SideDressUpModelControlFrameRotateResetButton",
+		"SideDressUpModelControlFrameRotateResetButton"
 	}
 
 	for i = 1, getn(controlbuttons) do
@@ -56,6 +58,7 @@ local function LoadSkin()
 	--Progress Frame
 	AuctionProgressFrame:StripTextures()
 	AuctionProgressFrame:SetTemplate("Transparent")
+
 	AuctionProgressFrameCancelButton:StyleButton()
 	AuctionProgressFrameCancelButton:SetTemplate("Default")
 	AuctionProgressFrameCancelButton:SetHitRectInsets(0, 0, 0, 0)
@@ -72,6 +75,7 @@ local function LoadSkin()
 	backdrop:Point("TOPLEFT", AuctionProgressBarIcon, "TOPLEFT", -2, 2)
 	backdrop:Point("BOTTOMRIGHT", AuctionProgressBarIcon, "BOTTOMRIGHT", 2, -2)
 	backdrop:SetTemplate("Default")
+
 	AuctionProgressBarIcon:SetParent(backdrop)
 
 	AuctionProgressBarText:ClearAllPoints()
@@ -85,38 +89,39 @@ local function LoadSkin()
 	S:HandleNextPrevButton(BrowseNextPageButton)
 	S:HandleNextPrevButton(BrowsePrevPageButton)
 
-	local buttons = {
-		"BrowseBidButton",
-		"BidBidButton",
-		"BrowseBuyoutButton",
-		"BidBuyoutButton",
-		"BrowseCloseButton",
-		"BidCloseButton",
-		"BrowseSearchButton",
-		"AuctionsCreateAuctionButton",
-		"AuctionsCancelAuctionButton",
-		"AuctionsCloseButton",
-		"BrowseResetButton",
-		"AuctionsStackSizeMaxButton",
-		"AuctionsNumStacksMaxButton",
-	}
+	S:HandleButton(BrowseCloseButton)
+	S:HandleButton(BidCloseButton)
+	S:HandleButton(AuctionsCreateAuctionButton)
+	S:HandleButton(AuctionsStackSizeMaxButton)
+	S:HandleButton(AuctionsNumStacksMaxButton)
 
-	for _, button in pairs(buttons) do
-		S:HandleButton(_G[button])
-	end
-
-	--Fix Button Positions
+	S:HandleButton(AuctionsCloseButton)
 	AuctionsCloseButton:Point("BOTTOMRIGHT", AuctionFrameAuctions, "BOTTOMRIGHT", 66, 10)
+
+	S:HandleButton(AuctionsCancelAuctionButton)
 	AuctionsCancelAuctionButton:Point("RIGHT", AuctionsCloseButton, "LEFT", -4, 0)
+
+	S:HandleButton(BidBuyoutButton)
 	BidBuyoutButton:Point("RIGHT", BidCloseButton, "LEFT", -4, 0)
+
+	S:HandleButton(BidBidButton)
 	BidBidButton:Point("RIGHT", BidBuyoutButton, "LEFT", -4, 0)
+
+	S:HandleButton(BrowseBuyoutButton)
 	BrowseBuyoutButton:Point("RIGHT", BrowseCloseButton, "LEFT", -4, 0)
+
+	S:HandleButton(BrowseBidButton)
 	BrowseBidButton:Point("RIGHT", BrowseBuyoutButton, "LEFT", -4, 0)
-	AuctionsItemButton:StripTextures()
-	AuctionsItemButton:StyleButton()
-	AuctionsItemButton:SetTemplate("Default", true)
+
+	S:HandleButton(BrowseResetButton)
 	BrowseResetButton:Point("TOPLEFT", AuctionFrameBrowse, "TOPLEFT", 81, -74)
+
+	S:HandleButton(BrowseSearchButton)
 	BrowseSearchButton:Point("TOPRIGHT", AuctionFrameBrowse, "TOPRIGHT", 25, -34)
+
+	AuctionsItemButton:StripTextures()
+	AuctionsItemButton:SetTemplate("Default", true)
+	AuctionsItemButton:StyleButton()
 
 	AuctionsItemButton:SetScript("OnUpdate", function()
 		if AuctionsItemButton:GetNormalTexture() then
@@ -125,7 +130,7 @@ local function LoadSkin()
 		end
 
 		local _, _, _, quality = GetAuctionSellItemInfo()
-		if (quality and quality > 1) then
+		if(quality and quality > 1) then
 			AuctionsItemButton:SetBackdropBorderColor(GetItemQualityColor(quality));
 		else
 			AuctionsItemButton:SetTemplate("Default", true)
@@ -147,25 +152,23 @@ local function LoadSkin()
 		"AuctionsQualitySort",
 		"AuctionsDurationSort",
 		"AuctionsHighBidderSort",
-		"AuctionsBidSort",
+		"AuctionsBidSort"
 	}
 
 	for _, sorttab in pairs(sorttabs) do
-		_G[sorttab.."Left"]:Kill()
-		_G[sorttab.."Middle"]:Kill()
-		_G[sorttab.."Right"]:Kill()
+		_G[sorttab]:StripTextures()
 		_G[sorttab]:StyleButton()
 	end
 
-	for i=1, 3 do
+	for i = 1, 3 do
 		S:HandleTab(_G["AuctionFrameTab"..i])
 	end
 
 	AuctionFrameTab1:ClearAllPoints()
-	AuctionFrameTab1:SetPoint("BOTTOMLEFT", AuctionFrame, "BOTTOMLEFT", 0, -30)
-	AuctionFrameTab1.SetPoint = E.noop
+	AuctionFrameTab1:Point("BOTTOMLEFT", AuctionFrame, "BOTTOMLEFT", 0, -30)
+	AuctionFrameTab1.Point = E.noop
 
-	for i=1, NUM_FILTERS_TO_DISPLAY do
+	for i = 1, NUM_FILTERS_TO_DISPLAY do
 		local tab = _G["AuctionFilterButton"..i]
 		tab:StripTextures()
 		tab:StyleButton()
@@ -197,10 +200,11 @@ local function LoadSkin()
 	end
 
 	BrowseMaxLevel:Point("LEFT", BrowseMinLevel, "RIGHT", 8, 0)
+
 	AuctionsStackSizeEntry.backdrop:SetAllPoints()
 	AuctionsNumStacksEntry.backdrop:SetAllPoints()
 
-	for i=1, NUM_BROWSE_TO_DISPLAY do
+	for i = 1, NUM_BROWSE_TO_DISPLAY do
 		local button = _G["BrowseButton"..i]
 		local icon = _G["BrowseButton"..i.."Item"]
 		local name = _G["BrowseButton"..i.."Name"];
@@ -227,6 +231,7 @@ local function LoadSkin()
 
 		button:StripTextures();
 		button:StyleButton();
+
 		_G["BrowseButton"..i.."Highlight"] = button:GetHighlightTexture();
 		button:GetHighlightTexture():ClearAllPoints();
 		button:GetHighlightTexture():Point("TOPLEFT", icon, "TOPRIGHT", 2, 0);
@@ -234,7 +239,7 @@ local function LoadSkin()
 		button:GetPushedTexture():SetAllPoints(button:GetHighlightTexture());
 	end
 
-	for i=1, NUM_AUCTIONS_TO_DISPLAY do
+	for i = 1, NUM_AUCTIONS_TO_DISPLAY do
 		local button = _G["AuctionsButton"..i]
 		local icon = _G["AuctionsButton"..i.."Item"]
 		local name = _G["AuctionsButton"..i.."Name"];
@@ -259,6 +264,7 @@ local function LoadSkin()
 
 		button:StripTextures()
 		button:StyleButton()
+
 		_G["AuctionsButton"..i.."Highlight"] = button:GetHighlightTexture()
 		button:GetHighlightTexture():ClearAllPoints()
 		button:GetHighlightTexture():Point("TOPLEFT", icon, "TOPRIGHT", 2, 0)
@@ -266,7 +272,7 @@ local function LoadSkin()
 		button:GetPushedTexture():SetAllPoints(button:GetHighlightTexture())
 	end
 
-	for i=1, NUM_BIDS_TO_DISPLAY do
+	for i = 1, NUM_BIDS_TO_DISPLAY do
 		local button = _G["BidButton"..i]
 		local icon = _G["BidButton"..i.."Item"]
 		local name = _G["BidButton"..i.."Name"];

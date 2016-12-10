@@ -15,7 +15,7 @@ local function LoadSkin()
 		"TransmogrifyFrameButtonFrameButtonBottomBorder",
 		"TransmogrifyFrameButtonFrameMoneyLeft",
 		"TransmogrifyFrameButtonFrameMoneyRight",
-		"TransmogrifyFrameButtonFrameMoneyMiddle",
+		"TransmogrifyFrameButtonFrameMoneyMiddle"
 	}
 
 	for _, texture in pairs(KillTextures) do
@@ -30,8 +30,20 @@ local function LoadSkin()
 	S:HandleCloseButton(TransmogrifyArtFrameCloseButton)
 	TransmogrifyArtFrame:StripTextures()
 
-	local slots = {"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet",
-	"Wrist", "Hands", "Back", "MainHand", "SecondaryHand", "Ranged"}
+	local slots = {
+		"Head",
+		"Shoulder",
+		"Chest",
+		"Waist",
+		"Legs",
+		"Feet",
+		"Wrist",
+		"Hands",
+		"Back",
+		"MainHand",
+		"SecondaryHand",
+		"Ranged"
+	}
 
 	for _, slot in pairs(slots) do
 		local icon = _G["TransmogrifyFrame"..slot.."SlotIconTexture"]

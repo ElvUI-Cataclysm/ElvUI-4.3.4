@@ -9,7 +9,7 @@ local function LoadSkin()
 
 	tutorialbutton:StripTextures()
 	tutorialbutton:CreateBackdrop("Default", true)
-	tutorialbutton:Size(50, 50)
+	tutorialbutton:Size(50)
 
 	tutorialbuttonIcon:SetTexture("INTERFACE\\ICONS\\INV_Letter_18")
 	tutorialbuttonIcon:Point("TOPLEFT", 5, -5)
@@ -21,11 +21,11 @@ local function LoadSkin()
 
 	S:HandleNextPrevButton(TutorialFrameNextButton)
 	TutorialFrameNextButton:Point("BOTTOMRIGHT", -132, 7)
-	TutorialFrameNextButton:Size(22, 22)
+	TutorialFrameNextButton:Size(22)
 
 	S:HandleNextPrevButton(TutorialFramePrevButton)
 	TutorialFramePrevButton:Point("BOTTOMLEFT", 30, 7)
-	TutorialFramePrevButton:Size(22, 22)
+	TutorialFramePrevButton:Size(22)
 
 	S:HandleButton(TutorialFrameOkayButton)
 
