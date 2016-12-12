@@ -109,6 +109,7 @@ E.Options.args.maps = {
 			type = "group",
 			name = MINIMAP_LABEL,
 			get = function(info) return E.db.general.minimap[ info[#info] ]; end,
+			childGroups = "tab",
 			args = {
 				minimapHeader = {
 					order = 1,

@@ -4,15 +4,9 @@ local S = E:GetModule('Skins')
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.talent ~= true then return end
 
-	local StripAllTextures = {
-		"GlyphFrameScrollFrame",
-		"GlyphFrameSideInset",
-		"GlyphFrameScrollFrameScrollChild"
-	}
-
-	for _, object in pairs(StripAllTextures) do
-		_G[object]:StripTextures()
-	end
+	GlyphFrameScrollFrame:StripTextures()
+	GlyphFrameSideInset:StripTextures()
+	GlyphFrameScrollFrameScrollChild:StripTextures()
 
 	GlyphFrameSparkleFrame:CreateBackdrop()
 	GlyphFrameSparkleFrame.backdrop:Point("TOPLEFT", 3, -3)

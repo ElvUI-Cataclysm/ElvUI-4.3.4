@@ -11,34 +11,34 @@ local function LoadSkin()
 
 	GuildBankFrame:StripTextures()
 	GuildBankFrame:SetTemplate("Transparent")
-	GuildBankFrame:SetWidth(654)
+	GuildBankFrame:Width(654)
 
 	GuildBankEmblemFrame:StripTextures(true)
 
-	--Close button doesn't have a fucking name, extreme hackage
 	for i = 1, GuildBankFrame:GetNumChildren() do
 		local child = select(i, GuildBankFrame:GetChildren())
-		if child.GetPushedTexture and child:GetPushedTexture() and not child:GetName() then
+		if(child.GetPushedTexture and child:GetPushedTexture() and not child:GetName()) then
 			S:HandleCloseButton(child)
+			child:Point("TOPRIGHT", 2, 2)
 		end
 	end
 
 	S:HandleButton(GuildBankFrameDepositButton, true)
-	GuildBankFrameDepositButton:SetWidth(85)
+	GuildBankFrameDepositButton:Width(85)
 
 	S:HandleButton(GuildBankFrameWithdrawButton, true)
-	GuildBankFrameWithdrawButton:SetWidth(85)
+	GuildBankFrameWithdrawButton:Width(85)
 	GuildBankFrameWithdrawButton:Point("RIGHT", GuildBankFrameDepositButton, "LEFT", -2, 0)
 
 	S:HandleButton(GuildBankInfoSaveButton, true)
 	S:HandleButton(GuildBankFramePurchaseButton, true)
 
 	GuildBankInfoScrollFrame:StripTextures()
-	GuildBankInfoScrollFrame:SetWidth(572)
+	GuildBankInfoScrollFrame:Width(572)
 
 	S:HandleScrollBar(GuildBankInfoScrollFrameScrollBar)
 
-	GuildBankTabInfoEditBox:SetWidth(565)
+	GuildBankTabInfoEditBox:Width(565)
 
 	GuildBankTransactionsScrollFrame:StripTextures()
 
@@ -53,7 +53,10 @@ local function LoadSkin()
 	GuildItemSearchBox:CreateBackdrop("Overlay")
 	GuildItemSearchBox.backdrop:Point("TOPLEFT", 10, -1)
 	GuildItemSearchBox.backdrop:Point("BOTTOMRIGHT", 4, 1)
-	GuildItemSearchBox:Point("TOPRIGHT", GuildBankFrame, "TOPRIGHT", -25, -42)
+	GuildItemSearchBox:Point("TOPRIGHT", -30, -42)
+	GuildItemSearchBox:Size(150, 22)
+
+	GuildBankLimitLabel:Point("CENTER", GuildBankTabLimitBackground, "CENTER", -20, 1)
 
 	for i = 1, NUM_GUILDBANK_COLUMNS do
 		_G["GuildBankColumn"..i]:StripTextures()
