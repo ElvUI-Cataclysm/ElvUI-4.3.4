@@ -138,8 +138,11 @@ local function LoadSkin()
 
 		button.icon = button:CreateTexture("$parentIcon", "ARTWORK");
 		button.icon:Point("LEFT", 45, 0);
-		button.icon:Size(18);
+		button.icon:Size(17);
 		button.icon:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
+
+		button:CreateBackdrop("Transparent")
+		button.backdrop:SetInside(button.icon)
 
 		button.stripe = button:CreateTexture(nil, "BACKGROUND");
 		button.stripe:SetTexture("Interface\\GuildFrame\\GuildFrame");
