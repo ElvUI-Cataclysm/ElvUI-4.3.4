@@ -264,10 +264,6 @@ local function LoadSkin()
 	S:HandleButton(CinematicFrameCloseDialogResumeButton);
 
 	-- Level Up Popup
-	LevelUpDisplay:StripTextures();
-	LevelUpDisplayLevelFrame:StripTextures();
-	LevelUpDisplaySpellFrame:StripTextures();
-
 	LevelUpDisplaySpellFrameIcon:SetTexCoord(unpack(E.TexCoords));
 	LevelUpDisplaySpellFrameSubIcon:SetTexCoord(unpack(E.TexCoords));
 

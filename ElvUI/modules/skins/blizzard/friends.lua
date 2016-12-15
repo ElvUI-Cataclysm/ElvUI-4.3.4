@@ -141,15 +141,14 @@ local function LoadSkin()
 		button.icon:Size(17);
 		button.icon:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
 
-		button:CreateBackdrop("Transparent")
+		button:CreateBackdrop("Default", true)
 		button.backdrop:SetInside(button.icon)
+		button:StyleButton()
 
 		button.stripe = button:CreateTexture(nil, "BACKGROUND");
 		button.stripe:SetTexture("Interface\\GuildFrame\\GuildFrame");
 		button.stripe:SetTexCoord(0.362, 0.381, 0.958, 0.998);
 		button.stripe:SetInside()
-
-		button:StyleButton()
 
 		_G["WhoFrameButton" .. i .. "Level"]:ClearAllPoints();
 		_G["WhoFrameButton" .. i .. "Level"]:Point("TOPLEFT", 12, -2);

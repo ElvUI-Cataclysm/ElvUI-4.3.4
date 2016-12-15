@@ -140,8 +140,7 @@ local function LoadSkin()
 						end
 					end
 				else
-					local _, _, _, level, _, zone, _, _, _, _, classFileName = GetGuildRosterInfo(button.guildIndex);
-					local classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classFileName] or RAID_CLASS_COLORS[classFileName];
+					local _, _, _, level, _, zone = GetGuildRosterInfo(button.guildIndex);
 					local levelTextColor = GetQuestDifficultyColor(level);
 
 					if(VIEW == "playerStatus") then
