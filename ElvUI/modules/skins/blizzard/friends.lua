@@ -162,30 +162,48 @@ local function LoadSkin()
 	end
 
 	hooksecurefunc("WhoList_Update", function()
-		local _, level;
-		local button, buttonText, classTextColor, classFileName, levelTextColor;
+		local whoOffset = FauxScrollFrame_GetOffset(WhoListScrollFrame);
+
+		local playerZone = GetRealZoneText();
+		local playerGuild = GetGuildInfo("player");
+		local playerRace = UnitRace("player");
 
 		for i = 1, WHOS_TO_DISPLAY, 1 do
-			button = _G["WhoFrameButton"..i];
-			_, _, level, _, _, _, classFileName = GetWhoInfo(button.whoIndex);
+			local index = whoOffset + i;
+			local button = _G["WhoFrameButton"..i];
+			local nameText = _G["WhoFrameButton"..i.."Name"];
+			local levelText = _G["WhoFrameButton"..i.."Level"];
+			local classText = _G["WhoFrameButton"..i.."Class"];
+			local variableText = _G["WhoFrameButton"..i.."Variable"];
+
+			local _, guild, level, race, _, zone, classFileName = GetWhoInfo(index);
+
+			local classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classFileName] or RAID_CLASS_COLORS[classFileName];
+			local levelTextColor = GetQuestDifficultyColor(level);
 
 			if(classFileName) then
-				classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classFileName] or RAID_CLASS_COLORS[classFileName];
 				button.icon:Show();
 				button.icon:SetTexCoord(unpack(CLASS_ICON_TCOORDS[classFileName]));
+
+				nameText:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b);
+				levelText:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b);
+
+				if(zone == playerZone) then
+					zone = "|cff00ff00"..zone;
+				end
+				if(guild == playerGuild) then
+					guild = "|cff00ff00"..guild;
+				end
+				if(race == playerRace) then
+					race = "|cff00ff00"..race;
+				end
+
+				local columnTable = {zone, guild, race};
+
+				variableText:SetText(columnTable[UIDropDownMenu_GetSelectedID(WhoFrameDropDown)]);
 			else
-				classTextColor = HIGHLIGHT_FONT_COLOR;
 				button.icon:Hide();
 			end
-
-			levelTextColor = GetQuestDifficultyColor(level);
-
-			buttonText = _G["WhoFrameButton" .. i .. "Name"];
-			buttonText:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b);
-			buttonText = _G["WhoFrameButton" .. i .. "Level"];
-			buttonText:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b);
-			buttonText = _G["WhoFrameButton" .. i .. "Class"];
-			buttonText:SetTextColor(1.0, 1.0, 1.0);
 		end
 	end);
 
