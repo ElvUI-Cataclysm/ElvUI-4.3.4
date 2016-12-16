@@ -137,7 +137,7 @@ local function LoadSkin()
 	S:HandleCloseButton(SideDressUpModelCloseButton)
 
 	S:HandleButton(SideDressUpModelResetButton)
-	SideDressUpModelResetButton:Point("BOTTOM", SideDressUpModel, "BOTTOM", 0, 10)
+	SideDressUpModelResetButton:Point("BOTTOM")
 
 	SideDressUpModelControlFrame:StripTextures()
 
