@@ -119,6 +119,22 @@ local function LoadSkin()
 	end
 
 	--Roster
+	for i = 1, 15 do
+		local button = _G["GuildRosterContainerButton"..i];
+		local icon = _G["GuildRosterContainerButton"..i.."Icon"];
+
+		button:CreateBackdrop("Default", true);
+		button.backdrop:SetInside(icon);
+		button:StyleButton();
+
+		icon:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
+		icon:SetParent(button.backdrop);
+		icon:Size(20);
+
+		_G["GuildRosterContainerButton"..i.."BarTexture"]:SetTexture(E["media"].normTex);
+		S:HandleButton(_G["GuildRosterContainerButton"..i.."HeaderButton"], true);
+	end
+
 	local VIEW;
 	local function viewChanged(view)
 		VIEW = view;
@@ -156,6 +172,17 @@ local function LoadSkin()
 				end
 			end
 		end
+
+		for i = 1, 15 do
+			local icon = _G["GuildRosterContainerButton"..i.."Icon"];
+			local backdrop = _G["GuildRosterContainerButton"..i].backdrop;
+
+			if(icon:IsShown()) then
+				backdrop:Show();
+			else
+				backdrop:Hide();
+			end
+		end
 	end
 	hooksecurefunc("GuildRoster_Update", update)
 	hooksecurefunc(GuildRosterContainer, "update", update)
@@ -163,15 +190,6 @@ local function LoadSkin()
 	for i = 1, 4 do
 		_G["GuildRosterColumnButton"..i]:StripTextures(true)
 		_G["GuildRosterColumnButton"..i]:StyleButton()
-	end
-
-	for i = 1, 14 do
-		_G["GuildRosterContainerButton"..i]:StyleButton()
-		_G["GuildRosterContainerButton"..i.."BarTexture"]:SetTexture(E["media"].normTex)
-		_G["GuildRosterContainerButton"..i.."Icon"]:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
-		_G["GuildRosterContainerButton"..i.."Icon"]:Size(20);
-
-		S:HandleButton(_G["GuildRosterContainerButton"..i.."HeaderButton"], true)
 	end
 
 	S:HandleDropDownBox(GuildRosterViewDropdown, 200)
