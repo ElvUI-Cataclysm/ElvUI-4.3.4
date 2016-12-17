@@ -30,31 +30,6 @@ local function LoadSkin()
 	S:HandleCloseButton(AuctionFrameCloseButton)
 	AuctionFrameCloseButton:Point("TOPRIGHT", AuctionFrame, "TOPRIGHT", 2, 2)
 
-	--DressUp Frame
-	SideDressUpFrame:StripTextures()
-	SideDressUpFrame:SetTemplate("Transparent")
-	SideDressUpFrame:Point("TOPLEFT", AuctionFrame, "TOPRIGHT", 2, 0)
-	S:HandleButton(SideDressUpModelResetButton)
-	SideDressUpModelResetButton:Point("BOTTOM", SideDressUpModel, "BOTTOM", 0, 0)
-	S:HandleCloseButton(SideDressUpModelCloseButton)
-
-	SideDressUpModelControlFrame:StripTextures()
-
-	local controlbuttons = {
-		"SideDressUpModelControlFrameZoomInButton",
-		"SideDressUpModelControlFrameZoomOutButton",
-		"SideDressUpModelControlFramePanButton",
-		"SideDressUpModelControlFrameRotateLeftButton",
-		"SideDressUpModelControlFrameRotateRightButton",
-		"SideDressUpModelControlFrameRotateResetButton"
-	}
-
-	for i = 1, getn(controlbuttons) do
-		S:HandleButton(_G[controlbuttons[i]]);
-		_G[controlbuttons[i]]:StyleButton()
-		_G[controlbuttons[i].."Bg"]:Hide()
-	end
-
 	--Progress Frame
 	AuctionProgressFrame:StripTextures()
 	AuctionProgressFrame:SetTemplate("Transparent")

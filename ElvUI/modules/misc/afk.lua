@@ -90,7 +90,7 @@ function AFK:SetAFK(status)
 
 		if(IsInGuild()) then
 			local guildName, guildRankName = GetGuildInfo("player");
-			self.AFKMode.bottom.guild:SetFormattedText("%s-%s", guildName, guildRankName);
+			self.AFKMode.bottom.guild:SetFormattedText("%s - %s", guildName, guildRankName);
 		else
 			self.AFKMode.bottom.guild:SetText(L["No Guild"]);
 		end
@@ -276,7 +276,7 @@ function AFK:Initialize()
 
 	self.AFKMode.bottom.name = self.AFKMode.bottom:CreateFontString(nil, "OVERLAY");
 	self.AFKMode.bottom.name:FontTemplate(nil, 20);
-	self.AFKMode.bottom.name:SetFormattedText("%s-%s", E.myname, E.myrealm);
+	self.AFKMode.bottom.name:SetFormattedText("%s - %s", E.myname, E.myrealm);
 	self.AFKMode.bottom.name:Point("TOPLEFT", self.AFKMode.bottom.faction, "TOPRIGHT", -10, -28);
 	self.AFKMode.bottom.name:SetTextColor(classColor.r, classColor.g, classColor.b);
 
