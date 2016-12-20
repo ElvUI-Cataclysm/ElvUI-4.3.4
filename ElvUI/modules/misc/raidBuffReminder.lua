@@ -230,11 +230,11 @@ function RB:UpdateSettings(isCallback)
 		if(i == 1) then
 			button:Point("TOP", ElvUI_ReminderBuffs, "TOP", 0, 0);
 		else
-			button:Point("TOP", frame[i - 1], "BOTTOM", 0, E.Border - E.Spacing);
+			button:Point("TOP", frame[i - 1], "BOTTOM", 0, E.Border - E.Spacing*3);
 		end
 
 		if(i == 6) then
-			button:Point('BOTTOM', ElvUI_ReminderBuffs, 'BOTTOM', 0, (E.PixelMode and 0 or 2));
+			button:Point("BOTTOM", ElvUI_ReminderBuffs, "BOTTOM", 0, 0);
 		end
 
 		if(E.db.general.reminder.durations) then
