@@ -471,6 +471,7 @@ P["unitframe"] = {
 				["useWhitelist"] = true,
 				["noDuration"] = true,
 				["onlyDispellable"] = false,
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -490,6 +491,7 @@ P["unitframe"] = {
 				["useWhitelist"] = false,
 				["noDuration"] = false,
 				["onlyDispellable"] = false,
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -539,6 +541,7 @@ P["unitframe"] = {
 				["useWhitelist"] = true,
 				["noDuration"] = true,
 				["onlyDispellable"] = false,
+				["additionalFilterAllowNonPersonal"] = false,
 				["maxDuration"] = 120,
 				["useFilter"] = "",
 				["friendlyAuraType"] = "HELPFUL",
@@ -636,6 +639,7 @@ P["unitframe"] = {
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = false, enemy = false},
 				["onlyDispellable"] = {friendly = false, enemy = false},
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -655,6 +659,7 @@ P["unitframe"] = {
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = false, enemy = false},
 				["onlyDispellable"] = {friendly = false, enemy = false},
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -693,6 +698,7 @@ P["unitframe"] = {
 				["noDuration"] = {friendly = true, enemy = true},
 				["noConsolidated"] = {friendly = true, enemy = true},
 				["onlyDispellable"] = {friendly = false, enemy = false},
+				["additionalFilterAllowNonPersonal"] = false,
 				["maxDuration"] = 300,
 				["useFilter"] = "",
 				["friendlyAuraType"] = "HELPFUL",
@@ -778,6 +784,7 @@ P["unitframe"] = {
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = true, enemy = false},
 				["onlyDispellable"] = {friendly = false, enemy = false},
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -797,6 +804,7 @@ P["unitframe"] = {
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = false, enemy = false},
 				["onlyDispellable"] = {friendly = false, enemy = false},
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -869,6 +877,7 @@ P["unitframe"] = {
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = true, enemy = false},
 				["onlyDispellable"] = {friendly = false, enemy = false},
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0,
@@ -888,6 +897,7 @@ P["unitframe"] = {
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = false, enemy = false},
 				["onlyDispellable"] = {friendly = false, enemy = false},
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -964,6 +974,7 @@ P["unitframe"] = {
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = true, enemy = false},
 				["onlyDispellable"] = {friendly = false, enemy = false},
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -983,6 +994,7 @@ P["unitframe"] = {
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = false, enemy = false},
 				["onlyDispellable"] = {friendly = false, enemy = false},
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1013,6 +1025,7 @@ P["unitframe"] = {
 				["noDuration"] = {friendly = false, enemy = false},
 				["onlyDispellable"] = {friendly = false, enemy = false},
 				["noConsolidated"] = {friendly = true, enemy = true},
+				["additionalFilterAllowNonPersonal"] = false,
 				["maxDuration"] = 120,
 				["useFilter"] = "",
 				["friendlyAuraType"] = "HELPFUL",
@@ -1097,6 +1110,7 @@ P["unitframe"] = {
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = true, enemy = false},
 				["onlyDispellable"] = {friendly = false, enemy = false},
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1116,6 +1130,7 @@ P["unitframe"] = {
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = false, enemy = false},
 				["onlyDispellable"] = {friendly = false, enemy = false},
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1189,6 +1204,7 @@ P["unitframe"] = {
 				["useWhitelist"] = false,
 				["noDuration"] = true,
 				["onlyDispellable"] = false,
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1208,6 +1224,7 @@ P["unitframe"] = {
 				["useWhitelist"] = false,
 				["noDuration"] = false,
 				["onlyDispellable"] = false,
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1292,6 +1309,7 @@ P["unitframe"] = {
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = true, enemy = false},
 				["onlyDispellable"] = {friendly = false, enemy = false},
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1311,6 +1329,7 @@ P["unitframe"] = {
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = false, enemy = false},
 				["onlyDispellable"] = {friendly = false, enemy = false},
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1380,6 +1399,7 @@ P["unitframe"] = {
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = false, enemy = false},
 				["onlyDispellable"] = {friendly = false, enemy = false},
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 20,
@@ -1400,6 +1420,7 @@ P["unitframe"] = {
 				["useWhitelist"] = {friendly = false, enemy = false},
 				["noDuration"] = {friendly = false, enemy = false},
 				["onlyDispellable"] = {friendly = false, enemy = false},
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = -3,
@@ -1495,6 +1516,7 @@ P["unitframe"] = {
 				["noDuration"] = {friendly = false, enemy = false},
 				["useFilter"] = "TurtleBuffs",
 				["onlyDispellable"] = {friendly = false, enemy = false},
+				["additionalFilterAllowNonPersonal"] = false,
 				["sizeOverride"] = 27,
 				["xOffset"] = 0,
 				["yOffset"] = 16
@@ -1515,6 +1537,7 @@ P["unitframe"] = {
 				["noDuration"] = {friendly = false, enemy = false},
 				["useFilter"] = "CCDebuffs",
 				["onlyDispellable"] = {friendly = false, enemy = false},
+				["additionalFilterAllowNonPersonal"] = false,
 				["sizeOverride"] = 27,
 				["xOffset"] = 0,
 				["yOffset"] = -16
@@ -1620,6 +1643,7 @@ P["unitframe"] = {
 				["useWhitelist"] = false,
 				["noDuration"] = true,
 				["onlyDispellable"] = false,
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1640,6 +1664,7 @@ P["unitframe"] = {
 				["useWhitelist"] = false,
 				["noDuration"] = false,
 				["onlyDispellable"] = false,
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0,
@@ -1804,6 +1829,7 @@ P["unitframe"] = {
 				["useWhitelist"] = false,
 				["noDuration"] = true,
 				["onlyDispellable"] = false,
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1824,6 +1850,7 @@ P["unitframe"] = {
 				["useWhitelist"] = false,
 				["noDuration"] = false,
 				["onlyDispellable"] = false,
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1959,6 +1986,7 @@ P["unitframe"] = {
 				["useWhitelist"] = false,
 				["noDuration"] = true,
 				["onlyDispellable"] = false,
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -1979,6 +2007,7 @@ P["unitframe"] = {
 				["useWhitelist"] = false,
 				["noDuration"] = false,
 				["onlyDispellable"] = false,
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -2100,6 +2129,7 @@ P["unitframe"] = {
 				["useWhitelist"] = false,
 				["noDuration"] = true,
 				["onlyDispellable"] = false,
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -2120,6 +2150,7 @@ P["unitframe"] = {
 				["useWhitelist"] = false,
 				["noDuration"] = false,
 				["onlyDispellable"] = false,
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 0
@@ -2187,6 +2218,7 @@ P["unitframe"] = {
 				["useWhitelist"] = false,
 				["noDuration"] = false,
 				["onlyDispellable"] = false,
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 2
@@ -2207,6 +2239,7 @@ P["unitframe"] = {
 				["useWhitelist"] = false,
 				["noDuration"] = false,
 				["onlyDispellable"] = false,
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 1
@@ -2276,6 +2309,7 @@ P["unitframe"] = {
 				["useWhitelist"] = false,
 				["noDuration"] = false,
 				["onlyDispellable"] = false,
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 2
@@ -2296,6 +2330,7 @@ P["unitframe"] = {
 				["useWhitelist"] = false,
 				["noDuration"] = false,
 				["onlyDispellable"] = false,
+				["additionalFilterAllowNonPersonal"] = false,
 				["useFilter"] = "",
 				["xOffset"] = 0,
 				["yOffset"] = 1

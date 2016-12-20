@@ -693,7 +693,9 @@ L["Add a spell to the filter. Use spell ID if you don't want to match all auras 
 L["Add a spell to the filter."] = "Añade un hechizo al filtro."
 L["Add Spell ID or Name"] = true;
 L["Add SpellID"] = "Añadir ID de Hechizo"
+L["Additional Filter Override"] = true;
 L["Additional Filter"] = "Filtro Adicional"
+L["Allow non-personal auras from additional filter when 'Block Non-Personal Auras' is enabled."] = true;
 L["Allow Whitelisted Auras"] = "Permitir Auras de la Lista Blanca"
 L["An X offset (in pixels) to be used when anchoring new frames."] = true;
 L["An Y offset (in pixels) to be used when anchoring new frames."] = true;

@@ -196,7 +196,10 @@ function UF:AuraBarFilter(unit, name, _, _, _, debuffType, duration, _, unitCast
 			returnValue = false;
 		end
 
-		passPlayerOnlyCheck = returnValue;
+		--Only allow passPlayerOnlyCheck to be set to false (potentially) if override is not enabled
+		if(not db.additionalFilterAllowNonPersonal) then
+			passPlayerOnlyCheck = returnValue
+		end
 		playerOnlyFilter = true;
 	end
 

@@ -693,7 +693,9 @@ L["Add a spell to the filter. Use spell ID if you don't want to match all auras 
 L["Add a spell to the filter."] = "Ajouter un sort au filtre."
 L["Add Spell ID or Name"] = true;
 L["Add SpellID"] = "Ajouter l'identifiant d'un sort"
+L["Additional Filter Override"] = true;
 L["Additional Filter"] = "Filtre Additionnels"
+L["Allow non-personal auras from additional filter when 'Block Non-Personal Auras' is enabled."] = true;
 L["Allow Whitelisted Auras"] = "Permettre les Auras en Liste Blanche"
 L["An X offset (in pixels) to be used when anchoring new frames."] = "Un décalage X (en pixels) à utiliser lors d'un ancrage d'une nouvelle fenêtre."; --need review
 L["An Y offset (in pixels) to be used when anchoring new frames."] = "Un décalage Y (en pixels) à utiliser lors d'un ancrage d'une nouvelle fenêtre."; --need review

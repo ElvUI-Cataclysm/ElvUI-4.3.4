@@ -693,7 +693,9 @@ L["Add a spell to the filter. Use spell ID if you don't want to match all auras 
 L["Add a spell to the filter."] = "添加一个技能到过滤器"
 L["Add Spell ID or Name"] = "添加技能ID或者名字"
 L["Add SpellID"] = "添加技能ID"
+L["Additional Filter Override"] = "额外过滤器覆盖"
 L["Additional Filter"] = '额外的过滤器'
+L["Allow non-personal auras from additional filter when 'Block Non-Personal Auras' is enabled."] = "当'不显示非个人光环'开启时允许来自额外过滤器的非个人光环"
 L["Allow Whitelisted Auras"] = '允许白名单中的光环'
 L["An X offset (in pixels) to be used when anchoring new frames."] = "锚定新框架时的X偏移(单位:像素)"
 L["An Y offset (in pixels) to be used when anchoring new frames."] = "锚定新框架时的Y偏移(单位:像素)"

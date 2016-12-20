@@ -467,7 +467,10 @@ function UF:AuraFilter(unit, icon, name, _, _, _, dtype, duration, _, _, isSteal
 			returnValue = false;
 		end
 
-		passPlayerOnlyCheck = returnValue;
+		--Only allow passPlayerOnlyCheck to be set to false (potentially) if override is not enabled
+		if(not db.additionalFilterAllowNonPersonal) then
+			passPlayerOnlyCheck = returnValue
+		end
 		playerOnlyFilter = true;
 	end
 
