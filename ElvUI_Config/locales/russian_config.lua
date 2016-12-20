@@ -973,6 +973,7 @@ L["Smart Raid Filter"] = "Умный фильтр рейда"
 L["Smooth Bars"] = "Плавные полосы"
 L["Solar"] = "Солнце"
 L["Sort By"] = "Сортировать по"
+L["Soul Shards"] = true;
 L["Spaced"] = "Раздельно"
 L["Spacing"] = "Отступ"
 L["Spark"] = "Искра"

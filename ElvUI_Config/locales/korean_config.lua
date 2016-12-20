@@ -1021,6 +1021,7 @@ L["Smart Raid Filter"] = "스마트 레이드 필터"
 L["Smooth Bars"] = "부드러운 증감"
 L["Solar"] = "태양 에너지"
 L["Sort By"] = true;
+L["Soul Shards"] = true;
 L["Spaced"] = "외부에 작게 분리"
 L["Spacing"] = true;
 L["Spark"] = "반짝임"

@@ -973,6 +973,7 @@ L["Smart Raid Filter"] = "Filtre intelligent de Raid"
 L["Smooth Bars"] = "Barres fluides"
 L["Solar"] = "Solaire"
 L["Sort By"] = true;
+L["Soul Shards"] = true;
 L["Spaced"] = "Espacé"
 L["Spacing"] = true;
 L["Spark"] = "Lueur"

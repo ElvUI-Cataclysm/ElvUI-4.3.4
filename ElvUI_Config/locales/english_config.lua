@@ -962,6 +962,7 @@ L["Smart Raid Filter"] = true;
 L["Smooth Bars"] = true;
 L["Solar"] = true;
 L["Sort By"] = true;
+L["Soul Shards"] = true;
 L["Spaced"] = true;
 L["Spacing"] = true;
 L["Spark"] = true;

@@ -971,6 +971,7 @@ L["Smart Raid Filter"] = "智能團隊過濾"
 L["Smooth Bars"] = "平滑化"
 L["Solar"] = "日能"
 L["Sort By"] = "排序"
+L["Soul Shards"] = true;
 L["Spaced"] = "留空"
 L["Spacing"] = "間隙"
 L["Spark"] = "火花"
