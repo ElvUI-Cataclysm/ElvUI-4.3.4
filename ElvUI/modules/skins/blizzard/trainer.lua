@@ -84,6 +84,32 @@ local function LoadSkin()
 
 	ClassTrainerStatusBar.rankText:Point("CENTER")
 	ClassTrainerStatusBar.rankText:FontTemplate(nil, 12, "OUTLINE");
+
+	local ClassTrainerTrainAllButton = CreateFrame("Button", "ClassTrainerTrainAllButton", ClassTrainerFrame, "UIPanelButtonTemplate")
+	ClassTrainerTrainAllButton:Point("TOPRIGHT", ClassTrainerTrainButton, "TOPLEFT", -3, 0)
+	ClassTrainerTrainAllButton:SetParent(ClassTrainerFrame)
+	ClassTrainerTrainAllButton:SetText(ACHIEVEMENTFRAME_FILTER_ALL)
+	ClassTrainerTrainAllButton:Size(80, 22)
+
+	ClassTrainerTrainAllButton:HookScript("OnClick", function()
+		for i = 1, GetNumTrainerServices() do
+			if(select(3, GetTrainerServiceInfo(i)) == "available") then
+				BuyTrainerService(i)
+			end
+		end
+	end)
+
+	hooksecurefunc("ClassTrainerFrame_Update", function()
+		for i = 1, GetNumTrainerServices() do
+			if(select(3, GetTrainerServiceInfo(i)) == "available") then
+				ClassTrainerTrainAllButton:Enable()
+				return
+			end
+		end
+		ClassTrainerTrainAllButton:Disable()
+	end)
+
+	S:HandleButton(ClassTrainerTrainAllButton)
 end
 
 S:AddCallbackForAddon("Blizzard_TrainerUI", "Trainer", LoadSkin);

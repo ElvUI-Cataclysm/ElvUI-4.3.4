@@ -1,34 +1,27 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule('Skins')
+local S = E:GetModule("Skins")
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.transmogrify ~= true then return end
 
 	TransmogrifyFrame:StripTextures()
 	TransmogrifyFrame:SetTemplate("Transparent")
-	TransmogrifyModelFrame:SetFrameLevel(TransmogrifyFrame:GetFrameLevel() + 2)
 
-	local KillTextures = {
-		"TransmogrifyModelFrameLines",
-		"TransmogrifyModelFrameMarbleBg",
-		"TransmogrifyFrameButtonFrameButtonBorder",
-		"TransmogrifyFrameButtonFrameButtonBottomBorder",
-		"TransmogrifyFrameButtonFrameMoneyLeft",
-		"TransmogrifyFrameButtonFrameMoneyRight",
-		"TransmogrifyFrameButtonFrameMoneyMiddle"
-	}
+	TransmogrifyArtFrame:StripTextures()
 
-	for _, texture in pairs(KillTextures) do
-		_G[texture]:Kill()
-	end
+	TransmogrifyFrameButtonFrame:StripTextures()
 
 	select(2, TransmogrifyModelFrame:GetRegions()):Kill()
-	TransmogrifyFrameButtonFrame:GetRegions():Kill()
+	TransmogrifyModelFrame:SetFrameLevel(TransmogrifyFrame:GetFrameLevel() + 2)
+	TransmogrifyModelFrame:CreateBackdrop()
+
+	TransmogrifyModelFrameLines:SetInside(TransmogrifyModelFrame.backdrop)
+	TransmogrifyModelFrameMarbleBg:SetInside(TransmogrifyModelFrame.backdrop)
 
 	S:HandleButton(TransmogrifyApplyButton, true)
-	TransmogrifyApplyButton:Point("BOTTOMRIGHT", TransmogrifyFrame, "BOTTOMRIGHT", -4, 4)
+	TransmogrifyApplyButton:Point("BOTTOMRIGHT", -4, 4)
+
 	S:HandleCloseButton(TransmogrifyArtFrameCloseButton)
-	TransmogrifyArtFrame:StripTextures()
 
 	local slots = {
 		"Head",
@@ -61,6 +54,7 @@ local function LoadSkin()
 		end
 	end
 
+	--Control Frame
 	TransmogrifyModelFrameControlFrame:StripTextures()
 
 	local controlbuttons = {
@@ -69,7 +63,7 @@ local function LoadSkin()
 		"TransmogrifyModelFrameControlFramePanButton",
 		"TransmogrifyModelFrameControlFrameRotateRightButton",
 		"TransmogrifyModelFrameControlFrameRotateLeftButton",
-		"TransmogrifyModelFrameControlFrameRotateResetButton",
+		"TransmogrifyModelFrameControlFrameRotateResetButton"
 	}
 
 	for i = 1, getn(controlbuttons) do
