@@ -1,5 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...))
-local RU = E:NewModule('RaidUtility', 'AceEvent-3.0');
+local RU = E:NewModule("RaidUtility", "AceEvent-3.0");
 
 local _G = _G
 local unpack, pairs = unpack, pairs
@@ -16,8 +16,6 @@ local DoReadyCheck = DoReadyCheck
 local ToggleFriendsFrame = ToggleFriendsFrame;
 
 E.RaidUtility = RU
-
-local PANEL_HEIGHT = 125
 
 --Check if We are Raid Leader or Raid Officer
 local function CheckRaidStatus()
@@ -49,14 +47,14 @@ function RU:CreateUtilButton(name, parent, template, width, height, point, relat
 	b:HookScript("OnLeave", ButtonLeave)
 	b:SetTemplate("Default")
 
-	if text then
+	if(text) then
 		local t = b:CreateFontString(nil,"OVERLAY",b)
 		t:FontTemplate()
 		t:SetPoint("CENTER")
 		t:SetJustifyH("CENTER")
 		t:SetText(text)
 		b:SetFontString(t)
-	elseif texture then
+	elseif(texture) then
 		local t = b:CreateTexture(nil,"OVERLAY",nil)
 		t:SetTexture(texture)
 		t:SetPoint("TOPLEFT", b, "TOPLEFT", E.mult, -E.mult)
@@ -65,13 +63,13 @@ function RU:CreateUtilButton(name, parent, template, width, height, point, relat
 end
 
 function RU:ToggleRaidUtil(event)
-	if InCombatLockdown() then
-		self:RegisterEvent("PLAYER_REGEN_ENABLED", 'ToggleRaidUtil')
+	if(InCombatLockdown()) then
+		self:RegisterEvent("PLAYER_REGEN_ENABLED", "ToggleRaidUtil")
 		return
 	end
 
-	if CheckRaidStatus() then
-		if RaidUtilityPanel.toggled == true then
+	if(CheckRaidStatus()) then
+		if(RaidUtilityPanel.toggled == true) then
 			RaidUtility_ShowButton:Hide()
 			RaidUtilityPanel:Show()
 		else
@@ -83,18 +81,17 @@ function RU:ToggleRaidUtil(event)
 		RaidUtilityPanel:Hide()
 	end
 
-	if event == "PLAYER_REGEN_ENABLED" then
-		self:UnregisterEvent("PLAYER_REGEN_ENABLED", 'ToggleRaidUtil')
+	if(event == "PLAYER_REGEN_ENABLED") then
+		self:UnregisterEvent("PLAYER_REGEN_ENABLED", "ToggleRaidUtil")
 	end
 end
 
 function RU:Initialize()
 	--Create main frame
 	local RaidUtilityPanel = CreateFrame("Frame", "RaidUtilityPanel", E.UIParent, "SecureHandlerClickTemplate")
-	RaidUtilityPanel:SetTemplate('Transparent')
-	RaidUtilityPanel:Width(230)
-	RaidUtilityPanel:Height(PANEL_HEIGHT)
-	RaidUtilityPanel:Point('TOP', E.UIParent, 'TOP', -400, 1)
+	RaidUtilityPanel:SetTemplate("Transparent")
+	RaidUtilityPanel:Size(230, 145)
+	RaidUtilityPanel:Point("TOP", E.UIParent, "TOP", -400, 1)
 	RaidUtilityPanel:SetFrameLevel(3)
 	RaidUtilityPanel.toggled = false
 	RaidUtilityPanel:SetFrameStrata("HIGH")
@@ -110,7 +107,7 @@ function RU:Initialize()
 
 		local point = self:GetPoint();
 		local raidUtilPoint, closeButtonPoint, yOffset
-		if string.find(point, "BOTTOM") then
+		if(string.find(point, "BOTTOM")) then
 			raidUtilPoint = "BOTTOM"
 			closeButtonPoint = "TOP"
 			yOffset = 1
@@ -145,10 +142,10 @@ function RU:Initialize()
 		local screenWidth = E.UIParent:GetWidth() / 2
 		xOffset = xOffset - screenWidth
 		self:ClearAllPoints()
-		if find(point, "BOTTOM") then
-			self:Point('BOTTOM', E.UIParent, 'BOTTOM', xOffset, -1)
+		if(find(point, "BOTTOM")) then
+			self:Point("BOTTOM", E.UIParent, "BOTTOM", xOffset, -1)
 		else
-			self:Point('TOP', E.UIParent, 'TOP', xOffset, 1)
+			self:Point("TOP", E.UIParent, "TOP", xOffset, 1)
 		end
 	end)
 
@@ -170,7 +167,7 @@ function RU:Initialize()
 	--Role Check button
 	self:CreateUtilButton("RoleCheckButton", RaidUtilityPanel, "UIMenuButtonStretchTemplate", RaidUtilityPanel:GetWidth() * 0.8, 18, "TOP", DisbandRaidButton, "BOTTOM", 0, -5, ROLE_POLL, nil)
 	RoleCheckButton:SetScript("OnMouseUp", function()
-		if CheckRaidStatus() then
+		if(CheckRaidStatus()) then
 			InitiateRolePoll()
 		end
 	end)
@@ -190,18 +187,30 @@ function RU:Initialize()
 	--Ready Check button
 	self:CreateUtilButton("ReadyCheckButton", RaidUtilityPanel, "UIMenuButtonStretchTemplate", RoleCheckButton:GetWidth() * 0.75, 18, "TOPLEFT", MainTankButton, "BOTTOMLEFT", 0, -5, READY_CHECK, nil)
 	ReadyCheckButton:SetScript("OnMouseUp", function()
-		if CheckRaidStatus() then
+		if(CheckRaidStatus()) then
 			DoReadyCheck()
 		end
 	end)
 
+	--Convert Group button
+	self:CreateUtilButton("ConvertGroupButton", RaidUtilityPanel, "UIMenuButtonStretchTemplate", RaidUtilityPanel:GetWidth() * 0.8, 18, "TOPLEFT", ReadyCheckButton, "BOTTOMLEFT", 0, -5, UnitInRaid("player") and CONVERT_TO_PARTY or CONVERT_TO_RAID)
+	ConvertGroupButton:SetScript("OnMouseUp", function()
+		if(UnitInRaid("player")) then
+			ConvertToParty()
+			ConvertGroupButton:SetText(CONVERT_TO_RAID)
+		elseif(UnitInParty("player")) then
+			ConvertToRaid()
+			ConvertGroupButton:SetText(CONVERT_TO_PARTY)
+		end
+	end)
+
 	--Raid Control Panel
-	self:CreateUtilButton("RaidControlButton", RaidUtilityPanel, "UIMenuButtonStretchTemplate", RoleCheckButton:GetWidth(), 18, "TOPLEFT", ReadyCheckButton, "BOTTOMLEFT", 0, -5, L['Raid Menu'], nil)
+	self:CreateUtilButton("RaidControlButton", RaidUtilityPanel, "UIMenuButtonStretchTemplate", RoleCheckButton:GetWidth(), 18, "TOP", ConvertGroupButton, "BOTTOM", 0, -5, L["Raid Menu"], nil)
 	RaidControlButton:SetScript("OnMouseUp", function()
 		ToggleFriendsFrame(4)
 	end)
 
-	if CompactRaidFrameManager then
+	if(CompactRaidFrameManager) then
 		--Reposition/Resize and Reuse the World Marker Button
 		CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:ClearAllPoints()
 		CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:Point("TOPRIGHT", RoleCheckButton, "BOTTOMRIGHT", 0, -28)
@@ -231,6 +240,7 @@ function RU:Initialize()
 			"ReadyCheckButton",
 			"RaidControlButton",
 			"RaidUtility_ShowButton",
+			"ConvertGroupButton",
 			"RaidUtility_CloseButton"
 		}
 
@@ -248,9 +258,9 @@ function RU:Initialize()
 	end
 
 	--Automatically show/hide the frame if we have RaidLeader or RaidOfficer
-	self:RegisterEvent("RAID_ROSTER_UPDATE", 'ToggleRaidUtil')
-	self:RegisterEvent("PLAYER_ENTERING_WORLD", 'ToggleRaidUtil')
-	self:RegisterEvent("PARTY_MEMBERS_CHANGED", 'ToggleRaidUtil')
+	self:RegisterEvent("RAID_ROSTER_UPDATE", "ToggleRaidUtil")
+	self:RegisterEvent("PLAYER_ENTERING_WORLD", "ToggleRaidUtil")
+	self:RegisterEvent("PARTY_MEMBERS_CHANGED", "ToggleRaidUtil")
 end
 
 E:RegisterInitialModule(RU:GetName())
