@@ -145,7 +145,7 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 				values = {
 					["Health"] = L["Health"],
 					["Power"] = L["Power"],
-					["InfoPanel"] = L["Information Bar"],
+					["InfoPanel"] = L["Information Panel"],
 					["Frame"] = L["Frame"]
 				}
 			},
@@ -176,7 +176,7 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 		config.args.orientation = {
 			type = "select",
 			order = 5,
-			name = L["Orientation"],
+			name = L["Statusbar Fill Orientation"],
 			desc = L["Direction the health bar moves when gaining/losing health."],
 			values = {
 				["HORIZONTAL"] = L["Horizontal"],
@@ -301,7 +301,7 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 				values = {
 					["Health"] = L["Health"],
 					["Power"] = L["Power"],
-					["InfoPanel"] = L["Information Bar"],	
+					["InfoPanel"] = L["Information Panel"],
 					["Frame"] = L["Frame"]
 				}
 			}
@@ -380,7 +380,7 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 			}
 		};
 	end
-	
+
 	return config;
 end
 
@@ -419,7 +419,7 @@ local function GetOptionsTable_Name(updateFunc, groupName, numUnits)
 				values = {
 					["Health"] = L["Health"],
 					["Power"] = L["Power"],
-					["InfoPanel"] = L["Information Bar"],
+					["InfoPanel"] = L["Information Panel"],
 					["Frame"] = L["Frame"]
 				}
 			},
@@ -447,7 +447,8 @@ local function GetOptionsTable_Portrait(updateFunc, groupName, numUnits)
 			enable = {
 				type = "toggle",
 				order = 1,
-				name = L["Enable"]
+				name = L["Enable"],
+				desc = L["If you have a lot of 3D Portraits active then it will likely have a big impact on your FPS. Disable some portraits if you experience FPS issues."]
 			},
 			width = {
 				type = "range",
@@ -542,7 +543,7 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 				type = "range",
 				name = L["Font Size"],
 				min = 6, max = 22, step = 1
-			},	
+			},
 			clickThrough = {
 				order = 10,
 				type = "toggle",
@@ -572,7 +573,7 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 			}
 		}
 	};
-	
+
 	if(auraType == "buffs") then
 		config.args.attachTo = {
 			order = 7,
@@ -600,7 +601,7 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 			}
 		};
 	end
-	
+
 	if(isGroupFrame) then
 		config.args.countFontSize = {
 			order = 10,
@@ -818,7 +819,7 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 				}
 			};
 		end
-		
+
 		config.args.filters.args.useFilter = {
 			order = 16,
 			name = L["Additional Filter"],
@@ -1401,7 +1402,7 @@ local function GetOptionsTable_RaidIcon(updateFunc, groupName, numUnits)
 				values = {
 					["Health"] = L["Health"],
 					["Power"] = L["Power"],
-					["InfoPanel"] = L["Information Bar"],
+					["InfoPanel"] = L["Information Panel"],
 					["Frame"] = L["Frame"]
 				}
 			},
@@ -1428,7 +1429,7 @@ local function GetOptionsTable_RaidIcon(updateFunc, groupName, numUnits)
 			}
 		}
 	};
-	
+
 	return config;
 end
 
@@ -1627,7 +1628,7 @@ function UF:CreateCustomTextGroup(unit, objectName)
 		get = function(info) return E.db.unitframe.units[unit].customTexts[objectName][ info[#info] ] end,
 		set = function(info, value) 
 			E.db.unitframe.units[unit].customTexts[objectName][ info[#info] ] = value; 
-			
+
 			if(unit == "party" or unit:find("raid")) then
 				UF:CreateAndUpdateHeaderGroup(unit);
 			elseif(unit == "boss") then
@@ -1646,7 +1647,7 @@ function UF:CreateCustomTextGroup(unit, objectName)
 				func = function() 
 					E.Options.args.unitframe.args[unit].args[objectName] = nil; 
 					E.db.unitframe.units[unit].customTexts[objectName] = nil; 
-					
+
 					if(unit == "boss" or unit == "arena") then
 						for i = 1, 5 do
 							if(UF[unit .. i]) then
@@ -1731,7 +1732,7 @@ function UF:CreateCustomTextGroup(unit, objectName)
 				values = {
 					["Health"] = L["Health"],
 					["Power"] = L["Power"],
-					["InfoPanel"] = L["Information Bar"],
+					["InfoPanel"] = L["Information Panel"],
 					["Frame"] = L["Frame"]
 				}
 			},
@@ -1805,7 +1806,7 @@ local function GetOptionsTable_GPS(groupName)
 				order = 1,
 				type = "toggle",
 				name = L["Enable"]
-			},	
+			},
 			onMouseOver = {
 				order = 2,
 				type = "toggle",
@@ -2097,7 +2098,7 @@ E.Options.args.unitframe = {
 					name = L["Colors"],
 					get = function(info) return E.db.unitframe.colors[ info[#info] ]; end,
 					set = function(info, value) E.db.unitframe.colors[ info[#info] ] = value; UF:Update_AllFrames(); end,
-					args = {				
+					args = {
 						healthGroup = {
 							order = 7,
 							type = "group",
@@ -2314,35 +2315,43 @@ E.Options.args.unitframe = {
 									order = 1,
 									type = "toggle",
 									name = L["Class Castbars"],
-									desc = L["Color castbars by the class or reaction type of the unit."],
+									desc = L["Color castbars by the class of player units."],
 									get = function(info) return E.db.unitframe.colors[ info[#info] ] end,
 									set = function(info, value) E.db.unitframe.colors[ info[#info] ] = value; UF:Update_AllFrames(); end
 								},
-								transparentCastbar = {
+								castReactionColor = {
 									order = 2,
+									type = "toggle",
+									name = L["Reaction Castbars"],
+									desc = L["Color castbars by the reaction type of non-player units."],
+									get = function(info) return E.db.unitframe.colors[ info[#info] ]; end,
+									set = function(info, value) E.db.unitframe.colors[ info[#info] ] = value; UF:Update_AllFrames(); end
+								},
+								transparentCastbar = {
+									order = 3,
 									type = "toggle",
 									name = L["Transparent"],
 									desc = L["Make textures transparent."],
 									get = function(info) return E.db.unitframe.colors[ info[#info] ] end,
 									set = function(info, value) E.db.unitframe.colors[ info[#info] ] = value; UF:Update_AllFrames(); end
-								},	
+								},
 								castColor = {
-									order = 3,
+									order = 4,
 									name = L["Interruptable"],
 									type = "color"
-								},	
+								},
 								castNoInterrupt = {
-									order = 4,
+									order = 5,
 									name = L["Non-Interruptable"],
 									type = "color"
 								},
 								castCompleteColor = {
-									order = 5,
+									order = 6,
 									name = L["Complete"],
 									type = "color"
 								},
 								castFailColor = {
-									order = 6,
+									order = 7,
 									name = L["Fail"],
 									type = "color"
 								}
@@ -2501,7 +2510,7 @@ E.Options.args.unitframe.args.player = {
 				else
 					frame.forceShowAuras = true; 
 				end
-				
+
 				UF:CreateAndUpdateUF("player");
 			end
 		},
@@ -2519,7 +2528,7 @@ E.Options.args.unitframe.args.player = {
 				if(E.db.unitframe.units["player"].castbar.width == E.db.unitframe.units["player"][ info[#info] ]) then
 					E.db.unitframe.units["player"].castbar.width = value;
 				end
-				
+
 				E.db.unitframe.units["player"][ info[#info] ] = value; 
 				UF:CreateAndUpdateUF("player");
 			end
@@ -2538,7 +2547,7 @@ E.Options.args.unitframe.args.player = {
 			set = function(info, value) 
 				E.db.unitframe.units["player"][ info[#info] ] = value; 
 				UF:CreateAndUpdateUF("player");
-				
+
 				if(value == true) then 
 					ElvUF_Pet:SetParent(ElvUF_Player);
 				else 
@@ -2593,7 +2602,7 @@ E.Options.args.unitframe.args.player = {
 			order = 14,
 			type = "select",
 			name = L["Frame Orientation"],
-			desc = L["Set the orientation of the UnitFrame. If set to automatic it will adjust based on where the frame is located on the screen."],
+			desc = L["Set the orientation of the UnitFrame."],
 			values = {
 				--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
 				["LEFT"] = L["Left"],
@@ -2784,8 +2793,8 @@ E.Options.args.unitframe.args.player = {
  					type = "range",
  					name = L["Y-Offset"],
  					min = -100, max = 100, step = 1,
- 				},
- 			},
+ 				}
+ 			}
  		},
 		pvpText = {
 			order = 850,
@@ -2923,7 +2932,7 @@ E.Options.args.unitframe.args.target = {
 			order = 13,
 			type = "select",
 			name = L["Frame Orientation"],
-			desc = L["Set the orientation of the UnitFrame. If set to automatic it will adjust based on where the frame is located on the screen."],
+			desc = L["Set the orientation of the UnitFrame."],
 			values = {
 				--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
 				["LEFT"] = L["Left"],
@@ -3137,7 +3146,7 @@ E.Options.args.unitframe.args.targettarget = {
 			order = 11,
 			type = "select",
 			name = L["Frame Orientation"],
-			desc = L["Set the orientation of the UnitFrame. If set to automatic it will adjust based on where the frame is located on the screen."],
+			desc = L["Set the orientation of the UnitFrame."],
 			values = {
 				--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
 				["LEFT"] = L["Left"],
@@ -3258,7 +3267,7 @@ E.Options.args.unitframe.args.targettargettarget = {
 			order = 11,
 			type = "select",
 			name = L["Frame Orientation"],
-			desc = L["Set the orientation of the UnitFrame. If set to automatic it will adjust based on where the frame is located on the screen."],
+			desc = L["Set the orientation of the UnitFrame."],
 			values = {
 				--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
 				["LEFT"] = L["Left"],
@@ -3311,7 +3320,7 @@ E.Options.args.unitframe.args.focus = {
 			type = "execute",
 			name = L["Restore Defaults"],
 			func = function(info, value) UF:ResetUnitSettings("focus"); E:ResetMovers(L["Focus Frame"]); end
-		},	
+		},
 		showAuras = {
 			order = 3,
 			type = "execute",
@@ -3323,7 +3332,7 @@ E.Options.args.unitframe.args.focus = {
 				else
 					frame.forceShowAuras = true; 
 				end
-				
+
 				UF:CreateAndUpdateUF("focus");
 			end,
 		},
@@ -3385,7 +3394,7 @@ E.Options.args.unitframe.args.focus = {
 			order = 12,
 			type = "select",
 			name = L["Frame Orientation"],
-			desc = L["Set the orientation of the UnitFrame. If set to automatic it will adjust based on where the frame is located on the screen."],
+			desc = L["Set the orientation of the UnitFrame."],
 			values = {
 				--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
 				["LEFT"] = L["Left"],
@@ -3509,7 +3518,7 @@ E.Options.args.unitframe.args.focustarget = {
 			order = 11,
 			type = "select",
 			name = L["Frame Orientation"],
-			desc = L["Set the orientation of the UnitFrame. If set to automatic it will adjust based on where the frame is located on the screen."],
+			desc = L["Set the orientation of the UnitFrame."],
 			values = {
 				--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
 				["LEFT"] = L["Left"],
@@ -3570,11 +3579,11 @@ E.Options.args.unitframe.args.pet = {
 			func = function() 
 				local frame = ElvUF_Pet;
 				if(frame.forceShowAuras) then
-					frame.forceShowAuras = nil; 
+					frame.forceShowAuras = nil;
 				else
-					frame.forceShowAuras = true; 
+					frame.forceShowAuras = true;
 				end
-				
+
 				UF:CreateAndUpdateUF("pet");
 			end,
 		},
@@ -3636,7 +3645,7 @@ E.Options.args.unitframe.args.pet = {
 			order = 12,
 			type = "select",
 			name = L["Frame Orientation"],
-			desc = L["Set the orientation of the UnitFrame. If set to automatic it will adjust based on where the frame is located on the screen."],
+			desc = L["Set the orientation of the UnitFrame."],
 			values = {
 				--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
 				["LEFT"] = L["Left"],
@@ -3716,7 +3725,7 @@ E.Options.args.unitframe.args.pettarget = {
 			type = "execute",
 			name = L["Restore Defaults"],
 			func = function(info, value) UF:ResetUnitSettings("pettarget"); E:ResetMovers(L["PetTarget Frame"]); end
-		},	
+		},
 		showAuras = {
 			order = 3,
 			type = "execute",
@@ -3728,7 +3737,7 @@ E.Options.args.unitframe.args.pettarget = {
 				else
 					frame.forceShowAuras = true; 
 				end
-				
+
 				UF:CreateAndUpdateUF("pettarget");
 			end,
 		},
@@ -3748,7 +3757,7 @@ E.Options.args.unitframe.args.pettarget = {
 			type = "range",
 			name = L["Height"],
 			min = 10, max = 250, step = 1
-		},	
+		},
 		rangeCheck = {
 			order = 7,
 			type = "toggle",
@@ -3762,7 +3771,7 @@ E.Options.args.unitframe.args.pettarget = {
 			desc = L["Power text will be hidden on NPC targets, in addition the name text will be repositioned to the power texts anchor point."],
 			get = function(info) return E.db.unitframe.units["pettarget"]["power"].hideonnpc end,
 			set = function(info, value) E.db.unitframe.units["pettarget"]["power"].hideonnpc = value; UF:CreateAndUpdateUF("pettarget"); end
-		},		
+		},
 		threatStyle = {
 			order = 10,
 			type = "select",
@@ -3784,7 +3793,7 @@ E.Options.args.unitframe.args.pettarget = {
 			order = 12,
 			type = "select",
 			name = L["Frame Orientation"],
-			desc = L["Set the orientation of the UnitFrame. If set to automatic it will adjust based on where the frame is located on the screen."],
+			desc = L["Set the orientation of the UnitFrame."],
 			values = {
 				--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
 				["LEFT"] = L["Left"],
@@ -3857,7 +3866,7 @@ E.Options.args.unitframe.args.boss = {
 			type = "range",
 			name = L["Width"],
 			min = 50, max = 500, step = 1,
-			set = function(info, value) 
+			set = function(info, value)
 				if(E.db.unitframe.units["boss"].castbar.width == E.db.unitframe.units["boss"][ info[#info] ]) then
 					E.db.unitframe.units["boss"].castbar.width = value;
 				end
@@ -3924,7 +3933,7 @@ E.Options.args.unitframe.args.boss = {
 			order = 13,
 			type = "select",
 			name = L["Frame Orientation"],
-			desc = L["Set the orientation of the UnitFrame. If set to automatic it will adjust based on where the frame is located on the screen."],
+			desc = L["Set the orientation of the UnitFrame."],
 			values = {
 				--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
 				["LEFT"] = L["Left"],
@@ -3987,7 +3996,7 @@ E.Options.args.unitframe.args.arena = {
 			type = "execute",
 			name = L["Restore Defaults"],
 			func = function(info, value) UF:ResetUnitSettings("arena"); E:ResetMovers(L["Arena Frames"]); end
-		},			
+		},
 		displayFrames = {
 			order = 3,
 			type = "execute",
@@ -4083,7 +4092,7 @@ E.Options.args.unitframe.args.arena = {
 			order = 14,
 			type = "select",
 			name = L["Frame Orientation"],
-			desc = L["Set the orientation of the UnitFrame. If set to automatic it will adjust based on where the frame is located on the screen."],
+			desc = L["Set the orientation of the UnitFrame."],
 			values = {
 				--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
 				["LEFT"] = L["Left"],
@@ -4221,7 +4230,7 @@ E.Options.args.unitframe.args.party = {
 					type = "select",
 					name = L["Threat Display Mode"],
 					values = threatValues
-				},	
+				},
 				colorOverride = {
 					order = 6,
 					name = L["Class Color Override"],
@@ -4237,7 +4246,7 @@ E.Options.args.unitframe.args.party = {
 					order = 7,
 					type = "select",
 					name = L["Frame Orientation"],
-					desc = L["Set the orientation of the UnitFrame. If set to automatic it will adjust based on where the frame is located on the screen."],
+					desc = L["Set the orientation of the UnitFrame."],
 					values = {
 						--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
 						["LEFT"] = L["Left"],
@@ -4264,20 +4273,20 @@ E.Options.args.unitframe.args.party = {
 							name = L["Width"],
 							min = 10, max = 500, step = 1,
 							set = function(info, value) E.db.unitframe.units["party"][ info[#info] ] = value; UF:CreateAndUpdateHeaderGroup("party"); end
-						},			
+						},
 						height = {
 							order = 2,
 							type = "range",
 							name = L["Height"],
 							min = 10, max = 500, step = 1,
 							set = function(info, value) E.db.unitframe.units["party"][ info[#info] ] = value; UF:CreateAndUpdateHeaderGroup("party"); end
-						},	
+						},
 						spacer = {
 							order = 3,
 							type = "description",
 							name = "",
 							width = "full"
-						},						
+						},
 						growthDirection = {
 							order = 4,
 							name = L["Growth Direction"],
@@ -4332,7 +4341,7 @@ E.Options.args.unitframe.args.party = {
 							order = 8,
 							type = "range",
 							name = L["Vertical Spacing"],
-							min = -1, max = 50, step = 1	
+							min = -1, max = 50, step = 1
 						}
 					}
 				},
@@ -4347,8 +4356,8 @@ E.Options.args.unitframe.args.party = {
 							order = 1,
 							type = "toggle",
 							name = L["Display Player"],
-							desc = L["When true, the header includes the player when not in a raid."],			
-						},		
+							desc = L["When true, the header includes the player when not in a raid."],
+						},
 						visibility = {
 							order = 2,
 							type = "input",
@@ -4369,7 +4378,7 @@ E.Options.args.unitframe.args.party = {
 							order = 1,
 							name = L["Group By"],
 							desc = L["Set the order that the group will sort."],
-							type = "select",		
+							type = "select",
 							values = {
 								['CLASS'] = CLASS,
 								['ROLE'] = ROLE,
@@ -4488,7 +4497,7 @@ E.Options.args.unitframe.args.party = {
 					values = {
 						["Health"] = L["Health"],
 						["Power"] = L["Power"],
-						["InfoPanel"] = L["Information Bar"],
+						["InfoPanel"] = L["Information Panel"],
 						["Frame"] = L["Frame"]
 					}
 				},
@@ -4801,7 +4810,7 @@ E.Options.args.unitframe.args["raid"] = {
 					order = 7,
 					type = "select",
 					name = L["Frame Orientation"],
-					desc = L["Set the orientation of the UnitFrame. If set to automatic it will adjust based on where the frame is located on the screen."],
+					desc = L["Set the orientation of the UnitFrame."],
 					values = {
 						--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
 						["LEFT"] = L["Left"],
@@ -4828,14 +4837,14 @@ E.Options.args.unitframe.args["raid"] = {
 							name = L["Width"],
 							min = 10, max = 500, step = 1,
 							set = function(info, value) E.db.unitframe.units["raid"][ info[#info] ] = value; UF:CreateAndUpdateHeaderGroup("raid"); end
-						},			
+						},
 						height = {
 							order = 2,
 							name = L["Height"],
 							type = "range",
 							min = 10, max = 500, step = 1,
 							set = function(info, value) E.db.unitframe.units["raid"][ info[#info] ] = value; UF:CreateAndUpdateHeaderGroup("raid") end,
-						},	
+						},
 						spacer = {
 							order = 3,
 							type = "description",
@@ -4912,7 +4921,7 @@ E.Options.args.unitframe.args["raid"] = {
 							type = "toggle",
 							name = L["Display Player"],
 							desc = L["When true, the header includes the player when not in a raid."],
-						},		
+						},
 						visibility = {
 							order = 2,
 							type = "input",
@@ -4970,7 +4979,7 @@ E.Options.args.unitframe.args["raid"] = {
 							name = L["Invert Grouping Order"],
 							desc = L["Enabling this inverts the grouping order when the raid is not full, this will reverse the direction it starts from."],
 							disabled = function() return not E.db.unitframe.units["raid"].raidWideSorting; end
-						},	
+						},
 						startFromCenter = {
 							order = 6,
 							type = "toggle",
@@ -4981,7 +4990,7 @@ E.Options.args.unitframe.args["raid"] = {
 					}
 				}
 			}
-		},	
+		},
 		health = GetOptionsTable_Health(true, UF.CreateAndUpdateHeaderGroup, "raid"),
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateHeaderGroup, "raid"),
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateHeaderGroup, "raid"),
@@ -5059,7 +5068,7 @@ E.Options.args.unitframe.args["raid"] = {
 					values = {
 						["Health"] = L["Health"],
 						["Power"] = L["Power"],
-						["InfoPanel"] = L["Information Bar"],
+						["InfoPanel"] = L["Information Panel"],
 						["Frame"] = L["Frame"]
 					}
 				},
@@ -5139,7 +5148,7 @@ E.Options.args.unitframe.args["raid40"] = {
 			type = "execute",
 			name = L["Restore Defaults"],
 			func = function(info, value) UF:ResetUnitSettings("raid40"); E:ResetMovers("Raid Frames"); end
-		},	
+		},
 		copyFrom = {
 			order = 3,
 			type = "select",
@@ -5203,7 +5212,7 @@ E.Options.args.unitframe.args["raid40"] = {
 					order = 7,
 					type = "select",
 					name = L["Frame Orientation"],
-					desc = L["Set the orientation of the UnitFrame. If set to automatic it will adjust based on where the frame is located on the screen."],
+					desc = L["Set the orientation of the UnitFrame."],
 					values = {
 						--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
 						["LEFT"] = L["Left"],
@@ -5230,14 +5239,14 @@ E.Options.args.unitframe.args["raid40"] = {
 							name = L["Width"],
 							min = 10, max = 500, step = 1,
 							set = function(info, value) E.db.unitframe.units["raid40"][ info[#info] ] = value; UF:CreateAndUpdateHeaderGroup("raid40"); end
-						},			
+						},
 						height = {
 							order = 2,
 							type = "range",
 							name = L["Height"],
 							min = 10, max = 500, step = 1,
 							set = function(info, value) E.db.unitframe.units["raid40"][ info[#info] ] = value; UF:CreateAndUpdateHeaderGroup("raid40") end
-						},	
+						},
 						spacer = {
 							order = 3,
 							type = "description",
@@ -5314,7 +5323,7 @@ E.Options.args.unitframe.args["raid40"] = {
 							type = "toggle",
 							name = L["Display Player"],
 							desc = L["When true, the header includes the player when not in a raid."]
-						},		
+						},
 						visibility = {
 							order = 2,
 							type = "input",
@@ -5461,7 +5470,7 @@ E.Options.args.unitframe.args["raid40"] = {
 					values = {
 						["Health"] = L["Health"],
 						["Power"] = L["Power"],
-						["InfoPanel"] = L["Information Bar"],
+						["InfoPanel"] = L["Information Panel"],
 						["Frame"] = L["Frame"]
 					}
 				},
@@ -5545,9 +5554,7 @@ E.Options.args.unitframe.args.raidpet = {
 			desc = L["Select a unit to copy settings from."],
 			values = {
 				["party"] = L["Party Frames"],
-				["raid10"] = L["Raid-10 Frames"],
-				["raid25"] = L["Raid-25 Frames"],
-				["raid40"] = L["Raid-40 Frames"],
+				["raid"] = L["Raid Frames"]
 			},
 			set = function(info, value) UF:MergeUnitSettings(value, "raidpet", true); end,
 		},
@@ -5595,7 +5602,7 @@ E.Options.args.unitframe.args.raidpet = {
 					order = 7,
 					type = "select",
 					name = L["Frame Orientation"],
-					desc = L["Set the orientation of the UnitFrame. If set to automatic it will adjust based on where the frame is located on the screen."],
+					desc = L["Set the orientation of the UnitFrame."],
 					values = {
 						--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
 						["LEFT"] = L["Left"],
@@ -5684,13 +5691,13 @@ E.Options.args.unitframe.args.raidpet = {
 							order = 9,
 							type = "range",
 							name = L["Horizontal Spacing"],
-							min = -1, max = 50, step = 1,		
+							min = -1, max = 50, step = 1,
 						},
 						verticalSpacing = {
 							order = 10,
 							type = "range",
 							name = L["Vertical Spacing"],
-							min = -1, max = 50, step = 1,		
+							min = -1, max = 50, step = 1,
 						},
 					},
 				},
@@ -5756,7 +5763,7 @@ E.Options.args.unitframe.args.raidpet = {
 							desc = L["Enabling this inverts the grouping order when the raid is not full, this will reverse the direction it starts from."],
 							disabled = function() return not E.db.unitframe.units["raidpet"].raidWideSorting end,
 							type = "toggle",
-						},	
+						},
 						startFromCenter = {
 							order = 6,
 							name = L["Start Near Center"],
@@ -6032,7 +6039,7 @@ E.Options.args.unitframe.args.tank = {
 					order = 6,
 					type = "select",
 					name = L["Frame Orientation"],
-					desc = L["Set the orientation of the UnitFrame. If set to automatic it will adjust based on where the frame is located on the screen."],
+					desc = L["Set the orientation of the UnitFrame."],
 					values = {
 						--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
 						["LEFT"] = L["Left"],
@@ -6215,7 +6222,7 @@ E.Options.args.unitframe.args.assist = {
 					order = 6,
 					type = "select",
 					name = L["Frame Orientation"],
-					desc = L["Set the orientation of the UnitFrame. If set to automatic it will adjust based on where the frame is located on the screen."],
+					desc = L["Set the orientation of the UnitFrame."],
 					values = {
 						--["AUTOMATIC"] = L["Automatic"], not sure if i will use this yet
 						["LEFT"] = L["Left"],

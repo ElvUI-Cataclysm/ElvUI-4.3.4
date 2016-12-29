@@ -1,4 +1,4 @@
-﻿local E, L, P, G = unpack(select(2, ...));
+﻿local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule("DataTexts");
 
 local _G = _G;
@@ -47,7 +47,7 @@ local function OnEvent(self)
 	self.text:SetFormattedText(displayString, totalDurability);
 end
 
-local function Click()
+local function OnClick()
 	ToggleCharacter("PaperDollFrame");
 end
 
@@ -75,4 +75,4 @@ local function ValueColorUpdate(hex)
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true;
 
-DT:RegisterDatatext("Durability", {"PLAYER_ENTERING_WORLD", "UPDATE_INVENTORY_DURABILITY", "MERCHANT_SHOW"}, OnEvent, nil, Click, OnEnter); 
+DT:RegisterDatatext("Durability", {"PLAYER_ENTERING_WORLD", "UPDATE_INVENTORY_DURABILITY", "MERCHANT_SHOW"}, OnEvent, nil, OnClick, OnEnter); 

@@ -154,7 +154,7 @@ local function BuildABConfig()
 					order = 19,
 					type = "input",
 					name = L["Action Paging"],
-					desc = L["This works like a macro, you can run different situations to get the actionbar to page differently.\n Example: '[combat] 2;'"],
+					desc = L["This works like a macro, you can run different situations to get the actionbar to page differently.\n Example: [combat] 2;"],
 					width = "full",
 					multiline = true,
 					get = function(info) return E.db.actionbar["bar" .. i]["paging"][E.myclass]; end,
@@ -170,7 +170,7 @@ local function BuildABConfig()
 					order = 20,
 					type = "input",
 					name = L["Visibility State"],
-					desc = L["This works like a macro, you can run different situations to get the actionbar to show/hide differently.\n Example: '[combat] show;hide'"],
+					desc = L["This works like a macro, you can run different situations to get the actionbar to show/hide differently.\n Example: [combat] show;hide"],
 					width = "full",
 					multiline = true,
 					set = function(info, value)
@@ -302,7 +302,7 @@ local function BuildABConfig()
 				type = "input",
 				order = 16,
 				name = L["Visibility State"],
-				desc = L["This works like a macro, you can run different situations to get the actionbar to show/hide differently.\n Example: '[combat] show;hide'"],
+				desc = L["This works like a macro, you can run different situations to get the actionbar to show/hide differently.\n Example: [combat] show;hide"],
 				width = "full",
 				multiline = true,
 				set = function(info, value)
@@ -570,8 +570,8 @@ E.Options.args.actionbar = {
 		movementModifier = {
 			order = 10,
 			type = "select",
-			name = L["Pick Up Action Key"],
-			desc = L["The button you must hold down in order to drag an ability to another action button."],
+			name = PICKUP_ACTION_KEY_TEXT,
+			desc = OPTION_TOOLTIP_ACTION_BUTTON_USE_KEY_DOWN,
 			disabled = function() return not E.private.actionbar.enable; end,
 			values = {
 				["NONE"] = NONE,

@@ -546,6 +546,21 @@ local function LoadSkin()
 		end
 	end)
 
+	--[[
+	hooksecurefunc("LFRBrowseFrameListButton_SetData", function(button, index)
+		local name, level, _, _, _, _, _, class = SearchLFGGetResults(index)
+
+		local classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class];
+		local levelTextColor = GetQuestDifficultyColor(level);
+
+		if(index and class and name and level and (name ~= myName)) then
+			button.name:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b);
+			button.class:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b);
+			button.level:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b);
+		end
+	end)
+	]]
+
 	LFRBrowseFrameListScrollFrame:ClearAllPoints()
 	LFRBrowseFrameListScrollFrame:Point("TOPLEFT", LFRBrowseFrameListButton1, "TOPLEFT", 0, 0)
 	LFRBrowseFrameListScrollFrame:Point("BOTTOMRIGHT", LFRBrowseFrameListButton19, "BOTTOMRIGHT", 5, -2)

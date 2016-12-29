@@ -183,21 +183,6 @@ function E:GetCPUImpact()
 	end
 end
 
-function E:ToggleTukuiMode()
-	if(E.global.tukuiMode) then
-		E.global.tukuiMode = nil;
-	else
-		E.global.tukuiMode = true;
-	end
-	ReloadUI();
-end
-
-function E:DisableTukuiMode()
-	E.global.tukuiMode = nil;
-	E.global.aprilFools = true;
-	ReloadUI();
-end
-
 local BLIZZARD_ADDONS = {
 	"Blizzard_AchievementUI",
 	"Blizzard_ArchaeologyUI",
@@ -263,8 +248,6 @@ function E:LoadCommands()
 	self:RegisterChatCommand("enable", "EnableAddon");
 	self:RegisterChatCommand("disable", "DisableAddon");
 	self:RegisterChatCommand("farmmode", "FarmMode");
-	self:RegisterChatCommand("aprilfools", "DisableTukuiMode");
-	self:RegisterChatCommand("tukuimode", "ToggleTukuiMode");
 	self:RegisterChatCommand("cleanguild", "MassGuildKick")
 	self:RegisterChatCommand("enableblizzard", "EnableBlizzardAddOns")
 

@@ -27,23 +27,41 @@ local menuList = {
 	{text = SPELLBOOK_ABILITIES_BUTTON,
 	func = function() ToggleFrame(SpellBookFrame); end},
 	{text = TALENTS_BUTTON,
-	func = function() ToggleTalentFrame(); end},
+	func = function()
+		if(not PlayerTalentFrame) then
+			TalentFrame_LoadUI()
+		end
+		if(not GlyphFrame) then
+			GlyphFrame_LoadUI()
+		end
+		if(not PlayerTalentFrame:IsShown()) then
+			ShowUIPanel(PlayerTalentFrame)
+		else
+			HideUIPanel(PlayerTalentFrame)
+		end
+	end},
 	{text = ACHIEVEMENT_BUTTON,
 	func = function() ToggleAchievementFrame(); end},
 	{text = QUESTLOG_BUTTON,
 	func = function() ToggleFrame(QuestLogFrame); end},
 	{text = SOCIAL_BUTTON,
 	func = function() ToggleFriendsFrame(1); end},
+	{text = L["Calendar"],
+	func = function() GameTimeFrame:Click(); end},
 	{text = L["Farm Mode"],
 	func = FarmMode},
 	{text = TIMEMANAGER_TITLE,
 	func = function() ToggleTimeManager(); end},
+	{text = ACHIEVEMENTS_GUILD_TAB,
+	func = function() ToggleGuildFrame() end},
 	{text = PLAYER_V_PLAYER,
-	func = function() ToggleFrame(PVPParentFrame); end},
-	{text = LFG_TITLE,
+	func = function() ToggleFrame(PVPFrame); end},
+	{text = DUNGEONS_BUTTON,
 	func = function() ToggleFrame(LFDParentFrame); end},
-	{text = L_LFRAID,
-	func = function() ToggleFrame(LFRParentFrame); end},
+	{text = RAID_FINDER,
+	func = function() ToggleFrame(RaidParentFrame); end},
+	{text = ENCOUNTER_JOURNAL,
+	func = function() if(not IsAddOnLoaded("Blizzard_EncounterJournal")) then EncounterJournal_LoadUI(); end ToggleFrame(EncounterJournal) end},
 	{text = HELP_BUTTON,
 	func = function() ToggleHelpFrame(); end},
 	{text = L_CALENDAR,
@@ -52,6 +70,26 @@ local menuList = {
 			LoadAddOn("Blizzard_Calendar");
 		end
 		Calendar_Toggle();
+	end},
+	{text = MAINMENU_BUTTON,
+	func = function()
+		if(not GameMenuFrame:IsShown()) then
+			if(VideoOptionsFrame:IsShown()) then
+				VideoOptionsFrameCancel:Click();
+			elseif(AudioOptionsFrame:IsShown()) then
+				AudioOptionsFrameCancel:Click();
+			elseif(InterfaceOptionsFrame:IsShown()) then
+				InterfaceOptionsFrameCancel:Click();
+			end
+			CloseMenus();
+			CloseAllWindows()
+			PlaySound("igMainMenuOpen");
+			ShowUIPanel(GameMenuFrame);
+		else
+			PlaySound("igMainMenuQuit");
+			HideUIPanel(GameMenuFrame);
+			MainMenuMicroButton_SetNormal();
+		end
 	end}
 };
 
@@ -147,7 +185,7 @@ function M:UpdateSettings()
 	E.MinimapWidth = E.MinimapSize;
 	E.MinimapHeight = E.MinimapSize;
 
-	if(E.db.general.reminder.enable and not E.global.tukuiMode) then
+	if(E.db.general.reminder.enable) then
 		E.RBRWidth = (E.MinimapHeight + ((E.Border - E.Spacing*3) * 5) + E.Border*2) / 6;
 	else
 		E.RBRWidth = 0;
@@ -240,7 +278,7 @@ function M:UpdateSettings()
 	end
 
 	if(ElvConfigToggle) then
-		if(E.db.general.reminder.enable and E.db.datatexts.minimapPanels and E.private.general.minimap.enable and not E.global.tukuiMode) then
+		if(E.db.general.reminder.enable and E.db.datatexts.minimapPanels and E.private.general.minimap.enable) then
 			ElvConfigToggle:Show();
 			ElvConfigToggle:Width(E.RBRWidth);
 		else

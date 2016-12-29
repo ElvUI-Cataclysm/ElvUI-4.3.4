@@ -266,13 +266,6 @@ G.unitframe.aurafilters["Whitelist"] = {
 	}
 };
 
-G.unitframe.aurafilters["Whitelist (Strict)"] = {
-	["type"] = "Whitelist",
-	["spells"] = {
-
-	}
-};
-
 G.unitframe.aurafilters["RaidDebuffs"] = { 
 	["type"] = "Whitelist",
 	["spells"] = {

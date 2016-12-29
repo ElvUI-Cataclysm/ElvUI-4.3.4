@@ -1,5 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local DT = E:GetModule('DataTexts')
+local DT = E:GetModule("DataTexts")
 
 local time = time;
 local format, join = string.format, string.join
@@ -19,33 +19,17 @@ local TIMEMANAGER_TOOLTIP_REALMTIME = TIMEMANAGER_TOOLTIP_REALMTIME
 local timeDisplayFormat = "";
 local dateDisplayFormat = "";
 local europeDisplayFormat_nocolor = join("", "%02d", ":|r%02d")
-local timerLongFormat = "%d:%02d:%02d"
-local timerShortFormat = "%d:%02d"
 local lockoutInfoFormat = "%s%s |cffaaaaaa(%s, |cfff04000%s/%s|r|cffaaaaaa)"
-local lockoutInfoFormatNoEnc = "%s%s |cffaaaaaa(%s)"
 local formatBattleGroundInfo = "%s: "
 local difficultyInfo = {"N", "N", "H", "H"};
 local lockoutColorExtended, lockoutColorNormal = {r = 0.3, g = 1, b = 0.3}, {r = 0.8, g = 0.8, b = 0.8};
-local lockoutFormatString = { "%dd %02dh %02dm", "%dd %dh %02dm", "%02dh %02dm", "%dh %02dm", "%dh %02dm", "%dm" }
-local curHr, curMin, curAmPm
 local enteredFrame = false;
 
-local Update, lastPanel; -- UpValue
 local localizedName, isActive, canQueue, startTime, canEnter, _
-local name, instanceID, reset, difficultyId, locked, extended, isRaid, maxPlayers, difficulty, numEncounters, encounterProgress
 
-local function ValueColorUpdate(hex)
-	timeDisplayFormat = join("", hex, ":|r");
-	dateDisplayFormat = join("", hex, " ");
-
-	if lastPanel ~= nil then
-		Update(lastPanel, 20000)
-	end
-end
-E['valueColorUpdateFuncs'][ValueColorUpdate] = true
-
-local function Click(_, btn)
+local function OnClick(_, btn)
 	if(btn == "RightButton") then
+	if(not IsAddOnLoaded("Blizzard_TimeManager")) then LoadAddon("Blizzard_TimeManager"); end
  		TimeManagerClockButton_OnClick(TimeManagerClockButton);
  	else
  		GameTimeFrame:Click();
@@ -70,8 +54,8 @@ local function OnEnter(self)
 	local localizedName, isActive, canQueue, startTime, canEnter
 	for i = 1, GetNumWorldPVPAreas() do
 		_, localizedName, isActive, canQueue, startTime, canEnter = GetWorldPVPAreaInfo(i)
-		if canEnter then
-			if isActive then
+		if(canEnter) then
+			if(isActive) then
 				startTime = WINTERGRASP_IN_PROGRESS
 			elseif startTime == nil then
 				startTime = QUEUE_TIME_UNAVAILABLE
@@ -82,12 +66,13 @@ local function OnEnter(self)
 		end
 	end
 
+	local name, _, reset, difficultyId, locked, extended, isRaid, maxPlayers, difficulty, numEncounters, encounterProgress
 	local oneraid, lockoutColor
 	for i = 1, GetNumSavedInstances() do
-		local name, _, reset, difficulty, locked, extended, _, isRaid, maxPlayers, _, numEncounters, encounterProgress  = GetSavedInstanceInfo(i)
-		if isRaid and (locked or extended) then
+		name, _, reset, difficulty, locked, extended, _, isRaid, maxPlayers, _, numEncounters, encounterProgress  = GetSavedInstanceInfo(i)
+		if(isRaid and (locked or extended)) then
 			local tr,tg,tb,diff
-			if not oneraid then
+			if(not oneraid) then
 				DT.tooltip:AddLine(" ")
 				DT.tooltip:AddLine(L["Saved Raid(s)"])
 				oneraid = true
@@ -104,19 +89,20 @@ local function OnEnter(self)
 	DT.tooltip:Show()
 end
 
+local lastPanel;
 local int = 5
-function Update(self, t)
+function OnUpdate(self, t)
 	int = int - t
 
-	if int > 0 then return end
+	if(int > 0) then return end
 
-	if GameTimeFrame.flashInvite then
+	if(GameTimeFrame.flashInvite) then
 		E:Flash(self, 0.53, true)
 	else
 		E:StopFlash(self)
 	end
 
-	if enteredFrame then
+	if(enteredFrame) then
 		OnEnter(self)
 	end
 
@@ -126,4 +112,14 @@ function Update(self, t)
 	int = 1
 end
 
-DT:RegisterDatatext('Time', {"UPDATE_INSTANCE_INFO"}, OnEvent, Update, Click, OnEnter, OnLeave)
+local function ValueColorUpdate(hex)
+	timeDisplayFormat = join("", hex, ":|r");
+	dateDisplayFormat = join("", hex, " ");
+
+	if(lastPanel ~= nil) then
+		OnUpdate(lastPanel, 20000)
+	end
+end
+E["valueColorUpdateFuncs"][ValueColorUpdate] = true
+
+DT:RegisterDatatext("Time", {"UPDATE_INSTANCE_INFO"}, OnEvent, OnUpdate, OnClick, OnEnter, OnLeave)

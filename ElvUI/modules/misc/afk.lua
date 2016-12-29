@@ -165,6 +165,8 @@ function AFK:Toggle()
 		self:UnregisterEvent("PLAYER_REGEN_DISABLED");
 		self:UnregisterEvent("LFG_PROPOSAL_SHOW");
 		self:UnregisterEvent("UPDATE_BATTLEFIELD_STATUS");
+
+		self:CancelAllTimers()
 	end
 end
 

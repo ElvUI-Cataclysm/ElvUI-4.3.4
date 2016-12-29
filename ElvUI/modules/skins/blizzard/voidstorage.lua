@@ -1,5 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule('Skins')
+local S = E:GetModule("Skins")
 
 local _G = _G
 local unpack, pairs, select = unpack, pairs, select
@@ -15,8 +15,7 @@ local function LoadSkin()
 
 	select(2, VoidStorageFrame:GetRegions()):Kill()
 	VoidStorageFrame:SetTemplate("Transparent")
-	VoidStorageFrame:SetHeight(410)
-	VoidStorageFrame:SetWidth(675)
+	VoidStorageFrame:Size(675, 410)
 
 	VoidStoragePurchaseFrame:StripTextures()
 	VoidStoragePurchaseFrame:SetTemplate("Default")
@@ -55,77 +54,95 @@ local function LoadSkin()
 	VoidStorageStorageButton49:Point("LEFT", VoidStorageStorageButton41, "RIGHT", 7, 0)
 	VoidStorageStorageButton65:Point("LEFT", VoidStorageStorageButton57, "RIGHT", 7, 0)
 
+	for i = 1, 9 do
+		local depositButton = _G["VoidStorageDepositButton"..i]
+		local depositIcon = _G["VoidStorageDepositButton"..i.."IconTexture"]
+		local depositBg = _G["VoidStorageDepositButton"..i.."Bg"]
+		local withdrawButton = _G["VoidStorageWithdrawButton"..i]
+		local withdrawIcon = _G["VoidStorageWithdrawButton"..i.."IconTexture"]
+		local withdrawBg = _G["VoidStorageWithdrawButton"..i.."Bg"]
+
+		depositButton:SetTemplate("Default", true)
+		depositButton:StyleButton()
+
+		depositIcon:SetTexCoord(unpack(E.TexCoords))
+		depositIcon:SetInside()
+
+		depositBg:Hide()
+
+		withdrawButton:SetTemplate("Default", true)
+		withdrawButton:StyleButton()
+
+		withdrawIcon:SetTexCoord(unpack(E.TexCoords))
+		withdrawIcon:SetInside()
+
+		withdrawBg:Hide()
+	end
+
+	for i = 1, 80 do
+		local button = _G["VoidStorageStorageButton"..i]
+		local icon = _G["VoidStorageStorageButton"..i.."IconTexture"]
+		local bg = _G["VoidStorageStorageButton"..i.."Bg"]
+
+		button:StyleButton()
+		button:SetTemplate("Default", true)
+
+		icon:SetTexCoord(unpack(E.TexCoords))
+		icon:SetInside()
+
+		bg:Hide()
+	end
+
 	hooksecurefunc("VoidStorage_ItemsUpdate", function(doDeposit, doContents)
 		if(doDeposit) then
 			for i = 1, 9 do
 				local button = _G["VoidStorageDepositButton"..i]
-				local icon =  _G["VoidStorageDepositButton"..i.."IconTexture"]
-				local bg = _G["VoidStorageDepositButton"..i.."Bg"]
-				local Link = GetVoidTransferDepositInfo(i);
+				local itemID = GetVoidTransferDepositInfo(i);
 
-				button:SetTemplate("Default", true)
-				button:StyleButton()
-				bg:Hide()
-
-				if(Link) then
-					local quality = select(3, GetItemInfo(Link))
+				if(itemID) then
+					local quality = select(3, GetItemInfo(itemID))
 					if(quality and quality > 1) then
 						button:SetBackdropBorderColor(GetItemQualityColor(quality));
 					else
 						button:SetBackdropBorderColor(unpack(E["media"].bordercolor));
 					end
+				else
+					button:SetTemplate("Default", true)
 				end
-
-				icon:SetTexCoord(unpack(E.TexCoords))
-				icon:SetInside()
 			end
 		end
 
 		if(doContents) then
 			for i = 1, 9 do
 				local button = _G["VoidStorageWithdrawButton"..i]
-				local icon =  _G["VoidStorageWithdrawButton"..i.."IconTexture"]
-				local bg = _G["VoidStorageWithdrawButton"..i.."Bg"]
-				local Link = GetVoidTransferWithdrawalInfo(i);
+				local itemID = GetVoidTransferWithdrawalInfo(i);
 
-				button:SetTemplate("Default", true)
-				button:StyleButton()
-				bg:Hide()
-
-				if(Link) then
-					local quality = select(3, GetItemInfo(Link))
+				if(itemID) then
+					local quality = select(3, GetItemInfo(itemID))
 					if(quality and quality > 1) then
 						button:SetBackdropBorderColor(GetItemQualityColor(quality));
 					else
 						button:SetBackdropBorderColor(unpack(E["media"].bordercolor));
 					end
+				else
+					button:SetTemplate("Default", true)
 				end
-
-				icon:SetTexCoord(unpack(E.TexCoords))
-				icon:SetInside()
 			end
 
 			for i = 1, 80 do
 				local button = _G["VoidStorageStorageButton"..i]
-				local icon = _G["VoidStorageStorageButton"..i.."IconTexture"]
-				local bg = _G["VoidStorageStorageButton"..i.."Bg"]
-				local Link = GetVoidItemInfo(i);
+				local itemID = GetVoidItemInfo(i);
 
-				button:SetTemplate("Default", true)
-				button:StyleButton()
-				bg:Hide()
-
-				if(Link) then
-					local quality = select(3, GetItemInfo(Link))
+				if(itemID) then
+					local quality = select(3, GetItemInfo(itemID))
 					if(quality and quality > 1) then
 						button:SetBackdropBorderColor(GetItemQualityColor(quality));
 					else
 						button:SetBackdropBorderColor(unpack(E["media"].bordercolor));
 					end
+				else
+					button:SetTemplate("Default", true)
 				end
-
-				icon:SetTexCoord(unpack(E.TexCoords))
-				icon:SetInside()
 			end
 		end
 	end)

@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...));
 local M = E:NewModule("WorldMap", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0");
 E.WorldMap = M;
 
-local find = string.find;
+local find, format = string.find, string.format;
 
 local CreateFrame = CreateFrame;
 local InCombatLockdown = InCombatLockdown;
@@ -13,6 +13,7 @@ local MOUSE_LABEL = MOUSE_LABEL;
 local WORLDMAP_FULLMAP_SIZE = WORLDMAP_FULLMAP_SIZE;
 local WORLDMAP_QUESTLIST_SIZE = WORLDMAP_QUESTLIST_SIZE;
 local WORLDMAP_WINDOWED_SIZE = WORLDMAP_WINDOWED_SIZE;
+local WORLDMAP_POI_FRAMELEVEL = WORLDMAP_POI_FRAMELEVEL;
 
 local INVERTED_POINTS = {
 	["TOPLEFT"] = "BOTTOMLEFT",
@@ -47,10 +48,6 @@ function M:SetLargeWorldMap()
 	WorldMapFrame:SetScale(1);
 	WorldMapFrame:EnableMouse(false);
 
-	WorldMapTooltip:SetFrameStrata("TOOLTIP")
-	WorldMapCompareTooltip1:SetFrameStrata("TOOLTIP")
-	WorldMapCompareTooltip2:SetFrameStrata("TOOLTIP")
-
 	if(WorldMapFrame:GetAttribute('UIPanelLayout-area') ~= 'center') then
 		SetUIPanelAttribute(WorldMapFrame, "area", "center");
 	end
@@ -73,11 +70,19 @@ end
 function M:PLAYER_REGEN_ENABLED()
 	WorldMapFrameSizeDownButton:Enable();
 	WorldMapFrameSizeUpButton:Enable();
+
+	if(not GetCVarBool("miniWorldMap")) then
+		WorldMapQuestShowObjectives:Enable();
+	end
 end
 
 function M:PLAYER_REGEN_DISABLED()
 	WorldMapFrameSizeDownButton:Disable();
 	WorldMapFrameSizeUpButton:Disable();
+
+	if(not GetCVarBool("miniWorldMap")) then
+		WorldMapQuestShowObjectives:Disable();
+	end
 end
 
 function M:UpdateCoords()
@@ -87,7 +92,7 @@ function M:UpdateCoords()
 	y = E:Round(100 * y, 2);
 
 	if(x ~= 0 and y ~= 0) then
-		CoordsHolder.playerCoords:SetText(PLAYER..":   "..x..", "..y);
+		CoordsHolder.playerCoords:SetText(PLAYER .. ":   " .. format("%.2f, %.2f", x, y));
 	else
 		CoordsHolder.playerCoords:SetText("");
 	end
@@ -97,13 +102,13 @@ function M:UpdateCoords()
 	local height = WorldMapDetailFrame:GetHeight();
 	local centerX, centerY = WorldMapDetailFrame:GetCenter();
 	local x, y = GetCursorPosition();
-	local adjustedX = (x / scale - (centerX - (width/2))) / width;
-	local adjustedY = (centerY + (height/2) - y / scale) / height;
+	local adjustedX = (x / scale - (centerX - (width / 2))) / width;
+	local adjustedY = (centerY + (height / 2) - y / scale) / height;
 
 	if(adjustedX >= 0 and adjustedY >= 0 and adjustedX <= 1 and adjustedY <= 1) then
 		adjustedX = E:Round(100 * adjustedX, 2);
 		adjustedY = E:Round(100 * adjustedY, 2);
-		CoordsHolder.mouseCoords:SetText(MOUSE_LABEL..":   "..adjustedX..", "..adjustedY);
+		CoordsHolder.mouseCoords:SetText(MOUSE_LABEL .. ":  " .. format("%.2f, %.2f", adjustedX, adjustedY));
 	else
 		CoordsHolder.mouseCoords:SetText("");
 	end
@@ -154,12 +159,12 @@ function M:Initialize()
 		self:RegisterEvent("PLAYER_REGEN_ENABLED");
 		self:RegisterEvent("PLAYER_REGEN_DISABLED");
 
-		if(WORLDMAP_SETTINGS.size == WORLDMAP_FULLMAP_SIZE) then
+		if(WORLDMAP_SETTINGS.size == WORLDMAP_FULLMAP_SIZE or WORLDMAP_SETTINGS.size == WORLDMAP_QUESTLIST_SIZE) then
+			SetCVar("miniWorldMap", 1);
 			WorldMap_ToggleSizeDown();
 		elseif(WORLDMAP_SETTINGS.size == WORLDMAP_WINDOWED_SIZE) then
+			SetCVar("miniWorldMap", 0);
 			self:SetSmallWorldMap();
-		elseif(WORLDMAP_SETTINGS.size == WORLDMAP_QUESTLIST_SIZE) then
-			WorldMap_ToggleSizeDown();
 		end
 
 		DropDownList1:HookScript("OnShow", function()
@@ -168,6 +173,10 @@ function M:Initialize()
 			end
 		end);
 	end
+
+	WorldMapTooltip:SetFrameLevel(WORLDMAP_POI_FRAMELEVEL + 110);
+	WorldMapCompareTooltip1:SetFrameLevel(WORLDMAP_POI_FRAMELEVEL + 110);
+	WorldMapCompareTooltip2:SetFrameLevel(WORLDMAP_POI_FRAMELEVEL + 110);
 end
 
 E:RegisterInitialModule(M:GetName());

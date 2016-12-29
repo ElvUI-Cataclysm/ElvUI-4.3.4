@@ -155,15 +155,15 @@ E.Options.args.nameplate = {
 				nonTargetAlpha = {
 					order = 5,
 					type = "range",
-					name = L["Non-Target Alpha"],
-					desc = L["Alpha of nameplates that are not your current target."],
+					name = L["Non-Target Transparency"],
+					desc = L["Set the transparency level of nameplates that are not the target nameplate."],
 					min = 0, max = 1, step = 0.01, isPercent = true
 				},
 				targetAlpha = {
 					order = 6,
 					type = "range",
-					name = L["Target Alpha"],
-					desc = L["Alpha of current target nameplate."],
+					name = L["Target Transparency"],
+					desc = L["Set the transparency level of current target nameplate."],
 					min = 0, max = 1, step = 0.01, isPercent = true
 				},
 				colorNameByValue = {
@@ -264,7 +264,7 @@ E.Options.args.nameplate = {
 				reactions = {
 					order = 200,
 					type = "group",
-					name = L["Reaction Coloring"],
+					name = L["Reaction Colors"],
 					guiInline = true,
 					get = function(info)
 						local t = E.db.nameplate.reactions[ info[#info] ]

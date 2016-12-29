@@ -170,6 +170,18 @@ E.Options.args.skins = {
 					name = L["LFG Frame"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
+				loot = {
+					type = "toggle",
+					name = L["Loot Frames"],
+					desc = L["TOGGLESKIN_DESC"],
+					disabled = function() return E.private.general.loot end
+				},
+				lootRoll = {
+					type = "toggle",
+					name = L["Loot Roll"],
+					desc = L["TOGGLESKIN_DESC"],
+					disabled = function() return E.private.general.lootRoll end
+				},
 				macro = {
 					type = "toggle",
 					name = L["Macro Frame"],
