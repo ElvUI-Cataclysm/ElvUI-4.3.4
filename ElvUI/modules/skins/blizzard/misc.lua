@@ -392,6 +392,39 @@ local function LoadSkin()
 	end
 	WatchFrame:HookScript("OnEvent", SkinWatchFramePopUp)
 
+	hooksecurefunc("WatchFrame_Update", function()
+		local questIndex;
+		local numQuestWatches = GetNumQuestWatches();
+
+		for i = 1, numQuestWatches do
+			questIndex = GetQuestIndexForWatch(i);
+			if(questIndex) then
+				local title, level = GetQuestLogTitle(questIndex);
+				local color = GetQuestDifficultyColor(level);
+
+				for j = 1, #WATCHFRAME_QUESTLINES do
+					if(WATCHFRAME_QUESTLINES[j].text:GetText() == title) then
+						WATCHFRAME_QUESTLINES[j].text:SetTextColor(color.r, color.g, color.b);
+						WATCHFRAME_QUESTLINES[j].color = color;
+					end
+				end
+			end
+		end
+	end)
+
+	hooksecurefunc("WatchFrameLinkButtonTemplate_Highlight", function(self, onEnter)
+		for i = self.startLine, self.lastLine do
+			if(not self.lines[i]) then return; end
+			if(self.lines[i].color) then
+				if(onEnter) then
+					self.lines[i].text:SetTextColor(1, 0.80, 0.10);
+				else
+					self.lines[i].text:SetTextColor(self.lines[i].color.r, self.lines[i].color.g, self.lines[i].color.b);
+				end
+			end
+		end
+	end)
+
 	-- Compact Raid Frame Manager
 	CompactRaidFrameManager:StripTextures();
 	CompactRaidFrameManager:SetTemplate("Transparent");

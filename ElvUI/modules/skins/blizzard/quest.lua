@@ -64,8 +64,8 @@ local function LoadSkin()
 
 	QuestLogFrame:StripTextures();
 	QuestLogFrame:CreateBackdrop("Transparent");
-	QuestLogFrame.backdrop:Point("TOPLEFT", QuestLogFrame, "TOPLEFT", 10, -12);
-	QuestLogFrame.backdrop:Point("BOTTOMRIGHT", QuestLogFrame, "BOTTOMRIGHT", -1, 8);
+	QuestLogFrame.backdrop:Point("TOPLEFT", 10, -12);
+	QuestLogFrame.backdrop:Point("BOTTOMRIGHT", -1, 8);
 
 	QuestLogCount:StripTextures()
 	QuestLogCount:SetTemplate("Transparent")
@@ -182,18 +182,38 @@ local function LoadSkin()
 		end
 	end)
 
+	QuestLogDetailFrame:StripTextures()
+	QuestLogDetailFrame:CreateBackdrop("Transparent")
+	QuestLogDetailFrame.backdrop:Point("TOPLEFT", 10, -12);
+	QuestLogDetailFrame.backdrop:Point("BOTTOMRIGHT", -1, 1);
+
+	QuestLogDetailScrollFrame:StripTextures()
+
 	QuestLogFrame:HookScript("OnShow", function()
-		QuestLogScrollFrame:Height(331)
-		QuestLogScrollFrame:Width(302)
+		QuestLogScrollFrame:Size(302, 331)
 		QuestLogScrollFrame:CreateBackdrop("Default", true)
 
 		QuestLogDetailScrollFrame:Height(331)
-		QuestLogDetailScrollFrame:CreateBackdrop("Default", true)
-		QuestLogDetailScrollFrame:Point("TOPRIGHT", QuestLogFrame, "TOPRIGHT", -32, -75)
+		QuestLogDetailScrollFrame:Point("TOPRIGHT", -32, -75)
+
+		if(not QuestLogDetailScrollFrame.backdrop) then
+			QuestLogDetailScrollFrame:CreateBackdrop("Default", true)
+		end
 	end)
 
+	QuestLogDetailFrame:HookScript("OnShow", function()
+		QuestLogDetailScrollFrame:Height(331)
+
+		if(not QuestLogDetailScrollFrame.backdrop) then
+			QuestLogDetailScrollFrame:CreateBackdrop("Default", true)
+		end
+	end)
+
+	S:HandleCloseButton(QuestLogDetailFrameCloseButton)
+	QuestLogDetailFrameCloseButton:Point("TOPRIGHT", 4, -8)
+
 	S:HandleCloseButton(QuestLogFrameCloseButton)
-	QuestLogFrameCloseButton:Point("TOPRIGHT", QuestLogFrame, "TOPRIGHT", 3, -7)
+	QuestLogFrameCloseButton:Point("TOPRIGHT", 3, -7)
 
 	S:HandleScrollBar(QuestLogDetailScrollFrameScrollBar)
 	QuestLogDetailScrollFrameScrollBar:Point("RIGHT", 22, 0)
@@ -206,10 +226,10 @@ local function LoadSkin()
 
 	--Quest Frame
 	QuestFrame:StripTextures(true)
-	QuestFrame:SetWidth(374)
 	QuestFrame:CreateBackdrop("Transparent")
 	QuestFrame.backdrop:Point("TOPLEFT", 6, -8)
 	QuestFrame.backdrop:Point("BOTTOMRIGHT", -20, 65)
+	QuestFrame:Width(374)
 
 	QuestFrameDetailPanel:StripTextures(true)
 	QuestDetailScrollFrame:StripTextures(true)
@@ -265,13 +285,6 @@ local function LoadSkin()
 	QuestNPCModelTextFrame:StripTextures()
 	QuestNPCModelTextFrame:CreateBackdrop("Default")
 	QuestNPCModelTextFrame.backdrop:Point("TOPLEFT", QuestNPCModel.backdrop, "BOTTOMLEFT", 0, -2)
-
-	QuestLogDetailFrame:StripTextures()
-	QuestLogDetailFrame:SetTemplate("Transparent")
-
-	QuestLogDetailScrollFrame:StripTextures()
-
-	S:HandleCloseButton(QuestLogDetailFrameCloseButton)
 
 	hooksecurefunc("QuestFrame_ShowQuestPortrait", function(parentFrame, portrait, text, name, x, y)
 		QuestNPCModel:ClearAllPoints();
