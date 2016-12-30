@@ -196,6 +196,8 @@ local function LoadSkin()
 		QuestLogDetailScrollFrame:Height(331)
 		QuestLogDetailScrollFrame:Point("TOPRIGHT", -32, -75)
 
+		QuestLogFrameShowMapButton:Point("TOPRIGHT", -31, -38)
+
 		if(not QuestLogDetailScrollFrame.backdrop) then
 			QuestLogDetailScrollFrame:CreateBackdrop("Default", true)
 		end
@@ -203,6 +205,8 @@ local function LoadSkin()
 
 	QuestLogDetailFrame:HookScript("OnShow", function()
 		QuestLogDetailScrollFrame:Height(331)
+
+		QuestLogFrameShowMapButton:Point("TOPRIGHT", -31, -38)
 
 		if(not QuestLogDetailScrollFrame.backdrop) then
 			QuestLogDetailScrollFrame:CreateBackdrop("Default", true)
