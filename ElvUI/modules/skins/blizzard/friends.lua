@@ -351,15 +351,16 @@ local function LoadSkin()
 	RaidInfoIDLabel:StripTextures();
 
 	S:HandleCloseButton(RaidInfoCloseButton);
-	RaidInfoCloseButton:ClearAllPoints()
-	RaidInfoCloseButton:Point("TOPRIGHT", RaidInfoFrame, "TOPRIGHT", 2, 0)
+	RaidInfoCloseButton:Point("TOPRIGHT", 2, 0)
 
 	S:HandleScrollBar(RaidInfoScrollFrameScrollBar);
 
 	S:HandleButton(RaidInfoExtendButton);
 	S:HandleButton(RaidInfoCancelButton);
-	S:HandleButton(RaidFrameConvertToRaidButton);
 	S:HandleButton(RaidFrameRaidInfoButton);
+
+	S:HandleButton(RaidFrameConvertToRaidButton);
+	RaidFrameConvertToRaidButton:Point("TOPLEFT", 49, -24);
 
 	--Bottom Tabs
 	for i = 1, 4 do

@@ -9,14 +9,16 @@ local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.talent ~= true) then return; end
 
 	PlayerTalentFrame:StripTextures()
+	PlayerTalentFrame:SetTemplate("Transparent")
+
 	PlayerTalentFrameInset:StripTextures()
 	PlayerTalentFrameTalents:StripTextures()
 	PlayerTalentFramePetTalents:StripTextures()
-	PlayerTalentFrameToggleSummariesButton:StripTextures()
-	PlayerTalentFrameActivateButton:StripTextures()
 
+	PlayerTalentFrameActivateButton:StripTextures()
 	S:HandleButton(PlayerTalentFrameActivateButton)
 
+	PlayerTalentFrameToggleSummariesButton:StripTextures()
 	S:HandleButton(PlayerTalentFrameToggleSummariesButton)
 	PlayerTalentFrameToggleSummariesButton:Point("BOTTOM", PlayerTalentFrame, "BOTTOM", 0, 5)
 
@@ -55,8 +57,6 @@ local function LoadSkin()
 	StripTalentFramePanelTextures(PlayerTalentFramePetPanel)
 
 	PlayerTalentFramePetPanelArrow:SetFrameStrata("HIGH")
-
-	PlayerTalentFrame:SetTemplate("Transparent")
 
 	PlayerTalentFramePanel1:CreateBackdrop("Transparent")
 	PlayerTalentFramePanel1.backdrop:Point("TOPLEFT", 3, -3)

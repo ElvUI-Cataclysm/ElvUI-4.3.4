@@ -5,10 +5,12 @@ local function LoadSkin()
 	if(not E.private.skins.blizzard.enable or not E.private.skins.blizzard.inspect) then return; end
 
 	InspectFrame:StripTextures(true)
-	InspectFrameInset:StripTextures(true)
-	InspectTalentFramePointsBar:StripTextures()
 	InspectFrame:CreateBackdrop("Transparent")
 	InspectFrame.backdrop:SetAllPoints()
+
+	InspectFrameInset:StripTextures(true)
+	InspectTalentFramePointsBar:StripTextures()
+
 	S:HandleCloseButton(InspectFrameCloseButton)
 
 	for i = 1, 4 do

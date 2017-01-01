@@ -140,7 +140,7 @@ local function LoadSkin()
 
 	--Reposition tabs
 	GuildBankFrameTab1:ClearAllPoints()
-	GuildBankFrameTab1:SetPoint("BOTTOMLEFT", GuildBankFrame, "BOTTOMLEFT", 0, -30)
+	GuildBankFrameTab1:Point("BOTTOMLEFT", GuildBankFrame, "BOTTOMLEFT", 0, -30)
 
 	GuildBankTab1:Point("TOPLEFT", GuildBankFrame, "TOPRIGHT", -3, -36)
 	GuildBankTab2:Point("TOPLEFT", GuildBankTab1, "BOTTOMLEFT", 0, 7)

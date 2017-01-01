@@ -1,5 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule('Skins')
+local S = E:GetModule("Skins")
 
 local find, gsub = string.find, string.gsub;
 
@@ -21,13 +21,13 @@ local function LoadSkin()
 
 	GossipFrameGreetingGoodbyeButton:StripTextures()
 	S:HandleButton(GossipFrameGreetingGoodbyeButton)
-	GossipFrameGreetingGoodbyeButton:Point("BOTTOMRIGHT", GossipFrame, "BOTTOMRIGHT", -49, 72)
+	GossipFrameGreetingGoodbyeButton:Point("BOTTOMRIGHT", -49, 72)
 
 	GossipGreetingText:SetTextColor(1, 1, 1)
 
 	GossipFrame:CreateBackdrop("Transparent")
-	GossipFrame.backdrop:Point("TOPLEFT", GossipFrame, "TOPLEFT", 6, -8)
-	GossipFrame.backdrop:Point("BOTTOMRIGHT", GossipFrame, "BOTTOMRIGHT", -30, 65)
+	GossipFrame.backdrop:Point("TOPLEFT", 6, -8)
+	GossipFrame.backdrop:Point("BOTTOMRIGHT", -30, 65)
 
 	S:HandleNextPrevButton(ItemTextPrevPageButton)
 	S:HandleNextPrevButton(ItemTextNextPageButton)

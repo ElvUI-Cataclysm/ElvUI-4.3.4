@@ -52,7 +52,7 @@ local function LoadSkin()
 		_G["LookingForGuildBrowseFrameContainerButton"..i.."Ring"]:SetAlpha(0)
 		_G["LookingForGuildBrowseFrameContainerButton"..i.."LevelRing"]:SetAlpha(0)
 		_G["LookingForGuildBrowseFrameContainerButton"..i.."TabardBorder"]:SetAlpha(0)
-		_G["LookingForGuildBrowseFrameContainerButton"..i.."LevelRing"]:SetPoint("TOPLEFT", -42, 33)
+		_G["LookingForGuildBrowseFrameContainerButton"..i.."LevelRing"]:Point("TOPLEFT", -42, 33)
 	end
 
 	for i = 1, 10 do

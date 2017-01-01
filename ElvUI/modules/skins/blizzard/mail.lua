@@ -13,7 +13,7 @@ local function LoadSkin()
 	MailFrame:CreateBackdrop("Transparent")
 	MailFrame.backdrop:Point("TOPLEFT", 4, 0)
 	MailFrame.backdrop:Point("BOTTOMRIGHT", 2, 74)
-	MailFrame:SetWidth(345)
+	MailFrame:Width(345)
 
 	for i = 1, INBOXITEMS_TO_DISPLAY do
 		local bg = _G["MailItem"..i]
@@ -34,29 +34,36 @@ local function LoadSkin()
 
 	S:HandleCloseButton(InboxCloseButton)
 	InboxCloseButton:Point("TOPRIGHT", 2, 2)
+
 	S:HandleNextPrevButton(InboxPrevPageButton)
 	S:HandleNextPrevButton(InboxNextPageButton)
 
-	MailFrameTab1:StripTextures()
-	MailFrameTab2:StripTextures()
-	S:HandleTab(MailFrameTab1)
-	S:HandleTab(MailFrameTab2)
+	for i = 1, 2 do
+		_G["MailFrameTab"..i]:StripTextures()
+		S:HandleTab(_G["MailFrameTab"..i])
+	end
 
 	-- send mail
+	SendMailFrame:StripTextures()
+
 	SendMailScrollFrame:StripTextures(true)
 	SendMailScrollFrame:SetTemplate("Default")
 
 	S:HandleScrollBar(SendMailScrollFrameScrollBar)
 
 	S:HandleEditBox(SendMailNameEditBox)
+	SendMailNameEditBox.backdrop:Point("BOTTOMRIGHT", 2, 0)
+
 	S:HandleEditBox(SendMailSubjectEditBox)
+	SendMailSubjectEditBox.backdrop:Point("BOTTOMRIGHT", 2, 0)
+
 	S:HandleEditBox(SendMailMoneyGold)
 	S:HandleEditBox(SendMailMoneySilver)
 	S:HandleEditBox(SendMailMoneyCopper)
 
-	SendMailNameEditBox.backdrop:Point("BOTTOMRIGHT", 2, 0)
-	SendMailSubjectEditBox.backdrop:Point("BOTTOMRIGHT", 2, 0)
-	SendMailFrame:StripTextures()
+	for i = 1, 5 do
+		_G["AutoCompleteButton"..i]:StyleButton()
+	end
 
 	local function MailFrameSkin()
 		for i = 1, ATTACHMENTS_MAX_SEND do
@@ -107,23 +114,31 @@ local function LoadSkin()
 	hooksecurefunc("OpenMail_Update", OpenMail_Update);
 
 	S:HandleButton(SendMailMailButton)
-	S:HandleButton(SendMailCancelButton)
+	SendMailMailButton:Point("RIGHT", SendMailCancelButton, "LEFT", -2, 0)
 
-	SendMailCancelButton:Point("BOTTOMRIGHT", SendMailFrame, "BOTTOMRIGHT", -45, 80)
-	SendMailMoneyFrame:Point("BOTTOMRIGHT", SendMailFrame, "BOTTOMLEFT", 170, 84)
+	S:HandleButton(SendMailCancelButton)
+	SendMailCancelButton:Point("BOTTOMRIGHT", -45, 80)
+
+	SendMailMoneyFrame:Point("BOTTOMLEFT", 170, 84)
 
 	-- open mail (cod)
 	OpenMailFrame:StripTextures(true)
 	OpenMailFrame:CreateBackdrop("Transparent")
 	OpenMailFrame.backdrop:Point("TOPLEFT", 4, 0)
 	OpenMailFrame.backdrop:Point("BOTTOMRIGHT", 2, 74)
-	OpenMailFrame:SetWidth(350)
+	OpenMailFrame:Width(350)
 
 	S:HandleCloseButton(OpenMailCloseButton)
 	OpenMailCloseButton:Point("TOPRIGHT", 2, 2)
+
 	S:HandleButton(OpenMailReportSpamButton)
+
 	S:HandleButton(OpenMailReplyButton)
+	OpenMailReplyButton:Point("RIGHT", OpenMailDeleteButton, "LEFT", -2, 0)
+
 	S:HandleButton(OpenMailDeleteButton)
+	OpenMailDeleteButton:Point("RIGHT", OpenMailCancelButton, "LEFT", -2, 0)
+
 	S:HandleButton(OpenMailCancelButton)
 
 	OpenMailScrollFrame:StripTextures(true)
@@ -134,22 +149,27 @@ local function LoadSkin()
 	SendMailBodyEditBox:SetTextColor(1, 1, 1)
 	OpenMailBodyText:SetTextColor(1, 1, 1)
 	InvoiceTextFontNormal:SetTextColor(1, 1, 1)
+
 	OpenMailArithmeticLine:Kill()
 
 	OpenMailLetterButton:StripTextures()
 	OpenMailLetterButton:SetTemplate("Default", true)
 	OpenMailLetterButton:StyleButton()
+
 	OpenMailLetterButtonIconTexture:SetTexCoord(unpack(E.TexCoords))
 	OpenMailLetterButtonIconTexture:SetDrawLayer("ARTWORK")
 	OpenMailLetterButtonIconTexture:SetInside()
+
 	OpenMailLetterButtonCount:SetDrawLayer("OVERLAY")
 
 	OpenMailMoneyButton:StripTextures()
 	OpenMailMoneyButton:SetTemplate("Default", true)
 	OpenMailMoneyButton:StyleButton()
+
 	OpenMailMoneyButtonIconTexture:SetTexCoord(unpack(E.TexCoords))
 	OpenMailMoneyButtonIconTexture:SetDrawLayer("ARTWORK")
 	OpenMailMoneyButtonIconTexture:SetInside()
+
 	OpenMailMoneyButtonCount:SetDrawLayer("OVERLAY")
 
 	for i = 1, ATTACHMENTS_MAX_SEND do
@@ -167,10 +187,6 @@ local function LoadSkin()
 			c:SetDrawLayer("OVERLAY")
 		end
 	end
-
-	OpenMailReplyButton:Point("RIGHT", OpenMailDeleteButton, "LEFT", -2, 0)
-	OpenMailDeleteButton:Point("RIGHT", OpenMailCancelButton, "LEFT", -2, 0)
-	SendMailMailButton:Point("RIGHT", SendMailCancelButton, "LEFT", -2, 0)
 end
 
 S:AddCallback("Mail", LoadSkin);
