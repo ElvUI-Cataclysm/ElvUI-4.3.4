@@ -1,11 +1,10 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local S = E:NewModule("Skins", "AceHook-3.0", "AceEvent-3.0");
 
-local find = string.find;
-local tinsert, wipe = table.insert, table.wipe;
-
 local _G = _G;
 local unpack, assert, pairs, ipairs, select, type, pcall = unpack, assert, pairs, ipairs, select, type, pcall;
+local find = string.find;
+local tinsert, wipe = table.insert, table.wipe;
 
 local CreateFrame = CreateFrame;
 local SetDesaturation = SetDesaturation;
@@ -21,11 +20,11 @@ S.addonCallbacks = {};
 S.nonAddonCallbacks = {["CallPriority"] = {}};
 
 S.SQUARE_BUTTON_TEXCOORDS = {
-	["UP"] = {     0.45312500,    0.64062500,     0.01562500,     0.20312500};
-	["DOWN"] = {   0.45312500,    0.64062500,     0.20312500,     0.01562500};
-	["LEFT"] = {   0.23437500,    0.42187500,     0.01562500,     0.20312500};
-	["RIGHT"] = {  0.42187500,    0.23437500,     0.01562500,     0.20312500};
-	["DELETE"] = { 0.01562500,    0.20312500,     0.01562500,     0.20312500}
+	["UP"]		= {0.45312500, 0.64062500, 0.01562500, 0.20312500};
+	["DOWN"]	= {0.45312500, 0.64062500, 0.20312500, 0.01562500};
+	["LEFT"]	= {0.23437500, 0.42187500, 0.01562500, 0.20312500};
+	["RIGHT"]	= {0.42187500, 0.23437500, 0.01562500, 0.20312500};
+	["DELETE"]	= {0.01562500, 0.20312500, 0.01562500, 0.20312500}
 };
 
 function S:SquareButton_SetIcon(self, name)

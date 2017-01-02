@@ -1,5 +1,8 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule('Skins')
+local S = E:GetModule("Skins")
+
+local _G = _G;
+local select = select;
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.guildregistrar ~= true then return end
@@ -8,13 +11,12 @@ local function LoadSkin()
 	GuildRegistrarFrame:CreateBackdrop("Transparent")
 	GuildRegistrarFrame.backdrop:Point("TOPLEFT", 12, -17)
 	GuildRegistrarFrame.backdrop:Point("BOTTOMRIGHT", -28, 65)
-	GuildRegistrarFrameEditBox:StripTextures()
+
 	GuildRegistrarGreetingFrame:StripTextures()
-	S:HandleButton(GuildRegistrarFrameGoodbyeButton)
-	S:HandleButton(GuildRegistrarFrameCancelButton)
-	S:HandleButton(GuildRegistrarFramePurchaseButton)
-	S:HandleCloseButton(GuildRegistrarFrameCloseButton)
+
+	GuildRegistrarFrameEditBox:StripTextures()
 	S:HandleEditBox(GuildRegistrarFrameEditBox)
+	GuildRegistrarFrameEditBox:Height(20)
 
 	for i = 1, GuildRegistrarFrameEditBox:GetNumRegions() do
 		local region = select(i, GuildRegistrarFrameEditBox:GetRegions())
@@ -25,7 +27,11 @@ local function LoadSkin()
 		end
 	end
 
-	GuildRegistrarFrameEditBox:Height(20)
+	S:HandleButton(GuildRegistrarFrameGoodbyeButton)
+	S:HandleButton(GuildRegistrarFrameCancelButton)
+	S:HandleButton(GuildRegistrarFramePurchaseButton)
+
+	S:HandleCloseButton(GuildRegistrarFrameCloseButton)
 
 	for i = 1, 2 do
 		_G["GuildRegistrarButton"..i]:GetFontString():SetTextColor(1, 1, 1)

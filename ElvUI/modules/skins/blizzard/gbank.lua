@@ -1,10 +1,9 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule('Skins')
-
-local ceil = math.ceil;
+local S = E:GetModule("Skins")
 
 local _G = _G
 local unpack, select = unpack, select
+local ceil = math.ceil;
 
 local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true) or (E.private.skins.blizzard.gbank ~= true) then return end
@@ -97,7 +96,7 @@ local function LoadSkin()
 		S:HandleTab(_G["GuildBankFrameTab"..i])
 	end
 
-	hooksecurefunc('GuildBankFrame_Update', function()
+	hooksecurefunc("GuildBankFrame_Update", function()
 		if(GuildBankFrame.mode ~= "bank") then return; end
 
 		local tab = GetCurrentGuildBankTab();

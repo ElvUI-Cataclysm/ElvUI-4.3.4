@@ -597,6 +597,7 @@ function B:OnEvent(event, ...)
 			B:SetSearch(SEARCH_STRING);
 		end
 	elseif event == 'BAG_UPDATE_COOLDOWN' then
+		if not self:IsShown() then return; end
 		self:UpdateCooldowns();
 	elseif event == 'PLAYERBANKSLOTS_CHANGED' then
 		self:UpdateAllSlots()
@@ -1043,6 +1044,10 @@ function B:ContructContainerFrame(name, isBank)
 			end
 		end)
 	end
+
+	f:SetScript("OnShow", function(self)
+		self:UpdateCooldowns();
+	end);
 
 	tinsert(UISpecialFrames, f:GetName()) --Keep an eye on this for taints..
 	tinsert(self.BagFrames, f)

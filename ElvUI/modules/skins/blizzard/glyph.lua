@@ -1,5 +1,8 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule('Skins')
+local S = E:GetModule("Skins")
+
+local _G = _G;
+local unpack = unpack;
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.talent ~= true then return end
@@ -59,7 +62,7 @@ local function LoadSkin()
 	GlyphFrameClearInfoFrame:CreateBackdrop("Default", true)
 	GlyphFrameClearInfoFrame.backdrop:SetAllPoints()
 	GlyphFrameClearInfoFrame:StyleButton()
-	GlyphFrameClearInfoFrame:Size(25, 25)
+	GlyphFrameClearInfoFrame:Size(25)
 	GlyphFrameClearInfoFrame.count:Point("TOPRIGHT", 135, -5)
 
 	S:HandleScrollBar(GlyphFrameScrollFrameScrollBar, 5)

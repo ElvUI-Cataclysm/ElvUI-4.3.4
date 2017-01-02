@@ -107,7 +107,7 @@ local function LoadSkin()
 		end
 	end
 
-	GuildChallengeAlertFrame:SetTemplate('Transparent', true)
+	GuildChallengeAlertFrame:SetTemplate("Transparent", true)
 	GuildChallengeAlertFrameEmblemBackground:SetVertexColor(unpack(E.media.bordercolor))
 	GuildChallengeAlertFrameEmblemBackground.SetVertexColor = E.noop
 	GuildChallengeAlertFrame:Height(65)

@@ -1,5 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule('Skins')
+local S = E:GetModule("Skins")
 
 local _G = _G;
 local unpack, select = unpack, select;
@@ -29,7 +29,7 @@ local function LoadSkin()
 	S:HandleEditBox(TradePlayerInputMoneyFrameCopper)
 
 	TradeFrameTradeButton:ClearAllPoints()
-	TradeFrameTradeButton:SetPoint("BOTTOMRIGHT", TradeFrame, "BOTTOMRIGHT", -105, 40)
+	TradeFrameTradeButton:Point("BOTTOMRIGHT", TradeFrame, "BOTTOMRIGHT", -105, 40)
 
 	for i = 1, MAX_TRADE_ITEMS do
 		local player = _G["TradePlayerItem"..i]
@@ -58,37 +58,41 @@ local function LoadSkin()
 
 		playerButton.bg = CreateFrame("Frame", nil, playerButton)
 		playerButton.bg:SetTemplate("Default")
-		playerButton.bg:SetPoint("TOPLEFT", playerButton, "TOPRIGHT", 4, 0)
-		playerButton.bg:SetPoint("BOTTOMRIGHT", _G["TradePlayerItem"..i.."NameFrame"], "BOTTOMRIGHT", 0, 14)
+		playerButton.bg:Point("TOPLEFT", playerButton, "TOPRIGHT", 4, 0)
+		playerButton.bg:Point("BOTTOMRIGHT", _G["TradePlayerItem"..i.."NameFrame"], "BOTTOMRIGHT", 0, 14)
 		playerButton.bg:SetFrameLevel(playerButton:GetFrameLevel() - 3)
 
 		recipientButton.bg = CreateFrame("Frame", nil, recipientButton)
 		recipientButton.bg:SetTemplate("Default")
-		recipientButton.bg:SetPoint("TOPLEFT", recipientButton, "TOPRIGHT", 4, 0)
-		recipientButton.bg:SetPoint("BOTTOMRIGHT", _G["TradeRecipientItem"..i.."NameFrame"], "BOTTOMRIGHT", 0, 14)
+		recipientButton.bg:Point("TOPLEFT", recipientButton, "TOPRIGHT", 4, 0)
+		recipientButton.bg:Point("BOTTOMRIGHT", _G["TradeRecipientItem"..i.."NameFrame"], "BOTTOMRIGHT", 0, 14)
 		recipientButton.bg:SetFrameLevel(recipientButton:GetFrameLevel() - 3)
 	end
 
 	TradeHighlightPlayerTop:SetTexture(0, 1, 0, 0.2)
 	TradeHighlightPlayerBottom:SetTexture(0, 1, 0, 0.2)
 	TradeHighlightPlayerMiddle:SetTexture(0, 1, 0, 0.2)
+
 	TradeHighlightPlayer:SetFrameStrata("HIGH")
 	TradeHighlightPlayer:Point("TOPLEFT", TradeFrame, "TOPLEFT", 23, -100)
 
 	TradeHighlightPlayerEnchantTop:SetTexture(0, 1, 0, 0.2)
 	TradeHighlightPlayerEnchantBottom:SetTexture(0, 1, 0, 0.2)
 	TradeHighlightPlayerEnchantMiddle:SetTexture(0, 1, 0, 0.2)
+
 	TradeHighlightPlayerEnchant:SetFrameStrata("HIGH")
 
 	TradeHighlightRecipientTop:SetTexture(0, 1, 0, 0.2)
 	TradeHighlightRecipientBottom:SetTexture(0, 1, 0, 0.2)
 	TradeHighlightRecipientMiddle:SetTexture(0, 1, 0, 0.2)
+
 	TradeHighlightRecipient:SetFrameStrata("HIGH")
 	TradeHighlightRecipient:Point("TOPLEFT", TradeFrame, "TOPLEFT", 192, -100)
 
 	TradeHighlightRecipientEnchantTop:SetTexture(0, 1, 0, 0.2)
 	TradeHighlightRecipientEnchantBottom:SetTexture(0, 1, 0, 0.2)
 	TradeHighlightRecipientEnchantMiddle:SetTexture(0, 1, 0, 0.2)
+
 	TradeHighlightRecipientEnchant:SetFrameStrata("HIGH")
 
 	hooksecurefunc("TradeFrame_UpdatePlayerItem", function(id)

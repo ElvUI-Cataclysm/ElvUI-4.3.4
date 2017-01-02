@@ -1,8 +1,8 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule('Skins')
+local S = E:GetModule("Skins")
 
-local _G = _G
-local ipairs = ipairs
+local _G = _G;
+local ipairs, unpack = ipairs, unpack;
 
 local CLASS_SORT_ORDER = CLASS_SORT_ORDER
 local CLASS_ICON_TCOORDS = CLASS_ICON_TCOORDS
@@ -92,7 +92,7 @@ local function LoadSkin()
 	CalendarTodayFrame:Size(CalendarDayButton1:GetWidth(), CalendarDayButton1:GetHeight())
 	CalendarTodayFrame:SetBackdropBorderColor(0, 0.44, .87, 1)
 	CalendarTodayFrame:SetBackdropColor(0, 0, 0, 0)
-	CalendarTodayFrame:HookScript('OnUpdate', function(self) self:SetAlpha(CalendarTodayTextureGlow:GetAlpha()) end)
+	CalendarTodayFrame:HookScript("OnUpdate", function(self) self:SetAlpha(CalendarTodayTextureGlow:GetAlpha()) end)
 	CalendarTodayFrame.backdrop:SetFrameLevel(CalendarTodayFrame.backdrop:GetFrameLevel() + 1)
 	CalendarTodayFrame.backdrop:SetBackdropBorderColor(0, 0.44, .87, 1)
 	CalendarTodayFrame.backdrop:SetBackdropColor(0, 0, 0, 0)

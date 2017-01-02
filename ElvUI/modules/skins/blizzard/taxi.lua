@@ -6,7 +6,6 @@ local function LoadSkin()
 
 	TaxiFrame:StripTextures();
 	TaxiFrame:CreateBackdrop("Transparent");
-	TaxiFrame:SetScale(0.8)
 
 	S:HandleCloseButton(TaxiFrameCloseButton);
 

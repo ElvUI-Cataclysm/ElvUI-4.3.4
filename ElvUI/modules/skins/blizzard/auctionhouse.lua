@@ -1,7 +1,8 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule('Skins')
+local S = E:GetModule("Skins")
 
-local unpack = unpack
+local _G = _G;
+local pairs, unpack = pairs, unpack;
 
 local GetAuctionSellItemInfo = GetAuctionSellItemInfo
 
@@ -28,7 +29,7 @@ local function LoadSkin()
 	S:HandleCheckBox(ShowOnPlayerCheckButton)
 
 	S:HandleCloseButton(AuctionFrameCloseButton)
-	AuctionFrameCloseButton:Point("TOPRIGHT", AuctionFrame, "TOPRIGHT", 2, 2)
+	AuctionFrameCloseButton:Point("TOPRIGHT", 2, 2)
 
 	--Progress Frame
 	AuctionProgressFrame:StripTextures()
@@ -41,7 +42,7 @@ local function LoadSkin()
 	AuctionProgressFrameCancelButton:GetNormalTexture():Point("TOPLEFT", 2, -2)
 	AuctionProgressFrameCancelButton:GetNormalTexture():Point("BOTTOMRIGHT", -2, 2)
 	AuctionProgressFrameCancelButton:GetNormalTexture():SetTexCoord(0.67, 0.37, 0.61, 0.26)
-	AuctionProgressFrameCancelButton:Size(28, 28)
+	AuctionProgressFrameCancelButton:Size(28)
 	AuctionProgressFrameCancelButton:Point("LEFT", AuctionProgressBar, "RIGHT", 8, 0)
 
 	AuctionProgressBarIcon:SetTexCoord(0.67, 0.37, 0.61, 0.26)
@@ -71,7 +72,7 @@ local function LoadSkin()
 	S:HandleButton(AuctionsNumStacksMaxButton)
 
 	S:HandleButton(AuctionsCloseButton)
-	AuctionsCloseButton:Point("BOTTOMRIGHT", AuctionFrameAuctions, "BOTTOMRIGHT", 66, 10)
+	AuctionsCloseButton:Point("BOTTOMRIGHT", 66, 10)
 
 	S:HandleButton(AuctionsCancelAuctionButton)
 	AuctionsCancelAuctionButton:Point("RIGHT", AuctionsCloseButton, "LEFT", -4, 0)
@@ -89,10 +90,10 @@ local function LoadSkin()
 	BrowseBidButton:Point("RIGHT", BrowseBuyoutButton, "LEFT", -4, 0)
 
 	S:HandleButton(BrowseResetButton)
-	BrowseResetButton:Point("TOPLEFT", AuctionFrameBrowse, "TOPLEFT", 81, -74)
+	BrowseResetButton:Point("TOPLEFT", 81, -74)
 
 	S:HandleButton(BrowseSearchButton)
-	BrowseSearchButton:Point("TOPRIGHT", AuctionFrameBrowse, "TOPRIGHT", 25, -34)
+	BrowseSearchButton:Point("TOPRIGHT", 25, -34)
 
 	AuctionsItemButton:StripTextures()
 	AuctionsItemButton:SetTemplate("Default", true)
@@ -210,7 +211,7 @@ local function LoadSkin()
 		_G["BrowseButton"..i.."Highlight"] = button:GetHighlightTexture();
 		button:GetHighlightTexture():ClearAllPoints();
 		button:GetHighlightTexture():Point("TOPLEFT", icon, "TOPRIGHT", 2, 0);
-		button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -2, 5);
+		button:GetHighlightTexture():Point("BOTTOMRIGHT", button, "BOTTOMRIGHT", -2, 5);
 		button:GetPushedTexture():SetAllPoints(button:GetHighlightTexture());
 	end
 
@@ -243,7 +244,7 @@ local function LoadSkin()
 		_G["AuctionsButton"..i.."Highlight"] = button:GetHighlightTexture()
 		button:GetHighlightTexture():ClearAllPoints()
 		button:GetHighlightTexture():Point("TOPLEFT", icon, "TOPRIGHT", 2, 0)
-		button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -2, 5)
+		button:GetHighlightTexture():Point("BOTTOMRIGHT", button, "BOTTOMRIGHT", -2, 5)
 		button:GetPushedTexture():SetAllPoints(button:GetHighlightTexture())
 	end
 
@@ -277,7 +278,7 @@ local function LoadSkin()
 		_G["BidButton"..i.."Highlight"] = button:GetHighlightTexture()
 		button:GetHighlightTexture():ClearAllPoints()
 		button:GetHighlightTexture():Point("TOPLEFT", icon, "TOPRIGHT", 2, 0)
-		button:GetHighlightTexture():SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -2, 5)
+		button:GetHighlightTexture():Point("BOTTOMRIGHT", button, "BOTTOMRIGHT", -2, 5)
 		button:GetPushedTexture():SetAllPoints(button:GetHighlightTexture())
 	end
 

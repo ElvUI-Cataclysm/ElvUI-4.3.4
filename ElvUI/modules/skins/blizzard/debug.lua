@@ -1,15 +1,18 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule('Skins');
+local S = E:GetModule("Skins");
+
+local _G = _G;
+local unpack, select = unpack, select;
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.debug ~= true then return end
 
 	ScriptErrorsFrame:SetParent(E.UIParent)
-	ScriptErrorsFrame:SetTemplate('Transparent')
+	ScriptErrorsFrame:SetTemplate("Transparent")
 	S:HandleScrollBar(ScriptErrorsFrameScrollFrameScrollBar)
 	S:HandleCloseButton(ScriptErrorsFrameClose)
 	ScriptErrorsFrameScrollFrameText:FontTemplate(nil, 13)
-	ScriptErrorsFrameScrollFrame:CreateBackdrop('Default')
+	ScriptErrorsFrameScrollFrame:CreateBackdrop("Default")
 	ScriptErrorsFrameScrollFrame:SetFrameLevel(ScriptErrorsFrameScrollFrame:GetFrameLevel() + 2)
 	EventTraceFrame:SetTemplate("Transparent")
 
@@ -23,7 +26,7 @@ local function LoadSkin()
 		"Left",
 		"Right",
 		"TitleBG",
-		"DialogBG",
+		"DialogBG"
 	}
 
 	for i = 1, #texs do
@@ -39,7 +42,7 @@ local function LoadSkin()
 	end
 
 	FrameStackTooltip:HookScript("OnShow", function(self)
-		local noscalemult = E.mult * GetCVar('uiScale')
+		local noscalemult = E.mult * GetCVar("uiScale")
 		self:SetBackdrop({
 			bgFile = E["media"].blankTex,
 			edgeFile = E["media"].blankTex,

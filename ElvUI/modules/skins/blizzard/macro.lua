@@ -1,6 +1,9 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule("Skins");
 
+local _G = _G;
+local unpack = unpack;
+
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.macro ~= true then return end
 
@@ -20,7 +23,7 @@ local function LoadSkin()
 	MacroFrameTab2:Point("LEFT", MacroFrameTab1, "RIGHT", 4, 0);
 
 	S:HandleButton(MacroDeleteButton);
-	MacroDeleteButton:Point("BOTTOMLEFT", MacroFrame, "BOTTOMLEFT", 17, 69);
+	MacroDeleteButton:Point("BOTTOMLEFT", 17, 69);
 
 	S:HandleButton(MacroExitButton);
 	MacroExitButton:Point("CENTER", MacroFrame, "TOPLEFT", 303, -432);
@@ -31,10 +34,10 @@ local function LoadSkin()
 	S:HandleButton(MacroSaveButton);
 	S:HandleButton(MacroCancelButton);
 
-	MacroFrameCharLimitText:Point("BOTTOM", MacroFrame, "BOTTOM", -15, 100);
+	MacroFrameCharLimitText:Point("BOTTOM", -15, 100);
 
 	S:HandleCloseButton(MacroFrameCloseButton);
-	MacroFrameCloseButton:Point("TOPRIGHT", MacroFrame, "TOPRIGHT", -29, -7);
+	MacroFrameCloseButton:Point("TOPRIGHT", -29, -7);
 
 	MacroFrameTextBackground:StripTextures();
 	MacroFrameTextBackground:SetTemplate("Default");

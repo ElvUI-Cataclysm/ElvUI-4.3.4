@@ -1,5 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule('Skins')
+local S = E:GetModule("Skins")
 
 local _G = _G
 local select, unpack, pairs = select, unpack, pairs
@@ -69,7 +69,7 @@ local function LoadSkin()
 	EncounterJournalEncounterFrameInfoResetButtonTexture:SetTexCoord(0.90625000, 0.94726563, 0.00097656, 0.02050781)
 
 	EncounterJournalEncounterFrameModelFrame:StripTextures()
-	EncounterJournalEncounterFrameModelFrame:CreateBackdrop('Transparent', true)
+	EncounterJournalEncounterFrameModelFrame:CreateBackdrop("Transparent", true)
 
 	local scrollFrames = {
 		EncounterInfo.overviewScroll,
@@ -88,9 +88,9 @@ local function LoadSkin()
 
 	--Boss Tab
 	EncounterJournalEncounterFrameInfoBossTab:StripTextures()
-	EncounterJournalEncounterFrameInfoBossTab:CreateBackdrop('Transparent')
-	EncounterJournalEncounterFrameInfoBossTab.backdrop:Point('TOPLEFT', 11, -8)
-	EncounterJournalEncounterFrameInfoBossTab.backdrop:Point('BOTTOMRIGHT', -6, 8)
+	EncounterJournalEncounterFrameInfoBossTab:CreateBackdrop("Transparent")
+	EncounterJournalEncounterFrameInfoBossTab.backdrop:Point("TOPLEFT", 11, -8)
+	EncounterJournalEncounterFrameInfoBossTab.backdrop:Point("BOTTOMRIGHT", -6, 8)
 	EncounterJournalEncounterFrameInfoBossTab:Point("TOPLEFT", EncounterJournalEncounterFrameInfo, "TOPRIGHT", -2, 40)
 
 	EncounterJournalEncounterFrameInfoBossTab.icon = EncounterJournalEncounterFrameInfoBossTab:CreateTexture(nil, "OVERLAY");
@@ -102,9 +102,9 @@ local function LoadSkin()
 
 	--Loot Tab
 	EncounterJournalEncounterFrameInfoLootTab:StripTextures()
-	EncounterJournalEncounterFrameInfoLootTab:CreateBackdrop('Transparent')
-	EncounterJournalEncounterFrameInfoLootTab.backdrop:Point('TOPLEFT', 11, -8)
-	EncounterJournalEncounterFrameInfoLootTab.backdrop:Point('BOTTOMRIGHT', -6, 8)
+	EncounterJournalEncounterFrameInfoLootTab:CreateBackdrop("Transparent")
+	EncounterJournalEncounterFrameInfoLootTab.backdrop:Point("TOPLEFT", 11, -8)
+	EncounterJournalEncounterFrameInfoLootTab.backdrop:Point("BOTTOMRIGHT", -6, 8)
 	EncounterJournalEncounterFrameInfoLootTab:Point("TOP", EncounterJournalEncounterFrameInfoBossTab, "BOTTOM", 0, 10)
 
 	EncounterJournalEncounterFrameInfoLootTab.icon = EncounterJournalEncounterFrameInfoLootTab:CreateTexture(nil, "OVERLAY");

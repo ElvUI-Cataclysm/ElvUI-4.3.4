@@ -1,7 +1,8 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule("Skins")
 
-local unpack = unpack
+local _G = _G;
+local unpack = unpack;
 local find = string.find;
 
 local function LoadSkin()

@@ -1,10 +1,9 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule("Skins");
 
-local find = string.find;
-
 local _G = _G;
-local unpack, pairs = unpack, pairs
+local ipairs, unpack = ipairs, unpack;
+local find = string.find;
 
 local UnitIsUnit = UnitIsUnit;
 local IsAddOnLoaded = IsAddOnLoaded;

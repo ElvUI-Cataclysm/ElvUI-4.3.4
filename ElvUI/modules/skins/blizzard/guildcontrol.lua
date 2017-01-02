@@ -1,5 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule('Skins')
+local S = E:GetModule("Skins")
 
 local _G = _G
 local unpack = unpack
@@ -71,8 +71,8 @@ local function LoadSkin()
 			frame.bg1:SetTexture(E["media"].normTex)
 			E:RegisterStatusBar(frame.bg1)
 			frame.bg1:SetVertexColor(unpack(E["media"].backdropcolor))
-			frame.bg1:Point("TOPLEFT", frame.backdrop, 'TOPLEFT', E.mult*4, -E.mult*4)
-			frame.bg1:Point("BOTTOMRIGHT", frame.backdrop, 'BOTTOMRIGHT', -E.mult*4, E.mult*4)
+			frame.bg1:Point("TOPLEFT", frame.backdrop, "TOPLEFT", E.mult*4, -E.mult*4)
+			frame.bg1:Point("BOTTOMRIGHT", frame.backdrop, "BOTTOMRIGHT", -E.mult*4, E.mult*4)
 
 			frame.bg2 = frame:CreateTexture(nil, "BACKGROUND")
 			frame.bg2:SetDrawLayer("BACKGROUND", 3)
@@ -96,7 +96,7 @@ local function LoadSkin()
 			frame.bg1:SetDrawLayer("BACKGROUND", 4)
 			frame.bg1:SetTexture(E["media"].normTex)
 			E:RegisterStatusBar(frame.bg1)
-			frame.bg1:SetVertexColor(unpack(E['media'].backdropcolor))
+			frame.bg1:SetVertexColor(unpack(E["media"].backdropcolor))
 			frame.bg1:SetInside(frame.backdrop, E.mult)
 
 			frame.bg3 = frame:CreateTexture(nil, "BACKGROUND")

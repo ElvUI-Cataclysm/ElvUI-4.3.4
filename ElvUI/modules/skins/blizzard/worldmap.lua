@@ -15,8 +15,8 @@ local function LoadSkin()
 	WorldMapDetailFrame.backdrop:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() - 2)
 
 	S:HandleCloseButton(WorldMapFrameCloseButton)
-	S:HandleCloseButton(WorldMapFrameSizeDownButton, nil, '-')
-	S:HandleCloseButton(WorldMapFrameSizeUpButton, nil, '+')
+	S:HandleCloseButton(WorldMapFrameSizeDownButton, nil, "-")
+	S:HandleCloseButton(WorldMapFrameSizeUpButton, nil, "+")
 
 	S:HandleDropDownBox(WorldMapLevelDropDown)
 	S:HandleDropDownBox(WorldMapZoneMinimapDropDown)
@@ -155,7 +155,7 @@ local function LoadSkin()
 		end
 	end)
 
-	WorldMapZoneDropDownButton:HookScript('OnClick', function(self)
+	WorldMapZoneDropDownButton:HookScript("OnClick", function(self)
 		DropDownList1:ClearAllPoints()
 		DropDownList1:Point("TOPRIGHT", self, "BOTTOMRIGHT", -17, -4)
 	end)

@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule("Skins")
 
 local _G = _G;
-local unpack, pairs = unpack, pairs;
+local pairs, unpack, select = pairs, unpack, select;
 local find = string.find;
 
 local function LoadSkin()
@@ -366,7 +366,7 @@ local function LoadSkin()
 	end
 
 	for i = 1, 3 do 
-		S:HandleTab(_G['RaidParentFrameTab'..i]);
+		S:HandleTab(_G["RaidParentFrameTab"..i]);
 	end
 
 	LFRParentFrameSideTab1:Point("TOPLEFT", LFRParentFrame, "TOPRIGHT", -1, -35);
@@ -434,7 +434,7 @@ local function LoadSkin()
 	RaidFinderQueueFrameRoleButtonHealer.backdrop:Point("BOTTOMRIGHT", -3, 3);
 	RaidFinderQueueFrameRoleButtonHealer.icon = RaidFinderQueueFrameRoleButtonHealer:CreateTexture(nil, "OVERLAY");
 	RaidFinderQueueFrameRoleButtonHealer.icon:SetTexCoord(unpack(E.TexCoords));
-	RaidFinderQueueFrameRoleButtonHealer.icon:SetTexture('Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH');
+	RaidFinderQueueFrameRoleButtonHealer.icon:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH");
 	RaidFinderQueueFrameRoleButtonHealer.icon:SetInside(RaidFinderQueueFrameRoleButtonHealer.backdrop);
 
 	RaidFinderQueueFrameRoleButtonDPS:StripTextures();

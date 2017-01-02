@@ -1,8 +1,8 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule('Skins')
+local S = E:GetModule("Skins")
 
-local _G = _G
-local unpack = unpack
+local _G = _G;
+local pairs, unpack, select = pairs, unpack, select;
 
 local ATTACHMENTS_MAX_SEND = ATTACHMENTS_MAX_SEND
 

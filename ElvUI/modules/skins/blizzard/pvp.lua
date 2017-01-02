@@ -2,6 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule("Skins");
 
 local _G = _G;
+local pairs, unpack = pairs, unpack;
 local find = string.find;
 
 local function LoadSkin()
@@ -58,28 +59,14 @@ local function LoadSkin()
 		_G[texture]:Kill()
 	end
 
-	local StripAllTextures = {
-		"PVPFrame",
-		"PVPFrameInset",
-		"PVPHonorFrame",
-		"PVPConquestFrame",
-		"PVPTeamManagementFrame",
-		"PVPHonorFrameTypeScrollFrame",
-		"PVPFrameTopInset",
-		"PVPTeamManagementFrameInvalidTeamFrame",
-		"PVPBannerFrame",
-		"PVPBannerFrameCustomization1",
-		"PVPBannerFrameCustomization2",
-		"PVPBannerFrameCustomizationFrame",
-		"PVPFrameLowLevelFrame",
-		"PVPTeamManagementFrameNoTeamsFrame",
-		"PVPTeamManagementFrameTeamScrollFrame",
-		"WarGamesFrame"
-	}
-
-	for _, object in pairs(StripAllTextures) do
-		_G[object]:StripTextures()
-	end
+	PVPFrameInset:StripTextures()
+	PVPHonorFrame:StripTextures()
+	PVPFrameTopInset:StripTextures()
+	PVPConquestFrame:StripTextures()
+	PVPTeamManagementFrame:StripTextures()
+	PVPHonorFrameTypeScrollFrame:StripTextures()
+	PVPBannerFrameCustomizationFrame:StripTextures()
+	PVPTeamManagementFrameTeamScrollFrame:StripTextures()
 
 	for i = 1, 5 do
 		_G["PVPHonorFrameBgButton"..i]:StyleButton()
@@ -104,25 +91,27 @@ local function LoadSkin()
 	end
 
 	PVPFrameTab1:ClearAllPoints()
-	PVPFrameTab1:SetPoint("BOTTOMLEFT", PVPFrame, "BOTTOMLEFT", 0, -30)
+	PVPFrameTab1:Point("BOTTOMLEFT", PVPFrame, 0, -30)
 
 	PVPBannerFrameEditBox:CreateBackdrop("Default")
-	PVPBannerFrameEditBox.backdrop:Point("TOPLEFT", PVPBannerFrameEditBox, "TOPLEFT", -5, -5)
-	PVPBannerFrameEditBox.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameEditBox, "BOTTOMRIGHT", 5, 5)
+	PVPBannerFrameEditBox.backdrop:Point("TOPLEFT", -5, -5)
+	PVPBannerFrameEditBox.backdrop:Point("BOTTOMRIGHT", 5, 5)
 
-	PVPHonorFrameInfoScrollFrameChildFrameDescription:SetTextColor(1,1,1)
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfo.description:SetTextColor(1,1,1)
+	PVPHonorFrameInfoScrollFrameChildFrameDescription:SetTextColor(1, 1, 1)
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfo.description:SetTextColor(1, 1, 1)
 
+	PVPTeamManagementFrameInvalidTeamFrame:StripTextures()
 	PVPTeamManagementFrameInvalidTeamFrame:CreateBackdrop("Default")
-	PVPTeamManagementFrameInvalidTeamFrame:SetFrameLevel(PVPTeamManagementFrameInvalidTeamFrame:GetFrameLevel()+1)
+	PVPTeamManagementFrameInvalidTeamFrame:SetFrameLevel(PVPTeamManagementFrameInvalidTeamFrame:GetFrameLevel() + 1)
 	PVPTeamManagementFrameInvalidTeamFrame.backdrop:SetFrameLevel(PVPTeamManagementFrameInvalidTeamFrame:GetFrameLevel())
 
 	PVPHonorFrameTypeScrollFrame:CreateBackdrop("Transparent")
 
+	PVPTeamManagementFrameNoTeamsFrame:StripTextures()
 	PVPTeamManagementFrameNoTeamsFrame:CreateBackdrop("Default")
+	PVPTeamManagementFrameNoTeamsFrame.backdrop:Point("TOPLEFT", 0, -15)
+	PVPTeamManagementFrameNoTeamsFrame.backdrop:Point("BOTTOMRIGHT", 1, -2)
 	PVPTeamManagementFrameNoTeamsFrame.backdrop:SetFrameLevel(PVPTeamManagementFrameNoTeamsFrame.backdrop:GetFrameLevel() + 1)
-	PVPTeamManagementFrameNoTeamsFrame.backdrop:Point("TOPLEFT", PVPTeamManagementFrameNoTeamsFrame, "TOPLEFT", 0, -15)
-	PVPTeamManagementFrameNoTeamsFrame.backdrop:Point("BOTTOMRIGHT", PVPTeamManagementFrameNoTeamsFrame, "BOTTOMRIGHT", 1, -2)
 
 	S:HandleScrollBar(PVPTeamManagementFrameTeamScrollFrameScrollBar)
 	S:HandleScrollBar(PVPHonorFrameTypeScrollFrameScrollBar)
@@ -139,24 +128,29 @@ local function LoadSkin()
 	PVPFrameConquestBarCap1:SetTexture(E["media"].normTex)
 	PVPFrameConquestBarCap2:SetTexture(E["media"].normTex)
 
+	PVPFrame:StripTextures()
 	PVPFrame:SetTemplate("Transparent")
 
+	PVPBannerFrame:StripTextures()
 	PVPBannerFrame:SetTemplate("Transparent")
 
+	PVPFrameLowLevelFrame:StripTextures()
 	PVPFrameLowLevelFrame:CreateBackdrop("Default")
-	PVPFrameLowLevelFrame.backdrop:Point("TOPLEFT", PVPFrameLowLevelFrame, "TOPLEFT", -2, -40)
-	PVPFrameLowLevelFrame.backdrop:Point("BOTTOMRIGHT", PVPFrameLowLevelFrame, "BOTTOMRIGHT", 5, 80)
+	PVPFrameLowLevelFrame.backdrop:Point("TOPLEFT", -2, -40)
+	PVPFrameLowLevelFrame.backdrop:Point("BOTTOMRIGHT", 5, 80)
 
+	PVPBannerFrameCustomization1:StripTextures()
 	PVPBannerFrameCustomization1:CreateBackdrop("Default")
-	PVPBannerFrameCustomization1.backdrop:Point("TOPLEFT", PVPBannerFrameCustomization1LeftButton, "TOPRIGHT" ,2,0)
-	PVPBannerFrameCustomization1.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameCustomization1RightButton, "BOTTOMLEFT",-2,0)
+	PVPBannerFrameCustomization1.backdrop:Point("TOPLEFT", PVPBannerFrameCustomization1LeftButton, "TOPRIGHT", 2, 0)
+	PVPBannerFrameCustomization1.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameCustomization1RightButton, "BOTTOMLEFT", -2, 0)
 
+	PVPBannerFrameCustomization2:StripTextures()
 	PVPBannerFrameCustomization2:CreateBackdrop("Default")
-	PVPBannerFrameCustomization2.backdrop:Point("TOPLEFT", PVPBannerFrameCustomization2LeftButton, "TOPRIGHT",2,0)
-	PVPBannerFrameCustomization2.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameCustomization2RightButton, "BOTTOMLEFT",-2,0)
+	PVPBannerFrameCustomization2.backdrop:Point("TOPLEFT", PVPBannerFrameCustomization2LeftButton, "TOPRIGHT", 2, 0)
+	PVPBannerFrameCustomization2.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameCustomization2RightButton, "BOTTOMLEFT", -2, 0)
 
-	S:HandleCloseButton(PVPBannerFrameCloseButton,PVPBannerFrame)
-	S:HandleCloseButton(PVPFrameCloseButton,PVPFrame)
+	S:HandleCloseButton(PVPBannerFrameCloseButton, PVPBannerFrame)
+	S:HandleCloseButton(PVPFrameCloseButton, PVPFrame)
 
 	S:HandleNextPrevButton(PVPBannerFrameCustomization1LeftButton)
 	PVPBannerFrameCustomization1LeftButton:Height(PVPBannerFrameCustomization1:GetHeight())
@@ -173,21 +167,25 @@ local function LoadSkin()
 	S:HandleNextPrevButton(PVPTeamManagementFrameWeeklyToggleLeft)
 	S:HandleNextPrevButton(PVPTeamManagementFrameWeeklyToggleRight)
 
-	PVPColorPickerButton1:Height(PVPColorPickerButton1:GetHeight()-5)
+	PVPColorPickerButton1:Height(PVPColorPickerButton1:GetHeight() - 5)
 	PVPColorPickerButton2:Height(PVPColorPickerButton1:GetHeight())
 	PVPColorPickerButton3:Height(PVPColorPickerButton1:GetHeight())
 
 	S:HandleButton(WarGameStartButton, true)
 	S:HandleScrollBar(WarGamesFrameScrollFrameScrollBar, 5)
 
+	WarGamesFrame:StripTextures()
+
 	WarGameStartButton:ClearAllPoints()
 	WarGameStartButton:Point("LEFT", PVPFrameLeftButton, "RIGHT", 2, 0)
+
 	WarGamesFrameDescription:SetTextColor(1, 1, 1)
 
 	for i = 1, 7 do
 		local warGames = _G["WarGamesFrameScrollFrameButton"..i.."WarGame"]
 		local warGamesHeader = _G["WarGamesFrameScrollFrameButton" .. i .. "Header"];
 		local warGamesIcon = _G["WarGamesFrameScrollFrameButton"..i.."WarGameIcon"];
+
 		_G["WarGamesFrameScrollFrameButton"..i.."WarGameBorder"]:Kill();
 		warGames:StyleButton();
 		warGames.selectedTex:SetTexture(1, 1, 1, 0.3);
@@ -223,16 +221,18 @@ local function LoadSkin()
 
 	if(PVPFrameCurrencyIcon) then
 		PVPFrameCurrency:CreateBackdrop()
-		PVPFrameCurrency.backdrop:Point("TOPLEFT", PVPFrameCurrency, "TOPLEFT", 8, -8)
-		PVPFrameCurrency.backdrop:Point("BOTTOMRIGHT", PVPFrameCurrency, "BOTTOMRIGHT", -8, 8)
+		PVPFrameCurrency.backdrop:Point("TOPLEFT", 8, -8)
+		PVPFrameCurrency.backdrop:Point("BOTTOMRIGHT", -8, 8)
+
 		PVPFrameCurrencyIcon:SetAlpha(0)
+
 		PVPFrameCurrency.texture = PVPFrameCurrency:CreateTexture(nil, "OVERLAY");
-		PVPFrameCurrency.texture:SetTexCoord(unpack(E.TexCoords))
 		if(UnitFactionGroup("player") == "Horde") then
 			PVPFrameCurrency.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Horde")
 		elseif(UnitFactionGroup("player") == "Alliance") then
 			PVPFrameCurrency.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Alliance")
 		end
+		PVPFrameCurrency.texture:SetTexCoord(unpack(E.TexCoords))
 		PVPFrameCurrency.texture:SetInside(PVPFrameCurrency.backdrop)
 	end
 

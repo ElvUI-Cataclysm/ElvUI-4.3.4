@@ -78,11 +78,11 @@ local function LoadSkin()
 			if(slot.verticalFlyout) then
 				popout:Size(27, 11);
 				S:SquareButton_SetIcon(popout, "DOWN");
-				popout:SetPoint("TOP", slot, "BOTTOM", 0, 5);
+				popout:Point("TOP", slot, "BOTTOM", 0, 5);
 			else
 				popout:Size(11, 27);
 				S:SquareButton_SetIcon(popout, "RIGHT");
-				popout:SetPoint("LEFT", slot, "RIGHT", -5, 0);
+				popout:Point("LEFT", slot, "RIGHT", -5, 0);
 			end
 		end
 	end
@@ -241,8 +241,8 @@ local function LoadSkin()
 
 			object.icon:SetTexCoord(unpack(E.TexCoords))
 			object.icon:SetParent(object.backdrop)
-			object.icon:SetPoint("LEFT", object, "LEFT", 1, 0)
-			object.icon.SetPoint = E.noop
+			object.icon:Point("LEFT", object, "LEFT", 1, 0)
+			object.icon.Point = E.noop
 			object.icon:Size(42)
 			object.icon.SetSize = E.noop
 		end
