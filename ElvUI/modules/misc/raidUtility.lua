@@ -1,18 +1,21 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local RU = E:NewModule("RaidUtility", "AceEvent-3.0");
 
-local _G = _G
-local unpack, pairs = unpack, pairs
-local find = string.find;
+local _G = _G;
+local unpack, pairs = unpack, pairs;
+local find, format = string.find, string.format;
 
 local CreateFrame = CreateFrame;
 local IsInInstance = IsInInstance;
 local UnitInRaid = UnitInRaid;
+local UnitInParty = UnitInParty;
 local InCombatLockdown = InCombatLockdown;
 local IsRaidLeader = IsRaidLeader;
 local IsRaidOfficer = IsRaidOfficer;
 local InitiateRolePoll = InitiateRolePoll;
-local DoReadyCheck = DoReadyCheck
+local DoReadyCheck = DoReadyCheck;
+local ConvertToRaid = ConvertToRaid;
+local ConvertToParty = ConvertToParty;
 local ToggleFriendsFrame = ToggleFriendsFrame;
 
 E.RaidUtility = RU
@@ -48,17 +51,17 @@ function RU:CreateUtilButton(name, parent, template, width, height, point, relat
 	b:SetTemplate("Default")
 
 	if(text) then
-		local t = b:CreateFontString(nil,"OVERLAY",b)
+		local t = b:CreateFontString(nil, "OVERLAY", b)
 		t:FontTemplate()
-		t:SetPoint("CENTER")
+		t:Point("CENTER")
 		t:SetJustifyH("CENTER")
 		t:SetText(text)
 		b:SetFontString(t)
 	elseif(texture) then
 		local t = b:CreateTexture(nil,"OVERLAY",nil)
 		t:SetTexture(texture)
-		t:SetPoint("TOPLEFT", b, "TOPLEFT", E.mult, -E.mult)
-		t:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT", -E.mult, E.mult)
+		t:Point("TOPLEFT", b, "TOPLEFT", E.mult, -E.mult)
+		t:Point("BOTTOMRIGHT", b, "BOTTOMRIGHT", -E.mult, E.mult)
 	end
 end
 
@@ -123,7 +126,7 @@ function RU:Initialize()
 		closeButton:ClearAllPoints()
 		raidUtil:SetPoint(raidUtilPoint, self, raidUtilPoint)
 		closeButton:SetPoint(raidUtilPoint, raidUtil, closeButtonPoint, 0, yOffset)
-	]=]):format(-E.Border + E.Spacing*3))
+	]=]):format(-E.Border + E.Spacing * 3))
 	RaidUtility_ShowButton:SetScript("OnMouseUp", function() RaidUtilityPanel.toggled = true end)
 	RaidUtility_ShowButton:SetMovable(true)
 	RaidUtility_ShowButton:SetClampedToScreen(true)
