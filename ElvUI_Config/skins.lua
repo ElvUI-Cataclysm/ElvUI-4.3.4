@@ -202,6 +202,11 @@ E.Options.args.skins = {
 					name = L["Misc Frames"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
+				mirrorTimers = {
+					type = "toggle",
+					name = L["Mirror Timers"],
+					desc = L["TOGGLESKIN_DESC"]
+				},
 				movepad = {
 					type = "toggle",
 					name = L["Move Pad"],
@@ -297,19 +302,19 @@ E.Options.args.skins = {
 					name = L["Tutorial Frame"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
-				worldmap = {
-					type = "toggle",
-					name = L["World Map"],
-					desc = L["TOGGLESKIN_DESC"]
-				},
 				voidstorage = {
 					type = "toggle",
 					name = L["Void Storage"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
-				mirrorTimers = {
+				watchframe = {
 					type = "toggle",
-					name = L["Mirror Timers"],
+					name = L["Objective Frame"],
+					desc = L["TOGGLESKIN_DESC"]
+				},
+				worldmap = {
+					type = "toggle",
+					name = L["World Map"],
 					desc = L["TOGGLESKIN_DESC"]
 				}
 			}

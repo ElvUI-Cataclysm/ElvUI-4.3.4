@@ -105,6 +105,7 @@ V["skins"] = {
 		['transmogrify'] = true,
 		['tutorial'] = true,
 		['voidstorage'] = true,
+		['watchframe'] = true,
 		['worldmap'] = true,
 		["mirrorTimers"] = true
 	},
