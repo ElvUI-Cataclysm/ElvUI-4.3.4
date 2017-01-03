@@ -346,17 +346,35 @@ local function LoadSkin()
 	S:HandleButton(CompactRaidFrameManagerDisplayFrameFilterOptionsFilterRoleTank);
 	S:HandleButton(CompactRaidFrameManagerToggleButton)
 
-	for i = 1, 8 do
-		S:HandleButton(_G["CompactRaidFrameManagerDisplayFrameFilterOptionsFilterGroup"..i]);
-	end
-
-	CompactRaidFrameManagerToggleButton:SetHeight(40);
-	CompactRaidFrameManagerToggleButton:SetWidth(15);
-	CompactRaidFrameManagerToggleButton:Point("RIGHT", CompactRaidFrameManager, "RIGHT", -3, -15);
-
 	S:HandleCheckBox(CompactRaidFrameManagerDisplayFrameEveryoneIsAssistButton);
 
 	S:HandleDropDownBox(CompactRaidFrameManagerDisplayFrameProfileSelector);
+
+	CompactRaidFrameManagerDisplayFrameFilterOptionsFilterRoleTankSelectedHighlight:SetTexture(1, 1, 0, 0.3);
+	CompactRaidFrameManagerDisplayFrameFilterOptionsFilterRoleHealerSelectedHighlight:SetTexture(1, 1, 0, 0.3);
+	CompactRaidFrameManagerDisplayFrameFilterOptionsFilterRoleDamagerSelectedHighlight:SetTexture(1, 1, 0, 0.3);
+
+	for i = 1, 8 do
+		S:HandleButton(_G["CompactRaidFrameManagerDisplayFrameFilterOptionsFilterGroup"..i]);
+		_G["CompactRaidFrameManagerDisplayFrameFilterOptionsFilterGroup"..i.."SelectedHighlight"]:SetTexture(1, 1, 0, 0.3);
+	end
+
+	CompactRaidFrameManagerToggleButton:Size(15, 40);
+	CompactRaidFrameManagerToggleButton:Point("RIGHT", -3, -15);
+
+	CompactRaidFrameManagerToggleButton.icon = CompactRaidFrameManagerToggleButton:CreateTexture(nil, "ARTWORK");
+	CompactRaidFrameManagerToggleButton.icon:Size(14);
+	CompactRaidFrameManagerToggleButton.icon:Point("CENTER");
+	CompactRaidFrameManagerToggleButton.icon:SetTexture([[Interface\AddOns\ElvUI\media\textures\SquareButtonTextures.blp]]);
+	S:SquareButton_SetIcon(CompactRaidFrameManagerToggleButton, "RIGHT");
+
+	hooksecurefunc("CompactRaidFrameManager_Expand", function()
+		S:SquareButton_SetIcon(CompactRaidFrameManagerToggleButton, "LEFT");
+	end)
+
+	hooksecurefunc("CompactRaidFrameManager_Collapse", function()
+		S:SquareButton_SetIcon(CompactRaidFrameManagerToggleButton, "RIGHT");
+	end)
 
 	-- NavBar Buttons (Used EncounterJournal and HelpFrame)
 	local function SkinNavBarButtons(self)
