@@ -78,23 +78,34 @@ local function LoadSkin()
 
 	-- Return to Graveyard Button
 	do
-		GhostFrame:StripTextures();
-		GhostFrame:CreateBackdrop();
-		GhostFrame:ClearAllPoints();
-		GhostFrame:Point("TOP", E.UIParent, "TOP", 0, -175);
+		S:HandleButton(GhostFrame)
+		GhostFrame:SetBackdropColor(0, 0, 0, 0)
+		GhostFrame:SetBackdropBorderColor(0, 0, 0, 0)
+		GhostFrame:ClearAllPoints()
+		GhostFrame:Point("TOP", E.UIParent, "TOP", 0, -270)
 
-		S:HandleButton(GhostFrameContentsFrame);
-		GhostFrameContentsFrameIcon:SetTexture(nil);
+		local function forceBackdropColor(self, r, g, b, a)
+			if(r ~= 0 or g ~= 0 or b ~= 0 or a ~= 0) then
+				self:SetBackdropColor(0, 0, 0, 0)
+				self:SetBackdropBorderColor(0, 0, 0, 0)
+			end
+		end
 
-		local x = CreateFrame("Frame", nil, GhostFrame);
-		x:SetFrameStrata("MEDIUM");
-		x:SetTemplate("Default");
-		x:SetOutside(GhostFrameContentsFrameIcon);
+		hooksecurefunc(GhostFrame, "SetBackdropColor", forceBackdropColor)
+		hooksecurefunc(GhostFrame, "SetBackdropBorderColor", forceBackdropColor)
 
-		local tex = x:CreateTexture(nil, "OVERLAY");
-		tex:SetTexture("Interface\\Icons\\spell_holy_guardianspirit");
-		tex:SetTexCoord(0.1, 0.9, 0.1, 0.9);
-		tex:SetInside();
+		S:HandleButton(GhostFrameContentsFrame)
+		GhostFrameContentsFrameIcon:SetTexture(nil)
+
+		local x = CreateFrame("Frame", nil, GhostFrame)
+		x:SetFrameStrata("MEDIUM")
+		x:SetTemplate("Default")
+		x:SetOutside(GhostFrameContentsFrameIcon)
+
+		local tex = x:CreateTexture(nil, "OVERLAY")
+		tex:SetTexture("Interface\\Icons\\spell_holy_guardianspirit")
+		tex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
+		tex:SetInside()
 	end
 
 	-- Other Frames
@@ -109,29 +120,26 @@ local function LoadSkin()
 
 	BNToastFrameCloseButton:Size(32);
 	BNToastFrameCloseButton:Point("TOPRIGHT", "BNToastFrame", 4, 4);
+
 	S:HandleCloseButton(BNToastFrameCloseButton);
 
 	-- ReadyCheck Buttons
 	ReadyCheckFrame:SetTemplate("Transparent");
-
-	ReadyCheckFrame:SetWidth(290);
-	ReadyCheckFrame:SetHeight(80);
+	ReadyCheckFrame:Size(290, 85);
 
 	S:HandleButton(ReadyCheckFrameYesButton);
-	S:HandleButton(ReadyCheckFrameNoButton);
-
+	ReadyCheckFrameYesButton:ClearAllPoints();
+	ReadyCheckFrameYesButton:Point("LEFT", ReadyCheckFrame, 15, -20);
 	ReadyCheckFrameYesButton:SetParent(ReadyCheckFrame);
+
+	S:HandleButton(ReadyCheckFrameNoButton);
+	ReadyCheckFrameNoButton:ClearAllPoints();
+	ReadyCheckFrameNoButton:Point("RIGHT", ReadyCheckFrame, -15, -20);
 	ReadyCheckFrameNoButton:SetParent(ReadyCheckFrame);
 
-	ReadyCheckFrameYesButton:ClearAllPoints();
-	ReadyCheckFrameNoButton:ClearAllPoints();
-
-	ReadyCheckFrameYesButton:Point("LEFT", ReadyCheckFrame, 15, -15);
-	ReadyCheckFrameNoButton:Point("RIGHT", ReadyCheckFrame, -15, -15);
-
-	ReadyCheckFrameText:SetParent(ReadyCheckFrame);
 	ReadyCheckFrameText:ClearAllPoints();
-	ReadyCheckFrameText:Point("TOP");
+	ReadyCheckFrameText:Point("TOP", 0, -5);
+	ReadyCheckFrameText:SetParent(ReadyCheckFrame);
 	ReadyCheckFrameText:SetTextColor(1, 1, 1);
 
 	ReadyCheckListenerFrame:SetAlpha(0);
@@ -166,17 +174,17 @@ local function LoadSkin()
 	RolePollPopup:SetTemplate("Transparent");
 
 	S:HandleCloseButton(RolePollPopupCloseButton);
-	S:HandleButton(RolePollPopupAcceptButton);
 
-	RolePollPopupRoleButtonTank:Point("TOPLEFT", RolePollPopup, "TOPLEFT", 32, -35);
+	S:HandleButton(RolePollPopupAcceptButton);
 
 	RolePollPopupRoleButtonTank:StripTextures();
 	RolePollPopupRoleButtonTank:CreateBackdrop();
 	RolePollPopupRoleButtonTank.backdrop:Point("TOPLEFT", 7, -7);
 	RolePollPopupRoleButtonTank.backdrop:Point("BOTTOMRIGHT", -7, 7);
+	RolePollPopupRoleButtonTank:Point("TOPLEFT", 32, -35);
 	RolePollPopupRoleButtonTank.icon = RolePollPopupRoleButtonTank:CreateTexture(nil, "OVERLAY");
-	RolePollPopupRoleButtonTank.icon:SetTexCoord(unpack(E.TexCoords));
 	RolePollPopupRoleButtonTank.icon:SetTexture("Interface\\Icons\\Ability_Defend");
+	RolePollPopupRoleButtonTank.icon:SetTexCoord(unpack(E.TexCoords));
 	RolePollPopupRoleButtonTank.icon:SetInside(RolePollPopupRoleButtonTank.backdrop);
 
 	RolePollPopupRoleButtonHealer:StripTextures();
@@ -184,8 +192,8 @@ local function LoadSkin()
 	RolePollPopupRoleButtonHealer.backdrop:Point("TOPLEFT", 7, -7);
 	RolePollPopupRoleButtonHealer.backdrop:Point("BOTTOMRIGHT", -7, 7);
 	RolePollPopupRoleButtonHealer.icon = RolePollPopupRoleButtonHealer:CreateTexture(nil, "OVERLAY");
-	RolePollPopupRoleButtonHealer.icon:SetTexCoord(unpack(E.TexCoords));
 	RolePollPopupRoleButtonHealer.icon:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH");
+	RolePollPopupRoleButtonHealer.icon:SetTexCoord(unpack(E.TexCoords));
 	RolePollPopupRoleButtonHealer.icon:SetInside(RolePollPopupRoleButtonHealer.backdrop);
 
 	RolePollPopupRoleButtonDPS:StripTextures();
@@ -193,8 +201,8 @@ local function LoadSkin()
 	RolePollPopupRoleButtonDPS.backdrop:Point("TOPLEFT", 7, -7);
 	RolePollPopupRoleButtonDPS.backdrop:Point("BOTTOMRIGHT", -7, 7);
 	RolePollPopupRoleButtonDPS.icon = RolePollPopupRoleButtonDPS:CreateTexture(nil, "OVERLAY");
-	RolePollPopupRoleButtonDPS.icon:SetTexCoord(unpack(E.TexCoords));
 	RolePollPopupRoleButtonDPS.icon:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01");
+	RolePollPopupRoleButtonDPS.icon:SetTexCoord(unpack(E.TexCoords));
 	RolePollPopupRoleButtonDPS.icon:SetInside(RolePollPopupRoleButtonDPS.backdrop);
 
 	hooksecurefunc("RolePollPopup_Show", function(self)
