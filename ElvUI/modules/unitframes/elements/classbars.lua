@@ -1,6 +1,10 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule("UnitFrames");
 
+local _, ns = ...;
+local ElvUF = ns.oUF;
+assert(ElvUF, "ElvUI was unable to locate oUF.");
+
 local select, unpack = select, unpack;
 local floor, max = math.floor, math.max;
 
@@ -12,12 +16,9 @@ local GetEclipseDirection = GetEclipseDirection;
 local SPELL_POWER_HOLY_POWER = SPELL_POWER_HOLY_POWER;
 local SPELL_POWER_SOUL_SHARDS = SPELL_POWER_SOUL_SHARDS;
 
-local _, ns = ...;
-local ElvUF = ns.oUF;
-assert(ElvUF, "ElvUI was unable to locate oUF.");
-
 local SPELL_POWER = {
-	PALADIN = SPELL_POWER_HOLY_POWER
+	PALADIN = SPELL_POWER_HOLY_POWER,
+	WARLOCK = SPELL_POWER_SOUL_SHARDS
 }
 
 function UF:Configure_ClassBar(frame)
@@ -168,7 +169,7 @@ function UF:Configure_ClassBar(frame)
 
 				if(E.myclass ~= "DEATHKNIGHT") then
 					bars[i]:SetStatusBarColor(unpack(ElvUF.colors[frame.ClassBar]));
-					
+
 					if(bars[i].bg) then
 						bars[i].bg:SetTexture(unpack(ElvUF.colors[frame.ClassBar]));
 					end
@@ -223,7 +224,7 @@ local function ToggleResourceBar(bars)
 	local db = frame.db;
 	if(not db) then return; end
 	frame.CLASSBAR_SHOWN = bars:IsShown();
-	
+
 	local height;
 	if(db.classbar) then
 		height = db.classbar.height;
@@ -309,19 +310,25 @@ function UF:Update_HolyPower(event, unit, powerType)
 	end
 end
 
-function UF:Construct_WarlockResourceBar(frame)
+function UF:Construct_WarlockResourceBar(frame, useBG, overrideFunc)
 	local bars = CreateFrame("Frame", nil, frame)
-	bars:CreateBackdrop('Default', nil, nil, self.thinBorders)
+	bars:CreateBackdrop("Default", nil, nil, self.thinBorders)
 
-	for i = 1, 3 do					
-		bars[i] = CreateFrame("StatusBar", nil, bars)
-		bars[i]:SetStatusBarTexture(E['media'].blankTex) --Dummy really, this needs to be set so we can change the color
+	for i = 1, UF["classMaxResourceBar"][E.myclass] do
+		bars[i] = CreateFrame("StatusBar", frame:GetName().."ClassBarButton"..i, bars)
+		bars[i]:SetStatusBarTexture(E["media"].blankTex)
 		bars[i]:GetStatusBarTexture():SetHorizTile(false)
-		UF['statusbars'][bars[i]] = true
+		UF["statusbars"][bars[i]] = true
 
-		bars[i]:CreateBackdrop('Default')
+		bars[i]:CreateBackdrop("Default", nil, nil, self.thinBorders)
 		bars[i].backdrop:SetParent(bars)
-		bars[i]:SetStatusBarColor(148/255, 130/255, 201/255)
+
+		if useBG then
+			bars[i].bg = bars[i]:CreateTexture(nil, "BORDER")
+			bars[i].bg:SetAllPoints()
+			bars[i].bg:SetTexture(E["media"].blankTex)
+			bars[i].bg.multiplier = 0.3
+		end
 	end
 
 	bars.Override = UF.UpdateShards
@@ -333,14 +340,32 @@ function UF:Construct_WarlockResourceBar(frame)
 end
 
 function UF:UpdateShards(event, unit, powerType)
-	if(self.unit ~= unit or (powerType and powerType ~= 'SOUL_SHARDS')) then return end
-	local num = UnitPower(unit, SPELL_POWER_SOUL_SHARDS)
-	for i = 1, SHARD_BAR_NUM_SHARDS do
-		if(i <= num) then
-			self.SoulShards[i]:SetAlpha(1)
-		else
-			self.SoulShards[i]:SetAlpha(.2)
+	if not (powerType == nil or powerType == "SOUL_SHARDS") then return end
+
+	local db = self.db
+	if not db then return; end
+
+	local numPower = UnitPower("player", SPELL_POWER[E.myclass]);
+	local maxPower = UnitPowerMax("player", SPELL_POWER[E.myclass]);
+
+	local bars = self[self.ClassBar]
+	local isShown = bars:IsShown()
+	if numPower == 0 and db.classbar.autoHide then
+		bars:Hide()
+	else
+		bars:Show()
+		for i = 1, maxPower do
+			if(i <= numPower) then
+				bars[i]:SetAlpha(1)
+			else
+				bars[i]:SetAlpha(.2)
+			end
 		end
+	end
+
+	if maxPower ~= self.MAX_CLASS_BAR then
+		self.MAX_CLASS_BAR = maxPower
+		UF:Configure_ClassBar(self)
 	end
 end
 
@@ -426,10 +451,10 @@ function UF:EclipseDirection()
 	local direction = GetEclipseDirection()
 	if direction == "sun" then
 		self.Text:SetText(">")
-		self.Text:SetTextColor(.2,.2,1,1)
+		self.Text:SetTextColor(.2, .2, 1, 1)
 	elseif direction == "moon" then
 		self.Text:SetText("<")
-		self.Text:SetTextColor(1,1,.3, 1)
+		self.Text:SetTextColor(1, 1, .3, 1)
 	else
 		self.Text:SetText("")
 	end
@@ -454,12 +479,11 @@ function UF:DruidPostUpdateAltPower(_, min, max)
 		else
 			self.Text:SetPoint(powerText:GetPoint())
 			self.Text:SetFormattedText(color.."%d%%|r", floor(min / max * 100))
-		end	
+		end
 	else
 		self.Text:SetText()
 	end
 end
-
 
 local druidEclipseIsShown = false
 local druidManaIsShown = false
