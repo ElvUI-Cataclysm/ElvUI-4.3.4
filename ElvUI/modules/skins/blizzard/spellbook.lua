@@ -299,6 +299,7 @@ local function LoadSkin()
 
 			button:SetFrameLevel(button:GetFrameLevel() + 2)
 			button:CreateBackdrop("Default", true)
+			button.backdrop:SetOutside(icon)
 		end
 
 		button.bg = CreateFrame("Frame", nil, button)
