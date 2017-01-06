@@ -253,25 +253,23 @@ local function ToggleResourceBar(bars)
 end
 UF.ToggleResourceBar = ToggleResourceBar;
 
-function UF:Construct_PaladinResourceBar(frame, useBG, overrideFunc)
+function UF:Construct_PaladinResourceBar(frame)
 	local bars = CreateFrame("Frame", nil, frame)
-	bars:CreateBackdrop('Default', nil, nil, self.thinBorders)
+	bars:CreateBackdrop("Default", nil, nil, self.thinBorders)
 
-	for i = 1, UF['classMaxResourceBar'][E.myclass] do
+	for i = 1, UF["classMaxResourceBar"][E.myclass] do
 		bars[i] = CreateFrame("StatusBar", frame:GetName().."ClassBarButton"..i, bars)
-		bars[i]:SetStatusBarTexture(E['media'].blankTex) --Dummy really, this needs to be set so we can change the color
+		bars[i]:SetStatusBarTexture(E["media"].blankTex)
 		bars[i]:GetStatusBarTexture():SetHorizTile(false)
-		UF['statusbars'][bars[i]] = true
+		UF["statusbars"][bars[i]] = true
 
-		bars[i]:CreateBackdrop('Default', nil, nil, self.thinBorders)
+		bars[i]:CreateBackdrop("Default", nil, nil, self.thinBorders)
 		bars[i].backdrop:SetParent(bars)
 
-		if useBG then
-			bars[i].bg = bars[i]:CreateTexture(nil, 'BORDER')
-			bars[i].bg:SetAllPoints()
-			bars[i].bg:SetTexture(E['media'].blankTex)
-			bars[i].bg.multiplier = 0.3
-		end
+		bars[i].bg = bars[i]:CreateTexture(nil, "BORDER")
+		bars[i].bg:SetAllPoints()
+		bars[i].bg:SetTexture(E["media"].blankTex)
+		bars[i].bg.multiplier = 0.3
 	end
 
 	bars.Override = UF.Update_HolyPower
@@ -310,7 +308,7 @@ function UF:Update_HolyPower(event, unit, powerType)
 	end
 end
 
-function UF:Construct_WarlockResourceBar(frame, useBG, overrideFunc)
+function UF:Construct_WarlockResourceBar(frame)
 	local bars = CreateFrame("Frame", nil, frame)
 	bars:CreateBackdrop("Default", nil, nil, self.thinBorders)
 
@@ -323,12 +321,10 @@ function UF:Construct_WarlockResourceBar(frame, useBG, overrideFunc)
 		bars[i]:CreateBackdrop("Default", nil, nil, self.thinBorders)
 		bars[i].backdrop:SetParent(bars)
 
-		if useBG then
-			bars[i].bg = bars[i]:CreateTexture(nil, "BORDER")
-			bars[i].bg:SetAllPoints()
-			bars[i].bg:SetTexture(E["media"].blankTex)
-			bars[i].bg.multiplier = 0.3
-		end
+		bars[i].bg = bars[i]:CreateTexture(nil, "BORDER")
+		bars[i].bg:SetAllPoints()
+		bars[i].bg:SetTexture(E["media"].blankTex)
+		bars[i].bg.multiplier = 0.3
 	end
 
 	bars.Override = UF.UpdateShards
