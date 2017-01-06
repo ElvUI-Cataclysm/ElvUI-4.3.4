@@ -9,6 +9,7 @@ local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.quest ~= true then return end
 
 	QuestInfoSkillPointFrame:StripTextures()
+	QuestInfoSkillPointFrame:SetTemplate("Default")
 	QuestInfoSkillPointFrame:StyleButton()
 	QuestInfoSkillPointFrame:Width(QuestInfoSkillPointFrame:GetWidth() - 7)
 	QuestInfoSkillPointFrame:SetFrameLevel(QuestInfoSkillPointFrame:GetFrameLevel() + 2)
@@ -16,13 +17,13 @@ local function LoadSkin()
 	QuestInfoSkillPointFrameIconTexture:SetDrawLayer("OVERLAY")
 	QuestInfoSkillPointFrameIconTexture:Point("TOPLEFT", 2, -2)
 	QuestInfoSkillPointFrameIconTexture:Size(QuestInfoSkillPointFrameIconTexture:GetWidth() - 2, QuestInfoSkillPointFrameIconTexture:GetHeight() - 2)
-	QuestInfoSkillPointFrame:SetTemplate("Default")
 	QuestInfoSkillPointFrame:CreateBackdrop()
 	QuestInfoSkillPointFrame.backdrop:SetOutside(QuestInfoSkillPointFrameIconTexture)
 	QuestInfoSkillPointFrameIconTexture:SetParent(QuestInfoSkillPointFrame.backdrop)
 	QuestInfoSkillPointFramePoints:Point("LEFT", 42, -1)
 
 	QuestInfoSpellObjectiveFrame:StripTextures()
+	QuestInfoSpellObjectiveFrame:SetTemplate("Default")
 	QuestInfoSpellObjectiveFrame:StyleButton()
 	QuestInfoSpellObjectiveFrame:Width(QuestInfoSpellObjectiveFrame:GetWidth() - 7)
 	QuestInfoSpellObjectiveFrame:Height(QuestInfoSpellObjectiveFrame:GetHeight() - 16)
@@ -31,12 +32,12 @@ local function LoadSkin()
 	QuestInfoSpellObjectiveFrameIconTexture:SetDrawLayer("OVERLAY")
 	QuestInfoSpellObjectiveFrameIconTexture:Point("TOPLEFT", 2, -2)
 	QuestInfoSpellObjectiveFrameIconTexture:Size(QuestInfoSpellObjectiveFrameIconTexture:GetWidth() - 2, QuestInfoSpellObjectiveFrameIconTexture:GetHeight() - 2)
-	QuestInfoSpellObjectiveFrame:SetTemplate("Default")
 	QuestInfoSpellObjectiveFrame:CreateBackdrop()
 	QuestInfoSpellObjectiveFrame.backdrop:SetOutside(QuestInfoSpellObjectiveFrameIconTexture)
 	QuestInfoSpellObjectiveFrameIconTexture:SetParent(QuestInfoSpellObjectiveFrame.backdrop)
 
 	QuestInfoRewardSpell:StripTextures()
+	QuestInfoRewardSpell:SetTemplate("Default")
 	QuestInfoRewardSpell:StyleButton()
 	QuestInfoRewardSpell:Width(QuestInfoRewardSpell:GetWidth() - 7)
 	QuestInfoRewardSpell:Height(QuestInfoRewardSpell:GetHeight() - 16)
@@ -45,23 +46,33 @@ local function LoadSkin()
 	QuestInfoRewardSpellIconTexture:SetDrawLayer("OVERLAY")
 	QuestInfoRewardSpellIconTexture:Point("TOPLEFT", 2, -2)
 	QuestInfoRewardSpellIconTexture:Size(QuestInfoRewardSpellIconTexture:GetWidth() - 2, QuestInfoRewardSpellIconTexture:GetHeight() - 3)
-	QuestInfoRewardSpell:SetTemplate("Default")
 	QuestInfoRewardSpell:CreateBackdrop()
 	QuestInfoRewardSpell.backdrop:SetOutside(QuestInfoRewardSpellIconTexture)
 	QuestInfoRewardSpellIconTexture:SetParent(QuestInfoRewardSpell.backdrop)
 
 	QuestInfoTalentFrame:StripTextures()
+	QuestInfoTalentFrame:SetTemplate("Default")
 	QuestInfoTalentFrame:StyleButton()
 	QuestInfoTalentFrame:Width(QuestInfoTalentFrame:GetWidth() - 7)
-	--QuestInfoTalentFrameIconTexture:SetTexCoord(unpack(E.TexCoords))
 	QuestInfoTalentFrameIconTexture:SetDrawLayer("OVERLAY")
 	QuestInfoTalentFrameIconTexture:Point("TOPLEFT", 2, -2)
-	QuestInfoTalentFrameIconTexture:Size(QuestInfoTalentFrameIconTexture:GetWidth() -1, QuestInfoTalentFrameIconTexture:GetHeight() - 1)
-	QuestInfoTalentFrame:SetTemplate("Default")
-	QuestInfoTalentFrame:CreateBackdrop()
+	QuestInfoTalentFrameIconTexture:Size(QuestInfoTalentFrameIconTexture:GetWidth() - 1, QuestInfoTalentFrameIconTexture:GetHeight() - 1)
+	QuestInfoTalentFrame:CreateBackdrop("Default", true)
 	QuestInfoTalentFrame.backdrop:SetOutside(QuestInfoTalentFrameIconTexture)
 	QuestInfoTalentFrameIconTexture:SetParent(QuestInfoTalentFrame.backdrop)
 	QuestInfoTalentFramePoints:Point("LEFT", 42, -1)
+
+	QuestFrame:HookScript("OnUpdate", function()
+		QuestInfoTalentFrameIconTexture:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
+	end)
+
+	QuestLogFrame:HookScript("OnUpdate", function()
+		QuestInfoTalentFrameIconTexture:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
+	end)
+
+	QuestLogDetailFrame:HookScript("OnUpdate", function()
+		QuestInfoTalentFrameIconTexture:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
+	end)
 
 	QuestLogFrame:StripTextures();
 	QuestLogFrame:CreateBackdrop("Transparent");
@@ -199,6 +210,8 @@ local function LoadSkin()
 
 		QuestLogFrameShowMapButton:Point("TOPRIGHT", -31, -38)
 
+		QuestLogDetailScrollFrameScrollBar:Point("TOPLEFT", QuestLogDetailScrollFrame, "TOPRIGHT", 6, -15)
+		
 		if(not QuestLogDetailScrollFrame.backdrop) then
 			QuestLogDetailScrollFrame:CreateBackdrop("Default", true)
 		end
@@ -208,7 +221,8 @@ local function LoadSkin()
 		QuestLogDetailScrollFrame:Height(331)
 
 		QuestLogFrameShowMapButton:Point("TOPRIGHT", -31, -38)
-
+		QuestLogDetailScrollFrameScrollBar:Point("TOPLEFT", QuestLogDetailScrollFrame, "TOPRIGHT", 6, -15)
+		
 		if(not QuestLogDetailScrollFrame.backdrop) then
 			QuestLogDetailScrollFrame:CreateBackdrop("Default", true)
 		end
@@ -221,9 +235,8 @@ local function LoadSkin()
 	QuestLogFrameCloseButton:Point("TOPRIGHT", 3, -7)
 
 	S:HandleScrollBar(QuestLogDetailScrollFrameScrollBar)
-	QuestLogDetailScrollFrameScrollBar:Point("RIGHT", 22, 0)
 
-	S:HandleScrollBar(QuestLogScrollFrameScrollBar, 5)
+	S:HandleScrollBar(QuestLogScrollFrameScrollBar)
 	QuestLogScrollFrameScrollBar:Point("RIGHT", 27, 0)
 
 	S:HandleScrollBar(QuestProgressScrollFrameScrollBar)
