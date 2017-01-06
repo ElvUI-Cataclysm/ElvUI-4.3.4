@@ -320,6 +320,7 @@ E.Options.args.bags = {
 			order = 6,
 			type = "group",
 			name = L["Bag Sorting"],
+			disabled = function() return not E.bags end,
 			args = {
 				header = {
 					order = 0,
