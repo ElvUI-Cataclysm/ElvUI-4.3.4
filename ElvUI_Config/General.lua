@@ -422,13 +422,15 @@ E.Options.args.general = {
 					order = 3,
 					type = "range",
 					name = L["Button Size"],
-					min = 24, max = 60, step = 1
+					min = 24, max = 60, step = 1,
+					disabled = function() return not E.db.general.totems.enable; end
 				},
 				spacing = {
 					order = 4,
 					type = "range",
 					name = L["Button Spacing"],
-					min = 1, max = 10, step = 1
+					min = 1, max = 10, step = 1,
+					disabled = function() return not E.db.general.totems.enable; end
 				},
 				sortDirection = {
 					order = 5,
@@ -437,7 +439,8 @@ E.Options.args.general = {
 					values = {
 						["ASCENDING"] = L["Ascending"],
 						["DESCENDING"] = L["Descending"]
-					}
+					},
+					disabled = function() return not E.db.general.totems.enable; end
 				},
 				growthDirection = {
 					order = 6,
@@ -446,7 +449,8 @@ E.Options.args.general = {
 					values = {
 						["VERTICAL"] = L["Vertical"],
 						["HORIZONTAL"] = L["Horizontal"]
-					}
+					},
+					disabled = function() return not E.db.general.totems.enable; end
 				}
 			}
 		},
@@ -489,7 +493,8 @@ E.Options.args.general = {
 					set = function(info, value)
 						E.db.cooldown[ info[#info] ] = value;
 						E:UpdateCooldownSettings();
-					end
+					end,
+					disabled = function() return not E.private.cooldown.enable; end
 				},
 				restoreColors = {
 					type = 'execute',
@@ -502,37 +507,43 @@ E.Options.args.general = {
 						E.db.cooldown.hoursColor = P['cooldown'].hoursColor;
 						E.db.cooldown.daysColor = P['cooldown'].daysColor;
 						E:UpdateCooldownSettings();
-					end
+					end,
+					disabled = function() return not E.private.cooldown.enable; end
 				},
 				expiringColor = {
 					order = 5,
 					type = "color",
 					name = L["Expiring"],
-					desc = L["Color when the text is about to expire"]
+					desc = L["Color when the text is about to expire"],
+					disabled = function() return not E.private.cooldown.enable; end
 				},
 				secondsColor = {
 					order = 6,
 					type = "color",
 					name = L["Seconds"],
-					desc = L["Color when the text is in the seconds format."]
+					desc = L["Color when the text is in the seconds format."],
+					disabled = function() return not E.private.cooldown.enable; end
 				},
 				minutesColor = {
 					order = 7,
 					type = "color",
 					name = L["Minutes"],
-					desc = L["Color when the text is in the minutes format."]
+					desc = L["Color when the text is in the minutes format."],
+					disabled = function() return not E.private.cooldown.enable; end
 				},
 				hoursColor = {
 					order = 8,
 					type = "color",
 					name = L["Hours"],
-					desc = L["Color when the text is in the hours format."]
+					desc = L["Color when the text is in the hours format."],
+					disabled = function() return not E.private.cooldown.enable; end
 				},
 				daysColor = {
 					order = 9,
 					type = "color",
 					name = L["Days"],
-					desc = L["Color when the text is in the days format."]
+					desc = L["Color when the text is in the days format."],
+					disabled = function() return not E.private.cooldown.enable; end
 				}
 			}
 		},
@@ -718,7 +729,8 @@ E.Options.args.general = {
 						["RIGHTCHAT"] = L["Right Chat"]
 					},
 					get = function(info) return E.db.general.threat.position; end,
-					set = function(info, value) E.db.general.threat.position = value; E:GetModule("Threat"):UpdatePosition(); end
+					set = function(info, value) E.db.general.threat.position = value; E:GetModule("Threat"):UpdatePosition(); end,
+					disabled = function() return not E.db.general.threat.enable; end
 				},
 				spacer = {
 					order = 4,
@@ -731,7 +743,8 @@ E.Options.args.general = {
 					type = "range",
 					min = 6, max = 22, step = 1,
 					get = function(info) return E.db.general.threat.textSize; end,
-					set = function(info, value) E.db.general.threat.textSize = value; E:GetModule("Threat"):UpdatePosition(); end
+					set = function(info, value) E.db.general.threat.textSize = value; E:GetModule("Threat"):UpdatePosition(); end,
+					disabled = function() return not E.db.general.threat.enable; end
 				},
 				threatTextfont = {
 					type = "select", dialogControl = 'LSM30_Font',
@@ -739,7 +752,8 @@ E.Options.args.general = {
 					name = L["Font"],
 					values = AceGUIWidgetLSMlists.font,
 					get = function(info) return E.db.general.threat.textfont; end,
-					set = function(info, value) E.db.general.threat.textfont = value; E:GetModule('Threat'):UpdatePosition() end
+					set = function(info, value) E.db.general.threat.textfont = value; E:GetModule('Threat'):UpdatePosition() end,
+					disabled = function() return not E.db.general.threat.enable; end
 				},
 				threatTextOutline = {
 					order = 7,
@@ -754,7 +768,8 @@ E.Options.args.general = {
 						['THICKOUTLINE'] = 'THICKOUTLINE',
 					},
 					get = function(info) return E.db.general.threat.textOutline; end,
-					set = function(info, value) E.db.general.threat.textOutline = value; E:GetModule('Threat'):UpdatePosition() end
+					set = function(info, value) E.db.general.threat.textOutline = value; E:GetModule('Threat'):UpdatePosition() end,
+					disabled = function() return not E.db.general.threat.enable; end
 				}
 			}
 		},
