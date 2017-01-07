@@ -1,7 +1,8 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local UF = E:GetModule('UnitFrames');
+local UF = E:GetModule("UnitFrames");
 
-local LSM = LibStub("LibSharedMedia-3.0");
+local _G = _G;
+local find, match = string.find, string.match;
 
 function UF:SpawnMenu()
 	local unit = E:StringTitle(self.unit)

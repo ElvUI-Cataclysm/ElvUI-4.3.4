@@ -23,7 +23,7 @@ function UF:Construct_AltPowerBar(frame)
 
 	altpower:SetScript("OnShow", UF.ToggleResourceBar)
 	altpower:SetScript("OnHide", UF.ToggleResourceBar)
-	
+
 	return altpower
 end
 

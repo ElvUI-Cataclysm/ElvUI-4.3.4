@@ -1,6 +1,8 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule("UnitFrames");
 
+local find = string.find;
+
 local CreateFrame = CreateFrame;
 
 function UF:Construct_Portrait(frame, type)
