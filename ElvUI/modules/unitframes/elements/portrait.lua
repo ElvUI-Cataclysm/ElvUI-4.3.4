@@ -111,8 +111,20 @@ function UF:PortraitUpdate()
 
 	if(self:GetObjectType() ~= "Texture") then
 		local model = self:GetModel();
+		local rotation = portrait.rotation or 0;
+		local camDistanceScale = portrait.camDistanceScale or 1;
+		local xOffset, yOffset = (portrait.xOffset or 0), (portrait.yOffset or 0);
+
 		if(model and model.find and model:find("worgenmale")) then
-			self:SetCamera(1)
+			self:SetCamera(1);
 		end
+
+		if(self:GetFacing() ~= (rotation / 60)) then
+			self:SetFacing(rotation / 60);
+		end
+
+		self:SetCamDistanceScale(camDistanceScale - 0.01 >= 0.01 and camDistanceScale - 0.01 or 0.01);
+		self:SetCamDistanceScale(camDistanceScale);
+		self:SetPosition(0, xOffset, yOffset);
 	end
 end

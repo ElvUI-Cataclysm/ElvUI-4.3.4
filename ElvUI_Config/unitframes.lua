@@ -445,35 +445,66 @@ local function GetOptionsTable_Portrait(updateFunc, groupName, numUnits)
 		set = function(info, value) E.db.unitframe.units[groupName]["portrait"][ info[#info] ] = value; updateFunc(UF, groupName, numUnits); end,
 		args = {
 			enable = {
-				type = "toggle",
 				order = 1,
+				type = "toggle",
 				name = L["Enable"],
 				desc = L["If you have a lot of 3D Portraits active then it will likely have a big impact on your FPS. Disable some portraits if you experience FPS issues."]
 			},
 			width = {
-				type = "range",
 				order = 2,
+				type = "range",
 				name = L["Width"],
 				min = 1, max = 150, step = 1,
-				disabled = function() return not E.db.unitframe.units[groupName]["portrait"]["enable"] or E.db.unitframe.units[groupName]["portrait"]["overlay"]; end,
+				disabled = function() return not E.db.unitframe.units[groupName]["portrait"]["enable"] or E.db.unitframe.units[groupName]["portrait"]["overlay"]; end
 			},
 			overlay = {
+				order = 3,
 				type = "toggle",
 				name = L["Overlay"],
 				desc = L["Overlay the healthbar"],
-				order = 3,
-				disabled = function() return not E.db.unitframe.units[groupName]["portrait"]["enable"]; end,
+				disabled = function() return not E.db.unitframe.units[groupName]["portrait"]["enable"]; end
+			},
+			rotation = {
+				order = 4,
+				type = "range",
+				name = L["Model Rotation"],
+				min = 0, max = 360, step = 1,
+				disabled = function() return not E.db.unitframe.units[groupName]["portrait"]["enable"]; end
+			},
+			camDistanceScale = {
+				order = 5,
+				type = "range",
+				name = L["Camera Distance Scale"],
+				desc = L["How far away the portrait is from the camera."],
+				min = 0.01, max = 4, step = 0.01,
+				disabled = function() return not E.db.unitframe.units[groupName]["portrait"]["enable"]; end
 			},
 			style = {
+				order = 6,
 				type = "select",
 				name = L["Style"],
 				desc = L["Select the display method of the portrait."],
-				order = 4,
 				values = {
 					["2D"] = L["2D"],
 					["3D"] = L["3D"]
 				},
 				disabled = function() return not E.db.unitframe.units[groupName]["portrait"]["enable"] end
+			},
+			xOffset = {
+				order = 7,
+				type = "range",
+				name = L["xOffset"],
+				desc = L["Position the Model horizontally."],
+				min = -1, max = 1, step = 0.01,
+				disabled = function() return not E.db.unitframe.units[groupName]["portrait"]["enable"]; end
+			},
+			yOffset = {
+				order = 8,
+				type = "range",
+				name = L["yOffset"],
+				desc = L["Position the Model vertically."],
+				min = -1, max = 1, step = 0.01,
+				disabled = function() return not E.db.unitframe.units[groupName]["portrait"]["enable"]; end
 			}
 		}
 	};
