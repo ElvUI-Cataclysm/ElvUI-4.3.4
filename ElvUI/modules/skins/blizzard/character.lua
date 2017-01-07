@@ -241,8 +241,8 @@ local function LoadSkin()
 
 			object.icon:SetTexCoord(unpack(E.TexCoords))
 			object.icon:SetParent(object.backdrop)
-			object.icon:Point("LEFT", object, "LEFT", 1, 0)
-			object.icon.Point = E.noop
+			object.icon:SetPoint("LEFT", object, "LEFT", 1, 0)
+			object.icon.SetPoint = E.noop
 			object.icon:Size(42)
 			object.icon.SetSize = E.noop
 		end
