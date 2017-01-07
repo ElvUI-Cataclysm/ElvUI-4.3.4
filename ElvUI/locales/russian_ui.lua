@@ -239,6 +239,7 @@ L["Bar "] = "Панель " --Also in ActionBars
 L["BNet Frame"] = "Оповещения BNet"
 L["Boss Button"] = "Кнопка босса"
 L["Boss Frames"] = "Боссы" --Also used in UnitFrames
+L["Class Bar"] = "Классовая полоса"
 L["Classbar"] = "Полоса класса"
 L["Error Frame"] = "Фрейм ошибок"
 L["Experience Bar"] = "Полоса опыта"
@@ -278,7 +279,7 @@ L["TargetTarget Frame"] = "Цель цели" --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = "Цель цели цели"
 L["Time Manager Frame"] = true;
 L["Tooltip"] = "Подсказка"
-L["Totems"] = true;
+L["Totem Bar"] = "Панель тотемов"
 L["Vehicle Seat Frame"] = "Техника"
 L["DESC_MOVERCONFIG"] = [=[Блокировка отключена. Передвиньте фреймы и нажмите 'Закрепить', когда закончите.
 

@@ -477,7 +477,7 @@ local function BuildABConfig()
 	if(E.myclass == "SHAMAN") then
 		group["barTotem"] = {
 			order = 100,
-			name = L["Totems"],
+			name = L["Totem Bar"],
 			type = "group",
 			guiInline = false,
 			disabled = function() return not E.private.actionbar.enable or not E.myclass == "SHAMAN" end,
@@ -487,7 +487,7 @@ local function BuildABConfig()
 				info = {
 					order = 1,
 					type = 'header',
-					name = L["Totems"]
+					name = L["Totem Bar"]
 				},
 				enabled = {
 					order = 2,
@@ -499,7 +499,7 @@ local function BuildABConfig()
 					type = "execute",
 					name = L["Restore Bar"],
 					desc = L["Restore the actionbars default settings"],
-					func = function() E:CopyTable(E.db.actionbar['barTotem'], P.actionbar['barTotem']); E:ResetMovers(L['Totems']); AB:AdjustTotemSettings(); AB:PositionAndSizeBarTotem(); end
+					func = function() E:CopyTable(E.db.actionbar['barTotem'], P.actionbar['barTotem']); E:ResetMovers(L["Totem Bar"]); AB:AdjustTotemSettings(); AB:PositionAndSizeBarTotem(); end
 				},
 				mouseover = {
 					order = 4,

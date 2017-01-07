@@ -239,6 +239,7 @@ L["Bar "] = "Barra "
 L["BNet Frame"] = "Marco BNet"
 L["Boss Button"] = "Botón de Jefe"
 L["Boss Frames"] = "Marco de Jefe"
+L["Class Bar"] = "Barra de Clase"
 L["Classbar"] = "Barra de Clase"
 L["Error Frame"] = true;
 L["Experience Bar"] = "Barra de Experiencia"
@@ -278,7 +279,7 @@ L["TargetTarget Frame"] = "Marco de Objetivo de Objetivo"
 L["TargetTargetTarget Frame"] = true;
 L["Time Manager Frame"] = true;
 L["Tooltip"] = "Descripción Emergente"
-L["Totems"] = true;
+L["Totem Bar"] = "Totem barra"
 L["Vehicle Seat Frame"] = "Marco del Asiento del Vehículo"
 L["DESC_MOVERCONFIG"] = [=[Fijadores desbloqueados. Muévelos ahora y haz click en Bloquear cuando termines.
 

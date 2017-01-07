@@ -239,6 +239,7 @@ L["Bar "] = "Leiste " --Also in ActionBars
 L["BNet Frame"] = "BNet-Fenster"
 L["Boss Button"] = "Boss Button"
 L["Boss Frames"] = "Boss Fenster" --Also used in UnitFrames
+L["Class Bar"] = "Klassenleiste"
 L["Classbar"] = "Klassenleiste"
 L["Error Frame"] = true;
 L["Experience Bar"] = "Erfahrungsleiste"
@@ -278,7 +279,7 @@ L["TargetTarget Frame"] = "Ziel des Ziels Fenster" --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = "Ziel des Ziels des Ziels Fenster"
 L["Time Manager Frame"] = true;
 L["Tooltip"] = "Tooltip"
-L["Totems"] = true;
+L["Totem Bar"] = "Totem-Leiste"
 L["Vehicle Seat Frame"] = "Fahrzeugfenster"
 L["DESC_MOVERCONFIG"] = [=[Ankerpunkte entriegelt. Bewege die Ankerpunkte und klicke 'sperren', wenn du fertig bist.
 

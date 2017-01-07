@@ -239,6 +239,7 @@ L["Bar "] = "바 "
 L["BNet Frame"] = "배틀넷 알림"
 L["Boss Button"] = "특수능력 버튼"
 L["Boss Frames"] = "보스 프레임"
+L["Class Bar"] = "직업바 (토템)"
 L["Classbar"] = "직업바"
 L["Error Frame"] = true;
 L["Experience Bar"] = "경험치 바"
@@ -278,7 +279,7 @@ L["TargetTarget Frame"] = "대상의대상 프레임"
 L["TargetTargetTarget Frame"] = "대상의대상의대상 프레임"
 L["Time Manager Frame"] = true;
 L["Tooltip"] = "툴팁"
-L["Totems"] = true;
+L["Totem Bar"] = "토템 바"
 L["Vehicle Seat Frame"] = "차량 좌석 프레임"
 L["DESC_MOVERCONFIG"] = [=[프레임을 드래그로 원하는 위치로 이동시키세요.|n[잠금] 버튼을 누르면 이동모드가 종료됩니다.
 

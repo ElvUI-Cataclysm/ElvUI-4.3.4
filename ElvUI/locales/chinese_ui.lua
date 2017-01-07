@@ -239,7 +239,9 @@ L["Bar "] = "动作条 " --Also in ActionBars
 L["BNet Frame"] = "战网提示资讯"
 L["Boss Button"] = "特殊技能键"
 L["Boss Frames"] = "首领框架"
+L["Class Bar"] = "职业特有条"
 L["Classbar"] = "职业特有条"
+L["Error Frame"] = true;
 L["Experience Bar"] = "经验条"
 L["Focus Castbar"] = "焦点目标施法条"
 L["Focus Frame"] = "专注目标框架"
@@ -277,7 +279,7 @@ L["TargetTarget Frame"] = "目标的目标框架"
 L["TargetTargetTarget Frame"] = "目标的目标的目标框架"
 L["Time Manager Frame"] = true;
 L["Tooltip"] = "鼠标提示"
-L["Totems"] = true;
+L["Totem Bar"] = "图腾条"
 L["Vehicle Seat Frame"] = "载具座位框"
 L["DESC_MOVERCONFIG"] = [=[解除框架移动锁定. 现在可以移动它们, 移好后请点击「锁定」.
 

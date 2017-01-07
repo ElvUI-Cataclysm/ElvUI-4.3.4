@@ -239,6 +239,7 @@ L["Bar "] = "Barre " --Also in ActionBars
 L["BNet Frame"] = "Cadre BNet"
 L["Boss Button"] = "Bouton du Boss"
 L["Boss Frames"] = "Cadre du Boss" --Also used in UnitFrames
+L["Class Bar"] = "Barre de classe"
 L["Classbar"] = "Barre de Classe"
 L["Error Frame"] = true;
 L["Experience Bar"] = "Barre d'expérience"
@@ -278,7 +279,7 @@ L["TargetTarget Frame"] = "Cadre de la cible de votre cible" --Also used in Unit
 L["TargetTargetTarget Frame"] = "Cadre de la cible de la cible de la cible";
 L["Time Manager Frame"] = true;
 L["Tooltip"] = "Infobulle"
-L["Totems"] = true;
+L["Totem Bar"] = "Barre des totems"
 L["Vehicle Seat Frame"] = "Cadre de siège du véhicule"
 L["DESC_MOVERCONFIG"] = [=[Cadres déverrouillés. Déplacez-les et cliquez sur Verrouiller une fois terminé.
 

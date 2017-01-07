@@ -239,6 +239,7 @@ L["Bar "] = "快捷列 " --Also in ActionBars
 L["BNet Frame"] = "戰網提示資訊"
 L["Boss Button"] = "特殊技能鍵"
 L["Boss Frames"] = "首領框架" --Also used in UnitFrames
+L["Class Bar"] = "職業特有條"
 L["Classbar"] = "職業特有條"
 L["Error Frame"] = true;
 L["Experience Bar"] = "經驗條"
@@ -278,7 +279,7 @@ L["TargetTarget Frame"] = "目標的目標框架" --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = "目標的目標的目標框架"
 L["Time Manager Frame"] = true;
 L["Tooltip"] = "浮動提示"
-L["Totems"] = true;
+L["Totem Bar"] = "圖騰列"
 L["Vehicle Seat Frame"] = "載具座位框"
 L["DESC_MOVERCONFIG"] = [=[解除框架移動鎖定. 現在可以移動它們, 移好後請點擊「鎖定」.
 

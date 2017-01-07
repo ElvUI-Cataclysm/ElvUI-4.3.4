@@ -240,6 +240,7 @@ L["Bar "] = true; --Also in ActionBars
 L["BNet Frame"] = true;
 L["Boss Button"] = true;
 L["Boss Frames"] = true; --Also used in UnitFrames
+L["Class Bar"] = true;
 L["Classbar"] = true; --Also used in UnitFrames
 L["Error Frame"] = true;
 L["Experience Bar"] = true;
@@ -279,7 +280,7 @@ L["TargetTarget Frame"] = true; --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = true; --Also used in UnitFrames
 L["Time Manager Frame"] = true;
 L["Tooltip"] = true;
-L["Totems"] = true;
+L["Totem Bar"] = true;
 L["Vehicle Seat Frame"] = true;
 L["DESC_MOVERCONFIG"] = [=[Movers unlocked. Move them now and click Lock when you are done.
 
