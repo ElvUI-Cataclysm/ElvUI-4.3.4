@@ -1,6 +1,7 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule('DataTexts')
 
+local format, join = string.format, string.join;
 local lastPanel
 local displayString = '';
 
@@ -19,7 +20,7 @@ local function OnEnter(self)
 
 	local mastery = GetMastery();
 	local masteryBonus = GetCombatRatingBonus(CR_MASTERY);
-	mastery = string.format("%.2f", mastery);
+	mastery = format("%.2f", mastery);
 
 	local masteryKnown = IsSpellKnown(CLASS_MASTERY_SPELLS[E.myclass]);
 	local primaryTalentTree = GetPrimaryTalentTree();
@@ -33,7 +34,7 @@ local function OnEnter(self)
 end
 
 local function ValueColorUpdate(hex)
-	displayString = string.join("", "%s", hex, "%.2f|r")
+	displayString = join("", "%s", hex, "%.2f|r")
 
 	if lastPanel ~= nil then
 		OnEvent(lastPanel)

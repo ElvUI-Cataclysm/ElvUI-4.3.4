@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(ElvUI);
+local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule('DataTexts')
 
 local displayNumberString = ''
@@ -14,7 +14,7 @@ local function OnEvent(self, event, ...)
 end
 
 local function ValueColorUpdate(hex)
-	displayNumberString = string.join("", "%s", hex, "%.f|r")
+	displayNumberString = join("", "%s", hex, "%.f|r")
 
 	if lastPanel ~= nil then
 		OnEvent(lastPanel)

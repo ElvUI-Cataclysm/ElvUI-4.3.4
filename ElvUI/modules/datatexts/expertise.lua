@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule('DataTexts')
 
-local format = string.format
+local format, join = string.format, string.join;
 local lastPanel
 local displayString = '';
 
@@ -80,8 +80,8 @@ local function OnEnter(self)
 	DT.tooltip:Show()
 end
 
-local function ValueColorUpdate(hex, r, g, b)
-	displayString = string.join("", "%s", hex, "%s|r")
+local function ValueColorUpdate(hex)
+	displayString = join("", "%s", hex, "%s|r")
 
 	if lastPanel ~= nil then
 		OnEvent(lastPanel, 2000)

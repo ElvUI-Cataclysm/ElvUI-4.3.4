@@ -1,7 +1,7 @@
-local E, L, V, P, G, _ =  unpack(ElvUI);
+local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule('DataTexts')
 
-local Mail_Icon = "";
+local Mail_Icon = "|TInterface\\MINIMAP\\TRACKING\\Mailbox.blp:14:14|t";
 
 local Read;
 
@@ -24,7 +24,7 @@ local function OnEvent(self, event, ...)
 	if event == "MAIL_INBOX_UPDATE" or event == "MAIL_SHOW" or event == "MAIL_CLOSED" then
 		for i = 1, GetInboxNumItems() do
 			local _, _, _, _, _, _, _, _, wasRead = GetInboxHeaderInfo(i);
-			if( not wasRead ) then
+			if(not wasRead) then
 				newMail = true;
 				break;
 			end
@@ -32,10 +32,12 @@ local function OnEvent(self, event, ...)
 	end
 
 	if newMail then
-		self.text:SetText("|cff00d316New Mail|r")
+		self.text:SetText(MakeIconString()..L["New Mail"])
+		self.text:SetTextColor(0, 1, 0);
 		Read = false;
 	else
-		self.text:SetText("No Mail")
+		self.text:SetText(L["No Mail"])
+		self.text:SetTextColor(1, 1, 1);
 		Read = true;
 	end
 end
