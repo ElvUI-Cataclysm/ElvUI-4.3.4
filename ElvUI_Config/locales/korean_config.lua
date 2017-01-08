@@ -462,7 +462,6 @@ L["Mover Transparency"] = true;
 L["Multi-Monitor Support"] = "다중모니터 지원"
 L["Name Font"] = "캐릭터 이름 글꼴"
 L["Number Prefix"] = true;
-L["Objective Frame"] = "퀘스트 프레임";
 L["Objective Frame Height"] = "퀘스트프레임 세로길이"
 L["Party / Raid"] = "파티&레이드 채널로"
 L["Party Only"] = "파티채널만"
@@ -546,8 +545,6 @@ L["Top"] = "상단 중앙"
 L["World Map Coordinates"] = true;
 L["X-Offset"] = true;
 L["Y-Offset"] = true;
-L["Zoom In"] = true;
-L["Zoom Out"] = true;
 
 --Misc
 L["Install"] = "설치"

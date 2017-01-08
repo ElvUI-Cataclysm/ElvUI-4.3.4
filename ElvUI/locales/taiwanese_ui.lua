@@ -265,7 +265,6 @@ L["Player Buffs"] = "玩家增益"
 L["Player Castbar"] = "玩家施法條"
 L["Player Debuffs"] = "玩家減益"
 L["Player Frame"] = "玩家框架" --Also used in UnitFrames
-L["Player Weapons"] = true;
 L["PvP"] = true;
 L["Raid Frames"] = "團隊框架"
 L["Raid Pet Frames"] = "團隊寵物框架"
@@ -281,6 +280,7 @@ L["Time Manager Frame"] = true;
 L["Tooltip"] = "浮動提示"
 L["Totem Bar"] = "圖騰列"
 L["Vehicle Seat Frame"] = "載具座位框"
+L["Weapons"] = true;
 L["DESC_MOVERCONFIG"] = [=[解除框架移動鎖定. 現在可以移動它們, 移好後請點擊「鎖定」.
 
 Options:

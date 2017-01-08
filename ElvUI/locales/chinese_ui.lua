@@ -71,7 +71,7 @@ L["Earned:"] = "赚取:"
 L["Feet"] = "脚"
 L["Friends List"] = "好友列表"
 L["Friends"] = "好友" --Also in Skins
-L["Gold:"] = true;
+L["Gold:"] = "金:"
 L["goldabbrev"] = "|cffffd700金|r"
 L["Hands"] = "手"
 L["Head"] = "头"
@@ -265,7 +265,6 @@ L["Player Buffs"] = "玩家增益"
 L["Player Castbar"] = "玩家施法条"
 L["Player Debuffs"] = "玩家减益"
 L["Player Frame"] = "玩家框架"
-L["Player Weapons"] = true;
 L["PvP"] = true;
 L["Raid Frames"] = "团队框架"
 L["Raid Pet Frames"] = "团队宠物框架"
@@ -281,6 +280,7 @@ L["Time Manager Frame"] = true;
 L["Tooltip"] = "鼠标提示"
 L["Totem Bar"] = "图腾条"
 L["Vehicle Seat Frame"] = "载具座位框"
+L["Weapons"] = true;
 L["DESC_MOVERCONFIG"] = [=[解除框架移动锁定. 现在可以移动它们, 移好后请点击「锁定」.
 
 Options:

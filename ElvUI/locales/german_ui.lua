@@ -208,7 +208,7 @@ L["Bars"] = "Leisten" --Also used in UnitFrames
 L["Calendar"] = "Kalender"
 L["Can't Roll"] = "Es kann nicht gewürfelt werden."
 L["Disband Group"] = "Gruppe auflösen"
-L["Empty Slot"] = true;
+L["Empty Slot"] = "Leerer Platz"
 L["Enable"] = "Eingeschaltet" --Doesn't fit a section since it's used a lot of places
 L["Experience"] = "Erfahrung"
 L["Farm Mode"] = "Farmmodus"
@@ -265,7 +265,6 @@ L["Player Buffs"] = "Spieler Buffs"
 L["Player Castbar"] = "Spieler Zauberbalken"
 L["Player Debuffs"] = "Spieler Debuffs"
 L["Player Frame"] = "Spielerfenster" --Also used in UnitFrames
-L["Player Weapons"] = true;
 L["PvP"] = true;
 L["Raid Frames"] = "Schlachtzugsfenster" --Also used in UnitFrames
 L["Raid Pet Frames"] = "Schlachtzugspets-Fenster"
@@ -281,6 +280,7 @@ L["Time Manager Frame"] = true;
 L["Tooltip"] = "Tooltip"
 L["Totem Bar"] = "Totem-Leiste"
 L["Vehicle Seat Frame"] = "Fahrzeugfenster"
+L["Weapons"] = true;
 L["DESC_MOVERCONFIG"] = [=[Ankerpunkte entriegelt. Bewege die Ankerpunkte und klicke 'sperren', wenn du fertig bist.
 
 Options:
@@ -377,6 +377,6 @@ L["You can toggle the microbar by using your middle mouse button on the minimap 
 L["You can use the /resetui command to reset all of your movers. You can also use the command to reset a specific mover, /resetui <mover name>.\nExample: /resetui Player Frame"] = "Du kannst durch benutzen von /resetui alle Ankerpunkte zurücksetzen. Du kannst das Kommando auch benutzen um spezielle Anker zurückzusetzen, /resetui <Anker Name>.\nBeispiel: /resetui Player Frame"
 
 --UnitFrames
-L["Dead"] = true;
+L["Dead"] = "Tot"
 L["Ghost"] = "Geist"
 L["Offline"] = "Offline"

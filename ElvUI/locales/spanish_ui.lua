@@ -265,7 +265,6 @@ L["Player Buffs"] = true;
 L["Player Castbar"] = "Barra de Lanzamiento del Jugador"
 L["Player Debuffs"] = true;
 L["Player Frame"] = "Marco de Jugador"
-L["Player Weapons"] = true;
 L["PvP"] = true;
 L["Raid Frames"] = true;
 L["Raid Pet Frames"] = true;
@@ -281,6 +280,7 @@ L["Time Manager Frame"] = true;
 L["Tooltip"] = "Descripción Emergente"
 L["Totem Bar"] = "Totem barra"
 L["Vehicle Seat Frame"] = "Marco del Asiento del Vehículo"
+L["Weapons"] = true;
 L["DESC_MOVERCONFIG"] = [=[Fijadores desbloqueados. Muévelos ahora y haz click en Bloquear cuando termines.
 
 Options:

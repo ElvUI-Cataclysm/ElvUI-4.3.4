@@ -414,7 +414,6 @@ L["Mover Transparency"] = "Прозрачность фиксаторов"
 L["Multi-Monitor Support"] = "Поддержка нескольких мониторов"
 L["Name Font"] = "Шрифт имени"
 L["Number Prefix"] = "Сокращения значений"
-L["Objective Frame"] = "Задачи"
 L["Objective Frame Height"] = "Высота списка заданий"
 L["Party / Raid"] = "Группа / Рейд"
 L["Party Only"] = "Только группа"
@@ -498,8 +497,6 @@ L["Top"] = "Вверху"
 L["World Map Coordinates"] = "Координаты карты мира"
 L["X-Offset"] = "Отступ по X"
 L["Y-Offset"] = "Отступ по Y"
-L["Zoom In"] = true;
-L["Zoom Out"] = true;
 
 --Misc
 L["Install"] = "Установка"
@@ -934,7 +931,7 @@ L["Powers"] = "Ресурсы"
 L["Priority"] = "Приоритет"
 L["Profile Specific"] = "По профилю"
 L["PvP Icon"] = true;
-L["PvP Text"] = true;
+L["PvP Text"] = "Текст PvP"
 L["PVP Trinket"] = "ПвП Аксессуар"
 L["Raid Icon"] = "Рейдовая иконка"
 L["Raid-Wide Sorting"] = "Общерейдовая сортировка"

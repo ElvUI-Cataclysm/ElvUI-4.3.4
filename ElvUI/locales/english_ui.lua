@@ -266,7 +266,6 @@ L["Player Buffs"] = true;
 L["Player Castbar"] = true;
 L["Player Debuffs"] = true;
 L["Player Frame"] = true; --Also used in UnitFrames
-L["Player Weapons"] = true;
 L["PvP"] = true;
 L["Raid Frames"] = true;
 L["Raid Pet Frames"] = true;
@@ -282,6 +281,7 @@ L["Time Manager Frame"] = true;
 L["Tooltip"] = true;
 L["Totem Bar"] = true;
 L["Vehicle Seat Frame"] = true;
+L["Weapons"] = true;
 L["DESC_MOVERCONFIG"] = [=[Movers unlocked. Move them now and click Lock when you are done.
 
 Options:

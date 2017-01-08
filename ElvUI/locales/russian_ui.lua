@@ -62,7 +62,7 @@ L["Avoidance Breakdown"] = "Распределение защиты"
 L["Bandwidth"] = "Канал"
 L["Character: "] = "Персонаж: "
 L["Chest"] = "Грудь"
-L["Combat Time"] = true;
+L["Combat Time"] = "В бою"
 L["DPS"] = "УВС"
 L["Deficit:"] = "Убыток:"
 L["Download"] = "Загрузка"
@@ -84,7 +84,7 @@ L["Mitigation By Level: "] = "Снижение на уровне: "
 L["No Guild"] = "Нет гильдии"
 L["Offhand"] = "Левая рука"
 L["Profit:"] = "Прибыль:"
-L["Reload UI"] = true;
+L["Reload UI"] = "Перезагрузка"
 L["Reset Data: Hold Shift + Right Click"] = "Сбросить данные: Shift + ПКМ"
 L["Right Click: Reset CPU Usage"] = "ПКМ: Сбросить использование процессора";
 L["SP"] = "+ Закл."
@@ -208,7 +208,7 @@ L["Bars"] = "Полосы" --Also used in UnitFrames
 L["Calendar"] = "Календарь"
 L["Can't Roll"] = "Не могу бросить кости"
 L["Disband Group"] = "Распустить группу"
-L["Empty Slot"] = true;
+L["Empty Slot"] = "Пусто"
 L["Enable"] = "Включить" --Doesn't fit a section since it's used a lot of places
 L["Experience"] = "Опыт"
 L["Farm Mode"] = "Режим фарма"
@@ -265,7 +265,6 @@ L["Player Buffs"] = "Баффы игрока"
 L["Player Castbar"] = "Полоса заклинаний игрока"
 L["Player Debuffs"] = "Дебаффы игрока"
 L["Player Frame"] = "Игрок" --Also used in UnitFrames
-L["Player Weapons"] = true;
 L["PvP"] = true;
 L["Raid Frames"] = "Рейд"
 L["Raid Pet Frames"] = "Питомцы рейда"
@@ -281,6 +280,7 @@ L["Time Manager Frame"] = true;
 L["Tooltip"] = "Подсказка"
 L["Totem Bar"] = "Панель тотемов"
 L["Vehicle Seat Frame"] = "Техника"
+L["Weapons"] = "Оружие"
 L["DESC_MOVERCONFIG"] = [=[Блокировка отключена. Передвиньте фреймы и нажмите 'Закрепить', когда закончите.
 
 Options:
@@ -380,4 +380,3 @@ L["You can use the /resetui command to reset all of your movers. You can also us
 L["Dead"] = "Труп"
 L["Ghost"] = "Призрак"
 L["Offline"] = "Не в сети"
-

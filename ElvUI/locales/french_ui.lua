@@ -255,17 +255,16 @@ L["Micro Bar"] = "Micro Barre" --Also in ActionBars
 L["Minimap"] = "Mini-carte"
 L["MirrorTimer"] = "Timer mirroir";
 L["MT Frames"] = "Cadres du Tank principal"
-L["Objective Frame"] = "Cadre d'objectif";
+L["Objective Frame"] = "Cadre d'objectif"
 L["Party Frames"] = "Cadres de groupe" --Also used in UnitFrames
 L["Pet Bar"] = "Barre du familier" --Also in ActionBars
 L["Pet Castbar"] = "Barre d'incantation du familier";
 L["Pet Frame"] = "Cadre du familier" --Also used in UnitFrames
 L["PetTarget Frame"] = "Cadre de la cible du familier" --Also used in UnitFrames
-L["Player Buffs"] = "Améliorations du joueur";
+L["Player Buffs"] = "Améliorations du joueur"
 L["Player Castbar"] = "Barre d'incantation du joueur"
 L["Player Debuffs"] = "Affaiblissements du joueur";
 L["Player Frame"] = "Cadre du joueur" --Also used in UnitFrames
-L["Player Weapons"] = true;
 L["PvP"] = true;
 L["Raid Frames"] = "Cadres de Raid";
 L["Raid Pet Frames"] = "Cadres de Raid des Familiers";
@@ -281,6 +280,7 @@ L["Time Manager Frame"] = true;
 L["Tooltip"] = "Infobulle"
 L["Totem Bar"] = "Barre des totems"
 L["Vehicle Seat Frame"] = "Cadre de siège du véhicule"
+L["Weapons"] = true;
 L["DESC_MOVERCONFIG"] = [=[Cadres déverrouillés. Déplacez-les et cliquez sur Verrouiller une fois terminé.
 
 Options:

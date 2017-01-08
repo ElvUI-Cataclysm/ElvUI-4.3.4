@@ -414,7 +414,6 @@ L["Mover Transparency"] = "Transparence des Ancres"
 L["Multi-Monitor Support"] = "Support Multi-Moniteur";
 L["Name Font"] = "Nom de la police"
 L["Number Prefix"] = true;
-L["Objective Frame"] = "Cadre d'objectif";
 L["Objective Frame Height"] = "Hauteur du cadre d'objectif";
 L["Party / Raid"] = "Groupe / Raid";
 L["Party Only"] = "Groupe seulement";
@@ -498,8 +497,6 @@ L["Top"] = "En haut";
 L["World Map Coordinates"] = "Coordonnées de la Carte du Monde";
 L["X-Offset"] = true;
 L["Y-Offset"] = true;
-L["Zoom In"] = true;
-L["Zoom Out"] = true;
 
 --Misc
 L["Install"] = "Installer"

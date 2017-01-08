@@ -608,7 +608,7 @@ E.Options.args.maps = {
 						zoomIn = {
 							order = 8,
 							type = "group",
-							name = L["Zoom In"],
+							name = ZOOM_IN,
 							get = function(info) return E.db.general.minimap.icons.zoomIn[ info[#info] ] end,
 							set = function(info, value) E.db.general.minimap.icons.zoomIn[ info[#info] ] = value; MM:UpdateSettings() end,
 							disabled = function() return not E.private.general.minimap.enable end,
@@ -616,7 +616,7 @@ E.Options.args.maps = {
 								zoomInHeader = {
 									order = 1,
 									type = "header",
-									name = L["Zoom In"]
+									name = ZOOM_IN
 								},
 								hideZoomIn = {
 									order = 2,
@@ -668,7 +668,7 @@ E.Options.args.maps = {
 						zoomOut = {
 							order = 9,
 							type = "group",
-							name = L["Zoom Out"],
+							name = ZOOM_OUT,
 							get = function(info) return E.db.general.minimap.icons.zoomOut[ info[#info] ] end,
 							set = function(info, value) E.db.general.minimap.icons.zoomOut[ info[#info] ] = value; MM:UpdateSettings() end,
 							disabled = function() return not E.private.general.minimap.enable end,
@@ -676,7 +676,7 @@ E.Options.args.maps = {
 								zoomOutHeader = {
 									order = 1,
 									type = "header",
-									name = L["Zoom Out"]
+									name = ZOOM_OUT
 								},
 								hideZoomOut = {
 									order = 2,

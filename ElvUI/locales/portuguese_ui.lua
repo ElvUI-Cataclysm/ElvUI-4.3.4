@@ -265,7 +265,6 @@ L["Player Buffs"] = true;
 L["Player Castbar"] = "Barra de lançamento do Jogador"
 L["Player Debuffs"] = true;
 L["Player Frame"] = "Quadro do Jogador"
-L["Player Weapons"] = true;
 L["PvP"] = true;
 L["Raid Frames"] = true;
 L["Raid Pet Frames"] = true;
@@ -281,6 +280,7 @@ L["Time Manager Frame"] = true;
 L["Tooltip"] = "Tooltip"
 L["Totem Bar"] = true;
 L["Vehicle Seat Frame"] = "Quadro de Assento de Veículo"
+L["Weapons"] = true;
 L["DESC_MOVERCONFIG"] = [=[Movedores destravados. Mova-os agora e clique Travar quando acabar.
 
 Options:

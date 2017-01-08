@@ -255,7 +255,7 @@ L["Micro Bar"] = "메뉴모음 바"
 L["Minimap"] = "미니맵"
 L["MirrorTimer"] = true;
 L["MT Frames"] = "방어전담 프레임"
-L["Objective Frame"] = "퀘스트 프레임";
+L["Objective Frame"] = "퀘스트 프레임"
 L["Party Frames"] = "파티 프레임"
 L["Pet Bar"] = "소환수 바"
 L["Pet Castbar"] = "소환수 시전바"
@@ -265,7 +265,6 @@ L["Player Buffs"] = "플레이어 버프"
 L["Player Castbar"] = "플레이어 시전바"
 L["Player Debuffs"] = "플레이어 디버프"
 L["Player Frame"] = "플레이어 프레임"
-L["Player Weapons"] = true;
 L["PvP"] = true;
 L["Raid Frames"] = "레이드 프레임"
 L["Raid Pet Frames"] = "레이드 소환수 프레임"
@@ -281,6 +280,7 @@ L["Time Manager Frame"] = true;
 L["Tooltip"] = "툴팁"
 L["Totem Bar"] = "토템 바"
 L["Vehicle Seat Frame"] = "차량 좌석 프레임"
+L["Weapons"] = true;
 L["DESC_MOVERCONFIG"] = [=[프레임을 드래그로 원하는 위치로 이동시키세요.|n[잠금] 버튼을 누르면 이동모드가 종료됩니다.
 
 Options:

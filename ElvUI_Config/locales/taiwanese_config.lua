@@ -415,7 +415,6 @@ L["Mover Transparency"] = "定位器透明度"
 L["Multi-Monitor Support"] = "多顯示器支持"
 L["Name Font"] = "名稱字體"
 L["Number Prefix"] = "數值縮寫"
-L["Objective Frame"] = "任務框架"
 L["Objective Frame Height"] = "任務框架高度"
 L["Party / Raid"] = "小隊/團隊"
 L["Party Only"] = "僅小隊"
@@ -498,8 +497,6 @@ L["Top"] = "上"
 L["World Map Coordinates"] = "世界地圖坐標"
 L["X-Offset"] = "X偏移"
 L["Y-Offset"] = "Y偏移"
-L["Zoom In"] = true;
-L["Zoom Out"] = true;
 
 --Misc
 L["Install"] = "安裝"
@@ -925,8 +922,8 @@ L["Player Frame Aura Bars"] = "玩家框架光環條"
 L["Portrait"] = "頭像"
 L["Position Buffs on Debuffs"] = "增益在減益上"
 L["Position Debuffs on Buffs"] = "減益在減益上"
-L["Position the Model horizontally."] = true;
-L["Position the Model vertically."] = true;
+L["Position the Model horizontally."] = "水平放置模型"
+L["Position the Model vertically."] = "垂直放置模型"
 L["Position"] = "位置"
 L["Power text will be hidden on NPC targets, in addition the name text will be repositioned to the power texts anchor point."] = "NPC 目標將隱藏能量值文字."
 L["Power"] = "能量"

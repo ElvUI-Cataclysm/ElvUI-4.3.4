@@ -414,7 +414,6 @@ L["Mover Transparency"] = "Transparenz Ankerpunkte"
 L["Multi-Monitor Support"] = "Multi-Monitor-Unterstützung"
 L["Name Font"] = "Schriftart von Spielernamen"
 L["Number Prefix"] = "Nummern-Präfix"
-L["Objective Frame"] = "Questfenster"
 L["Objective Frame Height"] = "Questfenster Höhe"
 L["Party / Raid"] = "Gruppe / Schlachtzug"
 L["Party Only"] = "Nur in der Gruppe"
@@ -498,8 +497,6 @@ L["Top"] = "Oben"
 L["World Map Coordinates"] = "Weltkarten Koordinaten"
 L["X-Offset"] = "X-Versatz"
 L["Y-Offset"] = "Y-Versatz"
-L["Zoom In"] = true;
-L["Zoom Out"] = true;
 
 --Misc
 L["Install"] = "Installation"

@@ -447,7 +447,7 @@ function A:Initialize()
 
 	TemporaryEnchantFrame:ClearAllPoints();
 	TemporaryEnchantFrame:SetPoint("TOPRIGHT", ElvUIPlayerWeapons, "TOPRIGHT", 0, 0);
-	E:CreateMover(self.WeaponFrame, "WeaponsMover", L["Player Weapons"]);
+	E:CreateMover(self.WeaponFrame, "WeaponsMover", L["Weapons"]);
 
 	for i = 1, 3 do
 		_G["TempEnchant"..i]:ClearAllPoints();

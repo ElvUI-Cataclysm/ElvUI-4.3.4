@@ -403,7 +403,6 @@ L["Mover Transparency"] = true;
 L["Multi-Monitor Support"] = true;
 L["Name Font"] = true;
 L["Number Prefix"] = true;
-L["Objective Frame"] = true;
 L["Objective Frame Height"] = true;
 L["Party / Raid"] = true;
 L["Party Only"] = true;
@@ -487,8 +486,6 @@ L["Top"] = true;
 L["World Map Coordinates"] = true;
 L["X-Offset"] = true;
 L["Y-Offset"] = true;
-L["Zoom In"] = true;
-L["Zoom Out"] = true;
 
 --Misc
 L["Install"] = true;
