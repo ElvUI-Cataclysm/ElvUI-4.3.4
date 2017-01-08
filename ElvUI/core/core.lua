@@ -681,11 +681,14 @@ function E:UpdateAll(ignoreInstall)
 	CH.db = self.db.chat;
 	CH:PositionChat(true);
 	CH:SetupChat();
+	CH:UpdateAnchors();
 
 	local AB = self:GetModule("ActionBars");
 	AB.db = self.db.actionbar;
 	AB:UpdateButtonSettings();
 	AB:UpdateMicroPositionDimensions();
+	AB:Extra_SetAlpha();
+	AB:Extra_SetScale();
 
 	local bags = E:GetModule("Bags"); 
 	bags.db = self.db.bags;
