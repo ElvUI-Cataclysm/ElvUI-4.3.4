@@ -1,33 +1,24 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local DT = E:GetModule('DataTexts')
+local DT = E:GetModule("DataTexts")
 
-local displayNumberString = ''
+local select = select;
+
+local displayNumberString = ""
 local lastPanel;
 local join = string.join
 
 local function OnEvent(self, event, ...)
-
-	local stat  = UnitStat("player", 4)
-	self.text:SetFormattedText(displayNumberString, L['Intellect: '], stat)
-
+	self.text:SetFormattedText(displayNumberString, INTELLECT_COLON, select(2, UnitStat("player", 4)))
 	lastPanel = self
 end
 
 local function ValueColorUpdate(hex)
-	displayNumberString = join("", "%s", hex, "%.f|r")
+	displayNumberString = join("", "%s ", hex, "%.f|r")
 
 	if lastPanel ~= nil then
 		OnEvent(lastPanel)
 	end
 end
-E['valueColorUpdateFuncs'][ValueColorUpdate] = true
+E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
-local events = {
-	"UNIT_STATS",
-	"UNIT_AURA",
-	"FORGE_MASTER_ITEM_CHANGED",
-	"ACTIVE_TALENT_GROUP_CHANGED",
-	"PLAYER_TALENT_UPDATE",
-}
-
-DT:RegisterDatatext('Intellect', events, OnEvent)
+DT:RegisterDatatext("Intellect", {"UNIT_STATS", "UNIT_AURA", "FORGE_MASTER_ITEM_CHANGED", "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE"}, OnEvent)
