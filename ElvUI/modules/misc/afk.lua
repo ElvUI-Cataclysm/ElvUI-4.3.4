@@ -149,7 +149,18 @@ function AFK:OnEvent(event, ...)
 		self:UnregisterEvent("PLAYER_REGEN_ENABLED");
 	end
 
-	self:SetAFK(UnitIsAFK("player"));
+	if(not E.db.general.afk) then return; end
+	if(InCombatLockdown() or CinematicFrame:IsShown() or MovieFrame:IsShown()) then return; end
+	if(UnitCastingInfo("player") ~= nil) then
+		self:ScheduleTimer("OnEvent", 30)
+		return;
+	end
+
+	if(UnitIsAFK("player")) then
+		self:SetAFK(true);
+	else
+		self:SetAFK(false);
+	end
 end
 
 function AFK:Toggle()

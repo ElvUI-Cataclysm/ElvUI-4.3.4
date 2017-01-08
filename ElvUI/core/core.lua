@@ -739,6 +739,7 @@ function E:UpdateAll(ignoreInstall)
 	end
 
 	self:GetModule("Minimap"):UpdateSettings();
+	self:GetModule("AFK"):Toggle();
 
 	self:UpdateBorderColors();
 	self:UpdateBackdropColors();
