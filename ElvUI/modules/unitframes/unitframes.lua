@@ -232,7 +232,7 @@ function UF:Construct_UF(frame, unit)
 
 	frame.RaisedElementParent = CreateFrame("Frame", nil, frame);
 	frame.RaisedElementParent.TextureParent = CreateFrame('Frame', nil, frame.RaisedElementParent)
-	frame.RaisedElementParent:SetFrameLevel(frame:GetFrameLevel() + 100)
+	frame.RaisedElementParent:SetFrameLevel(frame:GetFrameLevel() + 125)
 
 	if(not self["groupunits"][unit]) then
 		local stringTitle = E:StringTitle(unit);

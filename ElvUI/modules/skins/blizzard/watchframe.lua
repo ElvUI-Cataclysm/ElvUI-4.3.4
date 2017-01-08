@@ -17,10 +17,16 @@ local function LoadSkin()
 
 	hooksecurefunc("WatchFrame_Expand", function()
 		WatchFrameCollapseExpandButton.text:SetText("-");
+
+		WatchFrameHeader:Point("TOPLEFT", 0, -6)
+		WatchFrameCollapseExpandButton:Point("TOPRIGHT", -80, -5)
 	end)
 
 	hooksecurefunc("WatchFrame_Collapse", function()
 		WatchFrameCollapseExpandButton.text:SetText("+");
+
+		WatchFrameHeader:Point("TOPLEFT", -34, -6)
+		WatchFrameCollapseExpandButton:Point("TOPRIGHT", -45, -5)
 	end)
 
 	local function SkinWatchFramePopUp()
