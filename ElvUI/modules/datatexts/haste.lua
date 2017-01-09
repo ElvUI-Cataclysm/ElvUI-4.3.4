@@ -25,7 +25,7 @@ local function OnEvent(self)
 	else
 		hasteRating = GetCombatRating(CR_HASTE_MELEE);
 	end
-	self.text:SetFormattedText(displayNumberString, L["Haste"], hasteRating);
+	self.text:SetFormattedText(displayNumberString, ITEM_MOD_HASTE_RATING_SHORT, hasteRating);
 	lastPanel = self;
 end
 
@@ -69,4 +69,4 @@ local function ValueColorUpdate(hex)
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true;
 
-DT:RegisterDatatext("Haste", { "UNIT_ATTACK_SPEED", "UNIT_STATS", "UNIT_AURA", "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE", "UNIT_SPELL_HASTE", "PLAYER_DAMAGE_DONE_MODS" }, OnEvent, nil, nil, OnEnter);
+DT:RegisterDatatext("Haste", {"UNIT_ATTACK_SPEED", "UNIT_STATS", "UNIT_AURA", "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE", "UNIT_SPELL_HASTE", "PLAYER_DAMAGE_DONE_MODS" }, OnEvent, nil, nil, OnEnter);
