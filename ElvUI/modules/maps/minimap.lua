@@ -22,57 +22,75 @@ local GuildInstanceDifficulty = GuildInstanceDifficulty
 
 local menuFrame = CreateFrame("Frame", "MinimapRightClickMenu", E.UIParent, "UIDropDownMenuTemplate");
 local menuList = {
-	{text = CHARACTER_BUTTON,
-	func = function() ToggleCharacter("PaperDollFrame"); end},
-	{text = SPELLBOOK_ABILITIES_BUTTON,
-	func = function() ToggleFrame(SpellBookFrame); end},
-	{text = TALENTS_BUTTON,
-	func = function()
+	{text = CHARACTER_BUTTON, notCheckable = 1, func = function()
+		ToggleCharacter("PaperDollFrame");
+	end},
+	{text = SPELLBOOK_ABILITIES_BUTTON, notCheckable = 1, func = function()
+		ToggleFrame(SpellBookFrame);
+	end},
+	{text = TALENTS_BUTTON, notCheckable = 1, func = function()
 		if(not PlayerTalentFrame) then
-			TalentFrame_LoadUI()
+			TalentFrame_LoadUI();
 		end
 		if(not GlyphFrame) then
-			GlyphFrame_LoadUI()
+			GlyphFrame_LoadUI();
 		end
 		if(not PlayerTalentFrame:IsShown()) then
-			ShowUIPanel(PlayerTalentFrame)
+			ShowUIPanel(PlayerTalentFrame);
 		else
-			HideUIPanel(PlayerTalentFrame)
+			HideUIPanel(PlayerTalentFrame);
 		end
 	end},
-	{text = ACHIEVEMENT_BUTTON,
-	func = function() ToggleAchievementFrame(); end},
-	{text = QUESTLOG_BUTTON,
-	func = function() ToggleFrame(QuestLogFrame); end},
-	{text = SOCIAL_BUTTON,
-	func = function() ToggleFriendsFrame(1); end},
-	{text = L["Calendar"],
-	func = function() GameTimeFrame:Click(); end},
-	{text = L["Farm Mode"],
-	func = FarmMode},
-	{text = TIMEMANAGER_TITLE,
-	func = function() ToggleTimeManager(); end},
-	{text = ACHIEVEMENTS_GUILD_TAB,
-	func = function() ToggleGuildFrame() end},
-	{text = PLAYER_V_PLAYER,
-	func = function() ToggleFrame(PVPFrame); end},
-	{text = DUNGEONS_BUTTON,
-	func = function() ToggleFrame(LFDParentFrame); end},
-	{text = RAID_FINDER,
-	func = function() ToggleFrame(RaidParentFrame); end},
-	{text = ENCOUNTER_JOURNAL,
-	func = function() if(not IsAddOnLoaded("Blizzard_EncounterJournal")) then EncounterJournal_LoadUI(); end ToggleFrame(EncounterJournal) end},
-	{text = HELP_BUTTON,
-	func = function() ToggleHelpFrame(); end},
-	{text = L_CALENDAR,
-	func = function()
+	{text = ACHIEVEMENT_BUTTON, notCheckable = 1, func = function()
+		ToggleAchievementFrame();
+	end},
+	{text = QUESTLOG_BUTTON, notCheckable = 1, func = function()
+		ToggleFrame(QuestLogFrame);
+	end},
+	{text = SOCIAL_BUTTON, notCheckable = 1, func = function()
+		ToggleFriendsFrame(1);
+	end},
+	{text = L["Calendar"], notCheckable = 1, func = function()
 		if(not CalendarFrame) then
 			LoadAddOn("Blizzard_Calendar");
 		end
 		Calendar_Toggle();
 	end},
-	{text = MAINMENU_BUTTON,
-	func = function()
+	{text = L["Farm Mode"], notCheckable = 1, func = FarmMode},
+	{text = BATTLEFIELD_MINIMAP, notCheckable = 1, func = function()
+			ToggleBattlefieldMinimap();
+	end},
+	{text = TIMEMANAGER_TITLE, notCheckable = 1, func = function()
+		ToggleTimeManager();
+	end},
+	{text = ACHIEVEMENTS_GUILD_TAB, notCheckable = 1, func = function()
+		ToggleGuildFrame();
+	end},
+	{text = PLAYER_V_PLAYER, notCheckable = 1, func = function()
+		if(UnitLevel("player") >= SHOW_PVP_LEVEL) then
+			ToggleFrame(PVPFrame);
+		else
+			UIErrorsFrame:AddMessage(format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, SHOW_PVP_LEVEL), 1, 0.1, 0.1);
+		end
+	end},
+	{text = DUNGEONS_BUTTON, notCheckable = 1, func = function()
+		if(UnitLevel("player") >= SHOW_LFD_LEVEL) then
+			ToggleFrame(LFDParentFrame);
+		else
+			UIErrorsFrame:AddMessage(format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, SHOW_LFD_LEVEL), 1, 0.1, 0.1);
+		end
+	end},
+	{text = RAID_FINDER, notCheckable = 1, func = function()
+		ToggleFrame(RaidParentFrame);
+	end},
+	{text = ENCOUNTER_JOURNAL, notCheckable = 1, func = function()
+		if(not IsAddOnLoaded("Blizzard_EncounterJournal")) then EncounterJournal_LoadUI(); end 
+		ToggleFrame(EncounterJournal);
+	end},
+	{text = HELP_BUTTON, notCheckable = 1, func = function()
+		ToggleHelpFrame();
+	end},
+	{text = MAINMENU_BUTTON, notCheckable = 1, func = function()
 		if(not GameMenuFrame:IsShown()) then
 			if(VideoOptionsFrame:IsShown()) then
 				VideoOptionsFrameCancel:Click();
@@ -82,7 +100,7 @@ local menuList = {
 				InterfaceOptionsFrameCancel:Click();
 			end
 			CloseMenus();
-			CloseAllWindows()
+			CloseAllWindows();
 			PlaySound("igMainMenuOpen");
 			ShowUIPanel(GameMenuFrame);
 		else
