@@ -1321,6 +1321,15 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 	end
 end
 
+function CH:ChatTab_OnUpdate()
+	if(self.glow:IsShown()) then
+		E:Flash(self.glow, 1)
+	else
+		E:StopFlash(self.glow);
+		self:SetScript("OnUpdate", nil);
+	end
+end
+
 function CH:ChatFrame_OnEvent(event, ...)
 	if ( ChatFrame_ConfigEventHandler(self, event, ...) ) then
 		return;
@@ -1342,9 +1351,6 @@ function CH:SetupChat(event, ...)
 	if E.private.chat.enable ~= true then return end
 	for _, frameName in pairs(CHAT_FRAMES) do
 		local frame = _G[frameName]
-		if(event ~= "UPDATE_FLOATING_CHAT_WINDOWS") then
-			frame:SetMaxLines(CH.db.chatLines);
-		end
 
 		if CH.db.chatDirection == 'TOP' then
 			frame:SetInsertMode('TOP')

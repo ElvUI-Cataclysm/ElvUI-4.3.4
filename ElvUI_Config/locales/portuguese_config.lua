@@ -234,6 +234,7 @@ L["Chat EditBox Position"] = "Posição da caixa de edição do bate-papo"
 L["Chat History"] = "Histórico do bate-papo"
 L["Chat History Lines"] = true;
 L["Class Color Mentions"] = true;
+L["Controls where text is added to the chat frame."] = true;
 L["Custom Timestamp Color"] = true;
 L["Display LFG Icons in group chat."] = true;
 L["Display the hyperlink tooltip while hovering over a hyperlink."] = "Exibir a tooltip de um hyperlink quando pairar por cima deste."
@@ -256,6 +257,7 @@ L["List of words to color in chat if found in a message. If you wish to add mult
 L["Lock Positions"] = "Travar Posições"
 L["Log the main chat frames history. So when you reloadui or log in and out you see the history from your last session."] = "Armazenar o histórico dos quadros principais do bate-papo. Para que possa ver o histórico de sua última sessão ao relogar ou conectar e desconectar."
 L["No Alert In Combat"] = true;
+L["Number of chat messages to be stored in the chat history."] = true;
 L["Number of messages you scroll for each step."] = true;
 L["Number of repeat characters while in combat before the chat editbox is automatically closed."] = true;
 L["Number of time in seconds to scroll down to the bottom of the chat window if you are not scrolled down completely."] = "Tempo, em segundos, para rolar o bate-papo até ao fim caso nao tenha rolado completamente."

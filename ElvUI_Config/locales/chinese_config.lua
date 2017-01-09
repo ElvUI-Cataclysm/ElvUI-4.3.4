@@ -234,6 +234,7 @@ L["Chat EditBox Position"] = '对话輸入框位置'
 L["Chat History"] = '聊天历史'
 L["Chat History Lines"] = true;
 L["Class Color Mentions"] = "职业颜色提示"
+L["Controls where text is added to the chat frame."] = true;
 L["Custom Timestamp Color"] = "自定义时间戳颜色"
 L["Display LFG Icons in group chat."] = "撠予銝剜蝷粹"
 L["Display the hyperlink tooltip while hovering over a hyperlink."] = "鼠标悬停在超链接上时显示链接提示框"
@@ -256,6 +257,7 @@ L["List of words to color in chat if found in a message. If you wish to add mult
 L["Lock Positions"] = '锁定位置'
 L["Log the main chat frames history. So when you reloadui or log in and out you see the history from your last session."] = '记录对话历史,当你重载,登录和退出时会恢复你最后一次会话'
 L["No Alert In Combat"] = "战斗中不警报"
+L["Number of chat messages to be stored in the chat history."] = true;
 L["Number of messages you scroll for each step."] = "每次滚动的聊天信息数目"
 L["Number of repeat characters while in combat before the chat editbox is automatically closed."] = "当你在战斗中按下技能键时,有可能你的输入框还处于打开状态,这个功能可以在你按下技能键并且在输入框中输入下列个数字符串却没有放出技能时帮你自动关闭输入框"
 L["Number of time in seconds to scroll down to the bottom of the chat window if you are not scrolled down completely."] = "聊天框滚动到底部所需要的滚动时间(秒)"
