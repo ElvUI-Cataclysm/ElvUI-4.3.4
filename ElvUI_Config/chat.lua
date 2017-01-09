@@ -222,8 +222,8 @@ E.Options.args.chat = {
 					name = L["Chat Direction"],
 					desc = L["Controls where text is added to the chat frame."],
 					values = {
-						['BOTTOM'] = 'Bottom to top',
-						['TOP'] = 'Top to bottom'
+						["BOTTOM"] = L["Bottom to Top"],
+						["TOP"] = L["Top to Bottom"]
 					}
 				},
 				chatHistoryLines = {
