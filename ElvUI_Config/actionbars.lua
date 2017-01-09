@@ -23,7 +23,7 @@ local function BuildABConfig()
 			args = {
 				info = {
 					order = 1,
-					type = 'header',
+					type = "header",
 					name = name
 				},
 				enabled = {
@@ -67,7 +67,7 @@ local function BuildABConfig()
  					order = 7,
  					type = "select",
  					name = L["Flyout Direction"],
- 					set = function(info, value) E.db.actionbar['bar'..i][ info[#info] ] = value; AB:PositionAndSizeBar('bar'..i); AB:UpdateButtonSettingsForBar("bar"..i) end,
+ 					set = function(info, value) E.db.actionbar["bar"..i][ info[#info] ] = value; AB:PositionAndSizeBar("bar"..i); AB:UpdateButtonSettingsForBar("bar"..i) end,
  					values = {
  						["UP"] = L["Up"],
  						["DOWN"] = L["Down"],
@@ -197,7 +197,7 @@ local function BuildABConfig()
 
 		if(i == 6) then
 			group["bar" .. i].args.enabled.set = function(info, value)
-				E.db.actionbar['bar'..i].enabled = value;
+				E.db.actionbar["bar"..i].enabled = value;
 				AB:PositionAndSizeBar("bar6");
 				AB:UpdateBar1Paging();
 				AB:PositionAndSizeBar("bar1");
@@ -216,7 +216,7 @@ local function BuildABConfig()
 		args = {
 			info = {
 				order = 1,
-				type = 'header',
+				type = "header",
 				name = L["Pet Bar"]
 			},
 			enabled = {
@@ -351,7 +351,7 @@ local function BuildABConfig()
 		args = {
 			info = {
 				order = 1,
-				type = 'header',
+				type = "header",
 				name = L["Stance Bar"]
 			},
 			enabled = {
@@ -486,7 +486,7 @@ local function BuildABConfig()
 			args = {
 				info = {
 					order = 1,
-					type = 'header',
+					type = "header",
 					name = L["Totem Bar"]
 				},
 				enabled = {
@@ -499,40 +499,46 @@ local function BuildABConfig()
 					type = "execute",
 					name = L["Restore Bar"],
 					desc = L["Restore the actionbars default settings"],
-					func = function() E:CopyTable(E.db.actionbar['barTotem'], P.actionbar['barTotem']); E:ResetMovers(L["Totem Bar"]); AB:AdjustTotemSettings(); AB:PositionAndSizeBarTotem(); end
+					func = function() E:CopyTable(E.db.actionbar["barTotem"], P.actionbar["barTotem"]); E:ResetMovers(L["Totem Bar"]); AB:AdjustTotemSettings(); AB:PositionAndSizeBarTotem(); end,
+					disabled = function() return not E.db.actionbar.barTotem.enabled; end
 				},
 				mouseover = {
 					order = 4,
 					type = "toggle",
 					name = L["Mouse Over"],
-					desc = L["The frame is not shown unless you mouse over the frame."]
+					desc = L["The frame is not shown unless you mouse over the frame."],
+					disabled = function() return not E.db.actionbar.barTotem.enabled; end
 				},
 				buttonsize = {
 					order = 5,
 					type = "range",
 					name = L["Button Size"],
 					desc = L["The size of the action buttons."],
-					min = 15, max = 60, step = 1
+					min = 15, max = 60, step = 1,
+					disabled = function() return not E.db.actionbar.barTotem.enabled; end
 				},
 				buttonspacing = {
 					order = 6,
 					type = "range",
 					name = L["Button Spacing"],
 					desc = L["The spacing between buttons."],
-					min = 0, max = 20, step = 1
+					min = 0, max = 20, step = 1,
+					disabled = function() return not E.db.actionbar.barTotem.enabled; end
 				},
 				inheritGlobalFade = {
 					order = 7,
 					type = "toggle",
 					name = L["Inherit Global Fade"],
-					desc = L["Inherit the global fade, mousing over, targetting, setting focus, losing health, entering combat will set the remove transparency. Otherwise it will use the transparency level in the general actionbar settings for global fade alpha."]
+					desc = L["Inherit the global fade, mousing over, targetting, setting focus, losing health, entering combat will set the remove transparency. Otherwise it will use the transparency level in the general actionbar settings for global fade alpha."],
+					disabled = function() return not E.db.actionbar.barTotem.enabled; end
 				},
 				alpha = {
 					order = 8,
 					type = "range",
 					name = L["Alpha"],
 					isPercent = true,
-					min = 0, max = 1, step = 0.01
+					min = 0, max = 1, step = 0.01,
+					disabled = function() return not E.db.actionbar.barTotem.enabled; end
 				}
 			}
 		}
@@ -548,7 +554,7 @@ E.Options.args.actionbar = {
 	args = {
 		info = {
 			order = 1,
-			type = 'header',
+			type = "header",
 			name = L["ActionBars"]
 		},
 		enable = {
@@ -606,7 +612,7 @@ E.Options.args.actionbar = {
 			set = function(info, value)
 				E.db.actionbar[ info[#info] ] = value;
 				AB:UpdateButtonSettings()
-				SetCVar('lockActionBars', (value == true and 1 or 0))
+				SetCVar("lockActionBars", (value == true and 1 or 0))
 				LOCK_ACTIONBAR = (value == true and "1" or "0")
 			end,
 			disabled = function() return not E.private.actionbar.enable; end
@@ -715,7 +721,7 @@ E.Options.args.actionbar = {
 				},
 				fontColor = {
 					order = 4,
-					type = 'color',
+					type = "color",
 					name = L["Keybind Color"],
 					get = function(info)
 						local t = E.db.actionbar[ info[#info] ]
@@ -740,7 +746,7 @@ E.Options.args.actionbar = {
 			args = {
 				info = {
 					order = 1,
-					type = 'header',
+					type = "header",
 					name = L["Micro Bar"]
 				},
 				enabled = {
@@ -805,12 +811,12 @@ E.Options.args.actionbar = {
 			args = {
 				info = {
 					order = 1,
-					type = 'header',
+					type = "header",
 					name = L["Boss Button"]
 				},
 				alpha = {
 					order = 2,
-					type = 'range',
+					type = "range",
 					name = L["Alpha"],
 					desc = L["Change the alpha level of the frame."],
 					isPercent = true,
