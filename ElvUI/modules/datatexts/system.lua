@@ -1,5 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local DT = E:GetModule('DataTexts')
+local DT = E:GetModule("DataTexts")
 
 local select, collectgarbage = select, collectgarbage
 local sort, wipe = table.sort, wipe
@@ -166,7 +166,7 @@ local function OnEnter(self)
 		DT.tooltip:AddLine(L["(Hold Shift) Memory Usage"])
 	end
 
-	DT.tooltip:AddLine' '
+	DT.tooltip:AddLine" "
 	DT.tooltip:AddLine(resetInfoFormatter)
 
 	DT.tooltip:Show()

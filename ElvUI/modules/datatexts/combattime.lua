@@ -13,7 +13,6 @@ local lastPanel;
 
 local function OnUpdate(self)
 	timer = GetTime() - startTime;
-
 	self.text:SetFormattedText(displayNumberString, L["Combat Time"], format("%02d:%02d:%02d", floor(timer / 60), timer % 60, (timer - floor(timer)) * 100));
 end
 

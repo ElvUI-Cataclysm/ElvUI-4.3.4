@@ -30,6 +30,7 @@ local function OnEvent(self)
 		effective = base + posBuff + negBuff;
 		pwr = effective;
 	end
+
 	self.text:SetFormattedText(displayNumberString, ATTACK_POWER, pwr);
 	lastPanel = self;
 end
@@ -41,7 +42,6 @@ local function OnEnter(self)
 		DT.tooltip:AddDoubleLine(RANGED_ATTACK_POWER, pwr, 1, 1, 1);
 
 		local line = format(RANGED_ATTACK_POWER_TOOLTIP, max((pwr), 0) / ATTACK_POWER_MAGIC_NUMBER);
-
 		local petAPBonus = ComputePetBonus("PET_BONUS_RAP_TO_AP", pwr);
 		local petSpellDmgBonus = ComputePetBonus("PET_BONUS_RAP_TO_SPELLDMG", pwr);
 
@@ -71,4 +71,4 @@ local function ValueColorUpdate(hex)
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true;
 
-DT:RegisterDatatext("Attack Power", {"UNIT_STATS", "UNIT_AURA", "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE", "UNIT_ATTACK_POWER", "UNIT_RANGED_ATTACK_POWER"}, OnEvent, nil, nil, OnEnter);
+DT:RegisterDatatext("Attack Power", {"UNIT_ATTACK_POWER", "UNIT_RANGED_ATTACK_POWER"}, OnEvent, nil, nil, OnEnter);

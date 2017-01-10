@@ -1,5 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...)); 
-local DT = E:GetModule('DataTexts')
+local DT = E:GetModule("DataTexts")
 
 local select, unpack = select, unpack
 local sort, wipe = table.sort, wipe
@@ -66,11 +66,11 @@ local function BuildGuildTable()
 	for i = 1, GetNumGuildMembers() do
 		name, rank, rankIndex, level, _, zone, note, officernote, connected, status, class = GetGuildRosterInfo(i)
 		if status == 1 then
-			status = "|cffFFFFFF[|r|cffFF0000"..L['AFK'].."|r|cffFFFFFF]|r"
+			status = "|cffFFFFFF[|r|cffFF0000"..L["AFK"].."|r|cffFFFFFF]|r"
 		elseif status == 2 then
-			status = "|cffFFFFFF[|r|cffFF0000"..L['DND'].."|r|cffFFFFFF]|r"
+			status = "|cffFFFFFF[|r|cffFF0000"..L["DND"].."|r|cffFFFFFF]|r"
 		else 
-			status = '';
+			status = "";
 		end
 
 		if connected then
@@ -120,7 +120,7 @@ local function OnEvent(self, event, ...)
 			if not GuildFrame and IsInGuild() then LoadAddOn("Blizzard_GuildUI") UpdateGuildMessage() UpdateGuildXP() end
 		end
 
-		if (event ~= "GUILD_ROSTER_UPDATE" and event~="PLAYER_GUILD_UPDATE") or event == 'ELVUI_FORCE_RUN' then GuildRoster()  if event ~= 'ELVUI_FORCE_RUN' then return end end
+		if (event ~= "GUILD_ROSTER_UPDATE" and event~="PLAYER_GUILD_UPDATE") or event == "ELVUI_FORCE_RUN" then GuildRoster()  if event ~= "ELVUI_FORCE_RUN" then return end end
 
 		local _, online = GetNumGuildMembers()
 		self.text:SetFormattedText(displayString, online)
@@ -200,7 +200,7 @@ local function OnEnter(self)
 	GuildRoster()
 	BuildGuildTable()
 
-	local guildName, guildRank = GetGuildInfo('player')
+	local guildName, guildRank = GetGuildInfo("player")
 	local guildLevel = GetGuildLevel()
 
 	if guildName and guildRank and guildLevel then
@@ -209,7 +209,7 @@ local function OnEnter(self)
 	end
 
 	if guildMotD ~= "" then
-		DT.tooltip:AddLine(' ')
+		DT.tooltip:AddLine(" ")
 		DT.tooltip:AddLine(format(guildMotDString, GUILD_MOTD, guildMotD), ttsubh.r, ttsubh.g, ttsubh.b, 1)
 	end
 
@@ -219,7 +219,7 @@ local function OnEnter(self)
 			local currentXP, nextLevelXP, percentTotal = unpack(guildXP[0])
 			local dailyXP, maxDailyXP, percentDaily = unpack(guildXP[1])
 
-			DT.tooltip:AddLine(' ')
+			DT.tooltip:AddLine(" ")
 			DT.tooltip:AddLine(format(guildXpCurrentString, E:ShortValue(currentXP), E:ShortValue(nextLevelXP), percentTotal))
 			DT.tooltip:AddLine(format(guildXpDailyString, E:ShortValue(dailyXP), E:ShortValue(maxDailyXP), percentDaily))
 		end
@@ -236,7 +236,7 @@ local function OnEnter(self)
 	local zonec, classc, levelc, info
 	local shown = 0
 
-	DT.tooltip:AddLine(' ')
+	DT.tooltip:AddLine(" ")
 	for i = 1, #guildTable do
 		if 30 - shown <= 1 then
 			if online - 30 > 1 then DT.tooltip:AddLine(format(moreMembersOnlineString, online - 30), ttsubh.r, ttsubh.g, ttsubh.b) end
@@ -262,12 +262,12 @@ end
 
 local function ValueColorUpdate(hex)
 	displayString = join("", GUILD, ": ", hex, "%d|r")
-	noGuildString = join("", hex, NO..' '..GUILD)
+	noGuildString = join("", hex, NO.." "..GUILD)
 
 	if lastPanel ~= nil then
-		OnEvent(lastPanel, 'ELVUI_COLOR_UPDATE')
+		OnEvent(lastPanel, "ELVUI_COLOR_UPDATE")
 	end
 end
-E['valueColorUpdateFuncs'][ValueColorUpdate] = true
+E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
-DT:RegisterDatatext("Guild", {'PLAYER_ENTERING_WORLD', "GUILD_ROSTER_SHOW", "GUILD_ROSTER_UPDATE", "GUILD_XP_UPDATE", "PLAYER_GUILD_UPDATE", "GUILD_MOTD", "CHAT_MSG_SYSTEM"}, OnEvent, nil, OnClick, OnEnter)
+DT:RegisterDatatext("Guild", {"PLAYER_ENTERING_WORLD", "GUILD_ROSTER_SHOW", "GUILD_ROSTER_UPDATE", "GUILD_XP_UPDATE", "PLAYER_GUILD_UPDATE", "GUILD_MOTD", "CHAT_MSG_SYSTEM"}, OnEvent, nil, OnClick, OnEnter)

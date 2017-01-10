@@ -10,7 +10,7 @@ local GetNumTalentGroups = GetNumTalentGroups;
 local GetPrimaryTalentTree = GetPrimaryTalentTree;
 
 local lastPanel, active
-local displayString = '';
+local displayString = "";
 local talent = {}
 local activeString = join("", "|cff00FF00" , ACTIVE_PETS, "|r")
 local inactiveString = join("", "|cffFF0000", FACTION_INACTIVE, "|r")
@@ -62,6 +62,6 @@ local function ValueColorUpdate(hex)
 	end
 end
 
-E['valueColorUpdateFuncs'][ValueColorUpdate] = true
+E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
-DT:RegisterDatatext('Spec Switch',{"PLAYER_ENTERING_WORLD", "CHARACTER_POINTS_CHANGED", "PLAYER_TALENT_UPDATE", "ACTIVE_TALENT_GROUP_CHANGED"}, OnEvent, nil, OnClick, OnEnter)
+DT:RegisterDatatext("Spec Switch", {"PLAYER_ENTERING_WORLD", "CHARACTER_POINTS_CHANGED", "PLAYER_TALENT_UPDATE", "ACTIVE_TALENT_GROUP_CHANGED"}, OnEvent, nil, OnClick, OnEnter)

@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local DT = E:GetModule('DataTexts')
+local DT = E:GetModule("DataTexts")
 
-local displayNumberString = ''
+local displayNumberString = ""
 local lastPanel;
 local join = string.join
 
@@ -17,6 +17,6 @@ local function ValueColorUpdate(hex)
 		OnEvent(lastPanel)
 	end
 end
-E['valueColorUpdateFuncs'][ValueColorUpdate] = true
+E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
-DT:RegisterDatatext('Energy Regen', {"UNIT_STATS", "UNIT_AURA", "FORGE_MASTER_ITEM_CHANGED", "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE"}, OnEvent)
+DT:RegisterDatatext("Energy Regen", {"PLAYER_DAMAGE_DONE_MODS"}, OnEvent);

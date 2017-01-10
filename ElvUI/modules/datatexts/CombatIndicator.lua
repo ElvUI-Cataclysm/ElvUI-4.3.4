@@ -1,5 +1,5 @@
 local E, L, V, P, G = unpack(ElvUI);
-local DT = E:GetModule('DataTexts')
+local DT = E:GetModule("DataTexts")
 
 local function OnEvent(self, event, ...)
 	if event == "PLAYER_REGEN_ENABLED" then
@@ -15,4 +15,4 @@ local function OnEvent(self, event, ...)
 	self.text:SetTextColor(1, 1, 1);
 end
 
-DT:RegisterDatatext('Combat Indicator', {'PLAYER_ENTERING_WORLD', 'PLAYER_REGEN_ENABLED', 'PLAYER_REGEN_DISABLED'}, OnEvent)
+DT:RegisterDatatext("Combat Indicator", {"PLAYER_ENTERING_WORLD", "PLAYER_REGEN_ENABLED", "PLAYER_REGEN_DISABLED"}, OnEvent)

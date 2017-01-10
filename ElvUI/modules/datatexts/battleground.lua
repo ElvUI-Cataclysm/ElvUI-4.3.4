@@ -1,21 +1,21 @@
 ﻿local E, L, V, P, G = unpack(select(2, ...));
-local DT = E:GetModule('DataTexts')
+local DT = E:GetModule("DataTexts")
 
 local lastPanel
-local displayString = ''
+local displayString = ""
 local classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass];
 
 local dataLayout = {
-	['LeftChatDataPanel'] = {
-		['left'] = 10,
-		['middle'] = 5,
-		['right'] = 2,
+	["LeftChatDataPanel"] = {
+		["left"] = 10,
+		["middle"] = 5,
+		["right"] = 2
 	},
-	['RightChatDataPanel'] = {
-		['left'] = 4,
-		['middle'] = 3,
-		['right'] = 11,
-	},
+	["RightChatDataPanel"] = {
+		["left"] = 4,
+		["middle"] = 3,
+		["right"] = 11
+	}
 }
 
 local dataStrings = {
@@ -24,7 +24,7 @@ local dataStrings = {
 	[2] = KILLING_BLOWS,
 	[4] = DEATHS,
 	[3] = KILLS,
-	[11] = SHOW_COMBAT_HEALING,
+	[11] = SHOW_COMBAT_HEALING
 }
 
 local WSG = 443
@@ -53,25 +53,25 @@ function DT:BattlegroundStats()
 	for index=1, GetNumBattlefieldScores() do
 		local name = GetBattlefieldScore(index)
 		if name and name == E.myname then
-			DT.tooltip:AddDoubleLine(L['Stats For:'], name, 1,1,1, classColor.r, classColor.g, classColor.b)
+			DT.tooltip:AddDoubleLine(L["Stats For:"], name, 1,1,1, classColor.r, classColor.g, classColor.b)
 			DT.tooltip:AddLine(" ")
 
 			if CurrentMapID == WSG or CurrentMapID == TP then 
-				DT.tooltip:AddDoubleLine(L['Flags Captured'], GetBattlefieldStatData(index, 1),1,1,1)
-				DT.tooltip:AddDoubleLine(L['Flags Returned'], GetBattlefieldStatData(index, 2),1,1,1)
+				DT.tooltip:AddDoubleLine(L["Flags Captured"], GetBattlefieldStatData(index, 1),1,1,1)
+				DT.tooltip:AddDoubleLine(L["Flags Returned"], GetBattlefieldStatData(index, 2),1,1,1)
 			elseif CurrentMapID == EOTS then
-				DT.tooltip:AddDoubleLine(L['Flags Captured'], GetBattlefieldStatData(index, 1),1,1,1)
+				DT.tooltip:AddDoubleLine(L["Flags Captured"], GetBattlefieldStatData(index, 1),1,1,1)
 			elseif CurrentMapID == AV then
-				DT.tooltip:AddDoubleLine(L['Graveyards Assaulted'], GetBattlefieldStatData(index, 1),1,1,1)
-				DT.tooltip:AddDoubleLine(L['Graveyards Defended'], GetBattlefieldStatData(index, 2),1,1,1)
-				DT.tooltip:AddDoubleLine(L['Towers Assaulted'], GetBattlefieldStatData(index, 3),1,1,1)
-				DT.tooltip:AddDoubleLine(L['Towers Defended'], GetBattlefieldStatData(index, 4),1,1,1)
+				DT.tooltip:AddDoubleLine(L["Graveyards Assaulted"], GetBattlefieldStatData(index, 1),1,1,1)
+				DT.tooltip:AddDoubleLine(L["Graveyards Defended"], GetBattlefieldStatData(index, 2),1,1,1)
+				DT.tooltip:AddDoubleLine(L["Towers Assaulted"], GetBattlefieldStatData(index, 3),1,1,1)
+				DT.tooltip:AddDoubleLine(L["Towers Defended"], GetBattlefieldStatData(index, 4),1,1,1)
 			elseif CurrentMapID == SOTA then
-				DT.tooltip:AddDoubleLine(L['Demolishers Destroyed'], GetBattlefieldStatData(index, 1),1,1,1)
-				DT.tooltip:AddDoubleLine(L['Gates Destroyed'], GetBattlefieldStatData(index, 2),1,1,1)
+				DT.tooltip:AddDoubleLine(L["Demolishers Destroyed"], GetBattlefieldStatData(index, 1),1,1,1)
+				DT.tooltip:AddDoubleLine(L["Gates Destroyed"], GetBattlefieldStatData(index, 2),1,1,1)
 			elseif CurrentMapID == IOC or CurrentMapID == TBFG or CurrentMapID == AB then
-				DT.tooltip:AddDoubleLine(L['Bases Assaulted'], GetBattlefieldStatData(index, 1),1,1,1)
-				DT.tooltip:AddDoubleLine(L['Bases Defended'], GetBattlefieldStatData(index, 2),1,1,1)
+				DT.tooltip:AddDoubleLine(L["Bases Assaulted"], GetBattlefieldStatData(index, 1),1,1,1)
+				DT.tooltip:AddDoubleLine(L["Bases Defended"], GetBattlefieldStatData(index, 2),1,1,1)
 			end
 		end
 	end	
@@ -82,7 +82,7 @@ end
 function DT:HideBattlegroundTexts()
 	DT.ForceHideBGStats = true
 	DT:LoadDataTexts()
-	E:Print(L['Battleground datatexts temporarily hidden, to show type /bgstats or right click the "C" icon near the minimap.'])
+	E:Print(L["Battleground datatexts temporarily hidden, to show type /bgstats or right click the "C" icon near the minimap."])
 end
 
 local function ValueColorUpdate(hex)
@@ -92,4 +92,4 @@ local function ValueColorUpdate(hex)
 		DT.UPDATE_BATTLEFIELD_SCORE(lastPanel)
 	end
 end
-E['valueColorUpdateFuncs'][ValueColorUpdate] = true
+E["valueColorUpdateFuncs"][ValueColorUpdate] = true

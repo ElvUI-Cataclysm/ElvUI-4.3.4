@@ -5,14 +5,13 @@ local format, join = string.format, string.join;
 
 local GetContainerNumFreeSlots = GetContainerNumFreeSlots;
 local GetContainerNumSlots = GetContainerNumSlots;
-local OpenAllBags = OpenAllBags;
+local ToggleAllBags = ToggleAllBags;
 local GetBackpackCurrencyInfo = GetBackpackCurrencyInfo;
 local CURRENCY = CURRENCY;
 local NUM_BAG_SLOTS = NUM_BAG_SLOTS;
 local MAX_WATCHED_TOKENS = MAX_WATCHED_TOKENS;
 
 local currencyString = "|T%s:14:14:0:0:64:64:4:60:4:60|t %s";
-
 local displayString = "";
 local lastPanel;
 
@@ -28,7 +27,7 @@ local function OnEvent(self)
 end
 
 local function OnClick()
-	ToggleAllBags()
+	ToggleAllBags();
 end
 
 local function OnEnter(self)

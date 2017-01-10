@@ -1,5 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local DT = E:GetModule('DataTexts')
+local DT = E:GetModule("DataTexts")
 
 local join = string.join
 
@@ -29,6 +29,6 @@ end
 local function ValueColorUpdate(hex)
 	displayString = join("", hex, "%.1f|r", " , ", hex, "%.1f|r")
 end
-E['valueColorUpdateFuncs'][ValueColorUpdate] = true
+E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
-DT:RegisterDatatext('Coords', nil, nil, Update, Click)
+DT:RegisterDatatext("Coords", nil, nil, Update, Click)

@@ -1,9 +1,9 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local DT = E:GetModule('DataTexts')
+local DT = E:GetModule("DataTexts")
 
 local format, join = string.format, string.join;
 local lastPanel
-local displayString = '';
+local displayString = "";
 
 local function OnEvent(self)
 	lastPanel = self
@@ -41,6 +41,6 @@ local function ValueColorUpdate(hex)
 	end
 end
 
-E['valueColorUpdateFuncs'][ValueColorUpdate] = true
+E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
-DT:RegisterDatatext('Mastery', {"MASTERY_UPDATE"}, OnEvent, nil, nil, OnEnter)
+DT:RegisterDatatext("Mastery", {"MASTERY_UPDATE"}, OnEvent, nil, nil, OnEnter)
