@@ -26,7 +26,7 @@ local function LoadSkin()
 	BattlefieldMinimap:EnableMouse(true)
 	BattlefieldMinimap:SetMovable(true)
 
-	BattlefieldMinimap:SetScript("OnMouseDown", function(_, btn)
+	BattlefieldMinimap:SetScript("OnMouseUp", function(self, btn)
 		if(btn == "LeftButton") then
 			BattlefieldMinimapTab:StopMovingOrSizing()
 			BattlefieldMinimapTab:SetUserPlaced(true)
