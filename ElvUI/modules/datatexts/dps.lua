@@ -74,7 +74,7 @@ local function OnClick(self)
 end
 
 local function ValueColorUpdate(hex)
-	displayString = join("", "%s :", hex, "%.1f|r");
+	displayString = join("", "%s: ", hex, "%.1f|r");
 
 	if(lastPanel ~= nil) then
 		OnEvent(lastPanel);

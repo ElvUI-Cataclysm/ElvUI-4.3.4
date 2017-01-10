@@ -82,7 +82,7 @@ end
 function DT:HideBattlegroundTexts()
 	DT.ForceHideBGStats = true
 	DT:LoadDataTexts()
-	E:Print(L["Battleground datatexts temporarily hidden, to show type /bgstats or right click the "C" icon near the minimap."])
+	E:Print(L["Battleground datatexts temporarily hidden, to show type /bgstats or right click the 'C' icon near the minimap."])
 end
 
 local function ValueColorUpdate(hex)

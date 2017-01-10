@@ -5,7 +5,6 @@ local format, join = string.format, string.join;
 
 local GetContainerNumFreeSlots = GetContainerNumFreeSlots;
 local GetContainerNumSlots = GetContainerNumSlots;
-local ToggleAllBags = ToggleAllBags;
 local GetBackpackCurrencyInfo = GetBackpackCurrencyInfo;
 local CURRENCY = CURRENCY;
 local NUM_BAG_SLOTS = NUM_BAG_SLOTS;
