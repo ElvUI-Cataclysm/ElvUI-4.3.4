@@ -288,7 +288,7 @@ function AB:CreateTotemBar()
 		icon:SetDrawLayer("ARTWORK");
 		icon:SetInside();
 		button.overlayTex:SetTexture(nil);
-		normal:SetAlpha(0);
+		normal:SetTexture(nil);
 		bar.buttons[button] = true;
 
 		--[[if(button.cooldown and E.private.cooldown.enable) then

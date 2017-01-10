@@ -64,6 +64,7 @@ L["Character: "] = "Персонаж: "
 L["Chest"] = "Грудь"
 L["Combat Time"] = "В бою"
 L["copperabbrev"] = "|cffeda55fм|r" --Also used in Bags
+L["Datatext Disabled"] = true;
 L["Deficit:"] = "Убыток:"
 L["Download"] = "Загрузка"
 L["DPS"] = "УВС"
@@ -88,9 +89,11 @@ L["Mitigation By Level: "] = "Снижение на уровне: "
 L["New Mail"] = true;
 L["No Guild"] = "Нет гильдии"
 L["No Mail"] = true;
+L["Not Learned"] = true;
 L["Offhand"] = "Левая рука"
 L["Out of Combat"] = true;
 L["Profit:"] = "Прибыль:"
+L["Ready"] = true;
 L["Reload UI"] = "Перезагрузка"
 L["Reset Data: Hold Shift + Right Click"] = "Сбросить данные: Shift + ПКМ"
 L["Right Click: Reset CPU Usage"] = "ПКМ: Сбросить использование процессора"
@@ -109,6 +112,7 @@ L["Total: "] = "Всего: "
 L["Unhittable:"] = "Полная защита от ударов"
 L["Waist"] = "Пояс"
 L["Wrist"] = "Запястья"
+L["You are not playing a |cff0070DEShaman|r, datatext disabled."] = true;
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFFЛКМ:|r Изменить набор талантов"
 
 -- Death Recap

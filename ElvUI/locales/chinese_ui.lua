@@ -64,6 +64,7 @@ L["Character: "] = "角色: "
 L["Chest"] = "胸"
 L["Combat Time"] = true;
 L["copperabbrev"] = "|cffeda55f铜|r"
+L["Datatext Disabled"] = true;
 L["Deficit:"] = "赤字:"
 L["Download"] = "下载"
 L["DPS"] = "伤害输出"
@@ -88,9 +89,11 @@ L["Mitigation By Level: "] = "等级减伤: "
 L["New Mail"] = true;
 L["No Guild"] = "没有公会"
 L["No Mail"] = true;
+L["Not Learned"] = true;
 L["Offhand"] = "副手"
 L["Out of Combat"] = true;
 L["Profit:"] = "利润:"
+L["Ready"] = true;
 L["Reload UI"] = true;
 L["Reset Data: Hold Shift + Right Click"] = "重置数据: 按住 Shift + 右键点击"
 L["Right Click: Reset CPU Usage"] = true;
@@ -109,6 +112,7 @@ L["Total: "] = "合计: "
 L["Unhittable:"] = "未命中:"
 L["Waist"] = "腰"
 L["Wrist"] = "护腕"
+L["You are not playing a |cff0070DEShaman|r, datatext disabled."] = true;
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFF左键点击:|r 更改当前专精"
 
 -- Death Recap

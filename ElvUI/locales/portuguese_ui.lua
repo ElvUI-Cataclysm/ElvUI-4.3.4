@@ -64,6 +64,7 @@ L["Character: "] = "Personagem: "
 L["Chest"] = "Torso"
 L["Combat Time"] = true;
 L["copperabbrev"] = "|cffeda55fc|r"
+L["Datatext Disabled"] = true;
 L["Deficit:"] = "Défice:"
 L["Download"] = "Download"
 L["DPS"] = "DPS"
@@ -88,9 +89,11 @@ L["Mitigation By Level: "] = "Mitigação por nível"
 L["New Mail"] = true;
 L["No Guild"] = "Sem Guilda"
 L["No Mail"] = true;
+L["Not Learned"] = true;
 L["Offhand"] = "Mão Secundária"
 L["Out of Combat"] = true;
 L["Profit:"] = "Lucro:"
+L["Ready"] = true;
 L["Reload UI"] = true;
 L["Reset Data: Hold Shift + Right Click"] = "Redefinir Dados: Segurar Shifr + Clique Direito"
 L["Right Click: Reset CPU Usage"] = true;
@@ -109,6 +112,7 @@ L["Total: "] = "Total: "
 L["Unhittable:"] = "Inacertável"
 L["Waist"] = "Cintura"
 L["Wrist"] = "Pulsos"
+L["You are not playing a |cff0070DEShaman|r, datatext disabled."] = true;
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFFClique Esquerdo:|r Altera Especialização de Talento"
 
 -- Death Recap

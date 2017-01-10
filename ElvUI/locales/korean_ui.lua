@@ -64,6 +64,7 @@ L["Character: "] = "캐릭터:"
 L["Chest"] = "가슴"
 L["Combat Time"] = true;
 L["copperabbrev"] = "|TInterface\\MoneyFrame\\UI-MoneyIcons:0:0:1:0:64:16:33:48:1:16|t" --"|cffeda55f●|r"
+L["Datatext Disabled"] = true;
 L["Deficit:"] = "손해:"
 L["Download"] = "다운로드"
 L["DPS"] = "DPS"
@@ -88,9 +89,11 @@ L["Mitigation By Level: "] = "레벨별 데미지 경감률"
 L["New Mail"] = true;
 L["No Guild"] = "길드 없음"
 L["No Mail"] = true;
+L["Not Learned"] = true;
 L["Offhand"] = "보조장비"
 L["Out of Combat"] = true;
 L["Profit:"] = "이익:"
+L["Ready"] = true;
 L["Reload UI"] = true;
 L["Reset Data: Hold Shift + Right Click"] = "기록 리셋: Shift + 우클릭"
 L["Right Click: Reset CPU Usage"] = true;
@@ -109,6 +112,7 @@ L["Total: "] = "합계:"
 L["Unhittable:"] = "100% 방어행동까지"
 L["Waist"] = "허리"
 L["Wrist"] = "손목"
+L["You are not playing a |cff0070DEShaman|r, datatext disabled."] = true;
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "클릭 : 전문화 교체"
 
 -- Death Recap

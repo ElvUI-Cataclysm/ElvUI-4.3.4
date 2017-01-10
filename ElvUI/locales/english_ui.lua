@@ -64,6 +64,7 @@ L["Character: "] = true
 L["Chest"] = true;
 L["Combat Time"] = true;
 L["copperabbrev"] = "|cffeda55fc|r" --Also used in Bags
+L["Datatext Disabled"] = true;
 L["Deficit:"] = true;
 L["Download"] = true;
 L["DPS"] = true;
@@ -88,9 +89,11 @@ L["Mitigation By Level: "] = true;
 L["New Mail"] = true;
 L["No Guild"] = true;
 L["No Mail"] = true;
+L["Not Learned"] = true;
 L["Offhand"] = true;
 L["Out of Combat"] = true;
 L["Profit:"] = true;
+L["Ready"] = true;
 L["Reload UI"] = true;
 L["Reset Data: Hold Shift + Right Click"] = true;
 L["Right Click: Reset CPU Usage"] = true;
@@ -109,6 +112,7 @@ L["Total: "] = true;
 L["Unhittable:"] = true;
 L["Waist"] = true;
 L["Wrist"] = true;
+L["You are not playing a |cff0070DEShaman|r, datatext disabled."] = true;
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = true;
 
 -- Death Recap

@@ -64,6 +64,7 @@ L["Character: "] = "角色: "
 L["Chest"] = "胸部"
 L["Combat Time"] = true;
 L["copperabbrev"] = "|cffeda55f銅|r" --Also used in Bags
+L["Datatext Disabled"] = true;
 L["Deficit:"] = "赤字:"
 L["Download"] = "下載"
 L["DPS"] = "傷害輸出"
@@ -88,9 +89,11 @@ L["Mitigation By Level: "] = "等級減傷: "
 L["New Mail"] = true;
 L["No Guild"] = "沒有公會"
 L["No Mail"] = true;
+L["Not Learned"] = true;
 L["Offhand"] = "副手"
 L["Out of Combat"] = true;
 L["Profit:"] = "利潤: "
+L["Ready"] = true;
 L["Reload UI"] = true;
 L["Reset Data: Hold Shift + Right Click"] = "重置數據: 按住 Shift + 右鍵點擊"
 L["Right Click: Reset CPU Usage"] = true;
@@ -109,6 +112,7 @@ L["Total: "] = "合計: "
 L["Unhittable:"] = "未命中:"
 L["Waist"] = "腰部"
 L["Wrist"] = "護腕"
+L["You are not playing a |cff0070DEShaman|r, datatext disabled."] = true;
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFF左鍵:|r 變更目前職業專精"
 
 -- Death Recap
