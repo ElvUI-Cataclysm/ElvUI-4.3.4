@@ -24,6 +24,7 @@ E.Options.args.chat = {
 			order = 3,
 			type = 'group',
 			name = L['General'],
+			disabled = function() return not E.private.chat.enable end,
  			args = {
 				header = {
 					order = 1,
@@ -178,8 +179,34 @@ E.Options.args.chat = {
  					desc = L["Number of messages you scroll for each step."],
  					min = 1, max = 10, step = 1,
 				},
-				timeStampFormat = {
+				chatDirection = {
 					order = 19,
+					type = 'select',
+					name = L["Chat Direction"],
+					desc = L["Controls where text is added to the chat frame."],
+					values = {
+						["BOTTOM"] = L["Bottom to Top"],
+						["TOP"] = L["Top to Bottom"]
+					}
+				},
+				chatHistoryLines = {
+					order = 20,
+					type = 'range',
+					name = L['Chat History Lines'],
+					desc = L['Number of chat messages to be stored in the chat history.'],
+					disabled = function() return not E.db.chat.chatHistory end,
+					min = 250, max = 10000, step = 10,
+					set = function(info, value) 
+						E.db.chat.chatHistoryLines = value 
+					end
+				},
+				spacer2 = {
+					order = 21,
+					type = "description",
+					name = " ",
+				},
+				timeStampFormat = {
+					order = 22,
 					type = 'select',
 					name = TIMESTAMPS_LABEL,
 					desc = OPTION_TOOLTIP_TIMESTAMPS,
@@ -194,13 +221,13 @@ E.Options.args.chat = {
 					}
 				},
 				useCustomTimeColor = {
-					order = 20,
+					order = 23,
 					type = "toggle",
 					name = L["Custom Timestamp Color"],
 					disabled = function() return not E.db.chat.timeStampFormat == "NONE" end
 				},
 				customTimeColor = {
-					order = 21,
+					order = 24,
 					type = "color",
 					hasAlpha = false,
 					name = L["Timestamp Color"],
@@ -215,28 +242,6 @@ E.Options.args.chat = {
 						local t = E.db.chat.customTimeColor
 						t.r, t.g, t.b = r, g, b
 					end
-				},
-				chatDirection = {
-					order = 22,
-					type = 'select',
-					name = L["Chat Direction"],
-					desc = L["Controls where text is added to the chat frame."],
-					values = {
-						["BOTTOM"] = L["Bottom to Top"],
-						["TOP"] = L["Top to Bottom"]
-					}
-				},
-				chatHistoryLines = {
-					order = 23,
-					type = 'range',
-					name = L['Chat History Lines'],
-					desc = L['Number of chat messages to be stored in the chat history.'],
-					disabled = function() return not E.db.chat.chatHistory end,
-					hidden = function() return not E.db.chat.chatHistory end,
-					min = 250, max = 10000, step = 10,
-					set = function(info, value) 
-						E.db.chat.chatHistoryLines = value 
-					end
 				}
 			}
 		},
@@ -244,6 +249,7 @@ E.Options.args.chat = {
 			order = 4,
 			type = 'group',
 			name = L['Alerts'],
+			disabled = function() return not E.private.chat.enable end,
 			args = {
 				header = {
 					order = 1,
@@ -285,6 +291,7 @@ E.Options.args.chat = {
 			order = 5,
 			type = 'group',
 			name = L['Panels'],
+			disabled = function() return not E.private.chat.enable end,
 			args = {
 				header = {
 					order = 1,
@@ -432,6 +439,7 @@ E.Options.args.chat = {
 			type = 'group',
 			name = L['Fonts'],
 			set = function(info, value) E.db.chat[ info[#info] ] = value; CH:SetupChat() end,
+			disabled = function() return not E.private.chat.enable end,
 			args = {
 				header = {
 					order = 1,
