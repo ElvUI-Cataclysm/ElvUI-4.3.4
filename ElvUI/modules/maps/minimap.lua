@@ -405,7 +405,7 @@ function M:UpdateSettings()
 	end
 end
 
-function M:Initialize()	
+function M:Initialize()
 	menuFrame:SetTemplate("Transparent", true);
 	self:UpdateSettings();
 	if(not E.private.general.minimap.enable) then 

@@ -14,14 +14,16 @@ local function LoadSkin()
 
 	BattlefieldMinimap:CreateBackdrop("Default")
 	BattlefieldMinimap.backdrop:Point("BOTTOMRIGHT", -4, 2)
-	BattlefieldMinimap:SetFrameStrata("LOW")
+	BattlefieldMinimap:SetFrameStrata("MEDIUM")
+	BattlefieldMinimap:SetFrameLevel(25);
 
 	BattlefieldMinimapCloseButton:ClearAllPoints()
-	BattlefieldMinimapCloseButton:Point("TOPRIGHT", -4, 0)
+	BattlefieldMinimapCloseButton:Point("TOPRIGHT", -2, 2)
 	S:HandleCloseButton(BattlefieldMinimapCloseButton)
 	BattlefieldMinimapCloseButton.text:ClearAllPoints()
 	BattlefieldMinimapCloseButton.text:Point("CENTER", BattlefieldMinimapCloseButton, "CENTER", 0, 1)
-	BattlefieldMinimapCloseButton:SetFrameStrata("MEDIUM")
+	BattlefieldMinimap:SetFrameStrata("MEDIUM")
+	BattlefieldMinimapCloseButton:SetFrameLevel(35);
 
 	BattlefieldMinimap:EnableMouse(true)
 	BattlefieldMinimap:SetMovable(true)
