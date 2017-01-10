@@ -150,9 +150,9 @@ E.Options.args.bags = {
 						},
 						itemLevelThreshold = {
 							order = 2,
+							type = "range",
 							name = L["Item Level Threshold"],
 							desc = L["The minimum item level required for it to be shown."],
-							type = "range",
 							min = 1, max = 1000, step = 1,
 							disabled = function() return not E.db.bags.itemLevel; end,
 							set = function(info, value) E.db.bags.itemLevelThreshold = value; B:UpdateItemLevelDisplay(); end
@@ -265,26 +265,30 @@ E.Options.args.bags = {
 					order = 2,
  					type = 'toggle',
  					name = L["Backdrop"],
+					disabled = function() return not E.private.bags.bagBar end
  				},
  				mouseover = {
  					order = 3,
+ 					type = "toggle",
  					name = L["Mouse Over"],
  					desc = L["The frame is not shown unless you mouse over the frame."],
- 					type = "toggle",
+					disabled = function() return not E.private.bags.bagBar end
  				},
  				size = {
 					order = 4,
 					type = "range",
 					name = L["Button Size"],
 					desc = L["Set the size of your bag buttons."],
-					min = 24, max = 60, step = 1
+					min = 24, max = 60, step = 1,
+					disabled = function() return not E.private.bags.bagBar end
 				},
 				spacing = {
 					order = 5,
 					type = "range",
 					name = L["Button Spacing"],
 					desc = L["The spacing between buttons."],
-					min = 1, max = 10, step = 1
+					min = 1, max = 10, step = 1,
+					disabled = function() return not E.private.bags.bagBar end
 				},
  				backdropSpacing = {
  					order = 6,
@@ -292,7 +296,7 @@ E.Options.args.bags = {
  					name = L["Backdrop Spacing"],
  					desc = L["The spacing between the backdrop and the buttons."],
  					min = 0, max = 10, step = 1,
-					disabled = function() return not E.private.actionbar.enable end,
+					disabled = function() return not E.private.bags.bagBar end
 				},
 				sortDirection = {
 					order = 7,
@@ -302,7 +306,8 @@ E.Options.args.bags = {
 					values = {
 						["ASCENDING"] = L["Ascending"],
 						["DESCENDING"] = L["Descending"]
-					}
+					},
+					disabled = function() return not E.private.bags.bagBar end
 				},
 				growthDirection = {
 					order = 7,
@@ -312,7 +317,8 @@ E.Options.args.bags = {
 					values = {
 						["VERTICAL"] = L["Vertical"],
 						["HORIZONTAL"] = L["Horizontal"]
-					}
+					},
+					disabled = function() return not E.private.bags.bagBar end
 				}
 			}
 		},
@@ -351,9 +357,9 @@ E.Options.args.bags = {
 					args = {
 						addEntryProfile = {
 							order = 1,
+							type = 'input',
 							name = L["Profile"],
 							desc = L["Add an item or search syntax to the ignored list. Items matching the search syntax will be ignored."],
-							type = 'input',
 							get = function(info) return "" end,
 							set = function(info, value)
 								if value == "" or string.gsub(value, "%s+", "") == "" then return; end --Don't allow empty entries
@@ -370,9 +376,9 @@ E.Options.args.bags = {
 						},
 						addEntryGlobal = {
 							order = 3,
+							type = 'input',
 							name = L["Global"],
 							desc = L["Add an item or search syntax to the ignored list. Items matching the search syntax will be ignored."],
-							type = 'input',
 							get = function(info) return "" end,
 							set = function(info, value)
 								if value == "" or string.gsub(value, "%s+", "") == "" then return; end --Don't allow empty entries
