@@ -43,7 +43,7 @@ local function OnEnter(self)
 
 	for i = 1, GetNumTalentGroups() do
 		if GetPrimaryTalentTree(false, false, i) then
-			DT.tooltip:AddLine(join(" ", format(displayString, select(2, GetTalentTabInfo(GetPrimaryTalentTree(false, false, i))), talent[i][1], talent[i][2], talent[i][3]), (i == active and activeString or inactiveString)),1,1,1)
+			DT.tooltip:AddLine(join(" ", format(displayString, select(2, GetTalentTabInfo(GetPrimaryTalentTree(false, false, i))), talent[i][1], talent[i][2], talent[i][3]), (i == active and activeString or inactiveString)), 1, 1, 1)
 		end
 	end
 
@@ -55,7 +55,7 @@ local function OnClick(self)
 end
 
 local function ValueColorUpdate(hex)
-	displayString = join("", "|cffFFFFFF%s:|r ", hex, "%d|r / ", hex, "%d|r / ", hex, "%d|r")
+	displayString = join("", "|cffFFFFFF%s:|r ", hex, "%d / |r", hex, "%d / |r", hex, "%d|r")
 
 	if lastPanel ~= nil then
 		OnEvent(lastPanel)

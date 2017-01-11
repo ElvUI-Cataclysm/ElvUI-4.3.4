@@ -9,7 +9,7 @@ local ToggleFrame = ToggleFrame
 local displayString = ""
 local x, y = 0, 0
 
-local function Update(self, elapsed)
+local function OnUpdate(self, elapsed)
 	self.timeSinceUpdate = (self.timeSinceUpdate or 0) + elapsed
 
 	if self.timeSinceUpdate > 0.1 then
@@ -17,18 +17,18 @@ local function Update(self, elapsed)
 		x = E:Round(100 * x, 1)
 		y = E:Round(100 * y, 1)
 
-		self.text:SetFormattedText(displayString, x, y)
+		self.text:SetFormattedText(displayString, "Coords", x, y)
 		self.timeSinceUpdate = 0
 	end
 end
 
-local function Click()
+local function OnClick()
 	ToggleFrame(WorldMapFrame)
 end
 
 local function ValueColorUpdate(hex)
-	displayString = join("", hex, "%.1f|r", " , ", hex, "%.1f|r")
+	displayString = join("", "%s ", hex, "%.1f , |r", hex, "%.1f|r")
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
-DT:RegisterDatatext("Coords", nil, nil, Update, Click)
+DT:RegisterDatatext("Coords", nil, nil, OnUpdate, OnClick)

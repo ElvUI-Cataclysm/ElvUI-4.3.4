@@ -88,6 +88,7 @@ local function LoadSkin()
 
 	for i = 1, 6 do
 		_G["PVPTeamManagementFrameTeamMemberButton"..i]:StyleButton()
+		_G["PVPTeamManagementFrameTeamMemberButton"..i.."ClassIcon"]:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
 	end
 
 	PVPFrameTab1:ClearAllPoints()
