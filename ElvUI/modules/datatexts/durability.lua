@@ -58,11 +58,6 @@ local function OnEnter(self)
 		DT.tooltip:AddDoubleLine(_G[upper(slot)], format(tooltipString, durability), 1, 1, 1, E:ColorGradient(durability * 0.01, 1, 0, 0, 1, 1, 0, 0, 1, 0));
 	end
 
-	-- item level
-	local total, equipped = GetAverageItemLevel()
-	DT.tooltip:AddLine(" ")
-	DT.tooltip:AddDoubleLine(L["Item Level"], ("%d (%d %s)"):format(total, equipped, L["Equipped"]), 1, 1, 1)
-
 	DT.tooltip:Show();
 end
 

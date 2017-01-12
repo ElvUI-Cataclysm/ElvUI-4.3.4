@@ -1,6 +1,8 @@
 ﻿local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule("DataTexts")
 
+local join = string.join;
+
 local lastPanel
 local displayString = ""
 local classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass];
@@ -39,7 +41,7 @@ local AB = 461
 function DT:UPDATE_BATTLEFIELD_SCORE()
 	lastPanel = self
 	local index = dataLayout[self:GetParent():GetName()][self.pointIndex]
-	for i=1, GetNumBattlefieldScores() do
+	for i = 1, GetNumBattlefieldScores() do
 		if select(1, GetBattlefieldScore(i)) == E.myname then
 			self.text:SetFormattedText(displayString, dataStrings[index], E:ShortValue(select(index, GetBattlefieldScore(i))))
 		end
@@ -50,28 +52,28 @@ function DT:BattlegroundStats()
 	DT:SetupTooltip(self)
 	local CurrentMapID = GetCurrentMapAreaID()
 
-	for index=1, GetNumBattlefieldScores() do
+	for index = 1, GetNumBattlefieldScores() do
 		local name = GetBattlefieldScore(index)
 		if name and name == E.myname then
-			DT.tooltip:AddDoubleLine(L["Stats For:"], name, 1,1,1, classColor.r, classColor.g, classColor.b)
+			DT.tooltip:AddDoubleLine(L["Stats For:"], name, 1, 1, 1, classColor.r, classColor.g, classColor.b)
 			DT.tooltip:AddLine(" ")
 
 			if CurrentMapID == WSG or CurrentMapID == TP then 
-				DT.tooltip:AddDoubleLine(L["Flags Captured"], GetBattlefieldStatData(index, 1),1,1,1)
-				DT.tooltip:AddDoubleLine(L["Flags Returned"], GetBattlefieldStatData(index, 2),1,1,1)
+				DT.tooltip:AddDoubleLine(L["Flags Captured"], GetBattlefieldStatData(index, 1), 1, 1, 1)
+				DT.tooltip:AddDoubleLine(L["Flags Returned"], GetBattlefieldStatData(index, 2), 1, 1, 1)
 			elseif CurrentMapID == EOTS then
-				DT.tooltip:AddDoubleLine(L["Flags Captured"], GetBattlefieldStatData(index, 1),1,1,1)
+				DT.tooltip:AddDoubleLine(L["Flags Captured"], GetBattlefieldStatData(index, 1), 1, 1, 1)
 			elseif CurrentMapID == AV then
-				DT.tooltip:AddDoubleLine(L["Graveyards Assaulted"], GetBattlefieldStatData(index, 1),1,1,1)
-				DT.tooltip:AddDoubleLine(L["Graveyards Defended"], GetBattlefieldStatData(index, 2),1,1,1)
-				DT.tooltip:AddDoubleLine(L["Towers Assaulted"], GetBattlefieldStatData(index, 3),1,1,1)
-				DT.tooltip:AddDoubleLine(L["Towers Defended"], GetBattlefieldStatData(index, 4),1,1,1)
+				DT.tooltip:AddDoubleLine(L["Graveyards Assaulted"], GetBattlefieldStatData(index, 1), 1, 1, 1)
+				DT.tooltip:AddDoubleLine(L["Graveyards Defended"], GetBattlefieldStatData(index, 2), 1, 1, 1)
+				DT.tooltip:AddDoubleLine(L["Towers Assaulted"], GetBattlefieldStatData(index, 3), 1, 1, 1)
+				DT.tooltip:AddDoubleLine(L["Towers Defended"], GetBattlefieldStatData(index, 4), 1, 1, 1)
 			elseif CurrentMapID == SOTA then
-				DT.tooltip:AddDoubleLine(L["Demolishers Destroyed"], GetBattlefieldStatData(index, 1),1,1,1)
-				DT.tooltip:AddDoubleLine(L["Gates Destroyed"], GetBattlefieldStatData(index, 2),1,1,1)
+				DT.tooltip:AddDoubleLine(L["Demolishers Destroyed"], GetBattlefieldStatData(index, 1), 1, 1, 1)
+				DT.tooltip:AddDoubleLine(L["Gates Destroyed"], GetBattlefieldStatData(index, 2), 1, 1, 1)
 			elseif CurrentMapID == IOC or CurrentMapID == TBFG or CurrentMapID == AB then
-				DT.tooltip:AddDoubleLine(L["Bases Assaulted"], GetBattlefieldStatData(index, 1),1,1,1)
-				DT.tooltip:AddDoubleLine(L["Bases Defended"], GetBattlefieldStatData(index, 2),1,1,1)
+				DT.tooltip:AddDoubleLine(L["Bases Assaulted"], GetBattlefieldStatData(index, 1), 1, 1, 1)
+				DT.tooltip:AddDoubleLine(L["Bases Defended"], GetBattlefieldStatData(index, 2), 1, 1, 1)
 			end
 		end
 	end	
@@ -86,7 +88,7 @@ function DT:HideBattlegroundTexts()
 end
 
 local function ValueColorUpdate(hex)
-	displayString = string.join("", "%s: ", hex, "%s|r")
+	displayString = join("", "%s: ", hex, "%s|r")
 
 	if lastPanel ~= nil then
 		DT.UPDATE_BATTLEFIELD_SCORE(lastPanel)

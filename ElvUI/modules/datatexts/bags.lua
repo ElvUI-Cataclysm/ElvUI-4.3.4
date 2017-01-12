@@ -45,7 +45,7 @@ local function OnEnter(self)
 end
 
 local function ValueColorUpdate(hex)
-	displayString = join("", "%s: ", hex, "%d/%d|r");
+	displayString = join("", "%s: ", hex, "%d / %d|r");
 
 	if(lastPanel ~= nil) then
 		OnEvent(lastPanel);
