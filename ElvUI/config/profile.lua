@@ -2484,7 +2484,6 @@ P['chat'] = {
 	['chatHistory'] = true,
 	['lfgIcons'] = false,
 	['timeStampFormat'] = 'NONE',
-	['chatDirection'] = 'BOTTOM',
 	['chatHistoryLines'] = 250,
 	['keywords'] = '%MYNAME%, ElvUI',
 	['separateSizes'] = false,

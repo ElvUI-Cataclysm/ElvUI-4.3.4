@@ -170,11 +170,10 @@ local rolePaths = {
 }
 
 local specialChatIcons = {
-	["WoW Circle 3.3.5a x25"] = {
-		["Кроль"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\ElvUI_Chat_Logo:13:22|t",
-		["Бесмертный"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\ElvUI_Chat_Logo:13:22|t"
+	["Dragonwrath"] = {
+		["Tyrann"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\ElvUI_Chat_Logo:13:22|t"
 	}
-}
+};
 
 CH.Keywords = {};
 CH.ClassNames = {};
@@ -182,56 +181,29 @@ CH.ClassNames = {};
 local numScrollMessages
 local function ChatFrame_OnMouseScroll(frame, delta)
 	numScrollMessages = CH.db.numScrollMessages or 3
-	if CH.db.chatDirection == 'TOP' then
-		if delta < 0 then
-			if IsShiftKeyDown() then
-				frame:ScrollToTop()
-			else
-				for i = 1, numScrollMessages do
-					frame:ScrollUp()
-				end
-			end
-		elseif delta > 0 then
-			if IsShiftKeyDown() then
-				frame:ScrollToBottom()
-			else
-				for i = 1, numScrollMessages do
-					frame:ScrollDown()
-				end
-			end
-			if CH.db.scrollDownInterval ~= 0 then
-				if frame.ScrollTimer then
-					CH:CancelTimer(frame.ScrollTimer, true)
-				end
-			
-				frame.ScrollTimer = CH:ScheduleTimer('ScrollToTop', CH.db.scrollDownInterval, frame)
+	if delta < 0 then
+		if IsShiftKeyDown() then
+			frame:ScrollToBottom()
+		else
+			for i = 1, numScrollMessages do
+				frame:ScrollDown()
 			end
 		end
-	else
-		if delta < 0 then
-			if IsShiftKeyDown() then
-				frame:ScrollToBottom()
-			else
-				for i = 1, numScrollMessages do
-					frame:ScrollDown()
-				end
+	elseif delta > 0 then
+		if IsShiftKeyDown() then
+			frame:ScrollToTop()
+		else
+			for i = 1, numScrollMessages do
+				frame:ScrollUp()
 			end
-		elseif delta > 0 then
-			if IsShiftKeyDown() then
-				frame:ScrollToTop()
-			else
-				for i = 1, numScrollMessages do
-					frame:ScrollUp()
-				end
+		end
+
+		if CH.db.scrollDownInterval ~= 0 then
+			if frame.ScrollTimer then
+				CH:CancelTimer(frame.ScrollTimer, true)
 			end
 
-			if CH.db.scrollDownInterval ~= 0 then
-				if frame.ScrollTimer then
-					CH:CancelTimer(frame.ScrollTimer, true)
-				end
-
-				frame.ScrollTimer = CH:ScheduleTimer('ScrollToBottom', CH.db.scrollDownInterval, frame)
-			end
+			frame.ScrollTimer = CH:ScheduleTimer('ScrollToBottom', CH.db.scrollDownInterval, frame)
 		end
 	end
 end
@@ -1351,11 +1323,6 @@ function CH:SetupChat(event, ...)
 	if E.private.chat.enable ~= true then return end
 	for _, frameName in pairs(CHAT_FRAMES) do
 		local frame = _G[frameName]
-
-		if CH.db.chatDirection == 'TOP' then
-			frame:SetInsertMode('TOP')
-		end
-
 		local id = frame:GetID();
 		local _, fontSize = FCF_GetChatWindowInfo(id);
 		self:StyleChat(frame)

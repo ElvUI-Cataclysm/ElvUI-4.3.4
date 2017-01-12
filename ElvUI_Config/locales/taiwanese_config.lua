@@ -234,7 +234,6 @@ L["Chat EditBox Position"] = '對話輸入框位置'
 L["Chat History"] = "對話記錄"
 L["Chat History Lines"] = true;
 L["Class Color Mentions"] = "使用職業上色"
-L["Controls where text is added to the chat frame."] = true;
 L["Custom Timestamp Color"] = "自訂時間戳記顏色"
 L["Display LFG Icons in group chat."] = "在隊伍聊天中顯示預組圖示"
 L["Display the hyperlink tooltip while hovering over a hyperlink."] = "滑鼠懸停在超鏈接上時顯示鏈接提示框."
