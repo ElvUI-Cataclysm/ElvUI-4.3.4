@@ -274,58 +274,6 @@ local function LoadSkin()
 	LevelUpDisplaySpellFrameIcon:SetTexCoord(unpack(E.TexCoords));
 	LevelUpDisplaySpellFrameSubIcon:SetTexCoord(unpack(E.TexCoords));
 
-	-- Minimap Buttons
-	if(E.private.general.minimap.enable) then
-		-- Minimap GM Ticket Button
-		local ticketbutton = HelpOpenTicketButton;
-		local ticketbuttonIcon = ticketbutton:GetNormalTexture();
-		local ticketbuttonPushed = ticketbutton:GetPushedTexture();
-
-		ticketbutton:StripTextures();
-		S:HandleButton(ticketbutton);
-
-		ticketbutton:CreateBackdrop();
-		ticketbutton:SetFrameStrata("MEDIUM");
-		ticketbutton:Size(30);
-
-		ticketbuttonIcon:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-Blizz");
-		ticketbuttonIcon:SetTexCoord(unpack(E.TexCoords));
-		ticketbuttonIcon:ClearAllPoints();
-		ticketbuttonIcon:Point("CENTER");
-
-		ticketbuttonPushed:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-Blizz");
-		ticketbuttonPushed:SetTexCoord(unpack(E.TexCoords));
-		ticketbuttonPushed:ClearAllPoints();
-		ticketbuttonPushed:Point("CENTER");
-
-		-- Minimap PVP Queue Button
-		MiniMapBattlefieldFrame:StripTextures();
-		MiniMapBattlefieldFrame:CreateBackdrop();
-		MiniMapBattlefieldFrame:Size(30);
-
-		MiniMapBattlefieldFrame.texture = MiniMapBattlefieldFrame:CreateTexture(nil, "OVERLAY");
-		if(UnitFactionGroup("player") == "Horde") then
-			MiniMapBattlefieldFrame.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Horde");
-		elseif(UnitFactionGroup("player") == "Alliance") then
-			MiniMapBattlefieldFrame.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Alliance");
-		end
-		MiniMapBattlefieldFrame.texture:SetTexCoord(unpack(E.TexCoords));
-		MiniMapBattlefieldFrame.texture:SetInside(MiniMapBattlefieldFrame.backdrop);
-
-		-- Minimap ZoomIn/ZoomOut Buttons
-		S:HandleCloseButton(MinimapZoomIn);
-		MinimapZoomIn.text:SetText("+");
-		MinimapZoomIn.text:FontTemplate(nil, 22);
-		MinimapZoomIn:Size(40);
-		MinimapZoomIn:SetFrameStrata("MEDIUM");
-
-		S:HandleCloseButton(MinimapZoomOut);
-		MinimapZoomOut.text:SetText("-");
-		MinimapZoomOut.text:FontTemplate(nil, 22);
-		MinimapZoomOut:Size(40);
-		MinimapZoomOut:SetFrameStrata("MEDIUM");
-	end
-
 	-- Dropdown Menu
 	hooksecurefunc("UIDropDownMenu_InitializeHelper", function()
 		for i = 1, UIDROPDOWNMENU_MAXLEVELS do

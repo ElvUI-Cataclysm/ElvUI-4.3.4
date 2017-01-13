@@ -3,24 +3,35 @@ local M = E:NewModule("Minimap", "AceEvent-3.0");
 E.Minimap = M;
 
 local _G = _G;
+local unpack = unpack;
+
+local format = string.format;
 local strsub = strsub;
 
+local CloseAllWindows = CloseAllWindows;
+local CloseMenus = CloseMenus;
 local CreateFrame = CreateFrame;
+local GetMinimapZoneText = GetMinimapZoneText;
+local GetZonePVPInfo = GetZonePVPInfo;
+local GuildInstanceDifficulty = GuildInstanceDifficulty;
+local InCombatLockdown = InCombatLockdown;
+local IsAddOnLoaded = IsAddOnLoaded;
+local IsShiftKeyDown = IsShiftKeyDown;
+local MainMenuMicroButton_SetNormal = MainMenuMicroButton_SetNormal;
+local Minimap_OnClick = Minimap_OnClick;
+local PlaySound = PlaySound;
+local ShowUIPanel, HideUIPanel = ShowUIPanel, HideUIPanel;
+local UIErrorsFrame = UIErrorsFrame;
+local ToggleDropDownMenu = ToggleDropDownMenu;
+local ToggleAchievementFrame = ToggleAchievementFrame;
 local ToggleCharacter = ToggleCharacter;
 local ToggleFrame = ToggleFrame;
-local ToggleAchievementFrame = ToggleAchievementFrame;
 local ToggleFriendsFrame = ToggleFriendsFrame;
-local IsAddOnLoaded = IsAddOnLoaded;
+local ToggleGuildFrame = ToggleGuildFrame;
 local ToggleHelpFrame = ToggleHelpFrame;
-local GetZonePVPInfo = GetZonePVPInfo;
-local IsShiftKeyDown = IsShiftKeyDown;
-local ToggleDropDownMenu = ToggleDropDownMenu;
-local Minimap_OnClick = Minimap_OnClick;
-local GetMinimapZoneText = GetMinimapZoneText;
-local InCombatLockdown = InCombatLockdown;
-local GuildInstanceDifficulty = GuildInstanceDifficulty
 
 local menuFrame = CreateFrame("Frame", "MinimapRightClickMenu", E.UIParent, "UIDropDownMenuTemplate");
+local guildText = IsInGuild() and ACHIEVEMENTS_GUILD_TAB or LOOKINGFORGUILD;
 local menuList = {
 	{text = CHARACTER_BUTTON, notCheckable = 1, func = function()
 		ToggleCharacter("PaperDollFrame");
@@ -63,7 +74,7 @@ local menuList = {
 	{text = TIMEMANAGER_TITLE, notCheckable = 1, func = function()
 		ToggleTimeManager();
 	end},
-	{text = ACHIEVEMENTS_GUILD_TAB, notCheckable = 1, func = function()
+	{text = guildText, notCheckable = 1, func = function()
 		ToggleGuildFrame();
 	end},
 	{text = PLAYER_V_PLAYER, notCheckable = 1, func = function()
@@ -313,6 +324,8 @@ function M:UpdateSettings()
 		return;
 	end
 
+	local S = E:GetModule("Skins");
+
 	if(GameTimeFrame) then
 		if(E.private.general.minimap.hideCalendar) then
 			GameTimeFrame:Hide();
@@ -349,6 +362,20 @@ function M:UpdateSettings()
 		MiniMapBattlefieldFrame:ClearAllPoints();
 		MiniMapBattlefieldFrame:Point(pos, Minimap, pos, E.db.general.minimap.icons.battlefield.xOffset or 3, E.db.general.minimap.icons.battlefield.yOffset or 0);
 		MiniMapBattlefieldFrame:SetScale(scale);
+
+		--Skin PvP Button
+		MiniMapBattlefieldFrame:StripTextures();
+		MiniMapBattlefieldFrame:CreateBackdrop();
+		MiniMapBattlefieldFrame:Size(30);
+
+		MiniMapBattlefieldFrame.texture = MiniMapBattlefieldFrame:CreateTexture(nil, "OVERLAY");
+		if(UnitFactionGroup("player") == "Horde") then
+			MiniMapBattlefieldFrame.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Horde");
+		elseif(UnitFactionGroup("player") == "Alliance") then
+			MiniMapBattlefieldFrame.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-Alliance");
+		end
+		MiniMapBattlefieldFrame.texture:SetTexCoord(unpack(E.TexCoords));
+		MiniMapBattlefieldFrame.texture:SetInside(MiniMapBattlefieldFrame.backdrop);
 	end
 
 	if(MiniMapInstanceDifficulty and GuildInstanceDifficulty) then
@@ -372,6 +399,28 @@ function M:UpdateSettings()
 		HelpOpenTicketButton:ClearAllPoints();
 		HelpOpenTicketButton:Point(pos, Minimap, pos, x, y);
 		HelpOpenTicketButton:SetScale(scale);
+
+		--Skin Ticket Button
+		local ticketbutton = HelpOpenTicketButton;
+		local ticketbuttonIcon = ticketbutton:GetNormalTexture();
+		local ticketbuttonPushed = ticketbutton:GetPushedTexture();
+
+		ticketbutton:StripTextures();
+		S:HandleButton(ticketbutton);
+
+		ticketbutton:CreateBackdrop();
+		ticketbutton:SetFrameStrata("MEDIUM");
+		ticketbutton:Size(30);
+
+		ticketbuttonIcon:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-Blizz");
+		ticketbuttonIcon:SetTexCoord(unpack(E.TexCoords));
+		ticketbuttonIcon:ClearAllPoints();
+		ticketbuttonIcon:Point("CENTER");
+
+		ticketbuttonPushed:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-Blizz");
+		ticketbuttonPushed:SetTexCoord(unpack(E.TexCoords));
+		ticketbuttonPushed:ClearAllPoints();
+		ticketbuttonPushed:Point("CENTER");
 	end
 
 	if(MinimapZoomIn) then
@@ -387,6 +436,13 @@ function M:UpdateSettings()
 			MinimapZoomIn:SetScale(scale);
 			MinimapZoomIn:Show();
 		end
+
+		--Skin ZoonIn Button
+		S:HandleCloseButton(MinimapZoomIn);
+		MinimapZoomIn.text:SetText("+");
+		MinimapZoomIn.text:FontTemplate(nil, 22);
+		MinimapZoomIn:Size(40);
+		MinimapZoomIn:SetFrameStrata("MEDIUM");
 	end
 
 	if(MinimapZoomOut) then
@@ -402,6 +458,13 @@ function M:UpdateSettings()
 			MinimapZoomOut:SetScale(scale);
 			MinimapZoomOut:Show();
 		end
+
+		--Skin ZoonOut Button
+		S:HandleCloseButton(MinimapZoomOut);
+		MinimapZoomOut.text:SetText("-");
+		MinimapZoomOut.text:FontTemplate(nil, 22);
+		MinimapZoomOut:Size(40);
+		MinimapZoomOut:SetFrameStrata("MEDIUM");
 	end
 end
 
