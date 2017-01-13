@@ -1,6 +1,13 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule("DataTexts")
 
+local time = time
+local select = select
+local max = math.max
+local join = string.join
+
+local UnitGUID = UnitGUID
+
 local events = {SPELL_HEAL = true, SPELL_PERIODIC_HEAL = true}
 local playerID, petID
 local healTotal, lastHealAmount = 0, 0
@@ -19,38 +26,39 @@ end
 
 local function GetHPS(self)
 	local hps
-	if healTotal == 0 or combatTime == 0 then
+	if(healTotal == 0 or combatTime == 0) then
 		hps = "0.0"
 	else
-		hps = healTotal / combatTime
+		hps = (healTotal) / (combatTime)
 	end
-	self.text:SetFormattedText(displayString, L["HPS"]..": ", hps)
+	self.text:SetFormattedText(displayString, L["HPS"], hps)
 end
 
 local function OnEvent(self, event, ...)
 	lastPanel = self
 
-	if event == "PLAYER_ENTERING_WORLD" then
+	if(event == "PLAYER_ENTERING_WORLD") then
 		playerID = UnitGUID("player")
 	elseif event == "PLAYER_REGEN_DISABLED" or event == "PLAYER_LEAVE_COMBAT" then
 		local now = time()
-		if now - lastSegment > 20 then
+		if(now - lastSegment > 20) then
 			Reset()
 		end
 		lastSegment = now
 	elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
 		if not events[select(2, ...)] then return end
 
-		local id = select(3, ...)
+		local id = select(4, ...)
+
 		if id == playerID or id == petID then
-			if timeStamp == 0 then timeStamp = select(1, ...) end
-			local overHeal = select(13, ...)
+			if(timeStamp == 0) then timeStamp = select(1, ...) end
+			local overHeal = select(16, ...)
 			lastSegment = timeStamp
 			combatTime = select(1, ...) - timeStamp
-			lastHealAmount = select(12, ...)
-			healTotal = healTotal + math.max(0, lastHealAmount - overHeal)
+			lastHealAmount = select(15, ...)
+			healTotal = healTotal + max(0, lastHealAmount - overHeal)
 		end
-	elseif event == UNIT_PET then
+	elseif(event == "UNIT_PET") then
 		petID = UnitGUID("pet")
 	end
 
@@ -63,9 +71,9 @@ local function OnClick(self)
 end
 
 local function ValueColorUpdate(hex)
-	displayString = string.join("", "%s", hex, "%.1f|r")
+	displayString = join("", "%s: ", hex, "%.1f|r")
 
-	if lastPanel ~= nil then
+	if(lastPanel ~= nil) then
 		OnEvent(lastPanel)
 	end
 end

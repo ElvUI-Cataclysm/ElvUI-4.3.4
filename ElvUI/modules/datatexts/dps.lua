@@ -47,16 +47,16 @@ local function OnEvent(self, event, ...)
 	elseif(event == "COMBAT_LOG_EVENT_UNFILTERED") then
 		if(not events[select(2, ...)]) then return; end
 
-		local id = select(3, ...);
+		local id = select(4, ...);
 
 		if(id == playerID or id == petID) then
 			if(timeStamp == 0) then timeStamp = select(1, ...); end
 			lastSegment = timeStamp;
 			combatTime = select(1, ...) - timeStamp;
 			if(select(2, ...) == "SWING_DAMAGE") then
-				lastDMGAmount = select(9, ...);
-			else
 				lastDMGAmount = select(12, ...);
+			else
+				lastDMGAmount = select(15, ...);
 			end
 
 			DMGTotal = DMGTotal + lastDMGAmount;
