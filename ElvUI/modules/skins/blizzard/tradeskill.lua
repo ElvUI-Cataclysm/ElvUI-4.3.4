@@ -138,6 +138,8 @@ local function LoadSkin()
 	TradeSkillSkillIcon:StyleButton(nil, true);
 	TradeSkillSkillIcon:SetTemplate("Default");
 
+	TradeSkillRequirementLabel:SetTextColor(1, 0.80, 0.10);
+
 	for i = 1, MAX_TRADE_SKILL_REAGENTS do
 		local reagent = _G["TradeSkillReagent" .. i];
 		local icon = _G["TradeSkillReagent" .. i .. "IconTexture"];

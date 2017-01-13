@@ -90,6 +90,8 @@ local function LoadSkin()
 	for _, Object in pairs({"Rewards", "Perks"}) do
 		for i = 1, 8 do
 			local Button = _G["Guild"..Object.."ContainerButton"..i];
+			local Name = _G["Guild"..Object.."ContainerButton"..i.."Name"];
+			local SubText = _G["Guild"..Object.."ContainerButton"..i.."SubText"];
 
 			Button:StripTextures();
 			Button:CreateBackdrop("Default");
@@ -103,14 +105,17 @@ local function LoadSkin()
 			Button.icon:SetParent(Button.backdrop);
 
 			if(Object == "Rewards") then
+				SubText:SetTextColor(1, 0.80, 0.10);
 				Button.backdrop:SetScript("OnUpdate", function(self)
 					local _, itemID = GetGuildRewardInfo(Button.index);
 					if(itemID) then
 						local quality = select(3, GetItemInfo(itemID));
 						if(quality and quality > 1) then
 							self:SetBackdropBorderColor(GetItemQualityColor(quality));
+							Name:SetTextColor(GetItemQualityColor(quality));
 						else
 							self:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+							Name:SetTextColor(1, 1, 1);
 						end
 					end
 				end);
