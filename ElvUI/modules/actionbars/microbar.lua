@@ -150,5 +150,5 @@ function AB:SetupMicroBar()
 	self:UpdateMicroPositionDimensions();
 	MainMenuBarPerformanceBar:Kill()
 
-	E:CreateMover(microBar, 'MicrobarMover', L['Micro Bar'], nil, nil, nil, 'ALL,ACTIONBARS');
+	E:CreateMover(microBar, 'MicrobarMover', L['Micro Bar'], nil, nil, nil, 'ALL, ACTIONBARS');
 end
