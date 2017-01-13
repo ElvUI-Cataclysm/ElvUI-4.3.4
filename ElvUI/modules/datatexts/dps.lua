@@ -61,7 +61,7 @@ local function OnEvent(self, event, ...)
 
 			DMGTotal = DMGTotal + lastDMGAmount;
 		end
-	elseif(event == UNIT_PET) then
+	elseif(event == "UNIT_PET") then
 		petID = UnitGUID("pet");
 	end
 
