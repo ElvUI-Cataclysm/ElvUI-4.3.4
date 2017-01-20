@@ -1,8 +1,7 @@
 ﻿local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule("DataTexts");
 
-local format = string.format;
-local join = string.join;
+local format, join = string.format, string.join;
 
 local UnitArmor = UnitArmor;
 local UnitLevel = UnitLevel;

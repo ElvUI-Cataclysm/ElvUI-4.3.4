@@ -36,7 +36,7 @@ local function OnEvent(self)
 	local unavailable = true
 	for i = 1, GetNumRandomDungeons() do
 		local id, name = GetLFGRandomDungeonInfo(i)
-		for x = 1,LFG_ROLE_NUM_SHORTAGE_TYPES do
+		for x = 1, LFG_ROLE_NUM_SHORTAGE_TYPES do
 			local eligible, forTank, forHealer, forDamage, itemCount = GetLFGRoleShortageRewards(id, x)
 			if eligible and forTank and itemCount > 0 then tankReward = true; unavailable = false; end
 			if eligible and forHealer and itemCount > 0 then healerReward = true; unavailable = false; end

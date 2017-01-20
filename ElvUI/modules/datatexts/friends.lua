@@ -41,7 +41,7 @@ local menuList = {
 local function inviteClick(self, name)
 	menuFrame:Hide();
 
-	if(type(name) ~= "number" ) then
+	if(type(name) ~= "number") then
 		InviteUnit(name);
 	else
 		BNInviteFriend(name);
@@ -128,8 +128,8 @@ local function OnClick(self, btn)
 					classc, levelc = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[info[3]], GetQuestDifficultyColor(info[2]);
 					classc = classc or GetQuestDifficultyColor(info[2]);
 
-					menuList[2].menuList[menuCountInvites] = {text = format(levelNameString, levelc.r*255,levelc.g*255,levelc.b*255, info[2],classc.r*255,classc.g*255,classc.b*255, info[1]), arg1 = info[1],notCheckable = true, func = inviteClick};
-					menuList[3].menuList[menuCountWhispers] = {text = format(levelNameString, levelc.r*255,levelc.g*255,levelc.b*255, info[2],classc.r*255,classc.g*255,classc.b*255, info[1]), arg1 = info[1],notCheckable = true, func = whisperClick};
+					menuList[2].menuList[menuCountInvites] = {text = format(levelNameString, levelc.r*255,levelc.g*255,levelc.b*255, info[2],classc.r*255,classc.g*255,classc.b*255, info[1]), arg1 = info[1], notCheckable = true, func = inviteClick};
+					menuList[3].menuList[menuCountWhispers] = {text = format(levelNameString, levelc.r*255,levelc.g*255,levelc.b*255, info[2],classc.r*255,classc.g*255,classc.b*255, info[1]), arg1 = info[1], notCheckable = true, func = whisperClick};
 				end
 			end
 		end

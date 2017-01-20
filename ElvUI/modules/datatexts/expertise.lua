@@ -40,7 +40,7 @@ local function OnEnter(self)
 	-- Dodge chance
 	DT.tooltip:AddDoubleLine(STAT_TARGET_LEVEL, DODGE_CHANCE, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
 	local playerLevel = UnitLevel("player");
-	for i=0, 3 do
+	for i = 0, 3 do
 		local mainhandDodge, offhandDodge = GetEnemyDodgeChance(i);
 		mainhandDodge = format("%.2f%%", mainhandDodge);
 		offhandDodge = format("%.2f%%", offhandDodge);
@@ -61,7 +61,7 @@ local function OnEnter(self)
 	DT.tooltip:AddLine(" ");
 	DT.tooltip:AddDoubleLine(STAT_TARGET_LEVEL, PARRY_CHANCE, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
 	local playerLevel = UnitLevel("player");
-	for i=0, 3 do
+	for i = 0, 3 do
 		local mainhandParry, offhandParry = GetEnemyParryChance(i);
 		mainhandParry = format("%.2f%%", mainhandParry);
 		offhandParry = format("%.2f%%", offhandParry);
@@ -89,4 +89,4 @@ local function ValueColorUpdate(hex)
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
-DT:RegisterDatatext('Expertise',{"UNIT_STATS", "UNIT_AURA", "FORGE_MASTER_ITEM_CHANGED", "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE"}, OnEvent, nil, nil, OnEnter)
+DT:RegisterDatatext('Expertise', {"UNIT_STATS", "UNIT_AURA", "FORGE_MASTER_ITEM_CHANGED", "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE"}, OnEvent, nil, nil, OnEnter)

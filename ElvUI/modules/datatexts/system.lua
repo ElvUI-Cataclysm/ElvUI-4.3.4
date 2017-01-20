@@ -64,8 +64,8 @@ local function RebuildAddonList()
 	wipe(memoryTable)
 	wipe(cpuTable)
 	for i = 1, addOnCount do
-		memoryTable[i] = { i, select(2, GetAddOnInfo(i)), 0, IsAddOnLoaded(i) }
-		cpuTable[i] = { i, select(2, GetAddOnInfo(i)), 0, IsAddOnLoaded(i) }
+		memoryTable[i] = {i, select(2, GetAddOnInfo(i)), 0, IsAddOnLoaded(i)}
+		cpuTable[i] = {i, select(2, GetAddOnInfo(i)), 0, IsAddOnLoaded(i)}
 	end
 end
 
@@ -181,12 +181,12 @@ local function OnUpdate(self, t)
 	int = int - t
 	int2 = int2 - t
 
-	if ( int < 0 ) then
+	if (int < 0) then
 		RebuildAddonList();
 		int = 10;
 	end
 
-	if ( int2 < 0 ) then
+	if (int2 < 0) then
 		local framerate = floor(GetFramerate()), 4;
 		local latency = select(3, GetNetStats()), 4;
 

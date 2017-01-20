@@ -1,7 +1,7 @@
 ﻿local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule("DataTexts");
 
-local join = string.join
+local format, join = string.format, string.join;
 
 local GetCombatRatingBonus = GetCombatRatingBonus;
 local CR_HIT_MELEE = CR_HIT_MELEE;
@@ -36,7 +36,7 @@ local function OnEnter(self)
 		DT.tooltip:AddLine(" ");
 		DT.tooltip:AddDoubleLine(STAT_TARGET_LEVEL, MISS_CHANCE, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
 		local playerLevel = UnitLevel("player");
-		for i=0, 3 do
+		for i = 0, 3 do
 			local missChance = format("%.2f%%", GetSpellMissChance(i));
 			local level = playerLevel + i;
 				if (i == 3) then
@@ -50,7 +50,7 @@ local function OnEnter(self)
 			DT.tooltip:AddLine(" ");
 			DT.tooltip:AddDoubleLine(STAT_TARGET_LEVEL, MISS_CHANCE, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b, HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
 			local playerLevel = UnitLevel("player");
-			for i=0, 3 do
+			for i = 0, 3 do
 				local missChance = format("%.2f%%", GetRangedMissChance(i));
 				local level = playerLevel + i;
 					if (i == 3) then
@@ -66,7 +66,7 @@ local function OnEnter(self)
 				DT.tooltip:AddLine(STAT_HIT_NORMAL_ATTACKS, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
 			end
 			local playerLevel = UnitLevel("player");
-			for i=0, 3 do
+			for i = 0, 3 do
 				local missChance = format("%.2f%%", GetMeleeMissChance(i, false));
 				local level = playerLevel + i;
 					if (i == 3) then
@@ -77,7 +77,7 @@ local function OnEnter(self)
 
 			if (IsDualWielding()) then
 				DT.tooltip:AddLine(STAT_HIT_SPECIAL_ATTACKS, GRAY_FONT_COLOR.r, GRAY_FONT_COLOR.g, GRAY_FONT_COLOR.b);
-				for i=0, 3 do
+				for i = 0, 3 do
 					local missChance = format("%.2f%%", GetMeleeMissChance(i, true));
 					local level = playerLevel + i;
 					if (i == 3) then

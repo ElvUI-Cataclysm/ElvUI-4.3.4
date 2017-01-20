@@ -1,6 +1,8 @@
 ﻿local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule("DataTexts");
 
+local format, join = string.format, string.join;
+
 local ATTACK_SPEED = ATTACK_SPEED;
 local CR_HASTE_MELEE = CR_HASTE_MELEE;
 local CR_HASTE_RANGED = CR_HASTE_RANGED;
@@ -12,8 +14,6 @@ local SPELL_HASTE = SPELL_HASTE;
 local SPELL_HASTE_TOOLTIP = SPELL_HASTE_TOOLTIP;
 
 local displayNumberString = "";
-local format = string.format;
-local join = string.join;
 local lastPanel;
 
 local function OnEvent(self)
