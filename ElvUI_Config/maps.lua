@@ -306,8 +306,64 @@ E.Options.args.maps = {
 								}
 							}
 						},
-						mail = {
+						worldMap = {
 							order = 2,
+							type = "group",
+							name = WORLD_MAP,
+							get = function(info) return E.db.general.minimap.icons.worldMap[ info[#info] ] end,
+							set = function(info, value) E.db.general.minimap.icons.worldMap[ info[#info] ] = value; MM:UpdateSettings() end,
+							disabled = function() return not E.private.general.minimap.enable end,
+							args = {
+								worldMapHeader = {
+									order = 1,
+									type = "header",
+									name = WORLD_MAP
+								},
+								hideWorldMap = {
+									order = 2,
+									type = "toggle",
+									name = L["Hide"],
+									get = function(info) return E.private.general.minimap.hideWorldMap end,
+									set = function(info, value) E.private.general.minimap.hideWorldMap = value; MM:UpdateSettings() end,
+									width = "full"
+								},
+								position = {
+									order = 3,
+									type = "select",
+									name = L["Position"],
+									values = {
+										["LEFT"] = L["Left"],
+										["RIGHT"] = L["Right"],
+										["TOP"] = L["Top"],
+										["BOTTOM"] = L["Bottom"],
+										["TOPLEFT"] = L["Top Left"],
+										["TOPRIGHT"] = L["Top Right"],
+										["BOTTOMLEFT"] = L["Bottom Left"],
+										["BOTTOMRIGHT"] = L["Bottom Right"]
+									}
+								},
+								scale = {
+									order = 4,
+									type = "range",
+									name = L["Scale"],
+									min = 0.5, max = 2, step = 0.05
+								},
+								xOffset = {
+									order = 5,
+									type = "range",
+									name = L["xOffset"],
+									min = -50, max = 50, step = 1
+								},
+								yOffset = {
+									order = 6,
+									type = "range",
+									name = L["yOffset"],
+									min = -50, max = 50, step = 1
+								}
+							}
+						},
+						mail = {
+							order = 3,
 							type = "group",
 							name = MAIL_LABEL,
 							get = function(info) return E.db.general.minimap.icons.mail[ info[#info] ] end,
@@ -355,7 +411,7 @@ E.Options.args.maps = {
 							}
 						},
 						lfgEye = {
-							order = 3,
+							order = 4,
 							type = "group",
 							name = L["LFG Queue"],
 							get = function(info) return E.db.general.minimap.icons.lfgEye[ info[#info] ] end,
@@ -403,7 +459,7 @@ E.Options.args.maps = {
 							}
 						},
 						battlefield = {
-							order = 4,
+							order = 5,
 							type = "group",
 							name = L["PvP Queue"],
 							get = function(info) return E.db.general.minimap.icons.battlefield[ info[#info] ] end,
@@ -451,7 +507,7 @@ E.Options.args.maps = {
 							}
 						},
 						difficulty = {
-							order = 5,
+							order = 6,
 							type = "group",
 							name = L["Instance Difficulty"],
 							get = function(info) return E.db.general.minimap.icons.difficulty[ info[#info] ] end,
@@ -499,7 +555,7 @@ E.Options.args.maps = {
 							}
 						},
 						vehicleLeave = {
-							order = 6,
+							order = 7,
 							type = "group",
 							name = LEAVE_VEHICLE,
 							get = function(info) return E.db.general.minimap.icons.vehicleLeave[ info[#info] ] end,
@@ -558,7 +614,7 @@ E.Options.args.maps = {
 							}
 						},
 						ticket = {
-							order = 7,
+							order = 8,
 							type = "group",
 							name = L["Open Ticket"],
 							get = function(info) return E.db.general.minimap.icons.ticket[ info[#info] ] end,
@@ -606,7 +662,7 @@ E.Options.args.maps = {
 							}
 						},
 						zoomIn = {
-							order = 8,
+							order = 9,
 							type = "group",
 							name = ZOOM_IN,
 							get = function(info) return E.db.general.minimap.icons.zoomIn[ info[#info] ] end,
@@ -666,7 +722,7 @@ E.Options.args.maps = {
 							}
 						},
 						zoomOut = {
-							order = 9,
+							order = 10,
 							type = "group",
 							name = ZOOM_OUT,
 							get = function(info) return E.db.general.minimap.icons.zoomOut[ info[#info] ] end,

@@ -49,7 +49,6 @@ P["general"] = {
 				["position"] = "TOPRIGHT",
 				["xOffset"] = 0,
 				["yOffset"] = 0,
-				["hide"] = true
 			},
 			["mail"] = {
 				["scale"] = 1,
@@ -85,6 +84,12 @@ P["general"] = {
 			["ticket"] = {
 				["scale"] = 1,
 				["position"] = "TOPRIGHT",
+				["xOffset"] = 0,
+				["yOffset"] = 0
+			},
+			["worldMap"] = {
+				["scale"] = 1,
+				["position"] = "TOP",
 				["xOffset"] = 0,
 				["yOffset"] = 0
 			},

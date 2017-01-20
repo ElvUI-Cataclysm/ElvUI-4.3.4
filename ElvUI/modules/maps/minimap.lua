@@ -423,6 +423,40 @@ function M:UpdateSettings()
 		ticketbuttonPushed:Point("CENTER");
 	end
 
+	if(MiniMapWorldMapButton) then
+		if(E.private.general.minimap.hideWorldMap) then
+			MiniMapWorldMapButton:Hide();
+		else
+			local pos = E.db.general.minimap.icons.worldMap.position or "TOPRIGHT";
+			local scale = E.db.general.minimap.icons.worldMap.scale or 1;
+			local x = E.db.general.minimap.icons.worldMap.xOffset or 0;
+			local y = E.db.general.minimap.icons.worldMap.yOffset or 0;
+
+			MiniMapWorldMapButton:ClearAllPoints();
+			MiniMapWorldMapButton:Point(pos, Minimap, pos, x, y);
+			MiniMapWorldMapButton:SetScale(scale);
+			MiniMapWorldMapButton:Show();
+		end
+	
+		--Skin WorldMap Button
+		local worldMapButton = MiniMapWorldMapButton;
+		local worldMapButtonIcon = worldMapButton:GetNormalTexture();
+		local worldMapButtonPushed = worldMapButton:GetPushedTexture();
+
+		worldMapButton:StripTextures();
+		worldMapButton:CreateBackdrop();
+		worldMapButton:SetFrameStrata("MEDIUM");
+		worldMapButton:Size(30);
+		
+		worldMapButtonIcon:SetTexture("INTERFACE\\ICONS\\INV_Misc_Map02");
+		worldMapButtonIcon:SetTexCoord(unpack(E.TexCoords));
+		worldMapButtonIcon:SetOutside()
+
+		worldMapButtonPushed:SetTexture("INTERFACE\\ICONS\\INV_Misc_Map02");
+		worldMapButtonPushed:SetTexCoord(unpack(E.TexCoords));
+		worldMapButtonIcon:SetInside()
+	end
+
 	if(MinimapZoomIn) then
 		if(E.private.general.minimap.hideZoomIn) then
 			MinimapZoomIn:Hide();
@@ -532,8 +566,6 @@ function M:Initialize()
 
 	MiniMapLFGFrameBorder:Hide();
 	MiniMapLFGFrame:SetClampedToScreen(true);
-
-	MiniMapWorldMapButton:Hide();
 
 	MiniMapInstanceDifficulty:SetParent(Minimap);
 
