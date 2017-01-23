@@ -135,6 +135,11 @@ E.Options.args.skins = {
 					name = L["Gossip Frame"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
+				gmchat = {
+					type = "toggle",
+					name = L["GM Chat"],
+					desc = L["TOGGLESKIN_DESC"]
+				},
 				greeting = {
 					type = "toggle",
 					name = L["Greeting Frame"],

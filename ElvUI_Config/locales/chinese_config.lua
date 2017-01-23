@@ -618,6 +618,7 @@ L["Calendar Frame"] = "日历框架"
 L["Character Frame"] = "角色"
 L["Debug Tools"] = "除错工具"
 L["Dressing Room"] = "试衣间"
+L["GM Chat"] = true;
 L["Encounter Journal"] = "地下城手册"
 L["Gossip Frame"] = "闲谈"
 L["Greeting Frame"] = "欢迎"

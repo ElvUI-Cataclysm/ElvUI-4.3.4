@@ -72,6 +72,7 @@ V["skins"] = {
 		['friends'] = true,
 		['gbank'] = true,
 		['glyph'] = true,
+		["gmchat"] = true,
 		['gossip'] = true,
 		['greeting'] = true,
 		['guild'] = true,
