@@ -26,7 +26,7 @@ local function LoadSkin()
 		"Help"
 	};
 
-	for i = 1, getn(BlizzardMenuButtons) do
+	for i = 1, #BlizzardMenuButtons do
 		local ElvuiMenuButtons = _G["GameMenuButton"..BlizzardMenuButtons[i]];
 		if(ElvuiMenuButtons) then
 			S:HandleButton(ElvuiMenuButtons);
@@ -123,7 +123,7 @@ local function LoadSkin()
 
 	S:HandleCloseButton(BNToastFrameCloseButton);
 
-	-- ReadyCheck Buttons
+	-- ReadyCheck Frame
 	ReadyCheckFrame:SetTemplate("Transparent");
 	ReadyCheckFrame:Size(290, 85);
 
@@ -169,6 +169,24 @@ local function LoadSkin()
 	OpacityFrame:SetTemplate("Transparent");
 
 	S:HandleSliderFrame(OpacityFrameSlider);
+
+	-- Declension frame
+	if(GetLocale() == "ruRU") then
+		DeclensionFrame:SetTemplate("Transparent");
+
+		S:HandleNextPrevButton(DeclensionFrameSetPrev);
+		S:HandleNextPrevButton(DeclensionFrameSetNext);
+		S:HandleButton(DeclensionFrameOkayButton);
+		S:HandleButton(DeclensionFrameCancelButton);
+
+		for i = 1, RUSSIAN_DECLENSION_PATTERNS do
+			local editBox = _G["DeclensionFrameDeclension"..i.."Edit"];
+			if(editBox) then
+				editBox:StripTextures();
+				S:HandleEditBox(editBox);
+			end
+		end
+	end
 
 	-- Role Check Popup
 	RolePollPopup:SetTemplate("Transparent");
@@ -333,30 +351,35 @@ local function LoadSkin()
 	end)
 
 	-- NavBar Buttons (Used EncounterJournal and HelpFrame)
-	local function SkinNavBarButtons(self)
+	local function navButtonFrameLevel(self)
 		if(self:GetParent():GetName() == "EncounterJournal" and not E.private.skins.blizzard.encounterjournal) or (self:GetParent():GetName() == "HelpFrameKnowledgebase" and not E.private.skins.blizzard.help) then
 			return;
 		end
-		local navButton = self.navList[#self.navList]
-		if(navButton and not navButton.isSkinned) then
-			S:HandleButton(navButton, true);
-			if(navButton.MenuArrowButton) then
-				S:HandleNextPrevButton(navButton.MenuArrowButton, true);
+		for i = 1, #self.navList do
+			local navButton = self.navList[i];
+			local lastNav = self.navList[i-1];
+			if(navButton and lastNav) then
+				navButton:SetFrameLevel(lastNav:GetFrameLevel() - 2);
+				navButton:ClearAllPoints();
+				navButton:Point("LEFT", lastNav, "RIGHT", 3, 0);
 			end
-
-			navButton.xoffset = 1; --Make a 1px gap between each navbutton
-			navButton.isSkinned = true;
 		end
 	end
-	hooksecurefunc("NavBar_AddButton", SkinNavBarButtons)
 
-	local function SetHomeButtonOffsetX(self) --This is necessary to fix position of button right next to homebutton.
-		local homeButton = self.homeButton
-		if(homeButton) then
-			homeButton.xoffset = 1;
+	hooksecurefunc("NavBar_AddButton", function(self)
+		local navButton = self.navList[#self.navList];
+
+		if(not navButton.skinned) then
+			S:HandleButton(navButton, true);
+			navButton.skinned = true;
+
+			navButton:HookScript("OnClick", function()
+				navButtonFrameLevel(self);
+			end)
 		end
-	end
-	hooksecurefunc("NavBar_Initialize", SetHomeButtonOffsetX)
+
+		navButtonFrameLevel(self);
+	end)
 
 	-- Options/Interface Buttons Position
 	VideoOptionsFrameCancel:ClearAllPoints();
@@ -757,7 +780,7 @@ local function LoadSkin()
 		"VoiceMacroMenu"
 	};
 
-	for i = 1, getn(ChatMenus) do
+	for i = 1, #ChatMenus do
 		if(_G[ChatMenus[i]] == _G["ChatMenu"]) then
 			_G[ChatMenus[i]]:HookScript("OnShow", function(self)
 				self:SetTemplate("Default", true);
