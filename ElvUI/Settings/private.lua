@@ -50,6 +50,7 @@ V['chat'] = {
 V["skins"] = {
 	["animations"] = true,
 	["tradeSkillBig"] = true,
+	["showQuestLevel"] = true,
 	["ace3"] = {
 		["enable"] = true
 	},

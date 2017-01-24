@@ -41,6 +41,15 @@ E.Options.args.skins = {
 			set = function(info, value) E.private.skins.tradeSkillBig = value; E:StaticPopup_Show("PRIVATE_RL") end,
 			disabled = function() return not E.private.skins.blizzard.tradeskill or not E.private.skins.blizzard.enable end
 		},
+		showQuestLevel = {
+			order = 6,
+			type = "toggle",
+			name = L["Show Quest Level"],
+			desc = L["Display quest levels at Quest Log."],
+			get = function(info) return E.private.skins.showQuestLevel; end,
+			set = function(info, value) E.private.skins.showQuestLevel = value; end,
+			disabled = function() return not E.private.skins.blizzard.quest or not E.private.skins.blizzard.enable end
+		},
 		blizzard = {
 			order = 100,
 			type = 'group',
