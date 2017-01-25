@@ -17,6 +17,12 @@ local InCombatLockdown = InCombatLockdown;
 local GetRaidRosterInfo = GetRaidRosterInfo;
 local UninviteUnit = UninviteUnit;
 local UnitName = UnitName;
+local GetCoinTextureString = GetCoinTextureString
+local GetMouseFocus = GetMouseFocus
+local GetNumPartyMembers = GetNumPartyMembers
+local GetNumRaidMembers = GetNumRaidMembers
+local GetPartyMember = GetPartyMember
+local GetUnitSpeed = GetUnitSpeed
 local LeaveParty = LeaveParty;
 local RaidNotice_AddMessage = RaidNotice_AddMessage;
 local GetNumFriends = GetNumFriends;
@@ -46,34 +52,38 @@ function M:ErrorFrameToggle(event)
 end
 
 function M:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, _, sourceName, _, _, destName, _, _, _, _, spellID, spellName)
-	if(E.db.general.interruptAnnounce == "NONE") then return; end -- No Announcement configured, exit.
-	if not (event == "SPELL_INTERRUPT" and sourceName == UnitName("player")) then return; end -- No annoucable interrupt from player, exit.
+	if(E.db.general.interruptAnnounce == "NONE") then return; end
+	if not (event == "SPELL_INTERRUPT" and sourceName == UnitName("player")) then return; end
 
-	local party, raid = GetNumPartyMembers(), GetNumRaidMembers();
-	local _, instanceType = IsInInstance();
-	local battleground = instanceType == "pvp";
+	local party = GetNumPartyMembers();
 
-	if(E.db.general.interruptAnnounce == "PARTY") then
-		if(party > 0) then
-			SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY");
-		end
-	elseif(E.db.general.interruptAnnounce == "RAID") then
-		if(raid > 0) then
-			SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID");
-		elseif(party > 0) then
-			SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY");
-		end
-	elseif(E.db.general.interruptAnnounce == "RAID_ONLY") then
-		if(raid > 0) then
-			SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID");
-		end
-	elseif(E.db.general.interruptAnnounce == "SAY") then
+	if(E.db.general.interruptAnnounce == "SAY") then
 		if(party > 0) then
 			SendChatMessage(format(interruptMsg, destName, spellID, spellName), "SAY");
 		end
 	elseif(E.db.general.interruptAnnounce == "EMOTE") then
 		if(party > 0) then
 			SendChatMessage(format(interruptMsg, destName, spellID, spellName), "EMOTE")
+		end
+	else
+		local raid = GetNumRaidMembers();
+		local _, instanceType = IsInInstance();
+		local battleground = instanceType == "pvp";
+
+		if(E.db.general.interruptAnnounce == "PARTY") then
+			if(party > 0) then
+				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY");
+			end
+		elseif(E.db.general.interruptAnnounce == "RAID") then
+			if(raid > 0) then
+				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID");
+			elseif(party > 0) then
+				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY");
+			end
+		elseif(E.db.general.interruptAnnounce == "RAID_ONLY") then
+			if(raid > 0) then
+				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID");
+			end
 		end
 	end
 end
@@ -188,11 +198,12 @@ function M:AutoInvite(event, leaderName)
 		hideStatic = true
 
 		-- Update Guild and Friendlist
-		if GetNumFriends() > 0 then ShowFriends() end
+		local numFriends = GetNumFriends()
+		if numFriends > 0 then ShowFriends() end
 		if IsInGuild() then GuildRoster() end
 		local inGroup = false;
 
-		for friendIndex = 1, GetNumFriends() do
+		for friendIndex = 1, numFriends do
 			local friendName = gsub(GetFriendInfo(friendIndex), "-.*", "")
 			if friendName == leaderName then
 				AcceptGroup()
@@ -268,10 +279,6 @@ function M:ForceCVars()
 	end
 end
 
-function M:PLAYER_ENTERING_WORLD()
-	self:ForceCVars()
-end
-
 function M:Kill()
 
 end
@@ -295,7 +302,7 @@ function M:Initialize()
 	self:RegisterEvent("PARTY_INVITE_REQUEST", "AutoInvite")
 	self:RegisterEvent("PARTY_MEMBERS_CHANGED", "AutoInvite")
 	self:RegisterEvent("CVAR_UPDATE", "ForceCVars")
-	self:RegisterEvent("PLAYER_ENTERING_WORLD")
+	self:RegisterEvent("PLAYER_ENTERING_WORLD", "ForceCVars")
 
 	if(E.global.general.mapAlphaWhenMoving < 1) then
 		self.MovingTimer = self:ScheduleRepeatingTimer("CheckMovement", 0.1)
