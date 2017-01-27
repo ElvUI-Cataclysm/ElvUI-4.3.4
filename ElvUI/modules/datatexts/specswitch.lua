@@ -47,15 +47,20 @@ local function OnEnter(self)
 		end
 	end
 
+	DT.tooltip:AddLine(" ")
+	DT.tooltip:AddLine(L["|cffFFFFFFLeft Click:|r Change Talent Specialization"])
+
 	DT.tooltip:Show()
 end
 
-local function OnClick(self)
-	SetActiveTalentGroup(active == 1 and 2 or 1)
+local function OnClick(_, btn)
+	if(btn == "LeftButton") then
+		SetActiveTalentGroup(active == 1 and 2 or 1)
+	end
 end
 
 local function ValueColorUpdate(hex)
-	displayString = join("", "|cffFFFFFF%s:|r ", hex, "%d / |r", hex, "%d / |r", hex, "%d|r")
+	displayString = join("", "|cffFFFFFF%s:|r ", hex, "%d/|r", hex, "%d/|r", hex, "%d|r")
 
 	if lastPanel ~= nil then
 		OnEvent(lastPanel)
