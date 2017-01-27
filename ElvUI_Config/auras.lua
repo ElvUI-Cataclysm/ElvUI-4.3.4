@@ -143,53 +143,61 @@ E.Options.args.auras = {
 					desc = L['Threshold before text changes red, goes into decimal form, and the icon will fade. Set to -1 to disable.'],
 					min = -1, max = 30, step = 1
 				},
-				font = {
-					order = 3,
-					type = "select", dialogControl = 'LSM30_Font',
-					name = L["Font"],
-					values = AceGUIWidgetLSMlists.font,
-				},
-				fontSize = {
-					order = 4,
-					type = "range",
-					name = L["Font Size"],
-					min = 6, max = 22, step = 1
-				},
-				fontOutline = {
-					order = 5,
-					type = "select",
-					name = L["Font Outline"],
-					desc = L["Set the font outline."],
-					values = {
-						['NONE'] = L['None'],
-						['OUTLINE'] = 'OUTLINE',
-						['MONOCHROMEOUTLINE'] = 'MONOCROMEOUTLINE',
-						['THICKOUTLINE'] = 'THICKOUTLINE'
-					}
-				},	
 				timeXOffset = {
-					order = 6,
+					order = 3,
 					type = 'range',
 					name = L['Time xOffset'],
 					min = -60, max = 60, step = 1
 				},		
 				timeYOffset = {
-					order = 7,
+					order = 4,
 					type = 'range',
 					name = L['Time yOffset'],
 					min = -60, max = 60, step = 1
 				},
 				countXOffset = {
-					order = 8,
+					order = 5,
 					type = 'range',
 					name = L['Count xOffset'],
 					min = -60, max = 60, step = 1
 				},
 				countYOffset = {
-					order = 9,
+					order = 6,
 					type = 'range',
 					name = L['Count yOffset'],
 					min = -60, max = 60, step = 1
+				},
+				fontGroup = {
+					order = 7,
+					type = "group",
+					name = L["Font"],
+					guiInline = true,
+					args = {
+						font = {
+							order = 1,
+							type = "select", dialogControl = 'LSM30_Font',
+							name = L["Font"],
+							values = AceGUIWidgetLSMlists.font
+						},
+						fontSize = {
+							order = 2,
+							type = "range",
+							name = L["Font Size"],
+							min = 6, max = 22, step = 1
+						},
+						fontOutline = {
+							order = 3,
+							type = "select",
+							name = L["Font Outline"],
+							desc = L["Set the font outline."],
+							values = {
+								['NONE'] = L['None'],
+								['OUTLINE'] = 'OUTLINE',
+								['MONOCHROMEOUTLINE'] = 'MONOCROMEOUTLINE',
+								['THICKOUTLINE'] = 'THICKOUTLINE'
+							}
+						}
+					}
 				}
 			}
 		},

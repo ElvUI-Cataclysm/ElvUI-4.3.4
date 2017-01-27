@@ -98,8 +98,27 @@ E.Options.args.bags = {
 							values = AceGUIWidgetLSMlists.font,
 							set = function(info, value) E.db.bags.countFont = value; B:UpdateCountDisplay(); end
 						},
-						countFontColor = {
+						countFontSize = {
 							order = 2,
+							type = "range",
+							name = L["Font Size"],
+							min = 4, max = 22, step = 1,
+							set = function(info, value) E.db.bags.countFontSize = value; B:UpdateCountDisplay(); end
+						},
+						countFontOutline = {
+							order = 3,
+							type = "select",
+							name = L["Font Outline"],
+							set = function(info, value) E.db.bags.countFontOutline = value; B:UpdateCountDisplay(); end,
+							values = {
+								["NONE"] = L["None"],
+								["OUTLINE"] = "OUTLINE",
+								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
+								["THICKOUTLINE"] = "THICKOUTLINE"
+							}
+						},
+						countFontColor = {
+							order = 4,
 							type = "color",
 							name = L["Color"],
 							get = function(info)
@@ -113,25 +132,6 @@ E.Options.args.bags = {
 								t.r, t.g, t.b = r, g, b;
 								B:UpdateCountDisplay();
 							end
-						},
-						countFontSize = {
-							order = 3,
-							type = "range",
-							name = L["Font Size"],
-							min = 4, max = 22, step = 1,
-							set = function(info, value) E.db.bags.countFontSize = value; B:UpdateCountDisplay(); end
-						},
-						countFontOutline = {
-							order = 4,
-							type = "select",
-							name = L["Font Outline"],
-							set = function(info, value) E.db.bags.countFontOutline = value; B:UpdateCountDisplay(); end,
-							values = {
-								["NONE"] = L["None"],
-								["OUTLINE"] = "OUTLINE",
-								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
-								["THICKOUTLINE"] = "THICKOUTLINE"
-							}
 						}
 					}
 				},

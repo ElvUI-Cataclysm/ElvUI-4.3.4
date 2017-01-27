@@ -454,20 +454,25 @@ E.Options.args.chat = {
 						["THICKOUTLINE"] = "THICKOUTLINE"
 					}
 				},
-				tabFont = {
+				spacer = {
 					order = 4,
+					type = "description",
+					name = ""
+				},
+				tabFont = {
+					order = 5,
 					type = 'select', dialogControl = 'LSM30_Font',
 					name = L['Tab Font'],
 					values = AceGUIWidgetLSMlists.font
 				},
 				tabFontSize = {
-					order = 5,
+					order = 6,
 					type = 'range',
 					name = L['Tab Font Size'],
 					min = 6, max = 22, step = 1
 				},
 				tabFontOutline = {
-					order = 6,
+					order = 7,
 					type = 'select',
 					name = L['Tab Font Outline'],
 					desc = L['Set the font outline.'],
