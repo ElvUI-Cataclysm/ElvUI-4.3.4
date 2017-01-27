@@ -29,19 +29,6 @@ local function LoadSkin()
 	DressUpModel:CreateBackdrop("Default");
 	DressUpModel.backdrop:SetOutside(DressUpBackgroundTopLeft, nil, nil, DressUpModel);
 
-	local DressUpFrameUndressButton = CreateFrame("Button", "DressUpFrameUndressButton", DressUpFrame, "UIPanelButtonTemplate");
-	DressUpFrameUndressButton:SetText(L["Undress"]);
-	DressUpFrameUndressButton:Size(80, 22);
-	DressUpFrameUndressButton:SetParent(DressUpFrame);
-	DressUpFrameUndressButton:Point("RIGHT", DressUpFrameResetButton, "LEFT", -3, 0);
-	DressUpFrameUndressButton:HookScript("OnClick", function(self)
-		self.model:Undress();
-		PlaySound("gsTitleOptionOK");
-	end)
-	DressUpFrameUndressButton.model = DressUpModel;
-
-	S:HandleButton(DressUpFrameUndressButton);
-
 	-- Side Dressing Room
 	SideDressUpFrame:StripTextures();
 	SideDressUpFrame:CreateBackdrop("Transparent");
@@ -49,23 +36,14 @@ local function LoadSkin()
 	SideDressUpFrame.backdrop:Point("BOTTOMRIGHT", -4, 3);
 
 	S:HandleButton(SideDressUpModelResetButton);
-	SideDressUpModelResetButton:Point("BOTTOM", 43, 0);
+
+	if(SideDressUpFrameUndressButton) then
+		SideDressUpModelResetButton:Point("BOTTOM", 43, 0);
+	else
+		SideDressUpModelResetButton:Point("BOTTOM", 0, 0);
+	end
 
 	S:HandleCloseButton(SideDressUpModelCloseButton);
-	SideDressUpModelCloseButton:Point("CENTER", SideDressUpFrame, "TOPRIGHT", -14, -6);
-
-	local SideDressUpFrameUndressButton = CreateFrame("Button", "SideDressUpFrameUndressButton", SideDressUpFrame, "UIPanelButtonTemplate");
-	SideDressUpFrameUndressButton:SetText(L["Undress"]);
-	SideDressUpFrameUndressButton:Size(80, 22);
-	SideDressUpFrameUndressButton:SetParent(SideDressUpModel);
-	SideDressUpFrameUndressButton:Point("RIGHT", SideDressUpModelResetButton, "LEFT", -3, 0);
-	SideDressUpFrameUndressButton:HookScript("OnClick", function(self)
-		self.model:Undress();
-		PlaySound("gsTitleOptionOK");
-	end)
-	SideDressUpFrameUndressButton.model = SideDressUpModel;
-
-	S:HandleButton(SideDressUpFrameUndressButton);
 
 	--Model Backgrounds
 	SetDressUpBackground();

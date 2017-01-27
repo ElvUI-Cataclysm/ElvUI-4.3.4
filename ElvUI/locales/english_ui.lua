@@ -7,7 +7,7 @@ if not L then return; end
 L["INCOMPATIBLE_ADDON"] = "The addon %s is not compatible with ElvUI's %s module. Please select either the addon or the ElvUI module to disable."
 
 --*_MSG locales
-L["LOGIN_MSG"] = "Welcome to %sElvUI|r version %s%s|r, type /ec to access the in-game configuration menu. If you are in need of technical support you can visit us at http://www.tukui.org"
+L["LOGIN_MSG"] = "Welcome to %sElvUI|r version %s%s|r. If you are in need of technical support you can visit us at https://github.com/ElvUI-Cataclysm"
 
 --ActionBars
 L["Binding"] = true;
@@ -65,7 +65,6 @@ L["Bases Defended"] = true;
 L["Character: "] = true;
 L["Combat Time"] = true;
 L["copperabbrev"] = "|cffeda55fc|r" --Also used in Bags
-L["Datatext Disabled"] = true;
 L["Deficit:"] = true;
 L["Demolishers Destroyed"] = true;
 L["Download"] = true;
@@ -85,16 +84,10 @@ L["Hold Shift + Right Click:"] = true;
 L["Home Latency:"] = true;
 L["HP"] = true;
 L["HPS"] = true;
-L["In Combat"] = true;
 L["lvl"] = true;
 L["Mitigation By Level: "] = true;
-L["New Mail"] = true;
 L["No Guild"] = true;
-L["No Mail"] = true;
-L["Not Learned"] = true;
-L["Out of Combat"] = true;
 L["Profit:"] = true;
-L["Ready"] = true;
 L["Reload UI"] = true;
 L["Reset Data: Hold Shift + Right Click"] = true;
 L["Right Click: Reset CPU Usage"] = true;
@@ -112,22 +105,7 @@ L["Total: "] = true;
 L["Towers Assaulted"] = true;
 L["Towers Defended"] = true;
 L["Unhittable:"] = true;
-L["You are not playing a |cff0070DEShaman|r, datatext disabled."] = true;
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = true;
-
--- Death Recap
-L["%s %s"] = true;
-L["%s by %s"] = true;
-L["%s sec before death at %s%% health."] = true;
-L["(%d Absorbed)"] = true;
-L["(%d Blocked)"] = true;
-L["(%d Overkill)"] = true;
-L["(%d Resisted)"] = true;
-L["Death Recap unavailable."] = true;
-L["Death Recap"] = true;
-L["Killing blow at %s%% health."] = true;
-L["Recap"] = true;
-L["You died."] = true;
 
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = true;
@@ -204,7 +182,7 @@ L["This resolution requires that you change some settings to get everything to f
 L["This will change the layout of your unitframes and actionbars."] = true;
 L["Trade"] = true;
 L["Welcome to ElvUI version %s!"] = true;
-L["You are now finished with the installation process. If you are in need of technical support please visit us at http://www.tukui.org."] = true;
+L["You are now finished with the installation process. If you are in need of technical support please visit us at https://github.com/ElvUI-Cataclysm."] = true;
 L["You can always change fonts and colors of any element of ElvUI from the in-game configuration."] = true;
 L["You can now choose what layout you wish to use based on your combat role."] = true;
 L["You may need to further alter these settings depending how low you resolution is."] = true;
@@ -329,9 +307,6 @@ L["Your items have been repaired for: "] = true;
 L["Your items have been repaired using guild bank funds for: "] = true;
 L["|cFFE30000Lua error recieved. You can view the error message when you exit combat."] = true;
 
---Skins
-L["Undress"] = true;
-
 --Static Popups
 L["A setting you have changed will change an option for this character only. This setting that you have changed will be uneffected by changing user profiles. Changing this setting requires that you reload your User Interface."] = true;
 L["Are you sure you want to apply this font to all ElvUI elements?"] = true;
@@ -345,7 +320,7 @@ L["Disable Warning"] = true;
 L["Discard"] = true;
 L["Do you enjoy the new ElvUI?"] = true;
 L["Do you swear not to post in technical support about something not working without first disabling the addon/module combination first?"] = true;
-L["ElvUI is five or more revisions out of date. You can download the newest version from www.tukui.org. Get premium membership and have ElvUI automatically updated with the Tukui Client!"] = true;
+L["ElvUI is five or more revisions out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm."] = true;
 L["ElvUI is out of date. You can download the newest version from www.tukui.org. Get premium membership and have ElvUI automatically updated with the Tukui Client!"] = true;
 L["ElvUI needs to perform database optimizations please be patient."] = true;
 L["Hover your mouse over any actionbutton or spellbook button to bind it. Press the escape key or right click to clear the current actionbutton's keybinding."] = true;
@@ -373,7 +348,7 @@ L["Targeted By:"] = true;
 --Tutorials
 L["A raid marker feature is available by pressing Escape -> Keybinds scroll to the bottom under ElvUI and setting a keybind for the raid marker."] = true;
 L["ElvUI has a dual spec feature which allows you to load different profiles based on your current spec on the fly. You can enable this from the profiles tab."] = true;
-L["For technical support visit us at http://www.tukui.org."] = true;
+L["For technical support visit us at https://github.com/ElvUI-Cataclysm."] = true;
 L["If you accidently remove a chat frame you can always go the in-game configuration menu, press install, go to the chat portion and reset them."] = true
 L["If you are experiencing issues with ElvUI try disabling all your addons except ElvUI, remember ElvUI is a full UI replacement addon, you cannot run two addons that do the same thing."] = true;
 L["The focus unit can be set by typing /focus when you are targeting the unit you want to focus. It is recommended you make a macro to do this."] = true;

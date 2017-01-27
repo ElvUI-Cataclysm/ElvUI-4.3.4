@@ -179,15 +179,7 @@ end
 
 function M:PLAYER_REGEN_ENABLED()
 	self:UnregisterEvent("PLAYER_REGEN_ENABLED");
-	Minimap:Show();
 	self:UpdateSettings();
-end
-
-function M:PLAYER_REGEN_DISABLED()
-	if(E.db.general.minimap.combatHide) then
-		Minimap:Hide();
-		self:RegisterEvent("PLAYER_REGEN_ENABLED");
-	end
 end
 
 local isResetting;
@@ -581,7 +573,6 @@ function M:Initialize()
 	Minimap:SetScript("OnMouseWheel", M.Minimap_OnMouseWheel);
 	Minimap:SetScript("OnMouseUp", M.Minimap_OnMouseUp);
 
-	self:RegisterEvent("PLAYER_REGEN_DISABLED");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "Update_ZoneText");
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "Update_ZoneText");
 	self:RegisterEvent("ZONE_CHANGED", "Update_ZoneText");

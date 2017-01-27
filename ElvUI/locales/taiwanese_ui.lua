@@ -7,7 +7,7 @@ if not L then return end
 L["INCOMPATIBLE_ADDON"] = "插件 %s 與 ElvUI 的 %s 模組不相容。請停用不相容的插件，或停用相關的模組."
 
 --*_MSG locales
-L["LOGIN_MSG"] = "歡迎使用%sElvUI |r %s%s|r 版, 請輸入/ec 進入設定介面. 如需技術支援請至http://www.tukui.org"
+L["LOGIN_MSG"] = "歡迎使用%sElvUI |r %s%s|r 版. 如需技術支援請至https://github.com/ElvUI-Cataclysm"
 
 --ActionBars
 L["Binding"] = "綁定"
@@ -65,7 +65,6 @@ L["Bases Defended"] = true;
 L["Character: "] = "角色: "
 L["Combat Time"] = true;
 L["copperabbrev"] = "|cffeda55f銅|r" --Also used in Bags
-L["Datatext Disabled"] = true;
 L["Deficit:"] = "赤字:"
 L["Demolishers Destroyed"] = true;
 L["Download"] = "下載"
@@ -85,16 +84,10 @@ L["Hold Shift + Right Click:"] = "按住 Shift 並按滑鼠右鍵"
 L["Home Latency:"] = "本機延遲:"
 L["HP"] = "生命值"
 L["HPS"] = "治療輸出"
-L["In Combat"] = true;
 L["lvl"] = "等級"
 L["Mitigation By Level: "] = "等級減傷: "
-L["New Mail"] = true;
 L["No Guild"] = "沒有公會"
-L["No Mail"] = true;
-L["Not Learned"] = true;
-L["Out of Combat"] = true;
 L["Profit:"] = "利潤: "
-L["Ready"] = true;
 L["Reload UI"] = true;
 L["Reset Data: Hold Shift + Right Click"] = "重置數據: 按住 Shift + 右鍵點擊"
 L["Right Click: Reset CPU Usage"] = true;
@@ -112,22 +105,7 @@ L["Total: "] = "合計: "
 L["Towers Assaulted"] = true;
 L["Towers Defended"] = true;
 L["Unhittable:"] = "未命中:"
-L["You are not playing a |cff0070DEShaman|r, datatext disabled."] = true;
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFF左鍵:|r 變更目前職業專精"
-
--- Death Recap
-L["%s %s"] = true;
-L["%s by %s"] = true;
-L["%s sec before death at %s%% health."] = true;
-L["(%d Absorbed)"] = true;
-L["(%d Blocked)"] = true;
-L["(%d Overkill)"] = true;
-L["(%d Resisted)"] = true;
-L["Death Recap unavailable."] = true;
-L["Death Recap"] = true;
-L["Killing blow at %s%% health."] = true;
-L["Recap"] = true;
-L["You died."] = true;
 
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = "%s: %s 嘗試調用保護函數'%s'."
@@ -203,7 +181,7 @@ L["This resolution requires that you change some settings to get everything to f
 L["This will change the layout of your unitframes and actionbars."] = "這將會改變你的單位框架和動作條的佈局"
 L["Trade"] = "拾取/交易"
 L["Welcome to ElvUI version %s!"] = "歡迎使用 ElvUI %s 版！"
-L["You are now finished with the installation process. If you are in need of technical support please visit us at http://www.tukui.org."] = "已完成安裝程序. 小提示: 若想開啟微型選單, 請在小地圖按滑鼠中鍵. 如果沒有中鍵按鈕, 請按住Shift鍵, 並在小地圖按滑鼠右鍵. 如需技術支援請至http://www.tukui.org"
+L["You are now finished with the installation process. If you are in need of technical support please visit us at https://github.com/ElvUI-Cataclysm."] = "已完成安裝程序. 小提示: 若想開啟微型選單, 請在小地圖按滑鼠中鍵. 如果沒有中鍵按鈕, 請按住Shift鍵, 並在小地圖按滑鼠右鍵. 如需技術支援請至https://github.com/ElvUI-Cataclysm"
 L["You can always change fonts and colors of any element of ElvUI from the in-game configuration."] = "你可以在遊戲內的設定選項內更改ElvUI的字體、顏色等設定."
 L["You can now choose what layout you wish to use based on your combat role."] = "你現在可以根據你的戰鬥角色選擇合適的佈局."
 L["You may need to further alter these settings depending how low you resolution is."] = "根據你的解析度你可能需要改動這些設定."
@@ -328,9 +306,6 @@ L["Your items have been repaired for: "] = "裝備已修復，共支出："
 L["Your items have been repaired using guild bank funds for: "] = "已使用公會資金修復裝備，共支出："
 L["|cFFE30000Lua error recieved. You can view the error message when you exit combat."] = "|cFFE30000LUA錯誤已接收, 你可以在脫離戰鬥後檢查.|r"
 
---Skins
-L["Undress"] = "無裝備"
-
 --Static Popups
 L["A setting you have changed will change an option for this character only. This setting that you have changed will be uneffected by changing user profiles. Changing this setting requires that you reload your User Interface."] = "你所做的改動只會影響到使用這個插件的本角色, 你需要重新加載介面才能使改動生效."
 L["Are you sure you want to apply this font to all ElvUI elements?"] = "你確定要將此字型應用到所有 ElvUI 元素嗎?"
@@ -344,7 +319,7 @@ L["Disable Warning"] = "停用警告"
 L["Discard"] = "取消"
 L["Do you enjoy the new ElvUI?"] = "你享受新版的 ElvUI嗎?"
 L["Do you swear not to post in technical support about something not working without first disabling the addon/module combination first?"] = "你發誓在你沒停用其他插件或是模組前不會到技術支援發文詢問某些功能失效嗎?"
-L["ElvUI is five or more revisions out of date. You can download the newest version from www.tukui.org. Get premium membership and have ElvUI automatically updated with the Tukui Client!"] = "ElvUI 以過期超過5個版本. 你可以在 www.tukui.org 下載到最新的版本. 購買會員可以使用 Tukui 客戶端自動下載最新的 ElvUI."
+L["ElvUI is five or more revisions out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm."] = "ElvUI 以過期超過5個版本. 你可以在 https://github.com/ElvUI-Cataclysm 下載到最新的版本."
 L["ElvUI is out of date. You can download the newest version from www.tukui.org. Get premium membership and have ElvUI automatically updated with the Tukui Client!"] = "ElvUI 以過期. 你可以在 www.tukui.org 下載到最新的版本. 購買會員可以使用 Tukui 客戶端自動下載最新的 ElvUI."
 L["ElvUI needs to perform database optimizations please be patient."] = "ElvUI 需要進行資料庫優化, 請稍待."
 L["Hover your mouse over any actionbutton or spellbook button to bind it. Press the escape key or right click to clear the current actionbutton's keybinding."] = "移動滑鼠到快捷列或技能書按鈕上綁定快捷鍵.按ESC或滑鼠右鍵取消目前快捷鍵."
@@ -372,7 +347,7 @@ L["Targeted By:"] = "同目標的有:"
 --Tutorials
 L["A raid marker feature is available by pressing Escape -> Keybinds scroll to the bottom under ElvUI and setting a keybind for the raid marker."] = "你可以通過按ESC鍵-> 按鍵設定, 滾動到ElvUI設定下方設定一個快速標記的快捷鍵."
 L["ElvUI has a dual spec feature which allows you to load different profiles based on your current spec on the fly. You can enable this from the profiles tab."] = "ElvUI 可以根據你所使用的天賦自動套用不同的裝備組. 你可以在設定檔中啟用此功能."
-L["For technical support visit us at http://www.tukui.org."] = "如需技術支援請至 http://www.tukui.org."
+L["For technical support visit us at https://github.com/ElvUI-Cataclysm."] = "如需技術支援請至 https://github.com/ElvUI-Cataclysm."
 L["If you accidently remove a chat frame you can always go the in-game configuration menu, press install, go to the chat portion and reset them."] = "如果你不慎移除了對話框, 你可以重新安裝一次重置他們."
 L["If you are experiencing issues with ElvUI try disabling all your addons except ElvUI, remember ElvUI is a full UI replacement addon, you cannot run two addons that do the same thing."] = "如果你使用 ElvUI 時遇到問題, 請嘗試停用除了ElvUI之外的插件. 請記住 ElvUI 是一套全套的 UI 替換插件, 你不能同時使用不同的插件來完成同一件事."
 L["The focus unit can be set by typing /focus when you are targeting the unit you want to focus. It is recommended you make a macro to do this."] = "你可以使用 /focus 指令設定目前目標為焦點目標. 建議你可以寫一個聚集來做這件事"

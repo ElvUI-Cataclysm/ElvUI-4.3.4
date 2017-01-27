@@ -239,40 +239,6 @@ function M:AutoInvite(event, leaderName)
 	end
 end
 
-function M:LoadAutoRelease()
-	if(not E.private.general.pvpAutoRelease) then return end
-
-	local autoreleasepvp = CreateFrame("frame")
-	autoreleasepvp:RegisterEvent("PLAYER_DEAD")
-	autoreleasepvp:SetScript("OnEvent", function(self, event)
-		local inInstance, instanceType = IsInInstance()
-		if(inInstance and (instanceType == "pvp")) then
-			local soulstone = GetSpellInfo(20707)
-			if((E.myclass ~= "SHAMAN") and not (soulstone and UnitBuff("player", soulstone))) then
-				RepopMe()
-			end
-		end
-	end);
-end
-
-function M:UpdateMoverTransparancy()
-	local mover;
-	for name, _ in pairs(E.CreatedMovers) do
-		mover = _G[name];
-		if(mover) then
-			mover:SetAlpha(E.db.general.moverTransparancy);
-		end
-	end
-end
-
-function M:LoadMoverTransparancy()
-	hooksecurefunc(E, "CreateMover", function(_, parent)
-		parent.mover:SetAlpha(E.db.general.moverTransparancy);
-	end);
-
-	self:UpdateMoverTransparancy();
-end
-
 function M:ForceCVars()
 	if not GetCVarBool("lockActionBars") and E.private.actionbar.enable then
 		SetCVar("lockActionBars", 1)
@@ -290,8 +256,6 @@ function M:Initialize()
 	self:LoadLoot()
 	self:LoadLootRoll()
 	self:LoadChatBubbles()
-	self:LoadAutoRelease()
-	self:LoadMoverTransparancy()
 	self:RegisterEvent("MERCHANT_SHOW")
 	self:RegisterEvent("PLAYER_REGEN_DISABLED", "ErrorFrameToggle")
 	self:RegisterEvent("PLAYER_REGEN_ENABLED", "ErrorFrameToggle")

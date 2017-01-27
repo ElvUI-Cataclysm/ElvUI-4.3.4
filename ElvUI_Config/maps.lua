@@ -139,14 +139,6 @@ E.Options.args.maps = {
 							get = function(info) return E.db.general.minimap[ info[#info] ]; end,
 							set = function(info, value) E.db.general.minimap[ info[#info] ] = value; MM:UpdateSettings(); end,
 							disabled = function() return not E.private.general.minimap.enable; end
-						},
-						combatHide = {
- 							order = 3,
-							type = "toggle",
-							name = L["Hide in Combat"],
-							get = function(info) return E.db.general.minimap[ info[#info] ] end,
-							set = function(info, value) E.db.general.minimap[ info[#info] ] = value end,
-							disabled = function() return not E.private.general.minimap.enable end
 						}
 					}
 				},

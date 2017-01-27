@@ -21,12 +21,7 @@ V['general'] = {
 		['hideZoomIn'] = true,
 		['hideZoomOut'] = true
 	},
-	["classColorMentionsSpeech"] = true,
-	["pvpAutoRelease"] = true
-}
-
-V["watchframe"] = {
-	["enable"] = true
+	["classColorMentionsSpeech"] = true
 }
 
 V['bags'] = {
@@ -48,9 +43,7 @@ V['chat'] = {
 }
 
 V["skins"] = {
-	["animations"] = true,
 	["tradeSkillBig"] = true,
-	["showQuestLevel"] = true,
 	["ace3"] = {
 		["enable"] = true
 	},

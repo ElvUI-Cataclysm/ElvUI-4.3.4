@@ -171,7 +171,8 @@ local rolePaths = {
 
 local specialChatIcons = {
 	["Dragonwrath"] = {
-		["Tyrann"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\ElvUI_Chat_Logo:13:22|t"
+		["Tyrann"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\ElvUI_Chat_Logo:13:22|t",
+		["Toxins"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\ElvUI_Chat_Logo:13:22|t"
 	}
 };
 

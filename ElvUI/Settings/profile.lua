@@ -22,7 +22,6 @@ P["general"] = {
 	["watchFrameHeight"] = 480,
 	["afk"] = true,
 	["numberPrefixStyle"] = "METRIC",
-	["moverTransparancy"] = 1,
 
 	["fontSize"] = 12,
 	["font"] = "PT Sans Narrow",
@@ -33,7 +32,6 @@ P["general"] = {
 	["valuecolor"] = { r = 23/255, g = 132/255, b = 209/255 },
 
 	["minimap"] = {
-		["combatHide"] = false,
 		["size"] = 176,
 		["locationText"] = "MOUSEOVER",
 		["locationFontSize"] = 12,
@@ -131,14 +129,6 @@ P["general"] = {
 		["fontOutline"] = "MONOCHROMEOUTLINE"
 	},
 	["kittys"] = false
-};
-
-P["watchframe"] = {
-	["city"] = "COLLAPSED",
-	["pvp"] = "HIDDEN",
-	["arena"] = "HIDDEN",
-	["party"] = "COLLAPSED",
-	["raid"] = "COLLAPSED"
 };
 
 P["databars"] = {

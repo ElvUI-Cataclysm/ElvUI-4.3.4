@@ -7,7 +7,7 @@ if not L then return end
 L["INCOMPATIBLE_ADDON"] = "The addon %s is not compatible with ElvUI's %s module. Please select either the addon or the ElvUI module to disable."
 
 --*_MSG locales
-L["LOGIN_MSG"] = "Bienvenido a %sElvUI|r versión %s%s|r, escribe /ec para acceder al menú de configuración. Si necesitas ayuda o soporte técnico puedes visitarnos en http://www.tukui.org"
+L["LOGIN_MSG"] = "Bienvenido a %sElvUI|r versión %s%s|r. Si necesitas ayuda o soporte técnico puedes visitarnos en https://github.com/ElvUI-Cataclysm"
 
 --ActionBars
 L["Binding"] = "Controles"
@@ -65,7 +65,6 @@ L["Bases Defended"] = true;
 L["Character: "] = "Personaje: "
 L["Combat Time"] = true;
 L["copperabbrev"] = "|cffeda55fc|r"
-L["Datatext Disabled"] = true;
 L["Deficit:"] = "Déficit:"
 L["Demolishers Destroyed"] = true;
 L["Download"] = "Descarga"
@@ -85,16 +84,10 @@ L["Hold Shift + Right Click:"] = true;
 L["Home Latency:"] = "Latencia Local:"
 L["HP"] = "Salud"
 L["HPS"] = "VPS"
-L["In Combat"] = true;
 L["lvl"] = "Niv"
 L["Mitigation By Level: "] = "Mitigación Por Nivel: "
-L["New Mail"] = true;
 L["No Guild"] = "Sin Hermandad"
-L["No Mail"] = true;
-L["Not Learned"] = true;
-L["Out of Combat"] = true;
 L["Profit:"] = "Ganancia:"
-L["Ready"] = true;
 L["Reload UI"] = true;
 L["Reset Data: Hold Shift + Right Click"] = "Restablecer Datos: Mantén Shift + Clic Derecho"
 L["Right Click: Reset CPU Usage"] = true;
@@ -112,22 +105,7 @@ L["Total: "] = "Total: "
 L["Towers Assaulted"] = true;
 L["Towers Defended"] = true;
 L["Unhittable:"] = "Imbatible:"
-L["You are not playing a |cff0070DEShaman|r, datatext disabled."] = true;
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = true;
-
--- Death Recap
-L["%s %s"] = true;
-L["%s by %s"] = true;
-L["%s sec before death at %s%% health."] = true;
-L["(%d Absorbed)"] = true;
-L["(%d Blocked)"] = true;
-L["(%d Overkill)"] = true;
-L["(%d Resisted)"] = true;
-L["Death Recap unavailable."] = true;
-L["Death Recap"] = true;
-L["Killing blow at %s%% health."] = true;
-L["Recap"] = true;
-L["You died."] = true;
 
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = "%s: %s intentó llamar a la función protegida '%s'."
@@ -203,7 +181,7 @@ L["This resolution requires that you change some settings to get everything to f
 L["This will change the layout of your unitframes and actionbars."] = true;
 L["Trade"] = "Intercambio"
 L["Welcome to ElvUI version %s!"] = "Bienvenido(a) a ElvUI versión %s!"
-L["You are now finished with the installation process. If you are in need of technical support please visit us at http://www.tukui.org."] = "Ya has terminado con el proceso de instalación. Si necesitas ayuda o soporte técnico por favor visítanos en http://www.tukui.org."
+L["You are now finished with the installation process. If you are in need of technical support please visit us at https://github.com/ElvUI-Cataclysm."] = "Ya has terminado con el proceso de instalación. Si necesitas ayuda o soporte técnico por favor visítanos en https://github.com/ElvUI-Cataclysm."
 L["You can always change fonts and colors of any element of ElvUI from the in-game configuration."] = "Siempre puedes cambiar las fuentes y colores de cualquier elemento de ElvUI desde la configuración."
 L["You can now choose what layout you wish to use based on your combat role."] = "Ahora puedes elegir qué distribución quieres basándote en tu rol de combate."
 L["You may need to further alter these settings depending how low you resolution is."] = "Puede que necesites cambiar estos ajutes dependiendo de qué tan baja sea tu resolución."
@@ -328,9 +306,6 @@ L["Your items have been repaired for: "] = "Tus objetos han sido reparados por:"
 L["Your items have been repaired using guild bank funds for: "] = "Tus objetos han sido reparados con fondos del banco de hermandad por:"
 L["|cFFE30000Lua error recieved. You can view the error message when you exit combat."] = "|cFFE30000Error de Lua recibido. Podrás ver el error cuando salgas de combate."
 
---Skins
-L["Undress"] = "Desvestir"
-
 --Static Popups
 L["A setting you have changed will change an option for this character only. This setting that you have changed will be uneffected by changing user profiles. Changing this setting requires that you reload your User Interface."] = "La opción que has cambiado se aplicará sólo para este personaje. Esta opción no se verá alterada al cambiar el perfil de usuario. Cambiar esta opción requiere que recargues tu Interfaz de Usuario."
 L["Are you sure you want to apply this font to all ElvUI elements?"] = true;
@@ -344,7 +319,7 @@ L["Disable Warning"] = "Deshabilitar Advertencia"
 L["Discard"] = "Descartar"
 L["Do you enjoy the new ElvUI?"] = true;
 L["Do you swear not to post in technical support about something not working without first disabling the addon/module combination first?"] = "¿Juras no escribir a Soporte Técnico acerca de algo que no funciona sin antes deshabilitar la combinación addon/módulo primero?"
-L["ElvUI is five or more revisions out of date. You can download the newest version from www.tukui.org. Get premium membership and have ElvUI automatically updated with the Tukui Client!"] = true;
+L["ElvUI is five or more revisions out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm."] = true;
 L["ElvUI is out of date. You can download the newest version from www.tukui.org. Get premium membership and have ElvUI automatically updated with the Tukui Client!"] = true;
 L["ElvUI needs to perform database optimizations please be patient."] = true;
 L["Hover your mouse over any actionbutton or spellbook button to bind it. Press the escape key or right click to clear the current actionbutton's keybinding."] = "Pasa tu ratón por encima de un botón de acción o de un botón del libro de hechizos para ligarlo. Pulsa escape o botón derecho para limpiar la asignación actual del botón de acción."
@@ -372,7 +347,7 @@ L["Targeted By:"] = "Objetivo De:"
 --Tutorials
 L["A raid marker feature is available by pressing Escape -> Keybinds scroll to the bottom under ElvUI and setting a keybind for the raid marker."] = "La opción de marcador de banda está disponible pulsando Escape -> Asignar teclas -> Recorrer hacia abajo hasta ElvUI y establecer la tecla para el marcador de banda."
 L["ElvUI has a dual spec feature which allows you to load different profiles based on your current spec on the fly. You can enable this from the profiles tab."] = "ElvUI tiene la posibilidad de cargar diferentes perfiles automáticamente al cambiar de especialización de talentos. Puedes activar esta función en la pestaña de perfiles."
-L["For technical support visit us at http://www.tukui.org."] = "Para soporte técnico visítanos en http://www.tukui.org."
+L["For technical support visit us at https://github.com/ElvUI-Cataclysm."] = "Para soporte técnico visítanos en https://github.com/ElvUI-Cataclysm."
 L["If you accidently remove a chat frame you can always go the in-game configuration menu, press install, go to the chat portion and reset them."] = "Si eliminas un marco de chat accidentalmente, siempre puedes ir a la configuración, pulsar instalar, ir a la parte del chat, y restaurarlo."
 L["If you are experiencing issues with ElvUI try disabling all your addons except ElvUI, remember ElvUI is a full UI replacement addon, you cannot run two addons that do the same thing."] = "Si has experimentado errores con ElvUI prueba a desactivar todos tus addons excepto ElvUI, recuerda que ElvUI remplaza por completo la interfaz, no puede haber addons que hagan lo mismo."
 L["The focus unit can be set by typing /focus when you are targeting the unit you want to focus. It is recommended you make a macro to do this."] = "El foco puede establecerse escribiendo /enfoque cuando tienes seleccionado al objetivo al cual quieres hacer foco. Es recomendable que hagas una macro para esto."
