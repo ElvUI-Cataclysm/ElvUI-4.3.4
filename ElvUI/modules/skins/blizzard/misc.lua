@@ -350,37 +350,6 @@ local function LoadSkin()
 		S:SquareButton_SetIcon(CompactRaidFrameManagerToggleButton, "RIGHT");
 	end)
 
-	-- NavBar Buttons (Used EncounterJournal and HelpFrame)
-	local function navButtonFrameLevel(self)
-		if(self:GetParent():GetName() == "EncounterJournal" and not E.private.skins.blizzard.encounterjournal) or (self:GetParent():GetName() == "HelpFrameKnowledgebase" and not E.private.skins.blizzard.help) then
-			return;
-		end
-		for i = 1, #self.navList do
-			local navButton = self.navList[i];
-			local lastNav = self.navList[i-1];
-			if(navButton and lastNav) then
-				navButton:SetFrameLevel(lastNav:GetFrameLevel() - 2);
-				navButton:ClearAllPoints();
-				navButton:Point("LEFT", lastNav, "RIGHT", 3, 0);
-			end
-		end
-	end
-
-	hooksecurefunc("NavBar_AddButton", function(self)
-		local navButton = self.navList[#self.navList];
-
-		if(not navButton.skinned) then
-			S:HandleButton(navButton, true);
-			navButton.skinned = true;
-
-			navButton:HookScript("OnClick", function()
-				navButtonFrameLevel(self);
-			end)
-		end
-
-		navButtonFrameLevel(self);
-	end)
-
 	-- Options/Interface Buttons Position
 	VideoOptionsFrameCancel:ClearAllPoints();
 	VideoOptionsFrameCancel:Point("RIGHT", VideoOptionsFrameApply, "LEFT", -4, 0);

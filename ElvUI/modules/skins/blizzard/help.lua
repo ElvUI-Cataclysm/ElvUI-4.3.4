@@ -110,8 +110,6 @@ local function LoadSkin()
 	-- skin misc items
 	HelpFrameKnowledgebaseSearchBox:ClearAllPoints()
 	HelpFrameKnowledgebaseSearchBox:Point("TOPLEFT", HelpFrameMainInset, "TOPLEFT", 13, -10)
-	HelpFrameKnowledgebaseNavBarOverlay:Kill()
-	HelpFrameKnowledgebaseNavBar:StripTextures()
 
 	HelpFrame:StripTextures(true)
 	HelpFrame:CreateBackdrop("Transparent")
@@ -136,6 +134,39 @@ local function LoadSkin()
 			child:SetTemplate("Default")
 		end
 	end
+
+	--NavBar
+	HelpFrameKnowledgebaseNavBarOverlay:Kill()
+	HelpFrameKnowledgebaseNavBar:StripTextures()
+
+	local function navButtonFrameLevel(self)
+		for i = 1, #self.navList do
+			local navButton = self.navList[i];
+			local lastNav = self.navList[i-1];
+			if(navButton and lastNav) then
+				navButton:SetFrameLevel(lastNav:GetFrameLevel() - 2);
+				navButton:ClearAllPoints();
+				navButton:Point("LEFT", lastNav, "RIGHT", 1, 0);
+			end
+		end
+	end
+
+	hooksecurefunc("NavBar_AddButton", function(self)
+		if(self:GetParent():GetName() == "EncounterJournal") then return; end
+
+		local navButton = self.navList[#self.navList];
+
+		if(not navButton.skinned) then
+			S:HandleButton(navButton, true);
+			navButton.skinned = true;
+
+			navButton:HookScript("OnClick", function()
+				navButtonFrameLevel(self);
+			end)
+		end
+
+		navButtonFrameLevel(self);
+	end)
 end
 
 S:AddCallback("Help", LoadSkin);

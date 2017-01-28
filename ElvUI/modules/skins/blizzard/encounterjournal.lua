@@ -21,11 +21,41 @@ local function LoadSkin()
 
 	EJ.navBar.overlay:StripTextures(true)
 
-	S:HandleButton(EJ.navBar.home, true)
-
 	S:HandleEditBox(EJ.searchBox)
 
 	S:HandleCloseButton(EncounterJournalCloseButton)
+
+	--NavBar
+	S:HandleButton(EJ.navBar.home, true)
+
+	local function navButtonFrameLevel(self)
+		for i = 1, #self.navList do
+			local navButton = self.navList[i];
+			local lastNav = self.navList[i-1];
+			if(navButton and lastNav) then
+				navButton:SetFrameLevel(lastNav:GetFrameLevel() - 2);
+				navButton:ClearAllPoints();
+				navButton:Point("LEFT", lastNav, "RIGHT", 1, 0);
+			end
+		end
+	end
+
+	hooksecurefunc("NavBar_AddButton", function(self)
+		if(self:GetParent():GetName() == "HelpFrameKnowledgebase") then return; end
+
+		local navButton = self.navList[#self.navList];
+
+		if(not navButton.skinned) then
+			S:HandleButton(navButton, true);
+			navButton.skinned = true;
+
+			navButton:HookScript("OnClick", function()
+				navButtonFrameLevel(self);
+			end)
+		end
+
+		navButtonFrameLevel(self);
+	end)
 
 	--Instance Selection Frame
 	local InstanceSelect = EJ.instanceSelect
