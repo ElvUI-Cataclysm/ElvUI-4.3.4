@@ -12,12 +12,12 @@ local function OnEvent(self, event, unit)
 	local expertise, offhandExpertise = GetExpertise();
 	local speed, offhandSpeed = UnitAttackSpeed("player");
 	local text;
-	if( offhandSpeed ) then
+	if(offhandSpeed) then
 		text = expertise.." / "..offhandExpertise;
 	else
 		text = expertise;
 	end
-	self.text:SetFormattedText(displayString, STAT_EXPERTISE..": ", text)
+	self.text:SetFormattedText(displayString, STAT_EXPERTISE, text)
 end
 
 local function OnEnter(self)
@@ -81,7 +81,7 @@ local function OnEnter(self)
 end
 
 local function ValueColorUpdate(hex)
-	displayString = join("", "%s", hex, "%s|r")
+	displayString = join("", "%s: ", hex, "%s|r")
 
 	if lastPanel ~= nil then
 		OnEvent(lastPanel, 2000)
