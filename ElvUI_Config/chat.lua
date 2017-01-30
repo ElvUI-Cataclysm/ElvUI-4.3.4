@@ -294,18 +294,19 @@ E.Options.args.chat = {
 					name = L['Lock Positions'],
 					desc = L['Attempt to lock the left and right chat frame positions. Disabling this option will allow you to move the main chat frame anywhere you wish.']
 				},
-				panelTabTransparency = {
-					order = 3,
-					type = 'toggle',
-					name = L['Tab Panel Transparency'],
-					set = function(info, value) E.db.chat.panelTabTransparency = value; E:GetModule('Layout'):SetChatTabStyle(); end
-				},
 				panelTabBackdrop = {
+					order = 3,
+					type = "toggle",
+					name = L["Tab Panel"],
+					desc = L["Toggle the chat tab panel backdrop."],
+					set = function(info, value) E.db.chat.panelTabBackdrop = value; E:GetModule("Layout"):ToggleChatPanels(); end
+				},
+				panelTabTransparency = {
 					order = 4,
-					type = 'toggle',
-					name = L['Tab Panel'],
-					desc = L['Toggle the chat tab panel backdrop.'],
-					set = function(info, value) E.db.chat.panelTabBackdrop = value; E:GetModule('Layout'):ToggleChatPanels(); end
+					type = "toggle",
+					name = L["Tab Panel Transparency"],
+					set = function(info, value) E.db.chat.panelTabTransparency = value; E:GetModule("Layout"):SetChatTabStyle(); end,
+					disabled = function() return not E.db.chat.panelTabBackdrop end
 				},
 				editBoxPosition = {
 					order = 5,
