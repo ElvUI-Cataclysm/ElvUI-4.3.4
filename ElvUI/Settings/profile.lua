@@ -57,8 +57,8 @@ P["general"] = {
 			["lfgEye"] = {
 				["scale"] = 1,
 				["position"] = "BOTTOMRIGHT",
-				["xOffset"] = 3,
-				["yOffset"] = 0
+				["xOffset"] = 1,
+				["yOffset"] = 30
 			},
 			["battlefield"] = {
 				["scale"] = 1,
