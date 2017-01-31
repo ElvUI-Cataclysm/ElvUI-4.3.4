@@ -939,25 +939,6 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			return true;
 		end
 
-		if not (chatGroup == "CHANNEL") and not (self:GetName() == "AFKChat") then
-			local found2 = false
-
-			for i = 1, #self.messageTypeList, 1 do
-				if self.messageTypeList[i] == chatGroup then
-					found2 = true
-					break
-				end
-				if self.messageTypeList[i] == "EMOTE" and (chatGroup == "TEXT_EMOTE" or chatGroup == "RAID_BOSS_EMOTE") then
-					found2 = true
-					break
-				end
-			end
-
-			if not found2 then
-				return true
-			end
-		end
-
 		if ( chatGroup == "WHISPER" or chatGroup == "BN_WHISPER" ) then
 			if ( self.privateMessageList and not self.privateMessageList[strlower(arg2)] ) then
 				return true;
@@ -1595,8 +1576,8 @@ function CH:DisplayChatHistory()
 
 		if type(data) == "table" and data[20] ~= nil then
 			CH.timeOverride = temp[i]
+
 			CH.ChatFrame_MessageEventHandler(DEFAULT_CHAT_FRAME, data[20], unpack(data))
-			CH.ChatFrame_MessageEventHandler(ChatFrame3, data[20], unpack(data))
 		end
 	end
 end
