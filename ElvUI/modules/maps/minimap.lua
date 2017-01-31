@@ -4,7 +4,6 @@ E.Minimap = M;
 
 local _G = _G;
 local unpack = unpack;
-
 local format = string.format;
 local strsub = strsub;
 

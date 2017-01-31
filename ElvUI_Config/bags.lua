@@ -203,12 +203,12 @@ E.Options.args.bags = {
 			disabled = function() return not E.bags; end,
 			args = {
 				header = {
-					order = 0,
+					order = 1,
 					type = "header",
 					name = L["Size and Positions"],
 				},
 				bagSize = {
-					order = 1,
+					order = 2,
 					type = "range",
 					name = L["Button Size (Bag)"],
 					desc = L["The size of the individual buttons on the bag frame."],
@@ -216,15 +216,20 @@ E.Options.args.bags = {
 					set = function(info, value) E.db.bags[ info[#info] ] = value; B:Layout(); end
 				},
 				bankSize = {
-					order = 2,
+					order = 3,
 					type = "range",
 					name = L["Button Size (Bank)"],
 					desc = L["The size of the individual buttons on the bank frame."],
 					min = 15, max = 45, step = 1,
 					set = function(info, value) E.db.bags[ info[#info] ] = value; B:Layout(true); end
 				},
+				spacer = {
+					order = 4,
+					type = "description",
+					name = ""
+				},
 				bagWidth = {
-					order = 3,
+					order = 5,
 					type = "range",
 					name = L["Panel Width (Bags)"],
 					desc = L["Adjust the width of the bag frame."],
@@ -232,7 +237,7 @@ E.Options.args.bags = {
 					set = function(info, value) E.db.bags[ info[#info] ] = value; B:Layout(); end
 				},
 				bankWidth = {
-					order = 4,
+					order = 6,
 					type = "range",
 					name = L["Panel Width (Bank)"],
 					desc = L["Adjust the width of the bank frame."],
@@ -249,12 +254,12 @@ E.Options.args.bags = {
 			set = function(info, value) E.db.bags.bagBar[ info[#info] ] = value; B:SizeAndPositionBagBar(); end,
 			args = {
 				header = {
-					order = 0,
+					order = 1,
 					type = "header",
 					name = L["Bag-Bar"]
 				},
 				enable = {
-					order = 1,
+					order = 2,
 					type = "toggle",
 					name = L["Enable"],
 					desc = L["Enable/Disable the Bag-Bar."],
@@ -262,20 +267,20 @@ E.Options.args.bags = {
 					set = function(info, value) E.private.bags.bagBar = value; E:StaticPopup_Show("PRIVATE_RL"); end
 				},
  				showBackdrop = {
-					order = 2,
+					order = 3,
  					type = 'toggle',
  					name = L["Backdrop"],
 					disabled = function() return not E.private.bags.bagBar end
  				},
  				mouseover = {
- 					order = 3,
+ 					order = 4,
  					type = "toggle",
  					name = L["Mouse Over"],
  					desc = L["The frame is not shown unless you mouse over the frame."],
 					disabled = function() return not E.private.bags.bagBar end
  				},
  				size = {
-					order = 4,
+					order = 5,
 					type = "range",
 					name = L["Button Size"],
 					desc = L["Set the size of your bag buttons."],
@@ -283,7 +288,7 @@ E.Options.args.bags = {
 					disabled = function() return not E.private.bags.bagBar end
 				},
 				spacing = {
-					order = 5,
+					order = 6,
 					type = "range",
 					name = L["Button Spacing"],
 					desc = L["The spacing between buttons."],
@@ -291,7 +296,7 @@ E.Options.args.bags = {
 					disabled = function() return not E.private.bags.bagBar end
 				},
  				backdropSpacing = {
- 					order = 6,
+ 					order = 7,
  					type = 'range',
  					name = L["Backdrop Spacing"],
  					desc = L["The spacing between the backdrop and the buttons."],
@@ -299,7 +304,7 @@ E.Options.args.bags = {
 					disabled = function() return not E.private.bags.bagBar end
 				},
 				sortDirection = {
-					order = 7,
+					order = 8,
 					type = "select",
 					name = L["Sort Direction"],
 					desc = L["The direction that the bag frames will grow from the anchor."],
@@ -310,7 +315,7 @@ E.Options.args.bags = {
 					disabled = function() return not E.private.bags.bagBar end
 				},
 				growthDirection = {
-					order = 7,
+					order = 9,
 					type = "select",
 					name = L["Bar Direction"],
 					desc = L["The direction that the bag frames be (Horizontal or Vertical)."],
@@ -329,28 +334,28 @@ E.Options.args.bags = {
 			disabled = function() return not E.bags end,
 			args = {
 				header = {
-					order = 0,
+					order = 1,
 					type = "header",
 					name = L["Bag Sorting"]
 				},
 				sortInverted = {
-					order = 1,
+					order = 2,
 					type = 'toggle',
 					name = L["Sort Inverted"],
 					desc = L["Direction the bag sorting will use to allocate the items."]
 				},
 				spacer = {
-					order = 2,
+					order = 3,
 					type = "description",
 					name = " "
 				},
 				description = {
-					order = 3,
+					order = 4,
 					type = "description",
 					name = L["Here you can add items or search terms that you want to be excluded from sorting. To remove an item just click on its name in the list."]
 				},
 				addEntryGroup = {
-					order = 4,
+					order = 5,
 					type = "group",
 					name = L["Add Item or Search Syntax"],
 					guiInline = true,
@@ -394,7 +399,7 @@ E.Options.args.bags = {
 					}
 				},
 				ignoredEntriesProfile = {
-					order = 5,
+					order = 6,
 					type = "multiselect",
 					name = L["Ignored Items and Search Syntax (Profile)"],
 					values = function() return E.db.bags.ignoredItems end,
@@ -405,7 +410,7 @@ E.Options.args.bags = {
 					end
 				},
 				ignoredEntriesGlobal = {
-					order = 6,
+					order = 7,
 					type = "multiselect",
 					name = L["Ignored Items and Search Syntax (Global)"],
 					values = function() return E.global.bags.ignoredItems end,
@@ -424,12 +429,12 @@ E.Options.args.bags = {
 			disabled = function() return not E.bags; end,
 			args = {
 				header = {
-					order = 0,
+					order = 1,
 					type = "header",
 					name = L["Search Syntax"]
 				},
 				text = {
-					order = 1,
+					order = 2,
 					type = "input",
 					multiline = 26,
 					width = "full",

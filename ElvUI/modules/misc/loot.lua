@@ -84,26 +84,24 @@ local OnShow = function(self)
 end
 
 local function anchorSlots(self)
-	local iconsize = iconSize
 	local shownSlots = 0
-	for i=1, #self.slots do
+	for i = 1, #self.slots do
 		local frame = self.slots[i]
 		if(frame:IsShown()) then
 			shownSlots = shownSlots + 1
 
-			frame:Point('TOP', lootFrame, 4, (-8 + iconsize) - (shownSlots * iconsize))
+			frame:Point("TOP", lootFrame, 4, (-8 + iconSize) - (shownSlots * iconSize))
 		end
 	end
 
-	self:Height(max(shownSlots * iconsize + 16, 20))
+	self:Height(max(shownSlots * iconSize + 16, 20))
 end
 
 local function createSlot(id)
-	local iconsize = iconSize-2
 	local frame = CreateFrame('Button', 'ElvLootSlot'..id, lootFrame)
 	frame:Point('LEFT', 8, 0)
 	frame:Point('RIGHT', -8, 0)
-	frame:Height(iconsize)
+	frame:Height(iconSize - 2)
 	frame:SetID(id)
 
 	frame:RegisterForClicks('LeftButtonUp', 'RightButtonUp')
@@ -114,8 +112,7 @@ local function createSlot(id)
 	frame:SetScript('OnShow', OnShow)
 
 	local iconFrame = CreateFrame('Frame', nil, frame)
-	iconFrame:Height(iconsize)
-	iconFrame:Width(iconsize)
+	iconFrame:Size(iconSize - 2)
 	iconFrame:Point('RIGHT', frame)
 	iconFrame:SetTemplate('Default')
 	frame.iconFrame = iconFrame
@@ -220,7 +217,7 @@ function M:LOOT_OPENED(_, autoloot)
 
 	local m, w, t = 0, 0, lootFrame.title:GetStringWidth()
 	if(items > 0) then
-		for i=1, items do
+		for i = 1, items do
 			local slot = lootFrame.slots[i] or createSlot(i)
 			local texture, item, quantity, quality, locked, isQuestItem, questId, isActive = GetLootSlotInfo(i)
 			local color = ITEM_QUALITY_COLORS[quality]
@@ -299,8 +296,7 @@ function M:LoadLoot()
 	if not E.private.general.loot then return end
 	lootFrameHolder = CreateFrame('Frame', 'ElvLootFrameHolder', E.UIParent)
 	lootFrameHolder:Point('TOP', 0, -50)
-	lootFrameHolder:Width(150)
-	lootFrameHolder:Height(22)
+	lootFrameHolder:Size(150, 22)
 
 	lootFrame = CreateFrame('Button', 'ElvLootFrame', lootFrameHolder)
 	lootFrame:SetClampedToScreen(true)
@@ -336,7 +332,7 @@ function M:LoadLoot()
 	tinsert(UISpecialFrames, 'ElvLootFrame')
 
 	function _G.GroupLootDropDown_GiveLoot(self)
-		if ( sq >= MASTER_LOOT_THREHOLD ) then
+		if(sq >= MASTER_LOOT_THREHOLD) then
 			local dialog = StaticPopup_Show('CONFIRM_LOOT_DISTRIBUTION', ITEM_QUALITY_COLORS[sq].hex..sn..FONT_COLOR_CODE_CLOSE, self:GetText())
 			if (dialog) then
 				dialog.data = self.value
