@@ -8,8 +8,7 @@ local GetScreenWidth = GetScreenWidth;
 local GetScreenHeight = GetScreenHeight;
 
 local WatchFrameHolder = CreateFrame("Frame", "WatchFrameHolder", E.UIParent);
-WatchFrameHolder:SetWidth(130);
-WatchFrameHolder:SetHeight(22);
+WatchFrameHolder:Size(207, 22);
 WatchFrameHolder:SetPoint("TOPRIGHT", E.UIParent, "TOPRIGHT", -135, -300);
 
 function B:SetWatchFrameHeight()
@@ -31,11 +30,11 @@ function B:MoveWatchFrame()
 	B:SetWatchFrameHeight();
 	WatchFrame:SetClampedToScreen(false);
 
-	local function WatchFrame_SetPosition(_,_, parent)
+	local function WatchFrame_SetPosition(_, _, parent)
 		if(parent ~= WatchFrameHolder) then
 			WatchFrame:ClearAllPoints();
 			WatchFrame:SetPoint("TOP", WatchFrameHolder, "TOP");
 		end
 	end
-	hooksecurefunc(WatchFrame,"SetPoint", WatchFrame_SetPosition)
+	hooksecurefunc(WatchFrame, "SetPoint", WatchFrame_SetPosition)
 end

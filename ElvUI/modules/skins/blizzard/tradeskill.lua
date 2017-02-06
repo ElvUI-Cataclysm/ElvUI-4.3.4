@@ -3,6 +3,7 @@ local S = E:GetModule("Skins");
 
 local _G = _G;
 local unpack, select = unpack, select;
+local find = string.find;
 
 local GetItemInfo = GetItemInfo;
 local GetItemQualityColor = GetItemQualityColor;
@@ -226,57 +227,51 @@ local function LoadSkin()
 
 	TradeSkillExpandButtonFrame:StripTextures();
 
-	hooksecurefunc("TradeSkillFrame_Update", function()
-		local skillOffset = FauxScrollFrame_GetOffset(TradeSkillListScrollFrame);
-		local hasFilterBar = TradeSkillFilterBar:IsShown();
-		local diplayedSkills = TRADE_SKILLS_DISPLAYED;
-		if(hasFilterBar) then
-			diplayedSkills = TRADE_SKILLS_DISPLAYED - 1;
-		end
-		local numTradeSkills = GetNumTradeSkills();
-		local buttonIndex = 1;
-		for i = 1, diplayedSkills, 1 do
-			local skillIndex = i + skillOffset;
-			local _, skillType, _, isExpanded = GetTradeSkillInfo(skillIndex);
-			if(skillIndex <= numTradeSkills) then
-				if(skillType == "header") then
-					if(hasFilterBar) then
-						buttonIndex = i + 1;
-					else
-						buttonIndex = i;
-					end
-					local skillButton = _G["TradeSkillSkill"..buttonIndex];
-					skillButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
-					skillButton:GetNormalTexture():Size(11);
-					skillButton:GetNormalTexture():Point("LEFT", 3, 2);
-					skillButton:SetHighlightTexture("");
-					if(isExpanded) then
-						skillButton:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375);
-					else
-						skillButton:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375);
-					end
-				end
-			end
-		end
-	end)
+	TradeSkillCollapseAllButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
+	TradeSkillCollapseAllButton.SetNormalTexture = E.noop;
+	TradeSkillCollapseAllButton:GetNormalTexture():Point("LEFT", 3, 2);
+	TradeSkillCollapseAllButton:GetNormalTexture():Size(12);
 
-	--Collapse All Button
-	TradeSkillCollapseAllButton:HookScript("OnUpdate", function(self)
-		self:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
-		self:SetHighlightTexture("");
-		self:GetNormalTexture():Point("LEFT", 3, 2);
-		self:GetNormalTexture():Size(12);
-		if(self.collapsed) then
-			self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375);
-		else
+	TradeSkillCollapseAllButton:SetHighlightTexture("");
+	TradeSkillCollapseAllButton.SetHighlightTexture = E.noop;
+
+	TradeSkillCollapseAllButton:SetDisabledTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
+	TradeSkillCollapseAllButton.SetDisabledTexture = E.noop;
+	TradeSkillCollapseAllButton:GetDisabledTexture():Point("LEFT", 3, 2);
+	TradeSkillCollapseAllButton:GetDisabledTexture():Size(12);
+	TradeSkillCollapseAllButton:GetDisabledTexture():SetTexCoord(0, 0.4375, 0, 0.4375);
+	TradeSkillCollapseAllButton:GetDisabledTexture():SetDesaturated(true);
+
+	hooksecurefunc(TradeSkillCollapseAllButton, "SetNormalTexture", function(self, texture)
+		if(find(texture, "MinusButton")) then
 			self:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375);
+		else
+			self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375);
 		end
-		self:SetDisabledTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
-		self:GetDisabledTexture():Point("LEFT", 3, 2);
-		self:GetDisabledTexture():Size(12);
-		self:GetDisabledTexture():SetTexCoord(0, 0.4375, 0, 0.4375);
-		self:GetDisabledTexture():SetDesaturated(true);
-	end)
+	end);
+
+	for i = 1, TRADE_SKILLS_DISPLAYED do
+		local skillButton = _G["TradeSkillSkill" .. i];
+		local skillButtonHighlight = _G["TradeSkillSkill"..i.."Highlight"];
+
+		skillButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
+		skillButton.SetNormalTexture = E.noop;
+		skillButton:GetNormalTexture():Size(11);
+		skillButton:GetNormalTexture():Point("LEFT", 3, 1);
+
+		skillButtonHighlight:SetTexture("");
+		skillButtonHighlight.SetTexture = E.noop;
+
+		hooksecurefunc(skillButton, "SetNormalTexture", function(self, texture)
+			if(find(texture, "MinusButton")) then
+				self:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375);
+			elseif(find(texture, "PlusButton")) then
+				self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375);
+			else
+				self:GetNormalTexture():SetTexCoord(0, 0, 0, 0);
+ 			end
+		end);
+	end
 
 	--Guild Crafters
 	TradeSkillGuildFrame:StripTextures();

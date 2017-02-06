@@ -1,100 +1,99 @@
 ﻿local E, L, V, P, G = unpack(select(2, ...));
-local RB = E:NewModule('ReminderBuffs', 'AceEvent-3.0');
-local LSM = LibStub('LibSharedMedia-3.0');
+local RB = E:NewModule("ReminderBuffs", "AceEvent-3.0");
+local LSM = LibStub("LibSharedMedia-3.0");
 
 E.ReminderBuffs = RB;
 
 RB.Spell1Buffs = {
-	94160, -- 'Flask of Flowing Water',
-	79470, -- 'Flask of the Draconic Mind',
-	79471, -- 'Flask of the Winds',
-	79472, -- 'Flask of Titanic Strength',
-	79638, -- 'Flask of Enhancement-STR',
-	79639, -- 'Flask of Enhancement-AGI',
-	79640, -- 'Flask of Enhancement-INT',
-	92679, -- 'Flask of Battle',
-	79469, -- 'Flask of Steelskin',
-	79481, -- 'Hit',
-	79632, -- 'Haste',
-	79477, -- 'Critical',
-	79635, -- 'Mastery',
-	79474, -- 'Expertise',
-	79468, -- 'Spirit',
-	79480, -- 'Armor',
-	79631, -- 'Resistance+90',
-	53752, -- 'Lesser Flask of Toughness' (50 Resilience)
+	94160,	-- Flask of Flowing Water			(300 Spirit)
+	79470,	-- Flask of the Draconic Mind		(300 Intellect)
+	79471,	-- Flask of the Winds				(300 Agility)
+	79472,	-- Flask of Titanic Strength		(300 Strength)
+	79638,	-- Flask of Enhancement				(80 Strength)
+	79639,	-- Flask of Enhancement				(80 Agility)
+	79640,	-- Flask of Enhancement				(80 Intellect)
+	92679,	-- Flask of Battle
+	79469,	-- Flask of Steelskin				(450 Stamina)
+	79481,	-- Elixir of Impossible Accuracy	(225 Hit)
+	79632,	-- Elixir of Mighty Speed			(225 Haste)
+	79477,	-- Elixir of the Cobra				(225 Critical)
+	79635,	-- Elixir of the Master 			(225 Mastery)
+	79474,	-- Elixir of the Naga				(225 Expertise)
+	79468,	-- Ghost Elixir						(225 Spirit)
+	79480,	-- Elixir of Deep Earth				(900 Armor)
+	79631,	-- Prismatic Elixir					(90 Resistance)
+	53752,	-- Lesser Flask of Toughness		(50 Resilience)
 };
 
 RB.Spell2Buffs = {
-	87545, -- 90 STR
-	87546, -- 90 AGI
-	87547, -- 90 INT
-	87548, -- 90 SPI
-	87549, -- 90 MAST
-	87550, -- 90 HIT
-	87551, -- 90 CRIT
-	87552, -- 90 HASTE
-	87554, -- 90 DODGE
-	87555, -- 90 PARRY
-	87635, -- 90 EXP
-	87556, -- 60 STR
-	87557, -- 60 AGI
-	87558, -- 60 INT
-	87559, -- 60 SPI
-	87560, -- 60 MAST
-	87561, -- 60 HIT
-	87562, -- 60 CRIT
-	87563, -- 60 HASTE
-	87564, -- 60 DODGE
-	87634, -- 60 EXP
-	87554, -- Seafood Feast
+	87545,	-- 90 Strength
+	87546,	-- 90 Agility
+	87547,	-- 90 Intellect
+	87548,	-- 90 Spirit
+	87549,	-- 90 Mastery
+	87550,	-- 90 Hit
+	87551,	-- 90 Critical
+	87552,	-- 90 Haste
+	87554,	-- 90 Dodge
+	87555,	-- 90 Parry
+	87635,	-- 90 Expertise
+	87556,	-- 60 Strength
+	87557,	-- 60 Agility
+	87558,	-- 60 Intellect
+	87559,	-- 60 Spirit
+	87560,	-- 60 Mastery
+	87561,	-- 60 Hit
+	87562,	-- 60 Critical
+	87563,	-- 60 Haste
+	87564,	-- 60 Dodge
+	87634,	-- 60 Expertise
 };
 
 RB.Spell3Buffs = {
-	1126, -- Mark of the wild
-	90363, -- Embrace of the Shale Spider
-	20217, -- Greater Blessing of Kings
+	1126,	-- Mark of the Wild
+	90363,	-- Embrace of the Shale Spider
+	20217,	-- Greater Blessing of Kings
 };
 
 RB.Spell4Buffs = {
-	469, -- Commanding
-	6307, -- Blood Pact
-	90364, -- Qiraji Fortitude
-	72590, -- Drums of fortitude
-	21562, -- Fortitude
+	469,	-- Commanding Shout
+	6307,	-- Blood Pact
+	90364,	-- Qiraji Fortitude
+	72590,	-- Drums of fortitude
+	21562,	-- Fortitude
 };
 
 RB.CasterSpell5Buffs = {
-	61316, -- Dalaran Brilliance (6% SP)
-	1459, -- Arcane Brilliance (6% SP)
+	61316,	-- Dalaran Brilliance (6% SP)
+	1459,	-- Arcane Brilliance (6% SP)
 };
 
 RB.MeleeSpell5Buffs = {
-	6673, -- Battle Shout
-	57330, -- Horn of Winter
-	93435, -- Roar of Courage
-	8076, -- Strength of Earth
+	6673,	-- Battle Shout
+	57330,	-- Horn of Winter
+	93435,	-- Roar of Courage
+	8076,	-- Strength of Earth Totem
 };
 
 RB.CasterSpell6Buffs = {
-	5675, -- Mana Spring Totem
-	54424, -- Fel Intelligence
-	19740, -- Blessing of Might
+	5675,	-- Mana Spring Totem
+	54424,	-- Fel Intelligence
+	19740,	-- Blessing of Might
 };
 
 RB.MeleeSpell6Buffs = {
-	19740, -- Blessing of Might
-	30808, -- Unleashed Rage
-	53138, -- Abom Might
-	19506, -- Trushot
+	19740,	-- Blessing of Might
+	30808,	-- Unleashed Rage
+	53138,	-- Abomination Might
+	19506,	-- Trusehot Aura
 };
 
 function RB:CheckFilterForActiveBuff(filter)
-	local spellName, texture, name, duration, expirationTime;
+	local spellName, name, texture, duration, expirationTime;
 
 	for _, spell in pairs(filter) do
 		spellName = GetSpellInfo(spell);
-		name, _, texture, _, _, duration, expirationTime = UnitAura('player', spellName);
+		name, _, texture, _, _, duration, expirationTime = UnitAura("player", spellName);
 
 		if(name) then
 			return true, texture, duration, expirationTime;
@@ -107,32 +106,32 @@ end
 function RB:UpdateReminderTime(elapsed)
 	self.expiration = self.expiration - elapsed;
 
-	if(self.nextupdate > 0) then
-		self.nextupdate = self.nextupdate - elapsed;
+	if(self.nextUpdate > 0) then
+		self.nextUpdate = self.nextUpdate - elapsed;
 
 		return;
 	end
 
 	if(self.expiration <= 0) then
-		self.timer:SetText('');
-		self:SetScript('OnUpdate', nil);
+		self.timer:SetText("");
+		self:SetScript("OnUpdate", nil);
 
 		return;
 	end
 
 	local timervalue, formatid;
-	timervalue, formatid, self.nextupdate = E:GetTimeInfo(self.expiration, 4);
-	self.timer:SetFormattedText(('%s%s|r'):format(E.TimeColors[formatid], E.TimeFormats[formatid][1]), timervalue);
+	timervalue, formatid, self.nextUpdate = E:GetTimeInfo(self.expiration, 4);
+	self.timer:SetFormattedText(("%s%s|r"):format(E.TimeColors[formatid], E.TimeFormats[formatid][1]), timervalue);
 end
 
 function RB:UpdateReminder(event, unit)
-	if(event == 'UNIT_AURA' and unit ~= 'player') then
+	if(event == "UNIT_AURA" and unit ~= "player") then
 		return;
 	end
 
 	local frame = self.frame;
 
-	if(E.Role == 'Caster') then
+	if(E.Role == "Caster") then
 		self.Spell5Buffs = self.CasterSpell5Buffs;
 		self.Spell6Buffs = self.CasterSpell6Buffs;
 	else
@@ -141,28 +140,28 @@ function RB:UpdateReminder(event, unit)
 	end
 
 	for i = 1, 6 do
-		local hasBuff, texture, duration, expirationTime = self:CheckFilterForActiveBuff(self['Spell'..i..'Buffs']);
+		local hasBuff, texture, duration, expirationTime = self:CheckFilterForActiveBuff(self["Spell"..i.."Buffs"]);
 		local button = frame[i];
 
 		if(hasBuff) then
-			button.expiration = expirationTime - GetTime();
-			button.nextupdate = 0;
 			button.t:SetTexture(texture);
 
-			if(duration == 0.1 and expirationTime == 0.1) then
-			--	button.t:SetAlpha(0.3);
-				button:SetScript('OnUpdate', nil);
+			if(duration == 0 and expirationTime == 0) then
+				button.t:SetAlpha(1);
+				button:SetScript("OnUpdate", nil);
 				button.timer:SetText(nil);
 				CooldownFrame_SetTimer(button.cd, 0, 0, 0);
 			else
+				button.expiration = expirationTime - GetTime();
+				button.nextUpdate = 0;
 				button.t:SetAlpha(1)
 				CooldownFrame_SetTimer(button.cd, expirationTime - duration, duration, 1);
-				button:SetScript('OnUpdate', self.UpdateReminderTime);
+				button:SetScript("OnUpdate", self.UpdateReminderTime);
 			end
 		else
 			CooldownFrame_SetTimer(button.cd, 0, 0, 0);
 			button.t:SetAlpha(0.3);
-			button:SetScript('OnUpdate', nil);
+			button:SetScript("OnUpdate", nil);
 			button.timer:SetText(nil);
 			button.t:SetTexture(self.DefaultIcons[i]);
 		end
@@ -170,51 +169,51 @@ function RB:UpdateReminder(event, unit)
 end
 
 function RB:CreateButton()
-	local button = CreateFrame('Button', nil, ElvUI_ReminderBuffs);
-	button:SetTemplate('Default');
+	local button = CreateFrame("Button", nil, ElvUI_ReminderBuffs);
+	button:SetTemplate("Default");
 
-	button.t = button:CreateTexture(nil, 'OVERLAY');
+	button.t = button:CreateTexture(nil, "OVERLAY");
 	button.t:SetTexCoord(unpack(E.TexCoords));
 	button.t:SetInside();
-	button.t:SetTexture('Interface\\Icons\\INV_Misc_QuestionMark');
+	button.t:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark");
 
-	button.cd = CreateFrame('Cooldown', nil, button, 'CooldownFrameTemplate');
+	button.cd = CreateFrame("Cooldown", nil, button, "CooldownFrameTemplate");
 	button.cd:SetInside();
 	button.cd.noOCC = true;
 	button.cd.noCooldownCount = true;
 	button.cd:SetReverse(true);
 
-	button.timer = button.cd:CreateFontString(nil, 'OVERLAY');
-	button.timer:SetPoint('CENTER');
+	button.timer = button.cd:CreateFontString(nil, "OVERLAY");
+	button.timer:SetPoint("CENTER");
 
 	return button;
 end
 
 function RB:EnableRB()
 	ElvUI_ReminderBuffs:Show()
-	self:RegisterEvent('ACTIVE_TALENT_GROUP_CHANGED', 'UpdateReminder');
-	self:RegisterEvent('UNIT_INVENTORY_CHANGED', 'UpdateReminder');
-	self:RegisterEvent('UNIT_AURA', 'UpdateReminder');
-	self:RegisterEvent('PLAYER_REGEN_ENABLED', 'UpdateReminder');
-	self:RegisterEvent('PLAYER_REGEN_DISABLED', 'UpdateReminder');
-	self:RegisterEvent('PLAYER_ENTERING_WORLD', 'UpdateReminder');
-	self:RegisterEvent('UPDATE_BONUS_ACTIONBAR', 'UpdateReminder');
-	self:RegisterEvent('CHARACTER_POINTS_CHANGED', 'UpdateReminder');
-	self:RegisterEvent('ZONE_CHANGED_NEW_AREA', 'UpdateReminder');
+	self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", "UpdateReminder");
+	self:RegisterEvent("UNIT_INVENTORY_CHANGED", "UpdateReminder");
+	self:RegisterEvent("UNIT_AURA", "UpdateReminder");
+	self:RegisterEvent("PLAYER_REGEN_ENABLED", "UpdateReminder");
+	self:RegisterEvent("PLAYER_REGEN_DISABLED", "UpdateReminder");
+	self:RegisterEvent("PLAYER_ENTERING_WORLD", "UpdateReminder");
+	self:RegisterEvent("UPDATE_BONUS_ACTIONBAR", "UpdateReminder");
+	self:RegisterEvent("CHARACTER_POINTS_CHANGED", "UpdateReminder");
+	self:RegisterEvent("ZONE_CHANGED_NEW_AREA", "UpdateReminder");
 	self:UpdateReminder();
 end
 
 function RB:DisableRB()
 	ElvUI_ReminderBuffs:Hide()
-	self:UnregisterEvent('ACTIVE_TALENT_GROUP_CHANGED');
-	self:UnregisterEvent('UNIT_INVENTORY_CHANGED');
-	self:UnregisterEvent('UNIT_AURA');
-	self:UnregisterEvent('PLAYER_REGEN_ENABLED');
-	self:UnregisterEvent('PLAYER_REGEN_DISABLED');
-	self:UnregisterEvent('PLAYER_ENTERING_WORLD');
-	self:UnregisterEvent('UPDATE_BONUS_ACTIONBAR');
-	self:UnregisterEvent('CHARACTER_POINTS_CHANGED');
-	self:UnregisterEvent('ZONE_CHANGED_NEW_AREA');
+	self:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED");
+	self:UnregisterEvent("UNIT_INVENTORY_CHANGED");
+	self:UnregisterEvent("UNIT_AURA");
+	self:UnregisterEvent("PLAYER_REGEN_ENABLED");
+	self:UnregisterEvent("PLAYER_REGEN_DISABLED");
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD");
+	self:UnregisterEvent("UPDATE_BONUS_ACTIONBAR");
+	self:UnregisterEvent("CHARACTER_POINTS_CHANGED");
+	self:UnregisterEvent("ZONE_CHANGED_NEW_AREA");
 end
 
 function RB:UpdateSettings(isCallback)
@@ -281,23 +280,23 @@ function RB:Initialize()
 	self.db = E.db.general.reminder;
 
 	self.DefaultIcons = {
-		[1] = 'Interface\\Icons\\INV_PotionE_4',
-		[2] = 'Interface\\Icons\\INV_Misc_Food_68',
-		[3] = 'Interface\\Icons\\Spell_Nature_Regeneration',
-		[4] = 'Interface\\Icons\\Spell_Holy_WordFortitude',
-		[5] = (E.Role == 'Caster' and 'Interface\\Icons\\Spell_Holy_MagicalSentry') or 'Interface\\Icons\\Ability_Warrior_BattleShout',
-		[6] = 'Interface\\Icons\\Spell_Holy_GreaterBlessingofKings'
+		[1] = "Interface\\Icons\\INV_PotionE_4",
+		[2] = "Interface\\Icons\\INV_Misc_Food_68",
+		[3] = "Interface\\Icons\\Spell_Nature_Regeneration",
+		[4] = "Interface\\Icons\\Spell_Holy_WordFortitude",
+		[5] = (E.Role == "Caster" and "Interface\\Icons\\Spell_Holy_MagicalSentry") or "Interface\\Icons\\Ability_Warrior_BattleShout",
+		[6] = "Interface\\Icons\\Spell_Holy_GreaterBlessingofKings"
 	};
 
-	local frame = CreateFrame('Frame', 'ElvUI_ReminderBuffs', Minimap);
-	frame:SetTemplate('Default');
+	local frame = CreateFrame("Frame", "ElvUI_ReminderBuffs", Minimap);
+	frame:SetTemplate("Default");
 	frame:Width(E.RBRWidth);
 	if(E.db.general.reminder.position == "LEFT") then
-		frame:Point('TOPRIGHT', Minimap.backdrop, 'TOPLEFT', E.Border - E.Spacing*3, 0);
-		frame:Point('BOTTOMRIGHT', Minimap.backdrop, 'BOTTOMLEFT', E.Border - E.Spacing*3, 0);
+		frame:Point("TOPRIGHT", Minimap.backdrop, "TOPLEFT", E.Border - E.Spacing*3, 0);
+		frame:Point("BOTTOMRIGHT", Minimap.backdrop, "BOTTOMLEFT", E.Border - E.Spacing*3, 0);
 	else
-		frame:Point('TOPLEFT', Minimap.backdrop, 'TOPRIGHT', -E.Border + E.Spacing*3, 0);
-		frame:Point('BOTTOMLEFT', Minimap.backdrop, 'BOTTOMRIGHT', -E.Border + E.Spacing*3, 0);
+		frame:Point("TOPLEFT", Minimap.backdrop, "TOPRIGHT", -E.Border + E.Spacing*3, 0);
+		frame:Point("BOTTOMLEFT", Minimap.backdrop, "BOTTOMRIGHT", -E.Border + E.Spacing*3, 0);
 	end
 	self.frame = frame;
 

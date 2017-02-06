@@ -211,16 +211,20 @@ local function LoadSkin()
 		QuestLogFrameShowMapButton:Point("TOPRIGHT", -31, -38)
 
 		QuestLogDetailScrollFrameScrollBar:Point("TOPLEFT", QuestLogDetailScrollFrame, "TOPRIGHT", 6, -15)
-		
+
 		if(not QuestLogDetailScrollFrame.backdrop) then
 			QuestLogDetailScrollFrame:CreateBackdrop("Default", true)
 		end
 
 		local questFrame = QuestLogFrame:GetFrameLevel();
 		local controlPanel = QuestLogControlPanel:GetFrameLevel();
+		local scrollFrame = QuestLogDetailScrollFrame:GetFrameLevel();
 
 		if (questFrame >= controlPanel) then
 			QuestLogControlPanel:SetFrameLevel(questFrame + 1);
+		end
+		if (questFrame >= scrollFrame) then
+			QuestLogDetailScrollFrame:SetFrameLevel(questFrame + 1);
 		end
 	end)
 
@@ -229,7 +233,7 @@ local function LoadSkin()
 
 		QuestLogFrameShowMapButton:Point("TOPRIGHT", -31, -38)
 		QuestLogDetailScrollFrameScrollBar:Point("TOPLEFT", QuestLogDetailScrollFrame, "TOPRIGHT", 6, -15)
-		
+
 		if(not QuestLogDetailScrollFrame.backdrop) then
 			QuestLogDetailScrollFrame:CreateBackdrop("Default", true)
 		end
