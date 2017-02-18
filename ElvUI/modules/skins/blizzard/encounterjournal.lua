@@ -148,7 +148,7 @@ local function LoadSkin()
 		EncounterJournalEncounterFrameInfoBossTab.icon:SetDesaturated(false)
 		EncounterJournalEncounterFrameInfoLootTab.icon:SetDesaturated(true)
 	end)
-	
+
 	EncounterJournalEncounterFrameInfoLootTab:HookScript("OnClick", function()
 		EncounterJournalEncounterFrameInfoLootTab.icon:SetDesaturated(false)
 		EncounterJournalEncounterFrameInfoBossTab.icon:SetDesaturated(true)
@@ -219,7 +219,6 @@ local function LoadSkin()
 	end
 	hooksecurefunc("EncounterJournal_ListInstances", SkinDungeons)
 	EncounterJournal_ListInstances()
-
 
 	--Boss selection buttons
 	local function SkinBosses()
@@ -320,27 +319,46 @@ local function LoadSkin()
 	for i = 1, 9 do
 		local button = _G["EncounterJournalSearchResultsScrollFrameButton"..i]
 		local icon = _G["EncounterJournalSearchResultsScrollFrameButton"..i.."Icon"]
+
 		button:StripTextures();
 		button:SetTemplate("Default")
 		button:StyleButton()
-
-		icon:SetTexCoord(unpack(E.TexCoords))
-		icon:Point("TOPLEFT", 1, -6)
-
 		button:CreateBackdrop()
 		button.backdrop:SetOutside(icon)
+
+		icon:Point("TOPLEFT", 2, -7)
 		icon:SetParent(button.backdrop)
 	end
+
+	hooksecurefunc("EncounterJournal_SearchUpdate", function()
+		local scrollFrame = EncounterJournal.searchResults.scrollFrame;
+		local offset = HybridScrollFrame_GetOffset(scrollFrame);
+		local results = scrollFrame.buttons;
+		local result, index;
+		local numResults = EJ_GetNumSearchResults();
+
+		for i = 1, #results do
+			result = results[i];
+			index = offset + i;
+			if(index <= numResults) then
+				local _, icon = EncounterJournal_GetSearchDisplay(index);
+
+				result.icon:SetTexCoord(unpack(E.TexCoords))
+				result.icon.SetTexCoord = E.noop;
+			end
+		end
+	end)
 
 	for i = 1, 5 do
 		local button = _G["EncounterJournalSearchBoxSearchButton"..i]
 		local icon = _G["EncounterJournalSearchBoxSearchButton"..i.."Icon"]
+
 		button:CreateBackdrop()
 		button:StripTextures();
 		button:StyleButton()
 
 		icon:SetTexCoord(unpack(E.TexCoords))
-		icon:Point("TOPLEFT", 2, -2)
+		icon:Point("TOPLEFT", 1, -4)
 	end
 
 	S:HandleButton(EncounterJournalSearchBoxShowALL)

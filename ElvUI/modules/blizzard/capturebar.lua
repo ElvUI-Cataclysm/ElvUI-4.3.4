@@ -12,33 +12,30 @@ function B:WorldStateAlwaysUpFrame_Update()
 		captureBar:SetScale(0.9)
 		if(captureBar and captureBar:IsShown()) then
 			captureBar:ClearAllPoints();
-			captureBar:SetPoint("TOP", WorldStateAlwaysUpFrame, "BOTTOM", 0, -35)
+			captureBar:Point("TOP", WorldStateAlwaysUpFrame, "BOTTOM", 0, -35)
 		end
 	end
 
 	WorldStateAlwaysUpFrame:ClearAllPoints()
-	WorldStateAlwaysUpFrame:SetPoint("TOP", pvpHolder, "TOP", 0, 10)
+	WorldStateAlwaysUpFrame:Point("TOP", pvpHolder, "TOP", 0, 10)
 
-	alwaysUpShown = 1
-	frame = "AlwaysUpFrame"..alwaysUpShown
-	offset = 0
+	local offset = 0
 
-	for i = alwaysUpShown, NUM_ALWAYS_UP_UI_FRAMES do
-		frame = _G["AlwaysUpFrame"..i]
-		frameText = _G["AlwaysUpFrame"..i.."Text"]
-		frameIcon = _G["AlwaysUpFrame"..i.."Icon"]
-		frameIcon2 = _G["AlwaysUpFrame"..i.."DynamicIconButton"]
+	for i = 1, NUM_ALWAYS_UP_UI_FRAMES do
+		local frameText = _G["AlwaysUpFrame"..i.."Text"]
+		local frameIcon = _G["AlwaysUpFrame"..i.."Icon"]
+		local frameIcon2 = _G["AlwaysUpFrame"..i.."DynamicIconButton"]
 
-		frame:ClearAllPoints()
 		frameText:ClearAllPoints()
-		frameIcon:ClearAllPoints()
-		frameIcon2:ClearAllPoints()
-
-		frameText:SetPoint("CENTER", WorldStateAlwaysUpFrame, "CENTER", 0, offset)
+		frameText:Point("CENTER", WorldStateAlwaysUpFrame, "CENTER", 0, offset)
 		frameText:SetJustifyH("CENTER")
-		frameIcon:SetPoint("CENTER", frameText, "LEFT", -7, -9)
+
+		frameIcon:ClearAllPoints()
+		frameIcon:Point("CENTER", frameText, "LEFT", -7, -9)
 		frameIcon:Size(38)
-		frameIcon2:SetPoint("LEFT", frameText, "RIGHT", 5, 0)
+
+		frameIcon2:ClearAllPoints()
+		frameIcon2:Point("LEFT", frameText, "RIGHT", 5, 0)
 		frameIcon2:Size(38)
 
 		offset = offset - 25
@@ -47,7 +44,9 @@ end
 
 function B:PositionCaptureBar()
 	self:SecureHook("WorldStateAlwaysUpFrame_Update");
-	pvpHolder:SetSize(30, 70)
-	pvpHolder:SetPoint("TOP", E.UIParent, "TOP", 0, -4)
+
+	pvpHolder:Size(30, 70)
+	pvpHolder:Point("TOP", E.UIParent, "TOP", 0, -4)
+
 	E:CreateMover(pvpHolder, "PvPMover", L["PvP"], nil, nil, nil, "ALL")
 end

@@ -202,6 +202,17 @@ local function LoadSkin()
 	QuestLogDetailScrollFrame:StripTextures()
 
 	QuestLogFrame:HookScript("OnShow", function()
+		local questFrame = QuestLogFrame:GetFrameLevel();
+		local controlPanel = QuestLogControlPanel:GetFrameLevel();
+		local scrollFrame = QuestLogDetailScrollFrame:GetFrameLevel();
+
+		if(questFrame >= controlPanel) then
+			QuestLogControlPanel:SetFrameLevel(questFrame + 1);
+		end
+		if(questFrame >= scrollFrame) then
+			QuestLogDetailScrollFrame:SetFrameLevel(questFrame + 1);
+		end
+
 		QuestLogScrollFrame:Size(302, 331)
 		QuestLogScrollFrame:CreateBackdrop("Default", true)
 
@@ -215,20 +226,20 @@ local function LoadSkin()
 		if(not QuestLogDetailScrollFrame.backdrop) then
 			QuestLogDetailScrollFrame:CreateBackdrop("Default", true)
 		end
+	end)
 
+	QuestLogDetailFrame:HookScript("OnShow", function()
 		local questFrame = QuestLogFrame:GetFrameLevel();
 		local controlPanel = QuestLogControlPanel:GetFrameLevel();
 		local scrollFrame = QuestLogDetailScrollFrame:GetFrameLevel();
 
-		if (questFrame >= controlPanel) then
+		if(questFrame >= controlPanel) then
 			QuestLogControlPanel:SetFrameLevel(questFrame + 1);
 		end
-		if (questFrame >= scrollFrame) then
+		if(questFrame >= scrollFrame) then
 			QuestLogDetailScrollFrame:SetFrameLevel(questFrame + 1);
 		end
-	end)
 
-	QuestLogDetailFrame:HookScript("OnShow", function()
 		QuestLogDetailScrollFrame:Height(331)
 
 		QuestLogFrameShowMapButton:Point("TOPRIGHT", -31, -38)

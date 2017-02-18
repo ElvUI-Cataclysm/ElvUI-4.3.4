@@ -38,7 +38,7 @@ local function LoadSkin()
 	end
 
 	GuildRegistrarPurchaseText:SetTextColor(1, 1, 1)
-	AvailableServicesText:SetTextColor(1, 1, 0)
+	AvailableServicesText:SetTextColor(1, 0.80, 0.10);
 end
 
 S:AddCallback("GuildRegistrar", LoadSkin);

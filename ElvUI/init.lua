@@ -174,7 +174,7 @@ function AddOn:OnProfileReset()
 	self:StaticPopup_Show("RESET_PROFILE_PROMPT")
 end
 
-function AddOn:ToggleConfig() 
+function AddOn:ToggleConfig(msg)
 	if InCombatLockdown() then
 		self:Print(ERR_NOT_IN_COMBAT)
 		self:RegisterEvent('PLAYER_REGEN_ENABLED')
@@ -197,9 +197,18 @@ function AddOn:ToggleConfig()
 
 	local ACD = LibStub("AceConfigDialog-3.0-ElvUI")
 
+	local pages
+	if (msg and msg ~= "") then
+		pages = {string.split(",", msg)}
+	end
+
 	local mode = 'Close'
-	if not ACD.OpenFrames[AddOnName] then
+	if not ACD.OpenFrames[AddOnName] or (pages ~= nil) then
 		mode = 'Open'
+	end
+
+	if pages then
+		ACD:SelectGroup("ElvUI", unpack(pages))
 	end
 
 	if mode == 'Open' then
