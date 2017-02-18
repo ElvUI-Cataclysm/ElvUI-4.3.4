@@ -2576,6 +2576,7 @@ P["tooltip"] = {
 		["height"] = 7,
 		["font"] = "Homespun",
 		["fontSize"] = 10,
+		["fontOutline"] = "OUTLINE",
 		["statusPosition"] = "BOTTOM"
 	},
 	["useCustomFactionColors"] = false,
