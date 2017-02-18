@@ -321,6 +321,7 @@ L["Testing:"] = "测试:"
 
 --DataBars
 L["DATABAR_DESC"] = "设置各种数据条"
+L["Current - Percent (Remaining)"] = true;
 L["Current - Remaining"] = "敶 - 雿"
 L["DataBars"] = "数据条"
 L["Hide in Combat"] = "葉"

@@ -322,6 +322,7 @@ L["Testing:"] = "測試："
 
 --DataBars
 L["DATABAR_DESC"] = "設置各種數據條"
+L["Current - Percent (Remaining)"] = true;
 L["Current - Remaining"] = "當前值 - 剩餘值"
 L["DataBars"] = "數據條"
 L["Hide in Combat"] = "戰鬥中隱藏"
