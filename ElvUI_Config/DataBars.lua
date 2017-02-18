@@ -26,19 +26,19 @@ E.Options.args.databars = {
 			name = XPBAR_LABEL,
 			args = {
 				header = {
- 					order = 0,
+ 					order = 1,
 					type = "header",
 					name = L["Experience Bar"],
 				},
 				enable = {
-					order = 1,
+					order = 2,
 					type = "toggle",
 					name = L["Enable"],
 					get = function(info) return mod.db.experience[ info[#info] ]; end,
 					set = function(info, value) mod.db.experience[ info[#info] ] = value; mod:EnableDisable_ExperienceBar(); end
 				},
 				generalGroup = {
-					order = 2,
+					order = 3,
 					type = "group",
 					guiInline = true,
 					name = L["General"],
@@ -104,7 +104,7 @@ E.Options.args.databars = {
 					}
 				},
 				fontGroup = {
-					order = 3,
+					order = 4,
 					type = "group",
 					guiInline = true,
 					name = L["Font"],
@@ -112,20 +112,42 @@ E.Options.args.databars = {
 					set = function(info, value) mod.db.experience[ info[#info] ] = value; mod:UpdateExperienceDimensions(); end,
 					disabled = function() return not mod.db.experience.enable; end,
 					args = {
-						textFont = {
+						textFormat = {
 							order = 1,
+							type = "select",
+							name = L["Text Format"],
+							width = "double",
+							values = {
+								NONE = NONE,
+								PERCENT = L["Percent"],
+								CUR = L["Current"],
+								REM = L["Remaining"],
+								CURMAX = L["Current - Max"],
+								CURPERC = L["Current - Percent"],
+								CURREM = L["Current - Remaining"],
+								CURPERCREM = L["Current - Percent (Remaining)"]
+							},
+							set = function(info, value) mod.db.experience[ info[#info] ] = value; mod:UpdateExperience(); end
+						},
+						spacer = {
+							order = 2,
+							type = "description",
+							name = " ",
+						},
+						textFont = {
+							order = 3,
 							type = "select", dialogControl = "LSM30_Font",
 							name = L["Font"],
 							values = AceGUIWidgetLSMlists.font
 						},
 						textSize = {
-							order = 2,
+							order = 4,
 							type = "range",
 							name = L["Font Size"],
 							min = 6, max = 22, step = 1
 						},
 						textOutline = {
-							order = 3,
+							order = 5,
 							type = "select",
 							name = L["Font Outline"],
 							desc = L["Set the font outline."],
@@ -136,21 +158,6 @@ E.Options.args.databars = {
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"
 							}
-						},
-						textFormat = {
-							order = 4,
-							type = "select",
-							name = L["Text Format"],
-							values = {
-								NONE = NONE,
-								PERCENT = L["Percent"],
-								CUR = L["Current"],
-								REM = L["Remaining"],
-								CURMAX = L["Current - Max"],
-								CURPERC = L["Current - Percent"],
-								CURREM = L["Current - Remaining"],
-							},
-							set = function(info, value) mod.db.experience[ info[#info] ] = value; mod:UpdateExperience(); end
 						}
 					}
 				}
@@ -162,19 +169,19 @@ E.Options.args.databars = {
 			name = REPUTATION,
 			args = {
 				header = {
- 					order = 0,
+ 					order = 1,
 					type = "header",
 					name = L["Reputation Bar"],
 				},
 				enable = {
-					order = 1,
+					order = 2,
 					type = "toggle",
 					name = L["Enable"],
 					get = function(info) return mod.db.reputation[ info[#info] ]; end,
 					set = function(info, value) mod.db.reputation[ info[#info] ] = value; mod:EnableDisable_ReputationBar(); end,
 				},
 				generalGroup = {
-					order = 2,
+					order = 3,
 					type = "group",
 					guiInline = true,
 					name = L["General"],
@@ -234,7 +241,7 @@ E.Options.args.databars = {
 					}
 				},
 				fontGroup = {
-					order = 3,
+					order = 4,
 					type = "group",
 					guiInline = true,
 					name = L["Font"],
@@ -242,20 +249,42 @@ E.Options.args.databars = {
 					set = function(info, value) mod.db.reputation[ info[#info] ] = value; mod:UpdateReputationDimensions(); end,
 					disabled = function() return not mod.db.reputation.enable; end,
 					args = {
-						textFont = {
+						textFormat = {
 							order = 1,
+							type = "select",
+							name = L["Text Format"],
+							width = "double",
+							values = {
+								NONE = NONE,
+								PERCENT = L["Percent"],
+								CUR = L["Current"],
+								REM = L["Remaining"],
+								CURMAX = L["Current - Max"],
+								CURPERC = L["Current - Percent"],
+								CURREM = L["Current - Remaining"],
+								CURPERCREM = L["Current - Percent (Remaining)"]
+							},
+							set = function(info, value) mod.db.reputation[ info[#info] ] = value; mod:UpdateReputation(); end
+						},
+						spacer = {
+							order = 2,
+							type = "description",
+							name = " ",
+						},
+						textFont = {
+							order = 3,
 							type = "select", dialogControl = "LSM30_Font",
 							name = L["Font"],
 							values = AceGUIWidgetLSMlists.font
 						},
 						textSize = {
-							order = 2,
+							order = 4,
 							type = "range",
 							name = L["Font Size"],
 							min = 6, max = 22, step = 1
 						},
 						textOutline = {
-							order = 3,
+							order = 5,
 							type = "select",
 							name = L["Font Outline"],
 							desc = L["Set the font outline."],
@@ -266,21 +295,6 @@ E.Options.args.databars = {
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"
 							}
-						},
-						textFormat = {
-							order = 4,
-							type = "select",
-							name = L["Text Format"],
-							values = {
-								NONE = NONE,
-								PERCENT = L["Percent"],
-								CUR = L["Current"],
-								REM = L["Remaining"],
-								CURMAX = L["Current - Max"],
-								CURPERC = L["Current - Percent"],
-								CURREM = L["Current - Remaining"],
-							},
-							set = function(info, value) mod.db.reputation[ info[#info] ] = value; mod:UpdateReputation(); end
 						}
 					}
 				}
