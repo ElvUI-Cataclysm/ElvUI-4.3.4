@@ -106,19 +106,19 @@ E.Options.args.nameplate = {
 			disabled = function() return not E.NamePlates; end,
 			args = {
 				header = {
- 					order = 0,
+ 					order = 1,
 					type = "header",
 					name = L["General"]
 				},
 				statusbar = {
-					order = 1,
+					order = 2,
 					type = "select",
 					dialogControl = "LSM30_Statusbar",
 					name = L["HealthBar Texture"],
 					values = AceGUIWidgetLSMlists.statusbar
 				},
 				showEnemyCombat = {
-					order = 2,
+					order = 3,
 					type = "select",
 					name = L["Enemy Combat Toggle"],
 					desc = L["Control enemy nameplates toggling on or off when in combat."],
@@ -133,7 +133,7 @@ E.Options.args.nameplate = {
 					end
 				},
 				showFriendlyCombat = {
-					order = 3,
+					order = 4,
 					type = "select",
 					name = L["Friendly Combat Toggle"],
 					desc = L["Control friendly nameplates toggling on or off when in combat."],
@@ -145,46 +145,44 @@ E.Options.args.nameplate = {
 					set = function(info, value) E.db.nameplate[ info[#info] ] = value; NP:PLAYER_REGEN_ENABLED() end
 				},
 				lowHealthThreshold = {
-					order = 4,
+					order = 5,
 					type = "range",
 					name = L["Low Health Threshold"],
 					desc = L["Make the unitframe glow yellow when it is below this percent of health, it will glow red when the health value is half of this value."],
 					isPercent = true,
 					min = 0, max = 1, step = 0.01
 				},
-				nonTargetAlpha = {
-					order = 5,
-					type = "range",
-					name = L["Non-Target Transparency"],
-					desc = L["Set the transparency level of nameplates that are not the target nameplate."],
-					min = 0, max = 1, step = 0.01, isPercent = true
-				},
-				targetAlpha = {
-					order = 6,
-					type = "range",
-					name = L["Target Transparency"],
-					desc = L["Set the transparency level of current target nameplate."],
-					min = 0, max = 1, step = 0.01, isPercent = true
-				},
 				colorNameByValue = {
-					order = 7,
+					order = 6,
 					type = "toggle",
 					name = L["Color Name By Health Value"]
 				},
 				comboPoints = {
-					order = 8,
+					order = 7,
 					type = "toggle",
 					name = L["Combo Points"],
-					desc = L["Display combo points on nameplates."]
+					desc = L["Display combo points on nameplates."],
+					set = function(info, value) E.db.nameplate[ info[#info] ] = value; NP:ToggleComboPoints(); end
 				},
 				markHealers = {
+					order = 8,
+					type = "toggle",
+					name = L["Healer Icon"],
+					desc = L["Display a healer icon over known healers inside battlegrounds or arenas."]
+				},
+				markFactionHealers = {
 					order = 9,
-					type = 'toggle',
-					name = L['Healer Icon'],
-					desc = L['Display a healer icon over known healers inside battlegrounds or arenas.']
+					type = "select",
+					name = L["Mark Healers"],
+					values = {
+						["ENEMY"] = L["Enemy"],
+						["FRIENDLY"] = L["Friendly"],
+						["BOTH"] = L["Both"]
+					},
+					disabled = function() return not E.db.nameplate.markHealers; end
 				},
 				fontGroup = {
-					order = 100,
+					order = 10,
 					type = "group",
 					guiInline = true,
 					name = L["Fonts"],
@@ -232,7 +230,7 @@ E.Options.args.nameplate = {
 					}
 				},
 				castGroup = {
-					order = 150,
+					order = 11,
 					type = "group",
 					name = L["Cast Bar"],
 					guiInline = true,
@@ -262,7 +260,7 @@ E.Options.args.nameplate = {
 					}
 				},
 				reactions = {
-					order = 200,
+					order = 12,
 					type = "group",
 					name = L["Reaction Colors"],
 					guiInline = true,
@@ -615,23 +613,23 @@ E.Options.args.nameplate = {
 					name = L["Size"],
 					min = 10, max = 200, step = 1
 				},
-				attachTo = {
-					order = 3,
-					type = "select",
-					name = L["Attach To"],
-					values = positionValues
-				},
 				xOffset = {
-					order = 4,
+					order = 3,
 					type = "range",
 					name = L["X-Offset"],
 					min = -150, max = 150, step = 1
 				},
 				yOffset = {
-					order = 5,
+					order = 4,
 					type = "range",
 					name = L["Y-Offset"],
 					min = -150, max = 150, step = 1
+				},
+				attachTo = {
+					order = 5,
+					type = "select",
+					name = L["Attach To"],
+					values = positionValues
 				}
 			}
 		},

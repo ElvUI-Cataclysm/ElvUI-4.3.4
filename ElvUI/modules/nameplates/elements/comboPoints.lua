@@ -1,27 +1,41 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local mod = E:GetModule("NamePlates");
 
-function mod:HideComboPoints(frame)
+local GetComboPoints = GetComboPoints;
+local UnitHasVehicleUI = UnitHasVehicleUI;
+local MAX_COMBO_POINTS = MAX_COMBO_POINTS;
+
+function mod:ToggleComboPoints()
+	if(self.db.comboPoints) then
+		self:RegisterEvent("UNIT_COMBO_POINTS");
+	else
+		self:ForEachPlate("HideComboPoints");
+		self:UnregisterEvent("UNIT_COMBO_POINTS");
+	end
+end
+
+function mod:HideComboPoints()
 	for i = 1, MAX_COMBO_POINTS do
-		frame.CPoints[i]:Hide();
+		self.CPoints[i]:Hide();
 	end
 end
 
 function mod:UpdateElement_CPoints(frame)
-	local myPlate = mod.CreatedPlates[frame];
+	if(not self.db.comboPoints) then return; end
+
 	local numPoints = mod.ComboPoints[frame.guid];
 	if(not numPoints) then
 		for i = 1, MAX_COMBO_POINTS do
-			myPlate.CPoints[i]:Hide();
+			frame.CPoints[i]:Hide();
 		end
 		return;
 	end
 
 	for i = 1, MAX_COMBO_POINTS do
 		if(i <= numPoints) then
-			myPlate.CPoints[i]:Show();
+			frame.CPoints[i]:Show();
 		else
-			myPlate.CPoints[i]:Hide();
+			frame.CPoints[i]:Hide();
 		end
 	end
 end

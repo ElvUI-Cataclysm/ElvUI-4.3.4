@@ -2,11 +2,15 @@ local E, L, V, P, G = unpack(select(2, ...));
 local mod = E:GetModule("NamePlates")
 local LSM = LibStub("LibSharedMedia-3.0")
 
-local select, unpack = select, unpack;
+local select, unpack, pairs = select, unpack, pairs;
+local tonumber = tonumber;
 local tinsert = table.insert;
+local gsub = string.gsub;
 
 local CreateFrame = CreateFrame;
 local UnitAura = UnitAura;
+local UnitGUID = UnitGUID;
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
 
 local auraCache = {};
 
@@ -21,19 +25,15 @@ local RaidIconIndex = {
 	"SKULL"
 };
 
-function mod:SetAura(aura, icon, count, duration, expirationTime)
-	if(aura and icon and expirationTime) then
-		aura.icon:SetTexture(icon);
-		if(count > 1) then
-			aura.count:SetText(count);
-		else
-			aura.count:SetText("");
-		end
-		aura:Show();
-		mod.PolledHideIn(aura, expirationTime);
+function mod:SetAura(aura, icon, count, expirationTime)
+	aura.icon:SetTexture(icon);
+	if(count > 1) then
+		aura.count:SetText(count);
 	else
-		mod.PolledHideIn(aura, 0);
+		aura.count:SetText("");
 	end
+	aura:Show();
+	mod.PolledHideIn(aura, expirationTime);
 end
 
 function mod:HideAuraIcons(auras)
@@ -44,11 +44,10 @@ end
 
 function mod:UpdateElement_Auras(frame)
 	local guid = frame.guid;
-	local myPlate = self.CreatedPlates[frame];
 
 	if(not guid) then
 		if(RAID_CLASS_COLORS[frame.unitType]) then
-			local name = gsub(frame.Name:GetText(), "%s%(%*%)","");
+			local name = gsub(frame.oldname:GetText(), "%s%(%*%)","");
 			guid = self.ByName[name];
 		elseif(frame.RaidIcon:IsShown()) then
 			guid = self.ByRaidIcon[frame.raidIconType];
@@ -57,24 +56,19 @@ function mod:UpdateElement_Auras(frame)
 		if(guid) then
 			frame.guid = guid;
 		else
-			myPlate.Debuffs:Hide();
-			myPlate.Buffs:Hide();
 			return;
 		end
 	end
 
 	local hasBuffs = false;
 	local hasDebuffs = false;
-	local buffs = myPlate.Buffs;
-	local debuffs = myPlate.Debuffs;
+
 	local aurasOnUnit = self:GetAuraList(guid);
-	local BuffSlotIndex = 1;
-	local DebuffSlotIndex = 1;
 
 	if(aurasOnUnit) then
 		for instanceid in pairs(aurasOnUnit) do
 			local aura = {};
-			aura.spellID, aura.expirationTime, aura.count, aura.caster, aura.duration, aura.icon, aura.type, aura.target = self:GetAuraInstance(guid, instanceid);
+			aura.spellID, aura.name, aura.expirationTime, aura.count, aura.caster, aura.duration, aura.icon, aura.type, aura.target = self:GetAuraInstance(guid, instanceid);
 			if(tonumber(aura.spellID)) then
 				aura.name = GetSpellInfo(tonumber(aura.spellID));
 				aura.unit = frame.unit;
@@ -89,60 +83,57 @@ function mod:UpdateElement_Auras(frame)
 		end
 	end
 
-	if(self.db.buffs.enable) then
-		buffs:Show();
-		for index = 1, #self.BuffCache do
-			local cachedaura = self.BuffCache[index];
-			if(cachedaura and cachedaura.spellID and cachedaura.expirationTime) then
-				self:SetAura(buffs.icons[BuffSlotIndex], cachedaura.icon, cachedaura.count, cachedaura.duration, cachedaura.expirationTime);
-				BuffSlotIndex = BuffSlotIndex + 1;
-				hasBuffs = true;
-			end
+	local index = 1;
+	local frameNum = 1;
+	local maxAuras = #frame.Debuffs.icons;
+	local maxDuration = self.db.debuffs.filters.maxDuration;
 
-			if(BuffSlotIndex > self.db.buffs.numAuras) then
-				break;
-			end
-		end
-	elseif(buffs:IsShown()) then
-		buffs:Hide();
-	end
+	self:HideAuraIcons(frame.Debuffs);
 
 	if(self.db.debuffs.enable) then
-		debuffs:Show();
-		for index = 1, #self.DebuffCache do
+		while(frameNum <= maxAuras) do
 			local cachedaura = self.DebuffCache[index];
-			if(cachedaura.spellID and cachedaura.expirationTime) then
-				self:SetAura(debuffs.icons[DebuffSlotIndex], cachedaura.icon, cachedaura.count, cachedaura.duration, cachedaura.expirationTime);
-				DebuffSlotIndex = DebuffSlotIndex + 1;
+			if(cachedaura and cachedaura.spellID and cachedaura.expirationTime and cachedaura.duration <= maxDuration) then
+				self:SetAura(frame.Debuffs.icons[frameNum], cachedaura.icon, cachedaura.count, cachedaura.expirationTime);
+				frameNum = frameNum + 1;
 				hasDebuffs = true;
-			end
-
-			if(DebuffSlotIndex > self.db.debuffs.numAuras) then
+			else
 				break;
 			end
+			index = index + 1;
 		end
-	elseif(debuffs:IsShown()) then
-		debuffs:Hide();
 	end
 
-	if(buffs.icons[BuffSlotIndex]) then
-		self.PolledHideIn(buffs.icons[BuffSlotIndex], 0);
+	index = 1;
+	frameNum = 1;
+	maxAuras = #frame.Buffs.icons;
+	maxDuration = self.db.buffs.filters.maxDuration;
+
+	self:HideAuraIcons(frame.Buffs);
+	if(self.db.buffs.enable) then
+		while(frameNum <= maxAuras) do
+			local cachedaura = self.BuffCache[index];
+			if(cachedaura and cachedaura.spellID and cachedaura.expirationTime and cachedaura.duration <= maxDuration) then
+				self:SetAura(frame.Buffs.icons[frameNum], cachedaura.icon, cachedaura.count, cachedaura.expirationTime);
+				frameNum = frameNum + 1;
+				hasBuffs = true;
+			else
+				break;
+			end
+			index = index + 1
+		end
 	end
 
-	if(debuffs.icons[DebuffSlotIndex]) then
-		self.PolledHideIn(debuffs.icons[DebuffSlotIndex], 0);
-	end
-
-	self.BuffCache = wipe(self.BuffCache);
 	self.DebuffCache = wipe(self.DebuffCache);
+	self.BuffCache = wipe(self.BuffCache);
 
-	local TopLevel = myPlate.HealthBar;
-	local TopOffset = select(2, myPlate.Name:GetFont()) + 5 or 0;
+	local TopLevel = frame.HealthBar;
+	local TopOffset = select(2, frame.Name:GetFont()) + 5 or 0;
 	if(hasDebuffs) then
 		TopOffset = TopOffset + 3;
-		debuffs:SetPoint("BOTTOMLEFT", TopLevel, "TOPLEFT", 0, TopOffset);
-		debuffs:SetPoint("BOTTOMRIGHT", TopLevel, "TOPRIGHT", 0, TopOffset);
-		TopLevel = debuffs;
+		frame.Debuffs:SetPoint("BOTTOMLEFT", TopLevel, "TOPLEFT", 0, TopOffset);
+		frame.Debuffs:SetPoint("BOTTOMRIGHT", TopLevel, "TOPRIGHT", 0, TopOffset);
+		TopLevel = frame.Debuffs;
 		TopOffset = 3;
 	end
 
@@ -150,9 +141,9 @@ function mod:UpdateElement_Auras(frame)
 		if(not hasDebuffs) then
 			TopOffset = TopOffset + 3;
 		end
-		buffs:SetPoint("BOTTOMLEFT", TopLevel, "TOPLEFT", 0, TopOffset);
-		buffs:SetPoint("BOTTOMRIGHT", TopLevel, "TOPRIGHT", 0, TopOffset);
-		TopLevel = buffs;
+		frame.Buffs:SetPoint("BOTTOMLEFT", TopLevel, "TOPLEFT", 0, TopOffset);
+		frame.Buffs:SetPoint("BOTTOMRIGHT", TopLevel, "TOPRIGHT", 0, TopOffset);
+		TopLevel = frame.Buffs;
 		TopOffset = 3;
 	end
 end
@@ -218,7 +209,7 @@ function mod:CreateAuraIcon(parent)
 	return aura;
 end
 
-function mod:Auras_SizeChanged(width, height)
+function mod:Auras_SizeChanged(width)
 	local numAuras = #self.icons;
 	for i = 1, numAuras do
 		self.icons[i]:SetWidth((width - (E.mult*numAuras)) / numAuras);
@@ -250,13 +241,13 @@ function mod:UpdateAuraIcons(auras)
 
 		if(auras.side == "LEFT") then
 			if(i == 1) then
-				auras.icons[i]:SetPoint("LEFT", auras, "LEFT");
+				auras.icons[i]:SetPoint("BOTTOMLEFT", auras, "BOTTOMLEFT");
 			else
 				auras.icons[i]:SetPoint("LEFT", auras.icons[i-1], "RIGHT", E.Border + E.Spacing*3, 0);
 			end
 		else
 			if(i == 1) then
-				auras.icons[i]:SetPoint("RIGHT", auras, "RIGHT");
+				auras.icons[i]:SetPoint("BOTTOMRIGHT", auras, "BOTTOMRIGHT");
 			else
 				auras.icons[i]:SetPoint("RIGHT", auras.icons[i-1], "LEFT", -(E.Border + E.Spacing*3), 0);
 			end
@@ -264,7 +255,7 @@ function mod:UpdateAuraIcons(auras)
 	end
 end
 
-function mod:ConstructElement_Auras(frame, maxAuras, side)
+function mod:ConstructElement_Auras(frame, side)
 	local auras = CreateFrame("Frame", nil, frame);
 	auras:SetFrameStrata("BACKGROUND");
 
