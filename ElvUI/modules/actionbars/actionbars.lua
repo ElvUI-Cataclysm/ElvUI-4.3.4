@@ -841,7 +841,7 @@ local function SetupFlyoutButton()
 end
 
 function AB:StyleFlyout(button)
-	if(not button.FlyoutArrow or not button.FlyoutArrow:IsShown()) then return; end
+	if(not button.FlyoutArrow) then return; end
 	if(not LAB.buttonRegistry[button]) then return; end
 	if(not button.FlyoutBorder) then return; end
 
