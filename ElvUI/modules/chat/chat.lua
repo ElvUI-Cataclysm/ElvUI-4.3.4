@@ -45,6 +45,7 @@ local FloatingChatFrame_OnEvent = FloatingChatFrame_OnEvent;
 local FCFTab_UpdateAlpha = FCFTab_UpdateAlpha;
 local FCF_GetCurrentChatFrame = FCF_GetCurrentChatFrame;
 local GetGuildRosterMOTD = GetGuildRosterMOTD;
+local UnitGroupRolesAssigned = UnitGroupRolesAssigned;
 local UnitExists, UnitIsUnit = UnitExists, UnitIsUnit;
 local ScrollFrameTemplate_OnMouseWheel = ScrollFrameTemplate_OnMouseWheel;
 local NUM_CHAT_WINDOWS = NUM_CHAT_WINDOWS;

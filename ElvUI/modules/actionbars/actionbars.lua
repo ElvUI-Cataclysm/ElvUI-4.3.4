@@ -29,6 +29,7 @@ local SetClampedTextureRotation = SetClampedTextureRotation;
 local SetModifiedClick = SetModifiedClick;
 local GetNumFlyouts, GetFlyoutInfo = GetNumFlyouts, GetFlyoutInfo;
 local GetFlyoutID = GetFlyoutID;
+local GetMouseFocus = GetMouseFocus;
 local SetCVar = SetCVar;
 local NUM_ACTIONBAR_BUTTONS = NUM_ACTIONBAR_BUTTONS;
 
@@ -840,8 +841,14 @@ local function SetupFlyoutButton()
 end
 
 function AB:StyleFlyout(button)
-	if(not button.FlyoutBorder) then return end
+	if(not button.FlyoutArrow or not button.FlyoutArrow:IsShown()) then return; end
+	if(not LAB.buttonRegistry[button]) then return; end
+	if(not button.FlyoutBorder) then return; end
+
 	local combat = InCombatLockdown();
+
+	button.FlyoutBorder:SetAlpha(0);
+	button.FlyoutBorderShadow:SetAlpha(0);
 
 	SpellFlyoutHorizontalBackground:SetAlpha(0);
 	SpellFlyoutVerticalBackground:SetAlpha(0);
@@ -851,8 +858,9 @@ function AB:StyleFlyout(button)
 		local x = GetFlyoutID(i);
 		local _, _, numSlots, isKnown = GetFlyoutInfo(x);
 		if(isKnown) then
-			buttons = numSlots
-			break
+			if(numSlots > buttons) then
+				buttons = numSlots;
+			end
 		end
 	end
 
@@ -868,7 +876,7 @@ function AB:StyleFlyout(button)
 	end
 
 	local actionbar = button:GetParent()
- 	if actionbar then
+ 	if(actionbar) then
  		local direction = actionbar.db and actionbar.db.flyoutDirection or "AUTOMATIC"
 		local point = E:GetScreenQuadrant(actionbar)
 		if(point == "UNKNOWN") then return end
@@ -927,6 +935,7 @@ function AB:Initialize()
 
 	self:SetupExtraButton();
 	self:SetupMicroBar();
+	self:UpdateBar1Paging()
 
 	for i = 1, 6 do
 		self:CreateBar(i);
@@ -935,6 +944,8 @@ function AB:Initialize()
 	self:CreateBarPet();
 	self:CreateBarShapeShift();
 	self:CreateVehicleLeave();
+
+	self:UpdateButtonSettings()
 
 	if(E.myclass == "SHAMAN") then
 		self:CreateTotemBar();

@@ -165,7 +165,7 @@ local function SetTemplate(f, t, glossTex, ignoreUpdates, forcePixelMode)
 
 	f:SetBackdropColor(backdropr, backdropg, backdropb, backdropa)
 	f:SetBackdropBorderColor(borderr, borderg, borderb)
-	
+
 	if(not f.ignoreUpdates and not f.forcePixelMode) then
 		E["frames"][f] = true;
 	end
@@ -290,7 +290,7 @@ local function StyleButton(button, noHover, noPushed, noChecked)
 		button:SetCheckedTexture(checked)
 	end
 
-	local cooldown = button:GetName() and _G[button:GetName().."Cooldown"] 
+	local cooldown = button:GetName() and _G[button:GetName().."Cooldown"]
 	if cooldown then
 		cooldown:ClearAllPoints()
 		cooldown:SetInside()

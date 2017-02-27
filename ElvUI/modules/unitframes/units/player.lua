@@ -7,7 +7,7 @@ assert(ElvUF, "ElvUI was unable to locate oUF.");
 local _G = _G;
 local tinsert = table.insert;
 
-local CAN_HAVE_CLASSBAR = (E.myclass == "PALADIN" or E.myclass == "DEATHKNIGHT" or E.myclass == "DRUID" or E.myclass == "WARLOCK");
+local CAN_HAVE_CLASSBAR = (E.myclass == "PALADIN" or E.myclass == "DRUID" or E.myclass == "DEATHKNIGHT" or E.myclass == "WARLOCK");
 
 function UF:Construct_PlayerFrame(frame)
 	frame.Threat = self:Construct_Threat(frame);
@@ -22,22 +22,19 @@ function UF:Construct_PlayerFrame(frame)
 	frame.Debuffs = self:Construct_Debuffs(frame);
 	frame.Castbar = self:Construct_Castbar(frame, L["Player Castbar"]);
 
-	if(E.myclass == "DEATHKNIGHT") then
+	if(E.myclass == "PALADIN") then
+		frame.HolyPower = self:Construct_PaladinResourceBar(frame);
+		frame.ClassBar = "HolyPower";
+	elseif(E.myclass == "WARLOCK") then
+		frame.SoulShards = self:Construct_WarlockResourceBar(frame);
+		frame.ClassBar = "SoulShards";
+	elseif(E.myclass == "DEATHKNIGHT") then
 		frame.Runes = self:Construct_DeathKnightResourceBar(frame);
 		frame.ClassBar = "Runes";
 	elseif(E.myclass == "DRUID") then
-		frame.EclipseBar = self:Construct_DruidResourceBar(frame)
-		frame.DruidAltMana = self:Construct_DruidAltManaBar(frame)
-		frame.ClassBar = 'EclipseBar'
-	elseif(E.myclass == "PALADIN") then
-		frame.HolyPower = self:Construct_PaladinResourceBar(frame, nil, UF.UpdateClassBar)
-		frame.ClassBar = 'HolyPower'
-	elseif(E.myclass == "WARLOCK") then
-		frame.SoulShards = self:Construct_WarlockResourceBar(frame, nil, UF.UpdateClassBar)
-		frame.ClassBar = 'SoulShards'
-	elseif(E.myclass == "DRUID") then
+		frame.EclipseBar = self:Construct_DruidResourceBar(frame);
 		frame.DruidAltMana = self:Construct_DruidAltManaBar(frame);
-		frame.ClassBar = "DruidAltMana";
+		frame.ClassBar = "EclipseBar";
 	end
 
 	frame.RaidIcon = UF:Construct_RaidIcon(frame);

@@ -1,7 +1,13 @@
 ﻿local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule("DataTexts")
 
+local select = select;
 local join = string.join;
+
+local GetNumBattlefieldScores = GetNumBattlefieldScores;
+local GetBattlefieldScore = GetBattlefieldScore;
+local GetCurrentMapAreaID = GetCurrentMapAreaID;
+local GetBattlefieldStatData = GetBattlefieldStatData;
 
 local lastPanel
 local displayString = ""

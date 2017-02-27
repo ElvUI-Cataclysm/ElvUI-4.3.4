@@ -14,7 +14,10 @@ local function LoadSkin()
 	WatchFrameCollapseExpandButton.text:SetText("-");
 	WatchFrameCollapseExpandButton.text:Point("CENTER")
 	WatchFrameCollapseExpandButton:SetFrameStrata("MEDIUM");
-	WatchFrameCollapseExpandButton:Point("TOPRIGHT", -20, -5)
+	WatchFrameCollapseExpandButton:Point("TOPRIGHT", -20, 0)
+	WatchFrameHeader:Point("TOPLEFT", 0, -3)
+
+	WatchFrameLines:StripTextures();
 
 	WatchFrame:Width(205)
 
@@ -29,31 +32,6 @@ local function LoadSkin()
 
 		WatchFrame:Width(205)
 	end)
-
-	local function SkinWatchFramePopUp()
-		if(WatchFrameAutoQuestPopUp1) then
-			WatchFrameLines:StripTextures();
-			WatchFrameAutoQuestPopUp1ScrollChildBg:Kill();
-			WatchFrameAutoQuestPopUp1ScrollChildQuestIconBg:Kill();
-			WatchFrameAutoQuestPopUp1ScrollChildFlash:Kill();
-			WatchFrameAutoQuestPopUp1ScrollChildShine:Kill();
-			WatchFrameAutoQuestPopUp1ScrollChildIconShine:Kill();
-			WatchFrameAutoQuestPopUp1ScrollChildFlashIconFlash:Kill();
-			WatchFrameAutoQuestPopUp1ScrollChildBorderBotLeft:Kill();
-			WatchFrameAutoQuestPopUp1ScrollChildBorderBotRight:Kill();
-			WatchFrameAutoQuestPopUp1ScrollChildBorderBottom:Kill();
-			WatchFrameAutoQuestPopUp1ScrollChildBorderLeft:Kill();
-			WatchFrameAutoQuestPopUp1ScrollChildBorderRight:Kill();
-			WatchFrameAutoQuestPopUp1ScrollChildBorderTop:Kill();
-			WatchFrameAutoQuestPopUp1ScrollChildBorderTopLeft:Kill();
-			WatchFrameAutoQuestPopUp1ScrollChildBorderTopRight:Kill();
-
-			WatchFrameAutoQuestPopUp1:CreateBackdrop("Transparent", true, true);
-			WatchFrameAutoQuestPopUp1.backdrop:SetBackdropBorderColor(0, 0.44, 0.87, 1);
-			WatchFrameAutoQuestPopUp1.backdrop:CreateShadow();
-		end
-	end
-	WatchFrame:HookScript("OnEvent", SkinWatchFramePopUp)
 
 	hooksecurefunc("WatchFrame_Update", function()
 		local questIndex;
@@ -91,6 +69,31 @@ local function LoadSkin()
 
 				E:RegisterCooldown(cooldown);
 				button.skinned = true;
+			end
+		end
+
+		for i = 1, 2 do
+			if(_G["WatchFrameAutoQuestPopUp"..i] and _G["WatchFrameAutoQuestPopUp"..i].isSkinned ~= true) then
+
+				_G["WatchFrameAutoQuestPopUp"..i.."ScrollChildBg"]:Kill();
+				_G["WatchFrameAutoQuestPopUp"..i.."ScrollChildQuestIconBg"]:Kill();
+				_G["WatchFrameAutoQuestPopUp"..i.."ScrollChildFlash"]:Kill();
+				_G["WatchFrameAutoQuestPopUp"..i.."ScrollChildShine"]:Kill();
+				_G["WatchFrameAutoQuestPopUp"..i.."ScrollChildIconShine"]:Kill();
+				_G["WatchFrameAutoQuestPopUp"..i.."ScrollChildFlashIconFlash"]:Kill();
+				_G["WatchFrameAutoQuestPopUp"..i.."ScrollChildBorderBotLeft"]:Kill();
+				_G["WatchFrameAutoQuestPopUp"..i.."ScrollChildBorderBotRight"]:Kill();
+				_G["WatchFrameAutoQuestPopUp"..i.."ScrollChildBorderBottom"]:Kill();
+				_G["WatchFrameAutoQuestPopUp"..i.."ScrollChildBorderLeft"]:Kill();
+				_G["WatchFrameAutoQuestPopUp"..i.."ScrollChildBorderRight"]:Kill();
+				_G["WatchFrameAutoQuestPopUp"..i.."ScrollChildBorderTop"]:Kill();
+				_G["WatchFrameAutoQuestPopUp"..i.."ScrollChildBorderTopLeft"]:Kill();
+				_G["WatchFrameAutoQuestPopUp"..i.."ScrollChildBorderTopRight"]:Kill();
+
+				_G["WatchFrameAutoQuestPopUp"..i]:CreateBackdrop("Transparent", true, true);
+				_G["WatchFrameAutoQuestPopUp"..i].backdrop:SetBackdropBorderColor(0, 0.44, 0.87, 1);
+
+				_G["WatchFrameAutoQuestPopUp"..i].isSkinned = true
 			end
 		end
 	end)

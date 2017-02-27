@@ -10,13 +10,12 @@ local STAT_RESILIENCE = STAT_RESILIENCE;
 local ToggleCharacter = ToggleCharacter;
 
 local displayNumberString = "";
-local resilTag = STAT_RESILIENCE..": ";
 local lastPanel;
 
 local function OnEvent(self)
 	local ratingBonus = GetCombatRatingBonus(COMBAT_RATING_RESILIENCE_PLAYER_DAMAGE_TAKEN);
 
-	self.text:SetFormattedText(displayNumberString, resilTag, ratingBonus);
+	self.text:SetFormattedText(displayNumberString, STAT_RESILIENCE, ratingBonus);
 	lastPanel = self;
 end
 
@@ -29,13 +28,13 @@ local function OnEnter(self)
 
 	local resilienceRating = GetCombatRating(COMBAT_RATING_RESILIENCE_PLAYER_DAMAGE_TAKEN);
 
-	DT.tooltip:AddDoubleLine(resilTag, format("%d", resilienceRating), 1, 1, 1);
+	DT.tooltip:AddDoubleLine(STAT_RESILIENCE, format("%d", resilienceRating), 1, 1, 1);
 
 	DT.tooltip:Show();
 end
 
 local function ValueColorUpdate(hex)
-	displayNumberString = join("", "%s", hex, "%.2f%%|r")
+	displayNumberString = join("", "%s: ", hex, "%.2f%%|r")
 
 	if(lastPanel ~= nil) then
 		OnEvent(lastPanel);

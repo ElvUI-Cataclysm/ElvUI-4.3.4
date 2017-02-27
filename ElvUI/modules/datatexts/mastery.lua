@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule("DataTexts")
 
-local format, join = string.format, string.join;
+local join = string.join;
 
 local GetCombatRating = GetCombatRating;
 local GetPrimaryTalentTree = GetPrimaryTalentTree;
@@ -12,11 +12,11 @@ local lastPanel;
 local displayString = "";
 
 local function OnEvent(self)
-	lastPanel = self;
-
 	if(GetCombatRating(CR_MASTERY) ~= 0 and GetPrimaryTalentTree()) then
 		self.text:SetFormattedText(displayString, STAT_MASTERY, GetMastery());
 	end
+
+	lastPanel = self;
 end
 
 local function OnEnter(self)

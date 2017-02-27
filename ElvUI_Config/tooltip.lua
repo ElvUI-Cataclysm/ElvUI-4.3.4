@@ -227,7 +227,7 @@ E.Options.args.tooltip = {
 				combat = {
 					order = 5,
 					type = 'toggle',
-					name = COMBAT,
+					name = L["Hide in Combat"],
 					desc = L["Hide tooltip while in combat."]
 				}
 			}

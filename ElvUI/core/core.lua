@@ -413,7 +413,7 @@ function E:CopyTable(currentTable, defaultTable)
 			currentTable[option] = value;
 		end
 	end
-	
+
 	return currentTable;
 end
 

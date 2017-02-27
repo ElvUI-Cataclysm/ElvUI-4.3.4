@@ -435,7 +435,7 @@ local function LoadSkin()
 	xtex:SetTexCoord(.12, .63, .15, .55)
 
 	PetPaperDollPetInfo:CreateBackdrop("Default")
-	PetPaperDollPetInfo:Size(24, 24)
+	PetPaperDollPetInfo:Size(24)
 end
 
 S:AddCallback("Character", LoadSkin);

@@ -149,6 +149,7 @@ local function LoadSkin()
 	SendMailBodyEditBox:SetTextColor(1, 1, 1)
 	OpenMailBodyText:SetTextColor(1, 1, 1)
 	InvoiceTextFontNormal:SetTextColor(1, 1, 1)
+	OpenMailInvoiceBuyMode:SetTextColor(1, 0.80, 0.10);
 
 	OpenMailArithmeticLine:Kill()
 

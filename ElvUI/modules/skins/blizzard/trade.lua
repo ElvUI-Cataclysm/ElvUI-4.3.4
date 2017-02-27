@@ -74,7 +74,7 @@ local function LoadSkin()
 	TradeHighlightPlayerMiddle:SetTexture(0, 1, 0, 0.2)
 
 	TradeHighlightPlayer:SetFrameStrata("HIGH")
-	TradeHighlightPlayer:Point("TOPLEFT", TradeFrame, "TOPLEFT", 23, -100)
+	TradeHighlightPlayer:Point("TOPLEFT", TradeFrame, 23, -100)
 
 	TradeHighlightPlayerEnchantTop:SetTexture(0, 1, 0, 0.2)
 	TradeHighlightPlayerEnchantBottom:SetTexture(0, 1, 0, 0.2)
@@ -87,7 +87,7 @@ local function LoadSkin()
 	TradeHighlightRecipientMiddle:SetTexture(0, 1, 0, 0.2)
 
 	TradeHighlightRecipient:SetFrameStrata("HIGH")
-	TradeHighlightRecipient:Point("TOPLEFT", TradeFrame, "TOPLEFT", 192, -100)
+	TradeHighlightRecipient:Point("TOPLEFT", TradeFrame, 192, -100)
 
 	TradeHighlightRecipientEnchantTop:SetTexture(0, 1, 0, 0.2)
 	TradeHighlightRecipientEnchantBottom:SetTexture(0, 1, 0, 0.2)

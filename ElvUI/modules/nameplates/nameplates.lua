@@ -20,6 +20,7 @@ local SetCVar = SetCVar;
 local IsAddOnLoaded = IsAddOnLoaded;
 local GetSpellInfo = GetSpellInfo;
 local WorldFrame = WorldFrame;
+local WorldGetNumChildren, WorldGetChildren = WorldFrame.GetNumChildren, WorldFrame.GetChildren;
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
 local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 local COMBATLOG_OBJECT_CONTROL_PLAYER = COMBATLOG_OBJECT_CONTROL_PLAYER;
@@ -179,10 +180,10 @@ function mod:SetTargetIndicator()
 end
 
 function mod:OnUpdate(elapsed)
-	local count = WorldFrame:GetNumChildren()
+	local count = WorldGetNumChildren(WorldFrame);
 	if(count ~= numChildren) then
 		for i = numChildren + 1, count do
-			local frame = select(i, WorldFrame:GetChildren())
+			local frame = select(i, WorldGetChildren(WorldFrame))
 			local region = frame:GetRegions()
 
 			if(not mod.CreatedPlates[frame] and (frame:GetName() and frame:GetName():find("NamePlate%d")) and region and region:GetObjectType() == "Texture" and region:GetTexture() == OVERLAY) then
@@ -1102,10 +1103,7 @@ function mod:Initialize()
 	if(E.private["nameplate"].enable ~= true) then return; end
 
 	self.PlateParent = CreateFrame("Frame", nil, WorldFrame);
-	self.PlateParent:SetFrameStrata("BACKGROUND");
-	self.PlateParent:SetFrameLevel(0);
-
-	WorldFrame:HookScript("OnUpdate", self.OnUpdate);
+	self.PlateParent:SetScript("OnUpdate", self.OnUpdate);
 
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");

@@ -437,12 +437,6 @@ function UF:Construct_DruidAltManaBar(frame)
 	return dpower
 end
 
-function UF:DruidResourceBarVisibilityUpdate()
-	local parent = self:GetParent();
-
-	UF:UpdatePlayerFrameAnchors(parent, self:IsShown());
-end
-
 function UF:EclipseDirection()
 	local direction = GetEclipseDirection()
 	if direction == "sun" then
