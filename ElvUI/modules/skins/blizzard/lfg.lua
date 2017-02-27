@@ -273,6 +273,32 @@ local function LoadSkin()
 		end
 	end)
 
+	hooksecurefunc("LFGSearchStatus_UpdateRoles", function()
+		local _, tank, healer, damage = GetLFGRoles();
+		local currentIcon = 1;
+		if(tank) then
+			local icon = _G["LFGSearchStatusRoleIcon"..currentIcon]
+			icon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\tank.tga")
+			icon:SetTexCoord(unpack(E.TexCoords));
+			icon:Size(22)
+			currentIcon = currentIcon + 1;
+		end
+		if(healer) then
+			local icon = _G["LFGSearchStatusRoleIcon"..currentIcon]
+			icon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\healer.tga")
+			icon:SetTexCoord(unpack(E.TexCoords));
+			icon:Size(20)
+			currentIcon = currentIcon + 1;
+		end
+		if(damage) then
+			local icon = _G["LFGSearchStatusRoleIcon"..currentIcon]
+			icon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\dps.tga")
+			icon:SetTexCoord(unpack(E.TexCoords));
+			icon:Size(17)
+			currentIcon = currentIcon + 1;
+		end
+	end)
+
 	--LFG Ready Dialog
 	LFGDungeonReadyDialogBackground:Kill();
 	--LFGDungeonReadyDialog:StripTextures();

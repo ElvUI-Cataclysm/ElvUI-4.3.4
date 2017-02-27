@@ -304,6 +304,39 @@ local function LoadSkin()
 		headerTab:HookScript("OnLeave", S.SetOriginalBackdrop);
 	end
 
+	hooksecurefunc("GuildInfoFrameApplicants_Update", function()
+		local scrollFrame = GuildInfoFrameApplicantsContainer;
+		local offset = HybridScrollFrame_GetOffset(scrollFrame);
+		local buttons = scrollFrame.buttons;
+		local numButtons = #buttons;
+		local button, index;
+
+		for i = 1, numButtons do
+			button = buttons[i];
+			index = offset + i;
+			local name, level, class = GetGuildApplicantInfo(index);
+			if(name) then
+				local classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class];
+				local levelTextColor = GetQuestDifficultyColor(level);
+
+				button.name:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b);
+				button.level:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b);
+
+				button.tankTex:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\tank.tga")
+				button.tankTex:SetTexCoord(unpack(E.TexCoords));
+				button.tankTex:Size(17)
+
+				button.healerTex:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\healer.tga")
+				button.healerTex:SetTexCoord(unpack(E.TexCoords));
+				button.healerTex:Size(17)
+
+				button.damageTex:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\dps.tga")
+				button.damageTex:SetTexCoord(unpack(E.TexCoords));
+				button.damageTex:Size(15)
+			end
+		end
+	end)
+
 	local backdrop1 = CreateFrame("Frame", nil, GuildInfoFrameInfo)
 	backdrop1:SetTemplate("Default")
 	backdrop1:Point("TOPLEFT", 2, -22)

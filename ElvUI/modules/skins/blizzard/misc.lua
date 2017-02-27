@@ -115,6 +115,8 @@ local function LoadSkin()
 
 	ConsolidatedBuffsTooltip:SetTemplate("Transparent");
 
+	StreamingIcon:Point("LEFT", GhostFrame, "RIGHT", -30, 200)
+
 	-- BNToast Frame
 	BNToastFrame:SetTemplate("Transparent");
 
