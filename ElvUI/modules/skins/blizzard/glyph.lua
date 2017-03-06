@@ -63,7 +63,8 @@ local function LoadSkin()
 	GlyphFrameClearInfoFrame.backdrop:SetAllPoints()
 	GlyphFrameClearInfoFrame:StyleButton()
 	GlyphFrameClearInfoFrame:Size(25)
-	GlyphFrameClearInfoFrame.count:Point("TOPRIGHT", 135, -5)
+	GlyphFrameClearInfoFrame:Point("BOTTOMLEFT", GlyphFrame, "BOTTOMRIGHT", 28, -2)
+	GlyphFrameClearInfoFrame.count:Point("TOPRIGHT", -26, -5)
 
 	S:HandleScrollBar(GlyphFrameScrollFrameScrollBar, 5)
 end
