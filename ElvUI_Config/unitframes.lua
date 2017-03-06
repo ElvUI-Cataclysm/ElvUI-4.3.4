@@ -6457,6 +6457,12 @@ if(P.unitframe.colors.classResources[E.myclass]) then
 			name = L['Soul Shards'],
 			order = ORDER
 		};
+	elseif(E.myclass == "PRIEST") then
+		E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGroup.args[E.myclass] = {
+			type = "color",
+			name = L["Shadow Orbs"],
+			order = ORDER
+		};
 	elseif(E.myclass == 'DRUID') then
 		local names = {
 			[1] = L["Lunar"],

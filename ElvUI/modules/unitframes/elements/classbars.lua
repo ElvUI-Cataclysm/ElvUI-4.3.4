@@ -366,6 +366,50 @@ function UF:UpdateShards(event, unit, powerType)
 	end
 end
 
+function UF:Construct_PriestResourceBar(frame)
+	local bars = CreateFrame("Frame", nil, frame);
+	bars:CreateBackdrop("Default", nil, nil, self.thinBorders);
+
+	for i = 1, UF["classMaxResourceBar"][E.myclass] do
+		bars[i] = CreateFrame("StatusBar", nil, bars);
+		bars[i]:SetStatusBarTexture(E["media"].blankTex);
+		bars[i]:GetStatusBarTexture():SetHorizTile(false);
+		
+		bars[i].bg = bars[i]:CreateTexture(nil, "ARTWORK");
+		
+		UF["statusbars"][bars[i]] = true;
+
+		bars[i]:CreateBackdrop("Default", nil, nil, self.thinBorders);
+		bars[i].backdrop:SetParent(bars);
+	end
+	
+	bars.PostUpdate = UF.UpdateShadowOrbs;
+	bars:SetScript("OnShow", ToggleResourceBar);
+	bars:SetScript("OnHide", ToggleResourceBar);
+	
+	return bars;
+end
+
+
+function UF:UpdateShadowOrbs(event, shadowOrbs, maxOrbs)
+	local frame = self.origParent or self:GetParent()
+	local db = frame.db
+	if(not db) then return; end
+
+	if(IsSpellKnown(95740) and shadowOrbs == 0) then
+		if(frame.db.classbar.autoHide) then
+			self:Hide();
+		else
+			for i = 1, maxOrbs do
+				self[i]:SetValue(0);
+				self[i]:SetScript("OnUpdate", nil);
+			end
+
+			self:Show();
+		end
+	end
+end
+
 function UF:Construct_DeathKnightResourceBar(frame)
 	local runes = CreateFrame("Frame", nil, frame);
 	runes:CreateBackdrop("Default", nil, nil, self.thinBorders);

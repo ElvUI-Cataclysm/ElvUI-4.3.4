@@ -7,7 +7,7 @@ assert(ElvUF, "ElvUI was unable to locate oUF.");
 local _G = _G;
 local tinsert = table.insert;
 
-local CAN_HAVE_CLASSBAR = (E.myclass == "PALADIN" or E.myclass == "DRUID" or E.myclass == "DEATHKNIGHT" or E.myclass == "WARLOCK");
+local CAN_HAVE_CLASSBAR = (E.myclass == "PALADIN" or E.myclass == "DRUID" or E.myclass == "DEATHKNIGHT" or E.myclass == "WARLOCK" or E.myclass == "PRIEST");
 
 function UF:Construct_PlayerFrame(frame)
 	frame.Threat = self:Construct_Threat(frame);
@@ -28,6 +28,9 @@ function UF:Construct_PlayerFrame(frame)
 	elseif(E.myclass == "WARLOCK") then
 		frame.SoulShards = self:Construct_WarlockResourceBar(frame);
 		frame.ClassBar = "SoulShards";
+	elseif(E.myclass == "PRIEST") then
+		frame.ShadowOrbs = self:Construct_PriestResourceBar(frame);
+		frame.ClassBar = "ShadowOrbs";
 	elseif(E.myclass == "DEATHKNIGHT") then
 		frame.Runes = self:Construct_DeathKnightResourceBar(frame);
 		frame.ClassBar = "Runes";
