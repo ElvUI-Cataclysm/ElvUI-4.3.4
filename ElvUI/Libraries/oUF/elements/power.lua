@@ -3,16 +3,15 @@ local oUF = ns.oUF
 
 local unpack = unpack
 
-local UnitPower = UnitPower
-local UnitPowerMax = UnitPowerMax
-local UnitIsConnected = UnitIsConnected
-local UnitPowerType = UnitPowerType
-local UnitIsPlayer = UnitIsPlayer
-local UnitPlayerControlled = UnitPlayerControlled
 local UnitClass = UnitClass
-local UnitReaction = UnitReaction
+local UnitIsConnected = UnitIsConnected
+local UnitIsPlayer = UnitIsPlayer
 local UnitIsTapped = UnitIsTapped
 local UnitIsTappedByPlayer = UnitIsTappedByPlayer
+local UnitPlayerControlled = UnitPlayerControlled
+local UnitPower, UnitPowerMax = UnitPower, UnitPowerMax
+local UnitPowerType = UnitPowerType
+local UnitReaction = UnitReaction
 
 local updateFrequentUpdates
 oUF.colors.power = {}
@@ -139,8 +138,6 @@ local Enable = function(self, unit)
 		self:RegisterEvent('UNIT_DISPLAYPOWER', Path)
 		self:RegisterEvent('UNIT_CONNECTION', Path)
 		self:RegisterEvent('UNIT_MAXPOWER', Path)
-
-		-- For tapping.
 		self:RegisterEvent('UNIT_FACTION', Path)
 
 		if(power:IsObjectType'StatusBar' and not power:GetStatusBarTexture()) then

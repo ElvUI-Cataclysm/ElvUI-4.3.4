@@ -1,6 +1,13 @@
 local _, ns = ...
 local oUF = ns.oUF
 
+local tinsert = table.insert
+local floor = math.floor
+
+local CreateFrame = CreateFrame
+local UnitAura = UnitAura
+local UnitIsUnit = UnitIsUnit
+
 local VISIBLE = 1
 local HIDDEN = 0
 
@@ -82,7 +89,7 @@ local updateIcon = function(unit, icons, index, offset, filter, isDebuff, visibl
 			icon = (icons.CreateIcon or createAuraIcon) (icons, n)
 
 			if(prev == icons.createdIcons) then
-				table.insert(icons, icon)
+				tinsert(icons, icon)
 				icons.createdIcons = icons.createdIcons + 1
 			end
 		end
@@ -155,14 +162,14 @@ local SetPosition = function(icons, from, to)
 	local anchor = icons.initialAnchor or "BOTTOMLEFT"
 	local growthx = (icons["growth-x"] == "LEFT" and -1) or 1
 	local growthy = (icons["growth-y"] == "DOWN" and -1) or 1
-	local cols = math.floor(icons:GetWidth() / sizex + .5)
+	local cols = floor(icons:GetWidth() / sizex + .5)
 
 	for i = from, to do
 		local button = icons[i]
 
 		if(not button) then break end
 		local col = (i - 1) % cols
-		local row = math.floor((i - 1) / cols)
+		local row = floor((i - 1) / cols)
 
 		button:ClearAllPoints()
 		button:SetPoint(anchor, icons, anchor, col * sizex * growthx, row * sizey * growthy)
@@ -219,7 +226,7 @@ local UpdateAuras = function(self, event, unit)
 				local prev = auras.createdIcons
 				icon = (auras.CreateIcon or createAuraIcon) (auras, visibleBuffs)
 				if(prev == auras.createdIcons) then
-					table.insert(auras, icon)
+					tinsert(auras, icon)
 					auras.createdIcons = auras.createdIcons + 1
 				end
 			end

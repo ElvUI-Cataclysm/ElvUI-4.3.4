@@ -9,6 +9,8 @@ local function LoadSkin()
 	ReforgingFrame:StripTextures()
 	ReforgingFrame:SetTemplate("Transparent")
 
+	ReforgingFrameFinishedGlow:Kill()
+
 	ReforgingFrameButtonFrame:StripTextures()
 
 	ReforgingFrameRestoreMessage:SetTextColor(1, 1, 1);

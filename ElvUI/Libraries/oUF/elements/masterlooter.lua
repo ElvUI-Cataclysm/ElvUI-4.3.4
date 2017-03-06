@@ -1,9 +1,9 @@
 local _, ns = ...
 local oUF = ns.oUF
 
+local GetLootMethod = GetLootMethod
 local UnitInParty = UnitInParty
 local UnitInRaid = UnitInRaid
-local GetLootMethod = GetLootMethod
 local UnitIsUnit = UnitIsUnit
 
 local Update = function(self, event)
@@ -30,12 +30,12 @@ local Update = function(self, event)
 			mlUnit = 'raid'..rid;
 		end
 
-		if(unit and mlUnit and UnitIsUnit(unit, mlUnit)) then
+		if(UnitIsUnit(unit, mlUnit)) then
 			masterlooter:Show();
 		elseif(masterlooter:IsShown()) then
 			masterlooter:Hide();
 		end
-	elseif(masterlooter:IsShown()) then
+	else
 		masterlooter:Hide();
 	end
 

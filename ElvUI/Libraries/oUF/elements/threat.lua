@@ -1,16 +1,16 @@
 local _, ns = ...
 local oUF = ns.oUF
 
-local IsLoggedIn = IsLoggedIn
-local UnitThreatSituation = UnitThreatSituation
 local GetThreatStatusColor = GetThreatStatusColor
+local UnitThreatSituation = UnitThreatSituation
 
 local Update = function(self, event, unit)
-	if(unit ~= self.unit) or not unit or not IsLoggedIn() then return end
+	if(unit ~= self.unit) then return end
 
 	local threat = self.Threat
 	if(threat.PreUpdate) then threat:PreUpdate(unit) end
 
+	unit = unit or self.unit
 	local status = UnitThreatSituation(unit)
 
 	local r, g, b
@@ -47,7 +47,7 @@ local Enable = function(self)
 		self:RegisterEvent("UNIT_THREAT_SITUATION_UPDATE", Path)
 		self:RegisterEvent("UNIT_THREAT_LIST_UPDATE", Path)
 
-		if(threat:IsObjectType"Texture" and not threat:GetTexture()) then
+		if(threat:IsObjectType("Texture") and not threat:GetTexture()) then
 			threat:SetTexture[[Interface\Minimap\ObjectIcons]]
 			threat:SetTexCoord(6/8, 7/8, 1/8, 2/8)
 		end
@@ -62,7 +62,6 @@ local Disable = function(self)
 		threat:Hide()
 		self:UnregisterEvent("UNIT_THREAT_SITUATION_UPDATE", Path)
 		self:UnregisterEvent("UNIT_THREAT_LIST_UPDATE", Path)
-		threat:Hide()
 	end
 end
 
