@@ -1,8 +1,13 @@
 if(select(2, UnitClass('player')) ~= 'DRUID') then return end
-local E, L, DF = unpack(select(2, ...))
 
 local _, ns = ...
 local oUF = ns.oUF or oUF
+
+local UnitPower, UnitPowerMax = UnitPower, UnitPowerMax
+local UnitIsPlayer = UnitIsPlayer
+local UnitPlayerControlled = UnitPlayerControlled
+local UnitClass = UnitClass
+local UnitReaction = UnitReaction
 
 local UPDATE_VISIBILITY = function(self, event)
 	local druidmana = self.DruidAltMana

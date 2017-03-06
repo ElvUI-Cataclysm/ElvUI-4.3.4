@@ -20,10 +20,10 @@ local OnLeave = function()
 end
 
 local createAuraIcon = function(icons, index)
-	local button = CreateFrame("Button", nil, icons)
+	local button = CreateFrame("Button", icons:GetName().."Button"..index, icons)
 	button:RegisterForClicks'RightButtonUp'
 
-	local cd = CreateFrame("Cooldown", nil, button, "CooldownFrameTemplate")
+	local cd = CreateFrame("Cooldown", "$parentCooldown", button, "CooldownFrameTemplate")
 	cd:SetAllPoints(button)
 
 	local icon = button:CreateTexture(nil, "BORDER")
@@ -66,12 +66,12 @@ local customFilter = function(icons, unit, icon, name)
 end
 
 local updateIcon = function(unit, icons, index, offset, filter, isDebuff, visible)
-	local name, rank, texture, count, dtype, duration, expirationTime, caster, isStealable, shouldConsolidate, spellID = UnitAura(unit, index, filter)
+	local name, rank, texture, count, dtype, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff = UnitAura(unit, index, filter)
 
 	if icons.forceShow then
 		spellID = 47540
 		name, rank, texture = GetSpellInfo(spellID)
-		count, dtype, duration, expirationTime, caster, isStealable, shouldConsolidate = 5, 'Magic', 0, 60, 'player', nil, nil
+		count, dtype, duration, timeLeft, caster, isStealable, shouldConsolidate, canApplyAura, isBossDebuff = 5, 'Magic', 0, 60, 'player', nil, nil, nil, nil
 	end
 
 	if(name) then
@@ -99,13 +99,13 @@ local updateIcon = function(unit, icons, index, offset, filter, isDebuff, visibl
 
 		local show = true
 		if not icons.forceShow then
-			show = (icons.CustomFilter or customFilter) (icons, unit, icon, name, rank, texture, count, dtype, duration, expirationTime, caster, isStealable, shouldConsolidate, spellID)
+			show = (icons.CustomFilter or customFilter) (icons, unit, icon, name, rank, texture, count, dtype, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff)
 		end
 		if(show) then
 			local cd = icon.cd
 			if(cd and not icons.disableCooldown) then
 				if(duration and duration > 0) then
-					cd:SetCooldown(expirationTime - duration, duration)
+					cd:SetCooldown(timeLeft - duration, duration)
 					cd:Show()
 				else
 					cd:Hide()

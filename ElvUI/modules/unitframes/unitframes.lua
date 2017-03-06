@@ -750,7 +750,6 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 
 			if(maxPlayers > 0) then
 				numGroups = E:Round(maxPlayers/5);
-				E:Print(group, "Forcing maxGroups to: " .. numGroups .. " because maxPlayers is: " .. maxPlayers);
 			end
 		end
 	end
@@ -1195,7 +1194,7 @@ function UF:Initialize()
 	if(not ORD) then return; end
 	ORD.ShowDispelableDebuff = true;
 	ORD.FilterDispellableDebuff = true;
-	ORD.MatchBySpellName = false;
+	ORD.MatchBySpellName = true;
 end
 
 function UF:ResetUnitSettings(unit)

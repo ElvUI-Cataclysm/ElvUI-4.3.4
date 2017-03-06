@@ -95,6 +95,39 @@ E.HealingClasses = {
 	PRIEST = {1, 2}
 };
 
+E.ClassRole = {
+	PALADIN = {
+		[1] = "Caster",
+		[2] = "Tank",
+		[3] = "Melee"
+	},
+	PRIEST = "Caster",
+	WARLOCK = "Caster",
+	WARRIOR = {
+		[1] = "Melee",
+		[2] = "Melee",
+		[3] = "Tank"
+	},
+	HUNTER = "Melee",
+	SHAMAN = {
+		[1] = "Caster",
+		[2] = "Melee",
+		[3] = "Caster"
+	},
+	ROGUE = "Melee",
+	MAGE = "Caster",
+	DEATHKNIGHT = {
+		[1] = "Tank",
+		[2] = "Melee",
+		[3] = "Melee"
+	},
+	DRUID = {
+		[1] = "Caster",
+		[2] = "Melee",
+		[3] = "Caster"
+	}
+}
+
 E.noop = function() end;
 
 local colorizedName;
@@ -206,10 +239,11 @@ function E:RequestBGInfo()
 end
 
 function E:PLAYER_ENTERING_WORLD()
-	self:CheckRole()
 	if(not self.MediaUpdated) then
 		self:UpdateMedia();
 		self.MediaUpdated = true;
+	else
+		self:ScheduleTimer("CheckRole", 0.01);
 	end
 
 	local _, instanceType = IsInInstance();
@@ -302,41 +336,11 @@ E["snapBars"][#E["snapBars"] + 1] = E.UIParent;
 E.HiddenFrame = CreateFrame("Frame");
 E.HiddenFrame:Hide();
 
-function E:CheckRole()
-	if event == "UNIT_AURA" and unit ~= "player" then return end
-	local tree = GetPrimaryTalentTree();
-	local resilience;
-	local resilperc = GetCombatRatingBonus(COMBAT_RATING_RESILIENCE_PLAYER_DAMAGE_TAKEN)
-	if resilperc > GetDodgeChance() and resilperc > GetParryChance() and UnitLevel('player') == MAX_PLAYER_LEVEL then
-		resilience = true;
-	else
-		resilience = false;
-	end
-	if (E.myclass == "PALADIN" and tree == 2) or
-	(E.myclass == "WARRIOR" and tree == 3) or
-	(E.myclass == "DEATHKNIGHT" and tree == 1) and
-	resilience == false or
-	(E.myclass == "DRUID" and tree == 2 and GetBonusBarOffset() == 3) then
-		E.Role = "Tank"
-	else
-		local playerint = select(2, UnitStat("player", 4));
-		local playeragi	= select(2, UnitStat("player", 2));
-		local base, posBuff, negBuff = UnitAttackPower("player");
-		local playerap = base + posBuff + negBuff;
+function E:IsDispellableByMe(debuffType)
+	if(not self.DispelClasses[self.myclass]) then return; end
 
-		if (((playerap > playerint) or (playeragi > playerint)) and (E.myclass == "SHAMAN" and tree == 2) or (E.myclass == "PALADIN" and tree == 3) or (E.myclass == "DRUID" and tree == 2) and not
-		(UnitBuff("player", GetSpellInfo(24858)) or UnitBuff("player", GetSpellInfo(65139)))) or E.myclass == "ROGUE" or E.myclass == "HUNTER" then
-			E.Role = "Melee"
-		else
-			E.Role = "Caster"
-		end
-	end
-	if self.HealingClasses[E.myclass] ~= nil and E.myclass ~= 'PRIEST' then
-		if self:CheckTalentTree(self.HealingClasses[E.myclass]) then
-			self.DispelClasses[E.myclass].Magic = true;
-		else
-			self.DispelClasses[E.myclass].Magic = false;
-		end
+	if(self.DispelClasses[self.myclass][debuffType]) then
+		return true;
 	end
 end
 
@@ -356,11 +360,54 @@ function E:CheckTalentTree(tree)
 	end
 end
 
-function E:IsDispellableByMe(debuffType)
-	if not self.DispelClasses[E.myclass] then return; end
+function E:CheckRole()
+	local talentTree = GetPrimaryTalentTree();
+	local resilperc = GetCombatRatingBonus(COMBAT_RATING_RESILIENCE_PLAYER_DAMAGE_TAKEN);
+	local resilience;
+	local role;
 
-	if self.DispelClasses[E.myclass][debuffType] then
-		return true;
+	if resilperc > GetDodgeChance() and resilperc > GetParryChance() and UnitLevel("player") == MAX_PLAYER_LEVEL then
+		resilience = true;
+	else
+		resilience = false;
+	end
+
+	if(type(self.ClassRole[self.myclass]) == "string") then
+		role = self.ClassRole[self.myclass];
+	elseif(talentTree) then
+	
+		if (self.myclass == "DEATHKNIGHT" and talentTree == 1) and resilience == false
+		or (E.myclass == "DRUID" and talentTree == 2 and GetBonusBarOffset() == 3) then
+			role = "Tank";
+		else
+			role = self.ClassRole[self.myclass][talentTree];
+		end
+	end
+
+	if(not role) then
+		local int = select(2, UnitStat("player", 4));
+		local agi = select(2, UnitStat("player", 2));
+		local base, posBuff, negBuff = UnitAttackPower("player");
+		local ap = base + posBuff + negBuff;
+
+		if(ap > int) or (agi > int) then
+			role = "Melee";
+		else
+			role = "Caster";
+		end
+	end
+
+	if(self.Role ~= role) then
+		self.Role = role;
+		self.callbacks:Fire("RoleChanged");
+	end
+
+	if self.HealingClasses[self.myclass] ~= nil and E.myclass ~= "PRIEST" then
+		if self:CheckTalentTree(self.HealingClasses[E.myclass]) then
+			self.DispelClasses[self.myclass].Magic = true;
+		else
+			self.DispelClasses[self.myclass].Magic = false;
+		end
 	end
 end
 
@@ -979,7 +1026,7 @@ function E:Initialize()
 	self:CheckIncompatible();
 	self:DBConversions();
 
-	self:CheckRole();
+	self:ScheduleTimer("CheckRole", 0.01);
 	self:UIScale("PLAYER_LOGIN");
 
 	self:LoadCommands();
@@ -1002,8 +1049,6 @@ function E:Initialize()
 
 	self:UpdateMedia();
 	self:UpdateFrameTemplates();
-	self:RegisterEvent("UNIT_AURA", "CheckRole");
-	self:RegisterEvent("PLAYER_ENTERING_WORLD", "CheckRole");
 	self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", "CheckRole");
 	self:RegisterEvent("PLAYER_TALENT_UPDATE", "CheckRole");
 	self:RegisterEvent("CHARACTER_POINTS_CHANGED", "CheckRole");

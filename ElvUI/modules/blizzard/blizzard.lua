@@ -19,6 +19,11 @@ function B:Initialize()
  		self:PositionAltPowerBar();
 	end
 
+	if(GetLocale() == "deDE") then
+		DAY_ONELETTER_ABBR = "%d d";
+		MINUTE_ONELETTER_ABBR = "%d m";
+	end
+
 	CreateFrame("Frame"):SetScript("OnUpdate", function(self, elapsed)
 		if LFRBrowseFrame.timeToClear then
 			LFRBrowseFrame.timeToClear = nil

@@ -258,7 +258,7 @@ function AB:AdjustMaxStanceButtons(event)
 			bar.buttons[i] = CreateFrame("CheckButton", format(bar:GetName().."Button%d", i), bar, "ShapeshiftButtonTemplate")
 			bar.buttons[i]:SetID(i)
 			self:HookScript(bar.buttons[i], "OnEnter", "Button_OnEnter");
-			self:HookScript(bar.buttons[i], "OnLeave", "Button_OnLeave");	
+			self:HookScript(bar.buttons[i], "OnLeave", "Button_OnLeave");
 		end
 
 		if ( i <= numButtons ) then
@@ -288,13 +288,12 @@ function AB:UpdateStanceBindings()
 	end
 end
 
-
 function AB:CreateBarShapeShift()
 	bar:CreateBackdrop('Default');
 	bar.backdrop:SetAllPoints();
 	bar:Point('TOPLEFT', E.UIParent, 'TOPLEFT', 4, -4);
 	bar.buttons = {};
-	bar:SetAttribute("_onstate-show", [[		
+	bar:SetAttribute("_onstate-show", [[
 		if newstate == "hide" then
 			self:Hide();
 		else

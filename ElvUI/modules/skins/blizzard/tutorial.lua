@@ -35,15 +35,6 @@ local function LoadSkin()
 	TutorialFrameCloseButton:Point("TOPRIGHT", 0, 0)
 
 	TutorialFrameCallOut:Kill()
-
-	TalentMicroButtonAlert:StripTextures()
-	TalentMicroButtonAlert:SetTemplate("Transparent")
-	TalentMicroButtonAlertArrow:Kill()
-	S:HandleCloseButton(TalentMicroButtonAlertCloseButton)
-
-	HelpOpenTicketButtonTutorial:Kill()
-	HelpOpenTicketButtonTutorialCloseButton:Kill()
-	PlayerTalentFrameLearnButtonTutorialArrow:Kill()
 end
 
 S:AddCallback("Tutorial", LoadSkin);

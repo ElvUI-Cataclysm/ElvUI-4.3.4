@@ -260,6 +260,8 @@ local function LoadSkin()
 		S:HandleCheckBox(_G["GuildNewsFilterButton"..i])
 	end
 
+	GuildGMImpeachButton:StyleButton()
+
 	S:HandleCloseButton(GuildNewsFiltersFrameCloseButton)
 	GuildNewsFiltersFrameCloseButton:Point("TOPRIGHT", 2, 2)
 
@@ -271,40 +273,57 @@ local function LoadSkin()
 	S:HandleScrollBar(GuildInfoDetailsFrameScrollBar, 4)
 	S:HandleScrollBar(GuildInfoFrameApplicantsContainerScrollBar)
 
-	GuildInfoFrameTab1:Point("TOPLEFT", 55, 33)
-
 	S:HandleButton(GuildViewLogButton)
 	S:HandleButton(GuildControlButton)
 	S:HandleButton(GuildAddMemberButton)
 
 	for _, button in next, GuildInfoFrameApplicantsContainer.buttons do
-		button.selectedTex:SetTexture(1, 1, 1, 0.2)
-		button:GetHighlightTexture():Kill()
-		button:SetBackdrop(nil)
-		button:StyleButton()
-		button:SetTemplate("Transparent")
+		button:SetBackdrop(nil);
+		button:GetHighlightTexture():Kill();
+
+		button:StripTextures();
+		button:CreateBackdrop("Transparent");
+		button.backdrop:SetInside();
+		button:StyleButton();
+
+		button.bg = CreateFrame("Frame", nil, button);
+		button.bg:SetTemplate("Default", true);
+		button.bg:Point("TOPLEFT", button.class, 2, -2);
+		button.bg:Point("BOTTOMRIGHT", button.class, -2, 2);
+
+		button.class:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
+		button.class:SetParent(button.bg);
+
+		button.selectedTex:SetTexture(1, 1, 1, 0.3);
+		button.selectedTex:SetInside();
+
+		button.name:Point("TOPLEFT", 75, -10);
+		button.name:SetParent(button.backdrop);
+
+		button.level:Point("TOPLEFT", 58, -10);
+		button.level:SetParent(button.backdrop);
+
+		button.comment:SetParent(button.backdrop);
+		button.fullComment:SetParent(button.backdrop);
+		button.timeLeft:SetParent(button.backdrop);
+
+		button.tankTex:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\tank.tga");
+		button.tankTex:SetTexCoord(unpack(E.TexCoords));
+		button.tankTex:Size(20);
+		button.tankTex:SetParent(button.backdrop);
+
+		button.healerTex:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\healer.tga");
+		button.healerTex:SetTexCoord(unpack(E.TexCoords));
+		button.healerTex:Size(18);
+		button.healerTex:SetParent(button.backdrop);
+
+		button.damageTex:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\dps.tga");
+		button.damageTex:SetTexCoord(unpack(E.TexCoords));
+		button.damageTex:Size(16);
+		button.damageTex:SetParent(button.backdrop);
 	end
 
-	for i = 1, 5 do
-		_G["GuildInfoFrameApplicantsContainerButton"..i.."Ring"]:SetAlpha(0)
-		_G["GuildInfoFrameApplicantsContainerButton"..i.."LevelRing"]:SetAlpha(0)
-		_G["GuildInfoFrameApplicantsContainerButton"..i.."LevelRing"]:Point("TOPLEFT", -42, 33)
-	end
-
-	for i = 1, 3 do
-		local headerTab = _G["GuildInfoFrameTab"..i]
-		headerTab:StripTextures()
-		headerTab.backdrop = CreateFrame("Frame", nil, headerTab)
-		headerTab.backdrop:SetTemplate("Default", true)
-		headerTab.backdrop:Point("TOPLEFT", 3, -7)
-		headerTab.backdrop:Point("BOTTOMRIGHT", -2, -1)
-		headerTab.backdrop:SetFrameLevel(headerTab:GetFrameLevel() - 1)
-
-		headerTab:HookScript("OnEnter", S.SetModifiedBackdrop);
-		headerTab:HookScript("OnLeave", S.SetOriginalBackdrop);
-	end
-
-	hooksecurefunc("GuildInfoFrameApplicants_Update", function()
+	--[[hooksecurefunc("GuildInfoFrameApplicants_Update", function()
 		local scrollFrame = GuildInfoFrameApplicantsContainer;
 		local offset = HybridScrollFrame_GetOffset(scrollFrame);
 		local buttons = scrollFrame.buttons;
@@ -321,21 +340,24 @@ local function LoadSkin()
 
 				button.name:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b);
 				button.level:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b);
-
-				button.tankTex:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\tank.tga")
-				button.tankTex:SetTexCoord(unpack(E.TexCoords));
-				button.tankTex:Size(17)
-
-				button.healerTex:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\healer.tga")
-				button.healerTex:SetTexCoord(unpack(E.TexCoords));
-				button.healerTex:Size(17)
-
-				button.damageTex:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\dps.tga")
-				button.damageTex:SetTexCoord(unpack(E.TexCoords));
-				button.damageTex:Size(15)
 			end
 		end
-	end)
+	end)]]
+
+	GuildInfoFrameTab1:Point("TOPLEFT", 55, 33)
+
+	for i = 1, 3 do
+		local headerTab = _G["GuildInfoFrameTab"..i]
+		headerTab:StripTextures()
+		headerTab.backdrop = CreateFrame("Frame", nil, headerTab)
+		headerTab.backdrop:SetTemplate("Default", true)
+		headerTab.backdrop:Point("TOPLEFT", 3, -7)
+		headerTab.backdrop:Point("BOTTOMRIGHT", -2, -1)
+		headerTab.backdrop:SetFrameLevel(headerTab:GetFrameLevel() - 1)
+
+		headerTab:HookScript("OnEnter", S.SetModifiedBackdrop);
+		headerTab:HookScript("OnLeave", S.SetOriginalBackdrop);
+	end
 
 	local backdrop1 = CreateFrame("Frame", nil, GuildInfoFrameInfo)
 	backdrop1:SetTemplate("Default")

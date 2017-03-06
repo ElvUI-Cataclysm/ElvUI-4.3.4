@@ -182,6 +182,7 @@ local function SetupCVars()
 	SetCVar("threatWarning", 3)
 	SetCVar('alwaysShowActionBars', 1)
 	SetCVar('lockActionBars', 1)
+	SetCVar("SpamFilter", 0)
 
 	InstallStepComplete.message = L["CVars Set"]
 	InstallStepComplete:Show()

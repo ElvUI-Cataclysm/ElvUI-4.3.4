@@ -21,10 +21,6 @@ local function LoadSkin()
 		S:HandleCheckBox(_G[v])
 	end
 
-	S:HandleCheckBox(LookingForGuildTankButton.checkButton)
-	S:HandleCheckBox(LookingForGuildHealerButton.checkButton)
-	S:HandleCheckBox(LookingForGuildDamagerButton.checkButton)
-
 	LookingForGuildFrameInset:StripTextures(false)
 	LookingForGuildFrame:StripTextures()
 	LookingForGuildFrame:SetTemplate("Transparent")
@@ -42,30 +38,32 @@ local function LoadSkin()
 	LookingForGuildCommentInputFrame:CreateBackdrop("Transparent")
 	LookingForGuildCommentInputFrame:StripTextures(false)
 
-	-- skin container buttons on browse and request page
 	for i = 1, 5 do
-		local b = _G["LookingForGuildBrowseFrameContainerButton"..i]
-		b.selectedTex:SetTexture(1, 1, 1, 0.3)
-		b:SetBackdrop(nil)
-		b:SetTemplate("Transparent")
-		b:StyleButton()
-	end
+		local button = _G["LookingForGuildBrowseFrameContainerButton"..i]
 
-	for i = 1, 5 do
+		button:SetBackdrop(nil)
+		button:SetTemplate("Transparent")
+		button:StyleButton()
+
+		button.selectedTex:SetTexture(1, 1, 1, 0.3);
+		button.selectedTex:SetInside();
+
+		button.name:Point("TOPLEFT", 75, -10);
+		button.level:Point("TOPLEFT", 58, -10);
+
 		_G["LookingForGuildBrowseFrameContainerButton"..i.."Ring"]:SetAlpha(0)
 		_G["LookingForGuildBrowseFrameContainerButton"..i.."LevelRing"]:SetAlpha(0)
 		_G["LookingForGuildBrowseFrameContainerButton"..i.."TabardBorder"]:SetAlpha(0)
-		_G["LookingForGuildBrowseFrameContainerButton"..i.."LevelRing"]:Point("TOPLEFT", -42, 33)
 	end
 
 	for i = 1, 10 do
-		local t = _G["LookingForGuildAppsFrameContainerButton"..i]
-		t:SetBackdrop(nil)
-		t:SetTemplate("Transparent")
-		t:StyleButton()
+		local button = _G["LookingForGuildAppsFrameContainerButton"..i]
+
+		button:SetBackdrop(nil)
+		button:SetTemplate("Transparent")
+		button:StyleButton()
 	end
 
-	-- skin tabs
 	for i = 1, 3 do
 		local headerTab = _G["LookingForGuildFrameTab"..i]
 		headerTab:StripTextures()
@@ -89,8 +87,13 @@ local function LoadSkin()
 	GuildFinderRequestMembershipFrameInputFrame:SetTemplate()
 
 	-- Role Icons
+	S:HandleCheckBox(LookingForGuildTankButton.checkButton)
 	LookingForGuildTankButton:GetChildren():SetFrameLevel(LookingForGuildTankButton:GetChildren():GetFrameLevel() + 2);
+
+	S:HandleCheckBox(LookingForGuildHealerButton.checkButton)
 	LookingForGuildHealerButton:GetChildren():SetFrameLevel(LookingForGuildHealerButton:GetChildren():GetFrameLevel() + 2);
+
+	S:HandleCheckBox(LookingForGuildDamagerButton.checkButton)
 	LookingForGuildDamagerButton:GetChildren():SetFrameLevel(LookingForGuildDamagerButton:GetChildren():GetFrameLevel() + 2);
 
 	LookingForGuildTankButton:StripTextures()

@@ -1,7 +1,9 @@
 local _, ns = ...
 local oUF = ns.oUF or oUF
-if not oUF then return end
- 
+
+local UnitAura = UnitAura
+local UnitCanAssist = UnitCanAssist
+
 local playerClass = select(2,UnitClass("player"))
 local CanDispel = {
 	PRIEST = { Magic = true, Disease = true, },

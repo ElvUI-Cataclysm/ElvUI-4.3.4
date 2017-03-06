@@ -179,6 +179,7 @@ local function LoadSkin()
 		QuestInfoItemReceiveText:SetTextColor(unpack(textColor))
 		QuestInfoSpellLearnText:SetTextColor(unpack(textColor))
 		QuestInfoXPFrameReceiveText:SetTextColor(unpack(textColor))	
+		QuestInfoSpellObjectiveLearnLabel:SetTextColor(unpack(textColor))
 
 		QuestObjectiveText()
 	end)

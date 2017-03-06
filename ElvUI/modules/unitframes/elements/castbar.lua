@@ -71,7 +71,7 @@ function UF:Construct_Castbar(frame, moverName)
 
 	local button = CreateFrame("Frame", nil, castbar);
 	local holder = CreateFrame("Frame", nil, castbar);
-	button:SetTemplate("Default", nil, nil, self.thinBorders and not E.global.tukuiMode);
+	button:SetTemplate("Default", nil, nil, self.thinBorders);
 
 	castbar.Holder = holder;
 

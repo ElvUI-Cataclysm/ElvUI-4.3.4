@@ -9,7 +9,8 @@ local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.talent ~= true) then return; end
 
 	PlayerTalentFrame:StripTextures()
-	PlayerTalentFrame:SetTemplate("Transparent")
+	PlayerTalentFrame:CreateBackdrop("Transparent")
+	PlayerTalentFrame.backdrop:Point("BOTTOMRIGHT", PlayerTalentFrame, 0, -1)
 
 	PlayerTalentFrameInset:StripTextures()
 	PlayerTalentFrameTalents:StripTextures()
@@ -334,8 +335,7 @@ local function LoadSkin()
 		end
 	end)
 
-	PlayerTalentFrameLearnButtonTutorial:StripTextures()
-	PlayerTalentFrameLearnButtonTutorial:SetTemplate()
+	PlayerTalentFrameLearnButtonTutorial:Kill()
 
 	S:HandleCloseButton(PlayerTalentFrameLearnButtonTutorialCloseButton)
 end

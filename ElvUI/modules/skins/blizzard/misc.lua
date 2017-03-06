@@ -115,7 +115,16 @@ local function LoadSkin()
 
 	ConsolidatedBuffsTooltip:SetTemplate("Transparent");
 
-	StreamingIcon:Point("LEFT", GhostFrame, "RIGHT", -30, 200)
+	StreamingIcon:ClearAllPoints()
+	StreamingIcon:Point("TOP", UIParent, "TOP", 0, -100)
+ 
+	if GetLocale() == "koKR" then
+		S:HandleButton(GameMenuButtonRatings);
+
+		RatingMenuFrame:SetTemplate("Transparent");
+		RatingMenuFrameHeader:Kill()
+		S:HandleButton(RatingMenuButtonOkay);
+	end
 
 	-- BNToast Frame
 	BNToastFrame:SetTemplate("Transparent");
@@ -355,7 +364,7 @@ local function LoadSkin()
 	-- Options/Interface Buttons Position
 	VideoOptionsFrameCancel:ClearAllPoints();
 	VideoOptionsFrameCancel:Point("RIGHT", VideoOptionsFrameApply, "LEFT", -4, 0);
-	
+
 	VideoOptionsFrameOkay:ClearAllPoints();
 	VideoOptionsFrameOkay:Point("RIGHT", VideoOptionsFrameCancel, "LEFT", -4, 0);
 
@@ -742,6 +751,14 @@ local function LoadSkin()
 	InterfaceOptionsFrame:SetScript("OnDragStop", function(self) 
 		self:StopMovingOrSizing();
 	end);
+	InterfaceOptionsFrame:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", -1, 4);
+		GameTooltip:ClearLines();
+		GameTooltip:AddDoubleLine(L["Hold Shift + Drag:"], L["Temporary Move"], 1, 1, 1);
+
+		GameTooltip:Show();
+	end);
+	InterfaceOptionsFrame:SetScript("OnLeave", function() GameTooltip:Hide(); end);
 
 	-- Chat Menu
 	local ChatMenus = {

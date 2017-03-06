@@ -83,7 +83,7 @@ function AddOn:OnInitialize()
 
 	self:RegisterEvent('PLAYER_REGEN_DISABLED')
 	--self:RegisterEvent('PLAYER_LOGIN', 'Initialize')
-	self:Contruct_StaticPopups()	
+	self:Contruct_StaticPopups()
 	self:InitializeInitialModules()
 
 	if IsAddOnLoaded("Tukui") then
@@ -99,6 +99,13 @@ function AddOn:OnInitialize()
 		HideUIPanel(GameMenuFrame);
 	end);
 	GameMenuFrame[AddOnName] = GameMenuButton;
+
+	GameMenuButtonRatings:HookScript("OnShow", function(self)
+		GameMenuFrame:SetHeight(GameMenuFrame:GetHeight() + self:GetHeight());
+	end)
+	GameMenuButtonRatings:HookScript("OnHide", function(self)
+		GameMenuFrame:SetHeight(GameMenuFrame:GetHeight() - self:GetHeight());
+	end)
 
 	GameMenuFrame:HookScript("OnShow", function()
 		if(not GameMenuFrame.isElvUI) then
