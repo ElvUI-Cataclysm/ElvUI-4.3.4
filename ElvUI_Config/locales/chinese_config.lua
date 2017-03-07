@@ -723,7 +723,7 @@ L["Block Auras Without Duration"] = "不显示永久的光环"
 L["Block Blacklisted Auras"] = "不显示黑名单中的光环"
 L["Block Non-Dispellable Auras"] = "只显示可驱散的光环"
 L["Block Non-Personal Auras"] = "只显示个人光环"
-L["Block Raid Buffs"] = true;
+L["Block Raid Buffs"] = "不显示团队BUFF"
 L["Blood"] = "鲜血符文"
 L["Borders"] = "边框"
 L["Buff Indicator"] = "Buff 提示器"
@@ -942,7 +942,7 @@ L["Rapidly update the health, uses more memory and cpu. Only recommended for hea
 L["Reaction Castbars"] = "声望施法条"
 L["Reactions"] = "声望"
 L["Remaining"] = "剩余生命值"
-L["Remove a spell from the filter. Use the spell ID if you see the ID as part of the spell name in the filter."] = true;
+L["Remove a spell from the filter. Use the spell ID if you see the ID as part of the spell name in the filter."] = "从过滤器中移除一个技能. 当你看见有ID在过滤器中的技能名字时使用技能ID"
 L["Remove a spell from the filter."] = "从过滤器中移除一个技能"
 L["Remove Spell ID or Name"] = "移除技能ID或者名称"
 L["Remove SpellID"] = "移除技能ID"
