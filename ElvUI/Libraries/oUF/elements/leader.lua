@@ -12,7 +12,7 @@ local Update = function(self, event)
 	end
 
 	local unit = self.unit;
-	local isLeader =  UnitIsPartyLeader(unit) and (UnitInParty(unit) or UnitInRaid(unit));
+	local isLeader = (UnitInParty(unit) or UnitInRaid(unit)) and UnitIsPartyLeader(unit)
 	if(isLeader) then
 		leader:Show();
 	else

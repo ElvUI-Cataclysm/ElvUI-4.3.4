@@ -5,7 +5,7 @@ local GetThreatStatusColor = GetThreatStatusColor
 local UnitThreatSituation = UnitThreatSituation
 
 local Update = function(self, event, unit)
-	if(unit ~= self.unit) then return end
+	if(not unit or self.unit ~= unit) then return end
 
 	local threat = self.Threat
 	if(threat.PreUpdate) then threat:PreUpdate(unit) end

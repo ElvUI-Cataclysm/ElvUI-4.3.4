@@ -5,11 +5,6 @@ local _VERSION = GetAddOnMetadata(parent, "version");
 local oUF = ns.oUF;
 local Private = oUF.Private;
 
-local argcheck = Private.argcheck;
-
-local print = Private.print;
-local error = Private.error;
-
 local upper, lower = string.upper, string.lower;
 local split = string.split;
 local tinsert, tremove = table.insert, table.remove;
@@ -21,11 +16,16 @@ local UnitIsPlayer = UnitIsPlayer
 local UnitInRaid = UnitInRaid
 local UnitInParty = UnitInParty
 
-local styles, style = {};
-local callback, objects = {}, {};
+local argcheck = Private.argcheck
 
-local elements = {};
-local activeElements = {};
+local print = Private.print
+local error = Private.error
+
+local styles, style = {}
+local callback, objects, headers = {}, {}, {}
+
+local elements = {}
+local activeElements = {}
 
 local enableTargetUpdate = function(object)
 	object.onUpdateFrequency = object.onUpdateFrequency or .5;
@@ -57,10 +57,17 @@ local updateActiveUnit = function(self, event, unit)
 		modUnit = "vehicle";
 	end
 
-	if(not UnitExists(modUnit)) then return end
+	if(not UnitExists(modUnit)) then
+		if(modUnit) then
+			modUnit = realUnit
+		else
+			return
+		end
+	end
 
 	if(Private.UpdateUnits(self, modUnit, realUnit)) then
 		self:UpdateAllElements("RefreshUnit");
+
 		return true;
 	end
 end
@@ -88,28 +95,17 @@ local OnAttributeChanged = function(self, name, value)
 end
 
 local frame_metatable = {
-	__index = CreateFrame("Button");
-};
-Private.frame_metatable = frame_metatable;
+	__index = CreateFrame("Button")
+}
+Private.frame_metatable = frame_metatable
 
 for k, v in pairs{
-	UpdateElement = function(self, name)
-		local unit = self.unit;
-		if(not unit or not UnitExists(unit)) then return; end
-
-		local element = elements[name];
-		if(not element or not self:IsElementEnabled(name) or not activeElements[self]) then return; end
-		if(element.update) then
-			element.update(self, "OnShow", unit);
-		end
-	end,
-
 	EnableElement = function(self, name, unit)
-		argcheck(name, 2, "string");
-		argcheck(unit, 3, "string", "nil");
+		argcheck(name, 2, "string")
+		argcheck(unit, 3, "string", "nil")
 
-		local element = elements[name];
-		if(not element or self:IsElementEnabled(name) or not activeElements[self]) then return; end
+		local element = elements[name]
+		if(not element or self:IsElementEnabled(name) or not activeElements[self]) then return end
 
 		if(element.enable(self, unit or self.unit)) then
 			activeElements[self][name] = true;
@@ -161,7 +157,7 @@ for k, v in pairs{
 		local unit = self.unit;
 		if(not unit or not UnitExists(unit)) then return; end
 
-		assert(type(event) == 'string', 'Invalid argument "event" in UpdateAllElements.')
+		assert(type(event) == "string", "Invalid argument 'event' in UpdateAllElements.")
 
 		if(self.PreUpdate) then
 			self:PreUpdate(event);
@@ -172,11 +168,22 @@ for k, v in pairs{
 		end
 
 		if(self.PostUpdate) then
-			self:PostUpdate(event);
+			self:PostUpdate(event)
+		end
+	end,
+
+	UpdateElement = function(self, name)
+		local unit = self.unit
+		if(not unit or not UnitExists(unit)) then return end
+
+		local element = elements[name]
+		if(not element or not self:IsElementEnabled(name) or not activeElements[self]) then return end
+		if(element.update) then
+			element.update(self, "OnShow", unit)
 		end
 	end,
 } do
-	frame_metatable.__index[k] = v;
+	frame_metatable.__index[k] = v
 end
 
 local OnShow = function(self)
@@ -284,13 +291,13 @@ local initObject = function(unit, style, styleFunc, header, ...)
 			object:RegisterEvent("PLAYER_ENTERING_WORLD", updateActiveUnit);
 
 			if(objectUnit ~= "player") then
-				object:RegisterEvent("UNIT_PET", UpdatePet);
+				object:RegisterEvent("UNIT_PET", UpdatePet, true)
 			end
 		end
 
 		if(not header) then
-			object:SetAttribute("*type1", "target")
 			object.menu = togglemenu;
+			object:SetAttribute("*type1", "target")
 			object:SetAttribute('*type2', 'menu')
 
 			if(not (unit:match'target' or suffix == 'target')) then

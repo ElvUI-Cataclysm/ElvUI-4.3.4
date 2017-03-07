@@ -73,12 +73,12 @@ local customFilter = function(icons, unit, icon, name)
 end
 
 local updateIcon = function(unit, icons, index, offset, filter, isDebuff, visible)
-	local name, rank, texture, count, dtype, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff = UnitAura(unit, index, filter)
+	local name, rank, texture, count, dispelType, duration, expiration, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff = UnitAura(unit, index, filter)
 
 	if icons.forceShow then
 		spellID = 47540
 		name, rank, texture = GetSpellInfo(spellID)
-		count, dtype, duration, timeLeft, caster, isStealable, shouldConsolidate, canApplyAura, isBossDebuff = 5, 'Magic', 0, 60, 'player', nil, nil, nil, nil
+		count, dispelType, duration, expiration, caster, isStealable, shouldConsolidate, canApplyAura, isBossDebuff = 5, 'Magic', 0, 60, 'player', nil, nil, nil, nil
 	end
 
 	if(name) then
@@ -106,13 +106,13 @@ local updateIcon = function(unit, icons, index, offset, filter, isDebuff, visibl
 
 		local show = true
 		if not icons.forceShow then
-			show = (icons.CustomFilter or customFilter) (icons, unit, icon, name, rank, texture, count, dtype, duration, timeLeft, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff)
+			show = (icons.CustomFilter or customFilter) (icons, unit, icon, name, rank, texture, count, dispelType, duration, expiration, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff)
 		end
 		if(show) then
 			local cd = icon.cd
 			if(cd and not icons.disableCooldown) then
 				if(duration and duration > 0) then
-					cd:SetCooldown(timeLeft - duration, duration)
+					cd:SetCooldown(expiration - duration, duration)
 					cd:Show()
 				else
 					cd:Hide()
@@ -120,7 +120,7 @@ local updateIcon = function(unit, icons, index, offset, filter, isDebuff, visibl
 			end
 
 			if((isDebuff and icons.showDebuffType) or (not isDebuff and icons.showBuffType) or icons.showType) then
-				local color = DebuffTypeColor[dtype] or DebuffTypeColor.none
+				local color = DebuffTypeColor[dispelType] or DebuffTypeColor.none
 
 				icon.overlay:SetVertexColor(color.r, color.g, color.b)
 				icon.overlay:Show()

@@ -250,10 +250,10 @@ local Disable = function(self)
 		for k, frame in next, _FRAMES do
 			if(frame == self) then
 				tremove(_FRAMES, k)
-				frame:SetAlpha(1)
 				break
 			end
 		end
+		self:SetAlpha(1)
 
 		if(#_FRAMES == 0) then
 			OnRangeFrame:Hide()

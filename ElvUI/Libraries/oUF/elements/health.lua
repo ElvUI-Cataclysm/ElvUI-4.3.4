@@ -3,15 +3,16 @@ local oUF = ns.oUF
 
 local unpack = unpack
 
+local UnitClass = UnitClass
 local UnitHealth = UnitHealth
 local UnitHealthMax = UnitHealthMax
 local UnitIsConnected = UnitIsConnected
 local UnitIsPlayer = UnitIsPlayer
-local UnitPlayerControlled = UnitPlayerControlled
-local UnitClass = UnitClass
-local UnitReaction = UnitReaction
 local UnitIsTapped = UnitIsTapped
+local UnitIsTappedByAllThreatList = UnitIsTappedByAllThreatList
 local UnitIsTappedByPlayer = UnitIsTappedByPlayer
+local UnitPlayerControlled = UnitPlayerControlled
+local UnitReaction = UnitReaction
 
 oUF.colors.health = {49/255, 207/255, 37/255}
 
@@ -34,7 +35,7 @@ local Update = function(self, event, unit)
 	health.disconnected = disconnected
 
 	local r, g, b, t
-	if(health.colorTapping and UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit)) then
+	if(health.colorTapping and not UnitPlayerControlled(unit) and (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit) and not UnitIsTappedByAllThreatList(unit))) then
 		t = self.colors.tapped
 	elseif(health.colorDisconnected and not UnitIsConnected(unit)) then
 		t = self.colors.disconnected
@@ -59,7 +60,8 @@ local Update = function(self, event, unit)
 		health:SetStatusBarColor(r, g, b)
 
 		local bg = health.bg
-		if(bg) then local mu = bg.multiplier or 1
+		if(bg) then
+			local mu = bg.multiplier or 1
 			bg:SetVertexColor(r * mu, g * mu, b * mu)
 		end
 	end

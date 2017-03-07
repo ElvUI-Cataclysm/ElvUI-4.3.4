@@ -67,7 +67,7 @@ local Enable = function(self, unit)
 		-- DISABLE isn"t used as it fires when we most likely don"t have the
 		-- information we want.
 		if(unit == "party") then
-			self:RegisterEvent("PARTY_MEMBER_ENABLE", Update);
+			self:RegisterEvent("PARTY_MEMBER_ENABLE", Path);
 		end
 
 		return true;

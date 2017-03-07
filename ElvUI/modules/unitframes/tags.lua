@@ -523,7 +523,7 @@ end
 ElvUF.Tags.Events["threatcolor"] = "UNIT_THREAT_LIST_UPDATE"
 ElvUF.Tags.Methods["threatcolor"] = function(unit)
 	local _, status = UnitDetailedThreatSituation("player", unit)
-	if(status) and (GetNumPartyMembers() or UnitExists("pet")) then
+	if(status) and (GetNumPartyMembers() > 0 or UnitExists("pet")) then
 		return Hex(GetThreatStatusColor(status))
 	else 
 		return ""

@@ -6,13 +6,35 @@ local unpack = unpack
 local format = string.format
 local tinsert, tremove = table.insert, table.remove
 
-local UnitHealth = UnitHealth
-local UnitPower = UnitPower
-local UnitHealthMax = UnitHealthMax
-local UnitPowerMax = UnitPowerMax
+local GetComboPoints = GetComboPoints
+local GetNumRaidMembers = GetNumRaidMembers
+local GetQuestDifficultyColor = GetQuestDifficultyColor
+local GetRaidRosterInfo = GetRaidRosterInfo
+local GetThreatStatusColor = GetThreatStatusColor
+local IsResting = IsResting
+local UnitCanAttack = UnitCanAttack
 local UnitClass = UnitClass
+local UnitClassification = UnitClassification
+local UnitCreatureFamily = UnitCreatureFamily
+local UnitCreatureType = UnitCreatureType
 local UnitFactionGroup = UnitFactionGroup
+local UnitHasVehicleUI = UnitHasVehicleUI
+local UnitHealth = UnitHealth
+local UnitHealthMax = UnitHealthMax
+local UnitIsConnected = UnitIsConnected
+local UnitIsDead = UnitIsDead
+local UnitIsGhost = UnitIsGhost
+local UnitIsPVP = UnitIsPVP
+local UnitIsPartyLeader = UnitIsPartyLeader
+local UnitIsPlayer = UnitIsPlayer
+local UnitLevel = UnitLevel
+local UnitName = UnitName
+local UnitPower = UnitPower
+local UnitPowerMax = UnitPowerMax
+local UnitPowerType = UnitPowerType
 local UnitRace = UnitRace
+local UnitSex = UnitSex
+local UnitThreatSituation = UnitThreatSituation
 
 local _PATTERN = '%[..-%]+'
 
@@ -56,7 +78,7 @@ local tagStrings = {
 		end
 	end]],
 
-	["leaderlong"]  = [[function(u)
+	["leaderlong"] = [[function(u)
 		if(UnitIsPartyLeader(u)) then
 			return 'Leader'
 		end
@@ -192,7 +214,7 @@ local tagStrings = {
 
 	["cpoints"] = [[function(u)
 		local cp
-		if(UnitHasVehicleUI'player') then
+		if(UnitHasVehicleUI("player")) then
 			cp = GetComboPoints('vehicle', 'target')
 		else
 			cp = GetComboPoints('player', 'target')
@@ -297,6 +319,25 @@ local tagStrings = {
 			return num
 		end
 	end]],
+
+	["powercolor"] = [[function(u)
+		local pType, pToken, altR, altG, altB = UnitPowerType(u)
+		local t = _COLORS.power[pToken]
+
+		if(not t) then
+			if(altR) then
+				if(altR > 1 or altG > 1 or altB > 1) then
+					return Hex(altR / 255, altG / 255, altB / 255)
+				else
+					return Hex(altR, altG, altB)
+				end
+			else
+				return Hex(_COLORS.power[pType])
+			end
+		end
+
+		return Hex(t)
+	end]],
 }
 
 local tags = setmetatable(
@@ -345,7 +386,6 @@ local tags = setmetatable(
 
 _ENV._TAGS = tags
 
-local onUpdateDelay = {}
 local tagEvents = {
 	["curhp"]               = "UNIT_HEALTH",
 	["dead"]                = "UNIT_HEALTH",
@@ -377,6 +417,7 @@ local tagEvents = {
 	['maxmana']             = 'UNIT_POWER UNIT_MAXPOWER',
 	['soulshards']          = 'UNIT_POWER',
 	['holypower']           = 'UNIT_POWER',
+	['powercolor']          = 'UNIT_DISPLAYPOWER',
 }
 
 local unitlessEvents = {
@@ -384,9 +425,9 @@ local unitlessEvents = {
 	PLAYER_UPDATE_RESTING = true,
 	PLAYER_TARGET_CHANGED = true,
 
-	PARTY_LEADER_CHANGED = true,
-
 	RAID_ROSTER_UPDATE = true,
+	PARTY_MEMBERS_CHANGED = true,
+	PARTY_LEADER_CHANGED = true,
 
 	UNIT_COMBO_POINTS = true
 }
@@ -412,13 +453,13 @@ local createOnUpdate = function(timer)
 
 	if(not OnUpdate) then
 		local total = timer
-		local frame = CreateFrame'Frame'
+		local frame = CreateFrame("Frame")
 		local strings = eventlessUnits[timer]
 
 		frame:SetScript('OnUpdate', function(_, elapsed)
 			if(total >= timer) then
 				for k, fs in next, strings do
-					if(fs.parent:IsShown() and UnitExists(fs.parent.unit)) then
+					if(fs.parent:IsVisible() and UnitExists(fs.parent.unit)) then
 						fs:UpdateTag()
 					end
 				end
@@ -459,7 +500,7 @@ local RegisterEvents = function(fontstr, tagstr)
 		tag = getTagName(tag)
 		local tagevents = tagEvents[tag]
 		if(tagevents) then
-			for event in tagevents:gmatch'%S+' do
+			for event in tagevents:gmatch("%S+") do
 				RegisterEvent(fontstr, event)
 			end
 		end
@@ -492,15 +533,17 @@ local OnLeave = function(self)
 	end
 end
 
-local tagPool = {}
-local funcPool = {}
-local tmp = {}
 local escapeSequences = {
 	["||c"] = "|c",
 	["||r"] = "|r",
 	["||T"] = "|T",
 	["||t"] = "|t",
 }
+
+local onUpdateDelay = {}
+local tagPool = {}
+local funcPool = {}
+local tmp = {}
 
 local Tag = function(self, fs, tagstr)
 	if(not fs or not tagstr) then return end
@@ -685,7 +728,7 @@ local Tag = function(self, fs, tagstr)
 	fs.UpdateTag = func
 
 	local unit = self.unit
-	if((unit and unit:match'%w+target') or fs.frequentUpdates) or containsOnUpdate then
+	if(self.__eventless or fs.frequentUpdates) or containsOnUpdate then
 		local timer
 		if(type(fs.frequentUpdates) == 'number') then
 			timer = fs.frequentUpdates
