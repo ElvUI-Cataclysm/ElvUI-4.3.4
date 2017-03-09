@@ -200,10 +200,20 @@ function RU:Initialize()
 	ConvertGroupButton:SetScript("OnMouseUp", function()
 		if(UnitInRaid("player")) then
 			ConvertToParty()
-			ConvertGroupButton:SetText(CONVERT_TO_RAID)
 		elseif(UnitInParty("player")) then
 			ConvertToRaid()
+		end
+	end)
+	ConvertGroupButton:SetScript("OnUpdate", function()
+		if(not IsRaidLeader("player")) then
+			ConvertGroupButton:Disable()
+		else
+			ConvertGroupButton:Enable()
+		end
+		if(UnitInRaid("player")) then
 			ConvertGroupButton:SetText(CONVERT_TO_PARTY)
+		elseif(UnitInParty("player")) then
+			ConvertGroupButton:SetText(CONVERT_TO_RAID)
 		end
 	end)
 
