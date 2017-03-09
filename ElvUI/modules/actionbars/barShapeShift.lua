@@ -6,10 +6,11 @@ local ceil = math.ceil;
 local lower = string.lower;
 
 local CreateFrame = CreateFrame;
+local GetSpellInfo = GetSpellInfo;
+local GetShapeshiftForm = GetShapeshiftForm;
 local GetNumShapeshiftForms = GetNumShapeshiftForms;
 local GetShapeshiftFormCooldown = GetShapeshiftFormCooldown;
 local GetShapeshiftFormInfo = GetShapeshiftFormInfo;
-local GetSpellInfo = GetSpellInfo;
 local InCombatLockdown = InCombatLockdown;
 local GetBindingKey = GetBindingKey;
 local NUM_SHAPESHIFT_SLOTS = NUM_SHAPESHIFT_SLOTS;

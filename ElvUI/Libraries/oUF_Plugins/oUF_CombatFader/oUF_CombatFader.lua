@@ -24,11 +24,11 @@ local FadeFramesInOut = function(fade, unit)
 		if not UnitExists(unit) then return end
 		if fade then
 			if frame:GetAlpha() ~= 1 or (frame.fadeInfo and frame.fadeInfo.endAlpha == 0) then
-				E:UIFrameFadeIn(frame, 0.35)
+				E:UIFrameFadeIn(frame, 0.15)
 			end
 		else
 			if frame:GetAlpha() ~= 0 then
-				E:UIFrameFadeOut(frame, 0.35)
+				E:UIFrameFadeOut(frame, 0.15)
 				frame.fadeInfo.finishedFunc = CheckForReset
 			else
 				showStatus = false;
@@ -51,7 +51,7 @@ local Update = function(self, arg1, arg2)
 	local E = unpack(ElvUI)
 
 	if not frames[self] then
-		E:UIFrameFadeIn(self, 0.35)
+		E:UIFrameFadeIn(self, 0.15)
 		self.fadeInfo.reset = true
 		return
 	end

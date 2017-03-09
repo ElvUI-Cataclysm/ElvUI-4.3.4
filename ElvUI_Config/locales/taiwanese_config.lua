@@ -487,6 +487,7 @@ L["Minimap Buttons"] = "小地圖按鈕"
 L["Minimap Mouseover"] = "小地圖滑鼠滑過"
 L["Puts coordinates on the world map."] = "在世界地圖上放置坐標"
 L["Reset Zoom"] = "重置縮放"
+L["PvP Queue"] = true;
 L["Right"] = "右"
 L["Scale"] = "縮放"
 L["Smaller World Map"] = "更小的世界地圖"

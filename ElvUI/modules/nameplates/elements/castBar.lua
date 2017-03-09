@@ -48,13 +48,13 @@ function mod:UpdateElement_CastBarOnValueChanged(value)
 		end
 	end
 
-	local spell, _, spellName, iconTexture = UnitCastingInfo("target");
+	local spell, _, spellName = UnitCastingInfo("target");
 	if(not spell) then
-		spell, _, spellName, iconTexture = UnitChannelInfo("target");
+		spell, _, spellName = UnitChannelInfo("target");
 	end
 
 	frame.CastBar.Name:SetText(spellName)
-	frame.CastBar.Icon.texture:SetTexture(iconTexture);
+	frame.CastBar.Icon.texture:SetTexture(self.Icon:GetTexture())
 	frame.CastBar:SetStatusBarColor(color.r, color.g, color.b);
 end
 

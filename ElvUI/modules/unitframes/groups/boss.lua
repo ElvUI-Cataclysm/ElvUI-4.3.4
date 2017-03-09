@@ -33,6 +33,7 @@ function UF:Construct_BossFrames(frame)
 	frame.Castbar = self:Construct_Castbar(frame);
 	frame.RaidIcon = UF:Construct_RaidIcon(frame);
 	frame.AltPowerBar = self:Construct_AltPowerBar(frame)
+	frame.ClassBar = "AltPowerBar"
 	frame.Range = UF:Construct_Range(frame);
 	frame:SetAttribute("type2", "focus");
 	frame.customTexts = {};
@@ -79,6 +80,9 @@ function UF:Update_BossFrames(frame, db)
 		frame.INFO_PANEL_HEIGHT = frame.USE_INFO_PANEL and db.infoPanel.height or 0;
 
 		frame.BOTTOM_OFFSET = UF:GetHealthBottomOffset(frame);
+
+		frame.USE_TARGET_GLOW = db.targetGlow
+
 		frame.VARIABLES_SET = true
 	end
 

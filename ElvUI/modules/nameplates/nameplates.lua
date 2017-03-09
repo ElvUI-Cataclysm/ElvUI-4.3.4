@@ -7,7 +7,7 @@ local tonumber, pairs, select, tostring, unpack = tonumber, pairs, select, tostr
 local twipe = table.wipe;
 local band = bit.band;
 local floor = math.floor;
-local format, find, gsub, split = string.format, string.find, string.gsub, string.split;
+local format, find, gsub, strsplit = string.format, string.find, string.gsub, strsplit;
 
 local CreateFrame = CreateFrame;
 local GetTime = GetTime;
@@ -597,10 +597,10 @@ end
 function mod:CreatePlate(frame)
 	local HealthBar, CastBar = frame:GetChildren();
 	local Threat, Border, Highlight, Name, Level, BossIcon, RaidIcon, EliteIcon = frame:GetRegions();
-	local _, cbborder, cbshield, cbicon = CastBar:GetRegions()
+	local _, CastBarBorder, CastBarShield, CastBarIcon = CastBar:GetRegions()
 
 	frame.HealthBar = self:ConstructElement_HealthBar(frame);
-	cbicon:SetParent(E.HiddenFrame);
+	CastBarIcon:SetParent(E.HiddenFrame);
 	frame.CastBar = self:ConstructElement_CastBar(frame);
 	frame.Level = self:ConstructElement_Level(frame);
 	frame.Name = self:ConstructElement_Name(frame);
@@ -631,8 +631,8 @@ function mod:CreatePlate(frame)
 	frame.oldHealthBar = HealthBar;
 	frame.oldCastBar = CastBar;
 	frame.Threat = Threat;
-	frame.oldCastBar.Shield = cbshield;
-	frame.oldCastBar.Icon = cbicon;
+	frame.oldCastBar.Shield = CastBarShield;
+	frame.oldCastBar.Icon = CastBarIcon;
 	frame.oldname = Name;
 	frame.oldHighlight = Highlight;
 	frame.oldLevel = Level;
@@ -646,10 +646,10 @@ function mod:CreatePlate(frame)
 	self:QueueObject(frame, Name);
 	self:QueueObject(frame, Threat);
 	self:QueueObject(frame, Border);
-	self:QueueObject(frame, cbborder);
-	self:QueueObject(frame, cbshield);
 	self:QueueObject(frame, Highlight);
-	self:QueueObject(frame, cbicon);
+	self:QueueObject(frame, CastBarBorder);
+	self:QueueObject(frame, CastBarShield);
+	self:QueueObject(frame, CastBarIcon);
 
 	self.CreatedPlates[frame] = true;
 	self.UpdateSettings(frame);
@@ -943,7 +943,7 @@ end
 
 function mod:SearchNameplateByName(sourceName)
 	if(not sourceName) then return; end
-	local SearchFor = split("-", sourceName)
+	local SearchFor = strsplit("-", sourceName)
 	for frame in pairs(self.CreatedPlates) do
 		if(frame and frame:IsShown() and frame.NameText == SearchFor and RAID_CLASS_COLORS[frame.unitType]) then
 			return frame;
@@ -1033,7 +1033,7 @@ function mod:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, ...)
 
 		local name, raidIcon;
 		if(band(destFlags, COMBATLOG_OBJECT_CONTROL_PLAYER) > 0 and destName) then
-			local rawName = split("-", destName);
+			local rawName = strsplit("-", destName);
 			self.ByName[rawName] = destGUID;
 			name = rawName;
 		end
