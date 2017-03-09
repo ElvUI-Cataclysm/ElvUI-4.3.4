@@ -1130,17 +1130,15 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 					pflag = _G["CHAT_FLAG_"..arg6];
 				end
 			else
-				local myRealm = E.myrealm
-				myRealm = myRealm:gsub(' ', '')
-				if specialChatIcons[myRealm] then
-					for character, texture in pairs(specialChatIcons[myRealm]) do
+				if specialChatIcons[PLAYER_REALM] then
+					for character, texture in pairs(specialChatIcons[PLAYER_REALM]) do
 						if arg2 == character then
 							pflag = texture
 						end
 					end
 
 					for realm, _ in pairs(specialChatIcons) do
-						if realm ~= myRealm then
+						if realm ~= PLAYER_REALM then
 							for character, texture in pairs(specialChatIcons[realm]) do
 								if arg2 == character.."-"..realm then
 									pflag = texture
@@ -1158,7 +1156,11 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 					end
 				end
 
-				if(not pflag and lfgRoles[arg2] and (type == "PARTY_LEADER" or type == "PARTY" or type == "RAID" or type == "RAID_LEADER" or type == "INSTANCE_CHAT" or type == "INSTANCE_CHAT_LEADER")) then
+				if(pflag == true) then
+					pflag = nil
+				end
+
+				if(not pflag and lfgRoles[arg2] and (type == "PARTY_LEADER" or type == "PARTY" or type == "RAID" or type == "RAID_LEADER" or type == "BATTLEGROUND" or type == "BATTLEGROUND_LEADER")) then
 					pflag = lfgRoles[arg2]
  				end
 
