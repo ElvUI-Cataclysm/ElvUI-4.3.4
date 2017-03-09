@@ -1181,16 +1181,16 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			local term;
 			for tag in gmatch(arg1, "%b{}") do
 				term = strlower(gsub(tag, "[{}]", ""));
-				if ( ICON_TAG_LIST[term] and ICON_LIST[ICON_TAG_LIST[term]] ) then
+				if(ICON_TAG_LIST[term] and ICON_LIST[ICON_TAG_LIST[term]]) then
 					arg1 = gsub(arg1, tag, ICON_LIST[ICON_TAG_LIST[term]] .. "0|t");
-				elseif ( GROUP_TAG_LIST[term] ) then
+				elseif(GROUP_TAG_LIST[term]) then
 					local groupIndex = GROUP_TAG_LIST[term];
 					local groupList = "[";
-					for i=1, GetNumGroupMembers() do
-						local name, rank, subgroup, level, class, classFileName = GetRaidRosterInfo(i);
-						if ( name and subgroup == groupIndex ) then
-							local classColorTable = RAID_CLASS_COLORS[classFileName];
-							if ( classColorTable ) then
+					for i = 1, GetNumGroupMembers() do
+						local name, _, subgroup, _, _, classFileName = GetRaidRosterInfo(i);
+						if(name and subgroup == groupIndex) then
+							local classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classFileName] or RAID_CLASS_COLORS[classFileName];
+							if(classColorTable) then
 								name = format("\124cff%.2x%.2x%.2x%s\124r", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255, name);
 							end
 							groupList = groupList..(groupList == "[" and "" or GlobalStrings.PLAYER_LIST_DELIMITER)..name;
