@@ -204,16 +204,16 @@ function RU:Initialize()
 			ConvertToRaid()
 		end
 	end)
-	ConvertGroupButton:SetScript("OnUpdate", function()
+	ConvertGroupButton:SetScript("OnUpdate", function(self)
 		if(not IsRaidLeader("player")) then
-			ConvertGroupButton:Disable()
+			self:Disable()
 		else
-			ConvertGroupButton:Enable()
+			self:Enable()
 		end
 		if(UnitInRaid("player")) then
-			ConvertGroupButton:SetText(CONVERT_TO_PARTY)
+			self:SetText(CONVERT_TO_PARTY)
 		elseif(UnitInParty("player")) then
-			ConvertGroupButton:SetText(CONVERT_TO_RAID)
+			self:SetText(CONVERT_TO_RAID)
 		end
 	end)
 
