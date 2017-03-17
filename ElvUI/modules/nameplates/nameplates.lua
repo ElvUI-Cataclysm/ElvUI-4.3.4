@@ -462,7 +462,6 @@ function mod:SetUnitInfo()
 	if(self:GetAlpha() == 1 and mod.targetName and (mod.targetName == plateName)) then
 		self.guid = UnitGUID("target")
 		self.unit = "target"
-		self.maxHP = UnitHealthMax("target")
 		self.Highlight:Hide();
 
 		if(mod.db.targetIndicator.enable) then
@@ -489,7 +488,6 @@ function mod:SetUnitInfo()
 		end
 		self.guid = UnitGUID("mouseover")
 		self.unit = "mouseover"
-		self.maxHP = UnitHealthMax("mouseover")
 		mod:UpdateElement_AurasByUnitID("mouseover");
 	else
 		self.Highlight:Hide();
@@ -1067,11 +1065,9 @@ function mod:PLAYER_TARGET_CHANGED()
 		self.targetName = UnitName("target");
 		WorldFrame.elapsed = 0.1;
 		mod.NumTargetChecks = 0;
-		targetAlpha = E.db.nameplate.targetAlpha;
 	else
 		targetIndicator:Hide();
 		self.targetName = nil;
-		targetAlpha = 1;
 	end
 end
 

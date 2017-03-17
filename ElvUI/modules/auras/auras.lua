@@ -122,6 +122,8 @@ end
 
 local buttons = {};
 function A:ConfigureAuras(header, auraTable)
+	local headerName = header:GetName()
+
 	local db = self.db.debuffs;
 	if(header.filter == "HELPFUL") then
 		db = self.db.buffs;
@@ -156,7 +158,7 @@ function A:ConfigureAuras(header, auraTable)
 
 	wipe(buttons);
 	for i = 1, #auraTable do
-		local button = select(i, header:GetChildren());
+		local button = _G[headerName.."AuraButton"..i]
 		if(button) then
 			if(button:IsShown()) then button:Hide(); end
 		else
@@ -234,11 +236,11 @@ function A:ConfigureAuras(header, auraTable)
 		bottom = min(bottom, button:GetBottom() or huge);
 	end
 	local deadIndex = #(auraTable) + 1;
-	local button = select(deadIndex, header:GetChildren());
+	local button = _G[headerName.."AuraButton"..deadIndex]
 	while(button) do
 		if(button:IsShown()) then button:Hide(); end
 		deadIndex = deadIndex + 1;
-		button = select(deadIndex, header:GetChildren());
+		button = _G[headerName.."AuraButton"..deadIndex]
 	end
 
 	if(display >= 1) then

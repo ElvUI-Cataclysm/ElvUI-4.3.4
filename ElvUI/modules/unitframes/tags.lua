@@ -42,6 +42,7 @@ local SPELL_POWER_HOLY_POWER = SPELL_POWER_HOLY_POWER;
 local ALTERNATE_POWER_INDEX = ALTERNATE_POWER_INDEX
 local SPELL_POWER_ECLIPSE = SPELL_POWER_ECLIPSE;
 local SPELL_POWER_SOUL_SHARDS = SPELL_POWER_SOUL_SHARDS;
+local SPELL_POWER_MANA = SPELL_POWER_MANA;
 local MOONKIN_FORM = MOONKIN_FORM;
 local PVP = PVP;
 
@@ -378,6 +379,63 @@ end
 ElvUF.Tags.Events["power:max"] = "UNIT_DISPLAYPOWER UNIT_MAXPOWER"
 ElvUF.Tags.Methods["power:max"] = function(unit)
 	local max = UnitPowerMax(unit, UnitPowerType(unit))
+
+	return E:GetFormattedText("CURRENT", max, max)
+end
+
+ElvUF.Tags.Methods["manacolor"] = function()
+	local altR, altG, altB = PowerBarColor["MANA"].r, PowerBarColor["MANA"].g, PowerBarColor["MANA"].b
+	local color = ElvUF["colors"].power["MANA"]
+	if color then
+		return Hex(color[1], color[2], color[3])
+	else
+		return Hex(altR, altG, altB)
+	end
+end
+
+ElvUF.Tags.Events["mana:current"] = "UNIT_MANA UNIT_MAXMANA"
+ElvUF.Tags.Methods["mana:current"] = function(unit)
+	local min = UnitPower(unit, SPELL_POWER_MANA)
+
+	return min == 0 and " " or E:GetFormattedText("CURRENT", min, UnitPowerMax(unit, SPELL_POWER_MANA))
+end
+
+ElvUF.Tags.Events["mana:current-max"] = "UNIT_MANA UNIT_MAXMANA"
+ElvUF.Tags.Methods["mana:current-max"] = function(unit)
+	local min = UnitPower(unit, SPELL_POWER_MANA)
+
+	return min == 0 and " " or E:GetFormattedText("CURRENT_MAX", min, UnitPowerMax(unit, SPELL_POWER_MANA))
+end
+
+ElvUF.Tags.Events["mana:current-percent"] = "UNIT_MANA UNIT_MAXMANA"
+ElvUF.Tags.Methods["mana:current-percent"] = function(unit)
+	local min = UnitPower(unit, SPELL_POWER_MANA)
+
+	return min == 0 and " " or E:GetFormattedText("CURRENT_PERCENT", min, UnitPowerMax(unit, SPELL_POWER_MANA))
+end
+
+ElvUF.Tags.Events["mana:current-max-percent"] = "UNIT_MANA UNIT_MAXMANA"
+ElvUF.Tags.Methods["mana:current-max-percent"] = function(unit)
+	local min = UnitPower(unit, SPELL_POWER_MANA)
+
+	return min == 0 and " " or E:GetFormattedText("CURRENT_MAX_PERCENT", min, UnitPowerMax(unit, SPELL_POWER_MANA))
+end
+
+ElvUF.Tags.Events["mana:percent"] = "UNIT_MANA UNIT_MAXMANA"
+ElvUF.Tags.Methods["mana:percent"] = function(unit)
+	local min = UnitPower(unit, SPELL_POWER_MANA)
+
+	return min == 0 and " " or E:GetFormattedText("PERCENT", min, UnitPowerMax(unit, SPELL_POWER_MANA))
+end
+
+ElvUF.Tags.Events["mana:deficit"] = "UNIT_MANA UNIT_MAXMANA"
+ElvUF.Tags.Methods["mana:deficit"] = function(unit)
+	return E:GetFormattedText("DEFICIT", UnitPower(unit), UnitPowerMax(unit, SPELL_POWER_MANA))
+end
+
+ElvUF.Tags.Events["mana:max"] = "UNIT_MAXMANA"
+ElvUF.Tags.Methods["mana:max"] = function(unit)
+	local max = UnitPowerMax(unit, SPELL_POWER_MANA)
 
 	return E:GetFormattedText("CURRENT", max, max)
 end

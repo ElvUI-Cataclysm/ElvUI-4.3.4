@@ -301,7 +301,6 @@ local function LoadSkin()
 
 	--LFG Ready Dialog
 	LFGDungeonReadyDialogBackground:Kill();
-	--LFGDungeonReadyDialog:StripTextures();
 	LFGDungeonReadyDialog:SetTemplate("Transparent");
 	LFGDungeonReadyDialog.SetBackdrop = E.noop;
 	LFGDungeonReadyDialog.filigree:SetAlpha(0);
@@ -333,27 +332,25 @@ local function LoadSkin()
 		end
 	end
 
+	LFGDungeonReadyDialogRoleIcon:StripTextures();
+	LFGDungeonReadyDialogRoleIcon:CreateBackdrop();
+	LFGDungeonReadyDialogRoleIcon.backdrop:Point("TOPLEFT", 7, -7);
+	LFGDungeonReadyDialogRoleIcon.backdrop:Point("BOTTOMRIGHT", -7, 7);
+	LFGDungeonReadyDialogRoleIcon.icon = LFGDungeonReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY");
+
 	hooksecurefunc("LFGDungeonReadyPopup_Update", function()
 		local _, _, _, _, _, _, role = GetLFGProposal();
-		if(LFGDungeonReadyDialogRoleIcon:IsShown()) then
-			LFGDungeonReadyDialogRoleIcon:StripTextures();
-			LFGDungeonReadyDialogRoleIcon:CreateBackdrop();
-			LFGDungeonReadyDialogRoleIcon.backdrop:Point("TOPLEFT", 7, -7);
-			LFGDungeonReadyDialogRoleIcon.backdrop:Point("BOTTOMRIGHT", -7, 7);
 
-			LFGDungeonReadyDialogRoleIcon.icon = LFGDungeonReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY");
-			LFGDungeonReadyDialogRoleIcon.icon:SetTexCoord(unpack(E.TexCoords));
-
-			if(role == "DAMAGER") then
-				LFGDungeonReadyDialogRoleIcon.icon:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01");
-			elseif(role == "TANK") then
-				LFGDungeonReadyDialogRoleIcon.icon:SetTexture("Interface\\Icons\\Ability_Defend");
-			elseif(role == "HEALER") then
-				LFGDungeonReadyDialogRoleIcon.icon:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH");
-			end
-
-			LFGDungeonReadyDialogRoleIcon.icon:SetInside(LFGDungeonReadyDialogRoleIcon.backdrop);
+		if(role == "DAMAGER") then
+			LFGDungeonReadyDialogRoleIcon.icon:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01");
+		elseif(role == "TANK") then
+			LFGDungeonReadyDialogRoleIcon.icon:SetTexture("Interface\\Icons\\Ability_Defend");
+		elseif(role == "HEALER") then
+			LFGDungeonReadyDialogRoleIcon.icon:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH");
 		end
+
+		LFGDungeonReadyDialogRoleIcon.icon:SetTexCoord(unpack(E.TexCoords));
+		LFGDungeonReadyDialogRoleIcon.icon:SetInside(LFGDungeonReadyDialogRoleIcon.backdrop);
 	end)
 
 	-- LFG Ready Status

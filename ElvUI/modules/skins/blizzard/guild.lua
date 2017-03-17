@@ -367,13 +367,13 @@ local function LoadSkin()
 
 	local backdrop2 = CreateFrame("Frame", nil, GuildInfoFrameInfo)
 	backdrop2:SetTemplate("Default")
-	backdrop2:Point("TOPLEFT", 2, -158)
+	backdrop2:Point("TOPLEFT", 2, -160)
 	backdrop2:Point("BOTTOMRIGHT", 0, 118)
 	backdrop2:SetFrameLevel(GuildInfoFrameInfo:GetFrameLevel() - 1)
 
 	local backdrop3 = CreateFrame("Frame", nil, GuildInfoFrameInfo)
 	backdrop3:SetTemplate("Default")
-	backdrop3:Point("TOPLEFT", 2, -233)
+	backdrop3:Point("TOPLEFT", 2, -235)
 	backdrop3:Point("BOTTOMRIGHT", 0, 3)
 	backdrop3:SetFrameLevel(GuildInfoFrameInfo:GetFrameLevel() - 1)
 

@@ -1,5 +1,5 @@
- local parent, ns = ...
- local oUF = ns.oUF
+local parent, ns = ...
+local oUF = ns.oUF
  
 local _G = _G
 local unpack = unpack
