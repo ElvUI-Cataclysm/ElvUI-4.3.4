@@ -158,7 +158,7 @@ function AB:PositionAndSizeBar(barName)
 
 	local button, lastButton, lastColumnButton;
 	local firstButtonSpacing = (self.db[barName].backdrop == true and (E.Border + backdropSpacing) or E.Spacing);
-	for i=1, NUM_ACTIONBAR_BUTTONS do
+	for i = 1, NUM_ACTIONBAR_BUTTONS do
 		button = bar.buttons[i];
 		lastButton = bar.buttons[i-1];
 		lastColumnButton = bar.buttons[i-buttonsPerRow];
@@ -252,7 +252,9 @@ function AB:PositionAndSizeBar(barName)
 			AB:PositionAndSizeBar(barName);
 			return
 		end
+		E:EnableMover(bar.mover:GetName())
 	else
+		E:DisableMover(bar.mover:GetName())
 		bar:Hide()
 		UnregisterStateDriver(bar, "visibility");
 	end
@@ -275,7 +277,7 @@ function AB:CreateBar(id)
 	self:HookScript(bar, "OnEnter", "Bar_OnEnter");
 	self:HookScript(bar, "OnLeave", "Bar_OnLeave");
 
-	for i=1, 12 do
+	for i = 1, 12 do
 		bar.buttons[i] = LAB:CreateButton(i, format(bar:GetName() .. "Button%d", i), bar, nil);
 		bar.buttons[i]:SetState(0, "action", i);
 		for k = 1, 11 do

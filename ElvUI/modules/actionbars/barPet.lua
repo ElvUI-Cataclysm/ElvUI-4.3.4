@@ -26,7 +26,7 @@ bar:SetFrameStrata("LOW");
 function AB:UpdatePet()
 	if(event == "UNIT_AURA" and unit ~= "pet") then return end
 
-	for i=1, NUM_PET_ACTION_SLOTS, 1 do
+	for i = 1, NUM_PET_ACTION_SLOTS, 1 do
 		local buttonName = "PetActionButton"..i;
 		local button = _G[buttonName];
 		local icon = _G[buttonName.."Icon"];
@@ -144,9 +144,11 @@ function AB:PositionAndSizeBarPet()
 	if self.db['barPet'].enabled then
 		bar:SetScale(1);
 		bar:SetAlpha(self.db['barPet'].alpha);
+		E:EnableMover(bar.mover:GetName())
 	else
 		bar:SetScale(0.0001);
 		bar:SetAlpha(0);
+		E:DisableMover(bar.mover:GetName())
 	end
 
 	local horizontalGrowth, verticalGrowth;
