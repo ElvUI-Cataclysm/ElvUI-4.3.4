@@ -163,101 +163,243 @@ P["databars"] = {
 	}
 };
 
-P["nameplate"] = {
+P["nameplates"] = {
 	["statusbar"] = "ElvUI Norm",
 	["font"] = "Homespun",
 	["fontSize"] = 8,
 	["fontOutline"] = "MONOCHROMEOUTLINE",
-	["comboPoints"] = true,
-	["markHealers"] = true,
-	["markFactionHealers"] = "ENEMY",
+	["useTargetScale"] = false,
+	["targetScale"] = 1.15,
+	["nonTargetTransparency"] = 0.40,
+	["motionType"] = "OVERLAP",
 	["lowHealthThreshold"] = 0.4,
+
 	["showFriendlyCombat"] = "DISABLED",
 	["showEnemyCombat"] = "DISABLED",
-	['colorNameByValue'] = true,
-	['showName'] = true,
-	['wrapName'] = false,
-	['showLevel'] = true,
-	["castColor"] = {r = 1,g = 208/255,b = 0 },
+
+	["clampToScreen"] = false,
+	["useTargetGlow"] = true,
+
+	["castColor"] = {r = 1, g = 208/255, b = 0},
 	["castNoInterruptColor"] = {r = 0.78, g = 0.25, b = 0.25},
 	["reactions"] = {
-		["tapped"] = {r = 0.6, g = 0.6, b = 0.6},
-		["friendlyNPC"] = {r = 0.31, g = 0.45, b = 0.63},
 		["friendlyPlayer"] = {r = 75/255, g = 175/255, b = 76/255},
+		["tapped"] = {r = 0.6, g = 0.6, b = 0.6},
+		["good"] = {r = 0.31, g = 0.45, b = 0.63},
 		["neutral"] = {r = 218/255, g = 197/255, b = 92/255},
-		["enemy"] = {r = 0.78, g = 0.25, b = 0.25},	
+		["bad"] = {r = 0.78, g = 0.25, b = 0.25},
 	},
 	["threat"] = {
-		["goodColor"] = {r = 75/255, g = 175/255, b = 76/255},
+		["goodColor"] = {r = 75/255,  g = 175/255, b = 76/255},
 		["badColor"] = {r = 0.78, g = 0.25, b = 0.25},
 		["goodTransition"] = {r = 218/255, g = 197/255, b = 92/255},
-		["badTransition"] = {r = 240/255, g = 154/255, b = 17/255},
-		["goodScale"] = 1,
-		["badScale"] = 1,
+		["badTransition"] = {r = 235/255, g = 163/255, b = 40/255},
+		["beingTankedByTankColor"] = {r = .8, g = 0.1,b = 1},
+		["beingTankedByTank"] = true,
+		["goodScale"] = 0.8,
+		["badScale"] = 1.2,
 		["useThreatColor"] = true,
 	},
-	['targetIndicator'] = {
-		['enable'] = true,
-		['style'] = 'glow',
-		['colorMatchHealthBar'] = false,
-		['color'] = {r= 1, g = 1, b = 1},
-		['width'] = 50,
-		['height'] = 50,
-		['yOffset'] = 0,
-		['xOffset'] = 0
-	},
-	['healthBar'] = {
-		['width'] = 108,
-		['height'] = 9,
-		["colorByRaidIcon"] = false,
-		['lowHPScale'] = {
-			['enable'] = false,
-			['width'] = 108,
-			['height'] = 9,
-			["healthAnimationSpeed"] = 0.2,
-			['toFront'] = true,
-			['changeColor'] = true,
-			['color'] = {r= 1, g = 0, b = 0},
+
+	["units"] = {
+		["FRIENDLY_PLAYER"] = {
+			["healthbar"] = {
+				["enable"] = true,
+				["height"] = 9,
+				["width"] = 108,
+				["healPrediction"] = true,
+				["glowStyle"] = "TARGET_THREAT",
+				["text"] = {
+					["enable"] = false,
+					["format"] = "CURRENT",
+				},
+				["useClassColor"] = false,
+			},
+			["showName"] = true,
+			["showLevel"] = false,
+			["castbar"] = {
+				["height"] = 6,
+				["hideSpellName"] = false,
+				["hideTime"] = false,
+				["offset"] = 1,
+				["castTimeFormat"] = "CURRENT",
+				["channelTimeFormat"] = "CURRENT"
+			},
+			["buffs"] = {
+				["enable"] = true,
+				["numAuras"] = 4,
+				["filters"] = {
+					["personal"] = true,
+					["maxDuration"] = 120,
+					["filter"] = "TurtleBuffs"
+				},
+			},
+			["debuffs"] = {
+				["enable"] = true,
+				["numAuras"] = 4,
+				["baseHeight"] = 18,
+				["filters"] = {
+					["personal"] = true,
+					["maxDuration"] = 120,
+					["filter"] = "CCDebuffs"
+				},
+			},
+			["name"] = {
+				["useClassColor"] = false,
+			},
 		},
-		['text'] = {
-			['enable'] = false,
-			['format'] = 'CURRENT',
+		["ENEMY_PLAYER"] = {
+			["markHealers"] = true,
+			["healthbar"] = {
+				["enable"] = true,
+				["height"] = 9,
+				["width"] = 108,
+				["healPrediction"] = true,
+				["glowStyle"] = "TARGET_THREAT",
+				["text"] = {
+					["enable"] = false,
+					["format"] = "CURRENT",
+				},
+				["useClassColor"] = true,
+			},
+			["showName"] = true,
+			["showLevel"] = true,
+			["castbar"] = {
+				["height"] = 6,
+				["hideSpellName"] = false,
+				["hideTime"] = false,
+				["offset"] = 1,
+				["castTimeFormat"] = "CURRENT",
+				["channelTimeFormat"] = "CURRENT"
+			},
+			["buffs"] = {
+				["enable"] = true,
+				["numAuras"] = 4,
+				["baseHeight"] = 18,
+				["filters"] = {
+					["personal"] = true,
+					["maxDuration"] = 120,
+					["filter"] = "TurtleBuffs"
+				},
+			},
+			["debuffs"] = {
+				["enable"] = true,
+				["numAuras"] = 4,
+				["baseHeight"] = 18,
+				["filters"] = {
+					["personal"] = true,
+					["maxDuration"] = 120,
+					["filter"] = "CCDebuffs"
+				},
+			},
+			["name"] = {
+				["useClassColor"] = true,
+			},
+		},
+		["FRIENDLY_NPC"] = {
+			["healthbar"] = {
+				["enable"] = true,
+				["height"] = 9,
+				["width"] = 108,
+				["healPrediction"] = true,
+				["glowStyle"] = "TARGET_THREAT",
+				["text"] = {
+					["enable"] = false,
+					["format"] = "CURRENT",
+				},
+			},
+			["showName"] = true,
+			["showLevel"] = true,
+			["castbar"] = {
+				["height"] = 6,
+				["hideSpellName"] = false,
+				["hideTime"] = false,
+				["offset"] = 1,
+				["castTimeFormat"] = "CURRENT",
+				["channelTimeFormat"] = "CURRENT"
+			},
+			["buffs"] = {
+				["enable"] = true,
+				["numAuras"] = 4,
+				["baseHeight"] = 18,
+				["filters"] = {
+					["personal"] = true,
+					["maxDuration"] = 120,
+					["filter"] = "TurtleBuffs"
+				},
+			},
+			["debuffs"] = {
+				["enable"] = true,
+				["numAuras"] = 4,
+				["baseHeight"] = 18,
+				["filters"] = {
+					["personal"] = true,
+					["maxDuration"] = 120,
+					["filter"] = "CCDebuffs"
+				},
+			},
+			["eliteIcon"] = {
+				["enable"] = false,
+				["size"] = 15,
+				["position"] = "RIGHT",
+				["xOffset"] = 10,
+				["yOffset"] = 0,
+			},
+		},
+		["ENEMY_NPC"] = {
+			["healthbar"] = {
+				["enable"] = true,
+				["height"] = 9,
+				["width"] = 108,
+				["healPrediction"] = true,
+				["glowStyle"] = "TARGET_THREAT",
+				["text"] = {
+					["enable"] = false,
+					["format"] = "CURRENT",
+				},
+			},
+			["showName"] = true,
+			["showLevel"] = true,
+			["castbar"] = {
+				["height"] = 6,
+				["hideSpellName"] = false,
+				["hideTime"] = false,
+				["offset"] = 1,
+				["castTimeFormat"] = "CURRENT",
+				["channelTimeFormat"] = "CURRENT"
+			},
+			["buffs"] = {
+				["enable"] = true,
+				["numAuras"] = 4,
+				["baseHeight"] = 18,
+				["filters"] = {
+					["personal"] = true,
+					["maxDuration"] = 120,
+					["filter"] = "TurtleBuffs"
+				},
+			},
+			["debuffs"] = {
+				["enable"] = true,
+				["numAuras"] = 4,
+				["baseHeight"] = 18,
+				["filters"] = {
+					["personal"] = true,
+					["maxDuration"] = 120,
+					["filter"] = "CCDebuffs"
+				},
+			},
+			["eliteIcon"] = {
+				["enable"] = false,
+				["size"] = 15,
+				["position"] = "RIGHT",
+				["xOffset"] = 10,
+				["yOffset"] = 0,
+			},
+			["detection"] = {
+				["enable"] = true,
+			}
 		}
-	},
-	['castBar'] = {
-		['height'] = 6,
-		['offset'] = 1,
-		["hideSpellName"] = false,
-		["hideTime"] = false,
-		["castTimeFormat"] = "CURRENT",
-		["channelTimeFormat"] = "CURRENT"
-	},
-	['raidIcon'] = {
-		['xOffset'] = -4,
-		['yOffset'] = 6,
-		['size'] = 36,
-		['attachTo'] = 'LEFT',
-	},
-	["buffs"] = {
-		["enable"] = true,
-		["numAuras"] = 4,
-		["baseHeight"] = 18,
-		["filters"] = {
-			["personal"] = true,
-			["maxDuration"] = 120,
-			["filter"] = "TurtleBuffs"
-		}
-	},
-	["debuffs"] = {
-		["enable"] = true,
-		["numAuras"] = 4,
-		["baseHeight"] = 18,
-		["filters"] = {
-			["personal"] = true,
-			["maxDuration"] = 120,
-			["filter"] = "CCDebuffs"
-		}
-	},
+	}
 };
 
 P["bags"] = {

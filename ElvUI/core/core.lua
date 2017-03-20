@@ -435,7 +435,7 @@ function E:CheckIncompatible()
 		E:IncompatibleAddOn("SnowfallKeyPress", "ActionBar");
 	end
 
-	if(IsAddOnLoaded("TidyPlates") and E.private.nameplate.enable) then
+	if(IsAddOnLoaded("TidyPlates") and E.private.nameplates.enable) then
 		E:IncompatibleAddOn("TidyPlates", "NamePlate");
 	end
 end
@@ -763,9 +763,8 @@ function E:UpdateAll(ignoreInstall)
 	DT:LoadDataTexts();
 
 	local NP = self:GetModule("NamePlates");
-	NP.db = self.db.nameplate;
-	NP:UpdateAllPlates();
-	NP:ToggleComboPoints();
+	NP.db = self.db.nameplates;
+	NP:ConfigureAll();
 
 	local DataBars = self:GetModule("DataBars");
 	DataBars.db = E.db.databars;
@@ -938,7 +937,14 @@ end
 
 --DATABASE CONVERSIONS
 function E:DBConversions()
+	if E.db.nameplate then
+		E.db.nameplate = nil
+	end
 
+	if E.global.nameplate then
+		E.global.nameplates = E.global.nameplate
+		E.global.nameplate = nil
+	end
 end
 
 local CPU_USAGE = {};
