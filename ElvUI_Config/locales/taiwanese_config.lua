@@ -400,6 +400,7 @@ L["Display emotion icons in chat."] = "在對話中顯示表情圖示."
 L["Emotion Icons"] = "表情圖示"
 L["Enable/Disable the loot frame."] = "啟用/停用拾取框架."
 L["Enable/Disable the loot roll frame."] = "啟用/停用擲骰框架."
+L["Enables the ElvUI Raid Control panel."] = true;
 L["Enhanced PVP Messages"] = "PVP增強信息"
 L["General"] = "一般設定"
 L["Height of the objective tracker. Increase size to be able to see more objectives."] = "任務框體的高度.增加大小以看到更多目標"

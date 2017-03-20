@@ -156,8 +156,16 @@ E.Options.args.general = {
 					get = function(info) return E.global.general.autoScale; end,
 					set = function(info, value) E.global.general[ info[#info] ] = value; E:StaticPopup_Show("GLOBAL_RL") end
 				},
-				minUiScale = {
+				raidUtility = {
 					order = 17,
+					type = "toggle",
+					name = RAID_CONTROL,
+					desc = L["Enables the ElvUI Raid Control panel."],
+					get = function(info) return E.private.general.raidUtility end,
+					set = function(info, value) E.private.general.raidUtility = value; E:StaticPopup_Show("PRIVATE_RL") end
+				},
+				minUiScale = {
+					order = 18,
 					type = "range",
 					name = L["Lowest Allowed UI Scale"],
 					min = 0.32, max = 0.64, step = 0.01,
@@ -165,7 +173,7 @@ E.Options.args.general = {
 					set = function(info, value) E.global.general.minUiScale = value; E:StaticPopup_Show("GLOBAL_RL"); end
 				},
 				numberPrefixStyle = {
-					order = 18,
+					order = 19,
 					type = "select",
 					name = L["Number Prefix"],
 					desc = L["The unit prefixes you want to use when values are shortened in ElvUI. This is mostly used on UnitFrames."],

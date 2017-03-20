@@ -22,7 +22,8 @@ V['general'] = {
 		['hideZoomIn'] = true,
 		['hideZoomOut'] = true
 	},
-	["classColorMentionsSpeech"] = true
+	["classColorMentionsSpeech"] = true,
+	["raidUtility"] = true
 }
 
 V['bags'] = {
