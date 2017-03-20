@@ -3,6 +3,7 @@ local DT = E:GetModule("DataTexts")
 
 local time = time;
 local select = select;
+local max = math.max;
 local join = string.join;
 
 local UnitGUID = UnitGUID;
@@ -30,7 +31,7 @@ local function GetDPS(self)
 	else
 		DPS = (DMGTotal) / (combatTime);
 	end
-	self.text:SetFormattedText(displayString, L["DPS"], DPS);
+	self.text:SetFormattedText(displayString, L["DPS"], E:ShortValue(DPS))
 end
 
 local function OnEvent(self, event, ...)
@@ -48,6 +49,7 @@ local function OnEvent(self, event, ...)
 		if(not events[select(2, ...)]) then return; end
 
 		local id = select(4, ...);
+		local overKill = 0
 
 		if(id == playerID or id == petID) then
 			if(timeStamp == 0) then timeStamp = select(1, ...); end
@@ -59,7 +61,7 @@ local function OnEvent(self, event, ...)
 				lastDMGAmount = select(15, ...);
 			end
 
-			DMGTotal = DMGTotal + lastDMGAmount;
+			DMGTotal = DMGTotal + max(0, lastDMGAmount - overKill)
 		end
 	elseif(event == "UNIT_PET") then
 		petID = UnitGUID("pet");
@@ -74,7 +76,7 @@ local function OnClick(self)
 end
 
 local function ValueColorUpdate(hex)
-	displayString = join("", "%s: ", hex, "%.1f|r");
+	displayString = join("", "%s: ", hex, "%s")
 
 	if(lastPanel ~= nil) then
 		OnEvent(lastPanel);
