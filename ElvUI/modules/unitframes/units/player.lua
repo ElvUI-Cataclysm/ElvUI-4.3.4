@@ -29,7 +29,7 @@ function UF:Construct_PlayerFrame(frame)
 		frame.SoulShards = self:Construct_WarlockResourceBar(frame);
 		frame.ClassBar = "SoulShards";
 	elseif(E.myclass == "PRIEST") then
-		frame.ShadowOrbs = self:Construct_PriestResourceBar(frame);
+		frame.ShadowOrbs = self:Construct_PriestResourceBar(frame, nil, UF.UpdateClassBar);
 		frame.ClassBar = "ShadowOrbs";
 	elseif(E.myclass == "DEATHKNIGHT") then
 		frame.Runes = self:Construct_DeathKnightResourceBar(frame);
@@ -156,3 +156,18 @@ function UF:Update_PlayerFrame(frame, db)
 end
 
 tinsert(UF["unitstoload"], "player");
+
+local function UpdateClassBar()
+	local frame = _G["ElvUF_Player"];
+	if(frame and frame.ClassBar) then
+		frame:UpdateElement(frame.ClassBar);
+		UF.ToggleResourceBar(frame[frame.ClassBar]);
+	end
+end
+
+local f = CreateFrame("Frame")
+f:RegisterEvent("PLAYER_ENTERING_WORLD")
+f:SetScript("OnEvent", function(self, event)
+	self:UnregisterEvent(event);
+	UpdateClassBar();
+end)
