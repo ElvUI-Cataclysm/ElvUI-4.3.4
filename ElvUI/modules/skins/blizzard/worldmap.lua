@@ -15,8 +15,12 @@ local function LoadSkin()
 	WorldMapDetailFrame.backdrop:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() - 2)
 
 	S:HandleCloseButton(WorldMapFrameCloseButton)
+
 	S:HandleCloseButton(WorldMapFrameSizeDownButton, nil, "-")
+	WorldMapFrameSizeDownButton.text:Point("CENTER")
+
 	S:HandleCloseButton(WorldMapFrameSizeUpButton, nil, "+")
+	WorldMapFrameSizeUpButton.text:Point("CENTER", 0, -1)
 
 	S:HandleDropDownBox(WorldMapLevelDropDown)
 	S:HandleDropDownBox(WorldMapZoneMinimapDropDown)
