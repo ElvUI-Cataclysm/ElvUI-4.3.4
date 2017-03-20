@@ -265,8 +265,8 @@ local function LoadSkin()
 	GuildInviteFrameLeftBorder:Kill();
 	GuildInviteFrameRightBorder:Kill();
 	GuildInviteFrameBackground:Kill();
-	GuildInviteFrameTabardBorder:Kill();
 	GuildInviteFrameTabardRing:Kill();
+	GuildInviteFrameLevel:StripTextures();
 
 	S:HandleButton(GuildInviteFrameJoinButton);
 	S:HandleButton(GuildInviteFrameDeclineButton);
