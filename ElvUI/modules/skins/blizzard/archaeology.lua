@@ -109,18 +109,22 @@ local function LoadSkin()
 	select(2, ArchaeologyFrameSummaryPage:GetRegions()):SetTexture("")
 	select(3, ArchaeologyFrameSummaryPage:GetRegions()):SetTexture("")
 
-	ArchaeologyFrameSummaryPageRace1:Point("TOPLEFT", 15, -85)
+	ArchaeologyFrameSummaryPageRace1:Point("TOPLEFT", 15, -65)
+	ArchaeologyFrameSummaryPageRace5:Point("TOPLEFT", ArchaeologyFrameSummaryPageRace1, "BOTTOMLEFT", 0, -42)
+	ArchaeologyFrameSummaryPageRace9:Point("TOPLEFT", ArchaeologyFrameSummaryPageRace5, "BOTTOMLEFT", 0, -42)
 
 	for i = 1, ARCHAEOLOGY_MAX_RACES do
 		local frame = _G["ArchaeologyFrameSummaryPageRace"..i]
 		local frameIcon = frame:GetNormalTexture()
 
 		if(frame) then
-			frame.raceName:SetTextColor(1, 1, 1)
-
 			frame:CreateBackdrop("Transparent", true)
-			frame.backdrop:Point("TOPLEFT", -5, 1);
-			frame.backdrop:Point("BOTTOMRIGHT", 5, -25);
+			frame:HookScript("OnEnter", S.SetModifiedBackdrop);
+			frame:HookScript("OnLeave", S.SetOriginalBackdrop);
+
+			frame.raceName:ClearAllPoints()
+			frame.raceName:Point("BOTTOM", frame, "BOTTOM", 0, -30)
+			frame.raceName:SetTextColor(1, 1, 1)
 		end
 	end
 
