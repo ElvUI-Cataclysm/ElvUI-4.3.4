@@ -4,7 +4,7 @@ local DT = E:GetModule("DataTexts");
 local join = string.join;
 
 local GetPVPLifetimeStats = GetPVPLifetimeStats;
-local HONORABLE_KILLS = HONORABLE_KILLS;
+local KILLS = KILLS;
 
 local lastPanel;
 local displayNumberString = "";
@@ -12,7 +12,7 @@ local displayNumberString = "";
 local function OnEvent(self)
 	local hk = GetPVPLifetimeStats();
 
-	self.text:SetFormattedText(displayNumberString, HONORABLE_KILLS, hk);
+	self.text:SetFormattedText(displayNumberString, KILLS, hk);
 
 	lastPanel = self;
 end
