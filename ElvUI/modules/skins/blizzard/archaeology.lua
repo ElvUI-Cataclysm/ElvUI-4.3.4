@@ -22,7 +22,9 @@ local function LoadSkin()
 	ArchaeologyFrameRankBar:SetStatusBarTexture(E["media"].normTex)
 	ArchaeologyFrameRankBar:SetStatusBarColor(0.11, 0.50, 1.00)
 	ArchaeologyFrameRankBar:Size(332, 20)
-	ArchaeologyFrameRankBar:Point("TOP", 0, -50);
+	ArchaeologyFrameRankBar:ClearAllPoints()
+	ArchaeologyFrameRankBar.ClearAllPoints = E.noop
+	ArchaeologyFrameRankBar:Point("TOP", ArchaeologyFrame, "TOP", 0, -50);
 	ArchaeologyFrameRankBar.SetPoint = E.noop
 
 	--Solve Rank Bar
