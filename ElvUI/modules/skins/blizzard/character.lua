@@ -359,7 +359,7 @@ local function LoadSkin()
 			local factionIndex = factionOffset + i
 
 			if(factionIndex <= numFactions) then
-				local name, _, _, _, _, _, atWarWith, canToggleAtWar, _, isCollapsed = GetFactionInfo(factionIndex);
+				local name, _, _, _, _, _, atWarWith, canToggleAtWar, isHeader, isCollapsed = GetFactionInfo(factionIndex);
 
 				if(isCollapsed) then
 					Button:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
@@ -368,8 +368,8 @@ local function LoadSkin()
 				end
 
 				FactionName:SetText(name)
-				if(atWarWith and canToggleAtWar) then
-					FactionName:SetFormattedText("%s|TInterface\\Buttons\\UI-CheckBox-SwordCheck:16:16:%d:0:32:32:0:16:0:16|t", name, -(20 + FactionName:GetStringWidth()))
+				if(atWarWith and canToggleAtWar and (not isHeader)) then
+					FactionName:SetFormattedText("%s|TInterface\\Buttons\\UI-CheckBox-SwordCheck:16:16:%d:0:32:32:0:16:0:16|t", name, - (20 + FactionName:GetStringWidth()))
 				end
 			end
 		end

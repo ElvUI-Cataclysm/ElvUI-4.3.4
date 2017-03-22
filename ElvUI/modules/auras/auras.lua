@@ -1,10 +1,10 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local A = E:NewModule("Auras", "AceHook-3.0", "AceEvent-3.0");
+local A = E:NewModule("Auras", "AceEvent-3.0");
 local LSM = LibStub("LibSharedMedia-3.0");
 
 local GetTime = GetTime;
 local _G = _G;
-local select, unpack, pairs, ipairs, tostring = select, unpack, pairs, ipairs, tostring;
+local select, unpack, pairs, ipairs = select, unpack, pairs, ipairs;
 local floor, min, max, huge = math.floor, math.min, math.max, math.huge;
 local format = string.format;
 local wipe, tinsert, tremove, tsort = table.wipe, table.insert, table.remove, table.sort;
@@ -354,7 +354,7 @@ function A:UpdateHeader(header)
 		i = i + 1;
 	until(not aura.name);
 
-	local sortMethod = (sorters[tostring(db.sortMethod):upper()] or sorters["INDEX"])[db.sortDir == "-"][db.seperateOwn];
+	local sortMethod = (sorters[db.sortMethod] or sorters["INDEX"])[db.sortDir == "-"][db.seperateOwn];
 	tsort(sortingTable, sortMethod);
 
 	self:ConfigureAuras(header, sortingTable);
