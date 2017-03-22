@@ -8,6 +8,7 @@ local min = min;
 local GetPetExperience, UnitXP, UnitXPMax = GetPetExperience, UnitXP, UnitXPMax;
 local UnitLevel = UnitLevel;
 local IsXPUserDisabled, GetXPExhaustion = IsXPUserDisabled, GetXPExhaustion;
+local GetExpansionLevel = GetExpansionLevel;
 local MAX_PLAYER_LEVEL_TABLE = MAX_PLAYER_LEVEL_TABLE;
 local InCombatLockdown = InCombatLockdown;
 
@@ -20,6 +21,8 @@ function mod:GetXP(unit)
 end
 
 function mod:UpdateExperience(event)
+	if not mod.db.experience.enable then return end
+
 	local bar = self.expBar;
 	local hideXP = ((UnitLevel('player') == MAX_PLAYER_LEVEL_TABLE[GetExpansionLevel()] and self.db.experience.hideAtMaxLevel) or IsXPUserDisabled())
 
