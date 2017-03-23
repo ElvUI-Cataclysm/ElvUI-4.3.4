@@ -135,6 +135,8 @@ local function LoadSkin()
 
 	for i = 1, 17 do
 		local button = _G["WhoFrameButton"..i];
+		local level = _G["WhoFrameButton" .. i .. "Level"]
+		local name = _G["WhoFrameButton" .. i .. "Name"]
 
 		button.icon = button:CreateTexture("$parentIcon", "ARTWORK");
 		button.icon:Point("LEFT", 45, 0);
@@ -154,12 +156,16 @@ local function LoadSkin()
 		end
 		button.stripe:SetInside()
 
-		_G["WhoFrameButton" .. i .. "Level"]:ClearAllPoints();
-		_G["WhoFrameButton" .. i .. "Level"]:Point("TOPLEFT", 12, -2);
+		level:ClearAllPoints();
+		if(i == 1) then
+			level:Point("TOPLEFT", 11, -2);
+		else
+			level:Point("TOPLEFT", 12, -2);
+		end
 
-		_G["WhoFrameButton" .. i .. "Name"]:Size(100, 14);
-		_G["WhoFrameButton" .. i .. "Name"]:ClearAllPoints();
-		_G["WhoFrameButton" .. i .. "Name"]:Point("LEFT", 85, 0);
+		name:Size(100, 14);
+		name:ClearAllPoints();
+		name:Point("LEFT", 85, 0);
 
 		_G["WhoFrameButton" .. i .. "Class"]:Hide();
 	end
