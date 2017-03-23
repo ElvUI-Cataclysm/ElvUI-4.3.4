@@ -147,7 +147,11 @@ local function LoadSkin()
 
 		button.stripe = button:CreateTexture(nil, "BACKGROUND");
 		button.stripe:SetTexture("Interface\\GuildFrame\\GuildFrame");
-		button.stripe:SetTexCoord(0.362, 0.381, 0.958, 0.998);
+		if(i % 2 == 1) then
+			button.stripe:SetTexCoord(0.362, 0.381, 0.958, 0.998);
+		else
+			button.stripe:SetTexCoord(0.516, 0.536, 0.882, 0.921);
+		end
 		button.stripe:SetInside()
 
 		_G["WhoFrameButton" .. i .. "Level"]:ClearAllPoints();
@@ -286,7 +290,11 @@ local function LoadSkin()
 
 		button.stripe = button:CreateTexture(nil, "OVERLAY");
 		button.stripe:SetTexture("Interface\\GuildFrame\\GuildFrame");
-		button.stripe:SetTexCoord(0.51660156, 0.53613281, 0.88281250, 0.92187500);
+		if(i % 2 == 1) then
+			button.stripe:SetTexCoord(0.362, 0.381, 0.958, 0.998);
+		else
+			button.stripe:SetTexCoord(0.516, 0.536, 0.882, 0.921);
+		end
 		button.stripe:SetAllPoints()
 
 		button:StyleButton()

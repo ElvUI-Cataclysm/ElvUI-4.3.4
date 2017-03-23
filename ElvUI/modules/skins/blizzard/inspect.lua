@@ -88,7 +88,6 @@ local function LoadSkin()
  	end)
 
 	InspectPVPFrameBottom:Kill()
-	InspectGuildFrameBG:Kill()
 	InspectPVPFrame:HookScript("OnShow", function() InspectPVPFrameBG:Kill() end)
 
 	for i = 1, 3 do
@@ -137,6 +136,8 @@ local function LoadSkin()
 			icon:SetInside()
 		end
 	end
+
+	InspectGuildFrameBG:SetDesaturated(true)
 
 	InspectModelFrameControlFrame:StripTextures()
 
