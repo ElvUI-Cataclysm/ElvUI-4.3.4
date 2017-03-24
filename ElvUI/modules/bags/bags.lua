@@ -260,21 +260,16 @@ function B:UpdateSlot(bagID, slotID)
 
 	local slot, _ = self.Bags[bagID][slotID], nil;
 	local bagType = self.Bags[bagID].type;
-	local texture, count, locked = GetContainerItemInfo(bagID, slotID);
+
+	slot.name, slot.rarity = nil, nil;
+	local texture, count, locked, readable
+	texture, count, locked, slot.rarity, readable = GetContainerItemInfo(bagID, slotID);
+
 	local clink = GetContainerItemLink(bagID, slotID);
 
 	slot:Show();
 	if(slot.questIcon) then
 		slot.questIcon:Hide();
-	end
-	slot.name, slot.rarity = nil, nil;
-
-	local start, duration, enable = GetContainerItemCooldown(bagID, slotID)
-	CooldownFrame_SetTimer(slot.cooldown, start, duration, enable)
-	if(duration > 0 and enable == 0) then
-		SetItemButtonTextureVertexColor(slot, 0.4, 0.4, 0.4);
-	else
-		SetItemButtonTextureVertexColor(slot, 1, 1, 1);
 	end
 
 	slot.itemLevel:SetText("")
@@ -282,7 +277,7 @@ function B:UpdateSlot(bagID, slotID)
 		slot:SetBackdropBorderColor(unpack(B.ProfessionColors[bagType]))
 	elseif(clink) then
 		local iLvl, itemEquipLoc;
-		slot.name, _, slot.rarity, iLvl, _, _, _, _, itemEquipLoc = GetItemInfo(clink);
+		slot.name, _, _, iLvl, _, _, _, _, itemEquipLoc = GetItemInfo(clink);
 
 		local isQuestItem, questId, isActiveQuest = GetContainerItemQuestInfo(bagID, slotID);
 		local r, g, b;
@@ -315,6 +310,22 @@ function B:UpdateSlot(bagID, slotID)
 	else
 		slot:SetBackdropBorderColor(unpack(E.media.bordercolor));
 	end
+
+	if(texture) then
+		local start, duration, enable = GetContainerItemCooldown(bagID, slotID)
+		CooldownFrame_SetTimer(slot.cooldown, start, duration, enable)
+		if(duration > 0 and enable == 0) then
+			SetItemButtonTextureVertexColor(slot, 0.4, 0.4, 0.4);
+		else
+			SetItemButtonTextureVertexColor(slot, 1, 1, 1);
+		end
+		slot.hasItem = 1;
+	else
+		slot.cooldown:Hide()
+		slot.hasItem = nil;
+	end
+
+	slot.readable = readable;
 
 	SetItemButtonTexture(slot, texture);
 	SetItemButtonCount(slot, count);
@@ -1134,6 +1145,15 @@ function B:CloseBank()
 	self.BankFrame:Hide()
 end
 
+function B:GUILDBANKFRAME_OPENED()
+	if GuildItemSearchBox then
+		GuildItemSearchBox:SetScript("OnEscapePressed", self.ResetAndClear);
+		GuildItemSearchBox:SetScript("OnTextChanged", self.UpdateSearch);
+		GuildItemSearchBox:SetScript("OnChar", self.UpdateSearch);
+	end
+	self:UnregisterEvent("GUILDBANKFRAME_OPENED")
+end
+
 function B:PostBagMove()
 	if(not E.private.bags.enable) then return; end
 
@@ -1222,6 +1242,7 @@ function B:Initialize()
 	self:RegisterEvent("BANKFRAME_OPENED", "OpenBank")
 	self:RegisterEvent("BANKFRAME_CLOSED", "CloseBank")
 	self:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED")
+	self:RegisterEvent("GUILDBANKFRAME_OPENED")
 
 	StackSplitFrame:SetFrameStrata("DIALOG")
 end
