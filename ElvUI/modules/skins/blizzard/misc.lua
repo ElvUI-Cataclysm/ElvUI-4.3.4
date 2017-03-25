@@ -303,6 +303,19 @@ local function LoadSkin()
 	LevelUpDisplaySpellFrameIcon:SetTexCoord(unpack(E.TexCoords));
 	LevelUpDisplaySpellFrameSubIcon:SetTexCoord(unpack(E.TexCoords));
 
+	-- Channel Pullout Frame
+	ChannelPullout:SetTemplate("Transparent")
+
+	ChannelPulloutBackground:Kill()
+
+	S:HandleTab(ChannelPulloutTab)
+	ChannelPulloutTab:Size(107, 26)
+	ChannelPulloutTabText:Point("LEFT", ChannelPulloutTabLeft, "RIGHT", 0, 4)
+
+	S:HandleCloseButton(ChannelPulloutCloseButton)
+	ChannelPulloutCloseButton.backdrop:SetAllPoints()
+	ChannelPulloutCloseButton:Size(15)
+
 	-- Dropdown Menu
 	hooksecurefunc("UIDropDownMenu_InitializeHelper", function()
 		for i = 1, UIDROPDOWNMENU_MAXLEVELS do
