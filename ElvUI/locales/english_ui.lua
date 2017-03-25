@@ -106,6 +106,7 @@ L["Towers Assaulted"] = true;
 L["Towers Defended"] = true;
 L["Unhittable:"] = true;
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = true;
+L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = true;
 
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = true;

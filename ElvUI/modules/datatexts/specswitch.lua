@@ -8,6 +8,8 @@ local GetNumTalentTabs = GetNumTalentTabs;
 local GetTalentTabInfo = GetTalentTabInfo;
 local GetNumTalentGroups = GetNumTalentGroups;
 local GetPrimaryTalentTree = GetPrimaryTalentTree;
+local ShowUIPanel = ShowUIPanel
+local HideUIPanel = HideUIPanel
 
 local lastPanel, active
 local displayString = "";
@@ -49,13 +51,32 @@ local function OnEnter(self)
 
 	DT.tooltip:AddLine(" ")
 	DT.tooltip:AddLine(L["|cffFFFFFFLeft Click:|r Change Talent Specialization"])
+	DT.tooltip:AddLine(L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"])
 
 	DT.tooltip:Show()
 end
 
 local function OnClick(_, btn)
 	if(btn == "LeftButton") then
+		DT.tooltip:Hide()
+
+		if(not PlayerTalentFrame) then
+			LoadAddOn("Blizzard_TalentUI")
+		end
+
 		SetActiveTalentGroup(active == 1 and 2 or 1)
+	elseif(btn == "RightButton") then
+		DT.tooltip:Hide()
+	
+		if(not PlayerTalentFrame) then
+			LoadAddOn("Blizzard_TalentUI")
+		end
+	
+		if(not PlayerTalentFrame:IsShown()) then
+			ShowUIPanel(PlayerTalentFrame)
+		else
+			HideUIPanel(PlayerTalentFrame)
+		end
 	end
 end
 

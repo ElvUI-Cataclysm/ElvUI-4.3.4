@@ -106,6 +106,7 @@ L["Towers Assaulted"] = true;
 L["Towers Defended"] = true;
 L["Unhittable:"] = "未命中:"
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFF左键点击:|r 更改当前专精"
+L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = = "|cffFFFFFF右键点击:|r 显示专精天赋框架"
 
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = "%s: %s 尝试调用保护函数 '%s'."

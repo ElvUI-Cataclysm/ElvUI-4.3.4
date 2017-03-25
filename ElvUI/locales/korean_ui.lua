@@ -106,6 +106,7 @@ L["Towers Assaulted"] = true;
 L["Towers Defended"] = true;
 L["Unhittable:"] = "100% 방어행동까지"
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "클릭 : 전문화 교체"
+L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = true;
 
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = "%s: %s 기능이 사용할 수 없는 %s 함수를 사용하려 합니다."

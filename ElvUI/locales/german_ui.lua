@@ -105,7 +105,8 @@ L["Total: "] = "Gesamt: "
 L["Towers Assaulted"] = "Türme angegriffen"
 L["Towers Defended"] = "Türme verteidigt"
 L["Unhittable:"] = "Unhittable:"
-L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFFRechtsklick:|r Talentspezialisierung ändern"
+L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFFLinksklick:|r Talentspezialisierung ändern"
+L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = "|cffFFFFFFRechtsklick:|r Zeige Talent Spezialisierung UI"
 
 --DebugTools
 L["%s: %s tried to call the protected function '%s'."] = "%s: %s versucht die geschützte Funktion aufrufen '%s'."
