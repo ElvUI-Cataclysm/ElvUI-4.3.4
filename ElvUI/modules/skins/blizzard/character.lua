@@ -436,6 +436,8 @@ local function LoadSkin()
 
 	PetPaperDollPetInfo:CreateBackdrop("Default")
 	PetPaperDollPetInfo:Size(24)
+
+	PetPaperDollPetModelBg:SetDesaturated(true)
 end
 
 S:AddCallback("Character", LoadSkin);
