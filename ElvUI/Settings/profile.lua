@@ -2917,7 +2917,8 @@ P["actionbar"] = {
 		["buttonspacing"] = 2,
 		["backdropSpacing"] = 2,
 		["alpha"] = 1,
-		["inheritGlobalFade"] = false
+		["inheritGlobalFade"] = false,
+		["usePositionOverride"] = true
 	},
 	["barTotem"] = {
 		["enabled"] = true,

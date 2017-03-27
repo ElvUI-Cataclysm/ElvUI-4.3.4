@@ -3,7 +3,7 @@ local AB = E:GetModule('ActionBars');
 
 local _G = _G;
 local ceil = math.ceil;
-local lower = string.lower;
+local format, lower, find = format, string.lower, string.find
 
 local CreateFrame = CreateFrame;
 local GetSpellInfo = GetSpellInfo;
@@ -115,9 +115,29 @@ function AB:PositionAndSizeBarShapeShift()
 	local widthMult = self.db['barShapeShift'].widthMult;
 	local heightMult = self.db['barShapeShift'].heightMult;
 	if bar.mover then
-		bar.mover.positionOverride = point;
+		if self.db['barShapeShift'].usePositionOverride then
+			bar.mover.positionOverride = point;
+		else
+			bar.mover.positionOverride = nil
+		end
 		E:UpdatePositionOverride(bar.mover:GetName())
 	end
+
+	local position = E:GetScreenQuadrant(bar)
+	if find(position, "LEFT") or position == "TOP" or position == "BOTTOM" then
+		if point == "TOP" then
+			point = "TOPLEFT"
+		elseif point == "BOTTOM" then
+			point = "BOTTOMLEFT"
+		end
+	else
+		if point == "TOP" then
+			point = "TOPRIGHT"
+		elseif point == "BOTTOM" then
+			point = "BOTTOMRIGHT"
+		end
+	end
+
 	bar.db = self.db['barShapeShift']
 	bar.db.position = nil; --Depreciated
 	if bar.LastButton and numButtons > bar.LastButton then
@@ -234,7 +254,7 @@ function AB:PositionAndSizeBarShapeShift()
 		end
 
 		if i > numButtons then
-			button:SetScale(0.000001);
+			button:SetScale(0.00001);
 			button:SetAlpha(0);
 		else
 			button:SetScale(1);
