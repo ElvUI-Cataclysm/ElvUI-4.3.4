@@ -436,7 +436,7 @@ function E:CheckIncompatible()
 	end
 
 	if(IsAddOnLoaded("TidyPlates") and E.private.nameplates.enable) then
-		E:IncompatibleAddOn("TidyPlates", "NamePlate");
+		E:IncompatibleAddOn("TidyPlates", "NamePlates");
 	end
 end
 
