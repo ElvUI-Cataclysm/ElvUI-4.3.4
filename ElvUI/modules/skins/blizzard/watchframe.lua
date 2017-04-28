@@ -72,7 +72,7 @@ local function LoadSkin()
 			end
 		end
 
-		for i = 1, WATCHFRAME_NUM_POPUPS do
+		for i = 1, 2 do
 			local popUp = _G["WatchFrameAutoQuestPopUp"..i]
 			if(popUp and popUp.isSkinned ~= true) then
 
