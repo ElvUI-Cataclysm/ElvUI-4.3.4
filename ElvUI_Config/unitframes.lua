@@ -1573,7 +1573,6 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 							return c.r, c.g, c.b, c.a, d.r, d.g, d.b;
 						end,
 						set = function(info, r, g, b)
-							E.db.unitframe.units.raid.rdebuffs.duration.color = {};
 							local c = E.db.unitframe.units.raid.rdebuffs.duration.color;
 							c.r, c.g, c.b = r, g, b;
 							UF:CreateAndUpdateHeaderGroup("raid");
@@ -1627,7 +1626,6 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 							return c.r, c.g, c.b, c.a, d.r, d.g, d.b;
 						end,
 						set = function(info, r, g, b)
-							E.db.unitframe.units[groupName].rdebuffs.stack.color = {};
 							local c = E.db.unitframe.units[groupName].rdebuffs.stack.color;
 							c.r, c.g, c.b = r, g, b;
 							updateFunc(UF, groupName);
@@ -2128,6 +2126,30 @@ E.Options.args.unitframe = {
 					get = function(info) return E.db.unitframe.colors[ info[#info] ]; end,
 					set = function(info, value) E.db.unitframe.colors[ info[#info] ] = value; UF:Update_AllFrames(); end,
 					args = {
+						generalGroup = {
+							order = 1,
+							type = "group",
+							guiInline = true,
+							name = L["General"],
+							args = {
+								borderColor = {
+									order = 1,
+									type = "color",
+									name = L["Border Color"],
+									get = function(info)
+										local t = E.db.unitframe.colors.borderColor
+										local d = P.unitframe.colors.borderColor
+										return t.r, t.g, t.b, t.a, d.r, d.g, d.b
+									end,
+									set = function(info, r, g, b)
+										local t = E.db.unitframe.colors.borderColor
+										t.r, t.g, t.b = r, g, b
+										E:UpdateMedia()
+										E:UpdateBorderColors()
+									end
+								}
+							}
+						},
 						healthGroup = {
 							order = 7,
 							type = "group",
@@ -2139,7 +2161,6 @@ E.Options.args.unitframe = {
 								return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 							end,
 							set = function(info, r, g, b)
-								E.db.general[ info[#info] ] = {};
 								local t = E.db.unitframe.colors[ info[#info] ];
 								t.r, t.g, t.b = r, g, b;
 								UF:Update_AllFrames();
@@ -2240,7 +2261,6 @@ E.Options.args.unitframe = {
 								return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 							end,
 							set = function(info, r, g, b)
-								E.db.general[ info[#info] ] = {};
 								local t = E.db.unitframe.colors.power[ info[#info] ];
 								t.r, t.g, t.b = r, g, b;
 								UF:Update_AllFrames();
@@ -2300,7 +2320,6 @@ E.Options.args.unitframe = {
 								return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 							end,
 							set = function(info, r, g, b)
-								E.db.general[ info[#info] ] = {};
 								local t = E.db.unitframe.colors.reaction[ info[#info] ];
 								t.r, t.g, t.b = r, g, b;
 								UF:Update_AllFrames();
@@ -2334,7 +2353,6 @@ E.Options.args.unitframe = {
 								return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 							end,
 							set = function(info, r, g, b)
-								E.db.general[ info[#info] ] = {}
 								local t = E.db.unitframe.colors[ info[#info] ];
 								t.r, t.g, t.b = r, g, b;
 								UF:Update_AllFrames();
@@ -2435,7 +2453,6 @@ E.Options.args.unitframe = {
 										return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 									end,
 									set = function(info, r, g, b)
-										E.db.general[ info[#info] ] = {};
 										local t = E.db.unitframe.colors.auraBarDebuff;
 										t.r, t.g, t.b = r, g, b;
 										UF:Update_AllFrames();
@@ -2451,7 +2468,6 @@ E.Options.args.unitframe = {
 										return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 									end,
 									set = function(info, r, g, b)
-										E.db.general[ info[#info] ] = {};
 										local t = E.db.unitframe.colors.auraBarTurtleColor;
 										t.r, t.g, t.b = r, g, b;
 										UF:Update_AllFrames();
@@ -6382,7 +6398,6 @@ E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGrou
 		return t.r, t.g, t.b, t.a, d.r, d.g, d.b
 	end,
 	set = function(info, r, g, b)
-		E.db.unitframe.colors.classResources[ info[#info] ] = {};
 		local t = E.db.unitframe.colors.classResources[ info[#info] ];
 		t.r, t.g, t.b = r, g, b;
 		UF:Update_AllFrames();
@@ -6415,7 +6430,6 @@ for i = 1, 5 do
 			return t.r, t.g, t.b, t.a, d.r, d.g, d.b
 		end,
 		set = function(info, r, g, b)
-			E.db.unitframe.colors.classResources.comboPoints[i] = {};
 			local t = E.db.unitframe.colors.classResources.comboPoints[i];
 			t.r, t.g, t.b = r, g, b;
 			UF:Update_AllFrames();
@@ -6492,7 +6506,6 @@ if(P.unitframe.colors.classResources[E.myclass]) then
 					return t.r, t.g, t.b, t.a, d.r, d.g, d.b
 				end,
 				set = function(info, r, g, b)
-					E.db.unitframe.colors.classResources.DEATHKNIGHT[i] = {};
 					local t = E.db.unitframe.colors.classResources.DEATHKNIGHT[i];
 					t.r, t.g, t.b = r, g, b;
 					UF:Update_AllFrames();
