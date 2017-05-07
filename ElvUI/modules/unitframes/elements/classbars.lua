@@ -367,7 +367,7 @@ function UF:Construct_PriestResourceBar(frame)
 	bars:CreateBackdrop("Default", nil, nil, self.thinBorders, true);
 
 	for i = 1, UF["classMaxResourceBar"][E.myclass] do
-		bars[i] = CreateFrame("StatusBar", nil, bars);
+		bars[i] = CreateFrame("StatusBar", frame:GetName().."ClassBarButton"..i, bars)
 		bars[i]:SetStatusBarTexture(E["media"].blankTex);
 		bars[i]:GetStatusBarTexture():SetHorizTile(false);
 		
@@ -410,7 +410,7 @@ function UF:Construct_DeathKnightResourceBar(frame)
 	runes:CreateBackdrop("Default", nil, nil, self.thinBorders, true);
 
 	for i = 1, self["classMaxResourceBar"][E.myclass] do
-		runes[i] = CreateFrame("StatusBar", nil, runes);
+		runes[i] = CreateFrame("StatusBar", frame:GetName().."ClassBarButton"..i, runes)
 		self["statusbars"][runes[i]] = true;
 		runes[i]:SetStatusBarTexture(E["media"].blankTex);
 		runes[i]:GetStatusBarTexture():SetHorizTile(false);
