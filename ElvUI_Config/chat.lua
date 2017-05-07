@@ -131,19 +131,13 @@ E.Options.args.chat = {
 						CH:UpdateSettings();
 					end
 				},
-				classColorMentionsChat = {
-					order = 13,
-					type = "toggle",
-					name = L["Class Color Mentions"],
-					desc = L["Use class color for the names of players when they are mentioned."]
-				},
 				spacer = {
-					order = 14,
+					order = 13,
 					type = 'description',
 					name = ''
 				},
 				throttleInterval = {
-					order = 15,
+					order = 14,
 					type = 'range',
 					name = L['Spam Interval'],
 					desc = L['Prevent the same messages from displaying in chat more than once within this set amount of seconds, set to zero to disable.'],
@@ -156,7 +150,7 @@ E.Options.args.chat = {
 					end
 				},
 				scrollDownInterval = {
-					order = 16,
+					order = 15,
 					type = 'range',
 					name = L['Scroll Interval'],
 					desc = L['Number of time in seconds to scroll down to the bottom of the chat window if you are not scrolled down completely.'],
@@ -166,21 +160,21 @@ E.Options.args.chat = {
 					end
 				},
 				numAllowedCombatRepeat = {
- 					order = 17,
+ 					order = 16,
 					type = "range",
 					name = L["Allowed Combat Repeat"],
 					desc = L["Number of repeat characters while in combat before the chat editbox is automatically closed."],
 					min = 2, max = 10, step = 1
 				},
  				numScrollMessages = {
- 					order = 18,
+ 					order = 17,
  					type = "range",
  					name = L["Scroll Messages"],
  					desc = L["Number of messages you scroll for each step."],
  					min = 1, max = 10, step = 1,
 				},
 				chatHistoryLines = {
-					order = 19,
+					order = 18,
 					type = 'range',
 					name = L['Chat History Lines'],
 					desc = L['Number of chat messages to be stored in the chat history.'],
@@ -191,12 +185,12 @@ E.Options.args.chat = {
 					end
 				},
 				spacer2 = {
-					order = 20,
+					order = 19,
 					type = "description",
 					name = " ",
 				},
 				timeStampFormat = {
-					order = 21,
+					order = 20,
 					type = 'select',
 					name = TIMESTAMPS_LABEL,
 					desc = OPTION_TOOLTIP_TIMESTAMPS,
@@ -211,13 +205,13 @@ E.Options.args.chat = {
 					}
 				},
 				useCustomTimeColor = {
-					order = 22,
+					order = 21,
 					type = "toggle",
 					name = L["Custom Timestamp Color"],
 					disabled = function() return not E.db.chat.timeStampFormat == "NONE" end
 				},
 				customTimeColor = {
-					order = 23,
+					order = 22,
 					type = "color",
 					hasAlpha = false,
 					name = L["Timestamp Color"],
@@ -482,6 +476,58 @@ E.Options.args.chat = {
 						["MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
 						["THICKOUTLINE"] = "THICKOUTLINE"
 					}
+				}
+			}
+		},
+		classColorMentionGroup = {
+			order = 7,
+			type = "group",
+			name = L["Class Color Mentions"],
+			args = {
+				header = {
+					order = 1,
+					type = "header",
+					name = L["Class Color Mentions"]
+				},
+				classColorMentionsChat = {
+					order = 2,
+					type = "toggle",
+					name = L["Chat"],
+					desc = L["Use class color for the names of players when they are mentioned."],
+					get = function(info) return E.db.chat.classColorMentionsChat end,
+					set = function(info, value) E.db.chat.classColorMentionsChat = value end,
+					disabled = function() return not E.private.chat.enable end
+				},
+				classColorMentionsSpeech = {
+					order = 3,
+					type = "toggle",
+					name = L["Chat Bubbles"],
+					desc = L["Use class color for the names of players when they are mentioned."],
+					get = function(info) return E.private.general.classColorMentionsSpeech end,
+					set = function(info, value) E.private.general.classColorMentionsSpeech = value; E:StaticPopup_Show("PRIVATE_RL") end,
+					disabled = function() return (E.private.general.chatBubbles == "disabled" or not E.private.chat.enable) end
+				},
+				classColorMentionExcludeName = {
+					order = 4,
+					name = L["Exclude Name"],
+					desc = L["Excluded names will not be class colored."],
+					type = 'input',
+					get = function(info) return "" end,
+					set = function(info, value)
+						if value == "" or string.gsub(value, "%s+", "") == "" then return; end
+						E.global.chat.classColorMentionExcludedNames[strlower(value)] = value
+					end
+				},
+				classColorMentionExcludedNames = {
+					order = 5,
+					type = "multiselect",
+					name = L["Excluded Names"],
+					values = function() return E.global.chat.classColorMentionExcludedNames end,
+					get = function(info, value)	return E.global.chat.classColorMentionExcludedNames[value] end,
+					set = function(info, value)
+						E.global.chat.classColorMentionExcludedNames[value] = nil
+						GameTooltip:Hide()
+					end
 				}
 			}
 		}
