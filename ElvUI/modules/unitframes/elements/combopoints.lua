@@ -9,7 +9,7 @@ local MAX_COMBO_POINTS = MAX_COMBO_POINTS;
 
 function UF:Construct_Combobar(frame)
 	local CPoints = CreateFrame("Frame", nil, frame);
-	CPoints:CreateBackdrop("Default", nil, nil, UF.thinBorders, true);
+	CPoints:CreateBackdrop("Default", nil, nil, UF.thinBorders);
 	CPoints.Override = UF.UpdateComboDisplay;
 	CPoints.origParent = frame;
 
@@ -19,7 +19,7 @@ function UF:Construct_Combobar(frame)
 		CPoints[i]:SetStatusBarTexture(E["media"].blankTex);
 		CPoints[i]:GetStatusBarTexture():SetHorizTile(false);
 		CPoints[i]:SetAlpha(0.15);
-		CPoints[i]:CreateBackdrop("Default", nil, nil, UF.thinBorders, true);
+		CPoints[i]:CreateBackdrop("Default", nil, nil, UF.thinBorders);
 		CPoints[i].backdrop:SetParent(CPoints);
 	end
 
@@ -37,7 +37,6 @@ function UF:Configure_ComboPoints(frame)
 	local CPoints = frame.CPoints;
 	CPoints:ClearAllPoints();
 	local db = frame.db;
-
 	if(not frame.CLASSBAR_DETACHED) then
 		CPoints:SetParent(frame);
 	else
@@ -97,14 +96,9 @@ function UF:Configure_ComboPoints(frame)
 	CPoints:Width(CLASSBAR_WIDTH);
 	CPoints:Height(frame.CLASSBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2));
 
-	local color = E.db.unitframe.colors.borderColor
-	CPoints.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
-
 	for i = 1, frame.MAX_CLASS_BAR do
 		CPoints[i]:SetStatusBarColor(unpack(ElvUF.colors.ComboPoints[i]));
 		CPoints[i]:Height(CPoints:GetHeight());
-		CPoints[i].backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
-
 		if(frame.USE_MINI_CLASSBAR) then
 			CPoints[i]:SetWidth((CLASSBAR_WIDTH - ((5 + (frame.BORDER*2 + frame.SPACING*2))*(frame.MAX_CLASS_BAR - 1)))/frame.MAX_CLASS_BAR);
 		elseif(i ~= MAX_COMBO_POINTS) then

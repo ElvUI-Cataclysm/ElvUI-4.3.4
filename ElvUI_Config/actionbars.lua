@@ -665,6 +665,7 @@ E.Options.args.actionbar = {
 				return t.r, t.g, t.b, t.a, d.r, d.g, d.b
 			end,
 			set = function(info, r, g, b)
+				E.db.actionbar[ info[#info] ] = {}
 				local t = E.db.actionbar[ info[#info] ]
 				t.r, t.g, t.b = r, g, b
 				AB:UpdateButtonSettings();
@@ -742,6 +743,7 @@ E.Options.args.actionbar = {
 						return t.r, t.g, t.b, t.a, d.r, d.g, d.b
 					end,
 					set = function(info, r, g, b)
+						E.db.actionbar[ info[#info] ] = {}
 						local t = E.db.actionbar[ info[#info] ]
 						t.r, t.g, t.b = r, g, b
 						AB:UpdateButtonSettings();

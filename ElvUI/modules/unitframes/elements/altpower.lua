@@ -65,7 +65,6 @@ function UF:AltPowerBarPostUpdate(min, cur, max)
 end
 
 function UF:Configure_AltPower(frame)
-	if not frame.VARIABLES_SET then return end
 	local altpower = frame.AltPowerBar
 
 	if frame.USE_POWERBAR then

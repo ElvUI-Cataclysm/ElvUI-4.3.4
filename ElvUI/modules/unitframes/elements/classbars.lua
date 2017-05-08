@@ -49,12 +49,17 @@ function UF:Configure_ClassBar(frame)
 
 	local CLASSBAR_WIDTH = frame.CLASSBAR_WIDTH;
 
-	local color = self.db.colors.classResources.bgColor;
+	local c = self.db.colors.classResources.bgColor;
 	bars.backdrop.ignoreUpdates = true;
-	bars.backdrop:SetBackdropColor(color.r, color.g, color.b)
-
-	color = E.db.unitframe.colors.borderColor
-	bars.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
+	bars.backdrop:SetBackdropColor(c.r, c.g, c.b);
+	if(not E.PixelMode) then
+		c = E.db.general.bordercolor;
+		if(self.thinBorders) then
+			bars.backdrop:SetBackdropBorderColor(0, 0, 0);
+		else
+			bars.backdrop:SetBackdropBorderColor(c.r, c.g, c.b);
+		end
+	end
 
 	if(frame.USE_MINI_CLASSBAR and not frame.CLASSBAR_DETACHED) then
 		bars:ClearAllPoints();
@@ -127,13 +132,12 @@ function UF:Configure_ClassBar(frame)
 			bars[i]:Hide();
 
 			if(i <= frame.MAX_CLASS_BAR) then
-				local color = self.db.colors.classResources.bgColor;
 				bars[i].backdrop.ignoreUpdates = true;
-				bars[i].backdrop:SetBackdropColor(color.r, color.g, color.b);
-
-				color = E.db.unitframe.colors.borderColor
-				bars[i].backdrop:SetBackdropBorderColor(color.r, color.g, color.b);
-
+				bars[i].backdrop:SetBackdropColor(c.r, c.g, c.b);
+				if(not E.PixelMode) then
+					c = E.db.general.bordercolor;
+					bars[i].backdrop:SetBackdropBorderColor(c.r, c.g, c.b);
+				end
 				bars[i]:Height(bars:GetHeight());
 				if(frame.MAX_CLASS_BAR == 1) then
 					bars[i]:SetWidth(CLASSBAR_WIDTH);
@@ -252,7 +256,7 @@ UF.ToggleResourceBar = ToggleResourceBar;
 
 function UF:Construct_PaladinResourceBar(frame)
 	local bars = CreateFrame("Frame", nil, frame)
-	bars:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
+	bars:CreateBackdrop("Default", nil, nil, self.thinBorders)
 
 	for i = 1, UF["classMaxResourceBar"][E.myclass] do
 		bars[i] = CreateFrame("StatusBar", frame:GetName().."ClassBarButton"..i, bars)
@@ -260,7 +264,7 @@ function UF:Construct_PaladinResourceBar(frame)
 		bars[i]:GetStatusBarTexture():SetHorizTile(false)
 		UF["statusbars"][bars[i]] = true
 
-		bars[i]:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
+		bars[i]:CreateBackdrop("Default", nil, nil, self.thinBorders)
 		bars[i].backdrop:SetParent(bars)
 
 		bars[i].bg = bars[i]:CreateTexture(nil, "BORDER")
@@ -307,7 +311,7 @@ end
 
 function UF:Construct_WarlockResourceBar(frame)
 	local bars = CreateFrame("Frame", nil, frame)
-	bars:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
+	bars:CreateBackdrop("Default", nil, nil, self.thinBorders)
 
 	for i = 1, UF["classMaxResourceBar"][E.myclass] do
 		bars[i] = CreateFrame("StatusBar", frame:GetName().."ClassBarButton"..i, bars)
@@ -315,7 +319,7 @@ function UF:Construct_WarlockResourceBar(frame)
 		bars[i]:GetStatusBarTexture():SetHorizTile(false)
 		UF["statusbars"][bars[i]] = true
 
-		bars[i]:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
+		bars[i]:CreateBackdrop("Default", nil, nil, self.thinBorders)
 		bars[i].backdrop:SetParent(bars)
 
 		bars[i].bg = bars[i]:CreateTexture(nil, "BORDER")
@@ -364,7 +368,7 @@ end
 
 function UF:Construct_PriestResourceBar(frame)
 	local bars = CreateFrame("Frame", nil, frame);
-	bars:CreateBackdrop("Default", nil, nil, self.thinBorders, true);
+	bars:CreateBackdrop("Default", nil, nil, self.thinBorders);
 
 	for i = 1, UF["classMaxResourceBar"][E.myclass] do
 		bars[i] = CreateFrame("StatusBar", frame:GetName().."ClassBarButton"..i, bars)
@@ -375,7 +379,7 @@ function UF:Construct_PriestResourceBar(frame)
 		
 		UF["statusbars"][bars[i]] = true;
 
-		bars[i]:CreateBackdrop("Default", nil, nil, self.thinBorders, true);
+		bars[i]:CreateBackdrop("Default", nil, nil, self.thinBorders);
 		bars[i].backdrop:SetParent(bars);
 	end
 	
@@ -385,6 +389,7 @@ function UF:Construct_PriestResourceBar(frame)
 	
 	return bars;
 end
+
 
 function UF:UpdateShadowOrbs(event, shadowOrbs, maxOrbs)
 	local frame = self.origParent or self:GetParent()
@@ -407,7 +412,7 @@ end
 
 function UF:Construct_DeathKnightResourceBar(frame)
 	local runes = CreateFrame("Frame", nil, frame);
-	runes:CreateBackdrop("Default", nil, nil, self.thinBorders, true);
+	runes:CreateBackdrop("Default", nil, nil, self.thinBorders);
 
 	for i = 1, self["classMaxResourceBar"][E.myclass] do
 		runes[i] = CreateFrame("StatusBar", frame:GetName().."ClassBarButton"..i, runes)
@@ -415,7 +420,7 @@ function UF:Construct_DeathKnightResourceBar(frame)
 		runes[i]:SetStatusBarTexture(E["media"].blankTex);
 		runes[i]:GetStatusBarTexture():SetHorizTile(false);
 
-		runes[i]:CreateBackdrop("Default", nil, nil, self.thinBorders, true);
+		runes[i]:CreateBackdrop("Default", nil, nil, self.thinBorders);
 		runes[i].backdrop:SetParent(runes);
 
 		runes[i].bg = runes[i]:CreateTexture(nil, "BORDER");
@@ -429,7 +434,7 @@ end
 
 function UF:Construct_DruidResourceBar(frame)
 	local eclipseBar = CreateFrame('Frame', nil, frame)
-	eclipseBar:CreateBackdrop("Default", nil, nil, self.thinBorders, true);
+	eclipseBar:CreateBackdrop('Default', nil, nil, self.thinBorders)
 	eclipseBar.PostUpdatePower = UF.EclipseDirection
 	eclipseBar.PostUpdateVisibility = UF.EclipsePostUpdateVisibility
 
@@ -454,17 +459,17 @@ end
 
 function UF:Construct_DruidAltManaBar(frame)
 	local dpower = CreateFrame('Frame', nil, frame)
-	dpower:SetInside(frame.EclipseBar.backdrop)
-	dpower:CreateBackdrop("Default", nil, nil, self.thinBorders, true);
-	dpower:SetFrameLevel(dpower:GetFrameLevel() + 10)
-	dpower.colorPower = true;
+	dpower:SetAllPoints(frame.EclipseBar.backdrop)
+	dpower:SetTemplate("Default")
+	dpower:SetFrameLevel(dpower:GetFrameLevel() + 1)
+	dpower.colorPower = true
 	dpower.PostUpdateVisibility = UF.DruidManaPostUpdateVisibility
 	dpower.PostUpdatePower = UF.DruidPostUpdateAltPower
 
 	dpower.ManaBar = CreateFrame('StatusBar', nil, dpower)
-	dpower.ManaBar:SetStatusBarTexture(E["media"].blankTex)
 	UF['statusbars'][dpower.ManaBar] = true
-	dpower.ManaBar:SetAllPoints(dpower)
+	dpower.ManaBar:SetStatusBarTexture(E["media"].blankTex)
+	dpower.ManaBar:SetInside(dpower)
 
 	dpower.bg = dpower:CreateTexture(nil, "BORDER")
 	dpower.bg:SetAllPoints(dpower.ManaBar)
@@ -550,10 +555,6 @@ end
 
 function UF:DruidManaPostUpdateVisibility()
 	local isShown = self:IsShown()
-
-	local color = E.db.unitframe.colors.borderColor -- Temporal Bugfix
-	self.backdrop:SetBackdropBorderColor(color.r, color.g, color.b);
-
 	if druidManaIsShown ~= isShown then
 		druidManaIsShown = isShown
 

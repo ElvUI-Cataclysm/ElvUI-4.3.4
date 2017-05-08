@@ -316,7 +316,7 @@ E.Options.args.general = {
 					type = "color",
 					order = 15,
 					name = L["Border Color"],
-					desc = L["Main border color of the UI."],
+					desc = L["Main border color of the UI. |cffFF0000This is disabled if you are using the Thin Border Theme.|r"],
 					hasAlpha = false,
 					get = function(info)
 						local t = E.db.general[ info[#info] ];
@@ -324,11 +324,13 @@ E.Options.args.general = {
 						return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 					end,
 					set = function(info, r, g, b)
+						E.db.general[ info[#info] ] = {};
 						local t = E.db.general[ info[#info] ];
 						t.r, t.g, t.b = r, g, b;
 						E:UpdateMedia();
 						E:UpdateBorderColors();
-					end
+					end,
+					disabled = function() return E.PixelMode; end
 				},
 				backdropcolor = {
 					type = "color",
@@ -342,6 +344,7 @@ E.Options.args.general = {
 						return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 					end,
 					set = function(info, r, g, b)
+						E.db.general[ info[#info] ] = {};
 						local t = E.db.general[ info[#info] ];
 						t.r, t.g, t.b = r, g, b;
 						E:UpdateMedia();
@@ -451,6 +454,7 @@ E.Options.args.general = {
 				return t.r, t.g, t.b, t.a, d.r, d.g, d.b;
 			end,
 			set = function(info, r, g, b)
+				E.db.cooldown[ info[#info] ] = {};
 				local t = E.db.cooldown[ info[#info] ];
 				t.r, t.g, t.b = r, g, b;
 				E:UpdateCooldownSettings();

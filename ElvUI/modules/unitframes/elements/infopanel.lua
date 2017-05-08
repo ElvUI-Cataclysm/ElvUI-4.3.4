@@ -6,7 +6,7 @@ function UF:Construct_InfoPanel(frame)
 
 	infoPanel:SetFrameLevel(7);
 	local thinBorders = self.thinBorders;
-	infoPanel:CreateBackdrop("Default", true, nil, thinBorders, true);
+	infoPanel:CreateBackdrop("Default", true, nil, thinBorders);
 
 	return infoPanel;
 end
@@ -38,9 +38,9 @@ function UF:Configure_InfoPanel(frame)
 		local thinBorders = self.thinBorders;
 
 		if(db.infoPanel.transparent) then
-			frame.InfoPanel.backdrop:SetTemplate("Transparent", nil, nil, thinBorders, true);
+			frame.InfoPanel.backdrop:SetTemplate("Transparent", nil, nil, thinBorders);
 		else
-			frame.InfoPanel.backdrop:SetTemplate("Default", true, nil, thinBorders, true);
+			frame.InfoPanel.backdrop:SetTemplate("Default", true, nil, thinBorders);
 		end
 	else
 		frame.InfoPanel:Hide();

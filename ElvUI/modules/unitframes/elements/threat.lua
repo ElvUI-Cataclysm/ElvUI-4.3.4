@@ -129,7 +129,7 @@ function UF:UpdateThreat(unit, status, r, g, b)
 			self.texIcon:SetVertexColor(r, g, b);
 		end
 	else
-		r, g, b = unpack(E.media.unitframeBorderColor)
+		r, g, b = unpack(E.media.bordercolor);
 		if(db.threatStyle == "GLOW") then
 			self.glow:Hide();
 			self.powerGlow:Hide();
