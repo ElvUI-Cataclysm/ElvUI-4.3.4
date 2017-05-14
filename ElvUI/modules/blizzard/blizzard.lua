@@ -30,4 +30,8 @@ function B:Initialize()
 	end)
 end
 
-E:RegisterModule(B:GetName());
+local function InitializeCallback()
+	B:Initialize()
+end
+
+E:RegisterModule(B:GetName(), InitializeCallback)

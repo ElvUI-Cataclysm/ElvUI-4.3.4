@@ -467,4 +467,8 @@ function A:Initialize()
 	TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -7, 0);
 end
 
-E:RegisterModule(A:GetName());
+local function InitializeCallback()
+	A:Initialize()
+end
+
+E:RegisterModule(A:GetName(), InitializeCallback)

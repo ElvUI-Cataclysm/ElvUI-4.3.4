@@ -963,4 +963,8 @@ function AB:Initialize()
 	SpellFlyout:HookScript("OnShow", SetupFlyoutButton);
 end
 
-E:RegisterModule(AB:GetName())
+local function InitializeCallback()
+	AB:Initialize()
+end
+
+E:RegisterModule(AB:GetName(), InitializeCallback)

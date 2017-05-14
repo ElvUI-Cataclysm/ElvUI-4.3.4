@@ -151,4 +151,8 @@ function THREAT:Initialize()
 	self:ToggleEnable();
 end
 
-E:RegisterModule(THREAT:GetName());
+local function InitializeCallback()
+	THREAT:Initialize()
+end
+
+E:RegisterModule(THREAT:GetName(), InitializeCallback)
