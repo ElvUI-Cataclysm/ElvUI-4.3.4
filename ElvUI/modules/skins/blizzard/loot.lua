@@ -8,6 +8,7 @@ local UnitName = UnitName;
 local IsFishingLoot = IsFishingLoot;
 local GetLootRollItemInfo = GetLootRollItemInfo
 local GetItemQualityColor = GetItemQualityColor
+local SquareButton_SetIcon = SquareButton_SetIcon
 local LOOTFRAME_NUMBUTTONS = LOOTFRAME_NUMBUTTONS;
 local NUM_GROUP_LOOT_FRAMES = NUM_GROUP_LOOT_FRAMES
 local LOOT = LOOT;
@@ -47,11 +48,11 @@ local function LoadSkin()
 	end
 
 	S:HandleNextPrevButton(LootFrameUpButton);
-	S:SquareButton_SetIcon(LootFrameUpButton, "UP");
+	SquareButton_SetIcon(LootFrameUpButton, "UP");
 	LootFrameUpButton:Point("BOTTOMLEFT", 25, 20)
 
 	S:HandleNextPrevButton(LootFrameDownButton);
-	S:SquareButton_SetIcon(LootFrameDownButton, "DOWN");
+	SquareButton_SetIcon(LootFrameDownButton, "DOWN");
 	LootFrameDownButton:Point("BOTTOMLEFT", 143, 20)
 
 	LootFrame:HookScript("OnShow", function(self)
