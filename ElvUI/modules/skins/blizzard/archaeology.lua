@@ -89,7 +89,7 @@ local function LoadSkin()
 	ArchaeologyFrameArtifactPageIcon:SetTexCoord(unpack(E.TexCoords))
 	ArchaeologyFrameArtifactPageIcon:SetParent(ArchaeologyFrameArtifactPageIcon.backdrop)
 	ArchaeologyFrameArtifactPageIcon:SetDrawLayer("OVERLAY")
-	ArchaeologyFrameArtifactPageIcon:Point("TOPLEFT", ArchaeologyFrameArtifactPage, "TOPLEFT", -42, -47)
+	ArchaeologyFrameArtifactPageIcon:Point("TOPLEFT", ArchaeologyFrameArtifactPage, "TOPLEFT", -40, -50)
 
 	ArchaeologyFrameArtifactPage.glow:Kill()
 
@@ -153,14 +153,16 @@ local function LoadSkin()
 			artifact:SetTemplate("Transparent");
 			artifact:StyleButton()
 
+			icon.bg = CreateFrame("Frame", nil, artifact)
+			icon.bg:SetTemplate()
+			icon.bg:Point("TOPLEFT", icon, -1, 1)
+			icon.bg:Point("BOTTOMRIGHT", icon, 1, -1)
+			icon.bg:SetFrameLevel(icon.bg:GetFrameLevel() + 2)
+
 			icon:SetTexCoord(unpack(E.TexCoords))
 			icon:SetDrawLayer("OVERLAY")
-			icon:Size(icon:GetWidth() - 2, icon:GetHeight() - 2)
-
-			artifact.bg1 = CreateFrame("Frame", nil, artifact)
-			artifact.bg1:CreateBackdrop()
-			artifact.bg1:SetInside(icon)
-			icon:SetParent(artifact.bg1)
+			icon:Size(42)
+			icon:SetParent(icon.bg)
 		end
 	end
 
@@ -194,10 +196,11 @@ local function LoadSkin()
 
 	--Summary Tab
 	ArchaeologyFrameSummarytButton:StripTextures()
-	ArchaeologyFrameSummarytButton:CreateBackdrop("Transparent")
+	ArchaeologyFrameSummarytButton:SetTemplate("Transparent")
 	ArchaeologyFrameSummarytButton:GetHighlightTexture():SetTexture(nil)
 	ArchaeologyFrameSummarytButton:Size(45, 38)
-	ArchaeologyFrameSummarytButton:Point("TOPLEFT", ArchaeologyFrame, "TOPRIGHT", 0, -30)
+	ArchaeologyFrameSummarytButton:Point("TOPLEFT", ArchaeologyFrame, "TOPRIGHT", -1, -30)
+	ArchaeologyFrameSummarytButton:SetFrameLevel(ArchaeologyFrameSummarytButton:GetFrameLevel() + 2)
 
 	ArchaeologyFrameSummarytButton.icon = ArchaeologyFrameSummarytButton:CreateTexture(nil, "OVERLAY");
 	ArchaeologyFrameSummarytButton.icon:SetTexture("Interface\\ARCHEOLOGY\\ARCH-RACE-TOLVIR")
@@ -208,10 +211,11 @@ local function LoadSkin()
 
 	--Complete Tab
 	ArchaeologyFrameCompletedButton:StripTextures()
-	ArchaeologyFrameCompletedButton:CreateBackdrop("Transparent")
+	ArchaeologyFrameCompletedButton:SetTemplate("Transparent")
 	ArchaeologyFrameCompletedButton:GetHighlightTexture():SetTexture(nil)
 	ArchaeologyFrameCompletedButton:Size(45, 38)
-	ArchaeologyFrameCompletedButton:Point("TOPLEFT", ArchaeologyFrame, "TOPRIGHT", 0, -80)
+	ArchaeologyFrameCompletedButton:Point("TOPLEFT", ArchaeologyFrame, "TOPRIGHT", -1, -80)
+	ArchaeologyFrameCompletedButton:SetFrameLevel(ArchaeologyFrameCompletedButton:GetFrameLevel() + 2)
 
 	ArchaeologyFrameCompletedButton.icon = ArchaeologyFrameCompletedButton:CreateTexture(nil, "OVERLAY");
 	ArchaeologyFrameCompletedButton.icon:SetTexture("Interface\\ARCHEOLOGY\\ARCH-RACE-TOLVIR")
