@@ -11,7 +11,7 @@ local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 E.mult = 1;
 local backdropr, backdropg, backdropb, backdropa, borderr, borderg, borderb = 0, 0, 0, 1, 0, 0, 0;
 
-local function GetTemplate(t, isPixelPerfectForced)
+local function GetTemplate(t, isUnitFrameElement)
 	backdropa = 1
 	if t == "ClassColor" then
 		if(CUSTOM_CLASS_COLORS) then
@@ -26,15 +26,19 @@ local function GetTemplate(t, isPixelPerfectForced)
 			backdropr, backdropg, backdropb, backdropa = unpack(E["media"].backdropfadecolor)
 		end
 	elseif t == "Transparent" then
-		borderr, borderg, borderb = unpack(E["media"].bordercolor)
+		if isUnitFrameElement then
+			borderr, borderg, borderb = unpack(E["media"].unitframeBorderColor)
+		else
+			borderr, borderg, borderb = unpack(E["media"].bordercolor)
+		end
 		backdropr, backdropg, backdropb, backdropa = unpack(E["media"].backdropfadecolor)
 	else
-		borderr, borderg, borderb = unpack(E["media"].bordercolor)
+		if isUnitFrameElement then
+			borderr, borderg, borderb = unpack(E["media"].unitframeBorderColor)
+		else
+			borderr, borderg, borderb = unpack(E["media"].bordercolor)
+		end
 		backdropr, backdropg, backdropb = unpack(E["media"].backdropcolor)
-	end
-
-	if(isPixelPerfectForced) then
-		borderr, borderg, borderb = 0, 0, 0;
 	end
 end
 
@@ -94,8 +98,8 @@ local function SetInside(obj, anchor, xOffset, yOffset, anchor2)
 	obj:Point("BOTTOMRIGHT", anchor2 or anchor, "BOTTOMRIGHT", -xOffset, yOffset)
 end
 
-local function SetTemplate(f, t, glossTex, ignoreUpdates, forcePixelMode)
-	GetTemplate(t, f.forcePixelMode or forcePixelMode)
+local function SetTemplate(f, t, glossTex, ignoreUpdates, forcePixelMode, isUnitFrameElement)
+	GetTemplate(t, isUnitFrameElement)
 
 	if(t) then
 		f.template = t;
@@ -111,6 +115,10 @@ local function SetTemplate(f, t, glossTex, ignoreUpdates, forcePixelMode)
 
 	if(forcePixelMode) then
 		f.forcePixelMode = forcePixelMode
+	end
+
+	if(isUnitFrameElement) then
+		f.isUnitFrameElement = isUnitFrameElement
 	end
 
 	if(t ~= "NoBackdrop") then
@@ -188,15 +196,18 @@ local function SetTemplate(f, t, glossTex, ignoreUpdates, forcePixelMode)
 		if f.backdropTexture then f.backdropTexture:SetTexture(nil) end
 	end
 
-	f:SetBackdropColor(backdropr, backdropg, backdropb, backdropa)
 	f:SetBackdropBorderColor(borderr, borderg, borderb)
 
-	if(not f.ignoreUpdates and not f.forcePixelMode) then
-		E["frames"][f] = true;
+	if(not f.ignoreUpdates) then
+		if f.isUnitFrameElement then
+			E["unitFrameElements"][f] = true
+		else
+			E["frames"][f] = true
+		end
 	end
 end
 
-local function CreateBackdrop(f, t, tex, ignoreUpdates, forcePixelMode)
+local function CreateBackdrop(f, t, tex, ignoreUpdates, forcePixelMode, isUnitFrameElement)
 	if(not t) then t = "Default"; end
 
 	local b = CreateFrame("Frame", nil, f);
@@ -205,7 +216,7 @@ local function CreateBackdrop(f, t, tex, ignoreUpdates, forcePixelMode)
 	else
 		b:SetOutside();
 	end
-	b:SetTemplate(t, tex, ignoreUpdates, forcePixelMode);
+	b:SetTemplate(t, tex, ignoreUpdates, forcePixelMode, isUnitFrameElement);
 
 	if(f:GetFrameLevel() - 1 >= 0) then
 		b:SetFrameLevel(f:GetFrameLevel() - 1);
