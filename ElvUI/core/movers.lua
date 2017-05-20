@@ -111,10 +111,10 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag)
 
 		f:Point(point, anchor, secondaryPoint, x, y)
 	end
-	
+
 	local function OnDragStart(self)
 		if InCombatLockdown() then E:Print(ERR_NOT_IN_COMBAT) return end
-		
+
 		if E.db['general'].stickyFrames then
 			Sticky:StartMoving(self, E['snapBars'], f.snapOffset, f.snapOffset, f.snapOffset, f.snapOffset)
 		else
@@ -375,7 +375,7 @@ function E:DisableMover(name)
 	if(self.DisabledMovers[name]) then return; end
 	if(not self.CreatedMovers[name]) then
 		error("mover doesn't exist");
-	end	
+	end
 
 	self.DisabledMovers[name] = {};
 	for x, y in pairs(self.CreatedMovers[name]) do
@@ -393,7 +393,7 @@ function E:EnableMover(name)
 	if(self.CreatedMovers[name]) then return; end
 	if(not self.DisabledMovers[name]) then
 		error("mover doesn't exist");
-	end	
+	end
 
 	self.CreatedMovers[name] = {}
 	for x, y in pairs(self.DisabledMovers[name]) do
@@ -408,7 +408,7 @@ function E:EnableMover(name)
 ]]
 	if(self.configMode) then
 		_G[name]:Show();
-	end	
+	end
 
 	self.DisabledMovers[name] = nil;
 end

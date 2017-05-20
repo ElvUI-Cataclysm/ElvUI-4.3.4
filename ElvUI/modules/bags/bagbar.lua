@@ -93,9 +93,7 @@ function B:SizeAndPositionBagBar()
 end
 
 function B:LoadBagBar()
-	if not E.private.bags.bagBar then 
-		return 
-	end
+	if not E.private.bags.bagBar then return end
 
 	local ElvUIBags = CreateFrame("Frame", "ElvUIBags", E.UIParent);
 	ElvUIBags:SetPoint('TOPRIGHT', RightChatPanel, 'TOPLEFT', -4, 0);
@@ -123,7 +121,7 @@ function B:LoadBagBar()
 		b.SetParent = E.dummy;
 		b:HookScript('OnEnter', OnEnter);
 		b:HookScript('OnLeave', OnLeave);
-		
+
 		self:SkinBag(b);
 		tinsert(ElvUIBags.buttons, b);
 	end

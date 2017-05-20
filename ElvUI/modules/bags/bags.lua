@@ -145,7 +145,7 @@ function B:UpdateSearch()
 	elseif(searchString == SEARCH) then
 		searchString = ''
 	end
-	
+
 	SEARCH_STRING = searchString
 
 	B:SetSearch(SEARCH_STRING);
@@ -391,7 +391,7 @@ end
 function B:Layout(isBank)
 	if E.private.bags.enable ~= true then return; end
 	local f = self:GetContainerFrame(isBank);
-	
+
 	if not f then return; end
 	local buttonSize = isBank and self.db.bankSize or self.db.bagSize;
 	local buttonSpacing = E.PixelMode and 2 or 4;
@@ -462,7 +462,7 @@ function B:Layout(isBank)
 				f.ContainerHolder[i]:SetPoint('LEFT', lastContainerButton, 'RIGHT', buttonSpacing, 0)
 			end
 
-			lastContainerButton = f.ContainerHolder[i];	
+			lastContainerButton = f.ContainerHolder[i];
 		end
 
 		--Bag Slots

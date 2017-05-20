@@ -22,6 +22,7 @@ local function LoadSkin()
 	CharacterModelFrame:CreateBackdrop("Default")
 	CharacterModelFrame.backdrop:Point("TOPLEFT", -1, 1)
 	CharacterModelFrame.backdrop:Point("BOTTOMRIGHT", 1, -2)
+	CharacterModelFrameBackgroundOverlay:SetTexture(0, 0, 0, 0.5)
 
 	S:HandleCloseButton(CharacterFrameCloseButton)
 
@@ -219,6 +220,7 @@ local function LoadSkin()
 			object.text.SetFont = E.noop
 			object:StyleButton()
 			object.SelectedBar:SetTexture(0, 0.7, 1, 0.75)
+			object.SelectedBar:SetInside()
 		end
 	end)
 
@@ -232,20 +234,22 @@ local function LoadSkin()
 			object.BgTop:SetTexture(nil)
 			object.BgBottom:SetTexture(nil)
 			object.BgMiddle:SetTexture(nil)
-
-			object:StyleButton()
 			object.Check:SetTexture(nil)
+
 			object.SelectedBar:SetTexture(0, 0.7, 1, 0.75)
-			object.HighlightBar:SetTexture(nil)
+			object.SelectedBar:SetInside()
+			object.HighlightBar:SetTexture(1, 1, 1, 0.30)
+			object.HighlightBar:SetInside()
 
 			object:CreateBackdrop("Default")
-			object.backdrop:SetOutside(object.icon)
+			object.backdrop:Point("TOPLEFT", object.icon, -1, 1)
+			object.backdrop:Point("BOTTOMRIGHT", object.icon, 1, -1)
 
 			object.icon:SetTexCoord(unpack(E.TexCoords))
 			object.icon:SetParent(object.backdrop)
 			object.icon:SetPoint("LEFT", object, "LEFT", 1, 0)
 			object.icon.SetPoint = E.noop
-			object.icon:Size(42)
+			object.icon:Size(40)
 			object.icon.SetSize = E.noop
 		end
 	end)

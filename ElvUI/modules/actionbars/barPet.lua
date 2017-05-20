@@ -189,7 +189,7 @@ function AB:PositionAndSizeBarPet()
 				self:HookScript(bar, 'OnEnter', 'PetOnEnter');
 				self:HookScript(bar, 'OnLeave', 'PetOnLeave');	
 			end
-			
+
 			if(not self.hooks[button]) then
 				self:HookScript(button, 'OnEnter', 'PetOnEnter');
 				self:HookScript(button, 'OnLeave', 'PetOnLeave');
@@ -252,7 +252,7 @@ function AB:PositionAndSizeBarPet()
 		end
 
 		self:StyleButton(button);
-		
+
 		if not button.CheckFixed then
 			hooksecurefunc(button:GetCheckedTexture(), 'SetAlpha', function(self, value)
 				if value == 1 then

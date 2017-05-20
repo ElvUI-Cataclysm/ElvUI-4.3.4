@@ -105,7 +105,7 @@ function mod:SetTargetFrame(frame)
 		frame.isTarget = true
 		frame.unit = "target"
 		frame.guid = UnitGUID("target")
-		
+
 		if self.db.units[frame.UnitType].healthbar.enable ~= true then
 			frame.Name:ClearAllPoints()
 			frame.Level:ClearAllPoints()
@@ -257,7 +257,7 @@ function mod:UnitClass(frame, type)
 		end
 	end
 end
-	
+
 function mod:UnitDetailedThreatSituation(frame)
 	if not frame.Threat:IsShown() then
 		if frame.UnitType == "ENEMY_NPC" then

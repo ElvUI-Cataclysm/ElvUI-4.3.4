@@ -322,11 +322,15 @@ local function LoadSkin()
 
 	QuestNPCModel:StripTextures()
 	QuestNPCModel:CreateBackdrop("Transparent")
+	QuestNPCModel.backdrop:Point("BOTTOMRIGHT", 2, -2)
 	QuestNPCModel:Point("TOPLEFT", QuestLogDetailFrame, "TOPRIGHT", 4, -34)
 
 	QuestNPCModelTextFrame:StripTextures()
 	QuestNPCModelTextFrame:CreateBackdrop("Default")
-	QuestNPCModelTextFrame.backdrop:Point("TOPLEFT", QuestNPCModel.backdrop, "BOTTOMLEFT", 0, -2)
+	QuestNPCModelTextFrame.backdrop:Point("TOPLEFT", E.PixelMode and -1 or -2, 16)
+	QuestNPCModelTextFrame.backdrop:Point("BOTTOMRIGHT", 2, -2)
+
+	QuestNPCModelNameText:Point("TOPLEFT", QuestNPCModelNameplate, 22, -20)
 
 	hooksecurefunc("QuestFrame_ShowQuestPortrait", function(parentFrame, portrait, text, name, x, y)
 		QuestNPCModel:ClearAllPoints();
