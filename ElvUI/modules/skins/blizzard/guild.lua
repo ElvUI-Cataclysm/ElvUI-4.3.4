@@ -44,10 +44,10 @@ local function LoadSkin()
 	GuildXPBar.progress:SetTexture(E["media"].normTex)
 
 	--Faction Bar
+	GuildFactionFrame:SetTemplate("Default")
+
 	GuildFactionBar:StripTextures()
-	GuildFactionBar:CreateBackdrop("Default")
-	GuildFactionBar.backdrop:Point("TOPLEFT", GuildFactionBar.progress, "TOPLEFT", -1, 1)
-	GuildFactionBar.backdrop:Point("BOTTOMRIGHT", GuildFactionBar, "BOTTOMRIGHT", -2, 1)
+	GuildFactionBar:SetAllPoints(GuildFactionFrame)
 	GuildFactionBar.progress:SetTexture(E["media"].normTex)
 
 	--Guild Latest/Next Perks/Updates
@@ -87,6 +87,14 @@ local function LoadSkin()
 
 	S:HandleScrollBar(GuildRewardsContainerScrollBar, 5)
 
+	for i = 1, 8 do
+		local Rewards = _G["GuildRewardsContainerButton"..i];
+		local Perks =  _G["GuildPerksContainerButton"..i];
+
+		Perks.icon:Size(E.PixelMode and 40 or 38);
+		Rewards.icon:Size(E.PixelMode and 43 or 40);
+	end
+
 	for _, Object in pairs({"Rewards", "Perks"}) do
 		for i = 1, 8 do
 			local Button = _G["Guild"..Object.."ContainerButton"..i];
@@ -101,7 +109,6 @@ local function LoadSkin()
 
 			Button.icon:SetTexCoord(unpack(E.TexCoords));
 			Button.icon:Point("TOPLEFT", 2, -2);
-			Button.icon:Size(43);
 			Button.icon:SetParent(Button.backdrop);
 
 			if(Object == "Rewards") then
@@ -129,12 +136,12 @@ local function LoadSkin()
 		local icon = _G["GuildRosterContainerButton"..i.."Icon"];
 
 		button:CreateBackdrop("Default", true);
-		button.backdrop:SetInside(icon);
+		button.backdrop:SetAllPoints(icon);
 		button:StyleButton();
 
 		icon:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
 		icon:SetParent(button.backdrop);
-		icon:Size(20);
+		icon:Size(18);
 
 		_G["GuildRosterContainerButton"..i.."BarTexture"]:SetTexture(E["media"].normTex);
 		S:HandleButton(_G["GuildRosterContainerButton"..i.."HeaderButton"], true);
@@ -283,7 +290,7 @@ local function LoadSkin()
 
 		button:StripTextures();
 		button:CreateBackdrop("Transparent");
-		button.backdrop:SetInside();
+		button.backdrop:SetAllPoints();
 		button:StyleButton();
 
 		button.bg = CreateFrame("Frame", nil, button);
@@ -304,6 +311,7 @@ local function LoadSkin()
 		button.level:SetParent(button.backdrop);
 
 		button.comment:SetParent(button.backdrop);
+		button.comment:Point("BOTTOMRIGHT", 0, 0)
 		button.fullComment:SetParent(button.backdrop);
 		button.timeLeft:SetParent(button.backdrop);
 

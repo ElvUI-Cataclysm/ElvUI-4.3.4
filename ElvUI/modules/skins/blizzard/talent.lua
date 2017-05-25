@@ -153,7 +153,7 @@ local function LoadSkin()
 
 	--Reposition tabs
 	PlayerSpecTab1:ClearAllPoints()
-	PlayerSpecTab1:SetPoint("TOPLEFT", PlayerTalentFrame, "TOPRIGHT", -1, -32)
+	PlayerSpecTab1:SetPoint("TOPLEFT", PlayerTalentFrame, "TOPRIGHT", E.PixelMode and -1 or 1, -32)
 	PlayerSpecTab1.SetPoint = E.noop
 
 	local function TalentSummaryClean(i)

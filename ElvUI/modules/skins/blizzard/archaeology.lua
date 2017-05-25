@@ -199,8 +199,7 @@ local function LoadSkin()
 	ArchaeologyFrameSummarytButton:SetTemplate("Transparent")
 	ArchaeologyFrameSummarytButton:GetHighlightTexture():SetTexture(nil)
 	ArchaeologyFrameSummarytButton:Size(45, 38)
-	ArchaeologyFrameSummarytButton:Point("TOPLEFT", ArchaeologyFrame, "TOPRIGHT", -1, -30)
-	ArchaeologyFrameSummarytButton:SetFrameLevel(ArchaeologyFrameSummarytButton:GetFrameLevel() + 2)
+	ArchaeologyFrameSummarytButton:Point("TOPLEFT", ArchaeologyFrame, "TOPRIGHT", E.PixelMode and -1 or 1, -30)
 
 	ArchaeologyFrameSummarytButton.icon = ArchaeologyFrameSummarytButton:CreateTexture(nil, "OVERLAY");
 	ArchaeologyFrameSummarytButton.icon:SetTexture("Interface\\ARCHEOLOGY\\ARCH-RACE-TOLVIR")
@@ -214,8 +213,7 @@ local function LoadSkin()
 	ArchaeologyFrameCompletedButton:SetTemplate("Transparent")
 	ArchaeologyFrameCompletedButton:GetHighlightTexture():SetTexture(nil)
 	ArchaeologyFrameCompletedButton:Size(45, 38)
-	ArchaeologyFrameCompletedButton:Point("TOPLEFT", ArchaeologyFrame, "TOPRIGHT", -1, -80)
-	ArchaeologyFrameCompletedButton:SetFrameLevel(ArchaeologyFrameCompletedButton:GetFrameLevel() + 2)
+	ArchaeologyFrameCompletedButton:Point("TOPLEFT", ArchaeologyFrame, "TOPRIGHT", E.PixelMode and -1 or 1, -80)
 
 	ArchaeologyFrameCompletedButton.icon = ArchaeologyFrameCompletedButton:CreateTexture(nil, "OVERLAY");
 	ArchaeologyFrameCompletedButton.icon:SetTexture("Interface\\ARCHEOLOGY\\ARCH-RACE-TOLVIR")

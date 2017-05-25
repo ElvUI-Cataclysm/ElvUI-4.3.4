@@ -122,7 +122,7 @@ local function LoadSkin()
 	EncounterJournalEncounterFrameInfoBossTab:StripTextures()
 	EncounterJournalEncounterFrameInfoBossTab:SetTemplate("Transparent")
 	EncounterJournalEncounterFrameInfoBossTab:Size(45, 40)
-	EncounterJournalEncounterFrameInfoBossTab:Point("TOPLEFT", EncounterJournalEncounterFrameInfo, "TOPRIGHT", 7, 40)
+	EncounterJournalEncounterFrameInfoBossTab:Point("TOPLEFT", EncounterJournalEncounterFrameInfo, "TOPRIGHT", E.PixelMode and 7 or 9, 40)
 
 	EncounterJournalEncounterFrameInfoBossTab.icon = EncounterJournalEncounterFrameInfoBossTab:CreateTexture(nil, "OVERLAY");
 	EncounterJournalEncounterFrameInfoBossTab.icon:SetTexture("Interface\\EncounterJournal\\UI-EncounterJournalTextures")
@@ -265,9 +265,10 @@ local function LoadSkin()
 		item.bosslessTexture:SetAlpha(0)
 
 		item.icon:Size(38)
-		item.icon:Point("TOPLEFT", E.PixelMode and 1 or 2, -(E.PixelMode and 5 or 6))
 		if i == 1 then
 			item.icon:Point("TOPLEFT", E.PixelMode and 2 or 3, -(E.PixelMode and 5 or 6))
+		else
+			item.icon:Point("TOPLEFT", E.PixelMode and 1 or 2, -(E.PixelMode and 5 or 6))
 		end
 		S:HandleIcon(item.icon)
 		item.icon:SetDrawLayer("OVERLAY")

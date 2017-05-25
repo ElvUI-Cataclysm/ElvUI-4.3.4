@@ -190,11 +190,12 @@ local function LoadSkin()
 		_G["WarGamesFrameScrollFrameButton"..i.."WarGameBorder"]:Kill();
 		warGames:StyleButton();
 		warGames.selectedTex:SetTexture(1, 1, 1, 0.3);
+		warGames.selectedTex:SetInside()
 		warGames:CreateBackdrop();
 		warGames.backdrop:SetOutside(warGamesIcon);
 
-		warGamesIcon:Point("TOPLEFT", 2, -1);
-		warGamesIcon:Size(37);
+		warGamesIcon:Point("TOPLEFT", 2, -(E.PixelMode and 2 or 4));
+		warGamesIcon:Size(E.PixelMode and 36 or 32);
 		warGamesIcon:SetParent(warGames.backdrop);
 
 		warGamesHeader:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");

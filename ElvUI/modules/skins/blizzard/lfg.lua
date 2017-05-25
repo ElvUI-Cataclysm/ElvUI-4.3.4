@@ -141,7 +141,7 @@ local function LoadSkin()
 				if(role3) then role3:SetParent(button.backdrop); end
 
 				button:HookScript("OnUpdate", function(self)
-					button.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor));
+					button.backdrop:SetBackdropBorderColor(0, 0, 0);
 					name:SetTextColor(1, 1, 1);
 					if(button.dungeonID) then
 						local Link = GetLFGDungeonRewardLink(button.dungeonID, i);
@@ -393,7 +393,7 @@ local function LoadSkin()
 		S:HandleTab(_G["RaidParentFrameTab"..i]);
 	end
 
-	LFRParentFrameSideTab1:Point("TOPLEFT", LFRParentFrame, "TOPRIGHT", -1, -35);
+	LFRParentFrameSideTab1:Point("TOPLEFT", LFRParentFrame, "TOPRIGHT", E.PixelMode and -1 or 1, -35)
 
 	RaidFinderQueueFrame:StripTextures(true);
 	RaidFinderFrame:StripTextures();

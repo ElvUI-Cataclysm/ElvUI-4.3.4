@@ -97,8 +97,7 @@ local function LoadSkin()
 		tab:GetNormalTexture():SetInside()
 
 		tab.pushed = true;
-		tab:CreateBackdrop("Default")
-		tab.backdrop:SetAllPoints()
+		tab:SetTemplate()
 		tab:StyleButton(true)
 		hooksecurefunc(tab:GetHighlightTexture(), "SetTexture", function(self, texPath)
 			if(texPath ~= nil) then
@@ -136,7 +135,7 @@ local function LoadSkin()
 	end
 	hooksecurefunc("SpellBookFrame_UpdateSkillLineTabs", SkinSkillLine)
 
-	SpellBookSkillLineTab1:Point("TOPLEFT", SpellBookSideTabsFrame, "TOPRIGHT", -1, -40)
+	SpellBookSkillLineTab1:Point("TOPLEFT", SpellBookSideTabsFrame, "TOPRIGHT", E.PixelMode and -1 or 1, -40)
 
 	--Bottom Tabs
 	for i = 1, 5 do
