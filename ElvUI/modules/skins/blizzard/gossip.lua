@@ -32,7 +32,12 @@ local function LoadSkin()
 	GossipFrame.backdrop:Point("BOTTOMRIGHT", -30, 65)
 
 	S:HandleNextPrevButton(ItemTextPrevPageButton)
+	ItemTextPrevPageButton:Point("CENTER", ItemTextFrame, "TOPLEFT", 45, -60)
+
 	S:HandleNextPrevButton(ItemTextNextPageButton)
+	ItemTextNextPageButton:Point("CENTER", ItemTextFrame, "TOPRIGHT", -80, -60)
+
+	ItemTextCurrentPage:Point("TOP", -15, -52)
 
 	S:HandleScrollBar(ItemTextScrollFrameScrollBar)
 	S:HandleScrollBar(GossipGreetingScrollFrameScrollBar, 5)
