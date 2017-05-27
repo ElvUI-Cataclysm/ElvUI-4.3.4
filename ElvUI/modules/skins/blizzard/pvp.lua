@@ -186,13 +186,17 @@ local function LoadSkin()
 		local warGames = _G["WarGamesFrameScrollFrameButton"..i.."WarGame"]
 		local warGamesHeader = _G["WarGamesFrameScrollFrameButton" .. i .. "Header"];
 		local warGamesIcon = _G["WarGamesFrameScrollFrameButton"..i.."WarGameIcon"];
+		local warGamesBG = _G["WarGamesFrameScrollFrameButton"..i.."WarGameBg"]
+		local warGamesBorder = _G["WarGamesFrameScrollFrameButton"..i.."WarGameBorder"]
 
-		_G["WarGamesFrameScrollFrameButton"..i.."WarGameBorder"]:Kill();
 		warGames:StyleButton();
 		warGames.selectedTex:SetTexture(1, 1, 1, 0.3);
 		warGames.selectedTex:SetInside()
 		warGames:CreateBackdrop();
 		warGames.backdrop:SetOutside(warGamesIcon);
+
+		warGamesBG:SetInside()
+		warGamesBorder:Kill()
 
 		warGamesIcon:Point("TOPLEFT", 2, -(E.PixelMode and 2 or 4));
 		warGamesIcon:Size(E.PixelMode and 36 or 32);

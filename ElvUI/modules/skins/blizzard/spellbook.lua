@@ -301,22 +301,18 @@ local function LoadSkin()
 	for i = 1, NUM_COMPANIONS_PER_PAGE do
 		local button = _G["SpellBookCompanionButton"..i]
 		local icon = _G["SpellBookCompanionButton"..i.."IconTexture"]
+
 		button:StripTextures()
+		button:SetTemplate("Default", true)
 		button:StyleButton(false)
 
-		if(icon) then
-			icon:SetTexCoord(unpack(E.TexCoords))
-			icon:SetInside()
-
-			button:SetFrameLevel(button:GetFrameLevel() + 2)
-			button:CreateBackdrop("Default", true)
-			button.backdrop:SetOutside(icon)
-		end
+		icon:SetTexCoord(unpack(E.TexCoords))
+		icon:SetInside(button)
 
 		button.bg = CreateFrame("Frame", nil, button)
 		button.bg:CreateBackdrop("Transparent", true);
-		button.bg:Point("TOPLEFT", -1, 1);
-		button.bg:Point("BOTTOMRIGHT", 105, -1);
+		button.bg:Point("TOPLEFT", E.PixelMode and 1 or -1, E.PixelMode and -1 or 1);
+		button.bg:Point("BOTTOMRIGHT", 105, E.PixelMode and 1 or -1);
 	end
 
 	SpellBookCompanionButton1:Point("TOPLEFT", 9, -310)

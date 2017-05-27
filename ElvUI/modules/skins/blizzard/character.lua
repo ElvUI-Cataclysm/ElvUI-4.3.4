@@ -221,6 +221,7 @@ local function LoadSkin()
 			object:StyleButton()
 			object.SelectedBar:SetTexture(0, 0.7, 1, 0.75)
 			object.SelectedBar:SetInside()
+			object.Stripe:SetInside()
 		end
 	end)
 
@@ -240,6 +241,7 @@ local function LoadSkin()
 			object.SelectedBar:SetInside()
 			object.HighlightBar:SetTexture(1, 1, 1, 0.30)
 			object.HighlightBar:SetInside()
+			object.Stripe:SetInside()
 
 			object:CreateBackdrop("Default")
 			object.backdrop:Point("TOPLEFT", object.icon, -1, 1)
