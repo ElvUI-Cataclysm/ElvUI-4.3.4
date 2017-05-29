@@ -1,14 +1,12 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule("UnitFrames");
 
-local find = string.find;
-
 local CreateFrame = CreateFrame;
 
 function UF:Construct_Portrait(frame, type)
 	local portrait;
 	if(type == "texture") then
-		local backdrop = CreateFrame('Frame', nil, frame)
+		local backdrop = CreateFrame("Frame", nil, frame)
 		portrait = frame:CreateTexture(nil, "OVERLAY");
 		portrait:SetTexCoord(0.15, 0.85, 0.15, 0.85);
 		backdrop:SetOutside(portrait);
@@ -22,7 +20,7 @@ function UF:Construct_Portrait(frame, type)
 
 	portrait.PostUpdate = self.PortraitUpdate;
 	portrait.overlay = CreateFrame("Frame", nil, frame);
-	portrait.overlay:SetFrameLevel(frame.Health:GetFrameLevel())
+	portrait.overlay:SetFrameLevel(frame.Health:GetFrameLevel() + 5) --Set to "frame.Health:GetFrameLevel()" if you don't want portrait cut off.
 
 	return portrait;
 end
@@ -76,7 +74,7 @@ function UF:Configure_Portrait(frame, dontHide)
 
 			if(frame.ORIENTATION == "LEFT") then
 				portrait.backdrop:Point("TOPLEFT", frame, "TOPLEFT", frame.SPACING, frame.USE_MINI_CLASSBAR and -(frame.CLASSBAR_YOFFSET+frame.SPACING) or -frame.SPACING);
-				
+
 				if(frame.USE_MINI_POWERBAR or frame.USE_POWERBAR_OFFSET or not frame.USE_POWERBAR or frame.USE_INSET_POWERBAR or frame.POWERBAR_DETACHED) then
 					portrait.backdrop:Point("BOTTOMRIGHT", frame.Health.backdrop, "BOTTOMLEFT", frame.BORDER - frame.SPACING*3, 0);
 				else
@@ -103,7 +101,7 @@ function UF:Configure_Portrait(frame, dontHide)
 	end
 end
 
-function UF:PortraitUpdate()
+function UF:PortraitUpdate(unit, event, shouldUpdate)
 	local db = self:GetParent().db;
 	if(not db) then return; end
 
@@ -115,22 +113,19 @@ function UF:PortraitUpdate()
 		self:SetAlpha(1)
 	end
 
-	if(self:GetObjectType() ~= "Texture") then
-		local model = self:GetModel();
+	if (shouldUpdate or (event == "ElvUI_UpdateAllElements" and self:IsObjectType("Model"))) then
 		local rotation = portrait.rotation or 0;
 		local camDistanceScale = portrait.camDistanceScale or 1;
 		local xOffset, yOffset = (portrait.xOffset or 0), (portrait.yOffset or 0);
-
-		if(model and model.find and model:find("worgenmale")) then
-			self:SetCamera(1);
-		end
 
 		if(self:GetFacing() ~= (rotation / 60)) then
 			self:SetFacing(rotation / 60);
 		end
 
-		self:SetCamDistanceScale(camDistanceScale - 0.01 >= 0.01 and camDistanceScale - 0.01 or 0.01);
-		self:SetCamDistanceScale(camDistanceScale);
-		self:SetPosition(0, xOffset, yOffset);
+		self:SetCamDistanceScale(camDistanceScale)
+		self:SetPosition(0, xOffset, yOffset)
+
+		self:ClearModel()
+		self:SetUnit(unit)
 	end
 end
