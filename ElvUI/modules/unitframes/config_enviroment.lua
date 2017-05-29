@@ -164,7 +164,7 @@ end
 function UF:ShowChildUnits(header, ...)
 	header.isForced = true
 
-	for i=1, select("#", ...) do
+	for i = 1, select("#", ...) do
 		local frame = select(i, ...)
 		frame:RegisterForClicks(nil)
 		frame:SetID(i)
@@ -176,7 +176,7 @@ end
 function UF:UnshowChildUnits(header, ...)
 	header.isForced = nil
 
-	for i=1, select("#", ...) do
+	for i = 1, select("#", ...) do
 		local frame = select(i, ...)
 		frame:RegisterForClicks(self.db.targetOnMouseDown and "AnyDown" or "AnyUp")
 		frame.TargetGlow:SetAlpha(1)
@@ -230,7 +230,7 @@ function UF:HeaderConfig(header, configMode)
 		end
 	end
 
-	for i=1, #header.groups do
+	for i = 1, #header.groups do
 		local group = header.groups[i]
 
 		if group:IsShown() then
@@ -243,7 +243,6 @@ function UF:HeaderConfig(header, configMode)
 				end
 
 				OnAttributeChanged(group)
-
 
 				group:Update()
 			else
@@ -276,13 +275,13 @@ function UF:PLAYER_REGEN_DISABLED()
 		end
 	end
 
-	for i=1, 5 do
+	for i = 1, 5 do
 		if self["arena"..i] and self["arena"..i].isForced then
 			self:UnforceShow(self["arena"..i])
 		end
 	end
 
-	for i=1, 4 do
+	for i = 1, 4 do
 		if self["boss"..i] and self["boss"..i].isForced then
 			self:UnforceShow(self["boss"..i])
 		end

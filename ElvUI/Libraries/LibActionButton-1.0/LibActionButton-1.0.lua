@@ -522,7 +522,7 @@ end
 
 function Generic:OnUpdate()
 	if not GetCVarBool('lockActionBars') then return; end
-	
+
 	local isDragKeyDown
 	if GetModifiedClick("PICKUPACTION") == 'ALT' then
 		isDragKeyDown = IsAltKeyDown()
@@ -531,7 +531,7 @@ function Generic:OnUpdate()
 	elseif GetModifiedClick("PICKUPACTION") == 'SHIFT' then
 		isDragKeyDown = IsShiftKeyDown()
 	end
-	
+
 	if isDragKeyDown and (self.clickState == 'AnyDown' or self.clickState == nil) then
 		self.clickState = 'AnyUp'
 		self:RegisterForClicks(self.clickState)

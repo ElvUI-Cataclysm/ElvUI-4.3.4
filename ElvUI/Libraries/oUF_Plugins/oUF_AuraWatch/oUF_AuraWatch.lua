@@ -138,7 +138,7 @@ do
 	end)
 	frame:RegisterEvent"PLAYER_REGEN_ENABLED"
 	frame:RegisterEvent"PLAYER_ENTERING_WORLD"
-	
+
 	function setupGUID(guid)
 		local t = next(cache)
 		if t then
@@ -190,7 +190,6 @@ local function updateText(self, elapsed)
 		end
 	end
 end
-
 
 local function resetIcon(icon, frame, count, duration, remaining)
 	if icon.onlyShowMissing then

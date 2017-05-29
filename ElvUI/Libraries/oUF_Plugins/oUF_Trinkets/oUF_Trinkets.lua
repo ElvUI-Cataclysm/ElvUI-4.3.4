@@ -74,7 +74,7 @@ local Enable = function(self)
 		return true
 	end
 end
- 
+
 local Disable = function(self)
 	if self.Trinket then
 		self:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED", Update)
@@ -83,5 +83,5 @@ local Disable = function(self)
 		self.Trinket:Hide()
 	end
 end
- 
+
 oUF:AddElement('Trinket', Update, Enable, Disable)
