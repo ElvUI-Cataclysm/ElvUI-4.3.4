@@ -177,7 +177,7 @@ function AB:PositionAndSizeBarShapeShift()
 		bar:SetAlpha(bar.db.alpha);
 		E:EnableMover(bar.mover:GetName());
 	else
-		bar:SetScale(0.00001);
+		bar:SetScale(0.0001);
 		bar:SetAlpha(0);
 		E:DisableMover(bar.mover:GetName());
 	end
@@ -254,7 +254,7 @@ function AB:PositionAndSizeBarShapeShift()
 		end
 
 		if i > numButtons then
-			button:SetScale(0.00001);
+			button:SetScale(0.0001);
 			button:SetAlpha(0);
 		else
 			button:SetScale(1);

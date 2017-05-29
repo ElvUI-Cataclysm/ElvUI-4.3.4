@@ -1965,9 +1965,9 @@ function CH:Initialize()
 
 	--Disable Blizzard
 	InterfaceOptionsSocialPanelTimestampsButton:SetAlpha(0)
-	InterfaceOptionsSocialPanelTimestampsButton:SetScale(0.000001)
+	InterfaceOptionsSocialPanelTimestampsButton:SetScale(0.0001)
 	InterfaceOptionsSocialPanelTimestamps:SetAlpha(0)
-	InterfaceOptionsSocialPanelTimestamps:SetScale(0.000001)
+	InterfaceOptionsSocialPanelTimestamps:SetScale(0.0001)
 
 	InterfaceOptionsSocialPanelChatStyle:EnableMouse(false)
 	InterfaceOptionsSocialPanelChatStyleButton:Hide()
