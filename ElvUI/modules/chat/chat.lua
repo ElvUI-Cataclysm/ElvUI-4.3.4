@@ -1158,7 +1158,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 					pflag = nil
 				end
 
-				if(not pflag and lfgRoles[arg2] and (type == "PARTY_LEADER" or type == "PARTY" or type == "RAID" or type == "RAID_LEADER" or type == "BATTLEGROUND" or type == "BATTLEGROUND_LEADER")) then
+				if(not pflag and lfgRoles[arg2] and (type == "PARTY_LEADER" or type == "PARTY" or type == "RAID" or type == "RAID_LEADER" or type == "RAID_WARNING" or type == "BATTLEGROUND" or type == "BATTLEGROUND_LEADER")) then
 					pflag = lfgRoles[arg2]
  				end
 
@@ -1730,7 +1730,7 @@ end
 
 function CH:CheckLFGRoles()
 	local numParty, numRaid = GetNumPartyMembers(), GetNumRaidMembers();
-	local unit = numRaid and "raid" or "party"
+	local unit = (numRaid > 0 and "raid" or "party")
 
 	twipe(lfgRoles)
 	if(not numParty or not self.db.lfgIcons) then return end
