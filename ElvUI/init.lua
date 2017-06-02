@@ -109,7 +109,7 @@ function AddOn:OnInitialize()
 
 	GameMenuFrame:HookScript("OnShow", function()
 		if(not GameMenuFrame.isElvUI) then
-			GameMenuFrame:SetHeight(GameMenuFrame:GetHeight() + GameMenuButtonLogout:GetHeight() + 1);
+			GameMenuFrame:SetHeight(GameMenuFrame:GetHeight() + GameMenuButtonLogout:GetHeight() + 5);
 			GameMenuFrame.isElvUI = true;
 		end
 		local _, relTo = GameMenuButtonLogout:GetPoint();
