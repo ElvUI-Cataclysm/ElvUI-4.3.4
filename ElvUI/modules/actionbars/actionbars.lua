@@ -37,6 +37,9 @@ local _LOCK
 local LAB = LibStub("LibActionButton-1.0");
 local LSM = LibStub("LibSharedMedia-3.0");
 
+local Masque = LibStub("Masque", true)
+local MasqueGroup = Masque and Masque:Group("ElvUI", "ActionBars")
+
 E.ActionBars = AB
 AB["handledBars"] = {};
 AB["handledbuttons"] = {};
@@ -234,7 +237,7 @@ function AB:PositionAndSizeBar(barName)
 			button:Show();
 		end
 
-		self:StyleButton(button);
+		self:StyleButton(button, nil, MasqueGroup and E.private.actionbar.masque.actionbars and true or nil);
 	end
 
 	if self.db[barName].enabled or not bar.initialized then
@@ -260,6 +263,8 @@ function AB:PositionAndSizeBar(barName)
 	end
 
 	E:SetMoverSnapOffset('ElvAB_'..bar.id, bar.db.buttonspacing / 2)
+
+	if MasqueGroup and E.private.actionbar.masque.actionbars then MasqueGroup:ReSkin() end
 end
 
 function AB:CreateBar(id)
@@ -286,6 +291,10 @@ function AB:CreateBar(id)
 
 		if(i == 12) then
 			bar.buttons[i]:SetState(11, "custom", AB.customExitButton);
+		end
+
+		if MasqueGroup and E.private.actionbar.masque.actionbars then
+			bar.buttons[i]:AddToMasque(MasqueGroup)
 		end
 
 		self:HookScript(bar.buttons[i], "OnEnter", "Button_OnEnter");
@@ -462,7 +471,7 @@ function AB:UpdateButtonSettings()
 
 	for button, _ in pairs(self["handledbuttons"]) do
 		if(button) then
-			self:StyleButton(button, button.noBackdrop);
+			self:StyleButton(button, button.noBackdrop, button.useMasque)
 			self:StyleFlyout(button);
 		else
 			self["handledbuttons"][button] = nil;
@@ -494,7 +503,7 @@ function AB:GetPage(bar, defaultPage, condition)
 	return condition;
 end
 
-function AB:StyleButton(button, noBackdrop)
+function AB:StyleButton(button, noBackdrop, useMasque)
 	local name = button:GetName();
 	local icon = _G[name.."Icon"];
 	local count = _G[name.."Count"];
@@ -508,13 +517,20 @@ function AB:StyleButton(button, noBackdrop)
 	local buttonCooldown = _G[name.."Cooldown"];
 	local color = self.db.fontColor
 
+	if not button.noBackdrop then
+		button.noBackdrop = noBackdrop;
+	end
+
+	if not button.useMasque then
+		button.useMasque = useMasque;
+	end
+
 	if(flash) then flash:SetTexture(nil); end
 	if(normal) then normal:SetTexture(nil); normal:Hide(); normal:SetAlpha(0); end
 	if(normal2) then normal2:SetTexture(nil); normal2:Hide(); normal2:SetAlpha(0); end
-	if(border) then border:Kill(); end
 
-	if(not button.noBackdrop) then
-		button.noBackdrop = noBackdrop;
+	if border and not button.useMasque then
+		border:Kill();
 	end
 
 	if(count) then
@@ -524,7 +540,7 @@ function AB:StyleButton(button, noBackdrop)
 		count:SetTextColor(color.r, color.g, color.b);
 	end
 
-	if(not button.noBackdrop and not button.backdrop) then
+	if not button.noBackdrop and not button.backdrop and not button.useMasque then
 		button:CreateBackdrop("Default", true);
 		button.backdrop:SetAllPoints();
 	end
@@ -563,7 +579,12 @@ function AB:StyleButton(button, noBackdrop)
 
 	button.FlyoutUpdateFunc = AB.StyleFlyout
 	self:FixKeybindText(button);
-	button:StyleButton();
+
+	if not button.useMasque then
+		button:StyleButton();
+	else
+		button:StyleButton(true, true, true)
+	end
 
 	if(not self.handledbuttons[button]) then
 		E:RegisterCooldown(buttonCooldown)
@@ -795,17 +816,18 @@ function AB:FixKeybindText(button)
 		hotkey:SetText(text);
 	end
 
-	hotkey:ClearAllPoints();
-	hotkey:Point("TOPRIGHT", 0, -3);
+	if not button.useMasque then
+		hotkey:ClearAllPoints()
+		hotkey:Point("TOPRIGHT", 0, -3);
+	end
 end
 
 local buttons = 0
 local function SetupFlyoutButton()
 	for i = 1, buttons do
 		if(_G["SpellFlyoutButton"..i]) then
-			AB:StyleButton(_G["SpellFlyoutButton"..i])
+			AB:StyleButton(_G["SpellFlyoutButton"..i], nil, MasqueGroup and E.private.actionbar.masque.actionbars and true or nil)
 			_G["SpellFlyoutButton"..i]:StyleButton()
-			_G["SpellFlyoutButton"..i]:CreateBackdrop("Default")
 			_G["SpellFlyoutButton"..i]:HookScript('OnEnter', function(self)
 				local parent = self:GetParent()
 				local parentAnchorButton = select(2, parent:GetPoint())
@@ -822,6 +844,13 @@ local function SetupFlyoutButton()
 				local parentAnchorBar = parentAnchorButton:GetParent()
 				AB:Bar_OnLeave(parentAnchorBar)
 			end)
+
+			if MasqueGroup and E.private.actionbar.masque.actionbars then
+				MasqueGroup:RemoveButton(_G["SpellFlyoutButton"..i])
+				MasqueGroup:AddButton(_G["SpellFlyoutButton"..i])
+			else
+				_G["SpellFlyoutButton"..i]:CreateBackdrop("Default")
+			end
 		end
 	end
 

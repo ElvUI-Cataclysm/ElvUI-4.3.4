@@ -4,6 +4,9 @@ local LSM = LibStub("LibSharedMedia-3.0");
 
 E.ReminderBuffs = RB;
 
+local Masque = LibStub("Masque", true)
+local MasqueGroup = Masque and Masque:Group("ElvUI", "Reminder")
+
 RB.Spell1Buffs = {
 	94160,	-- Flask of Flowing Water			(300 Spirit)
 	79470,	-- Flask of the Draconic Mind		(300 Intellect)
@@ -158,7 +161,6 @@ end
 
 function RB:CreateButton()
 	local button = CreateFrame("Button", nil, ElvUI_ReminderBuffs);
-	button:SetTemplate("Default");
 
 	button.t = button:CreateTexture(nil, "OVERLAY");
 	button.t:SetTexCoord(unpack(E.TexCoords));
@@ -173,6 +175,31 @@ function RB:CreateButton()
 
 	button.timer = button.cd:CreateFontString(nil, "OVERLAY");
 	button.timer:SetPoint("CENTER");
+
+	local ButtonData = {
+		FloatingBG = nil,
+		Icon = button.t,
+		Cooldown = button.cd,
+		Flash = nil,
+		Pushed = nil,
+		Normal = nil,
+		Disabled = nil,
+		Checked = nil,
+		Border = nil,
+		AutoCastable = nil,
+		Highlight = nil,
+		HotKey = nil,
+		Count = nil,
+		Name = nil,
+		Duration = false,
+		AutoCast = nil,
+	}
+
+	if MasqueGroup and E.private.auras.masque.reminder then
+		MasqueGroup:AddButton(button, ButtonData)
+	elseif not E.private.auras.masque.reminder then
+		button:SetTemplate("Default")
+	end
 
 	return button;
 end
@@ -239,6 +266,8 @@ function RB:UpdateSettings(isCallback)
 	else
 		self:UpdateReminder();
 	end
+
+	if MasqueGroup and E.private.auras.masque.reminder and E.private.general.minimap.enable then MasqueGroup:ReSkin() end
 end
 
 function RB:UpdatePosition()
@@ -285,7 +314,11 @@ function RB:Initialize()
 	self.db = E.db.general.reminder;
 
 	local frame = CreateFrame("Frame", "ElvUI_ReminderBuffs", Minimap);
-	frame:SetTemplate("Default");
+
+	if not Masque or not E.private.auras.masque.reminder then
+		frame:SetTemplate("Default")
+	end
+
 	frame:Width(E.RBRWidth);
 	if(E.db.general.reminder.position == "LEFT") then
 		frame:Point("TOPRIGHT", Minimap.backdrop, "TOPLEFT", E.Border - E.Spacing*3, 0);
@@ -299,6 +332,10 @@ function RB:Initialize()
 	for i = 1, 6 do
 		frame[i] = self:CreateButton();
 		frame[i]:SetID(i);
+	end
+
+	if Masque and MasqueGroup then
+		RB.RMasqueGroup = MasqueGroup
 	end
 
 	self:UpdateSettings();

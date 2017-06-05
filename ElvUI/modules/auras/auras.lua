@@ -13,6 +13,10 @@ local CreateFrame = CreateFrame;
 local UnitAura = UnitAura;
 local CancelUnitBuff = CancelUnitBuff;
 
+local Masque = LibStub("Masque", true)
+local MasqueGroupBuffs = Masque and Masque:Group("ElvUI", "Buffs")
+local MasqueGroupDebuffs = Masque and Masque:Group("ElvUI", "Debuffs")
+
 local DIRECTION_TO_POINT = {
 	DOWN_RIGHT = "TOPLEFT",
 	DOWN_LEFT = "TOPRIGHT",
@@ -94,8 +98,8 @@ end
 function A:CreateIcon(button)
 	local font = LSM:Fetch("font", self.db.font);
 	button:RegisterForClicks("RightButtonUp");
-	button:SetTemplate("Default");
 
+	-- button:SetFrameLevel(4)
 	button.texture = button:CreateTexture(nil, "BORDER");
 	button.texture:SetInside();
 	button.texture:SetTexCoord(unpack(E.TexCoords));
@@ -118,6 +122,46 @@ function A:CreateIcon(button)
 	button:SetScript("OnEnter", OnEnter);
 	button:SetScript("OnLeave", OnLeave);
 	button:SetScript("OnClick", OnClick);
+
+	local ButtonData = {
+		FloatingBG = nil,
+		Icon = button.texture,
+		Cooldown = nil,
+		Flash = nil,
+		Pushed = nil,
+		Normal = nil,
+		Disabled = nil,
+		Checked = nil,
+		Border = nil,
+		AutoCastable = nil,
+		Highlight = button.highlight,
+		HotKey = nil,
+		Count = false,
+		Name = nil,
+		Duration = false,
+		AutoCast = nil,
+	}
+
+	local header = button:GetParent()
+	local auraType = header.filter
+
+	if auraType == "HELPFUL" then
+		if MasqueGroupBuffs and E.private.auras.masque.buffs then
+			MasqueGroupBuffs:AddButton(button, ButtonData)
+			button.__MSQ_BaseFrame:SetFrameLevel(2)
+			MasqueGroupBuffs:ReSkin()
+		else
+			button:SetTemplate("Default")
+		end
+	elseif auraType == "HARMFUL" then
+		if MasqueGroupDebuffs and E.private.auras.masque.debuffs then
+			MasqueGroupDebuffs:AddButton(button, ButtonData)
+			button.__MSQ_BaseFrame:SetFrameLevel(2)
+			MasqueGroupDebuffs:ReSkin()
+		else
+			button:SetTemplate("Default")
+		end
+	end
 end
 
 local buttons = {};
@@ -361,6 +405,9 @@ function A:UpdateHeader(header)
 	while(sortingTable[1]) do
 		releaseTable(tremove(sortingTable));
 	end
+
+	if MasqueGroupBuffs and E.private.auras.masque.buffs then MasqueGroupBuffs:ReSkin() end
+	if MasqueGroupDebuffs and E.private.auras.masque.debuffs then MasqueGroupDebuffs:ReSkin() end
 end
 
 function A:CreateAuraHeader(filter)
@@ -465,6 +512,11 @@ function A:Initialize()
 	TempEnchant1:Point("TOPRIGHT", ElvUIPlayerWeapons, "TOPRIGHT");
 	TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -7, 0);
 	TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -7, 0);
+
+	if Masque then
+		if MasqueGroupBuffs then A.BuffsMasqueGroup = MasqueGroupBuffs end
+		if MasqueGroupDebuffs then A.DebuffsMasqueGroup = MasqueGroupDebuffs end
+	end
 end
 
 local function InitializeCallback()
