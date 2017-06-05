@@ -19,18 +19,16 @@ local function LoadSkin()
 
 	WatchFrameLines:StripTextures();
 
-	WatchFrame:Width(205)
-
 	hooksecurefunc("WatchFrame_Expand", function()
 		WatchFrameCollapseExpandButton.text:SetText("-");
 
-		WatchFrame:Width(205)
+		WatchFrame:Width(WATCHFRAME_EXPANDEDWIDTH)
 	end)
 
 	hooksecurefunc("WatchFrame_Collapse", function()
 		WatchFrameCollapseExpandButton.text:SetText("+");
 
-		WatchFrame:Width(205)
+		WatchFrame:Width(WATCHFRAME_EXPANDEDWIDTH)
 	end)
 
 	hooksecurefunc("WatchFrame_Update", function()
