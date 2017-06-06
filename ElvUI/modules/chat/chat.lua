@@ -220,6 +220,20 @@ local function ChatFrame_OnMouseScroll(frame, delta)
 	end
 end
 
+function CH:GetGroupDistribution()
+	local inInstance, kind = IsInInstance()
+	if inInstance and (kind == "pvp") then
+		return "/bg "
+	end
+	if GetNumRaidMembers() > 0 then
+		return "/ra "
+	end
+	if GetNumPartyMembers() > 0 then
+		return "/p "
+	end
+	return "/s "
+end
+
 function CH:InsertEmotions(msg)
 	for k,v in pairs(smileyKeys) do
 		msg = gsub(msg,k,"|T"..smileyPack[v]..":16|t");
@@ -288,7 +302,6 @@ function CH:StyleChat(frame)
 	tab.text:SetTextColor(unpack(E["media"].rgbvaluecolor));
 	hooksecurefunc(tab.text, "SetTextColor", function(self, r, g, b)
 		local rR, gG, bB = unpack(E["media"].rgbvaluecolor)
-
 		if r ~= rR or g ~= gG or b ~= bB then
 			self:SetTextColor(rR, gG, bB)
 		end
@@ -327,10 +340,16 @@ function CH:StyleChat(frame)
 		if text:len() < 5 then
 			if text:sub(1, 4) == "/tt " then
 				local unitname, realm = UnitName('target')
-				if unitname and realm and not UnitIsSameServer('player', 'target') then
-					unitname = unitname .. '-' .. realm:gsub(' ', '')
+				if unitname then unitname = gsub(unitname, " ", "") end
+				if unitname and not UnitIsSameServer("player", "target") then
+					unitname = unitname .. "-" .. gsub(realm, " ", "")
 				end
 				ChatFrame_SendTell((unitname or L['Invalid Target']), ChatFrame1)
+			end
+
+			if text:sub(1, 4) == "/gr " then
+				self:SetText(CH:GetGroupDistribution() .. text:sub(5))
+				ChatEdit_ParseText(self, 0)
 			end
 		end
 
