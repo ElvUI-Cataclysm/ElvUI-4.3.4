@@ -495,13 +495,15 @@ function A:Initialize()
 	end
 
 	TemporaryEnchantFrame:ClearAllPoints();
-	TemporaryEnchantFrame:SetPoint("TOPRIGHT", ElvUIPlayerWeapons, "TOPRIGHT", 0, 0);
+	TemporaryEnchantFrame:Point("TOPRIGHT", ElvUIPlayerWeapons, "TOPRIGHT", 0, 0);
 	E:CreateMover(self.WeaponFrame, "WeaponsMover", L["Weapons"]);
 
 	for i = 1, 3 do
 		_G["TempEnchant"..i]:ClearAllPoints();
-		_G["TempEnchant"..i]:CreateBackdrop("Default", true, true);
-		_G["TempEnchant"..i].backdrop:SetBackdropBorderColor(0.5, 0, 0.8);
+		_G["TempEnchant"..i]:SetTemplate();
+		_G["TempEnchant"..i]:SetBackdropColor(0, 0, 0, 0)
+		_G["TempEnchant"..i]:SetBackdropBorderColor(0.5, 0, 0.8);
+		_G["TempEnchant"..i].backdropTexture:SetAlpha(0)
 		_G["TempEnchant"..i]:StyleButton(nil, true);
 
 		_G["TempEnchant"..i.."Icon"]:SetTexCoord(unpack(E.TexCoords));

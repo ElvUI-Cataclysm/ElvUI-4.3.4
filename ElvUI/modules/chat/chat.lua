@@ -887,6 +887,18 @@ function GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, a
 	return arg2;
 end
 
+local function GetChatIcons(sender)
+	if(specialChatIcons[PLAYER_REALM] and specialChatIcons[PLAYER_REALM][E.myname] ~= true) then
+		for realm, _ in pairs(specialChatIcons) do
+			for character, texture in pairs(specialChatIcons[realm]) do
+				if sender == character or sender == character.."-"..realm then
+					return texture
+				end
+			end
+		end
+	end
+end
+
 function CH:ChatFrame_MessageEventHandler(event, ...)
 	if ( strsub(event, 1, 8) == "CHAT_MSG" ) then
 		local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14 = ...;
@@ -1112,58 +1124,35 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			end
 
 			-- Add AFK/DND flags
-			local pflag;
-			if(strlen(arg6) > 0) then
-				if ( arg6 == "GM" ) then
+			local pflag = GetChatIcons(arg2);
+			if(arg6 ~= "") then
+				if (arg6 == "GM") then
 					--If it was a whisper, dispatch it to the GMChat addon.
-					if ( type == "WHISPER" ) then
+					if (type == "WHISPER") then
 						return;
 					end
 					--Add Blizzard Icon, this was sent by a GM
 					pflag = "|TInterface\\ChatFrame\\UI-ChatIcon-Blizz:12:20:0:0:32:16:4:28:0:16|t ";
-				elseif ( arg6 == "DEV" ) then
+				elseif (arg6 == "DEV") then
 					--Add Blizzard Icon, this was sent by a Dev
 					pflag = "|TInterface\\ChatFrame\\UI-ChatIcon-Blizz:12:20:0:0:32:16:4:28:0:16|t ";
+				elseif (arg6 == "DND" or arg6 == "AFK") then
+					pflag = (pflag or "").._G["CHAT_FLAG_"..arg6];
 				else
 					pflag = _G["CHAT_FLAG_"..arg6];
 				end
 			else
-				if specialChatIcons[PLAYER_REALM] then
-					for character, texture in pairs(specialChatIcons[PLAYER_REALM]) do
-						if arg2 == character then
-							pflag = texture
-						end
-					end
-
-					for realm, _ in pairs(specialChatIcons) do
-						if realm ~= PLAYER_REALM then
-							for character, texture in pairs(specialChatIcons[realm]) do
-								if arg2 == character.."-"..realm then
-									pflag = texture
-								end
-							end
-						end
-					end
-				else
-					for realm, _ in pairs(specialChatIcons) do
-						for character, texture in pairs(specialChatIcons[realm]) do
-							if arg2 == character.."-"..realm then
-								pflag = texture
-							end
-						end
-					end
-				end
-
 				if(pflag == true) then
-					pflag = nil
+					pflag = ""
 				end
 
-				if(not pflag and lfgRoles[arg2] and (type == "PARTY_LEADER" or type == "PARTY" or type == "RAID" or type == "RAID_LEADER" or type == "RAID_WARNING" or type == "BATTLEGROUND" or type == "BATTLEGROUND_LEADER")) then
-					pflag = lfgRoles[arg2]
+				if(lfgRoles[arg2] and (type == "PARTY_LEADER" or type == "PARTY" or type == "RAID" or type == "RAID_LEADER" or type == "RAID_WARNING" or type == "BATTLEGROUND" or type == "BATTLEGROUND_LEADER")) then
+					pflag = lfgRoles[arg2]..(pflag or "")
  				end
-
-				pflag = pflag or ""
 			end
+
+			pflag = pflag or ""
+
 			if ( type == "WHISPER_INFORM" and GMChatFrame_IsGM and GMChatFrame_IsGM(arg2) ) then
 				return;
 			end
