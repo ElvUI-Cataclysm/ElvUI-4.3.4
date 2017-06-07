@@ -559,8 +559,8 @@ function M:Initialize()
 	MiniMapLFGFrame:SetClampedToScreen(true);
 
 	MiniMapInstanceDifficulty:SetParent(Minimap);
-
 	GuildInstanceDifficulty:SetParent(Minimap);
+	HelpOpenTicketButton:SetParent(Minimap)
 
 	if(TimeManagerClockButton) then
 		TimeManagerClockButton:Kill();
