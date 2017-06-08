@@ -285,7 +285,7 @@ function M:UpdateSettings()
 
 	if(Minimap.location) then
 		Minimap.location:Width(E.MinimapSize);
-		
+
 		if(E.db.general.minimap.locationText ~= "SHOW" or not E.private.general.minimap.enable) then
 			Minimap.location:Hide();
 		else
@@ -428,7 +428,7 @@ function M:UpdateSettings()
 			MiniMapWorldMapButton:SetScale(scale);
 			MiniMapWorldMapButton:Show();
 		end
-	
+
 		--Skin WorldMap Button
 		local worldMapButton = MiniMapWorldMapButton;
 		local worldMapButtonIcon = worldMapButton:GetNormalTexture();
@@ -438,7 +438,7 @@ function M:UpdateSettings()
 		worldMapButton:CreateBackdrop();
 		worldMapButton:SetFrameStrata("MEDIUM");
 		worldMapButton:Size(30);
-		
+
 		worldMapButtonIcon:SetTexture("INTERFACE\\ICONS\\INV_Misc_Map02");
 		worldMapButtonIcon:SetTexCoord(unpack(E.TexCoords));
 		worldMapButtonIcon:SetOutside()
@@ -493,12 +493,19 @@ function M:UpdateSettings()
 	end
 end
 
+local function MinimapPostDrag()
+	MinimapCluster:ClearAllPoints()
+	MinimapCluster:SetAllPoints(Minimap)
+	MinimapBackdrop:ClearAllPoints()
+	MinimapBackdrop:SetAllPoints(Minimap)
+end
+
 function M:Initialize()
 	menuFrame:SetTemplate("Transparent", true);
 	self:UpdateSettings();
 	if(not E.private.general.minimap.enable) then 
 		Minimap:SetMaskTexture("Textures\\MinimapMask");
-		return; 
+		return;
 	end
 
 	--Support for other mods
@@ -566,7 +573,7 @@ function M:Initialize()
 		TimeManagerClockButton:Kill();
 	end
 
-	E:CreateMover(MMHolder, "MinimapMover", L["Minimap"]);
+	E:CreateMover(MMHolder, "MinimapMover", L["Minimap"], nil, nil, MinimapPostDrag)
 
 	Minimap:EnableMouseWheel(true);
 	Minimap:SetScript("OnMouseWheel", M.Minimap_OnMouseWheel);
@@ -578,11 +585,6 @@ function M:Initialize()
 	self:RegisterEvent("ZONE_CHANGED_INDOORS", "Update_ZoneText");
 	self:RegisterEvent("ADDON_LOADED");
 	self:UpdateSettings();
-
-	MinimapCluster:ClearAllPoints();
-	MinimapCluster:SetAllPoints(Minimap);
-	MinimapBackdrop:ClearAllPoints();
-	MinimapBackdrop:SetAllPoints(Minimap);
 
 	local fm = CreateFrame("Minimap", "FarmModeMap", E.UIParent);
 	fm:Size(E.db.farmSize);
@@ -598,7 +600,7 @@ function M:Initialize()
 	fm:SetScript("OnDragStop", function(self) self:StopMovingOrSizing(); end);
 	fm:Hide();
 
-	FarmModeMap:SetScript("OnShow", function() 	
+	FarmModeMap:SetScript("OnShow", function()
 		if(BuffsMover and not E:HasMoverBeenMoved("BuffsMover")) then
 			BuffsMover:ClearAllPoints();
 			BuffsMover:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -3, -3);
@@ -621,7 +623,7 @@ function M:Initialize()
 		end
 	end);
 
-	FarmModeMap:SetScript("OnHide", function() 
+	FarmModeMap:SetScript("OnHide", function()
 		if(BuffsMover and not E:HasMoverBeenMoved("BuffsMover")) then
 			E:ResetMovers(L["Player Buffs"]);
 		end
