@@ -863,7 +863,7 @@ function CH:ShortChannel()
 end
 
 function CH:ConcatenateTimeStamp(msg)
-	if (CH.db.timeStampFormat and CH.db.timeStampFormat ~= 'NONE' ) then
+	if (CH.db.timeStampFormat and CH.db.timeStampFormat ~= 'NONE') then
 		local timeStamp = BetterDate(CH.db.timeStampFormat, CH.timeOverride or time());
 		timeStamp = timeStamp:gsub(' ', '')
 		timeStamp = timeStamp:gsub('AM', ' AM')
@@ -987,14 +987,14 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			return true;
 		end
 
-		if (chatGroup == "WHISPER" or chatGroup == "BN_WHISPER" ) then
+		if (chatGroup == "WHISPER" or chatGroup == "BN_WHISPER") then
 			if (self.privateMessageList and not self.privateMessageList[strlower(arg2)]) then
 				return true;
 			elseif (self.excludePrivateMessageList and self.excludePrivateMessageList[strlower(arg2)] 
 				and ((chatGroup == "WHISPER" and GetCVar("whisperMode") ~= "popout_and_inline") or (chatGroup == "BN_WHISPER" and GetCVar("bnWhisperMode") ~= "popout_and_inline"))) then
 				return true;
 			end
-		elseif (chatGroup == "BN_CONVERSATION" ) then
+		elseif (chatGroup == "BN_CONVERSATION") then
 			if (self.bnConversationList and not self.bnConversationList[arg8]) then
 				return true;
 			elseif (self.excludeBNConversationList and self.excludeBNConversationList[arg8] and GetCVar("conversationMode") ~= "popout_and_inline") then
@@ -1094,7 +1094,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			local message = format(GlobalStrings.CHAT_BN_CONVERSATION_LIST, channelLink, arg1);
 			self:AddMessage(CH:ConcatenateTimeStamp(message), info.r, info.g, info.b, info.id, false, accessID, typeID);
 		elseif (type == "BN_INLINE_TOAST_ALERT") then	
-			if ( arg1 == "FRIEND_OFFLINE" and not BNet_ShouldProcessOfflineEvents() ) then
+			if (arg1 == "FRIEND_OFFLINE" and not BNet_ShouldProcessOfflineEvents()) then
 				return true;
 			end
 			local globalstring = _G["BN_INLINE_TOAST_"..arg1];
@@ -1103,7 +1103,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				message = globalstring;
 			elseif (arg1 == "FRIEND_PENDING") then
 				message = format(GlobalStrings.BN_INLINE_TOAST_FRIEND_PENDING, BNGetNumFriendInvites());
-			elseif (arg1 == "FRIEND_REMOVED" or arg1 == "BATTLETAG_FRIEND_REMOVED" ) then
+			elseif (arg1 == "FRIEND_REMOVED" or arg1 == "BATTLETAG_FRIEND_REMOVED") then
 				message = format(globalstring, arg2);
 			elseif (arg1 == "FRIEND_ONLINE" or arg1 == "FRIEND_OFFLINE") then
 				local hasFocus, toonName, client, realmName, realmID, faction, race, class, guild, zoneName, level, gameText = BNGetToonInfo(arg13);
@@ -1240,7 +1240,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				else
 					if (type == "EMOTE") then
 						body = format(_G["CHAT_"..type.."_GET"]..message, pflag..playerLink..coloredName.."|h");
-					elseif ( type == "TEXT_EMOTE") then
+					elseif (type == "TEXT_EMOTE") then
 						body = gsub(message, arg2, pflag..playerLink..coloredName.."|h", 1);
 					else
 						body = format(_G["CHAT_"..type.."_GET"]..message, pflag..playerLink.."["..coloredName.."]".."|h");
@@ -1657,7 +1657,7 @@ function CH:ChatFrame_AddMessageEventFilter (event, filter)
 	if (chatFilters[event]) then
 		-- Only allow a filter to be added once
 		for index, filterFunc in next, chatFilters[event] do
-			if ( filterFunc == filter ) then
+			if (filterFunc == filter) then
 				return;
 			end
 		end
@@ -1673,7 +1673,7 @@ function CH:ChatFrame_RemoveMessageEventFilter (event, filter)
 
 	if (chatFilters[event]) then
 		for index, filterFunc in next, chatFilters[event] do
-			if ( filterFunc == filter ) then
+			if (filterFunc == filter) then
 				tremove(chatFilters[event], index);
 			end
 		end
