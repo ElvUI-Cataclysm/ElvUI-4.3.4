@@ -25,7 +25,8 @@ local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
 local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 local ERR_NOT_IN_COMBAT = ERR_NOT_IN_COMBAT;
 
-E.myclass = select(2, UnitClass("player")); -- Constants
+-- Constants
+E.myclass = select(2, UnitClass("player"));
 E.myrace = select(2, UnitRace("player"));
 E.myfaction = select(2, UnitFactionGroup("player"));
 E.myname = UnitName("player");

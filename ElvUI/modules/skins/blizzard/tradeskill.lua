@@ -182,6 +182,7 @@ local function LoadSkin()
 
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(id)
 		TradeSkillRankFrame:SetStatusBarColor(0.11, 0.50, 1.00);
+
 		if(TradeSkillSkillIcon:GetNormalTexture()) then
 			TradeSkillSkillIcon:SetAlpha(1);
 			TradeSkillSkillIcon:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));

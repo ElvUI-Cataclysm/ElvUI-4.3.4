@@ -124,7 +124,7 @@ local function createSlot(id)
 	frame.icon = icon
 
 	local count = iconFrame:CreateFontString(nil, 'OVERLAY')
-	count:SetJustifyH'RIGHT'
+	count:SetJustifyH("RIGHT")
 	count:Point('BOTTOMRIGHT', iconFrame, -2, 2)
 	count:FontTemplate(nil, nil, 'OUTLINE')
 	count:SetText(1)
@@ -140,11 +140,9 @@ local function createSlot(id)
 
 	local drop = frame:CreateTexture(nil, "ARTWORK")
 	drop:SetTexture(1, 1, 1, 0.15)
-	--drop:SetTexture"Interface\\QuestFrame\\UI-QuestLogTitleHighlight"
 	drop:Point("LEFT", icon, "RIGHT", 0, 0)
 	drop:Point("RIGHT", frame)
 	drop:SetAllPoints(frame)
-	--drop:SetAlpha(0.15)
 	frame.drop = drop
 
 	local questTexture = iconFrame:CreateTexture(nil, 'OVERLAY')
@@ -192,7 +190,7 @@ function M:LOOT_OPENED(_, autoloot)
 
 	if(IsFishingLoot()) then
 		lootFrame.title:SetText(L['Fishy Loot'])
-	elseif(not UnitIsFriend('player', 'target') and UnitIsDead'target') then
+	elseif(not UnitIsFriend("player", "target") and UnitIsDead("target")) then
 		lootFrame.title:SetText(UnitName('target'))
 	else
 		lootFrame.title:SetText(LOOT)
@@ -219,7 +217,7 @@ function M:LOOT_OPENED(_, autoloot)
 	if(items > 0) then
 		for i = 1, items do
 			local slot = lootFrame.slots[i] or createSlot(i)
-			local texture, item, quantity, quality, locked, isQuestItem, questId, isActive = GetLootSlotInfo(i)
+			local texture, item, quantity, quality, _, isQuestItem, questId, isActive = GetLootSlotInfo(i)
 			local color = ITEM_QUALITY_COLORS[quality]
 
 			if(LootSlotIsCoin(i)) then
@@ -297,6 +295,7 @@ end
 
 function M:LoadLoot()
 	if not E.private.general.loot then return end
+
 	lootFrameHolder = CreateFrame('Frame', 'ElvLootFrameHolder', E.UIParent)
 	lootFrameHolder:Point('TOP', 0, -50)
 	lootFrameHolder:Size(150, 22)
@@ -313,7 +312,7 @@ function M:LoadLoot()
 	lootFrame.title:Point("BOTTOMLEFT", lootFrame, "TOPLEFT", 0, 1);
 	lootFrame.slots = {}
 	lootFrame:SetScript('OnHide', function()
-		StaticPopup_Hide'CONFIRM_LOOT_DISTRIBUTION'
+		StaticPopup_Hide("CONFIRM_LOOT_DISTRIBUTION")
 		CloseLoot()
 	end)
 	E['frames'][lootFrame] = nil;
