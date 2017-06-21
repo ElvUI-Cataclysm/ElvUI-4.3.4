@@ -128,7 +128,7 @@ L["Transparency level when not in combat, no target exists, full health, not cas
 L["Usable"] = "可用"
 L["Use Position Override"] = "使用位置覆盖"
 L["Visibility State"] = "可见状态"
-L["When enabled it will use the Anchor Point setting to determine growth direction, otherwise it will be determined by where the bar is positioned."] = true;
+L["When enabled it will use the Anchor Point setting to determine growth direction, otherwise it will be determined by where the bar is positioned."] = "当启用时会使用定位点的位置来决定按钮增长的方向，否则将会按照动作条的位置来决定"
 L["Width Multiplier"] = "宽度倍增"
 L[ [=[This works like a macro, you can run different situations to get the actionbar to page differently.
  Example: [combat] 2;]=] ] = [=[和宏写法类似, 能根据不同姿态切换动作条.
@@ -241,9 +241,9 @@ L["Custom Timestamp Color"] = "自定义时间戳颜色"
 L["Display LFG Icons in group chat."] = "撠予銝剜蝷粹"
 L["Display the hyperlink tooltip while hovering over a hyperlink."] = "鼠标悬停在超链接上时显示链接提示框"
 L["Enable the use of separate size options for the right chat panel."] = "为左右两个聊天框设置不同的材质和尺寸"
-L["Exclude Name"] = true;
-L["Excluded names will not be class colored."] = true;
-L["Excluded Names"] = true;
+L["Exclude Name"] = "排除名字"
+L["Excluded names will not be class colored."] = "排除的名字将不会使用职业颜色"
+L["Excluded Names"] = "排除的名字"
 L["Fade Chat"] = '对话内容渐隐'
 L["Fade Tabs No Backdrop"] = "隐藏拖出的聊天框"
 L["Fade the chat text when there is no activity."] = '渐隐聊天框内长期不活动的文字.'
