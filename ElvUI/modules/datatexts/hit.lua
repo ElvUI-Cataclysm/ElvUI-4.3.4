@@ -101,4 +101,4 @@ local function ValueColorUpdate(hex)
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
-DT:RegisterDatatext("Hit Rating", {"COMBAT_RATING_UPDATE"}, OnEvent, nil, nil, OnEnter)
+DT:RegisterDatatext("Hit Rating", {"COMBAT_RATING_UPDATE"}, OnEvent, nil, nil, OnEnter, nil, L["Hit"])

@@ -42,4 +42,4 @@ local function ValueColorUpdate(hex)
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true;
 
-DT:RegisterDatatext("Resilience", {"COMBAT_RATING_UPDATE"}, OnEvent, nil, OnClick, OnEnter)
+DT:RegisterDatatext("Resilience", {"COMBAT_RATING_UPDATE"}, OnEvent, nil, OnClick, OnEnter, nil, STAT_RESILIENCE)

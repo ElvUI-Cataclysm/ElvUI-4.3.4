@@ -2,6 +2,9 @@ local E, L, V, P, G = unpack(select(2, ...));
 local DT = E:GetModule("DataTexts")
 
 local format, join = string.format, string.join;
+
+local STAT_EXPERTISE = STAT_EXPERTISE
+
 local lastPanel
 local displayString = "";
 
@@ -89,4 +92,4 @@ local function ValueColorUpdate(hex)
 end
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
-DT:RegisterDatatext('Expertise', {"UNIT_STATS", "UNIT_AURA", "FORGE_MASTER_ITEM_CHANGED", "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE"}, OnEvent, nil, nil, OnEnter)
+DT:RegisterDatatext('Expertise', {"UNIT_STATS", "UNIT_AURA", "FORGE_MASTER_ITEM_CHANGED", "ACTIVE_TALENT_GROUP_CHANGED", "PLAYER_TALENT_UPDATE"}, OnEvent, nil, nil, OnEnter, nil, STAT_EXPERTISE)
