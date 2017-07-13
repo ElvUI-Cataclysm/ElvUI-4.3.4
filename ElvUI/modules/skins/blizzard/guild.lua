@@ -451,7 +451,7 @@ local function LoadSkin()
 	S:HandleCheckBox(GuildRecruitmentLevelAnyButton)
 	S:HandleCheckBox(GuildRecruitmentLevelMaxButton)
 
-	local roleIcons = {	
+	local roleIcons = {
 		"GuildRecruitmentTankButton",
 		"GuildRecruitmentHealerButton",
 		"GuildRecruitmentDamagerButton"

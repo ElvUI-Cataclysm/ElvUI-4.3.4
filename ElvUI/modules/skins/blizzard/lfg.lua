@@ -55,7 +55,7 @@ local function LoadSkin()
 	end
 
 	-- LFD Role Icons
-	local lfdRoleIcons = {	
+	local lfdRoleIcons = {
 		"LFDQueueFrameRoleButtonTank",
 		"LFDQueueFrameRoleButtonHealer",
 		"LFDQueueFrameRoleButtonDPS",
@@ -176,7 +176,7 @@ local function LoadSkin()
 	S:HandleButton(LFDRoleCheckPopupAcceptButton);
 	S:HandleButton(LFDRoleCheckPopupDeclineButton);
 
-	local roleCheckPopUp = {	
+	local roleCheckPopUp = {
 		"LFDRoleCheckPopupRoleButtonTank",
 		"LFDRoleCheckPopupRoleButtonHealer",
 		"LFDRoleCheckPopupRoleButtonDPS"
@@ -203,7 +203,7 @@ local function LoadSkin()
 	--LFG Search Status
 	LFGSearchStatus:SetTemplate("Transparent");
 
-	local lfgSearchStatusIcons = {	
+	local lfgSearchStatusIcons = {
 		"LFGSearchStatusIndividualRoleDisplayTank1",
 		"LFGSearchStatusIndividualRoleDisplayHealer1",
 		"LFGSearchStatusIndividualRoleDisplayDamage1",

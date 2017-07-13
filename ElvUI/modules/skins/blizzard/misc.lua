@@ -207,7 +207,7 @@ local function LoadSkin()
 
 	S:HandleButton(RolePollPopupAcceptButton)
 
-	local roleCheckIcons = {	
+	local roleCheckIcons = {
 		"RolePollPopupRoleButtonTank",
 		"RolePollPopupRoleButtonHealer",
 		"RolePollPopupRoleButtonDPS"

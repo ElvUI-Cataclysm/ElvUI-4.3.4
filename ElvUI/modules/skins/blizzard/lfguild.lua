@@ -87,7 +87,7 @@ local function LoadSkin()
 	GuildFinderRequestMembershipFrameInputFrame:SetTemplate()
 
 	-- Role Icons
-	local roleIcons = {	
+	local roleIcons = {
 		"LookingForGuildTankButton",
 		"LookingForGuildHealerButton",
 		"LookingForGuildDamagerButton"
