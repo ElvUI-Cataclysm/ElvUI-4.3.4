@@ -232,7 +232,7 @@ E.Options.args.skins = {
 				},
 				reforge = {
 					type = "toggle",
-					name = L["Reforging Frame"],
+					name = L["Reforge Frame"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				socket = {

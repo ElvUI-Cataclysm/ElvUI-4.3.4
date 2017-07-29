@@ -887,7 +887,7 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 			},
 			forceshow = {
 				order = 2,
-				name = L["Show"] .. " / " .. HIDE,
+				name = SHOW .. " / " .. HIDE,
 				func = function() 
 					local frameName = E:StringTitle(groupName);
 					frameName = "ElvUF_"..frameName;
@@ -4038,8 +4038,7 @@ E.Options.args.unitframe.args.boss = {
 		targetGlow = {
 			order = 16,
 			type = "toggle",
-			name = L["Target Glow"],
-			desc = L["Show target glow indicator from this group of frames."],
+			name = L["Target Glow"]
 		},
 		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
 		health = GetOptionsTable_Health(false, UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
@@ -4186,8 +4185,7 @@ E.Options.args.unitframe.args.arena = {
 		targetGlow = {
 			order = 15,
 			type = "toggle",
-			name = L["Target Glow"],
-			desc = L["Show target glow indicator from this group of frames."],
+			name = L["Target Glow"]
 		},
 		pvpTrinket = {
 			order = 750,
@@ -4340,8 +4338,7 @@ E.Options.args.unitframe.args.party = {
 				targetGlow = {
 					order = 8,
 					type = "toggle",
-					name = L["Target Glow"],
-					desc = L["Show target glow indicator from this group of frames."],
+					name = L["Target Glow"]
 				},
 				positionsGroup = {
 					order = 100,
@@ -4905,8 +4902,7 @@ E.Options.args.unitframe.args["raid"] = {
 				targetGlow = {
 					order = 8,
 					type = "toggle",
-					name = L["Target Glow"],
-					desc = L["Show target glow indicator from this group of frames."],
+					name = L["Target Glow"]
 				},
 				positionsGroup = {
 					order = 100,
@@ -5308,8 +5304,7 @@ E.Options.args.unitframe.args["raid40"] = {
 				targetGlow = {
 					order = 8,
 					type = "toggle",
-					name = L["Target Glow"],
-					desc = L["Show target glow indicator from this group of frames."],
+					name = L["Target Glow"]
 				},
 				positionsGroup = {
 					order = 100,
@@ -5699,8 +5694,7 @@ E.Options.args.unitframe.args.raidpet = {
 				targetGlow = {
 					order = 8,
 					type = "toggle",
-					name = L["Target Glow"],
-					desc = L["Show target glow indicator from this group of frames."],
+					name = L["Target Glow"]
 				},
 				positionsGroup = {
 					order = 100,

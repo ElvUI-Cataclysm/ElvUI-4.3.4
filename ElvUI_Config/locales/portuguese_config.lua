@@ -491,6 +491,7 @@ L["Map Opacity When Moving"] = true;
 L["Maps"] = true;
 L["Minimap Buttons"] = true;
 L["Minimap Mouseover"] = "Passar com o rato(mouse) sobre o minimapa"
+L["Open Ticket"] = true;
 L["Puts coordinates on the world map."] = true;
 L["Reset Zoom"] = true;
 L["PvP Queue"] = true;

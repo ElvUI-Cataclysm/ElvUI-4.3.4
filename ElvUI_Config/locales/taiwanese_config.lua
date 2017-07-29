@@ -491,6 +491,7 @@ L["Map Opacity When Moving"] = "移動時地圖透明度"
 L["Maps"] = "地圖"
 L["Minimap Buttons"] = "小地圖按鈕"
 L["Minimap Mouseover"] = "小地圖滑鼠滑過"
+L["Open Ticket"] = true;
 L["Puts coordinates on the world map."] = "在世界地圖上放置坐標"
 L["Reset Zoom"] = "重置縮放"
 L["PvP Queue"] = true;

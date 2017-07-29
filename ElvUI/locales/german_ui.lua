@@ -31,7 +31,7 @@ L["Trigger"] = "Auslöser"
 
 --Bags
 L["Bank"] = true;
-L["Hold Control + Right Click:"] = "Halte Steuerung + Rechtsklick:"
+L["Hold Control + Right Click:"] = "Halte Strg + Rechtsklick:"
 L["Hold Shift + Drag:"] = "Halte Shift + Ziehen:"
 L["Purchase Bags"] = "Taschen kaufen"
 L["Reset Position"] = "Position zurücksetzen"
@@ -59,14 +59,14 @@ L["yells"] = "schreien"
 
 --DataTexts
 L["(Hold Shift) Memory Usage"] = "(Shift gedrückt) Speichernutzung"
-L["Avoidance Breakdown"] = "Vermeidung Aufgliederung"
+L["Avoidance Breakdown"] = "Vermeidungsanalyse"
 L["Bandwidth"] = "Bandbreite"
 L["Bases Assaulted"] = "Stützpunkte angegriffen"
 L["Bases Defended"] = "Stützpunkte verteidigt"
 L["Character: "] = "Charakter: "
 L["Combat"] = "Kampf"
-L["Combat Time"] = "Kampf Zeit"
-L["Coords"] = true;
+L["Combat Time"] = "Kampfdauer"
+L["Coords"] = "Koordinaten"
 L["copperabbrev"] = "|cffeda55fc|r" --Also used in Bags
 L["Deficit:"] = "Defizit:"
 L["Demolishers Destroyed"] = "Verwüster zerstört"
@@ -82,24 +82,24 @@ L["Gold"] = true;
 L["goldabbrev"] = "|cffffd700g|r" --Also used in gold datatext
 L["Graveyards Assaulted"] = "Friedhöfe angegriffen"
 L["Graveyards Defended"] = "Friedhöfe verteidigt"
-L["Hit"] = "Hit"
-L["Hold Shift + Right Click:"] = "Halte Umschalt + Rechts Klick:"
-L["Home Latency:"] = "Standort Latenz"
+L["Hit"] = "Trefferchance"
+L["Hold Shift + Right Click:"] = "Halte Shift + Rechtsklick:"
+L["Home Latency:"] = "Standort-Latenz"
 L["HP"] = "HP"
 L["HPS"] = "HPS"
 L["lvl"] = "lvl"
-L["Mitigation By Level: "] = "Milderung durch Stufe:"
+L["Mitigation By Level: "] = "Schadesminderung per Stufe: "
 L["No Guild"] = "Keine Gilde"
 L["Profit:"] = "Gewinn:"
 L["Reload UI"] = "UI Neuladen"
 L["Reset Data: Hold Shift + Right Click"] = "Daten zurücksetzen: Halte Shift + Rechtsklick"
-L["Right Click: Reset CPU Usage"] = true;
+L["Right Click: Reset CPU Usage"] = "Rechtsklick: CPU-Last zurücksetzen"
 L["Saved Raid(s)"] = "Gespeicherte Schlachtzüge"
 L["Server: "] = "Server: "
 L["Session:"] = "Sitzung:"
 L["silverabbrev"] = "|cffc7c7cfs|r" --Also used in Bags
 L["SP"] = "SP"
-L["Spell/Heal Power"] = true;
+L["Spell/Heal Power"] = "Schaden/Heilungsboni"
 L["Spec"] = "Spec"
 L["Spent:"] = "Ausgegeben:"
 L["Stats For:"] = "Stats Für:"
@@ -131,7 +131,7 @@ L["Request was denied by user."] = "Die Anfrage wurde vom Benutzer abgelehnt."
 L["Your profile was successfully recieved by the player."] = "Dein Profil wurde erfolgreich von dem Spieler empfangen."
 
 --Install
-L["Aura Bars & Icons"] = "Aurenleiste & Symbole"
+L["Aura Bars & Icons"] = "Aurenleisten & Symbole"
 L["Auras Set"] = "Auren gesetzt"
 L["Auras"] = "Auren"
 L["Caster DPS"] = "Fernkampf DD"
@@ -217,7 +217,7 @@ L["Talent Spec"] = "Talent Spec" --Column header in raidbrowser
 L["Toggle Chat Frame"] = "Chatfenster an-/ausschalten" --layout\layout.lua
 L["Toggle Configuration"] = "Konfiguration umschalten" --layout\layout.lua
 L["XP:"] = "EP:"
-L["You don't have permission to mark targets."] = "Du hast keine Rechte um ein Ziel zu markieren."
+L["You don't have permission to mark targets."] = "Du hast keine Rechte ein Ziel zu markieren."
 
 --Movers
 L["Alternative Power"] = "Alternative Energie"
@@ -269,11 +269,11 @@ L["Target Castbar"] = "Ziel Zauberbalken"
 L["Target Frame"] = "Zielfenster" --Also used in UnitFrames
 L["TargetTarget Frame"] = "Ziel des Ziels Fenster" --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = "Ziel des Ziels des Ziels Fenster"
-L["Time Manager Frame"] = true;
+L["Time Manager Frame"] = "Zeitmanager-Fenster"
 L["Tooltip"] = "Tooltip"
 L["Totem Bar"] = "Totem-Leiste"
 L["Vehicle Seat Frame"] = "Fahrzeugfenster"
-L["Weapons"] = true;
+L["Weapons"] = "Waffen"
 L["DESC_MOVERCONFIG"] = [=[Ankerpunkte entriegelt. Bewege die Ankerpunkte und klicke 'sperren', wenn du fertig bist.
 
 Options:
@@ -310,7 +310,7 @@ L["Vendored gray items for:"] = "Graue Gegenstände verkauft für:"
 L["You don't have enough money to repair."] = "Du hast nicht genügend Gold für die Reparatur."
 L["You must be at a vendor."] = "Du musst bei einem Händler sein."
 L["Your items have been repaired for: "] = "Deine Gegenstände wurden repariert für: "
-L["Your items have been repaired using guild bank funds for: "] = "Deine Gegenstände wurden repariert. Die Gildenbank kostete das: "
+L["Your items have been repaired using guild bank funds for: "] = "Deine Gegenstände wurden repariert. Der Gildenbank kostete das: "
 L["|cFFE30000Lua error recieved. You can view the error message when you exit combat."] = "|cFFE30000Lua Fehler erhalten. Du kannst die Fehlermeldung ansehen, wenn du den Kampf verlässt."
 
 --Static Popups
@@ -319,7 +319,7 @@ L["Are you sure you want to apply this font to all ElvUI elements?"] = "Bist du 
 L["Are you sure you want to delete all your gray items?"] = "Bist du sicher, dass du alle grauen Gegenstände löschen willst?"
 L["Are you sure you want to disband the group?"] = "Bist du dir sicher, dass du die Gruppe auflösen willst?"
 L["Are you sure you want to reset all the settings on this profile?"] = "Bist du dir sicher dass du alle Einstellungen dieses Profils zurücksetzen willst?"
-L["Are you sure you want to reset every mover back to it's default position?"] = "Bist du dir sicher, dass du jeden Beweger an die Standard-Position zurücksetzen möchtest?"
+L["Are you sure you want to reset every mover back to it's default position?"] = "Bist du dir sicher, dass du jeden Anker an die Standard-Position zurücksetzen möchtest?"
 L["Because of the mass confusion caused by the new aura system I've implemented a new step to the installation process. This is optional. If you like how your auras are setup go to the last step and click finished to not be prompted again. If for some reason you are prompted repeatedly please restart your game."] = "Aufgrund der großen Verwirrung, die durch das neue Auren-System verursacht wurde, habe ich einen neuen Schritt zum Installationsprozess hinzugefügt. Dieser ist optional. Wenn du deine Auren so eingestellt lassen willst, wie sie sind, gehe einfach zum letzten Schritt und klicke auf fertig um nicht erneut aufgefordert zu werden. Wirst du, aus welchen Grund auch immer, öfter aufgefordert, starte bitte dein Spiel neu"
 L["Can't buy anymore slots!"] = "Kann keine Slots mehr kaufen"
 L["Disable Warning"] = "Deaktiviere Warnung"

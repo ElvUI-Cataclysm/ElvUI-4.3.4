@@ -491,6 +491,7 @@ L["Map Opacity When Moving"] = "Прозрачность карты в движ�
 L["Maps"] = "Карты"
 L["Minimap Buttons"] = "Кнопки миникарты"
 L["Minimap Mouseover"] = "При наведении мыши"
+L["Open Ticket"] = true;
 L["Puts coordinates on the world map."] = "Добавляет координаты на карту мира."
 L["Reset Zoom"] = "Сброс приближения"
 L["PvP Queue"] = true;
