@@ -196,6 +196,8 @@ local function LoadSkin()
 		end
 	end)
 
+	QuestLogDetailFrame:SetAttribute("UIPanelLayout-height", E:Scale(490))
+	QuestLogDetailFrame:Height(490)
 	QuestLogDetailFrame:StripTextures()
 	QuestLogDetailFrame:CreateBackdrop("Transparent")
 	QuestLogDetailFrame.backdrop:Point("TOPLEFT", 10, -12);
@@ -242,14 +244,15 @@ local function LoadSkin()
 			QuestLogDetailScrollFrame:SetFrameLevel(questFrame + 1);
 		end
 
-		QuestLogDetailScrollFrame:Height(331)
+		QuestLogDetailScrollFrame:Height(375)
 
-		QuestLogFrameShowMapButton:Point("TOPRIGHT", -31, -38)
+		QuestLogFrameShowMapButton:Point("TOPRIGHT", -33, -38)
 		QuestLogDetailScrollFrameScrollBar:Point("TOPLEFT", QuestLogDetailScrollFrame, "TOPRIGHT", 6, -15)
 
 		if(not QuestLogDetailScrollFrame.backdrop) then
 			QuestLogDetailScrollFrame:CreateBackdrop("Default", true)
 		end
+		QuestLogDetailScrollFrame.backdrop:Point("BOTTOMRIGHT", 0, -3)
 	end)
 
 	S:HandleCloseButton(QuestLogDetailFrameCloseButton)
