@@ -12,21 +12,24 @@ function UF:Construct_HealComm(frame)
 	ohpb:SetStatusBarTexture(E["media"].blankTex);
 	ohpb:Hide();
 
-	return {
+	local HealthPrediction = {
 		myBar = mhpb,
 		otherBar = ohpb,
 		maxOverflow = 1,
 		PostUpdate = UF.UpdateHealComm
-	};
+	}
+	HealthPrediction.parent = frame
+
+	return HealthPrediction
 end
 
 function UF:Configure_HealComm(frame)
-	local healPrediction = frame.HealPrediction
+	local healPrediction = frame.HealthPrediction
 	local c = self.db.colors.healPrediction
 
 	if(frame.db.healPrediction) then
-		if(not frame:IsElementEnabled("HealPrediction")) then
-			frame:EnableElement("HealPrediction");
+		if(not frame:IsElementEnabled("HealthPrediction")) then
+			frame:EnableElement("HealthPrediction");
 		end
 
 		if(not frame.USE_PORTRAIT_OVERLAY) then
@@ -46,8 +49,8 @@ function UF:Configure_HealComm(frame)
 		healPrediction.myBar:SetStatusBarColor(c.personal.r, c.personal.g, c.personal.b, c.personal.a);
 		healPrediction.otherBar:SetStatusBarColor(c.others.r, c.others.g, c.others.b, c.others.a);
 	else
-		if(frame:IsElementEnabled("HealPrediction")) then
-			frame:DisableElement("HealPrediction");
+		if(frame:IsElementEnabled("HealthPrediction")) then
+			frame:DisableElement("HealthPrediction");
 		end
 	end
 end

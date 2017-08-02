@@ -223,7 +223,7 @@ local function ToggleResourceBar(bars)
 		height = db.classbar.height;
 	elseif(db.combobar) then
 		height = db.combobar.height;
-	elseif(frame.AltPowerBar) then
+	elseif(frame.AlternativePower) then
 		height = db.power.height;
 	end
 
