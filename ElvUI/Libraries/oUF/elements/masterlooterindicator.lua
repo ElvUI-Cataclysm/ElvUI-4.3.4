@@ -29,7 +29,7 @@ local function Update(self, event)
 				mlUnit = 'raid' .. raidIndex
 			end
 
-			if(UnitIsUnit(unit, mlUnit)) then
+			if(mlUnit and UnitIsUnit(unit, mlUnit)) then
 				isShown = true
 			end
 		end
