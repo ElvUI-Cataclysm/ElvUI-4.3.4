@@ -8,72 +8,6 @@ local find = string.find;
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.quest ~= true then return end
 
-	QuestInfoSkillPointFrame:StripTextures()
-	QuestInfoSkillPointFrame:SetTemplate("Default")
-	QuestInfoSkillPointFrame:StyleButton()
-	QuestInfoSkillPointFrame:Width(QuestInfoSkillPointFrame:GetWidth() - 7)
-	QuestInfoSkillPointFrame:SetFrameLevel(QuestInfoSkillPointFrame:GetFrameLevel() + 2)
-	QuestInfoSkillPointFrameIconTexture:SetTexCoord(unpack(E.TexCoords))
-	QuestInfoSkillPointFrameIconTexture:SetDrawLayer("OVERLAY")
-	QuestInfoSkillPointFrameIconTexture:Point("TOPLEFT", 2, -2)
-	QuestInfoSkillPointFrameIconTexture:Size(QuestInfoSkillPointFrameIconTexture:GetWidth() - 2, QuestInfoSkillPointFrameIconTexture:GetHeight() - 2)
-	QuestInfoSkillPointFrame:CreateBackdrop()
-	QuestInfoSkillPointFrame.backdrop:SetOutside(QuestInfoSkillPointFrameIconTexture)
-	QuestInfoSkillPointFrameIconTexture:SetParent(QuestInfoSkillPointFrame.backdrop)
-	QuestInfoSkillPointFramePoints:Point("LEFT", 42, -1)
-
-	QuestInfoSpellObjectiveFrame:StripTextures()
-	QuestInfoSpellObjectiveFrame:SetTemplate("Default")
-	QuestInfoSpellObjectiveFrame:StyleButton()
-	QuestInfoSpellObjectiveFrame:Width(QuestInfoSpellObjectiveFrame:GetWidth() - 7)
-	QuestInfoSpellObjectiveFrame:Height(QuestInfoSpellObjectiveFrame:GetHeight() - 16)
-	QuestInfoSpellObjectiveFrame:SetFrameLevel(QuestInfoSpellObjectiveFrame:GetFrameLevel() + 2)
-	QuestInfoSpellObjectiveFrameIconTexture:SetTexCoord(unpack(E.TexCoords))
-	QuestInfoSpellObjectiveFrameIconTexture:SetDrawLayer("OVERLAY")
-	QuestInfoSpellObjectiveFrameIconTexture:Point("TOPLEFT", 2, -2)
-	QuestInfoSpellObjectiveFrameIconTexture:Size(QuestInfoSpellObjectiveFrameIconTexture:GetWidth() - 2, QuestInfoSpellObjectiveFrameIconTexture:GetHeight() - 2)
-	QuestInfoSpellObjectiveFrame:CreateBackdrop()
-	QuestInfoSpellObjectiveFrame.backdrop:SetOutside(QuestInfoSpellObjectiveFrameIconTexture)
-	QuestInfoSpellObjectiveFrameIconTexture:SetParent(QuestInfoSpellObjectiveFrame.backdrop)
-
-	QuestInfoRewardSpell:StripTextures()
-	QuestInfoRewardSpell:SetTemplate("Default")
-	QuestInfoRewardSpell:StyleButton()
-	QuestInfoRewardSpell:Width(QuestInfoRewardSpell:GetWidth() - 7)
-	QuestInfoRewardSpell:Height(QuestInfoRewardSpell:GetHeight() - 16)
-	QuestInfoRewardSpell:SetFrameLevel(QuestInfoRewardSpell:GetFrameLevel() + 2)
-	QuestInfoRewardSpellIconTexture:SetTexCoord(unpack(E.TexCoords))
-	QuestInfoRewardSpellIconTexture:SetDrawLayer("OVERLAY")
-	QuestInfoRewardSpellIconTexture:Point("TOPLEFT", 2, -2)
-	QuestInfoRewardSpellIconTexture:Size(QuestInfoRewardSpellIconTexture:GetWidth() - 2, QuestInfoRewardSpellIconTexture:GetHeight() - 3)
-	QuestInfoRewardSpell:CreateBackdrop()
-	QuestInfoRewardSpell.backdrop:SetOutside(QuestInfoRewardSpellIconTexture)
-	QuestInfoRewardSpellIconTexture:SetParent(QuestInfoRewardSpell.backdrop)
-
-	QuestInfoTalentFrame:StripTextures()
-	QuestInfoTalentFrame:SetTemplate("Default")
-	QuestInfoTalentFrame:StyleButton()
-	QuestInfoTalentFrame:Width(QuestInfoTalentFrame:GetWidth() - 7)
-	QuestInfoTalentFrameIconTexture:SetDrawLayer("OVERLAY")
-	QuestInfoTalentFrameIconTexture:Point("TOPLEFT", 2, -2)
-	QuestInfoTalentFrameIconTexture:Size(QuestInfoTalentFrameIconTexture:GetWidth() - 1, QuestInfoTalentFrameIconTexture:GetHeight() - 1)
-	QuestInfoTalentFrame:CreateBackdrop("Default", true)
-	QuestInfoTalentFrame.backdrop:SetOutside(QuestInfoTalentFrameIconTexture)
-	QuestInfoTalentFrameIconTexture:SetParent(QuestInfoTalentFrame.backdrop)
-	QuestInfoTalentFramePoints:Point("LEFT", 42, -1)
-
-	QuestFrame:HookScript("OnUpdate", function()
-		QuestInfoTalentFrameIconTexture:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
-	end)
-
-	QuestLogFrame:HookScript("OnUpdate", function()
-		QuestInfoTalentFrameIconTexture:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
-	end)
-
-	QuestLogDetailFrame:HookScript("OnUpdate", function()
-		QuestInfoTalentFrameIconTexture:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
-	end)
-
 	QuestLogFrame:StripTextures();
 	QuestLogFrame:CreateBackdrop("Transparent");
 	QuestLogFrame.backdrop:Point("TOPLEFT", 10, -12);
@@ -90,17 +24,50 @@ local function LoadSkin()
 		questItem:StripTextures();
 		questItem:SetTemplate("Default");
 		questItem:StyleButton();
-		questItem:Width(questItem:GetWidth() - 4);
+		questItem:Size(143, 40);
 		questItem:SetFrameLevel(questItem:GetFrameLevel() + 2);
 
-		questIcon:SetTexCoord(unpack(E.TexCoords));
+		questIcon:Size(E.PixelMode and 38 or 32)
 		questIcon:SetDrawLayer("OVERLAY");
-		questIcon:Size(questIcon:GetWidth() -(E.Spacing*2), questIcon:GetHeight() -(E.Spacing*2));
-		questIcon:Point("TOPLEFT", E.Border, -E.Border);
-		S:HandleIcon(questIcon);
+		questIcon:Point("TOPLEFT", E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
+		S:HandleIcon(questIcon)
 
 		questCount:SetParent(questItem.backdrop);
 		questCount:SetDrawLayer("OVERLAY");
+	end
+
+	local questIcons = {
+		"QuestInfoSkillPointFrame",
+		"QuestInfoSpellObjectiveFrame",
+		"QuestInfoRewardSpell",
+		"QuestInfoTalentFrame"
+	}
+
+	for i = 1, #questIcons do
+		local item = _G[questIcons[i]]
+		local icon = _G[questIcons[i].."IconTexture"]
+		local count = _G[questIcons[i].."Count"]
+		local points = _G[questIcons[i].."Points"]
+
+		item:StripTextures()
+		item:SetTemplate("Default")
+		item:StyleButton()
+		item:Size(140, 40)
+		item:SetFrameLevel(item:GetFrameLevel() + 2)
+
+		icon:Size(E.PixelMode and 38 or 32)
+		icon:Point("TOPLEFT", E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
+		icon:SetDrawLayer("OVERLAY")
+		S:HandleIcon(icon)
+
+		if count then
+			count:SetParent(item.backdrop)
+			count:SetDrawLayer("OVERLAY")
+		end
+
+		if points then
+			points:Point("LEFT", 42, -1)
+		end
 	end
 
 	QuestInfoItemHighlight:StripTextures();
@@ -183,6 +150,8 @@ local function LoadSkin()
 		QuestInfoSpellObjectiveLearnLabel:SetTextColor(unpack(textColor))
 
 		QuestObjectiveText()
+
+		QuestInfoTalentFrameIconTexture:SetTexture("Interface\\WorldStateFrame\\Icons-Classes")
 	end)
 
 	hooksecurefunc("QuestInfo_ShowRequiredMoney", function()

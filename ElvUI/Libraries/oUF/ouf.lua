@@ -321,7 +321,7 @@ local function initObject(unit, style, styleFunc, header, ...)
 
 		styleFunc(object, objectUnit, not header)
 
-		object:SetScript("OnAttributeChanged", OnAttributeChanged)
+		object:SetScript("OnAttributeChanged", onAttributeChanged)
 		object:SetScript("OnShow", onShow)
 
 		activeElements[object] = {}
@@ -347,7 +347,7 @@ local function walkObject(object, unit)
 
 	if(object:GetAttribute('oUF-onlyProcessChildren')) then
 		object.hasChildren = true
-		object:SetScript('OnAttributeChanged', OnAttributeChanged)
+		object:SetScript('OnAttributeChanged', onAttributeChanged)
 		return initObject(unit, style, styleFunc, header, object:GetChildren())
 	end
 
