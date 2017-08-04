@@ -77,6 +77,26 @@ local function LoadSkin()
 	QuestInfoItemHighlight.backdropTexture:SetAlpha(0)
 	QuestInfoItemHighlight:Size(142, 40);
 
+	local function QuestQualityColors(frame, text, quality, link)
+		if link and not quality then
+			quality = select(3, GetItemInfo(link))
+		end
+
+		if quality and quality > 1 then
+			if frame then
+				frame:SetBackdropBorderColor(GetItemQualityColor(quality))
+				frame.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
+			end
+			text:SetTextColor(GetItemQualityColor(quality))
+		else
+			if frame then
+				frame:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				frame.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+			end
+			text:SetTextColor(1, 1, 1)
+		end
+	end
+
 	hooksecurefunc("QuestInfoItem_OnClick", function(self)
 		QuestInfoItemHighlight:ClearAllPoints();
 		QuestInfoItemHighlight:SetOutside(self:GetName() .. "IconTexture");
@@ -84,8 +104,15 @@ local function LoadSkin()
 
 		for i = 1, MAX_NUM_ITEMS do
 			local questItem = _G["QuestInfoItem" .. i];
+			local questName = _G["QuestInfoItem"..i.."Name"]
+			local link = questItem.type and (QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(questItem.type, questItem:GetID())
+
 			if(questItem ~= self) then
-				_G[questItem:GetName() .. "Name"]:SetTextColor(1, 1, 1);
+				if questItem.objectType == "item" then
+					QuestQualityColors(nil, questName, nil, link)
+				else
+					questName:SetTextColor(1, 1, 1)
+				end
 			end
 		end
 	end);
@@ -125,22 +152,6 @@ local function LoadSkin()
 					objective:SetTextColor(0.6, 0.6, 0.6)
 				end
 			end
-		end
-	end
-
-	local function QuestQualityColors(frame, text, quality, link)
-		if link and not quality then
-			quality = select(3, GetItemInfo(link))
-		end
-
-		if quality and quality > 1 then
-			frame:SetBackdropBorderColor(GetItemQualityColor(quality))
-			frame.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
-			text:SetTextColor(GetItemQualityColor(quality))
-		else
-			frame:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-			frame.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-			text:SetTextColor(1, 1, 1)
 		end
 	end
 
