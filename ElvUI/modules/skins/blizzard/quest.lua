@@ -128,6 +128,22 @@ local function LoadSkin()
 		end
 	end
 
+	local function QuestQualityColors(frame, text, quality, link)
+		if link and not quality then
+			quality = select(3, GetItemInfo(link))
+		end
+
+		if quality and quality > 1 then
+			frame:SetBackdropBorderColor(GetItemQualityColor(quality))
+			frame.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
+			text:SetTextColor(GetItemQualityColor(quality))
+		else
+			frame:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+			frame.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+			text:SetTextColor(1, 1, 1)
+		end
+	end
+
 	hooksecurefunc("QuestInfo_Display", function()
 		local textColor = {1, 1, 1}
 		local titleTextColor = {1, 0.80, 0.10}
@@ -152,6 +168,36 @@ local function LoadSkin()
 		QuestObjectiveText()
 
 		QuestInfoTalentFrameIconTexture:SetTexture("Interface\\WorldStateFrame\\Icons-Classes")
+
+		for i = 1, MAX_NUM_ITEMS do
+			local questItem = _G["QuestInfoItem"..i]
+			local questName = _G["QuestInfoItem"..i.."Name"]
+			local link = questItem.type and (QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(questItem.type, questItem:GetID())
+
+			if questItem.objectType == "item" then
+				QuestQualityColors(questItem, questName, nil, link)
+			else
+				questItem:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				questItem.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				questName:SetTextColor(1, 1, 1)
+			end
+		end
+	end)
+
+	hooksecurefunc("QuestInfo_ShowRewards", function()
+		for i = 1, MAX_NUM_ITEMS do
+			local questItem = _G["QuestInfoItem"..i]
+			local questName = _G["QuestInfoItem"..i.."Name"]
+			local link = questItem.type and (QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(questItem.type, questItem:GetID())
+
+			if questItem.objectType == "item" then
+				QuestQualityColors(questItem, questName, nil, link)
+			else
+				questItem:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				questItem.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				questName:SetTextColor(1, 1, 1)
+			end
+		end
 	end)
 
 	hooksecurefunc("QuestInfo_ShowRequiredMoney", function()
@@ -267,20 +313,16 @@ local function LoadSkin()
 		local count = _G["QuestProgressItem"..i.."Count"]
 
 		button:StripTextures()
+		button:SetTemplate("Default")
 		button:StyleButton()
-		button:Width(button:GetWidth() - 4)
+		button:Size(143, 40)
 		button:SetFrameLevel(button:GetFrameLevel() + 2)
 
-		texture:SetTexCoord(unpack(E.TexCoords))
+		texture:Size(E.PixelMode and 38 or 32)
 		texture:SetDrawLayer("OVERLAY")
-		texture:Point("TOPLEFT", 2, -2)
-		texture:Size(texture:GetWidth() - 2, texture:GetHeight() - 2)
+		texture:Point("TOPLEFT", E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
+		S:HandleIcon(texture)
 
-		button:SetTemplate("Default")
-		button:CreateBackdrop()
-		button.backdrop:SetOutside(texture)
-
-		texture:SetParent(button.backdrop)
 		count:SetParent(button.backdrop)
 		count:SetDrawLayer("OVERLAY")
 	end
@@ -290,6 +332,14 @@ local function LoadSkin()
 		QuestProgressText:SetTextColor(1, 1, 1)
 		QuestProgressRequiredItemsText:SetTextColor(1, 0.80, 0.10)
 		QuestProgressRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
+	
+		for i = 1, MAX_REQUIRED_ITEMS do
+			local item = _G["QuestProgressItem"..i]
+			local name = _G["QuestProgressItem"..i.."Name"]
+			local link = item.type and GetQuestItemLink(item.type, item:GetID())
+
+			QuestQualityColors(item, name, nil, link)
+		end
 	end)
 
 	QuestNPCModel:StripTextures()
