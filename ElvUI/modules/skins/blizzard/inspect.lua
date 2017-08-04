@@ -139,6 +139,7 @@ local function LoadSkin()
 
 	InspectGuildFrameBG:SetDesaturated(true)
 
+	-- Control Frame
 	InspectModelFrameControlFrame:StripTextures()
 
 	local controlbuttons = {
@@ -150,7 +151,7 @@ local function LoadSkin()
 		"InspectModelFrameControlFrameRotateResetButton"
 	}
 
-	for i = 1, getn(controlbuttons) do
+	for i = 1, #controlbuttons do
 		S:HandleButton(_G[controlbuttons[i]]);
 		_G[controlbuttons[i]]:StyleButton()
 		_G[controlbuttons[i].."Bg"]:Hide()
