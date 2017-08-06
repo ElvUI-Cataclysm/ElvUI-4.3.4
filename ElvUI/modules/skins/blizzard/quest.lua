@@ -5,6 +5,8 @@ local _G = _G;
 local unpack = unpack;
 local find = string.find;
 
+local SquareButton_SetIcon = SquareButton_SetIcon
+
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.quest ~= true then return end
 
@@ -135,7 +137,6 @@ local function LoadSkin()
 	QuestLogFramePushQuestButton:Point("LEFT", QuestLogFrameAbandonButton, "RIGHT", 2, 0)
 	QuestLogFramePushQuestButton:Point("RIGHT", QuestLogFrameTrackButton, "LEFT", -2, 0)
 
-	--Everything here to make the text a readable color
 	local function QuestObjectiveText()
 		local numObjectives = GetNumQuestLeaderBoards()
 		local objective
@@ -144,7 +145,7 @@ local function LoadSkin()
 		for i = 1, numObjectives do
 			_, type, finished = GetQuestLogLeaderBoard(i)
 			if(type ~= "spell") then
-				numVisibleObjectives = numVisibleObjectives+1
+				numVisibleObjectives = numVisibleObjectives + 1
 				objective = _G["QuestInfoObjective"..numVisibleObjectives]
 				if(finished) then
 					objective:SetTextColor(1, 0.80, 0.10)
@@ -159,22 +160,31 @@ local function LoadSkin()
 		local textColor = {1, 1, 1}
 		local titleTextColor = {1, 0.80, 0.10}
 
-		-- headers
 		QuestInfoTitleHeader:SetTextColor(unpack(titleTextColor))
 		QuestInfoDescriptionHeader:SetTextColor(unpack(titleTextColor))
 		QuestInfoObjectivesHeader:SetTextColor(unpack(titleTextColor))
 		QuestInfoRewardsHeader:SetTextColor(unpack(titleTextColor))
-		-- other text
+
 		QuestInfoDescriptionText:SetTextColor(unpack(textColor))
 		QuestInfoObjectivesText:SetTextColor(unpack(textColor))
 		QuestInfoGroupSize:SetTextColor(unpack(textColor))
 		QuestInfoRewardText:SetTextColor(unpack(textColor))
-		-- reward frame text
+
 		QuestInfoItemChooseText:SetTextColor(unpack(textColor))
 		QuestInfoItemReceiveText:SetTextColor(unpack(textColor))
 		QuestInfoSpellLearnText:SetTextColor(unpack(textColor))
 		QuestInfoXPFrameReceiveText:SetTextColor(unpack(textColor))	
 		QuestInfoSpellObjectiveLearnLabel:SetTextColor(unpack(textColor))
+
+		for i = 1, MAX_REPUTATIONS do
+			_G["QuestInfoReputation" .. i .. "Faction"]:SetTextColor(unpack(textColor));
+		end
+
+		if GetQuestLogRequiredMoney() > GetMoney() then
+			QuestInfoRequiredMoneyText:SetTextColor(1, 0, 0)
+		else
+			QuestInfoRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
+		end
 
 		QuestObjectiveText()
 
@@ -243,19 +253,23 @@ local function LoadSkin()
 			QuestLogDetailScrollFrame:SetFrameLevel(questFrame + 1);
 		end
 
+		if not QuestLogScrollFrame.backdrop then
+			QuestLogScrollFrame:CreateBackdrop("Default", true)
+		end
+		QuestLogScrollFrame.backdrop:Point("TOPLEFT", 0, 2)
 		QuestLogScrollFrame:Size(302, 331)
-		QuestLogScrollFrame:CreateBackdrop("Default", true)
-
-		QuestLogDetailScrollFrame:Height(331)
-		QuestLogDetailScrollFrame:Point("TOPRIGHT", -32, -75)
-
-		QuestLogFrameShowMapButton:Point("TOPRIGHT", -31, -38)
-
-		QuestLogDetailScrollFrameScrollBar:Point("TOPLEFT", QuestLogDetailScrollFrame, "TOPRIGHT", 6, -15)
 
 		if(not QuestLogDetailScrollFrame.backdrop) then
 			QuestLogDetailScrollFrame:CreateBackdrop("Default", true)
 		end
+		QuestLogDetailScrollFrame.backdrop:Point("TOPLEFT", 0, 3)
+		QuestLogDetailScrollFrame:Height(331)
+		QuestLogDetailScrollFrame:Point("TOPRIGHT", -32, -76)
+
+		QuestLogFrameShowMapButton:Point("TOPRIGHT", -32, -35)
+
+		QuestLogScrollFrameScrollBar:Point("TOPLEFT", QuestLogScrollFrame, "TOPRIGHT", 5, -12)
+		QuestLogDetailScrollFrameScrollBar:Point("TOPLEFT", QuestLogDetailScrollFrame, "TOPRIGHT", 6, -13)
 	end)
 
 	QuestLogDetailFrame:HookScript("OnShow", function()
@@ -270,15 +284,15 @@ local function LoadSkin()
 			QuestLogDetailScrollFrame:SetFrameLevel(questFrame + 1);
 		end
 
-		QuestLogDetailScrollFrame:Height(375)
-
-		QuestLogFrameShowMapButton:Point("TOPRIGHT", -33, -38)
-		QuestLogDetailScrollFrameScrollBar:Point("TOPLEFT", QuestLogDetailScrollFrame, "TOPRIGHT", 6, -15)
-
-		if(not QuestLogDetailScrollFrame.backdrop) then
+		if not QuestLogDetailScrollFrame.backdrop then
 			QuestLogDetailScrollFrame:CreateBackdrop("Default", true)
 		end
 		QuestLogDetailScrollFrame.backdrop:Point("BOTTOMRIGHT", 0, -3)
+		QuestLogDetailScrollFrame:Height(375)
+
+		QuestLogFrameShowMapButton:Point("TOPRIGHT", -33, -35)
+
+		QuestLogDetailScrollFrameScrollBar:Point("TOPLEFT", QuestLogDetailScrollFrame, "TOPRIGHT", 6, -13)
 	end)
 
 	S:HandleCloseButton(QuestLogDetailFrameCloseButton)
@@ -288,10 +302,7 @@ local function LoadSkin()
 	QuestLogFrameCloseButton:Point("TOPRIGHT", 3, -7)
 
 	S:HandleScrollBar(QuestLogDetailScrollFrameScrollBar)
-
 	S:HandleScrollBar(QuestLogScrollFrameScrollBar)
-	QuestLogScrollFrameScrollBar:Point("RIGHT", 27, 0)
-
 	S:HandleScrollBar(QuestProgressScrollFrameScrollBar)
 	S:HandleScrollBar(QuestRewardScrollFrameScrollBar)
 
@@ -343,7 +354,7 @@ local function LoadSkin()
 		QuestProgressText:SetTextColor(1, 1, 1)
 		QuestProgressRequiredItemsText:SetTextColor(1, 0.80, 0.10)
 		QuestProgressRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
-	
+
 		for i = 1, MAX_REQUIRED_ITEMS do
 			local item = _G["QuestProgressItem"..i]
 			local name = _G["QuestProgressItem"..i.."Name"]
@@ -369,6 +380,14 @@ local function LoadSkin()
 		QuestNPCModel:ClearAllPoints();
 		QuestNPCModel:Point("TOPLEFT", parentFrame, "TOPRIGHT", x + 18, y);
 	end)
+
+	S:HandleNextPrevButton(QuestNPCModelTextScrollFrameScrollBarScrollUpButton)
+	SquareButton_SetIcon(QuestNPCModelTextScrollFrameScrollBarScrollUpButton, "UP")
+	QuestNPCModelTextScrollFrameScrollBarScrollUpButton:Size(18, 16)
+
+	S:HandleNextPrevButton(QuestNPCModelTextScrollFrameScrollBarScrollDownButton)
+	SquareButton_SetIcon(QuestNPCModelTextScrollFrameScrollBarScrollDownButton, "DOWN")
+	QuestNPCModelTextScrollFrameScrollBarScrollDownButton:Size(18, 16)
 
 	for i = 1, #QuestLogScrollFrame.buttons do
 		local questLogTitle = _G["QuestLogScrollFrameButton" .. i];
