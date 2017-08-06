@@ -111,6 +111,7 @@ L["Total: "] = "合计: "
 L["Towers Assaulted"] = "哨塔突袭"
 L["Towers Defended"] = "哨塔防御"
 L["Unhittable:"] = "未命中:"
+L["Vengeance"] = true;
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFF左键点击:|r 更改当前专精"
 L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = "|cffFFFFFF右键点击:|r 显示专精天赋框架"
 

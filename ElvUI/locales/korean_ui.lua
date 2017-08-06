@@ -111,6 +111,7 @@ L["Total: "] = "합계:"
 L["Towers Assaulted"] = true;
 L["Towers Defended"] = true;
 L["Unhittable:"] = "100% 방어행동까지"
+L["Vengeance"] = true;
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "클릭 : 전문화 교체"
 L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = true;
 

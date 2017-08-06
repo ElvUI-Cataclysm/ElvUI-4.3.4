@@ -111,6 +111,7 @@ L["Total: "] = "Total: "
 L["Towers Assaulted"] = true;
 L["Towers Defended"] = true;
 L["Unhittable:"] = "Inacertável"
+L["Vengeance"] = true;
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFFClique Esquerdo:|r Altera Especialização de Talento"
 L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = true;
 

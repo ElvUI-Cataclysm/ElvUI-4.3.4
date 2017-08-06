@@ -111,6 +111,7 @@ L["Total: "] = "Всего: "
 L["Towers Assaulted"] = "Башен атаковано"
 L["Towers Defended"] = "Башен защищено"
 L["Unhittable:"] = "Полная защита от ударов"
+L["Vengeance"] = true;
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFFЛКМ:|r Изменить набор талантов"
 L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = "|cffFFFFFFПКМ:|r Показать окно специализации"
 

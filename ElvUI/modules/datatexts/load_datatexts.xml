@@ -29,4 +29,5 @@
 	<Script file="expertise.lua"/>
 	<Script file="calltoarms.lua"/>
 	<Script file="resilience.lua"/>
+	<Script file="vengeance.lua"/>
 </Ui>
