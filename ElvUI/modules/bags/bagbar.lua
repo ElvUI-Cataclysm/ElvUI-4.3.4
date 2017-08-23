@@ -8,8 +8,6 @@ local tinsert = table.insert
 local CreateFrame = CreateFrame
 local NUM_BAG_FRAMES = NUM_BAG_FRAMES
 
-local TOTAL_BAGS = NUM_BAG_FRAMES + 1
-
 local function OnEnter()
 	if not E.db.bags.bagBar.mouseover then return end
 	E:UIFrameFadeOut(ElvUIBags, 0.2, ElvUIBags:GetAlpha(), 1)
@@ -25,8 +23,7 @@ function B:SkinBag(bag)
 	bag.oldTex = icon:GetTexture()
 
 	bag:StripTextures()
-	bag:CreateBackdrop("Default", true)
-	bag.backdrop:SetAllPoints()
+	bag:SetTemplate("Default", true)
 	bag:StyleButton(true)
 	icon:SetTexture(bag.oldTex)
 	icon:SetInside()
@@ -58,7 +55,7 @@ function B:SizeAndPositionBagBar()
 	for i = 1, #ElvUIBags.buttons do
 		local button = ElvUIBags.buttons[i]
 		local prevButton = ElvUIBags.buttons[i - 1]
-		button:Size(E.db.bags.bagBar.size)
+		button:Size(bagBarSize)
 		button:ClearAllPoints()
 		if growthDirection == "HORIZONTAL" and sortDirection == "ASCENDING" then
 			if i == 1 then
@@ -88,10 +85,10 @@ function B:SizeAndPositionBagBar()
 	end
 
 	if growthDirection == "HORIZONTAL" then
-		ElvUIBags:Width(bagBarSize*(TOTAL_BAGS) + buttonSpacing*(TOTAL_BAGS-1) + ((showBackdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2))
+		ElvUIBags:Width(bagBarSize*(NUM_BAG_FRAMES + 1) + buttonSpacing*(NUM_BAG_FRAMES) + ((showBackdrop and (E.Border + backdropSpacing) or E.Spacing)*2))
 		ElvUIBags:Height(bagBarSize + ((showBackdrop and (E.Border + backdropSpacing) or E.Spacing)*2))
 	else
-		ElvUIBags:Height(bagBarSize*(TOTAL_BAGS) + buttonSpacing*(TOTAL_BAGS-1) + ((showBackdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2))
+		ElvUIBags:Height(bagBarSize*(NUM_BAG_FRAMES + 1) + buttonSpacing*(NUM_BAG_FRAMES) + ((showBackdrop and (E.Border + backdropSpacing) or E.Spacing)*2))
 		ElvUIBags:Width(bagBarSize + ((showBackdrop and (E.Border + backdropSpacing) or E.Spacing)*2))
 	end
 end
@@ -100,7 +97,7 @@ function B:LoadBagBar()
 	if not E.private.bags.bagBar then return end
 
 	local ElvUIBags = CreateFrame("Frame", "ElvUIBags", E.UIParent)
-	ElvUIBags:SetPoint("TOPRIGHT", RightChatPanel, "TOPLEFT", -4, 0)
+	ElvUIBags:Point("TOPRIGHT", RightChatPanel, "TOPLEFT", -4, 0)
 	ElvUIBags.buttons = {}
 	ElvUIBags:CreateBackdrop()
 	ElvUIBags.backdrop:SetAllPoints()
@@ -116,6 +113,7 @@ function B:LoadBagBar()
 	MainMenuBarBackpackButtonCount:Point("BOTTOMRIGHT", MainMenuBarBackpackButton, "BOTTOMRIGHT", -1, 4)
 	MainMenuBarBackpackButton:HookScript("OnEnter", OnEnter)
 	MainMenuBarBackpackButton:HookScript("OnLeave", OnLeave)
+
 	tinsert(ElvUIBags.buttons, MainMenuBarBackpackButton)
 	self:SkinBag(MainMenuBarBackpackButton)
 
