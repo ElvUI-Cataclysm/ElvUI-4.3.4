@@ -154,7 +154,7 @@ end
 function UF:UpdateComboDisplay(event, unit)
 	if(unit == "pet") then return end
 	if(event == "UPDATE_SHAPESHIFT_FORM" and GetShapeshiftForm() ~= 3) then return self.ComboPoints:Hide() end
-	if(E.myclass ~= "ROGUE" and (E.myclass ~= "DRUID" or (E.myclass == "DRUID" and GetShapeshiftForm() ~= 3)) and not (UnitHasVehicleUI("player") or UnitHasVehicleUI("vehicle"))) then return self.ComboPoints:Hide() end
+	if(E.myclass ~= "ROGUE" and E.myclass ~= "DRUID" and not (UnitHasVehicleUI("player") or UnitHasVehicleUI("vehicle"))) then return self.ComboPoints:Hide() end
 
 	local db = self.db
 	if(not db) then return end
