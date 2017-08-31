@@ -3,6 +3,13 @@ local DT = E:GetModule("DataTexts");
 
 local datatexts = {};
 
+local _G = _G
+local pairs = pairs
+
+local NONE = NONE
+local HideLeftChat = HideLeftChat
+local HideRightChat = HideRightChat
+
 function DT:PanelLayoutOptions()
 	for name, data in pairs(DT.RegisteredDataTexts) do
 		datatexts[name] = data.localizedName or L[name]
@@ -114,7 +121,7 @@ E.Options.args.datatexts = {
 							values = {
 								["SMART"] = L["Smart"],
 								["FULL"] = L["Full"],
-								["SHORT"] = L["Short"],
+								["SHORT"] = SHORT,
 								["SHORTINT"] = L["Short (Whole Numbers)"],
 								["CONDENSED"] = L["Condensed"],
 								["BLIZZARD"] = L["Blizzard Style"]
@@ -143,7 +150,7 @@ E.Options.args.datatexts = {
 						fontSize = {
 							order = 2,
 							type = "range",
-							name = L["Font Size"],
+							name = FONT_SIZE,
 							min = 4, max = 22, step = 1
 						},
 						fontOutline = {
@@ -152,7 +159,7 @@ E.Options.args.datatexts = {
 							name = L["Font Outline"],
 							desc = L["Set the font outline."],
 							values = {
-								["NONE"] = L["None"],
+								["NONE"] = NONE,
 								["OUTLINE"] = "OUTLINE",
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 								["THICKOUTLINE"] = "THICKOUTLINE"

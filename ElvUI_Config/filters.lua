@@ -1,13 +1,16 @@
 local E, L, V, P, G = unpack(ElvUI);
 local UF = E:GetModule("UnitFrames");
 
-local selectedSpell;
-local selectedFilter;
-local filters;
-local tinsert = table.insert;
-local tonumber = tonumber;
-local format = string.format;
-local UNKNOWN = UNKNOWN;
+local type, pairs = type, pairs
+local tonumber, tostring = tonumber, tostring
+local match, format = string.match, string.format
+
+local NONE = NONE
+local GetSpellInfo = GetSpellInfo
+
+local selectedSpell
+local selectedFilter
+local filters
 
 local function UpdateFilterGroup()
 	E.Options.args.filters.args.filterGroup = nil;
@@ -82,7 +85,7 @@ local function UpdateFilterGroup()
 			}
 		};
 
-		local spellID = selectedSpell and string.match(selectedSpell, "(%d+)");
+		local spellID = selectedSpell and match(selectedSpell, "(%d+)");
 		if(spellID) then spellID = tonumber(spellID); end
 
 		if(not selectedSpell or E.global.unitframe.DebuffHighlightColors[(spellID or selectedSpell)] == nil) then
@@ -125,7 +128,7 @@ local function UpdateFilterGroup()
 					end
 				},
 				color = {
-					name = L["Color"],
+					name = COLOR,
 					type = "color",
 					order = 1,
 					hasAlpha = true,
@@ -224,7 +227,7 @@ local function UpdateFilterGroup()
 			}
 		};
 
-		local spellID = selectedSpell and string.match(selectedSpell, "(%d+)");
+		local spellID = selectedSpell and match(selectedSpell, "(%d+)");
 		if(spellID) then spellID = tonumber(spellID); end
 
 		if(not selectedSpell or E.global.unitframe.AuraBarColors[selectedSpell] == nil) then
@@ -239,7 +242,7 @@ local function UpdateFilterGroup()
 			guiInline = true,
 			args = {
 				color = {
-					name = L["Color"],
+					name = COLOR,
 					type = "color",
 					order = 1,
 					get = function(info)
@@ -427,7 +430,7 @@ local function UpdateFilterGroup()
 					color = {
 						order = 7,
 						type = "color",
-						name = L["Color"],
+						name = COLOR,
 						get = function(info)
 							local t = E.global.unitframe.buffwatch[E.myclass][selectedSpell][ info[#info] ];
 							return t.r, t.g, t.b, t.a;
@@ -645,7 +648,7 @@ local function UpdateFilterGroup()
 					color = {
 						order = 7,
 						type = "color",
-						name = L["Color"],
+						name = COLOR,
 						get = function(info)
 							if(E.db.unitframe.filters.buffwatch[selectedSpell]) then
 								local t = E.db.unitframe.filters.buffwatch[selectedSpell][ info[#info] ];
@@ -819,7 +822,7 @@ local function UpdateFilterGroup()
 			E.Options.args.filters.args.filterGroup.args.filterType.hidden = true
 		end
 
-		local spellID = selectedSpell and string.match(selectedSpell, "(%d+)");
+		local spellID = selectedSpell and match(selectedSpell, "(%d+)");
 		if(spellID) then spellID = tonumber(spellID); end
 
 		if(not selectedSpell or not E.global.unitframe["aurafilters"][selectedFilter]["spells"][(spellID or selectedSpell)]) then

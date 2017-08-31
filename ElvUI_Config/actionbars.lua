@@ -2,6 +2,16 @@
 local AB = E:GetModule("ActionBars");
 local group;
 
+local _G = _G
+
+local SetCVar = SetCVar
+local GameTooltip = _G["GameTooltip"]
+local NONE, COLOR, COLORS = NONE, COLOR, COLORS
+local SHIFT_KEY, ALT_KEY, CTRL_KEY = SHIFT_KEY, ALT_KEY, CTRL_KEY
+local OPTION_TOOLTIP_ACTION_BUTTON_USE_KEY_DOWN = OPTION_TOOLTIP_ACTION_BUTTON_USE_KEY_DOWN
+local LOCK_ACTIONBAR_TEXT = LOCK_ACTIONBAR_TEXT
+local PICKUP_ACTION_KEY_TEXT = PICKUP_ACTION_KEY_TEXT
+
 local points = {
 	["TOPLEFT"] = "TOPLEFT",
 	["TOPRIGHT"] = "TOPRIGHT",
@@ -660,7 +670,7 @@ E.Options.args.actionbar = {
 		colorGroup = {
 			order = 12,
 			type = "group",
-			name = L["Colors"],
+			name = COLORS,
 			guiInline = true,
 			get = function(info)
 				local t = E.db.actionbar[ info[#info] ]
@@ -719,7 +729,7 @@ E.Options.args.actionbar = {
 				fontSize = {
 					order = 2,
 					type = "range",
-					name = L["Font Size"],
+					name = FONT_SIZE,
 					min = 6, max = 22, step = 1
 				},
 				fontOutline = {
@@ -728,7 +738,7 @@ E.Options.args.actionbar = {
 					name = L["Font Outline"],
 					desc = L["Set the font outline."],
 					values = {
-						["NONE"] = L["None"],
+						["NONE"] = NONE,
 						["OUTLINE"] = "OUTLINE",
 						["MONOCHROME"] = (not E.isMacClient) and "MONOCHROME" or nil,
 						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",

@@ -4,11 +4,21 @@ local UF = E:GetModule('UnitFrames');
 local _, ns = ...;
 local ElvUF = ns.oUF;
 
-local tinsert = table.insert;
-local twipe = table.wipe;
+local _G = _G
+local select, pairs = select, pairs
+local tinsert = table.insert
+local twipe = table.wipe
+local gsub = string.gsub
 
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
-local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
+local IsAddOnLoaded = IsAddOnLoaded
+local GetScreenWidth = GetScreenWidth
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS
+local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS
+local SHOW, HIDE, DELETE, NONE = SHOW, HIDE, DELETE, NONE
+local SHIFT_KEY, ALT_KEY, CTRL_KEY = SHIFT_KEY, ALT_KEY, CTRL_KEY
+local HEALTH, MANA, NAME, PLAYER, CLASS, ROLE, GROUP = HEALTH, MANA, NAME, PLAYER, CLASS, ROLE, GROUP
+local RAGE, FOCUS, ENERGY, RUNIC_POWER = RAGE, FOCUS, ENERGY, RUNIC_POWER
+local HOLY_POWER, SOUL_SHARDS = HOLY_POWER, SOUL_SHARDS
 
 local ACD = LibStub("AceConfigDialog-3.0-ElvUI");
 local fillValues = {
@@ -567,7 +577,7 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 			fontSize = {
 				order = 8,
 				type = "range",
-				name = L["Font Size"],
+				name = FONT_SIZE,
 				min = 6, max = 22, step = 1
 			},
 			clickThrough = {
@@ -591,7 +601,7 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 				values = auraSortMethodValues
 			},
 			filters = {
-				name = L["Filters"],
+				name = FILTERS,
 				guiInline = true,
 				type = "group",
 				order = 100,
@@ -1156,7 +1166,7 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 				min = -1000, max = 1000, step = 1,
 			},
 			filters = {
-				name = L["Filters"],
+				name = FILTERS,
 				guiInline = true,
 				type = "group",
 				order = 100,
@@ -1495,7 +1505,7 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 			fontSize = {
 				order = 5,
 				type = "range",
-				name = L["Font Size"],
+				name = FONT_SIZE,
 				min = 7, max = 22, step = 1
 			},
 			fontOutline = {
@@ -1503,7 +1513,7 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 				type = "select",
 				name = L["Font Outline"],
 				values = {
-					["NONE"] = L["None"],
+					["NONE"] = NONE,
 					["OUTLINE"] = "OUTLINE",
 					["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 					["THICKOUTLINE"] = "THICKOUTLINE"
@@ -1566,7 +1576,7 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 					color = {
 						order = 4,
 						type = "color",
-						name = L["Color"],
+						name = COLOR,
 						get = function(info)
 							local c = E.db.unitframe.units.raid.rdebuffs.duration.color;
 							local d = P.unitframe.units.raid.rdebuffs.duration.color;
@@ -1619,7 +1629,7 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 					color = {
 						order = 4,
 						type = "color",
-						name = L["Color"],
+						name = COLOR,
 						get = function(info)
 							local c = E.db.unitframe.units[groupName].rdebuffs.stack.color;
 							local d = P.unitframe.units[groupName].rdebuffs.stack.color;
@@ -1766,7 +1776,7 @@ function UF:CreateCustomTextGroup(unit, objectName)
 			},
 			size = {
 				order = 3,
-				name = L["Font Size"],
+				name = FONT_SIZE,
 				type = "range",
 				min = 6, max = 32, step = 1
 			},
@@ -1776,7 +1786,7 @@ function UF:CreateCustomTextGroup(unit, objectName)
 				desc = L["Set the font outline."],
 				type = "select",
 				values = {
-					["NONE"] = L["None"],
+					["NONE"] = NONE,
 					["OUTLINE"] = "OUTLINE",
 					["MONOCHROME"] = (not E.isMacClient) and "MONOCHROME" or nil,
 					["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
@@ -2150,7 +2160,7 @@ E.Options.args.unitframe = {
 						},
 						fontSize = {
 							order = 2,
-							name = L["Font Size"],
+							name = FONT_SIZE,
 							desc = L["Set the font size for unitframes."],
 							type = "range",
 							min = 6, max = 22, step = 1,
@@ -2162,7 +2172,7 @@ E.Options.args.unitframe = {
 							desc = L["Set the font outline."],
 							type = "select",
 							values = {
-								["NONE"] = L["None"],
+								["NONE"] = NONE,
 								["OUTLINE"] = "OUTLINE",
 								["MONOCHROME"] = (not E.isMacClient) and "MONOCHROME" or nil,
 								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
@@ -2176,7 +2186,7 @@ E.Options.args.unitframe = {
 					order = 5,
 					type = "group",
 					guiInline = true,
-					name = L["Colors"],
+					name = COLORS,
 					get = function(info) return E.db.unitframe.colors[ info[#info] ]; end,
 					set = function(info, value) E.db.unitframe.colors[ info[#info] ] = value; UF:Update_AllFrames(); end,
 					args = {
@@ -2682,7 +2692,7 @@ E.Options.args.unitframe.args.player = {
 			name = L["Smart Aura Position"],
 			desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
 			values = {
-				["DISABLED"] = L["Disabled"],
+				["DISABLED"] = DISABLE,
 				["BUFFS_ON_DEBUFFS"] = L["Position Buffs on Debuffs"],
 				["DEBUFFS_ON_BUFFS"] = L["Position Debuffs on Buffs"],
 			},
@@ -3012,7 +3022,7 @@ E.Options.args.unitframe.args.target = {
 			name = L["Smart Aura Position"],
 			desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
 			values = {
-				["DISABLED"] = L["Disabled"],
+				["DISABLED"] = DISABLE,
 				["BUFFS_ON_DEBUFFS"] = L["Position Buffs on Debuffs"],
 				["DEBUFFS_ON_BUFFS"] = L["Position Debuffs on Buffs"]
 			}
@@ -3226,7 +3236,7 @@ E.Options.args.unitframe.args.targettarget = {
 			name = L["Smart Aura Position"],
 			desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
 			values = {
-				["DISABLED"] = L["Disabled"],
+				["DISABLED"] = DISABLE,
 				["BUFFS_ON_DEBUFFS"] = L["Position Buffs on Debuffs"],
 				["DEBUFFS_ON_BUFFS"] = L["Position Debuffs on Buffs"]
 			}
@@ -3347,7 +3357,7 @@ E.Options.args.unitframe.args.targettargettarget = {
 			name = L["Smart Aura Position"],
 			desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
 			values = {
-				["DISABLED"] = L["Disabled"],
+				["DISABLED"] = DISABLE,
 				["BUFFS_ON_DEBUFFS"] = L["Position Buffs on Debuffs"],
 				["DEBUFFS_ON_BUFFS"] = L["Position Debuffs on Buffs"]
 			}
@@ -3474,7 +3484,7 @@ E.Options.args.unitframe.args.focus = {
 			name = L["Smart Aura Position"],
 			desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
 			values = {
-				["DISABLED"] = L["Disabled"],
+				["DISABLED"] = DISABLE,
 				["BUFFS_ON_DEBUFFS"] = L["Position Buffs on Debuffs"],
 				["DEBUFFS_ON_BUFFS"] = L["Position Debuffs on Buffs"]
 			}
@@ -3598,7 +3608,7 @@ E.Options.args.unitframe.args.focustarget = {
 			name = L["Smart Aura Position"],
 			desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
 			values = {
-				["DISABLED"] = L["Disabled"],
+				["DISABLED"] = DISABLE,
 				["BUFFS_ON_DEBUFFS"] = L["Position Buffs on Debuffs"],
 				["DEBUFFS_ON_BUFFS"] = L["Position Debuffs on Buffs"]
 			}
@@ -3725,7 +3735,7 @@ E.Options.args.unitframe.args.pet = {
 			name = L["Smart Aura Position"],
 			desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
 			values = {
-				["DISABLED"] = L["Disabled"],
+				["DISABLED"] = DISABLE,
 				["BUFFS_ON_DEBUFFS"] = L["Position Buffs on Debuffs"],
 				["DEBUFFS_ON_BUFFS"] = L["Position Debuffs on Buffs"]
 			}
@@ -3775,7 +3785,7 @@ E.Options.args.unitframe.args.pet = {
 				fontSize = {
 					order = 3,
 					type = "range",
-					name = L["Font Size"],
+					name = FONT_SIZE,
 					min = 7, max = 22, step = 1
 				}
 			}
@@ -3873,7 +3883,7 @@ E.Options.args.unitframe.args.pettarget = {
 			name = L["Smart Aura Position"],
 			desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
 			values = {
-				["DISABLED"] = L["Disabled"],
+				["DISABLED"] = DISABLE,
 				["BUFFS_ON_DEBUFFS"] = L["Position Buffs on Debuffs"],
 				["DEBUFFS_ON_BUFFS"] = L["Position Debuffs on Buffs"]
 			}
@@ -4013,7 +4023,7 @@ E.Options.args.unitframe.args.boss = {
 			name = L["Smart Aura Position"],
 			desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
 			values = {
-				["DISABLED"] = L["Disabled"],
+				["DISABLED"] = DISABLE,
 				["BUFFS_ON_DEBUFFS"] = L["Position Buffs on Debuffs"],
 				["DEBUFFS_ON_BUFFS"] = L["Position Debuffs on Buffs"]
 			}
@@ -4171,7 +4181,7 @@ E.Options.args.unitframe.args.arena = {
 			name = L["Smart Aura Position"],
 			desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
 			values = {
-				["DISABLED"] = L["Disabled"],
+				["DISABLED"] = DISABLE,
 				["BUFFS_ON_DEBUFFS"] = L["Position Buffs on Debuffs"],
 				["DEBUFFS_ON_BUFFS"] = L["Position Debuffs on Buffs"]
 			}
@@ -4535,7 +4545,7 @@ E.Options.args.unitframe.args.party = {
 				fontSize = {
 					order = 4,
 					type = "range",
-					name = L["Font Size"],
+					name = FONT_SIZE,
 					min = 7, max = 22, step = 1
 				},
 				profileSpecific = {
@@ -5106,7 +5116,7 @@ E.Options.args.unitframe.args["raid"] = {
 				fontSize = {
 					order = 4,
 					type = "range",
-					name = L["Font Size"],
+					name = FONT_SIZE,
 					min = 7, max = 22, step = 1
 				},
 				profileSpecific = {
@@ -5507,7 +5517,7 @@ E.Options.args.unitframe.args["raid40"] = {
 				},
 				fontSize = {
 					type = "range",
-					name = L["Font Size"],
+					name = FONT_SIZE,
 					order = 4,
 					min = 7, max = 22, step = 1,
 				},
@@ -5886,7 +5896,7 @@ E.Options.args.unitframe.args.raidpet = {
 				},
 				fontSize = {
 					type = "range",
-					name = L["Font Size"],
+					name = FONT_SIZE,
 					order = 4,
 					min = 7, max = 22, step = 1,
 				},
@@ -5925,7 +5935,7 @@ E.Options.args.unitframe.args.raidpet = {
 				fontSize = {
 					order = 4,
 					type = "range",
-					name = L["Font Size"],
+					name = FONT_SIZE,
 					min = 7, max = 22, step = 1
 				},
 				fontOutline = {
@@ -5933,7 +5943,7 @@ E.Options.args.unitframe.args.raidpet = {
 					type = "select",
 					name = L["Font Outline"],
 					values = {
-						["NONE"] = L["None"],
+						["NONE"] = NONE,
 						["OUTLINE"] = "OUTLINE",
 						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
 						["THICKOUTLINE"] = "THICKOUTLINE"
@@ -5996,7 +6006,7 @@ E.Options.args.unitframe.args.raidpet = {
 						color = {
 							order = 4,
 							type = "color",
-							name = L["Color"],
+							name = COLOR,
 							get = function(info)
 								local c = E.db.unitframe.units.raidpet.rdebuffs.duration.color;
 								local d = P.unitframe.units.raidpet.rdebuffs.duration.color;
@@ -6050,7 +6060,7 @@ E.Options.args.unitframe.args.raidpet = {
 						color = {
 							order = 4,
 							type = "color",
-							name = L["Color"],
+							name = COLOR,
 							get = function(info)
 								local c = E.db.unitframe.units.raidpet.rdebuffs.stack.color;
 								local d = P.unitframe.units.raidpet.rdebuffs.stack.color;
@@ -6227,7 +6237,7 @@ E.Options.args.unitframe.args.tank = {
 				},
 				fontSize = {
 					type = "range",
-					name = L["Font Size"],
+					name = FONT_SIZE,
 					order = 4,
 					min = 7, max = 22, step = 1,
 				},
@@ -6410,7 +6420,7 @@ E.Options.args.unitframe.args.assist = {
 				},
 				fontSize = {
 					type = "range",
-					name = L["Font Size"],
+					name = FONT_SIZE,
 					order = 4,
 					min = 7, max = 22, step = 1,
 				},
@@ -6500,13 +6510,13 @@ if(P.unitframe.colors.classResources[E.myclass]) then
 	if(E.myclass == 'PALADIN') then
 		E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGroup.args[E.myclass] = {
 			type = 'color',
-			name = L["Holy Power"],
+			name = HOLY_POWER,
 			order = ORDER,
 		};
 	elseif(E.myclass == 'WARLOCK') then
 		E.Options.args.unitframe.args.general.args.allColorsGroup.args.classResourceGroup.args[E.myclass] = {
 			type = 'color',
-			name = L['Soul Shards'],
+			name = SOUL_SHARDS,
 			order = ORDER
 		};
 	elseif(E.myclass == "PRIEST") then
