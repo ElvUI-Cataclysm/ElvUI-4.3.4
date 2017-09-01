@@ -1,33 +1,40 @@
-﻿local E, L, V, P, G = unpack(ElvUI);
+﻿local E, L, V, P, G = unpack(ElvUI)
 
 E.Options.args.general = {
+	order = 1,
 	type = "group",
 	name = L["General"],
-	order = 1,
 	childGroups = "tab",
 	get = function(info) return E.db.general[ info[#info] ] end,
 	set = function(info, value) E.db.general[ info[#info] ] = value end,
 	args = {
-		animateConfig = {
+		versionCheck = {
 			order = 1,
+			type = "toggle",
+			name = L["Version Check"],
+			get = function(info) return E.global.general.versionCheck; end,
+			set = function(info, value) E.global.general.versionCheck = value; end
+		},
+		animateConfig = {
+			order = 2,
 			type = "toggle",
 			name = L["Animate Config"],
 			get = function(info) return E.global.general.animateConfig; end,
 			set = function(info, value) E.global.general.animateConfig = value; E:StaticPopup_Show("GLOBAL_RL"); end
 		},
 		spacer = {
-			order = 2,
+			order = 3,
 			type = "description",
 			name = "",
 			width = "full"
 		},
 		intro = {
-			order = 3,
+			order = 4,
 			type = "description",
 			name = L["ELVUI_DESC"]
 		},
 		general = {
-			order = 4,
+			order = 5,
 			type = "group",
 			name = L["General"],
 			args = {
@@ -106,9 +113,9 @@ E.Options.args.general = {
 				},
 				eyefinity = {
 					order = 10,
+					type = "toggle",
 					name = L["Multi-Monitor Support"],
 					desc = L["Attempt to support eyefinity/nvidia surround."],
-					type = "toggle",
 					get = function(info) return E.global.general.eyefinity; end,
 					set = function(info, value) E.global.general[ info[#info] ] = value; E:StaticPopup_Show("GLOBAL_RL"); end
 				},
@@ -188,7 +195,7 @@ E.Options.args.general = {
 			}
 		},
 		media = {
-			order = 5,
+			order = 6,
 			type = "group",
 			name = L["Media"],
 			get = function(info) return E.db.general[ info[#info] ] end,
@@ -313,8 +320,8 @@ E.Options.args.general = {
 					name = COLORS
 				},
 				bordercolor = {
-					type = "color",
 					order = 15,
+					type = "color",
 					name = L["Border Color"],
 					desc = L["Main border color of the UI."],
 					hasAlpha = false,
@@ -331,8 +338,8 @@ E.Options.args.general = {
 					end
 				},
 				backdropcolor = {
-					type = "color",
 					order = 16,
+					type = "color",
 					name = L["Backdrop Color"],
 					desc = L["Main backdrop color of the UI."],
 					hasAlpha = false,
@@ -349,8 +356,8 @@ E.Options.args.general = {
 					end
 				},
 				backdropfadecolor = {
-					type = "color",
 					order = 17,
+					type = "color",
 					name = L["Backdrop Faded Color"],
 					desc = L["Backdrop color of transparent frames"],
 					hasAlpha = true,
@@ -368,8 +375,8 @@ E.Options.args.general = {
 					end
 				},
 				valuecolor = {
-					type = "color",
 					order = 18,
+					type = "color",
 					name = L["Value Color"],
 					desc = L["Color some texts use."],
 					hasAlpha = false,
@@ -388,7 +395,7 @@ E.Options.args.general = {
 			}
 		},
 		totems = {
-			order = 6,
+			order = 7,
 			type = "group",
 			name = L["Class Totems"],
 			get = function(info) return E.db.general.totems[ info[#info] ]; end,
@@ -442,8 +449,8 @@ E.Options.args.general = {
 			}
 		},
 		cooldown = {
+			order = 8,
 			type = "group",
-			order = 7,
 			name = L["Cooldown Text"],
 			get = function(info)
 				local t = E.db.cooldown[ info[#info] ];
@@ -462,16 +469,16 @@ E.Options.args.general = {
 					name = L["Cooldown Text"]
 				},
 				enable = {
-					type = "toggle",
 					order = 2,
+					type = "toggle",
 					name = L["Enable"],
 					desc = L["Display cooldown text on anything with the cooldown spiral."],
 					get = function(info) return E.private.cooldown[ info[#info] ]; end,
 					set = function(info, value) E.private.cooldown[ info[#info] ] = value; E:StaticPopup_Show("PRIVATE_RL"); end
 				},
 				threshold = {
-					type = "range",
 					order = 3,
+					type = "range",
 					name = L["Low Threshold"],
 					desc = L["Threshold before text turns red and is in decimal form. Set to -1 for it to never turn red"],
 					min = -1, max = 20, step = 1,
@@ -483,9 +490,9 @@ E.Options.args.general = {
 					disabled = function() return not E.private.cooldown.enable; end
 				},
 				restoreColors = {
+					order = 4,
 					type = 'execute',
 					name = L["Restore Defaults"],
-					order = 4,
 					func = function() 
 						E.db.cooldown.expiringColor = P['cooldown'].expiringColor;
 						E.db.cooldown.secondsColor = P['cooldown'].secondsColor;
@@ -534,7 +541,7 @@ E.Options.args.general = {
 			}
 		},
 		chatBubbles = {
-			order = 8,
+			order = 9,
 			type = "group",
 			name = L["Chat Bubbles"],
 			args = {
@@ -598,7 +605,7 @@ E.Options.args.general = {
 			}
 		},
 		watchFrame = {
-			order = 9,
+			order = 10,
 			type = "group",
 			name = L["Objective Frame"],
 			args = {
@@ -619,7 +626,7 @@ E.Options.args.general = {
 			}
 		},
 		threatGroup = {
-			order = 10,
+			order = 11,
 			type = "group",
 			name = L["Threat"],
 			args = {
@@ -654,8 +661,8 @@ E.Options.args.general = {
 					name = ""
 				},
 				threatTextfont = {
-					type = "select", dialogControl = 'LSM30_Font',
 					order = 5,
+					type = "select", dialogControl = 'LSM30_Font',
 					name = L["Font"],
 					values = AceGUIWidgetLSMlists.font,
 					get = function(info) return E.db.general.threat.textfont; end,
@@ -664,8 +671,8 @@ E.Options.args.general = {
 				},
 				threatTextSize = {
 					order = 6,
-					name = FONT_SIZE,
 					type = "range",
+					name = FONT_SIZE,
 					min = 6, max = 22, step = 1,
 					get = function(info) return E.db.general.threat.textSize; end,
 					set = function(info, value) E.db.general.threat.textSize = value; E:GetModule("Threat"):UpdatePosition(); end,
@@ -673,9 +680,9 @@ E.Options.args.general = {
 				},
 				threatTextOutline = {
 					order = 7,
+					type = "select",
 					name = L["Font Outline"],
 					desc = L["Set the font outline."],
-					type = "select",
 					values = {
 						['NONE'] = NONE,
 						['OUTLINE'] = 'OUTLINE',
@@ -690,7 +697,7 @@ E.Options.args.general = {
 			}
 		},
 		errorFrame = {
-			order = 11,
+			order = 12,
 			type = "group",
 			name = L["Error Frame"],
 			args = {
@@ -701,26 +708,26 @@ E.Options.args.general = {
 				},
 				hideErrorFrame = {
 					order = 2,
+					type = "toggle",
 					name = L["Hide Error Text"],
 					desc = L["Hides the red error text at the top of the screen while in combat."],
-					type = "toggle",
 					get = function(info) return E.db.general[ info[#info] ] end,
 					set = function(info, value) E.db.general[ info[#info] ] = value end
 				},
 				width = {
 					order = 3,
+					type = "range",
 					name = L["Width"],
 					desc = L["Set the width of Error Frame. Too narrow frame may cause messages to be split in several lines"],
-					type = "range",
 					min = 100, max = 1000, step = 1,
 					get = function(info) return E.db.general.errorFrame.width end,
 					set = function(info, value) E.db.general.errorFrame.width = value;  E:GetModule('Blizzard'):ErrorFrameSize() end
 				},
 				height = {
 					order = 4,
+					type = "range",
 					name = L["Height"],
 					desc = L["Set the height of Error Frame. Higher frame can show more lines at once."],
-					type = "range",
 					min = 30, max = 300, step = 1,
 					get = function(info) return E.db.general.errorFrame.height end,
 					set = function(info, value) E.db.general.errorFrame.height = value;  E:GetModule('Blizzard'):ErrorFrameSize() end

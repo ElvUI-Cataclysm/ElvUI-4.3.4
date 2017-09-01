@@ -396,6 +396,7 @@ L["Automatically vendor gray items when visiting a vendor."] = "Автомати
 L["Bottom Panel"] = "Нижняя панель"
 L["Chat Bubbles Style"] = "Стиль облачков сообщений"
 L["Chat Bubbles"] = "Облачка сообщений"
+L["Check version"] = "Проверка версии"
 L["Direction the bar moves on gains/losses"] = "направление заполнения полосы"
 L["Display a panel across the bottom of the screen. This is for cosmetic only."] = "Отображать панель на нижней границе экрана. Это косметический элемент."
 L["Display a panel across the top of the screen. This is for cosmetic only."] = "Отображать панель на верхней границе экрана. Это косметический элемент."
