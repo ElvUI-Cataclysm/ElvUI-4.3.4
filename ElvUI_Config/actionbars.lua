@@ -921,29 +921,29 @@ E.Options.args.actionbar = {
 			name = L["General"],
 			func = function() ACD:SelectGroup("ElvUI", "actionbar", "general") end
 		},
-		totemBarShortcut = {
-			order = 6,
-			type = "execute",
-			name = L["Totem Bar"],
-			func = function() ACD:SelectGroup("ElvUI", "actionbar", "barTotem") end,
-			disabled = E.myclass ~= "SHAMAN"
-		},
 		petBarShortcut = {
-			order = 7,
+			order = 6,
 			type = "execute",
 			name = L["Pet Bar"],
 			func = function() ACD:SelectGroup("ElvUI", "actionbar", "barPet") end
+		},
+		stanceBarShortcut = {
+			order = 7,
+			type = "execute",
+			name = L["Stance Bar"],
+			func = function() ACD:SelectGroup("ElvUI", "actionbar", "stanceBar") end
 		},
 		spacer2 = {
 			order = 8,
 			type = "description",
 			name = " "
 		},
-		stanceBarShortcut = {
+		totemBarShortcut = {
 			order = 9,
 			type = "execute",
-			name = L["Stance Bar"],
-			func = function() ACD:SelectGroup("ElvUI", "actionbar", "stanceBar") end
+			name = L["Totem Bar"],
+			func = function() ACD:SelectGroup("ElvUI", "actionbar", "barTotem") end,
+			hidden = E.myclass ~= "SHAMAN"
 		},
 		microbarShortcut = {
 			order = 10,
