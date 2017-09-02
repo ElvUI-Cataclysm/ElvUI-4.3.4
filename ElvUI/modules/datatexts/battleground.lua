@@ -1,17 +1,17 @@
-﻿local E, L, V, P, G = unpack(select(2, ...));
+﻿local E, L, V, P, G = unpack(select(2, ...))
 local DT = E:GetModule("DataTexts")
 
-local select = select;
-local join = string.join;
+local select = select
+local join = string.join
 
-local GetNumBattlefieldScores = GetNumBattlefieldScores;
-local GetBattlefieldScore = GetBattlefieldScore;
-local GetCurrentMapAreaID = GetCurrentMapAreaID;
-local GetBattlefieldStatData = GetBattlefieldStatData;
+local GetNumBattlefieldScores = GetNumBattlefieldScores
+local GetBattlefieldScore = GetBattlefieldScore
+local GetCurrentMapAreaID = GetCurrentMapAreaID
+local GetBattlefieldStatData = GetBattlefieldStatData
 
 local lastPanel
 local displayString = ""
-local classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass];
+local classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass]
 
 local dataLayout = {
 	["LeftChatDataPanel"] = {
@@ -65,26 +65,26 @@ function DT:BattlegroundStats()
 			DT.tooltip:AddLine(" ")
 
 			if CurrentMapID == WSG or CurrentMapID == TP then 
-				DT.tooltip:AddDoubleLine(L["Flags Captured"], GetBattlefieldStatData(index, 1), 1, 1, 1)
-				DT.tooltip:AddDoubleLine(L["Flags Returned"], GetBattlefieldStatData(index, 2), 1, 1, 1)
+				DT.tooltip:AddDoubleLine(GetBattlefieldStatInfo(1), GetBattlefieldStatData(index, 1), 1, 1, 1)
+				DT.tooltip:AddDoubleLine(GetBattlefieldStatInfo(2), GetBattlefieldStatData(index, 2), 1, 1, 1)
 			elseif CurrentMapID == EOTS then
-				DT.tooltip:AddDoubleLine(L["Flags Captured"], GetBattlefieldStatData(index, 1), 1, 1, 1)
+				DT.tooltip:AddDoubleLine(GetBattlefieldStatInfo(1), GetBattlefieldStatData(index, 1), 1, 1, 1)
 			elseif CurrentMapID == AV then
-				DT.tooltip:AddDoubleLine(L["Graveyards Assaulted"], GetBattlefieldStatData(index, 1), 1, 1, 1)
-				DT.tooltip:AddDoubleLine(L["Graveyards Defended"], GetBattlefieldStatData(index, 2), 1, 1, 1)
-				DT.tooltip:AddDoubleLine(L["Towers Assaulted"], GetBattlefieldStatData(index, 3), 1, 1, 1)
-				DT.tooltip:AddDoubleLine(L["Towers Defended"], GetBattlefieldStatData(index, 4), 1, 1, 1)
+				DT.tooltip:AddDoubleLine(GetBattlefieldStatInfo(1), GetBattlefieldStatData(index, 1), 1, 1, 1)
+				DT.tooltip:AddDoubleLine(GetBattlefieldStatInfo(2), GetBattlefieldStatData(index, 2), 1, 1, 1)
+				DT.tooltip:AddDoubleLine(GetBattlefieldStatInfo(3), GetBattlefieldStatData(index, 3), 1, 1, 1)
+				DT.tooltip:AddDoubleLine(GetBattlefieldStatInfo(4), GetBattlefieldStatData(index, 4), 1, 1, 1)
 			elseif CurrentMapID == SOTA then
-				DT.tooltip:AddDoubleLine(L["Demolishers Destroyed"], GetBattlefieldStatData(index, 1), 1, 1, 1)
-				DT.tooltip:AddDoubleLine(L["Gates Destroyed"], GetBattlefieldStatData(index, 2), 1, 1, 1)
+				DT.tooltip:AddDoubleLine(GetBattlefieldStatInfo(1), GetBattlefieldStatData(index, 1), 1, 1, 1)
+				DT.tooltip:AddDoubleLine(GetBattlefieldStatInfo(2), GetBattlefieldStatData(index, 2), 1, 1, 1)
 			elseif CurrentMapID == IOC or CurrentMapID == TBFG or CurrentMapID == AB then
-				DT.tooltip:AddDoubleLine(L["Bases Assaulted"], GetBattlefieldStatData(index, 1), 1, 1, 1)
-				DT.tooltip:AddDoubleLine(L["Bases Defended"], GetBattlefieldStatData(index, 2), 1, 1, 1)
+				DT.tooltip:AddDoubleLine(GetBattlefieldStatInfo(1), GetBattlefieldStatData(index, 1), 1, 1, 1)
+				DT.tooltip:AddDoubleLine(GetBattlefieldStatInfo(2), GetBattlefieldStatData(index, 2), 1, 1, 1)
 			end
 		end
 	end	
 
-	DT.tooltip:Show();
+	DT.tooltip:Show()
 end
 
 function DT:HideBattlegroundTexts()
