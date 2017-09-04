@@ -15,6 +15,7 @@ L["PANEL_DESC"] = "调整左、右聊天框的大小, 此设定将会影响对�
 L["SKINS_DESC"] = "调整外观设定"
 L["TOGGLESKIN_DESC"] = "启用/停用此外观"
 L["TOOLTIP_DESC"] = "鼠标提示信息设定选项"
+L["UNITFRAME_DESC"] = "修改单位框架设定"
 L["SEARCH_SYNTAX_DESC"] = [=[With the new addition of LibItemSearch, you now have access to much more advanced item searches. The following is a documentation of the search syntax. See the full explanation at: https://github.com/Jaliborc/LibItemSearch-1.2/wiki/Search-Syntax.
 
 Specific Searching:
@@ -968,6 +969,9 @@ L["Show a incomming heal prediction bar on the unitframe. Also display a slightl
 L["Show Aura From Other Players"] = "显示其他玩家的光环"
 L["Show Auras"] = "显示光环"
 L["Show Dispellable Debuffs"] = "显示无法驱散的减益光环"
+L["Show For DPS"] = "为输出显示"
+L["Show For Healers"] = "为治疗显示"
+L["Show For Tanks"] = "为坦克显示"
 L["Show When Not Active"] = "显示当前无效的光环"
 L["Size and Positions"] = "大小和位置"
 L["Size of the indicator icon."] = "提示图标大小"

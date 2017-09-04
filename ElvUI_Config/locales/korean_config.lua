@@ -15,6 +15,7 @@ L["PANEL_DESC"] = "좌우 패널의 크기를 조절합니다. 이 값에 따라
 L["SKINS_DESC"] = "다른 애드온이나 게임 내 여러 프레임에 체크 시 스킨을 적용합니다."
 L["TOGGLESKIN_DESC"] = "체크 시 해당 프레임에 스킨을 사용합니다."
 L["TOOLTIP_DESC"] = "툴팁에 관련된 옵션들입니다."
+L["UNITFRAME_DESC"] = "Modify the unitframe settings."
 L["SEARCH_SYNTAX_DESC"] = [=[
 
   각종 가방에서 검색기능을 사용할 때, 다음의 명령어들을 활용하면
@@ -1016,6 +1017,9 @@ L["Show a incomming heal prediction bar on the unitframe. Also display a slightl
 L["Show Aura From Other Players"] = "다른 유저가 걸어준 버프도 표시"
 L["Show Auras"] = "오라아이콘 표시"
 L["Show Dispellable Debuffs"] = true;
+L["Show For DPS"] = true;
+L["Show For Healers"] = true;
+L["Show For Tanks"] = true;
 L["Show When Not Active"] = "효과가 없을 때 표시"
 L["Size and Positions"] = "크기와 위치 관련"
 L["Size of the indicator icon."] = "표시기 아이콘 크기"

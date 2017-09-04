@@ -11,6 +11,7 @@ function UF:Construct_RoleIcon(frame)
 	tex:Size(17)
 	tex:Point("BOTTOM", frame.Health, "BOTTOM", 0, 2)
 	tex.Override = UF.UpdateRoleIcon
+
 	return tex
 end
 
@@ -37,7 +38,7 @@ function UF:UpdateRoleIcon()
 		role = rnd == 1 and "TANK" or (rnd == 2 and "HEALER" or (rnd == 3 and "DAMAGER"))
 	end
 
-	if (self.isForced or UnitIsConnected(self.unit)) and ((role == "DAMAGER") or (role == "HEALER") or (role == "TANK")) then
+	if (self.isForced or UnitIsConnected(self.unit)) and ((role == "DAMAGER" and db.damager) or (role == "HEALER" and db.healer) or (role == "TANK" and db.tank)) then
 		lfdrole:SetTexture(roleIconTextures[role])
 		lfdrole:Show()
 	else
@@ -49,7 +50,7 @@ function UF:Configure_RoleIcon(frame)
 	local role = frame.GroupRoleIndicator
 	local db = frame.db
 
-	if(db.roleIcon.enable) then
+	if db.roleIcon.enable then
 		frame:EnableElement("GroupRoleIndicator")
 		local attachPoint = self:GetObjectAnchorPoint(frame, db.roleIcon.attachTo)
 

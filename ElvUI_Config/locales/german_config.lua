@@ -15,6 +15,7 @@ L["PANEL_DESC"] = "Stellt die Größe der linken und rechten Leisten ein, dies h
 L["SKINS_DESC"] = "Passe die Einstellungen für externe Addon Skins/Optionen an."
 L["TOGGLESKIN_DESC"] = "Aktiviere/Deaktiviere diesen Skin."
 L["TOOLTIP_DESC"] = "Konfiguriere die Einstellungen für Tooltips."
+L["UNITFRAME_DESC"] = "Konfiguriere die Einstellungen für die Einheitenfenster."
 L["SEARCH_SYNTAX_DESC"] = [=[Mit der Ergänzung von LibItemSearch, kannst du jetzt erweitert nach Gegenständen suchen. Nachfolgend findest du eine Dokumentation des Suchsyntax. Die volle Erklärung findest du hier: https://github.com/Jaliborc/LibItemSearch-1.2/wiki/Search-Syntax.
 
 Spezifische Suche:
@@ -970,6 +971,9 @@ L["Show Aura From Other Players"] = "Zeige Auren von anderen Spielern"
 L["Show Auras"] = "Zeige Auren"
 L["Show Dispellable Debuffs"] = "Zeige stehlbare Schwächungszauber"
 L["Show When Not Active"] = "Zeige, wenn nicht aktiv"
+L["Show For DPS"] = "Zeige für Schadensklassen"
+L["Show For Healers"] = "Zeige für Heiler"
+L["Show For Tanks"] = "Zeige für Tanks"
 L["Size and Positions"] = "Größe und Positionen"
 L["Size of the indicator icon."] = "Größe des Anzeigesymbole."
 L["Size Override"] = "Größe überschreiben"

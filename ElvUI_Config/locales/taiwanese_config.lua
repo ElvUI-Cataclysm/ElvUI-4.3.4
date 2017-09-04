@@ -15,6 +15,7 @@ L["PANEL_DESC"] = "調整左、右對話框的尺寸, 此設定將會影響對�
 L["SKINS_DESC"] = "調整外觀設定."
 L["TOGGLESKIN_DESC"] = "啟用/停用此外觀."
 L["TOOLTIP_DESC"] = "浮動提示資訊設定選項."
+L["UNITFRAME_DESC"] = "Modify the unitframe settings."
 L["SEARCH_SYNTAX_DESC"] = [=[因為新增加的 LibItemSearch，你現在可以使用更進階的物品搜尋. 下面是一份搜尋語法的文件. 想要看更完整的解釋請到: https://github.com/Jaliborc/LibItemSearch-1.2/wiki/Search-Syntax.
 
 條件搜尋:
@@ -968,6 +969,9 @@ L["Show a incomming heal prediction bar on the unitframe. Also display a slightl
 L["Show Aura From Other Players"] = "顯示其他玩家的光環"
 L["Show Auras"] = "顯示光環"
 L["Show Dispellable Debuffs"] = "顯示無法驅散的debuff"
+L["Show For DPS"] = "為輸出顯示"
+L["Show For Healers"] = "為治療顯示"
+L["Show For Tanks"] = "為坦克顯示"
 L["Show When Not Active"] = "顯示當前無效的光環"
 L["Size and Positions"] = "大小和位置"
 L["Size of the indicator icon."] = "提示圖示尺寸"

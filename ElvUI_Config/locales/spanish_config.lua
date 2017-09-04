@@ -15,6 +15,7 @@ L["PANEL_DESC"] = "Ajusta el tamaño de los paneles izquierdo y derecho. Esto af
 L["SKINS_DESC"] = "Configura los Ajustes de Cubiertas."
 L["TOGGLESKIN_DESC"] = "Activa/Desactiva esta cubierta."
 L["TOOLTIP_DESC"] = "Configuración para las Descripciones Emergentes."
+L["UNITFRAME_DESC"] = "Modify the unitframe settings."
 L["SEARCH_SYNTAX_DESC"] = [=[With the new addition of LibItemSearch, you now have access to much more advanced item searches. The following is a documentation of the search syntax. See the full explanation at: https://github.com/Jaliborc/LibItemSearch-1.2/wiki/Search-Syntax.
 
 Specific Searching:
@@ -968,6 +969,9 @@ L["Show a incomming heal prediction bar on the unitframe. Also display a slightl
 L["Show Aura From Other Players"] = "Mostrar Auras de Otros Jugadores"
 L["Show Auras"] = "Mostrar Auras"
 L["Show Dispellable Debuffs"] = true;
+L["Show For DPS"] = true;
+L["Show For Healers"] = true;
+L["Show For Tanks"] = true;
 L["Show When Not Active"] = "Mostrar Cuando No Esté Activo"
 L["Size and Positions"] = true;
 L["Size of the indicator icon."] = "Tamaño del icono indicador."

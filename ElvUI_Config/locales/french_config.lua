@@ -15,6 +15,7 @@ L["PANEL_DESC"] = "Ajuste la largeur et la hauteur des fenêtres de chat, cela a
 L["SKINS_DESC"] = "Ajuste les paramètres d'habillage."
 L["TOGGLESKIN_DESC"] = "Active ou désactive l'habillage ElvUI des éléments ci-dessous."
 L["TOOLTIP_DESC"] = "Configuration des Infobulles."
+L["UNITFRAME_DESC"] = "Modify the unitframe settings."
 L["SEARCH_SYNTAX_DESC"] = [=[With the new addition of LibItemSearch, you now have access to much more advanced item searches. The following is a documentation of the search syntax. See the full explanation at: https://github.com/Jaliborc/LibItemSearch-1.2/wiki/Search-Syntax.
 
 Specific Searching:
@@ -968,6 +969,9 @@ L["Show a incomming heal prediction bar on the unitframe. Also display a slightl
 L["Show Aura From Other Players"] = "N'importe quelle unité"
 L["Show Auras"] = "Afficher les auras"
 L["Show Dispellable Debuffs"] = true;
+L["Show For DPS"] = true;
+L["Show For Healers"] = true;
+L["Show For Tanks"] = true;
 L["Show When Not Active"] = "Afficher les manquants"
 L["Size and Positions"] = "Taille et positions";
 L["Size of the indicator icon."] = "Taille de l'indicateur de l'icône."
