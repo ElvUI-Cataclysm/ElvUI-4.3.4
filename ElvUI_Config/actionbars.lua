@@ -943,7 +943,7 @@ E.Options.args.actionbar = {
 			type = "execute",
 			name = L["Totem Bar"],
 			func = function() ACD:SelectGroup("ElvUI", "actionbar", "barTotem") end,
-			hidden = E.myclass ~= "SHAMAN"
+			disabled = E.myclass ~= "SHAMAN"
 		},
 		microbarShortcut = {
 			order = 10,

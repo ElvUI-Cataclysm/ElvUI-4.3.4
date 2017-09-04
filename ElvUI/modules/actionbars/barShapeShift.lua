@@ -3,7 +3,7 @@ local AB = E:GetModule("ActionBars");
 
 local _G = _G;
 local ceil = math.ceil;
-local format, lower, find = format, string.lower, string.find
+local format, find = format, string.find
 
 local CreateFrame = CreateFrame;
 local GetSpellInfo = GetSpellInfo;
@@ -60,15 +60,17 @@ function AB:StyleShapeShift()
 		if i <= numForms then
 			texture, name, isActive, isCastable = GetShapeshiftFormInfo(i);
 
+			if self.db.barShapeShift.style == "darkenInactive" then
+				if name then
+					_, _, texture = GetSpellInfo(name)
+				end
+			end
+
 			if not texture then
 				texture = "Interface\\Icons\\Spell_Nature_WispSplode"
 			end
 
 			if not button.useMasque then
-				if (type(texture) == "string" and (lower(texture) == "interface\\icons\\spell_nature_wispsplode" or lower(texture) == "interface\\icons\\ability_rogue_envelopingshadows")) and self.db.barShapeShift.style == "darkenInactive" then
-					_, _, texture = GetSpellInfo(name)
-				end
-
 				if texture then
 					cooldown:SetAlpha(1);
 				else
