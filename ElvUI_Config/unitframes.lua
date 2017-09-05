@@ -2092,19 +2092,25 @@ E.Options.args.unitframe = {
 			order = 5,
 			type = "execute",
 			name = L["General"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "generalGroup") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "generalGroup") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		colorsShortcut = {
 			order = 6,
 			type = "execute",
 			name = L["Colors"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "allColorsGroup") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "allColorsGroup") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		blizzardShortcut = {
 			order = 7,
 			type = "execute",
 			name = L["Disabled Blizzard Frames"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "disabledBlizzardFrames") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "disabledBlizzardFrames") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		spacer2 = {
 			order = 8,
@@ -2115,19 +2121,25 @@ E.Options.args.unitframe = {
 			order = 9,
 			type = "execute",
 			name = L["Player Frame"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "player") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "player") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		targetShortcut = {
 			order = 10,
 			type = "execute",
 			name = L["Target Frame"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "target") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "target") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		targettargetShortcut = {
 			order = 11,
 			type = "execute",
 			name = L["TargetTarget Frame"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "targettarget") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "targettarget") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		spacer3 = {
 			order = 12,
@@ -2138,19 +2150,25 @@ E.Options.args.unitframe = {
 			order = 13,
 			type = "execute",
 			name = L["TargetTargetTarget Frame"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "targettargettarget") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "targettargettarget") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		focusShortcut = {
 			order = 14,
 			type = "execute",
 			name = L["Focus Frame"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "focus") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "focus") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		focustargetShortcut = {
 			order = 15,
 			type = "execute",
 			name = L["FocusTarget Frame"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "focustarget") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "focustarget") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		spacer4 = {
 			order = 16,
@@ -2161,19 +2179,25 @@ E.Options.args.unitframe = {
 			order = 17,
 			type = "execute",
 			name = L["Pet Frame"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "pet") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "pet") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		pettargetShortcut = {
 			order = 18,
 			type = "execute",
 			name = L["PetTarget Frame"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "pettarget") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "pettarget") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		arenaShortcut = {
 			order = 19,
 			type = "execute",
 			name = L["Arena Frames"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "arena") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "arena") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		spacer5 = {
 			order = 20,
@@ -2184,19 +2208,25 @@ E.Options.args.unitframe = {
 			order = 21,
 			type = "execute",
 			name = L["Boss Frames"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "boss") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "boss") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		partyShortcut = {
 			order = 22,
 			type = "execute",
 			name = L["Party Frames"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "party") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "party") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		raidShortcut = {
 			order = 23,
 			type = "execute",
 			name = L["Raid Frames"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "raid") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "raid") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		spacer6 = {
 			order = 24,
@@ -2207,19 +2237,25 @@ E.Options.args.unitframe = {
 			order = 25,
 			type = "execute",
 			name = L["Raid-40 Frames"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "raid40") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "raid40") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		raidpetShortcut = {
 			order = 26,
 			type = "execute",
 			name = L["Raid Pet Frames"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "raidpet") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "raidpet") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		assistShortcut = {
 			order = 27,
 			type = "execute",
 			name = L["Assist Frames"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "assist") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "assist") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		spacer7 = {
 			order = 28,
@@ -2230,13 +2266,16 @@ E.Options.args.unitframe = {
 			order = 29,
 			type = "execute",
 			name = L["Tank Frames"],
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "tank") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "tank") end,
+			disabled = function() return not E.UnitFrames end
 		},
 		generalOptionsGroup = {
 			order = 30,
 			type = "group",
 			name = L["General Options"],
 			childGroups = "tab",
+			disabled = function() return not E.UnitFrames end,
 			args = {
 				generalGroup = {
 					order = 1,
@@ -2835,7 +2874,7 @@ E.Options.args.unitframe.args.player = {
 	childGroups = "tab",
 	get = function(info) return E.db.unitframe.units["player"][ info[#info] ]; end,
 	set = function(info, value) E.db.unitframe.units["player"][ info[#info] ] = value; UF:CreateAndUpdateUF("player"); end,
-	disabled = function() return not E.private.unitframe.enable end,
+	disabled = function() return not E.UnitFrames end,
 	args = {
 		generalGroup = {
 			order = 1,
@@ -3218,7 +3257,7 @@ E.Options.args.unitframe.args.target = {
 	childGroups = "tab",
 	get = function(info) return E.db.unitframe.units["target"][ info[#info] ]; end,
 	set = function(info, value) E.db.unitframe.units["target"][ info[#info] ] = value; UF:CreateAndUpdateUF("target"); end,
-	disabled = function() return not E.private.unitframe.enable; end,
+	disabled = function() return not E.UnitFrames end,
 	args = {
 		generalGroup = {
 			order = 1,
@@ -3427,7 +3466,7 @@ E.Options.args.unitframe.args.targettarget = {
 	childGroups = "tab",
 	get = function(info) return E.db.unitframe.units["targettarget"][ info[#info] ]; end,
 	set = function(info, value) E.db.unitframe.units["targettarget"][ info[#info] ] = value; UF:CreateAndUpdateUF("targettarget"); end,
-	disabled = function() return not E.private.unitframe.enable end,
+	disabled = function() return not E.UnitFrames end,
 	args = {
 		generalGroup = {
 			order = 1,
@@ -3563,7 +3602,7 @@ E.Options.args.unitframe.args.targettargettarget = {
 	childGroups = "tab",
 	get = function(info) return E.db.unitframe.units["targettargettarget"][ info[#info] ]; end,
 	set = function(info, value) E.db.unitframe.units["targettargettarget"][ info[#info] ] = value; UF:CreateAndUpdateUF("targettargettarget"); end,
-	disabled = function() return not E.private.unitframe.enable end,
+	disabled = function() return not E.UnitFrames end,
 	args = {
 		generalGroup = {
 			order = 1,
@@ -3699,7 +3738,7 @@ E.Options.args.unitframe.args.focus = {
 	childGroups = "tab",
 	get = function(info) return E.db.unitframe.units["focus"][ info[#info] ]; end,
 	set = function(info, value) E.db.unitframe.units["focus"][ info[#info] ] = value; UF:CreateAndUpdateUF("focus"); end,
-	disabled = function() return not E.private.unitframe.enable end,
+	disabled = function() return not E.UnitFrames end,
 	args = {
 		generalGroup = {
 			order = 1,
@@ -3844,7 +3883,7 @@ E.Options.args.unitframe.args.focustarget = {
 	childGroups = "tab",
 	get = function(info) return E.db.unitframe.units["focustarget"][ info[#info] ]; end,
 	set = function(info, value) E.db.unitframe.units["focustarget"][ info[#info] ] = value; UF:CreateAndUpdateUF("focustarget"); end,
-	disabled = function() return not E.private.unitframe.enable end,
+	disabled = function() return not E.UnitFrames end,
 	args = {
 		generalGroup = {
 			order = 1,
@@ -3979,7 +4018,7 @@ E.Options.args.unitframe.args.pet = {
 	childGroups = "tab",
 	get = function(info) return E.db.unitframe.units["pet"][ info[#info] ] end,
 	set = function(info, value) E.db.unitframe.units["pet"][ info[#info] ] = value; UF:CreateAndUpdateUF("pet"); end,
-	disabled = function() return not E.private.unitframe.enable end,
+	disabled = function() return not E.UnitFrames end,
 	args = {
 		generalGroup = {
 			order = 1,
@@ -4153,7 +4192,7 @@ E.Options.args.unitframe.args.pettarget = {
 	childGroups = "tab",
 	get = function(info) return E.db.unitframe.units["pettarget"][ info[#info] ]; end,
 	set = function(info, value) E.db.unitframe.units["pettarget"][ info[#info] ] = value; UF:CreateAndUpdateUF("pettarget"); end,
-	disabled = function() return not E.private.unitframe.enable end,
+	disabled = function() return not E.UnitFrames end,
 	args = {
 		generalGroup = {
 			order = 1,
@@ -4288,7 +4327,7 @@ E.Options.args.unitframe.args.boss = {
 	childGroups = "tab",
 	get = function(info) return E.db.unitframe.units["boss"][ info[#info] ]; end,
 	set = function(info, value) E.db.unitframe.units["boss"][ info[#info] ] = value; UF:CreateAndUpdateUFGroup("boss", MAX_BOSS_FRAMES); end,
-	disabled = function() return not E.private.unitframe.enable end,
+	disabled = function() return not E.UnitFrames end,
 	args = {
 		generalGroup = {
 			order = 1,
@@ -4450,7 +4489,7 @@ E.Options.args.unitframe.args.arena = {
 	childGroups = "tab",
 	get = function(info) return E.db.unitframe.units["arena"][ info[#info] ]; end,
 	set = function(info, value) E.db.unitframe.units["arena"][ info[#info] ] = value; UF:CreateAndUpdateUFGroup("arena", 5); end,
-	disabled = function() return not E.private.unitframe.enable end,
+	disabled = function() return not E.UnitFrames end,
 	args = {
 		generalGroup = {
 			order = 1,
@@ -4657,7 +4696,7 @@ E.Options.args.unitframe.args.party = {
 	childGroups = "tab",
 	get = function(info) return E.db.unitframe.units["party"][ info[#info] ]; end,
 	set = function(info, value) E.db.unitframe.units["party"][ info[#info] ] = value; UF:CreateAndUpdateHeaderGroup("party"); end,
-	disabled = function() return not E.private.unitframe.enable end,
+	disabled = function() return not E.UnitFrames end,
 	args = {
 		configureToggle = {
 			order = 1,
@@ -5268,6 +5307,7 @@ E.Options.args.unitframe.args.raid = {
 	childGroups = "tab",
 	get = function(info) return E.db.unitframe.units["raid"][ info[#info] ] end,
 	set = function(info, value) E.db.unitframe.units["raid"][ info[#info] ] = value; UF:CreateAndUpdateHeaderGroup("raid"); end,
+	disabled = function() return not E.UnitFrames end,
 	args = {
 		configureToggle = {
 			order = 1,
@@ -5705,6 +5745,7 @@ E.Options.args.unitframe.args.raid40 = {
 	childGroups = "tab",
 	get = function(info) return E.db.unitframe.units["raid40"][ info[#info] ]; end,
 	set = function(info, value) E.db.unitframe.units["raid40"][ info[#info] ] = value; UF:CreateAndUpdateHeaderGroup("raid40"); end,
+	disabled = function() return not E.UnitFrames end,
 	args = {
 		configureToggle = {
 			order = 1,
@@ -6136,7 +6177,7 @@ E.Options.args.unitframe.args.raidpet = {
 	childGroups = "tab",
 	get = function(info) return E.db.unitframe.units["raidpet"][ info[#info] ]; end,
 	set = function(info, value) E.db.unitframe.units["raidpet"][ info[#info] ] = value; UF:CreateAndUpdateHeaderGroup("raidpet"); end,
-	disabled = function() return not E.private.unitframe.enable end,
+	disabled = function() return not E.UnitFrames end,
 	args = {
 		configureToggle = {
 			order = 1,
@@ -6440,6 +6481,7 @@ E.Options.args.unitframe.args.tank = {
 	childGroups = "tab",
 	get = function(info) return E.db.unitframe.units["tank"][ info[#info] ] end,
 	set = function(info, value) E.db.unitframe.units["tank"][ info[#info] ] = value; UF:CreateAndUpdateHeaderGroup("tank") end,
+	disabled = function() return not E.UnitFrames end,
 	args = {
 		resetSettings = {
 			order = 1,
@@ -6637,6 +6679,7 @@ E.Options.args.unitframe.args.assist = {
 	childGroups = "tab",
 	get = function(info) return E.db.unitframe.units["assist"][ info[#info] ] end,
 	set = function(info, value) E.db.unitframe.units["assist"][ info[#info] ] = value; UF:CreateAndUpdateHeaderGroup("assist") end,
+	disabled = function() return not E.UnitFrames end,
 	args = {
 		resetSettings = {
 			order = 1,

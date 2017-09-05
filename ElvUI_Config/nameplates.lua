@@ -96,6 +96,7 @@ local function GetUnitSettings(unit, name)
 		childGroups = "tab",
 		get = function(info) return E.db.nameplates.units[unit][ info[#info] ]; end,
 		set = function(info, value) E.db.nameplates.units[unit][ info[#info] ] = value; NP:ConfigureAll(); end,
+		disabled = function() return not E.NamePlates end,
 		args = {
 			copySettings = {
 				order = -10,
@@ -530,19 +531,25 @@ E.Options.args.nameplate = {
 			order = 5,
 			type = "execute",
 			name = L["General"],
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "general") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "general") end,
+			disabled = function() return not E.NamePlates end
 		},
 		fontsShortcut = {
 			order = 6,
 			type = "execute",
 			name = L["Fonts"],
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "fontGroup") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "fontGroup") end,
+			disabled = function() return not E.NamePlates end
 		},
 		threatShortcut = {
 			order = 7,
 			type = "execute",
 			name = L["Threat"],
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "threatGroup") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "threatGroup") end,
+			disabled = function() return not E.NamePlates end
 		},
 		spacer2 = {
 			order = 8,
@@ -553,19 +560,25 @@ E.Options.args.nameplate = {
 			order = 9,
 			type = "execute",
 			name = L["Cast Bar"],
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "castGroup") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "castGroup") end,
+			disabled = function() return not E.NamePlates end
 		},
 		reactionShortcut = {
 			order = 10,
 			type = "execute",
 			name = L["Reaction Colors"],
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "reactions") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "reactions") end,
+			disabled = function() return not E.NamePlates end
 		},
 		filtersShortcut = {
 			order = 11,
 			type = "execute",
 			name = FILTERS,
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "filters") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "filters") end,
+			disabled = function() return not E.NamePlates end
 		},
 		spacer3 = {
 			order = 12,
@@ -576,19 +589,25 @@ E.Options.args.nameplate = {
 			order = 13,
 			type = "execute",
 			name = L["Friendly Player Frames"],
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "friendlyPlayerGroup") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "nameplate", "friendlyPlayerGroup") end,
+			disabled = function() return not E.NamePlates end
 		},
 		enemyPlayerShortcut = {
 			order = 14,
 			type = "execute",
 			name = L["Enemy Player Frames"],
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "enemyPlayerGroup") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "nameplate", "enemyPlayerGroup") end,
+			disabled = function() return not E.NamePlates end
 		},
 		friendlyNPCShortcut = {
 			order = 15,
 			type = "execute",
 			name = L["Friendly NPC Frames"],
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "friendlyNPCGroup") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "nameplate", "friendlyNPCGroup") end,
+			disabled = function() return not E.NamePlates end
 		},
 		spacer4 = {
 			order = 16,
@@ -599,14 +618,16 @@ E.Options.args.nameplate = {
 			order = 17,
 			type = "execute",
 			name = L["Enemy NPC Frames"],
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "enemyNPCGroup") end
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "nameplate", "enemyNPCGroup") end,
+			disabled = function() return not E.NamePlates end
 		},
 		generalGroup = {
 			order = 20,
 			type = "group",
 			name = L["General Options"],
 			childGroups = "tab",
-			disabled = function() return not E.NamePlates; end,
+			disabled = function() return not E.NamePlates end,
 			args = {
 				general = {
 					order = 1,
