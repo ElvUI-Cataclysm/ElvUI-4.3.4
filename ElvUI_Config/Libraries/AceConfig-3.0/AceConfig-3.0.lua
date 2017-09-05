@@ -11,14 +11,14 @@ AceConfig-3.0
 Very light wrapper library that combines all the AceConfig subcomponents into one more easily used whole.
 
 ]]
+local cfgreg = LibStub("AceConfigRegistry-3.0-ElvUI")
+local cfgcmd = LibStub("AceConfigCmd-3.0-ElvUI")
 
 local MAJOR, MINOR = "AceConfig-3.0-ElvUI", 2
 local AceConfig = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not AceConfig then return end
 
-local cfgreg = LibStub("AceConfigRegistry-3.0-ElvUI")
-local cfgcmd = LibStub("AceConfigCmd-3.0-ElvUI")
 --TODO: local cfgdlg = LibStub("AceConfigDialog-3.0", true)
 --TODO: local cfgdrp = LibStub("AceConfigDropdown-3.0", true)
 
