@@ -736,6 +736,10 @@ function AB:DisableBlizzard()
 	VehicleMenuBar:Hide();
 	VehicleMenuBar:SetParent(UIHider);
 
+	IconIntroTracker:UnregisterAllEvents()
+	IconIntroTracker:Hide()
+	IconIntroTracker:SetParent(UIHider)
+
 	InterfaceOptionsCombatPanelActionButtonUseKeyDown:SetScale(0.0001);
 	InterfaceOptionsCombatPanelActionButtonUseKeyDown:SetAlpha(0);
 
