@@ -309,23 +309,35 @@ local function LoadSkin()
 	--Quest Frame
 	QuestFrame:StripTextures(true)
 	QuestFrame:CreateBackdrop("Transparent")
-	QuestFrame.backdrop:Point("TOPLEFT", 6, -8)
-	QuestFrame.backdrop:Point("BOTTOMRIGHT", -20, 65)
+	QuestFrame.backdrop:Point("TOPLEFT", 15, -11)
+	QuestFrame.backdrop:Point("BOTTOMRIGHT", -20, 0)
 	QuestFrame:Width(374)
 
 	QuestFrameDetailPanel:StripTextures(true)
 	QuestDetailScrollFrame:StripTextures(true)
+	QuestDetailScrollFrame:Height(403)
 	QuestDetailScrollChildFrame:StripTextures(true)
 	QuestRewardScrollFrame:StripTextures(true)
+	QuestRewardScrollFrame:Height(403)
 	QuestRewardScrollChildFrame:StripTextures(true)
 	QuestFrameProgressPanel:StripTextures(true)
+	QuestProgressScrollFrame:Height(403)
 	QuestFrameRewardPanel:StripTextures(true)
 
 	S:HandleButton(QuestFrameAcceptButton, true)
+	QuestFrameAcceptButton:Point("BOTTOMLEFT", 20, 4)
+
 	S:HandleButton(QuestFrameDeclineButton, true)
+	QuestFrameDeclineButton:Point("BOTTOMRIGHT", -37, 4)
+
 	S:HandleButton(QuestFrameCompleteButton, true)
+	QuestFrameCompleteButton:Point("BOTTOMLEFT", 20, 4)
+
 	S:HandleButton(QuestFrameGoodbyeButton, true)
+	QuestFrameGoodbyeButton:Point("BOTTOMRIGHT", -37, 4)
+
 	S:HandleButton(QuestFrameCompleteQuestButton, true)
+	QuestFrameCompleteQuestButton:Point("BOTTOMLEFT", 20, 4)
 
 	S:HandleCloseButton(QuestFrameCloseButton, QuestFrame.backdrop)
 

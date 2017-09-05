@@ -11,13 +11,15 @@ local function LoadSkin()
 		QuestFrameGreetingPanel:StripTextures()
 
 		S:HandleButton(QuestFrameGreetingGoodbyeButton, true)
-		QuestFrameGreetingGoodbyeButton:Point("BOTTOMRIGHT", QuestFrameGreetingPanel, "BOTTOMRIGHT", -49, 72)
+		QuestFrameGreetingGoodbyeButton:Point("BOTTOMRIGHT", -37, 4)
 
 		GreetingText:SetTextColor(1, 1, 1)
 		CurrentQuestsText:SetTextColor(1, 0.80, 0.10)
 		AvailableQuestsText:SetTextColor(1, 0.80, 0.10)
 
 		QuestGreetingFrameHorizontalBreak:Kill()
+
+		QuestGreetingScrollFrame:Height(403)
 
 		S:HandleScrollBar(QuestGreetingScrollFrameScrollBar)
 

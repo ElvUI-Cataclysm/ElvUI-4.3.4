@@ -19,17 +19,20 @@ local function LoadSkin()
 	ItemTextPageText:SetTextColor(1, 1, 1)
 	ItemTextPageText.SetTextColor = E.noop
 
-	GossipFramePortrait:Kill()
+	S:HandleCloseButton(ItemTextCloseButton)
 
-	GossipFrameGreetingGoodbyeButton:StripTextures()
-	S:HandleButton(GossipFrameGreetingGoodbyeButton)
-	GossipFrameGreetingGoodbyeButton:Point("BOTTOMRIGHT", -49, 72)
+	GossipFramePortrait:Kill()
 
 	GossipGreetingText:SetTextColor(1, 1, 1)
 
 	GossipFrame:CreateBackdrop("Transparent")
-	GossipFrame.backdrop:Point("TOPLEFT", 6, -8)
-	GossipFrame.backdrop:Point("BOTTOMRIGHT", -30, 65)
+	GossipFrame.backdrop:Point("TOPLEFT", 15, -11)
+	GossipFrame.backdrop:Point("BOTTOMRIGHT", -30, 0)
+
+	GossipGreetingScrollFrame:Height(403)
+
+	S:HandleButton(GossipFrameGreetingGoodbyeButton)
+	GossipFrameGreetingGoodbyeButton:Point("BOTTOMRIGHT", -37, 4)
 
 	S:HandleNextPrevButton(ItemTextPrevPageButton)
 	ItemTextPrevPageButton:Point("CENTER", ItemTextFrame, "TOPLEFT", 45, -60)
@@ -43,8 +46,7 @@ local function LoadSkin()
 	S:HandleScrollBar(GossipGreetingScrollFrameScrollBar, 5)
 
 	S:HandleCloseButton(GossipFrameCloseButton)
-	GossipFrameCloseButton:Point("CENTER", GossipFrame, "TOPRIGHT", -44, -22)
-	S:HandleCloseButton(ItemTextCloseButton)
+	GossipFrameCloseButton:Point("CENTER", GossipFrame, "TOPRIGHT", -44, -25)
 
 	for i = 1, NUMGOSSIPBUTTONS do
 		local obj = select(3,_G["GossipTitleButton"..i]:GetRegions())
