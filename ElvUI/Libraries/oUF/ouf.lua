@@ -282,7 +282,7 @@ local function initObject(unit, style, styleFunc, header, ...)
 			object:RegisterEvent("PLAYER_ENTERING_WORLD", updateActiveUnit)
 
 			if(objectUnit ~= "player") then
-				object:RegisterEvent("UNIT_PET", UpdatePet, true)
+				object:RegisterEvent("UNIT_PET", updatePet, true)
 			end
 		end
 
