@@ -816,7 +816,6 @@ L["Enabling this allows raid-wide sorting however you will not be able to distin
 L["Enabling this inverts the grouping order when the raid is not full, this will reverse the direction it starts from."] = true;
 L["Enemy Aura Type"] = "Tipo de Aura do Inimigo"
 L["Fade the unitframe when out of combat, not casting, no target exists."] = "Desvanecer o quadro de unidade quando fora de combate, nao está lançando, nao tem um alvo."
-L["Fail"] = true;
 L["Fill"] = "Preencher"
 L["Filled"] = "Preenchido"
 L["Filter Type"] = "Tipo de filtro"

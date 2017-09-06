@@ -864,7 +864,6 @@ L["Enabling this allows raid-wide sorting however you will not be able to distin
 L["Enabling this inverts the grouping order when the raid is not full, this will reverse the direction it starts from."] = "유닛프레임의 배치를 역순으로 정렬합니다."
 L["Enemy Aura Type"] = "적군일 때 표시 계열"
 L["Fade the unitframe when out of combat, not casting, no target exists."] = "평상시에 유닛프레임을 표시하지 않습니다.|n|n전투에 돌입하거나 캐스팅을 시작하거나 대상이 존재하거나 마우스를 갖다 댈 때에만 프레임이 드러납니다."
-L["Fail"] = true;
 L["Fill"] = "채우기"
 L["Filled"] = "하단에 깔기"
 L["Filter Type"] = "필터 종류"

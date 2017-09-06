@@ -816,7 +816,6 @@ L["Enabling this allows raid-wide sorting however you will not be able to distin
 L["Enabling this inverts the grouping order when the raid is not full, this will reverse the direction it starts from."] = "启用后翻转未满团队的队伍顺序(起始方向)"
 L["Enemy Aura Type"] = "敌对光环类型"
 L["Fade the unitframe when out of combat, not casting, no target exists."] = "非战斗/施法/目标不存在时隐藏单位框架"
-L["Fail"] = true;
 L["Fill"] = "填充"
 L["Filled"] = "全长"
 L["Filter Type"] = "过滤器类型"
