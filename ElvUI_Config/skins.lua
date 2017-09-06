@@ -1,5 +1,5 @@
-local E, L, V, P, G = unpack(ElvUI);
-local S = E:GetModule('Skins')
+local E, L, V, P, G = unpack(ElvUI)
+local S = E:GetModule("Skins")
 
 E.Options.args.skins = {
 	type = "group",
@@ -13,32 +13,32 @@ E.Options.args.skins = {
 		},
 		blizzardEnable = {
 			order = 2,
-			type = 'toggle',
-			name = 'Blizzard',
+			type = "toggle",
+			name = "Blizzard",
 			get = function(info) return E.private.skins.blizzard.enable end,
-			set = function(info, value) E.private.skins.blizzard.enable = value; E:StaticPopup_Show("PRIVATE_RL") end
+			set = function(info, value) E.private.skins.blizzard.enable = value E:StaticPopup_Show("PRIVATE_RL") end
 		},
 		ace3 = {
 			order = 3,
-			type = 'toggle',
-			name = 'Ace3',
+			type = "toggle",
+			name = "Ace3",
 			get = function(info) return E.private.skins.ace3.enable end,
-			set = function(info, value) E.private.skins.ace3.enable = value; E:StaticPopup_Show("PRIVATE_RL") end
+			set = function(info, value) E.private.skins.ace3.enable = value E:StaticPopup_Show("PRIVATE_RL") end
 		},
 		tradeSkillBig = {
 			order = 4,
-			type = 'toggle',
+			type = "toggle",
 			name = L["Bigger Tradeskill"],
-			get = function(info) return E.private.skins.tradeSkillBig; end,
-			set = function(info, value) E.private.skins.tradeSkillBig = value; E:StaticPopup_Show("PRIVATE_RL") end,
+			get = function(info) return E.private.skins.tradeSkillBig end,
+			set = function(info, value) E.private.skins.tradeSkillBig = value E:StaticPopup_Show("PRIVATE_RL") end,
 			disabled = function() return not E.private.skins.blizzard.tradeskill or not E.private.skins.blizzard.enable end
 		},
 		blizzard = {
 			order = 100,
-			type = 'group',
-			name = 'Blizzard',
+			type = "group",
+			name = "Blizzard",
 			get = function(info) return E.private.skins.blizzard[ info[#info] ] end,
-			set = function(info, value) E.private.skins.blizzard[ info[#info] ] = value; E:StaticPopup_Show("CONFIG_RL") end,
+			set = function(info, value) E.private.skins.blizzard[ info[#info] ] = value E:StaticPopup_Show("CONFIG_RL") end,
 			disabled = function() return not E.private.skins.blizzard.enable end,
 			guiInline = true,
 			args = {
@@ -49,7 +49,7 @@ E.Options.args.skins = {
 				},
 				alertframes = {
 					type = "toggle",
-					name = L['Alert Frames'],
+					name = L["Alert Frames"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				archaeology = {
@@ -123,14 +123,14 @@ E.Options.args.skins = {
 					name = GUILD_BANK,
 					desc = L["TOGGLESKIN_DESC"]
 				},
-				gossip = {
-					type = "toggle",
-					name = L["Gossip Frame"],
-					desc = L["TOGGLESKIN_DESC"]
-				},
 				gmchat = {
 					type = "toggle",
 					name = L["GM Chat"],
+					desc = L["TOGGLESKIN_DESC"]
+				},
+				gossip = {
+					type = "toggle",
+					name = L["Gossip Frame"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				greeting = {
@@ -146,6 +146,11 @@ E.Options.args.skins = {
 				guildregistrar = {
 					type = "toggle",
 					name = L["Guild Registrar"],
+					desc = L["TOGGLESKIN_DESC"]
+				},
+				guild = {
+					type = "toggle",
+					name = L["Guild Frame"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				help = {
@@ -245,11 +250,6 @@ E.Options.args.skins = {
 					name = L["Spellbook"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
-				guild = {
-					type = "toggle",
-					name = L["Guild Frame"],
-					desc = L["TOGGLESKIN_DESC"]
-				},
 				stable = {
 					type = "toggle",
 					name = L["Stable"],
@@ -270,19 +270,14 @@ E.Options.args.skins = {
 					name = L["Taxi Frame"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
-				tooltip = {
-					type = "toggle",
-					name = L["Tooltip"],
-					desc = L["TOGGLESKIN_DESC"],
-				},
 				timemanager = {
 					type = "toggle",
 					name = L["Time Manager"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
-				transmogrify = {
-					type = 'toggle',
-					name = L["Transmogrify Frame"],
+				tooltip = {
+					type = "toggle",
+					name = L["Tooltip"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				trade = {
@@ -298,6 +293,11 @@ E.Options.args.skins = {
 				trainer = {
 					type = "toggle",
 					name = L["Trainer Frame"],
+					desc = L["TOGGLESKIN_DESC"]
+				},
+				transmogrify = {
+					type = "toggle",
+					name = L["Transmogrify Frame"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				tutorial = {
