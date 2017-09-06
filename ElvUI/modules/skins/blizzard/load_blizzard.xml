@@ -44,6 +44,7 @@
 	<Script file="tabard.lua"/>
 	<Script file="talent.lua"/>
 	<Script file="taxi.lua"/>
+	<Script file="tooltip.lua"/>
 	<Script file="transmogrification.lua"/>
 	<Script file="timemanager.lua"/>
 	<Script file="trade.lua"/>
