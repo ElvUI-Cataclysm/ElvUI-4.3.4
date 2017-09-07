@@ -320,6 +320,7 @@ local function BuildABConfig()
 				type = "execute",
 				name = L["Restore Bar"],
 				desc = L["Restore the actionbars default settings"],
+				buttonElvUI = true,
 				func = function() E:CopyTable(E.db.actionbar["barPet"], P.actionbar["barPet"]) E:ResetMovers("Pet Bar") AB:PositionAndSizeBarPet() end,
 				disabled = function() return not E.db.actionbar.barPet.enabled end
 			},
@@ -455,6 +456,7 @@ local function BuildABConfig()
 				type = "execute",
 				name = L["Restore Bar"],
 				desc = L["Restore the actionbars default settings"],
+				buttonElvUI = true,
 				func = function() E:CopyTable(E.db.actionbar["barShapeShift"], P.actionbar["barShapeShift"]) E:ResetMovers(L["Stance Bar"]) AB:PositionAndSizeBarShapeShift() end,
 				disabled = function() return not E.db.actionbar.barShapeShift.enabled end
 			},
@@ -600,6 +602,7 @@ local function BuildABConfig()
 				order = 3,
 				type = "execute",
 				name = L["Restore Bar"],
+				buttonElvUI = true,
 				func = function() E:CopyTable(E.db.actionbar["microbar"], P.actionbar["microbar"]) E:ResetMovers(L["Micro Bar"]) AB:UpdateMicroPositionDimensions() end,
 				disabled = function() return not E.db.actionbar.microbar.enabled end
 			},
@@ -704,6 +707,7 @@ local function BuildABConfig()
 					type = "execute",
 					name = L["Restore Bar"],
 					desc = L["Restore the actionbars default settings"],
+					buttonElvUI = true,
 					func = function() E:CopyTable(E.db.actionbar["bar"..i], P.actionbar["bar"..i]) E:ResetMovers("Bar "..i) AB:PositionAndSizeBar("bar"..i) end,
 					disabled = function() return not E.db.actionbar["bar" .. i].enabled end
 				},

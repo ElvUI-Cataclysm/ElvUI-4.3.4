@@ -33,7 +33,6 @@ local GetMouseFocus = GetMouseFocus;
 local SetCVar = SetCVar;
 local NUM_ACTIONBAR_BUTTONS = NUM_ACTIONBAR_BUTTONS;
 
-local _LOCK
 local LAB = LibStub("LibActionButton-1.0");
 local LSM = LibStub("LibSharedMedia-3.0");
 

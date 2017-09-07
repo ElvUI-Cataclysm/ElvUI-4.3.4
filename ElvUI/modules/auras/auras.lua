@@ -516,8 +516,8 @@ function A:Initialize()
 	end
 
 	TempEnchant1:Point("TOPRIGHT", ElvUIPlayerWeapons, "TOPRIGHT");
-	TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -7, 0);
-	TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -7, 0);
+	TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -A.db.buffs.horizontalSpacing, 0)
+	TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -A.db.buffs.horizontalSpacing, 0)
 
 	if Masque then
 		if MasqueGroupBuffs then A.BuffsMasqueGroup = MasqueGroupBuffs end

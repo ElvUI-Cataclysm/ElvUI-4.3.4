@@ -293,7 +293,7 @@ local function LoadSkin()
 	S:HandleScrollBar(FriendsFrameIgnoreScrollFrameScrollBar)
 	FriendsFrameIgnoreScrollFrameScrollBar:Point("TOPLEFT", FriendsFrameIgnoreScrollFrame, "TOPRIGHT", 45, 0)
 
-	for i = 1, 19 do
+	for i = 2, 19 do
 		local button = _G["FriendsFrameIgnoreButton"..i]
 
 		button.stripe = button:CreateTexture(nil, "OVERLAY");
@@ -306,7 +306,7 @@ local function LoadSkin()
 		button.stripe:SetAllPoints()
 
 		button:StyleButton()
-		button:SetWidth(310)
+		button:Width(310)
 	end
 
 	S:HandleScrollBar(FriendsFramePendingScrollFrameScrollBar, 4)
