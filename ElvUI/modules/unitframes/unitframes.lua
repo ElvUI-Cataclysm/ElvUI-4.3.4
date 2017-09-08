@@ -1121,16 +1121,6 @@ function UF:Initialize()
 	self:LoadUnits()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-	for k, v in pairs(UnitPopupMenus) do
-		for x, y in pairs(UnitPopupMenus[k]) do
-			if(y == "SET_FOCUS") then
-				tremove(UnitPopupMenus[k], x)
-			elseif(y == "CLEAR_FOCUS") then
-				tremove(UnitPopupMenus[k], x)
-			end
-		end
-	end
-
 	if(E.private["unitframe"]["disabledBlizzardFrames"].arena and E.private["unitframe"]["disabledBlizzardFrames"].focus and E.private["unitframe"]["disabledBlizzardFrames"].party) then
 		InterfaceOptionsFrameCategoriesButton10:SetScale(0.0001)
 	end
@@ -1184,9 +1174,19 @@ function UF:Initialize()
 		end
 	end
 
+	for k, v in pairs(UnitPopupMenus) do
+		for x, y in pairs(UnitPopupMenus[k]) do
+			if y == "SET_FOCUS" then
+				tremove(UnitPopupMenus[k], x)
+			elseif y == "CLEAR_FOCUS" then
+				tremove(UnitPopupMenus[k], x)
+			end
+		end
+	end
+
 	UnitPopupMenus["PARTY"] = {"MUTE", "UNMUTE", "PARTY_SILENCE", "PARTY_UNSILENCE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "WHISPER", "PROMOTE", "PROMOTE_GUIDE", "LOOT_PROMOTE", "VOTE_TO_KICK", "UNINVITE", "INSPECT", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "SELECT_ROLE", "PVP_REPORT_AFK", "RAF_SUMMON", "RAF_GRANT_LEVEL", "CANCEL"}
 	UnitPopupMenus["RAID_PLAYER"] = {"MUTE", "UNMUTE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "WHISPER", "INSPECT", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "SELECT_ROLE", "RAID_LEADER", "RAID_PROMOTE", "RAID_DEMOTE", "LOOT_PROMOTE", "VOTE_TO_KICK", "RAID_REMOVE", "PVP_REPORT_AFK", "RAF_SUMMON", "RAF_GRANT_LEVEL", "CANCEL"}
-	UnitPopupMenus["RAID"] = {"WHISPER", "MUTE", "UNMUTE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "RAID_LEADER", "RAID_PROMOTE", "RAID_MAINTANK", "RAID_MAINASSIST", "RAID_TARGET_ICON", "SELECT_ROLE", "LOOT_PROMOTE", "RAID_DEMOTE", "VOTE_TO_KICK", "RAID_REMOVE", "PVP_REPORT_AFK", "CANCEL"}
+	UnitPopupMenus["RAID"] = {"WHISPER",  "INSPECT", "MUTE", "UNMUTE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "RAID_LEADER", "RAID_PROMOTE", "RAID_MAINTANK", "RAID_MAINASSIST", "RAID_TARGET_ICON", "SELECT_ROLE", "LOOT_PROMOTE", "RAID_DEMOTE", "VOTE_TO_KICK", "RAID_REMOVE", "PVP_REPORT_AFK", "CANCEL"}
 	UnitPopupMenus["FOCUS"] = {"RAID_TARGET_ICON", "CANCEL"}
 	UnitPopupMenus["SELF"] = {"PVP_FLAG", "LOOT_METHOD", "LOOT_THRESHOLD", "OPT_OUT_LOOT_TITLE", "LOOT_PROMOTE", "DUNGEON_DIFFICULTY", "RAID_DIFFICULTY", "RESET_INSTANCES", "RAID_TARGET_ICON", "SELECT_ROLE", "CONVERT_TO_PARTY", "CONVERT_TO_RAID", "LEAVE", "CANCEL"}
 	if E.myclass == "HUNTER" then

@@ -4,6 +4,12 @@ local S = E:GetModule("Skins")
 local _G = _G
 local unpack, select = unpack, select
 
+local hooksecurefunc = hooksecurefunc
+local GetInboxHeaderInfo = GetInboxHeaderInfo
+local GetInboxItemLink = GetInboxItemLink
+local GetItemInfo = GetItemInfo
+local GetSendMailItem = GetSendMailItem
+local GetItemQualityColor = GetItemQualityColor
 local INBOXITEMS_TO_DISPLAY = INBOXITEMS_TO_DISPLAY
 local ATTACHMENTS_MAX_SEND = ATTACHMENTS_MAX_SEND
 local ATTACHMENTS_MAX_RECEIVE = ATTACHMENTS_MAX_RECEIVE
