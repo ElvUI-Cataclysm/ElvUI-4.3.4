@@ -366,22 +366,24 @@ function UF:Construct_PriestResourceBar(frame)
 		bars[i] = CreateFrame("StatusBar", frame:GetName().."ClassBarButton"..i, bars)
 		bars[i]:SetStatusBarTexture(E["media"].blankTex);
 		bars[i]:GetStatusBarTexture():SetHorizTile(false);
-		
-		bars[i].bg = bars[i]:CreateTexture(nil, "ARTWORK");
-		
 		UF["statusbars"][bars[i]] = true;
 
 		bars[i]:CreateBackdrop("Default", nil, nil, self.thinBorders, true);
 		bars[i].backdrop:SetParent(bars);
-	end
-	
-	bars.PostUpdate = UF.UpdateShadowOrbs;
-	bars:SetScript("OnShow", ToggleResourceBar);
-	bars:SetScript("OnHide", ToggleResourceBar);
-	
-	return bars;
-end
 
+		bars[i].bg = bars[i]:CreateTexture(nil, "BORDER")
+		bars[i].bg:SetAllPoints()
+		bars[i].bg:SetTexture(E["media"].blankTex)
+		bars[i].bg.multiplier = 0.3
+	end
+
+	bars.PostUpdate = UF.UpdateShadowOrbs
+
+	bars:SetScript("OnShow", ToggleResourceBar)
+	bars:SetScript("OnHide", ToggleResourceBar)
+
+	return bars
+end
 
 function UF:UpdateShadowOrbs(event, shadowOrbs, maxOrbs)
 	local frame = self.origParent or self:GetParent()
