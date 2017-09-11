@@ -1627,14 +1627,15 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 						order = 4,
 						type = "color",
 						name = COLOR,
+						hasAlpha = true,
 						get = function(info)
 							local c = E.db.unitframe.units.raid.rdebuffs.duration.color;
 							local d = P.unitframe.units.raid.rdebuffs.duration.color;
-							return c.r, c.g, c.b, c.a, d.r, d.g, d.b;
+							return c.r, c.g, c.b, c.a, d.r, d.g, d.b, d.a
 						end,
-						set = function(info, r, g, b)
+						set = function(info, r, g, b, a)
 							local c = E.db.unitframe.units.raid.rdebuffs.duration.color;
-							c.r, c.g, c.b = r, g, b;
+							c.r, c.g, c.b, c.a = r, g, b, a
 							UF:CreateAndUpdateHeaderGroup("raid");
 						end
 					}
@@ -1680,14 +1681,15 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 						order = 4,
 						type = "color",
 						name = COLOR,
+						hasAlpha = true,
 						get = function(info)
 							local c = E.db.unitframe.units[groupName].rdebuffs.stack.color;
 							local d = P.unitframe.units[groupName].rdebuffs.stack.color;
-							return c.r, c.g, c.b, c.a, d.r, d.g, d.b;
+							return c.r, c.g, c.b, c.a, d.r, d.g, d.b, d.a
 						end,
-						set = function(info, r, g, b)
+						set = function(info, r, g, b, a)
 							local c = E.db.unitframe.units[groupName].rdebuffs.stack.color;
-							c.r, c.g, c.b = r, g, b;
+							c.r, c.g, c.b, c.a = r, g, b, a
 							updateFunc(UF, groupName);
 						end
 					}

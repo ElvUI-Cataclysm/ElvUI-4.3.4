@@ -1104,112 +1104,6 @@ function UF:UnitFrameThreatIndicator_Initialize(_, unitFrame)
 	unitFrame:UnregisterAllEvents()
 end
 
-function UF:Initialize()
-	self.db = E.db["unitframe"]
-	self.thinBorders = self.db.thinBorders or E.PixelMode
-	if E.private["unitframe"].enable ~= true then return end
-	E.UnitFrames = UF
-
-	local ElvUF_Parent = CreateFrame("Frame", "ElvUF_Parent", E.UIParent, "SecureHandlerStateTemplate")
-	ElvUF_Parent:SetFrameStrata("LOW")
-
-	self:UpdateColors()
-	ElvUF:RegisterStyle("ElvUF", function(frame, unit)
-		self:Construct_UF(frame, unit)
-	end)
-
-	self:LoadUnits()
-	self:RegisterEvent("PLAYER_ENTERING_WORLD")
-
-	if(E.private["unitframe"]["disabledBlizzardFrames"].arena and E.private["unitframe"]["disabledBlizzardFrames"].focus and E.private["unitframe"]["disabledBlizzardFrames"].party) then
-		InterfaceOptionsFrameCategoriesButton10:SetScale(0.0001)
-	end
-
-	if(E.private["unitframe"]["disabledBlizzardFrames"].player) then
-		InterfaceOptionsStatusTextPanelPlayer:SetScale(0.0001)
-		InterfaceOptionsStatusTextPanelPlayer:SetAlpha(0)
-		InterfaceOptionsStatusTextPanelPet:SetScale(0.0001)
-		InterfaceOptionsStatusTextPanelPet:SetAlpha(0)
-	end
-
-	if(E.private["unitframe"]["disabledBlizzardFrames"].target) then
-		InterfaceOptionsStatusTextPanelTarget:SetScale(0.0001)
-		InterfaceOptionsStatusTextPanelTarget:SetAlpha(0)
-		InterfaceOptionsCombatPanelEnemyCastBarsOnPortrait:SetAlpha(0)
-		InterfaceOptionsCombatPanelEnemyCastBarsOnPortrait:EnableMouse(false)
-		InterfaceOptionsCombatPanelEnemyCastBarsOnNameplates:ClearAllPoints()
-		InterfaceOptionsCombatPanelEnemyCastBarsOnNameplates:SetPoint(InterfaceOptionsCombatPanelEnemyCastBarsOnPortrait:GetPoint())
-		InterfaceOptionsCombatPanelTargetOfTarget:SetScale(0.0001)
-		InterfaceOptionsCombatPanelTargetOfTarget:SetAlpha(0)
-		InterfaceOptionsDisplayPanelShowAggroPercentage:SetScale(0.0001)
-		InterfaceOptionsDisplayPanelShowAggroPercentage:SetAlpha(0)
-	end
-
-	if(E.private["unitframe"]["disabledBlizzardFrames"].party) then
-		InterfaceOptionsStatusTextPanelParty:SetScale(0.0001)
-		InterfaceOptionsStatusTextPanelParty:SetAlpha(0)
-	end
-
-	if E.private["unitframe"]["disabledBlizzardFrames"].party and E.private["unitframe"]["disabledBlizzardFrames"].raid then
-		self:DisableBlizzard()
-		InterfaceOptionsFrameCategoriesButton11:SetScale(0.0001)
-
-		self:RegisterEvent("RAID_ROSTER_UPDATE", "DisableBlizzard")
-		UIParent:UnregisterEvent("RAID_ROSTER_UPDATE")
-	else
-		CompactUnitFrameProfiles:RegisterEvent("VARIABLES_LOADED")
-	end
-
-	if (not E.private["unitframe"]["disabledBlizzardFrames"].party) and (not E.private["unitframe"]["disabledBlizzardFrames"].raid) then
-		E.RaidUtility.Initialize = E.noop
-	end
-
-	if(E.private["unitframe"]["disabledBlizzardFrames"].arena) then
-		self:SecureHook("UnitFrameThreatIndicator_Initialize")
-
-		if(not IsAddOnLoaded("Blizzard_ArenaUI")) then
-			self:RegisterEvent("ADDON_LOADED")
-		else
-			ElvUF:DisableBlizzard("arena")
-		end
-	end
-
-	for k, v in pairs(UnitPopupMenus) do
-		for x, y in pairs(UnitPopupMenus[k]) do
-			if y == "SET_FOCUS" then
-				tremove(UnitPopupMenus[k], x)
-			elseif y == "CLEAR_FOCUS" then
-				tremove(UnitPopupMenus[k], x)
-			end
-		end
-	end
-
-	UnitPopupMenus["PARTY"] = {"MUTE", "UNMUTE", "PARTY_SILENCE", "PARTY_UNSILENCE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "WHISPER", "PROMOTE", "PROMOTE_GUIDE", "LOOT_PROMOTE", "VOTE_TO_KICK", "UNINVITE", "INSPECT", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "SELECT_ROLE", "PVP_REPORT_AFK", "RAF_SUMMON", "RAF_GRANT_LEVEL", "CANCEL"}
-	UnitPopupMenus["RAID_PLAYER"] = {"MUTE", "UNMUTE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "WHISPER", "INSPECT", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "SELECT_ROLE", "RAID_LEADER", "RAID_PROMOTE", "RAID_DEMOTE", "LOOT_PROMOTE", "VOTE_TO_KICK", "RAID_REMOVE", "PVP_REPORT_AFK", "RAF_SUMMON", "RAF_GRANT_LEVEL", "CANCEL"}
-	UnitPopupMenus["RAID"] = {"WHISPER",  "INSPECT", "MUTE", "UNMUTE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "RAID_LEADER", "RAID_PROMOTE", "RAID_MAINTANK", "RAID_MAINASSIST", "RAID_TARGET_ICON", "SELECT_ROLE", "LOOT_PROMOTE", "RAID_DEMOTE", "VOTE_TO_KICK", "RAID_REMOVE", "PVP_REPORT_AFK", "CANCEL"}
-	UnitPopupMenus["FOCUS"] = {"RAID_TARGET_ICON", "CANCEL"}
-	UnitPopupMenus["SELF"] = {"PVP_FLAG", "LOOT_METHOD", "LOOT_THRESHOLD", "OPT_OUT_LOOT_TITLE", "LOOT_PROMOTE", "DUNGEON_DIFFICULTY", "RAID_DIFFICULTY", "RESET_INSTANCES", "RAID_TARGET_ICON", "SELECT_ROLE", "CONVERT_TO_PARTY", "CONVERT_TO_RAID", "LEAVE", "CANCEL"}
-	if E.myclass == "HUNTER" then
-		UnitPopupMenus["PET"] = {"PET_PAPERDOLL", "PET_RENAME", "PET_ABANDON", "RAID_TARGET_ICON", "CANCEL"}
-	else
-		UnitPopupMenus["PET"] = {"PET_PAPERDOLL", "PET_RENAME", "PET_ABANDON", "PET_DISMISS", "RAID_TARGET_ICON", "CANCEL"}
-	end
-	UnitPopupMenus["PLAYER"] = {"WHISPER", "INSPECT", "INVITE", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "RAF_SUMMON", "RAF_GRANT_LEVEL", "REPORT_PLAYER", "CANCEL"}	
-	UnitPopupMenus["VEHICLE"] = {"RAID_TARGET_ICON", "VEHICLE_LEAVE", "CANCEL"}
-	UnitPopupMenus["TARGET"] = {"RAID_TARGET_ICON", "CANCEL"}
-	UnitPopupMenus["BOSS"] = {"RAID_TARGET_ICON", "CANCEL"}
-	UnitPopupMenus["ARENAENEMY"] = {"CANCEL"}
-
-	local ORD = ns.oUF_RaidDebuffs or oUF_RaidDebuffs
-	if(not ORD) then return end
-	ORD.ShowDispelableDebuff = true
-	ORD.FilterDispellableDebuff = true
-	ORD.MatchBySpellName = true
-
-	self:UpdateRangeCheckSpells()
-	self:RegisterEvent("LEARNED_SPELL_IN_TAB", "UpdateRangeCheckSpells")
-end
-
 function UF:ResetUnitSettings(unit)
 	E:CopyTable(self.db["units"][unit], P["unitframe"]["units"][unit]) 
 
@@ -1377,6 +1271,112 @@ function UF:ToggleTransparentStatusBar(isTransparent, statusBar, backdropTex, ad
 			backdropTex.multiplier = 0.25
 		end
 	end
+end
+
+function UF:Initialize()
+	self.db = E.db["unitframe"]
+	self.thinBorders = self.db.thinBorders or E.PixelMode
+	if E.private["unitframe"].enable ~= true then return end
+	E.UnitFrames = UF
+
+	local ElvUF_Parent = CreateFrame("Frame", "ElvUF_Parent", E.UIParent, "SecureHandlerStateTemplate")
+	ElvUF_Parent:SetFrameStrata("LOW")
+
+	self:UpdateColors()
+	ElvUF:RegisterStyle("ElvUF", function(frame, unit)
+		self:Construct_UF(frame, unit)
+	end)
+
+	self:LoadUnits()
+	self:RegisterEvent("PLAYER_ENTERING_WORLD")
+
+	if(E.private["unitframe"]["disabledBlizzardFrames"].arena and E.private["unitframe"]["disabledBlizzardFrames"].focus and E.private["unitframe"]["disabledBlizzardFrames"].party) then
+		InterfaceOptionsFrameCategoriesButton10:SetScale(0.0001)
+	end
+
+	if(E.private["unitframe"]["disabledBlizzardFrames"].player) then
+		InterfaceOptionsStatusTextPanelPlayer:SetScale(0.0001)
+		InterfaceOptionsStatusTextPanelPlayer:SetAlpha(0)
+		InterfaceOptionsStatusTextPanelPet:SetScale(0.0001)
+		InterfaceOptionsStatusTextPanelPet:SetAlpha(0)
+	end
+
+	if(E.private["unitframe"]["disabledBlizzardFrames"].target) then
+		InterfaceOptionsStatusTextPanelTarget:SetScale(0.0001)
+		InterfaceOptionsStatusTextPanelTarget:SetAlpha(0)
+		InterfaceOptionsCombatPanelEnemyCastBarsOnPortrait:SetAlpha(0)
+		InterfaceOptionsCombatPanelEnemyCastBarsOnPortrait:EnableMouse(false)
+		InterfaceOptionsCombatPanelEnemyCastBarsOnNameplates:ClearAllPoints()
+		InterfaceOptionsCombatPanelEnemyCastBarsOnNameplates:SetPoint(InterfaceOptionsCombatPanelEnemyCastBarsOnPortrait:GetPoint())
+		InterfaceOptionsCombatPanelTargetOfTarget:SetScale(0.0001)
+		InterfaceOptionsCombatPanelTargetOfTarget:SetAlpha(0)
+		InterfaceOptionsDisplayPanelShowAggroPercentage:SetScale(0.0001)
+		InterfaceOptionsDisplayPanelShowAggroPercentage:SetAlpha(0)
+	end
+
+	if(E.private["unitframe"]["disabledBlizzardFrames"].party) then
+		InterfaceOptionsStatusTextPanelParty:SetScale(0.0001)
+		InterfaceOptionsStatusTextPanelParty:SetAlpha(0)
+	end
+
+	if E.private["unitframe"]["disabledBlizzardFrames"].party and E.private["unitframe"]["disabledBlizzardFrames"].raid then
+		self:DisableBlizzard()
+		InterfaceOptionsFrameCategoriesButton11:SetScale(0.0001)
+
+		self:RegisterEvent("RAID_ROSTER_UPDATE", "DisableBlizzard")
+		UIParent:UnregisterEvent("RAID_ROSTER_UPDATE")
+	else
+		CompactUnitFrameProfiles:RegisterEvent("VARIABLES_LOADED")
+	end
+
+	if (not E.private["unitframe"]["disabledBlizzardFrames"].party) and (not E.private["unitframe"]["disabledBlizzardFrames"].raid) then
+		E.RaidUtility.Initialize = E.noop
+	end
+
+	if(E.private["unitframe"]["disabledBlizzardFrames"].arena) then
+		self:SecureHook("UnitFrameThreatIndicator_Initialize")
+
+		if(not IsAddOnLoaded("Blizzard_ArenaUI")) then
+			self:RegisterEvent("ADDON_LOADED")
+		else
+			ElvUF:DisableBlizzard("arena")
+		end
+	end
+
+	for k, v in pairs(UnitPopupMenus) do
+		for x, y in pairs(UnitPopupMenus[k]) do
+			if y == "SET_FOCUS" then
+				tremove(UnitPopupMenus[k], x)
+			elseif y == "CLEAR_FOCUS" then
+				tremove(UnitPopupMenus[k], x)
+			end
+		end
+	end
+
+	UnitPopupMenus["PARTY"] = {"MUTE", "UNMUTE", "PARTY_SILENCE", "PARTY_UNSILENCE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "WHISPER", "PROMOTE", "PROMOTE_GUIDE", "LOOT_PROMOTE", "VOTE_TO_KICK", "UNINVITE", "INSPECT", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "SELECT_ROLE", "PVP_REPORT_AFK", "RAF_SUMMON", "RAF_GRANT_LEVEL", "CANCEL"}
+	UnitPopupMenus["RAID_PLAYER"] = {"MUTE", "UNMUTE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "WHISPER", "INSPECT", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "SELECT_ROLE", "RAID_LEADER", "RAID_PROMOTE", "RAID_DEMOTE", "LOOT_PROMOTE", "VOTE_TO_KICK", "RAID_REMOVE", "PVP_REPORT_AFK", "RAF_SUMMON", "RAF_GRANT_LEVEL", "CANCEL"}
+	UnitPopupMenus["RAID"] = {"WHISPER",  "INSPECT", "MUTE", "UNMUTE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "RAID_LEADER", "RAID_PROMOTE", "RAID_MAINTANK", "RAID_MAINASSIST", "RAID_TARGET_ICON", "SELECT_ROLE", "LOOT_PROMOTE", "RAID_DEMOTE", "VOTE_TO_KICK", "RAID_REMOVE", "PVP_REPORT_AFK", "CANCEL"}
+	UnitPopupMenus["FOCUS"] = {"RAID_TARGET_ICON", "CANCEL"}
+	UnitPopupMenus["SELF"] = {"PVP_FLAG", "LOOT_METHOD", "LOOT_THRESHOLD", "OPT_OUT_LOOT_TITLE", "LOOT_PROMOTE", "DUNGEON_DIFFICULTY", "RAID_DIFFICULTY", "RESET_INSTANCES", "RAID_TARGET_ICON", "SELECT_ROLE", "CONVERT_TO_PARTY", "CONVERT_TO_RAID", "LEAVE", "CANCEL"}
+	if E.myclass == "HUNTER" then
+		UnitPopupMenus["PET"] = {"PET_PAPERDOLL", "PET_RENAME", "PET_ABANDON", "RAID_TARGET_ICON", "CANCEL"}
+	else
+		UnitPopupMenus["PET"] = {"PET_PAPERDOLL", "PET_RENAME", "PET_ABANDON", "PET_DISMISS", "RAID_TARGET_ICON", "CANCEL"}
+	end
+	UnitPopupMenus["PLAYER"] = {"WHISPER", "INSPECT", "INVITE", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "RAF_SUMMON", "RAF_GRANT_LEVEL", "REPORT_PLAYER", "CANCEL"}	
+	UnitPopupMenus["VEHICLE"] = {"RAID_TARGET_ICON", "VEHICLE_LEAVE", "CANCEL"}
+	UnitPopupMenus["TARGET"] = {"RAID_TARGET_ICON", "CANCEL"}
+	UnitPopupMenus["BOSS"] = {"RAID_TARGET_ICON", "CANCEL"}
+	UnitPopupMenus["ARENAENEMY"] = {"CANCEL"}
+
+	local ORD = ns.oUF_RaidDebuffs or oUF_RaidDebuffs
+	if(not ORD) then return end
+	ORD.ShowDispelableDebuff = true
+	ORD.FilterDispellableDebuff = true
+	ORD.MatchBySpellName = true
+
+	self:UpdateRangeCheckSpells()
+	self:RegisterEvent("LEARNED_SPELL_IN_TAB", "UpdateRangeCheckSpells")
 end
 
 local function InitializeCallback()

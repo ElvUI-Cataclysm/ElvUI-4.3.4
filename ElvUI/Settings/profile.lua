@@ -1869,13 +1869,13 @@ P["unitframe"] = {
 					["position"] = "CENTER",
 					["xOffset"] = 0,
 					["yOffset"] = 0,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				},
 				["stack"] = {
 					["position"] = "BOTTOMRIGHT",
 					["xOffset"] = 0,
 					["yOffset"] = 2,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				}
 			},
 			["roleIcon"] = {
@@ -2069,13 +2069,13 @@ P["unitframe"] = {
 					["position"] = "CENTER",
 					["xOffset"] = 0,
 					["yOffset"] = 0,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				},
 				["stack"] = {
 					["position"] = "BOTTOMRIGHT",
 					["xOffset"] = 0,
 					["yOffset"] = 2,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				}
 			},
 			["roleIcon"] = {
@@ -2235,13 +2235,13 @@ P["unitframe"] = {
 					["position"] = "CENTER",
 					["xOffset"] = 0,
 					["yOffset"] = 0,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				},
 				["stack"] = {
 					["position"] = "BOTTOMRIGHT",
 					["xOffset"] = 0,
 					["yOffset"] = 2,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				}
 			},
 			["roleIcon"] = {
@@ -2398,13 +2398,13 @@ P["unitframe"] = {
 					["position"] = "CENTER",
 					["xOffset"] = 0,
 					["yOffset"] = 0,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				},
 				["stack"] = {
 					["position"] = "BOTTOMRIGHT",
 					["xOffset"] = 0,
 					["yOffset"] = 2,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				}
 			},
 			["raidicon"] = {
@@ -2488,13 +2488,13 @@ P["unitframe"] = {
 					["position"] = "CENTER",
 					["xOffset"] = 0,
 					["yOffset"] = 0,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				},
 				["stack"] = {
 					["position"] = "BOTTOMRIGHT",
 					["xOffset"] = 0,
 					["yOffset"] = 2,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				}
 			},
 			["targetsGroup"] = {
@@ -2579,13 +2579,13 @@ P["unitframe"] = {
 					["position"] = "CENTER",
 					["xOffset"] = 0,
 					["yOffset"] = 0,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				},
 				["stack"] = {
 					["position"] = "BOTTOMRIGHT",
 					["xOffset"] = 0,
 					["yOffset"] = 2,
-					["color"] = {r = 1, g = 0.9, b = 0}
+					["color"] = {r = 1, g = 0.9, b = 0, a = 1}
 				}
 			},
 			["targetsGroup"] = {
