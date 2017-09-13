@@ -124,11 +124,19 @@ local function LoadSkin()
 
 	WhoFrameButton1:Point("TOPLEFT", 10, -82)
 
-	WhoFrameEditBox:Point("BOTTOM", -3, 20)
+	S:HandleEditBox(WhoFrameEditBox)
+	WhoFrameEditBox:Point("BOTTOM", -1, 29)
+	WhoFrameEditBox:Size(326, 18)
 
 	S:HandleButton(WhoFrameWhoButton)
+	WhoFrameWhoButton:Point("RIGHT", WhoFrameAddFriendButton, "LEFT", -2, 0)
+	WhoFrameWhoButton:Width(84)
+
 	S:HandleButton(WhoFrameAddFriendButton)
+	WhoFrameAddFriendButton:Point("RIGHT", WhoFrameGroupInviteButton, "LEFT", -2, 0)
+
 	S:HandleButton(WhoFrameGroupInviteButton)
+	WhoFrameGroupInviteButton:Point("BOTTOMRIGHT", -6, 4)
 
 	S:HandleDropDownBox(WhoFrameDropDown, 150)
 

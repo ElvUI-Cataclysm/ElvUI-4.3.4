@@ -828,13 +828,13 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton:SetSize(16 + E.Border, 16 + E.Border);
 		f.sortButton:SetTemplate();
 		f.sortButton:SetPoint('RIGHT', f.bagText, 'LEFT', -5, E.Border * 2);
-		f.sortButton:SetNormalTexture('Interface\\ICONS\\INV_Pet_RatCage');
+		f.sortButton:SetNormalTexture('Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_Broom.blp')
 		f.sortButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
 		f.sortButton:GetNormalTexture():SetInside();
-		f.sortButton:SetPushedTexture('Interface\\ICONS\\INV_Pet_RatCage');
+		f.sortButton:SetPushedTexture('Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_Broom.blp')
 		f.sortButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords));
 		f.sortButton:GetPushedTexture():SetInside();
-		f.sortButton:SetDisabledTexture("Interface\\ICONS\\INV_Pet_RatCage");
+		f.sortButton:SetDisabledTexture('Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_Broom.blp')
 		f.sortButton:GetDisabledTexture():SetTexCoord(unpack(E.TexCoords));
 		f.sortButton:GetDisabledTexture():SetInside();
 		f.sortButton:GetDisabledTexture():SetDesaturated(true);
@@ -933,13 +933,13 @@ function B:ContructContainerFrame(name, isBank)
 		f.sortButton:SetSize(16 + E.Border, 16 + E.Border);
 		f.sortButton:SetTemplate();
 		f.sortButton:SetPoint('RIGHT', f.goldText, 'LEFT', -5, E.Border * 2);
-		f.sortButton:SetNormalTexture('Interface\\ICONS\\INV_Pet_RatCage');
+		f.sortButton:SetNormalTexture('Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_Broom.blp')
 		f.sortButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
 		f.sortButton:GetNormalTexture():SetInside();
-		f.sortButton:SetPushedTexture('Interface\\ICONS\\INV_Pet_RatCage');
+		f.sortButton:SetPushedTexture('Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_Broom.blp')
 		f.sortButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords));
 		f.sortButton:GetPushedTexture():SetInside();
-		f.sortButton:SetDisabledTexture("Interface\\ICONS\\INV_Pet_RatCage");
+		f.sortButton:SetDisabledTexture('Interface\\AddOns\\ElvUI\\media\\textures\\INV_Pet_Broom.blp')
 		f.sortButton:GetDisabledTexture():SetTexCoord(unpack(E.TexCoords));
 		f.sortButton:GetDisabledTexture():SetInside();
 		f.sortButton:GetDisabledTexture():SetDesaturated(true);
