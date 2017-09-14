@@ -6886,8 +6886,14 @@ E.Options.args.unitframe.args.generalOptionsGroup.args.allColorsGroup.args.class
 		t.r, t.g, t.b = r, g, b;
 		UF:Update_AllFrames();
 	end,
-	args = {};
-};
+	args = {
+		header = {
+			order = 0,
+			type = "header",
+			name = L["Class Resources"]
+		}
+	}
+}
 
 E.Options.args.unitframe.args.generalOptionsGroup.args.allColorsGroup.args.classResourceGroup.args.bgColor = {
 	order = 1,
