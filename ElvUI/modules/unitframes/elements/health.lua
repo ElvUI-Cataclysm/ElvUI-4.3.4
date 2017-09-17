@@ -92,6 +92,7 @@ function UF:Configure_HealthBar(frame)
 	health:ClearAllPoints();
 	if(frame.ORIENTATION == "LEFT") then
 		health:Point("TOPRIGHT", frame, "TOPRIGHT", -frame.BORDER - frame.SPACING, -frame.BORDER - frame.SPACING - frame.CLASSBAR_YOFFSET);
+
 		if(frame.USE_POWERBAR_OFFSET) then
 			health:Point("TOPRIGHT", frame, "TOPRIGHT", -frame.BORDER - frame.SPACING - frame.POWERBAR_OFFSET, -frame.BORDER - frame.SPACING - frame.CLASSBAR_YOFFSET);
 			health:Point("BOTTOMLEFT", frame, "BOTTOMLEFT", frame.PORTRAIT_WIDTH + frame.BORDER + frame.SPACING, frame.BORDER + frame.SPACING + frame.POWERBAR_OFFSET);
@@ -104,6 +105,7 @@ function UF:Configure_HealthBar(frame)
 		end
 	elseif(frame.ORIENTATION == "RIGHT") then
 		health:Point("TOPLEFT", frame, "TOPLEFT", frame.BORDER + frame.SPACING, -frame.BORDER - frame.SPACING - frame.CLASSBAR_YOFFSET);
+
 		if(frame.USE_POWERBAR_OFFSET) then
 			health:Point("TOPLEFT", frame, "TOPLEFT", frame.BORDER + frame.SPACING + frame.POWERBAR_OFFSET, -frame.BORDER - frame.SPACING - frame.CLASSBAR_YOFFSET);
 			health:Point("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -frame.PORTRAIT_WIDTH - frame.BORDER - frame.SPACING, frame.BORDER + frame.SPACING + frame.POWERBAR_OFFSET);
@@ -116,11 +118,11 @@ function UF:Configure_HealthBar(frame)
 		end
 	elseif(frame.ORIENTATION == "MIDDLE") then
 		health:Point("TOPRIGHT", frame, "TOPRIGHT", -frame.BORDER - frame.SPACING, - frame.BORDER - frame.SPACING - frame.CLASSBAR_YOFFSET);
+
 		if(frame.USE_POWERBAR_OFFSET) then
 			health:Point("TOPRIGHT", frame, "TOPRIGHT", -frame.BORDER - frame.SPACING - frame.POWERBAR_OFFSET, -frame.BORDER - frame.SPACING - frame.CLASSBAR_YOFFSET);
 			health:Point("BOTTOMLEFT", frame, "BOTTOMLEFT", frame.BORDER + frame.SPACING + frame.POWERBAR_OFFSET, frame.BORDER + frame.SPACING + frame.POWERBAR_OFFSET);
 		elseif(frame.POWERBAR_DETACHED or not frame.USE_POWERBAR or frame.USE_INSET_POWERBAR) then
-			health:Point("TOPRIGHT", frame, "TOPRIGHT", -frame.BORDER - frame.SPACING - frame.POWERBAR_OFFSET, -frame.BORDER - frame.SPACING - frame.CLASSBAR_YOFFSET);
 			health:Point("BOTTOMLEFT", frame, "BOTTOMLEFT", frame.BORDER + frame.SPACING + frame.POWERBAR_OFFSET, frame.BORDER + frame.SPACING + frame.BOTTOM_OFFSET);
 		elseif(frame.USE_MINI_POWERBAR) then
 			health:Point("BOTTOMLEFT", frame, "BOTTOMLEFT", frame.BORDER + frame.SPACING, frame.SPACING + (frame.POWERBAR_HEIGHT/2));

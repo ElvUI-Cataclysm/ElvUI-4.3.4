@@ -32,7 +32,7 @@ local function LoadSkin()
 		WorldMapCompareTooltip3
 	}
 	for _, tt in pairs(tooltips) do
-		TT:HookScript(tt, "OnShow", "SetStyle")
+		TT:SecureHookScript(tt, "OnShow", "SetStyle")
 	end
 
 	GameTooltipStatusBar:SetStatusBarTexture(E["media"].normTex)
@@ -44,8 +44,8 @@ local function LoadSkin()
 
 	TT:SecureHook("GameTooltip_ShowStatusBar", "GameTooltip_ShowStatusBar")
 
-	TT:HookScript(GameTooltip, "OnSizeChanged", "CheckBackdropColor")
-	TT:HookScript(GameTooltip, "OnUpdate", "CheckBackdropColor")
+	TT:SecureHookScript(GameTooltip, "OnSizeChanged", "CheckBackdropColor")
+	TT:SecureHookScript(GameTooltip, "OnUpdate", "CheckBackdropColor")
 	TT:RegisterEvent("CURSOR_UPDATE", "CheckBackdropColor")
 end
 
