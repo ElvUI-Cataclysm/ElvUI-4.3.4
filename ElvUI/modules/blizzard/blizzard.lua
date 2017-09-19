@@ -28,13 +28,6 @@ function B:Initialize()
 			LFRBrowseFrame.timeToClear = nil
 		end
 	end)
-
-	WorldMapQuestDetailScrollFrame:Width(320)
-	WorldMapQuestDetailScrollChildFrame:SetScale(1)
-
-	WorldMapQuestRewardScrollFrame:Point("LEFT", WorldMapQuestDetailScrollFrame, "RIGHT", 27, 0)
-	WorldMapQuestRewardScrollFrame:Width(307)
-	WorldMapQuestRewardScrollChildFrame:SetScale(0.97)
 end
 
 local function InitializeCallback()

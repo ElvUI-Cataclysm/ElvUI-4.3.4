@@ -93,7 +93,7 @@ local function LoadSkin()
 	InspectPVPFrameBottom:Kill()
 	InspectPVPFrame:HookScript("OnShow", function() InspectPVPFrameBG:Kill() end)
 
-	for i = 1, 3 do
+	for i = 1, MAX_ARENA_TEAMS do
 		_G["InspectPVPTeam"..i]:StripTextures()
 
 		local headerTab = _G["InspectTalentFrameTab"..i]

@@ -75,16 +75,27 @@ local function LoadSkin()
 		WorldMapFrame.backdrop:Point("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -8, 70)
 		WorldMapFrame.backdrop:Point("BOTTOMRIGHT", WorldMapDetailFrame, "BOTTOMRIGHT", 321, -235)
 
-		if(not WorldMapQuestDetailScrollFrame.backdrop) then
+		if not WorldMapQuestDetailScrollFrame.isSkinned then
 			WorldMapQuestDetailScrollFrame:CreateBackdrop("Transparent")
 			WorldMapQuestDetailScrollFrame.backdrop:Point("TOPLEFT", -22, 2)
 			WorldMapQuestDetailScrollFrame.backdrop:Point("BOTTOMRIGHT", 23, -4)
+
+			WorldMapQuestDetailScrollFrame:Width(320)
+			WorldMapQuestDetailScrollChildFrame:SetScale(1)
+
+			WorldMapQuestDetailScrollFrame.isSkinned = true
 		end
 
-		if(not WorldMapQuestRewardScrollFrame.backdrop) then
+		if not WorldMapQuestRewardScrollFrame.isSkinned then
 			WorldMapQuestRewardScrollFrame:CreateBackdrop("Transparent")
 			WorldMapQuestRewardScrollFrame.backdrop:Point("TOPLEFT", -2, 2)
 			WorldMapQuestRewardScrollFrame.backdrop:Point("BOTTOMRIGHT", 22, -4)
+
+			WorldMapQuestRewardScrollFrame:Point("LEFT", WorldMapQuestDetailScrollFrame, "RIGHT", 27, 0)
+			WorldMapQuestRewardScrollFrame:Width(307)
+			WorldMapQuestRewardScrollChildFrame:SetScale(0.97)
+
+			WorldMapQuestRewardScrollFrame.isSkinned = true
 		end
 
 		if(not WorldMapQuestScrollFrame.backdrop) then
