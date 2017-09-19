@@ -16,7 +16,7 @@
 TODO: Time out old data rotting around from dead senders? Not a HUGE deal since the number of possible sender names is somewhat limited.
 
 ]]
-local CallbackHandler = LibStub("CallbackHandler-1.0")
+local CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0")
 local CTL = assert(ChatThrottleLib, "AceComm-3.0 requires ChatThrottleLib")
 
 local MAJOR, MINOR = "AceComm-3.0", 10

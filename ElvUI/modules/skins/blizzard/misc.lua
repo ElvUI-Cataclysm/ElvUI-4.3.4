@@ -295,6 +295,9 @@ local function LoadSkin()
 	S:HandleButton(CinematicFrameCloseDialogResumeButton);
 
 	-- Level Up Popup
+	LevelUpDisplaySpellFrame:CreateBackdrop()
+	LevelUpDisplaySpellFrame.backdrop:SetOutside(LevelUpDisplaySpellFrameIcon)
+
 	LevelUpDisplaySpellFrameIcon:SetTexCoord(unpack(E.TexCoords));
 	LevelUpDisplaySpellFrameSubIcon:SetTexCoord(unpack(E.TexCoords));
 
