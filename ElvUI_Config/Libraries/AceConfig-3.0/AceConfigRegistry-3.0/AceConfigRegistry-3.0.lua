@@ -57,7 +57,6 @@ local istable={["table"]=true,   _="table"}
 local ismethodtable={["table"]=true,["string"]=true,["function"]=true,   _="methodname, funcref or table"}
 local optstring={["nil"]=true,["string"]=true, _="string"}
 local optstringfunc={["nil"]=true,["string"]=true,["function"]=true, _="string or funcref"}
-local optstringnumberfunc={["nil"]=true,["string"]=true,["number"]=true,["function"]=true, _="string, number or funcref"}
 local optnumber={["nil"]=true,["number"]=true, _="number"}
 local optmethod={["nil"]=true,["string"]=true,["function"]=true, _="methodname or funcref"}
 local optmethodfalse={["nil"]=true,["string"]=true,["function"]=true,["boolean"]={[false]=true},  _="methodname, funcref or false"}
@@ -83,7 +82,6 @@ local basekeys={
 		dialogHidden=optmethodbool,
 		dropdownHidden=optmethodbool,
 	cmdHidden=optmethodbool,
-	icon=optstringnumberfunc,
 	iconCoords=optmethodtable,
 	handler=opttable,
 	get=optmethodfalse,
@@ -98,7 +96,7 @@ local basekeys={
 local typedkeys={
 	header={},
 	description={
-		image=optstringnumberfunc,
+		image=optstringfunc,
 		imageCoords=optmethodtable,
 		imageHeight=optnumber,
 		imageWidth=optnumber,
@@ -115,7 +113,7 @@ local typedkeys={
 		childGroups=optstring,
 	},
 	execute={
-		image=optstringnumberfunc,
+		image=optstringfunc,
 		imageCoords=optmethodtable,
 		imageHeight=optnumber,
 		imageWidth=optnumber,
@@ -130,7 +128,7 @@ local typedkeys={
 	},
 	toggle={
 		tristate=optbool,
-		image=optstringnumberfunc,
+		image=optstringfunc,
 		imageCoords=optmethodtable,
 	},
 	tristate={
