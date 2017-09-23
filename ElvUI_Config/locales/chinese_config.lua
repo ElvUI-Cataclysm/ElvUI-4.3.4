@@ -328,11 +328,11 @@ L["ELVUI_CREDITS"] = "我想透过这个特别方式, 向那些协助测试、�
 L["Testing:"] = "测试:"
 
 --DataBars
-L["DATABAR_DESC"] = "设置各种数据条"
 L["Current - Percent (Remaining)"] = "当前值 - 百分百(剩余)"
 L["Current - Remaining"] = "敶 - 雿"
 L["DataBars"] = "数据条"
 L["Hide in Combat"] = "葉"
+L["Setup on-screen display of information bars."] = "设置各种数据条"
 
 --DataTexts
 L["Battleground Texts"] = "战场信息"

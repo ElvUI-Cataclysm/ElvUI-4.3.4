@@ -328,11 +328,11 @@ L["ELVUI_CREDITS"] = "Ich möchte mich hier bei folgenden Personen bedanken, die
 L["Testing:"] = "Tester:"
 
 --DataBars
-L["DATABAR_DESC"] = "Einstellung der Informationsleisten."
 L["Current - Percent (Remaining)"] = "Aktuell - Prozent (Verleibend)"
 L["Current - Remaining"] = "Aktuell - Verbleibend"
 L["DataBars"] = "Informationsleisten"
 L["Hide in Combat"] = "Im Kampf ausblenden"
+L["Setup on-screen display of information bars."] = "Einstellung der Informationsleisten."
 
 --DataTexts
 L["Battleground Texts"] = "Schlachtfeld-Infotexte"
