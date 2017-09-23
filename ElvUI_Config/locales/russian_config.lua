@@ -422,7 +422,6 @@ L["Loot"] = "Добыча"
 L["Lowest Allowed UI Scale"] = "Наименьший возможный масштаб"
 L["Multi-Monitor Support"] = "Поддержка нескольких мониторов"
 L["Name Font"] = "Шрифт имени"
-L["Number Prefix"] = "Сокращения значений"
 L["Objective Frame Height"] = "Высота списка заданий"
 L["Party / Raid"] = "Группа / Рейд"
 L["Party Only"] = "Только группа"
@@ -443,6 +442,7 @@ L["The unit prefixes you want to use when values are shortened in ElvUI. This is
 L["Thin Border Theme"] = "Тонкие границы"
 L["Toggle Tutorials"] = "Показать помощь"
 L["Top Panel"] = "Верхняя панель"
+L["Unit Prefix Style"] = true;
 L["When you go AFK display the AFK screen."] = "Отображать специальный экран, когда вы переходите в состояние \"Отсутствует\"."
 
 --Media

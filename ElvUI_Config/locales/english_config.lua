@@ -411,7 +411,6 @@ L["Loot"] = true;
 L["Lowest Allowed UI Scale"] = true;
 L["Multi-Monitor Support"] = true;
 L["Name Font"] = true;
-L["Number Prefix"] = true;
 L["Objective Frame Height"] = true;
 L["Party / Raid"] = true;
 L["Party Only"] = true;
@@ -432,6 +431,7 @@ L["The unit prefixes you want to use when values are shortened in ElvUI. This is
 L["Thin Border Theme"] = true;
 L["Toggle Tutorials"] = true;
 L["Top Panel"] = true;
+L["Unit Prefix Style"] = true;
 L["When you go AFK display the AFK screen."] = true;
 
 --Media
