@@ -1540,26 +1540,32 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 				type = "toggle",
 				name = L["Show Dispellable Debuffs"]
 			},
-			size = {
+			onlyMatchSpellID = {
 				order = 4,
+				type = "toggle",
+				name = L["Only Match SpellID"],
+				desc = L["When enabled it will only show spells that were added to the filter using a spell ID and not a name."],
+			},
+			size = {
+				order = 5,
 				type = "range",
 				name = L["Size"],
 				min = 8, max = 100, step = 1
 			},
 			font = {
-				order = 5,
+				order = 6,
 				type = "select", dialogControl = "LSM30_Font",
 				name = L["Font"],
 				values = AceGUIWidgetLSMlists.font
 			},
 			fontSize = {
-				order = 6,
+				order = 7,
 				type = "range",
 				name = FONT_SIZE,
 				min = 7, max = 22, step = 1
 			},
 			fontOutline = {
-				order = 7,
+				order = 8,
 				type = "select",
 				name = L["Font Outline"],
 				values = {
@@ -1570,25 +1576,25 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 				}
 			},
 			xOffset = {
-				order = 8,
+				order = 10,
 				type = "range",
 				name = L["xOffset"],
 				min = -300, max = 300, step = 1
 			},
 			yOffset = {
-				order = 9,
+				order = 11,
 				type = "range",
 				name = L["yOffset"],
 				min = -300, max = 300, step = 1
 			},
 			configureButton = {
-				order = 10,
+				order = 12,
 				type = "execute",
 				name = L["Configure Auras"],
 				func = function() E:SetToFilterConfig("RaidDebuffs"); end
 			},
 			duration = {
-				order = 11,
+				order = 13,
 				type = "group",
 				guiInline = true,
 				name = L["Duration Text"],
@@ -1642,7 +1648,7 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 				}
 			},
 			stack = {
-				order = 12,
+				order = 14,
 				type = "group",
 				guiInline = true,
 				name = L["Stack Counter"],
@@ -6620,6 +6626,7 @@ E.Options.args.unitframe.args.tank = {
 		},
 		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "tank"),
 		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "tank"),
+		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, "tank"),
 		buffIndicator = {
 			order = 800,
 			type = "group",
@@ -6818,6 +6825,7 @@ E.Options.args.unitframe.args.assist = {
 		},
 		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
 		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
+		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, "assist"),
 		buffIndicator = {
 			order = 800,
 			type = "group",
