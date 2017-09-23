@@ -190,7 +190,8 @@ E.Options.args.general = {
 						["METRIC"] = "Metric (k, M, G)",
 						["ENGLISH"] = "English (K, M, B)",
 						["CHINESE"] = "Chinese (W, Y)",
-						["KOREAN"] = "Korean (천, 만, 억)"
+						["KOREAN"] = "Korean (천, 만, 억)",
+						["GERMAN"] = "German (Tsd, Mio, Mrd)"
 					}
 				}
 			}
