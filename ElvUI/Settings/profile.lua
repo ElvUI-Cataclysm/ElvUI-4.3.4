@@ -475,6 +475,7 @@ P["unitframe"] = {
 		["healPrediction"] = {
 			["personal"] = {r = 0, g = 1, b = 0.5, a = 0.25},
 			["others"] = {r = 0, g = 1, b = 0, a = 0.25},
+			["maxOverflow"] = 0,
 		},
 		["power"] = {
 			["MANA"] = {r = 0.31, g = 0.45, b = 0.63},

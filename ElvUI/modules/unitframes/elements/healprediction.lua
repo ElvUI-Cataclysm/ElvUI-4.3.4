@@ -48,6 +48,8 @@ function UF:Configure_HealComm(frame)
 
 		healPrediction.myBar:SetStatusBarColor(c.personal.r, c.personal.g, c.personal.b, c.personal.a);
 		healPrediction.otherBar:SetStatusBarColor(c.others.r, c.others.g, c.others.b, c.others.a);
+
+		healPrediction.maxOverflow = (1 + (c.maxOverflow or 0))
 	else
 		if(frame:IsElementEnabled("HealthPrediction")) then
 			frame:DisableElement("HealthPrediction");
