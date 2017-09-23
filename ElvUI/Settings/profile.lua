@@ -73,7 +73,7 @@ P["general"] = {
 				["yOffset"] = 0
 			},
 			["vehicleLeave"] = {
-				["size"] = 26,
+				["scale"] = 1,
 				["position"] = "BOTTOMLEFT",
 				["xOffset"] = 0,
 				["yOffset"] = 0,

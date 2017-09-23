@@ -585,11 +585,11 @@ E.Options.args.maps = {
 										["BOTTOMRIGHT"] = L["Bottom Right"]
 									}
 								},
-								size = {
+								scale = {
 									order = 5,
 									type = "range",
-									name = L["Size"],
-									min = 1, max = 50, step = 1
+									name = L["Scale"],
+									min = 0.5, max = 2, step = 0.05,
 								},
 								xOffset = {
 									order = 6,
