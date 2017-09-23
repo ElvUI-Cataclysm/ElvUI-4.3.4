@@ -663,6 +663,18 @@ function AB:FadeParent_OnEvent()
 	end
 end
 
+function AB:IconIntroTracker_Toggle()
+	if self.db.addNewSpells then
+		IconIntroTracker:RegisterEvent("SPELL_PUSHED_TO_ACTIONBAR")
+		IconIntroTracker:Show()
+		IconIntroTracker:SetParent(UIParent)
+	else
+		IconIntroTracker:UnregisterAllEvents()
+		IconIntroTracker:Hide()
+		IconIntroTracker:SetParent(UIHider)
+	end
+end
+
 function AB:DisableBlizzard()
 	local UIHider = CreateFrame("Frame");
 	UIHider:Hide();
@@ -735,9 +747,7 @@ function AB:DisableBlizzard()
 	VehicleMenuBar:Hide();
 	VehicleMenuBar:SetParent(UIHider);
 
-	IconIntroTracker:UnregisterAllEvents()
-	IconIntroTracker:Hide()
-	IconIntroTracker:SetParent(UIHider)
+	self:IconIntroTracker_Toggle()
 
 	InterfaceOptionsCombatPanelActionButtonUseKeyDown:SetScale(0.0001);
 	InterfaceOptionsCombatPanelActionButtonUseKeyDown:SetAlpha(0);

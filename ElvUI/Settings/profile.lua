@@ -2815,6 +2815,7 @@ P["actionbar"] = {
 
 	["globalFadeAlpha"] = 0,
 	["lockActionBars"] = true,
+	["addNewSpells"] = false,
 
 	["bar1"] = {
 		["enabled"] = true,
