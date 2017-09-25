@@ -1643,8 +1643,8 @@ function CH:SaveChatHistory(event, ...)
 			end
 		end
 
-		if(c > CH.db.chatHistoryLines) then
-			ElvCharacterDB.ChatLog[k] = nil;
+		if c > 128 then
+			ElvCharacterDB.ChatLog[k] = nil
 		end
 	end
 end

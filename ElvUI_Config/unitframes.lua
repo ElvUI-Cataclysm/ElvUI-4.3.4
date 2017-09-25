@@ -1871,7 +1871,7 @@ local function CreateCustomTextGroup(unit, objectName)
 				order = 3,
 				type = "range",
 				name = FONT_SIZE,
-				min = 4, max = 212, step = 1
+				min = 4, max = 32, step = 1
 			},
 			fontOutline = {
 				order = 4,
@@ -2417,7 +2417,7 @@ E.Options.args.unitframe = {
 									type = "range",
 									name = FONT_SIZE,
 									desc = L["Set the font size for unitframes."],
-									min = 4, max = 212, step = 1,
+									min = 4, max = 32, step = 1,
 									set = function(info, value) E.db.unitframe[ info[#info] ] = value; UF:Update_FontStrings() end
 								},
 								fontOutline = {
@@ -3454,6 +3454,57 @@ E.Options.args.unitframe.args.target = {
 		aurabar = GetOptionsTable_AuraBars(false, UF.CreateAndUpdateUF, "target"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "target"),
 		GPSArrow = GetOptionsTableForNonGroup_GPS("target"),
+		combobar = {
+			order = 850,
+			type = "group",
+			name = L["Combobar"],
+			get = function(info) return E.db.unitframe.units["target"]["combobar"][ info[#info] ] end,
+			set = function(info, value) E.db.unitframe.units["target"]["combobar"][ info[#info] ] = value UF:CreateAndUpdateUF("target") end,
+			args = {
+				header = {
+					order = 1,
+					type = "header",
+					name = L["Combobar"]
+				},
+				enable = {
+					order = 2,
+					type = "toggle",
+					name = L["Enable"]
+				},
+				height = {
+					order = 3,
+					type = "range",
+					name = L["Height"],
+					min = ((E.db.unitframe.thinBorders or E.PixelMode) and 3 or 7), max = 15, step = 1
+				},
+				fill = {
+					order = 4,
+					type = "select",
+					name = L["Fill"],
+					values = {
+						["fill"] = L["Filled"],
+						["spaced"] = L["Spaced"]
+					}
+				},
+				autoHide = {
+					order = 5,
+					type = "toggle",
+					name = L["Auto-Hide"]
+				},
+				detachFromFrame = {
+					order = 6,
+					type = "toggle",
+					name = L["Detach From Frame"]
+				},
+				detachedWidth = {
+					order = 7,
+					type = "range",
+					name = L["Detached Width"],
+					disabled = function() return not E.db.unitframe.units["target"]["combobar"].detachFromFrame; end,
+					min = 15, max = 450, step = 1
+				}
+			}
+		},
  		pvpIcon = {
  			order = 449,
  			type = "group",

@@ -284,7 +284,6 @@ L["Attempt to lock the left and right chat frame positions. Disabling this optio
 L["Below Chat"] = "채팅창 아래에 배치"
 L["Chat EditBox Position"] = "대화입력창 위치"
 L["Chat History"] = "이전 채팅내역 기억"
-L["Chat History Lines"] = true;
 L["Class Color Mentions"] = true;
 L["Custom Timestamp Color"] = true;
 L["Display LFG Icons in group chat."] = "말한 사람에게 역할 아이콘이 설정되어 있는 경우 이름에 같이 표시할지 여부를 결정합니다."
@@ -310,7 +309,6 @@ L["List of words to color in chat if found in a message. If you wish to add mult
 L["Lock Positions"] = "패널에 채팅창 고정"
 L["Log the main chat frames history. So when you reloadui or log in and out you see the history from your last session."] = "애드온 리로드나 로그아웃 이전의 채팅내역을 보존하여 접속했을 때 보여줍니다."
 L["No Alert In Combat"] = true;
-L["Number of chat messages to be stored in the chat history."] = true;
 L["Number of messages you scroll for each step."] = true;
 L["Number of repeat characters while in combat before the chat editbox is automatically closed."] = true;
 L["Number of time in seconds to scroll down to the bottom of the chat window if you are not scrolled down completely."] = "채팅창의 스크롤이 맨 아래가 아니라면 이 값 만큼 시간이 지났을 때 맨 아래로 자동 스크롤링 됩니다."

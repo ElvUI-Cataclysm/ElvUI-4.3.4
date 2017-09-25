@@ -1,24 +1,24 @@
-﻿local E, L, V, P, G, _ = unpack(select(2, ...));
+﻿local E, L, V, P, G = unpack(select(2, ...))
 
-local print, unpack = print, unpack;
+local print, unpack = print, unpack
 
-local GetSpellInfo = GetSpellInfo;
+local GetSpellInfo = GetSpellInfo
 
 local function SpellName(id)
-	local name, _, _, _, _, _, _, _, _ = GetSpellInfo(id);
-	if(not name) then
-		print("|cff1784d1ElvUI:|r SpellID is not valid: "..id..". Please check for an updated version, if none exists report to ElvUI author.");
-		return "Impale";
+	local name, _, _, _, _, _, _, _, _ = GetSpellInfo(id)
+	if not name then
+		print("|cff1784d1ElvUI:|r SpellID is not valid: "..id..". Please check for an updated version, if none exists report to ElvUI author.")
+		return "Impale"
 	else
-		return name;
+		return name
 	end
 end
 
 local function Defaults(priorityOverride)
-	return {["enable"] = true, ["priority"] = priorityOverride or 0, ["stackThreshold"] = 0};
+	return {["enable"] = true, ["priority"] = priorityOverride or 0, ["stackThreshold"] = 0}
 end
 
-G.unitframe.aurafilters = {};
+G.unitframe.aurafilters = {}
 
 G.unitframe.aurafilters["CCDebuffs"] = {
 	["type"] = "Whitelist",
@@ -82,7 +82,7 @@ G.unitframe.aurafilters["CCDebuffs"] = {
 	-- The Lich King
 		[73787] = Defaults()	-- Necrotic Plague
 	}
-};
+}
 
 G.unitframe.aurafilters["TurtleBuffs"] = {
 	["type"] = "Whitelist",
@@ -125,7 +125,7 @@ G.unitframe.aurafilters["TurtleBuffs"] = {
 		[871] = Defaults(3),	-- Shield Wall
 		[55694] = Defaults()	-- Enraged Regeneration
 	}
-};
+}
 
 G.unitframe.aurafilters["PlayerBuffs"] = {
 	["type"] = "Whitelist",
@@ -194,7 +194,7 @@ G.unitframe.aurafilters["PlayerBuffs"] = {
 		[26297] = Defaults(),	-- Berserk
 		[59545] = Defaults()	-- Gift of the naaru
 	}
-};
+}
 
 G.unitframe.aurafilters["Blacklist"] = {
 	["type"] = "Blacklist",
@@ -231,7 +231,7 @@ G.unitframe.aurafilters["Blacklist"] = {
 	-- Putricide
 		[72511] = Defaults()	-- Mutation
 	}
-};
+}
 
 G.unitframe.aurafilters["Whitelist"] = {
 	["type"] = "Whitelist",
@@ -264,7 +264,7 @@ G.unitframe.aurafilters["Whitelist"] = {
 		[31884] = Defaults(),	-- Avenging Wrath
 		[34471] = Defaults()	-- The Beast Within
 	}
-};
+}
 
 G.unitframe.aurafilters["RaidDebuffs"] = { 
 	["type"] = "Whitelist",
@@ -380,7 +380,7 @@ G.unitframe.aurafilters["RaidDebuffs"] = {
 		[106444] = Defaults(),	-- Impale
 		[106794] = Defaults()	-- Shrapnel (target)
 	}
-};
+}
 
 --Spells that we want to show the duration backwards
 E.ReverseTimer = {
@@ -393,15 +393,16 @@ E.ReverseTimer = {
 --BuffWatch
 --List of personal spells to show on unitframes as icon
 local function ClassBuff(id, point, color, anyUnit, onlyShowMissing, style, displayText, decimalThreshold, textColor, textThreshold, xOffset, yOffset, sizeOverride)
-	local r, g, b = unpack(color);
-	local r2, g2, b2 = 1, 1, 1;
-	if(textColor) then
-		r2, g2, b2 = unpack(textColor);
+	local r, g, b = unpack(color)
+
+	local r2, g2, b2 = 1, 1, 1
+	if textColor then
+		r2, g2, b2 = unpack(textColor)
 	end
 
 	return {["enabled"] = true, ["id"] = id, ["point"] = point, ["color"] = {["r"] = r, ["g"] = g, ["b"] = b},
 	["anyUnit"] = anyUnit, ["onlyShowMissing"] = onlyShowMissing, ["style"] = style or "coloredIcon", ["displayText"] = displayText or false, ["decimalThreshold"] = decimalThreshold or 5,
-	["textColor"] = {["r"] = r2, ["g"] = g2, ["b"] = b2}, ["textThreshold"] = textThreshold or -1, ["xOffset"] = xOffset or 0, ["yOffset"] = yOffset or 0, ["sizeOverride"] = sizeOverride or 0};
+	["textColor"] = {["r"] = r2, ["g"] = g2, ["b"] = b2}, ["textThreshold"] = textThreshold or -1, ["xOffset"] = xOffset or 0, ["yOffset"] = yOffset or 0, ["sizeOverride"] = sizeOverride or 0}
 end
 
 -- Indicator Buffs
@@ -447,88 +448,45 @@ G.unitframe.buffwatch = {
 		[49016] = ClassBuff(49016, "TOPRIGHT", {227/255, 23/255, 13/255})			-- Hysteria
 	},
 	HUNTER = {}
-};
+}
 
 P["unitframe"]["filters"] = {
 	["buffwatch"] = {}
-};
+}
 
 -- Ticks
 G.unitframe.ChannelTicks = {
 	-- Warlock
-	[SpellName(1120)] = 5,		-- "Drain Soul"
-	[SpellName(689)] = 5,		-- "Drain Life"
-	[SpellName(5740)] = 4,		-- "Rain of Fire"
-	[SpellName(755)] = 10,		-- "Health Funnel"
+	[SpellName(1120)] = 5,		-- Drain Soul
+	[SpellName(689)] = 5,		-- Drain Life
+	[SpellName(5740)] = 4,		-- Rain of Fire
+	[SpellName(755)] = 10,		-- Health Funnel
 	-- Druid
-	[SpellName(44203)] = 4,		-- "Tranquility"
-	[SpellName(16914)] = 10,	-- "Hurricane"
+	[SpellName(44203)] = 4,		-- Tranquility
+	[SpellName(16914)] = 10,	-- Hurricane
 	-- Priest
-	[SpellName(15407)] = 3,		-- "Mind Flay"
-	[SpellName(48045)] = 5,		-- "Mind Sear"
-	[SpellName(47540)] = 3,		-- "Penance"
-	[SpellName(64901)] = 4,		-- "Hymn of Hope"
-	[SpellName(64843)] = 4,		-- "Divine Hymn"
+	[SpellName(15407)] = 3,		-- Mind Flay
+	[SpellName(48045)] = 5,		-- Mind Sear
+	[SpellName(47540)] = 3,		-- Penance
+	[SpellName(64901)] = 4,		-- Hymn of Hope
+	[SpellName(64843)] = 4,		-- Divine Hymn
 	-- Mage
-	[SpellName(5143)] = 5,		-- "Arcane Missiles"
-	[SpellName(10)] = 8,		-- "Blizzard"
-	[SpellName(12051)] = 4		-- "Evocation"
-};
+	[SpellName(5143)] = 5,		-- Arcane Missiles
+	[SpellName(10)] = 8,		-- Blizzard
+	[SpellName(12051)] = 4		-- Evocation
+}
 
 G.unitframe.AuraBarColors = {
 	[SpellName(2825)] = {r = 250/255, g = 146/255, b = 27/255},		-- Bloodlust
 	[SpellName(32182)] = {r = 250/255, g = 146/255, b = 27/255},	-- Heroism
 	[SpellName(90355)] = {r = 250/255, g = 146/255, b = 27/255},	-- Ancient Hysteria
 	[SpellName(80353)] = {r = 250/255, g = 146/255, b = 27/255}		-- Time Warp
-};
+}
 
 G.unitframe.InvalidSpells = {
 	
-};
+}
 
 G.unitframe.DebuffHighlightColors = {
-	[SpellName(25771)] = {enable = false, style = "FILL", color = { r = 0.85, g = 0, b = 0, a = 0.85 }}
-};
-
-G.oldBuffWatch = {
-	PRIEST = {
-		ClassBuff(6788, "TOPLEFT", {1, 0, 0}, true),						-- Weakened Soul
-		ClassBuff(10060 , "RIGHT", {227/255, 23/255, 13/255}),				-- Power Infusion
-		ClassBuff(48066, "BOTTOMRIGHT", {0.81, 0.85, 0.1}, true),			-- Power Word: Shield
-		ClassBuff(48068, "BOTTOMLEFT", {0.4, 0.7, 0.2}),					-- Renew
-		ClassBuff(48111, "TOPRIGHT", {0.2, 0.7, 0.2}),						-- Prayer of Mending
-	},
-	DRUID = {
-		ClassBuff(48441, "TOPRIGHT", {0.8, 0.4, 0.8}),						-- Rejuvenation
-		ClassBuff(48443, "BOTTOMLEFT", {0.2, 0.8, 0.2}),					-- Regrowth
-		ClassBuff(48451, "TOPLEFT", {0.4, 0.8, 0.2}),						-- Lifebloom
-		ClassBuff(53251, "BOTTOMRIGHT", {0.8, 0.4, 0}),						-- Wild Growth
-	},
-	PALADIN = {
-		ClassBuff(1038, "BOTTOMRIGHT", {238/255, 201/255, 0}, true),		-- Hand of Salvation
-		ClassBuff(1044, "BOTTOMRIGHT", {221/255, 117/255, 0}, true),		-- Hand of Freedom
-		ClassBuff(6940, "BOTTOMRIGHT", {227/255, 23/255, 13/255}, true),	-- Hand of Sacrafice
-		ClassBuff(10278, "BOTTOMRIGHT", {0.2, 0.2, 1}, true),				-- Hand of Protection
-		ClassBuff(53563, "TOPLEFT", {0.7, 0.3, 0.7}),						-- Beacon of Light
-		ClassBuff(53601, "TOPRIGHT", {0.4, 0.7, 0.2}),						-- Sacred Shield
-	},
-	SHAMAN = {
-		ClassBuff(16237, "BOTTOMLEFT", {0.4, 0.7, 0.2}),					-- Ancestral Fortitude
-		ClassBuff(49284, "TOPRIGHT", {0.2, 0.7, 0.2}),						-- Earth Shield
-		ClassBuff(52000, "BOTTOMRIGHT", {0.7, 0.4, 0}),						-- Earth Life
-		ClassBuff(61301, "TOPLEFT", {0.7, 0.3, 0.7}),						-- Riptide
-	},
-	ROGUE = {
-		ClassBuff(57933, "TOPRIGHT", {227/255, 23/255, 13/255}),			-- Tricks of the Trade
-	},
-	MAGE = {
-		ClassBuff(54646, "TOPRIGHT", {0.2, 0.2, 1}),						-- Focus Magic
-	},
-	WARRIOR = {
-		ClassBuff(3411, "TOPRIGHT", {227/255, 23/255, 13/255}),				-- Intervene
-		ClassBuff(59665, "TOPLEFT", {0.2, 0.2, 1}),							-- Vigilance
-	},
-	DEATHKNIGHT = {
-		ClassBuff(49016, "TOPRIGHT", {227/255, 23/255, 13/255})				-- Hysteria
-	}
-};
+	[25771] = {enable = false, style = "FILL", color = {r = 0.85, g = 0, b = 0, a = 0.85}}, -- Forbearance
+}

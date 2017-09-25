@@ -238,7 +238,6 @@ L["Attempt to lock the left and right chat frame positions. Disabling this optio
 L["Below Chat"] = "En-dessous du Chat"
 L["Chat EditBox Position"] = "Position de la fenêtre de saisie du Chat"
 L["Chat History"] = "historique de la discussion"
-L["Chat History Lines"] = true;
 L["Class Color Mentions"] = true;
 L["Custom Timestamp Color"] = true;
 L["Display LFG Icons in group chat."] = "Afficher l'icône RDG dans la discussion de groupe.";
@@ -265,7 +264,6 @@ L["List of words to color in chat if found in a message. If you wish to add mult
 L["Lock Positions"] = "Verrouiller les positions"
 L["Log the main chat frames history. So when you reloadui or log in and out you see the history from your last session."] = "Active la fenêtre principale de l'historique de discussion. Ainsi quand vous rechargez l'interface ou effectuez une connexion / déconnexion, vous voyez l'historique de la dernière session"
 L["No Alert In Combat"] = "Pas d'alerte en combat";
-L["Number of chat messages to be stored in the chat history."] = true;
 L["Number of messages you scroll for each step."] = true;
 L["Number of repeat characters while in combat before the chat editbox is automatically closed."] = true;
 L["Number of time in seconds to scroll down to the bottom of the chat window if you are not scrolled down completely."] = "Temps en secondes pour faire défiler vers le bas de la fenêtre de discussion si vous ne l'avez pas fait défiler jusqu'en bas."

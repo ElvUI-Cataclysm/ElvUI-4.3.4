@@ -238,7 +238,6 @@ L["Attempt to lock the left and right chat frame positions. Disabling this optio
 L["Below Chat"] = "對話框下方"
 L["Chat EditBox Position"] = "對話輸入框位置"
 L["Chat History"] = "對話記錄"
-L["Chat History Lines"] = true;
 L["Class Color Mentions"] = "使用職業上色"
 L["Custom Timestamp Color"] = "自訂時間戳記顏色"
 L["Display LFG Icons in group chat."] = "在隊伍聊天中顯示預組圖示"
@@ -265,7 +264,6 @@ L["List of words to color in chat if found in a message. If you wish to add mult
 L["Lock Positions"] = "鎖定位置"
 L["Log the main chat frames history. So when you reloadui or log in and out you see the history from your last session."] = "記錄對話歷史,當你重載,登錄和退出時會恢復你最後一次會話"
 L["No Alert In Combat"] = "戰鬥中不警報"
-L["Number of chat messages to be stored in the chat history."] = true;
 L["Number of messages you scroll for each step."] = "每次滾動的聊天資訊數目"
 L["Number of repeat characters while in combat before the chat editbox is automatically closed."] = "當你在戰鬥中按下技能鍵時,有可能你的輸入框還處於打開狀態,這個功能可以在你按下技能鍵並且在輸入框中輸入下列個數字符串卻沒有放出技能時幫你自動關閉輸入框"
 L["Number of time in seconds to scroll down to the bottom of the chat window if you are not scrolled down completely."] = "對話框滾動到底部所需要的滾動時間(秒)."
