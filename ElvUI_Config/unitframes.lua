@@ -1657,8 +1657,13 @@ local function CreateCustomTextGroup(unit, objectName)
 			end
 		end,
 		args = {
-			delete = {
+			header = {
 				order = 1,
+				type = "header",
+				name = objectName,
+			},
+			delete = {
+				order = 2,
 				type = "execute",
 				name = DELETE,
 				func = function()
@@ -1695,19 +1700,19 @@ local function CreateCustomTextGroup(unit, objectName)
 				end
 			},
 			font = {
-				order = 2,
+				order = 3,
 				type = "select", dialogControl = "LSM30_Font",
 				name = L["Font"],
 				values = AceGUIWidgetLSMlists.font
 			},
 			size = {
-				order = 3,
+				order = 4,
 				type = "range",
 				name = FONT_SIZE,
 				min = 4, max = 32, step = 1
 			},
 			fontOutline = {
-				order = 4,
+				order = 5,
 				type = "select",
 				name = L["Font Outline"],
 				desc = L["Set the font outline."],
@@ -1719,7 +1724,7 @@ local function CreateCustomTextGroup(unit, objectName)
 				}
 			},
 			justifyH = {
-				order = 5,
+				order = 6,
 				type = "select",
 				name = L["JustifyH"],
 				desc = L["Sets the font instance's horizontal text alignment style."],
@@ -1730,20 +1735,20 @@ local function CreateCustomTextGroup(unit, objectName)
 				}
 			},
 			xOffset = {
-				order = 6,
+				order = 7,
 				type = "range",
 				name = L["xOffset"],
 				min = -400, max = 400, step = 1
 			},
 			yOffset = {
-				order = 7,
+				order = 8,
 				type = "range",
 				name = L["yOffset"],
 				min = -400, max = 400, step = 1
 			},
 			attachTextTo = {
 				type = "select",
-				order = 8,
+				order = 9,
 				name = L["Attach Text To"],
 				values = {
 					["Health"] = L["Health"],
@@ -3984,7 +3989,7 @@ E.Options.args.unitframe.args.focustarget = {
 				}
 			}
 		},
-		--customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUF, "focustarget"),
+		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUF, "focustarget"),
 		health = GetOptionsTable_Health(false, UF.CreateAndUpdateUF, "focustarget"),
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateUF, "focustarget"),
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateUF, "focustarget"),
