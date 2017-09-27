@@ -11,7 +11,7 @@
 -- @release $Id: AceConfigRegistry-3.0.lua 1105 2013-12-08 22:11:58Z nevcairiel $
 local CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0")
 
-local MAJOR, MINOR = "AceConfigRegistry-3.0-ElvUI", 15
+local MAJOR, MINOR = "AceConfigRegistry-3.0-ElvUI", 2
 local AceConfigRegistry = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not AceConfigRegistry then return end
@@ -57,6 +57,7 @@ local istable={["table"]=true,   _="table"}
 local ismethodtable={["table"]=true,["string"]=true,["function"]=true,   _="methodname, funcref or table"}
 local optstring={["nil"]=true,["string"]=true, _="string"}
 local optstringfunc={["nil"]=true,["string"]=true,["function"]=true, _="string or funcref"}
+local optstringnumberfunc={["nil"]=true,["string"]=true,["number"]=true,["function"]=true, _="string, number or funcref"}
 local optnumber={["nil"]=true,["number"]=true, _="number"}
 local optmethod={["nil"]=true,["string"]=true,["function"]=true, _="methodname or funcref"}
 local optmethodfalse={["nil"]=true,["string"]=true,["function"]=true,["boolean"]={[false]=true},  _="methodname, funcref or false"}
@@ -82,6 +83,7 @@ local basekeys={
 		dialogHidden=optmethodbool,
 		dropdownHidden=optmethodbool,
 	cmdHidden=optmethodbool,
+	icon=optstringnumberfunc,
 	iconCoords=optmethodtable,
 	handler=opttable,
 	get=optmethodfalse,
@@ -90,13 +92,22 @@ local basekeys={
 	arg={["*"]=true},
 	width=optstring,
 	customWidth=optnumber,
+	textWidth=optmethodbool,
 	buttonElvUI=optmethodbool,
+	dragdrop=optmethodbool,
+		dragOnEnter=optmethodfalse,
+		dragOnLeave=optmethodfalse,
+		dragOnClick=optmethodfalse,
+		dragOnMouseUp=optmethodfalse,
+		dragOnMouseDown=optmethodfalse,
+		stateSwitchOnClick=optmethodfalse,
+		stateSwitchGetText=optmethodfalse,
 }
 
 local typedkeys={
 	header={},
 	description={
-		image=optstringfunc,
+		image=optstringnumberfunc,
 		imageCoords=optmethodtable,
 		imageHeight=optnumber,
 		imageWidth=optnumber,
@@ -113,7 +124,7 @@ local typedkeys={
 		childGroups=optstring,
 	},
 	execute={
-		image=optstringfunc,
+		image=optstringnumberfunc,
 		imageCoords=optmethodtable,
 		imageHeight=optnumber,
 		imageWidth=optnumber,
@@ -128,7 +139,7 @@ local typedkeys={
 	},
 	toggle={
 		tristate=optbool,
-		image=optstringfunc,
+		image=optstringnumberfunc,
 		imageCoords=optmethodtable,
 	},
 	tristate={
@@ -145,7 +156,7 @@ local typedkeys={
 	select={
 		values=ismethodtable,
 		style={
-			["nil"]=true,
+			["nil"]=true, 
 			["string"]={dropdown=true,radio=true},
 			_="string: 'dropdown' or 'radio'"
 		},

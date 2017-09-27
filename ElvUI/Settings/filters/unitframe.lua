@@ -405,37 +405,37 @@ local function ClassBuff(id, point, color, anyUnit, onlyShowMissing, style, disp
 	["textColor"] = {["r"] = r2, ["g"] = g2, ["b"] = b2}, ["textThreshold"] = textThreshold or -1, ["xOffset"] = xOffset or 0, ["yOffset"] = yOffset or 0, ["sizeOverride"] = sizeOverride or 0}
 end
 
--- Indicator Buffs
 G.unitframe.buffwatch = {
 	PRIEST = {
 		[6788] = ClassBuff(6788, "TOPLEFT", {1, 0, 0}, true),						-- Weakened Soul
-		[10060] = ClassBuff(10060 , "RIGHT", {227/255, 23/255, 13/255}),			-- Power Infusion
-		[48066] = ClassBuff(48066, "BOTTOMRIGHT", {0.81, 0.85, 0.1}, true),			-- Power Word: Shield
-		[48068] = ClassBuff(48068, "BOTTOMLEFT", {0.4, 0.7, 0.2}),					-- Renew
-		[48111] = ClassBuff(48111, "TOPRIGHT", {0.2, 0.7, 0.2}),					-- Prayer of Mending
+		[41635] = ClassBuff(41635, "TOPRIGHT", {0.2, 0.7, 0.2}),					-- Prayer of Mending
+		[139] = ClassBuff(139, "BOTTOMLEFT", {0.4, 0.7, 0.2}),						-- Renew
+		[17] = ClassBuff(17, "BOTTOMRIGHT", {0.81, 0.85, 0.1}, true),				-- Power Word: Shield
+		[10060] = ClassBuff(10060, "RIGHT", {227/255, 23/255, 13/255}),				-- Power Infusion
+		[33206] = ClassBuff(33206, "LEFT", {227/255, 23/255, 13/255}, true),		-- Pain Suppression
+		[47788] = ClassBuff(47788, "LEFT", {221/255, 117/255, 0}, true),			-- Guardian Spirit
 	},
 	DRUID = {
-		[48441] = ClassBuff(48441, "TOPRIGHT", {0.8, 0.4, 0.8}),					-- Rejuvenation
-		[48443] = ClassBuff(48443, "BOTTOMLEFT", {0.2, 0.8, 0.2}),					-- Regrowth
-		[48451] = ClassBuff(48451, "TOPLEFT", {0.4, 0.8, 0.2}),						-- Lifebloom
-		[53251] = ClassBuff(53251, "BOTTOMRIGHT", {0.8, 0.4, 0}),					-- Wild Growth
+		[774] = ClassBuff(774, "TOPRIGHT", {0.8, 0.4, 0.8}),						-- Rejuvenation
+		[8936] = ClassBuff(8936, "BOTTOMLEFT", {0.2, 0.8, 0.2}),					-- Regrowth
+		[33763] = ClassBuff(33763, "TOPLEFT", {0.4, 0.8, 0.2}),						-- Lifebloom
+		[48438] = ClassBuff(48438, "BOTTOMRIGHT", {0.8, 0.4, 0}),					-- Wild Growth
 	},
 	PALADIN = {
-		[1038] = ClassBuff(1038, "BOTTOMRIGHT", {238/255, 201/255, 0}, true),		-- Hand of Salvation
+		[53563] = ClassBuff(53563, "TOPLEFT", {0.7, 0.3, 0.7}),						-- Beacon of Light
+		[1022] = ClassBuff(1022, "BOTTOMRIGHT", {0.2, 0.2, 1}, true),				-- Hand of Protection
 		[1044] = ClassBuff(1044, "BOTTOMRIGHT", {221/255, 117/255, 0}, true),		-- Hand of Freedom
 		[6940] = ClassBuff(6940, "BOTTOMRIGHT", {227/255, 23/255, 13/255}, true),	-- Hand of Sacrafice
-		[10278] = ClassBuff(10278, "BOTTOMRIGHT", {0.2, 0.2, 1}, true),				-- Hand of Protection
-		[53563] = ClassBuff(53563, "TOPLEFT", {0.7, 0.3, 0.7}),						-- Beacon of Light
-		[53601] = ClassBuff(53601, "TOPRIGHT", {0.4, 0.7, 0.2}),					-- Sacred Shield
+		[1038] = ClassBuff(1038, "BOTTOMRIGHT", {238/255, 201/255, 0}, true),		-- Hand of Salvation
 	},
 	SHAMAN = {
-		[16237] = ClassBuff(16237, "BOTTOMLEFT", {0.4, 0.7, 0.2}),					-- Ancestral Fortitude
-		[49284] = ClassBuff(49284, "TOPRIGHT", {0.2, 0.7, 0.2}),					-- Earth Shield
-		[52000] = ClassBuff(52000, "BOTTOMRIGHT", {0.7, 0.4, 0}),					-- Earth Life
-		[61301] = ClassBuff(61301, "TOPLEFT", {0.7, 0.3, 0.7}),						-- Riptide
+		[16236] = ClassBuff(16236, "BOTTOMLEFT", {0.4, 0.7, 0.2}),					-- Ancestral Fortitude
+		[974] = ClassBuff(974, "TOPRIGHT", {0.2, 0.7, 0.2}),						-- Earth Shield
+		[51945] = ClassBuff(51945, "BOTTOMRIGHT", {0.7, 0.4, 0}),					-- Earthliving
+		[61295] = ClassBuff(61295, "TOPLEFT", {0.7, 0.3, 0.7}),						-- Riptide
 	},
 	ROGUE = {
-		[57933] = ClassBuff(57933, "TOPRIGHT", {227/255, 23/255, 13/255}),			-- Tricks of the Trade
+		[54646] = ClassBuff(54646, "TOPRIGHT", {227/255, 23/255, 13/255}),			-- Tricks of the Trade
 	},
 	MAGE = {
 		[54646] = ClassBuff(54646, "TOPRIGHT", {0.2, 0.2, 1}),						-- Focus Magic
@@ -445,9 +445,13 @@ G.unitframe.buffwatch = {
 		[59665] = ClassBuff(59665, "TOPLEFT", {0.2, 0.2, 1}),						-- Vigilance
 	},
 	DEATHKNIGHT = {
-		[49016] = ClassBuff(49016, "TOPRIGHT", {227/255, 23/255, 13/255})			-- Hysteria
+		[49016] = ClassBuff(49016, "TOPRIGHT", {227/255, 23/255, 13/255})			-- Unholy Frenzy
 	},
-	HUNTER = {}
+	PET = {
+		[136] = ClassBuff(136, "TOPRIGHT", {0.2, 0.8, 0.2}, true)					-- Mend Pet
+	},
+	HUNTER = {},
+	WARLOCK = {},
 }
 
 P["unitframe"]["filters"] = {
@@ -484,9 +488,19 @@ G.unitframe.AuraBarColors = {
 }
 
 G.unitframe.InvalidSpells = {
-	
+
 }
 
 G.unitframe.DebuffHighlightColors = {
 	[25771] = {enable = false, style = "FILL", color = {r = 0.85, g = 0, b = 0, a = 0.85}}, -- Forbearance
 }
+
+G.unitframe.specialFilters = {
+	["Personal"] = true,
+	["nonPersonal"] = true,
+	["blockNonPersonal"] = true,
+	["CastByUnit"] = true,
+	["notCastByUnit"] = true,
+	["blockNoDuration"] = true,
+	["Dispellable"] = true,
+};

@@ -59,15 +59,15 @@ UF["classMaxResourceBar"] = {
 }
 
 UF["mapIDs"] = {
-	[489] = 10, -- Warsong Gulch
-	[726] = 10, -- Twin Peaks
-	[761] = 10, -- The Battle for Gilneas
-	[968] = 10, -- Rated Eye of the Storm
-	[529] = 15, -- Arathi Basin
-	[566] = 15, -- Eye of the Storm
-	[607] = 15, -- Strand of the Ancients
-	[30] = 40, -- Alterac Valley
-	[628] = 40 -- Isle of Conquest
+	[443] = 10, -- Warsong Gulch
+	[626] = 10, -- Twin Peaks
+	[736] = 10, -- The Battle for Gilneas
+	--[968] = 10, -- Rated Eye of the Storm
+	[461] = 15, -- Arathi Basin
+	[482] = 15, -- Eye of the Storm
+	[512] = 15, -- Strand of the Ancients
+	[401] = 40, -- Alterac Valley
+	[540] = 40, -- Isle of Conquest
 }
 
 UF["headerGroupBy"] = {
@@ -666,22 +666,22 @@ function UF.headerPrototype:ClearChildPoints()
 end
 
 function UF.headerPrototype:Update(isForced)
-	local groupName = self.groupName
-	local db = UF.db["units"][groupName]
-	UF["Update_"..E:StringTitle(groupName).."Header"](UF, self, db, isForced)
+	local group = self.groupName
+	local db = UF.db["units"][group]
+	UF["Update_"..E:StringTitle(group).."Header"](UF, self, db, isForced)
 
 	local i = 1
 	local child = self:GetAttribute("child" .. i)
 
-	while(child) do
-		UF["Update_"..E:StringTitle(groupName).."Frames"](UF, child, db)
+	while child do
+		UF["Update_"..E:StringTitle(group).."Frames"](UF, child, db)
 
-		if(_G[child:GetName().."Pet"]) then
-			UF["Update_"..E:StringTitle(groupName).."Frames"](UF, _G[child:GetName().."Pet"], db)
+		if _G[child:GetName().."Pet"] then
+			UF["Update_"..E:StringTitle(group).."Frames"](UF, _G[child:GetName().."Pet"], db)
 		end
 
-		if(_G[child:GetName().."Target"]) then
-			UF["Update_"..E:StringTitle(groupName).."Frames"](UF, _G[child:GetName().."Target"], db)
+		if _G[child:GetName().."Target"] then
+			UF["Update_"..E:StringTitle(group).."Frames"](UF, _G[child:GetName().."Target"], db)
 		end
 
 		i = i + 1
@@ -715,8 +715,10 @@ end
 
 function UF:CreateHeader(parent, groupFilter, overrideName, template, groupName, headerTemplate)
 	local group = parent.groupName or groupName
+	local db = UF.db["units"][group]
 	ElvUF:SetActiveStyle("ElvUF_"..E:StringTitle(group))
 	local header = ElvUF:SpawnHeader(overrideName, headerTemplate, nil,
+			"oUF-initialConfigFunction", ("self:SetWidth(%d); self:SetHeight(%d);"):format(db.width, db.height),
 			"groupFilter", groupFilter,
 			"showParty", true,
 			"showRaid", true,
@@ -913,31 +915,38 @@ function UF:LoadUnits()
 	self["headerstoload"] = nil
 end
 
+function UF:RegisterRaidDebuffIndicator()
+	local _, instanceType = IsInInstance()
+	local ORD = ns.oUF_RaidDebuffs or oUF_RaidDebuffs
+	if ORD then
+		ORD:ResetDebuffData()
+
+		local instance = E.global.unitframe.raidDebuffIndicator.instanceFilter
+		local other = E.global.unitframe.raidDebuffIndicator.otherFilter
+
+		if instanceType == "party" or instanceType == "raid" then
+			ORD:RegisterDebuffs(E.global.unitframe.aurafilters[instance].spells)
+		else
+			ORD:RegisterDebuffs(E.global.unitframe.aurafilters[other].spells)
+		end
+	end
+end
+
 function UF:UpdateAllHeaders(event)
-	if(InCombatLockdown()) then
+	if InCombatLockdown() then
 		self:RegisterEvent("PLAYER_REGEN_ENABLED", "UpdateAllHeaders")
 		return
 	end
 
-	if(event == "PLAYER_REGEN_ENABLED") then
+	if event == "PLAYER_REGEN_ENABLED" then
 		self:UnregisterEvent("PLAYER_REGEN_ENABLED")
-	end
-
-	local _, instanceType = IsInInstance()
-	local ORD = ns.oUF_RaidDebuffs or oUF_RaidDebuffs
-	if(ORD) then
-		ORD:ResetDebuffData()
-
-		if(instanceType == "party" or instanceType == "raid") then
-			ORD:RegisterDebuffs(E.global.unitframe.aurafilters.RaidDebuffs.spells)
-		else
-			ORD:RegisterDebuffs(E.global.unitframe.aurafilters.CCDebuffs.spells)
-		end
 	end
 
 	if(E.private["unitframe"]["disabledBlizzardFrames"].party) then
 		ElvUF:DisableBlizzard("party")
 	end
+
+	self:RegisterRaidDebuffIndicator()
 
 	local smartRaidFilterEnabled = self.db.smartRaidFilter
 	for group, header in pairs(self["headers"]) do
@@ -1130,13 +1139,7 @@ end
 
 local ignoreSettings = {
 	["position"] = true,
-	["playerOnly"] = true,
-	["noConsolidated"] = true,
-	["useBlacklist"] = true,
-	["useWhitelist"] = true,
-	["noDuration"] = true,
-	["onlyDispellable"] = true,
-	["useFilter"] = true
+	["priority"] = true
 }
 
 local ignoreSettingsGroup = {
@@ -1225,13 +1228,13 @@ function UF:ToggleTransparentStatusBar(isTransparent, statusBar, backdropTex, ad
 
 		backdropTex:ClearAllPoints()
 		if(statusBarOrientation == "VERTICAL") then
-			backdropTex:SetPoint("TOPLEFT", statusBar, "TOPLEFT")
-			backdropTex:SetPoint("BOTTOMLEFT", statusBarTex, "TOPLEFT")
-			backdropTex:SetPoint("BOTTOMRIGHT", statusBarTex, "TOPRIGHT")
+			backdropTex:Point("TOPLEFT", statusBar, "TOPLEFT")
+			backdropTex:Point("BOTTOMLEFT", statusBarTex, "TOPLEFT")
+			backdropTex:Point("BOTTOMRIGHT", statusBarTex, "TOPRIGHT")
 		else
-			backdropTex:SetPoint("TOPLEFT", statusBarTex, "TOPRIGHT")
-			backdropTex:SetPoint("BOTTOMLEFT", statusBarTex, "BOTTOMRIGHT")
-			backdropTex:SetPoint("BOTTOMRIGHT", statusBar, "BOTTOMRIGHT")
+			backdropTex:Point("TOPLEFT", statusBarTex, "TOPRIGHT")
+			backdropTex:Point("BOTTOMLEFT", statusBarTex, "BOTTOMRIGHT")
+			backdropTex:Point("BOTTOMRIGHT", statusBar, "BOTTOMRIGHT")
 		end
 
 		if(invertBackdropTex) then
