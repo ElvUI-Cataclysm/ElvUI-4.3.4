@@ -431,7 +431,7 @@ local function LoadSkin()
 	TokenFramePopupCloseButton:Point("TOPRIGHT", 3, 4)
 
 	--Pet
-	PetModelFrame:CreateBackdrop("Default")
+	PetModelFrame:CreateBackdrop("Transparent")
 
 	PetPaperDollFrameExpBar:StripTextures()
 	PetPaperDollFrameExpBar:CreateBackdrop("Default")

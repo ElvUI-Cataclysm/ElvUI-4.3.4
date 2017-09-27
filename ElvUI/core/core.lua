@@ -758,8 +758,8 @@ function E:SendMessage()
 	end
 end
 
-local myName = E.myname.."-"..E.myrealm;
-myName = myName:gsub("%s+", "");
+local myRealm = gsub(E.myrealm,"[%s%-]","")
+local myName = E.myname.."-"..myRealm
 
 local function SendRecieve(_, event, prefix, message, _, sender)
 	if(not E.global.general.versionCheck) then return end
@@ -768,7 +768,7 @@ local function SendRecieve(_, event, prefix, message, _, sender)
 		if(sender == myName) then return; end
 		if(prefix == "ELVUI_VERSIONCHK" and not E.recievedOutOfDateMessage) then
 			if(tonumber(message) ~= nil and tonumber(message) > tonumber(E.version)) then
-				E:Print(L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm."]:gsub("ElvUI", E.UIName));
+				E:Print(L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm."])
 
 				if((tonumber(message) - tonumber(E.version)) >= 0.05) then
 					E:StaticPopup_Show("ELVUI_UPDATE_AVAILABLE");
