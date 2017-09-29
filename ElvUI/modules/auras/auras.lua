@@ -1,17 +1,20 @@
-local E, L, V, P, G = unpack(select(2, ...));
-local A = E:NewModule("Auras", "AceEvent-3.0");
-local LSM = LibStub("LibSharedMedia-3.0");
+local E, L, V, P, G = unpack(select(2, ...))
+local A = E:NewModule("Auras", "AceHook-3.0", "AceEvent-3.0")
+local LSM = LibStub("LibSharedMedia-3.0")
 
-local GetTime = GetTime;
-local _G = _G;
-local select, unpack, pairs, ipairs = select, unpack, pairs, ipairs;
-local floor, min, max, huge = math.floor, math.min, math.max, math.huge;
-local format = string.format;
-local wipe, tinsert, tremove, tsort = table.wipe, table.insert, table.remove, table.sort;
+local _G = _G
+local select, unpack = select, unpack
+local floor = math.floor
+local format, find = string.format, string.find
 
-local CreateFrame = CreateFrame;
-local UnitAura = UnitAura;
-local CancelUnitBuff = CancelUnitBuff;
+local GetTime = GetTime
+local CreateFrame = CreateFrame
+local RegisterStateDriver = RegisterStateDriver
+local RegisterAttributeDriver = RegisterAttributeDriver
+local GetWeaponEnchantInfo = GetWeaponEnchantInfo
+local UnitAura = UnitAura
+local GetItemQualityColor = GetItemQualityColor
+local GetInventoryItemQuality = GetInventoryItemQuality
 
 local Masque = LibStub("Masque", true)
 local MasqueGroupBuffs = Masque and Masque:Group("ElvUI", "Buffs")
@@ -26,7 +29,7 @@ local DIRECTION_TO_POINT = {
 	RIGHT_UP = "BOTTOMLEFT",
 	LEFT_DOWN = "TOPRIGHT",
 	LEFT_UP = "BOTTOMRIGHT"
-};
+}
 
 local DIRECTION_TO_HORIZONTAL_SPACING_MULTIPLIER = {
 	DOWN_RIGHT = 1,
@@ -37,7 +40,7 @@ local DIRECTION_TO_HORIZONTAL_SPACING_MULTIPLIER = {
 	RIGHT_UP = 1,
 	LEFT_DOWN = -1,
 	LEFT_UP = -1
-};
+}
 
 local DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER = {
 	DOWN_RIGHT = -1,
@@ -48,80 +51,57 @@ local DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER = {
 	RIGHT_UP = 1,
 	LEFT_DOWN = -1,
 	LEFT_UP = 1
-};
+}
 
 local IS_HORIZONTAL_GROWTH = {
 	RIGHT_DOWN = true,
 	RIGHT_UP = true,
 	LEFT_DOWN = true,
 	LEFT_UP = true
-};
+}
 
 function A:UpdateTime(elapsed)
-	self.timeLeft = self.timeLeft - elapsed;
+	self.timeLeft = self.timeLeft - elapsed
 
-	if(self.nextUpdate > 0) then
-		self.nextUpdate = self.nextUpdate - elapsed;
-		return;
+	if self.nextUpdate > 0 then
+		self.nextUpdate = self.nextUpdate - elapsed
+		return
 	end
 
-	local timerValue, formatID;
-	timerValue, formatID, self.nextUpdate = E:GetTimeInfo(self.timeLeft, A.db.fadeThreshold);
-	self.time:SetFormattedText(("%s%s|r"):format(E.TimeColors[formatID], E.TimeFormats[formatID][1]), timerValue);
+	local timerValue, formatID
+	timerValue, formatID, self.nextUpdate = E:GetTimeInfo(self.timeLeft, A.db.fadeThreshold)
+	self.time:SetFormattedText(("%s%s|r"):format(E.TimeColors[formatID], E.TimeFormats[formatID][1]), timerValue)
 
-	if(self.timeLeft > E.db.auras.fadeThreshold) then
-		E:StopFlash(self);
+	if self.timeLeft > E.db.auras.fadeThreshold then
+		E:StopFlash(self)
 	else
-		E:Flash(self, 1);
+		E:Flash(self, 1)
 	end
-end
-
-local UpdateTooltip = function(self)
-	GameTooltip:SetUnitAura("player", self:GetID(), self:GetParent().filter);
-end
-
-local OnEnter = function(self)
-	if(not self:IsVisible()) then return end
-
-	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT", -5, -5);
-	self:UpdateTooltip();
-end
-
-local OnLeave = function()
-	GameTooltip:Hide();
-end
-
-local OnClick = function(self)
-	CancelUnitBuff("player", self:GetID(), self:GetParent().filter);
 end
 
 function A:CreateIcon(button)
-	local font = LSM:Fetch("font", self.db.font);
-	button:RegisterForClicks("RightButtonUp");
+	local font = LSM:Fetch("font", self.db.font)
 
 	-- button:SetFrameLevel(4)
-	button.texture = button:CreateTexture(nil, "BORDER");
-	button.texture:SetInside();
-	button.texture:SetTexCoord(unpack(E.TexCoords));
+	button.texture = button:CreateTexture(nil, "BORDER")
+	button.texture:SetInside()
+	button.texture:SetTexCoord(unpack(E.TexCoords))
 
-	button.count = button:CreateFontString(nil, "ARTWORK");
-	button.count:SetPoint("BOTTOMRIGHT", -1 + self.db.countXOffset, 1 + self.db.countYOffset);
-	button.count:FontTemplate(font, self.db.fontSize, self.db.fontOutline);
+	button.count = button:CreateFontString(nil, "ARTWORK")
+	button.count:Point("BOTTOMRIGHT", -1 + self.db.countXOffset, 1 + self.db.countYOffset)
+	button.count:FontTemplate(font, self.db.fontSize, self.db.fontOutline)
 
-	button.time = button:CreateFontString(nil, "ARTWORK");
-	button.time:SetPoint("TOP", button, "BOTTOM", 1 + self.db.timeXOffset, 0 + self.db.timeYOffset);
-	button.time:FontTemplate(font, self.db.fontSize, self.db.fontOutline);
+	button.time = button:CreateFontString(nil, "ARTWORK")
+	button.time:Point("TOP", button, "BOTTOM", 1 + self.db.timeXOffset, 0 + self.db.timeYOffset)
+	button.time:FontTemplate(font, self.db.fontSize, self.db.fontOutline)
 
-	button.highlight = button:CreateTexture(nil, "HIGHLIGHT");
-	button.highlight:SetTexture(1, 1, 1, 0.45);
-	button.highlight:SetInside();
+	button.highlight = button:CreateTexture(nil, "HIGHLIGHT")
+	button.highlight:SetTexture(1, 1, 1, 0.45)
+	button.highlight:SetInside()
 
-	E:SetUpAnimGroup(button);
+	E:SetUpAnimGroup(button)
 
-	button.UpdateTooltip = UpdateTooltip;
-	button:SetScript("OnEnter", OnEnter);
-	button:SetScript("OnLeave", OnLeave);
-	button:SetScript("OnClick", OnClick);
+	button:SetScript("OnAttributeChanged", A.OnAttributeChanged)
 
 	local ButtonData = {
 		FloatingBG = nil,
@@ -143,7 +123,7 @@ function A:CreateIcon(button)
 	}
 
 	local header = button:GetParent()
-	local auraType = header.filter
+	local auraType = header:GetAttribute("filter")
 
 	if auraType == "HELPFUL" then
 		if MasqueGroupBuffs and E.private.auras.masque.buffs then
@@ -168,246 +148,115 @@ function A:CreateIcon(button)
 	end
 end
 
-local buttons = {};
-function A:ConfigureAuras(header, auraTable)
-	local headerName = header:GetName()
+function A:UpdateAura(button, index)
+	local filter = button:GetParent():GetAttribute("filter")
+	local unit = button:GetParent():GetAttribute("unit")
+	local name, _, texture, count, dtype, duration, expirationTime = UnitAura(unit, index, filter)
 
-	local db = self.db.debuffs;
-	if(header.filter == "HELPFUL") then
-		db = self.db.buffs;
-	end
-
-	local size = db.size;
-	local point = DIRECTION_TO_POINT[db.growthDirection];
-	local xOffset = 0;
-	local yOffset = 0;
-	local wrapXOffset = 0;
-	local wrapYOffset = 0;
-	local wrapAfter = db.wrapAfter;
-	local maxWraps = db.maxWraps;
-	local minWidth = 0;
-	local minHeight = 0;
-
-	if(IS_HORIZONTAL_GROWTH[db.growthDirection]) then
-		minWidth = ((wrapAfter == 1 and 0 or db.horizontalSpacing) + size) * wrapAfter;
-		minHeight = (db.verticalSpacing + size) * maxWraps;
-		xOffset = DIRECTION_TO_HORIZONTAL_SPACING_MULTIPLIER[db.growthDirection] * (db.horizontalSpacing + size);
-		yOffset = 0;
-		wrapXOffset = 0;
-		wrapYOffset = DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER[db.growthDirection] * (db.verticalSpacing + size);
-	else
-		minWidth = (db.horizontalSpacing + size) * maxWraps;
-		minHeight = ((wrapAfter == 1 and 0 or db.verticalSpacing) + size) * wrapAfter;
-		xOffset = 0;
-		yOffset = DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER[db.growthDirection] * (db.verticalSpacing + size);
-		wrapXOffset = DIRECTION_TO_HORIZONTAL_SPACING_MULTIPLIER[db.growthDirection] * (db.horizontalSpacing + size);
-		wrapYOffset = 0;
-	end
-
-	wipe(buttons);
-	for i = 1, #auraTable do
-		local button = _G[headerName.."AuraButton"..i]
-		if(button) then
-			if(button:IsShown()) then button:Hide(); end
-		else
-			button = CreateFrame("Button", "$parentAuraButton" .. i, header);
-			self:CreateIcon(button);
-		end
-		local buffInfo = auraTable[i];
-		button:SetID(buffInfo.index);
-
-		if(buffInfo.duration > 0 and buffInfo.expires) then
-			local timeLeft = buffInfo.expires - GetTime();
-			if(not button.timeLeft) then
-				button.timeLeft = timeLeft;
-				button:SetScript("OnUpdate", self.UpdateTime);
+	if name then
+		if duration > 0 and expirationTime then
+			local timeLeft = expirationTime - GetTime()
+			if not button.timeLeft then
+				button.timeLeft = timeLeft
+				button:SetScript("OnUpdate", A.UpdateTime)
 			else
-				button.timeLeft = timeLeft;
+				button.timeLeft = timeLeft
 			end
 
-			button.nextUpdate = -1;
-			self.UpdateTime(button, 0);
+			button.nextUpdate = -1
+			A.UpdateTime(button, 0)
 		else
-			button.timeLeft = nil;
-			button.time:SetText("");
-			button:SetScript("OnUpdate", nil);
+			button.timeLeft = nil
+			button.time:SetText("")
+			button:SetScript("OnUpdate", nil)
 		end
 
-		if(buffInfo.count > 1) then
-			button.count:SetText(buffInfo.count);
+		if count > 1 then
+			button.count:SetText(count)
 		else
-			button.count:SetText("");
+			button.count:SetText("")
 		end
 
-		if(buffInfo.filter == "HARMFUL") then
-			local color = DebuffTypeColor[buffInfo.dispelType or ""];
-			button:SetBackdropBorderColor(color.r, color.g, color.b);
+		if filter == "HARMFUL" then
+			local color = DebuffTypeColor[dtype or ""]
+			button:SetBackdropBorderColor(color.r, color.g, color.b)
 		else
-			button:SetBackdropBorderColor(unpack(E.media.bordercolor));
+			button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
 
-		button.texture:SetTexture(buffInfo.icon);
-
-		buttons[i] = button;
-	end
-
-	local display = #buttons;
-	if(wrapAfter and maxWraps) then
-		display = min(display, wrapAfter * maxWraps);
-	end
-
-	local left, right, top, bottom = huge, -huge, -huge, huge;
-	for index = 1, display do
-		local button = buttons[index];
-		local wrapAfter = wrapAfter or index;
-		local tick, cycle = floor((index - 1) % wrapAfter), floor((index - 1) / wrapAfter);
-		button:ClearAllPoints();
-		button:SetPoint(point, header, cycle * wrapXOffset + tick * xOffset, cycle * wrapYOffset + tick * yOffset);
-
-		button:SetSize(size, size);
-
-		if(button.time) then
-			local font = LSM:Fetch("font", self.db.font);
-			button.time:ClearAllPoints();
-			button.time:SetPoint("TOP", button, "BOTTOM", 1 + self.db.timeXOffset, 0 + self.db.timeYOffset);
-			button.time:FontTemplate(font, self.db.fontSize, self.db.fontOutline);
-
-			button.count:ClearAllPoints();
-			button.count:SetPoint("BOTTOMRIGHT", -1 + self.db.countXOffset, 0 + self.db.countYOffset);
-			button.count:FontTemplate(font, self.db.fontSize, self.db.fontOutline);
-		end
-
-		button:Show();
-		left = min(left, button:GetLeft() or huge);
-		right = max(right, button:GetRight() or -huge);
-		top = max(top, button:GetTop() or -huge);
-		bottom = min(bottom, button:GetBottom() or huge);
-	end
-	local deadIndex = #(auraTable) + 1;
-	local button = _G[headerName.."AuraButton"..deadIndex]
-	while(button) do
-		if(button:IsShown()) then button:Hide(); end
-		deadIndex = deadIndex + 1;
-		button = _G[headerName.."AuraButton"..deadIndex]
-	end
-
-	if(display >= 1) then
-		header:SetWidth(max(right - left, minWidth));
-		header:SetHeight(max(top - bottom, minHeight));
-	else
-		header:SetWidth(minWidth);
-		header:SetHeight(minHeight);
+		button.texture:SetTexture(texture)
 	end
 end
 
-local freshTable;
-local releaseTable;
-do
-	local tableReserve = {};
-	freshTable = function ()
-		local t = next(tableReserve) or {};
-		tableReserve[t] = nil;
-		return t;
-	end
-	releaseTable = function (t)
-		tableReserve[t] = wipe(t);
+function A:OnAttributeChanged(attribute, value)
+	if attribute == "index" then
+		A:UpdateAura(self, value)
 	end
 end
 
-local function sortFactory(key, separateOwn, reverse)
-	if(separateOwn ~= 0) then
-		if(reverse) then
-			return function(a, b)
-				if(a.filter == b.filter) then
-					local ownA, ownB = a.caster == "player", b.caster == "player";
-					if(ownA ~= ownB) then
-						return ownA == (separateOwn > 0)
-					end
-					return a[key] > b[key];
-				else
-					return a.filter < b.filter;
-				end
-			end;
-		else
-			return function(a, b)
-				if(a.filter == b.filter) then
-					local ownA, ownB = a.caster == "player", b.caster == "player";
-					if(ownA ~= ownB) then
-						return ownA == (separateOwn > 0);
-					end
-					return a[key] < b[key];
-				else
-					return a.filter < b.filter;
-				end
-			end;
-		end
-	else
-		if(reverse) then
-			return function(a, b)
-				if(a.filter == b.filter) then
-					return a[key] > b[key];
-				else
-					return a.filter < b.filter;
-				end
-			end;
-		else
-			return function(a, b)
-				if(a.filter == b.filter) then
-					return a[key] < b[key];
-				else
-					return a.filter < b.filter;
-				end
-			end;
-		end
-	end
-end
-
-local sorters = {};
-for i, key in ipairs{"index", "name", "expires"} do
-	local label = key:upper();
-	sorters[label] = {};
-	for bool in pairs{[true] = true, [false] = false} do
-		sorters[label][bool] = {}
-		for sep = -1, 1 do
-			sorters[label][bool][sep] = sortFactory(key, sep, bool);
-		end
-	end
-end
-sorters.TIME = sorters.EXPIRES;
-
-local sortingTable = {};
 function A:UpdateHeader(header)
-	if(not E.private.auras.enable) then return end
+	if not E.private.auras.enable then return end
 
-	local filter = header.filter;
-	local db = self.db.debuffs;
-	if(filter == "HELPFUL") then
-		db = self.db.buffs;
+	local db = self.db.debuffs
+	if header:GetAttribute("filter") == "HELPFUL" then
+		db = self.db.buffs
 	end
 
-	wipe(sortingTable);
+	header:SetAttribute("separateOwn", db.seperateOwn)
+	header:SetAttribute("sortMethod", db.sortMethod)
+	header:SetAttribute("sortDirection", db.sortDir)
+	header:SetAttribute("maxWraps", db.maxWraps)
+	header:SetAttribute("wrapAfter", db.wrapAfter)
 
-	local i = 1;
-	repeat
-		local aura, _ = freshTable();
-		aura.name, _, aura.icon, aura.count, aura.dispelType, aura.duration, aura.expires, aura.caster = UnitAura("player", i, filter);
-		if(aura.name) then
-			aura.filter = filter;
-			aura.index = i;
+	header:SetAttribute("point", DIRECTION_TO_POINT[db.growthDirection])
 
-			tinsert(sortingTable, aura);
-		else
-			releaseTable(aura);
+	if IS_HORIZONTAL_GROWTH[db.growthDirection] then
+		header:SetAttribute("minWidth", ((db.wrapAfter == 1 and 0 or db.horizontalSpacing) + db.size) * db.wrapAfter)
+		header:SetAttribute("minHeight", (db.verticalSpacing + db.size) * db.maxWraps)
+		header:SetAttribute("xOffset", DIRECTION_TO_HORIZONTAL_SPACING_MULTIPLIER[db.growthDirection] * (db.horizontalSpacing + db.size))
+		header:SetAttribute("yOffset", 0)
+		header:SetAttribute("wrapXOffset", 0)
+		header:SetAttribute("wrapYOffset", DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER[db.growthDirection] * (db.verticalSpacing + db.size))
+	else
+		header:SetAttribute("minWidth", (db.horizontalSpacing + db.size) * db.maxWraps)
+		header:SetAttribute("minHeight", ((db.wrapAfter == 1 and 0 or db.verticalSpacing) + db.size) * db.wrapAfter)
+		header:SetAttribute("xOffset", 0)
+		header:SetAttribute("yOffset", DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER[db.growthDirection] * (db.verticalSpacing + db.size))
+		header:SetAttribute("wrapXOffset", DIRECTION_TO_HORIZONTAL_SPACING_MULTIPLIER[db.growthDirection] * (db.horizontalSpacing + db.size))
+		header:SetAttribute("wrapYOffset", 0)
+	end
+
+	header:SetAttribute("template", ("ElvUIAuraTemplate%d"):format(db.size))
+
+	local index = 1
+	local child = select(index, header:GetChildren())
+
+	while child do
+		if (floor(child:GetWidth() * 100 + 0.5) / 100) ~= db.size then
+			child:SetSize(db.size, db.size)
 		end
-		i = i + 1;
-	until(not aura.name);
 
-	local sortMethod = (sorters[db.sortMethod] or sorters["INDEX"])[db.sortDir == "-"][db.seperateOwn];
-	tsort(sortingTable, sortMethod);
+		if child.time then
+			local font = LSM:Fetch("font", self.db.font)
+			child.time:ClearAllPoints()
+			child.time:Point("TOP", child, "BOTTOM", 1 + self.db.timeXOffset, 0 + self.db.timeYOffset)
+			child.time:FontTemplate(font, self.db.fontSize, self.db.fontOutline)
 
-	self:ConfigureAuras(header, sortingTable);
-	while(sortingTable[1]) do
-		releaseTable(tremove(sortingTable));
+			child.count:ClearAllPoints()
+			child.count:Point("BOTTOMRIGHT", -1 + self.db.countXOffset, 0 + self.db.countYOffset)
+			child.count:FontTemplate(font, self.db.fontSize, self.db.fontOutline)
+		end
+
+		if index > (db.maxWraps * db.wrapAfter) and child:IsShown() then
+			child:Hide()
+		end
+
+		index = index + 1
+		child = select(index, header:GetChildren())
+	end
+
+	for i = 1, 3 do
+		A:UpdateWeapon(_G["TempEnchant"..i])
 	end
 
 	if MasqueGroupBuffs and E.private.auras.masque.buffs then MasqueGroupBuffs:ReSkin() end
@@ -415,109 +264,153 @@ function A:UpdateHeader(header)
 end
 
 function A:CreateAuraHeader(filter)
-	local name = "ElvUIPlayerDebuffs";
-	if(filter == "HELPFUL") then
-		name = "ElvUIPlayerBuffs";
+	local name = "ElvUIPlayerDebuffs"
+	if filter == "HELPFUL" then
+		name = "ElvUIPlayerBuffs"
 	end
 
-	local header = CreateFrame("Frame", name, UIParent);
-	header:SetClampedToScreen(true);
-	header.filter = filter;
+	local header = CreateFrame("Frame", name, E.UIParent, "SecureAuraHeaderTemplate")
+	header:SetClampedToScreen(true)
+	header:SetAttribute("unit", "player")
+	header:SetAttribute("filter", filter)
+	RegisterAttributeDriver(header, "unit", "[vehicleui] vehicle; player")
 
-	header:RegisterEvent("UNIT_AURA");
-	header:SetScript("OnEvent", function(self, event, unit)
-		if(event == "UNIT_AURA" and unit == "player") then
-			A:UpdateHeader(self);
-		end
-	end);
+	A:UpdateHeader(header)
+	header:Show()
 
-	self:UpdateHeader(header);
-
-	return header;
+	return header
 end
 
---Blizzard Temp Enchant
-local function updateTime(button, timeLeft)
-	if(not E.private.auras.enable) then return; end
+function A:UpdateWeapon(button)
+	local font = LSM:Fetch("font", self.db.font)
 
-	local temp = _G[button:GetName()];
-	local duration = _G[button:GetName().."Duration"];
-	local font = LSM:Fetch("font", A.db.font);
+	button:SetTemplate("Default", nil, true)
+	button:SetBackdropColor(0, 0, 0, 0)
+	button.backdropTexture:SetAlpha(0)
 
-	if(SHOW_BUFF_DURATIONS == "1" and timeLeft) then
-		duration:SetTextColor(1, 1, 1);
-		duration:FontTemplate(font, A.db.fontSize, A.db.fontOutline);
+	button:Size(A.db.buffs.size)
+	button:StyleButton(nil, true)
 
-		duration:ClearAllPoints();
-		duration:SetPoint("TOP", button, "BOTTOM", 1 + A.db.timeXOffset, 0 + A.db.timeYOffset);
+	_G[button:GetName().."Border"]:Hide()
 
-		local d, h, m, s = ChatFrame_TimeBreakDown(timeLeft);
-		if(d > 0) then
-			duration:SetFormattedText("%1dd", d);
-		elseif(h > 0) then
-			duration:SetFormattedText("%1dh", h);
-		elseif(m > 0) then
-			duration:SetFormattedText("%1dm", m);
-		else
-			duration:SetTextColor(1, 0, 0);
-			duration:SetFormattedText("%1d", s);
+	button.icon = _G[button:GetName().."Icon"]
+	button.icon:SetTexCoord(unpack(E.TexCoords))
+	button.icon:SetInside()
+
+	button.time = _G[button:GetName().."Duration"]
+	button.time:ClearAllPoints()
+	button.time:Point("TOP", button, "BOTTOM", 1 + self.db.timeXOffset, 0 + self.db.timeYOffset)
+	button.time:FontTemplate(font, self.db.fontSize, self.db.fontOutline)
+end
+
+function A:UpdateWeaponText(button, timeLeft)
+	local duration = _G[button:GetName().."Duration"]
+
+	if timeLeft then
+		duration:SetTextColor(1, 1, 1)
+		local d, h, m, s = ChatFrame_TimeBreakDown(timeLeft)
+
+		if timeLeft <= 86400.5 and timeLeft > 3600.5 then
+			duration:SetFormattedText("%1dh", h)
+			E:StopFlash(button)
+		elseif timeLeft <= 3600.5 and timeLeft > 60.5 then
+			duration:SetFormattedText("%1dm", m)
+			E:StopFlash(button)
+		elseif timeLeft <= 60.5 and timeLeft > E.db.auras.fadeThreshold then
+			duration:SetFormattedText("%1ds", s)
+			E:StopFlash(button)
+		elseif timeLeft <= E.db.auras.fadeThreshold then
+			duration:SetTextColor(1, 0, 0)
+			duration:SetFormattedText("%1ds", s)
+			E:Flash(button, 1)
 		end
 	end
-
-	temp:Size(A.db.buffs.size);
 end
-hooksecurefunc("AuraButton_UpdateDuration", updateTime)
 
-function A:Initialize()
-	if(self.db) then return; end
-
-	if(E.private.auras.disableBlizzard) then
-		BuffFrame:Kill();
-		ConsolidatedBuffs:Kill();
-	end
-
-	if(not E.private.auras.enable) then return; end
-
-	self.db = E.db.auras;
-
-	self.BuffFrame = self:CreateAuraHeader("HELPFUL");
-	self.BuffFrame:Point("TOPRIGHT", MMHolder, "TOPLEFT", -(6 + E.Border), -E.Border - E.Spacing);
-	E:CreateMover(self.BuffFrame, "BuffsMover", L["Player Buffs"]);
-
-	self.DebuffFrame = self:CreateAuraHeader("HARMFUL");
-	self.DebuffFrame:Point("BOTTOMRIGHT", MMHolder, "BOTTOMLEFT", -(6 + E.Border), E.Border + E.Spacing);
-	E:CreateMover(self.DebuffFrame, "DebuffsMover", L["Player Debuffs"]);
-
-	--Temp Enchant
-	self.WeaponFrame = CreateFrame("Frame", "ElvUIPlayerWeapons", UIParent);
-	self.WeaponFrame:Point("TOPRIGHT", MMHolder, "BOTTOMRIGHT", 0, -E.Border - E.Spacing);
-
-	if(E.myclass == "ROGUE") then
-		self.WeaponFrame:Size(110, 32);
-	else
-		self.WeaponFrame:Size(71, 32);
-	end
-
-	TemporaryEnchantFrame:ClearAllPoints();
-	TemporaryEnchantFrame:Point("TOPRIGHT", ElvUIPlayerWeapons, "TOPRIGHT", 0, 0);
-	E:CreateMover(self.WeaponFrame, "WeaponsMover", L["Weapons"]);
+function A:WeaponPostDrag(point)
+	if not point then point = E:GetScreenQuadrant(self) end
 
 	for i = 1, 3 do
-		_G["TempEnchant"..i]:ClearAllPoints();
-		_G["TempEnchant"..i]:SetTemplate();
-		_G["TempEnchant"..i]:SetBackdropColor(0, 0, 0, 0)
-		_G["TempEnchant"..i]:SetBackdropBorderColor(0.5, 0, 0.8);
-		_G["TempEnchant"..i].backdropTexture:SetAlpha(0)
-		_G["TempEnchant"..i]:StyleButton(nil, true);
-
-		_G["TempEnchant"..i.."Icon"]:SetTexCoord(unpack(E.TexCoords));
-
-		_G["TempEnchant"..i.."Border"]:Hide();
+		_G["TempEnchant"..i]:ClearAllPoints()
 	end
 
-	TempEnchant1:Point("TOPRIGHT", ElvUIPlayerWeapons, "TOPRIGHT");
-	TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -A.db.buffs.horizontalSpacing, 0)
-	TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -A.db.buffs.horizontalSpacing, 0)
+	if find(point, "LEFT") then
+		TempEnchant1:Point("LEFT", self, "LEFT", 0, 0)
+		TempEnchant2:Point("LEFT", TempEnchant1, "RIGHT", A.db.buffs.horizontalSpacing, 0)
+		TempEnchant3:Point("LEFT", TempEnchant2, "RIGHT", A.db.buffs.horizontalSpacing, 0)
+	else
+		TempEnchant1:Point("RIGHT", self, "RIGHT", 0, 0)
+		TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -A.db.buffs.horizontalSpacing, 0)
+		TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -A.db.buffs.horizontalSpacing, 0)
+	end
+end
+
+function A:Initialize()
+	if E.private.auras.disableBlizzard then
+		BuffFrame:Kill()
+		ConsolidatedBuffs:Kill()
+	end
+
+	if not E.private.auras.enable then return end
+
+	self.db = E.db.auras
+
+	self.BuffFrame = self:CreateAuraHeader("HELPFUL")
+	self.BuffFrame:Point("TOPRIGHT", MMHolder, "TOPLEFT", -(6 + E.Border), -E.Border - E.Spacing)
+	E:CreateMover(self.BuffFrame, "BuffsMover", L["Player Buffs"])
+
+	self.DebuffFrame = self:CreateAuraHeader("HARMFUL")
+	self.DebuffFrame:Point("BOTTOMRIGHT", MMHolder, "BOTTOMLEFT", -(6 + E.Border), E.Border + E.Spacing)
+	E:CreateMover(self.DebuffFrame, "DebuffsMover", L["Player Debuffs"])
+
+	self.EnchantHeader = CreateFrame("Frame", "ElvUITemporaryEnchantFrame", E.UIParent, "SecureHandlerStateTemplate")
+	self.EnchantHeader:Size((A.db.buffs.size * 3) + (A.db.buffs.horizontalSpacing * 2), A.db.buffs.size + 2)
+	self.EnchantHeader:Point("TOPRIGHT", MMHolder, "BOTTOMRIGHT", 0, -E.Border - E.Spacing)
+	self.EnchantHeader:SetAttribute("_onstate-show", [[
+		if newstate == "hide" then
+			self:Hide()
+		else
+			self:Show()
+		end
+	]])
+	RegisterStateDriver(self.EnchantHeader, "show", "[vehicleui] hide;show")
+
+	self:SecureHook("AuraButton_UpdateDuration", "UpdateWeaponText")
+	TemporaryEnchantFrame:SetParent(self.EnchantHeader)
+
+	for i = 1, 3 do
+		A:UpdateWeapon(_G["TempEnchant"..i])
+	end
+
+	self.EnchantHeader:SetScript("OnUpdate", function(self)
+		local hasMainHandEnchant, _, _, hasOffHandEnchant, _, _, hasThrownEnchant = GetWeaponEnchantInfo()
+		local mainHand = GetInventoryItemQuality("player", 16)
+		local offHand = GetInventoryItemQuality("player", 17)
+		local thrown = GetInventoryItemQuality("player", 18)
+
+		if hasMainHandEnchant and hasOffHandEnchant and hasThrownEnchant then
+			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(thrown))
+			TempEnchant2:SetBackdropBorderColor(GetItemQualityColor(offHand))
+			TempEnchant3:SetBackdropBorderColor(GetItemQualityColor(mainHand))
+		elseif hasMainHandEnchant and hasOffHandEnchant and not hasThrownEnchant then
+			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(offHand))
+			TempEnchant2:SetBackdropBorderColor(GetItemQualityColor(mainHand))
+		elseif hasMainHandEnchant and not hasOffHandEnchant and hasThrownEnchant then
+			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(thrown))
+			TempEnchant2:SetBackdropBorderColor(GetItemQualityColor(mainHand))
+		elseif not hasMainHandEnchant and hasOffHandEnchant and hasThrownEnchant then
+			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(thrown))
+			TempEnchant2:SetBackdropBorderColor(GetItemQualityColor(offHand))
+		elseif hasMainHandEnchant and not hasOffHandEnchant and not hasThrownEnchant then
+			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(mainHand))
+		elseif not hasMainHandEnchant and hasOffHandEnchant and not hasThrownEnchant then
+			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(offHand))
+		elseif not hasMainHandEnchant and not hasOffHandEnchant and hasThrownEnchant then
+			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(thrown))
+		end
+	end)
+
+	E:CreateMover(self.EnchantHeader, "TempEnchantMover", L["Weapons"], nil, nil, A.WeaponPostDrag)
 
 	if Masque then
 		if MasqueGroupBuffs then A.BuffsMasqueGroup = MasqueGroupBuffs end
