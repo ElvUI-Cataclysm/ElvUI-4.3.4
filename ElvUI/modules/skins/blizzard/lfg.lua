@@ -331,9 +331,13 @@ local function LoadSkin()
 			tinsert(roleButtons, _G["LFGDungeonReadyStatusIndividualPlayer"..i]);
 		end
 		for _, roleButton in pairs (roleButtons) do
-			roleButton:CreateBackdrop("Default", true);
-			roleButton.texture:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\lfgRoleIcons");
-			roleButton.statusIcon:SetDrawLayer("OVERLAY", 2);
+			roleButton:CreateBackdrop("Default")
+			roleButton.backdrop:Point("TOPLEFT", 3, -3)
+			roleButton.backdrop:Point("BOTTOMRIGHT", -3, 3)
+			roleButton.texture:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\UI-LFG-ICON-ROLES")
+			roleButton.texture:Point("TOPLEFT", roleButton.backdrop, "TOPLEFT", -8, 6)
+			roleButton.texture:Point("BOTTOMRIGHT", roleButton.backdrop, "BOTTOMRIGHT", 8, -10)
+			roleButton.statusIcon:SetDrawLayer("OVERLAY", 2)
 		end
 	end
 

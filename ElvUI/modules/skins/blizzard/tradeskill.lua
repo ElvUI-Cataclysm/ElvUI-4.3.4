@@ -150,7 +150,7 @@ local function LoadSkin()
 
 		reagent:SetTemplate("Transparent", true);
 		reagent:StyleButton(nil, true);
-		reagent:Size(146, 42);
+		reagent:Size(143, 40)
 
 		icon.backdrop = CreateFrame("Frame", nil, reagent)
 		icon.backdrop:SetTemplate()
@@ -159,8 +159,8 @@ local function LoadSkin()
 
 		icon:SetTexCoord(unpack(E.TexCoords));
 		icon:SetDrawLayer("OVERLAY");
-		icon:Size(40);
-		icon:Point("TOPLEFT", 1, -1);
+		icon:Size(E.PixelMode and 38 or 32)
+		icon:Point("TOPLEFT", E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
 		icon:SetParent(icon.backdrop);
 
 		count:SetParent(icon.backdrop);
