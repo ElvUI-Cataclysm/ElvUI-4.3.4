@@ -1,10 +1,11 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule("UnitFrames");
 
-local unpack = unpack;
-local abs = abs;
+local unpack, tonumber = unpack, tonumber
+local abs, min = abs, math.min
 
 local CreateFrame = CreateFrame;
+local UnitSpellHaste = UnitSpellHaste
 local UnitIsPlayer = UnitIsPlayer;
 local UnitClass = UnitClass;
 local UnitReaction = UnitReaction;
@@ -53,8 +54,8 @@ function UF:Construct_Castbar(frame, moverName)
 	castbar.Text = castbar:CreateFontString(nil, "OVERLAY");
 	self:Configure_FontString(castbar.Text);
 	castbar.Text:Point("LEFT", castbar, "LEFT", 4, 0)
-	castbar.Text:SetJustifyH("LEFT");
 	castbar.Text:SetTextColor(0.84, 0.75, 0.65);
+	castbar.Text:SetJustifyH("LEFT");
 	castbar.Text:SetWordWrap(false)
 
 	castbar.Spark = castbar:CreateTexture(nil, "OVERLAY");
@@ -293,7 +294,7 @@ function UF:SetCastTicks(frame, numTicks)
 
 		ticks[i]:Height(frame.tickHeight)
 		ticks[i]:ClearAllPoints();
-		ticks[i]:SetPoint("RIGHT", frame, "LEFT", d * i, 0);
+		ticks[i]:Point("RIGHT", frame, "LEFT", d * i, 0);
 		ticks[i]:Show();
 	end
 end
@@ -302,9 +303,7 @@ function UF:PostCastStart(unit, name)
 	local db = self:GetParent().db;
 	if not db or not db.castbar then return; end
 
-	if(unit == "vehicle") then
-		unit = "player";
-	end
+	if unit == "vehicle" then unit = "player" end
 
 	if(db.castbar.displayTarget and self.curTarget) then
 		self.Text:SetText(name.." --> "..self.curTarget);
@@ -329,16 +328,37 @@ function UF:PostCastStart(unit, name)
 
 	self.Spark:Height(self:GetHeight() * 2)
 
-	self.unit = unit;
+	self.unit = unit
 
-	if(db.castbar.ticks and unit == "player") then
-		if(E.global.unitframe.ChannelTicks[name]) then
-			UF:SetCastTicks(self, E.global.unitframe.ChannelTicks[name])
+	if db.castbar.ticks and unit == "player" then
+		local unitframe = E.global.unitframe
+		local baseTicks = unitframe.ChannelTicks[name]
+
+		if baseTicks and unitframe.HastedChannelTicks[name] then
+			local tickIncRate = 1 / baseTicks
+			local curHaste = UnitSpellHaste("player") * 0.01
+			local firstTickInc = tickIncRate / 2
+			local bonusTicks = 0
+			if curHaste >= firstTickInc then
+				bonusTicks = bonusTicks + 1
+			end
+
+			local x = tonumber(E:Round(firstTickInc + tickIncRate, 2))
+			while curHaste >= x do
+				x = tonumber(E:Round(firstTickInc + (tickIncRate * bonusTicks), 2))
+				if curHaste >= x then
+					bonusTicks = bonusTicks + 1
+				end
+			end
+
+			UF:SetCastTicks(self, baseTicks + bonusTicks)
+		elseif baseTicks then
+			UF:SetCastTicks(self, baseTicks)
 		else
-			UF:HideTicks();
+			UF:HideTicks()
 		end
-	elseif(unit == "player") then
-		UF:HideTicks();
+	elseif unit == 'player' then
+		UF:HideTicks()
 	end
 
 	local colors = ElvUF.colors;
@@ -376,13 +396,34 @@ function UF:PostChannelUpdate(unit, name)
 	if not (unit == "player" or unit == "vehicle") then return end
 
 	if db.castbar.ticks then
-		if(E.global.unitframe.ChannelTicks[name]) then
-			UF:SetCastTicks(self, E.global.unitframe.ChannelTicks[name]);
+		local unitframe = E.global.unitframe
+		local baseTicks = unitframe.ChannelTicks[name]
+
+		if baseTicks and unitframe.HastedChannelTicks[name] then
+			local tickIncRate = 1 / baseTicks
+			local curHaste = UnitSpellHaste("player") * 0.01
+			local firstTickInc = tickIncRate / 2
+			local bonusTicks = 0
+			if curHaste >= firstTickInc then
+				bonusTicks = bonusTicks + 1
+			end
+
+			local x = tonumber(E:Round(firstTickInc + tickIncRate, 2))
+			while curHaste >= x do
+				x = tonumber(E:Round(firstTickInc + (tickIncRate * bonusTicks), 2))
+				if curHaste >= x then
+					bonusTicks = bonusTicks + 1
+				end
+			end
+
+			UF:SetCastTicks(self, baseTicks + bonusTicks)
+		elseif baseTicks then
+			UF:SetCastTicks(self, baseTicks)
 		else
-			UF:HideTicks();
+			UF:HideTicks()
 		end
 	else
-		UF:HideTicks();
+		UF:HideTicks()
 	end
 end
 

@@ -1376,7 +1376,7 @@ function UF:Initialize()
 	if(not ORD) then return end
 	ORD.ShowDispellableDebuff = true
 	ORD.FilterDispellableDebuff = true
-	ORD.MatchBySpellName = true
+	ORD.MatchBySpellName = false
 
 	self:UpdateRangeCheckSpells()
 	self:RegisterEvent("LEARNED_SPELL_IN_TAB", "UpdateRangeCheckSpells")

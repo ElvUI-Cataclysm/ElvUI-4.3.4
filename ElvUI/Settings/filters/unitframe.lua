@@ -37,6 +37,8 @@ G.unitframe.aurafilters["CCDebuffs"] = {
 		[3355] = Defaults(),	-- Freezing Trap Effect
 		[19503] = Defaults(),	-- Scatter Shot
 		[34490] = Defaults(),	-- Silence Shot
+		[19306] = Defaults(),	-- Counterattack
+		[19386] = Defaults(),	-- Wyvern Sting
 	-- Mage
 		[122] = Defaults(),		-- Frost Nova
 		[18469] = Defaults(),	-- Silenced - Improved Counterspell
@@ -55,10 +57,13 @@ G.unitframe.aurafilters["CCDebuffs"] = {
 		[15487] = Defaults(),	-- Silence
 		[64044] = Defaults(),	-- Psychic Horror
 	-- Rogue
+		[408] = Defaults(),		-- Kidney Shot
 		[1776] = Defaults(),	-- Gouge
 		[2094] = Defaults(),	-- Blind
 		[6770] = Defaults(),	-- Sap
-		[18425] = Defaults(),	-- Silenced - Improved Kick
+		[1330] = Defaults(),	-- Garrote - Silence
+		[18425] = Defaults(),	-- Silenced - Improved Kick (Rank 1)
+		[86759] = Defaults(),	-- Silenced - Improved Kick (Rank 2)
 	-- Shaman
 		[3600] = Defaults(),	-- Earthbind
 		[8056] = Defaults(),	-- Frost Shock
@@ -76,6 +81,8 @@ G.unitframe.aurafilters["CCDebuffs"] = {
 	-- Warrior
 		[12809] = Defaults(),	-- Concussion Blow
 		[20511] = Defaults(),	-- Intimidating Shout
+		[85388] = Defaults(),	-- Throwdown
+		[46968] = Defaults(),	-- Shockwave
 	-- Racial
 		[20549] = Defaults(),	-- War Stomp
 		[25046] = Defaults(),	-- Arcane Torrent
@@ -478,6 +485,13 @@ G.unitframe.ChannelTicks = {
 	[SpellName(5143)] = 5,		-- Arcane Missiles
 	[SpellName(10)] = 8,		-- Blizzard
 	[SpellName(12051)] = 4		-- Evocation
+}
+
+--Spells Effected By Haste
+G.unitframe.HastedChannelTicks = {
+	[SpellName(64901)] = true,	-- Hymn of Hope
+	[SpellName(64843)] = true,	-- Divine Hymn
+	[SpellName(1120)] = true,	-- Drain Soul
 }
 
 G.unitframe.AuraBarColors = {
