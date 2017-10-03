@@ -391,7 +391,7 @@ function UF:UpdateShadowOrbs(event, shadowOrbs, maxOrbs)
 	if(not db) then return; end
 
 	if(IsSpellKnown(95740) and shadowOrbs == 0) then
-		if(frame.db.classbar.autoHide) then
+		if(db.classbar.autoHide) then
 			self:Hide();
 		else
 			for i = 1, maxOrbs do

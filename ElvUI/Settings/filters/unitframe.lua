@@ -39,6 +39,7 @@ G.unitframe.aurafilters["CCDebuffs"] = {
 		[34490] = Defaults(),	-- Silence Shot
 		[19306] = Defaults(),	-- Counterattack
 		[19386] = Defaults(),	-- Wyvern Sting
+		[24394] = Defaults(),	-- Intimidation
 	-- Mage
 		[122] = Defaults(),		-- Frost Nova
 		[18469] = Defaults(),	-- Silenced - Improved Counterspell
@@ -56,6 +57,7 @@ G.unitframe.aurafilters["CCDebuffs"] = {
 		[9484] = Defaults(),	-- Shackle Undead
 		[15487] = Defaults(),	-- Silence
 		[64044] = Defaults(),	-- Psychic Horror
+		[64058] = Defaults(),	-- Psychic Horror (Disarm)
 	-- Rogue
 		[408] = Defaults(),		-- Kidney Shot
 		[1776] = Defaults(),	-- Gouge
@@ -97,11 +99,12 @@ G.unitframe.aurafilters["TurtleBuffs"] = {
 	-- Mage
 		[45438] = Defaults(5),	-- Ice Block
 	-- Death Knight
-		[48707] = Defaults(5),	-- Anti-Magic Shield
-		[48792] = Defaults(),	-- Firmness of ice
-		[49039] = Defaults(),	-- Degeneration
+		[48707] = Defaults(5),	-- Anti-Magic Shell
+		[48792] = Defaults(),	-- Icebound Fortitude
+		[49039] = Defaults(),	-- Lichborne
 		[50461] = Defaults(),	-- Anti-Magic Zone
 		[55233] = Defaults(),	-- Vampiric Blood
+		[81256] = Defaults(4),	-- Dancing Rune Weapon
 	-- Priest
 		[33206] = Defaults(3),	-- Pain Suppression
 		[47585] = Defaults(5),	-- Dispersion
@@ -114,11 +117,14 @@ G.unitframe.aurafilters["TurtleBuffs"] = {
 		[19263] = Defaults(5),	-- Deterrence
 		[53480] = Defaults(),	-- Roar of sacrifice
 	-- Rogue
+		[1966] = Defaults(),	-- Feint
 		[5277] = Defaults(5),	-- Evasion
 		[31224] = Defaults(),	-- Cloak of Shadows
-		[45182] = Defaults(),	-- Cheating death
+		[45182] = Defaults(),	-- Cheating Death
+		[74001] = Defaults(),	-- Combat Readiness
 	-- Shaman
 		[30823] = Defaults(),	-- Shamanistic Rage
+		[98007] = Defaults(),	-- Spirit Link Totem
 	-- Paladin
 		[498] = Defaults(2),	-- Divine protection
 		[642] = Defaults(5),	-- Divine shield
@@ -130,7 +136,9 @@ G.unitframe.aurafilters["TurtleBuffs"] = {
 		[70940] = Defaults(3),	-- Divine Guardian
 	-- Warrior
 		[871] = Defaults(3),	-- Shield Wall
-		[55694] = Defaults()	-- Enraged Regeneration
+		[12976] = Defaults(),	-- Last Stand
+		[55694] = Defaults(),	-- Enraged Regeneration
+		[97463] = Defaults(),	-- Rallying Cry
 	}
 }
 
@@ -140,36 +148,51 @@ G.unitframe.aurafilters["PlayerBuffs"] = {
 	-- Mage
 		[12042] = Defaults(),	-- Arcane Power
 		[12051] = Defaults(),	-- Evocation
+		[80353] = Defaults(),	-- Time Warp
 		[12472] = Defaults(),	-- Steel blood
 		[32612] = Defaults(),	-- Invisibility
 		[45438] = Defaults(),	-- Ice Block
 	-- Death Knight
-		[48707] = Defaults(),	-- Anti-Magic shell
-		[48792] = Defaults(),	-- Firmness of ice
-		[49016] = Defaults(),	-- Hysteria
-		[49039] = Defaults(),	-- Degeneration
+		[48707] = Defaults(),	-- Anti-Magic Shell
+		[48792] = Defaults(),	-- Icebound Fortitude
+		[49016] = Defaults(),	-- Unholy Frenzy
+		[49039] = Defaults(),	-- Lichborne
 		[49222] = Defaults(),	-- Bone shield
 		[50461] = Defaults(),	-- Anti-Magic Zone
-		[51271] = Defaults(),	-- Unbreakable armor
+		[51271] = Defaults(),	-- Pillar of Frost
 		[55233] = Defaults(),	-- Vampiric Blood
+		[81256] = Defaults(),	-- Dancing Rune Weapon
+		[96268] = Defaults(),	-- Death's Advance
 	-- Priest
 		[6346] = Defaults(),	-- Fear Ward
 		[10060] = Defaults(),	-- Power Infusion
 		[27827] = Defaults(),	-- Spirit of Redemption
 		[33206] = Defaults(),	-- Pain Suppression
 		[47585] = Defaults(),	-- Dispersion
-		[47788] = Defaults(),	-- Guardian spirit
+		[47788] = Defaults(),	-- Guardian Spirit
+		[62618] = Defaults(),	-- Power Word: Barrier
 	-- Warlock
+		[88448] = Defaults(),	-- Demonic Rebirth
 	-- Druid
 		[1850] = Defaults(),	-- Dash
+		[16689] = Defaults(),	-- Nature's Grasp
 		[22812] = Defaults(),	-- Barkskin
+		[29166] = Defaults(),	-- Innervate
 		[52610] = Defaults(),	-- Savage Roar
+		[61336] = Defaults(),	-- Survival Instincts
+		[69369] = Defaults(),	-- Predatory Swiftness
+		[77761] = Defaults(),	-- Stampeding Roar (Bear Form)
+		[77764] = Defaults(),	-- Stampeding Roar (Cat Form)
 	-- Hunter
 		[3045] = Defaults(),	-- Rapid Fire
 		[5384] = Defaults(),	-- Feign Death
 		[19263] = Defaults(),	-- Deterrence
+		[34471] = Defaults(),	-- The Beast Within
+		[51755] = Defaults(),	-- Camouflage
 		[53480] = Defaults(),	-- Roar of Sacrifice (Pet Cunning)
 		[54216] = Defaults(),	-- Master's Call
+		[90355] = Defaults(),	-- Ancient Hysteria
+		[90361] = Defaults(),	-- Spirit Mend
 	-- Rogue
 		[2983] = Defaults(),	-- Sprint
 		[5277] = Defaults(),	-- Evasion
@@ -177,16 +200,38 @@ G.unitframe.aurafilters["PlayerBuffs"] = {
 		[13750] = Defaults(),	-- Adrenaline Rush
 		[31224] = Defaults(),	-- Cloak of Shadows
 		[45182] = Defaults(),	-- Cheating Death
+		[51713] = Defaults(),	-- Shadow Dance
+		[57933] = Defaults(),	-- Tricks of the Trade
+		[74001] = Defaults(),	-- Combat Readiness
+		[79140] = Defaults(),	-- Vendetta
 	-- Shaman
 		[2825] = Defaults(),	-- Bloodlust
 		[8178] = Defaults(),	-- Grounding Totem Effect
 		[16166] = Defaults(),	-- Elemental Mastery
 		[16188] = Defaults(),	-- Nature's Swiftness
+		[16166] = Defaults(),	-- Elemental Mastery
 		[16191] = Defaults(),	-- Mana Tide Totem
 		[30823] = Defaults(),	-- Shamanistic Rage
 		[32182] = Defaults(),	-- Heroism
 		[58875] = Defaults(),	-- Spirit Walk
+		[79206] = Defaults(),	-- Spiritwalker's Grace
+		[98007] = Defaults(),	-- Spirit Link Totem
 	-- Paladin
+		[498] = Defaults(),		-- Divine Protection
+		[642] = Defaults(),		-- Divine Shield
+		[1044] = Defaults(),	-- Hand of Freedom
+		[1022] = Defaults(),	-- Hand of Protection
+		[1038] = Defaults(),	-- Hand of Salvation
+		[6940] = Defaults(),	-- Hand of Sacrifice
+		[31821] = Defaults(),	-- Aura Mastery
+		[86659] = Defaults(),	-- Guardian of the Ancient Kings
+		[20925] = Defaults(),	-- Holy Shield
+		[31850] = Defaults(),	-- Ardent Defender
+		[31884] = Defaults(),	-- Avenging Wrath
+		[53563] = Defaults(),	-- Beacon of Light
+		[31842] = Defaults(),	-- Divine Favor
+		[54428] = Defaults(),	-- Divine Plea
+		[85499] = Defaults(),	-- Speed of Light
 	-- Warrior
 		[871] = Defaults(),		-- Shield Wall
 		[1719] = Defaults(),	-- Recklessness
@@ -195,11 +240,15 @@ G.unitframe.aurafilters["PlayerBuffs"] = {
 		[18499] = Defaults(),	-- Berserker Rage
 		[23920] = Defaults(),	-- Spell Reflection
 		[46924] = Defaults(),	-- Bladestorm
+		[50720] = Defaults(),	-- Vigilance
+		[55694] = Defaults(),	-- Enraged Regeneration
+		[85730] = Defaults(),	-- Deadly Calm
+		[97463] = Defaults(),	-- Rallying Cry
 	-- Racial
 		[20572] = Defaults(),	-- Blood Fury
-		[20594] = Defaults(),	-- Stone shape
-		[26297] = Defaults(),	-- Berserk
-		[59545] = Defaults()	-- Gift of the naaru
+		[20594] = Defaults(),	-- Stoneform
+		[26297] = Defaults(),	-- Berserking
+		[59545] = Defaults()	-- Gift of the Naaru
 	}
 }
 
@@ -210,6 +259,7 @@ G.unitframe.aurafilters["Blacklist"] = {
 		[6788] = Defaults(),	-- Weakended Soul
 		[8326] = Defaults(),	-- Ghost
 		[8733] = Defaults(),	-- Blessing of Blackfathom
+		[15007] = Defaults(),	-- Resurrection Sickness
 		[23445] = Defaults(),	-- Evil Twin
 		[24755] = Defaults(),	-- Trick or Treat
 		[25163] = Defaults(),	-- Oozeling Disgusting Aura
@@ -217,6 +267,7 @@ G.unitframe.aurafilters["Blacklist"] = {
 		[26013] = Defaults(),	-- Deserter
 		[36032] = Defaults(),	-- Arcane Blast
 		[41425] = Defaults(),	-- Hypothermia
+		[46221] = Defaults(),	-- Animal Blood
 		[55711] = Defaults(),	-- Weakened Heart
 		[57723] = Defaults(),	-- Exhaustion
 		[57724] = Defaults(),	-- Sated
@@ -449,7 +500,7 @@ G.unitframe.buffwatch = {
 	},
 	WARRIOR = {
 		[3411] = ClassBuff(3411, "TOPRIGHT", {227/255, 23/255, 13/255}),			-- Intervene
-		[59665] = ClassBuff(59665, "TOPLEFT", {0.2, 0.2, 1}),						-- Vigilance
+		[50720] = ClassBuff(50720, "TOPLEFT", {0.2, 0.2, 1}),						-- Vigilance
 	},
 	DEATHKNIGHT = {
 		[49016] = ClassBuff(49016, "TOPRIGHT", {227/255, 23/255, 13/255})			-- Unholy Frenzy
