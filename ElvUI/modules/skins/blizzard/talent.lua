@@ -16,10 +16,8 @@ local function LoadSkin()
 	PlayerTalentFrameTalents:StripTextures()
 	PlayerTalentFramePetTalents:StripTextures()
 
-	PlayerTalentFrameActivateButton:StripTextures()
 	S:HandleButton(PlayerTalentFrameActivateButton)
 
-	PlayerTalentFrameToggleSummariesButton:StripTextures()
 	S:HandleButton(PlayerTalentFrameToggleSummariesButton)
 	PlayerTalentFrameToggleSummariesButton:Point("BOTTOM", PlayerTalentFrame, "BOTTOM", 0, 5)
 

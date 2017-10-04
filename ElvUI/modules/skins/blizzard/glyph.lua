@@ -64,10 +64,12 @@ local function LoadSkin()
 			Glyph.glyph:Hide()
 			hooksecurefunc(Glyph.glyph, "Show", function(self) self:Hide() end)
 
-			if(i == 1 or i == 4 or i == 6) then
-				Glyph:Size(Glyph:GetWidth() * .8, Glyph:GetHeight() * .8)
-			elseif(i == 2 or i == 3 or i == 5) then
-				Glyph:Size(Glyph:GetWidth() * .6, Glyph:GetHeight() * .6)
+			if i == 1 or i == 4 or i == 6 then
+				Glyph:Size(Glyph:GetSize() * 0.9)
+			elseif i == 2 or i == 3 or i == 5 then
+				Glyph:Size(Glyph:GetSize() * 0.6)
+			else
+				Glyph:Size(Glyph:GetSize() * 1.2)
 			end
 		end
 
@@ -121,8 +123,7 @@ local function LoadSkin()
 	GlyphFrameClearInfoFrame.backdrop:SetAllPoints()
 	GlyphFrameClearInfoFrame:StyleButton()
 	GlyphFrameClearInfoFrame:Size(25)
-	GlyphFrameClearInfoFrame:Point("BOTTOMLEFT", GlyphFrame, "BOTTOMRIGHT", 28, -2)
-	GlyphFrameClearInfoFrame.count:Point("TOPRIGHT", -26, -5)
+	GlyphFrameClearInfoFrame:Point("BOTTOMLEFT", GlyphFrame, "BOTTOMRIGHT", 10, -2)
 
 	S:HandleScrollBar(GlyphFrameScrollFrameScrollBar, 5)
 end

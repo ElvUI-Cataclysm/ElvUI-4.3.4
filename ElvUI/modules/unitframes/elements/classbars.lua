@@ -179,6 +179,12 @@ function UF:Configure_ClassBar(frame)
 				bars[i]:Show();
 			end
 		end
+
+		if not frame.USE_MINI_CLASSBAR then
+			bars.backdrop:Show()
+		else
+			bars.backdrop:Hide()
+		end
 	else
 		--?? Apparent bug fix for the width after in-game settings change
 		bars.LunarBar:SetMinMaxValues(0, 0)
@@ -187,14 +193,6 @@ function UF:Configure_ClassBar(frame)
 		bars.SolarBar:SetStatusBarColor(unpack(ElvUF.colors.EclipseBar[2]))
 		bars.LunarBar:Size(CLASSBAR_WIDTH, frame.CLASSBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2))
 		bars.SolarBar:Size(CLASSBAR_WIDTH, frame.CLASSBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2))
-	end
-
-	if(E.myclass ~= "DRUID") then
-		if(not frame.USE_MINI_CLASSBAR) then
-			bars.backdrop:Show();
-		else
-			bars.backdrop:Hide();
-		end
 	end
 
 	if(frame.CLASSBAR_DETACHED and db.classbar.parent == "UIPARENT") then

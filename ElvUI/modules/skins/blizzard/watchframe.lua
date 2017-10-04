@@ -89,10 +89,10 @@ local function LoadSkin()
 				_G["WatchFrameAutoQuestPopUp"..i.."ScrollChildBorderTopLeft"]:Kill();
 				_G["WatchFrameAutoQuestPopUp"..i.."ScrollChildBorderTopRight"]:Kill();
 
-				popUp:CreateBackdrop("Transparent", true, true);
+				popUp:CreateBackdrop("Transparent", nil, true);
 				popUp.backdrop:Point("TOPLEFT", 0, -2)
 				popUp.backdrop:Point("BOTTOMRIGHT", 0, 2)
-				popUp.backdrop:SetBackdropBorderColor(0, 0.44, 0.87, 1);
+				popUp.backdrop:SetBackdropBorderColor(unpack(E["media"].rgbvaluecolor))
 
 				popUp.isSkinned = true
 			end
