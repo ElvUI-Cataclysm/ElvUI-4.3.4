@@ -191,24 +191,35 @@ local function GetUnitSettings(unit, name)
 						type = "header",
 						name = L["Cast Bar"]
 					},
-					hideSpellName = {
+					enable = {
 						order = 2,
+						name = L["Enable"],
+						type = "toggle",
+					},
+					hideSpellName = {
+						order = 3,
 						type = "toggle",
 						name = L["Hide Spell Name"]
 					},
 					hideTime = {
-						order = 3,
+						order = 4,
 						type = "toggle",
 						name = L["Hide Time"]
 					},
 					height = {
-						order = 4,
+						order = 5,
 						type = "range",
 						name = L["Height"],
 						min = 4, max = 20, step = 1
 					},
+					offset = {
+						order = 6,
+						type = "range",
+						name = L["Offset"],
+						min = 0, max = 30, step = 1
+					},
 					castTimeFormat = {
-						order = 5,
+						order = 7,
 						type = "select",
 						name = L["Cast Time Format"],
 						values = {
@@ -218,7 +229,7 @@ local function GetUnitSettings(unit, name)
 						}
 					},
 					channelTimeFormat = {
-						order = 6,
+						order = 8,
 						type = "select",
 						name = L["Channel Time Format"],
 						values = {
@@ -227,11 +238,12 @@ local function GetUnitSettings(unit, name)
 							["REMAINING"] = L["Remaining"]
 						}
 					},
-					offset = {
-						order = 7,
+					timeToHold = {
+						order = 9,
 						type = "range",
-						name = L["Offset"],
-						min = 0, max = 30, step = 1
+						name = L["Time To Hold"],
+						desc = L["How many seconds the castbar should stay visible after the cast failed or was interrupted."],
+						min = 0, max = 4, step = 0.1
 					}
 				}
 			},
@@ -649,12 +661,12 @@ E.Options.args.nameplate = {
 						motionType = {
 							order = 3,
 							type = "select",
-							name = L["Nameplate Motion Type"],
+							name = UNIT_NAMEPLATES_TYPES,
 							desc = L["Set to either stack nameplates vertically or allow them to overlap."],
 							values = {
-								["STACKED"] = L["Stacking Nameplates"],
-								["OVERLAP"] = L["Overlapping Nameplates"],
-							},
+								["STACKED"] = UNIT_NAMEPLATES_TYPE_2,
+								["OVERLAP"] = UNIT_NAMEPLATES_TYPE_1,
+							}
 						},
 						useTargetGlow = {
 							order = 4,
