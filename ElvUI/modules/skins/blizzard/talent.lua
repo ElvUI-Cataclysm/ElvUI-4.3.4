@@ -237,11 +237,11 @@ local function LoadSkin()
 	PlayerTalentFramePetPanel.backdrop:Point("BOTTOMRIGHT", -4, 4)
 
 	PlayerTalentFramePetPanel:HookScript("OnShow", function()
-		if not PlayerTalentFramePetPanel.isSkinned then
-			for i = 1, GetNumTalents(1, false, true) do
-				local button = _G["PlayerTalentFramePetPanelTalent"..i]
-				local icon = _G["PlayerTalentFramePetPanelTalent"..i.."IconTexture"]
+		for i = 1, GetNumTalents(1, false, true) do
+			local button = _G["PlayerTalentFramePetPanelTalent"..i]
+			local icon = _G["PlayerTalentFramePetPanelTalent"..i.."IconTexture"]
 
+			if not button.isSkinned then
 				button:StripTextures()
 				button:CreateBackdrop()
 				button:StyleButton()
@@ -262,9 +262,9 @@ local function LoadSkin()
 					button.Rank:ClearAllPoints()
 					button.Rank:Point("BOTTOMRIGHT", 9, -12)
 				end
-			end
 
-			PlayerTalentFramePetPanel.isSkinned = true
+				button.isSkinned = true
+			end
 		end
 	end)
 end

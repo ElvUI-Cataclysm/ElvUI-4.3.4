@@ -49,6 +49,7 @@ G.unitframe.aurafilters["CCDebuffs"] = {
 		[82691] = Defaults(),	-- Ring of Frost
 	-- Paladin
 		[853] = Defaults(),		-- Hammer of Justice
+		[2812] = Defaults()		-- Holy Wrath
 		[10326] = Defaults(),	-- Turn Evil
 		[20066] = Defaults(),	-- Repentance
 	-- Priest
@@ -61,6 +62,7 @@ G.unitframe.aurafilters["CCDebuffs"] = {
 	-- Rogue
 		[408] = Defaults(),		-- Kidney Shot
 		[1776] = Defaults(),	-- Gouge
+		[1833] = Defaults(),	-- Cheap Shot
 		[2094] = Defaults(),	-- Blind
 		[6770] = Defaults(),	-- Sap
 		[1330] = Defaults(),	-- Garrote - Silence
@@ -79,6 +81,7 @@ G.unitframe.aurafilters["CCDebuffs"] = {
 		[6358] = Defaults(),	-- Seduction
 		[6789] = Defaults(),	-- Death Coil
 		[30283] = Defaults(),	-- Shadowfury
+		[54786] = Defaults(),	-- Demon Leap
 		[89605] = Defaults(),	-- Aura of Foreboding
 	-- Warrior
 		[12809] = Defaults(),	-- Concussion Blow
