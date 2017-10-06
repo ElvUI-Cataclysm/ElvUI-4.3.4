@@ -171,7 +171,7 @@ function mod:UpdateElement_Cast(frame, event, unit, ...)
 		frame.CastBar:Show()
 	elseif event == "UNIT_SPELLCAST_CHANNEL_UPDATE" then
 		if frame.CastBar:IsShown() then
-			local name, _, _, _, startTime, endTime, _, notInterruptible = UnitChannelInfo(unit);
+			local name, _, _, _, startTime, endTime, _, notInterruptible = UnitChannelInfo(unit)
 			if not name then
 				frame.CastBar:Hide()
 				return

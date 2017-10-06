@@ -38,7 +38,7 @@ mod.HealerSpecs = {
 	[L["Restoration"]] = true,
 	[L["Holy"]] = true,
 	[L["Discipline"]] = true
-};
+}
 
 function mod:CheckFilter(frame)
 	local db = E.global.nameplates["filter"][frame.UnitName]
@@ -73,13 +73,13 @@ end
 function mod:CheckBGHealers()
 	local name, _, talentSpec
 	for i = 1, GetNumBattlefieldScores() do
-		name, _, _, _, _, _, _, _, _, _, _, _, _, _, _, talentSpec = GetBattlefieldScore(i);
+		name, _, _, _, _, _, _, _, _, _, _, _, _, _, _, talentSpec = GetBattlefieldScore(i)
 		if name then
 			name = name:match("(.+)%-.+") or name
 			if name and self.HealerSpecs[talentSpec] then
 				self.Healers[name] = talentSpec
 			elseif name and self.Healers[name] then
-				self.Healers[name] = nil;
+				self.Healers[name] = nil
 			end
 		end
 	end
@@ -312,22 +312,22 @@ function mod:GetUnitInfo(frame)
 
 	if r < .01 then
 		if b < .01 and g > .99 then
-			return 5, "FRIENDLY_NPC";
+			return 5, "FRIENDLY_NPC"
 		elseif b > .99 and g < .01 then
-			return 5, "FRIENDLY_PLAYER";
+			return 5, "FRIENDLY_PLAYER"
 		end
 	elseif r > .99 then
 		if b < .01 and g > .99 then
-			return 4, "ENEMY_NPC";
+			return 4, "ENEMY_NPC"
 		elseif b < .01 and g < .01 then
-			return 2, "ENEMY_NPC";
+			return 2, "ENEMY_NPC"
 		end
 	elseif r > .5 and r < .6 then
 		if g > .5 and g < .6 and b > .5 and b < .6 then
-			return 1, "ENEMY_NPC";
+			return 1, "ENEMY_NPC"
 		end
 	end
-	return 3, "ENEMY_PLAYER";
+	return 3, "ENEMY_PLAYER"
 end
 
 function mod:OnShow()
@@ -465,8 +465,8 @@ end
 
 function mod:OnCreated(frame)
 	isTarget = false
-	local HealthBar, CastBar = frame:GetChildren();
-	local Threat, Border, Highlight, Name, Level, BossIcon, RaidIcon, EliteIcon = frame:GetRegions();
+	local HealthBar, CastBar = frame:GetChildren()
+	local Threat, Border, Highlight, Name, Level, BossIcon, RaidIcon, EliteIcon = frame:GetRegions()
 	local _, CastBarBorder, CastBarShield, CastBarIcon = CastBar:GetRegions()
 
 	frame.UnitFrame = CreateFrame("Frame", nil, frame)

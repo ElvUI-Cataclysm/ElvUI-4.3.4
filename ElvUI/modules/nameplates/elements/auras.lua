@@ -86,7 +86,7 @@ do
 				framecount = framecount + 1
 			end
 		end
-		if framecount == 0 then Watcherframe:SetScript("OnUpdate", nil); WatcherframeActive = false end
+		if framecount == 0 then Watcherframe:SetScript("OnUpdate", nil) WatcherframeActive = false end
 	end
 
 	function PolledHideIn(frame, expiration)
