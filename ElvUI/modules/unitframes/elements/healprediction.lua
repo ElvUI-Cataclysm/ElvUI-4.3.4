@@ -57,7 +57,7 @@ function UF:Configure_HealComm(frame)
 	end
 end
 
-local function UpdateFillBar(frame, previousTexture, bar, amount)
+function UF:UpdateFillBar(frame, previousTexture, bar, amount)
 	if(amount == 0) then
 		bar:Hide();
 		return previousTexture;
@@ -87,6 +87,6 @@ function UF:UpdateHealComm(_, myIncomingHeal, allIncomingHeal)
 	local frame = self.parent
 	local previousTexture = frame.Health:GetStatusBarTexture();
 
-	previousTexture = UpdateFillBar(frame, previousTexture, self.myBar, myIncomingHeal);
-	previousTexture = UpdateFillBar(frame, previousTexture, self.otherBar, allIncomingHeal);
+	previousTexture = UF:UpdateFillBar(frame, previousTexture, self.myBar, myIncomingHeal)
+	previousTexture = UF:UpdateFillBar(frame, previousTexture, self.otherBar, allIncomingHeal)
 end

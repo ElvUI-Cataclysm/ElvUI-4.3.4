@@ -68,7 +68,7 @@ local function LoadSkin()
 		header:SetFrameLevel(header:GetFrameLevel() + 1)
 		header:Point("TOPLEFT", panel, "TOPLEFT", 4, -4)
 
-		headerIcon:Size(E.PixelMode and 32 or 30)
+		headerIcon:Size(E.PixelMode and 34 or 30)
 		headerIcon:SetTexCoord(unpack(E.TexCoords))
 		headerIcon:Point("TOPLEFT", E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
 
