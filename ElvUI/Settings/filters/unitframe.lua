@@ -49,7 +49,7 @@ G.unitframe.aurafilters["CCDebuffs"] = {
 		[82691] = Defaults(),	-- Ring of Frost
 	-- Paladin
 		[853] = Defaults(),		-- Hammer of Justice
-		[2812] = Defaults()		-- Holy Wrath
+		[2812] = Defaults(),	-- Holy Wrath
 		[10326] = Defaults(),	-- Turn Evil
 		[20066] = Defaults(),	-- Repentance
 	-- Priest
