@@ -67,29 +67,34 @@ local function LoadChatSkin()
 		end
 	end)
 
-	local statusFrame = select(2, GMChatStatusFrame:GetChildren())
-	statusFrame:StripTextures();
-	statusFrame:CreateBackdrop("Transparent");
-	statusFrame.backdrop:Point("TOPLEFT", 0, 1);
-	statusFrame.backdrop:Point("BOTTOMRIGHT", 0, 0);
+	GMChatStatusFrameBorderLeft:Kill()
+	GMChatStatusFrameBorderRight:Kill()
+	GMChatStatusFrameBorderMid:Kill()
+	GMChatStatusFrameGlowLeft:Kill()
+	GMChatStatusFrameGlowRight:Kill()
+	GMChatStatusFrameGlowMid:Kill()
 
-	GMChatStatusFramePulse:SetTexture("Interface\\GMChatFrame\\UI-GMStatusFrame-Pulse")
-	GMChatStatusFramePulse:Point("TOPLEFT", -25, 21)
-	GMChatStatusFramePulse:Point("BOTTOMRIGHT", 25, -19)
+	GMChatStatusFrame:SetTemplate("Transparent")
+	GMChatStatusFrame:HookScript("OnEnter", S.SetModifiedBackdrop)
+	GMChatStatusFrame:HookScript("OnLeave", S.SetOriginalBackdrop)
+
+	GMChatStatusFrameBorderLeft:Point("LEFT", GMChatStatusFrame, "LEFT", -17, 20)
+	GMChatStatusFrameTitleText:Point("TOPLEFT", GMChatStatusFrameBorderLeft, "TOPRIGHT", -20, -45)
+	GMChatStatusFrameDescription:Point("TOPLEFT", GMChatStatusFrameTitleText, "BOTTOMLEFT", -20, -10)
 
 	GMChatStatusFrame:HookScript("OnShow", function(self)
-		if (TicketStatusFrame and TicketStatusFrame:IsShown()) then
-			self:Point("TOPLEFT", TicketStatusFrame, "BOTTOMLEFT", 0, 1);
+		if TicketStatusFrame and TicketStatusFrame:IsShown() then
+			self:Point("TOPLEFT", TicketStatusFrame, "BOTTOMLEFT", 0, 1)
 		else
-			self:SetAllPoints(TicketStatusFrame);
+			self:SetAllPoints(TicketStatusFrame)
 		end
 	end)
 
 	TicketStatusFrame:HookScript("OnShow", function(self)
-		GMChatStatusFrame:Point("TOPLEFT", self, "BOTTOMLEFT", 0, 1);
+		GMChatStatusFrame:Point("TOPLEFT", self, "BOTTOMLEFT", 0, 1)
 	end)
 	TicketStatusFrame:HookScript("OnHide", function(self)
-		GMChatStatusFrame:SetAllPoints(self);
+		GMChatStatusFrame:SetAllPoints(self)
 	end)
 end
 
