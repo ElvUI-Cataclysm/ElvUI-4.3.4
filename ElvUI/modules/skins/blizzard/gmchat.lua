@@ -1,37 +1,50 @@
-local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule("Skins");
+local E, L, V, P, G = unpack(select(2, ...))
+local S = E:GetModule("Skins")
 
 local _G = _G
 local unpack, select = unpack, select
 
 local function LoadChatSkin()
-	if(not E.private.skins.blizzard.enable or not E.private.skins.blizzard.gmchat) then return; end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.gmchat then return end
 
-	local LSM = LibStub("LibSharedMedia-3.0");
+	local LSM = LibStub("LibSharedMedia-3.0")
 
-	GMChatFrame:StripTextures();
-	GMChatFrame:CreateBackdrop("Transparent");
-	GMChatFrame.backdrop:Point("TOPLEFT", -2, 6);
-	GMChatFrame.backdrop:Point("BOTTOMRIGHT", 2, -6);
-	GMChatFrame:SetClampRectInsets(-6, 6, 33, -10);
-	GMChatFrame:Size(LeftChatPanel:GetWidth() - 4, 120);
-	GMChatFrame:Point("BOTTOMLEFT", LeftChatPanel, "TOPLEFT", 2, 5);
-	GMChatFrame:EnableMouseWheel(true);
+	GMChatFrame:StripTextures()
+	GMChatFrame:CreateBackdrop("Transparent")
+	GMChatFrame.backdrop:Point("TOPLEFT", -2, 6)
+	GMChatFrame.backdrop:Point("BOTTOMRIGHT", 2, -6)
+	GMChatFrame:SetClampRectInsets(-6, 6, 33, -10)
+	GMChatFrame:Size(LeftChatPanel:GetWidth() - 4, 120)
+	GMChatFrame:Point("BOTTOMLEFT", LeftChatPanel, "TOPLEFT", 2, 30)
+	GMChatFrame:EnableMouseWheel(true)
 
-	GMChatTab:StripTextures();
-	GMChatTab:CreateBackdrop("Default");
-	GMChatTab.backdrop:Point("TOPLEFT", -2, 0);
-	GMChatTab.backdrop:Point("BOTTOMRIGHT", 2, 2);
+	GMChatTab:StripTextures()
+	GMChatTab:SetTemplate("Default", true)
+	GMChatTab:ClearAllPoints()
+	GMChatTab:Point("TOPLEFT", GMChatFrame, -2, 30)
+	GMChatTab:Point("BOTTOMRIGHT", GMChatFrame, 2, 127)
 
-	GMChatTabText:Point("LEFT", GMChatTab, 17, 2);
-	GMChatTabText:FontTemplate(LSM:Fetch("font", E.db.chat.tabFont), E.db.chat.tabFontSize, E.db.chat.tabFontOutline);
+	GMChatTabText:Point("LEFT", GMChatTab, 8, 0)
+	GMChatTabText:FontTemplate(LSM:Fetch("font", E.db.chat.tabFont), E.db.chat.tabFontSize, E.db.chat.tabFontOutline)
+	GMChatTabText:SetTextColor(unpack(E["media"].rgbvaluecolor))
 
-	GMChatTabText:SetTextColor(unpack(E["media"].rgbvaluecolor));
+	GMChatFrameEditBoxLeft:Kill()
+	GMChatFrameEditBoxRight:Kill()
+	GMChatFrameEditBoxMid:Kill()
+	GMChatFrameEditBoxFocusLeft:Kill()
+	GMChatFrameEditBoxFocusRight:Kill()
+	GMChatFrameEditBoxFocusMid:Kill()
+	GMChatFrameEditBox:SetTemplate("Default")
+	GMChatFrameEditBox:ClearAllPoints()
+	GMChatFrameEditBox:Point("TOPLEFT", GMChatFrame, -2, -127)
+	GMChatFrameEditBox:Point("BOTTOMRIGHT", GMChatFrame, 2, -29)
 
-	GMChatFrameCloseButton:Point("TOPRIGHT", GMChatTab, 6, 4);
-	S:HandleCloseButton(GMChatFrameCloseButton);
+	GMChatFrameButtonFrame:Kill()
 
-	GMChatFrameButtonFrame:Kill();
+	GMChatFrameCloseButton:Point("TOPRIGHT", GMChatTab, 4, 5)
+	S:HandleCloseButton(GMChatFrameCloseButton)
+
+	GMChatFrameResizeButton:SetNormalTexture(nil)
 
 	local numScrollMessages = E.db.chat.numScrollMessages or 3
 	GMChatFrame:SetScript("OnMouseWheel", function(self, delta)
@@ -52,7 +65,7 @@ local function LoadChatSkin()
 				end
 			end
 		end
-	end);
+	end)
 
 	local statusFrame = select(2, GMChatStatusFrame:GetChildren())
 	statusFrame:StripTextures();
