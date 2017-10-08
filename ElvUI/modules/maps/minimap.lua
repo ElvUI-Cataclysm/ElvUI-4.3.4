@@ -558,6 +558,10 @@ function M:Initialize()
 	GuildInstanceDifficulty:SetParent(Minimap)
 	HelpOpenTicketButton:SetParent(Minimap)
 
+	--Hide the BlopRing on Minimap
+	Minimap:SetArchBlobRingScalar(0)
+	Minimap:SetQuestBlobRingScalar(0)
+
 	if TimeManagerClockButton then
 		TimeManagerClockButton:Kill()
 	end
