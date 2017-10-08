@@ -14,7 +14,6 @@ local function LoadSkin()
 
 	PlayerTalentFrameInset:StripTextures()
 	PlayerTalentFrameTalents:StripTextures()
-	PlayerTalentFramePetTalents:StripTextures()
 	PlayerTalentFrameLearnButtonTutorial:Kill()
 
 	S:HandleButton(PlayerTalentFrameActivateButton)
@@ -185,6 +184,8 @@ local function LoadSkin()
 	PlayerSpecTab1.SetPoint = E.noop
 
 	-- Pet Talents
+	PlayerTalentFramePetTalents:StripTextures()
+
 	PlayerTalentFramePetModel:CreateBackdrop("Transparent")
 	PlayerTalentFramePetModel:Height(319)
 
@@ -199,18 +200,21 @@ local function LoadSkin()
 	PlayerTalentFramePetInfo.backdrop:SetOutside(PlayerTalentFramePetIcon)
 	PlayerTalentFramePetInfo:SetFrameLevel(PlayerTalentFramePetInfo:GetFrameLevel() + 1)
 	PlayerTalentFramePetInfo:ClearAllPoints()
-	PlayerTalentFramePetInfo:Point("BOTTOMLEFT", PlayerTalentFramePetModel, "TOPLEFT", 0, 10)
+	PlayerTalentFramePetInfo:Point("BOTTOMLEFT", PlayerTalentFramePetModel, "TOPLEFT", -3, 9)
 
 	PlayerTalentFramePetIcon:SetTexCoord(unpack(E.TexCoords))
 
 	PlayerTalentFramePetDiet:StripTextures()
 	PlayerTalentFramePetDiet:CreateBackdrop()
-	PlayerTalentFramePetDiet:Size(22)
+	PlayerTalentFramePetDiet:Point("TOPRIGHT", 2, -2)
+	PlayerTalentFramePetDiet:Size(40)
 
 	PlayerTalentFramePetDiet.icon = PlayerTalentFramePetDiet:CreateTexture(nil, "OVERLAY")
 	PlayerTalentFramePetDiet.icon:SetTexture("Interface\\Icons\\Ability_Hunter_BeastTraining")
 	PlayerTalentFramePetDiet.icon:SetAllPoints()
 	PlayerTalentFramePetDiet.icon:SetTexCoord(unpack(E.TexCoords))
+
+	PlayerTalentFramePetTypeText:Point("BOTTOMRIGHT", -45, 10)
 
 	StripTalentFramePanelTextures(PlayerTalentFramePetPanel)
 
@@ -220,7 +224,6 @@ local function LoadSkin()
 	PlayerTalentFramePetPanelHeaderIcon:SetFrameLevel(PlayerTalentFramePetPanelHeaderIcon:GetFrameLevel() + 1)
 	PlayerTalentFramePetPanelHeaderIcon:Point("TOPLEFT", PlayerTalentFramePetPanel, "TOPLEFT", 5, -5)
 
-	PlayerTalentFramePetPanelHeaderIconIcon:SetTexCoord(unpack(E.TexCoords))
 	PlayerTalentFramePetPanelHeaderIconIcon:Size(E.PixelMode and 46 or 42)
 	PlayerTalentFramePetPanelHeaderIconIcon:SetTexCoord(unpack(E.TexCoords))
 	PlayerTalentFramePetPanelHeaderIconIcon:Point("TOPLEFT", E.PixelMode and 0 or 3, E.PixelMode and 0 or -3)
