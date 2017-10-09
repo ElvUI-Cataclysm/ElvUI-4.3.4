@@ -255,10 +255,6 @@ function A:UpdateHeader(header)
 		child = select(index, header:GetChildren())
 	end
 
-	for i = 1, 3 do
-		A:UpdateWeapon(_G["TempEnchant"..i])
-	end
-
 	if MasqueGroupBuffs and E.private.auras.masque.buffs then MasqueGroupBuffs:ReSkin() end
 	if MasqueGroupDebuffs and E.private.auras.masque.debuffs then MasqueGroupDebuffs:ReSkin() end
 end
@@ -281,26 +277,32 @@ function A:CreateAuraHeader(filter)
 	return header
 end
 
-function A:UpdateWeapon(button)
-	local font = LSM:Fetch("font", self.db.font)
+function A:UpdateTempEnchant()
+	local font = LSM:Fetch("font", self.db.weapons.font)
 
-	button:SetTemplate("Default", nil, true)
-	button:SetBackdropColor(0, 0, 0, 0)
-	button.backdropTexture:SetAlpha(0)
+	for i = 1, 3 do
+		local button = _G["TempEnchant"..i]
+		local duration = _G[button:GetName().."Duration"]
 
-	button:Size(A.db.buffs.size)
-	button:StyleButton(nil, true)
+		button:Size(self.db.weapons.size)
+		button:ClearAllPoints()
 
-	_G[button:GetName().."Border"]:Hide()
+		duration:ClearAllPoints()
+		duration:Point("TOP", button, "BOTTOM", 1 + self.db.timeXOffset, 0 + self.db.timeYOffset)
+		duration:FontTemplate(font, self.db.weapons.fontSize, self.db.weapons.fontOutline)
+	end
 
-	button.icon = _G[button:GetName().."Icon"]
-	button.icon:SetTexCoord(unpack(E.TexCoords))
-	button.icon:SetInside()
+	if self.db.weapons.growthDirection == "LEFT" then
+		TempEnchant1:Point("RIGHT", self.EnchantHeader, "RIGHT", 0, 0)
+		TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -self.db.weapons.horizontalSpacing, 0)
+		TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -self.db.weapons.horizontalSpacing, 0)
+	else
+		TempEnchant1:Point("LEFT", self.EnchantHeader, "LEFT", 0, 0)
+		TempEnchant2:Point("LEFT", TempEnchant1, "RIGHT", self.db.weapons.horizontalSpacing, 0)
+		TempEnchant3:Point("LEFT", TempEnchant2, "RIGHT", self.db.weapons.horizontalSpacing, 0)
+	end
 
-	button.time = _G[button:GetName().."Duration"]
-	button.time:ClearAllPoints()
-	button.time:Point("TOP", button, "BOTTOM", 1 + self.db.timeXOffset, 0 + self.db.timeYOffset)
-	button.time:FontTemplate(font, self.db.fontSize, self.db.fontOutline)
+	self.EnchantHeader:Size((self.db.weapons.size * 3) + (self.db.weapons.horizontalSpacing * 2), self.db.weapons.size + 2)
 end
 
 function A:UpdateWeaponText(button, timeLeft)
@@ -327,28 +329,13 @@ function A:UpdateWeaponText(button, timeLeft)
 	end
 end
 
-function A:WeaponPostDrag(point)
-	if not point then point = E:GetScreenQuadrant(self) end
-
-	for i = 1, 3 do
-		_G["TempEnchant"..i]:ClearAllPoints()
-	end
-
-	if find(point, "LEFT") then
-		TempEnchant1:Point("LEFT", self, "LEFT", 0, 0)
-		TempEnchant2:Point("LEFT", TempEnchant1, "RIGHT", A.db.buffs.horizontalSpacing, 0)
-		TempEnchant3:Point("LEFT", TempEnchant2, "RIGHT", A.db.buffs.horizontalSpacing, 0)
-	else
-		TempEnchant1:Point("RIGHT", self, "RIGHT", 0, 0)
-		TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -A.db.buffs.horizontalSpacing, 0)
-		TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -A.db.buffs.horizontalSpacing, 0)
-	end
-end
-
 function A:Initialize()
 	if E.private.auras.disableBlizzard then
 		BuffFrame:Kill()
 		ConsolidatedBuffs:Kill()
+		if not E.private.auras.enable then
+			TemporaryEnchantFrame:Kill()
+		end
 	end
 
 	if not E.private.auras.enable then return end
@@ -364,7 +351,6 @@ function A:Initialize()
 	E:CreateMover(self.DebuffFrame, "DebuffsMover", L["Player Debuffs"])
 
 	self.EnchantHeader = CreateFrame("Frame", "ElvUITemporaryEnchantFrame", E.UIParent, "SecureHandlerStateTemplate")
-	self.EnchantHeader:Size((A.db.buffs.size * 3) + (A.db.buffs.horizontalSpacing * 2), A.db.buffs.size + 2)
 	self.EnchantHeader:Point("TOPRIGHT", MMHolder, "BOTTOMRIGHT", 0, -E.Border - E.Spacing)
 	self.EnchantHeader:SetAttribute("_onstate-show", [[
 		if newstate == "hide" then
@@ -375,12 +361,26 @@ function A:Initialize()
 	]])
 	RegisterStateDriver(self.EnchantHeader, "show", "[vehicleui] hide;show")
 
-	self:SecureHook("AuraButton_UpdateDuration", "UpdateWeaponText")
-	TemporaryEnchantFrame:SetParent(self.EnchantHeader)
-
 	for i = 1, 3 do
-		A:UpdateWeapon(_G["TempEnchant"..i])
+		local button = _G["TempEnchant"..i]
+		local icon = _G["TempEnchant"..i.."Icon"]
+		local border = _G["TempEnchant"..i.."Border"]
+
+		button:SetTemplate("Default", nil, true)
+		button:SetBackdropColor(0, 0, 0, 0)
+		button.backdropTexture:SetAlpha(0)
+		button:StyleButton(nil, true)
+		button:SetParent(self.EnchantHeader)
+
+		icon:SetTexCoord(unpack(E.TexCoords))
+		icon:SetInside()
+
+		border:Hide()
 	end
+
+	A:UpdateTempEnchant()
+
+	self:SecureHook("AuraButton_UpdateDuration", "UpdateWeaponText")
 
 	self.EnchantHeader:SetScript("OnUpdate", function(self)
 		local hasMainHandEnchant, _, _, hasOffHandEnchant, _, _, hasThrownEnchant = GetWeaponEnchantInfo()
@@ -410,7 +410,7 @@ function A:Initialize()
 		end
 	end)
 
-	E:CreateMover(self.EnchantHeader, "TempEnchantMover", L["Weapons"], nil, nil, A.WeaponPostDrag)
+	E:CreateMover(self.EnchantHeader, "TempEnchantMover", L["Weapons"])
 
 	if Masque then
 		if MasqueGroupBuffs then A.BuffsMasqueGroup = MasqueGroupBuffs end

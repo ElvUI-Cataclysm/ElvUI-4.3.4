@@ -452,7 +452,6 @@ P["auras"] = {
 	["countXOffset"] = 0,
 	["timeYOffset"] = 0,
 	["timeXOffset"] = 0,
-	
 	["fadeThreshold"] = 5,
 	["buffs"] = {
 		["growthDirection"] = "LEFT_DOWN",
@@ -470,11 +469,19 @@ P["auras"] = {
 		["wrapAfter"] = 12,
 		["maxWraps"] = 1,
 		["horizontalSpacing"] = 6,
-		["verticalSpacing"] = 16,		
+		["verticalSpacing"] = 16,
 		["sortMethod"] = "TIME",
 		["sortDir"] = "-",
 		["seperateOwn"] = 1,
 		["size"] = 32
+	},
+	["weapons"] = {
+		["font"] = "Homespun",
+		["fontSize"] = 10,
+		["fontOutline"] = "MONOCHROMEOUTLINE",
+		["size"] = 32,
+		["horizontalSpacing"] = 6,
+		["growthDirection"] = "RIGHT",
 	}
 }
 

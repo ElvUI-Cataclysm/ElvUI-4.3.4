@@ -101,7 +101,7 @@ E.Options.args.auras = {
 	name = BUFFOPTIONS_LABEL,
 	childGroups = "tab",
 	get = function(info) return E.db.auras[ info[#info] ] end,
-	set = function(info, value) E.db.auras[ info[#info] ] = value; A:UpdateHeader(ElvUIPlayerBuffs); A:UpdateHeader(ElvUIPlayerDebuffs) end,
+	set = function(info, value) E.db.auras[ info[#info] ] = value; A:UpdateHeader(ElvUIPlayerBuffs); A:UpdateHeader(ElvUIPlayerDebuffs) A:UpdateTempEnchant() end,
 	args = {
 		intro = {
 			order = 1,
@@ -250,8 +250,76 @@ E.Options.args.auras = {
 			set = function(info, value) E.db.auras.debuffs[ info[#info] ] = value; A:UpdateHeader(ElvUIPlayerDebuffs) end,
 			args = GetAuraOptions(L["Debuffs"]),
 		},
+		weapons = {
+			order = 6,
+			type = "group",
+			name = L["Weapons"],
+			get = function(info) return E.db.auras.weapons[ info[#info] ] end,
+			set = function(info, value) E.db.auras.weapons[ info[#info] ] = value A:UpdateTempEnchant() end,
+			args = {
+				header = {
+					order = 1,
+					type = "header",
+					name = L["Weapons"]
+				},
+				size = {
+					order = 2,
+					type = "range",
+					name = L["Size"],
+					desc = L["Set the size of the individual auras."],
+					min = 16, max = 60, step = 1
+				},
+				horizontalSpacing = {
+					order = 3,
+					type = "range",
+					name = L["Horizontal Spacing"],
+					min = 0, max = 50, step = 1
+				},
+				growthDirection = {
+					order = 4,
+					type = "select",
+					name = L["Growth Direction"],
+					values = {
+						["LEFT"] = L["Left"],
+						["RIGHT"] = L["Right"]
+					}
+				},
+				fontGroup = {
+					order = 5,
+					type = "group",
+					guiInline = true,
+					name = L["Font"],
+					args = {
+						font = {
+							order = 1,
+							type = "select", dialogControl = "LSM30_Font",
+							name = L["Font"],
+							values = AceGUIWidgetLSMlists.font
+						},
+						fontSize = {
+							order = 2,
+							type = "range",
+							name = FONT_SIZE,
+							min = 6, max = 22, step = 1
+						},
+						fontOutline = {
+							order = 3,
+							type = "select",
+							name = L["Font Outline"],
+							desc = L["Set the font outline."],
+							values = {
+								["NONE"] = NONE,
+								["OUTLINE"] = "OUTLINE",
+								["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
+								["THICKOUTLINE"] = "THICKOUTLINE"
+							}
+						}
+					}
+				}
+			}
+		},
 		reminder = {
-			order = 7,
+			order = 8,
 			type = 'group',
 			name = L['Reminder'],
 			get = function(info) return E.db.general.reminder[ info[#info] ] end,
