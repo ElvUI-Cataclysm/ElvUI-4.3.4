@@ -88,5 +88,6 @@ function E:UpdateBlizzardFonts()
 		SetFont(InvoiceFont_Small,					NORMAL, self.db.general.fontSize)
 		SetFont(AchievementFont_Small,				NORMAL, self.db.general.fontSize)
 		SetFont(ReputationDetailFont,				NORMAL, self.db.general.fontSize)
+		SetFont(SystemFont_Shadow_Med2,				NORMAL, self.db.general.fontSize * 1.1)
 	end
 end
