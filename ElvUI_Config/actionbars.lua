@@ -282,7 +282,7 @@ local function BuildABConfig()
 					type = "range",
 					name = L["Button Spacing"],
 					desc = L["The spacing between buttons."],
-					min = 0, max = 20, step = 1,
+					min = 0, max = 40, step = 1,
 					disabled = function() return not E.db.actionbar.barTotem.enabled end
 				},
 				inheritGlobalFade = {
@@ -810,7 +810,7 @@ local function BuildABConfig()
 					type = "range",
 					name = L["Button Spacing"],
 					desc = L["The spacing between buttons."],
-					min = 0, max = 20, step = 1,
+					min = -1, max = 20, step = 1,
 					disabled = function() return not E.db.actionbar["bar" .. i].enabled end
 				},
 				backdropSpacing = {

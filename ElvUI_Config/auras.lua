@@ -269,20 +269,20 @@ E.Options.args.auras = {
 					desc = L["Set the size of the individual auras."],
 					min = 16, max = 60, step = 1
 				},
-				horizontalSpacing = {
-					order = 3,
-					type = "range",
-					name = L["Horizontal Spacing"],
-					min = 0, max = 50, step = 1
-				},
 				growthDirection = {
-					order = 4,
+					order = 3,
 					type = "select",
 					name = L["Growth Direction"],
 					values = {
 						["LEFT"] = L["Left"],
 						["RIGHT"] = L["Right"]
 					}
+				},
+				horizontalSpacing = {
+					order = 4,
+					type = "range",
+					name = L["Horizontal Spacing"],
+					min = 0, max = 50, step = 1
 				},
 				fontGroup = {
 					order = 5,
