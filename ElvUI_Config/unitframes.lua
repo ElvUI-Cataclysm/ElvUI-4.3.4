@@ -4701,7 +4701,6 @@ E.Options.args.unitframe.args.party = {
 			type = "execute",
 			name = L["Restore Defaults"],
 			func = function(info, value) UF:ResetUnitSettings("party"); E:ResetMovers(L["Party Frames"]) end,
-			disabled = function() return not _G["ElvUF_Party"].isForced == false; end
 		},
 		copyFrom = {
 			order = 3,
@@ -6182,7 +6181,6 @@ E.Options.args.unitframe.args.raidpet = {
 			type = "execute",
 			name = L["Restore Defaults"],
 			func = function(info, value) UF:ResetUnitSettings("raidpet"); E:ResetMovers(L["Raid Pet Frames"]); UF:CreateAndUpdateHeaderGroup("raidpet", nil, nil, true); end,
-			disabled = function() return not _G["ElvUF_Raidpet"].isForced == false; end
 		},
 		copyFrom = {
 			order = 3,
