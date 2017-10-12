@@ -134,6 +134,10 @@ local function LoadSkin()
 	S:HandleButton(QuestLogFrameTrackButton)
 	S:HandleButton(QuestLogFrameCancelButton)
 
+	S:HandleButton(QuestLogFrameCompleteButton, true)
+	QuestLogFrameCompleteButton:Point("TOPRIGHT", QuestLogFrameCancelButton, "TOPLEFT", -3, 0)
+	QuestLogFrameCompleteButton:HookScript("OnUpdate", function(self) self:SetAlpha(QuestLogFrameCompleteButtonFlash:GetAlpha()) end)
+
 	QuestLogFramePushQuestButton:Point("LEFT", QuestLogFrameAbandonButton, "RIGHT", 2, 0)
 	QuestLogFramePushQuestButton:Point("RIGHT", QuestLogFrameTrackButton, "LEFT", -2, 0)
 
