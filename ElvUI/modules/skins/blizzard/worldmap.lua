@@ -6,8 +6,9 @@ local function LoadSkin()
 
 	WorldMapFrame:CreateBackdrop("Transparent")
 
-	WorldMapDetailFrame:CreateBackdrop("Transparent")
-	WorldMapDetailFrame.backdrop:SetOutside(WorldMapDetailFrame)
+	WorldMapDetailFrame:CreateBackdrop()
+	WorldMapDetailFrame.backdrop:Point("TOPLEFT", -2, 2)
+	WorldMapDetailFrame.backdrop:Point("BOTTOMRIGHT", 2, -1)
 	WorldMapDetailFrame.backdrop:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() - 2)
 
 	WorldMapQuestDetailScrollFrame:Width(348)
@@ -54,8 +55,15 @@ local function LoadSkin()
 	S:HandleButton(WorldMapZoomOutButton)
 	WorldMapZoomOutButton:Point("LEFT", WorldMapZoneDropDown, "RIGHT", 0, 4)
 
-	WorldMapLevelUpButton:Point("TOPLEFT", WorldMapLevelDropDown, "TOPRIGHT", -2, 8)
-	WorldMapLevelDownButton:Point("BOTTOMLEFT", WorldMapLevelDropDown, "BOTTOMRIGHT", -2, 2)
+	S:HandleNextPrevButton(WorldMapLevelUpButton)
+	SquareButton_SetIcon(WorldMapLevelUpButton, "UP")
+	WorldMapLevelUpButton:Point("TOPLEFT", WorldMapLevelDropDown, "TOPRIGHT", -2, 6)
+	WorldMapLevelUpButton:Size(16)
+
+	S:HandleNextPrevButton(WorldMapLevelDownButton)
+	SquareButton_SetIcon(WorldMapLevelDownButton, "DOWN")
+	WorldMapLevelDownButton:Point("BOTTOMLEFT", WorldMapLevelDropDown, "BOTTOMRIGHT", -2, 3)
+	WorldMapLevelDownButton:Size(16)
 
 	S:HandleCheckBox(WorldMapTrackQuest)
 	S:HandleCheckBox(WorldMapQuestShowObjectives)
@@ -66,6 +74,10 @@ local function LoadSkin()
 		WorldMapFrame.backdrop:Point("TOPLEFT", 5, 0)
 		WorldMapFrame.backdrop:Point("BOTTOMRIGHT", -2, 4)
 
+		WorldMapDetailFrame.backdrop:ClearAllPoints()
+		WorldMapDetailFrame.backdrop:Point("TOPLEFT", -3, 3)
+		WorldMapDetailFrame.backdrop:Point("BOTTOMRIGHT", 3, -2)
+
 		WorldMapLevelDropDown:ClearAllPoints()
 		WorldMapLevelDropDown:Point("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -10, -4)
 	end
@@ -74,12 +86,20 @@ local function LoadSkin()
 		WorldMapFrame.backdrop:ClearAllPoints()
 		WorldMapFrame.backdrop:Point("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -10, 70)
 		WorldMapFrame.backdrop:Point("BOTTOMRIGHT", WorldMapDetailFrame, "BOTTOMRIGHT", 12, -30)
+
+		WorldMapDetailFrame.backdrop:ClearAllPoints()
+		WorldMapDetailFrame.backdrop:Point("TOPLEFT", -2, 2)
+		WorldMapDetailFrame.backdrop:Point("BOTTOMRIGHT", 2, -1)
 	end
 
 	local function QuestSkin()
 		WorldMapFrame.backdrop:ClearAllPoints()
-		WorldMapFrame.backdrop:Point("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -10, 69)
-		WorldMapFrame.backdrop:Point("BOTTOMRIGHT", WorldMapDetailFrame, "BOTTOMRIGHT", 321, -237)
+		WorldMapFrame.backdrop:Point("TOPLEFT", WorldMapDetailFrame, "TOPLEFT", -(E.PixelMode and 10 or 11), 69)
+		WorldMapFrame.backdrop:Point("BOTTOMRIGHT", WorldMapDetailFrame, "BOTTOMRIGHT", E.PixelMode and 321 or 322, -237)
+
+		WorldMapDetailFrame.backdrop:ClearAllPoints()
+		WorldMapDetailFrame.backdrop:Point("TOPLEFT", -2, 2)
+		WorldMapDetailFrame.backdrop:Point("BOTTOMRIGHT", 2, -1)
 	end
 
 	local function FixSkin()

@@ -76,37 +76,21 @@ local function LoadSkin()
 		end
 	end
 
-	-- Return to Graveyard Button
-	do
-		S:HandleButton(GhostFrame)
-		GhostFrame:SetBackdropColor(0, 0, 0, 0)
-		GhostFrame:SetBackdropBorderColor(0, 0, 0, 0)
-		GhostFrame:ClearAllPoints()
-		GhostFrame:Point("TOP", E.UIParent, "TOP", 0, -270)
+	-- Graveyard Button
+	GhostFrame:StripTextures(true)
+	GhostFrame:SetTemplate("Transparent")
+	GhostFrame:ClearAllPoints()
+	GhostFrame:Point("TOP", E.UIParent, "TOP", 0, -270)
 
-		local function forceBackdropColor(self, r, g, b, a)
-			if(r ~= 0 or g ~= 0 or b ~= 0 or a ~= 0) then
-				self:SetBackdropColor(0, 0, 0, 0)
-				self:SetBackdropBorderColor(0, 0, 0, 0)
-			end
-		end
+	GhostFrame:HookScript("OnEnter", S.SetModifiedBackdrop)
+	GhostFrame:HookScript("OnLeave", S.SetOriginalBackdrop)
 
-		hooksecurefunc(GhostFrame, "SetBackdropColor", forceBackdropColor)
-		hooksecurefunc(GhostFrame, "SetBackdropBorderColor", forceBackdropColor)
+	GhostFrameContentsFrame:CreateBackdrop()
+	GhostFrameContentsFrame.backdrop:SetOutside(GhostFrameContentsFrameIcon)
+	GhostFrameContentsFrame.SetPoint = E.noop
 
-		S:HandleButton(GhostFrameContentsFrame)
-		GhostFrameContentsFrameIcon:SetTexture(nil)
-
-		local x = CreateFrame("Frame", nil, GhostFrame)
-		x:SetFrameStrata("MEDIUM")
-		x:SetTemplate("Default")
-		x:SetOutside(GhostFrameContentsFrameIcon)
-
-		local tex = x:CreateTexture(nil, "OVERLAY")
-		tex:SetTexture("Interface\\Icons\\spell_holy_guardianspirit")
-		tex:SetTexCoord(0.1, 0.9, 0.1, 0.9)
-		tex:SetInside()
-	end
+	GhostFrameContentsFrameIcon:SetTexCoord(unpack(E.TexCoords))
+	GhostFrameContentsFrameIcon:SetParent(GhostFrameContentsFrame.backdrop)
 
 	-- Other Frames
 	TicketStatusFrameButton:SetTemplate("Transparent");
