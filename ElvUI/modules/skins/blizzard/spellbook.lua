@@ -90,50 +90,45 @@ local function LoadSkin()
 		end
 	end)
 
-	--Skill Line Tabs
-	local function SkinTab(tab)
+	for i = 1, MAX_SKILLLINE_TABS do
+		local tab = _G["SpellBookSkillLineTab"..i]
+		local flash = _G["SpellBookSkillLineTab"..i.."Flash"]
+
 		tab:StripTextures()
+		tab:SetTemplate()
+		tab:StyleButton(nil, true)
+		tab.pushed = true
+
 		tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
 		tab:GetNormalTexture():SetInside()
 
-		tab.pushed = true;
-		tab:SetTemplate()
-		tab:StyleButton(true)
 		hooksecurefunc(tab:GetHighlightTexture(), "SetTexture", function(self, texPath)
-			if(texPath ~= nil) then
-				self:SetPushedTexture(nil);
+			if texPath ~= nil then
+				self:SetPushedTexture(nil)
 			end
 		end)
 
 		hooksecurefunc(tab:GetCheckedTexture(), "SetTexture", function(self, texPath)
-			if(texPath ~= nil) then
-				self:SetHighlightTexture(nil);
+			if texPath ~= nil then
+				self:SetHighlightTexture(nil)
 			end
 		end)
 
-		local point, relatedTo, point2, x, y = tab:GetPoint()
-		tab:Point(point, relatedTo, point2, 1, y)
+		flash:Kill()
 	end
 
-	for i = 1, MAX_SKILLLINE_TABS do
-		local tab = _G["SpellBookSkillLineTab"..i]
-		_G["SpellBookSkillLineTab"..i.."Flash"]:Kill()
-		SkinTab(tab)
-		tab:StyleButton(nil, true);
-	end
-
-	local function SkinSkillLine()
+	hooksecurefunc("SpellBookFrame_UpdateSkillLineTabs", function()
 		for i = 1, MAX_SKILLLINE_TABS do
 			local tab = _G["SpellBookSkillLineTab"..i]
 			local _, _, _, _, isGuild = GetSpellTabInfo(i)
-			if(isGuild) then
+
+			if isGuild then
 				tab:GetNormalTexture():SetInside()
 				tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
-				tab:StyleButton(nil, true);
+				tab:StyleButton(nil, true)
 			end
 		end
-	end
-	hooksecurefunc("SpellBookFrame_UpdateSkillLineTabs", SkinSkillLine)
+	end)
 
 	SpellBookSkillLineTab1:Point("TOPLEFT", SpellBookSideTabsFrame, "TOPRIGHT", E.PixelMode and -1 or 1, -40)
 
