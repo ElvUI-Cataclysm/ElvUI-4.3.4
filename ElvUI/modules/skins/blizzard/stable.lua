@@ -12,6 +12,8 @@ local function LoadSkin()
 	PetStableFrame.page = 1
 
 	PetStableFrameInset:StripTextures()
+	PetStableFrameInset:Point("BOTTOMRIGHT", -6, 142)
+
 	PetStableLeftInset:StripTextures()
 
 	PetStableNextPageButton:Hide()
@@ -22,7 +24,6 @@ local function LoadSkin()
 
 	PetStableFrame:StripTextures()
 	PetStableFrame:CreateBackdrop("Transparent")
-	PetStableFrame.backdrop:Point("BOTTOMRIGHT", 0, -12)
 
 	PetStablePetInfo:CreateBackdrop()
 	PetStablePetInfo.backdrop:SetOutside(PetStableSelectedPetIcon)
@@ -42,13 +43,15 @@ local function LoadSkin()
 
 	PetStableTypeText:Point("BOTTOMRIGHT", -47, 2)
 
+	PetStableFrameModelBg:Height(265)
+
 	PetStableModelShadow:Kill()
 	PetStableModel:CreateBackdrop("Transparent")
 
 	PetStableBottomInset:StripTextures()
 	PetStableBottomInset:CreateBackdrop("Default")
 	PetStableBottomInset.backdrop:Point("TOPLEFT", 4, 0)
-	PetStableBottomInset.backdrop:Point("BOTTOMRIGHT", -5, -9)
+	PetStableBottomInset.backdrop:Point("BOTTOMRIGHT", -5, 6)
 
 	S:HandleCloseButton(PetStableFrameCloseButton)
 
