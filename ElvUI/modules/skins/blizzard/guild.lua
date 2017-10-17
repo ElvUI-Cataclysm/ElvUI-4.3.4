@@ -40,7 +40,7 @@ local function LoadSkin()
 
 	GuildXPBar:CreateBackdrop("Default")
 	GuildXPBar.backdrop:Point("TOPLEFT", 0, 1)
-	GuildXPBar.backdrop:Point("BOTTOMRIGHT", 0, 4)
+	GuildXPBar.backdrop:Point("BOTTOMRIGHT", -1, 4)
 	GuildXPBar.progress:SetTexture(E["media"].normTex)
 
 	--Faction Bar

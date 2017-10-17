@@ -165,7 +165,7 @@ local function LoadSkin()
 		primaryBar:StripTextures()
 		primaryBar:CreateBackdrop("Default")
 		primaryBar:SetStatusBarTexture(E["media"].normTex)
-		primaryBar:SetStatusBarColor(0.11, 0.50, 1.00)
+		primaryBar:SetStatusBarColor(0.22, 0.39, 0.84)
 		primaryBar:Size(180, 20)
 		primaryBar:Point("TOPLEFT", 250, -10)
 
@@ -241,7 +241,7 @@ local function LoadSkin()
 		secondaryBar:StripTextures()
 		secondaryBar:CreateBackdrop("Default")
 		secondaryBar:SetStatusBarTexture(E["media"].normTex)
-		secondaryBar:SetStatusBarColor(0.11, 0.50, 1.00)
+		secondaryBar:SetStatusBarColor(0.22, 0.39, 0.84)
 		secondaryBar:Size(120, 18)
 		secondaryBar:Point("TOPLEFT", 5, -35)
 
@@ -355,7 +355,7 @@ local function LoadSkin()
 	progress:Size(290, 19)
 	progress:Point("CENTER", 0, -28)
 	progress:SetStatusBarTexture(E["media"].normTex)
-	progress:SetStatusBarColor(0.11, 0.50, 1.00)
+	progress:SetStatusBarColor(0.22, 0.39, 0.84)
 
 	local MAX_COMPANIONS = {
 		CRITTER = 207,

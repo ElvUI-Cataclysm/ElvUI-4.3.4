@@ -124,7 +124,7 @@ local function LoadSkin()
 	TradeSkillRankFrame:StripTextures();
 	TradeSkillRankFrame:CreateBackdrop();
 	TradeSkillRankFrame:SetStatusBarTexture(E["media"].normTex);
-	TradeSkillRankFrame:SetStatusBarColor(0.13, 0.35, 0.80);
+	TradeSkillRankFrame:SetStatusBarColor(0.22, 0.39, 0.84)
 	E:RegisterStatusBar(TradeSkillRankFrame);
 
 	TradeSkillRankFrameSkillRank:ClearAllPoints();
@@ -214,7 +214,7 @@ local function LoadSkin()
 				local quality = select(3, GetItemInfo(reagentLink));
 				if(quality and quality > 1) then
 					icon.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality));
-					 if(playerReagentCount < reagentCount) then
+					if(playerReagentCount < reagentCount) then
 						name:SetTextColor(0.5, 0.5, 0.5);
 					else
 						name:SetTextColor(GetItemQualityColor(quality));

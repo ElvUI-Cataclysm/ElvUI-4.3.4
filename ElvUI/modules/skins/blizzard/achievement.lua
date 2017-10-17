@@ -164,7 +164,7 @@ local function LoadSkin(event)
 		bar:StripTextures();
 		bar:CreateBackdrop("Default");
 		bar:SetStatusBarTexture(E["media"].normTex);
-		bar:SetStatusBarColor(0.11, 0.50, 1.00);
+		bar:SetStatusBarColor(0.22, 0.39, 0.84)
 		E:RegisterStatusBar(bar);
 
 		local barName = bar:GetName();
@@ -244,7 +244,7 @@ local function LoadSkin(event)
 				frame:StripTextures();
 				frame:SetTemplate("Default");
 				frame:SetStatusBarTexture(E["media"].normTex);
-				frame:SetStatusBarColor(0.11, 0.50, 1.00);
+				frame:SetStatusBarColor(0.22, 0.39, 0.84)
 				frame:GetStatusBarTexture():SetInside();
 				E:RegisterStatusBar(frame);
 				frame:Height(frame:GetHeight() + (E.Border + E.Spacing));
