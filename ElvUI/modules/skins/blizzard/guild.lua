@@ -479,3 +479,27 @@ local function LoadSkin()
 end
 
 S:AddCallbackForAddon("Blizzard_GuildUI", "Guild", LoadSkin);
+
+local function LoadSecondarySkin()
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.guild ~= true then return end
+
+	-- Guild Invitation PopUp Frame
+	GuildInviteFrame:SetTemplate("Transparent")
+	GuildInviteFrameBg:Kill()
+	GuildInviteFrameTopLeftCorner:Kill()
+	GuildInviteFrameTopRightCorner:Kill()
+	GuildInviteFrameBottomLeftCorner:Kill()
+	GuildInviteFrameBottomRightCorner:Kill()
+	GuildInviteFrameTopBorder:Kill()
+	GuildInviteFrameBottomBorder:Kill()
+	GuildInviteFrameLeftBorder:Kill()
+	GuildInviteFrameRightBorder:Kill()
+	GuildInviteFrameBackground:Kill()
+	GuildInviteFrameTabardRing:Kill()
+	GuildInviteFrameLevel:StripTextures()
+
+	S:HandleButton(GuildInviteFrameJoinButton)
+	S:HandleButton(GuildInviteFrameDeclineButton)
+end
+
+S:AddCallback("GuildInvite", LoadSecondarySkin)
