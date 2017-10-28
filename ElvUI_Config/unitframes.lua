@@ -2908,7 +2908,7 @@ E.Options.args.unitframe.args.player = {
 					order = 9,
 					type = "toggle",
 					name = L["Heal Prediction"],
-					desc = L["Show a incomming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."],
+					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."],
 				},
 				hideonnpc = {
 					order = 10,
@@ -3273,7 +3273,7 @@ E.Options.args.unitframe.args.target = {
 					order = 9,
 					type = "toggle",
 					name = L["Heal Prediction"],
-					desc = L["Show a incomming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
+					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
 				},
 				hideonnpc = {
 					order = 10,
@@ -3797,7 +3797,7 @@ E.Options.args.unitframe.args.focus = {
 					order = 9,
 					type = "toggle",
 					name = L["Heal Prediction"],
-					desc = L["Show a incomming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
+					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
 				},
 				hideonnpc = {
 					order = 10,
@@ -4077,7 +4077,7 @@ E.Options.args.unitframe.args.pet = {
 					order = 9,
 					type = "toggle",
 					name = L["Heal Prediction"],
-					desc = L["Show a incomming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
+					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
 				},
 				hideonnpc = {
 					order = 10,
@@ -4551,7 +4551,7 @@ E.Options.args.unitframe.args.arena = {
 					order = 9,
 					type = "toggle",
 					name = L["Heal Prediction"],
-					desc = L["Show a incomming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
+					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
 				},
 				hideonnpc = {
 					order = 10,
@@ -4747,7 +4747,7 @@ E.Options.args.unitframe.args.party = {
 					order = 5,
 					type = "toggle",
 					name = L["Heal Prediction"],
-					desc = L["Show a incomming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
+					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
 				},
 				targetGlow = {
 					order = 6,
@@ -5357,7 +5357,7 @@ E.Options.args.unitframe.args.raid = {
 					order = 5,
 					type = "toggle",
 					name = L["Heal Prediction"],
-					desc = L["Show a incomming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
+					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
 				},
 				targetGlow = {
 					order = 6,
@@ -5795,7 +5795,7 @@ E.Options.args.unitframe.args.raid40 = {
 					order = 5,
 					type = "toggle",
 					name = L["Heal Prediction"],
-					desc = L["Show a incomming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
+					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
 				},
 				targetGlow = {
 					order = 6,
@@ -6219,7 +6219,7 @@ E.Options.args.unitframe.args.raidpet = {
 					order = 4,
 					type = "toggle",
 					name = L["Heal Prediction"],
-					desc = L["Show a incomming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
+					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
 				},
 				targetGlow = {
 					order = 5,

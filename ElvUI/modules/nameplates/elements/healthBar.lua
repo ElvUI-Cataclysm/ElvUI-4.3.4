@@ -9,17 +9,20 @@ function mod:UpdateElement_HealthOnValueChanged(health)
 	mod:UpdateElement_Health(frame)
 	mod:UpdateElement_HealthColor(frame)
 	mod:UpdateElement_Glow(frame)
+	mod:UpdateElement_Filters(frame, "UNIT_HEALTH")
 end
 
 function mod:UpdateElement_HealthColor(frame)
-	if(not frame.HealthBar:IsShown()) then return end
+	if not frame.HealthBar:IsShown() then return end
 
-	local r, g, b
+	local r, g, b, classColor, useClassColor
 	local scale = 1
 
 	local class = frame.UnitClass
-	local classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
-	local useClassColor = mod.db.units[frame.UnitType].healthbar.useClassColor
+	if class then
+		classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
+		useClassColor = mod.db.units[frame.UnitType].healthbar.useClassColor
+	end
 
 	if classColor and ((frame.UnitType == "FRIENDLY_PLAYER" and useClassColor) or (frame.UnitType == "ENEMY_PLAYER" and useClassColor)) then
 		r, g, b = classColor.r, classColor.g, classColor.b
@@ -78,19 +81,15 @@ function mod:UpdateElement_HealthColor(frame)
 	end
 
 	if r ~= frame.HealthBar.r or g ~= frame.HealthBar.g or b ~= frame.HealthBar.b then
-		if not frame.CustomColor then
-			frame.HealthBar:SetStatusBarColor(r, g, b)
-			frame.HealthBar.r, frame.HealthBar.g, frame.HealthBar.b = r, g, b
-		else
-			local CustomColor = frame.CustomColor
-			frame.HealthBar:SetStatusBarColor(CustomColor.r, CustomColor.g, CustomColor.b)
-			frame.HealthBar.r, frame.HealthBar.g, frame.HealthBar.b = CustomColor.r, CustomColor.g, CustomColor.b
-		end
+		frame.HealthBar:SetStatusBarColor(r, g, b)
+		frame.HealthBar.r, frame.HealthBar.g, frame.HealthBar.b = r, g, b
 	end
 
-	if (not frame.isTarget or not mod.db.useTargetScale) and not frame.CustomScale then
+	if not frame.isTarget or not self.db.useTargetScale then
 		frame.ThreatScale = scale
-		mod:SetFrameScale(frame, scale)
+		self:SetFrameScale(frame, (frame.ActionScale or 1) * scale)
+	else
+		self:SetFrameScale(frame, (frame.ActionScale or 1) * scale * self.db.targetScale)
 	end
 end
 
@@ -100,6 +99,7 @@ function mod:UpdateElement_Health(frame)
 	frame.HealthBar:SetMinMaxValues(0, maxHealth)
 
 	frame.HealthBar:SetValue(health)
+	frame:GetParent().UnitFrame.FlashTexture:Point("TOPRIGHT", frame.HealthBar:GetStatusBarTexture(), "TOPRIGHT") --idk why this fixes this
 
 	if self.db.units[frame.UnitType].healthbar.text.enable then
 		frame.HealthBar.text:SetText(E:GetFormattedText(self.db.units[frame.UnitType].healthbar.text.format, health, maxHealth))
@@ -113,11 +113,11 @@ function mod:ConfigureElement_HealthBar(frame, configuring)
 
 	healthBar:SetPoint("TOP", frame, "CENTER", 0, self.db.units[frame.UnitType].castbar.height + 3)
 	if frame.isTarget and self.db.useTargetScale then
-		healthBar:SetHeight(self.db.units[frame.UnitType].healthbar.height * ((frame.CustomScale and frame.CustomScale * self.db.targetScale) or self.db.targetScale))
-		healthBar:SetWidth(self.db.units[frame.UnitType].healthbar.width * ((frame.CustomScale and frame.CustomScale * self.db.targetScale) or self.db.targetScale))
+		healthBar:SetHeight(self.db.units[frame.UnitType].healthbar.height * self.db.targetScale)
+		healthBar:SetWidth(self.db.units[frame.UnitType].healthbar.width * self.db.targetScale)
 	else
-		healthBar:SetHeight((frame.CustomScale and frame.CustomScale * self.db.units[frame.UnitType].healthbar.height) or self.db.units[frame.UnitType].healthbar.height)
-		healthBar:SetWidth((frame.CustomScale and frame.CustomScale * self.db.units[frame.UnitType].healthbar.width) or self.db.units[frame.UnitType].healthbar.width)
+		healthBar:SetHeight(self.db.units[frame.UnitType].healthbar.height)
+		healthBar:SetWidth(self.db.units[frame.UnitType].healthbar.width)
 	end
 
 	healthBar:SetStatusBarTexture(LSM:Fetch("statusbar", self.db.statusbar), "BORDER")
@@ -132,9 +132,15 @@ end
 function mod:ConstructElement_HealthBar(parent)
 	local frame = CreateFrame("StatusBar", nil, parent)
 	self:StyleFrame(frame)
-	frame:SetFrameLevel(parent:GetFrameLevel())
+
+	parent.FlashTexture = frame:CreateTexture(nil, "OVERLAY")
+	parent.FlashTexture:SetTexture(LSM:Fetch("background", "ElvUI Blank"))
+	parent.FlashTexture:Point("BOTTOMLEFT", frame:GetStatusBarTexture(), "BOTTOMLEFT")
+	parent.FlashTexture:Point("TOPRIGHT", frame:GetStatusBarTexture(), "TOPRIGHT")
+	parent.FlashTexture:Hide()
 
 	frame.text = frame:CreateFontString(nil, "OVERLAY")
+	frame.text:SetFont(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
 	frame.text:SetWordWrap(false)
 	frame.scale = CreateAnimationGroup(frame)
 

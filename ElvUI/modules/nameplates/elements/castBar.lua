@@ -57,6 +57,7 @@ end
 
 function mod:UpdateElement_Cast(frame, event, unit, ...)
 	if self.db.units[frame.UnitType].castbar.enable ~= true then return end
+	if self.db.units[frame.UnitType].healthbar.enable ~= true and not (frame.isTarget and self.db.alwaysShowTargetHealth) then return end --Bug
 	if frame.unit ~= unit then return end
 
 	if event == "UNIT_SPELLCAST_START" then
@@ -195,7 +196,11 @@ function mod:UpdateElement_Cast(frame, event, unit, ...)
 		frame.CastBar:SetStatusBarColor(self.db.castNoInterruptColor.r, self.db.castNoInterruptColor.g, self.db.castNoInterruptColor.b)
 	end
 
-	frame.CastBar.canInterrupt = nil
+	if frame.CastBar:IsShown() then --This is so we can trigger based on Cast Name or Interruptible
+		self:UpdateElement_Filters(frame, "UpdateElement_Cast")
+	else
+		frame.CastBar.canInterrupt = nil --Only remove this when it's not shown so we can use it in style filter
+	end
 end
 
 function mod:ConfigureElement_CastBar(frame)
@@ -206,8 +211,14 @@ function mod:ConfigureElement_CastBar(frame)
 	castBar:SetPoint("TOPRIGHT", frame.HealthBar, "BOTTOMRIGHT", 0, -self.db.units[frame.UnitType].castbar.offset)
 	castBar:SetHeight(self.db.units[frame.UnitType].castbar.height)
 
-	castBar.Icon:SetPoint("TOPLEFT", frame.HealthBar, "TOPRIGHT", self.db.units[frame.UnitType].castbar.offset, 0)
-	castBar.Icon:SetPoint("BOTTOMLEFT", castBar, "BOTTOMRIGHT", self.db.units[frame.UnitType].castbar.offset, 0)
+	castBar.Icon:ClearAllPoints()
+	if self.db.units[frame.UnitType].castbar.iconPosition == "RIGHT" then
+		castBar.Icon:SetPoint("TOPLEFT", frame.HealthBar, "TOPRIGHT", self.db.units[frame.UnitType].castbar.offset, 0)
+		castBar.Icon:SetPoint("BOTTOMLEFT", castBar, "BOTTOMRIGHT", self.db.units[frame.UnitType].castbar.offset, 0)
+	elseif self.db.units[frame.UnitType].castbar.iconPosition == "LEFT" then
+		castBar.Icon:SetPoint("TOPRIGHT", frame.HealthBar, "TOPLEFT", -self.db.units[frame.UnitType].castbar.offset, 0)
+		castBar.Icon:SetPoint("BOTTOMRIGHT", castBar, "BOTTOMLEFT", -self.db.units[frame.UnitType].castbar.offset, 0)
+	end
 	castBar.Icon:SetWidth(self.db.units[frame.UnitType].castbar.height + self.db.units[frame.UnitType].healthbar.height + self.db.units[frame.UnitType].castbar.offset)
 	castBar.Icon.texture:SetTexCoord(unpack(E.TexCoords))
 
@@ -239,9 +250,31 @@ function mod:ConfigureElement_CastBar(frame)
 end
 
 function mod:ConstructElement_CastBar(parent)
+	local function updateGlowPosition(castBar)
+		if not parent.Glow2 then return end
+		local scale = 1;
+		if mod.db.useTargetScale then
+			if mod.db.targetScale >= 0.75 then
+				scale = mod.db.targetScale
+			else
+				scale = 0.75
+			end
+		end
+		local size = (E.Border*10)*scale
+		if castBar:IsShown() then
+			parent.Glow2:SetPoint("TOPLEFT", parent.HealthBar, "TOPLEFT", -E:Scale(2+size*2), E:Scale(2+size))
+			parent.Glow2:SetPoint("BOTTOMRIGHT", castBar, "BOTTOMRIGHT", E:Scale(4+size*2), -E:Scale(4+size))
+		else
+			parent.Glow2:SetPoint("TOPLEFT", parent.HealthBar, "TOPLEFT", -E:Scale(size*2), E:Scale(size))
+			parent.Glow2:SetPoint("BOTTOMRIGHT", parent.HealthBar, "BOTTOMRIGHT", E:Scale(size*2), -E:Scale(size))
+		end
+	end
+
 	local frame = CreateFrame("StatusBar", "$parentCastBar", parent)
 	self:StyleFrame(frame)
 	frame:SetScript("OnUpdate", mod.UpdateElement_CastBarOnUpdate)
+	frame:SetScript("OnShow", updateGlowPosition)
+	frame:SetScript("OnHide", updateGlowPosition)
 
 	frame.Icon = CreateFrame("Frame", nil, frame)
 	frame.Icon.texture = frame.Icon:CreateTexture(nil, "BORDER")
@@ -249,8 +282,10 @@ function mod:ConstructElement_CastBar(parent)
 	self:StyleFrame(frame.Icon)
 
 	frame.Name = frame:CreateFontString(nil, "OVERLAY")
+	frame.Name:SetFont(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
 	frame.Name:SetWordWrap(false)
 	frame.Time = frame:CreateFontString(nil, "OVERLAY")
+	frame.Time:SetFont(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
 	frame.Time:SetWordWrap(false)
 	frame.Spark = frame:CreateTexture(nil, "OVERLAY")
 	frame.Spark:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]])
