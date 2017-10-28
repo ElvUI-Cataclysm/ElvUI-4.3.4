@@ -239,7 +239,9 @@ local function LoadSkin()
 	--Guild News
 	GuildNewsFrame:StripTextures()
 
-	GuildNewsContainer:SetTemplate("Transparent")
+	GuildNewsContainer:CreateBackdrop("Transparent")
+	GuildNewsContainer.backdrop:Point("TOPLEFT", -1, 2)
+	GuildNewsContainer.backdrop:Point("BOTTOMRIGHT", 1, -3)
 
 	GuildNewsBossModel:StripTextures()
 	GuildNewsBossModel:CreateBackdrop("Transparent")
@@ -249,7 +251,7 @@ local function LoadSkin()
 	GuildNewsBossModelTextFrame:CreateBackdrop("Default")
 	GuildNewsBossModelTextFrame.backdrop:Point("TOPLEFT", GuildNewsBossModel.backdrop, "BOTTOMLEFT", 0, -1)
 
-	for i = 1, 17 do
+	for i = 1, 18 do
 		if _G["GuildNewsContainerButton"..i] then
 			_G["GuildNewsContainerButton"..i].header:Kill()
 			_G["GuildNewsContainerButton"..i]:StyleButton()
@@ -257,6 +259,7 @@ local function LoadSkin()
 	end
 
 	S:HandleScrollBar(GuildNewsContainerScrollBar, 4)
+	GuildNewsContainerScrollBar:Point("TOPLEFT", GuildNewsContainer, "TOPRIGHT", 4, -17)
 
 	--Guild News Filter
 	GuildNewsFiltersFrame:StripTextures()
@@ -411,18 +414,25 @@ local function LoadSkin()
 	S:HandleScrollBar(GuildLogScrollFrameScrollBar, 4)
 
 	GuildLogFrame:StripTextures()
-	GuildLogFrame:SetTemplate("Transparent")
+	GuildLogFrame:CreateBackdrop("Transparent")
+	GuildLogFrame.backdrop:Point("TOPLEFT", 15, 0)
+	GuildLogFrame.backdrop:Point("BOTTOMRIGHT", -15, 0)
+	GuildLogFrame:Point("TOPLEFT", GuildFrame, "TOPRIGHT", -10, 0)
 
 	GuildLogContainer:StripTextures()
 
-	GuildLogScrollFrame:SetTemplate("Transparent")
+	GuildLogScrollFrame:CreateBackdrop("Transparent")
+	GuildLogScrollFrame.backdrop:Point("TOPLEFT", -2, 2)
+	GuildLogScrollFrame.backdrop:Point("BOTTOMRIGHT", 0, -3)
 
 	for i = 1, GuildLogFrame:GetNumChildren() do
 		local child = select(i, GuildLogFrame:GetChildren())
 		if(child:GetName() == "GuildLogFrameCloseButton" and child:GetWidth() < 33) then
 			S:HandleCloseButton(child)
+			child:Point("TOPRIGHT", -10, 5)
 		elseif(child:GetName() == "GuildLogFrameCloseButton") then
 			S:HandleButton(child, true)
+			child:Point("BOTTOMRIGHT", -28, 16)
 		end
 	end
 
