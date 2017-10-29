@@ -74,7 +74,7 @@ function mod:SetTargetFrame(frame)
 	if frame.guid then frame.guid = nil end
 
 	local targetExists = UnitExists("target") == 1
-	if targetExists and frame:GetParent():IsShown() and frame:GetParent():GetFrameLevel() == 20 then
+	if targetExists and frame:GetParent():IsShown() and frame:GetParent():GetFrameLevel() == 20 and UnitName("target") == frame.UnitName then
 		if self.db.useTargetScale then
 			self:SetFrameScale(frame, (frame.ThreatScale or 1) * self.db.targetScale)
 		end
@@ -93,12 +93,8 @@ function mod:SetTargetFrame(frame)
 			self:ConfigureElement_Level(frame)
 			self:ConfigureElement_Name(frame)
 			self:UpdateElement_All(frame, true)
-		end
-
-		if UnitCastingInfo("target") then
-			frame:GetScript("OnEvent")(frame, "UNIT_SPELLCAST_START", "target")
-		elseif UnitChannelInfo("target") then
-			frame:GetScript("OnEvent")(frame, "UNIT_SPELLCAST_CHANNEL_START", "target")
+		else
+			self:UpdateElement_Cast(frame, nil, "target")
 		end
 
 		if targetExists then
@@ -111,7 +107,7 @@ function mod:SetTargetFrame(frame)
 			self:SetFrameScale(frame, (frame.ThreatScale or 1))
 		end
 		frame.isTarget = nil
-		frame.CastBar:Hide() -- Bug
+		--frame.CastBar:Hide() -- Bug
 		if self.db.units[frame.UnitType].healthbar.enable ~= true then
 			self:UpdateAllFrame(frame)
 		end
@@ -314,6 +310,7 @@ function mod:OnShow()
 	self.UnitFrame.UnitType = unitType
 	self.UnitFrame.UnitClass = mod:UnitClass(self.UnitFrame, unitType)
 	self.UnitFrame.UnitReaction = unitReaction
+	self.UnitFrame.unit = nil
 
 	if unitType == "ENEMY_PLAYER" then
 		mod:UpdateElement_HealerIcon(self.UnitFrame)
@@ -370,6 +367,7 @@ function mod:OnHide()
 
 	mod:HideAuraIcons(self.UnitFrame.Buffs)
 	mod:HideAuraIcons(self.UnitFrame.Debuffs)
+	self.UnitFrame:UnregisterAllEvents()
 	self.UnitFrame.Glow.r, self.UnitFrame.Glow.g, self.UnitFrame.Glow.b = nil, nil, nil
 	self.UnitFrame.Glow:Hide()
 	self.UnitFrame.Glow2:Hide()
@@ -425,7 +423,7 @@ function mod:UpdateElement_All(frame, noTargetFrame, filterIgnore)
 	if self.db.units[frame.UnitType].healthbar.enable or (frame.isTarget and self.db.alwaysShowTargetHealth) then
 		self:UpdateElement_Health(frame)
 		self:UpdateElement_HealthColor(frame)
-		self:UpdateElement_Cast(frame)
+		self:UpdateElement_Cast(frame, nil, frame.unit)
 		self:UpdateElement_Auras(frame)
 	else
 		-- make sure we hide the arrows and/or glow after disabling the healthbar

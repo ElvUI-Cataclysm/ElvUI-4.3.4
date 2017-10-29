@@ -219,8 +219,8 @@ end
 
 function mod:StyleFilterConditionCheck(frame, filter, trigger, failed)
 	local condition, name, inCombat, reaction, spell
-	local instanceName, instanceType, instanceDifficulty
-	local level, myLevel, curLevel, minLevel, maxLevel, matchMyLevel
+	local _, instanceType, instanceDifficulty
+	local level, myLevel, curLevel, minLevel, maxLevel, matchMyLevel, myRole
 	local health, maxHealth, percHealth, underHealthThreshold, overHealthThreshold
 
 	local castbarShown = frame.CastBar:IsShown()
@@ -312,10 +312,20 @@ function mod:StyleFilterConditionCheck(frame, filter, trigger, failed)
 		failed = not condition
 	end
 
+	--Try to match by role conditions
+	if not failed and (trigger.role.tank or trigger.role.healer or trigger.role.damager) then
+		condition = false
+		myRole = E:GetPlayerRole()
+		if myRole and ((trigger.role.tank and myRole == "TANK") or (trigger.role.healer and myRole == "HEALER") or (trigger.role.damager and myRole == "DAMAGER")) then
+			condition = true
+		end
+		failed = not condition
+	end
+
 	--Try to match by instance conditions
 	if not failed and (trigger.instanceType.none or trigger.instanceType.scenario or trigger.instanceType.party or trigger.instanceType.raid or trigger.instanceType.arena or trigger.instanceType.pvp) then
 		condition = false
-		instanceName, instanceType, instanceDifficulty = GetInstanceInfo()
+		_, instanceType, instanceDifficulty = GetInstanceInfo()
 		if instanceType
 		and ((trigger.instanceType.none		and instanceType == "none")
 		or (trigger.instanceType.party		and instanceType == "party")

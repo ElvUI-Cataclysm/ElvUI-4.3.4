@@ -32,7 +32,7 @@ function mod:UpdateElement_HealthColor(frame)
 		local status = mod:UnitDetailedThreatSituation(frame)
 		if status then
 			if status == 3 then
-				if E.Role == "Tank" then
+				if E:GetPlayerRole() == "TANK" then
 					r, g, b = mod.db.threat.goodColor.r, mod.db.threat.goodColor.g, mod.db.threat.goodColor.b
 					scale = mod.db.threat.goodScale
 				else
@@ -40,21 +40,21 @@ function mod:UpdateElement_HealthColor(frame)
 					scale = mod.db.threat.badScale
 				end
 			elseif status == 2 then
-				if E.Role == "Tank" then
+				if E:GetPlayerRole() == "TANK" then
 					r, g, b = mod.db.threat.badTransition.r, mod.db.threat.badTransition.g, mod.db.threat.badTransition.b
 				else
 					r, g, b = mod.db.threat.goodTransition.r, mod.db.threat.goodTransition.g, mod.db.threat.goodTransition.b
 				end
 				scale = 1
 			elseif status == 1 then
-				if E.Role == "Tank" then
+				if E:GetPlayerRole() == "TANK" then
 					r, g, b = mod.db.threat.goodTransition.r, mod.db.threat.goodTransition.g, mod.db.threat.goodTransition.b
 				else
 					r, g, b = mod.db.threat.badTransition.r, mod.db.threat.badTransition.g, mod.db.threat.badTransition.b
 				end
 				scale = 1
 			else
-				if E.Role == "Tank" then
+				if E:GetPlayerRole() == "TANK" then
 					r, g, b = mod.db.threat.badColor.r, mod.db.threat.badColor.g, mod.db.threat.badColor.b
 					scale = mod.db.threat.badScale
 				else
