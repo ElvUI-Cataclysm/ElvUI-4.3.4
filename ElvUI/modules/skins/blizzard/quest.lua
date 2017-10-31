@@ -394,7 +394,7 @@ local function LoadSkin()
 
 	QuestNPCModelNameText:Point("TOPLEFT", QuestNPCModelNameplate, 22, -20)
 
-	hooksecurefunc("QuestFrame_ShowQuestPortrait", function(parentFrame, portrait, text, name, x, y)
+	hooksecurefunc("QuestFrame_ShowQuestPortrait", function(parentFrame, _, _, _, x, y)
 		QuestNPCModel:ClearAllPoints();
 		QuestNPCModel:Point("TOPLEFT", parentFrame, "TOPRIGHT", x + 18, y);
 	end)
