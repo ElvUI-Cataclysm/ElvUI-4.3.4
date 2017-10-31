@@ -1,7 +1,7 @@
 -- Russian localization file for ruRU.
 local AceLocale = LibStub:GetLibrary("AceLocale-3.0")
 local L = AceLocale:NewLocale("ElvUI", "ruRU")
-if not L then return; end
+if not L then return end
 
 -- *_DESC locales
 L["ACTIONBARS_DESC"] = "Modify the actionbar settings."
@@ -39,7 +39,7 @@ L["SEARCH_SYNTAX_DESC"] = [=[С добавлением библиотеки LibI
     • bou : персональные при использовании.
     • boe : персональные при одевании.
     • boa : привязоные к учетной записи.
-    • quest : специальные предметы для заданий.]=];
+    • quest : специальные предметы для заданий.]=]
 L["TEXT_FORMAT_DESC"] = [=[Строка для изменения вида текста.
 
 Примеры:
@@ -60,7 +60,7 @@ L["TEXT_FORMAT_DESC"] = [=[Строка для изменения вида те�
 "name:medium" - Имя с ограничением длины в 15 символов
 "name:long" - Имя с ограничением длины в 20 символов
 
-Для отключения оставьте поле пустым, для дополнительной информации посетите http://www.tukui.org]=];
+Для отключения оставьте поле пустым, для дополнительной информации посетите http://www.tukui.org]=]
 
 --ActionBars
 L["Action Paging"] = "Переключение панелей"
@@ -116,8 +116,8 @@ L["Out of Range"] = "Вне радиуса"
 L["Restore Bar"] = "Восстановить панель"
 L["Restore the actionbars default settings"] = "Восстанавливает настройки панели по умолчанию."
 L["Seconds"] = "Секунды"
-L["Self Cast"] = true;
-L["Self cast on right click."] = true;
+L["Self Cast"] = true
+L["Self cast on right click."] = true
 L["Show Empty Buttons"] = "Показывать пустые кнопки"
 L["The amount of buttons to display per row."] = "Количество кнопок в каждом ряду"
 L["The amount of buttons to display."] = "Количество отображаемых кнопок."
@@ -204,7 +204,7 @@ L["Count yOffset"] = "Отступ стаков по Y"
 L["Defines how the group is sorted."] = "Определяет условия сортировки"
 L["Defines the sort order of the selected sort method."] = "Определяет порядок в выбранном методе сортировки."
 L["Disabled Blizzard"] = "Отключить ауры Blizzard"
-L["Display reminder bar on the minimap."] = true;
+L["Display reminder bar on the minimap."] = true
 L["Fade Threshold"] = "Значение мерцания"
 L["Index"] = "Порядок наложения"
 L["Indicate whether buffs you cast yourself should be separated before or after."] = "Определяет должны ли Ваши баффы находиться отдельно перед или после остальных."
@@ -213,7 +213,7 @@ L["Max Wraps"] = "Максимум рядов"
 L["No Sorting"] = "Без сортировки"
 L["Other's First"] = "Сначала чужие"
 L["Remaining Time"] = "Оставшееся время"
-L["Reminder"] = true;
+L["Reminder"] = true
 L["Reverse Style"] = "Обратное затенение"
 L["Seperate"] = "Разделение"
 L["Set the size of the individual auras."] = "Устанавливает размер аур"
@@ -495,10 +495,10 @@ L["Map Opacity When Moving"] = "Прозрачность карты в движ�
 L["Maps"] = "Карты"
 L["Minimap Buttons"] = "Кнопки миникарты"
 L["Minimap Mouseover"] = "При наведении мыши"
-L["Open Ticket"] = true;
+L["Open Ticket"] = true
 L["Puts coordinates on the world map."] = "Добавляет координаты на карту мира."
 L["Reset Zoom"] = "Сброс приближения"
-L["PvP Queue"] = true;
+L["PvP Queue"] = true
 L["Right"] = "Правый"
 L["Scale"] = "Масштаб"
 L["Smaller World Map"] = "Маленькая карта мира"
@@ -701,7 +701,7 @@ L["Auction Frame"] = "Аукцион"
 L["Barbershop Frame"] = "Парикмахерская"
 L["BG Map"] = "Карта ПБ"
 L["BG Score"] = "Таблица ПБ"
-L["Bigger Tradeskill"] = true;
+L["Bigger Tradeskill"] = true
 L["Calendar Frame"] = "Календарь"
 L["Character Frame"] = "Окно персонажа"
 L["Debug Tools"] = "Инструменты отладки"
@@ -723,7 +723,7 @@ L["Merchant Frame"] = "Торговец"
 L["Mirror Timers"] = "Таймеры"
 L["Misc Frames"] = "Прочие фреймы"
 L["Petition Frame"] = "Хартия гильдии"
-L["Move Pad"] = true;
+L["Move Pad"] = true
 L["PvP Frames"] = "ПвП фреймы"
 L["Quest Frames"] = "Задания"
 L["Raid Frame"] = "Рейд"
@@ -740,7 +740,7 @@ L["Trade Frame"] = "Обмен"
 L["TradeSkill Frame"] = "Профессия"
 L["Trainer Frame"] = "Тренер"
 L["Transmogrify Frame"] = "Окно трансмогрификации"
-L["Tutorial Frame"] = "Обучение";
+L["Tutorial Frame"] = "Обучение"
 
 --Tooltip
 L["Always Hide"] = "Всегда скрывать"
@@ -788,7 +788,7 @@ L["Allow non-personal auras from additional filter when 'Block Non-Personal Aura
 L["Allow Whitelisted Auras"] = "Разрешиь ауры из белого списка"
 L["An X offset (in pixels) to be used when anchoring new frames."] = "Отступ по оси X (в пикселях) при фиксации новой рамки."
 L["An Y offset (in pixels) to be used when anchoring new frames."] = "Отступ по оси Y (в пикселях) при фиксации новой рамки."
-L["Animation Speed"] = "Скорость анимации";
+L["Animation Speed"] = "Скорость анимации"
 L["Ascending or Descending order."] = "Восходящий или нисходящий порядок."
 L["Assist Frames"] = "Помощники"
 L["Assist Target"] = "Цели помощников"

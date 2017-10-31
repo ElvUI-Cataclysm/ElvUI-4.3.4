@@ -1,7 +1,7 @@
 -- Russian localization file for ruRU.
 local AceLocale = LibStub:GetLibrary("AceLocale-3.0")
 local L = AceLocale:NewLocale("ElvUI", "ruRU")
-if not L then return; end
+if not L then return end
 
 --*_ADDON locales
 L["INCOMPATIBLE_ADDON"] = "Аддон %s не совместим с модулем %s ElvUI. Пожалуйста, выберите отключить ли несовместимый аддон или модуль."
@@ -42,8 +42,8 @@ L["Vendor Grays"] = "Продавать серые предметы"
 
 --Chat
 L["AFK"] = "АФК" --Also used in datatexts and tooltip
-L["BG"] = "ПБ";
-L["BGL"] = "Лидер ПБ";
+L["BG"] = "ПБ"
+L["BGL"] = "Лидер ПБ"
 L["DND"] = "ДНД" --Also used in datatexts and tooltip
 L["G"] = "Г"
 L["Invalid Target"] = "Неверная цель"
@@ -96,12 +96,12 @@ L["Spec"] = "Спек"
 L["Spent:"] = "Потрачено:"
 L["Stats For:"] = "Статистика для:"
 L["System"] = "Система"
-L["Talent Specialization"] = true;
+L["Talent Specialization"] = true
 L["Total CPU:"] = "Использование процессора:"
 L["Total Memory:"] = "Всего памяти:"
 L["Total: "] = "Всего: "
 L["Unhittable:"] = "Полная защита от ударов"
-L["Vengeance"] = true;
+L["Vengeance"] = true
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFFЛКМ:|r Изменить набор талантов"
 L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = "|cffFFFFFFПКМ:|r Показать окно специализации"
 
@@ -124,7 +124,7 @@ L["Your profile was successfully recieved by the player."] = "Ваш профи�
 --Install
 L["Aura Bars & Icons"] = "Полосы аур и иконки"
 L["Auras Set"] = "Ауры установлены"
-L["Auras"] = "Ауры";
+L["Auras"] = "Ауры"
 L["Caster DPS"] = "Заклинатель"
 L["Chat Set"] = "Чат настроен"
 L["Chat"] = "Чат"
@@ -249,7 +249,7 @@ L["Player Buffs"] = "Баффы игрока"
 L["Player Castbar"] = "Полоса заклинаний игрока"
 L["Player Debuffs"] = "Дебаффы игрока"
 L["Player Frame"] = "Игрок" --Also used in UnitFrames
-L["PvP"] = true;
+L["PvP"] = true
 L["Raid Frames"] = "Рейд"
 L["Raid Pet Frames"] = "Питомцы рейда"
 L["Raid-40 Frames"] = "Рейд 40"
@@ -260,7 +260,7 @@ L["Target Castbar"] = "Полоса заклинаний цели"
 L["Target Frame"] = "Цель" --Also used in UnitFrames
 L["TargetTarget Frame"] = "Цель цели" --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = "Цель цели цели"
-L["Time Manager Frame"] = true;
+L["Time Manager Frame"] = true
 L["Tooltip"] = "Подсказка"
 L["Totem Bar"] = "Панель тотемов"
 L["Vehicle Seat Frame"] = "Техника"

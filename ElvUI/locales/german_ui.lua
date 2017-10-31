@@ -30,7 +30,7 @@ L["Remove Bar %d Action Page"] = "Entferne Leiste %d Aktion Seite"
 L["Trigger"] = "Auslöser"
 
 --Bags
-L["Bank"] = true;
+L["Bank"] = true
 L["Hold Control + Right Click:"] = "Halte Strg + Rechtsklick:"
 L["Hold Shift + Drag:"] = "Halte Shift + Ziehen:"
 L["Purchase Bags"] = "Taschen kaufen"
@@ -42,8 +42,8 @@ L["Vendor Grays"] = "Graue Gegenstände verkaufen"
 
 --Chat
 L["AFK"] = "AFK" --Also used in datatexts and tooltip
-L["BG"] = true;
-L["BGL"] = true;
+L["BG"] = true
+L["BGL"] = true
 L["DND"] = "DND" --Also used in datatexts and tooltip
 L["G"] = "G"
 L["Invalid Target"] = "Ungültiges Ziel"
@@ -72,7 +72,7 @@ L["DPS"] = "DPS"
 L["Earned:"] = "Verdient:"
 L["Friends List"] = "Freundesliste"
 L["Friends"] = "Freunde" --Also in Skins
-L["Gold"] = true;
+L["Gold"] = true
 L["goldabbrev"] = "|cffffd700g|r" --Also used in gold datatext
 L["Hit"] = "Trefferchance"
 L["Hold Shift + Right Click:"] = "Halte Shift + Rechtsklick:"
@@ -95,13 +95,13 @@ L["Spell/Heal Power"] = "Schaden/Heilungsboni"
 L["Spec"] = "Spec"
 L["Spent:"] = "Ausgegeben:"
 L["Stats For:"] = "Stats Für:"
-L["System"] = true;
-L["Talent Specialization"] = true;
+L["System"] = true
+L["Talent Specialization"] = true
 L["Total CPU:"] = "Gesamt CPU:"
 L["Total Memory:"] = "Gesamte Speichernutzung:"
 L["Total: "] = "Gesamt: "
 L["Unhittable:"] = "Unhittable:"
-L["Vengeance"] = true;
+L["Vengeance"] = true
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFFLinksklick:|r Talentspezialisierung ändern"
 L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = "|cffFFFFFFRechtsklick:|r Zeige Talent Spezialisierung UI"
 
@@ -225,7 +225,7 @@ L["Boss Button"] = "Boss Button"
 L["Boss Frames"] = "Boss Fenster" --Also used in UnitFrames
 L["Class Totems"] = "Klassen Totems" --Maybe bad translation
 L["Classbar"] = "Klassenleiste"
-L["Error Frame"] = true;
+L["Error Frame"] = true
 L["Experience Bar"] = "Erfahrungsleiste"
 L["Focus Castbar"] = "Fokus Zauberbalken"
 L["Focus Frame"] = "Fokusfenster" --Also used in UnitFrames
@@ -249,7 +249,7 @@ L["Player Buffs"] = "Spieler Buffs"
 L["Player Castbar"] = "Spieler Zauberbalken"
 L["Player Debuffs"] = "Spieler Debuffs"
 L["Player Frame"] = "Spielerfenster" --Also used in UnitFrames
-L["PvP"] = true;
+L["PvP"] = true
 L["Raid Frames"] = "Schlachtzugsfenster" --Also used in UnitFrames
 L["Raid Pet Frames"] = "Schlachtzugspets-Fenster"
 L["Raid-40 Frames"] = "40er Schlachtzugsfenster" --Also used in UnitFrames
@@ -278,7 +278,7 @@ L["Holy"] = "Heilig"
 L["Restoration"] = "Wiederherstellung"
 
 --Plugin Installer
-L["ElvUI Plugin Installation"] = true;
+L["ElvUI Plugin Installation"] = true
 L["In Progress"] = "In Bearbeitung"
 L["List of installations in queue:"] = "Liste von Installationen in Warteschlange:"
 L["Pending"] = "Ausstehend"

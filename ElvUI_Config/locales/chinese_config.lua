@@ -39,7 +39,7 @@ The following search keywords can also be used:
     • bou : Bind on use items.
     • boe : Bind on equip items.
     • boa : Bind on account items.
-    • quest : Quest bound items.]=];
+    • quest : Quest bound items.]=]
 L["TEXT_FORMAT_DESC"] = [=[提供一个更改文字格式的方式
 
 例如:
@@ -60,13 +60,13 @@ L["TEXT_FORMAT_DESC"] = [=[提供一个更改文字格式的方式
 'name:medium' -姓名显示限制于15字节内
 'name:long' - 姓名显示限制于20字节内
 
-空白则为禁用. 如需技术支援请至 http://www.tukui.org]=];
+空白则为禁用. 如需技术支援请至 http://www.tukui.org]=]
 
 --ActionBars
 L["Action Paging"] = "动作条翻页"
 L["ActionBars"] = "动作条"
 L["Allow Masque to handle the skinning of this element."] = "允许Masque来处理这个元素的皮肤"
-L["Allow newly learned spells to be automatically placed on an empty actionbar slot."] = true;
+L["Allow newly learned spells to be automatically placed on an empty actionbar slot."] = true
 L["Alpha"] = "透明度"
 L["Anchor Point"] = "定位方向"
 L["Auto Add New Spells"] = "自动添加新技能"
@@ -116,8 +116,8 @@ L["Out of Range"] = "超出范围"
 L["Restore Bar"] = "重置动作条"
 L["Restore the actionbars default settings"] = "恢复此动作条的预设设定"
 L["Seconds"] = "秒"
-L["Self Cast"] = true;
-L["Self cast on right click."] = true;
+L["Self Cast"] = true
+L["Self cast on right click."] = true
 L["Show Empty Buttons"] = "显示空白按钮"
 L["The amount of buttons to display per row."] = "每行显示多少个按钮数"
 L["The amount of buttons to display."] = "显示多少个动作条按钮"
@@ -204,7 +204,7 @@ L["Count yOffset"] = "计数Y偏移"
 L["Defines how the group is sorted."] = "定义组排序方式"
 L["Defines the sort order of the selected sort method."] = "定义排序方式的排序方向"
 L["Disabled Blizzard"] = "禁用暴雪框架"
-L["Display reminder bar on the minimap."] = true;
+L["Display reminder bar on the minimap."] = true
 L["Fade Threshold"] = "阈值渐隐"
 L["Index"] = "索引"
 L["Indicate whether buffs you cast yourself should be separated before or after."] = "将你自身施放的增益从整体增益之前或之后分离出来"
@@ -213,7 +213,7 @@ L["Max Wraps"] = "每行最大数"
 L["No Sorting"] = "不排序"
 L["Other's First"] = "他人光环优先"
 L["Remaining Time"] = "剩余时间"
-L["Reminder"] = true;
+L["Reminder"] = true
 L["Reverse Style"] = "倒序风格"
 L["Seperate"] = "光环分离"
 L["Set the size of the individual auras."] = "设置每个光环的尺寸"
@@ -346,7 +346,7 @@ L["BottomRightMiniPanel"] = "小地图右下内侧"
 L["Datatext Panel (Left)"] = "左侧信息框"
 L["Datatext Panel (Right)"] = "右侧信息框"
 L["DataTexts"] = "信息文字"
-L["Date Format"] = true;
+L["Date Format"] = true
 L["Display data panels below the chat, used for datatexts."] = "在聊天框下显示用于信息的框架"
 L["Display minimap panels below the minimap, used for datatexts."] = "显示小地图下方的信息框"
 L["Gold Format"] = "金币格式"
@@ -362,7 +362,7 @@ L["RightChatDataPanel"] = "右聊天框"
 L["RightMiniPanel"] = "小地图右方"
 L["Small Panels"] = "迷你面板"
 L["The display format of the money text that is shown in the gold datatext and its tooltip."] = "在信息文字中显示的金钱格式"
-L["Time Format"] = true;
+L["Time Format"] = true
 L["TopLeftMiniPanel"] = "小地图左上内侧"
 L["TopMiniPanel"] = "小地图顶部内侧"
 L["TopRightMiniPanel"] =  "小地图右上内侧"
@@ -433,8 +433,8 @@ L["Reset all frames to their original positions."] = "重设所有框架至预�
 L["Reset Anchors"] = "重置定位"
 L["Reverse Fill Direction"] = "翻转填充方向"
 L["Send ADDON_ACTION_BLOCKED errors to the Lua Error frame. These errors are less important in most cases and will not effect your game performance. Also a lot of these errors cannot be fixed. Please only report these errors if you notice a Defect in gameplay."] = "发送ADDON_ACTION_BLOCKED错误至Lua错误框, 这些错误并不重要, 不会影响你的游戏体验. 并且很多这类错误无法被修复. 请只将影响游戏体验的错误发送给我们"
-L["Set the width of Error Frame. Too narrow frame may cause messages to be split in several lines"] = true;
-L["Set the height of Error Frame. Higher frame can show more lines at once."] = true;
+L["Set the width of Error Frame. Too narrow frame may cause messages to be split in several lines"] = true
+L["Set the height of Error Frame. Higher frame can show more lines at once."] = true
 L["Skin Backdrop (No Borders)"] = "美化背景(无边框)"
 L["Skin Backdrop"] = "美化背景"
 L["Skin the blizzard chat bubbles."] = "美化暴雪对话泡泡"
@@ -494,10 +494,10 @@ L["Map Opacity When Moving"] = "移动时地图透明度"
 L["Maps"] = "地图"
 L["Minimap Buttons"] = "小地图按钮"
 L["Minimap Mouseover"] = "小地图鼠标滑过"
-L["Open Ticket"] = true;
+L["Open Ticket"] = true
 L["Puts coordinates on the world map."] = "在世界地图上显示坐标"
 L["Reset Zoom"] = "重置缩放"
-L["PvP Queue"] = true;
+L["PvP Queue"] = true
 L["Right"] = "右"
 L["Scale"] = "缩放"
 L["Smaller World Map"] = "更小的世界地图"
@@ -700,11 +700,11 @@ L["Auction Frame"] = "拍卖"
 L["Barbershop Frame"] = "理发师"
 L["BG Map"] = "战场地图"
 L["BG Score"] = "战场记分"
-L["Bigger Tradeskill"] = true;
+L["Bigger Tradeskill"] = true
 L["Calendar Frame"] = "日历框架"
 L["Character Frame"] = "角色"
 L["Debug Tools"] = "除错工具"
-L["GM Chat"] = true;
+L["GM Chat"] = true
 L["Gossip Frame"] = "闲谈"
 L["Greeting Frame"] = "欢迎"
 L["Guild Control Frame"] = "公会控制"
@@ -722,7 +722,7 @@ L["Merchant Frame"] = "商人"
 L["Mirror Timers"] = "镜像计时器"
 L["Misc Frames"] = "其他"
 L["Petition Frame"] = "回报GM"
-L["Move Pad"] = true;
+L["Move Pad"] = true
 L["PvP Frames"] = "PvP框架"
 L["Quest Frames"] = "任务"
 L["Raid Frame"] = "团队"
@@ -739,7 +739,7 @@ L["Trade Frame"] = "交易"
 L["TradeSkill Frame"] = "专业技能"
 L["Trainer Frame"] = "训练师"
 L["Transmogrify Frame"] = "幻化"
-L["Tutorial Frame"] = true;
+L["Tutorial Frame"] = true
 
 --Tooltip
 L["Always Hide"] = "总是隐藏"
@@ -787,7 +787,7 @@ L["Allow non-personal auras from additional filter when 'Block Non-Personal Aura
 L["Allow Whitelisted Auras"] = '允许白名单中的光环'
 L["An X offset (in pixels) to be used when anchoring new frames."] = "锚定新框架时的X偏移(单位:像素)"
 L["An Y offset (in pixels) to be used when anchoring new frames."] = "锚定新框架时的Y偏移(单位:像素)"
-L["Animation Speed"] = true;
+L["Animation Speed"] = true
 L["Ascending or Descending order."] = "升序或降序"
 L["Assist Frames"] = "助理框架"
 L["Assist Target"] = "助理目标"
@@ -1016,7 +1016,7 @@ L["Power"] = "能量条"
 L["Powers"] = "能量"
 L["Priority"] = "优先级"
 L["Profile Specific"] = "角色专用"
-L["PvP Icon"] = true;
+L["PvP Icon"] = true
 L["PvP Text"] = "PvP文字"
 L["PVP Trinket"] = "PvP饰品"
 L["Raid Icon"] = "团队图标"
@@ -1073,7 +1073,7 @@ L["Sort By"] = "排序"
 L["Spaced"] = "留空"
 L["Spacing"] = "间隙"
 L["Spark"] = "火花"
-L["Speed in seconds"] = true;
+L["Speed in seconds"] = true
 L["Stack Counter"] = "层数计数"
 L["Stack Threshold"] = "层数阈值"
 L["Start Near Center"] = "从中心开始"

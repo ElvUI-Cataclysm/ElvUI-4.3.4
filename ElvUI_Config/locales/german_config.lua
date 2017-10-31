@@ -39,7 +39,7 @@ Die folgenden Suchbegriffe können auch benutzt werden:
     • bou : Beim Benutzen gebundene Gegenstände.
     • boe : Beim Ausrüsten gebundene Gegenstände.
     • boa : An den Account gebundene Gegenstände.
-    • quest : Gebundene Quest Gegenstände.]=];
+    • quest : Gebundene Quest Gegenstände.]=]
 L["TEXT_FORMAT_DESC"] = [=[Wähle eine Zeichenfolge um das Textformat zu ändern.
 
 Beispiele:
@@ -60,7 +60,7 @@ Namensformate:
 'name:medium' - Name auf 15 Zeichen beschränkt
 'name:long' - Name auf 20 Zeichen beschränkt
 
-Zum Deaktvieren lasse das Feld leer. Brauchst du mehr Informationen besuche http://www.tukui.org]=];
+Zum Deaktvieren lasse das Feld leer. Brauchst du mehr Informationen besuche http://www.tukui.org]=]
 
 --ActionBars
 L["Action Paging"] = "Seitenwechsel der Aktionsleisten"
@@ -116,8 +116,8 @@ L["Out of Range"] = "Außer Reichweite"
 L["Restore Bar"] = "Leiste zurücksetzen"
 L["Restore the actionbars default settings"] = "Wiederherstellung der vordefinierten Aktionsleisteneinstellung"
 L["Seconds"] = "Sekunden"
-L["Self Cast"] = true;
-L["Self cast on right click."] = true;
+L["Self Cast"] = true
+L["Self cast on right click."] = true
 L["Show Empty Buttons"] = "Zeige leere Tasten"
 L["The amount of buttons to display per row."] = "Anzahl der Aktionstasten in einer Reihe."
 L["The amount of buttons to display."] = "Anzahl der angezeigten Aktionstasten."
@@ -166,7 +166,7 @@ L["Displays item level on equippable items."] = "Zeigt das Itemlevel für ausrü
 L["Enable/Disable the all-in-one bag."] = "Einschalten/Ausschalten der zusammengefassten Tasche."
 L["Enable/Disable the Bag-Bar."] = "Aktiviere/Deaktiviere die Taschenleiste."
 L["Full"] = "Voll"
-L["Global"] = true;
+L["Global"] = true
 L["Here you can add items or search terms that you want to be excluded from sorting. To remove an item just click on its name in the list."] = "Hier kannst du Gegenstände oder Suchbedingungen vom Suchen ausschließen. Um ein Gegenstand zu entfernen, klicke einfach auf den Namen in der Liste."
 L["Icons and Text (Short)"] = "Symbole und Text (Kurz)"
 L["Icons and Text"] = "Symbole und Text"
@@ -213,7 +213,7 @@ L["Max Wraps"] = "Maximale Leisten"
 L["No Sorting"] = "Nicht Sortieren"
 L["Other's First"] = "Andere zuerst"
 L["Remaining Time"] = "Verbleibende Zeit anzeigen"
-L["Reminder"] = true;
+L["Reminder"] = true
 L["Reverse Style"] = "Stil umkehren"
 L["Seperate"] = "Seperat"
 L["Set the size of the individual auras."] = "Lege die Größe der individuellen Stärkungszauber fest."
@@ -433,8 +433,8 @@ L["Reset all frames to their original positions."] = "Setze alle Einheiten an ih
 L["Reset Anchors"] = "Ankerpunkte zurücksetzen"
 L["Reverse Fill Direction"] = "Umgekehrtes Füllen"
 L["Send ADDON_ACTION_BLOCKED errors to the Lua Error frame. These errors are less important in most cases and will not effect your game performance. Also a lot of these errors cannot be fixed. Please only report these errors if you notice a Defect in gameplay."] = "Sende ADDON_ACTION_BLOCKED Fehler zum Lua-Fehlerfenster. Diese Fehler sind weniger wichtig und werden deine Spielleistung nicht beeinflussen. Viele dieser Fehler können nicht beseitigt werden. Bitte melde diese Fehler nur, wenn es einen Defekt im Spiel verursacht."
-L["Set the width of Error Frame. Too narrow frame may cause messages to be split in several lines"] = true;
-L["Set the height of Error Frame. Higher frame can show more lines at once."] = true;
+L["Set the width of Error Frame. Too narrow frame may cause messages to be split in several lines"] = true
+L["Set the height of Error Frame. Higher frame can show more lines at once."] = true
 L["Skin Backdrop (No Borders)"] = "Skin für den Hintergrund (kein Rahmen)"
 L["Skin Backdrop"] = "Skin für den Hintergrund"
 L["Skin the blizzard chat bubbles."] = "Skin die Blizzard Chat Sprechblasen."
@@ -491,10 +491,10 @@ L["LFG Queue"] = "LFG Warteschlange"
 L["Location Text"] = "Umgebungstext"
 L["Make the world map smaller."] = "Macht die Weltkarte kleiner."
 L["Map Opacity When Moving"] = "Deckkraft der Karte während der Bewegung"
-L["Maps"] = "Karten";
+L["Maps"] = "Karten"
 L["Minimap Buttons"] = "Minimap Tasten"
 L["Minimap Mouseover"] = "Minimap Mouseover"
-L["Open Ticket"] = true;
+L["Open Ticket"] = true
 L["Puts coordinates on the world map."] = "Platziert Koordinaten auf der Weltkarte."
 L["Reset Zoom"] = "Zoom zurücksetzen"
 L["PvP Queue"] = "PvP Warteschlange"
@@ -562,7 +562,7 @@ L["ENEMY_NPC"] = "Gegnerischer NPC"
 L["ENEMY_PLAYER"] = "Gegnerischer Spieler"
 L["Filter already exists!"] = "Filter existiert bereits!"
 L["Filter Priority"] = "Filter Priorität"
-L["Filter"] = true; --No need to translate
+L["Filter"] = true --No need to translate
 L["Filters Page"] = "Filter Seite"
 L["Friendly Combat Toggle"] = "Im Kampf für freundliche umschalten"
 L["Friendly NPC Frames"] = "Freundliche NPC Rahmen"
@@ -686,7 +686,7 @@ L["Global (Account Settings)"] = "Global (Accounteinstellungen)"
 L["Import Now"] = "Jetzt importieren"
 L["Import Profile"] = "Importiere Profil"
 L["Importing"] = "Importiere"
-L["Plugin"] = true; -- no need to translate this
+L["Plugin"] = true -- no need to translate this
 L["Private (Character Settings)"] = "Privat (Charakter Einstellungen)"
 L["Profile imported successfully!"] = "Profil erfolgreich importiert!"
 L["Profile Name"] = "Profilname"
@@ -701,11 +701,11 @@ L["Auction Frame"] = "Auktionsfenster"
 L["Barbershop Frame"] = "Barbier Fenster"
 L["BG Map"] = "Schlachtfeldkarte"
 L["BG Score"] = "Schlachtfeldpunkte"
-L["Bigger Tradeskill"] = true;
+L["Bigger Tradeskill"] = true
 L["Calendar Frame"] = "Kalender Fenster"
 L["Character Frame"] = "Charakterfenster"
 L["Debug Tools"] = "Debug Tools"
-L["GM Chat"] = true;
+L["GM Chat"] = true
 L["Gossip Frame"] = "Begrüßungsfenster"
 L["Greeting Frame"] = "Begrüßungsfenster"
 L["Guild Control Frame"] = "Gildenkontrollfenster"
@@ -723,7 +723,7 @@ L["Merchant Frame"] = "Handelsfenster"
 L["Mirror Timers"] = "Spiegel Zeitgeber"
 L["Misc Frames"] = "Verschiedene Fenster"
 L["Petition Frame"] = "Abstimmungsfenster"
-L["Move Pad"] = true;
+L["Move Pad"] = true
 L["PvP Frames"] = "Pvp Fenster"
 L["Quest Choice"] = "Quest Auswahl"
 L["Quest Frames"] = "Quest Fenster"
@@ -789,7 +789,7 @@ L["Allow non-personal auras from additional filter when 'Block Non-Personal Aura
 L["Allow Whitelisted Auras"] = "Erlaube Whitelisted Auren"
 L["An X offset (in pixels) to be used when anchoring new frames."] = "X-Versatz (in Pixeln) der verwendet werden soll um neue Fenster zu ankern"
 L["An Y offset (in pixels) to be used when anchoring new frames."] = "Y-Versatz (in Pixeln) der verwendet werden soll um neue Fenster zu ankern"
-L["Animation Speed"] = true;
+L["Animation Speed"] = true
 L["Ascending or Descending order."] = "Aufsteigende oder Absteigende Reihenfolge"
 L["Assist Frames"] = "Assistent Fenster"
 L["Assist Target"] = "Assistent Ziel"
@@ -955,7 +955,7 @@ L["If the unit is friendly to you."] = "Wenn die Einheit freundlich zu dir ist."
 L["If you have a lot of 3D Portraits active then it will likely have a big impact on your FPS. Disable some portraits if you experience FPS issues."] = "Wenn du viele 3D Portraits aktiviert hast, wird es voraussichtlich enorm auf deine FPS auswirken. Deaktiviere bitte einige 3D Portraits sollte das der Fall sein."
 L["Ignore mouse events."] = "Ignoriere Maus Events."
 L["InfoPanel Border"] = "InfoPanel Rand"
-L["Information Panel"] = true; -- no need to translate
+L["Information Panel"] = true -- no need to translate
 L["Inset"] = "Einsatz"
 L["Inside Information Panel"] = "Im Information Panel"
 L["Interruptable"] = "Unterbrechbar"
@@ -999,7 +999,7 @@ L["Overlay"] = "Überblenden"
 L["Override any custom visibility setting in certain situations, EX: Only show groups 1 and 2 inside a 10 man instance."] = "Überschreibe alle benutzerdefinierten Einstellungen für die Sichtbarkeit in bestimmten Situationen. Beispiel: Zeige nur Gruppe 1 und 2 in einer 10er-Instanz."
 L["Override the default class color setting."] = "Überschreibe die Standard Klassenfarben Einstellungen"
 L["Owners Name"] = "Name des Besitzers"
-L["Parent"] = true; -- no need to translate this
+L["Parent"] = true -- no need to translate this
 L["Party Pets"] = "Gruppenbegleiter"
 L["Party Targets"] = "Gruppenziele"
 L["Per Row"] = "Pro Reihe"
@@ -1019,7 +1019,7 @@ L["Powers"] = "Kräfte"
 L["Priority"] = "Priorität"
 L["Profile Specific"] = "Profilspezifisch"
 L["PvP Icon"] = "PvP Symbol"
-L["PvP Text"] = true; --no need to translate
+L["PvP Text"] = true --no need to translate
 L["PVP Trinket"] = "PVP Schmuck"
 L["Raid Icon"] = "Schlachtzugssymbol"
 L["Raid-Wide Sorting"] = "Raidweite Sortierung"
