@@ -1,11 +1,7 @@
 ﻿local E, L, V, P, G = unpack(ElvUI);
 local UF = E:GetModule("UnitFrames");
 
-local _, ns = ...;
-local ElvUF = ns.oUF;
-
 local _G = _G
-local next = next
 local select = select
 local pairs = pairs
 local ipairs = ipairs
@@ -137,7 +133,7 @@ local function filterPriority(auraType, groupName, value, remove, movehere, frie
 		if state then
 			local stateFound = filterMatch(filter, filterValue(state))
 			if not stateFound then
-				local tbl, sv, sm = {strsplit(",",filter)}
+				local tbl, sv = {strsplit(",",filter)}
 				for i in ipairs(tbl) do
 					if tbl[i] == value then sv = i;break end
 				end
@@ -155,7 +151,7 @@ end
 -----------------------------------------------------------------------
 -- OPTIONS TABLES
 -----------------------------------------------------------------------
-local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
+local function GetOptionsTable_AuraBars(updateFunc, groupName)
 	local config = {
 		order = 800,
 		type = "group",
@@ -347,24 +343,24 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 		type = "multiselect",
 		name = L["Filter Priority"],
 		dragOnLeave = function() end, --keep this here
-		dragOnEnter = function(info, value)
+		dragOnEnter = function(info)
 			carryFilterTo = info.obj.value
 		end,
-		dragOnMouseDown = function(info, value)
+		dragOnMouseDown = function(info)
 			carryFilterFrom, carryFilterTo = info.obj.value, nil
 		end,
-		dragOnMouseUp = function(info, value)
+		dragOnMouseUp = function(info)
 			filterPriority("aurabar", groupName, carryFilterTo, nil, carryFilterFrom) --add it in the new spot
 			carryFilterFrom, carryFilterTo = nil, nil
 		end,
-		dragOnClick = function(info, value)
+		dragOnClick = function(info)
 			filterPriority("aurabar", groupName, carryFilterFrom, true)
 		end,
-		stateSwitchGetText = function(button, text, value)
+		stateSwitchGetText = function(_, text)
 			local friend, enemy = match(text, "^Friendly:([^,]*)"), match(text, "^Enemy:([^,]*)")
 			return (friend and format("|cFF33FF33%s|r %s", FRIEND, friend)) or (enemy and format("|cFFFF3333%s|r %s", ENEMY, enemy))
 		end,
-		stateSwitchOnClick = function(info, value)
+		stateSwitchOnClick = function(info)
 			filterPriority("aurabar", groupName, carryFilterFrom, nil, nil, true)
 		end,
 		values = function()
@@ -378,7 +374,7 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 			local tbl = {strsplit(",",str)}
 			return tbl[value]
 		end,
-		set = function(info, value)
+		set = function(info)
 			E.db.unitframe.units[groupName].aurabar[ info[#info] ] = nil -- this was being set when drag and drop was first added, setting it to nil to clear tester profiles of this variable
 			updateFunc(UF, groupName)
 		end
@@ -392,7 +388,7 @@ local function GetOptionsTable_AuraBars(friendlyOnly, updateFunc, groupName)
 	return config
 end
 
-local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, updateFunc, groupName, numUnits)
+local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupName, numUnits)
 	local config = {
 		order = auraType == "buffs" and 500 or 600,
 		type = "group",
@@ -596,24 +592,24 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 		type = "multiselect",
 		name = L["Filter Priority"],
 		dragOnLeave = function() end, --keep this here
-		dragOnEnter = function(info, value)
+		dragOnEnter = function(info)
 			carryFilterTo = info.obj.value
 		end,
-		dragOnMouseDown = function(info, value)
+		dragOnMouseDown = function(info)
 			carryFilterFrom, carryFilterTo = info.obj.value, nil
 		end,
-		dragOnMouseUp = function(info, value)
+		dragOnMouseUp = function(info)
 			filterPriority(auraType, groupName, carryFilterTo, nil, carryFilterFrom) --add it in the new spot
 			carryFilterFrom, carryFilterTo = nil, nil
 		end,
-		dragOnClick = function(info, value)
+		dragOnClick = function(info)
 			filterPriority(auraType, groupName, carryFilterFrom, true)
 		end,
-		stateSwitchGetText = function(button, text, value)
+		stateSwitchGetText = function(_, text)
 			local friend, enemy = match(text, "^Friendly:([^,]*)"), match(text, "^Enemy:([^,]*)")
 			return (friend and format("|cFF33FF33%s|r %s", FRIEND, friend)) or (enemy and format("|cFFFF3333%s|r %s", ENEMY, enemy))
 		end,
-		stateSwitchOnClick = function(info, value)
+		stateSwitchOnClick = function(info)
 			filterPriority(auraType, groupName, carryFilterFrom, nil, nil, true)
 		end,
 		values = function()
@@ -627,7 +623,7 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 			local tbl = {strsplit(",",str)}
 			return tbl[value]
 		end,
-		set = function(info, value)
+		set = function(info)
 			E.db.unitframe.units[groupName][auraType][ info[#info] ] = nil -- this was being set when drag and drop was first added, setting it to nil to clear tester profiles of this variable
 			updateFunc(UF, groupName, numUnits)
 		end
@@ -792,7 +788,6 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 					if(numUnits) then
 						for i = 1, numUnits do
 							if(_G[frameName .. i]) then
-								local v = _G[frameName .. i].Power:GetValue();
 								local min, max = _G[frameName .. i].Power:GetMinMaxValues();
 								_G[frameName..i].Power:SetMinMaxValues(min, max + 500);
 								_G[frameName..i].Power:SetValue(1);
@@ -801,7 +796,6 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 						end
 					else
 						if(_G[frameName] and _G[frameName].Power) then
-							local v = _G[frameName].Power:GetValue();
 							local min, max = _G[frameName].Power:GetMinMaxValues();
 							_G[frameName].Power:SetMinMaxValues(min, max + 500)	;
 							_G[frameName].Power:SetValue(1);
@@ -810,7 +804,6 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 							for i = 1, _G[frameName]:GetNumChildren() do
 								local child = select(i, _G[frameName]:GetChildren());
 								if(child and child.Power) then
-									local v = child.Power:GetValue();
 									local min, max = child.Power:GetMinMaxValues();
 									child.Power:SetMinMaxValues(min, max + 500);
 									child.Power:SetValue(1);
@@ -1770,7 +1763,7 @@ local function CreateCustomTextGroup(unit, objectName)
 	tinsert(CUSTOMTEXT_CONFIGS, E.Options.args.unitframe.args[unit].args.customText.args[objectName]) --Register this custom text config to be hidden on profile change
 end
 
-local function GetOptionsTable_CustomText(updateFunc, groupName, numUnits, orderOverride)
+local function GetOptionsTable_CustomText(updateFunc, groupName, numUnits)
 	local config = {
 		order = 5100,
 		type = "group",
@@ -2217,7 +2210,7 @@ E.Options.args.unitframe = {
 							order = 8,
 							type = "execute",
 							name = L["Reset Aura Filters"],
-							func = function(info, value)
+							func = function(info)
 								E:StaticPopup_Show("RESET_UF_AF") --reset unitframe aurafilters
 							end
 						},
@@ -2852,7 +2845,7 @@ E.Options.args.unitframe.args.player = {
 					order = 4,
 					type = "execute",
 					name = L["Restore Defaults"],
-					func = function(info, value) UF:ResetUnitSettings("player"); E:ResetMovers("Player Frame") end
+					func = function(info) UF:ResetUnitSettings("player"); E:ResetMovers("Player Frame") end
 				},
 				showAuras = {
 					order = 5,
@@ -2980,10 +2973,10 @@ E.Options.args.unitframe.args.player = {
 		power = GetOptionsTable_Power(true, UF.CreateAndUpdateUF, "player", nil, true),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "player"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "player"),
-		buffs = GetOptionsTable_Auras(true, "buffs", false, UF.CreateAndUpdateUF, "player"),
-		debuffs = GetOptionsTable_Auras(true, "debuffs", false, UF.CreateAndUpdateUF, "player"),
+		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "player"),
+		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "player"),
 		castbar = GetOptionsTable_Castbar(true, UF.CreateAndUpdateUF, "player"),
-		aurabar = GetOptionsTable_AuraBars(true, UF.CreateAndUpdateUF, "player"),
+		aurabar = GetOptionsTable_AuraBars(UF.CreateAndUpdateUF, "player"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "player"),
 		classbar = {
 			order = 750,
@@ -3226,7 +3219,7 @@ E.Options.args.unitframe.args.target = {
 					order = 4,
 					type = "execute",
 					name = L["Restore Defaults"],
-					func = function(info, value) UF:ResetUnitSettings("target"); E:ResetMovers("Target Frame") end
+					func = function(info) UF:ResetUnitSettings("target"); E:ResetMovers("Target Frame") end
 				},
 				showAuras = {
 					order = 5,
@@ -3340,10 +3333,10 @@ E.Options.args.unitframe.args.target = {
 		power = GetOptionsTable_Power(true, UF.CreateAndUpdateUF, "target", nil, true),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "target"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "target"),
-		buffs = GetOptionsTable_Auras(false, "buffs", false, UF.CreateAndUpdateUF, "target"),
-		debuffs = GetOptionsTable_Auras(false, "debuffs", false, UF.CreateAndUpdateUF, "target"),
+		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "target"),
+		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "target"),
 		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, "target"),
-		aurabar = GetOptionsTable_AuraBars(false, UF.CreateAndUpdateUF, "target"),
+		aurabar = GetOptionsTable_AuraBars(UF.CreateAndUpdateUF, "target"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "target"),
 		GPSArrow = GetOptionsTableForNonGroup_GPS("target"),
 		combobar = {
@@ -3486,7 +3479,7 @@ E.Options.args.unitframe.args.targettarget = {
 					order = 4,
 					type = "execute",
 					name = L["Restore Defaults"],
-					func = function(info, value) UF:ResetUnitSettings("targettarget"); E:ResetMovers(L["TargetTarget Frame"]) end
+					func = function(info) UF:ResetUnitSettings("targettarget"); E:ResetMovers(L["TargetTarget Frame"]) end
 				},
 				showAuras = {
 					order = 5,
@@ -3579,8 +3572,8 @@ E.Options.args.unitframe.args.targettarget = {
 		power = GetOptionsTable_Power(nil, UF.CreateAndUpdateUF, "targettarget"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "targettarget"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "targettarget"),
-		buffs = GetOptionsTable_Auras(false, "buffs", false, UF.CreateAndUpdateUF, "targettarget"),
-		debuffs = GetOptionsTable_Auras(false, "debuffs", false, UF.CreateAndUpdateUF, "targettarget"),
+		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "targettarget"),
+		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "targettarget"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "targettarget")
 	}
 };
@@ -3622,7 +3615,7 @@ E.Options.args.unitframe.args.targettargettarget = {
 					order = 4,
 					type = "execute",
 					name = L["Restore Defaults"],
-					func = function(info, value) UF:ResetUnitSettings("targettargettarget"); E:ResetMovers(L["TargetTargetTarget Frame"]); end
+					func = function(info) UF:ResetUnitSettings("targettargettarget"); E:ResetMovers(L["TargetTargetTarget Frame"]); end
 				},
 				showAuras = {
 					order = 5,
@@ -3715,8 +3708,8 @@ E.Options.args.unitframe.args.targettargettarget = {
 		power = GetOptionsTable_Power(nil, UF.CreateAndUpdateUF, "targettargettarget"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "targettargettarget"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "targettargettarget"),
-		buffs = GetOptionsTable_Auras(false, "buffs", false, UF.CreateAndUpdateUF, "targettargettarget"),
-		debuffs = GetOptionsTable_Auras(false, "debuffs", false, UF.CreateAndUpdateUF, "targettargettarget"),
+		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "targettargettarget"),
+		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "targettargettarget"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "targettargettarget")
 	}
 };
@@ -3758,7 +3751,7 @@ E.Options.args.unitframe.args.focus = {
 					order = 4,
 					type = "execute",
 					name = L["Restore Defaults"],
-					func = function(info, value) UF:ResetUnitSettings("focus"); E:ResetMovers(L["Focus Frame"]); end
+					func = function(info) UF:ResetUnitSettings("focus"); E:ResetMovers(L["Focus Frame"]); end
 				},
 				showAuras = {
 					order = 5,
@@ -3857,10 +3850,10 @@ E.Options.args.unitframe.args.focus = {
 		power = GetOptionsTable_Power(nil, UF.CreateAndUpdateUF, "focus"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "focus"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "focus"),
-		buffs = GetOptionsTable_Auras(false, "buffs", false, UF.CreateAndUpdateUF, "focus"),
-		debuffs = GetOptionsTable_Auras(false, "debuffs", false, UF.CreateAndUpdateUF, "focus"),
+		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "focus"),
+		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "focus"),
 		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, "focus"),
-		aurabar = GetOptionsTable_AuraBars(false, UF.CreateAndUpdateUF, "focus"),
+		aurabar = GetOptionsTable_AuraBars(UF.CreateAndUpdateUF, "focus"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "focus"),
 		GPSArrow = GetOptionsTableForNonGroup_GPS("focus")
 	}
@@ -3903,7 +3896,7 @@ E.Options.args.unitframe.args.focustarget = {
 					order = 4,
 					type = "execute",
 					name = L["Restore Defaults"],
-					func = function(info, value) UF:ResetUnitSettings("focustarget"); E:ResetMovers(L["FocusTarget Frame"]); end
+					func = function(info) UF:ResetUnitSettings("focustarget"); E:ResetMovers(L["FocusTarget Frame"]); end
 				},	
 				showAuras = {
 					order = 5,
@@ -3995,8 +3988,8 @@ E.Options.args.unitframe.args.focustarget = {
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateUF, "focustarget"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "focustarget"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "focustarget"),
-		buffs = GetOptionsTable_Auras(false, "buffs", false, UF.CreateAndUpdateUF, "focustarget"),
-		debuffs = GetOptionsTable_Auras(false, "debuffs", false, UF.CreateAndUpdateUF, "focustarget"),
+		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "focustarget"),
+		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "focustarget"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "focustarget")
 	}
 };
@@ -4038,7 +4031,7 @@ E.Options.args.unitframe.args.pet = {
 					order = 4,
 					type = "execute",
 					name = L["Restore Defaults"],
-					func = function(info, value) UF:ResetUnitSettings("pet"); E:ResetMovers(L["Pet Frame"]); end
+					func = function(info) UF:ResetUnitSettings("pet"); E:ResetMovers(L["Pet Frame"]); end
 				},
 				showAuras = {
 					order = 5,
@@ -4169,8 +4162,8 @@ E.Options.args.unitframe.args.pet = {
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateUF, "pet"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "pet"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "pet"),
-		buffs = GetOptionsTable_Auras(true, "buffs", false, UF.CreateAndUpdateUF, "pet"),
-		debuffs = GetOptionsTable_Auras(true, "debuffs", false, UF.CreateAndUpdateUF, "pet"),
+		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "pet"),
+		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "pet"),
 		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, "pet")
 	}
 };
@@ -4212,7 +4205,7 @@ E.Options.args.unitframe.args.pettarget = {
 					order = 4,
 					type = "execute",
 					name = L["Restore Defaults"],
-					func = function(info, value) UF:ResetUnitSettings("pettarget"); E:ResetMovers(L["PetTarget Frame"]); end
+					func = function(info) UF:ResetUnitSettings("pettarget"); E:ResetMovers(L["PetTarget Frame"]); end
 				},
 				showAuras = {
 					order = 5,
@@ -4305,8 +4298,8 @@ E.Options.args.unitframe.args.pettarget = {
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateUF, "pettarget"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "pettarget"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "pettarget"),
-		buffs = GetOptionsTable_Auras(false, "buffs", false, UF.CreateAndUpdateUF, "pettarget"),
-		debuffs = GetOptionsTable_Auras(false, "debuffs", false, UF.CreateAndUpdateUF, "pettarget")
+		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "pettarget"),
+		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "pettarget")
 	}
 };
 
@@ -4350,7 +4343,7 @@ E.Options.args.unitframe.args.boss = {
 					order = 4,
 					type = "execute",
 					name = L["Restore Defaults"],
-					func = function(info, value) UF:ResetUnitSettings("boss"); E:ResetMovers(L["Boss Frames"]); end,
+					func = function(info) UF:ResetUnitSettings("boss"); E:ResetMovers(L["Boss Frames"]); end,
 				},
 				displayFrames = {
 					order = 5,
@@ -4465,8 +4458,8 @@ E.Options.args.unitframe.args.boss = {
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		buffs = GetOptionsTable_Auras(false, "buffs", false, UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
-		debuffs = GetOptionsTable_Auras(false, "debuffs", false, UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
+		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
+		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
 		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUFGroup, "boss", MAX_BOSS_FRAMES)
 	}
@@ -4512,7 +4505,7 @@ E.Options.args.unitframe.args.arena = {
 					order = 4,
 					type = "execute",
 					name = L["Restore Defaults"],
-					func = function(info, value) UF:ResetUnitSettings("arena"); E:ResetMovers(L["Arena Frames"]); end
+					func = function(info) UF:ResetUnitSettings("arena"); E:ResetMovers(L["Arena Frames"]); end
 				},
 				displayFrames = {
 					order = 5,
@@ -4673,8 +4666,8 @@ E.Options.args.unitframe.args.arena = {
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateUFGroup, "arena", 5),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUFGroup, "arena", 5),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUFGroup, "arena", 5),
-		buffs = GetOptionsTable_Auras(false, "buffs", false, UF.CreateAndUpdateUFGroup, "arena", 5),
-		debuffs = GetOptionsTable_Auras(false, "debuffs", false, UF.CreateAndUpdateUFGroup, "arena", 5),
+		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUFGroup, "arena", 5),
+		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUFGroup, "arena", 5),
 		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUFGroup, "arena", 5)
 	}
 };
@@ -4700,7 +4693,7 @@ E.Options.args.unitframe.args.party = {
 			order = 2,
 			type = "execute",
 			name = L["Restore Defaults"],
-			func = function(info, value) UF:ResetUnitSettings("party"); E:ResetMovers(L["Party Frames"]) end,
+			func = function(info) UF:ResetUnitSettings("party"); E:ResetMovers(L["Party Frames"]) end,
 		},
 		copyFrom = {
 			order = 3,
@@ -4713,7 +4706,7 @@ E.Options.args.unitframe.args.party = {
 			},
 			set = function(info, value) UF:MergeUnitSettings(value, "party", true); end
 		},
-		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateHeaderGroup, "party", nil, 4),
+		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateHeaderGroup, "party"),
 		generalGroup = {
 			order = 5,
 			type = "group",
@@ -5102,8 +5095,8 @@ E.Options.args.unitframe.args.party = {
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateHeaderGroup, "party"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "party"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateHeaderGroup, "party"),
-		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "party"),
-		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "party"),
+		buffs = GetOptionsTable_Auras("buffs", true, UF.CreateAndUpdateHeaderGroup, "party"),
+		debuffs = GetOptionsTable_Auras("debuffs", true, UF.CreateAndUpdateHeaderGroup, "party"),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, "party"),
 		petsGroup = {
 			order = 850,
@@ -5310,7 +5303,7 @@ E.Options.args.unitframe.args.raid = {
 			order = 2,
 			type = "execute",
 			name = L["Restore Defaults"],
-			func = function(info, value) UF:ResetUnitSettings("raid"); E:ResetMovers("Raid Frames"); end,
+			func = function(info) UF:ResetUnitSettings("raid"); E:ResetMovers("Raid Frames"); end,
 		},
 		copyFrom = {
 			order = 3,
@@ -5323,7 +5316,7 @@ E.Options.args.unitframe.args.raid = {
 			},
 			set = function(info, value) UF:MergeUnitSettings(value, "raid", true); end
 		},
-		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateHeaderGroup, "raid", nil, 4),
+		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateHeaderGroup, "raid"),
 		generalGroup = {
 			order = 5,
 			type = "group",
@@ -5565,8 +5558,8 @@ E.Options.args.unitframe.args.raid = {
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateHeaderGroup, "raid"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "raid"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateHeaderGroup, "raid"),
-		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "raid"),
-		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "raid"),
+		buffs = GetOptionsTable_Auras("buffs", true, UF.CreateAndUpdateHeaderGroup, "raid"),
+		debuffs = GetOptionsTable_Auras("debuffs", true, UF.CreateAndUpdateHeaderGroup, "raid"),
 		buffIndicator = {
 			order = 600,
 			type = "group",
@@ -5748,7 +5741,7 @@ E.Options.args.unitframe.args.raid40 = {
 			order = 2,
 			type = "execute",
 			name = L["Restore Defaults"],
-			func = function(info, value) UF:ResetUnitSettings("raid40"); E:ResetMovers("Raid Frames"); end
+			func = function(info) UF:ResetUnitSettings("raid40"); E:ResetMovers("Raid Frames"); end
 		},
 		copyFrom = {
 			order = 3,
@@ -5761,7 +5754,7 @@ E.Options.args.unitframe.args.raid40 = {
 			},
 			set = function(info, value) UF:MergeUnitSettings(value, "raid40", true); end
 		},
-		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateHeaderGroup, "raid40", nil, 4),
+		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateHeaderGroup, "raid40"),
 		generalGroup = {
 			order = 5,
 			type = "group",
@@ -6003,8 +5996,8 @@ E.Options.args.unitframe.args.raid40 = {
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateHeaderGroup, "raid40"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "raid40"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateHeaderGroup, "raid40"),
-		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "raid40"),
-		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "raid40"),
+		buffs = GetOptionsTable_Auras("buffs", true, UF.CreateAndUpdateHeaderGroup, "raid40"),
+		debuffs = GetOptionsTable_Auras("debuffs", true, UF.CreateAndUpdateHeaderGroup, "raid40"),
 		buffIndicator = {
 			order = 600,
 			type = "group",
@@ -6180,7 +6173,7 @@ E.Options.args.unitframe.args.raidpet = {
 			order = 2,
 			type = "execute",
 			name = L["Restore Defaults"],
-			func = function(info, value) UF:ResetUnitSettings("raidpet"); E:ResetMovers(L["Raid Pet Frames"]); UF:CreateAndUpdateHeaderGroup("raidpet", nil, nil, true); end,
+			func = function(info) UF:ResetUnitSettings("raidpet"); E:ResetMovers(L["Raid Pet Frames"]); UF:CreateAndUpdateHeaderGroup("raidpet", nil, nil, true); end,
 		},
 		copyFrom = {
 			order = 3,
@@ -6193,7 +6186,7 @@ E.Options.args.unitframe.args.raidpet = {
 			},
 			set = function(info, value) UF:MergeUnitSettings(value, "raidpet", true); end
 		},
-		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateHeaderGroup, "raidpet", nil, 4),
+		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateHeaderGroup, "raidpet"),
 		generalGroup = {
 			order = 5,
 			type = "group",
@@ -6475,7 +6468,7 @@ E.Options.args.unitframe.args.tank = {
 			order = 1,
 			type = "execute",
 			name = L["Restore Defaults"],
-			func = function(info, value) UF:ResetUnitSettings("tank") end,
+			func = function(info) UF:ResetUnitSettings("tank") end,
 		},
 		generalGroup = {
 			order = 2,
@@ -6605,8 +6598,8 @@ E.Options.args.unitframe.args.tank = {
 				}
 			}
 		},
-		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "tank"),
-		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "tank"),
+		buffs = GetOptionsTable_Auras("buffs", true, UF.CreateAndUpdateHeaderGroup, "tank"),
+		debuffs = GetOptionsTable_Auras("debuffs", true, UF.CreateAndUpdateHeaderGroup, "tank"),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, "tank"),
 		buffIndicator = {
 			order = 800,
@@ -6674,7 +6667,7 @@ E.Options.args.unitframe.args.assist = {
 			order = 1,
 			type = "execute",
 			name = L["Restore Defaults"],
-			func = function(info, value) UF:ResetUnitSettings("assist"); end,
+			func = function(info) UF:ResetUnitSettings("assist"); end,
 		},
 		generalGroup = {
 			order = 2,
@@ -6804,8 +6797,8 @@ E.Options.args.unitframe.args.assist = {
 				}
 			}
 		},
-		buffs = GetOptionsTable_Auras(true, "buffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
-		debuffs = GetOptionsTable_Auras(true, "debuffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
+		buffs = GetOptionsTable_Auras("buffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
+		debuffs = GetOptionsTable_Auras("debuffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, "assist"),
 		buffIndicator = {
 			order = 800,

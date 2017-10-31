@@ -44,7 +44,7 @@ local textCounterOffsets = {
 
 function UF:UpdateAuraWatchFromHeader(group, petOverride)
 	assert(self[group], "Invalid group specified.")
-	local group = self[group]
+	group = self[group]
 	for i = 1, group:GetNumChildren() do
 		local frame = select(i, group:GetChildren())
 		if frame and frame.Health then
@@ -63,8 +63,8 @@ end
 function UF:UpdateAuraWatch(frame, petOverride, db)
 	local buffs = {}
 	local auras = frame.AuraWatch
-	local db = db and db.buffIndicator or frame.db.buffIndicator
-	
+	db = db and db.buffIndicator or frame.db.buffIndicator
+
 	if not db.enable then
 		auras:Hide()
 		return;
@@ -85,7 +85,7 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 			tinsert(buffs, value)
 		end
 	end
-	
+
 	--CLEAR CACHE
 	if auras.icons then
 		for i = 1, #auras.icons do
@@ -145,15 +145,15 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 				if not icon.text then
 					local f = CreateFrame("Frame", nil, icon)
 					f:SetFrameLevel(icon:GetFrameLevel() + 50)
-					icon.text = f:CreateFontString(nil, "BORDER");
+					icon.text = f:CreateFontString(nil, "BORDER")
 				end
 
 				if not icon.border then
-					icon.border = icon:CreateTexture(nil, "BACKGROUND");
-					icon.border:Point("TOPLEFT", -E.mult, E.mult);
-					icon.border:Point("BOTTOMRIGHT", E.mult, -E.mult);
-					icon.border:SetTexture(E["media"].blankTex);
-					icon.border:SetVertexColor(0, 0, 0);
+					icon.border = icon:CreateTexture(nil, "BACKGROUND")
+					icon.border:Point("TOPLEFT", -E.mult, E.mult)
+					icon.border:Point("BOTTOMRIGHT", E.mult, -E.mult)
+					icon.border:SetTexture(E["media"].blankTex)
+					icon.border:SetVertexColor(0, 0, 0)
 				end
 
 				if not icon.cd then
@@ -196,9 +196,9 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 						r, g, b = buffs[i].textColor.r, buffs[i].textColor.g, buffs[i].textColor.b
 					end
 
-					icon.text:SetTextColor(r, g, b);
+					icon.text:SetTextColor(r, g, b)
 				else
-					icon.text:Hide();
+					icon.text:Hide()
 				end
 
 				if not icon.count then
@@ -229,7 +229,6 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 						auras.watched[buffs[i].id] = nil
 					end
 					icon:Hide()
-					icon = nil
 				end
 			end
 		end
@@ -240,6 +239,4 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 	end
 
 	frame:UpdateElement("AuraWatch")
-
-	buffs = nil
 end

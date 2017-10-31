@@ -156,7 +156,7 @@ local function enemyIsInLongRange(unit)
 	return false
 end
 
-function UF:UpdateRange(event)
+function UF:UpdateRange()
 	local range = self.Range
 	local unit = self.unit
 	if(unit) then

@@ -74,7 +74,7 @@ function mod:SetTargetFrame(frame)
 	if frame.guid then frame.guid = nil end
 
 	local targetExists = UnitExists("target") == 1
-	if targetExists and frame:GetParent():IsShown() and frame:GetParent():GetFrameLevel() == 20 and UnitName("target") == frame.UnitName then
+	if targetExists and frame:GetParent():IsShown() and frame:GetParent():GetAlpha() == 1 and UnitName("target") == frame.UnitName then
 		if self.db.useTargetScale then
 			self:SetFrameScale(frame, (frame.ThreatScale or 1) * self.db.targetScale)
 		end
@@ -107,7 +107,8 @@ function mod:SetTargetFrame(frame)
 			self:SetFrameScale(frame, (frame.ThreatScale or 1))
 		end
 		frame.isTarget = nil
-		--frame.CastBar:Hide() -- Bug
+		frame.CastBar:Hide() -- Bug
+
 		if self.db.units[frame.UnitType].healthbar.enable ~= true then
 			self:UpdateAllFrame(frame)
 		end
@@ -441,7 +442,6 @@ function mod:UpdateElement_All(frame, noTargetFrame, filterIgnore)
 
 	if not noTargetFrame then
 		mod:SetTargetFrame(frame)
-		--mod:ScheduleTimer("ForEachPlate", 0.25, "SetTargetFrame")
 	end
 
 	if not filterIgnore then
@@ -449,8 +449,6 @@ function mod:UpdateElement_All(frame, noTargetFrame, filterIgnore)
 	end
 end
 
-local maxFrameLevel = 40
-local currentFrameLevel = 10
 function mod:OnCreated(frame)
 	self.isTargetChanged = false
 	local HealthBar, CastBar = frame:GetChildren()
@@ -460,14 +458,6 @@ function mod:OnCreated(frame)
 	frame.UnitFrame = CreateFrame("Frame", nil, frame)
 	frame.UnitFrame:SetAllPoints()
 	frame.UnitFrame:SetScript("OnEvent", self.OnEvent)
-
-	frame.UnitFrame:SetFrameLevel(currentFrameLevel)
-
-	if currentFrameLevel == maxFrameLevel then
-		currentFrameLevel = currentFrameLevel - 30
-	else
-		currentFrameLevel = currentFrameLevel + 1
-	end
 
 	frame.UnitFrame.HealthBar = self:ConstructElement_HealthBar(frame.UnitFrame)
 	frame.UnitFrame.Level = self:ConstructElement_Level(frame.UnitFrame)

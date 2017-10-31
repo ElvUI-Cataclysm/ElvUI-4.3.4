@@ -38,7 +38,7 @@ function UF:Construct_PowerBar(frame, bg, text, textPos)
 	power.colorTapping = false;
 	power:CreateBackdrop("Default", nil, nil, self.thinBorders, true);
 
-	return power;
+	return power
 end
 
 function UF:Configure_Power(frame)
@@ -201,13 +201,13 @@ function UF:Configure_Power(frame)
 end
 
 local tokens = {[0] = "MANA", "RAGE", "FOCUS", "ENERGY", "RUNIC_POWER"}
-function UF:PostUpdatePower(unit, cur, min, max)
+function UF:PostUpdatePower(unit, _, _, max)
 	local parent = self:GetParent()
 
 	if parent.isForced then
 		local pType = random(0, 4)
 		local color = ElvUF['colors'].power[tokens[pType]]
-		min = random(1, max)
+		local min = random(1, max)
 		self:SetValue(min)
 
 		if not self.colorClass then

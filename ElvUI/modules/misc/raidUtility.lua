@@ -160,7 +160,7 @@ local function RaidUtility_PositionRoleIcons()
 end
 
 local count = {}
-local function UpdateIcons(self, event)
+local function UpdateIcons(self)
 	local numParty, numRaid = GetNumPartyMembers(), GetNumRaidMembers()
 	local unit = (numRaid > 0 and "raid" or "party")
 	local role
@@ -419,7 +419,7 @@ function RU:Initialize()
 			"RaidUtility_CloseButton"
 		}
 
-		for i, button in pairs(buttons) do
+		for _, button in pairs(buttons) do
 			local f = _G[button]
 			_G[button.."Left"]:SetAlpha(0)
 			_G[button.."Middle"]:SetAlpha(0)

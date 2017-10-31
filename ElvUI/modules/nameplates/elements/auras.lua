@@ -9,7 +9,6 @@ local gsub = string.gsub
 local tinsert, tremove, wipe = table.insert, table.remove, table.wipe
 
 local strlower, strsplit = string.lower, strsplit
-local next, ipairs = next, ipairs
 local match = string.match
 
 local CreateFrame = CreateFrame
@@ -247,7 +246,7 @@ function mod:HideAuraIcons(auras)
 end
 
 function mod:CheckFilter(name, caster, spellID, isPlayer, allowDuration, noDuration, ...)
-	local filterName, filter, filterType, spellList, spell = false, false
+	local filterName, filter, filterType, spellList, spell
 	for i = 1, select("#", ...) do
 		filterName = select(i, ...)
 		if G.nameplates.specialFilters[filterName] or E.global.unitframe.aurafilters[filterName] then
@@ -277,7 +276,7 @@ end
 
 function mod:AuraFilter(frame, frameNum, index, buffType, minDuration, maxDuration, priority, name, texture, count, duration, expiration, caster, spellID)
 	if not name then return nil end -- checking for an aura that is not there, pass nil to break while loop
-	local filterCheck, isPlayer, allowDuration, noDuration = false, false, false, false, false, false
+	local filterCheck, isPlayer, allowDuration, noDuration
 
 	if priority ~= "" then
 		noDuration = (not duration or duration == 0)

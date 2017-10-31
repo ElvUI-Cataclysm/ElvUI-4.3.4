@@ -14,18 +14,6 @@ local pairs, type, strsplit, match, gsub = pairs, type, strsplit, string.match, 
 
 local selectedNameplateFilter
 
-local positionValues = {
-	TOPLEFT = "TOPLEFT",
-	LEFT = "LEFT",
-	BOTTOMLEFT = "BOTTOMLEFT",
-	RIGHT = "RIGHT",
-	TOPRIGHT = "TOPRIGHT",
-	BOTTOMRIGHT = "BOTTOMRIGHT",
-	CENTER = "CENTER",
-	TOP = "TOP",
-	BOTTOM = "BOTTOM"
-}
-
 local carryFilterFrom, carryFilterTo
 local function filterValue(value)
 	return gsub(value,"([%(%)%.%%%+%-%*%?%[%^%$])","%%%1")
@@ -1503,7 +1491,7 @@ local function GetUnitSettings(unit, name)
 				type = "execute",
 				name = L["Default Settings"],
 				desc = L["Set Settings to Default"],
-				func = function(info, value)
+				func = function(info)
 					NP:ResetSettings(unit)
 					NP:ConfigureAll()
 				end
@@ -1768,17 +1756,17 @@ local function GetUnitSettings(unit, name)
 								name = L["Filter Priority"],
 								dragdrop = true,
 								dragOnLeave = function() end, --keep this here
-								dragOnEnter = function(info, value)
+								dragOnEnter = function(info)
 									carryFilterTo = info.obj.value
 								end,
-								dragOnMouseDown = function(info, value)
+								dragOnMouseDown = function(info)
 									carryFilterFrom, carryFilterTo = info.obj.value, nil
 								end,
-								dragOnMouseUp = function(info, value)
+								dragOnMouseUp = function(info)
 									filterPriority("buffs", unit, carryFilterTo, nil, carryFilterFrom) --add it in the new spot
 									carryFilterFrom, carryFilterTo = nil, nil
 								end,
-								dragOnClick = function(info, value)
+								dragOnClick = function(info)
 									filterPriority("buffs", unit, carryFilterFrom, true)
 								end,
 								values = function()
@@ -1792,7 +1780,7 @@ local function GetUnitSettings(unit, name)
 									local tbl = {strsplit(",",str)}
 									return tbl[value]
 								end,
-								set = function(info, value)
+								set = function(info)
 									NP:ConfigureAll()
 								end
 							},
@@ -1929,17 +1917,17 @@ local function GetUnitSettings(unit, name)
 								dragdrop = true,
 								name = L["Filter Priority"],
 								dragOnLeave = function() end, --keep this here
-								dragOnEnter = function(info, value)
+								dragOnEnter = function(info)
 									carryFilterTo = info.obj.value
 								end,
-								dragOnMouseDown = function(info, value)
+								dragOnMouseDown = function(info)
 									carryFilterFrom, carryFilterTo = info.obj.value, nil
 								end,
-								dragOnMouseUp = function(info, value)
+								dragOnMouseUp = function(info)
 									filterPriority("debuffs", unit, carryFilterTo, nil, carryFilterFrom) --add it in the new spot
 									carryFilterFrom, carryFilterTo = nil, nil
 								end,
-								dragOnClick = function(info, value)
+								dragOnClick = function(info)
 									filterPriority("debuffs", unit, carryFilterFrom, true)
 								end,
 								values = function()
@@ -1953,7 +1941,7 @@ local function GetUnitSettings(unit, name)
 									local tbl = {strsplit(",",str)}
 									return tbl[value]
 								end,
-								set = function(info, value)
+								set = function(info)
 									NP:ConfigureAll()
 								end
 							},
@@ -2750,7 +2738,7 @@ E.Options.args.nameplate = {
 					get = function(info) return selectedNameplateFilter end,
 					set = function(info, value) selectedNameplateFilter = value UpdateFilterGroup() end,
 					values = function()
-						local filters, priority, name, profile = {}
+						local filters, priority, name = {}
 						local list = E.global.nameplates.filters
 						local profile = E.db.nameplates.filters
 						if not list then return end

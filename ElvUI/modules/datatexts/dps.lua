@@ -50,7 +50,7 @@ local function OnEvent(self, event, ...)
 		if(not events[select(2, ...)]) then return; end
 
 		local id = select(4, ...);
-		local overKill = 0
+		local overKill
 
 		if(id == playerID or id == petID) then
 			if(timeStamp == 0) then timeStamp = select(1, ...); end

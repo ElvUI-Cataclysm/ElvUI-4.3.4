@@ -2,15 +2,12 @@ local E, L, V, P, G = unpack(select(2, ...))
 local UF = E:GetModule("UnitFrames")
 local LSM = LibStub("LibSharedMedia-3.0")
 
-local unpack, type = unpack, type
-local next, ipairs = next, ipairs
-local match = string.match
+local unpack = unpack
 local find = string.find
 local format = string.format
 local strsplit = strsplit
 local tsort = table.sort
 local ceil = math.ceil
-local select = select
 
 local GetTime = GetTime
 local CreateFrame = CreateFrame
@@ -219,20 +216,6 @@ function UF:Configure_Auras(frame, auraType)
 	end
 end
 
-local function SortAurasByPriority(a, b)
-	if (a and b) then
-		if a.isPlayer and not b.isPlayer then
-			return true
-		elseif not a.isPlayer and b.isPlayer then
-			return false
-		end
-
-		if (a.priority and b.priority) then
-			return a.priority > b.priority
-		end
-	end
-end
-
 local function SortAurasByTime(a, b)
 	if (a and b and a:GetParent().db) then
 		if a:IsShown() and b:IsShown() then
@@ -369,7 +352,7 @@ end
 
 local unstableAffliction = GetSpellInfo(30108);
 local vampiricTouch = GetSpellInfo(34914);
-function UF:PostUpdateAura(unit, button, index)
+function UF:PostUpdateAura(unit, button)
 	local auras = button:GetParent()
 	local frame = auras:GetParent()
 	local type = auras.type
@@ -461,14 +444,14 @@ function UF:UpdateAuraTimer(elapsed)
 	end
 end
 
-function UF:AuraFilter(unit, button, name, rank, texture, count, dispelType, duration, expiration, caster, isStealable, _, spellID)
+function UF:AuraFilter(unit, button, name, _, _, _, dispelType, duration, expiration, caster, isStealable, _, spellID)
 	local db = self:GetParent().db
 	if not db or not db[self.type] then return true; end
 
 	db = db[self.type]
 
 	if not name then return nil end
-	local filterCheck, isUnit, isFriend, isPlayer, canDispell, allowDuration, noDuration, spellPriority = false, false, false, false, false, false, false
+	local filterCheck, isUnit, isFriend, isPlayer, canDispell, allowDuration, noDuration, spellPriority
 
 	isPlayer = (caster == "player" or caster == "vehicle")
 	isFriend = unit and UnitIsFriend("player", unit) and not UnitCanAttack("player", unit)
