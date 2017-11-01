@@ -1,8 +1,13 @@
-local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule("Skins");
+local E, L, V, P, G = unpack(select(2, ...))
+local S = E:GetModule("Skins")
 
-local _G = _G;
-local unpack, pairs = unpack, pairs;
+local _G = _G
+local pairs, select, unpack = pairs, select, unpack
+
+local GetAchievementCriteriaInfo = GetAchievementCriteriaInfo
+local GetAchievementNumCriteria = GetAchievementNumCriteria
+local hooksecurefunc = hooksecurefunc
+local IsAddOnLoaded = IsAddOnLoaded
 
 local function LoadSkin(event)
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.achievement ~= true) then return; end
@@ -131,9 +136,11 @@ local function LoadSkin(event)
 		end
 	end
 
+	local AchievementFrame = _G["AchievementFrame"]
 	AchievementFrame:CreateBackdrop("Transparent");
 	AchievementFrame.backdrop:Point("TOPLEFT", 0, 6);
 	AchievementFrame.backdrop:Point("BOTTOMRIGHT");
+
 	AchievementFrameHeaderTitle:ClearAllPoints();
 	AchievementFrameHeaderTitle:Point("TOPLEFT", AchievementFrame.backdrop, "TOPLEFT", -30, -8);
 	AchievementFrameHeaderPoints:ClearAllPoints();

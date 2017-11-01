@@ -7,6 +7,7 @@ local select = select;
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.guildregistrar ~= true then return end
 
+	local GuildRegistrarFrame = _G["GuildRegistrarFrame"]
 	GuildRegistrarFrame:StripTextures(true)
 	GuildRegistrarFrame:CreateBackdrop("Transparent")
 	GuildRegistrarFrame.backdrop:Point("TOPLEFT", 12, -17)

@@ -4,11 +4,13 @@ local S = E:GetModule("Skins")
 local _G = _G
 local select, unpack, pairs = select, unpack, pairs
 
+local CreateFrame = CreateFrame
+local hooksecurefunc = hooksecurefunc
+
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.encounterjournal ~= true then return end
 
-	local EJ = EncounterJournal
-
+	local EJ = _G["EncounterJournal"]
 	EJ:StripTextures(true)
 	EJ:SetTemplate("Transparent")
 

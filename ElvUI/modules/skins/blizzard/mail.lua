@@ -10,14 +10,12 @@ local GetInboxItemLink = GetInboxItemLink
 local GetItemInfo = GetItemInfo
 local GetSendMailItem = GetSendMailItem
 local GetItemQualityColor = GetItemQualityColor
-local INBOXITEMS_TO_DISPLAY = INBOXITEMS_TO_DISPLAY
-local ATTACHMENTS_MAX_SEND = ATTACHMENTS_MAX_SEND
-local ATTACHMENTS_MAX_RECEIVE = ATTACHMENTS_MAX_RECEIVE
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.mail ~= true then return end
 
 	-- Inbox Frame
+	local MailFrame = _G["MailFrame"]
 	MailFrame:StripTextures(true)
 	MailFrame:CreateBackdrop("Transparent")
 	MailFrame.backdrop:Point("TOPLEFT", 4, 0)
@@ -127,10 +125,11 @@ local function LoadSkin()
 	S:HandleScrollBar(SendMailScrollFrameScrollBar)
 
 	S:HandleEditBox(SendMailNameEditBox)
-	SendMailNameEditBox.backdrop:Point("BOTTOMRIGHT", 2, 0)
+	SendMailNameEditBox:Height(18)
 
 	S:HandleEditBox(SendMailSubjectEditBox)
-	SendMailSubjectEditBox.backdrop:Point("BOTTOMRIGHT", 2, 0)
+	SendMailSubjectEditBox:Point("TOPLEFT", SendMailNameEditBox, "BOTTOMLEFT", 0, -10)
+	SendMailSubjectEditBox:Size(211, 18)
 
 	S:HandleEditBox(SendMailMoneyGold)
 	S:HandleEditBox(SendMailMoneySilver)
@@ -209,6 +208,7 @@ local function LoadSkin()
 	S:HandleScrollBar(OpenMailScrollFrameScrollBar)
 
 	OpenMailBodyText:SetTextColor(1, 1, 1)
+	InvoiceTextFontNormal:SetFont(E.media.normFont, 13)
 	InvoiceTextFontNormal:SetTextColor(1, 1, 1)
 	OpenMailInvoiceBuyMode:SetTextColor(1, 0.80, 0.10)
 

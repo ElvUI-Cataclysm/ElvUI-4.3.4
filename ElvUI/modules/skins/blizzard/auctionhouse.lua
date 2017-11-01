@@ -4,6 +4,8 @@ local S = E:GetModule("Skins")
 local _G = _G;
 local pairs, unpack = pairs, unpack;
 
+local hooksecurefunc = hooksecurefunc
+local CreateFrame = CreateFrame
 local GetAuctionSellItemInfo = GetAuctionSellItemInfo
 
 local function LoadSkin()
@@ -14,6 +16,7 @@ local function LoadSkin()
 	AuctionsScrollFrame:StripTextures()
 	BidScrollFrame:StripTextures()
 
+	local AuctionFrame = _G["AuctionFrame"]
 	AuctionFrame:StripTextures(true)
 	AuctionFrame:SetTemplate("Transparent")
 

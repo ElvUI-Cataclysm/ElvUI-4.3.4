@@ -51,6 +51,11 @@ local function LoadSkin()
 		icon:SetParent(button.bg)
 	end
 
+	local ClassTrainerFrame = _G["ClassTrainerFrame"]
+	ClassTrainerFrame:StripTextures()
+	ClassTrainerFrame:CreateBackdrop("Transparent")
+	ClassTrainerFrame:Height(ClassTrainerFrame:GetHeight() + 42)
+
 	ClassTrainerTrainButton:StripTextures()
 	S:HandleButton(ClassTrainerTrainButton)
 
@@ -60,10 +65,6 @@ local function LoadSkin()
 
 	S:HandleDropDownBox(ClassTrainerFrameFilterDropDown)
 	ClassTrainerFrameFilterDropDown:Point("TOPRIGHT", -10, -50)
-
-	ClassTrainerFrame:StripTextures()
-	ClassTrainerFrame:CreateBackdrop("Transparent")
-	ClassTrainerFrame:Height(ClassTrainerFrame:GetHeight() + 42)
 
 	ClassTrainerFrameSkillStepButton:StripTextures()
 	ClassTrainerFrameSkillStepButton:SetTemplate()

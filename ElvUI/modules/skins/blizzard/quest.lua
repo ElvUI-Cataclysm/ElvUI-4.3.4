@@ -5,7 +5,7 @@ local _G = _G;
 local unpack = unpack;
 local find = string.find;
 
-local SquareButton_SetIcon = SquareButton_SetIcon
+local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.quest ~= true then return end

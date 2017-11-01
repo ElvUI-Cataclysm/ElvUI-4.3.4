@@ -9,11 +9,12 @@ local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.dressingroom ~= true then return end
 
 	-- Dressing Room
+	local DressUpFrame = _G["DressUpFrame"]
+	DressUpFrame:StripTextures()
 	DressUpFrame:CreateBackdrop("Transparent");
 	DressUpFrame.backdrop:Point("TOPLEFT", 10, -12);
 	DressUpFrame.backdrop:Point("BOTTOMRIGHT", -33, 73);
 
-	DressUpFrame:StripTextures();
 	DressUpFramePortrait:Kill();
 
 	S:HandleCloseButton(DressUpFrameCloseButton, DressUpFrame.backdrop);

@@ -10,6 +10,7 @@ local CLASS_ICON_TCOORDS = CLASS_ICON_TCOORDS
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.calendar ~= true then return end
 
+	local CalendarFrame = _G["CalendarFrame"]
 	CalendarFrame:StripTextures()
 	CalendarFrame:SetTemplate("Transparent")
 

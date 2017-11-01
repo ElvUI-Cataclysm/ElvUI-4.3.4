@@ -4,9 +4,12 @@ local S = E:GetModule("Skins")
 local _G = _G
 local pairs, unpack = pairs, unpack
 
+local hooksecurefunc = hooksecurefunc
+
 local function LoadSkin()
 	if(not E.private.skins.blizzard.enable or not E.private.skins.blizzard.inspect) then return end
 
+	local InspectFrame = _G["InspectFrame"]
 	InspectFrame:StripTextures(true)
 	InspectFrame:CreateBackdrop("Transparent")
 	InspectFrame.backdrop:SetAllPoints()

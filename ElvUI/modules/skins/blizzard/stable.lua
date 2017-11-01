@@ -7,6 +7,10 @@ local unpack = unpack
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.stable ~= true then return end
 
+	local PetStableFrame = _G["PetStableFrame"]
+	PetStableFrame:StripTextures()
+	PetStableFrame:CreateBackdrop("Transparent")
+
 	NUM_PET_STABLE_SLOTS = 20
 	NUM_PET_STABLE_PAGES = 1
 	PetStableFrame.page = 1
@@ -21,9 +25,6 @@ local function LoadSkin()
 
 	PetStableModelRotateRightButton:Hide()
 	PetStableModelRotateLeftButton:Hide()
-
-	PetStableFrame:StripTextures()
-	PetStableFrame:CreateBackdrop("Transparent")
 
 	PetStablePetInfo:CreateBackdrop()
 	PetStablePetInfo.backdrop:SetOutside(PetStableSelectedPetIcon)
@@ -55,8 +56,41 @@ local function LoadSkin()
 
 	S:HandleCloseButton(PetStableFrameCloseButton)
 
+	local function PetButtons(btn)
+		local button = _G[btn]
+		local icon = _G[btn..'IconTexture']
+		local highlight = button:GetHighlightTexture()
+
+		button:StripTextures()
+
+		if button.Checked then
+			button.Checked:SetTexture(unpack(E["media"].rgbvaluecolor))
+			button.Checked:SetAllPoints(icon)
+			button.Checked:SetAlpha(0.3)
+		end
+
+		if highlight then
+			highlight:SetTexture(1, 1, 1, 0.3)
+			highlight:SetAllPoints(icon)
+		end
+
+		if icon then
+			icon:SetTexCoord(unpack(E.TexCoords))
+			icon:ClearAllPoints()
+			icon:Point("TOPLEFT", E.PixelMode and 1 or 2, -(E.PixelMode and 1 or 2))
+			icon:Point("BOTTOMRIGHT", -(E.PixelMode and 1 or 2), E.PixelMode and 1 or 2)
+
+			button:SetFrameLevel(button:GetFrameLevel() + 2)
+			if not button.backdrop then
+				button:CreateBackdrop("Default", true)
+				button.backdrop:SetAllPoints()
+			end
+		end
+	end
+
 	for i = 1, NUM_PET_ACTIVE_SLOTS do
-		S:HandleItemButton(_G["PetStableActivePet"..i], true)
+		PetButtons("PetStableActivePet"..i)
+
 	end
 
 	for i = 11, 20 do 
@@ -68,7 +102,7 @@ local function LoadSkin()
 	for i = 1, NUM_PET_STABLE_SLOTS do
 		local button = _G["PetStableStabledPet"..i]
 
-		S:HandleItemButton(button, true)
+		PetButtons("PetStableStabledPet"..i)
 
 		if i > 1 then
 			button:ClearAllPoints()

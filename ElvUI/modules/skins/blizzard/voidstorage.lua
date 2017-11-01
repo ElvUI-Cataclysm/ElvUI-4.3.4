@@ -4,6 +4,8 @@ local S = E:GetModule("Skins")
 local _G = _G;
 local unpack, select = unpack, select;
 
+local hooksecurefunc = hooksecurefunc
+
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.voidstorage ~= true then return end
 
@@ -13,6 +15,7 @@ local function LoadSkin()
 	VoidStorageBorderFrame:StripTextures()
 	VoidStorageCostFrame:StripTextures()
 
+	local VoidStorageFrame = _G["VoidStorageFrame"]
 	select(2, VoidStorageFrame:GetRegions()):Kill()
 	VoidStorageFrame:SetTemplate("Transparent")
 	VoidStorageFrame:Size(675, 410)

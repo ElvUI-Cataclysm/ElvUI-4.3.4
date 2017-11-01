@@ -5,11 +5,13 @@ local _G = _G
 local unpack = unpack
 
 local GuildControlGetNumRanks = GuildControlGetNumRanks
-local MAX_BUY_GUILDBANK_TABS = MAX_BUY_GUILDBANK_TABS
+local GetNumGuildBankTabs = GetNumGuildBankTabs
+local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.guildcontrol ~= true then return end
 
+	local GuildControlUI = _G["GuildControlUI"]
 	GuildControlUI:StripTextures()
 	GuildControlUI:SetTemplate("Transparent")
 
@@ -26,26 +28,25 @@ local function LoadSkin()
 		for i = 1, GuildControlGetNumRanks() do
 			local rankFrame = _G["GuildControlUIRankOrderFrameRank"..i]
 
-			if rankFrame and not rankFrame.isSkinned then
-				S:HandleButton(rankFrame.downButton)
-				S:HandleButton(rankFrame.upButton)
-				S:HandleButton(rankFrame.deleteButton)
+			if rankFrame then
+				if not rankFrame.nameBox.backdrop then
+					S:HandleButton(rankFrame.downButton)
+					S:HandleButton(rankFrame.upButton)
+					S:HandleButton(rankFrame.deleteButton)
 
-				S:HandleEditBox(rankFrame.nameBox)
+					S:HandleEditBox(rankFrame.nameBox)
+				end
 
+				rankFrame.nameBox.backdrop:ClearAllPoints()
 				rankFrame.nameBox.backdrop:Point("TOPLEFT", -2, -4)
 				rankFrame.nameBox.backdrop:Point("BOTTOMRIGHT", -4, 4)
-
-				rankFrame.isSkinned = true
 			end
 		end
 	end
 	hooksecurefunc("GuildControlUI_RankOrder_Update", SkinGuildRanks)
 
 	GuildControlUIRankOrderFrameNewButton:HookScript("OnClick", function()
-		E:Delay(0.50, function()
-			SkinGuildRanks()
-		end)
+		E:Delay(1, SkinGuildRanks)
 	end)
 
 	S:HandleDropDownBox(GuildControlUINavigationDropDown)

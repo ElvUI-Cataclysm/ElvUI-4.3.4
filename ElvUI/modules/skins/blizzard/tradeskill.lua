@@ -5,15 +5,18 @@ local _G = _G;
 local unpack, select = unpack, select;
 local find = string.find;
 
+local CreateFrame = CreateFrame
 local GetItemInfo = GetItemInfo;
 local GetItemQualityColor = GetItemQualityColor;
 local GetTradeSkillItemLink = GetTradeSkillItemLink;
 local GetTradeSkillReagentInfo = GetTradeSkillReagentInfo;
 local GetTradeSkillReagentItemLink = GetTradeSkillReagentItemLink;
+local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tradeskill ~= true) then return; end
 
+	local TradeSkillFrame = _G["TradeSkillFrame"]
 	TradeSkillFrame:StripTextures(true);
 	TradeSkillFrameInset:StripTextures();
 	TradeSkillListScrollFrame:StripTextures();
@@ -48,10 +51,25 @@ local function LoadSkin()
 		TradeSkillFrame.backdrop:Point("TOPLEFT", 5, 0);
 		TradeSkillFrame.backdrop:Point("BOTTOMRIGHT", -60, 0);
 
+		TradeSkillFrame.bg1 = CreateFrame("Frame", nil, TradeSkillFrame)
+		TradeSkillFrame.bg1:SetTemplate("Transparent")
+		TradeSkillFrame.bg1:Point("TOPLEFT", 9, -81)
+		TradeSkillFrame.bg1:Point("BOTTOMRIGHT", -391, 4)
+		TradeSkillFrame.bg1:SetBackdropColor(.1, .1, .1, 1/2)
+		TradeSkillFrame.bg1:SetFrameLevel(TradeSkillFrame.bg1:GetFrameLevel() - 1)
+
+		TradeSkillFrame.bg2 = CreateFrame("Frame", nil, TradeSkillFrame)
+		TradeSkillFrame.bg2:SetTemplate("Transparent")
+		TradeSkillFrame.bg2:SetBackdropColor(0, 0, 0, 1/2)
+		TradeSkillFrame.bg2:Point("TOPLEFT", TradeSkillFrame.bg1, "TOPRIGHT", 1, 0)
+		TradeSkillFrame.bg2:Point("BOTTOMRIGHT", TradeSkillFrame, "BOTTOMRIGHT", -64, 4)
+		TradeSkillFrame.bg2:SetFrameLevel(TradeSkillFrame.bg2:GetFrameLevel() - 1)
+
 		TradeSkillRankFrame:Size(447, 17);
 		TradeSkillRankFrame:ClearAllPoints();
 		TradeSkillRankFrame:Point("TOP", 0, -25);
 
+		TradeSkillFrameSearchBox:Width(191)
 		TradeSkillFrameSearchBox:Point("TOPLEFT", TradeSkillRankFrame, "BOTTOMLEFT", 0, -9)
 
 		TradeSkillLinkFrame:Point("LEFT", TradeSkillRankFrame, "RIGHT", -18, -23)

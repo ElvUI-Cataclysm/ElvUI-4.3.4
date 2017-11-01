@@ -5,6 +5,9 @@ local _G = _G
 local unpack, select = unpack, select
 local ceil = math.ceil;
 
+local CreateFrame = CreateFrame
+local hooksecurefunc = hooksecurefunc
+
 local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true) or (E.private.skins.blizzard.gbank ~= true) then return end
 

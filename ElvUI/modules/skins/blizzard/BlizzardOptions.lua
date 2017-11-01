@@ -7,7 +7,6 @@ local find = string.find
 
 local InCombatLockdown = InCombatLockdown
 local IsShiftKeyDown = IsShiftKeyDown
-local SquareButton_SetIcon = SquareButton_SetIcon
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.BlizzardOptions ~= true then return end

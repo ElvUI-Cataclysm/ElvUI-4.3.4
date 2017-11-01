@@ -4,6 +4,8 @@ local S = E:GetModule("Skins");
 local _G = _G;
 local unpack, select = unpack, select;
 
+local GetCVar = GetCVar
+
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.debug ~= true then return end
 

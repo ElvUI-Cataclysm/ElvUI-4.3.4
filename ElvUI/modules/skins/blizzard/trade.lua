@@ -4,6 +4,8 @@ local S = E:GetModule("Skins")
 local _G = _G;
 local unpack, select = unpack, select;
 
+local CreateFrame = CreateFrame
+local hooksecurefunc = hooksecurefunc
 local GetItemInfo = GetItemInfo;
 local GetItemQualityColor = GetItemQualityColor;
 local GetTradePlayerItemLink = GetTradePlayerItemLink;
@@ -12,6 +14,7 @@ local GetTradeTargetItemLink = GetTradeTargetItemLink;
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.trade ~= true then return end
 
+	local TradeFrame = _G["TradeFrame"]
 	TradeFrame:StripTextures(true)
 	TradeFrame:Height(493)
 

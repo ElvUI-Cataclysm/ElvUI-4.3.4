@@ -4,9 +4,12 @@ local S = E:GetModule("Skins");
 local _G = _G;
 local unpack = unpack;
 
+local CreateFrame = CreateFrame
+local GetItemInfo = GetItemInfo
 local GetItemQualityColor = GetItemQualityColor
 local GetContainerItemInfo = GetContainerItemInfo
 local GetContainerItemQuestInfo = GetContainerItemQuestInfo
+local MAX_WATCHED_TOKENS = MAX_WATCHED_TOKENS
 local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES
 
 function S:ContainerFrame_Update(self)
@@ -140,6 +143,7 @@ local function LoadSkin()
 	S:SecureHook("ContainerFrame_Update");
 
 	-- BankFrame
+	local BankFrame = _G["BankFrame"]
 	BankFrame:StripTextures(true);
 	BankFrame:CreateBackdrop("Transparent");
 	BankFrame.backdrop:Point("TOPLEFT", 10, -11);

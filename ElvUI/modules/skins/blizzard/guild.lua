@@ -1,12 +1,16 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule("Skins")
 
-local _G = _G;
-local ipairs, pairs, unpack, select = ipairs, pairs, unpack, select;
+local _G = _G
+local next, ipairs, pairs, select, unpack = next, ipairs, pairs, select, unpack
+
+local CreateFrame = CreateFrame
+local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.guild ~= true then return end
 
+	local GuildFrame = _G["GuildFrame"]
 	GuildFrame:StripTextures(true)
 	GuildFrame:SetTemplate("Transparent")
 
@@ -276,6 +280,7 @@ local function LoadSkin()
 	GuildNewsFiltersFrameCloseButton:Point("TOPRIGHT", 2, 2)
 
 	--Guild Info
+	local GuildInfoFrameInfo = _G["GuildInfoFrameInfo"]
 	GuildInfoFrameInfo:StripTextures()
 	GuildInfoFrameApplicants:StripTextures()
 	GuildInfoFrameApplicantsContainer:StripTextures()

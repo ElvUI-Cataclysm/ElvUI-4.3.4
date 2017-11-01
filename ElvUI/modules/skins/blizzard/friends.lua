@@ -2,14 +2,14 @@ local E, L, V, P, G = unpack(select(2, ...));
 local S = E:GetModule("Skins")
 
 local _G = _G;
-local pairs, unpack = pairs, unpack;
+local pairs, select, unpack = pairs, select, unpack
+
 local format = string.format
 
-local hooksecurefunc = hooksecurefunc;
+local CreateFrame = CreateFrame
+local hooksecurefunc = hooksecurefunc
 local GetWhoInfo = GetWhoInfo;
-local MAX_DISPLAY_CHANNEL_BUTTONS = MAX_DISPLAY_CHANNEL_BUTTONS
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
-local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.friends ~= true then return end

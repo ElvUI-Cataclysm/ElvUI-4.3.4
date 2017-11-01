@@ -4,9 +4,13 @@ local S = E:GetModule("Skins");
 local _G = _G;
 local select, unpack = select, unpack;
 
+local CreateFrame = CreateFrame
+local hooksecurefunc = hooksecurefunc
+
 local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.spellbook ~= true) then return; end
 
+	local SpellBookFrame = _G["SpellBookFrame"]
 	SpellBookFrame:StripTextures(true);
 	SpellBookFrame:SetTemplate("Transparent")
 	SpellBookFrame:Width(460)

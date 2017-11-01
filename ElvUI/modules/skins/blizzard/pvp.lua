@@ -5,6 +5,9 @@ local _G = _G;
 local pairs, unpack = pairs, unpack;
 local find = string.find;
 
+local CreateFrame = CreateFrame
+local hooksecurefunc = hooksecurefunc
+
 local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.pvp ~= true) then return; end
 

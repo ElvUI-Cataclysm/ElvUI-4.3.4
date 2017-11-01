@@ -5,6 +5,9 @@ local _G = _G;
 local pairs, unpack, select = pairs, unpack, select;
 local find = string.find;
 
+local GetLFGProposal = GetLFGProposal
+local hooksecurefunc = hooksecurefunc
+
 local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true) or (E.private.skins.blizzard.lfg ~= true) then return; end
 

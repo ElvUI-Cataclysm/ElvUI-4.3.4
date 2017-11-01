@@ -6,7 +6,6 @@ local unpack, assert, pairs, ipairs, select, type, pcall = unpack, assert, pairs
 local find = string.find;
 local tinsert, wipe = table.insert, table.wipe;
 
-local SquareButton_SetIcon = SquareButton_SetIcon
 local CreateFrame = CreateFrame;
 local SetDesaturation = SetDesaturation;
 local hooksecurefunc = hooksecurefunc;

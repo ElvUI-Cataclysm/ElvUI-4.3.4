@@ -111,6 +111,7 @@ local function LoadSkin()
 	HelpFrameKnowledgebaseSearchBox:ClearAllPoints()
 	HelpFrameKnowledgebaseSearchBox:Point("TOPLEFT", HelpFrameMainInset, "TOPLEFT", 13, -10)
 
+	local HelpFrame = _G["HelpFrame"]
 	HelpFrame:StripTextures(true)
 	HelpFrame:CreateBackdrop("Transparent")
 

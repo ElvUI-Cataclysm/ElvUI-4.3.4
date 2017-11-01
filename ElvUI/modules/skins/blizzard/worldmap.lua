@@ -1,9 +1,12 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
+local _G = _G
+
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.worldmap ~= true then return end
 
+	local WorldMapFrame = _G["WorldMapFrame"]
 	WorldMapFrame:CreateBackdrop("Transparent")
 
 	WorldMapDetailFrame:CreateBackdrop()
@@ -115,12 +118,12 @@ local function LoadSkin()
 
 		WorldMapFrameAreaLabel:FontTemplate(nil, 50, "OUTLINE")
 		WorldMapFrameAreaLabel:SetShadowOffset(2, -2)
-		WorldMapFrameAreaLabel:SetTextColor(0.90, 0.8294, 0.6407)
+		WorldMapFrameAreaLabel:SetTextColor(0.9, 0.8, 0.6)
 
 		WorldMapFrameAreaDescription:FontTemplate(nil, 40, "OUTLINE")
 		WorldMapFrameAreaDescription:SetShadowOffset(2, -2)
 
-		WorldMapZoneInfo:FontTemplate(nil, 27, "OUTLINE")
+		WorldMapZoneInfo:FontTemplate(nil, 25, "OUTLINE")
 		WorldMapZoneInfo:SetShadowOffset(2, -2)
 
 		if InCombatLockdown() then return end

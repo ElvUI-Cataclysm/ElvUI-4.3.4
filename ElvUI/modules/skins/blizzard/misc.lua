@@ -6,7 +6,6 @@ local unpack = unpack
 
 local UnitIsUnit = UnitIsUnit
 local IsAddOnLoaded = IsAddOnLoaded
-local SquareButton_SetIcon = SquareButton_SetIcon
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.misc ~= true then return end
@@ -78,20 +77,22 @@ local function LoadSkin()
 	end
 
 	-- Graveyard Button
-	GhostFrame:StripTextures(true)
-	GhostFrame:SetTemplate("Transparent")
-	GhostFrame:ClearAllPoints()
-	GhostFrame:Point("TOP", E.UIParent, "TOP", 0, -270)
+	do
+		GhostFrame:StripTextures(true)
+		GhostFrame:SetTemplate("Transparent")
+		GhostFrame:ClearAllPoints()
+		GhostFrame:Point("TOP", E.UIParent, "TOP", 0, -150)
 
-	GhostFrame:HookScript("OnEnter", S.SetModifiedBackdrop)
-	GhostFrame:HookScript("OnLeave", S.SetOriginalBackdrop)
+		GhostFrame:HookScript("OnEnter", S.SetModifiedBackdrop)
+		GhostFrame:HookScript("OnLeave", S.SetOriginalBackdrop)
 
-	GhostFrameContentsFrame:CreateBackdrop()
-	GhostFrameContentsFrame.backdrop:SetOutside(GhostFrameContentsFrameIcon)
-	GhostFrameContentsFrame.SetPoint = E.noop
+		GhostFrameContentsFrame:CreateBackdrop()
+		GhostFrameContentsFrame.backdrop:SetOutside(GhostFrameContentsFrameIcon)
+		GhostFrameContentsFrame.SetPoint = E.noop
 
-	GhostFrameContentsFrameIcon:SetTexCoord(unpack(E.TexCoords))
-	GhostFrameContentsFrameIcon:SetParent(GhostFrameContentsFrame.backdrop)
+		GhostFrameContentsFrameIcon:SetTexCoord(unpack(E.TexCoords))
+		GhostFrameContentsFrameIcon:SetParent(GhostFrameContentsFrame.backdrop)
+	end
 
 	-- Other Frames
 	TicketStatusFrameButton:SetTemplate("Transparent")
@@ -156,6 +157,12 @@ local function LoadSkin()
 	-- Stack Split Frame
 	StackSplitFrame:SetTemplate("Transparent")
 	StackSplitFrame:GetRegions():Hide()
+
+	StackSplitFrame.bg1 = CreateFrame("Frame", nil, StackSplitFrame)
+	StackSplitFrame.bg1:SetTemplate("Transparent")
+	StackSplitFrame.bg1:Point("TOPLEFT", 10, -15)
+	StackSplitFrame.bg1:Point("BOTTOMRIGHT", -10, 55)
+	StackSplitFrame.bg1:SetFrameLevel(StackSplitFrame.bg1:GetFrameLevel() - 1)
 
 	S:HandleButton(StackSplitOkayButton)
 	S:HandleButton(StackSplitCancelButton)

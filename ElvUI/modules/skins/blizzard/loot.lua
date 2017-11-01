@@ -8,15 +8,15 @@ local UnitName = UnitName;
 local IsFishingLoot = IsFishingLoot;
 local GetLootRollItemInfo = GetLootRollItemInfo
 local GetItemQualityColor = GetItemQualityColor
-local SquareButton_SetIcon = SquareButton_SetIcon
-local LOOTFRAME_NUMBUTTONS = LOOTFRAME_NUMBUTTONS;
 local NUM_GROUP_LOOT_FRAMES = NUM_GROUP_LOOT_FRAMES
-local LOOT = LOOT;
+local LOOT, ITEMS = LOOT, ITEMS
+
 
 local function LoadSkin()
 	if(E.private.general.loot) then return; end
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.loot ~= true) then return; end
 
+	local LootFrame = _G["LootFrame"]
 	LootFrame:StripTextures();
 
 	LootFrame:CreateBackdrop("Transparent")

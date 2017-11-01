@@ -4,8 +4,10 @@ local S = E:GetModule("Skins")
 local _G = _G
 local unpack, pairs, select = unpack, pairs, select
 
+local GetCurrencyListSize = GetCurrencyListSize
+local GetNumFactions = GetNumFactions
+local hooksecurefunc = hooksecurefunc
 local CharacterFrameExpandButton = CharacterFrameExpandButton
-local SquareButton_SetIcon = SquareButton_SetIcon
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.character ~= true then return end
@@ -300,8 +302,8 @@ local function LoadSkin()
 				tab.TabBg:Kill()
 
 				if(i == 1) then
-					for i = 1, tab:GetNumRegions() do
-						local region = select(i, tab:GetRegions())
+					for x = 1, tab:GetNumRegions() do
+						local region = select(x, tab:GetRegions())
 						region:SetTexCoord(0.16, 0.86, 0.16, 0.86)
 						region.SetTexCoord = E.noop
 					end

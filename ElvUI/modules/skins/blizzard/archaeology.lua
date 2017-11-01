@@ -4,12 +4,15 @@ local S = E:GetModule("Skins")
 local _G = _G;
 local unpack, select = unpack, select;
 
+local CreateFrame = CreateFrame
+
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.archaeology ~= true then return end
 
 	--Main Frame
 	ArchaeologyFrameInset:StripTextures(true)
 
+	local ArchaeologyFrame = _G["ArchaeologyFrame"]
 	ArchaeologyFrame:StripTextures(true)
 	ArchaeologyFrame:SetTemplate("Transparent")
 	ArchaeologyFrame:Width(500)
