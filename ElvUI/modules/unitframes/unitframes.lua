@@ -1346,7 +1346,7 @@ function UF:Initialize()
 		end
 	end
 
-	for k, v in pairs(UnitPopupMenus) do
+	for k, _ in pairs(UnitPopupMenus) do
 		for x, y in pairs(UnitPopupMenus[k]) do
 			if y == "SET_FOCUS" then
 				tremove(UnitPopupMenus[k], x)

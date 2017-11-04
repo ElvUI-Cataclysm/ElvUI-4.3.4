@@ -7,7 +7,6 @@ local unpack = unpack;
 local CreateFrame = CreateFrame
 local GetItemInfo = GetItemInfo
 local GetItemQualityColor = GetItemQualityColor
-local GetContainerItemInfo = GetContainerItemInfo
 local GetContainerItemQuestInfo = GetContainerItemQuestInfo
 local MAX_WATCHED_TOKENS = MAX_WATCHED_TOKENS
 local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES

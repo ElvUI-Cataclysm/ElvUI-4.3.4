@@ -23,7 +23,7 @@ function B:Initialize()
 		DAY_ONELETTER_ABBR = "%d d";
 	end
 
-	CreateFrame("Frame"):SetScript("OnUpdate", function(self, elapsed)
+	CreateFrame("Frame"):SetScript("OnUpdate", function()
 		if LFRBrowseFrame.timeToClear then
 			LFRBrowseFrame.timeToClear = nil
 		end

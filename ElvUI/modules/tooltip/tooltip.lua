@@ -5,12 +5,11 @@ local _G = _G;
 local unpack, tonumber, select, pairs = unpack, tonumber, select, pairs;
 local twipe, tinsert, tconcat = table.wipe, table.insert, table.concat;
 local floor = math.floor;
-local find, format, sub = string.find, string.format, string.sub;
+local find, format = string.find, string.format
 
 local CreateFrame = CreateFrame;
 local GetTime = GetTime;
 local UnitGUID = UnitGUID;
-local GetScreenWidth = GetScreenWidth;
 local InCombatLockdown = InCombatLockdown;
 local IsShiftKeyDown = IsShiftKeyDown;
 local IsControlKeyDown = IsControlKeyDown;

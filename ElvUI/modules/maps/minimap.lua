@@ -51,9 +51,7 @@ local menuList = {
 			HideUIPanel(PlayerTalentFrame)
 		end
 	end},
-	{text = ACHIEVEMENT_BUTTON, notCheckable = 1, func = function()
-		ToggleAchievementFrame()
-	end},
+	{text = ACHIEVEMENT_BUTTON, notCheckable = 1, func = ToggleAchievementFrame},
 	{text = QUESTLOG_BUTTON, notCheckable = 1, func = function()
 		ToggleFrame(QuestLogFrame)
 	end},
@@ -67,15 +65,9 @@ local menuList = {
 		Calendar_Toggle()
 	end},
 	{text = L["Farm Mode"], notCheckable = 1, func = FarmMode},
-	{text = BATTLEFIELD_MINIMAP, notCheckable = 1, func = function()
-			ToggleBattlefieldMinimap()
-	end},
-	{text = TIMEMANAGER_TITLE, notCheckable = 1, func = function()
-		ToggleTimeManager()
-	end},
-	{text = guildText, notCheckable = 1, func = function()
-		ToggleGuildFrame()
-	end},
+	{text = BATTLEFIELD_MINIMAP, notCheckable = 1, func = ToggleBattlefieldMinimap},
+	{text = TIMEMANAGER_TITLE, notCheckable = 1, func = ToggleTimeManager},
+	{text = guildText, notCheckable = 1, func = ToggleGuildFrame},
 	{text = PLAYER_V_PLAYER, notCheckable = 1, func = function()
 		if UnitLevel("player") >= SHOW_PVP_LEVEL then
 			ToggleFrame(PVPFrame)
@@ -97,9 +89,7 @@ local menuList = {
 		if not IsAddOnLoaded("Blizzard_EncounterJournal") then EncounterJournal_LoadUI() end 
 		ToggleFrame(EncounterJournal)
 	end},
-	{text = HELP_BUTTON, notCheckable = 1, func = function()
-		ToggleHelpFrame()
-	end},
+	{text = HELP_BUTTON, notCheckable = 1, func = ToggleHelpFrame},
 	{text = MAINMENU_BUTTON, notCheckable = 1, func = function()
 		if not GameMenuFrame:IsShown() then
 			if VideoOptionsFrame:IsShown() then

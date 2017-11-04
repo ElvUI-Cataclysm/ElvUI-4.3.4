@@ -13,8 +13,6 @@ local UnitAffectingCombat = UnitAffectingCombat
 local UnitHealth = UnitHealth
 local UnitHealthMax = UnitHealthMax
 local UnitLevel = UnitLevel
-local UnitName = UnitName
-local UnitReaction = UnitReaction
 
 local FAILED = FAILED
 local INTERRUPTED = INTERRUPTED

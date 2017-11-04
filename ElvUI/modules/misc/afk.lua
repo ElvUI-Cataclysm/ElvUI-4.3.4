@@ -1,12 +1,9 @@
 local E, L, V, P, G = unpack(select(2, ...));
-local AFKString = _G["AFK"];
 local AFK = E:NewModule("AFK", "AceEvent-3.0", "AceTimer-3.0");
 local CH = E:GetModule("Chat");
 
 local _G = _G;
-local tostring = tostring;
 local floor = math.floor;
-local format, strsub, gsub = string.format, string.sub, string.gsub
 
 local GetTime = GetTime;
 local CreateFrame = CreateFrame;
@@ -31,7 +28,6 @@ local UnitFactionGroup = UnitFactionGroup;
 local Screenshot = Screenshot;
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
 local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
-local DND = DND;
 
 local CAMERA_SPEED = 0.035;
 local ignoreKeys = {
@@ -186,7 +182,7 @@ function AFK:Toggle()
 	end
 end
 
-local function OnKeyDown(self, key)
+local function OnKeyDown(_, key)
 	if(ignoreKeys[key]) then return end
 	if printKeys[key] then
 		Screenshot()
@@ -207,47 +203,6 @@ local function Chat_OnMouseWheel(self, delta)
 		self:ScrollUp();
 	end
 end
-
---[[
-local function Chat_OnEvent(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13)
-	local coloredName = GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12);
-	local type = strsub(event, 10);
-	local info = ChatTypeInfo[type];
-
-	local chatGroup = Chat_GetChatCategory(type);
-	local chatTarget, body;
-	if ( chatGroup == "BN_CONVERSATION" ) then
-		chatTarget = tostring(arg8);
-	elseif ( chatGroup == "WHISPER" or chatGroup == "BN_WHISPER" ) then
-		if(not(strsub(arg2, 1, 2) == "|K")) then
-			chatTarget = arg2:upper()
-		else
-			chatTarget = arg2;
-		end
-	end
-
-	local playerLink
-	if ( type ~= "BN_WHISPER" and type ~= "BN_CONVERSATION" ) then
-		playerLink = "|Hplayer:"..arg2..":"..arg11..":"..chatGroup..(chatTarget and ":"..chatTarget or "").."|h";
-	else
-		playerLink = "|HBNplayer:"..arg2..":"..arg13..":"..arg11..":"..chatGroup..(chatTarget and ":"..chatTarget or "").."|h";
-	end
-
-	body = format(_G["CHAT_"..type.."_GET"]..arg1, playerLink.."["..coloredName.."]".."|h");
-
-	local accessID = ChatHistory_GetAccessID(chatGroup, chatTarget);
-	local typeID = ChatHistory_GetAccessID(type, chatTarget, arg12 == "" and arg13 or arg12);
-	if CH.db.shortChannels then
-		body = body:gsub("|Hchannel:(.-)|h%[(.-)%]|h", CH.ShortChannel);
-		body = body:gsub("^(.-|h) "..L["whispers"], "%1");
-		body = body:gsub("<"..AFKString..">", "[|cffFF0000"..L["AFK"].."|r] ");
-		body = body:gsub("<"..DND..">", "[|cffE7E716"..L["DND"].."|r] ");
-		body = body:gsub("%[BN_CONVERSATION:", "%[".."");
-	end
-
-	self:AddMessage(CH:ConcatenateTimeStamp(body), info.r, info.g, info.b, info.id, false, accessID, typeID);
-end
-]]
 
 function AFK:Initialize()
 	if E.global.afkEnabled then
