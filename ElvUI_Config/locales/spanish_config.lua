@@ -693,10 +693,8 @@ L["Profile"] = true
 L["Table"] = true
 
 --Skins
-L["Achievement Frame"] = "Logros"
 L["Alert Frames"] = "Alertas"
 L["Archaeology Frame"] = "Arqueología"
-L["Auction Frame"] = "Subastas"
 L["Barbershop Frame"] = "Barbería"
 L["BG Map"] = "Mapa de CB"
 L["BG Score"] = "Puntuación de CB"
@@ -708,15 +706,10 @@ L["GM Chat"] = true
 L["Gossip Frame"] = "Actualidad"
 L["Greeting Frame"] = "Cuadro de Saludo"
 L["Guild Control Frame"] = "Control de Hermandad"
-L["Guild Frame"] = "Hermandad"
 L["Guild Registrar"] = "Registrar Hermandad"
 L["Help Frame"] = "Ayuda"
-L["Inspect Frame"] = "Inspección"
-L["KeyBinding Frame"] = "Asignación de Teclas"
 L["LF Guild Frame"] = "Búsqueda de Hermandad"
-L["LFG Frame"] = "Búsqueda de Grupo"
 L["Loot Frames"] = "Despojo"
-L["Macro Frame"] = "Macros"
 L["Mail Frame"] = "Correo"
 L["Merchant Frame"] = "Mercader"
 L["Mirror Timers"] = true
@@ -729,16 +722,9 @@ L["Raid Frame"] = "Banda"
 L["Reforge Frame"] = "Reforje"
 L["Skins"] = "Cubiertas"
 L["Socket Frame"] = "Incrustación"
-L["Spellbook"] = "Libro de Hechizos"
 L["Stable"] = "Establo"
 L["Tabard Frame"] = "Tabardos"
-L["Talent Frame"] = "Talentos"
-L["Taxi Frame"] = "Viaje"
-L["Time Manager"] = "Administrador de Tiempo"
-L["Trade Frame"] = "Comercio"
-L["TradeSkill Frame"] = "Comercio de Habilidades"
 L["Trainer Frame"] = "Entrenador"
-L["Transmogrify Frame"] = "Transmogrificación"
 L["Tutorial Frame"] = true
 
 --Tooltip

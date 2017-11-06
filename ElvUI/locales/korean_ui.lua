@@ -71,7 +71,6 @@ L["Download"] = "다운로드"
 L["DPS"] = "DPS"
 L["Earned:"] = "수입:"
 L["Friends List"] = "친구 목록"
-L["Friends"] = "친구"
 L["Gold"] = true
 L["goldabbrev"] = "|TInterface\\MoneyFrame\\UI-MoneyIcons:0:0:1:0:64:16:1:16:1:16|t" --"|cffffd700●|r"
 L["Hit"] = "적중도"

@@ -682,10 +682,8 @@ L["Profile"] = true
 L["Table"] = true
 
 --Skins
-L["Achievement Frame"] = true
 L["Alert Frames"] = true
 L["Archaeology Frame"] = true
-L["Auction Frame"] = true
 L["Barbershop Frame"] = true
 L["BG Map"] = true
 L["BG Score"] = true
@@ -697,15 +695,10 @@ L["GM Chat"] = true
 L["Gossip Frame"] = true
 L["Greeting Frame"] = true
 L["Guild Control Frame"] = true
-L["Guild Frame"] = true
 L["Guild Registrar"] = true
 L["Help Frame"] = true
-L["Inspect Frame"] = true
-L["KeyBinding Frame"] = true
 L["LF Guild Frame"] = true
-L["LFG Frame"] = true
 L["Loot Frames"] = true
-L["Macro Frame"] = true
 L["Mail Frame"] = true
 L["Merchant Frame"] = true
 L["Mirror Timers"] = true
@@ -718,16 +711,9 @@ L["Raid Frame"] = true
 L["Reforge Frame"] = true
 L["Skins"] = true
 L["Socket Frame"] = true
-L["Spellbook"] = true
 L["Stable"] = true
 L["Tabard Frame"] = true
-L["Talent Frame"] = true
-L["Taxi Frame"] = true
-L["Time Manager"] = true
-L["Trade Frame"] = true
-L["TradeSkill Frame"] = true
 L["Trainer Frame"] = true
-L["Transmogrify Frame"] = true
 L["Tutorial Frame"] = true
 
 --Tooltip

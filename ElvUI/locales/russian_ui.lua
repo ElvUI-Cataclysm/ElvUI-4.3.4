@@ -71,7 +71,6 @@ L["Download"] = "Загрузка"
 L["DPS"] = "УВС"
 L["Earned:"] = "Заработано"
 L["Friends List"] = "Список друзей"
-L["Friends"] = "Друзья" --Also in Skins
 L["Gold"] = "Золото"
 L["goldabbrev"] = "|cffffd700з|r" --Also used in Bags
 L["Hit"] = "Метк."

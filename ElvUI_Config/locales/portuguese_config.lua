@@ -693,10 +693,8 @@ L["Profile"] = true
 L["Table"] = true
 
 --Skins
-L["Achievement Frame"] = "Conquistas"
 L["Alert Frames"] = "Alertas"
 L["Archaeology Frame"] = "Arqueologia"
-L["Auction Frame"] = "Casa de Leilões"
 L["Barbershop Frame"] = "Barbearia"
 L["BG Map"] = "Mapa do CB"
 L["BG Score"] = "Placar do CB"
@@ -708,16 +706,11 @@ L["GM Chat"] = true
 L["Gossip Frame"] = "Fofocas"
 L["Greeting Frame"] = "Saudação"
 L["Guild Control Frame"] = "Controle da Guilda"
-L["Guild Frame"] = "Quadro da Guilda"
 L["Guild Registrar"] = "Registrar Guilda"
 L["Help Frame"] = "Ajuda"
-L["Inspect Frame"] = "Inspeção"
-L["KeyBinding Frame"] = "Atalhos"
 L["LF Guild Frame"] = "Localizador de Guildas"
-L["LFG Frame"] = "Localizador de Masmorras"
 L["Loot Frames"] = "Saques"
 L["Macro Frame"] = "Macros"
-L["Mail Frame"] = "Correio"
 L["Merchant Frame"] = "Comerciante"
 L["Mirror Timers"] = true
 L["Misc Frames"] = "Diversos"
@@ -729,16 +722,9 @@ L["Raid Frame"] = "Quadro de Raide"
 L["Reforge Frame"] = "Reforja"
 L["Skins"] = "Aparências"
 L["Socket Frame"] = "Engaste"
-L["Spellbook"] = "Grimório"
 L["Stable"] = "Estábulo"
 L["Tabard Frame"] = "Tabardo"
-L["Talent Frame"] = "Talentos"
-L["Taxi Frame"] = "Taxi"
-L["Time Manager"] = "Relógio"
-L["Trade Frame"] = "Negociar"
-L["TradeSkill Frame"] = "Profissões"
 L["Trainer Frame"] = "Instrutores"
-L["Transmogrify Frame"] = "Transmogrificação"
 L["Tutorial Frame"] = true
 
 --Tooltip

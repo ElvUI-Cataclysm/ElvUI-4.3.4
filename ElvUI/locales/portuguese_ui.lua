@@ -71,7 +71,6 @@ L["Download"] = "Download"
 L["DPS"] = "DPS"
 L["Earned:"] = "Ganho:"
 L["Friends List"] = "Lista de Amigos"
-L["Friends"] = "Amigos"
 L["Gold"] = true
 L["goldabbrev"] = "|cffffd700g|r"
 L["Hit"] = "Acerto"

@@ -71,7 +71,6 @@ L["Download"] = "Download"
 L["DPS"] = "DPS"
 L["Earned:"] = "Verdient:"
 L["Friends List"] = "Freundesliste"
-L["Friends"] = "Freunde" --Also in Skins
 L["Gold"] = true
 L["goldabbrev"] = "|cffffd700g|r" --Also used in gold datatext
 L["Hit"] = "Trefferchance"

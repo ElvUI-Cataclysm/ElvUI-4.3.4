@@ -71,7 +71,6 @@ L["Download"] = true
 L["DPS"] = true
 L["Earned:"] = true
 L["Friends List"] = true
-L["Friends"] = true --Also in Skins
 L["Gold"] = true
 L["goldabbrev"] = "|cffffd700g|r" --Also used in Bags
 L["Hit"] = true
