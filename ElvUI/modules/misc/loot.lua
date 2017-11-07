@@ -277,6 +277,7 @@ function M:LOOT_OPENED(_, autoloot)
 		end
 		slot.icon:SetTexture[[Interface\Icons\INV_Misc_Herb_AncientLichen]]
 
+		items = 1
 		w = max(w, slot.name:GetStringWidth())
 
 		slot.count:Hide()
