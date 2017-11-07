@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...))
 local mod = E:GetModule("NamePlates")
 local LSM = LibStub("LibSharedMedia-3.0")
 
-function mod:UpdateElement_HealthOnValueChanged(health)
+function mod:UpdateElement_HealthOnValueChanged()
 	local frame = self:GetParent().UnitFrame
 	if not frame.UnitType then return end -- Bugs
 
@@ -132,6 +132,12 @@ end
 function mod:ConstructElement_HealthBar(parent)
 	local frame = CreateFrame("StatusBar", nil, parent)
 	self:StyleFrame(frame)
+
+	frame:SetScript("OnSizeChanged", function(self, width)
+		local health = self:GetValue()
+		local _, maxHealth = self:GetMinMaxValues()
+		self:GetStatusBarTexture():SetPoint("TOPRIGHT", -(width * ((maxHealth - health) / maxHealth)), 0)
+	end)
 
 	parent.FlashTexture = frame:CreateTexture(nil, "OVERLAY")
 	parent.FlashTexture:SetTexture(LSM:Fetch("background", "ElvUI Blank"))
