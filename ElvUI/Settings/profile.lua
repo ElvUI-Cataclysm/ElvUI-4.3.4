@@ -2848,7 +2848,8 @@ P["actionbar"] = {
 		["backdropSpacing"] = 2,
 		["alpha"] = 1,
 		["inheritGlobalFade"] = false,
-		["usePositionOverride"] = true
+		["usePositionOverride"] = true,
+		["visibility"] = "[vehicleui] hide;"
 	},
 	["barTotem"] = {
 		["enabled"] = true,
