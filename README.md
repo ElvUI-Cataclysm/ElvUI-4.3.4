@@ -48,6 +48,10 @@ This UI will arrange your interface to be more flexible and practical.
 
 Please Note: These plugins will not function without ElvUI installed.
 
+## Suggested Addons:
+
+[InspectFix](https://www.wowace.com/projects/inspectfix/files/593021) - Fixes several bugs that arise while using the Blizzard Inspect UI
+
 
 ## FAQ:
 
