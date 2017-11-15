@@ -58,8 +58,11 @@ local function LoadSkin()
 	SideDressUpFrameBackgroundBot:SetDesaturated(true);
 
 	-- Control Frame
-	DressUpModelControlFrame:StripTextures();
-	SideDressUpModelControlFrame:StripTextures();
+	DressUpModelControlFrame:StripTextures()
+	DressUpModelControlFrame:Size(123, 23)
+
+	SideDressUpModelControlFrame:StripTextures()
+	SideDressUpModelControlFrame:Size(123, 23)
 
 	local controlbuttons = {
 		"DressUpModelControlFrameZoomInButton",
@@ -74,13 +77,24 @@ local function LoadSkin()
 		"SideDressUpModelControlFrameRotateRightButton",
 		"SideDressUpModelControlFrameRotateLeftButton",
 		"SideDressUpModelControlFrameRotateResetButton"
-	};
+	}
 
 	for i = 1, #controlbuttons do
-		S:HandleButton(_G[controlbuttons[i]]);
-		_G[controlbuttons[i]]:StyleButton();
-		_G[controlbuttons[i].."Bg"]:Hide();
+		S:HandleButton(_G[controlbuttons[i]])
+		_G[controlbuttons[i].."Bg"]:Hide()
 	end
+
+	DressUpModelControlFrameZoomOutButton:Point("LEFT", "DressUpModelControlFrameZoomInButton", "RIGHT", 2, 0)
+	DressUpModelControlFramePanButton:Point("LEFT", "DressUpModelControlFrameZoomOutButton", "RIGHT", 2, 0)
+	DressUpModelControlFrameRotateRightButton:Point("LEFT", "DressUpModelControlFramePanButton", "RIGHT", 2, 0)
+	DressUpModelControlFrameRotateLeftButton:Point("LEFT", "DressUpModelControlFrameRotateRightButton", "RIGHT", 2, 0)
+	DressUpModelControlFrameRotateResetButton:Point("LEFT", "DressUpModelControlFrameRotateLeftButton", "RIGHT", 2, 0)
+
+	SideDressUpModelControlFrameZoomOutButton:Point("LEFT", "SideDressUpModelControlFrameZoomInButton", "RIGHT", 2, 0)
+	SideDressUpModelControlFramePanButton:Point("LEFT", "SideDressUpModelControlFrameZoomOutButton", "RIGHT", 2, 0)
+	SideDressUpModelControlFrameRotateRightButton:Point("LEFT", "SideDressUpModelControlFramePanButton", "RIGHT", 2, 0)
+	SideDressUpModelControlFrameRotateLeftButton:Point("LEFT", "SideDressUpModelControlFrameRotateRightButton", "RIGHT", 2, 0)
+	SideDressUpModelControlFrameRotateResetButton:Point("LEFT", "SideDressUpModelControlFrameRotateLeftButton", "RIGHT", 2, 0)
 end
 
 S:AddCallback("DressingRoom", LoadSkin);

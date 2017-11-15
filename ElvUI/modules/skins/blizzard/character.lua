@@ -195,6 +195,7 @@ local function LoadSkin()
 
 	-- Control Frame
 	CharacterModelFrameControlFrame:StripTextures()
+	CharacterModelFrameControlFrame:Size(123, 23)
 
 	local controlbuttons = {
 		"CharacterModelFrameControlFrameZoomInButton",
@@ -210,6 +211,12 @@ local function LoadSkin()
 		_G[controlbuttons[i]]:StyleButton()
 		_G[controlbuttons[i].."Bg"]:Hide()
 	end
+
+	CharacterModelFrameControlFrameZoomOutButton:Point("LEFT", "CharacterModelFrameControlFrameZoomInButton", "RIGHT", 2, 0)
+	CharacterModelFrameControlFramePanButton:Point("LEFT", "CharacterModelFrameControlFrameZoomOutButton", "RIGHT", 2, 0)
+	CharacterModelFrameControlFrameRotateLeftButton:Point("LEFT", "CharacterModelFrameControlFramePanButton", "RIGHT", 2, 0)
+	CharacterModelFrameControlFrameRotateRightButton:Point("LEFT", "CharacterModelFrameControlFrameRotateLeftButton", "RIGHT", 2, 0)
+	CharacterModelFrameControlFrameRotateResetButton:Point("LEFT", "CharacterModelFrameControlFrameRotateRightButton", "RIGHT", 2, 0)
 
 	--Titles
 	PaperDollTitlesPane:HookScript("OnShow", function(self)

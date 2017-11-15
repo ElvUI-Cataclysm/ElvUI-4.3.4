@@ -59,6 +59,7 @@ local function LoadSkin()
 
 	-- Control Frame
 	TransmogrifyModelFrameControlFrame:StripTextures()
+	TransmogrifyModelFrameControlFrame:Size(123, 23)
 
 	local controlbuttons = {
 		"TransmogrifyModelFrameControlFrameZoomInButton",
@@ -71,9 +72,14 @@ local function LoadSkin()
 
 	for i = 1, #controlbuttons do
 		S:HandleButton(_G[controlbuttons[i]])
-		_G[controlbuttons[i]]:StyleButton()
 		_G[controlbuttons[i].."Bg"]:Hide()
 	end
+
+	TransmogrifyModelFrameControlFrameZoomOutButton:Point("LEFT", "TransmogrifyModelFrameControlFrameZoomInButton", "RIGHT", 2, 0)
+	TransmogrifyModelFrameControlFramePanButton:Point("LEFT", "TransmogrifyModelFrameControlFrameZoomOutButton", "RIGHT", 2, 0)
+	TransmogrifyModelFrameControlFrameRotateRightButton:Point("LEFT", "TransmogrifyModelFrameControlFramePanButton", "RIGHT", 2, 0)
+	TransmogrifyModelFrameControlFrameRotateLeftButton:Point("LEFT", "TransmogrifyModelFrameControlFrameRotateRightButton", "RIGHT", 2, 0)
+	TransmogrifyModelFrameControlFrameRotateResetButton:Point("LEFT", "TransmogrifyModelFrameControlFrameRotateLeftButton", "RIGHT", 2, 0)
 end
 
 S:AddCallbackForAddon("Blizzard_ItemAlterationUI", "ItemAlterationUI", LoadSkin);
