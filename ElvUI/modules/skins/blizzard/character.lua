@@ -208,7 +208,6 @@ local function LoadSkin()
 
 	for i = 1, #controlbuttons do
 		S:HandleButton(_G[controlbuttons[i]])
-		_G[controlbuttons[i]]:StyleButton()
 		_G[controlbuttons[i].."Bg"]:Hide()
 	end
 
