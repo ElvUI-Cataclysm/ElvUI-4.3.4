@@ -275,15 +275,8 @@ local function BuildABConfig()
 					desc = L["The frame is not shown unless you mouse over the frame."],
 					disabled = function() return not E.db.actionbar.barTotem.enabled end
 				},
-				inheritGlobalFade = {
-					order = 6,
-					type = "toggle",
-					name = L["Inherit Global Fade"],
-					desc = L["Inherit the global fade, mousing over, targetting, setting focus, losing health, entering combat will set the remove transparency. Otherwise it will use the transparency level in the general actionbar settings for global fade alpha."],
-					disabled = function() return not E.db.actionbar.barTotem.enabled end
-				},
 				buttonsize = {
-					order = 7,
+					order = 6,
 					type = "range",
 					name = L["Button Size"],
 					desc = L["The size of the action buttons."],
@@ -291,7 +284,7 @@ local function BuildABConfig()
 					disabled = function() return not E.db.actionbar.barTotem.enabled end
 				},
 				buttonspacing = {
-					order = 8,
+					order = 7,
 					type = "range",
 					name = L["Button Spacing"],
 					desc = L["The spacing between buttons."],
@@ -299,7 +292,7 @@ local function BuildABConfig()
 					disabled = function() return not E.db.actionbar.barTotem.enabled end
 				},
 				alpha = {
-					order = 9,
+					order = 8,
 					type = "range",
 					name = L["Alpha"],
 					isPercent = true,

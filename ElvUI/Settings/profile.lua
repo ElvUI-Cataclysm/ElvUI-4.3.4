@@ -2863,8 +2863,7 @@ P["actionbar"] = {
 		["mouseover"] = false,
 		["buttonsize"] = 32,
 		["buttonspacing"] = 2,
-		["alpha"] = 1,
-		["inheritGlobalFade"] = false
+		["alpha"] = 1
 	},
 	["extraActionButton"] = {
 		["alpha"] = 1,
