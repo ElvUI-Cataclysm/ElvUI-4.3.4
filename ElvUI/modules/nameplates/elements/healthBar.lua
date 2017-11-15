@@ -85,11 +85,12 @@ function mod:UpdateElement_HealthColor(frame)
 		frame.HealthBar.r, frame.HealthBar.g, frame.HealthBar.b = r, g, b
 	end
 
-	if not frame.isTarget or not self.db.useTargetScale then
+	if frame.ThreatScale ~= scale then
 		frame.ThreatScale = scale
-		self:SetFrameScale(frame, (frame.ActionScale or 1) * scale)
-	else
-		self:SetFrameScale(frame, (frame.ActionScale or 1) * scale * self.db.targetScale)
+		if frame.isTarget and self.db.useTargetScale then
+			scale = scale * self.db.targetScale
+		end
+		self:SetFrameScale(frame, scale * (frame.ActionScale or 1))
 	end
 end
 
