@@ -2274,8 +2274,13 @@ E.Options.args.nameplate = {
 								NP:PLAYER_REGEN_ENABLED()
 							end
 						},
-						resetFilters = {
+						comboPoints = {
 							order = 7,
+							type = "toggle",
+							name = L["Combobar"]
+						},
+						resetFilters = {
+							order = 8,
 							name = L["Reset Aura Filters"],
 							type = "execute",
 							func = function(info, value)
@@ -2283,7 +2288,7 @@ E.Options.args.nameplate = {
 							end
 						},
 						targetedNamePlate = {
-							order = 8,
+							order = 9,
 							type = "group",
 							guiInline = true,
 							name = L["Targeted Nameplate"],

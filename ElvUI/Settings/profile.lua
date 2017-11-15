@@ -224,6 +224,7 @@ P["nameplates"] = {
 	["alwaysShowTargetHealth"] = true,
 	["castColor"] = {r = 1, g = 208/255, b = 0},
 	["castNoInterruptColor"] = {r = 0.78, g = 0.25, b = 0.25},
+	["comboPoints"] = true,
 	["reactions"] = {
 		["friendlyPlayer"] = {r = 75/255, g = 175/255, b = 76/255},
 		["tapped"] = {r = 0.6, g = 0.6, b = 0.6},
