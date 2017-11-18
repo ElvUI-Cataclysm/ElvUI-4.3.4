@@ -1587,29 +1587,24 @@ function CH:UpdateFading()
 end
 
 function CH:DisplayChatHistory()	
-	local data, chat, d = ElvCharacterDB.ChatHistoryLog
-	for _, frame in pairs(CHAT_FRAMES) do
-		chat = _G[frame]
-		if not CH.defaultLanguage then
-			CH.defaultLanguage = GetDefaultLanguage()
-		end
-		if not chat.defaultLanguage then
-			chat.defaultLanguage = CH.defaultLanguage
-		end
-		if data and next(data) then
-			for i = 1, #data do
-				d = data[i]
-				if type(d) == "table" then
-					CH.timeOverride = d[51]
-					for _, messageType in pairs(chat.messageTypeList) do
-						if gsub(strsub(d[50],10),"_INFORM","") == messageType then
-							CH.ChatFrame_MessageEventHandler(chat,d[50],d[1],d[2],d[3],d[4],d[5],d[6],d[7],d[8],d[9],d[10],d[11],d[12],unpack(d,13))
-						end
+	local data, d = ElvCharacterDB.ChatHistoryLog
+	if not (data and next(data)) then return end
+
+	CH.SoundPlayed = true
+	for _, chat in pairs(CHAT_FRAMES) do
+		for i = 1, #data do
+			d = data[i]
+			if type(d) == "table" then
+				CH.timeOverride = d[51]
+				for _, messageType in pairs(_G[chat].messageTypeList) do
+					if gsub(strsub(d[50],10),"_INFORM","") == messageType then
+						CH.ChatFrame_MessageEventHandler(_G[chat],d[50],d[1],d[2],d[3],d[4],d[5],d[6],d[7],d[8],d[9],d[10],d[11],d[12],unpack(d,13))
 					end
 				end
 			end
 		end
 	end
+	CH.SoundPlayed = nil
 end
 
 tremove(ChatTypeGroup["GUILD"], 2)
@@ -1837,24 +1832,6 @@ function CH:Initialize()
 
 	self:SecureHook("FCF_SetWindowAlpha")
 
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", CH.CHAT_MSG_CHANNEL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_YELL", CH.CHAT_MSG_YELL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_SAY", CH.CHAT_MSG_SAY)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_GUILD", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_OFFICER", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_BATTLEGROUND_LEADER", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_CONVERSATION", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_WHISPER_INFORM", CH.FindURL)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_BN_INLINE_TOAST_BROADCAST", CH.FindURL)
-
 	GeneralDockManagerOverflowButton:ClearAllPoints()
 	GeneralDockManagerOverflowButton:Point("BOTTOMRIGHT", LeftChatTab, "BOTTOMRIGHT", -2, 2)
 	GeneralDockManagerOverflowButtonList:SetTemplate("Transparent")
@@ -1865,9 +1842,7 @@ function CH:Initialize()
 	end)
 
 	if self.db.chatHistory then
-		self.SoundPlayed = true
 		self:DisplayChatHistory()
-		self.SoundPlayed = nil
 	end
 
 	for _, event in pairs(FindURL_Events) do
