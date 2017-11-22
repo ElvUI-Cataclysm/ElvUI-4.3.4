@@ -2410,8 +2410,40 @@ E.Options.args.nameplate = {
 								}
 							}
 						},
-						duration = {
+						health = {
 							order = 3,
+							type = "group",
+							name = L["Health"],
+							guiInline = true,
+							args = {
+								healthFont = {
+									order = 1,
+									type = "select", dialogControl = "LSM30_Font",
+									name = L["Font"],
+									values = AceGUIWidgetLSMlists.font
+								},
+								healthFontSize = {
+									order = 2,
+									name = FONT_SIZE,
+									type = "range",
+									min = 4, max = 36, step = 1
+								},
+								healthFontOutline = {
+									order = 3,
+									type = "select",
+									name = L["Font Outline"],
+									desc = L["Set the font outline."],
+									values = {
+										["NONE"] = NONE,
+										["OUTLINE"] = "OUTLINE",
+										["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
+										["THICKOUTLINE"] = "THICKOUTLINE"
+									}
+								}
+							}
+						},
+						duration = {
+							order = 4,
 							type = "group",
 							name = L["Duration"],
 							guiInline = true,
@@ -2457,7 +2489,7 @@ E.Options.args.nameplate = {
 							}
 						},
 						stacks = {
-							order = 4,
+							order = 5,
 							type = "group",
 							name = L["Stack Counter"],
 							guiInline = true,
