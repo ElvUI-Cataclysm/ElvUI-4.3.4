@@ -721,7 +721,7 @@ function UF:CreateHeader(parent, groupFilter, overrideName, template, groupName,
 			"oUF-initialConfigFunction", ("self:SetWidth(%d); self:SetHeight(%d);"):format(db.width, db.height),
 			"groupFilter", groupFilter,
 			"showParty", true,
-			"showRaid", true,
+			"showRaid", group == "party" and false or true,
 			"showSolo", true,
 			template and "template", template)
 
