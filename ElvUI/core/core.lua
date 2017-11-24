@@ -1067,10 +1067,14 @@ end
 
 --DATABASE CONVERSIONS
 function E:DBConversions()
-	--Combat Icon options update
+	--Combat & Resting Icon options update
 	if E.db.unitframe.units.player.combatIcon ~= nil then
 		E.db.unitframe.units.player.CombatIcon.enable = E.db.unitframe.units.player.combatIcon
 		E.db.unitframe.units.player.combatIcon = nil
+	end
+	if E.db.unitframe.units.player.restIcon ~= nil then
+		E.db.unitframe.units.player.RestIcon.enable = E.db.unitframe.units.player.restIcon
+		E.db.unitframe.units.player.restIcon = nil
 	end
 
 	--Make sure default filters use the correct filter type

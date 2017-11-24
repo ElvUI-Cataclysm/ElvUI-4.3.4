@@ -187,6 +187,9 @@ local chatLogos_Bathrobe = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLog
 local chatLogos_MrHankey = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\mr_hankey.tga:16:18|t"
 
 local specialChatIcons = {
+	["Hades"] = {
+		["Cpy"] = chatLogos_ElvUI,
+	},
 	["Dragonwrath"] = {
 		["Tyrann"] = chatLogos_ElvUI,
 		["Toxins"] = chatLogos_ElvUI,
