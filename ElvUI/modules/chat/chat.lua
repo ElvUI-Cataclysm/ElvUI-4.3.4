@@ -189,6 +189,7 @@ local chatLogos_MrHankey = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLog
 local specialChatIcons = {
 	["Hades"] = {
 		["Cpy"] = chatLogos_ElvUI,
+		["Mojo"] = chatLogos_ElvUI,
 	},
 	["Dragonwrath"] = {
 		["Tyrann"] = chatLogos_ElvUI,
@@ -903,7 +904,7 @@ local function GetChatIcons(sender)
 	if(specialChatIcons[PLAYER_REALM] and specialChatIcons[PLAYER_REALM][E.myname] ~= true) then
 		for realm, _ in pairs(specialChatIcons) do
 			for character, texture in pairs(specialChatIcons[realm]) do
-				if sender == character or sender == character.."-"..realm then
+				if (realm == PLAYER_REALM and sender == character) or sender == character.."-"..realm then
 					return texture
 				end
 			end

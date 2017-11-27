@@ -70,47 +70,51 @@ end
 function mod:SetTargetFrame(frame)
 	if frame.isTarget then
 		if not frame.isTargetChanged then
+			frame.isTargetChanged = true
+
 			if self.db.useTargetScale then
 				self:SetFrameScale(frame, (frame.ThreatScale or 1) * self.db.targetScale)
 			end
 			frame.unit = "target"
 			frame.guid = UnitGUID("target")
-			frame.isTargetChanged = true
+
+			self:RegisterEvents(frame)
+			mod:UpdateElement_AurasByUnitID("target")
 
 			if self.db.units[frame.UnitType].healthbar.enable ~= true and self.db.alwaysShowTargetHealth then
 				frame.Name:ClearAllPoints()
 				frame.Level:ClearAllPoints()
 				frame.HealthBar.r, frame.HealthBar.g, frame.HealthBar.b = nil, nil, nil
+				frame.CastBar:Hide()
 				self:ConfigureElement_HealthBar(frame)
 				self:ConfigureElement_CastBar(frame)
 				self:ConfigureElement_Glow(frame)
 				self:ConfigureElement_Elite(frame)
 				self:ConfigureElement_Level(frame)
 				self:ConfigureElement_Name(frame)
+				self:RegisterEvents(frame)
 				self:UpdateElement_All(frame, true)
-			else
-				self:UpdateElement_Cast(frame, nil, "target")
 			end
 
 			if self.hasTarget then
 				frame:SetAlpha(1)
 			end
 
-			mod:UpdateElement_AurasByUnitID("target")
-
 			-- TEST
 			mod:UpdateElement_Glow(frame)
-			mod:UpdateElement_HealthColor(frame)
 			mod:UpdateElement_CPoints(frame)
 			mod:UpdateElement_Filters(frame, "PLAYER_TARGET_CHANGED")
 		end
 	elseif frame.isTargetChanged then
+		frame.isTargetChanged = false
+
 		if self.db.useTargetScale then
 			self:SetFrameScale(frame, (frame.ThreatScale or 1))
 		end
 		frame.unit = nil
 		frame.guid = nil
-		frame.isTargetChanged = false
+		frame:UnregisterAllEvents()
+		frame.CastBar:Hide()
 
 		if self.db.units[frame.UnitType].healthbar.enable ~= true then
 			self:UpdateAllFrame(frame)
@@ -126,7 +130,6 @@ function mod:SetTargetFrame(frame)
 
 		-- TEST
 		mod:UpdateElement_Glow(frame)
-		mod:UpdateElement_HealthColor(frame)
 		mod:UpdateElement_CPoints(frame)
 		mod:UpdateElement_Filters(frame, "PLAYER_TARGET_CHANGED")
 	elseif frame.oldHighlight:IsShown() then
@@ -151,6 +154,8 @@ function mod:SetTargetFrame(frame)
 			end
 		end
 	end
+
+	self:UpdateElement_HealthColor(frame)
 end
 
 function mod:StyleFrame(parent, noBackdrop, point)
@@ -321,9 +326,6 @@ function mod:OnShow()
 	self.UnitFrame.UnitClass = mod:UnitClass(self.UnitFrame, unitType)
 	self.UnitFrame.UnitReaction = unitReaction
 
-	if not mod.hasTarget then self.UnitFrame.alpha = 1 end
-	self.UnitFrame.alpha = self.UnitFrame.alpha
-
 	if unitType == "ENEMY_PLAYER" then
 		mod:UpdateElement_HealerIcon(self.UnitFrame)
 	end
@@ -351,19 +353,7 @@ function mod:OnShow()
 	mod:ConfigureElement_Name(self.UnitFrame)
 	mod:ConfigureElement_Elite(self.UnitFrame)
 
-	if mod.db.units[unitType].castbar.enable then
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_START")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_STOP")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_FAILED")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_DELAYED")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_UPDATE")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTIBLE")
-		self.UnitFrame:RegisterEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE")
-	end
-
+	mod:RegisterEvents(self.UnitFrame)
 	mod:UpdateElement_All(self.UnitFrame, nil, true)
 
 	self.UnitFrame:Show()
@@ -400,9 +390,9 @@ function mod:OnHide()
 	self.UnitFrame.isTarget = nil
 	self.UnitFrame.isTargetChanged = false
 	self.UnitFrame.isMouseover = nil
-	self.ThreatData = nil
 	self.UnitFrame.UnitName = nil
 	self.UnitFrame.UnitType = nil
+	self.UnitFrame.UnitReaction = nil
 	self.UnitFrame.ThreatScale = nil
 	self.UnitFrame.ActionScale = nil
 
@@ -526,9 +516,31 @@ function mod:OnCreated(frame)
 end
 
 function mod:OnEvent(event, unit, ...)
-	if not self.unit then return end
+	if not unit and not self.unit then return end
+	if self.unit ~= unit then return end
 
 	mod:UpdateElement_Cast(self, event, unit, ...)
+end
+
+function mod:RegisterEvents(frame)
+	if not frame.unit then return end
+
+	if self.db.units[frame.UnitType].healthbar.enable or (frame.isTarget and self.db.alwaysShowTargetHealth) then
+		if self.db.units[frame.UnitType].castbar.enable then
+			frame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
+			frame:RegisterEvent("UNIT_SPELLCAST_DELAYED")
+			frame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START")
+			frame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_UPDATE")
+			frame:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP")
+			frame:RegisterEvent("UNIT_SPELLCAST_INTERRUPTIBLE")
+			frame:RegisterEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE")
+			frame:RegisterEvent("UNIT_SPELLCAST_START")
+			frame:RegisterEvent("UNIT_SPELLCAST_STOP")
+			frame:RegisterEvent("UNIT_SPELLCAST_FAILED")
+		end
+
+		mod.OnEvent(frame, nil, frame.unit)
+	end
 end
 
 function mod:QueueObject(object)
@@ -569,7 +581,6 @@ function mod:OnUpdate(elapsed)
 		frame:GetParent():SetAlpha(1)
 
 		frame.isTarget = mod.hasTarget and frame.alpha == 1
-		mod:SetTargetFrame(frame)
 	end
 end
 
@@ -765,7 +776,7 @@ function mod:Initialize()
 	self:RegisterEvent("UNIT_AURA")
 	self:RegisterEvent("UNIT_COMBO_POINTS")
 
-	self:ScheduleRepeatingTimer("ForEachVisiblePlate", 0.1, "UpdateElement_HealthColor")
+	self:ScheduleRepeatingTimer("ForEachVisiblePlate", 0.1, "SetTargetFrame")
 
 	E.NamePlates = self
 end
