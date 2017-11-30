@@ -14,6 +14,7 @@ local function LoadSkin()
 	local GuildControlUI = _G["GuildControlUI"]
 	GuildControlUI:StripTextures()
 	GuildControlUI:SetTemplate("Transparent")
+	GuildControlUI:Point("TOPLEFT", GuildFrame, "TOPRIGHT", 3, 0)
 
 	GuildControlUIHbar:StripTextures()
 
@@ -62,6 +63,7 @@ local function LoadSkin()
 	end
 
 	S:HandleButton(GuildControlUIRankOrderFrameNewButton)
+	GuildControlUIRankOrderFrameNewButton:Point("BOTTOMLEFT", 206, -5)
 
 	S:HandleEditBox(GuildControlUIRankSettingsFrameGoldBox)
 	GuildControlUIRankSettingsFrameGoldBox.backdrop:Point("TOPLEFT", -2, -4)
@@ -121,7 +123,11 @@ local function LoadSkin()
 			local tab = _G["GuildControlBankTab"..i.."Owned"]
 			local icon = tab.tabIcon
 
+			tab:CreateBackdrop()
+			tab.backdrop:SetOutside(icon)
+
 			icon:SetTexCoord(unpack(E.TexCoords))
+			icon:SetParent(tab.backdrop)
 
 			if(once == false) then
 				S:HandleButton(_G["GuildControlBankTab"..i.."BuyPurchaseButton"])

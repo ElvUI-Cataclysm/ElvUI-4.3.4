@@ -36,14 +36,14 @@ local groupedTable = { "|cffaaaaaa*|r", "" }
 local displayString = ""
 local noGuildString = ""
 local guildInfoString = "%s [%d]"
-local guildInfoString2 = join("", GUILD, ": %d/%d")
+local guildInfoString2 = GUILD..": %d/%d"
 local guildMotDString = "%s |cffaaaaaa- |cffffffff%s"
 local levelNameString = "|cff%02x%02x%02x%d|r |cff%02x%02x%02x%s|r %s"
 local levelNameStatusString = "|cff%02x%02x%02x%d|r %s %s"
 local nameRankString = "%s |cff999999-|cffffffff %s"
 local guildXpCurrentString = gsub(join("", E:RGBToHex(ttsubh.r, ttsubh.g, ttsubh.b), GUILD_EXPERIENCE_CURRENT), ": ", ":|r |cffffffff", 1)
 local guildXpDailyString = gsub(join("", E:RGBToHex(ttsubh.r, ttsubh.g, ttsubh.b), GUILD_EXPERIENCE_DAILY), ": ", ":|r |cffffffff", 1)
-local standingString = join("", E:RGBToHex(ttsubh.r, ttsubh.g, ttsubh.b), "%s:|r |cFFFFFFFF%s/%s (%s%%)")
+local standingString = E:RGBToHex(ttsubh.r, ttsubh.g, ttsubh.b).."%s:|r |cFFFFFFFF%s/%s (%s%%)"
 local moreMembersOnlineString = join("", "+ %d ", FRIENDS_LIST_ONLINE, "...")
 local noteString = join("", "|cff999999   ", LABEL_NOTE, ":|r %s")
 local officerNoteString = join("", "|cff999999   ", GUILD_RANK1_DESC, ":|r %s")
@@ -85,7 +85,7 @@ local function BuildGuildTable()
 		end
 
 		if(connected) then
-			guildTable[#guildTable + 1] = { name, rank, level, zone, note, officernote, connected, status, class, rankIndex }
+			guildTable[#guildTable + 1] = {name, rank, level, zone, note, officernote, connected, status, class, rankIndex}
 		end
 	end
 end
@@ -142,10 +142,8 @@ local eventHandlers = {
 			end
 		end
 	end,
-
-	["PLAYER_GUILD_UPDATE"] = function()
-		GuildRoster()
-	end,
+	["PLAYER_GUILD_UPDATE"] = GuildRoster,
+	-- our guild message of the day changed
 	["GUILD_MOTD"] = function (_, arg1)
 		guildMotD = arg1
 	end,
@@ -157,7 +155,7 @@ local function OnEvent(self, event, ...)
 	lastPanel = self
 
 	if IsInGuild() then
-		eventHandlers[event](self, select(1, ...))
+		eventHandlers[event](self, ...)
 
 		self.text:SetFormattedText(displayString, #guildTable)
 	else
@@ -179,7 +177,7 @@ end
 
 local function whisperClick(_, playerName)
 	menuFrame:Hide()
-	SetItemRef("player:"..playerName, ("|Hplayer:%1$s|h[%1$s]|h"):format(playerName), "LeftButton")
+	SetItemRef("player:"..playerName, format("|Hplayer:%1$s|h[%1$s]|h",playerName), "LeftButton")
 end
 
 local function ToggleGuildFrame()
@@ -303,7 +301,7 @@ end
 
 local function ValueColorUpdate(hex)
 	displayString = join("", GUILD, ": ", hex, "%d|r")
-	noGuildString = join("", hex, L["No Guild"])
+	noGuildString = hex..L["No Guild"]
 
 	if lastPanel ~= nil then
 		OnEvent(lastPanel, "ELVUI_COLOR_UPDATE")

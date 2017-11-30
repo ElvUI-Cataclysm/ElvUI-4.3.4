@@ -142,9 +142,10 @@ function mod:SetTargetFrame(frame)
 			mod:UpdateElement_AurasByUnitID("mouseover")
 		end
 	elseif frame.isMouseover then
+		frame.isMouseover = nil
+
 		frame.unit = nil
 		frame.guid = nil
-		frame.isMouseover = nil
 	else
 		if not frame.AlphaChanged then
 			if self.hasTarget then
