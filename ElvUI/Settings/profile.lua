@@ -195,7 +195,8 @@ P["bags"] = {
 		["spacing"] = 4,
 		["backdropSpacing"] = 4,
 		["showBackdrop"] = false,
-		["mouseover"] = false
+		["mouseover"] = false,
+		['visibility'] = "",
 	}
 }
 
