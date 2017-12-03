@@ -4,6 +4,7 @@ local AB = E:GetModule("ActionBars")
 local _G = _G
 
 local CreateFrame = CreateFrame
+local RegisterStateDriver = RegisterStateDriver
 
 local function Button_OnEnter()
 	if AB.db.microbar.mouseover then
@@ -68,6 +69,7 @@ function AB:UpdateMicroButtonsParent(parent)
 end
 
 function AB:UpdateMicroPositionDimensions()
+	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED") return end
 	if not ElvUI_MicroBar then return end
 
 	local numRows = 1
@@ -98,12 +100,19 @@ function AB:UpdateMicroPositionDimensions()
 	AB.MicroHeight = ((_G["CharacterMicroButton"]:GetHeight() - 28) * numRows) + (self.db.microbar.yOffset * (numRows - 1)) + E.Border * 2
  	ElvUI_MicroBar:Size(AB.MicroWidth, AB.MicroHeight)
 
-	if self.db.microbar.enabled then
-		ElvUI_MicroBar:Show()
-		if ElvUI_MicroBar.mover then E:EnableMover(ElvUI_MicroBar.mover:GetName()) end
-	else
-		ElvUI_MicroBar:Hide()
-		if ElvUI_MicroBar.mover then E:DisableMover(ElvUI_MicroBar.mover:GetName()) end
+	local visibility = self.db.microbar.visibility
+	if visibility and visibility:match("[\n\r]") then
+		visibility = visibility:gsub("[\n\r]","")
+	end
+
+	RegisterStateDriver(ElvUI_MicroBar, "visibility", (self.db.microbar.enabled and visibility) or "hide")
+
+	if ElvUI_MicroBar.mover then
+		if self.db.microbar.enabled then
+			E:EnableMover(ElvUI_MicroBar.mover:GetName())
+		else
+			E:DisableMover(ElvUI_MicroBar.mover:GetName())
+		end
 	end
 end
 
@@ -114,7 +123,7 @@ function AB:UpdateMicroButtons()
 end
 
 function AB:SetupMicroBar()
-	local microBar = CreateFrame("Frame", "ElvUI_MicroBar", E.UIParent)
+	local microBar = CreateFrame("Frame", "ElvUI_MicroBar", E.UIParent, "SecureHandlerStateTemplate")
 	microBar:Point("TOPLEFT", E.UIParent, "TOPLEFT", 4, -48)
 	for i = 1, #MICRO_BUTTONS do
 		self:HandleMicroButton(_G[MICRO_BUTTONS[i]])

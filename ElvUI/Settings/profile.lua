@@ -2713,7 +2713,8 @@ P["actionbar"] = {
 		["yOffset"] = 1,
 		["buttonsPerRow"] = 12,
 		["alpha"] = 1,
-		["mouseover"] = false
+		["mouseover"] = false,
+		["visibility"] = "show",
 	},
 
 	["globalFadeAlpha"] = 0,

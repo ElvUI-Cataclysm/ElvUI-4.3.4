@@ -12,6 +12,7 @@ local GetNumShapeshiftForms = GetNumShapeshiftForms;
 local GetShapeshiftFormCooldown = GetShapeshiftFormCooldown;
 local GetShapeshiftFormInfo = GetShapeshiftFormInfo;
 local InCombatLockdown = InCombatLockdown;
+local RegisterStateDriver = RegisterStateDriver
 local GetBindingKey = GetBindingKey;
 local NUM_SHAPESHIFT_SLOTS = NUM_SHAPESHIFT_SLOTS;
 
@@ -19,17 +20,6 @@ local Masque = LibStub("Masque", true)
 local MasqueGroup = Masque and Masque:Group("ElvUI", "Stance Bar")
 
 local bar = CreateFrame("Frame", "ElvUI_StanceBar", E.UIParent, "SecureHandlerStateTemplate");
-
-local states = {
-	["DRUID"] = "show",
-	["WARRIOR"] = "show",
-	["PALADIN"] = "show",
-	["DEATHKNIGHT"] = "show",
-	["ROGUE"] = "show",
-	["PRIEST"] = "show",
-	["HUNTER"] = "show",
-	["WARLOCK"] = "show",
-};
 
 function AB:UPDATE_SHAPESHIFT_COOLDOWN()
 	local numForms = GetNumShapeshiftForms();
@@ -320,12 +310,7 @@ function AB:AdjustMaxStanceButtons(event)
 		self:StyleShapeShift()
 	end
 
-	if numButtons == 0 then
-		UnregisterStateDriver(bar, "show")
-		bar:Hide() --this keeps the stanceBar backdrop hidden on toons without a stanceBar
-	else
-		RegisterStateDriver(bar, "show", visibility)
-	end
+	RegisterStateDriver(bar, "visibility", (numButtons == 0 and "hide") or visibility)
 end
 
 function AB:UpdateStanceBindings()
@@ -345,13 +330,6 @@ function AB:CreateBarShapeShift()
 	bar.backdrop:SetAllPoints();
 	bar:Point("TOPLEFT", E.UIParent, "TOPLEFT", 4, -4);
 	bar.buttons = {};
-	bar:SetAttribute("_onstate-show", [[
-		if newstate == "hide" then
-			self:Hide();
-		else
-			self:Show();
-		end
-	]]);
 
 	self:HookScript(bar, "OnEnter", "Bar_OnEnter");
 	self:HookScript(bar, "OnLeave", "Bar_OnLeave");
@@ -367,5 +345,4 @@ function AB:CreateBarShapeShift()
 	self:PositionAndSizeBarShapeShift();
 	self:StyleShapeShift();
 	self:UpdateStanceBindings()
-	RegisterStateDriver(bar, "show", states[E.myclass] or "hide");
 end

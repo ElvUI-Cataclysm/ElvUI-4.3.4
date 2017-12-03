@@ -324,6 +324,7 @@ end
 
 function AB:PLAYER_REGEN_ENABLED()
 	self:UpdateButtonSettings();
+	self:UpdateMicroPositionDimensions()
 	self:UnregisterEvent("PLAYER_REGEN_ENABLED");
 end
 

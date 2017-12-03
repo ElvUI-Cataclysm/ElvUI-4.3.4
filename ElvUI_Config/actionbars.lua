@@ -657,27 +657,43 @@ local function BuildABConfig()
 				min = 1, max = #MICRO_BUTTONS, step = 1,
 				disabled = function() return not E.db.actionbar.microbar.enabled end
 			},
-			xOffset = {
+			alpha = {
 				order = 7,
+				type = "range",
+				name = L["Alpha"],
+				isPercent = true,
+				desc = L["Change the alpha level of the frame."],
+				min = 0, max = 1, step = 0.1,
+				disabled = function() return not E.db.actionbar.microbar.enabled end
+			},
+			xOffset = {
+				order = 8,
 				type = "range",
 				name = L["xOffset"],
 				min = 0, max = 60, step = 1,
 				disabled = function() return not E.db.actionbar.microbar.enabled end
 			},
 			yOffset = {
-				order = 8,
+				order = 9,
 				type = "range",
 				name = L["yOffset"],
 				min = 0, max = 60, step = 1,
 				disabled = function() return not E.db.actionbar.microbar.enabled end
 			},
-			alpha = {
-				order = 9,
-				type = "range",
-				name = L["Alpha"],
-				isPercent = true,
-				desc = L["Change the alpha level of the frame."],
-				min = 0, max = 1, step = 0.1,
+			visibility = {
+				order = 10,
+				type = "input",
+				name = L["Visibility State"],
+				desc = L["This works like a macro, you can run different situations to get the actionbar to show/hide differently.\n Example: '[combat] show;hide'"],
+				width = "full",
+				multiline = true,
+				set = function(info, value)
+					if value and value:match("[\n\r]") then
+						value = value:gsub("[\n\r]","")
+					end
+					E.db.actionbar["microbar"]["visibility"] = value
+					AB:UpdateMicroPositionDimensions()
+				end,
 				disabled = function() return not E.db.actionbar.microbar.enabled end
 			}
 		}
