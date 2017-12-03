@@ -592,6 +592,7 @@ L["If enabled then the filter will only activate if the level of the unit is equ
 L["If enabled then the filter will only activate if the level of the unit matches this value."] = "Если включено, то фильтр будет акитивирован, когда уровень юнита равен этому числу."
 L["If enabled then the filter will only activate if the level of the unit matches your own."] = "Если включено, то фильтр будет акитивирован, когда уровень юнита равен вашему."
 L["If enabled then the filter will only activate if the unit is casting interruptible spells."] = "Если включено, то фильтр будет акитивирован, когда юнит произносит прерываемое заклинание."
+L["If enabled then the filter will only activate if the unit is casting not interruptible spells."] = true
 L["If enabled then the filter will only activate when you are in combat."] = "Если включено, фильтр будет активирован только когда вы в бою."
 L["If enabled then the filter will only activate when you are out of combat."] = "Если включено, фильтр будет активирован только когда вы вне боя."
 L["If the aura is listed with a number then you need to use that to remove it from the list."] = "Если аура добавлена номером, то для удаления потребуется номер."

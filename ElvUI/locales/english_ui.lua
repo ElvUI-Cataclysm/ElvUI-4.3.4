@@ -82,6 +82,7 @@ L["lvl"] = true
 L["Mitigation By Level: "] = true
 L["No Guild"] = true
 L["Profit:"] = true
+L["Reset Counters: Hold Shift + Left Click"] = true
 L["Reload UI"] = true
 L["Reset Data: Hold Shift + Right Click"] = true
 L["Right Click: Reset CPU Usage"] = true

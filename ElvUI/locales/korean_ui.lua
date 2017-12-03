@@ -82,6 +82,7 @@ L["lvl"] = "레벨"
 L["Mitigation By Level: "] = "레벨별 데미지 경감률"
 L["No Guild"] = "길드 없음"
 L["Profit:"] = "이익:"
+L["Reset Counters: Hold Shift + Left Click"] = true
 L["Reload UI"] = true
 L["Reset Data: Hold Shift + Right Click"] = "기록 리셋: Shift + 우클릭"
 L["Right Click: Reset CPU Usage"] = true
