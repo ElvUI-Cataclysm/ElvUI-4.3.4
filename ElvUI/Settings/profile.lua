@@ -2872,7 +2872,7 @@ P["actionbar"] = {
 		["alpha"] = 1,
 		["inheritGlobalFade"] = false,
 		["usePositionOverride"] = true,
-		["visibility"] = "[vehicleui] hide;"
+		["visibility"] = "[vehicleui] hide;show"
 	},
 	["barTotem"] = {
 		["enabled"] = true,

@@ -41,7 +41,7 @@ local function LoadSkin()
 		TradeSkillDecrementButton:Point("LEFT", TradeSkillCreateAllButton, "RIGHT", 8, 0);
 		TradeSkillIncrementButton:Point("RIGHT", TradeSkillCreateButton, "LEFT", -9, 0);
 	else
-		TRADE_SKILLS_DISPLAYED = 25;
+		TRADE_SKILLS_DISPLAYED = 26;
 
 		TradeSkillFrame:SetAttribute("UIPanelLayout-width", E:Scale(720));
 		TradeSkillFrame:SetAttribute("UIPanelLayout-height", E:Scale(508));
@@ -85,7 +85,7 @@ local function LoadSkin()
 		TradeSkillDetailScrollFrame:Point("TOPRIGHT", TradeSkillFrame, -90, -95);
 		TradeSkillDetailScrollFrame.scrollBarHideable = nil;
 
-		for i = 9, 25 do
+		for i = 9, 26 do
 			CreateFrame("Button", "TradeSkillSkill" .. i, TradeSkillFrame, "TradeSkillSkillButtonTemplate"):Point("TOPLEFT", _G["TradeSkillSkill" .. i - 1], "BOTTOMLEFT");
 		end
 

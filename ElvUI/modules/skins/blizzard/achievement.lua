@@ -209,9 +209,16 @@ local function LoadSkin(event)
 
 	hooksecurefunc("AchievementFrameSummary_UpdateAchievements", function()
 		for i = 1, ACHIEVEMENTUI_MAX_SUMMARY_ACHIEVEMENTS do
-			local frame = _G["AchievementFrameSummaryAchievement" .. i];
-			if(not frame.isSkinned) then
-				SkinAchievement(frame);
+			local frame = _G["AchievementFrameSummaryAchievement" .. i]
+
+			if not frame.isSkinned then
+				SkinAchievement(frame)
+
+				if frame.shield.points then
+					frame.shield.points:ClearAllPoints()
+					frame.shield.points:Point("CENTER", 0, 2)
+				end
+
 				frame.isSkinned = true;
 			end
 

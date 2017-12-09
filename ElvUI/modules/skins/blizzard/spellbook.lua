@@ -56,7 +56,7 @@ local function LoadSkin()
 
 		button.bg = CreateFrame("Frame", nil, button)
 		button.bg:CreateBackdrop("Transparent", true);
-		button.bg:Point("TOPLEFT", -7, 8);
+		button.bg:Point("TOPLEFT", -7, 9);
 		button.bg:Point("BOTTOMRIGHT", 170, -10);
 		button.bg:SetFrameLevel(button.bg:GetFrameLevel() - 2)
 
@@ -179,7 +179,7 @@ local function LoadSkin()
 		primaryRank:Point("TOPLEFT", 120, -23)
 		primaryUnlearn:Point("RIGHT", primaryBar, "LEFT", -135, -10)
 
-		primarySpellTop:Point("TOPRIGHT", primaryProf, "TOPRIGHT", -225, -45)
+		primarySpellTop:Point("TOPRIGHT", primaryProf, "TOPRIGHT", -235, -45)
 		primarySpellBot:Point("TOPLEFT", primarySpellTop, "BOTTOMLEFT", 135, 40)
 
 		primaryMissing:SetTextColor(1, 0.80, 0.10)
@@ -333,25 +333,6 @@ local function LoadSkin()
 
 	SpellBookCompanionModelFrameRotateRightButton:Kill()
 	SpellBookCompanionModelFrameRotateLeftButton:Kill()
-
-	--[[
-	S:HandleRotateButton(SpellBookCompanionModelFrameRotateRightButton)
-	S:HandleRotateButton(SpellBookCompanionModelFrameRotateLeftButton)
-	SpellBookCompanionModelFrameRotateLeftButton:Point("TOPLEFT", 2, -2)
-
-	SpellBookCompanionModelFrameRotateRightButton:SetAlpha(0)
-	SpellBookCompanionModelFrameRotateLeftButton:SetAlpha(0)
-
-	SpellBookCompanionModelFrame:HookScript("OnEnter", function()
-		SpellBookCompanionModelFrameRotateRightButton:SetAlpha(1)
-		SpellBookCompanionModelFrameRotateLeftButton:SetAlpha(1)
-	end)
-
-	SpellBookFrame:HookScript("OnEnter", function()
-		SpellBookCompanionModelFrameRotateRightButton:SetAlpha(0)
-		SpellBookCompanionModelFrameRotateLeftButton:SetAlpha(0)
-	end)
-	]]
 
 	local progress = CreateFrame("StatusBar", "CompanionCountProgress", SpellBookCompanionsFrame, "ProfessionStatusBarTemplate")
 	progress:StripTextures()
