@@ -4,7 +4,7 @@ local LSM = LibStub("LibSharedMedia-3.0")
 
 local _G = _G
 local pairs, tonumber = pairs, tonumber
-local find, gsub = string.find, string.gsub
+local find, gsub, match = string.find, string.gsub, string.match
 local twipe = table.wipe
 
 local CreateFrame = CreateFrame
@@ -45,7 +45,7 @@ function mod:CheckBGHealers()
 	for i = 1, GetNumBattlefieldScores() do
 		name, _, _, _, _, _, _, _, _, _, _, _, _, _, _, talentSpec = GetBattlefieldScore(i)
 		if name then
-			name = name:match("(.+)%-.+") or name
+			name = match(name,"([^%-]+).*")
 			if name and self.HealerSpecs[talentSpec] then
 				self.Healers[name] = talentSpec
 			elseif name and self.Healers[name] then
