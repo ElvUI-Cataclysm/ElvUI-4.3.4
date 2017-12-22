@@ -335,6 +335,10 @@ function AB:PLAYER_REGEN_ENABLED()
 		AB:AdjustMaxStanceButtons(AB.NeedsAdjustMaxStanceButtons) --sometimes it holds the event, otherwise true. pass it before we nil it.
 		AB.NeedsAdjustMaxStanceButtons = nil
 	end
+	if AB.NeedsPositionAndSizeBarTotem then
+		self:PositionAndSizeBarTotem()
+		AB.NeedsPositionAndSizeBarTotem = nil
+	end
 
 	self:UnregisterEvent("PLAYER_REGEN_ENABLED");
 end
