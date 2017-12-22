@@ -365,7 +365,11 @@ function RU:Initialize()
 			ConvertToRaid()
 		end
 	end)
-	ConvertGroupButton:SetScript("OnUpdate", function(self)
+
+	ConvertGroupButton:RegisterEvent("RAID_ROSTER_UPDATE")
+	ConvertGroupButton:RegisterEvent("PARTY_MEMBERS_CHANGED")
+
+	ConvertGroupButton:SetScript("OnEvent", function(self)
 		if not IsRaidLeader("player") then
 			self:Disable()
 		else
