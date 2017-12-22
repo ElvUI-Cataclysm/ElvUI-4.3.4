@@ -231,7 +231,7 @@ local function OnScrollValueChanged(frame, value)
 	if frame.obj.noupdate then return end
 	local self = frame.obj
 	local status = self.status or self.localstatus
-	status.scrollvalue = floor(value + 0.5)
+	status.scrollvalue = value
 	self:RefreshTree()
 	AceGUI:ClearFocus()
 end
@@ -295,7 +295,6 @@ local methods = {
 	["OnAcquire"] = function(self)
 		self:SetTreeWidth(DEFAULT_TREE_WIDTH, DEFAULT_TREE_SIZABLE)
 		self:EnableButtonTooltips(true)
-		self.frame:SetScript("OnUpdate", FirstFrameUpdate)
 	end,
 
 	["OnRelease"] = function(self)
