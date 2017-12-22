@@ -818,10 +818,10 @@ function AB:UpdateButtonConfig(bar, buttonName)
 		bar.buttonConfig.keyBoundTarget = format(buttonName .. "%d", i);
 		button.keyBoundTarget = bar.buttonConfig.keyBoundTarget;
 		button.postKeybind = AB.FixKeybindText;
-		if(E.db.actionbar.selfcast) then
-			button:SetAttribute("unit2", "player");
+		if self.db.rightClickSelfCast then
+			button:SetAttribute("unit2", "player")
 		else
-			button:SetAttribute("unit2", "target");
+			button:SetAttribute("unit2", "target")
 		end
 		button:SetAttribute("buttonlock", self.db.lockActionBars)
 		button:SetAttribute("checkselfcast", true);

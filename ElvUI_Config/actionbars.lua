@@ -62,11 +62,16 @@ local function BuildABConfig()
 				name = L["Keybind Text"],
 				desc = L["Display bind names on action buttons."]
 			},
-			selfcast = {
+			rightClickSelfCast = {
 				order = 7,
 				type = "toggle",
-				name = L["Self Cast"],
-				desc = L["Self cast on right click."]
+				name = L["RightClick Self-Cast"],
+				set = function(info, value)
+					E.db.actionbar.rightClickSelfCast = value
+					for _, bar in pairs(AB["handledBars"]) do
+						AB:UpdateButtonConfig(bar, bar.bindButtons)
+					end
+				end
 			},
 			keyDown = {
 				order = 8,

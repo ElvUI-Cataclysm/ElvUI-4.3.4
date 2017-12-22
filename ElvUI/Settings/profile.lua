@@ -2702,7 +2702,7 @@ P["actionbar"] = {
 	["usableColor"] = {r = 1, g = 1, b = 1},
 	["notUsableColor"] = {r = 0.4, g = 0.4, b = 0.4},
 
-	["selfcast"] = true,
+	["rightClickSelfCast"] = false,
 	["keyDown"] = true,
 	["movementModifier"] = "SHIFT",
 
