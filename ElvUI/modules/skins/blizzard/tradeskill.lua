@@ -223,6 +223,7 @@ local function LoadSkin()
 		for i = 1, numReagents, 1 do
 			local _, _, reagentCount, playerReagentCount = GetTradeSkillReagentInfo(id, i);
 			local reagentLink = GetTradeSkillReagentItemLink(id, i);
+			local reagent = _G["TradeSkillReagent"..i]
 			local icon = _G["TradeSkillReagent" .. i .. "IconTexture"];
 			local name = _G["TradeSkillReagent" .. i .. "Name"];
 
@@ -230,12 +231,14 @@ local function LoadSkin()
 				local quality = select(3, GetItemInfo(reagentLink));
 				if(quality and quality > 1) then
 					icon.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality));
+					reagent:SetBackdropBorderColor(GetItemQualityColor(quality))
 					if(playerReagentCount < reagentCount) then
 						name:SetTextColor(0.5, 0.5, 0.5);
 					else
 						name:SetTextColor(GetItemQualityColor(quality));
 					end
 				else
+					reagent:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 					icon.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor));
  				end
 			end
