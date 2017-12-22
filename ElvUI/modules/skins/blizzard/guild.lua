@@ -303,8 +303,7 @@ local function LoadSkin()
 
 		button.bg = CreateFrame("Frame", nil, button);
 		button.bg:SetTemplate("Default", true);
-		button.bg:Point("TOPLEFT", button.class, 1, -1);
-		button.bg:Point("BOTTOMRIGHT", button.class, -1, 1);
+		button.bg:SetOutside(button.class)
 
 		button.class:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
 		button.class:SetParent(button.bg);
@@ -356,6 +355,7 @@ local function LoadSkin()
 
 				button.name:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b)
 				button.level:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b)
+				button.bg:SetBackdropBorderColor(classTextColor.r, classTextColor.g, classTextColor.b)
 			end
 		end
 	end
