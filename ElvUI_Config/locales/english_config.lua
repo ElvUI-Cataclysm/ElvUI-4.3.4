@@ -708,6 +708,7 @@ L["Move Pad"] = true
 L["PvP Frames"] = true
 L["Quest Frames"] = true
 L["Raid Frame"] = true
+L["Raid Manager Frame"] = true
 L["Reforge Frame"] = true
 L["Skins"] = true
 L["Socket Frame"] = true

@@ -720,6 +720,7 @@ L["Move Pad"] = true
 L["PvP Frames"] = "PvP框架"
 L["Quest Frames"] = "任务"
 L["Raid Frame"] = "团队"
+L["Raid Manager Frame"] = true
 L["Reforge Frame"] = "重铸"
 L["Skins"] = "美化外观"
 L["Socket Frame"] = "珠宝插槽"

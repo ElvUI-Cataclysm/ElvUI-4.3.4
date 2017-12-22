@@ -720,6 +720,7 @@ L["Move Pad"] = true
 L["PvP Frames"] = "Pvp Fenster"
 L["Quest Frames"] = "Quest Fenster"
 L["Raid Frame"] = "Schlachtzugsfenster"
+L["Raid Manager Frame"] = true
 L["Reforge Frame"] = "Umschmiedefenster"
 L["Skins"] = "Skins"
 L["Socket Frame"] = "Sockel Fenster"

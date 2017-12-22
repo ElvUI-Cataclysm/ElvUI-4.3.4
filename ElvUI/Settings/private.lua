@@ -96,6 +96,7 @@ V["skins"] = {
 		["pvp"] = true,
 		["quest"] = true,
 		["raid"] = true,
+		["RaidManager"] = true,
 		["reforge"] = true,
 		["socket"] = true,
 		["spellbook"] = true,

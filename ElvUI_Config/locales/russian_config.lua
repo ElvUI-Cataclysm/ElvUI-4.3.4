@@ -720,6 +720,7 @@ L["Move Pad"] = true
 L["PvP Frames"] = "ПвП фреймы"
 L["Quest Frames"] = "Задания"
 L["Raid Frame"] = "Рейд"
+L["Raid Manager Frame"] = true
 L["Reforge Frame"] = "Перековка"
 L["Skins"] = "Скины"
 L["Socket Frame"] = "Инкрустирование"

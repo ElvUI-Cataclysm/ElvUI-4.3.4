@@ -719,6 +719,7 @@ L["Move Pad"] = true
 L["PvP Frames"] = "Fenêtre JcJ"
 L["Quest Frames"] = "Fenêtre de Quête"
 L["Raid Frame"] = "Fenêtre de Raid"
+L["Raid Manager Frame"] = true
 L["Reforge Frame"] = "Retouche"
 L["Skins"] = "Habillage"
 L["Socket Frame"] = "Fenêtre de sertissage"

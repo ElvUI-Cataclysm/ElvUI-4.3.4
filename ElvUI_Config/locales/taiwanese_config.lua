@@ -719,6 +719,7 @@ L["Move Pad"] = true
 L["PvP Frames"] = "PvP框架"
 L["Quest Frames"] = "任務"
 L["Raid Frame"] = "團隊框架"
+L["Raid Manager Frame"] = true
 L["Reforge Frame"] = "重鑄"
 L["Skins"] = "美化外觀"
 L["Socket Frame"] = "珠寶插槽"

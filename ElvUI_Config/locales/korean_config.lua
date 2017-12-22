@@ -767,6 +767,7 @@ L["Move Pad"] = true
 L["PvP Frames"] = "PvP 창"
 L["Quest Frames"] = "퀘스트 창"
 L["Raid Frame"] = "공격대 프레임"
+L["Raid Manager Frame"] = true
 L["Reforge Frame"] = "재연마 창"
 L["Skins"] = "스킨"
 L["Socket Frame"] = "보석홈 UI"

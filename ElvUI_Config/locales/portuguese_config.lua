@@ -719,6 +719,7 @@ L["Move Pad"] = true
 L["PvP Frames"] = "JxJ"
 L["Quest Frames"] = "Missões"
 L["Raid Frame"] = "Quadro de Raide"
+L["Raid Manager Frame"] = true
 L["Reforge Frame"] = "Reforja"
 L["Skins"] = "Aparências"
 L["Socket Frame"] = "Engaste"

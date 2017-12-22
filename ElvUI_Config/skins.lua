@@ -239,6 +239,12 @@ E.Options.args.skins = {
 					name = L["Raid Frame"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
+				RaidManager = {
+					type = "toggle",
+					name = L["Raid Manager Frame"],
+					desc = L["TOGGLESKIN_DESC"],
+					disabled = function() return E.private["unitframe"]["disabledBlizzardFrames"].raid and E.private["unitframe"]["disabledBlizzardFrames"].party end
+				},
 				reforge = {
 					type = "toggle",
 					name = L["Reforge Frame"],

@@ -38,6 +38,7 @@
 	<Script file="pvp.lua"/>
 	<Script file="quest.lua"/>
 	<Script file="raid.lua"/>
+	<Script file="RaidManager.lua"/>
 	<Script file="reforge.lua"/>
 	<Script file="socket.lua"/>
 	<Script file="spellbook.lua"/>
