@@ -80,6 +80,7 @@ L["HP"] = "HP"
 L["HPS"] = "HPS"
 L["lvl"] = "lvl"
 L["Mitigation By Level: "] = "Schadesminderung per Stufe: "
+L["Mov. Speed:"] = STAT_MOVEMENT_SPEED
 L["No Guild"] = "Keine Gilde"
 L["Profit:"] = "Gewinn:"
 L["Reset Counters: Hold Shift + Left Click"] = "Zähler zurücksetzen: Halte Shift + Linksklick"

@@ -80,6 +80,7 @@ L["HP"] = "+ Исцел."
 L["HPS"] = "ИВС"
 L["lvl"] = "ур."
 L["Mitigation By Level: "] = "Снижение на уровне: "
+L["Mov. Speed:"] = STAT_MOVEMENT_SPEED
 L["No Guild"] = "Нет гильдии"
 L["Profit:"] = "Прибыль:"
 L["Reset Counters: Hold Shift + Left Click"] = "Сбросить счётчики: Shift + ЛКМ"

@@ -80,6 +80,7 @@ L["HP"] = "주문력"
 L["HPS"] = "HPS"
 L["lvl"] = "레벨"
 L["Mitigation By Level: "] = "레벨별 데미지 경감률"
+L["Mov. Speed:"] = STAT_MOVEMENT_SPEED
 L["No Guild"] = "길드 없음"
 L["Profit:"] = "이익:"
 L["Reset Counters: Hold Shift + Left Click"] = true

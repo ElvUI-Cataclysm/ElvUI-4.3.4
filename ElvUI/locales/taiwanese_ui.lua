@@ -80,6 +80,7 @@ L["HP"] = "生命值"
 L["HPS"] = "治療輸出"
 L["lvl"] = "等級"
 L["Mitigation By Level: "] = "等級減傷: "
+L["Mov. Speed:"] = STAT_MOVEMENT_SPEED
 L["No Guild"] = "沒有公會"
 L["Profit:"] = "利潤: "
 L["Reset Counters: Hold Shift + Left Click"] = true

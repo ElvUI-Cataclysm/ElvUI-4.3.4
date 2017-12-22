@@ -80,6 +80,7 @@ L["HP"] = true
 L["HPS"] = true
 L["lvl"] = true
 L["Mitigation By Level: "] = true
+L["Mov. Speed:"] = true
 L["No Guild"] = true
 L["Profit:"] = true
 L["Reset Counters: Hold Shift + Left Click"] = true
