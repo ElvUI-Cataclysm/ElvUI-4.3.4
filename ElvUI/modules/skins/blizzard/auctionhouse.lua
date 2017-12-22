@@ -44,14 +44,12 @@ local function LoadSkin()
 	AuctionProgressFrameCancelButton:Size(28)
 	AuctionProgressFrameCancelButton:Point("LEFT", AuctionProgressBar, "RIGHT", 8, 0)
 
-	AuctionProgressBarIcon:SetTexCoord(0.67, 0.37, 0.61, 0.26)
+	AuctionProgressBarIcon.backdrop = CreateFrame("Frame", nil, AuctionProgressBarIcon:GetParent())
+	AuctionProgressBarIcon.backdrop:SetTemplate("Default")
+	AuctionProgressBarIcon.backdrop:SetOutside(AuctionProgressBarIcon)
 
-	local backdrop = CreateFrame("Frame", nil, AuctionProgressBarIcon:GetParent())
-	backdrop:Point("TOPLEFT", AuctionProgressBarIcon, "TOPLEFT", -2, 2)
-	backdrop:Point("BOTTOMRIGHT", AuctionProgressBarIcon, "BOTTOMRIGHT", 2, -2)
-	backdrop:SetTemplate("Default")
-
-	AuctionProgressBarIcon:SetParent(backdrop)
+	AuctionProgressBarIcon:SetTexCoord(unpack(E.TexCoords))
+	AuctionProgressBarIcon:SetParent(AuctionProgressBarIcon.backdrop)
 
 	AuctionProgressBarText:ClearAllPoints()
 	AuctionProgressBarText:SetPoint("CENTER")
