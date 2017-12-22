@@ -3,5 +3,4 @@ local B = E:GetModule('Blizzard');
 
 function B:KillBlizzard()
 	HelpOpenTicketButtonTutorial:Kill()
-	TalentMicroButtonAlert:Kill()
 end

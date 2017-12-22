@@ -388,6 +388,24 @@ local function LoadSkin()
 		_G["LanguageMenuButton"..i]:StyleButton()
 		_G["VoiceMacroMenuButton"..i]:StyleButton()
 	end
+
+	-- MicroButton Talent Alert
+	if TalentMicroButtonAlert then
+		TalentMicroButtonAlert:StripTextures()
+		TalentMicroButtonAlert:CreateBackdrop("Transparent")
+		TalentMicroButtonAlert:ClearAllPoints()
+		TalentMicroButtonAlert:SetPoint("CENTER", E.UIParent, "TOP", 0, -75)
+		TalentMicroButtonAlert:Width(230)
+		TalentMicroButtonAlertArrow:Hide()
+		TalentMicroButtonAlertText:Point("TOPLEFT", 42, -23)
+		TalentMicroButtonAlertText:FontTemplate()
+		S:HandleCloseButton(TalentMicroButtonAlertCloseButton)
+
+		TalentMicroButtonAlert.tex = TalentMicroButtonAlert:CreateTexture(nil, "OVERLAY")
+		TalentMicroButtonAlert.tex:Point("LEFT", 5, -4)
+		TalentMicroButtonAlert.tex:SetTexture("Interface\\DialogFrame\\UI-Dialog-Icon-AlertNew")
+		TalentMicroButtonAlert.tex:SetSize(32, 32)
+	end
 end
 
 S:AddCallback("SkinMisc", LoadSkin)
