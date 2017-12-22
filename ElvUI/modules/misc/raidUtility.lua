@@ -394,12 +394,10 @@ function RU:Initialize()
 		CompactRaidFrameManagerDisplayFrameLeaderOptionsRaidWorldMarkerButton:Width(RoleCheckButton:GetWidth() * 0.22)
 
 		--Put other stuff back
-		CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateReadyCheck:ClearAllPoints()
-		CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateReadyCheck:Point("BOTTOMLEFT", CompactRaidFrameManagerDisplayFrameLockedModeToggle, "TOPLEFT", 0, 1)
-		CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateReadyCheck:Point("BOTTOMRIGHT", CompactRaidFrameManagerDisplayFrameHiddenModeToggle, "TOPRIGHT", 0, 1)
-		CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateRolePoll:ClearAllPoints()
-		CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateRolePoll:Point("BOTTOMLEFT", CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateReadyCheck, "TOPLEFT", 0, 1)
-		CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateRolePoll:Point("BOTTOMRIGHT", CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateReadyCheck, "TOPRIGHT", 0, 1)
+		CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateRolePoll:Point("TOPLEFT", CompactRaidFrameManagerDisplayFrameLeaderOptions, "TOPLEFT", 20, -3)
+		CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateReadyCheck:Point("TOPLEFT", CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateRolePoll, "BOTTOMLEFT", 0, -1)
+		CompactRaidFrameManagerDisplayFrameLeaderOptionsInitiateReadyCheck:Width(169)
+		CompactRaidFrameManagerDisplayFrameLockedModeToggle:Width(84)
 	else
 		E:StaticPopup_Show("WARNING_BLIZZARD_ADDONS")
 	end
