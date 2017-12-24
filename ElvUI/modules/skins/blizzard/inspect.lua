@@ -98,18 +98,26 @@ local function LoadSkin()
 
 	for i = 1, MAX_ARENA_TEAMS do
 		_G["InspectPVPTeam"..i]:StripTextures()
+	end
 
+	for i = 1, MAX_TALENT_TABS do
 		local headerTab = _G["InspectTalentFrameTab"..i]
+
 		headerTab:StripTextures()
 		headerTab.backdrop = CreateFrame("Frame", nil, headerTab)
 		headerTab.backdrop:SetTemplate("Default", true)
 		headerTab.backdrop:SetFrameLevel(headerTab:GetFrameLevel() - 1)
 		headerTab.backdrop:Point("TOPLEFT", 3, -7)
-		headerTab.backdrop:Point("BOTTOMRIGHT", -2, -1)
+		headerTab.backdrop:Point("BOTTOMRIGHT", 0, -1)
+
+		headerTab:Width(109)
+		headerTab.SetWidth = E.noop
 
 		headerTab:HookScript("OnEnter", S.SetModifiedBackdrop)
 		headerTab:HookScript("OnLeave", S.SetOriginalBackdrop)
 	end
+
+	InspectTalentFrameTab1:Point("BOTTOMLEFT", InspectFrameInset, "TOPLEFT", -2, 4)
 
 	InspectTalentFrame.bg = CreateFrame("Frame", nil, InspectTalentFrame)
 	InspectTalentFrame.bg:SetTemplate("Default")
