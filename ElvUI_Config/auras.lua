@@ -274,14 +274,16 @@ E.Options.args.auras = {
 					type = "select",
 					name = L["Growth Direction"],
 					values = {
-						["LEFT"] = L["Left"],
-						["RIGHT"] = L["Right"]
+						RIGHT_LEFT = format(L["%s and then %s"], L["Right"], L["Left"]),
+						LEFT_RIGHT = format(L["%s and then %s"], L["Left"], L["Right"]),
+						DOWN_UP = format(L["%s and then %s"], L["Down"], L["Up"]),
+						UP_DOWN = format(L["%s and then %s"], L["Up"], L["Down"])
 					}
 				},
-				horizontalSpacing = {
+				spacing = {
 					order = 4,
 					type = "range",
-					name = L["Horizontal Spacing"],
+					name = L["Spacing"],
 					min = 0, max = 50, step = 1
 				},
 				fontGroup = {

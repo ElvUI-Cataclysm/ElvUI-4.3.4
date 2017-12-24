@@ -504,8 +504,8 @@ P["auras"] = {
 		["fontSize"] = 10,
 		["fontOutline"] = "MONOCHROMEOUTLINE",
 		["size"] = 32,
-		["horizontalSpacing"] = 6,
-		["growthDirection"] = "LEFT",
+		["spacing"] = 6,
+		["growthDirection"] = "RIGHT_LEFT",
 	}
 }
 

@@ -292,17 +292,29 @@ function A:UpdateTempEnchant()
 		duration:FontTemplate(font, self.db.weapons.fontSize, self.db.weapons.fontOutline)
 	end
 
-	if self.db.weapons.growthDirection == "LEFT" then
+	if self.db.weapons.growthDirection == "RIGHT_LEFT" then
 		TempEnchant1:Point("RIGHT", self.EnchantHeader, "RIGHT", 0, 0)
-		TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -self.db.weapons.horizontalSpacing, 0)
-		TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -self.db.weapons.horizontalSpacing, 0)
-	else
+		TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -self.db.weapons.spacing, 0)
+		TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -self.db.weapons.spacing, 0)
+	elseif self.db.weapons.growthDirection == "LEFT_RIGHT" then
 		TempEnchant1:Point("LEFT", self.EnchantHeader, "LEFT", 0, 0)
-		TempEnchant2:Point("LEFT", TempEnchant1, "RIGHT", self.db.weapons.horizontalSpacing, 0)
-		TempEnchant3:Point("LEFT", TempEnchant2, "RIGHT", self.db.weapons.horizontalSpacing, 0)
+		TempEnchant2:Point("LEFT", TempEnchant1, "RIGHT", self.db.weapons.spacing, 0)
+		TempEnchant3:Point("LEFT", TempEnchant2, "RIGHT", self.db.weapons.spacing, 0)
+	elseif self.db.weapons.growthDirection == "DOWN_UP" then
+		TempEnchant1:Point("BOTTOM", self.EnchantHeader, "BOTTOM", 0, 0)
+		TempEnchant2:Point("BOTTOM", TempEnchant1, "TOP", 0, self.db.weapons.spacing)
+		TempEnchant3:Point("BOTTOM", TempEnchant2, "TOP", 0, self.db.weapons.spacing)
+	elseif self.db.weapons.growthDirection == "UP_DOWN" then
+		TempEnchant1:Point("TOP", self.EnchantHeader, "TOP", 0, 0)
+		TempEnchant2:Point("TOP", TempEnchant1, "BOTTOM", 0, -self.db.weapons.spacing)
+		TempEnchant3:Point("TOP", TempEnchant2, "BOTTOM", 0, -self.db.weapons.spacing)
 	end
 
-	self.EnchantHeader:Size((self.db.weapons.size * 3) + (self.db.weapons.horizontalSpacing * 2), self.db.weapons.size + 2)
+	if self.db.weapons.growthDirection == "RIGHT_LEFT" or self.db.weapons.growthDirection == "LEFT_RIGHT" then
+		self.EnchantHeader:Size((self.db.weapons.size * 3) + (self.db.weapons.spacing * 2), self.db.weapons.size + 2)
+	else
+		self.EnchantHeader:Size(self.db.weapons.size + 2, (self.db.weapons.size * 3) + (self.db.weapons.spacing * 2))
+	end
 end
 
 function A:UpdateWeaponText(button, timeLeft)
