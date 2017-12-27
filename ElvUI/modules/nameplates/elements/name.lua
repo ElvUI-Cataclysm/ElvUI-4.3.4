@@ -52,6 +52,8 @@ function mod:UpdateElement_Name(frame, triggered)
 			frame.Name.r, frame.Name.g, frame.Name.b = r, g, b
 		end
 	end
+
+	frame.Name.NameOnlyGlow:SetVertexColor(self.db.glowColor.r, self.db.glowColor.g, self.db.glowColor.b, self.db.glowColor.a)
 end
 
 function mod:ConfigureElement_Name(frame)
@@ -77,5 +79,12 @@ function mod:ConstructElement_Name(frame)
 	name:SetFont(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
 	name:SetWordWrap(false)
 
+	local g = frame:CreateTexture(nil, "BACKGROUND", nil, -5)
+	g:SetTexture([[Interface\AddOns\ElvUI\media\textures\spark.tga]])
+	g:Hide()
+	g:SetPoint("TOPLEFT", name, -20, 8)
+	g:SetPoint("BOTTOMRIGHT", name, 20, -8)
+
+	name.NameOnlyGlow = g
 	return name
 end

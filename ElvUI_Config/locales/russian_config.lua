@@ -594,6 +594,8 @@ L["If enabled then the filter will only activate if the unit is casting interrup
 L["If enabled then the filter will only activate if the unit is casting not interruptible spells."] = true
 L["If enabled then the filter will only activate when you are in combat."] = "Если включено, фильтр будет активирован только когда вы в бою."
 L["If enabled then the filter will only activate when you are out of combat."] = "Если включено, фильтр будет активирован только когда вы вне боя."
+L["If enabled then the filter will only activate when you are targeting the unit."] = true
+L["If enabled then the filter will only activate when you are not targeting the unit."] = true
 L["If the aura is listed with a number then you need to use that to remove it from the list."] = "Если аура добавлена номером, то для удаления потребуется номер."
 L["If this list is empty, and if 'Interruptible' is checked, then the filter will activate on any type of cast that can be interrupted."] = 'Если список пуст и "Прерываемые" включено, то фильтр будет активирован при произнесении люблго прерываемого заклинания.'
 L["If this threshold is used then the health of the unit needs to be higher than this value in order for the filter to activate. Set to 0 to disable."] = "Если используется, то уровень здоровья юнита должен быть выше указанного, чтобы фильтр активировался."

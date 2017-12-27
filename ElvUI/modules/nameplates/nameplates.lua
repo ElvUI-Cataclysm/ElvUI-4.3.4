@@ -90,6 +90,7 @@ function mod:SetTargetFrame(frame)
 				self:ConfigureElement_CastBar(frame)
 				self:ConfigureElement_Glow(frame)
 				self:ConfigureElement_Elite(frame)
+				self:ConfigureElement_Highlight(frame)
 				self:ConfigureElement_Level(frame)
 				self:ConfigureElement_Name(frame)
 				self:RegisterEvents(frame)
@@ -101,7 +102,7 @@ function mod:SetTargetFrame(frame)
 			end
 
 			-- TEST
-			mod:UpdateElement_Glow(frame)
+			mod:UpdateElement_Highlight(frame)
 			mod:UpdateElement_CPoints(frame)
 			mod:UpdateElement_Filters(frame, "PLAYER_TARGET_CHANGED")
 		end
@@ -129,7 +130,6 @@ function mod:SetTargetFrame(frame)
 		end
 
 		-- TEST
-		mod:UpdateElement_Glow(frame)
 		mod:UpdateElement_CPoints(frame)
 		mod:UpdateElement_Filters(frame, "PLAYER_TARGET_CHANGED")
 	elseif frame.oldHighlight:IsShown() then
@@ -141,11 +141,14 @@ function mod:SetTargetFrame(frame)
 
 			mod:UpdateElement_AurasByUnitID("mouseover")
 		end
+		mod:UpdateElement_Highlight(frame)
 	elseif frame.isMouseover then
 		frame.isMouseover = nil
 
 		frame.unit = nil
 		frame.guid = nil
+
+		mod:UpdateElement_Highlight(frame)
 	else
 		if not frame.AlphaChanged then
 			if self.hasTarget then
@@ -156,6 +159,7 @@ function mod:SetTargetFrame(frame)
 		end
 	end
 
+	self:UpdateElement_Glow(frame)
 	self:UpdateElement_HealthColor(frame)
 end
 
@@ -353,6 +357,7 @@ function mod:OnShow()
 	mod:ConfigureElement_Level(self.UnitFrame)
 	mod:ConfigureElement_Name(self.UnitFrame)
 	mod:ConfigureElement_Elite(self.UnitFrame)
+	mod:ConfigureElement_Highlight(self.UnitFrame)
 
 	mod:RegisterEvents(self.UnitFrame)
 	mod:UpdateElement_All(self.UnitFrame, nil, true)
@@ -385,6 +390,8 @@ function mod:OnHide()
 	self.UnitFrame.Name.r, self.UnitFrame.Name.g, self.UnitFrame.Name.b = nil, nil, nil
 	self.UnitFrame.Name:ClearAllPoints()
 	self.UnitFrame.Name:SetText("")
+	self.UnitFrame.Name.NameOnlyGlow:Hide()
+	self.UnitFrame.Highlight:Hide()
 	self.UnitFrame.Elite:Hide()
 	self.UnitFrame.CPoints:Hide()
 	self.UnitFrame:Hide()
@@ -448,6 +455,7 @@ function mod:UpdateElement_All(frame, noTargetFrame, filterIgnore)
 	self:UpdateElement_Name(frame)
 	self:UpdateElement_Level(frame)
 	self:UpdateElement_Elite(frame)
+	self:UpdateElement_Highlight(frame)
 
 	if not noTargetFrame then
 		mod:SetTargetFrame(frame)
@@ -477,6 +485,7 @@ function mod:OnCreated(frame)
 	frame.UnitFrame.Debuffs = self:ConstructElement_Auras(frame.UnitFrame, "RIGHT")
 	frame.UnitFrame.HealerIcon = self:ConstructElement_HealerIcon(frame.UnitFrame)
 	frame.UnitFrame.CPoints = self:ConstructElement_CPoints(frame.UnitFrame)
+	frame.UnitFrame.Highlight = self:ConstructElement_Highlight(frame.UnitFrame)
 
 	self:QueueObject(HealthBar)
 	self:QueueObject(CastBar)
@@ -520,7 +529,11 @@ function mod:OnEvent(event, unit, ...)
 	if not unit and not self.unit then return end
 	if self.unit ~= unit then return end
 
-	mod:UpdateElement_Cast(self, event, unit, ...)
+	if event == "UPDATE_MOUSEOVER_UNIT" then
+		mod:UpdateElement_Highlight(self)
+	else
+		mod:UpdateElement_Cast(self, event, unit, ...)
+	end
 end
 
 function mod:RegisterEvents(frame)
@@ -542,6 +555,8 @@ function mod:RegisterEvents(frame)
 
 		mod.OnEvent(frame, nil, frame.unit)
 	end
+
+	frame:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 end
 
 function mod:QueueObject(object)
