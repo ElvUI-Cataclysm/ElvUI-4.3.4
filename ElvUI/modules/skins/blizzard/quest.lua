@@ -193,6 +193,7 @@ local function LoadSkin()
 		QuestObjectiveText()
 
 		QuestInfoTalentFrameIconTexture:SetTexture("Interface\\WorldStateFrame\\Icons-Classes")
+		QuestInfoTalentFrameIconTexture.SetTexture = E.noop
 
 		for i = 1, MAX_NUM_ITEMS do
 			local questItem = _G["QuestInfoItem"..i]
