@@ -82,8 +82,10 @@ function AB:MultiCastFlyoutFrameOpenButton_Show(button, type, parent)
 	MultiCastFlyoutFrameOpenButton:ClearAllPoints()
 	if AB.db["barTotem"].flyoutDirection == "UP" then
 		MultiCastFlyoutFrameOpenButton:Point("BOTTOM", parent, "TOP")
+		SquareButton_SetIcon(MultiCastFlyoutFrameOpenButton, "UP")
 	elseif AB.db["barTotem"].flyoutDirection == "DOWN" then
 		MultiCastFlyoutFrameOpenButton:Point("TOP", parent, "BOTTOM")
+		SquareButton_SetIcon(MultiCastFlyoutFrameOpenButton, "DOWN")
 	end
 end
 
@@ -182,8 +184,10 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 	MultiCastFlyoutFrameCloseButton:ClearAllPoints()
 	if AB.db["barTotem"].flyoutDirection == "UP" then
 		MultiCastFlyoutFrameCloseButton:Point("TOP", MultiCastFlyoutFrame, "TOP")
+		SquareButton_SetIcon(MultiCastFlyoutFrameCloseButton, "DOWN")
 	elseif  AB.db["barTotem"].flyoutDirection == "DOWN" then
 		MultiCastFlyoutFrameCloseButton:Point("BOTTOM", MultiCastFlyoutFrame, "BOTTOM")
+		SquareButton_SetIcon(MultiCastFlyoutFrameCloseButton, "UP")
 	end
 	
 	MultiCastFlyoutFrame:ClearAllPoints()
@@ -328,6 +332,11 @@ function AB:CreateTotemBar()
 	closeButton.backdrop:SetPoint("TOPLEFT", 0, -(E.Border + E.Spacing));
 	closeButton.backdrop:SetPoint("BOTTOMRIGHT", 0, E.Border + E.Spacing);
 
+	closeButton.icon = closeButton:CreateTexture(nil, "ARTWORK")
+	closeButton.icon:SetSize(14, 14)
+	closeButton.icon:SetPoint("CENTER")
+	closeButton.icon:SetTexture([[Interface\Buttons\SquareButtonTextures]])
+
 	closeButton.normalTexture:SetTexture("");
 
 	closeButton:StyleButton();
@@ -339,6 +348,11 @@ function AB:CreateTotemBar()
 	openButton:CreateBackdrop("Default", true, true);
 	openButton.backdrop:SetPoint("TOPLEFT", 0, -(E.Border + E.Spacing));
 	openButton.backdrop:SetPoint("BOTTOMRIGHT", 0, E.Border + E.Spacing);
+
+	openButton.icon = openButton:CreateTexture(nil, "ARTWORK")
+	openButton.icon:SetSize(14, 14)
+	openButton.icon:SetPoint("CENTER")
+	openButton.icon:SetTexture([[Interface\Buttons\SquareButtonTextures]])
 
 	openButton.normalTexture:SetTexture("");
 
