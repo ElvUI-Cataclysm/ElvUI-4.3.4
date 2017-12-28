@@ -252,7 +252,7 @@ local function BuildABConfig()
 		group["barTotem"] = {
 			order = 2,
 			type = "group",
-			name = L["Totem Bar"],
+			name = TUTORIAL_TITLE47,
 			guiInline = false,
 			disabled = function() return not E.ActionBars or not E.myclass == "SHAMAN" end,
 			get = function(info) return E.db.actionbar["barTotem"][ info[#info] ] end,
@@ -261,12 +261,13 @@ local function BuildABConfig()
 				info = {
 					order = 1,
 					type = "header",
-					name = L["Totem Bar"]
+					name = TUTORIAL_TITLE47
 				},
 				enabled = {
 					order = 2,
 					type = "toggle",
-					name = L["Enable"]
+					name = L["Enable"],
+					set = function(info, value) E.db.actionbar["barTotem"][ info[#info] ] = value E:StaticPopup_Show("PRIVATE_RL") end
 				},
 				restorePosition = {
 					order = 3,
@@ -274,7 +275,7 @@ local function BuildABConfig()
 					name = L["Restore Bar"],
 					desc = L["Restore the actionbars default settings"],
 					buttonElvUI = true,
-					func = function() E:CopyTable(E.db.actionbar["barTotem"], P.actionbar["barTotem"]) E:ResetMovers(L["Totem Bar"]) AB:AdjustTotemSettings() AB:PositionAndSizeBarTotem() end,
+					func = function() E:CopyTable(E.db.actionbar["barTotem"], P.actionbar["barTotem"]) E:ResetMovers(TUTORIAL_TITLE47) AB:AdjustTotemSettings() AB:PositionAndSizeBarTotem() end,
 					disabled = function() return not E.db.actionbar.barTotem.enabled end
 				},
 				spacer = {
@@ -1051,7 +1052,7 @@ E.Options.args.actionbar = {
 		totemBarShortcut = {
 			order = 9,
 			type = "execute",
-			name = L["Totem Bar"],
+			name = TUTORIAL_TITLE47,
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "actionbar", "barTotem") end,
 			disabled = function() return not E.ActionBars or E.myclass ~= "SHAMAN" end

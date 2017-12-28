@@ -263,7 +263,6 @@ L["TargetTarget Frame"] = "Цель цели" --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = "Цель цели цели"
 L["Time Manager Frame"] = true
 L["Tooltip"] = "Подсказка"
-L["Totem Bar"] = "Панель тотемов"
 L["Vehicle Seat Frame"] = "Техника"
 L["Weapons"] = "Оружие"
 L["DESC_MOVERCONFIG"] = [=[Блокировка отключена. Передвиньте фреймы и нажмите 'Закрепить', когда закончите.

@@ -403,6 +403,6 @@ function AB:CreateTotemBar()
 	self:SecureHook("MultiCastRecallSpellButton_Update");
 	self:SecureHook("ShowMultiCastActionBar");
 
-	E:CreateMover(bar, "ElvBar_Totem", L["Totem Bar"], nil, nil, nil, "ALL, ACTIONBARS");
+	E:CreateMover(bar, "ElvBar_Totem", TUTORIAL_TITLE47, nil, nil, nil, "ALL, ACTIONBARS");
 	self:AdjustTotemSettings();
 end

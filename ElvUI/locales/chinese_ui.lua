@@ -263,7 +263,6 @@ L["TargetTarget Frame"] = "目标的目标框架"
 L["TargetTargetTarget Frame"] = "目标的目标的目标框架"
 L["Time Manager Frame"] = true
 L["Tooltip"] = "鼠标提示"
-L["Totem Bar"] = "图腾条"
 L["Vehicle Seat Frame"] = "载具座位框"
 L["Weapons"] = true
 L["DESC_MOVERCONFIG"] = [=[解除框架移动锁定. 现在可以移动它们, 移好后请点击「锁定」.

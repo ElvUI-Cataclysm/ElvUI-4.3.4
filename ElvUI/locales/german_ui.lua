@@ -263,7 +263,6 @@ L["TargetTarget Frame"] = "Ziel des Ziels Fenster" --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = "Ziel des Ziels des Ziels Fenster"
 L["Time Manager Frame"] = "Zeitmanager-Fenster"
 L["Tooltip"] = "Tooltip"
-L["Totem Bar"] = "Totem-Leiste"
 L["Vehicle Seat Frame"] = "Fahrzeugfenster"
 L["Weapons"] = "Waffen"
 L["DESC_MOVERCONFIG"] = [=[Ankerpunkte entriegelt. Bewege die Ankerpunkte und klicke 'sperren', wenn du fertig bist.

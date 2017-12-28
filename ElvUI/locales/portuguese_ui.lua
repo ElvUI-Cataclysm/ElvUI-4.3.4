@@ -263,7 +263,6 @@ L["TargetTarget Frame"] = "Quadro do Alvo do Alvo"
 L["TargetTargetTarget Frame"] = true
 L["Time Manager Frame"] = true
 L["Tooltip"] = "Tooltip"
-L["Totem Bar"] = true
 L["Vehicle Seat Frame"] = "Quadro de Assento de Veículo"
 L["Weapons"] = true
 L["DESC_MOVERCONFIG"] = [=[Movedores destravados. Mova-os agora e clique Travar quando acabar.

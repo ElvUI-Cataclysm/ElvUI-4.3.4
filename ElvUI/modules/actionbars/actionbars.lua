@@ -1070,8 +1070,8 @@ function AB:Initialize()
 
 	self:UpdateButtonSettings()
 
-	if(E.myclass == "SHAMAN") then
-		self:CreateTotemBar();
+	if E.myclass == "SHAMAN" and self.db.barTotem.enabled then
+		self:CreateTotemBar()
 	end
 
 	self:LoadKeyBinder();
