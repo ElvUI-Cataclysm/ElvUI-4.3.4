@@ -146,7 +146,7 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 			numButtons = numButtons + 1;
 			button:Size(AB.db["barTotem"].buttonsize);
 			button:ClearAllPoints()
-			
+
 			if AB.db["barTotem"].flyoutDirection == "UP" then
 				if i == 1 then
 					button:Point("BOTTOM", parent, "TOP", 0, AB.db["barTotem"].flyoutSpacing)
@@ -181,22 +181,18 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 	end
 	MultiCastFlyoutFrameCloseButton.backdrop:SetBackdropBorderColor(color.r, color.g, color.b);
 
+	self:ClearAllPoints()
 	MultiCastFlyoutFrameCloseButton:ClearAllPoints()
 	if AB.db["barTotem"].flyoutDirection == "UP" then
-		MultiCastFlyoutFrameCloseButton:Point("TOP", MultiCastFlyoutFrame, "TOP")
+		self:Point("BOTTOM", parent, "TOP")
+		MultiCastFlyoutFrameCloseButton:Point("TOP", self, "TOP")
 		SquareButton_SetIcon(MultiCastFlyoutFrameCloseButton, "DOWN")
-	elseif  AB.db["barTotem"].flyoutDirection == "DOWN" then
-		MultiCastFlyoutFrameCloseButton:Point("BOTTOM", MultiCastFlyoutFrame, "BOTTOM")
+	elseif AB.db["barTotem"].flyoutDirection == "DOWN" then
+		self:Point("TOP", parent, "BOTTOM")
+		MultiCastFlyoutFrameCloseButton:Point("BOTTOM", self, "BOTTOM")
 		SquareButton_SetIcon(MultiCastFlyoutFrameCloseButton, "UP")
 	end
-	
-	MultiCastFlyoutFrame:ClearAllPoints()
-	if AB.db["barTotem"].flyoutDirection == "UP" then
-		MultiCastFlyoutFrame:Point("BOTTOM", parent, "TOP")
-	elseif  AB.db["barTotem"].flyoutDirection == "DOWN" then
-		MultiCastFlyoutFrame:Point("TOP", parent, "BOTTOM")
-	end
-	
+
 	self:Height(((AB.db["barTotem"].buttonsize + AB.db["barTotem"].flyoutSpacing) * numButtons) + MultiCastFlyoutFrameCloseButton:GetHeight());
 end
 
@@ -300,7 +296,7 @@ function AB:PositionAndSizeBarTotem()
 
 	MultiCastRecallSpellButton:SetSize(size, size);
 	self:MultiCastRecallSpellButton_Update(MultiCastRecallSpellButton);
-	
+
 	MultiCastFlyoutFrameCloseButton:Width(size);
 
 	MultiCastFlyoutFrameOpenButton:Width(size);
