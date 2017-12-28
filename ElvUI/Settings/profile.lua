@@ -2875,6 +2875,7 @@ P["actionbar"] = {
 	["barTotem"] = {
 		["enabled"] = true,
 		["mouseover"] = false,
+		["flyoutDirection"] = "UP",
 		["buttonsize"] = 32,
 		["buttonspacing"] = 2,
 		["flyoutSpacing"] = 2,

@@ -78,6 +78,13 @@ function AB:MultiCastFlyoutFrameOpenButton_Show(button, type, parent)
 	end
 
 	button.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
+
+	MultiCastFlyoutFrameOpenButton:ClearAllPoints()
+	if AB.db["barTotem"].flyoutDirection == "UP" then
+		MultiCastFlyoutFrameOpenButton:Point("BOTTOM", parent, "TOP")
+	elseif AB.db["barTotem"].flyoutDirection == "DOWN" then
+		MultiCastFlyoutFrameOpenButton:Point("TOP", parent, "BOTTOM")
+	end
 end
 
 function AB:MultiCastActionButton_Update(button, _, index, slot)
@@ -136,10 +143,20 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 		if(button:IsShown()) then
 			numButtons = numButtons + 1;
 			button:Size(AB.db["barTotem"].buttonsize);
-			if(i == 1) then
-				button:Point("BOTTOM", parent, "TOP", 0, AB.db["barTotem"].flyoutSpacing);
-			else
-				button:Point("BOTTOM", self.buttons[i-1], "TOP", 0, AB.db["barTotem"].flyoutSpacing);
+			button:ClearAllPoints()
+			
+			if AB.db["barTotem"].flyoutDirection == "UP" then
+				if i == 1 then
+					button:Point("BOTTOM", parent, "TOP", 0, AB.db["barTotem"].flyoutSpacing)
+				else
+					button:Point("BOTTOM", self.buttons[i - 1], "TOP", 0, AB.db["barTotem"].flyoutSpacing)
+				end
+			elseif AB.db["barTotem"].flyoutDirection == "DOWN" then
+				if i == 1 then
+					button:Point("TOP", parent, "BOTTOM", 0, -AB.db["barTotem"].flyoutSpacing)
+				else
+					button:Point("TOP", self.buttons[i - 1], "BOTTOM", 0, -AB.db["barTotem"].flyoutSpacing)
+				end
 			end
 
 			if type == "page" then
@@ -162,6 +179,20 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 	end
 	MultiCastFlyoutFrameCloseButton.backdrop:SetBackdropBorderColor(color.r, color.g, color.b);
 
+	MultiCastFlyoutFrameCloseButton:ClearAllPoints()
+	if AB.db["barTotem"].flyoutDirection == "UP" then
+		MultiCastFlyoutFrameCloseButton:Point("TOP", MultiCastFlyoutFrame, "TOP")
+	elseif  AB.db["barTotem"].flyoutDirection == "DOWN" then
+		MultiCastFlyoutFrameCloseButton:Point("BOTTOM", MultiCastFlyoutFrame, "BOTTOM")
+	end
+	
+	MultiCastFlyoutFrame:ClearAllPoints()
+	if AB.db["barTotem"].flyoutDirection == "UP" then
+		MultiCastFlyoutFrame:Point("BOTTOM", parent, "TOP")
+	elseif  AB.db["barTotem"].flyoutDirection == "DOWN" then
+		MultiCastFlyoutFrame:Point("TOP", parent, "BOTTOM")
+	end
+	
 	self:Height(((AB.db["barTotem"].buttonsize + AB.db["barTotem"].flyoutSpacing) * numButtons) + MultiCastFlyoutFrameCloseButton:GetHeight());
 end
 

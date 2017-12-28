@@ -289,8 +289,18 @@ local function BuildABConfig()
 					desc = L["The frame is not shown unless you mouse over the frame."],
 					disabled = function() return not E.db.actionbar.barTotem.enabled end
 				},
-				buttonsize = {
+				flyoutDirection = {
 					order = 6,
+					type = "select",
+					name = L["Flyout Direction"],
+					values = {
+						["UP"] = L["Up"],
+						["DOWN"] = L["Down"]
+					},
+					disabled = function() return not E.db.actionbar.barTotem.enabled end
+				},
+				buttonsize = {
+					order = 7,
 					type = "range",
 					name = L["Button Size"],
 					desc = L["The size of the action buttons."],
@@ -298,7 +308,7 @@ local function BuildABConfig()
 					disabled = function() return not E.db.actionbar.barTotem.enabled end
 				},
 				buttonspacing = {
-					order = 7,
+					order = 8,
 					type = "range",
 					name = L["Button Spacing"],
 					desc = L["The spacing between buttons."],
@@ -314,7 +324,7 @@ local function BuildABConfig()
 					disabled = function() return not E.db.actionbar.barTotem.enabled end
 				},
 				alpha = {
-					order = 8,
+					order = 10,
 					type = "range",
 					name = L["Alpha"],
 					isPercent = true,
@@ -322,7 +332,7 @@ local function BuildABConfig()
 					disabled = function() return not E.db.actionbar.barTotem.enabled end
 				},
 				visibility = {
-					order = 9,
+					order = 11,
 					type = "input",
 					name = L["Visibility State"],
 					desc = L["This works like a macro, you can run different situations to get the actionbar to show/hide differently.\n Example: '[combat] show;hide'"],
