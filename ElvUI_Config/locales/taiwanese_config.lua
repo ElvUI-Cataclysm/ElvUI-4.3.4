@@ -96,6 +96,7 @@ L["Display cooldown text on anything with the cooldown spiral."] = "顯示技能
 L["Display macro names on action buttons."] = "在快捷列按鈕上顯示巨集名稱."
 L["Expiring"] = "即將冷卻完畢"
 L["Flyout Direction"] = "飛出方向"
+L["Flyout Spacing"] = true
 L["Global Fade Transparency"] = "全局漸隱透明度"
 L["Height Multiplier"] = "高度倍數"
 L["Hours"] = "時"

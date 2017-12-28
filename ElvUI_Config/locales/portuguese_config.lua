@@ -97,6 +97,7 @@ L["Display macro names on action buttons."] = "Exibir nomes das macros nos botõ
 L["Global Fade Transparency"] = true
 L["Expiring"] = "Expirando"
 L["Flyout Direction"] = true
+L["Flyout Spacing"] = true
 L["Height Multiplier"] = "Multiplicador de Altura"
 L["Hours"] = "Horas"
 L["If you unlock actionbars then trying to move a spell might instantly cast it if you cast spells on key press instead of key release."] = true

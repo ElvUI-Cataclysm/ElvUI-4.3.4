@@ -96,6 +96,7 @@ L["Display cooldown text on anything with the cooldown spiral."] = "Отобра
 L["Display macro names on action buttons."] = "Отображать названия макросов на кнопках."
 L["Expiring"] = "Завершение"
 L["Flyout Direction"] = "Направление раскрытия"
+L["Flyout Spacing"] = true
 L["Global Fade Transparency"] = "Глобальная прозрачность"
 L["Height Multiplier"] = "Множитель высоты"
 L["Hours"] = "Часы"

@@ -96,6 +96,7 @@ L["Display cooldown text on anything with the cooldown spiral."] = "Muestra el t
 L["Display macro names on action buttons."] = "Muestra el nombre de las macros en los botones."
 L["Expiring"] = "Expiración"
 L["Flyout Direction"] = true
+L["Flyout Spacing"] = true
 L["Global Fade Transparency"] = true
 L["Height Multiplier"] = "Multiplicador de Altura"
 L["Hours"] = "Horas"

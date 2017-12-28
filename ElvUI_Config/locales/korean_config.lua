@@ -132,6 +132,7 @@ L["Display cooldown text on anything with the cooldown spiral."] = "재사용 �
 L["Display macro names on action buttons."] = "버튼에 배치된 매크로의 이름을 표시할지 여부를 결정합니다."
 L["Expiring"] = "초읽기 색상"
 L["Flyout Direction"] = true
+L["Flyout Spacing"] = true
 L["Global Fade Transparency"] = true
 L["Height Multiplier"] = "배경 세로길이 배율"
 L["Hours"] = "시간 단위 색상"

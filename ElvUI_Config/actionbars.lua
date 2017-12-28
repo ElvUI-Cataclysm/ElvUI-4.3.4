@@ -305,6 +305,14 @@ local function BuildABConfig()
 					min = 0, max = 40, step = 1,
 					disabled = function() return not E.db.actionbar.barTotem.enabled end
 				},
+				flyoutSpacing = {
+					order = 9,
+					type = "range",
+					name = L["Flyout Spacing"],
+					desc = L["The spacing between buttons."],
+					min = 0, max = 40, step = 1,
+					disabled = function() return not E.db.actionbar.barTotem.enabled end
+				},
 				alpha = {
 					order = 8,
 					type = "range",
