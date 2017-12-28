@@ -1036,7 +1036,6 @@ function AB:ToggleDesaturation(value)
 	end
 end
 
-
 function AB:Initialize()
 	self.db = E.db.actionbar;
 	if(E.private.actionbar.enable ~= true) then return; end
