@@ -182,20 +182,27 @@ local rolePaths = {
 	DAMAGER = [[|TInterface\AddOns\ElvUI\media\textures\dps.tga:15:15|t]]
 }
 
-local chatLogos_ElvUI = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\elvui.blp:13:22|t"
-local chatLogos_Bathrobe = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\bathrobe.blp:15:15|t"
-local chatLogos_MrHankey = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\mr_hankey.tga:16:18|t"
-
-local specialChatIcons = {
-	["Hades"] = {
-		["Cpy"] = chatLogos_ElvUI,
-		["Mojo"] = chatLogos_ElvUI,
-	},
-	["Dragonwrath"] = {
-		["Tyrann"] = chatLogos_ElvUI,
-		["Toxins"] = chatLogos_ElvUI,
+local specialChatIcons
+do --this can save some main file locals
+	local IconPath = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\"
+	local oldBlue = IconPath.."elvui.blp:13:22|t"
+	local ElvBlue = IconPath.."elvui_blue.tga:13:25|t"
+	local ElvPink = IconPath.."elvui_pink.tga:13:25|t"
+	local ElvRed = IconPath.."elvui_red.tga:13:25|t"
+	local ElvPurple = IconPath.."elvui_purple.tga:13:25|t"
+	local ElvOrange = IconPath.."elvui_orange.tga:13:25|t"
+	local Bathrobe = IconPath.."bathrobe.blp:15:15|t"
+	local MrHankey = IconPath.."mr_hankey.tga:16:18|t"
+	specialChatIcons = {
+		["Dragonwrath"] = {
+			["Tyrann"] = ElvPurple,
+			["Toxins"] = ElvOrange,
+		},
+		["Hades"] = {
+			["Weedmon"] = ElvBlue,
+		},
 	}
-}
+end
 
 CH.Keywords = {}
 CH.ClassNames = {}
@@ -895,12 +902,10 @@ function CH:ConcatenateTimeStamp(msg)
 end
 
 local function GetChatIcons(sender)
-	if(specialChatIcons[PLAYER_REALM] and specialChatIcons[PLAYER_REALM][E.myname] ~= true) then
-		for realm, _ in pairs(specialChatIcons) do
-			for character, texture in pairs(specialChatIcons[realm]) do
-				if (realm == PLAYER_REALM and sender == character) or sender == character.."-"..realm then
-					return texture
-				end
+	for realm, _ in pairs(specialChatIcons) do
+		for character, texture in pairs(specialChatIcons[realm]) do
+			if (realm == PLAYER_REALM and sender == character) or sender == character.."-"..realm then
+				return texture
 			end
 		end
 	end
