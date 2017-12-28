@@ -992,6 +992,51 @@ function AB:LAB_ButtonUpdate(button)
 end
 LAB.RegisterCallback(AB, "OnButtonUpdate", AB.LAB_ButtonUpdate);
 
+local function Saturate(cooldown)
+	cooldown:GetParent().icon:SetDesaturated(false)
+end
+
+local function OnCooldownUpdate(_, button, start, duration)
+	if not button._state_type == "action" then return; end
+
+	if start and duration > 1.5 then
+		button.saturationLocked = true --Lock any new actions that are created after we activated desaturation option
+
+		button.icon:SetDesaturated(true)
+
+		--Hook cooldown done and add colors back
+		if not button.onCooldownDoneHooked then
+			button.onCooldownDoneHooked = true
+			AB:HookScript(button.cooldown, "OnHide", Saturate)
+		end
+	end
+end
+
+function AB:ToggleDesaturation(value)
+	value = value or self.db.desaturateOnCooldown
+
+	if value then
+		LAB.RegisterCallback(AB, "OnCooldownUpdate", OnCooldownUpdate)
+		local start, duration
+		for button in pairs(LAB.actionButtons) do
+			button.saturationLocked = true
+			start, duration = button:GetCooldown()
+			OnCooldownUpdate(nil, button, start, duration)
+		end
+	else
+		LAB.UnregisterCallback(AB, "OnCooldownUpdate")
+		for button in pairs(LAB.actionButtons) do
+			button.saturationLocked = nil
+			button.icon:SetDesaturated(false)
+			if button.onCooldownDoneHooked then
+				AB:Unhook(button.cooldown, "OnHide")
+				button.onCooldownDoneHooked = nil
+			end
+		end
+	end
+end
+
+
 function AB:Initialize()
 	self.db = E.db.actionbar;
 	if(E.private.actionbar.enable ~= true) then return; end
@@ -1038,6 +1083,8 @@ function AB:Initialize()
 	LOCK_ACTIONBAR = (self.db.lockActionBars == true and "1" or "0")
 
 	SpellFlyout:HookScript("OnShow", SetupFlyoutButton);
+
+	self:ToggleDesaturation()
 end
 
 local function InitializeCallback()

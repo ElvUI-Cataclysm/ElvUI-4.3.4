@@ -2696,15 +2696,18 @@ P["actionbar"] = {
 
 	["macrotext"] = false,
 	["hotkeytext"] = true,
+	["keyDown"] = true,
+	["movementModifier"] = "SHIFT",
+	["globalFadeAlpha"] = 0,
+	["lockActionBars"] = true,
+	["addNewSpells"] = false,
+	["rightClickSelfCast"] = false,
+	["desaturateOnCooldown"] = false,
 
 	["noRangeColor"] = {r = 0.8, g = 0.1, b = 0.1},
 	["noPowerColor"] = {r = 0.5, g = 0.5, b = 1},
 	["usableColor"] = {r = 1, g = 1, b = 1},
 	["notUsableColor"] = {r = 0.4, g = 0.4, b = 0.4},
-
-	["rightClickSelfCast"] = false,
-	["keyDown"] = true,
-	["movementModifier"] = "SHIFT",
 
 	["microbar"] = {
 		["enabled"] = false,
@@ -2716,11 +2719,6 @@ P["actionbar"] = {
 		["mouseover"] = false,
 		["visibility"] = "show",
 	},
-
-	["globalFadeAlpha"] = 0,
-	["lockActionBars"] = true,
-	["addNewSpells"] = false,
-
 	["bar1"] = {
 		["enabled"] = true,
 		["buttons"] = 12,
