@@ -241,7 +241,7 @@ E.Options.args.skins = {
 				},
 				RaidManager = {
 					type = "toggle",
-					name = L["Raid Manager Frame"],
+					name = RAID_CONTROL,
 					desc = L["TOGGLESKIN_DESC"],
 					disabled = function() return E.private["unitframe"]["disabledBlizzardFrames"].raid and E.private["unitframe"]["disabledBlizzardFrames"].party end
 				},
