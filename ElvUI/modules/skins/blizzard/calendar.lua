@@ -17,6 +17,19 @@ local function LoadSkin()
 	S:HandleCloseButton(CalendarCloseButton)
 	CalendarCloseButton:Point("TOPRIGHT", 2, 2)
 
+	CalendarFrame:EnableMouseWheel(true)
+	CalendarFrame:SetScript("OnMouseWheel", function(_, value)
+		if value > 0 then
+			if CalendarPrevMonthButton:IsEnabled() == 1 then
+				CalendarPrevMonthButton_OnClick()
+			end
+		else
+			if CalendarNextMonthButton:IsEnabled() == 1 then
+				CalendarNextMonthButton_OnClick()
+			end
+		end
+	end)
+
 	S:HandleNextPrevButton(CalendarPrevMonthButton)
 	S:HandleNextPrevButton(CalendarNextMonthButton)
 
