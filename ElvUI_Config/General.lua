@@ -201,6 +201,15 @@ E.Options.args.general = {
 						["KOREAN"] = "Korean (천, 만, 억)",
 						["GERMAN"] = "German (Tsd, Mio, Mrd)"
 					}
+				},
+				decimalLength = {
+					order = 21,
+					type = "range",
+					name = L["Decimal Length"],
+					desc = L["Controls the amount of decimals used in values displayed on elements like NamePlates and UnitFrames."],
+					min = 0, max = 4, step = 1,
+					get = function(info) return E.db.general.decimalLength end,
+					set = function(info, value) E.db.general.decimalLength = value; E:StaticPopup_Show("GLOBAL_RL") end
 				}
 			}
 		},
