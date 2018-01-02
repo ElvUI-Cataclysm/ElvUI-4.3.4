@@ -185,7 +185,6 @@ local rolePaths = {
 local specialChatIcons
 do --this can save some main file locals
 	local IconPath = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\"
-	local oldBlue = IconPath.."elvui.blp:13:22|t"
 	local ElvBlue = IconPath.."elvui_blue.tga:13:25|t"
 	local ElvPink = IconPath.."elvui_pink.tga:13:25|t"
 	local ElvRed = IconPath.."elvui_red.tga:13:25|t"

@@ -310,10 +310,22 @@ function A:UpdateTempEnchant()
 		TempEnchant3:Point("TOP", TempEnchant2, "BOTTOM", 0, -self.db.weapons.spacing)
 	end
 
-	if self.db.weapons.growthDirection == "RIGHT_LEFT" or self.db.weapons.growthDirection == "LEFT_RIGHT" then
-		self.EnchantHeader:Size((self.db.weapons.size * 3) + (self.db.weapons.spacing * 2), self.db.weapons.size + 2)
+	local weaponIndex
+	local hasMainHandEnchant, _, _, hasOffHandEnchant, _, _, hasThrownEnchant = GetWeaponEnchantInfo()
+	if hasMainHandEnchant and hasOffHandEnchant and hasThrownEnchant then
+		weaponIndex = 3
+	elseif hasMainHandEnchant and hasOffHandEnchant and not hasThrownEnchant
+	or hasMainHandEnchant and not hasOffHandEnchant and hasThrownEnchant
+	or not hasMainHandEnchant and hasOffHandEnchant and hasThrownEnchant then
+		weaponIndex = 2
 	else
-		self.EnchantHeader:Size(self.db.weapons.size + 2, (self.db.weapons.size * 3) + (self.db.weapons.spacing * 2))
+		weaponIndex = 1
+	end
+
+	if self.db.weapons.growthDirection == "RIGHT_LEFT" or self.db.weapons.growthDirection == "LEFT_RIGHT" then
+		self.EnchantHeader:Size((self.db.weapons.size * weaponIndex) + (self.db.weapons.spacing * (weaponIndex - 1)), self.db.weapons.size + 2)
+	else
+		self.EnchantHeader:Size(self.db.weapons.size + 2, (self.db.weapons.size * weaponIndex) + (self.db.weapons.spacing * (weaponIndex - 1)))
 	end
 end
 
@@ -394,7 +406,7 @@ function A:Initialize()
 
 	self:SecureHook("AuraButton_UpdateDuration", "UpdateWeaponText")
 
-	self.EnchantHeader:SetScript("OnUpdate", function(self)
+	self.EnchantHeader.GetUpdateWeaponEnchant = function(self)
 		local hasMainHandEnchant, _, _, hasOffHandEnchant, _, _, hasThrownEnchant = GetWeaponEnchantInfo()
 		local mainHand = GetInventoryItemQuality("player", 16)
 		local offHand = GetInventoryItemQuality("player", 17)
@@ -404,22 +416,33 @@ function A:Initialize()
 			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(thrown))
 			TempEnchant2:SetBackdropBorderColor(GetItemQualityColor(offHand))
 			TempEnchant3:SetBackdropBorderColor(GetItemQualityColor(mainHand))
+			return true
 		elseif hasMainHandEnchant and hasOffHandEnchant and not hasThrownEnchant then
 			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(offHand))
 			TempEnchant2:SetBackdropBorderColor(GetItemQualityColor(mainHand))
+			return true
 		elseif hasMainHandEnchant and not hasOffHandEnchant and hasThrownEnchant then
 			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(thrown))
 			TempEnchant2:SetBackdropBorderColor(GetItemQualityColor(mainHand))
+			return true
 		elseif not hasMainHandEnchant and hasOffHandEnchant and hasThrownEnchant then
 			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(thrown))
 			TempEnchant2:SetBackdropBorderColor(GetItemQualityColor(offHand))
+			return true
 		elseif hasMainHandEnchant and not hasOffHandEnchant and not hasThrownEnchant then
 			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(mainHand))
+			return true
 		elseif not hasMainHandEnchant and hasOffHandEnchant and not hasThrownEnchant then
 			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(offHand))
+			return true
 		elseif not hasMainHandEnchant and not hasOffHandEnchant and hasThrownEnchant then
 			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(thrown))
+			return true
 		end
+	end
+
+	self.EnchantHeader:SetScript("OnUpdate", function(self)
+		if self:GetUpdateWeaponEnchant() then A:UpdateTempEnchant(self) end
 	end)
 
 	E:CreateMover(self.EnchantHeader, "TempEnchantMover", L["Weapons"])

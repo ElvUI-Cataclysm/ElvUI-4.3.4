@@ -267,8 +267,8 @@ function AB:PositionAndSizeBarTotem()
 
 	bar:Width((size * (2 + numActiveSlots)) + (buttonSpacing * (2 + numActiveSlots - 1)))
 	MultiCastActionBarFrame:Width((size * (2 + numActiveSlots)) + (buttonSpacing * (2 + numActiveSlots - 1)))
-	bar:Height(size)
-	MultiCastActionBarFrame:Height(size)
+	bar:Height(size + 2)
+	MultiCastActionBarFrame:Height(size + 2)
 	bar.db = self.db["barTotem"]
 
 	local visibility = bar.db.visibility

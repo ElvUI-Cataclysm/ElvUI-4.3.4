@@ -1076,11 +1076,6 @@ function E:DBConversions()
 		E.db.unitframe.units.player.RestIcon.enable = E.db.unitframe.units.player.restIcon
 		E.db.unitframe.units.player.restIcon = nil
 	end
-
-	--Make sure default filters use the correct filter type
-	for filter, filterType in pairs(E.DEFAULT_FILTER) do
-		E.global.unitframe.aurafilters[filter].type = filterType
-	end
 end
 
 local CPU_USAGE = {};
