@@ -9,8 +9,7 @@ local function LoadSkin()
 
 	WatchFrameCollapseExpandButton:StripTextures();
 	S:HandleCloseButton(WatchFrameCollapseExpandButton);
-	WatchFrameCollapseExpandButton.backdrop:SetAllPoints();
-	WatchFrameCollapseExpandButton:Size(16);
+	WatchFrameCollapseExpandButton:Size(32)
 	WatchFrameCollapseExpandButton.text:SetText("-");
 	WatchFrameCollapseExpandButton.text:Point("CENTER")
 	WatchFrameCollapseExpandButton:SetFrameStrata("MEDIUM");
