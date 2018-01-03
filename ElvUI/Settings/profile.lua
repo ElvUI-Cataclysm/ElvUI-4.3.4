@@ -590,7 +590,10 @@ P["datatexts"] = {
 	["goldCoins"] = true,
 	["noCombatClick"] = false,
 	["noCombatHover"] = false,
-
+	["friends"] = {
+		["hideAFK"] = false,
+		["hideDND"] = false,
+	},
 	["minimapPanels"] = true,
 	["leftChatPanel"] = true,
 	["rightChatPanel"] = true,
