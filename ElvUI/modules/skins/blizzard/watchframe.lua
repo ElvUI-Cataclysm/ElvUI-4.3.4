@@ -13,7 +13,7 @@ local function LoadSkin()
 	WatchFrameCollapseExpandButton.text:SetText("-");
 	WatchFrameCollapseExpandButton.text:Point("CENTER")
 	WatchFrameCollapseExpandButton:SetFrameStrata("MEDIUM");
-	WatchFrameCollapseExpandButton:Point("TOPRIGHT", -20, 0)
+	WatchFrameCollapseExpandButton:Point("TOPRIGHT", -20, 5)
 	WatchFrameHeader:Point("TOPLEFT", 0, -3)
 
 	WatchFrameLines:StripTextures();
