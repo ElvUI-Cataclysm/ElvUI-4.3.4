@@ -50,38 +50,38 @@ function M:ErrorFrameToggle(event)
 	end
 end
 
-function M:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, sourceGUID, _, _, _, destName, _, _, _, _, spellID, spellName)
-	if(E.db.general.interruptAnnounce == "NONE") then return; end
+function M:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, _, sourceGUID, _, _, _, _, destName, _, _, _, _, _, spellID, spellName)
+	if E.db.general.interruptAnnounce == "NONE" then return end
 	if not (event == "SPELL_INTERRUPT" and (sourceGUID == E.myguid or sourceGUID == UnitGUID("pet"))) then return end
 
-	local party = GetNumPartyMembers();
+	local party = GetNumPartyMembers()
 
-	if(E.db.general.interruptAnnounce == "SAY") then
-		if(party > 0) then
-			SendChatMessage(format(interruptMsg, destName, spellID, spellName), "SAY");
+	if E.db.general.interruptAnnounce == "SAY" then
+		if party > 0 then
+			SendChatMessage(format(interruptMsg, destName, spellID, spellName), "SAY")
 		end
-	elseif(E.db.general.interruptAnnounce == "EMOTE") then
-		if(party > 0) then
+	elseif E.db.general.interruptAnnounce == "EMOTE" then
+		if party > 0 then
 			SendChatMessage(format(interruptMsg, destName, spellID, spellName), "EMOTE")
 		end
 	else
-		local raid = GetNumRaidMembers();
-		local _, instanceType = IsInInstance();
-		local battleground = instanceType == "pvp";
+		local raid = GetNumRaidMembers()
+		local _, instanceType = IsInInstance()
+		local battleground = instanceType == "pvp"
 
-		if(E.db.general.interruptAnnounce == "PARTY") then
-			if(party > 0) then
-				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY");
+		if E.db.general.interruptAnnounce == "PARTY" then
+			if party > 0 then
+				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY")
 			end
-		elseif(E.db.general.interruptAnnounce == "RAID") then
-			if(raid > 0) then
-				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID");
-			elseif(party > 0) then
-				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY");
+		elseif E.db.general.interruptAnnounce == "RAID" then
+			if raid > 0 then
+				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID")
+			elseif party > 0 then
+				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY")
 			end
-		elseif(E.db.general.interruptAnnounce == "RAID_ONLY") then
-			if(raid > 0) then
-				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID");
+		elseif E.db.general.interruptAnnounce == "RAID_ONLY" then
+			if raid > 0 then
+				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID")
 			end
 		end
 	end
