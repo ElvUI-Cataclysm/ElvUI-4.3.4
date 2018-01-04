@@ -1,22 +1,21 @@
-local E, L, V, P, G = unpack(select(2, ...)); 
+local E, L, V, P, G = unpack(select(2, ...))
 local DT = E:GetModule("DataTexts")
 
 local select, unpack = select, unpack
 local sort, wipe = table.sort, wipe
 local ceil = math.ceil
-local format, find, join = string.format, string.find, string.join
+local format, find, join, split = string.format, string.find, string.join, string.split
 
 local GetNumGuildMembers = GetNumGuildMembers
 local GetGuildRosterInfo = GetGuildRosterInfo
 local GetGuildRosterMOTD = GetGuildRosterMOTD
-local GetMouseFocus = GetMouseFocus
 local IsInGuild = IsInGuild
 local LoadAddOn = LoadAddOn
-local SetItemRef = SetItemRef
 local GuildRoster = GuildRoster
+local GetMouseFocus = GetMouseFocus
 local InviteUnit = InviteUnit
+local SetItemRef = SetItemRef
 local GetQuestDifficultyColor = GetQuestDifficultyColor
-local GetRealZoneText = GetRealZoneText
 local UnitInParty = UnitInParty
 local UnitInRaid = UnitInRaid
 local EasyMenu = EasyMenu
@@ -24,22 +23,22 @@ local IsShiftKeyDown = IsShiftKeyDown
 local GetGuildInfo = GetGuildInfo
 local ToggleGuildFrame = ToggleGuildFrame
 local GetGuildFactionInfo = GetGuildFactionInfo
-local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS
+local GetRealZoneText = GetRealZoneText
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 local GUILD_MOTD = GUILD_MOTD
 local COMBAT_FACTION_CHANGE = COMBAT_FACTION_CHANGE
 local GUILD = GUILD
 
-local tthead, ttsubh, ttoff = {r=0.4, g=0.78, b=1}, {r=0.75, g=0.9, b=1}, {r=.3,g=1,b=.3}
-local activezone, inactivezone = {r=0.3, g=1.0, b=0.3}, {r=0.65, g=0.65, b=0.65}
-local groupedTable = { "|cffaaaaaa*|r", "" }
+local tthead, ttsubh, ttoff = {r = 0.4, g = 0.78, b = 1}, {r = 0.75, g = 0.9, b = 1}, {r = 0.3, g = 1, b = 0.3}
+local activezone, inactivezone = {r = 0.3, g = 1.0, b = 0.3}, {r = 0.65, g = 0.65, b = 0.65}
+local groupedTable = {"|cffaaaaaa*|r", ""}
 local displayString = ""
 local noGuildString = ""
 local guildInfoString = "%s [%d]"
 local guildInfoString2 = GUILD..": %d/%d"
 local guildMotDString = "%s |cffaaaaaa- |cffffffff%s"
 local levelNameString = "|cff%02x%02x%02x%d|r |cff%02x%02x%02x%s|r %s"
-local levelNameStatusString = "|cff%02x%02x%02x%d|r %s %s"
+local levelNameStatusString = "|cff%02x%02x%02x%d|r %s%s %s"
 local nameRankString = "%s |cff999999-|cffffffff %s"
 local guildXpCurrentString = gsub(join("", E:RGBToHex(ttsubh.r, ttsubh.g, ttsubh.b), GUILD_EXPERIENCE_CURRENT), ": ", ":|r |cffffffff", 1)
 local guildXpDailyString = gsub(join("", E:RGBToHex(ttsubh.r, ttsubh.g, ttsubh.b), GUILD_EXPERIENCE_DAILY), ": ", ":|r |cffffffff", 1)
@@ -47,45 +46,50 @@ local standingString = E:RGBToHex(ttsubh.r, ttsubh.g, ttsubh.b).."%s:|r |cFFFFFF
 local moreMembersOnlineString = join("", "+ %d ", FRIENDS_LIST_ONLINE, "...")
 local noteString = join("", "|cff999999   ", LABEL_NOTE, ":|r %s")
 local officerNoteString = join("", "|cff999999   ", GUILD_RANK1_DESC, ":|r %s")
-local friendOnline, friendOffline = gsub(ERR_FRIEND_ONLINE_SS,"\124Hplayer:%%s\124h%[%%s%]\124h",""), gsub(ERR_FRIEND_OFFLINE_S,"%%s","")
 local guildTable, guildXP, guildMotD = {}, {}, ""
 local lastPanel
 
 local function sortByRank(a, b)
-	if(a and b) then
+	if a and b then
 		return a[10] < b[10]
 	end
 end
 
 local function sortByName(a, b)
-	if(a and b) then
+	if a and b then
 		return a[1] < b[1]
 	end
 end
 
 local function SortGuildTable(shift)
-	if(shift) then
+	if shift then
 		sort(guildTable, sortByRank)
 	else
 		sort(guildTable, sortByName)
 	end
 end
 
+local onlinestatusstring = "|cffFFFFFF[|r|cffFF0000%s|r|cffFFFFFF]|r"
+local onlinestatus = {
+	[0] = "",
+	[1] = format(onlinestatusstring, L["AFK"]),
+	[2] = format(onlinestatusstring, L["DND"]),
+}
+
 local function BuildGuildTable()
 	wipe(guildTable)
-	local name, rank, level, zone, note, officernote, connected, status, class
-	for i = 1, GetNumGuildMembers() do
-		name, rank, rankIndex, level, _, zone, note, officernote, connected, status, class = GetGuildRosterInfo(i)
-		if(status == 1) then
-			status = "|cffFFFFFF[|r|cffFF0000"..L["AFK"].."|r|cffFFFFFF]|r"
-		elseif(status == 2) then
-			status = "|cffFFFFFF[|r|cffFF0000"..L["DND"].."|r|cffFFFFFF]|r"
-		else 
-			status = "";
-		end
+	local statusInfo
+	local _, name, rank, rankIndex, level, zone, note, officernote, connected, memberstatus, class
 
-		if(connected) then
-			guildTable[#guildTable + 1] = {name, rank, level, zone, note, officernote, connected, status, class, rankIndex}
+	local totalMembers = GetNumGuildMembers()
+	for i = 1, totalMembers do
+		name, rank, rankIndex, level, _, zone, note, officernote, connected, memberstatus, class = GetGuildRosterInfo(i)
+		if not name then return end
+
+		statusInfo = onlinestatus[memberstatus]
+
+		if connected then
+			guildTable[#guildTable + 1] = {name, rank, level, zone, note, officernote, connected, statusInfo, class, rankIndex}
 		end
 	end
 end
@@ -94,14 +98,14 @@ local function UpdateGuildXP()
 	local currentXP, remainingXP, dailyXP, maxDailyXP = UnitGetGuildXP("player")
 	local nextLevelXP = currentXP + remainingXP
 	local percentTotal
-	if(currentXP > 0) then
+	if currentXP > 0 then
 		percentTotal = ceil((currentXP / nextLevelXP) * 100)
 	else
 		percentTotal = 0
 	end
 
 	local percentDaily = 0
-	if(maxDailyXP > 0) then
+	if maxDailyXP > 0 then
 		percentDaily = ceil((dailyXP / maxDailyXP) * 100)
 	end
 
@@ -113,26 +117,31 @@ local function UpdateGuildMessage()
 	guildMotD = GetGuildRosterMOTD()
 end
 
+local FRIEND_ONLINE = select(2, split(" ", ERR_FRIEND_ONLINE_SS, 2))
+local resendRequest = false
 local eventHandlers = {
-	['CHAT_MSG_SYSTEM'] = function(_, _, ...)
-		local message = select(1, ...)
-		if find(message, friendOnline) or find(message, friendOffline) then 
-			GuildRoster() 
+	["CHAT_MSG_SYSTEM"] = function(_, arg1)
+		if(FRIEND_ONLINE ~= nil and arg1 and find(arg1, FRIEND_ONLINE)) then
+			resendRequest = true
 		end
 	end,
 	["GUILD_XP_UPDATE"] = function()
 		return UpdateGuildXP()
 	end,
+	-- when we enter the world and guildframe is not available then
+	-- load guild frame, update guild message and guild xp
 	["PLAYER_ENTERING_WORLD"] = function()
 		if not GuildFrame and IsInGuild() then
 			LoadAddOn("Blizzard_GuildUI")
-			UpdateGuildMessage()
+			GuildRoster()
 			UpdateGuildXP()
+			UpdateGuildMessage()
 		end
 	end,
+	-- Guild Roster updated, so rebuild the guild table
 	["GUILD_ROSTER_UPDATE"] = function(self)
-		if(resendRequest) then
-			resendRequest = false;
+		if resendRequest then
+			resendRequest = false
 			return GuildRoster()
 		else
 			BuildGuildTable()
@@ -239,7 +248,7 @@ local function OnEnter(self, _, noUpdate)
 	local guildLevel = GetGuildLevel()
 
 	if guildName and guildRank and guildLevel then
-		DT.tooltip:AddDoubleLine(format(guildInfoString, guildName, guildLevel), format(guildInfoString2, online, total),tthead.r,tthead.g,tthead.b,tthead.r,tthead.g,tthead.b)
+		DT.tooltip:AddDoubleLine(format(guildInfoString, guildName, guildLevel), format(guildInfoString2, online, total), tthead.r, tthead.g, tthead.b, tthead.r, tthead.g, tthead.b)
 		DT.tooltip:AddLine(guildRank, unpack(tthead))
 	end
 
@@ -260,17 +269,18 @@ local function OnEnter(self, _, noUpdate)
 	end
 
 	local _, _, standingID, barMin, barMax, barValue = GetGuildFactionInfo()
-	if standingID ~= 8 then
+	if standingID ~= 8 then -- Not Max Rep
 		barMax = barMax - barMin
 		barValue = barValue - barMin
 		DT.tooltip:AddLine(format(standingString, COMBAT_FACTION_CHANGE, E:ShortValue(barValue), E:ShortValue(barMax), ceil((barValue / barMax) * 100)))
 	end
 
-	local zonec, classc, levelc, info
+	local zonec, classc, levelc, info, grouped
 	local shown = 0
 
 	DT.tooltip:AddLine(" ")
 	for i = 1, #guildTable do
+		-- if more then 30 guild members are online, we don't Show any more, but inform user there are more
 		if 30 - shown <= 1 then
 			if online - 30 > 1 then DT.tooltip:AddLine(format(moreMembersOnlineString, online - 30), ttsubh.r, ttsubh.g, ttsubh.b) end
 			break
@@ -287,7 +297,7 @@ local function OnEnter(self, _, noUpdate)
 			if info[5] ~= "" then DT.tooltip:AddLine(format(noteString, info[5]), ttsubh.r, ttsubh.g, ttsubh.b, 1) end
 			if info[6] ~= "" then DT.tooltip:AddLine(format(officerNoteString, info[6]), ttoff.r, ttoff.g, ttoff.b, 1) end
 		else
-			DT.tooltip:AddDoubleLine(format(levelNameStatusString, levelc.r*255, levelc.g*255, levelc.b*255, info[3], info[1], groupedTable[grouped], info[8]), info[4], classc.r,classc.g,classc.b, zonec.r,zonec.g,zonec.b)
+			DT.tooltip:AddDoubleLine(format(levelNameStatusString, levelc.r*255, levelc.g*255, levelc.b*255, info[3], info[1], groupedTable[grouped], info[8]), info[4], classc.r, classc.g, classc.b, zonec.r, zonec.g, zonec.b)
 		end
 		shown = shown + 1
 	end	
