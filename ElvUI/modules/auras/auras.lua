@@ -282,6 +282,7 @@ function A:UpdateTempEnchant()
 
 	for i = 1, 3 do
 		local button = _G["TempEnchant"..i]
+		local lastButton = _G["TempEnchant"..i - 1]
 		local duration = _G[button:GetName().."Duration"]
 
 		button:Size(self.db.weapons.size)
@@ -290,25 +291,35 @@ function A:UpdateTempEnchant()
 		duration:ClearAllPoints()
 		duration:Point("TOP", button, "BOTTOM", 1 + self.db.timeXOffset, 0 + self.db.timeYOffset)
 		duration:FontTemplate(font, self.db.weapons.fontSize, self.db.weapons.fontOutline)
+
+		if self.db.weapons.growthDirection == "RIGHT_LEFT" then
+			if i == 1 then
+				button:Point("RIGHT", self.EnchantHeader, "RIGHT", 0, 0)
+			else
+				button:Point("RIGHT", lastButton, "LEFT", -self.db.weapons.spacing, 0)
+			end
+		elseif self.db.weapons.growthDirection == "LEFT_RIGHT" then
+			if i == 1 then
+				button:Point("LEFT", self.EnchantHeader, "LEFT", 0, 0)
+			else
+				button:Point("LEFT", lastButton, "RIGHT", self.db.weapons.spacing, 0)
+			end
+		elseif self.db.weapons.growthDirection == "DOWN_UP" then
+			if i == 1 then
+				button:Point("BOTTOM", self.EnchantHeader, "BOTTOM", 0, 0)
+			else
+				button:Point("BOTTOM", lastButton, "TOP", 0, self.db.weapons.spacing)
+			end
+		elseif self.db.weapons.growthDirection == "UP_DOWN" then
+			if i == 1 then
+				button:Point("TOP", self.EnchantHeader, "TOP", 0, 0)
+			else
+				button:Point("TOP", lastButton, "BOTTOM", 0, -self.db.weapons.spacing)
+			end
+		end
 	end
 
-	if self.db.weapons.growthDirection == "RIGHT_LEFT" then
-		TempEnchant1:Point("RIGHT", self.EnchantHeader, "RIGHT", 0, 0)
-		TempEnchant2:Point("RIGHT", TempEnchant1, "LEFT", -self.db.weapons.spacing, 0)
-		TempEnchant3:Point("RIGHT", TempEnchant2, "LEFT", -self.db.weapons.spacing, 0)
-	elseif self.db.weapons.growthDirection == "LEFT_RIGHT" then
-		TempEnchant1:Point("LEFT", self.EnchantHeader, "LEFT", 0, 0)
-		TempEnchant2:Point("LEFT", TempEnchant1, "RIGHT", self.db.weapons.spacing, 0)
-		TempEnchant3:Point("LEFT", TempEnchant2, "RIGHT", self.db.weapons.spacing, 0)
-	elseif self.db.weapons.growthDirection == "DOWN_UP" then
-		TempEnchant1:Point("BOTTOM", self.EnchantHeader, "BOTTOM", 0, 0)
-		TempEnchant2:Point("BOTTOM", TempEnchant1, "TOP", 0, self.db.weapons.spacing)
-		TempEnchant3:Point("BOTTOM", TempEnchant2, "TOP", 0, self.db.weapons.spacing)
-	elseif self.db.weapons.growthDirection == "UP_DOWN" then
-		TempEnchant1:Point("TOP", self.EnchantHeader, "TOP", 0, 0)
-		TempEnchant2:Point("TOP", TempEnchant1, "BOTTOM", 0, -self.db.weapons.spacing)
-		TempEnchant3:Point("TOP", TempEnchant2, "BOTTOM", 0, -self.db.weapons.spacing)
-	end
+	if InCombatLockdown() then return end
 
 	local weaponIndex
 	local hasMainHandEnchant, _, _, hasOffHandEnchant, _, _, hasThrownEnchant = GetWeaponEnchantInfo()
@@ -442,7 +453,7 @@ function A:Initialize()
 	end
 
 	self.EnchantHeader:SetScript("OnUpdate", function(self)
-		if self:GetUpdateWeaponEnchant() then A:UpdateTempEnchant(self) end
+		if self:GetUpdateWeaponEnchant() then A:UpdateTempEnchant() end
 	end)
 
 	E:CreateMover(self.EnchantHeader, "TempEnchantMover", L["Weapons"])

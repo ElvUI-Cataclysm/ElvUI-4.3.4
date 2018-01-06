@@ -14,7 +14,7 @@ G["general"] = {
 	},
 	["animateConfig"] = true,
 	["versionCheck"] = true,
-	["showMissingTalentAlert"] = true
+	["showMissingTalentAlert"] = false
 };
 
 G["classtimer"] = {};
