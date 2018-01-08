@@ -1288,7 +1288,9 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				if (not CHAT_OPTIONS.HIDE_FRAME_ALERTS or type == "WHISPER" or type == "BN_WHISPER") then	--BN_WHISPER FIXME
 					if (not (type == "BN_CONVERSATION" and BNIsSelf(arg13))) then
 						if (not FCFManager_ShouldSuppressMessageFlash(self, chatGroup, chatTarget)) then
-							FCF_StartAlertFlash(self)
+							if not CH.SuppressFlash then
+								FCF_StartAlertFlash(self)
+							end
 						end
 					end
 				end
@@ -1593,6 +1595,7 @@ function CH:DisplayChatHistory()
 	if not (data and next(data)) then return end
 
 	CH.SoundPlayed = true
+	CH.SuppressFlash = true
 	for _, chat in pairs(CHAT_FRAMES) do
 		for i = 1, #data do
 			d = data[i]
@@ -1607,6 +1610,7 @@ function CH:DisplayChatHistory()
 		end
 	end
 	CH.SoundPlayed = nil
+	CH.SuppressFlash = nil
 end
 
 tremove(ChatTypeGroup["GUILD"], 2)
