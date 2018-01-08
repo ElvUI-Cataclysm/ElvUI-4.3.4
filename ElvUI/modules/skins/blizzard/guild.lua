@@ -79,8 +79,12 @@ local function LoadSkin()
 		GuildNextPerkButtonIconTexture:Point("TOPLEFT", 2, -3)
 	end
 
-	for i = 1, 7 do
-		_G["GuildUpdatesButton"..i]:StyleButton()
+	for i = 1, 9 do
+		local button = _G["GuildUpdatesButton"..i]
+		local icon = _G["GuildUpdatesButton"..i.."Icon"]
+
+		button:StyleButton()
+		button:GetHighlightTexture():SetInside()
 	end
 
 	--Perks/Rewards
@@ -121,7 +125,7 @@ local function LoadSkin()
 					local _, itemID = GetGuildRewardInfo(Button.index);
 					if(itemID) then
 						local quality = select(3, GetItemInfo(itemID));
-						if(quality and quality > 1) then
+						if quality then
 							self:SetBackdropBorderColor(GetItemQualityColor(quality));
 							Name:SetTextColor(GetItemQualityColor(quality));
 						else
@@ -285,6 +289,21 @@ local function LoadSkin()
 	GuildInfoFrameApplicants:StripTextures()
 	GuildInfoFrameApplicantsContainer:StripTextures()
 
+	for i = 1, 7 do
+		local button = _G["GuildInfoEventsContainerButton"..i]
+		local icon = _G["GuildInfoEventsContainerButton"..i.."Icon"]
+		local text = _G["GuildInfoEventsContainerButton"..i.."Text"]
+
+		button:CreateBackdrop()
+		button.backdrop:SetOutside(icon)
+		button:StyleButton()
+		button:GetHighlightTexture():SetInside()
+
+		icon:Point("RIGHT", text, "LEFT", -8, 0)
+		icon:SetParent(button.backdrop)
+	end
+
+	S:HandleScrollBar(GuildInfoEventsContainerScrollBar)
 	S:HandleScrollBar(GuildInfoDetailsFrameScrollBar, 4)
 	S:HandleScrollBar(GuildInfoFrameApplicantsContainerScrollBar)
 

@@ -327,7 +327,7 @@ G.unitframe.aurafilters["Whitelist"] = {
 	}
 }
 
-G.unitframe.aurafilters["RaidDebuffs"] = { 
+G.unitframe.aurafilters["RaidDebuffs"] = {
 	["type"] = "Whitelist",
 	["spells"] = {
 	--Blackwing Descent
@@ -401,7 +401,7 @@ G.unitframe.aurafilters["RaidDebuffs"] = {
 		--Ragnaros
 		[99399] = Defaults(),	-- Burning Wound
 		--Trash
-		[99532] = Defaults(),	-- Melt Armor	
+		[99532] = Defaults(),	-- Melt Armor
 	--Baradin Hold
 		--Occu'thar
 		[96913] = Defaults(),	-- Searing Shadows
@@ -468,48 +468,48 @@ end
 
 G.unitframe.buffwatch = {
 	PRIEST = {
-		[6788] = ClassBuff(6788, "TOPLEFT", {1, 0, 0}, true),						-- Weakened Soul
-		[41635] = ClassBuff(41635, "TOPRIGHT", {0.2, 0.7, 0.2}),					-- Prayer of Mending
-		[139] = ClassBuff(139, "BOTTOMLEFT", {0.4, 0.7, 0.2}),						-- Renew
-		[17] = ClassBuff(17, "BOTTOMRIGHT", {0.81, 0.85, 0.1}, true),				-- Power Word: Shield
-		[10060] = ClassBuff(10060, "RIGHT", {227/255, 23/255, 13/255}),				-- Power Infusion
-		[33206] = ClassBuff(33206, "LEFT", {227/255, 23/255, 13/255}, true),		-- Pain Suppression
-		[47788] = ClassBuff(47788, "LEFT", {221/255, 117/255, 0}, true),			-- Guardian Spirit
+		[6788] = ClassBuff(6788, "TOPLEFT", {1, 0, 0}, true),				-- Weakened Soul
+		[41635] = ClassBuff(41635, "TOPRIGHT", {0.2, 0.7, 0.2}),			-- Prayer of Mending
+		[139] = ClassBuff(139, "BOTTOMLEFT", {0.4, 0.7, 0.2}),				-- Renew
+		[17] = ClassBuff(17, "BOTTOMRIGHT", {0.7, 0.7, 0.7}, true),			-- Power Word: Shield
+		[10060] = ClassBuff(10060, "RIGHT", {0.47, 0.35, 0.74}),			-- Power Infusion
+		[33206] = ClassBuff(33206, "LEFT", {0.47, 0.35, 0.74}, true),		-- Pain Suppression
+		[47788] = ClassBuff(47788, "LEFT", {0.86, 0.45, 0}, true),			-- Guardian Spirit
 	},
 	DRUID = {
-		[774] = ClassBuff(774, "TOPRIGHT", {0.8, 0.4, 0.8}),						-- Rejuvenation
-		[8936] = ClassBuff(8936, "BOTTOMLEFT", {0.2, 0.8, 0.2}),					-- Regrowth
-		[33763] = ClassBuff(33763, "TOPLEFT", {0.4, 0.8, 0.2}),						-- Lifebloom
-		[48438] = ClassBuff(48438, "BOTTOMRIGHT", {0.8, 0.4, 0}),					-- Wild Growth
+		[774] = ClassBuff(774, "TOPRIGHT", {0.8, 0.4, 0.8}),				-- Rejuvenation
+		[8936] = ClassBuff(8936, "BOTTOMLEFT", {0.2, 0.8, 0.2}),			-- Regrowth
+		[33763] = ClassBuff(33763, "TOPLEFT", {0.4, 0.8, 0.2}),				-- Lifebloom
+		[48438] = ClassBuff(48438, "BOTTOMRIGHT", {0.8, 0.4, 0}),			-- Wild Growth
 	},
 	PALADIN = {
-		[53563] = ClassBuff(53563, "TOPLEFT", {0.7, 0.3, 0.7}),						-- Beacon of Light
-		[1022] = ClassBuff(1022, "BOTTOMRIGHT", {0.2, 0.2, 1}, true),				-- Hand of Protection
-		[1044] = ClassBuff(1044, "BOTTOMRIGHT", {221/255, 117/255, 0}, true),		-- Hand of Freedom
-		[6940] = ClassBuff(6940, "BOTTOMRIGHT", {227/255, 23/255, 13/255}, true),	-- Hand of Sacrafice
-		[1038] = ClassBuff(1038, "BOTTOMRIGHT", {238/255, 201/255, 0}, true),		-- Hand of Salvation
+		[53563] = ClassBuff(53563, "TOPLEFT", {0.7, 0.3, 0.7}),				-- Beacon of Light
+		[1022] = ClassBuff(1022, "BOTTOMRIGHT", {0.2, 0.2, 1}, true),		-- Hand of Protection
+		[1044] = ClassBuff(1044, "BOTTOMRIGHT", {0.89, 0.45, 0}, true),		-- Hand of Freedom
+		[6940] = ClassBuff(6940, "BOTTOMRIGHT", {0.89, 0.1, 0.1}, true),	-- Hand of Sacrifice
+		[1038] = ClassBuff(1038, "BOTTOMRIGHT", {0.89, 0.78, 0}, true),		-- Hand of Salvation
 	},
 	SHAMAN = {
-		[16236] = ClassBuff(16236, "BOTTOMLEFT", {0.4, 0.7, 0.2}),					-- Ancestral Fortitude
-		[974] = ClassBuff(974, "TOPRIGHT", {0.2, 0.7, 0.2}),						-- Earth Shield
-		[51945] = ClassBuff(51945, "BOTTOMRIGHT", {0.7, 0.4, 0}),					-- Earthliving
-		[61295] = ClassBuff(61295, "TOPLEFT", {0.7, 0.3, 0.7}),						-- Riptide
+		[16236] = ClassBuff(16236, "BOTTOMLEFT", {0.4, 0.7, 0.2}),			-- Ancestral Fortitude
+		[974] = ClassBuff(974, "TOPRIGHT", {0.2, 0.7, 0.2}),				-- Earth Shield
+		[51945] = ClassBuff(51945, "BOTTOMRIGHT", {0.7, 0.4, 0}),			-- Earthliving
+		[61295] = ClassBuff(61295, "TOPLEFT", {0.7, 0.3, 0.7}),				-- Riptide
 	},
 	ROGUE = {
-		[54646] = ClassBuff(54646, "TOPRIGHT", {227/255, 23/255, 13/255}),			-- Tricks of the Trade
+		[57933] = ClassBuff(57933, "TOPRIGHT", {0.89, 0.09, 0.05}),			-- Tricks of the Trade
 	},
 	MAGE = {
-		[54646] = ClassBuff(54646, "TOPRIGHT", {0.2, 0.2, 1}),						-- Focus Magic
+		[54646] = ClassBuff(54646, "TOPRIGHT", {0.2, 0.2, 1}),				-- Focus Magic
 	},
 	WARRIOR = {
-		[3411] = ClassBuff(3411, "TOPRIGHT", {227/255, 23/255, 13/255}),			-- Intervene
-		[50720] = ClassBuff(50720, "TOPLEFT", {0.2, 0.2, 1}),						-- Vigilance
+		[3411] = ClassBuff(3411, "TOPRIGHT", {0.89, 0.09, 0.05}),			-- Intervene
+		[50720] = ClassBuff(50720, "TOPLEFT", {0.2, 0.2, 1}),				-- Vigilance
 	},
 	DEATHKNIGHT = {
-		[49016] = ClassBuff(49016, "TOPRIGHT", {227/255, 23/255, 13/255})			-- Unholy Frenzy
+		[49016] = ClassBuff(49016, "TOPRIGHT", {0.89, 0.1, 0.1})			-- Unholy Frenzy
 	},
 	PET = {
-		[136] = ClassBuff(136, "TOPRIGHT", {0.2, 0.8, 0.2}, true)					-- Mend Pet
+		[136] = ClassBuff(136, "TOPRIGHT", {0.2, 0.8, 0.2}, true)			-- Mend Pet
 	},
 	HUNTER = {},
 	WARLOCK = {},
@@ -549,10 +549,10 @@ G.unitframe.HastedChannelTicks = {
 }
 
 G.unitframe.AuraBarColors = {
-	[SpellName(2825)] = {r = 250/255, g = 146/255, b = 27/255},		-- Bloodlust
-	[SpellName(32182)] = {r = 250/255, g = 146/255, b = 27/255},	-- Heroism
-	[SpellName(90355)] = {r = 250/255, g = 146/255, b = 27/255},	-- Ancient Hysteria
-	[SpellName(80353)] = {r = 250/255, g = 146/255, b = 27/255}		-- Time Warp
+	[2825] = {r = 0.98, g = 0.57, b = 0.10},	-- Bloodlust
+	[32182] = {r = 0.98, g = 0.57, b = 0.10},	-- Heroism
+	[80353] = {r = 0.98, g = 0.57, b = 0.10},	-- Time Warp
+	[90355] = {r = 0.98, g = 0.57, b = 0.10},	-- Ancient Hysteria
 }
 
 G.unitframe.InvalidSpells = {
@@ -571,4 +571,4 @@ G.unitframe.specialFilters = {
 	["notCastByUnit"] = true,
 	["blockNoDuration"] = true,
 	["Dispellable"] = true,
-};
+}
