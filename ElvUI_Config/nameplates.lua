@@ -1246,7 +1246,8 @@ local function UpdateFilterGroup()
 					set = function(info, value)
 						E.global.nameplates.filters[selectedNameplateFilter].actions.nameOnly = value
 						NP:ConfigureAll()
-					end
+					end,
+					disabled = function() return E.global.nameplates.filters[selectedNameplateFilter].actions.hide end
 				},
 				spacer1 = {
 					order = 3,
@@ -1321,7 +1322,7 @@ local function UpdateFilterGroup()
 							disabled = function() return not E.global.nameplates.filters[selectedNameplateFilter].actions.color.health end,
 							get = function(info)
 								local t = E.global.nameplates.filters[selectedNameplateFilter].actions.color.healthColor
-								return t.r, t.g, t.b, t.a, 104/255, 138/255, 217/255, 1
+								return t.r, t.g, t.b, t.a, 136/255, 255/255, 102/255, 1
 							end,
 							set = function(info, r, g, b, a)
 								local t = E.global.nameplates.filters[selectedNameplateFilter].actions.color.healthColor
@@ -1354,7 +1355,7 @@ local function UpdateFilterGroup()
 							disabled = function() return not E.global.nameplates.filters[selectedNameplateFilter].actions.color.border end,
 							get = function(info)
 								local t = E.global.nameplates.filters[selectedNameplateFilter].actions.color.borderColor
-								return t.r, t.g, t.b, t.a, 104/255, 138/255, 217/255, 1
+								return t.r, t.g, t.b, t.a, 0, 0, 0, 1
 							end,
 							set = function(info, r, g, b, a)
 								local t = E.global.nameplates.filters[selectedNameplateFilter].actions.color.borderColor
@@ -1387,7 +1388,7 @@ local function UpdateFilterGroup()
 							disabled = function() return not E.global.nameplates.filters[selectedNameplateFilter].actions.color.name end,
 							get = function(info)
 								local t = E.global.nameplates.filters[selectedNameplateFilter].actions.color.nameColor
-								return t.r, t.g, t.b, t.a, 104/255, 138/255, 217/255, 1
+								return t.r, t.g, t.b, t.a, 200/255, 200/255, 200/255, 1
 							end,
 							set = function(info, r, g, b, a)
 								local t = E.global.nameplates.filters[selectedNameplateFilter].actions.color.nameColor
