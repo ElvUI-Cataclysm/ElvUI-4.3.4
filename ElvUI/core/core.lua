@@ -449,6 +449,27 @@ function E:CheckTalentTree(tree)
 	end
 end
 
+function E:CheckForKnownTalent(spellid)
+	local wanted_name = GetSpellInfo(spellid)
+	if not wanted_name then return nil end
+
+	local num_tabs = GetNumTalentTabs()
+	for t = 1, num_tabs do
+		local num_talents = GetNumTalents(t)
+		for i = 1, num_talents do
+			local name_talent, _, _, _, current_rank = GetTalentInfo(t, i)
+			if name_talent and (name_talent == wanted_name) then
+				if current_rank and (current_rank > 0) then
+					return true
+				else
+					return false
+				end
+			end
+		end
+	end
+	return false
+end
+
 function E:CheckRole()
 	local talentTree = GetPrimaryTalentTree();
 	local resilperc = GetCombatRatingBonus(COMBAT_RATING_RESILIENCE_PLAYER_DAMAGE_TAKEN);
@@ -491,11 +512,23 @@ function E:CheckRole()
 		self.callbacks:Fire("RoleChanged");
 	end
 
-	if self.HealingClasses[self.myclass] ~= nil and E.myclass ~= "PRIEST" then
-		if self:CheckTalentTree(self.HealingClasses[E.myclass]) then
-			self.DispelClasses[self.myclass].Magic = true;
+	if E.myclass == "SHAMAN" and talentTree == 3 then
+		if self:CheckForKnownTalent(77130) then -- Improved Cleanse Spirit
+			self.DispelClasses[self.myclass].Magic = true
 		else
-			self.DispelClasses[self.myclass].Magic = false;
+			self.DispelClasses[self.myclass].Magic = false
+		end
+	elseif E.myclass == "DRUID" and talentTree == 3 then
+		if self:CheckForKnownTalent(88423) then -- Nature's Cure
+			self.DispelClasses[self.myclass].Magic = true
+		else
+			self.DispelClasses[self.myclass].Magic = false
+		end
+	elseif E.myclass == "PALADIN" and talentTree == 1 then
+		if self:CheckForKnownTalent(53551) then -- Sacred Cleansing
+			self.DispelClasses[self.myclass].Magic = true
+		else
+			self.DispelClasses[self.myclass].Magic = false
 		end
 	end
 end
