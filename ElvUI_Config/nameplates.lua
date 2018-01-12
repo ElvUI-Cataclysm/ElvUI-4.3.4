@@ -2589,36 +2589,26 @@ E.Options.args.nameplate = {
 							get = function(info) return E.db.nameplates.threat.useThreatColor end,
 							set = function(info, value) E.db.nameplates.threat.useThreatColor = value end
 						},
-						goodColor = {
+						goodScale = {
 							order = 3,
-							type = "color",
-							name = L["Good Color"],
-							hasAlpha = false,
-							disabled = function() return not E.db.nameplates.threat.useThreatColor end
+							type = "range",
+							name = L["Good Scale"],
+							get = function(info) return E.db.nameplates.threat[ info[#info] ] end,
+							set = function(info, value) E.db.nameplates.threat[ info[#info] ] = value end,
+							min = 0.3, max = 2, step = 0.01,
+							isPercent = true
 						},
-						badColor = {
+						badScale = {
 							order = 4,
-							type = "color",
-							name = L["Bad Color"],
-							hasAlpha = false,
-							disabled = function() return not E.db.nameplates.threat.useThreatColor end
-						},
-						goodTransition = {
-							order = 5,
-							type = "color",
-							name = L["Good Transition Color"],
-							hasAlpha = false,
-							disabled = function() return not E.db.nameplates.threat.useThreatColor end
-						},
-						badTransition = {
-							order = 6,
-							type = "color",
-							name = L["Bad Transition Color"],
-							hasAlpha = false,
-							disabled = function() return not E.db.nameplates.threat.useThreatColor end
+							type = "range",
+							name = L["Bad Scale"],
+							get = function(info) return E.db.nameplates.threat[ info[#info] ] end,
+							set = function(info, value) E.db.nameplates.threat[ info[#info] ] = value end,
+							min = 0.3, max = 2, step = 0.01,
+							isPercent = true
 						},
 						beingTankedByTank = {
-							order = 7,
+							order = 5,
 							type = "toggle",
 							name = L["Color Tanked"],
 							desc = L["Use Tanked Color when a nameplate is being effectively tanked by another tank."],
@@ -2628,7 +2618,7 @@ E.Options.args.nameplate = {
 							hidden = true
 						},
 						beingTankedByTankColor = {
-							order = 8,
+							order = 6,
 							type = "color",
 							name = L["Tanked Color"],
 							hasAlpha = false,
@@ -2636,27 +2626,37 @@ E.Options.args.nameplate = {
 							hidden = true
 						},
 						spacer = {
-							order = 8.1,
+							order = 7,
 							type = "description",
 							name = "",
 						},
-						goodScale = {
-							order = 9,
-							type = "range",
-							name = L["Good Scale"],
-							get = function(info) return E.db.nameplates.threat[ info[#info] ] end,
-							set = function(info, value) E.db.nameplates.threat[ info[#info] ] = value end,
-							min = 0.3, max = 2, step = 0.01,
-							isPercent = true
+						goodColor = {
+							order = 8,
+							type = "color",
+							name = L["Good Color"],
+							hasAlpha = false,
+							disabled = function() return not E.db.nameplates.threat.useThreatColor end
 						},
-						badScale = {
+						badColor = {
+							order = 9,
+							type = "color",
+							name = L["Bad Color"],
+							hasAlpha = false,
+							disabled = function() return not E.db.nameplates.threat.useThreatColor end
+						},
+						goodTransition = {
 							order = 10,
-							type = "range",
-							name = L["Bad Scale"],
-							get = function(info) return E.db.nameplates.threat[ info[#info] ] end,
-							set = function(info, value) E.db.nameplates.threat[ info[#info] ] = value end,
-							min = 0.3, max = 2, step = 0.01,
-							isPercent = true
+							type = "color",
+							name = L["Good Transition Color"],
+							hasAlpha = false,
+							disabled = function() return not E.db.nameplates.threat.useThreatColor end
+						},
+						badTransition = {
+							order = 11,
+							type = "color",
+							name = L["Bad Transition Color"],
+							hasAlpha = false,
+							disabled = function() return not E.db.nameplates.threat.useThreatColor end
 						}
 					}
 				},
@@ -2764,7 +2764,7 @@ E.Options.args.nameplate = {
 				addFilter = {
 					order = 1,
 					type = "input",
-					name = L["Add Nameplate Filter"],
+					name = L["Create Filter"],
 					get = function(info) return "" end,
 					set = function(info, value)
 						if match(value, "^[%s%p]-$") then
@@ -2781,35 +2781,10 @@ E.Options.args.nameplate = {
 						NP:ConfigureAll()
 					end
 				},
-				removeFilter = {
-					order = 2,
-					type = "input",
-					name = L["Remove Nameplate Filter"],
-					get = function(info) return "" end,
-					set = function(info, value)
-						if match(value, "^[%s%p]-$") then
-							return
-						end
-						if G.nameplates.filters[value] then
-							E.db.nameplates.filters[value].triggers.enable = false
-							E:Print(L["You can't remove a default name from the filter, disabling the name."])
-						else
-							for profile in pairs(E.data.profiles) do
-								if E.data.profiles[profile].nameplates and E.data.profiles[profile].nameplates.filters and E.data.profiles[profile].nameplates.filters[value] then
-									E.data.profiles[profile].nameplates.filters[value] = nil
-								end
-							end
-							E.global.nameplates.filters[value] = nil
-							selectedNameplateFilter = nil
-						end
-						UpdateFilterGroup()
-						NP:ConfigureAll()
-					end
-				},
 				selectFilter = {
-					order = 3,
+					order = 2,
 					type = "select",
-					name = L["Select Nameplate Filter"],
+					name = L["Select Filter"],
 					get = function(info) return selectedNameplateFilter end,
 					set = function(info, value) selectedNameplateFilter = value UpdateFilterGroup() end,
 					values = function()
@@ -2824,6 +2799,26 @@ E.Options.args.nameplate = {
 						end
 						return filters
 					end
+				},
+				removeFilter = {
+					order = 3,
+					type = "execute",
+					name = L["Delete Filter"],
+					desc = L["Delete a created filter, you cannot delete pre-existing filters, only custom ones."],
+					buttonElvUI = true,
+					func = function()
+						for profile in pairs(E.data.profiles) do
+							if E.data.profiles[profile].nameplates and E.data.profiles[profile].nameplates.filters and E.data.profiles[profile].nameplates.filters[selectedNameplateFilter] then
+								E.data.profiles[profile].nameplates.filters[selectedNameplateFilter] = nil
+							end
+						end
+						E.global.nameplates.filters[selectedNameplateFilter] = nil
+						selectedNameplateFilter = nil
+						UpdateFilterGroup()
+						NP:ConfigureAll()
+					end,
+					disabled = function() return G.nameplates.filters[selectedNameplateFilter] end,
+					hidden = function() return selectedNameplateFilter == nil end
 				}
 			}
 		}

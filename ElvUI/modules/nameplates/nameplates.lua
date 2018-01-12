@@ -145,11 +145,10 @@ function mod:SetTargetFrame(frame)
 			mod:UpdateElement_Highlight(frame)
 			mod:UpdateElement_CPoints(frame)
 			mod:UpdateElement_Filters(frame, "PLAYER_TARGET_CHANGED")
+			mod:ForEachPlate("ResetNameplateFrameLevel") --keep this after `UpdateElement_Filters`
 		end
 	elseif frame.isTargetChanged then
 		frame.isTargetChanged = false
-
-		mod:ForEachPlate("ResetNameplateFrameLevel") --keep this after `UpdateElement_Filters`
 
 		if self.db.useTargetScale then
 			self:SetFrameScale(frame, (frame.ThreatScale or 1))
@@ -200,6 +199,8 @@ function mod:SetTargetFrame(frame)
 				frame:SetAlpha(1)
 			end
 		end
+
+		mod:UpdateElement_Filters(frame, "UNIT_AURA")
 	end
 
 	self:UpdateElement_Glow(frame)
@@ -772,6 +773,8 @@ function mod:PLAYER_REGEN_DISABLED()
 	elseif self.db.showEnemyCombat == "TOGGLE_OFF" then
 		SetCVar("nameplateShowEnemies", 0)
 	end
+
+	mod:ForEachPlate("UpdateElement_Filters", "PLAYER_REGEN_DISABLED")
 end
 
 function mod:PLAYER_REGEN_ENABLED()
@@ -787,6 +790,12 @@ function mod:PLAYER_REGEN_ENABLED()
 	elseif self.db.showEnemyCombat == "TOGGLE_OFF" then
 		SetCVar("nameplateShowEnemies", 1)
 	end
+
+	mod:ForEachPlate("UpdateElement_Filters", "PLAYER_REGEN_ENABLED")
+end
+
+function mod:SPELL_UPDATE_COOLDOWN()
+	mod:ForEachPlate("UpdateElement_Filters", "SPELL_UPDATE_COOLDOWN")
 end
 
 function mod:UpdateFonts(plate)
@@ -827,10 +836,9 @@ function mod:Initialize()
 	self.hasTarget = false
 
 	--Add metatable to all our StyleFilters so they can grab default values if missing
-	for _, filterTable in pairs(E.global.nameplates.filters) do
-		self:StyleFilterInitializeFilter(filterTable);
-	end
+	self:StyleFilterInitializeAllFilters()
 
+	--Populate `mod.StyleFilterEvents` with events Style Filters will be using and sort the filters based on priority.
 	self:StyleFilterConfigureEvents()
 
 	self.levelStep = 2
@@ -844,6 +852,7 @@ function mod:Initialize()
 	self:RegisterEvent("PLAYER_REGEN_DISABLED")
 	self:RegisterEvent("PLAYER_LOGOUT") -- used in the StyleFilter
 	self:RegisterEvent("PLAYER_TARGET_CHANGED")
+	self:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 	self:RegisterEvent("UNIT_AURA")
 	self:RegisterEvent("UNIT_COMBO_POINTS")

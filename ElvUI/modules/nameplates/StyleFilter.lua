@@ -522,7 +522,8 @@ function mod:StyleFilterConfigureEvents()
 				end
 
 				if filter.triggers.inCombat or filter.triggers.outOfCombat or filter.triggers.inCombatUnit or filter.triggers.outOfCombatUnit then
-					self.StyleFilterEvents["UNIT_THREAT_LIST_UPDATE"] = true
+					self.StyleFilterEvents["PLAYER_REGEN_DISABLED"] = true
+					self.StyleFilterEvents["PLAYER_REGEN_ENABLED"] = true
 				end
 
 				if next(filter.triggers.cooldowns.names) then
@@ -687,6 +688,12 @@ function mod:PLAYER_LOGOUT()
 		else
 			removeDefaults(filterTable, E.StyleFilterDefaults)
 		end
+	end
+end
+
+function mod:StyleFilterInitializeAllFilters()
+	for _, filterTable in pairs(E.global.nameplates.filters) do
+		self:StyleFilterInitializeFilter(filterTable);
 	end
 end
 

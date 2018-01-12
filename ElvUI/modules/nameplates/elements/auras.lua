@@ -409,6 +409,8 @@ function mod:UpdateElement_Auras(frame)
 		frame.TopLevelFrame = TopLevel
 		frame.TopOffset = TopOffset
 	end
+
+	mod:UpdateElement_Filters(frame, "UNIT_AURA")
 end
 
 function mod:UpdateElement_AurasByUnitID(unit)
