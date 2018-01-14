@@ -102,17 +102,22 @@ local function LoadSkin()
 
 				if questId and not isActive then
 					itemButton:SetBackdropBorderColor(1.0, 1.0, 0.0)
+					itemButton.ignoreBorderColors = true
 					questTexture:SetAlpha(1)
 				elseif questId or isQuestItem then
 					itemButton:SetBackdropBorderColor(1.0, 0.3, 0.3)
+					itemButton.ignoreBorderColors = true
 					questTexture:SetAlpha(0)
 				elseif quality and quality > 1 then
 					itemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
+					itemButton.ignoreBorderColors = true
 				else
 					itemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+					itemButton.ignoreBorderColors = true
 				end
 			else
 				itemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				itemButton.ignoreBorderColors = true
 			end
 		end
 	end)
@@ -189,17 +194,22 @@ local function LoadSkin()
 
 			if questId and not isActive then
 				button:SetBackdropBorderColor(1.0, 1.0, 0.0)
+				button.ignoreBorderColors = true
 				questTexture:SetAlpha(1)
 			elseif questId or isQuestItem then
 				button:SetBackdropBorderColor(1.0, 0.3, 0.3)
+				button.ignoreBorderColors = true
 				questTexture:SetAlpha(0)
 			elseif quality and quality > 1 then
 				button:SetBackdropBorderColor(GetItemQualityColor(quality))
+				button.ignoreBorderColors = true
 			else
 				button:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				button.ignoreBorderColors = true
 			end
 		else
 			button:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+			button.ignoreBorderColors = true
 		end
 	end)
 end
