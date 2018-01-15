@@ -298,25 +298,25 @@ local function LoadSkin()
 	local function FixSidebarTabCoords()
 		for i = 1, #PAPERDOLL_SIDEBARS do
 			local tab = _G["PaperDollSidebarTab"..i]
-			if(tab) then
+			if tab then
+				tab:CreateBackdrop("Default", true)
+
 				tab.Highlight:SetTexture(1, 1, 1, 0.3)
-				tab.Highlight:Point("TOPLEFT", 3, -4)
-				tab.Highlight:Point("BOTTOMRIGHT", -1, 0)
+				tab.Highlight:SetInside(tab.backdrop)
+
 				tab.Hider:SetTexture(0.4, 0.4, 0.4, 0.4)
-				tab.Hider:Point("TOPLEFT", 3, -4)
-				tab.Hider:Point("BOTTOMRIGHT", -1, 0)
+				tab.Hider:SetInside(tab.backdrop)
+
 				tab.TabBg:Kill()
 
-				if(i == 1) then
+				if i == 1 then
 					for x = 1, tab:GetNumRegions() do
 						local region = select(x, tab:GetRegions())
 						region:SetTexCoord(0.16, 0.86, 0.16, 0.86)
 						region.SetTexCoord = E.noop
+						region:SetInside(tab.backdrop)
 					end
 				end
-				tab:CreateBackdrop("Default")
-				tab.backdrop:Point("TOPLEFT", 1, -2)
-				tab.backdrop:Point("BOTTOMRIGHT", 1, -2)	
 			end
 		end
 	end
