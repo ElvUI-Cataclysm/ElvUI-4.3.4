@@ -71,8 +71,24 @@ local function LoadSkin()
 	PVPBannerFrameCustomizationFrame:StripTextures()
 	PVPTeamManagementFrameTeamScrollFrame:StripTextures()
 
+	local function StyleButton(frame)
+		frame:SetHighlightTexture(nil)
+
+		local leftGrad = frame:CreateTexture(nil, "HIGHLIGHT")
+		leftGrad:Size(frame:GetWidth() * 0.5, frame:GetHeight() * 0.95)
+		leftGrad:Point("LEFT", frame, "CENTER")
+		leftGrad:SetTexture(E.media.blankTex)
+		leftGrad:SetGradientAlpha("Horizontal", 0.9, 0.9, 0.9, 0.35, 0.9, 0.9, 0.9, 0)
+
+		local rightGrad = frame:CreateTexture(nil, "HIGHLIGHT")
+		rightGrad:Size(frame:GetWidth() * 0.5, frame:GetHeight() * 0.95)
+		rightGrad:Point("RIGHT", frame, "CENTER")
+		rightGrad:SetTexture(E.media.blankTex)
+		rightGrad:SetGradientAlpha("Horizontal", 0.9, 0.9, 0.9, 0, 0.9, 0.9, 0.9, 0.35)
+	end
+
 	for i = 1, 5 do
-		_G["PVPHonorFrameBgButton"..i]:StyleButton()
+		StyleButton(_G["PVPHonorFrameBgButton"..i])
 	end
 
 	local function ArenaHeader(self, first, i)

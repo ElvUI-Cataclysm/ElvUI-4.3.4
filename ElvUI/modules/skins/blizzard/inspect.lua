@@ -11,8 +11,7 @@ local function LoadSkin()
 
 	local InspectFrame = _G["InspectFrame"]
 	InspectFrame:StripTextures(true)
-	InspectFrame:CreateBackdrop("Transparent")
-	InspectFrame.backdrop:SetAllPoints()
+	InspectFrame:SetTemplate("Transparent")
 
 	InspectFrameInset:StripTextures(true)
 	InspectTalentFramePointsBar:StripTextures()
@@ -110,20 +109,22 @@ local function LoadSkin()
 		headerTab.backdrop:Point("TOPLEFT", 3, -7)
 		headerTab.backdrop:Point("BOTTOMRIGHT", 0, -1)
 
-		headerTab:Width(109)
+		headerTab:Width(108)
 		headerTab.SetWidth = E.noop
 
+		headerTab:SetHitRectInsets(3, 0, 7, -1)
 		headerTab:HookScript("OnEnter", S.SetModifiedBackdrop)
 		headerTab:HookScript("OnLeave", S.SetOriginalBackdrop)
 	end
 
-	InspectTalentFrameTab1:Point("BOTTOMLEFT", InspectFrameInset, "TOPLEFT", -2, 4)
+	InspectTalentFrameTab1:Point("BOTTOMLEFT", InspectFrameInset, "TOPLEFT", 0, 4)
 
 	InspectTalentFrame.bg = CreateFrame("Frame", nil, InspectTalentFrame)
-	InspectTalentFrame.bg:SetTemplate("Default")
-	InspectTalentFrame.bg:Point("TOPLEFT", InspectTalentFrameBackgroundTopLeft, "TOPLEFT", -2, 2)
-	InspectTalentFrame.bg:Point("BOTTOMRIGHT", InspectTalentFrameBackgroundBottomRight, "BOTTOMRIGHT", -20, 52)
-	InspectTalentFrame.bg:SetFrameLevel(InspectTalentFrame.bg:GetFrameLevel() - 2)
+	InspectTalentFrame.bg:SetTemplate("Default")	
+	InspectTalentFrame.bg:Point("TOPLEFT", InspectTalentFrameBackgroundTopLeft, "TOPLEFT", 0, 0)
+	InspectTalentFrame.bg:Point("BOTTOMRIGHT", InspectTalentFrameBackgroundBottomRight, "BOTTOMRIGHT", -21, 53)
+	InspectTalentFrame.bg:SetBackdropColor(0, 0, 0, 0)
+	InspectTalentFrame.bg.backdropTexture:SetAlpha(0)
 
 	for i = 1, MAX_NUM_TALENTS do
 		local button = _G["InspectTalentFrameTalent"..i]

@@ -84,18 +84,26 @@ local function LoadSkin()
 			quality = select(3, GetItemInfo(link))
 		end
 
-		if quality and quality > 1 then
-			if frame then
-				frame:SetBackdropBorderColor(GetItemQualityColor(quality))
-				frame.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
-			end
-			text:SetTextColor(GetItemQualityColor(quality))
-		else
+		if frame.objectType == "currency" then
 			if frame then
 				frame:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 				frame.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 			end
 			text:SetTextColor(1, 1, 1)
+		else
+			if quality and quality > 1 then
+				if frame then
+					frame:SetBackdropBorderColor(GetItemQualityColor(quality))
+					frame.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
+				end
+				text:SetTextColor(GetItemQualityColor(quality))
+			else
+				if frame then
+					frame:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+					frame.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				end
+				text:SetTextColor(1, 1, 1)
+			end
 		end
 	end
 
@@ -110,11 +118,7 @@ local function LoadSkin()
 			local link = questItem.type and (QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(questItem.type, questItem:GetID())
 
 			if(questItem ~= self) then
-				if questItem.objectType == "item" then
-					QuestQualityColors(nil, questName, nil, link)
-				else
-					questName:SetTextColor(1, 1, 1)
-				end
+				QuestQualityColors(nil, questName, nil, link)
 			end
 		end
 	end);
@@ -184,10 +188,12 @@ local function LoadSkin()
 			_G["QuestInfoReputation" .. i .. "Faction"]:SetTextColor(unpack(textColor));
 		end
 
-		if GetQuestLogRequiredMoney() > GetMoney() then
-			QuestInfoRequiredMoneyText:SetTextColor(1, 0, 0)
-		else
-			QuestInfoRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
+		if GetQuestLogRequiredMoney() > 0 then
+			if GetQuestLogRequiredMoney() > GetMoney() then
+				QuestInfoRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
+			else
+				QuestInfoRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
+			end
 		end
 
 		QuestObjectiveText()
@@ -200,13 +206,7 @@ local function LoadSkin()
 			local questName = _G["QuestInfoItem"..i.."Name"]
 			local link = questItem.type and (QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(questItem.type, questItem:GetID())
 
-			if questItem.objectType == "item" then
-				QuestQualityColors(questItem, questName, nil, link)
-			else
-				questItem:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-				questItem.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-				questName:SetTextColor(1, 1, 1)
-			end
+			QuestQualityColors(questItem, questName, nil, link)
 		end
 	end)
 
@@ -216,13 +216,7 @@ local function LoadSkin()
 			local questName = _G["QuestInfoItem"..i.."Name"]
 			local link = questItem.type and (QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(questItem.type, questItem:GetID())
 
-			if questItem.objectType == "item" then
-				QuestQualityColors(questItem, questName, nil, link)
-			else
-				questItem:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-				questItem.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-				questName:SetTextColor(1, 1, 1)
-			end
+			QuestQualityColors(questItem, questName, nil, link)
 		end
 	end)
 
@@ -236,6 +230,9 @@ local function LoadSkin()
 			end
 		end
 	end)
+
+	QuestInfoTimerText:SetTextColor(1, 1, 1)
+	QuestInfoAnchor:SetTextColor(1, 1, 1)
 
 	QuestLogDetailFrame:SetAttribute("UIPanelLayout-height", E:Scale(490))
 	QuestLogDetailFrame:Height(490)
@@ -372,7 +369,14 @@ local function LoadSkin()
 		QuestProgressTitleText:SetTextColor(1, 0.80, 0.10)
 		QuestProgressText:SetTextColor(1, 1, 1)
 		QuestProgressRequiredItemsText:SetTextColor(1, 0.80, 0.10)
-		QuestProgressRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
+
+		if GetQuestMoneyToGet() > 0 then
+			if GetQuestMoneyToGet() > GetMoney() then
+				QuestProgressRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
+			else
+				QuestProgressRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
+			end
+		end
 
 		for i = 1, MAX_REQUIRED_ITEMS do
 			local item = _G["QuestProgressItem"..i]

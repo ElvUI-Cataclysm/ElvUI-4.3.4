@@ -5,8 +5,8 @@ local type, pairs = type, pairs
 local sort, wipe, next = table.sort, wipe, next
 local format, find, join, gsub = string.format, string.find, string.join, string.gsub
 
-local IsChatAFK = IsChatAFK
-local IsChatDND = IsChatDND
+local UnitIsAFK = UnitIsAFK
+local UnitIsDND = UnitIsDND
 local SendChatMessage = SendChatMessage
 local InviteUnit = InviteUnit
 local SetItemRef = SetItemRef

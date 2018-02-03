@@ -96,6 +96,7 @@ local function LoadSkin()
 
 			if ProfessionColors[bagType] then
 				itemButton:SetBackdropBorderColor(unpack(ProfessionColors[bagType]))
+				itemButton.ignoreBorderColors = true
 			elseif itemLink then
 				isQuestItem, questId, isActive = GetContainerItemQuestInfo(id, itemButton:GetID())
 				_, _, quality = GetItemInfo(itemLink)

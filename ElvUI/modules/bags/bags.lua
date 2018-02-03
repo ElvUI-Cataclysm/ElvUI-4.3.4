@@ -265,6 +265,7 @@ function B:UpdateSlot(bagID, slotID)
 
 	if(B.ProfessionColors[bagType]) then
 		slot:SetBackdropBorderColor(unpack(B.ProfessionColors[bagType]))
+		slot.ignoreBorderColors = true
 	elseif(clink) then
 		local iLvl, itemEquipLoc;
 		slot.name, _, slot.rarity, iLvl, _, _, _, _, itemEquipLoc = GetItemInfo(clink);

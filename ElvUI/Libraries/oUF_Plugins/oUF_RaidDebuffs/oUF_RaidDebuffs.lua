@@ -305,19 +305,21 @@ end
 local function Enable(self)
 	if self.RaidDebuffs then
 		self:RegisterEvent("UNIT_AURA", Update)
+		self:RegisterEvent("PLAYER_TALENT_UPDATE", CheckSpec)
+		self:RegisterEvent("CHARACTER_POINTS_CHANGED", CheckSpec)
+
 		return true
 	end
-	self:RegisterEvent("PLAYER_TALENT_UPDATE", CheckSpec)
-	self:RegisterEvent("CHARACTER_POINTS_CHANGED", CheckSpec)
 end
 
 local function Disable(self)
 	if self.RaidDebuffs then
 		self:UnregisterEvent("UNIT_AURA", Update)
+		self:UnregisterEvent("PLAYER_TALENT_UPDATE", CheckSpec)
+		self:UnregisterEvent("CHARACTER_POINTS_CHANGED", CheckSpec)
+
 		self.RaidDebuffs:Hide()
 	end
-	self:UnregisterEvent("PLAYER_TALENT_UPDATE", CheckSpec)
-	self:UnregisterEvent("CHARACTER_POINTS_CHANGED", CheckSpec)
 end
 
 oUF:AddElement("RaidDebuffs", Update, Enable, Disable)

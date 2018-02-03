@@ -121,7 +121,7 @@ local FRIEND_ONLINE = select(2, split(" ", ERR_FRIEND_ONLINE_SS, 2))
 local resendRequest = false
 local eventHandlers = {
 	["CHAT_MSG_SYSTEM"] = function(_, arg1)
-		if(FRIEND_ONLINE ~= nil and arg1 and find(arg1, FRIEND_ONLINE)) then
+		if FRIEND_ONLINE ~= nil and arg1 and find(arg1, FRIEND_ONLINE) then
 			resendRequest = true
 		end
 	end,
@@ -153,7 +153,7 @@ local eventHandlers = {
 	end,
 	["PLAYER_GUILD_UPDATE"] = GuildRoster,
 	-- our guild message of the day changed
-	["GUILD_MOTD"] = function (_, arg1)
+	["GUILD_MOTD"] = function(_, arg1)
 		guildMotD = arg1
 	end,
 	["ELVUI_FORCE_RUN"] = E.noop,
@@ -186,7 +186,7 @@ end
 
 local function whisperClick(_, playerName)
 	menuFrame:Hide()
-	SetItemRef("player:"..playerName, format("|Hplayer:%1$s|h[%1$s]|h",playerName), "LeftButton")
+	SetItemRef("player:"..playerName, format("|Hplayer:%1$s|h[%1$s]|h", playerName), "LeftButton")
 end
 
 local function ToggleGuildFrame()
@@ -311,7 +311,7 @@ end
 
 local function ValueColorUpdate(hex)
 	displayString = join("", GUILD, ": ", hex, "%d|r")
-	noGuildString = hex..L["No Guild"]
+	noGuildString = join("", hex, L["No Guild"])
 
 	if lastPanel ~= nil then
 		OnEvent(lastPanel, "ELVUI_COLOR_UPDATE")
