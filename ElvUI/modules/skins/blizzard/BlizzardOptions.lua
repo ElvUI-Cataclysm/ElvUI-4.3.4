@@ -425,6 +425,7 @@ local function LoadSkin()
 	ChatConfigCombatSettingsFiltersScrollFrameScrollBarBorder:Kill()
 
 	S:HandleButton(ChatConfigCombatSettingsFiltersDeleteButton)
+	ChatConfigCombatSettingsFiltersDeleteButton:Point("TOPRIGHT", ChatConfigCombatSettingsFilters, "BOTTOMRIGHT", 0, -1)
 
 	S:HandleButton(ChatConfigCombatSettingsFiltersAddFilterButton)
 	ChatConfigCombatSettingsFiltersAddFilterButton:Point("RIGHT", ChatConfigCombatSettingsFiltersDeleteButton, "LEFT", -1, 0)
