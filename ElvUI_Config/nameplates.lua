@@ -2784,6 +2784,7 @@ E.Options.args.nameplate = {
 				selectFilter = {
 					order = 2,
 					type = "select",
+					sortByValue = true,
 					name = L["Select Filter"],
 					get = function(info) return selectedNameplateFilter end,
 					set = function(info, value) selectedNameplateFilter = value UpdateFilterGroup() end,

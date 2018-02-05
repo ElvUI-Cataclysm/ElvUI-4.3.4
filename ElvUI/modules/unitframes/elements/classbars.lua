@@ -531,11 +531,11 @@ function UF:DruidPostUpdateAltPower(_, min, max)
 				self.Text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(min / max * 100))
 			elseif find(powerTextPosition, "LEFT") then
 				self.Text:Point("LEFT", powerValue, "RIGHT", -3, 0)
-				self.Text:SetFormattedText("|cffD7BEA5-|r"..color.." %d%%|r", floor(min / max * 100))
+				self.Text:SetFormattedText("|cffD7BEA5 -|r"..color.." %d%%|r", floor(min / max * 100))
 			else
 				if select(4, powerValue:GetPoint()) <= 0 then
 					self.Text:Point("LEFT", powerValue, "RIGHT", -3, 0)
-					self.Text:SetFormattedText("|cffD7BEA5-|r"..color.." %d%%|r", floor(min / max * 100))
+					self.Text:SetFormattedText(" |cffD7BEA5-|r"..color.." %d%%|r", floor(min / max * 100))
 				else
 					self.Text:Point("RIGHT", powerValue, "LEFT", 3, 0)
 					self.Text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(min / max * 100))
