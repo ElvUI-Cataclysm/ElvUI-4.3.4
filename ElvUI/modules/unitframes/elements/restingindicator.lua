@@ -1,7 +1,11 @@
 local E, L, V, P, G = unpack(select(2, ...));
 local UF = E:GetModule("UnitFrames");
 
-local StateIcon = [[Interface\CharacterFrame\UI-StateIcon]]
+local RestingTextures = {
+	["DEFAULT"] = [[Interface\CharacterFrame\UI-StateIcon]],
+	["RESTING"] = [[Interface\AddOns\ElvUI\media\textures\resting]],
+	["RESTING1"] = [[Interface\AddOns\ElvUI\media\textures\resting1]]
+}
 
 function UF:Construct_RestingIndicator(frame)
 	return frame.RaisedElementParent.TextureParent:CreateTexture(nil, "OVERLAY")
@@ -26,11 +30,14 @@ function UF:Configure_RestingIndicator(frame)
 			Icon:SetDesaturated(true)
 		end
 
-		if db.customTexture then
+		if db.texture == "CUSTOM" and db.customTexture then
 			Icon:SetTexture(db.customTexture)
 			Icon:SetTexCoord(0, 1, 0, 1)
+		elseif db.texture ~= "DEFAULT" and RestingTextures[db.texture] then
+			Icon:SetTexture(RestingTextures[db.texture])
+			Icon:SetTexCoord(0, 1, 0, 1)
 		else
-			Icon:SetTexture(StateIcon)
+			Icon:SetTexture(RestingTextures.DEFAULT)
 			Icon:SetTexCoord(0, .5, 0, .421875)
 		end
 
