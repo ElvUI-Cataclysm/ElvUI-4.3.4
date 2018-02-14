@@ -904,7 +904,6 @@ L["Heal Prediction"] = true
 L["Health Backdrop"] = true
 L["Health Border"] = true
 L["Health By Value"] = true
-L["Health"] = true
 L["Height"] = true
 L["Horizontal Spacing"] = true
 L["Horizontal"] = true --Also used in bags module
@@ -1097,7 +1096,7 @@ L["Use the profile specific filter 'Buff Indicator (Profile)' instead of the glo
 L["Use thin borders on certain unitframe elements."] = true
 L["Use this backdrop color for units that are dead or ghosts."] = true
 L["Value must be a number"] = true
-L["Vertical Orientation"] = true
+L["Vertical Fill Direction"] = true
 L["Vertical Spacing"] = true
 L["Vertical"] = true --Also used in bags section
 L["Visibility"] = true

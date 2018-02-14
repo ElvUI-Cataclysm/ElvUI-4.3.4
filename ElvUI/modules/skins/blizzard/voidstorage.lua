@@ -110,7 +110,7 @@ local function LoadSkin()
 						button:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 					end
 				else
-					button:SetTemplate("Default", true)
+					button:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 				end
 			end
 		end
@@ -128,7 +128,7 @@ local function LoadSkin()
 						button:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 					end
 				else
-					button:SetTemplate("Default", true)
+					button:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 				end
 			end
 
@@ -145,7 +145,7 @@ local function LoadSkin()
 							button:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 						end
 					else
-						button:SetTemplate("Default", true)
+						button:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 					end
 				end
 			end)

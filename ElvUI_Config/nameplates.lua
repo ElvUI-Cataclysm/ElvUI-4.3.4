@@ -1305,7 +1305,7 @@ local function UpdateFilterGroup()
 						health = {
 							order = 1,
 							type = "toggle",
-							name = L["Health"],
+							name = HEALTH,
 							get = function(info)
 								return E.global.nameplates.filters[selectedNameplateFilter].actions.color.health
 							end,
@@ -1536,14 +1536,14 @@ local function GetUnitSettings(unit, name)
 			healthGroup = {
 				order = 1,
 				type = "group",
-				name = L["Health"],
+				name = HEALTH,
 				get = function(info) return E.db.nameplates.units[unit].healthbar[ info[#info] ] end,
 				set = function(info, value) E.db.nameplates.units[unit].healthbar[ info[#info] ] = value NP:ConfigureAll() end,
 				args = {
 					header = {
 						order = 1,
 						type = "header",
-						name = L["Health"]
+						name = HEALTH
 					},
 					enable = {
 						order = 2,
@@ -2451,7 +2451,7 @@ E.Options.args.nameplate = {
 						health = {
 							order = 3,
 							type = "group",
-							name = L["Health"],
+							name = HEALTH,
 							guiInline = true,
 							args = {
 								healthFont = {

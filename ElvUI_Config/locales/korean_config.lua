@@ -963,7 +963,6 @@ L["Heal Prediction"] = "예상 치유량"
 L["Health Backdrop"] = "생명력 배경"
 L["Health Border"] = "체력바 테두리만"
 L["Health By Value"] = "생명력에 비례한 색상"
-L["Health"] = "생명력"
 L["Height"] = "세로 길이"
 L["Horizontal Spacing"] = "수평 간격"
 L["Horizontal"] = "가로"
@@ -1156,7 +1155,7 @@ L["Use the profile specific filter 'Buff Indicator (Profile)' instead of the glo
 L["Use thin borders on certain unitframe elements."] = true
 L["Use this backdrop color for units that are dead or ghosts."] = true
 L["Value must be a number"] = "값으로 숫자만 입력할 수 있습니다."
-L["Vertical Orientation"] = true
+L["Vertical Fill Direction"] = true
 L["Vertical Spacing"] = "수직 간격"
 L["Vertical"] = "세로"
 L["Visibility"] = "표시"

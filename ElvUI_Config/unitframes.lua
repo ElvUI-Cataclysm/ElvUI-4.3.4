@@ -73,7 +73,7 @@ local petAnchors = {
 }
 
 local attachToValues = {
-	["Health"] = L["Health"],
+	["Health"] = HEALTH,
 	["Power"] = L["Power"],
 	["InfoPanel"] = L["Information Panel"],
 	["Frame"] = L["Frame"],
@@ -517,7 +517,7 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 			values = {
 				["FRAME"] = L["Frame"],
 				["DEBUFFS"] = L["Debuffs"],
-				["HEALTH"] = L["Health"],
+				["HEALTH"] = HEALTH,
 				["POWER"] = L["Power"]
 			}
 		};
@@ -530,7 +530,7 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 			values = {
 				["FRAME"] = L["Frame"],
 				["BUFFS"] = L["Buffs"],
-				["HEALTH"] = L["Health"],
+				["HEALTH"] = HEALTH,
 				["POWER"] = L["Power"]
 			}
 		};
@@ -704,14 +704,14 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 	local config = {
 		order = 100,
 		type = "group",
-		name = L["Health"],
+		name = HEALTH,
 		get = function(info) return E.db.unitframe.units[groupName]["health"][ info[#info] ]; end,
 		set = function(info, value) E.db.unitframe.units[groupName]["health"][ info[#info] ] = value; updateFunc(UF, groupName, numUnits); end,
 		args = {
 			header = {
 				order = 1,
 				type = "header",
-				name = L["Health"]
+				name = HEALTH
 			},
 			position = {
 				order = 2,
@@ -774,7 +774,7 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 			}
 		};
 	end
-	
+
 	return config;
 end
 
@@ -2203,11 +2203,20 @@ E.Options.args.unitframe = {
 							name = L["Bars"],
 							args = {
 								smoothbars = {
-									order = 2,
+									order = 1,
 									type = "toggle",
 									name = L["Smooth Bars"],
 									desc = L["Bars will transition smoothly."],
 									set = function(info, value) E.db.unitframe[ info[#info] ] = value; UF:Update_AllFrames(); end
+								},
+								smoothSpeed = {
+									order = 2,
+									type = "range",
+									name = L["Animation Speed"],
+									desc = L["Speed in seconds"],
+									min = 0.1, max = 3, step = 0.01,
+									disabled = function() return not E.db.unitframe.smoothbars; end,
+									set = function(info, value) E.db.unitframe[ info[#info] ] = value; UF:Update_AllFrames() end
 								},
 								statusbar = {
 									order = 3,
@@ -2366,7 +2375,7 @@ E.Options.args.unitframe = {
 								health = {
 									order = 9,
 									type = "color",
-									name = L["Health"]
+									name = HEALTH
 								},
 								health_backdrop = {
 									order = 10,
@@ -2989,7 +2998,7 @@ E.Options.args.unitframe.args.player = {
 				verticalOrientation = {
 					order = 7,
 					type = "toggle",
-					name = L["Vertical Orientation"],
+					name = L["Vertical Fill Direction"],
 					disabled = function() return not E.db.unitframe.units["player"]["classbar"].detachFromFrame end
  				},
 				detachedWidth = {

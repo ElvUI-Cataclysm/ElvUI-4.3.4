@@ -219,7 +219,7 @@ local function LoadSkin()
 
 	--Titles
 	PaperDollTitlesPane:HookScript("OnShow", function(self)
-		for x, object in pairs(PaperDollTitlesPane.buttons) do
+		for _, object in pairs(PaperDollTitlesPane.buttons) do
 			object.BgTop:SetTexture(nil)
 			object.BgBottom:SetTexture(nil)
 			object.BgMiddle:SetTexture(nil)

@@ -915,7 +915,6 @@ L["Heal Prediction"] = "Predicción de Sanación"
 L["Health Backdrop"] = "Fondo de Salud"
 L["Health Border"] = "Borde de Salud"
 L["Health By Value"] = "Salud por Valor"
-L["Health"] = "Salud"
 L["Height"] = "Altura"
 L["Horizontal Spacing"] = "Espaciado Horizontal"
 L["Horizontal"] = "Horizontal"
@@ -1108,7 +1107,7 @@ L["Use the profile specific filter 'Buff Indicator (Profile)' instead of the glo
 L["Use thin borders on certain unitframe elements."] = true
 L["Use this backdrop color for units that are dead or ghosts."] = true
 L["Value must be a number"] = "El valor debe ser un número"
-L["Vertical Orientation"] = true
+L["Vertical Fill Direction"] = true
 L["Vertical Spacing"] = "Espaciado Vertical"
 L["Vertical"] = "Vertical"
 L["Visibility"] = "Visibilidad"

@@ -915,7 +915,6 @@ L["Heal Prediction"] = "Soin prévisionnel"
 L["Health Backdrop"] = "Fond de vie personnalisé"
 L["Health Border"] = "Bordure de la santé personnalisée"
 L["Health By Value"] = "Vie par valeur"
-L["Health"] = "Vie"
 L["Height"] = "Hauteur"
 L["Horizontal Spacing"] = "Espace horizontal"
 L["Horizontal"] = "Horizontale" --Also used in bags module
@@ -1108,7 +1107,7 @@ L["Use the profile specific filter 'Buff Indicator (Profile)' instead of the glo
 L["Use thin borders on certain unitframe elements."] = "Utiliser les bordures fines sur certains cadres d'unités."
 L["Use this backdrop color for units that are dead or ghosts."] = "Utiliser cette couleur de fond pour les joueurs morts ou en fantômes"
 L["Value must be a number"] = "La valeur doit être un nombre"
-L["Vertical Orientation"] = "Orientation verticale"
+L["Vertical Fill Direction"] = "Orientation verticale"
 L["Vertical Spacing"] = "Espace vertical"
 L["Vertical"] = "Verticale" --Also used in bags section
 L["Visibility"] = "Visibilité"

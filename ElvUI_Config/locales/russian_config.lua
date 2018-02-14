@@ -915,7 +915,6 @@ L["Heal Prediction"] = "Входящее исцеление"
 L["Health Backdrop"] = "Фон полосы здоровья"
 L["Health Border"] = "Граница здоровья"
 L["Health By Value"] = "Здоровье по значению"
-L["Health"] = "Здоровье"
 L["Height"] = "Высота"
 L["Horizontal Spacing"] = "Отступ по горизонтали"
 L["Horizontal"] = "Горизонтально" --Also used in bags module
@@ -1108,7 +1107,7 @@ L["Use the profile specific filter 'Buff Indicator (Profile)' instead of the glo
 L["Use thin borders on certain unitframe elements."] = "Использовать тонкие границы на некоторых элементах рамок юнитов."
 L["Use this backdrop color for units that are dead or ghosts."] = "Использовать этот цвет фона для юнитов, которые мертвы или бегут с кладбища."
 L["Value must be a number"] = "Значение должно быть числом"
-L["Vertical Orientation"] = "Заполнение по вертикали"
+L["Vertical Fill Direction"] = true
 L["Vertical Spacing"] = "Отступ по вертикали"
 L["Vertical"] = "Вертикально" --Also used in bags section
 L["Visibility"] = "Видимость"
