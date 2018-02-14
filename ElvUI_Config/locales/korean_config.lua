@@ -826,6 +826,7 @@ L["Add a spell to the filter. Use spell ID if you don't want to match all auras 
 L["Add a spell to the filter."] = "필터에 주문을 추가합니다."
 L["Add Spell ID or Name"] = true
 L["Add SpellID"] = "주문 ID 추가"
+L["Additional Power Text"] = true
 L["Additional Filter Override"] = true
 L["Additional Filter"] = "추가적용할 필터"
 L["An X offset (in pixels) to be used when anchoring new frames."] = "기준 프레임에서 가로로 얼마만큼 떨어져 있을지를 결정합니다."

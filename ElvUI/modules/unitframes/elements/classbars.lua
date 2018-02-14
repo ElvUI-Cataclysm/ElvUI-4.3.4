@@ -7,7 +7,7 @@ assert(ElvUF, "ElvUI was unable to locate oUF.");
 
 local select, unpack = select, unpack;
 local floor, max = math.floor, math.max;
-local find = string.find
+local find, sub, gsub = string.find, string.sub, string.gsub
 
 local CreateFrame = CreateFrame;
 local UnitPower = UnitPower;
@@ -136,7 +136,13 @@ function UF:Configure_ClassBar(frame)
 				if(frame.MAX_CLASS_BAR == 1) then
 					bars[i]:SetWidth(CLASSBAR_WIDTH);
 				elseif(frame.USE_MINI_CLASSBAR) then
-					bars[i]:SetWidth((CLASSBAR_WIDTH - ((5 + (frame.BORDER*2 + frame.SPACING*2))*(frame.MAX_CLASS_BAR - 1)))/frame.MAX_CLASS_BAR);
+					if frame.CLASSBAR_DETACHED and db.classbar.orientation == "VERTICAL" then
+						bars[i]:SetWidth(CLASSBAR_WIDTH)
+						bars.Holder:SetHeight(((frame.CLASSBAR_HEIGHT + db.classbar.spacing)* frame.MAX_CLASS_BAR) - db.classbar.spacing) -- fix the holder height
+					else
+						bars[i]:SetWidth((CLASSBAR_WIDTH - ((5 + (frame.BORDER*2 + frame.SPACING*2))*(frame.MAX_CLASS_BAR - 1)))/frame.MAX_CLASS_BAR) --Width accounts for 5px spacing between each button, excluding borders
+						bars.Holder:SetHeight(frame.CLASSBAR_HEIGHT) -- set the holder height to default
+					end
 				elseif(i ~= frame.MAX_CLASS_BAR) then
 					bars[i]:Width((CLASSBAR_WIDTH - ((frame.MAX_CLASS_BAR-1)*(frame.BORDER-frame.SPACING))) / frame.MAX_CLASS_BAR);
 				end
@@ -147,7 +153,11 @@ function UF:Configure_ClassBar(frame)
 					bars[i]:Point("LEFT", bars);
 				else
 					if(frame.USE_MINI_CLASSBAR) then
-						bars[i]:Point("LEFT", bars[i-1], "RIGHT", (5 + frame.BORDER*2 + frame.SPACING*2), 0);
+						if frame.CLASSBAR_DETACHED and db.classbar.orientation == "VERTICAL" then
+							bars[i]:Point("BOTTOM", bars[i-1], "TOP", 0, (db.classbar.spacing + frame.BORDER*2 + frame.SPACING*2))
+						else
+							bars[i]:Point("LEFT", bars[i-1], "RIGHT", (db.classbar.spacing + frame.BORDER*2 + frame.SPACING*2), 0) --5px spacing between borders of each button(replaced with Detached Spacing option)
+						end
 					elseif i == frame.MAX_CLASS_BAR then
 						bars[i]:Point("LEFT", bars[i-1], "RIGHT", frame.BORDER-frame.SPACING, 0);
 						bars[i]:Point("RIGHT", bars);
@@ -507,46 +517,62 @@ function UF:EclipseDirection()
 end
 
 function UF:DruidPostUpdateAltPower(_, min, max)
-	local frame = self:GetParent()
-	local powerValue = frame.Power.value
-	local powerValueText = powerValue:GetText()
-	local powerValueParent = powerValue:GetParent()
+	local frame = self.origParent or self:GetParent()
 	local db = frame.db
-	if not db then return; end
 
-	local powerTextPosition = db.power.position
+	if frame.USE_CLASSBAR and ((min ~= max or (not db.classbar.autoHide))) then
+		if db.classbar.additionalPowerText then
+			local powerValue = frame.Power.value
+			local powerValueText = powerValue:GetText()
+			local powerValueParent = powerValue:GetParent()
+			local powerTextPosition = db.power.position
+			local color = ElvUF["colors"].power["MANA"]
+			color = E:RGBToHex(color[1], color[2], color[3])
 
-	if powerValueText then powerValueText = powerValueText:gsub("|cff(.*) ", "") end
-
-	if min ~= max then
-		local color = ElvUF["colors"].power['MANA']
-		color = E:RGBToHex(color[1], color[2], color[3])
-
-		self.Text:SetParent(powerValueParent)
-
-		self.Text:ClearAllPoints()
-		if (powerValueText ~= "" and powerValueText ~= " ") then
-			if find(powerTextPosition, "RIGHT") then
-				self.Text:Point("RIGHT", powerValue, "LEFT", 3, 0)
-				self.Text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(min / max * 100))
-			elseif find(powerTextPosition, "LEFT") then
-				self.Text:Point("LEFT", powerValue, "RIGHT", -3, 0)
-				self.Text:SetFormattedText("|cffD7BEA5 -|r"..color.." %d%%|r", floor(min / max * 100))
-			else
-				if select(4, powerValue:GetPoint()) <= 0 then
-					self.Text:Point("LEFT", powerValue, "RIGHT", -3, 0)
-					self.Text:SetFormattedText(" |cffD7BEA5-|r"..color.." %d%%|r", floor(min / max * 100))
-				else
-					self.Text:Point("RIGHT", powerValue, "LEFT", 3, 0)
-					self.Text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(min / max * 100))
+			--Attempt to remove |cFFXXXXXX color codes in order to determine if power text is really empty
+			if powerValueText then
+				local _, endIndex = find(powerValueText, "|cff")
+				if endIndex then
+					endIndex = endIndex + 7 --Add hex code
+					powerValueText = sub(powerValueText, endIndex)
+					powerValueText = gsub(powerValueText, "%s+", "")
 				end
 			end
-		else
-			self.Text:Point(powerValue:GetPoint())
-			self.Text:SetFormattedText(color.."%d%%|r", floor(min / max * 100))
+
+			self.Text:ClearAllPoints()
+			if not frame.CLASSBAR_DETACHED then
+				self.Text:SetParent(powerValueParent)
+				if (powerValueText and (powerValueText ~= "" and powerValueText ~= " ")) then
+					if find(powerTextPosition, "RIGHT") then
+						self.Text:Point("RIGHT", powerValue, "LEFT", 3, 0)
+						self.Text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(min / max * 100))
+					elseif find(powerTextPosition, "LEFT") then
+						self.Text:Point("LEFT", powerValue, "RIGHT", -3, 0)
+						self.Text:SetFormattedText("|cffD7BEA5 -|r"..color.." %d%%|r", floor(min / max * 100))
+					else
+						if select(4, powerValue:GetPoint()) <= 0 then
+							self.Text:Point("LEFT", powerValue, "RIGHT", -3, 0)
+							self.Text:SetFormattedText(" |cffD7BEA5-|r"..color.." %d%%|r", floor(min / max * 100))
+						else
+							self.Text:Point("RIGHT", powerValue, "LEFT", 3, 0)
+							self.Text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(min / max * 100))
+						end
+					end
+				else
+					self.Text:Point(powerValue:GetPoint())
+					self.Text:SetFormattedText(color.."%d%%|r", floor(min / max * 100))
+				end
+			else
+				self.Text:SetParent(self)
+				self.Text:Point("CENTER", self)
+				self.Text:SetFormattedText(color.."%d%%|r", floor(min / max * 100))
+			end
+		else --Text disabled
+			self.Text:SetText()
 		end
-	else
+	else --Bar disabled
 		self.Text:SetText()
+		self:Hide()
 	end
 end
 
@@ -571,7 +597,6 @@ function UF:DruidManaPostUpdateVisibility()
 	local isShown = self:IsShown()
 	if druidManaIsShown ~= isShown then
 		druidManaIsShown = isShown
-
 		--Only toggle if the druid mana bar was not replaced with eclipse bar
 		if not druidEclipseIsShown then
 			ToggleResourceBar(self)

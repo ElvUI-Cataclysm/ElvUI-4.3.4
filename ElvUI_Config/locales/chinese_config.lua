@@ -777,6 +777,7 @@ L["Add a spell to the filter. Use spell ID if you don't want to match all auras 
 L["Add a spell to the filter."] = "添加一个技能到过滤器"
 L["Add Spell ID or Name"] = "添加技能ID或者名字"
 L["Add SpellID"] = "添加技能ID"
+L["Additional Power Text"] = "额外能量文字"
 L["Additional Filter Override"] = "额外过滤器覆盖"
 L["Additional Filter"] = '额外的过滤器'
 L["An X offset (in pixels) to be used when anchoring new frames."] = "锚定新框架时的X偏移(单位:像素)"

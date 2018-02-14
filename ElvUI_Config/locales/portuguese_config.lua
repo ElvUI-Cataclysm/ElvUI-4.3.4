@@ -778,6 +778,7 @@ L["Add a spell to the filter. Use spell ID if you don't want to match all auras 
 L["Add a spell to the filter."] = "Adicionar um feitiço ao filtro."
 L["Add Spell ID or Name"] = true
 L["Add SpellID"] = "Adicionar SpellID"
+L["Additional Power Text"] = true
 L["Additional Filter Override"] = true
 L["Additional Filter"] = "Filtro adicional"
 L["An X offset (in pixels) to be used when anchoring new frames."] = true

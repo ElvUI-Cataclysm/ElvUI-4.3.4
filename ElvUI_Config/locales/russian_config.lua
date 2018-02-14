@@ -778,6 +778,7 @@ L["Add a spell to the filter. Use spell ID if you don't want to match all auras 
 L["Add a spell to the filter."] = "Добавить заклинание в фильтр"
 L["Add Spell ID or Name"] = "Добавить ID или имя заклинания"
 L["Add SpellID"] = "Добавить ID заклинания"
+L["Additional Power Text"] = "Текст дополнительного ресурса"
 L["Additional Filter Override"] = "Принудительный доп. фильтр."
 L["Additional Filter"] = "Дополнительный фильтр"
 L["An X offset (in pixels) to be used when anchoring new frames."] = "Отступ по оси X (в пикселях) при фиксации новой рамки."
