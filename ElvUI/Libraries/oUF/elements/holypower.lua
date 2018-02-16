@@ -1,7 +1,7 @@
 if(select(2, UnitClass('player')) ~= 'PALADIN') then return end
 
-local _, ns = ...;
-local oUF = ns.oUF;
+local _, ns = ...
+local oUF = ns.oUF
 
 local SPELL_POWER_HOLY_POWER = SPELL_POWER_HOLY_POWER
 local MAX_HOLY_POWER = MAX_HOLY_POWER
@@ -9,21 +9,20 @@ local MAX_HOLY_POWER = MAX_HOLY_POWER
 local Update = function(self, event, unit, powerType)
 	if(self.unit ~= unit or (powerType and powerType ~= 'HOLY_POWER')) then return end
 
-	local hp = self.HolyPower
-	if(hp.PreUpdate) then hp:PreUpdate() end
+	local element = self.HolyPower
+	if(element.PreUpdate) then element:PreUpdate() end
 
-	local num = UnitPower('player', SPELL_POWER_HOLY_POWER)
-	local MAX_HOLY_POWER = UnitPowerMax('player', SPELL_POWER_HOLY_POWER);
+	local cur = UnitPower('player', SPELL_POWER_HOLY_POWER)
 	for i = 1, MAX_HOLY_POWER do
-		if(i <= num) then
-			hp[i]:Show()
+		if(i <= cur) then
+			element[i]:Show()
 		else
-			hp[i]:Hide()
+			element[i]:Hide()
 		end
 	end
 
-	if(hp.PostUpdate) then
-		return hp:PostUpdate(num)
+	if(element.PostUpdate) then
+		return element:PostUpdate(cur)
 	end
 end
 
@@ -36,10 +35,10 @@ local ForceUpdate = function(element)
 end
 
 local function Enable(self)
-	local hp = self.HolyPower
-	if(hp) then
-		hp.__owner = self
-		hp.ForceUpdate = ForceUpdate
+	local element = self.HolyPower
+	if(element) then
+		element.__owner = self
+		element.ForceUpdate = ForceUpdate
 
 		self:RegisterEvent('UNIT_POWER', Path)
 
@@ -48,8 +47,8 @@ local function Enable(self)
 end
 
 local function Disable(self)
-	local hp = self.HolyPower
-	if(hp) then
+	local element = self.HolyPower
+	if(element) then
 		self:UnregisterEvent('UNIT_POWER', Path)
 	end
 end

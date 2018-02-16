@@ -22,6 +22,11 @@ function UF:Construct_PlayerFrame(frame)
 	frame.Debuffs = self:Construct_Debuffs(frame);
 	frame.Castbar = self:Construct_Castbar(frame, L["Player Castbar"]);
 
+	if CAN_HAVE_CLASSBAR then
+		frame.ClassBarHolder = CreateFrame("Frame", nil, frame)
+		frame.ClassBarHolder:Point("BOTTOM", E.UIParent, "BOTTOM", 0, 150)
+	end
+
 	if(E.myclass == "PALADIN") then
 		frame.HolyPower = self:Construct_PaladinResourceBar(frame);
 		frame.ClassBar = "HolyPower";
@@ -35,9 +40,9 @@ function UF:Construct_PlayerFrame(frame)
 		frame.Runes = self:Construct_DeathKnightResourceBar(frame);
 		frame.ClassBar = "Runes";
 	elseif(E.myclass == "DRUID") then
-		frame.EclipseBar = self:Construct_DruidResourceBar(frame);
-		frame.DruidAltMana = self:Construct_DruidAltManaBar(frame);
-		frame.ClassBar = "EclipseBar";
+		frame.EclipseBar = self:Construct_DruidEclipseBar(frame)
+		frame.ClassBar = "EclipseBar"
+		frame.AdditionalPower = self:Construct_AdditionalPowerBar(frame)
 	end
 
 	frame.RaidTargetIndicator = UF:Construct_RaidIcon(frame);
