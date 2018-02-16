@@ -21,7 +21,7 @@ local SPELL_POWER = {
 	WARLOCK = SPELL_POWER_SOUL_SHARDS
 }
 
-function UF:Configure_ClassBar(frame, cur)
+function UF:Configure_ClassBar(frame)
 	if not frame.VARIABLES_SET then return end
 	local bars = frame[frame.ClassBar]
 	if not bars then return end
