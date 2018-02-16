@@ -549,6 +549,18 @@ function UF:EclipsePostDirectionChange(direction)
 	end
 end
 
+function UF:EclipsePostUpdateVisibility(enabled, stateChanged)
+	local frame = self.origParent or self:GetParent()
+
+	if stateChanged then
+		ToggleResourceBar(frame[frame.ClassBar])
+		UF:Configure_ClassBar(frame)
+		UF:Configure_HealthBar(frame)
+		UF:Configure_Power(frame)
+		UF:Configure_InfoPanel(frame, true) --2nd argument is to prevent it from setting template, which removes threat border
+	end
+end
+
 function UF:Construct_AdditionalPowerBar(frame)
 	local additionalPower = CreateFrame("StatusBar", "AdditionalPowerBar", frame)
 	additionalPower:SetFrameLevel(additionalPower:GetFrameLevel() + 1)
@@ -630,24 +642,6 @@ function UF:PostUpdateAdditionalPower(_, min, max, event)
 	else --Bar disabled
 		self.Text:SetText()
 		self:Hide()
-	end
-end
-
-function UF:EclipsePostUpdateVisibility(enabled, stateChanged)
-	local frame = self.origParent or self:GetParent()
-
-	if enabled then
-		frame.ClassBar = "EclipseBar"
-	else
-		frame.ClassBar = "AdditionalPower"
-	end
-
-	if stateChanged then
-		ToggleResourceBar(frame[frame.ClassBar])
-		UF:Configure_ClassBar(frame)
-		UF:Configure_HealthBar(frame)
-		UF:Configure_Power(frame)
-		UF:Configure_InfoPanel(frame, true) --2nd argument is to prevent it from setting template, which removes threat border
 	end
 end
 
