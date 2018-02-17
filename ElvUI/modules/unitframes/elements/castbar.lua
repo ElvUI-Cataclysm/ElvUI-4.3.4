@@ -204,7 +204,7 @@ function UF:Configure_Castbar(frame)
 
 	--Adjust tick heights
 	if db.castbar.insideInfoPanel and frame.USE_INFO_PANEL then
-		castbar.tickHeight = (db.infoPanel.height - frame.SPACING*2)
+		castbar.tickHeight = (db.infoPanel.height -(E.PixelMode and 2 or 6))
 	else
 		castbar.tickHeight = castbar:GetHeight()
 	end
