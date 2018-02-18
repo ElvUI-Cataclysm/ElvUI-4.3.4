@@ -10,16 +10,7 @@ local floor, max = math.floor, math.max
 local find, sub, gsub = string.find, string.sub, string.gsub
 
 local CreateFrame = CreateFrame
-local UnitPower = UnitPower
-local UnitPowerMax = UnitPowerMax
 local IsSpellKnown = IsSpellKnown
-local SPELL_POWER_HOLY_POWER = SPELL_POWER_HOLY_POWER
-local SPELL_POWER_SOUL_SHARDS = SPELL_POWER_SOUL_SHARDS
-
-local SPELL_POWER = {
-	PALADIN = SPELL_POWER_HOLY_POWER,
-	WARLOCK = SPELL_POWER_SOUL_SHARDS
-}
 
 function UF:Configure_ClassBar(frame)
 	if not frame.VARIABLES_SET then return end
@@ -121,7 +112,7 @@ function UF:Configure_ClassBar(frame)
 	bars:Width(CLASSBAR_WIDTH)
 	bars:Height(frame.CLASSBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2))
 
-	if frame.ClassBar == "HolyPower" or frame.ClassBar == "SoulShards" or frame.ClassBar == "Runes" or frame.ClassBar == "ShadowOrbs" then
+	if frame.ClassBar == "ClassPower" or frame.ClassBar == "Runes" or frame.ClassBar == "ShadowOrbs" then
 		local maxClassBarButtons = max(UF.classMaxResourceBar[E.myclass] or 0)
 		for i = 1, maxClassBarButtons do
 			bars[i]:Hide()
@@ -176,11 +167,12 @@ function UF:Configure_ClassBar(frame)
 					bars[i].backdrop:Show()
 				end
 
-				if E.myclass ~= "DEATHKNIGHT" then
-					bars[i]:SetStatusBarColor(unpack(ElvUF.colors[frame.ClassBar]))
-
-					if bars[i].bg then
-						bars[i].bg:SetTexture(unpack(ElvUF.colors[frame.ClassBar]))
+				if E.myclass == "PALADIN" or E.myclass == "WARLOCK" or E.myclass == "PRIEST" then
+					bars[i]:SetStatusBarColor(unpack(ElvUF.colors.ClassBars[E.myclass]))
+					if E.myclass == "PRIEST" then
+						if bars[i].bg then
+							bars[i].bg:SetTexture(unpack(ElvUF.colors.ClassBars[E.myclass]))
+						end
 					end
 				end
 
@@ -201,13 +193,12 @@ function UF:Configure_ClassBar(frame)
 		end
 	elseif frame.ClassBar == "EclipseBar" then
 		bars.LunarBar:SetMinMaxValues(0, 0)
-		bars.LunarBar:SetStatusBarColor(unpack(ElvUF.colors.EclipseBar[1]))
+		bars.LunarBar:SetStatusBarColor(unpack(ElvUF.colors.ClassBars[E.myclass][1]))
 		bars.LunarBar:Size(CLASSBAR_WIDTH, frame.CLASSBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2))
 
 		bars.SolarBar:SetMinMaxValues(0, 0)
-		bars.SolarBar:SetStatusBarColor(unpack(ElvUF.colors.EclipseBar[2]))
+		bars.SolarBar:SetStatusBarColor(unpack(ElvUF.colors.ClassBars[E.myclass][2]))
 		bars.SolarBar:Size(CLASSBAR_WIDTH, frame.CLASSBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2))
-
 	elseif frame.ClassBar == "AdditionalPower" then
 		if frame.CLASSBAR_DETACHED and db.classbar.verticalOrientation then
 			bars:SetOrientation("VERTICAL")
@@ -223,11 +214,8 @@ function UF:Configure_ClassBar(frame)
 	end
 
 	if frame.USE_CLASSBAR then
-		if frame.HolyPower and not frame:IsElementEnabled("HolyPower") then
-			frame:EnableElement("HolyPower")
-		end
-		if frame.SoulShards and not frame:IsElementEnabled("SoulShards") then
-			frame:EnableElement("SoulShards")
+		if frame.ClassPower and not frame:IsElementEnabled("ClassPower") then
+			frame:EnableElement("ClassPower")
 		end
 		if frame.ShadowOrbs and not frame:IsElementEnabled("ShadowOrbs") then
 			frame:EnableElement("ShadowOrbs")
@@ -242,11 +230,8 @@ function UF:Configure_ClassBar(frame)
 			frame:EnableElement("AdditionalPower")
 		end
 	else
-		if frame.HolyPower and not frame:IsElementEnabled("HolyPower") then
-			frame:DisableElement("HolyPower")
-		end
-		if frame.SoulShards and not frame:IsElementEnabled("SoulShards") then
-			frame:DisableElement("SoulShards")
+		if frame.ClassPower and frame:IsElementEnabled("ClassPower") then
+			frame:DisableElement("ClassPower")
 		end
 		if frame.ShadowOrbs and frame:IsElementEnabled("ShadowOrbs") then
 			frame:DisableElement("ShadowOrbs")
@@ -299,86 +284,30 @@ end
 UF.ToggleResourceBar = ToggleResourceBar
 
 -------------------------------------------------------------
--- PALADIN
+-- PALADIN, WARLOCK
 -------------------------------------------------------------
-function UF:Construct_PaladinResourceBar(frame)
+function UF:Construct_ClassBar(frame)
 	local bars = CreateFrame("Frame", nil, frame)
 	bars:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
 
-	for i = 1, UF["classMaxResourceBar"][E.myclass] do
-		bars[i] = CreateFrame("StatusBar", frame:GetName().."ClassBarButton"..i, bars)
-		bars[i]:SetStatusBarTexture(E["media"].blankTex)
+	local maxBars = max(UF["classMaxResourceBar"][E.myclass] or 0)
+	for i = 1, maxBars do
+		bars[i] = CreateFrame("StatusBar", frame:GetName().."ClassIconButton"..i, bars)
+		bars[i]:SetStatusBarTexture(E["media"].blankTex) --Dummy really, this needs to be set so we can change the color
 		bars[i]:GetStatusBarTexture():SetHorizTile(false)
 		UF["statusbars"][bars[i]] = true
 
 		bars[i]:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
 		bars[i].backdrop:SetParent(bars)
 
-		bars[i].bg = bars[i]:CreateTexture(nil, "BORDER")
-		bars[i].bg:SetAllPoints()
+		bars[i].bg = bars:CreateTexture(nil, "OVERLAY")
+		bars[i].bg:SetAllPoints(bars[i])
 		bars[i].bg:SetTexture(E["media"].blankTex)
-		bars[i].bg.multiplier = 0.3
 	end
 
-	bars.Override = UF.Update_HolyPower
-	bars:SetScript("OnShow", ToggleResourceBar)
-	bars:SetScript("OnHide", ToggleResourceBar)
-
-	return bars
-end
-
-function UF:Update_HolyPower(event, unit, powerType)
-	if not (powerType == nil or powerType == "HOLY_POWER") then return end
-
-	local db = self.db
-	if not db then return end
-
-	local numPower = UnitPower("player", SPELL_POWER[E.myclass])
-	local maxPower = UnitPowerMax("player", SPELL_POWER[E.myclass])
-	local bars = self[self.ClassBar]
-
-	if numPower == 0 and db.classbar.autoHide then
-		bars:Hide()
-	else
-		bars:Show()
-		for i = 1, maxPower do
-			if(i <= numPower) then
-				bars[i]:SetAlpha(1)
-			else
-				bars[i]:SetAlpha(.2)
-			end
-		end
-	end
-
-	if maxPower ~= self.MAX_CLASS_BAR then
-		self.MAX_CLASS_BAR = maxPower
-		UF:Configure_ClassBar(self)
-	end
-end
-
--------------------------------------------------------------
--- WARLOCK
--------------------------------------------------------------
-function UF:Construct_WarlockResourceBar(frame)
-	local bars = CreateFrame("Frame", nil, frame)
-	bars:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
-
-	for i = 1, UF["classMaxResourceBar"][E.myclass] do
-		bars[i] = CreateFrame("StatusBar", frame:GetName().."ClassBarButton"..i, bars)
-		bars[i]:SetStatusBarTexture(E["media"].blankTex)
-		bars[i]:GetStatusBarTexture():SetHorizTile(false)
-		UF["statusbars"][bars[i]] = true
-
-		bars[i]:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
-		bars[i].backdrop:SetParent(bars)
-
-		bars[i].bg = bars[i]:CreateTexture(nil, "BORDER")
-		bars[i].bg:SetAllPoints()
-		bars[i].bg:SetTexture(E["media"].blankTex)
-		bars[i].bg.multiplier = 0.3
-	end
-
-	bars.Override = UF.UpdateShards
+	bars.PostUpdate = UF.UpdateClassBar
+	bars.UpdateColor = E.noop --We handle colors on our own in Configure_ClassBar
+	bars.UpdateTexture = E.noop --We don't use textures but statusbars, so prevent errors
 
 	bars:SetScript("OnShow", ToggleResourceBar)
 	bars:SetScript("OnHide", ToggleResourceBar)
@@ -386,32 +315,42 @@ function UF:Construct_WarlockResourceBar(frame)
 	return bars
 end
 
-function UF:UpdateShards(event, unit, powerType)
-	if not (powerType == nil or powerType == "SOUL_SHARDS") then return end
+function UF:UpdateClassBar(cur, max, hasMaxChanged)
+	local frame = self.origParent or self:GetParent()
+	local db = frame.db
+	if not db then return; end
 
-	local db = self.db
-	if not db then return end
+	local isShown = self:IsShown()
+	local stateChanged
 
-	local numPower = UnitPower("player", SPELL_POWER[E.myclass])
-	local maxPower = UnitPowerMax("player", SPELL_POWER[E.myclass])
-	local bars = self[self.ClassBar]
-
-	if numPower == 0 and db.classbar.autoHide then
-		bars:Hide()
+	if not frame.USE_CLASSBAR or (cur == 0 and db.classbar.autoHide) or max == nil then
+		self:Hide()
+		if isShown then
+			stateChanged = true
+		end
 	else
-		bars:Show()
-		for i = 1, maxPower do
-			if i <= numPower then
-				bars[i]:SetAlpha(1)
-			else
-				bars[i]:SetAlpha(.2)
-			end
+		self:Show()
+		if not isShown then
+			stateChanged = true
 		end
 	end
 
-	if maxPower ~= self.MAX_CLASS_BAR then
-		self.MAX_CLASS_BAR = maxPower
-		UF:Configure_ClassBar(self)
+	if hasMaxChanged then
+		frame.MAX_CLASS_BAR = max
+		UF:Configure_ClassBar(frame, cur)
+	elseif stateChanged then
+		UF:Configure_ClassBar(frame, cur)
+	end
+
+	local r, g, b
+	for i = 1, #self do
+		r, g, b = self[i]:GetStatusBarColor()
+		self[i].bg:SetVertexColor(r, g, b, 0.15)
+		if(max and (i <= max)) then
+			self[i].bg:Show()
+		else
+			self[i].bg:Hide()
+		end
 	end
 end
 

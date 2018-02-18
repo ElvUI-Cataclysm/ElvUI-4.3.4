@@ -28,11 +28,11 @@ function UF:Construct_PlayerFrame(frame)
 	end
 
 	if(E.myclass == "PALADIN") then
-		frame.HolyPower = self:Construct_PaladinResourceBar(frame);
-		frame.ClassBar = "HolyPower";
+		frame.ClassPower = self:Construct_ClassBar(frame)
+		frame.ClassBar = "ClassPower"
 	elseif(E.myclass == "WARLOCK") then
-		frame.SoulShards = self:Construct_WarlockResourceBar(frame);
-		frame.ClassBar = "SoulShards";
+		frame.ClassPower = self:Construct_ClassBar(frame)
+		frame.ClassBar = "ClassPower"
 	elseif(E.myclass == "PRIEST") then
 		frame.ShadowOrbs = self:Construct_PriestResourceBar(frame, nil, UF.UpdateClassBar);
 		frame.ClassBar = "ShadowOrbs";
