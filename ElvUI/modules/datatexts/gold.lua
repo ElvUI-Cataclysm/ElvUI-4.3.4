@@ -4,10 +4,11 @@ local DT = E:GetModule("DataTexts");
 local pairs = pairs;
 local format, join = string.format, string.join
 
-local IsLoggedIn = IsLoggedIn;
-local GetMoney = GetMoney;
-local IsShiftKeyDown = IsShiftKeyDown;
-local GetBackpackCurrencyInfo = GetBackpackCurrencyInfo;
+local GetBackpackCurrencyInfo = GetBackpackCurrencyInfo
+local GetMoney = GetMoney
+local IsControlKeyDown = IsControlKeyDown
+local IsShiftKeyDown = IsShiftKeyDown
+local IsLoggedIn = IsLoggedIn
 
 local MAX_WATCHED_TOKENS = MAX_WATCHED_TOKENS;
 local CURRENCY = CURRENCY;
@@ -16,7 +17,7 @@ local currencyString = "|T%s:14:14:0:0:64:64:4:60:4:60|t %s";
 
 local Profit = 0;
 local Spent = 0;
-local resetCountersFormatter = join("", "|cffaaaaaa", L["Reset Counters: Hold Shift + Left Click"], "|r")
+local resetCountersFormatter = join("", "|cffaaaaaa", L["Reset Counters: Hold Control + Right Click"], "|r")
 local resetInfoFormatter = join("", "|cffaaaaaa", L["Reset Data: Hold Shift + Right Click"], "|r");
 
 local function OnEvent(self)
@@ -42,15 +43,15 @@ local function OnEvent(self)
 end
 
 local function OnClick(self, btn)
-	if IsShiftKeyDown() then
-		if btn == "LeftButton" then
+	if btn == "RightButton" then
+		if IsShiftKeyDown() then
+			ElvDB.gold = nil
+			OnEvent(self)
+			DT.tooltip:Hide()
+		elseif IsControlKeyDown() then
 			Profit = 0
 			Spent = 0
-			DT.tooltip:Hide();
-		elseif btn == "RightButton" then
-			ElvDB.gold = nil;
-			OnEvent(self)
-			DT.tooltip:Hide();
+			DT.tooltip:Hide()
 		end
 	else
 		ToggleAllBags()
