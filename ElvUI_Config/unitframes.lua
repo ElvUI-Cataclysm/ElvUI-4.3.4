@@ -3038,7 +3038,11 @@ E.Options.args.unitframe.args.player = {
 							order = 3,
 							type = "select",
 							name = L["Frame Orientation"],
-							disabled = function() return not E.db.unitframe.units["player"]["classbar"].detachFromFrame or not E.db.unitframe.units["player"]["classbar"].enable end,
+							disabled = function()
+								return (E.db.unitframe.units["player"]["classbar"].fill and (E.db.unitframe.units["player"]["classbar"].fill == "fill"))
+								or not E.db.unitframe.units["player"]["classbar"].detachFromFrame
+								or not E.db.unitframe.units["player"]["classbar"].enable
+							end,
 							values = {
 								["HORIZONTAL"] = L["Horizontal"],
 								["VERTICAL"] = L["Vertical"]

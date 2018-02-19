@@ -75,20 +75,20 @@ local function Visibility(self, event, unit)
 	local element = self.ClassPower
 	local shouldEnable
 
-	if(UnitHasVehicleUI('player')) then
-		element:Hide()
-	else
-		element:Show()
-
-		if(ClassPowerID) then
-			shouldEnable = true
-		end
+	if(ClassPowerID) then
+		shouldEnable = true
 	end
 
 	local isEnabled = element.isEnabled
 	local powerType = ClassPowerType
 
 	if(shouldEnable) then
+		if(UnitHasVehicleUI('player')) then
+			element:Hide()
+		else
+			element:Show()
+		end
+
 		(element.UpdateColor or UpdateColor) (element, powerType)
 	end
 

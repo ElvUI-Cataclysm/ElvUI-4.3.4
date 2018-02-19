@@ -119,6 +119,7 @@ function UF:Configure_ClassBar(frame)
 			bars[i].backdrop:Hide()
 
 			if i <= frame.MAX_CLASS_BAR then
+				color = self.db.colors.classResources.bgColor
 				bars[i].backdrop.ignoreUpdates = true
 				bars[i].backdrop.backdropTexture:SetVertexColor(color.r, color.g, color.b)
 
@@ -199,6 +200,25 @@ function UF:Configure_ClassBar(frame)
 		bars.SolarBar:SetMinMaxValues(0, 0)
 		bars.SolarBar:SetStatusBarColor(unpack(ElvUF.colors.ClassBars[E.myclass][2]))
 		bars.SolarBar:Size(CLASSBAR_WIDTH, frame.CLASSBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2))
+
+		bars.SolarBar:ClearAllPoints()
+		bars.Text:ClearAllPoints()
+
+		if frame.CLASSBAR_DETACHED and db.classbar.verticalOrientation then
+			bars.LunarBar:SetOrientation("VERTICAL")
+
+			bars.SolarBar:SetOrientation("VERTICAL")
+			bars.SolarBar:Point("BOTTOM", bars.LunarBar:GetStatusBarTexture(), "TOP")
+
+			bars.Text:Point("CENTER", bars.LunarBar:GetStatusBarTexture(), "TOP", 0, -4)
+		else
+			bars.LunarBar:SetOrientation("HORIZONTAL")
+
+			bars.SolarBar:SetOrientation("HORIZONTAL")
+			bars.SolarBar:Point("LEFT", bars.LunarBar:GetStatusBarTexture(), "RIGHT")
+
+			bars.Text:Point("CENTER", bars.LunarBar:GetStatusBarTexture(), "RIGHT")
+		end
 	elseif frame.ClassBar == "AdditionalPower" then
 		if frame.CLASSBAR_DETACHED and db.classbar.verticalOrientation then
 			bars:SetOrientation("VERTICAL")
@@ -318,7 +338,7 @@ end
 function UF:UpdateClassBar(cur, max, hasMaxChanged)
 	local frame = self.origParent or self:GetParent()
 	local db = frame.db
-	if not db then return; end
+	if not db then return end
 
 	local isShown = self:IsShown()
 	local stateChanged
@@ -465,23 +485,33 @@ function UF:Construct_DruidEclipseBar(frame)
 	UF["statusbars"][eclipseBar.LunarBar] = true
 
 	eclipseBar.SolarBar = CreateFrame("StatusBar", "SolarBar", eclipseBar)
-	eclipseBar.SolarBar:Point("LEFT", eclipseBar.LunarBar:GetStatusBarTexture(), "RIGHT")
 	eclipseBar.SolarBar:SetStatusBarTexture(E["media"].blankTex)
 	UF["statusbars"][eclipseBar.SolarBar] = true
 
 	eclipseBar.Text = eclipseBar.LunarBar:CreateFontString(nil, "OVERLAY")
 	eclipseBar.Text:FontTemplate(nil, 20)
-	eclipseBar.Text:Point("CENTER", eclipseBar.LunarBar:GetStatusBarTexture(), "RIGHT")
 
 	return eclipseBar
 end
 
 function UF:EclipsePostDirectionChange(direction)
+	local frame = self.origParent or self:GetParent()
+	local db = frame.db
+	if not db then return end
+
 	if direction == "sun" then
-		self.Text:SetText(">")
+		if frame.CLASSBAR_DETACHED and db.classbar.verticalOrientation then
+			self.Text:SetText("^")
+		else
+			self.Text:SetText(">")
+		end
 		self.Text:SetTextColor(.2, .2, 1, 1)
 	elseif direction == "moon" then
-		self.Text:SetText("<")
+		if frame.CLASSBAR_DETACHED and db.classbar.verticalOrientation then
+			self.Text:SetText("v")
+		else
+			self.Text:SetText("<")
+		end
 		self.Text:SetTextColor(1, 1, .3, 1)
 	else
 		self.Text:SetText("")
