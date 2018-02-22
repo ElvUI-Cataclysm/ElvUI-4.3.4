@@ -69,7 +69,7 @@ E.Options.args.skins = {
 				},
 				barber = {
 					type = "toggle",
-					name = L["Barbershop Frame"],
+					name = BARBERSHOP,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				bgmap = {

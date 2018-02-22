@@ -178,7 +178,6 @@ L["This part of the installation process sets up your World of Warcraft default 
 L["This resolution doesn't require that you change settings for the UI to fit on your screen."] = "Cette résolution ne nécessite pas que vous modifiez les paramètres de l'interface utilisateur pour s'adapter à votre écran."
 L["This resolution requires that you change some settings to get everything to fit on your screen."] = "Cette résolution nécessite que vous modifiez les paramètres de l'interface utilisateur pour s'adapter à votre écran."
 L["This will change the layout of your unitframes and actionbars."] = "Ceci changera la disposition des cadres d'unités et des barres d'actions."
-L["Trade"] = "Échanger"
 L["Welcome to ElvUI version %s!"] = "Bienvenue sur la version %s d'ElvUI!"
 L["You are now finished with the installation process. If you are in need of technical support please visit us at https://github.com/ElvUI-Cataclysm"] = "Vous avez maintenant terminé le processus d'installation. Si vous avez besoin d'un support technique, merci de vous rendre sur https://github.com/ElvUI-Cataclysm"
 L["You can always change fonts and colors of any element of ElvUI from the in-game configuration."] = "Vous pouvez toujours modifier les polices et les couleurs de n'importe quel élément d'Elvui dans la configuration du jeu."
