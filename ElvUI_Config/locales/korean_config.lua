@@ -768,7 +768,6 @@ L["Debug Tools"] = "오류 확인 창"
 L["GM Chat"] = true
 L["Gossip Frame"] = "NPC 대화 창"
 L["Greeting Frame"] = "인사말 프레임"
-L["Guild Control Frame"] = "길드 관리 창"
 L["Guild Registrar"] = "길드 등록"
 L["Help Frame"] = "도움말"
 L["LF Guild Frame"] = "길드 찾기 창"

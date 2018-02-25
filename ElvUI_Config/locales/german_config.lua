@@ -722,7 +722,6 @@ L["Debug Tools"] = "Debug Tools"
 L["GM Chat"] = true
 L["Gossip Frame"] = "Begrüßungsfenster"
 L["Greeting Frame"] = "Begrüßungsfenster"
-L["Guild Control Frame"] = "Gildenkontrollfenster"
 L["Guild Registrar"] = "Gildenregister"
 L["Help Frame"] = "Hilfefenster"
 L["LF Guild Frame"] = "LF Gilde Fenster"

@@ -720,7 +720,6 @@ L["Debug Tools"] = "Herramientas de Depuración"
 L["GM Chat"] = true
 L["Gossip Frame"] = "Actualidad"
 L["Greeting Frame"] = "Cuadro de Saludo"
-L["Guild Control Frame"] = "Control de Hermandad"
 L["Guild Registrar"] = "Registrar Hermandad"
 L["Help Frame"] = "Ayuda"
 L["LF Guild Frame"] = "Búsqueda de Hermandad"

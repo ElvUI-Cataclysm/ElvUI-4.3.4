@@ -144,7 +144,7 @@ E.Options.args.skins = {
 				},
 				guildcontrol = {
 					type = "toggle",
-					name = L["Guild Control Frame"],
+					name = GUILDCONTROL,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				guildregistrar = {

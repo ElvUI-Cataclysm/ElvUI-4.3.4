@@ -260,7 +260,6 @@ L["Target Castbar"] = "대상 시전바"
 L["Target Frame"] = "대상 프레임"
 L["TargetTarget Frame"] = "대상의대상 프레임"
 L["TargetTargetTarget Frame"] = "대상의대상의대상 프레임"
-L["Time Manager Frame"] = true
 L["Tooltip"] = "툴팁"
 L["Vehicle Seat Frame"] = "차량 좌석 프레임"
 L["Weapons"] = true

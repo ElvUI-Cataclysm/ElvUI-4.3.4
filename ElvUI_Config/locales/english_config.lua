@@ -709,7 +709,6 @@ L["Debug Tools"] = true
 L["GM Chat"] = true
 L["Gossip Frame"] = true
 L["Greeting Frame"] = true
-L["Guild Control Frame"] = true
 L["Guild Registrar"] = true
 L["Help Frame"] = true
 L["LF Guild Frame"] = true

@@ -260,7 +260,6 @@ L["Target Castbar"] = true
 L["Target Frame"] = true --Also used in UnitFrames
 L["TargetTarget Frame"] = true --Also used in UnitFrames
 L["TargetTargetTarget Frame"] = true --Also used in UnitFrames
-L["Time Manager Frame"] = true
 L["Tooltip"] = true
 L["Vehicle Seat Frame"] = true
 L["Weapons"] = true

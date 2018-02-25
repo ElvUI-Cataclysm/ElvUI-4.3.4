@@ -720,7 +720,6 @@ L["Debug Tools"] = "Outils de débogage"
 L["GM Chat"] = true
 L["Gossip Frame"] = "Fenêtre PNJ"
 L["Greeting Frame"] = "Fenêtre d'accueil"
-L["Guild Control Frame"] = "Gestion de Guilde"
 L["Guild Registrar"] = "Bannière de Guilde"
 L["Help Frame"] = "Fenêtre d'Assistance clientèle"
 L["LF Guild Frame"] = "Recherche de Guilde"

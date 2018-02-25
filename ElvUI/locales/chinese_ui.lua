@@ -260,7 +260,6 @@ L["Target Castbar"] = "目标施法条"
 L["Target Frame"] = "目标框架"
 L["TargetTarget Frame"] = "目标的目标框架"
 L["TargetTargetTarget Frame"] = "目标的目标的目标框架"
-L["Time Manager Frame"] = true
 L["Tooltip"] = "鼠标提示"
 L["Vehicle Seat Frame"] = "载具座位框"
 L["Weapons"] = true

@@ -720,7 +720,6 @@ L["Debug Tools"] = "除錯工具"
 L["GM Chat"] = true
 L["Gossip Frame"] = "對話"
 L["Greeting Frame"] = "歡迎"
-L["Guild Control Frame"] = "公會控制"
 L["Guild Registrar"] = "公會註冊"
 L["Help Frame"] = "幫助"
 L["LF Guild Frame"] = "尋求公會"
