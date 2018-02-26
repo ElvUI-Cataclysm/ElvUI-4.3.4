@@ -487,7 +487,9 @@ P["auras"] = {
 		["sortMethod"] = "TIME",
 		["sortDir"] = "-",
 		["seperateOwn"] = 1,
-		["size"] = 32
+		["size"] = 32,
+		["countFontsize"] = 10,
+		["durationFontSize"] = 10,
 	},
 	["debuffs"] = {
 		["growthDirection"] = "LEFT_DOWN",
@@ -498,7 +500,9 @@ P["auras"] = {
 		["sortMethod"] = "TIME",
 		["sortDir"] = "-",
 		["seperateOwn"] = 1,
-		["size"] = 32
+		["size"] = 32,
+		["countFontsize"] = 10,
+		["durationFontSize"] = 10,
 	},
 	["weapons"] = {
 		["font"] = "Homespun",
