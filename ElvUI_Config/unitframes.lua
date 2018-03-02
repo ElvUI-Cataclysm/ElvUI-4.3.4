@@ -1666,7 +1666,6 @@ local function CreateCustomTextGroup(unit, objectName)
 								UF[unit..i]:Untag(UF[unit..i]["customTexts"][objectName])
 								UF[unit..i]["customTexts"][objectName]:Hide();
 								UF[unit..i]["customTexts"][objectName] = nil
-								
 							end
 						end
 					elseif unit == "party" or unit:find("raid") then
@@ -1680,7 +1679,7 @@ local function CreateCustomTextGroup(unit, objectName)
 								for x = 1, child:GetNumChildren() do
 									local c2 = select(x, child:GetChildren())
 									if(c2.Untag) then
-										c2:Untag(c2["customTexts"]
+										c2:Untag(c2["customTexts"][objectName]);
 										c2["customTexts"][objectName]:Hide();
 										c2["customTexts"][objectName] = nil
 									end
