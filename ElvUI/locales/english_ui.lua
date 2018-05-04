@@ -76,6 +76,7 @@ L["goldabbrev"] = "|cffffd700g|r" --Also used in Bags
 L["Hit"] = true
 L["Hold Shift + Right Click:"] = true
 L["Home Latency:"] = true
+L["Home Protocol:"] = true
 L["HP"] = true
 L["HPS"] = true
 L["lvl"] = true
@@ -103,6 +104,7 @@ L["Total Memory:"] = true
 L["Total: "] = true
 L["Unhittable:"] = true
 L["Vengeance"] = true
+L["World Protocol:"] = true
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = true
 L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = true
 

@@ -504,6 +504,7 @@ function UF.groupPrototype:Configure_Groups(self)
 	local direction = db.growthDirection
 	local xMult, yMult = DIRECTION_TO_HORIZONTAL_SPACING_MULTIPLIER[direction], DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER[direction]
 	local UNIT_HEIGHT = db.infoPanel and db.infoPanel.enable and (db.height + db.infoPanel.height) or db.height
+	local groupSpacing = db.groupSpacing
 
 	local numGroups = self.numGroups
 	for i = 1, numGroups do
@@ -511,9 +512,9 @@ function UF.groupPrototype:Configure_Groups(self)
 
 		point = DIRECTION_TO_POINT[direction]
 
-		if(group) then
+		if group then
 			UF:ConvertGroupDB(group)
-			if(point == "LEFT" or point == "RIGHT") then
+			if point == "LEFT" or point == "RIGHT" then
 				group:SetAttribute("xOffset", db.horizontalSpacing * DIRECTION_TO_HORIZONTAL_SPACING_MULTIPLIER[direction])
 				group:SetAttribute("yOffset", 0)
 				group:SetAttribute("columnSpacing", db.verticalSpacing)
@@ -533,7 +534,7 @@ function UF.groupPrototype:Configure_Groups(self)
 			end
 
 			group:ClearAllPoints()
-			if(db.raidWideSorting and db.invertGroupingOrder) then
+			if db.raidWideSorting and db.invertGroupingOrder then
 				group:SetAttribute("columnAnchorPoint", INVERTED_DIRECTION_TO_COLUMN_ANCHOR_POINT[direction])
 			else
 				group:SetAttribute("columnAnchorPoint", DIRECTION_TO_COLUMN_ANCHOR_POINT[direction])
@@ -542,7 +543,7 @@ function UF.groupPrototype:Configure_Groups(self)
 			group:ClearChildPoints()
 			group:SetAttribute("point", point)
 
-			if(not group.isForced) then
+			if not group.isForced then
 				group:SetAttribute("maxColumns", db.raidWideSorting and numGroups or 1)
 				group:SetAttribute("unitsPerColumn", db.raidWideSorting and (db.groupsPerRowCol * 5) or 5)
 				UF.headerGroupBy[db.groupBy](group)
@@ -550,7 +551,7 @@ function UF.groupPrototype:Configure_Groups(self)
 				group:SetAttribute("showPlayer", db.showPlayer)
 			end
 
-			if(i == 1 and db.raidWideSorting) then
+			if i == 1 and db.raidWideSorting then
 				group:SetAttribute("groupFilter", "1,2,3,4,5,6,7,8")
 			else
 				group:SetAttribute("groupFilter", tostring(i))
@@ -562,65 +563,65 @@ function UF.groupPrototype:Configure_Groups(self)
 		if(db.raidWideSorting and db.startFromCenter) then
 			point = DIRECTION_TO_GROUP_ANCHOR_POINT["OUT_"..direction]
 		end
-		if((i - 1) % db.groupsPerRowCol == 0) then
-			if(DIRECTION_TO_POINT[direction] == "LEFT" or DIRECTION_TO_POINT[direction] == "RIGHT") then
-				if(group) then
+		if (i - 1) % db.groupsPerRowCol == 0 then
+			if DIRECTION_TO_POINT[direction] == "LEFT" or DIRECTION_TO_POINT[direction] == "RIGHT" then
+				if group then
 					group:Point(point, self, point, 0, height * yMult)
 				end
-				height = height + UNIT_HEIGHT + db.verticalSpacing
+				height = height + UNIT_HEIGHT + db.verticalSpacing + groupSpacing
 
 				newRows = newRows + 1
 			else
-				if(group) then
+				if group then
 					group:Point(point, self, point, width * xMult, 0)
 				end
-				width = width + db.width + db.horizontalSpacing
+				width = width + db.width + db.horizontalSpacing + groupSpacing
 
 				newCols = newCols + 1
 			end
 		else
-			if(DIRECTION_TO_POINT[direction] == "LEFT" or DIRECTION_TO_POINT[direction] == "RIGHT") then
-				if(newRows == 1) then
-					if(group) then
+			if DIRECTION_TO_POINT[direction] == "LEFT" or DIRECTION_TO_POINT[direction] == "RIGHT" then
+				if newRows == 1 then
+					if group then
 						group:Point(point, self, point, width * xMult, 0)
 					end
-					width = width + ((db.width + db.horizontalSpacing) * 5)
+					width = width + ((db.width + db.horizontalSpacing) * 5) + groupSpacing
 					newCols = newCols + 1
-				elseif(group) then
-					group:Point(point, self, point, (((db.width + db.horizontalSpacing) * 5) * ((i-1) % db.groupsPerRowCol)) * xMult, ((UNIT_HEIGHT + db.verticalSpacing) * (newRows - 1)) * yMult)
+				elseif group then
+					group:Point(point, self, point, ((((db.width + db.horizontalSpacing) * 5) * ((i-1) % db.groupsPerRowCol))+((i-1) % db.groupsPerRowCol)*groupSpacing) * xMult, (((UNIT_HEIGHT + db.verticalSpacing+groupSpacing) * (newRows - 1))) * yMult)
 				end
 			else
-				if(newCols == 1) then
-					if(group) then
+				if newCols == 1 then
+					if group then
 						group:Point(point, self, point, 0, height * yMult)
 					end
-					height = height + ((UNIT_HEIGHT + db.verticalSpacing) * 5)
+					height = height + ((UNIT_HEIGHT + db.verticalSpacing) * 5) + groupSpacing
 					newRows = newRows + 1
-				elseif(group) then
-					group:Point(point, self, point, ((db.width + db.horizontalSpacing) * (newCols - 1)) * xMult, (((UNIT_HEIGHT + db.verticalSpacing) * 5) * ((i-1) % db.groupsPerRowCol)) * yMult)
+				elseif group then
+					group:Point(point, self, point, (((db.width + db.horizontalSpacing +groupSpacing) * (newCols - 1))) * xMult, ((((UNIT_HEIGHT + db.verticalSpacing) * 5) * ((i-1) % db.groupsPerRowCol))+((i-1) % db.groupsPerRowCol)*groupSpacing) * yMult)
 				end
 			end
 		end
 
-		if(height == 0) then
-			height = height + ((UNIT_HEIGHT + db.verticalSpacing) * 5)
-		elseif(width == 0) then
-			width = width + ((db.width + db.horizontalSpacing) * 5)
+		if height == 0 then
+			height = height + ((UNIT_HEIGHT + db.verticalSpacing) * 5) + groupSpacing
+		elseif width == 0 then
+			width = width + ((db.width + db.horizontalSpacing) * 5) + groupSpacing
 		end
 	end
 
-	if(not self.isInstanceForced) then
-		self.dirtyWidth = width - db.horizontalSpacing
-		self.dirtyHeight = height - db.verticalSpacing
+	if not self.isInstanceForced then
+		self.dirtyWidth = width - db.horizontalSpacing -groupSpacing
+		self.dirtyHeight = height - db.verticalSpacing -groupSpacing
 	end
 
-	if(self.mover) then
+	if self.mover then
 		self.mover.positionOverride = DIRECTION_TO_GROUP_ANCHOR_POINT[direction]
 		E:UpdatePositionOverride(self.mover:GetName())
 		self:GetScript("OnSizeChanged")(self)
 	end
 
-	self:SetSize(width - db.horizontalSpacing, height - db.verticalSpacing)
+	self:SetSize(width - db.horizontalSpacing -groupSpacing, height - db.verticalSpacing - groupSpacing)
 end
 
 function UF.groupPrototype:Update(self)

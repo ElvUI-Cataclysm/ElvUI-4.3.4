@@ -76,6 +76,7 @@ L["goldabbrev"] = "|cffffd700з|r" --Also used in Bags
 L["Hit"] = "Метк."
 L["Hold Shift + Right Click:"] = "Shift + ПКМ:"
 L["Home Latency:"] = "Локальная задержка: "
+L["Home Protocol:"] = true
 L["HP"] = "+ Исцел."
 L["HPS"] = "ИВС"
 L["lvl"] = "ур."
@@ -103,6 +104,7 @@ L["Total Memory:"] = "Всего памяти:"
 L["Total: "] = "Всего: "
 L["Unhittable:"] = "Полная защита от ударов"
 L["Vengeance"] = true
+L["World Protocol:"] = true
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFFЛКМ:|r Изменить набор талантов"
 L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = "|cffFFFFFFПКМ:|r Показать окно специализации"
 

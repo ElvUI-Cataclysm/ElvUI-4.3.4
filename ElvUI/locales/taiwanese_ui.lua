@@ -76,6 +76,7 @@ L["goldabbrev"] = "|cffffd700金|r" --Also used in Bags
 L["Hit"] = "命中"
 L["Hold Shift + Right Click:"] = "按住 Shift 並按滑鼠右鍵"
 L["Home Latency:"] = "本機延遲:"
+L["Home Protocol:"] = true
 L["HP"] = "生命值"
 L["HPS"] = "治療輸出"
 L["lvl"] = "等級"
@@ -103,6 +104,7 @@ L["Total Memory:"] = "總記憶體:"
 L["Total: "] = "合計: "
 L["Unhittable:"] = "未命中:"
 L["Vengeance"] = true
+L["World Protocol:"] = true
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFF左鍵:|r 變更目前職業專精"
 L["|cffFFFFFFShift + Left Click:|r Show Talent Specialization UI"] = "|cffFFFFFF右鍵k:|r 顯示天賦專精介面"
 

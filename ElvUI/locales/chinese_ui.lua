@@ -76,6 +76,7 @@ L["goldabbrev"] = "|cffffd700金|r"
 L["Hit"] = "命中"
 L["Hold Shift + Right Click:"] = "按住Shift + 右键点击"
 L["Home Latency:"] = "本机延迟:"
+L["Home Protocol:"] = true
 L["HP"] = "生命值"
 L["HPS"] = "治疗输出"
 L["lvl"] = "等级"
@@ -103,6 +104,7 @@ L["Total Memory:"] = "总内存:"
 L["Total: "] = "合计: "
 L["Unhittable:"] = "未命中:"
 L["Vengeance"] = true
+L["World Protocol:"] = true
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFF左键点击:|r 更改当前专精"
 L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = "|cffFFFFFF右键点击:|r 显示专精天赋框架"
 

@@ -76,6 +76,7 @@ L["goldabbrev"] = "|cffffd700g|r" --Also used in gold datatext
 L["Hit"] = "Trefferchance"
 L["Hold Shift + Right Click:"] = "Halte Shift + Rechtsklick:"
 L["Home Latency:"] = "Standort-Latenz"
+L["Home Protocol:"] = "Standort Protokol"
 L["HP"] = "HP"
 L["HPS"] = "HPS"
 L["lvl"] = "lvl"
@@ -103,6 +104,7 @@ L["Total Memory:"] = "Gesamte Speichernutzung:"
 L["Total: "] = "Gesamt: "
 L["Unhittable:"] = "Unhittable:"
 L["Vengeance"] = true
+L["World Protocol:"] = "Welt Protokol"
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFFLinksklick:|r Talentspezialisierung ändern"
 L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = "|cffFFFFFFRechtsklick:|r Zeige Talent Spezialisierung UI"
 

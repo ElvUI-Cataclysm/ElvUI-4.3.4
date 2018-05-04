@@ -76,6 +76,7 @@ L["goldabbrev"] = "|cffffd700g|r" --Also used in Bags
 L["Hit"] = "Toucher"
 L["Hold Shift + Right Click:"] = "Maintenir Majuscule + Clic droit"
 L["Home Latency:"] = "Latence du Domicile:"
+L["Home Protocol:"] = true
 L["HP"] = "PV"
 L["HPS"] = "HPS"
 L["lvl"] = "niveau"
@@ -103,6 +104,7 @@ L["Total Memory:"] = "Mémoire totale:"
 L["Total: "] = "Total: "
 L["Unhittable:"] = "Intouchable:"
 L["Vengeance"] = true
+L["World Protocol:"] = true
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = '|cffFFFFFFClick Gauche:|r Changer de spécialisation des talents'
 L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = "|cffFFFFFFRight + Click Gauche :|r Voir la spécialisation des talents de l'interface"
 

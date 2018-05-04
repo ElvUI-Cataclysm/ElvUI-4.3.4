@@ -76,6 +76,7 @@ L["goldabbrev"] = "|TInterface\\MoneyFrame\\UI-MoneyIcons:0:0:1:0:64:16:1:16:1:1
 L["Hit"] = "적중도"
 L["Hold Shift + Right Click:"] = "쉬프트+우클릭"
 L["Home Latency:"] = "지연 시간:"
+L["Home Protocol:"] = true
 L["HP"] = "주문력"
 L["HPS"] = "HPS"
 L["lvl"] = "레벨"
@@ -103,6 +104,7 @@ L["Total Memory:"] = "전체 메모리:"
 L["Total: "] = "합계:"
 L["Unhittable:"] = "100% 방어행동까지"
 L["Vengeance"] = true
+L["World Protocol:"] = true
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "클릭 : 전문화 교체"
 L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = true
 

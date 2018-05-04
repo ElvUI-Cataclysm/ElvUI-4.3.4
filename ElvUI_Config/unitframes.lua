@@ -4994,6 +4994,13 @@ E.Options.args.unitframe.args.party = {
 							type = "range",
 							name = L["Vertical Spacing"],
 							min = -1, max = 50, step = 1
+						},
+						groupSpacing = {
+							order = 9,
+							type = "range",
+							name = L["Group Spacing"],
+							desc = L["Additional spacing between each individual group."],
+							min = 0, softMax = 50, step = 1
 						}
 					}
 				},
@@ -5581,6 +5588,13 @@ E.Options.args.unitframe.args.raid = {
 							type = "range",
 							name = L["Vertical Spacing"],
 							min = -1, max = 50, step = 1
+						},
+						groupSpacing = {
+							order = 11,
+							type = "range",
+							name = L["Group Spacing"],
+							desc = L["Additional spacing between each individual group."],
+							min = 0, softMax = 50, step = 1
 						}
 					}
 				},
@@ -5996,6 +6010,13 @@ E.Options.args.unitframe.args.raid40 = {
 							type = "range",
 							name = L["Vertical Spacing"],
 							min = -1, max = 50, step = 1
+						},
+						groupSpacing = {
+							order = 11,
+							type = "range",
+							name = L["Group Spacing"],
+							desc = L["Additional spacing between each individual group."],
+							min = 0, softMax = 50, step = 1
 						}
 					}
 				},
@@ -6397,6 +6418,13 @@ E.Options.args.unitframe.args.raidpet = {
 							type = "range",
 							name = L["Vertical Spacing"],
 							min = -1, max = 50, step = 1
+						},
+						groupSpacing = {
+							order = 11,
+							type = "range",
+							name = L["Group Spacing"],
+							desc = L["Additional spacing between each individual group."],
+							min = 0, softMax = 50, step = 1
 						}
 					}
 				},

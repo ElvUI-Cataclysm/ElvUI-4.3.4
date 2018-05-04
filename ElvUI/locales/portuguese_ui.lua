@@ -76,6 +76,7 @@ L["goldabbrev"] = "|cffffd700g|r"
 L["Hit"] = "Acerto"
 L["Hold Shift + Right Click:"] = true
 L["Home Latency:"] = "Latência de Casa:"
+L["Home Protocol:"] = true
 L["HP"] = "PV"
 L["HPS"] = "PVS"
 L["lvl"] = "nível"
@@ -103,6 +104,7 @@ L["Total Memory:"] = "Memória Total:"
 L["Total: "] = "Total: "
 L["Unhittable:"] = "Inacertável"
 L["Vengeance"] = true
+L["World Protocol:"] = true
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFFClique Esquerdo:|r Altera Especialização de Talento"
 L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = true
 
