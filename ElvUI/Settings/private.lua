@@ -12,6 +12,7 @@ V["general"] = {
 	["chatBubbles"] = "backdrop",
 	["chatBubbleFont"] = "PT Sans Narrow",
 	["chatBubbleFontSize"] = 14,
+	["chatBubbleName"] = false,
 	["chatBubbleFontOutline"] = "NONE",
 	["pixelPerfect"] = true,
 	["replaceBlizzFonts"] = true,

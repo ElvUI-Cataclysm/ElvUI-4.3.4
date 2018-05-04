@@ -355,7 +355,6 @@ function AB:CreateTotemBar()
 
 	self:SecureHook("MultiCastFlyoutFrameOpenButton_Show")
 	self:SecureHook("MultiCastActionButton_Update")
-
 	self:SecureHook("MultiCastSlotButton_Update", "StyleTotemSlotButton")
 	self:SecureHook("MultiCastFlyoutFrame_ToggleFlyout")
 	self:SecureHook("MultiCastRecallSpellButton_Update")
