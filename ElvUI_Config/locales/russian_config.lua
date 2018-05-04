@@ -210,7 +210,7 @@ L["Count yOffset"] = "Отступ стаков по Y"
 L["Defines how the group is sorted."] = "Определяет условия сортировки"
 L["Defines the sort order of the selected sort method."] = "Определяет порядок в выбранном методе сортировки."
 L["Disabled Blizzard"] = "Отключить ауры Blizzard"
-L["Duration Font Size"] = true
+L["Duration Font Size"] = "Размер шрифта длительности"
 L["Display reminder bar on the minimap."] = true
 L["Fade Threshold"] = "Значение мерцания"
 L["Index"] = "Порядок наложения"
@@ -388,6 +388,8 @@ L["You must be targeting a player."] = "Целью должен быть игр�
 
 --Filters
 L["Reset Aura Filters"] = "Сбросить фильтры аур" --Used in Nameplates/UnitFrames general options
+L["Reset Filter"] = "Сбросить фильтр"
+L["Used as RaidDebuff Indicator"] = "Использовать как индикатор рейдовых дебаффов"
 
 --General
 L["Accept Invites"] = "Принимать приглашения"
@@ -409,13 +411,16 @@ L["Automatically vendor gray items when visiting a vendor."] = "Автомати
 L["Bottom Panel"] = "Нижняя панель"
 L["Chat Bubbles Style"] = "Стиль облачков сообщений"
 L["Chat Bubbles"] = "Облачка сообщений"
+L["Chat Bubble Names"] = "Имена на облачках сообщений"
 L["Controls the amount of decimals used in values displayed on elements like NamePlates and UnitFrames."] = "Задает количество десятичных долей, используемых на индикаторах здоровья и рамках юнитов."
 L["Decimal Length"] = "Десятичные доли"
 L["Direction the bar moves on gains/losses"] = "направление заполнения полосы"
+L["Displays a detailed report of every item sold when enabled."] = "Показывать подробный отчет по каждому проданному серому предмету."
 L["Display a panel across the bottom of the screen. This is for cosmetic only."] = "Отображать панель на нижней границе экрана. Это косметический элемент."
 L["Display a panel across the top of the screen. This is for cosmetic only."] = "Отображать панель на верхней границе экрана. Это косметический элемент."
 L["Display battleground messages in the middle of the screen."] = "Отображать сообщения полей боя в центре экрана."
 L["Display emotion icons in chat."] = "Показывать смайлы в чате"
+L["Display the name of the unit on the chat bubble."] = "Отображать имя юнита на облачках сообщений."
 L["Emotion Icons"] = "Иконки эмоций"
 L["Enable/Disable the loot frame."] = "Включить/выключить окно добычи ElvUI."
 L["Enable/Disable the loot roll frame."] = "Включить/выключить фрейм распределения добычи ElvUI."
@@ -457,6 +462,7 @@ L["Thin Border Theme"] = "Тонкие границы"
 L["Toggle Tutorials"] = "Показать помощь"
 L["Top Panel"] = "Верхняя панель"
 L["Unit Prefix Style"] = "Стиль сокращений"
+L["Vendor Gray Detailed Report"] = "Подробности продажи"
 L["Version Check"] = "Проверка версии"
 L["When you go AFK display the AFK screen."] = "Отображать специальный экран, когда вы переходите в состояние \"Отсутствует\"."
 
@@ -1106,7 +1112,7 @@ L["Use the profile specific filter 'Buff Indicator (Profile)' instead of the glo
 L["Use thin borders on certain unitframe elements."] = "Использовать тонкие границы на некоторых элементах рамок юнитов."
 L["Use this backdrop color for units that are dead or ghosts."] = "Использовать этот цвет фона для юнитов, которые мертвы или бегут с кладбища."
 L["Value must be a number"] = "Значение должно быть числом"
-L["Vertical Fill Direction"] = true
+L["Vertical Fill Direction"] = "Вертикальное заполнение"
 L["Vertical Spacing"] = "Отступ по вертикали"
 L["Vertical"] = "Вертикально" --Also used in bags section
 L["Visibility"] = "Видимость"

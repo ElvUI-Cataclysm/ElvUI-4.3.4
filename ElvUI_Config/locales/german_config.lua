@@ -389,6 +389,8 @@ L["You must be targeting a player."] = "Du musst einen Spieler anvisiert haben."
 
 --Filters
 L["Reset Aura Filters"] = "Setze Aurafilter zurück" --Used in Nameplates/UnitFrames general options
+L["Reset Filter"] = "Filter zurücksetzen"
+L["Used as RaidDebuff Indicator"] = "Verwendet als RaidDebuff Indikator"
 
 --General
 L["Accept Invites"] = "Einladungen akzeptieren"
@@ -410,13 +412,16 @@ L["Automatically vendor gray items when visiting a vendor."] = "Automatischer Ve
 L["Bottom Panel"] = "Untere Leiste"
 L["Chat Bubbles Style"] = "Sprechblasen Stil"
 L["Chat Bubbles"] = "Sprechblasen"
+L["Chat Bubble Names"] = "Sprechblasen Name"
 L["Controls the amount of decimals used in values displayed on elements like NamePlates and UnitFrames."] = "Kontrolliert die Anzahl der Dezimalstellen in den Werten auf den Namensplaketten und Einheitenfenstern."
 L["Decimal Length"] = "Dezimalstellen"
 L["Direction the bar moves on gains/losses"] = "Richtung, in die der Balken wächst/schrumpft"
+L["Displays a detailed report of every item sold when enabled."] = "Zeigt einen detaillierten Report von jedem verkauften Gegenstand wenn aktiviert."
 L["Display a panel across the bottom of the screen. This is for cosmetic only."] = "Zeige eine Leiste am unterem Bildschirmrand. Das ist rein kosmetisch."
 L["Display a panel across the top of the screen. This is for cosmetic only."] = "Zeige eine Leiste am oberen Bildschirmrand. Das ist rein kosmetisch."
 L["Display battleground messages in the middle of the screen."] = "Zeigt Schlachtfeld Nachrichten in der Mitte des Bildschirms."
 L["Display emotion icons in chat."] = "Zeige Emoticons im Chat."
+L["Display the name of the unit on the chat bubble."] = "Zeigt den Einheitennamen auf der Sprechblase an."
 L["Emotion Icons"] = "Emoticons"
 L["Enable/Disable the loot frame."] = "Aktiviere/Deaktiviere das Beutefenster."
 L["Enable/Disable the loot roll frame."] = "Aktiviere/Deaktiviere das Beutewürfelfenster."
@@ -458,6 +463,7 @@ L["Thin Border Theme"] = "Dünner Rahmen Theme"
 L["Toggle Tutorials"] = "Tutorial starten"
 L["Top Panel"] = "Obere Leiste"
 L["Unit Prefix Style"] = "Einheit Präfix Stil"
+L["Vendor Gray Detailed Report"] = "Graue Gegenstände detaillierter Report"
 L["Version Check"] = true
 L["When you go AFK display the AFK screen."] = "AFK Bildschirm anzeigen, wenn du AFK bist."
 

@@ -388,6 +388,8 @@ L["You must be targeting a player."] = "É necessário ter um jogador como alvo.
 
 --Filters
 L["Reset Aura Filters"] = true --Used in Nameplates/UnitFrames general options
+L["Reset Filter"] = true
+L["Used as RaidDebuff Indicator"] = true
 
 --General
 L["Accept Invites"] = "Aceitar Convites"
@@ -409,13 +411,16 @@ L["Automatically vendor gray items when visiting a vendor."] = "Vender itens cin
 L["Bottom Panel"] = "Painel Infeior"
 L["Chat Bubbles Style"] = "Estilo dos Balões de Fala"
 L["Chat Bubbles"] = true
+L["Chat Bubble Names"] = true
 L["Controls the amount of decimals used in values displayed on elements like NamePlates and UnitFrames."] = true
 L["Decimal Length"] = true
 L["Direction the bar moves on gains/losses"] = true
+L["Displays a detailed report of every item sold when enabled."] = true
 L["Display a panel across the bottom of the screen. This is for cosmetic only."] = "Mostra um painel na parte inferior da tela. Apenas para efeito cosmético."
 L["Display a panel across the top of the screen. This is for cosmetic only."] = "Mostra um painel na parte superior da tela. Apenas para efeito cosmético."
 L["Display battleground messages in the middle of the screen."] = true
 L["Display emotion icons in chat."] = "Exibir ícones emotivos no bate-papo."
+L["Display the name of the unit on the chat bubble."] = true
 L["Emotion Icons"] = "Ícones Emotivos"
 L["Enable/Disable the loot frame."] = "Ativar/Desativar painel de saques."
 L["Enable/Disable the loot roll frame."] = "Ativar/Desativar painel de disputa de saques"
@@ -457,6 +462,7 @@ L["Thin Border Theme"] = true
 L["Toggle Tutorials"] = "Ativar Tutoriais"
 L["Top Panel"] = "Painel Superior"
 L["Unit Prefix Style"] = true
+L["Vendor Gray Detailed Report"] = true
 L["Version Check"] = true
 L["When you go AFK display the AFK screen."] = true
 
