@@ -31,7 +31,6 @@ local statusColors = {
 	"|cffFF9000",
 	"|cffD80909"
 }
-local resetInfoFormatter = join("", "|cffaaaaaa", L["Right Click: Reset CPU Usage"], "|r")
 local enteredFrame = false;
 local bandwidthString = "%.2f Mbps"
 local percentageString = "%.2f%%"
@@ -177,9 +176,6 @@ local function OnEnter(self)
 		DT.tooltip:AddLine(" ")
 		DT.tooltip:AddLine(L["(Hold Shift) Memory Usage"])
 	end
-
-	DT.tooltip:AddLine" "
-	DT.tooltip:AddLine(resetInfoFormatter)
 
 	DT.tooltip:Show()
 end

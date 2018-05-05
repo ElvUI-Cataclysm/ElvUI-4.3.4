@@ -596,6 +596,7 @@ E.Options.args.general = {
 					desc = L["Display the name of the unit on the chat bubble."],
 					get = function(info) return E.private.general.chatBubbleName end,
 					set = function(info, value) E.private.general.chatBubbleName = value; E:StaticPopup_Show("PRIVATE_RL") end,
+					disabled = function() return E.private.general.chatBubbles == "nobackdrop" or E.private.general.chatBubbles == "disabled" end
 				},
 				spacer = {
 					order = 4,

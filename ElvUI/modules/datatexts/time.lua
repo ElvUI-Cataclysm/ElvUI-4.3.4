@@ -1,8 +1,10 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local DT = E:GetModule("DataTexts")
 
-local time = time
+local next, unpack = next, unpack
 local format, join = string.format, string.join
+local tsort, tinsert = table.sort, table.insert
+local time, utf8sub = time, string.utf8sub
 
 local GetGameTime = GetGameTime
 local RequestRaidInfo = RequestRaidInfo
@@ -19,18 +21,16 @@ local TIMEMANAGER_TOOLTIP_REALMTIME = TIMEMANAGER_TOOLTIP_REALMTIME
 local timeDisplayFormat = ""
 local dateDisplayFormat = ""
 local europeDisplayFormat_nocolor = join("", "%02d", ":|r%02d")
-local lockoutInfoFormat = "%s%s |cffaaaaaa(%s, |cfff04000%s/%s|r|cffaaaaaa)"
+local lockoutInfoFormat = "%s%s %s |cffaaaaaa(%s, |cfff04000%s/%s|r|cffaaaaaa)"
+local lockoutInfoFormatNoEnc = "%s%s %s |cffaaaaaa(%s)"
 local formatBattleGroundInfo = "%s: "
-local difficultyInfo = {"N", "N", "H", "H"}
 local lockoutColorExtended, lockoutColorNormal = {r = 0.3, g = 1, b = 0.3}, {r = 0.8, g = 0.8, b = 0.8}
 local enteredFrame = false
-
-local localizedName, isActive, startTime, canEnter, _
-local name, reset, difficulty, locked, extended, isRaid, maxPlayers, numEncounters, encounterProgress
+local lastPanel
 
 local function OnClick(_, btn)
 	if btn == "RightButton" then
-	if not IsAddOnLoaded("Blizzard_TimeManager") then LoadAddOn("Blizzard_TimeManager") end
+		if not IsAddOnLoaded("Blizzard_TimeManager") then LoadAddOn("Blizzard_TimeManager") end
  		TimeManagerClockButton_OnClick(TimeManagerClockButton)
  	else
  		GameTimeFrame:Click()
@@ -42,20 +42,54 @@ local function OnLeave()
 	enteredFrame = false
 end
 
-local function OnEvent(_, event)
-	if(event == "UPDATE_INSTANCE_INFO" and enteredFrame) then
-		RequestRaidInfo()
+local instanceIconByName = {}
+local function GetInstanceImages(...)
+	local numTextures = select("#", ...) / 4
+
+	local param, title, texture = 1
+	for textureIndex = 1, numTextures do
+		title = select(param, ...)
+		param = param + 1
+		texture = select(param, ...)
+		param = param + 1
+		instanceIconByName[title] = texture
+		param = param + 2
 	end
 end
 
+local locale = GetLocale()
+local krcntw = locale == "koKR" or locale == "zhCN" or locale == "zhTW"
+local difficultyTag = {
+	(krcntw and PLAYER_DIFFICULTY3) or utf8sub(PLAYER_DIFFICULTY3, 1, 1), -- Raid Finder
+	(krcntw and PLAYER_DIFFICULTY1) or utf8sub(PLAYER_DIFFICULTY1, 1, 1), -- Normal
+	(krcntw and PLAYER_DIFFICULTY2) or utf8sub(PLAYER_DIFFICULTY2, 1, 1), -- Heroic
+}
+
+local collectedInstanceImages = false
 local function OnEnter(self)
 	DT:SetupTooltip(self)
-	enteredFrame = true
-	DT.tooltip:AddLine(VOICE_CHAT_BATTLEGROUND)
+
+	if not enteredFrame then
+		enteredFrame = true
+		RequestRaidInfo()
+	end
+
+	if not collectedInstanceImages then
+		GetInstanceImages(CalendarEventGetTextures(1))
+		GetInstanceImages(CalendarEventGetTextures(2))
+		collectedInstanceImages = true
+	end
+
+	local addedHeader = false
+	local localizedName, isActive, startTime, canEnter, _
 
 	for i = 1, GetNumWorldPVPAreas() do
 		_, localizedName, isActive, _, startTime, canEnter = GetWorldPVPAreaInfo(i)
 		if canEnter then
+			if not addedHeader then
+				DT.tooltip:AddLine(VOICE_CHAT_BATTLEGROUND)
+				addedHeader = true
+			end
 			if isActive then
 				startTime = WINTERGRASP_IN_PROGRESS
 			elseif startTime == nil then
@@ -67,28 +101,87 @@ local function OnEnter(self)
 		end
 	end
 
-	local oneraid, lockoutColor
+	local lockedInstances = {raids = {}, dungeons = {}}
+	local name, difficulty, locked, extended, isRaid
+	local isLFR, isHeroic, difficultyLetter, buttonImg
+
 	for i = 1, GetNumSavedInstances() do
-		name, _, reset, difficulty, locked, extended, _, isRaid, maxPlayers, _, numEncounters, encounterProgress  = GetSavedInstanceInfo(i)
-		if isRaid and (locked or extended) then
-			if not oneraid then
-				DT.tooltip:AddLine(" ")
-				DT.tooltip:AddLine(L["Saved Raid(s)"])
-				oneraid = true
+		name, _, _, difficulty, locked, extended, _, isRaid = GetSavedInstanceInfo(i)
+		if (locked or extended) and name then
+			isLFR = (difficulty == 7 or difficulty == 17)
+			isHeroic = (difficulty == 2 or difficulty == 5 or difficulty == 6 or difficulty == 15)
+
+			difficultyLetter = (isHeroic and difficultyTag[3] or isLFR and difficultyTag[1] or difficultyTag[2])
+			buttonImg = instanceIconByName[name] and format("|T%s:16:16:0:0:96:96:0:64:0:64|t ", "Interface\\LFGFrame\\LFGIcon-"..instanceIconByName[name]) or ""
+
+			if isRaid then
+				tinsert(lockedInstances["raids"], {name, difficultyLetter, buttonImg, {GetSavedInstanceInfo(i)}})
+			elseif difficulty == 2 then
+				tinsert(lockedInstances["dungeons"], {name, difficultyLetter, buttonImg, {GetSavedInstanceInfo(i)}})
 			end
-			if extended then lockoutColor = lockoutColorExtended else lockoutColor = lockoutColorNormal end
-			DT.tooltip:AddDoubleLine(format(lockoutInfoFormat, maxPlayers, difficultyInfo[difficulty], name, encounterProgress, numEncounters), SecondsToTime(reset, false, nil, 3), 1, 1, 1, lockoutColor.r, lockoutColor.g, lockoutColor.b)
 		end
 	end
 
-	DT.tooltip:AddLine(" ")
+	local reset, maxPlayers, numEncounters, encounterProgress, lockoutColor
+	if next(lockedInstances["raids"]) then
+		if DT.tooltip:NumLines() > 0 then
+			DT.tooltip:AddLine(" ")
+		end
+		DT.tooltip:AddLine(L["Saved Raid(s)"])
+
+		tsort(lockedInstances["raids"], function(a, b) return a[1] < b[1] end)
+
+		for i = 1, #lockedInstances["raids"] do
+			difficultyLetter = lockedInstances["raids"][i][2]
+			buttonImg = lockedInstances["raids"][i][3]
+			name, _, reset, _, _, extended, _, _, maxPlayers, _, numEncounters, encounterProgress = unpack(lockedInstances["raids"][i][4])
+
+			lockoutColor = extended and lockoutColorExtended or lockoutColorNormal
+			if (numEncounters and numEncounters > 0) and (encounterProgress and encounterProgress > 0) then
+				DT.tooltip:AddDoubleLine(format(lockoutInfoFormat, buttonImg, maxPlayers, difficultyLetter, name, encounterProgress, numEncounters), SecondsToTime(reset, false, nil, 3), 1, 1, 1, lockoutColor.r, lockoutColor.g, lockoutColor.b)
+			else
+				DT.tooltip:AddDoubleLine(format(lockoutInfoFormatNoEnc, buttonImg, maxPlayers, difficultyLetter, name), SecondsToTime(reset, false, nil, 3), 1, 1, 1, lockoutColor.r, lockoutColor.g, lockoutColor.b)
+			end
+		end
+	end
+
+	if next(lockedInstances["dungeons"]) then
+		if DT.tooltip:NumLines() > 0 then
+			DT.tooltip:AddLine(" ")
+		end
+		DT.tooltip:AddLine(L["Saved Dungeon(s)"])
+
+		tsort(lockedInstances["dungeons"], function(a, b) return a[1] < b[1] end)
+
+		for i = 1, #lockedInstances["dungeons"] do
+			difficultyLetter = lockedInstances["dungeons"][i][2]
+			buttonImg = lockedInstances["dungeons"][i][3]
+			name, _, reset, _, _, extended, _, _, maxPlayers, _, numEncounters, encounterProgress = unpack(lockedInstances["dungeons"][i][4])
+
+			lockoutColor = extended and lockoutColorExtended or lockoutColorNormal
+			if (numEncounters and numEncounters > 0) and (encounterProgress and encounterProgress > 0) then
+				DT.tooltip:AddDoubleLine(format(lockoutInfoFormat, buttonImg, maxPlayers, difficultyLetter, name, encounterProgress, numEncounters), SecondsToTime(reset, false, nil, 3), 1, 1, 1, lockoutColor.r, lockoutColor.g, lockoutColor.b)
+			else
+				DT.tooltip:AddDoubleLine(format(lockoutInfoFormatNoEnc, buttonImg, maxPlayers, difficultyLetter, name), SecondsToTime(reset, false, nil, 3), 1, 1, 1, lockoutColor.r, lockoutColor.g, lockoutColor.b)
+			end
+		end
+	end
+
+	if DT.tooltip:NumLines() > 0 then
+		DT.tooltip:AddLine(" ")
+	end
 
 	DT.tooltip:AddDoubleLine(TIMEMANAGER_TOOLTIP_REALMTIME, format(europeDisplayFormat_nocolor, GetGameTime()), 1, 1, 1, lockoutColorNormal.r, lockoutColorNormal.g, lockoutColorNormal.b)
 
 	DT.tooltip:Show()
 end
 
-local lastPanel
+local function OnEvent(self, event)
+	if event == "UPDATE_INSTANCE_INFO" and enteredFrame then
+		OnEnter(self)
+	end
+end
+
 local int = 5
 function OnUpdate(self, t)
 	int = int - t
