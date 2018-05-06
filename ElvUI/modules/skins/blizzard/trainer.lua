@@ -54,7 +54,7 @@ local function LoadSkin()
 	local ClassTrainerFrame = _G["ClassTrainerFrame"]
 	ClassTrainerFrame:StripTextures()
 	ClassTrainerFrame:CreateBackdrop("Transparent")
-	ClassTrainerFrame:Height(ClassTrainerFrame:GetHeight() + 42)
+	ClassTrainerFrame:Height(ClassTrainerFrame:GetHeight() + 80)
 
 	ClassTrainerTrainButton:StripTextures()
 	S:HandleButton(ClassTrainerTrainButton)
