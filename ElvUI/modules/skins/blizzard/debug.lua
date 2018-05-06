@@ -45,21 +45,22 @@ local function LoadSkin()
 		end
 	end
 
-	FrameStackTooltip:HookScript("OnShow", function(self)
-		local noscalemult = E.mult * GetCVar("uiScale")
-		self:SetBackdrop({
-			bgFile = E["media"].blankTex,
-			edgeFile = E["media"].blankTex,
-			tile = false, tileSize = 0, edgeSize = noscalemult,
-			insets = { left = -noscalemult, right = -noscalemult, top = -noscalemult, bottom = -noscalemult}
-		});
-		self:SetBackdropColor(unpack(E["media"].backdropfadecolor))
-		self:SetBackdropBorderColor(unpack(E["media"].bordercolor))
-	end)
+	if E.private.skins.blizzard.tooltip then
+		FrameStackTooltip:HookScript("OnShow", function(self)
+			if not self.template then
+				self:SetTemplate("Transparent")
+			end
+		end)
 
-	EventTraceTooltip:HookScript("OnShow", function(self)
-		self:SetTemplate("Transparent")
-	end)
+		EventTraceTooltip:HookScript("OnShow", function(self)
+			if not self.template then
+				self:SetTemplate("Transparent", nil, true) --ignore updates
+			else
+				self:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				self:SetBackdropColor(unpack(E.media.backdropfadecolor))
+			end
+		end)
+	end
 
 	S:HandleCloseButton(EventTraceFrameCloseButton)
 end
