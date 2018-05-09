@@ -38,7 +38,7 @@ L["Reset Position"] = "Сбросить позицию"
 L["Sort Bags"] = "Сортировать"
 L["Temporary Move"] = "Временное перемещение"
 L["Toggle Bags"] = "Показать сумки"
-L["Vendor / Delete Grays"] = true
+L["Vendor / Delete Grays"] = "Продать/удалить серые предметы"
 
 --Chat
 L["AFK"] = "АФК" --Also used in datatexts and tooltip
@@ -76,7 +76,7 @@ L["goldabbrev"] = "|cffffd700з|r" --Also used in Bags
 L["Hit"] = "Метк."
 L["Hold Shift + Right Click:"] = "Shift + ПКМ:"
 L["Home Latency:"] = "Локальная задержка: "
-L["Home Protocol:"] = true
+L["Home Protocol:"] = "Домашний протокол:"
 L["HP"] = "+ Исцел."
 L["HPS"] = "ИВС"
 L["lvl"] = "ур."
@@ -104,7 +104,7 @@ L["Total Memory:"] = "Всего памяти:"
 L["Total: "] = "Всего: "
 L["Unhittable:"] = "Полная защита от ударов"
 L["Vengeance"] = true
-L["World Protocol:"] = true
+L["World Protocol:"] = "Мировой протокол:"
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFFЛКМ:|r Изменить набор талантов"
 L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = "|cffFFFFFFПКМ:|r Показать окно специализации"
 
@@ -314,7 +314,7 @@ L["Are you sure you want to reset all the settings on this profile?"] = "Вы у
 L["Are you sure you want to reset every mover back to it's default position?"] = "Вы уверены, что хотите сбросить все фиксаторы на позиции по умолчанию?"
 L["Because of the mass confusion caused by the new aura system I've implemented a new step to the installation process. This is optional. If you like how your auras are setup go to the last step and click finished to not be prompted again. If for some reason you are prompted repeatedly please restart your game."] = "Из-за массового непонимания новой системы аур, я добавил новый шаг в установку. Он опционален. Если Вам нравится, как сейчас настроены Ваши ауры, перейдите до последнюю страницу установки и нажмите \"Завершить\", чтобы это сообщение больше не появлялось. Если же оно появится снова, пожалуйста, перезапустите игру."
 L["Can't buy anymore slots!"] = "Невозможно приобрести больше слотов!"
-L["Delete gray items?"] = true
+L["Delete gray items?"] = "Удалить серый предметы?"
 L["Disable Warning"] = "Отключить предупреждение"
 L["Discard"] = "Отменить"
 L["Do you enjoy the new ElvUI?"] = "Вам нравится ElvUI?"

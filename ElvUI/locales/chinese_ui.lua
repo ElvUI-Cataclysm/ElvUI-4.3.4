@@ -38,7 +38,7 @@ L["Reset Position"] = "重设位置"
 L["Sort Bags"] = "背包整理"
 L["Temporary Move"] = '移动背包'
 L["Toggle Bags"] = "背包开关"
-L["Vendor / Delete Grays"] = true
+L["Vendor / Delete Grays"] = "出售/删除灰色物品"
 
 --Chat
 L["AFK"] = "离开" --Also used in datatexts and tooltip
@@ -76,7 +76,7 @@ L["goldabbrev"] = "|cffffd700金|r"
 L["Hit"] = "命中"
 L["Hold Shift + Right Click:"] = "按住Shift + 右键点击"
 L["Home Latency:"] = "本机延迟:"
-L["Home Protocol:"] = true
+L["Home Protocol:"] = "本地协议:"
 L["HP"] = "生命值"
 L["HPS"] = "治疗输出"
 L["lvl"] = "等级"
@@ -104,7 +104,7 @@ L["Total Memory:"] = "总内存:"
 L["Total: "] = "合计: "
 L["Unhittable:"] = "未命中:"
 L["Vengeance"] = true
-L["World Protocol:"] = true
+L["World Protocol:"] ="世界协议:"
 L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFF左键点击:|r 更改当前专精"
 L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = "|cffFFFFFF右键点击:|r 显示专精天赋框架"
 
@@ -314,7 +314,7 @@ L["Are you sure you want to reset all the settings on this profile?"] = "确定�
 L["Are you sure you want to reset every mover back to it's default position?"] = "确定需要重置所有框架至默认位置?"
 L["Because of the mass confusion caused by the new aura system I've implemented a new step to the installation process. This is optional. If you like how your auras are setup go to the last step and click finished to not be prompted again. If for some reason you are prompted repeatedly please restart your game."] = "由于大量的改动导致光环系统需要一个新的安装过程. 这是可选的, 最后一步将设置你的光环样式. 点击「完成」将不再提示. 如果由于某些原因反复提示, 请重新开启游戏."
 L["Can't buy anymore slots!"] = "银行背包栏位已达最大值"
-L["Delete gray items?"] = true
+L["Delete gray items?"] = "删除灰色物品?"
 L["Disable Warning"] = '停用警告'
 L["Discard"] = "取消"
 L["Do you enjoy the new ElvUI?"] = "你喜欢新的ElvUI么？"
