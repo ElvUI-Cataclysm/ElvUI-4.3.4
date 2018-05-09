@@ -339,7 +339,6 @@ ElvUF.Tags.Methods["power:current"] = function(unit)
 	else
 		return E:GetFormattedText("CURRENT", min, UnitPowerMax(unit, pType))
 	end
-
 end
 
 ElvUF.Tags.Events["power:current-max"] = "UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT UNIT_MAXPOWER"

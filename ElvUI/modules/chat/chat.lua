@@ -1628,7 +1628,7 @@ function CH:DelayGuildMOTD()
 					ChatFrame_SystemEventHandler(chat, "GUILD_MOTD", msg)
 					chat:RegisterEvent("GUILD_MOTD")
 				end
-				end
+			end
 			df:SetScript("OnUpdate", nil)
 		else -- 5 seconds can be too fast for the API response. let's try once every 5 seconds (max 5 checks).
 			delay, checks = 0, checks + 1
