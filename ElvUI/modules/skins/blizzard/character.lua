@@ -348,20 +348,20 @@ local function LoadSkin()
 	S:HandleScrollBar(ReputationListScrollFrameScrollBar)
 
 	for i = 1, NUM_FACTIONS_DISPLAYED do
-		local factionRow = _G["ReputationBar" .. i];
-		local factionBar = _G["ReputationBar" .. i .. "ReputationBar"];
-		local factionButton = _G["ReputationBar" .. i .. "ExpandOrCollapseButton"];
+		local factionRow = _G["ReputationBar"..i]
+		local factionBar = _G["ReputationBar"..i.."ReputationBar"]
+		local factionButton = _G["ReputationBar"..i.."ExpandOrCollapseButton"]
 
-		factionRow:StripTextures(true);
+		factionRow:StripTextures(true)
 
-		factionBar:StripTextures();
-		factionBar:CreateBackdrop("Default");
-		factionBar:SetStatusBarTexture(E["media"].normTex);
-		E:RegisterStatusBar(factionBar);
+		factionBar:StripTextures()
+		factionBar:CreateBackdrop("Default")
+		factionBar:SetStatusBarTexture(E["media"].normTex)
+		E:RegisterStatusBar(factionBar)
 
-		factionButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons")
-		factionButton.SetNormalTexture = function() end
-		factionButton:GetNormalTexture():SetInside()
+		factionButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		factionButton.SetNormalTexture = E.noop
+		factionButton:GetNormalTexture():Size(14)
 		factionButton:SetHighlightTexture(nil)
 
 		factionRow.War = factionRow:CreateTexture(nil, "OVERLAY")
@@ -383,9 +383,9 @@ local function LoadSkin()
 				local _, _, _, _, _, _, atWarWith, canToggleAtWar, isHeader, isCollapsed = GetFactionInfo(factionIndex)
 
 				if isCollapsed then
-					Button:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375)
+					Button:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
 				else
-					Button:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375)
+					Button:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
 				end
 
 				if atWarWith and canToggleAtWar and (not isHeader) then
@@ -416,18 +416,45 @@ local function LoadSkin()
 		for i = 1, GetCurrencyListSize() do
 			local button = _G["TokenFrameContainerButton"..i]
 
-			if(button) then
+			if button then
 				button.highlight:Kill()
 				button.categoryMiddle:Kill()	
 				button.categoryLeft:Kill()	
 				button.categoryRight:Kill()
 
 				button.icon:SetTexCoord(unpack(E.TexCoords))
+
+				button.expandIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+				button.expandIcon:Size(13)
+				button.expandIcon:Point("LEFT", 4, 0)
 			end
 		end
 		TokenFramePopup:StripTextures()
 		TokenFramePopup:SetTemplate("Transparent")
 		TokenFramePopup:Point("TOPLEFT", TokenFrame, "TOPRIGHT", 1, 0)
+	end)
+
+	hooksecurefunc("TokenFrame_Update", function()
+		if not TokenFrameContainer.buttons then return end
+
+		local buttons = TokenFrameContainer.buttons
+		local numButtons = #buttons
+
+		for i = 1, numButtons do
+			local button = buttons[i]
+
+			if button then
+				if button.expandIcon then
+					if button.isHeader then
+						if button.isExpanded then
+							button.expandIcon:SetTexCoord(0.540, 0.965, 0.085, 0.920)
+						else
+							button.expandIcon:SetTexCoord(0.040, 0.465, 0.085, 0.920)
+						end
+					end
+				end
+			end
+		end
 	end)
 
 	S:HandleScrollBar(TokenFrameContainerScrollBar)

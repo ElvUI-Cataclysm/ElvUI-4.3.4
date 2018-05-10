@@ -203,40 +203,40 @@ local function LoadSkin()
 
 	for i = 1, 7 do
 		local warGames = _G["WarGamesFrameScrollFrameButton"..i.."WarGame"]
-		local warGamesHeader = _G["WarGamesFrameScrollFrameButton" .. i .. "Header"];
-		local warGamesIcon = _G["WarGamesFrameScrollFrameButton"..i.."WarGameIcon"];
+		local warGamesHeader = _G["WarGamesFrameScrollFrameButton"..i.."Header"]
+		local warGamesIcon = _G["WarGamesFrameScrollFrameButton"..i.."WarGameIcon"]
 		local warGamesBG = _G["WarGamesFrameScrollFrameButton"..i.."WarGameBg"]
 		local warGamesBorder = _G["WarGamesFrameScrollFrameButton"..i.."WarGameBorder"]
 
-		warGames:StyleButton();
-		warGames.selectedTex:SetTexture(1, 1, 1, 0.3);
+		warGames:StyleButton()
+		warGames.selectedTex:SetTexture(1, 1, 1, 0.3)
 		warGames.selectedTex:SetInside()
-		warGames:CreateBackdrop();
-		warGames.backdrop:SetOutside(warGamesIcon);
+		warGames:CreateBackdrop()
+		warGames.backdrop:SetOutside(warGamesIcon)
 
 		warGamesBG:SetInside()
 		warGamesBorder:Kill()
 
-		warGamesIcon:Point("TOPLEFT", 2, -(E.PixelMode and 2 or 4));
-		warGamesIcon:Size(E.PixelMode and 36 or 32);
-		warGamesIcon:SetParent(warGames.backdrop);
+		warGamesIcon:Point("TOPLEFT", 2, -(E.PixelMode and 2 or 4))
+		warGamesIcon:Size(E.PixelMode and 36 or 32)
+		warGamesIcon:SetParent(warGames.backdrop)
 
-		warGamesHeader:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
-		warGamesHeader.SetNormalTexture = E.noop;
-		warGamesHeader:GetNormalTexture():Size(13);
-		warGamesHeader:GetNormalTexture():Point("LEFT", 3, 0);
-		warGamesHeader:SetHighlightTexture("");
-		warGamesHeader.SetHighlightTexture = E.noop;
+		warGamesHeader:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		warGamesHeader.SetNormalTexture = E.noop
+		warGamesHeader:GetNormalTexture():Size(14)
+		warGamesHeader:GetNormalTexture():Point("LEFT", 3, 0)
+		warGamesHeader:SetHighlightTexture("")
+		warGamesHeader.SetHighlightTexture = E.noop
 
 		hooksecurefunc(warGamesHeader, "SetNormalTexture", function(self, texture)
-			if(find(texture, "MinusButton")) then
-				self:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375);
-			elseif(find(texture, "PlusButton")) then
-				self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375);
- 			end
-		end);
+			if find(texture, "MinusButton") then
+				self:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+			elseif find(texture, "PlusButton") then
+				self:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+			end
+		end)
 	end
-
+	
 	S:HandleButton(PVPBannerFrameCancelButton)
 	PVPBannerFrameCancelButton.backdrop = CreateFrame("Frame", nil, PVPBannerFrameCancelButton)
 	PVPBannerFrameCancelButton.backdrop:SetTemplate("Default", true)

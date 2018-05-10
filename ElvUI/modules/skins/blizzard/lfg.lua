@@ -152,24 +152,24 @@ local function LoadSkin()
 	S:HandleScrollBar(LFDQueueFrameSpecificListScrollFrameScrollBar)
 
 	for i = 1, NUM_LFD_CHOICE_BUTTONS do
-		local button = _G["LFDQueueFrameSpecificListButton" .. i];
-		button.enableButton:StripTextures();
-		button.enableButton:CreateBackdrop("Default");
-		button.enableButton.backdrop:SetInside(nil, 4, 4);
+		local button = _G["LFDQueueFrameSpecificListButton"..i]
+		button.enableButton:StripTextures()
+		button.enableButton:CreateBackdrop("Default")
+		button.enableButton.backdrop:SetInside(nil, 4, 4)
 
-		button.expandOrCollapseButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
-		button.expandOrCollapseButton.SetNormalTexture = E.noop;
-		button.expandOrCollapseButton:SetHighlightTexture(nil);
-		button.expandOrCollapseButton:GetNormalTexture():Size(12);
-		button.expandOrCollapseButton:GetNormalTexture():Point("CENTER", 4, 0);
+		button.expandOrCollapseButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		button.expandOrCollapseButton.SetNormalTexture = E.noop
+		button.expandOrCollapseButton:SetHighlightTexture(nil)
+		button.expandOrCollapseButton:GetNormalTexture():Size(14)
+		button.expandOrCollapseButton:GetNormalTexture():Point("CENTER", 4, 0)
 
 		hooksecurefunc(button.expandOrCollapseButton, "SetNormalTexture", function(self, texture)
-			if(find(texture, "MinusButton")) then
-				self:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375);
+			if find(texture, "MinusButton") then
+				self:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
 			else
-				self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375);
+				self:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
 			end
-		end);
+		end)
  	end
 
 	--LFD Role Picker PopUp Frame
@@ -481,22 +481,22 @@ local function LoadSkin()
 	LFRQueueFrameRoleButtonHealer:Point("LEFT", LFRQueueFrameRoleButtonTank, "RIGHT", 43, 0)
 
 	for i = 1, NUM_LFR_CHOICE_BUTTONS do
-		local button = _G["LFRQueueFrameSpecificListButton" .. i];
-		S:HandleCheckBox(button.enableButton);
+		local button = _G["LFRQueueFrameSpecificListButton"..i]
+		S:HandleCheckBox(button.enableButton)
 
-		button.expandOrCollapseButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
-		button.expandOrCollapseButton.SetNormalTexture = E.noop;
-		button.expandOrCollapseButton:SetHighlightTexture(nil);
-		button.expandOrCollapseButton:GetNormalTexture():Size(12);
-		button.expandOrCollapseButton:GetNormalTexture():Point("CENTER", 4, 0);
+		button.expandOrCollapseButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		button.expandOrCollapseButton.SetNormalTexture = E.noop
+		button.expandOrCollapseButton:SetHighlightTexture(nil)
+		button.expandOrCollapseButton:GetNormalTexture():Size(14)
+		button.expandOrCollapseButton:GetNormalTexture():Point("CENTER", 4, 0)
 
 		hooksecurefunc(button.expandOrCollapseButton, "SetNormalTexture", function(self, texture)
-			if(find(texture, "MinusButton")) then
-				self:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375);
+			if find(texture, "MinusButton") then
+				self:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
 			else
-				self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375);
+				self:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
 			end
-		end);
+		end)
  	end
 
 	-- LFR Browse Frame

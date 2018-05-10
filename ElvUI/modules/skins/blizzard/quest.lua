@@ -414,23 +414,23 @@ local function LoadSkin()
 	QuestNPCModelTextScrollFrameScrollBarScrollDownButton:Size(18, 16)
 
 	for i = 1, #QuestLogScrollFrame.buttons do
-		local questLogTitle = _G["QuestLogScrollFrameButton" .. i];
-		questLogTitle:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
-		questLogTitle.SetNormalTexture = E.noop;
-		questLogTitle:GetNormalTexture():Size(11);
-		questLogTitle:GetNormalTexture():Point("LEFT", 5, 0);
-		questLogTitle:SetHighlightTexture("");
-		questLogTitle.SetHighlightTexture = E.noop;
+		local questLogTitle = _G["QuestLogScrollFrameButton"..i]
+		questLogTitle:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		questLogTitle.SetNormalTexture = E.noop
+		questLogTitle:GetNormalTexture():Size(12)
+		questLogTitle:GetNormalTexture():Point("LEFT", 5, 0)
+		questLogTitle:SetHighlightTexture("")
+		questLogTitle.SetHighlightTexture = E.noop
 
 		hooksecurefunc(questLogTitle, "SetNormalTexture", function(self, texture)
-			if(find(texture, "MinusButton")) then
-				self:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375);
-			elseif(find(texture, "PlusButton")) then
-				self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375);
+			if find(texture, "MinusButton") then
+				self:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+			elseif find(texture, "PlusButton") then
+				self:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
 			else
-				self:GetNormalTexture():SetTexCoord(0, 0, 0, 0);
+				self:GetNormalTexture():SetTexCoord(0, 0, 0, 0)
  			end
-		end);
+		end)
 	end
 end
 

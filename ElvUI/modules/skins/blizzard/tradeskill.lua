@@ -164,7 +164,7 @@ local function LoadSkin()
 		local name = _G["TradeSkillReagent" .. i .. "Name"];
 		local nameFrame = _G["TradeSkillReagent" .. i .. "NameFrame"];
 
-		reagent:SetTemplate("Transparent", true);
+		reagent:SetTemplate("Default")
 		reagent:StyleButton(nil, true);
 		reagent:Size(143, 40)
 
@@ -247,50 +247,50 @@ local function LoadSkin()
 
 	TradeSkillExpandButtonFrame:StripTextures();
 
-	TradeSkillCollapseAllButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
-	TradeSkillCollapseAllButton.SetNormalTexture = E.noop;
-	TradeSkillCollapseAllButton:GetNormalTexture():Point("LEFT", 3, 2);
-	TradeSkillCollapseAllButton:GetNormalTexture():Size(12);
+	TradeSkillCollapseAllButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+	TradeSkillCollapseAllButton.SetNormalTexture = E.noop
+	TradeSkillCollapseAllButton:GetNormalTexture():Point("LEFT", 3, 2)
+	TradeSkillCollapseAllButton:GetNormalTexture():Size(14)
 
-	TradeSkillCollapseAllButton:SetHighlightTexture("");
-	TradeSkillCollapseAllButton.SetHighlightTexture = E.noop;
+	TradeSkillCollapseAllButton:SetHighlightTexture("")
+	TradeSkillCollapseAllButton.SetHighlightTexture = E.noop
 
-	TradeSkillCollapseAllButton:SetDisabledTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
-	TradeSkillCollapseAllButton.SetDisabledTexture = E.noop;
-	TradeSkillCollapseAllButton:GetDisabledTexture():Point("LEFT", 3, 2);
-	TradeSkillCollapseAllButton:GetDisabledTexture():Size(12);
-	TradeSkillCollapseAllButton:GetDisabledTexture():SetTexCoord(0, 0.4375, 0, 0.4375);
-	TradeSkillCollapseAllButton:GetDisabledTexture():SetDesaturated(true);
+	TradeSkillCollapseAllButton:SetDisabledTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+	TradeSkillCollapseAllButton.SetDisabledTexture = E.noop
+	TradeSkillCollapseAllButton:GetDisabledTexture():Point("LEFT", 3, 2)
+	TradeSkillCollapseAllButton:GetDisabledTexture():Size(14)
+	TradeSkillCollapseAllButton:GetDisabledTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+	TradeSkillCollapseAllButton:GetDisabledTexture():SetDesaturated(true)
 
 	hooksecurefunc(TradeSkillCollapseAllButton, "SetNormalTexture", function(self, texture)
-		if(find(texture, "MinusButton")) then
-			self:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375);
+		if find(texture, "MinusButton") then
+			self:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
 		else
-			self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375);
+			self:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
 		end
-	end);
+	end)
 
 	for i = 1, TRADE_SKILLS_DISPLAYED do
-		local skillButton = _G["TradeSkillSkill" .. i];
-		local skillButtonHighlight = _G["TradeSkillSkill"..i.."Highlight"];
+		local skillButton = _G["TradeSkillSkill"..i]
+		local skillButtonHighlight = _G["TradeSkillSkill"..i.."Highlight"]
 
-		skillButton:SetNormalTexture("Interface\\Buttons\\UI-PlusMinus-Buttons");
+		skillButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
 		skillButton.SetNormalTexture = E.noop;
-		skillButton:GetNormalTexture():Size(11);
-		skillButton:GetNormalTexture():Point("LEFT", 3, 1);
+		skillButton:GetNormalTexture():Size(12)
+		skillButton:GetNormalTexture():Point("LEFT", 4, 1)
 
-		skillButtonHighlight:SetTexture("");
-		skillButtonHighlight.SetTexture = E.noop;
+		skillButtonHighlight:SetTexture("")
+		skillButtonHighlight.SetTexture = E.noop
 
 		hooksecurefunc(skillButton, "SetNormalTexture", function(self, texture)
-			if(find(texture, "MinusButton")) then
-				self:GetNormalTexture():SetTexCoord(0.5625, 1, 0, 0.4375);
-			elseif(find(texture, "PlusButton")) then
-				self:GetNormalTexture():SetTexCoord(0, 0.4375, 0, 0.4375);
+			if find(texture, "MinusButton") then
+				self:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+			elseif find(texture, "PlusButton") then
+				self:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
 			else
-				self:GetNormalTexture():SetTexCoord(0, 0, 0, 0);
+				self:GetNormalTexture():SetTexCoord(0, 0, 0, 0)
  			end
-		end);
+		end)
 	end
 
 	--Guild Crafters
