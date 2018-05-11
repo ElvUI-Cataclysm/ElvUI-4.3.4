@@ -236,7 +236,7 @@ local function LoadSkin()
 			end
 		end)
 	end
-	
+
 	S:HandleButton(PVPBannerFrameCancelButton)
 	PVPBannerFrameCancelButton.backdrop = CreateFrame("Frame", nil, PVPBannerFrameCancelButton)
 	PVPBannerFrameCancelButton.backdrop:SetTemplate("Default", true)

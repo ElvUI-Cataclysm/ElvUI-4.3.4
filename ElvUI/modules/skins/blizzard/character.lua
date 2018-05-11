@@ -148,7 +148,7 @@ local function LoadSkin()
 	local function ColorItemBorder()
 		for _, slot in pairs(slots) do
 			local target = _G["Character"..slot]
-			local slotId, _, _ = GetInventorySlotInfo(slot)
+			local slotId = GetInventorySlotInfo(slot)
 			local itemId = GetInventoryItemID("player", slotId)
 
 			if(itemId) then
@@ -412,50 +412,51 @@ local function LoadSkin()
 	ReputationDetailCloseButton:Point("TOPRIGHT", 3, 4)
 
 	--Currency
-	TokenFrame:HookScript("OnShow", function()
-		for i = 1, GetCurrencyListSize() do
-			local button = _G["TokenFrameContainerButton"..i]
+	hooksecurefunc("TokenFrame_Update", function()
+		if not TokenFrameContainer.buttons then return end
 
-			if button then
+		local scrollFrame = TokenFrameContainer
+		local offset = HybridScrollFrame_GetOffset(scrollFrame)
+		local buttons = scrollFrame.buttons
+		local numButtons = #buttons
+		local name, isHeader, isExpanded
+		local button, index
+
+		for i = 1, numButtons do
+			index = offset + i
+			name, isHeader, isExpanded = GetCurrencyListInfo(index)
+			button = buttons[i]
+
+			if button and not button.isSkinned then
 				button.highlight:Kill()
-				button.categoryMiddle:Kill()	
-				button.categoryLeft:Kill()	
+				button.categoryMiddle:Kill()
+				button.categoryLeft:Kill()
 				button.categoryRight:Kill()
 
 				button.icon:SetTexCoord(unpack(E.TexCoords))
 
 				button.expandIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
-				button.expandIcon:Size(13)
+				button.expandIcon:Size(14)
 				button.expandIcon:Point("LEFT", 4, 0)
+
+				button.isSkinned = true
 			end
-		end
-		TokenFramePopup:StripTextures()
-		TokenFramePopup:SetTemplate("Transparent")
-		TokenFramePopup:Point("TOPLEFT", TokenFrame, "TOPRIGHT", 1, 0)
-	end)
 
-	hooksecurefunc("TokenFrame_Update", function()
-		if not TokenFrameContainer.buttons then return end
-
-		local buttons = TokenFrameContainer.buttons
-		local numButtons = #buttons
-
-		for i = 1, numButtons do
-			local button = buttons[i]
-
-			if button then
-				if button.expandIcon then
-					if button.isHeader then
-						if button.isExpanded then
-							button.expandIcon:SetTexCoord(0.540, 0.965, 0.085, 0.920)
-						else
-							button.expandIcon:SetTexCoord(0.040, 0.465, 0.085, 0.920)
-						end
+			if name or name == "" then
+				if isHeader then
+					if isExpanded then
+						button.expandIcon:SetTexCoord(0.540, 0.965, 0.085, 0.920)
+					else
+						button.expandIcon:SetTexCoord(0.040, 0.465, 0.085, 0.920)
 					end
 				end
 			end
 		end
 	end)
+
+	TokenFramePopup:StripTextures()
+	TokenFramePopup:SetTemplate("Transparent")
+	TokenFramePopup:Point("TOPLEFT", TokenFrame, "TOPRIGHT", 1, 0)
 
 	S:HandleScrollBar(TokenFrameContainerScrollBar)
 
