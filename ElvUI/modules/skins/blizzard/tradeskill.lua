@@ -16,15 +16,10 @@ local hooksecurefunc = hooksecurefunc
 local function LoadSkin()
 	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tradeskill ~= true) then return end
 
-	local TradeSkillFrame = _G["TradeSkillFrame"]
-	TradeSkillFrame:StripTextures(true)
-	TradeSkillFrameInset:StripTextures()
-	TradeSkillListScrollFrame:StripTextures()
-	TradeSkillDetailScrollFrame:StripTextures()
-	TradeSkillDetailScrollChildFrame:StripTextures()
-
 	TRADE_SKILLS_DISPLAYED = 26
 
+	local TradeSkillFrame = _G["TradeSkillFrame"]
+	TradeSkillFrame:StripTextures(true)
 	TradeSkillFrame:SetAttribute("UIPanelLayout-width", E:Scale(720))
 	TradeSkillFrame:SetAttribute("UIPanelLayout-height", E:Scale(508))
 	TradeSkillFrame:Size(720, 508)
@@ -45,6 +40,8 @@ local function LoadSkin()
 	TradeSkillFrame.bg2:Point("BOTTOMRIGHT", TradeSkillFrame, "BOTTOMRIGHT", -64, 4)
 	TradeSkillFrame.bg2:SetFrameLevel(TradeSkillFrame.bg2:GetFrameLevel() - 1)
 
+	TradeSkillFrameInset:StripTextures()
+
 	TradeSkillRankFrame:Size(447, 17)
 	TradeSkillRankFrame:ClearAllPoints()
 	TradeSkillRankFrame:Point("TOP", 0, -25)
@@ -56,10 +53,12 @@ local function LoadSkin()
 
 	TradeSkillFilterButton:Size(65, 22)
 
+	TradeSkillListScrollFrame:StripTextures()
 	TradeSkillListScrollFrame:Size(285, 405)
 	TradeSkillListScrollFrame:ClearAllPoints()
 	TradeSkillListScrollFrame:Point("TOPLEFT", 17, -95)
 
+	TradeSkillDetailScrollFrame:StripTextures()
 	TradeSkillDetailScrollFrame:Size(300, 381)
 	TradeSkillDetailScrollFrame:ClearAllPoints()
 	TradeSkillDetailScrollFrame:Point("TOPRIGHT", TradeSkillFrame, -90, -95)
@@ -69,6 +68,7 @@ local function LoadSkin()
 		CreateFrame("Button", "TradeSkillSkill"..i, TradeSkillFrame, "TradeSkillSkillButtonTemplate"):Point("TOPLEFT", _G["TradeSkillSkill"..i - 1], "BOTTOMLEFT")
 	end
 
+	TradeSkillDetailScrollChildFrame:StripTextures()
 	TradeSkillDetailScrollChildFrame:Size(300, 150)
 
 	TradeSkillSkillName:Point("TOPLEFT", 65, -20)
@@ -173,9 +173,6 @@ local function LoadSkin()
 	TradeSkillReagent4:Point("LEFT", TradeSkillReagent3, "RIGHT", 3, 0);
 	TradeSkillReagent6:Point("LEFT", TradeSkillReagent5, "RIGHT", 3, 0);
 	TradeSkillReagent8:Point("LEFT", TradeSkillReagent7, "RIGHT", 3, 0);
-
-	TradeSkillSkillIcon:StyleButton(nil, true);
-	TradeSkillSkillIcon:SetTemplate();
 
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(id)
 		TradeSkillRankFrame:SetStatusBarColor(0.11, 0.50, 1.00);
