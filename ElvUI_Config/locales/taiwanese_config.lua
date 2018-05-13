@@ -721,7 +721,6 @@ L["Alert Frames"] = "警報"
 L["Archaeology Frame"] = "考古學框架"
 L["BG Map"] = "戰場地圖"
 L["BG Score"] = "戰場積分"
-L["Bigger Tradeskill"] = true
 L["Calendar Frame"] = "行事曆"
 L["Character Frame"] = "角色"
 L["Debug Tools"] = "除錯工具"

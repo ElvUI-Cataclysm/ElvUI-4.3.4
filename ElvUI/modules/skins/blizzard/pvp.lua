@@ -244,7 +244,7 @@ local function LoadSkin()
 	PVPBannerFrameCancelButton.backdrop:Point("TOPLEFT", PVPBannerFrameAcceptButton, "TOPLEFT", PVPBannerFrame:GetWidth() - PVPBannerFrameAcceptButton:GetWidth() -10, 0)
 	PVPBannerFrameCancelButton.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameAcceptButton, "BOTTOMRIGHT", PVPBannerFrame:GetWidth() - PVPBannerFrameAcceptButton:GetWidth() -10, 0)
 
-	local factionGroup = UnitFactionGroup("player");
+	local factionGroup = E.myfaction
 
 	if(PVPFrameCurrencyIcon) then
 		PVPFrameCurrency:CreateBackdrop()

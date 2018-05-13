@@ -1728,7 +1728,7 @@ function CH:SaveChatHistory(event, ...)
 	temp = nil -- Destory!
 end
 
-function CH:ChatFrame_AddMessageEventFilter (event, filter)
+function CH:ChatFrame_AddMessageEventFilter(event, filter)
 	assert(event and filter)
 
 	if (chatFilters[event]) then
@@ -1745,7 +1745,7 @@ function CH:ChatFrame_AddMessageEventFilter (event, filter)
 	tinsert(chatFilters[event], filter)
 end
 
-function CH:ChatFrame_RemoveMessageEventFilter (event, filter)
+function CH:ChatFrame_RemoveMessageEventFilter(event, filter)
 	assert(event and filter)
 
 	if (chatFilters[event]) then

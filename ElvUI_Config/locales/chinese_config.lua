@@ -720,7 +720,6 @@ L["Alert Frames"] = "警报"
 L["Archaeology Frame"] = "考古学框架"
 L["BG Map"] = "战场地图"
 L["BG Score"] = "战场记分"
-L["Bigger Tradeskill"] = true
 L["Calendar Frame"] = "日历框架"
 L["Character Frame"] = "角色"
 L["Debug Tools"] = "除错工具"

@@ -436,7 +436,7 @@ local function LoadSkin()
 				button.icon:SetTexCoord(unpack(E.TexCoords))
 
 				button.expandIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
-				button.expandIcon:Size(14)
+				button.expandIcon:Size(15)
 				button.expandIcon:Point("LEFT", 4, 0)
 
 				button.isSkinned = true

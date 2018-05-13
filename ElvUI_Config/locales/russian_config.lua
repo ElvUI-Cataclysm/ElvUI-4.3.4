@@ -721,7 +721,6 @@ L["Alert Frames"] = "Предупреждения"
 L["Archaeology Frame"] = "Археология"
 L["BG Map"] = "Карта ПБ"
 L["BG Score"] = "Таблица ПБ"
-L["Bigger Tradeskill"] = true
 L["Calendar Frame"] = "Календарь"
 L["Character Frame"] = "Окно персонажа"
 L["Debug Tools"] = "Инструменты отладки"

@@ -721,7 +721,6 @@ L["Alert Frames"] = "Alertas"
 L["Archaeology Frame"] = "Arqueologia"
 L["BG Map"] = "Mapa do CB"
 L["BG Score"] = "Placar do CB"
-L["Bigger Tradeskill"] = true
 L["Calendar Frame"] = "Calendário"
 L["Character Frame"] = "Personagem"
 L["Debug Tools"] = "Ferramentas de Depuração"

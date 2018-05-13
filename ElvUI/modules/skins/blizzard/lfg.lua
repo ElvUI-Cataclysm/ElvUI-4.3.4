@@ -220,26 +220,35 @@ local function LoadSkin()
 		_G[lfgSearchStatusIcons[i]].backdrop:Point("TOPLEFT", 5, -5)
 		_G[lfgSearchStatusIcons[i]].backdrop:Point("BOTTOMRIGHT", -5, 5)
 
-		_G[lfgSearchStatusIcons[i]].icon = _G[lfgSearchStatusIcons[i]]:CreateTexture(nil, "ARTWORK")
-		_G[lfgSearchStatusIcons[i]].icon:SetTexCoord(unpack(E.TexCoords))
-		_G[lfgSearchStatusIcons[i]].icon:SetInside(_G[lfgSearchStatusIcons[i]].backdrop)
+		_G[lfgSearchStatusIcons[i]].texture:SetTexCoord(unpack(E.TexCoords))
+		_G[lfgSearchStatusIcons[i]].texture:SetInside(_G[lfgSearchStatusIcons[i]].backdrop)
 	end
 
-	LFGSearchStatusIndividualRoleDisplayTank1.icon:SetTexture("Interface\\Icons\\Ability_Defend")
-	LFGSearchStatusIndividualRoleDisplayHealer1.icon:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH")
-	LFGSearchStatusIndividualRoleDisplayDamage1.icon:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
-	LFGSearchStatusIndividualRoleDisplayDamage2.icon:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
-	LFGSearchStatusIndividualRoleDisplayDamage3.icon:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
+	LFGSearchStatusIndividualRoleDisplayTank1Texture:SetTexture("Interface\\Icons\\Ability_Defend")
+	LFGSearchStatusIndividualRoleDisplayHealer1Texture:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH")
+	LFGSearchStatusIndividualRoleDisplayDamage1Texture:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
+	LFGSearchStatusIndividualRoleDisplayDamage2Texture:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
+	LFGSearchStatusIndividualRoleDisplayDamage3Texture:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
 
-	hooksecurefunc("LFGSearchStatusPlayer_SetFound", function(button, isFound)
-		if(button.icon) then
-			if(isFound) then
-				button.icon:SetDesaturated(false);
-			else
-				button.icon:SetDesaturated(true);
-			end
-		end
-	end)
+	local lfgSearchStatusGroupedIcons = {
+		"LFGSearchStatusGroupedRoleDisplayTank",
+		"LFGSearchStatusGroupedRoleDisplayHealer",
+		"LFGSearchStatusGroupedRoleDisplayDamage"
+,	}
+
+	for i = 1, #lfgSearchStatusGroupedIcons do
+		_G[lfgSearchStatusGroupedIcons[i]]:StripTextures()
+		_G[lfgSearchStatusGroupedIcons[i]]:CreateBackdrop()
+		_G[lfgSearchStatusGroupedIcons[i]].backdrop:Point("TOPLEFT", 5, -5)
+		_G[lfgSearchStatusGroupedIcons[i]].backdrop:Point("BOTTOMRIGHT", -5, 5)
+
+		_G[lfgSearchStatusGroupedIcons[i]].texture:SetTexCoord(unpack(E.TexCoords))
+		_G[lfgSearchStatusGroupedIcons[i]].texture:SetInside(_G[lfgSearchStatusGroupedIcons[i]].backdrop)
+	end
+
+	LFGSearchStatusGroupedRoleDisplayTankTexture:SetTexture("Interface\\Icons\\Ability_Defend")
+	LFGSearchStatusGroupedRoleDisplayHealerTexture:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH")
+	LFGSearchStatusGroupedRoleDisplayDamageTexture:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
 
 	hooksecurefunc("LFGSearchStatus_UpdateRoles", function()
 		local _, tank, healer, damage = GetLFGRoles();

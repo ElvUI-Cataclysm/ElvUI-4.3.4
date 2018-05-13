@@ -721,7 +721,6 @@ L["Alert Frames"] = "Fenêtre d'Alerte"
 L["Archaeology Frame"] = "Fenêtre d'Archéologie"
 L["BG Map"] = "Carte Champs de bataille"
 L["BG Score"] = "Scores Champs de bataille"
-L["Bigger Tradeskill"] = true
 L["Calendar Frame"] = "Fenêtre du Calendrier"
 L["Character Frame"] = "Fenêtre du Personnage"
 L["Debug Tools"] = "Outils de débogage"
