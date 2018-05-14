@@ -2083,6 +2083,14 @@ P["unitframe"] = {
 				["position"] = "BOTTOM",
 				["xOffset"] = 0,
 				["yOffset"] = 2,
+			},
+			["resurrectIcon"] = {
+				["enable"] = true,
+				["size"] = 30,
+				["attachTo"] = "CENTER",
+				["attachToObject"] = "Frame",
+				["xOffset"] = 0,
+				["yOffset"] = 0
 			}
 		},
 		["raid"] = {
@@ -2248,6 +2256,14 @@ P["unitframe"] = {
 				["position"] = "BOTTOM",
 				["xOffset"] = 0,
 				["yOffset"] = 2,
+			},
+			["resurrectIcon"] = {
+				["enable"] = true,
+				["size"] = 30,
+				["attachTo"] = "CENTER",
+				["attachToObject"] = "Frame",
+				["xOffset"] = 0,
+				["yOffset"] = 0
 			}
 		},
 		["raid40"] = {
@@ -2413,6 +2429,14 @@ P["unitframe"] = {
 				["position"] = "BOTTOM",
 				["xOffset"] = 0,
 				["yOffset"] = 2,
+			},
+			["resurrectIcon"] = {
+				["enable"] = true,
+				["size"] = 30,
+				["attachTo"] = "CENTER",
+				["attachToObject"] = "Frame",
+				["xOffset"] = 0,
+				["yOffset"] = 0
 			}
 		},
 		["raidpet"] = {
