@@ -2,15 +2,17 @@ local E, L, V, P, G = unpack(ElvUI)
 local NP = E:GetModule("NamePlates")
 local ACD = LibStub("AceConfigDialog-3.0-ElvUI")
 
-local next = next
-local ipairs = ipairs
-local tremove = tremove
-local tinsert = tinsert
-local tsort = table.sort
-local tonumber = tonumber
-local tconcat = table.concat
-local format = string.format
-local pairs, type, strsplit, match, gsub = pairs, type, strsplit, string.match, string.gsub
+local next, ipairs, pairs, type, tonumber = next, ipairs, pairs, type, tonumber
+local tremove, tinsert, tsort, tconcat = tremove, tinsert, table.sort, table.concat
+local format, match, gsub, strsplit = string.format, string.match, string.gsub, strsplit
+
+local GetSpellInfo = GetSpellInfo
+local DUNGEON_DIFFICULTY, PLAYER_DIFFICULTY1, PLAYER_DIFFICULTY2, PLAYER_DIFFICULTY3 = DUNGEON_DIFFICULTY, PLAYER_DIFFICULTY1, PLAYER_DIFFICULTY2, PLAYER_DIFFICULTY3
+local FACTION_STANDING_LABEL2, FACTION_STANDING_LABEL4, FACTION_STANDING_LABEL5 = FACTION_STANDING_LABEL2, FACTION_STANDING_LABEL4, FACTION_STANDING_LABEL5
+local SPEED, DISABLE, HEALTH, LEVEL, NONE, COMBAT, FILTERS = SPEED, DISABLE, HEALTH, LEVEL, NONE, COMBAT, FILTERS
+local ARENA, RAID, DUNGEONS, BATTLEFIELDS = ARENA, RAID, DUNGEONS, BATTLEFIELDS
+local ROLE, TANK, HEALER, DAMAGER, COLOR = ROLE, TANK, HEALER, DAMAGER, COLOR
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
 local selectedNameplateFilter
 
@@ -428,7 +430,7 @@ local function UpdateFilterGroup()
 							set = function(info, value)
 								E.global.nameplates.filters[selectedNameplateFilter].triggers.isTarget = value
 								NP:ConfigureAll()
-							end,
+							end
 						},
 						notTarget = {
 							order = 2,
@@ -476,7 +478,7 @@ local function UpdateFilterGroup()
 							set = function(info, value)
 								E.global.nameplates.filters[selectedNameplateFilter].triggers.casting.notInterruptible = value
 								NP:ConfigureAll()
-							end,
+							end
 						},
 						spacer2 = {
 							order = 3,
@@ -581,7 +583,7 @@ local function UpdateFilterGroup()
 							set = function(info, value)
 								E.global.nameplates.filters[selectedNameplateFilter].triggers.role.healer = value
 								NP:ConfigureAll()
-							end,
+							end
 						},
 						damager = {
 							order = 3,
@@ -1225,7 +1227,7 @@ local function UpdateFilterGroup()
 						party = {
 							order = 2,
 							type = "toggle",
-							name = PARTY,
+							name = DUNGEONS,
 							get = function(info)
 								return E.global.nameplates.filters[selectedNameplateFilter].triggers.instanceType.party
 							end,
@@ -2352,7 +2354,7 @@ E.Options.args.nameplate = {
 							set = function(info, value)
 								E.db.nameplates[ info[#info] ] = value
 								NP:PLAYER_REGEN_ENABLED()
-							end,
+							end
 						},
 						showFriendlyCombat = {
 							order = 6,
@@ -2458,7 +2460,7 @@ E.Options.args.nameplate = {
 									order = 7,
 									type = "toggle",
 									name = L["Always Show Target Health"],
-									customWidth = 200,
+									customWidth = 200
 								}
 							}
 						}
@@ -2686,7 +2688,7 @@ E.Options.args.nameplate = {
 						spacer = {
 							order = 7,
 							type = "description",
-							name = "",
+							name = ""
 						},
 						goodColor = {
 							order = 8,
