@@ -106,7 +106,7 @@ local function LoadSkin()
 	end
 
 	for i = 1, 6 do
-		_G["PVPTeamManagementFrameTeamMemberButton"..i]:StyleButton()
+		StyleButton(_G["PVPTeamManagementFrameTeamMemberButton"..i])
 		_G["PVPTeamManagementFrameTeamMemberButton"..i.."ClassIcon"]:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
 	end
 
@@ -136,8 +136,8 @@ local function LoadSkin()
 	S:HandleScrollBar(PVPTeamManagementFrameTeamScrollFrameScrollBar)
 	S:HandleScrollBar(PVPHonorFrameTypeScrollFrameScrollBar)
 
-	PVPConquestFrameConquestButtonArena:StyleButton()
-	PVPConquestFrameConquestButtonRated:StyleButton()
+	StyleButton(PVPConquestFrameConquestButtonArena)
+	StyleButton(PVPConquestFrameConquestButtonRated)
 
 	PVPFrameConquestBar:CreateBackdrop("Default")
 	PVPFrameConquestBar.backdrop:Point("TOPLEFT", PVPFrameConquestBar.progress, "TOPLEFT", -1, 1)

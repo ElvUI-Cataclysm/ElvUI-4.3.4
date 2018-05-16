@@ -1,15 +1,15 @@
-local E, L, V, P, G = unpack(select(2, ...));
+local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
-local _G = _G;
-local pairs, unpack, select = pairs, unpack, select;
-local find = string.find;
+local _G = _G
+local pairs, unpack, select = pairs, unpack, select
+local find = string.find
 
 local GetLFGProposal = GetLFGProposal
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
-	if(E.private.skins.blizzard.enable ~= true) or (E.private.skins.blizzard.lfg ~= true) then return; end
+	if (E.private.skins.blizzard.enable ~= true) or (E.private.skins.blizzard.lfg ~= true) then return end
 
 	-- LFD Frames
 	local buttons = {
@@ -18,43 +18,43 @@ local function LoadSkin()
 		"LFDQueueFramePartyBackfillBackfillButton",
 		"LFDQueueFramePartyBackfillNoBackfillButton",
 		"LFDQueueFrameNoLFDWhileLFRLeaveQueueButton"
-	};
+	}
 
 	for i = 1, #buttons do
-		_G[buttons[i]]:StripTextures();
-		S:HandleButton(_G[buttons[i]]);
+		_G[buttons[i]]:StripTextures()
+		S:HandleButton(_G[buttons[i]])
 	end
 
-	LFDQueueFrame:StripTextures();
-	LFDQueueFrameRandom:StripTextures();
-	LFDQueueFrameRandomScrollFrame:StripTextures();
+	LFDQueueFrame:StripTextures()
+	LFDQueueFrameRandom:StripTextures()
+	LFDQueueFrameRandomScrollFrame:StripTextures()
 
-	LFDParentFrame:StripTextures();
-	LFDParentFrame:SetTemplate("Transparent");
+	LFDParentFrame:StripTextures()
+	LFDParentFrame:SetTemplate("Transparent")
 
-	S:HandleCloseButton(LFDParentFrameCloseButton, LFDParentFrame);
+	S:HandleCloseButton(LFDParentFrameCloseButton, LFDParentFrame)
 
-	LFDQueueFrameBackground:Kill();
-	LFDParentFrameInset:Kill();
-	LFDParentFrameEyeFrame:Kill();
+	LFDQueueFrameBackground:Kill()
+	LFDParentFrameInset:Kill()
+	LFDParentFrameEyeFrame:Kill()
 
-	S:HandleDropDownBox(LFDQueueFrameTypeDropDown, 300);
-	LFDQueueFrameTypeDropDown:Point("RIGHT", -10, 0);
+	S:HandleDropDownBox(LFDQueueFrameTypeDropDown, 300)
+	LFDQueueFrameTypeDropDown:Point("RIGHT", -10, 0)
 
 	-- LFD Cap Bar
-	LFDQueueFrameCapBar.label:Point("CENTER", 12, 0);
-	LFDQueueFrameCapBar:Point("LEFT", 40, 0);
+	LFDQueueFrameCapBar.label:Point("CENTER", 12, 0)
+	LFDQueueFrameCapBar:Point("LEFT", 40, 0)
 
-	LFDQueueFrameCapBar:StripTextures();
-	LFDQueueFrameCapBar:CreateBackdrop("Default");
-	LFDQueueFrameCapBar.backdrop:Point("TOPLEFT", LFDQueueFrameCapBar, "TOPLEFT", -1, -2);
-	LFDQueueFrameCapBar.backdrop:Point("BOTTOMRIGHT", LFDQueueFrameCapBar, "BOTTOMRIGHT", 1, 2);
+	LFDQueueFrameCapBar:StripTextures()
+	LFDQueueFrameCapBar:CreateBackdrop("Default")
+	LFDQueueFrameCapBar.backdrop:Point("TOPLEFT", LFDQueueFrameCapBar, "TOPLEFT", -1, -2)
+	LFDQueueFrameCapBar.backdrop:Point("BOTTOMRIGHT", LFDQueueFrameCapBar, "BOTTOMRIGHT", 1, 2)
 
-	LFDQueueFrameCapBarProgress:SetTexture(E["media"].normTex);
+	LFDQueueFrameCapBarProgress:SetTexture(E["media"].normTex)
 
 	for i = 1, 2 do
-		_G["LFDQueueFrameCapBarCap"..i.."Marker"]:Kill();
-		_G["LFDQueueFrameCapBarCap"..i]:SetTexture(E["media"].normTex);
+		_G["LFDQueueFrameCapBarCap"..i.."Marker"]:Kill()
+		_G["LFDQueueFrameCapBarCap"..i]:SetTexture(E["media"].normTex)
 	end
 
 	-- LFD Role Icons
@@ -74,19 +74,18 @@ local function LoadSkin()
 		_G[lfdRoleIcons[i]].backdrop:Point("TOPLEFT", 3, -3)
 		_G[lfdRoleIcons[i]].backdrop:Point("BOTTOMRIGHT", -3, 3)
 
-		_G[lfdRoleIcons[i]].icon = _G[lfdRoleIcons[i]]:CreateTexture(nil, "ARTWORK")
-		_G[lfdRoleIcons[i]].icon:SetTexCoord(unpack(E.TexCoords))
-		_G[lfdRoleIcons[i]].icon:SetInside(_G[lfdRoleIcons[i]].backdrop)
+		_G[lfdRoleIcons[i]]:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
+		_G[lfdRoleIcons[i]]:GetNormalTexture():SetInside(_G[lfdRoleIcons[i]].backdrop)
 	end
 
 	LFDQueueFrameRoleButtonTank:Point("BOTTOMLEFT", LFDQueueFrame, "BOTTOMLEFT", 25, 334)
 	LFDQueueFrameRoleButtonHealer:Point("LEFT", LFDQueueFrameRoleButtonTank,"RIGHT", 23, 0)
 	LFDQueueFrameRoleButtonLeader:Point("LEFT", LFDQueueFrameRoleButtonDPS, "RIGHT", 50, 0)
 
-	LFDQueueFrameRoleButtonTank.icon:SetTexture("Interface\\Icons\\Ability_Defend")
-	LFDQueueFrameRoleButtonHealer.icon:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH")
-	LFDQueueFrameRoleButtonDPS.icon:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
-	LFDQueueFrameRoleButtonLeader.icon:SetTexture("Interface\\Icons\\Ability_Vehicle_LaunchPlayer")
+	LFDQueueFrameRoleButtonTank:SetNormalTexture("Interface\\Icons\\Ability_Defend")
+	LFDQueueFrameRoleButtonHealer:SetNormalTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH")
+	LFDQueueFrameRoleButtonDPS:SetNormalTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
+	LFDQueueFrameRoleButtonLeader:SetNormalTexture("Interface\\Icons\\Ability_Vehicle_LaunchPlayer")
 
 	-- LFD Rewards
 	hooksecurefunc("LFDQueueFrameRandom_UpdateFrame", function()
@@ -95,50 +94,53 @@ local function LoadSkin()
 		local _, _, _, _, _, numRewards = GetLFGDungeonRewards(dungeonID)
 
 		for i = 1, LFD_MAX_REWARDS do
-			local button = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i];
-			local icon = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "IconTexture"];
-			local count = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "Count"];
-			local name  = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "Name"];
-			local role1 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "RoleIcon1"];
-			local role2 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "RoleIcon2"];
-			local role3 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem" .. i .. "RoleIcon3"];
+			local button = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i]
+			local icon = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."IconTexture"]
+			local count = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."Count"]
+			local name  = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."Name"]
+			local role1 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."RoleIcon1"]
+			local role2 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."RoleIcon2"]
+			local role3 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."RoleIcon3"]
 
-			if(button and not button.reskinned) then
+			if button and not button.isSkinned then
 				local __texture = _G[button:GetName().."IconTexture"]:GetTexture()
 
-				button:StripTextures();
-				button:CreateBackdrop();
-				button.backdrop:SetOutside(icon);
+				button:StripTextures()
+				button:CreateBackdrop()
+				button.backdrop:SetOutside(icon)
 
 				icon:SetTexture(__texture)
-				icon:SetTexCoord(unpack(E.TexCoords));
-				icon:SetParent(button.backdrop);
-				icon.SetPoint = E.noop;
+				icon:SetTexCoord(unpack(E.TexCoords))
+				icon:SetParent(button.backdrop)
+				icon.SetPoint = E.noop
 
-				icon:SetDrawLayer("OVERLAY");
-				count:SetDrawLayer("OVERLAY");
+				icon:SetDrawLayer("OVERLAY")
 
-				if(count) then count:SetParent(button.backdrop); end
-				if(role1) then role1:SetParent(button.backdrop); end
-				if(role2) then role2:SetParent(button.backdrop); end
-				if(role3) then role3:SetParent(button.backdrop); end
+				if count then
+					count:SetParent(button.backdrop)
+					count:SetDrawLayer("OVERLAY")
+				end
+
+				if role1 then role1:SetParent(button.backdrop) end
+				if role2 then role2:SetParent(button.backdrop) end
+				if role3 then role3:SetParent(button.backdrop) end
 
 				button:HookScript("OnUpdate", function(self)
-					button.backdrop:SetBackdropBorderColor(0, 0, 0);
-					name:SetTextColor(1, 1, 1);
-					if(button.dungeonID) then
-						local Link = GetLFGDungeonRewardLink(button.dungeonID, i);
-						if(Link) then
-							local quality = select(3, GetItemInfo(Link));
-							if(quality and quality > 1) then
-								button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality));
-								name:SetTextColor(GetItemQualityColor(quality));
+					button.backdrop:SetBackdropBorderColor(0, 0, 0)
+					name:SetTextColor(1, 1, 1)
+					if button.dungeonID then
+						local link = GetLFGDungeonRewardLink(button.dungeonID, i)
+						if link then
+							local quality = select(3, GetItemInfo(link))
+							if quality and quality > 1 then
+								button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
+								name:SetTextColor(GetItemQualityColor(quality))
 							end
 						end
 					end
 				end)
 
-				button.reskinned = true;
+				button.isSkinned = true
 			end
 		end
 	end)
@@ -173,11 +175,11 @@ local function LoadSkin()
  	end
 
 	--LFD Role Picker PopUp Frame
-	LFDRoleCheckPopup:StripTextures();
-	LFDRoleCheckPopup:SetTemplate("Transparent");
+	LFDRoleCheckPopup:StripTextures()
+	LFDRoleCheckPopup:SetTemplate("Transparent")
 
-	S:HandleButton(LFDRoleCheckPopupAcceptButton);
-	S:HandleButton(LFDRoleCheckPopupDeclineButton);
+	S:HandleButton(LFDRoleCheckPopupAcceptButton)
+	S:HandleButton(LFDRoleCheckPopupDeclineButton)
 
 	local roleCheckPopUp = {
 		"LFDRoleCheckPopupRoleButtonTank",
@@ -194,17 +196,16 @@ local function LoadSkin()
 		_G[roleCheckPopUp[i]].backdrop:Point("TOPLEFT", 7, -7)
 		_G[roleCheckPopUp[i]].backdrop:Point("BOTTOMRIGHT", -7, 7)
 
-		_G[roleCheckPopUp[i]].icon = _G[roleCheckPopUp[i]]:CreateTexture(nil, "ARTWORK")
-		_G[roleCheckPopUp[i]].icon:SetTexCoord(unpack(E.TexCoords))
-		_G[roleCheckPopUp[i]].icon:SetInside(_G[roleCheckPopUp[i]].backdrop)
+		_G[roleCheckPopUp[i]]:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
+		_G[roleCheckPopUp[i]]:GetNormalTexture():SetInside(_G[roleCheckPopUp[i]].backdrop)
 	end
 
-	LFDRoleCheckPopupRoleButtonTank.icon:SetTexture("Interface\\Icons\\Ability_Defend")
-	LFDRoleCheckPopupRoleButtonHealer.icon:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH")
-	LFDRoleCheckPopupRoleButtonDPS.icon:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
+	LFDRoleCheckPopupRoleButtonTank:SetNormalTexture("Interface\\Icons\\Ability_Defend")
+	LFDRoleCheckPopupRoleButtonHealer:SetNormalTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH")
+	LFDRoleCheckPopupRoleButtonDPS:SetNormalTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
 
 	--LFG Search Status
-	LFGSearchStatus:SetTemplate("Transparent");
+	LFGSearchStatus:SetTemplate("Transparent")
 
 	local lfgSearchStatusIcons = {
 		"LFGSearchStatusIndividualRoleDisplayTank1",
@@ -251,96 +252,96 @@ local function LoadSkin()
 	LFGSearchStatusGroupedRoleDisplayDamageTexture:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
 
 	hooksecurefunc("LFGSearchStatus_UpdateRoles", function()
-		local _, tank, healer, damage = GetLFGRoles();
-		local currentIcon = 1;
-		if(tank) then
+		local _, tank, healer, damage = GetLFGRoles()
+		local currentIcon = 1
+		if tank then
 			local icon = _G["LFGSearchStatusRoleIcon"..currentIcon]
 			icon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\tank.tga")
-			icon:SetTexCoord(unpack(E.TexCoords));
+			icon:SetTexCoord(unpack(E.TexCoords))
 			icon:Size(22)
-			currentIcon = currentIcon + 1;
+			currentIcon = currentIcon + 1
 		end
-		if(healer) then
+		if healer then
 			local icon = _G["LFGSearchStatusRoleIcon"..currentIcon]
 			icon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\healer.tga")
-			icon:SetTexCoord(unpack(E.TexCoords));
+			icon:SetTexCoord(unpack(E.TexCoords))
 			icon:Size(20)
-			currentIcon = currentIcon + 1;
+			currentIcon = currentIcon + 1
 		end
-		if(damage) then
+		if damage then
 			local icon = _G["LFGSearchStatusRoleIcon"..currentIcon]
 			icon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\dps.tga")
-			icon:SetTexCoord(unpack(E.TexCoords));
+			icon:SetTexCoord(unpack(E.TexCoords))
 			icon:Size(17)
-			currentIcon = currentIcon + 1;
+			currentIcon = currentIcon + 1
 		end
 	end)
 
 	--LFG Ready Dialog
-	LFGDungeonReadyDialogBackground:Kill();
-	LFGDungeonReadyDialog:SetTemplate("Transparent");
-	LFGDungeonReadyDialog.SetBackdrop = E.noop;
-	LFGDungeonReadyDialog.filigree:SetAlpha(0);
-	LFGDungeonReadyDialog.bottomArt:SetAlpha(0);
+	LFGDungeonReadyDialogBackground:Kill()
+	LFGDungeonReadyDialog:SetTemplate("Transparent")
+	LFGDungeonReadyDialog.SetBackdrop = E.noop
+	LFGDungeonReadyDialog.filigree:SetAlpha(0)
+	LFGDungeonReadyDialog.bottomArt:SetAlpha(0)
 
-	S:HandleButton(LFGDungeonReadyDialogLeaveQueueButton);
-	S:HandleButton(LFGDungeonReadyDialogEnterDungeonButton);
+	S:HandleButton(LFGDungeonReadyDialogLeaveQueueButton)
+	S:HandleButton(LFGDungeonReadyDialogEnterDungeonButton)
 
-	S:HandleCloseButton(LFGDungeonReadyDialogCloseButton);
-	LFGDungeonReadyDialogCloseButton.text:SetText("-");
-	LFGDungeonReadyDialogCloseButton.text:FontTemplate(nil, 22);
+	S:HandleCloseButton(LFGDungeonReadyDialogCloseButton)
+	LFGDungeonReadyDialogCloseButton.text:SetText("-")
+	LFGDungeonReadyDialogCloseButton.text:FontTemplate(nil, 22)
 
 	hooksecurefunc("LFGDungeonReadyDialog_UpdateRewards", function()
 		for i = 1, LFG_ROLE_NUM_SHORTAGE_TYPES do
-			local reward = _G["LFGDungeonReadyDialogRewardsFrameReward" .. i];
-			local texture = _G["LFGDungeonReadyDialogRewardsFrameReward" .. i .. "Texture"];
-			local border = _G["LFGDungeonReadyDialogRewardsFrameReward" .. i .. "Border"];
+			local reward = _G["LFGDungeonReadyDialogRewardsFrameReward"..i]
+			local texture = _G["LFGDungeonReadyDialogRewardsFrameReward"..i.."Texture"]
+			local border = _G["LFGDungeonReadyDialogRewardsFrameReward"..i.."Border"]
 
-			if(reward and not reward.IsDone) then
+			if reward and not reward.isSkinned then
 				border:Kill()
-				reward:CreateBackdrop();
-				reward.backdrop:Point("TOPLEFT", 7, -7);
-				reward.backdrop:Point("BOTTOMRIGHT", -7, 7);
+				reward:CreateBackdrop()
+				reward.backdrop:Point("TOPLEFT", 7, -7)
+				reward.backdrop:Point("BOTTOMRIGHT", -7, 7)
 
-				texture:SetTexCoord(unpack(E.TexCoords));
-				texture:SetInside(reward.backdrop);
+				texture:SetTexCoord(unpack(E.TexCoords))
+				texture:SetInside(reward.backdrop)
 
-				reward.IsDone = true;
+				reward.isSkinned = true
 			end
 		end
 	end)
 
-	LFGDungeonReadyDialogRoleIcon:StripTextures();
-	LFGDungeonReadyDialogRoleIcon:CreateBackdrop();
-	LFGDungeonReadyDialogRoleIcon.backdrop:Point("TOPLEFT", 7, -7);
-	LFGDungeonReadyDialogRoleIcon.backdrop:Point("BOTTOMRIGHT", -7, 7);
-	LFGDungeonReadyDialogRoleIcon.icon = LFGDungeonReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY");
+	LFGDungeonReadyDialogRoleIcon:StripTextures()
+	LFGDungeonReadyDialogRoleIcon:CreateBackdrop()
+	LFGDungeonReadyDialogRoleIcon.backdrop:Point("TOPLEFT", 7, -7)
+	LFGDungeonReadyDialogRoleIcon.backdrop:Point("BOTTOMRIGHT", -7, 7)
+	LFGDungeonReadyDialogRoleIcon.icon = LFGDungeonReadyDialogRoleIcon:CreateTexture(nil, "OVERLAY")
 
 	hooksecurefunc("LFGDungeonReadyPopup_Update", function()
-		local _, _, _, _, _, _, role = GetLFGProposal();
+		local _, _, _, _, _, _, role = GetLFGProposal()
 
-		if(role == "DAMAGER") then
-			LFGDungeonReadyDialogRoleIcon.icon:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01");
-		elseif(role == "TANK") then
-			LFGDungeonReadyDialogRoleIcon.icon:SetTexture("Interface\\Icons\\Ability_Defend");
-		elseif(role == "HEALER") then
-			LFGDungeonReadyDialogRoleIcon.icon:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH");
+		if role == "DAMAGER" then
+			LFGDungeonReadyDialogRoleIcon.icon:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
+		elseif role == "TANK" then
+			LFGDungeonReadyDialogRoleIcon.icon:SetTexture("Interface\\Icons\\Ability_Defend")
+		elseif role == "HEALER" then
+			LFGDungeonReadyDialogRoleIcon.icon:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH")
 		end
 
-		LFGDungeonReadyDialogRoleIcon.icon:SetTexCoord(unpack(E.TexCoords));
-		LFGDungeonReadyDialogRoleIcon.icon:SetInside(LFGDungeonReadyDialogRoleIcon.backdrop);
+		LFGDungeonReadyDialogRoleIcon.icon:SetTexCoord(unpack(E.TexCoords))
+		LFGDungeonReadyDialogRoleIcon.icon:SetInside(LFGDungeonReadyDialogRoleIcon.backdrop)
 	end)
 
 	-- LFG Ready Status
-	LFGDungeonReadyStatus:StripTextures();
-	LFGDungeonReadyStatus:SetTemplate("Transparent");
+	LFGDungeonReadyStatus:StripTextures()
+	LFGDungeonReadyStatus:SetTemplate("Transparent")
 
-	S:HandleCloseButton(LFGDungeonReadyStatusCloseButton);
+	S:HandleCloseButton(LFGDungeonReadyStatusCloseButton)
 
 	do
-		local roleButtons = {LFGDungeonReadyStatusGroupedTank, LFGDungeonReadyStatusGroupedHealer, LFGDungeonReadyStatusGroupedDamager};
+		local roleButtons = {LFGDungeonReadyStatusGroupedTank, LFGDungeonReadyStatusGroupedHealer, LFGDungeonReadyStatusGroupedDamager}
 		for i = 1, 5 do
-			tinsert(roleButtons, _G["LFGDungeonReadyStatusIndividualPlayer"..i]);
+			tinsert(roleButtons, _G["LFGDungeonReadyStatusIndividualPlayer"..i])
 		end
 		for _, roleButton in pairs (roleButtons) do
 			roleButton:CreateBackdrop("Default")
@@ -354,57 +355,58 @@ local function LoadSkin()
 	end
 
 	-- Raid Finder
-	RaidParentFrame:StripTextures();
-	RaidParentFrame:SetTemplate("Transparent");
+	RaidParentFrame:StripTextures()
+	RaidParentFrame:SetTemplate("Transparent")
 
-	RaidParentFrameInset:StripTextures();
+	RaidParentFrameInset:StripTextures()
 
-	S:HandleCloseButton(RaidParentFrameCloseButton);
+	S:HandleCloseButton(RaidParentFrameCloseButton)
 
 	for i = 1, 2 do
-		local tab = _G["LFRParentFrameSideTab"..i];
-		tab:GetRegions():Hide();
-		tab:SetTemplate("Default");
-		tab:StyleButton(nil, true);
-		tab:GetNormalTexture():SetInside();
-		tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords));
+		local tab = _G["LFRParentFrameSideTab"..i]
+		tab:GetRegions():Hide()
+		tab:SetTemplate("Default")
+		tab:StyleButton(nil, true)
+		tab:GetNormalTexture():SetInside()
+		tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
 	end
 
 	for i = 1, 3 do 
-		S:HandleTab(_G["RaidParentFrameTab"..i]);
+		S:HandleTab(_G["RaidParentFrameTab"..i])
 	end
 
 	LFRParentFrameSideTab1:Point("TOPLEFT", LFRParentFrame, "TOPRIGHT", E.PixelMode and -1 or 1, -35)
 
-	RaidFinderQueueFrame:StripTextures(true);
-	RaidFinderFrame:StripTextures();
-	RaidFinderFrameRoleInset:StripTextures();
+	RaidFinderQueueFrame:StripTextures(true)
+	RaidFinderFrame:StripTextures()
+	RaidFinderFrameRoleInset:StripTextures()
 
-	S:HandleDropDownBox(RaidFinderQueueFrameSelectionDropDown);
-	RaidFinderQueueFrameSelectionDropDown:Width(225);
-	RaidFinderQueueFrameSelectionDropDown.SetWidth = E.noop;
+	S:HandleDropDownBox(RaidFinderQueueFrameSelectionDropDown)
+	RaidFinderQueueFrameSelectionDropDown:Width(225)
+	RaidFinderQueueFrameSelectionDropDown.SetWidth = E.noop
 
-	S:HandleButton(RaidFinderFrameFindRaidButton, true);
-	S:HandleButton(RaidFinderFrameCancelButton, true);
-	S:HandleButton(RaidFinderQueueFrameIneligibleFrameLeaveQueueButton);
+	S:HandleButton(RaidFinderFrameFindRaidButton, true)
+	S:HandleButton(RaidFinderFrameCancelButton, true)
+	S:HandleButton(RaidFinderQueueFrameIneligibleFrameLeaveQueueButton)
 
 	for i = 1, 1 do
-		local button = _G["RaidFinderQueueFrameScrollFrameChildFrameItem"..i];
-		local icon = _G["RaidFinderQueueFrameScrollFrameChildFrameItem"..i.."IconTexture"];
-		local count = _G["RaidFinderQueueFrameScrollFrameChildFrameItem"..i.."Count"];
+		local button = _G["RaidFinderQueueFrameScrollFrameChildFrameItem"..i]
+		local icon = _G["RaidFinderQueueFrameScrollFrameChildFrameItem"..i.."IconTexture"]
+		local count = _G["RaidFinderQueueFrameScrollFrameChildFrameItem"..i.."Count"]
 
-		if(button) then
-			button:StripTextures();
-			button:CreateBackdrop();
-			button.backdrop:SetOutside(icon);
+		if button then
+			button:StripTextures()
+			button:CreateBackdrop()
+			button.backdrop:SetOutside(icon)
 
-			icon:SetTexCoord(unpack(E.TexCoords));
-			icon:SetParent(button.backdrop);
+			icon:SetTexCoord(unpack(E.TexCoords))
+			icon:SetParent(button.backdrop)
+			icon:SetDrawLayer("OVERLAY")
 
-			icon:SetDrawLayer("OVERLAY");
-			count:SetDrawLayer("OVERLAY");
-
-			if(count) then count:SetParent(button.backdrop) end
+			if count then 
+				count:SetParent(button.backdrop) 
+				count:SetDrawLayer("OVERLAY")
+			end
 		end
 	end
 
@@ -418,49 +420,48 @@ local function LoadSkin()
 	for i = 1, #raidFinderQueueRoles do
 		S:HandleCheckBox(_G[raidFinderQueueRoles[i]].checkButton)
 		_G[raidFinderQueueRoles[i]].checkButton:SetFrameLevel(_G[raidFinderQueueRoles[i]].checkButton:GetFrameLevel() + 2)
-	
+
 		_G[raidFinderQueueRoles[i]]:StripTextures()
 		_G[raidFinderQueueRoles[i]]:CreateBackdrop()
 		_G[raidFinderQueueRoles[i]].backdrop:Point("TOPLEFT", 3, -3)
 		_G[raidFinderQueueRoles[i]].backdrop:Point("BOTTOMRIGHT", -3, 3)
 
-		_G[raidFinderQueueRoles[i]].icon = _G[raidFinderQueueRoles[i]]:CreateTexture(nil, "ARTWORK")
-		_G[raidFinderQueueRoles[i]].icon:SetTexCoord(unpack(E.TexCoords))
-		_G[raidFinderQueueRoles[i]].icon:SetInside(_G[raidFinderQueueRoles[i]].backdrop)
+		_G[raidFinderQueueRoles[i]]:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
+		_G[raidFinderQueueRoles[i]]:GetNormalTexture():SetInside(_G[raidFinderQueueRoles[i]].backdrop)
 	end
 
-	RaidFinderQueueFrameRoleButtonTank.icon:SetTexture("Interface\\Icons\\Ability_Defend")
-	RaidFinderQueueFrameRoleButtonHealer.icon:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH")
-	RaidFinderQueueFrameRoleButtonDPS.icon:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
-	RaidFinderQueueFrameRoleButtonLeader.icon:SetTexture("Interface\\Icons\\Ability_Vehicle_LaunchPlayer")
+	RaidFinderQueueFrameRoleButtonTank:SetNormalTexture("Interface\\Icons\\Ability_Defend")
+	RaidFinderQueueFrameRoleButtonHealer:SetNormalTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH")
+	RaidFinderQueueFrameRoleButtonDPS:SetNormalTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
+	RaidFinderQueueFrameRoleButtonLeader:SetNormalTexture("Interface\\Icons\\Ability_Vehicle_LaunchPlayer")
 
 	RaidFinderQueueFrameRoleButtonTank:Point("BOTTOMLEFT", RaidFinderQueueFrame, "BOTTOMLEFT", 25, 334)
 	RaidFinderQueueFrameRoleButtonHealer:Point("LEFT", RaidFinderQueueFrameRoleButtonTank, "RIGHT", 23, 0)
 	RaidFinderQueueFrameRoleButtonLeader:Point("LEFT", RaidFinderQueueFrameRoleButtonDPS, "RIGHT", 50, 0)
 
 	-- LFR Queue Frame
-	LFRParentFrame:StripTextures();
-	LFRQueueFrame:StripTextures();
-	LFRQueueFrameListInset:StripTextures();
-	LFRQueueFrameRoleInset:StripTextures();
-	LFRQueueFrameCommentInset:StripTextures();
+	LFRParentFrame:StripTextures()
+	LFRQueueFrame:StripTextures()
+	LFRQueueFrameListInset:StripTextures()
+	LFRQueueFrameRoleInset:StripTextures()
+	LFRQueueFrameCommentInset:StripTextures()
 
-	S:HandleScrollBar(LFRQueueFrameCommentScrollFrameScrollBar);
+	S:HandleScrollBar(LFRQueueFrameCommentScrollFrameScrollBar)
 
-	S:HandleButton(LFRQueueFrameFindGroupButton);
-	S:HandleButton(LFRQueueFrameAcceptCommentButton);
+	S:HandleButton(LFRQueueFrameFindGroupButton)
+	S:HandleButton(LFRQueueFrameAcceptCommentButton)
 
-	LFRQueueFrameCommentTextButton:CreateBackdrop("Default");
-	LFRQueueFrameCommentTextButton:Height(35);
+	LFRQueueFrameCommentTextButton:CreateBackdrop("Default")
+	LFRQueueFrameCommentTextButton:Height(35)
 
-	LFRQueueFrameSpecificListScrollFrame:StripTextures();
+	LFRQueueFrameSpecificListScrollFrame:StripTextures()
 	LFRQueueFrameSpecificListScrollFrame:ClearAllPoints()
 	LFRQueueFrameSpecificListScrollFrame:Point("TOPLEFT", LFRQueueFrameSpecificListButton1, "TOPLEFT", 0, 0)
 	LFRQueueFrameSpecificListScrollFrame:Point("BOTTOMRIGHT", LFRQueueFrameSpecificListButton14, "BOTTOMRIGHT", 0, -2)
 
 	S:HandleScrollBar(LFRQueueFrameSpecificListScrollFrameScrollBar)
 
-	S:HandleButton(LFRQueueFrameNoLFRWhileLFDLeaveQueueButton);
+	S:HandleButton(LFRQueueFrameNoLFRWhileLFDLeaveQueueButton)
 
 	local lfrQueueRoles = {
 		"LFRQueueFrameRoleButtonTank",
@@ -477,14 +478,13 @@ local function LoadSkin()
 		_G[lfrQueueRoles[i]].backdrop:Point("TOPLEFT", 3, -3)
 		_G[lfrQueueRoles[i]].backdrop:Point("BOTTOMRIGHT", -3, 3)
 
-		_G[lfrQueueRoles[i]].icon = _G[lfrQueueRoles[i]]:CreateTexture(nil, "ARTWORK")
-		_G[lfrQueueRoles[i]].icon:SetTexCoord(unpack(E.TexCoords))
-		_G[lfrQueueRoles[i]].icon:SetInside(_G[lfrQueueRoles[i]].backdrop)
+		_G[lfrQueueRoles[i]]:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
+		_G[lfrQueueRoles[i]]:GetNormalTexture():SetInside(_G[lfrQueueRoles[i]].backdrop)
 	end
 
-	LFRQueueFrameRoleButtonTank.icon:SetTexture("Interface\\Icons\\Ability_Defend")
-	LFRQueueFrameRoleButtonHealer.icon:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH")
-	LFRQueueFrameRoleButtonDPS.icon:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
+	LFRQueueFrameRoleButtonTank:SetNormalTexture("Interface\\Icons\\Ability_Defend")
+	LFRQueueFrameRoleButtonHealer:SetNormalTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH")
+	LFRQueueFrameRoleButtonDPS:SetNormalTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
 
 	LFRQueueFrameRoleButtonTank:Point("TOPLEFT", LFRQueueFrame, "TOPLEFT", 50, -45)
 	LFRQueueFrameRoleButtonHealer:Point("LEFT", LFRQueueFrameRoleButtonTank, "RIGHT", 43, 0)
@@ -509,11 +509,12 @@ local function LoadSkin()
  	end
 
 	-- LFR Browse Frame
-	LFRBrowseFrame:StripTextures();
+	LFRBrowseFrame:StripTextures()
 	LFRBrowseFrame:HookScript("OnShow", function()
-		if(not LFRBrowseFrameListScrollFrameScrollBar.skinned) then
-			S:HandleScrollBar(LFRBrowseFrameListScrollFrameScrollBar);
-			LFRBrowseFrameListScrollFrameScrollBar.skinned = true;
+		if not LFRBrowseFrameListScrollFrameScrollBar.isSkinned then
+			S:HandleScrollBar(LFRBrowseFrameListScrollFrameScrollBar)
+
+			LFRBrowseFrameListScrollFrameScrollBar.isSkinned = true
 		end
 	end)
 
@@ -521,13 +522,13 @@ local function LoadSkin()
 	hooksecurefunc("LFRBrowseFrameListButton_SetData", function(button, index)
 		local name, level, _, _, _, _, _, class = SearchLFGGetResults(index)
 
-		local classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class];
-		local levelTextColor = GetQuestDifficultyColor(level);
+		local classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
+		local levelTextColor = GetQuestDifficultyColor(level)
 
 		if(index and class and name and level and (name ~= myName)) then
-			button.name:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b);
-			button.class:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b);
-			button.level:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b);
+			button.name:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b)
+			button.class:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b)
+			button.level:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b)
 		end
 	end)
 	]]
@@ -536,46 +537,28 @@ local function LoadSkin()
 	LFRBrowseFrameListScrollFrame:Point("TOPLEFT", LFRBrowseFrameListButton1, "TOPLEFT", 0, 0)
 	LFRBrowseFrameListScrollFrame:Point("BOTTOMRIGHT", LFRBrowseFrameListButton19, "BOTTOMRIGHT", 5, -2)
 
-	S:HandleDropDownBox(LFRBrowseFrameRaidDropDown);
+	S:HandleDropDownBox(LFRBrowseFrameRaidDropDown)
 
-	S:HandleButton(LFRBrowseFrameSendMessageButton);
-	S:HandleButton(LFRBrowseFrameInviteButton);
-	S:HandleButton(LFRBrowseFrameRefreshButton);
+	S:HandleButton(LFRBrowseFrameSendMessageButton)
+	S:HandleButton(LFRBrowseFrameInviteButton)
+	S:HandleButton(LFRBrowseFrameRefreshButton)
 
 	for i = 1, 7 do
-		local button = "LFRBrowseFrameColumnHeader"..i;
-		_G[button.."Left"]:Kill();
-		_G[button.."Middle"]:Kill();
-		_G[button.."Right"]:Kill();
-		_G[button]:StyleButton();
+		local button = "LFRBrowseFrameColumnHeader"..i
+		_G[button.."Left"]:Kill()
+		_G[button.."Middle"]:Kill()
+		_G[button.."Right"]:Kill()
+		_G[button]:StyleButton()
 	end
 
 	-- Desaturate/Incentive Scripts (Role Icons)
 	hooksecurefunc("LFG_SetRoleIconIncentive", function(roleButton, incentiveIndex)
-		if(incentiveIndex) then
-			roleButton.backdrop:SetBackdropBorderColor(1, 0.80, 0.10);
+		if incentiveIndex then
+			roleButton.backdrop:SetBackdropBorderColor(1, 0.80, 0.10)
 		else
-			roleButton.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor));
-		end
-	end)
-
-	hooksecurefunc("LFG_PermanentlyDisableRoleButton", function(button)
-		if(button.icon) then
-			button.icon:SetDesaturated(true);
-		end
-	end)
-
-	hooksecurefunc("LFG_DisableRoleButton", function(button)
-		if(button.icon) then
-			button.icon:SetDesaturated(true);
-		end
-	end)
-
-	hooksecurefunc("LFG_EnableRoleButton", function(button)
-		if(button.icon) then
-			button.icon:SetDesaturated(false);
+			roleButton.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 		end
 	end)
 end
 
-S:AddCallback("LFG", LoadSkin);
+S:AddCallback("LFG", LoadSkin)
