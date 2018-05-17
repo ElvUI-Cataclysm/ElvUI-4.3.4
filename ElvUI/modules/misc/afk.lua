@@ -26,7 +26,6 @@ local GetScreenWidth = GetScreenWidth;
 local GetScreenHeight = GetScreenHeight;
 local Screenshot = Screenshot;
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
-local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 
 local CAMERA_SPEED = 0.035;
 local ignoreKeys = {

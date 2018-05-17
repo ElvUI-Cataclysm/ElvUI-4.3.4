@@ -23,7 +23,6 @@ local SendAddonMessage = SendAddonMessage;
 local InCombatLockdown = InCombatLockdown;
 local GetFunctionCPUUsage = GetFunctionCPUUsage;
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
-local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 local ERR_NOT_IN_COMBAT = ERR_NOT_IN_COMBAT;
 
 -- Constants

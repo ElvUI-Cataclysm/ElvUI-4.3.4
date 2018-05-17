@@ -6,7 +6,6 @@ local unpack, type, select, getmetatable, assert = unpack, type, select, getmeta
 
 local CreateFrame = CreateFrame;
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
-local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS;
 
 E.mult = 1;
 local backdropr, backdropg, backdropb, backdropa, borderr, borderg, borderb = 0, 0, 0, 1, 0, 0, 0;

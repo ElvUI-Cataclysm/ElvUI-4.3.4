@@ -23,7 +23,6 @@ local SetDesaturation = SetDesaturation
 local UnitLevel = UnitLevel
 local ITEM_QUALITY_COLORS = ITEM_QUALITY_COLORS
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
-local CUSTOM_CLASS_COLORS = CUSTOM_CLASS_COLORS
 local ROLL_DISENCHANT = ROLL_DISENCHANT
 
 local pos = "TOP";
