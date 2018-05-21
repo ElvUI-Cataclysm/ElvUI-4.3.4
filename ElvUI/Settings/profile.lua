@@ -198,7 +198,7 @@ P["bags"] = {
 		["backdropSpacing"] = 4,
 		["showBackdrop"] = false,
 		["mouseover"] = false,
-		['visibility'] = "",
+		["visibility"] = "",
 	}
 }
 
@@ -227,6 +227,7 @@ P["nameplates"] = {
 	["showEnemyCombat"] = "DISABLED",
 	["targetGlow"] = "style2",
 	["glowColor"] = {r = 77/255, g = 179/255, b = 255/255, a = 1},
+	["nameColoredGlow"] = false,
 	["alwaysShowTargetHealth"] = true,
 	["castColor"] = {r = 1, g = 208/255, b = 0},
 	["castNoInterruptColor"] = {r = 0.78, g = 0.25, b = 0.25},
@@ -685,7 +686,6 @@ P["unitframe"] = {
 		["castNoInterrupt"] = {r = 0.78, g = 0.25, b = 0.25},
 		["castClassColor"] = false,
 		["castReactionColor"] = false,
-
 		["health"] = {r = .31, g = .31, b = .31},
 		["health_backdrop"] = {r = .8, g = .01, b = .01},
 		["health_backdrop_dead"] = {r = .8, g = .01, b = .01},
@@ -733,6 +733,24 @@ P["unitframe"] = {
 			},
 			["PRIEST"] = {r = 1, g = 1, b = 1}
 		},
+		["frameGlow"] = {
+			["mainGlow"] = {
+				["enable"] = false,
+				["class"] = false,
+				["color"] = {r = 1, g = 1, b = 1, a = 1}
+			},
+			["targetGlow"] = {
+				["enable"] = true,
+				["class"] = true,
+				["color"] = {r = 1, g = 1, b = 1, a = 1}
+			},
+			["mouseoverGlow"] = {
+				["enable"] = true,
+				["class"] = false,
+				["texture"] = "ElvUI Blank",
+				["color"] = {r = 1, g = 1, b = 1, a = 0.1}
+			}
+		},
 		["debuffHighlight"] = {
 			["Magic"] = {r = 0.2, g = 0.6, b = 1, a = 0.45},
 			["Curse"] = {r = 0.6, g = 0, b = 1, a = 0.45},
@@ -740,7 +758,6 @@ P["unitframe"] = {
 			["Poison"] = {r = 0, g = 0.6, b = 0, a = 0.45}
 		}
 	},
-
 	["units"] = {
 		["player"] = {
 			["enable"] = true,
@@ -753,6 +770,8 @@ P["unitframe"] = {
 			["threatStyle"] = "GLOW",
 			["smartAuraPosition"] = "DISABLED",
 			["colorOverride"] = "USE_DEFAULT",
+			["disableMouseoverGlow"] = false,
+			["disableTargetGlow"] = true,
 			["health"] = {
 				["text_format"] = "[healthcolor][health:current-percent]",
 				["position"] = "LEFT",
@@ -944,6 +963,8 @@ P["unitframe"] = {
 			["rangeCheck"] = true,
 			["healPrediction"] = true,
 			["middleClickFocus"] = true,
+			["disableMouseoverGlow"] = false,
+			["disableTargetGlow"] = true,
 			["health"] = {
 				["text_format"] = "[healthcolor][health:current-percent]",
 				["position"] = "RIGHT",
@@ -1098,6 +1119,8 @@ P["unitframe"] = {
 			["colorOverride"] = "USE_DEFAULT",
 			["width"] = 130,
 			["height"] = 36,
+			["disableMouseoverGlow"] = false,
+			["disableTargetGlow"] = true,
 			["health"] = {
 				["text_format"] = "",
 				["position"] = "RIGHT",
@@ -1187,6 +1210,8 @@ P["unitframe"] = {
 			["colorOverride"] = "USE_DEFAULT",
 			["width"] = 130,
 			["height"] = 36,
+			["disableMouseoverGlow"] = false,
+			["disableTargetGlow"] = false,
 			["health"] = {
 				["text_format"] = "",
 				["position"] = "RIGHT",
@@ -1275,6 +1300,8 @@ P["unitframe"] = {
 			["colorOverride"] = "USE_DEFAULT",
 			["width"] = 190,
 			["height"] = 36,
+			["disableMouseoverGlow"] = false,
+			["disableTargetGlow"] = false,
 			["healPrediction"] = true,
 			["health"] = {
 				["text_format"] = "",
@@ -1406,6 +1433,8 @@ P["unitframe"] = {
 			["colorOverride"] = "USE_DEFAULT",
 			["width"] = 190,
 			["height"] = 26,
+			["disableMouseoverGlow"] = false,
+			["disableTargetGlow"] = false,
 			["health"] = {
 				["text_format"] = "",
 				["position"] = "RIGHT",
@@ -1494,6 +1523,8 @@ P["unitframe"] = {
 			["colorOverride"] = "USE_DEFAULT",
 			["width"] = 130,
 			["height"] = 36,
+			["disableMouseoverGlow"] = false,
+			["disableTargetGlow"] = true,
 			["healPrediction"] = true,
 			["health"] = {
 				["text_format"] = "",
@@ -1595,6 +1626,8 @@ P["unitframe"] = {
 			["colorOverride"] = "USE_DEFAULT",
 			["width"] = 130,
 			["height"] = 26,
+			["disableMouseoverGlow"] = false,
+			["disableTargetGlow"] = false,
 			["health"] = {
 				["text_format"] = "",
 				["position"] = "RIGHT",
@@ -1677,7 +1710,8 @@ P["unitframe"] = {
 			["width"] = 216,
 			["height"] = 46,
 			["spacing"] = 25,
-			["targetGlow"] = true,
+			["disableMouseoverGlow"] = false,
+			["disableTargetGlow"] = false,
 			["health"] = {
 				["text_format"] = "[healthcolor][health:current]",
 				["position"] = "LEFT",
@@ -1788,7 +1822,8 @@ P["unitframe"] = {
 			["height"] = 47,
 			["healPrediction"] = true,
 			["colorOverride"] = "USE_DEFAULT",
-			["targetGlow"] = true,
+			["disableMouseoverGlow"] = false,
+			["disableTargetGlow"] = false,
 			["health"] = {
 				["text_format"] = "[healthcolor][health:current]",
 				["position"] = "LEFT",
@@ -1908,8 +1943,9 @@ P["unitframe"] = {
 			["colorOverride"] = "USE_DEFAULT",
 			["width"] = 184,
 			["height"] = 54,
-			["targetGlow"] = true,
 			["groupSpacing"] = 0,
+			["disableMouseoverGlow"] = false,
+			["disableTargetGlow"] = false,
 			["health"] = {
 				["text_format"] = "[healthcolor][health:current-percent]",
 				["position"] = "LEFT",
@@ -2111,8 +2147,9 @@ P["unitframe"] = {
 			["colorOverride"] = "USE_DEFAULT",
 			["width"] = 80,
 			["height"] = 44,
-			["targetGlow"] = true,
 			["groupSpacing"] = 0,
+			["disableMouseoverGlow"] = false,
+			["disableTargetGlow"] = false,
 			["health"] = {
 				["text_format"] = "[healthcolor][health:deficit]",
 				["position"] = "BOTTOM",
@@ -2284,8 +2321,9 @@ P["unitframe"] = {
 			["colorOverride"] = "USE_DEFAULT",
 			["width"] = 80,
 			["height"] = 27,
-			["targetGlow"] = true,
 			["groupSpacing"] = 0,
+			["disableMouseoverGlow"] = false,
+			["disableTargetGlow"] = false,
 			["health"] = {
 				["text_format"] = "[healthcolor][health:deficit]",
 				["position"] = "BOTTOM",
@@ -2459,8 +2497,9 @@ P["unitframe"] = {
 			["colorOverride"] = "USE_DEFAULT",
 			["width"] = 80,
 			["height"] = 30,
-			["targetGlow"] = true,
 			["groupSpacing"] = 0,
+			["disableMouseoverGlow"] = false,
+			["disableTargetGlow"] = false,
 			["health"] = {
 				["text_format"] = "[healthcolor][health:deficit]",
 				["position"] = "BOTTOM",
@@ -2568,6 +2607,8 @@ P["unitframe"] = {
 			["height"] = 28,
 			["disableDebuffHighlight"] = true,
 			["verticalSpacing"] = 7,
+			["disableMouseoverGlow"] = false,
+			["disableTargetGlow"] = false,
 			["buffs"] = {
 				["enable"] = false,
 				["perrow"] = 6,
@@ -2651,6 +2692,8 @@ P["unitframe"] = {
 			["height"] = 28,
 			["disableDebuffHighlight"] = true,
 			["verticalSpacing"] = 7,
+			["disableMouseoverGlow"] = false,
+			["disableTargetGlow"] = false,
 			["buffs"] = {
 				["enable"] = false,
 				["perrow"] = 6,

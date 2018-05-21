@@ -527,6 +527,7 @@ G.unitframe.ChannelTicks = {
 	[SpellName(5740)] = 4,		-- Rain of Fire
 	[SpellName(755)] = 10,		-- Health Funnel
 	[SpellName(79268)] = 3,		-- Soul Harvest
+	[SpellName(1949)] = 15,		-- Hellfire
 	-- Druid
 	[SpellName(44203)] = 4,		-- Tranquility
 	[SpellName(16914)] = 10,	-- Hurricane
@@ -539,7 +540,9 @@ G.unitframe.ChannelTicks = {
 	-- Mage
 	[SpellName(5143)] = 5,		-- Arcane Missiles
 	[SpellName(10)] = 8,		-- Blizzard
-	[SpellName(12051)] = 4		-- Evocation
+	[SpellName(12051)] = 4,		-- Evocation
+	-- Death Knight
+    [SpellName(42650)] = 8		-- Army of the Dead
 }
 
 --Spells Effected By Haste

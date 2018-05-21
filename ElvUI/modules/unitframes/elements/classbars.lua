@@ -170,11 +170,6 @@ function UF:Configure_ClassBar(frame)
 
 				if E.myclass == "PALADIN" or E.myclass == "WARLOCK" or E.myclass == "PRIEST" then
 					bars[i]:SetStatusBarColor(unpack(ElvUF.colors.ClassBars[E.myclass]))
-					if E.myclass == "PRIEST" then
-						if bars[i].bg then
-							bars[i].bg:SetTexture(unpack(ElvUF.colors.ClassBars[E.myclass]))
-						end
-					end
 				end
 
 				if frame.CLASSBAR_DETACHED and db.classbar.verticalOrientation then
@@ -182,7 +177,16 @@ function UF:Configure_ClassBar(frame)
 				else
 					bars[i]:SetOrientation("HORIZONTAL")
 				end
-				
+
+				--Fix missing backdrop colors on Combo Points when using Spaced style
+				if frame.ClassBar == "ClassPower" then
+					if frame.USE_MINI_CLASSBAR then
+						bars[i].bg:SetParent(bars[i].backdrop)
+					else
+						bars[i].bg:SetParent(bars)
+					end
+				end
+
 				bars[i]:Show()
 			end
 		end

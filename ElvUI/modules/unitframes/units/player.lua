@@ -45,7 +45,9 @@ function UF:Construct_PlayerFrame(frame)
 		frame.AdditionalPower = self:Construct_AdditionalPowerBar(frame)
 	end
 
-	frame.RaidTargetIndicator = UF:Construct_RaidIcon(frame);
+	frame.MouseGlow = self:Construct_MouseGlow(frame)
+	frame.TargetGlow = self:Construct_TargetGlow(frame)
+	frame.RaidTargetIndicator = self:Construct_RaidIcon(frame);
 	frame.RestingIndicator = self:Construct_RestingIndicator(frame);
 	frame.CombatIndicator = self:Construct_CombatIndicator(frame);
 	frame.PvPText = self:Construct_PvPIndicator(frame);
@@ -53,7 +55,7 @@ function UF:Construct_PlayerFrame(frame)
 	frame.HealthPrediction = self:Construct_HealComm(frame)
 	frame.AuraBars = self:Construct_AuraBarHeader(frame);
 	frame.InfoPanel = self:Construct_InfoPanel(frame);
- 	frame.PvPIndicator = UF:Construct_PvPIcon(frame)
+ 	frame.PvPIndicator = self:Construct_PvPIcon(frame)
 	frame.CombatFade = true
 	frame.customTexts = {};
 
@@ -157,7 +159,6 @@ function UF:Update_PlayerFrame(frame, db)
 
 	E:SetMoverSnapOffset(frame:GetName() .. "Mover", -(12 + db.castbar.height));
 	frame:UpdateAllElements("ElvUI_UpdateAllElements");
-
 end
 
 tinsert(UF["unitstoload"], "player");
@@ -174,5 +175,6 @@ local f = CreateFrame("Frame")
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
 f:SetScript("OnEvent", function(self, event)
 	self:UnregisterEvent(event);
+	if not E.db.unitframe.units.player.enable then return end
 	UpdateClassBar();
 end)

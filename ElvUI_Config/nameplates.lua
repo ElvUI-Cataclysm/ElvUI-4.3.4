@@ -2371,22 +2371,28 @@ E.Options.args.nameplate = {
 								NP:PLAYER_REGEN_ENABLED()
 							end
 						},
-						comboPoints = {
-							order = 7,
-							type = "toggle",
-							name = L["Combo Points"],
-							desc = L["Display combo points on nameplates."]
-						},
 						resetFilters = {
-							order = 8,
+							order = 7,
 							name = L["Reset Aura Filters"],
 							type = "execute",
 							func = function(info, value)
 								E:StaticPopup_Show("RESET_NP_AF") --reset nameplate aurafilters
 							end
 						},
-						targetedNamePlate = {
+						comboPoints = {
+							order = 8,
+							type = "toggle",
+							name = L["Combo Points"],
+							desc = L["Display combo points on nameplates."]
+						},
+						nameColoredGlow = {
 							order = 9,
+							type = "toggle",
+							name = L["Name Colored Glow"],
+							desc = L["Use the Name Color of the unit for the Name Glow."]
+						},
+						targetedNamePlate = {
+							order = 10,
 							type = "group",
 							guiInline = true,
 							name = L["Targeted Nameplate"],
