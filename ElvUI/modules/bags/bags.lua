@@ -47,7 +47,6 @@ local IsShiftKeyDown, IsControlKeyDown = IsShiftKeyDown, IsControlKeyDown;
 local SEARCH = SEARCH;
 local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES;
 local MAX_CONTAINER_ITEMS = MAX_CONTAINER_ITEMS;
-local TEXTURE_ITEM_QUEST_BANG = TEXTURE_ITEM_QUEST_BANG;
 local MAX_WATCHED_TOKENS = MAX_WATCHED_TOKENS;
 local NUM_BAG_FRAMES = NUM_BAG_FRAMES;
 
@@ -504,9 +503,9 @@ function B:Layout(isBank)
 
 					if not(f.Bags[bagID][slotID].questIcon) then
 						f.Bags[bagID][slotID].questIcon = _G[f.Bags[bagID][slotID]:GetName()..'IconQuestTexture'] or _G[f.Bags[bagID][slotID]:GetName()].IconQuestTexture
-						f.Bags[bagID][slotID].questIcon:SetTexture(TEXTURE_ITEM_QUEST_BANG);
-						f.Bags[bagID][slotID].questIcon:SetInside(f.Bags[bagID][slotID]);
-						f.Bags[bagID][slotID].questIcon:SetTexCoord(unpack(E.TexCoords));
+						f.Bags[bagID][slotID].questIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\bagQuestIcon.tga")
+						f.Bags[bagID][slotID].questIcon:SetTexCoord(0, 1, 0, 1)
+						f.Bags[bagID][slotID].questIcon:SetInside()
 						f.Bags[bagID][slotID].questIcon:Hide();
 					end
 
