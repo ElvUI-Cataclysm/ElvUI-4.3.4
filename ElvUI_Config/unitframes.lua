@@ -2033,12 +2033,12 @@ E.Options.args.unitframe = {
 			func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "frameGlowGroup") end,
 			disabled = function() return not E.UnitFrames end
 		},
-		colorsShortcut = {
+		cooldownShortcut = {
 			order = 7,
 			type = "execute",
-			name = COLORS,
+			name = L['Cooldown Override'],
 			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "allColorsGroup") end,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "cooldownGroup") end,
 			disabled = function() return not E.UnitFrames end
 		},
 		spacer2 = {
@@ -2046,8 +2046,16 @@ E.Options.args.unitframe = {
 			type = "description",
 			name = " "
 		},
-		blizzardShortcut = {
+		colorsShortcut = {
 			order = 9,
+			type = "execute",
+			name = COLORS,
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "allColorsGroup") end,
+			disabled = function() return not E.UnitFrames; end,
+		},
+		blizzardShortcut = {
+			order = 10,
 			type = "execute",
 			name = L["Disabled Blizzard Frames"],
 			buttonElvUI = true,
@@ -2055,19 +2063,11 @@ E.Options.args.unitframe = {
 			disabled = function() return not E.UnitFrames end
 		},
 		playerShortcut = {
-			order = 10,
+			order = 11,
 			type = "execute",
 			name = L["Player Frame"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "unitframe", "player") end,
-			disabled = function() return not E.UnitFrames end
-		},
-		targetShortcut = {
-			order = 11,
-			type = "execute",
-			name = L["Target Frame"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "target") end,
 			disabled = function() return not E.UnitFrames end
 		},
 		spacer3 = {
@@ -2075,8 +2075,16 @@ E.Options.args.unitframe = {
 			type = "description",
 			name = " "
 		},
-		targettargetShortcut = {
+		targetShortcut = {
 			order = 13,
+			type = "execute",
+			name = L["Target Frame"],
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "target") end,
+			disabled = function() return not E.UnitFrames end
+		},
+		targettargetShortcut = {
+			order = 14,
 			type = "execute",
 			name = L["TargetTarget Frame"],
 			buttonElvUI = true,
@@ -2084,19 +2092,11 @@ E.Options.args.unitframe = {
 			disabled = function() return not E.UnitFrames end
 		},
 		targettargettargetShortcut = {
-			order = 14,
+			order = 15,
 			type = "execute",
 			name = L["TargetTargetTarget Frame"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "unitframe", "targettargettarget") end,
-			disabled = function() return not E.UnitFrames end
-		},
-		focusShortcut = {
-			order = 15,
-			type = "execute",
-			name = L["Focus Frame"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "focus") end,
 			disabled = function() return not E.UnitFrames end
 		},
 		spacer4 = {
@@ -2104,8 +2104,16 @@ E.Options.args.unitframe = {
 			type = "description",
 			name = " "
 		},
-		focustargetShortcut = {
+		focusShortcut = {
 			order = 17,
+			type = "execute",
+			name = L["Focus Frame"],
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "focus") end,
+			disabled = function() return not E.UnitFrames end
+		},
+		focustargetShortcut = {
+			order = 18,
 			type = "execute",
 			name = L["FocusTarget Frame"],
 			buttonElvUI = true,
@@ -2113,19 +2121,11 @@ E.Options.args.unitframe = {
 			disabled = function() return not E.UnitFrames end
 		},
 		petShortcut = {
-			order = 18,
+			order = 19,
 			type = "execute",
 			name = L["Pet Frame"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "unitframe", "pet") end,
-			disabled = function() return not E.UnitFrames end
-		},
-		pettargetShortcut = {
-			order = 19,
-			type = "execute",
-			name = L["PetTarget Frame"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "pettarget") end,
 			disabled = function() return not E.UnitFrames end
 		},
 		spacer5 = {
@@ -2133,8 +2133,16 @@ E.Options.args.unitframe = {
 			type = "description",
 			name = " "
 		},
-		arenaShortcut = {
+		pettargetShortcut = {
 			order = 21,
+			type = "execute",
+			name = L["PetTarget Frame"],
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "pettarget") end,
+			disabled = function() return not E.UnitFrames end
+		},
+		arenaShortcut = {
+			order = 22,
 			type = "execute",
 			name = L["Arena Frames"],
 			buttonElvUI = true,
@@ -2142,19 +2150,11 @@ E.Options.args.unitframe = {
 			disabled = function() return not E.UnitFrames end
 		},
 		bossShortcut = {
-			order = 22,
+			order = 23,
 			type = "execute",
 			name = L["Boss Frames"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "unitframe", "boss") end,
-			disabled = function() return not E.UnitFrames end
-		},
-		partyShortcut = {
-			order = 23,
-			type = "execute",
-			name = L["Party Frames"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "party") end,
 			disabled = function() return not E.UnitFrames end
 		},
 		spacer6 = {
@@ -2162,8 +2162,16 @@ E.Options.args.unitframe = {
 			type = "description",
 			name = " "
 		},
-		raidShortcut = {
+		partyShortcut = {
 			order = 25,
+			type = "execute",
+			name = L["Party Frames"],
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "party") end,
+			disabled = function() return not E.UnitFrames end
+		},
+		raidShortcut = {
+			order = 26,
 			type = "execute",
 			name = L["Raid Frames"],
 			buttonElvUI = true,
@@ -2171,19 +2179,11 @@ E.Options.args.unitframe = {
 			disabled = function() return not E.UnitFrames end
 		},
 		raid40Shortcut = {
-			order = 26,
+			order = 27,
 			type = "execute",
 			name = L["Raid-40 Frames"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "unitframe", "raid40") end,
-			disabled = function() return not E.UnitFrames end
-		},
-		raidpetShortcut = {
-			order = 27,
-			type = "execute",
-			name = L["Raid Pet Frames"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "unitframe", "raidpet") end,
 			disabled = function() return not E.UnitFrames end
 		},
 		spacer7 = {
@@ -2191,8 +2191,16 @@ E.Options.args.unitframe = {
 			type = "description",
 			name = " "
 		},
-		assistShortcut = {
+		raidpetShortcut = {
 			order = 29,
+			type = "execute",
+			name = L["Raid Pet Frames"],
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "unitframe", "raidpet") end,
+			disabled = function() return not E.UnitFrames end
+		},
+		assistShortcut = {
+			order = 30,
 			type = "execute",
 			name = L["Assist Frames"],
 			buttonElvUI = true,
@@ -2200,7 +2208,7 @@ E.Options.args.unitframe = {
 			disabled = function() return not E.UnitFrames end
 		},
 		tankShortcut = {
-			order = 30,
+			order = 31,
 			type = "execute",
 			name = L["Tank Frames"],
 			buttonElvUI = true,
@@ -2208,7 +2216,7 @@ E.Options.args.unitframe = {
 			disabled = function() return not E.UnitFrames end
 		},
 		generalOptionsGroup = {
-			order = 31,
+			order = 32,
 			type = "group",
 			name = L["General Options"],
 			childGroups = "tab",
@@ -2525,8 +2533,83 @@ E.Options.args.unitframe = {
 						}
 					}
 				},
-				allColorsGroup = {
+				cooldownGroup = {
 					order = 3,
+					type = "group",
+					name = L["Cooldown Override"],
+					get = function(info)
+						local t = E.db.unitframe.cooldown[ info[#info] ]
+						local d = P.unitframe.cooldown[ info[#info] ]
+						return t.r, t.g, t.b, t.a, d.r, d.g, d.b
+					end,
+					set = function(info, r, g, b)
+						local t = E.db.unitframe.cooldown[ info[#info] ]
+						t.r, t.g, t.b = r, g, b
+						E:UpdateCooldownSettings("unitframe")
+					end,
+					args = {
+						header = {
+							order = 1,
+							type = "header",
+							name = L["Cooldown Override"]
+						},
+						override = {
+							order = 2,
+							type = "toggle",
+							name = L["Use Override"],
+							desc = L["This will override the global cooldown settings."],
+							get = function(info) return E.db.unitframe.cooldown[ info[#info] ] end,
+							set = function(info, value) E.db.unitframe.cooldown[ info[#info] ] = value end
+						},
+						threshold = {
+							order = 3,
+							type = "range",
+							name = L["Low Threshold"],
+							desc = L["Threshold before text turns red and is in decimal form. Set to -1 for it to never turn red"],
+							min = -1, max = 20, step = 1,
+							disabled = function() return not E.db.unitframe.cooldown.override end,
+							get = function(info) return E.db.unitframe.cooldown[ info[#info] ] end,
+							set = function(info, value) E.db.unitframe.cooldown[ info[#info] ] = value end
+						},
+						expiringColor = {
+							order = 4,
+							type = "color",
+							name = L["Expiring"],
+							desc = L["Color when the text is about to expire"],
+							disabled = function() return not E.db.unitframe.cooldown.override end
+						},
+						secondsColor = {
+							order = 5,
+							type = "color",
+							name = L["Seconds"],
+							desc = L["Color when the text is in the seconds format."],
+							disabled = function() return not E.db.unitframe.cooldown.override end
+						},
+						minutesColor = {
+							order = 6,
+							type = "color",
+							name = L["Minutes"],
+							desc = L["Color when the text is in the minutes format."],
+							disabled = function() return not E.db.unitframe.cooldown.override end
+						},
+						hoursColor = {
+							order = 7,
+							type = "color",
+							name = L["Hours"],
+							desc = L["Color when the text is in the hours format."],
+							disabled = function() return not E.db.unitframe.cooldown.override end
+						},
+						daysColor = {
+							order = 8,
+							type = "color",
+							name = L["Days"],
+							desc = L["Color when the text is in the days format."],
+							disabled = function() return not E.db.unitframe.cooldown.override end
+						}
+					}
+				},
+				allColorsGroup = {
+					order = 4,
 					type = "group",
 					childGroups = "tree",
 					name = COLORS,
@@ -2992,7 +3075,7 @@ E.Options.args.unitframe = {
 					}
 				},
 				disabledBlizzardFrames = {
-					order = 4,
+					order = 5,
 					type = "group",
 					name = L["Disabled Blizzard Frames"],
 					get = function(info) return E.private.unitframe.disabledBlizzardFrames[ info[#info] ] end,
@@ -3044,7 +3127,7 @@ E.Options.args.unitframe = {
 					}
 				},
 				raidDebuffIndicator = {
-					order = 5,
+					order = 6,
 					type = "group",
 					name = L["RaidDebuff Indicator"],
 					args = {
