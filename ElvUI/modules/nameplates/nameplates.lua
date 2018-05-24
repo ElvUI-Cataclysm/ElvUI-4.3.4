@@ -429,6 +429,7 @@ function mod:OnHide()
 	self.UnitFrame.RightArrow:Hide()
 	self.UnitFrame.HealthBar.r, self.UnitFrame.HealthBar.g, self.UnitFrame.HealthBar.b = nil, nil, nil
 	self.UnitFrame.HealthBar:Hide()
+	self.UnitFrame.HealthBar.currentScale = nil
 	self.UnitFrame.oldCastBar:Hide()
 	self.UnitFrame.CastBar:Hide()
 	self.UnitFrame.Level:ClearAllPoints()
