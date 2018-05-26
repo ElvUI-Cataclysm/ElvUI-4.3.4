@@ -192,6 +192,11 @@ function M:Initialize()
 				DropDownList1:SetScale(UIParent:GetScale())
 			end
 		end)
+
+		self:RawHook("WorldMapQuestPOI_OnLeave", function(self)
+			WorldMapPOIFrame.allowBlobTooltip = true
+			WorldMapTooltip:Hide()
+		end, true)
 	end
 end
 
