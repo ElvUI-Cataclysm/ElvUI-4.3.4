@@ -183,12 +183,14 @@ function mod:SetTargetFrame(frame)
 
 			mod:UpdateElement_AurasByUnitID("mouseover")
 		end
+		mod:UpdateElement_Cast(frame, nil, frame.unit)
 		mod:UpdateElement_Highlight(frame)
 	elseif frame.isMouseover then
 		frame.isMouseover = nil
 
 		frame.unit = nil
 		frame.guid = nil
+		frame.CastBar:Hide()
 
 		mod:UpdateElement_Highlight(frame)
 	else

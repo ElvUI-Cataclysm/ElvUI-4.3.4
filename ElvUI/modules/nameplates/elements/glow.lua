@@ -12,7 +12,7 @@ Target Glow Style Option Variables
 	style4 - Side Arrows Only
 	style5 - Border + Top Arrow
 	style6 - Background + Top Arrow
-	style7 - order + Side Arrows
+	style7 - Border + Side Arrows
 	style8 - Background + Side Arrows
 ]]
 
@@ -46,7 +46,11 @@ function mod:UpdatePosition_Glow(frame, shouldShow)
 
 	if frame.Glow and (self.db.targetGlow == "style1" or self.db.targetGlow == "style5" or self.db.targetGlow == "style7") then -- original glow
 		local offset = (E.PixelMode and E.mult*6) or E.mult*8 -- edgeSize is 6 (not attached to the backdrop needs +1 for pixel mode or +3 for non pixel mode)
-		frame.Glow:SetOutside((iconPosition == "LEFT" and castBar.Icon) or frame.HealthBar, offset, offset, (iconPosition == "RIGHT" and castBar.Icon) or castBar)
+		if self.db.units[frame.UnitType].castbar.offset < 4 then
+			frame.Glow:SetOutside((iconPosition == "LEFT" and castBar.Icon) or frame.HealthBar, offset, offset, (iconPosition == "RIGHT" and castBar.Icon) or castBar)
+		else
+			frame.Glow:SetOutside(frame.HealthBar, offset, offset)
+		end
 
 		if shouldShow then
 			frame.Glow:Show()
@@ -116,12 +120,13 @@ function mod:UpdateElement_Glow(frame)
 end
 
 function mod:ConfigureElement_Glow(frame)
-	frame.Glow:SetFrameLevel(frame.HealthBar:GetFrameLevel() - 1)
-	frame.Glow:SetBackdrop({edgeFile = LSM:Fetch("border", "ElvUI GlowBorder"), edgeSize = E:Scale(6)})
+
 end
 
 function mod:ConstructElement_Glow(frame)
 	local f = CreateFrame("Frame", nil, frame)
+	f:SetFrameLevel(frame.HealthBar:GetFrameLevel() - 1)
+	f:SetBackdrop({edgeFile = LSM:Fetch("border", "ElvUI GlowBorder"), edgeSize = E:Scale(6)})
 	f:Hide()
 
 	local glow = frame:CreateTexture(nil, "BACKGROUND")

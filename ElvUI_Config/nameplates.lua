@@ -1548,7 +1548,6 @@ local function UpdateFilterGroup()
 			}
 		}
 
-		specListOrder = 50 -- reset this to 50
 		UpdateInstanceDifficulty()
 		UpdateStyleLists()
 	end
@@ -1689,7 +1688,7 @@ local function GetUnitSettings(unit, name)
 						order = 6,
 						type = "range",
 						name = L["Offset"],
-						min = 0, max = 30, step = 1
+						min = 0, max = 15, step = 1
 					},
 					timeToHold = {
 						order = 7,

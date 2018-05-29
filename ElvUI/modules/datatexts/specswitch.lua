@@ -1,21 +1,24 @@
-local E, L, V, P, G = unpack(select(2, ...));
+local E, L, V, P, G = unpack(select(2, ...))
 local DT = E:GetModule("DataTexts")
 
-local select = select;
-local format, join = string.format, string.join;
+local select = select
+local format, join = string.format, string.join
 
-local GetNumTalentTabs = GetNumTalentTabs;
-local GetTalentTabInfo = GetTalentTabInfo;
-local GetNumTalentGroups = GetNumTalentGroups;
-local GetPrimaryTalentTree = GetPrimaryTalentTree;
+local GetActiveTalentGroup = GetActiveTalentGroup
+local GetNumTalentTabs = GetNumTalentTabs
+local GetTalentTabInfo = GetTalentTabInfo
+local GetNumTalentGroups = GetNumTalentGroups
+local GetPrimaryTalentTree = GetPrimaryTalentTree
 local ShowUIPanel = ShowUIPanel
 local HideUIPanel = HideUIPanel
+local ACTIVE_PETS = ACTIVE_PETS
+local FACTION_INACTIVE = FACTION_INACTIVE
 
-local lastPanel, active
-local displayString = "";
-local talent = {}
+local displayString = ""
 local activeString = join("", "|cff00FF00" , ACTIVE_PETS, "|r")
 local inactiveString = join("", "|cffFF0000", FACTION_INACTIVE, "|r")
+local lastPanel, active
+local talent = {}
 
 local function LoadTalentTrees()
 	for i = 1, GetNumTalentGroups(false, false) do

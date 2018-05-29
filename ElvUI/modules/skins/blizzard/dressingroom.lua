@@ -40,12 +40,7 @@ local function LoadSkin()
 	SideDressUpModel.backdrop:Point("BOTTOMRIGHT", 1, -2)
 
 	S:HandleButton(SideDressUpModelResetButton)
-
-	if(SideDressUpFrameUndressButton) then
-		SideDressUpModelResetButton:Point("BOTTOM", 43, 0);
-	else
-		SideDressUpModelResetButton:Point("BOTTOM", 0, 2)
-	end
+	SideDressUpModelResetButton:Point("BOTTOM", 0, 2)
 
 	S:HandleCloseButton(SideDressUpModelCloseButton)
 	SideDressUpModelCloseButton:Point("CENTER", SideDressUpFrame, "TOPRIGHT", -18, -2)

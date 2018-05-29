@@ -275,7 +275,6 @@ P["nameplates"] = {
 			}
 		}
 	},
-
 	["units"] = {
 		["FRIENDLY_PLAYER"] = {
 			["healthbar"] = {

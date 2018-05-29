@@ -351,27 +351,25 @@ function A:UpdateTempEnchant()
 	end
 end
 
-function A:UpdateWeaponText(button, timeLeft)
+function A:UpdateWeaponText(button, expiration)
 	local duration = _G[button:GetName().."Duration"]
+	local timeColors, timeThreshold = E.TimeColors, E.db.cooldown.threshold
+	if E.db.auras.cooldown.override and E.TimeColors["auras"] then
+		timeColors, timeThreshold = E.TimeColors["auras"], E.db.auras.cooldown.threshold
+	end
+	if not timeThreshold then
+		timeThreshold = E.TimeThreshold
+	end
 
-	if timeLeft then
-		duration:SetTextColor(1, 1, 1)
-		local d, h, m, s = ChatFrame_TimeBreakDown(timeLeft)
+	local timervalue, formatid
+	timervalue, formatid = E:GetTimeInfo(expiration, timeThreshold)
 
-		if timeLeft <= 86400.5 and timeLeft > 3600.5 then
-			duration:SetFormattedText("%1dh", h)
-			E:StopFlash(button)
-		elseif timeLeft <= 3600.5 and timeLeft > 60.5 then
-			duration:SetFormattedText("%1dm", m)
-			E:StopFlash(button)
-		elseif timeLeft <= 60.5 and timeLeft > E.db.auras.fadeThreshold then
-			duration:SetFormattedText("%1ds", s)
-			E:StopFlash(button)
-		elseif timeLeft <= E.db.auras.fadeThreshold then
-			duration:SetTextColor(1, 0, 0)
-			duration:SetFormattedText("%1ds", s)
-			E:Flash(button, 1)
-		end
+	duration:SetFormattedText(format("%s%s|r", timeColors[formatid], E.TimeFormats[formatid][1]), timervalue)
+
+	if expiration > E.db.auras.fadeThreshold then
+		E:StopFlash(button)
+	else
+		E:Flash(button, 1)
 	end
 end
 

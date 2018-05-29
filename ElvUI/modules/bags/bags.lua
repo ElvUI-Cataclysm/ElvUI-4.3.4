@@ -671,7 +671,7 @@ function B:Token_OnEnter()
 end
 
 function B:Token_OnClick()
-	if ( IsModifiedClick("CHATLINK") ) then
+	if IsModifiedClick("CHATLINK") then
 		HandleModifiedItemClick(GetCurrencyLink(self.currencyID));
 	end
 end

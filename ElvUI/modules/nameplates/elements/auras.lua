@@ -15,14 +15,14 @@ local GetSpellTexture = GetSpellTexture
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
 local RaidIconBit = {
-	["STAR"] = 0x00100000,
-	["CIRCLE"] = 0x00200000,
-	["DIAMOND"] = 0x00400000,
-	["TRIANGLE"] = 0x00800000,
-	["MOON"] = 0x01000000,
-	["SQUARE"] = 0x02000000,
-	["CROSS"] = 0x04000000,
-	["SKULL"] = 0x08000000
+	["STAR"] = 0x00000001,
+	["CIRCLE"] = 0x00000002,
+	["DIAMOND"] = 0x00000004,
+	["TRIANGLE"] = 0x00000008,
+	["MOON"] = 0x00000010,
+	["SQUARE"] = 0x00000020,
+	["CROSS"] = 0x00000040,
+	["SKULL"] = 0x00000080
 }
 
 local RaidIconIndex = {
@@ -450,7 +450,7 @@ local function GuidIsLocalUnitId(guid)
 	end
 end
 
-function mod:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, sourceGUID, _, _, destGUID, destName, destFlags, ...)
+function mod:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, _, sourceGUID, _, _, _, destGUID, destName, destFlags, ...)
 	if not (event == "SPELL_AURA_APPLIED" or event == "SPELL_AURA_REFRESH" or event == "SPELL_AURA_APPLIED_DOSE" or event == "SPELL_AURA_REMOVED_DOSE" or event == "SPELL_AURA_BROKEN" or event == "SPELL_AURA_BROKEN_SPELL" or event == "SPELL_AURA_REMOVED") then return end
 
 	if not GuidIsLocalUnitId(destGUID) then -- Skip over the aura update if the unit is accessible by a local unitid.
