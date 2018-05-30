@@ -70,11 +70,11 @@ local function OnClick(_, btn)
 		SetActiveTalentGroup(active == 1 and 2 or 1)
 	elseif(btn == "RightButton") then
 		DT.tooltip:Hide()
-	
+
 		if(not PlayerTalentFrame) then
 			LoadAddOn("Blizzard_TalentUI")
 		end
-	
+
 		if(not PlayerTalentFrame:IsShown()) then
 			ShowUIPanel(PlayerTalentFrame)
 		else
@@ -90,7 +90,6 @@ local function ValueColorUpdate(hex)
 		OnEvent(lastPanel)
 	end
 end
-
 E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
 DT:RegisterDatatext("Spec Switch", {"PLAYER_ENTERING_WORLD", "CHARACTER_POINTS_CHANGED", "PLAYER_TALENT_UPDATE", "ACTIVE_TALENT_GROUP_CHANGED"}, OnEvent, nil, OnClick, OnEnter, nil, L["Talent Specialization"])

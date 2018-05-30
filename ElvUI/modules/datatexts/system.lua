@@ -72,7 +72,6 @@ local function RebuildAddonList()
 end
 
 local function UpdateMemory()
-
 	UpdateAddOnMemoryUsage()
 
 	totalMemory = 0
@@ -103,18 +102,18 @@ end
 
 local function ToggleGameMenuFrame()
 	if GameMenuFrame:IsShown() then
-		PlaySound("igMainMenuQuit");
-		HideUIPanel(GameMenuFrame);
+		PlaySound("igMainMenuQuit")
+		HideUIPanel(GameMenuFrame)
 	else
-		PlaySound("igMainMenuOpen");
-		ShowUIPanel(GameMenuFrame);
+		PlaySound("igMainMenuOpen")
+		ShowUIPanel(GameMenuFrame)
 	end
 end
 
 local function OnClick(_, btn)
 	if btn == "RightButton" then
-		collectgarbage("collect");
-		ResetCPUUsage();
+		collectgarbage("collect")
+		ResetCPUUsage()
 	elseif btn == "LeftButton" then
 		ToggleGameMenuFrame()
 	end
@@ -181,7 +180,7 @@ local function OnEnter(self)
 end
 
 local function OnLeave()
-	enteredFrame = false;
+	enteredFrame = false
 	DT.tooltip:Hide()
 end
 
@@ -190,7 +189,7 @@ local function OnUpdate(self, t)
 	int2 = int2 - t
 
 	if (int < 0) then
-		RebuildAddonList();
+		RebuildAddonList()
 		int = 10;
 	end
 

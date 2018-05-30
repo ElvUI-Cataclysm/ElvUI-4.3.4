@@ -20,6 +20,7 @@ local STAT_EXPERTISE = STAT_EXPERTISE
 local STAT_TARGET_LEVEL = STAT_TARGET_LEVEL
 
 local displayString = ""
+local skullTexture = "|TInterface\\TargetingFrame\\UI-TargetingFrame-Skull:0|t"
 local playerLevel = UnitLevel("player")
 local text, level
 local dodgeDisplay, parryDisplay
@@ -70,7 +71,7 @@ local function OnEnter(self)
 		offhandDodge = format("%.2f%%", offhandDodge)
 
 		if i == 3 then
-			level = level.." / |TInterface\\TargetingFrame\\UI-TargetingFrame-Skull:0|t"
+			level = level.." / "..skullTexture
 		end
 
 		if IsDualWielding() and mainhandDodge ~= offhandDodge then
@@ -94,7 +95,7 @@ local function OnEnter(self)
 		offhandParry = format("%.2f%%", offhandParry)
 
 		if i == 3 then
-			level = level.." / |TInterface\\TargetingFrame\\UI-TargetingFrame-Skull:0|t"
+			level = level.." / "..skullTexture
 		end
 
 		if IsDualWielding() and mainhandParry ~= offhandParry then

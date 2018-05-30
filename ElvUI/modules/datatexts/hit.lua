@@ -9,6 +9,7 @@ local GetMeleeMissChance = GetMeleeMissChance
 local GetSpellMissChance = GetSpellMissChance
 local GetRangedMissChance = GetRangedMissChance
 local IsDualWielding = IsDualWielding
+local UnitLevel = UnitLevel
 local CR_HIT_MELEE = CR_HIT_MELEE
 local CR_HIT_SPELL = CR_HIT_SPELL
 local CR_HIT_RANGED = CR_HIT_RANGED
@@ -22,6 +23,7 @@ local STAT_HIT_NORMAL_ATTACKS = STAT_HIT_NORMAL_ATTACKS
 local STAT_HIT_SPECIAL_ATTACKS = STAT_HIT_SPECIAL_ATTACKS
 
 local playerLevel = UnitLevel("player")
+local skullTexture = "|TInterface\\TargetingFrame\\UI-TargetingFrame-Skull:0|t"
 local displayString = ""
 local hitRatingBonus
 local missChance, level
@@ -46,7 +48,7 @@ end
 local function OnEnter(self)
 	DT:SetupTooltip(self)
 
-	if E.role == "Caster" then
+	if E.Role == "Caster" then
 		DT.tooltip:AddLine(format(STAT_HIT_SPELL_TOOLTIP, GetCombatRating(CR_HIT_SPELL), GetCombatRatingBonus(CR_HIT_SPELL)))
 		DT.tooltip:AddLine(" ")
 		DT.tooltip:AddDoubleLine(STAT_TARGET_LEVEL, MISS_CHANCE, 1, 1, 1, 1, 1, 1)
@@ -55,7 +57,7 @@ local function OnEnter(self)
 			missChance = format("%.2f%%", GetSpellMissChance(i))
 			level = playerLevel + i
 			if i == 3 then
-				level = level.." / |TInterface\\TargetingFrame\\UI-TargetingFrame-Skull:0|t"
+				level = level.." / "..skullTexture
 			end
 
 			DT.tooltip:AddDoubleLine("      "..level, missChance.."    ")
@@ -70,7 +72,7 @@ local function OnEnter(self)
 				missChance = format("%.2f%%", GetRangedMissChance(i))
 				level = playerLevel + i
 				if i == 3 then
-					level = level.." / |TInterface\\TargetingFrame\\UI-TargetingFrame-Skull:0|t"
+					level = level.." / "..skullTexture
 				end
 
 				DT.tooltip:AddDoubleLine("      "..level, missChance.."    ")
@@ -89,7 +91,7 @@ local function OnEnter(self)
 				missChance = format("%.2f%%", GetMeleeMissChance(i, false))
 				level = playerLevel + i
 				if i == 3 then
-					level = level.." / |TInterface\\TargetingFrame\\UI-TargetingFrame-Skull:0|t"
+					level = level.." / "..skullTexture
 				end
 
 				DT.tooltip:AddDoubleLine("      "..level, missChance.."    ")
@@ -103,7 +105,7 @@ local function OnEnter(self)
 					missChance = format("%.2f%%", GetMeleeMissChance(i, true))
 					level = playerLevel + i
 					if i == 3 then
-						level = level.." / |TInterface\\TargetingFrame\\UI-TargetingFrame-Skull:0|t";
+						level = level.." / "..skullTexture
 					end
 
 					DT.tooltip:AddDoubleLine("      "..level, missChance.."    ")

@@ -335,7 +335,7 @@ local function LoadSkin()
 		local _, resistance = UnitResistance(unit, resistanceIndex);
 		local resistanceNameShort = _G["SPELL_SCHOOL"..resistanceIndex.."_CAP"];
 		local resistanceName = _G["RESISTANCE"..resistanceIndex.."_NAME"];
-		local resistanceIconCode = "|TInterface\\PaperDollInfoFrame\\SpellSchoolIcon"..(resistanceIndex+1)..":13:13:0:0:64:64:4:55:4:55|t";
+		local resistanceIconCode = "|TInterface\\PaperDollInfoFrame\\SpellSchoolIcon"..(resistanceIndex+1)..":12:12:0:0:64:64:4:55:4:55|t"
 
 		_G[statFrame:GetName().."Label"]:SetText(resistanceIconCode.." "..format(STAT_FORMAT, resistanceNameShort));
 		statFrame.tooltip = resistanceIconCode.." "..HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, resistanceName).." "..resistance..FONT_COLOR_CODE_CLOSE;

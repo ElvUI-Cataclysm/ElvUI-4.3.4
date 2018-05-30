@@ -13,15 +13,18 @@ local GetParryChance = GetParryChance
 local GetBlockChance = GetBlockChance
 local GetBonusBarOffset = GetBonusBarOffset
 local BOSS = BOSS
+local DEFENSE = DEFENSE
 local DODGE_CHANCE = DODGE_CHANCE
 local PARRY_CHANCE = PARRY_CHANCE
 local BLOCK_CHANCE = BLOCK_CHANCE
+local MISS_CHANCE = MISS_CHANCE
 
-local displayString, lastPanel
-local targetlv, playerlv
-local baseMissChance, levelDifference, dodge, parry, block, avoidance, unhittable
+local displayString = ""
 local chanceString = "%.2f%%"
 local AVD_DECAY_RATE = 0.2
+local targetlv, playerlv
+local baseMissChance, levelDifference, dodge, parry, block, avoidance, unhittable
+local lastPanel
 
 local function IsWearingShield()
 	local slotID = GetInventorySlotInfo("SecondaryHandSlot")

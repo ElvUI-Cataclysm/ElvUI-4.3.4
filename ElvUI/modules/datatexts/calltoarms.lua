@@ -1,12 +1,12 @@
-local E, L, V, P, G = unpack(select(2, ...));
+local E, L, V, P, G = unpack(select(2, ...))
 local DT = E:GetModule("DataTexts")
 
-local GetLFGRandomDungeonInfo = GetLFGRandomDungeonInfo;
-local GetLFGRoleShortageRewards = GetLFGRoleShortageRewards;
-local GetNumRandomDungeons = GetNumRandomDungeons;
-local ToggleFrame = ToggleFrame;
-local LFG_ROLE_NUM_SHORTAGE_TYPES = LFG_ROLE_NUM_SHORTAGE_TYPES;
-local BATTLEGROUND_HOLIDAY = BATTLEGROUND_HOLIDAY;
+local GetLFGRandomDungeonInfo = GetLFGRandomDungeonInfo
+local GetLFGRoleShortageRewards = GetLFGRoleShortageRewards
+local GetNumRandomDungeons = GetNumRandomDungeons
+local ToggleFrame = ToggleFrame
+local LFG_ROLE_NUM_SHORTAGE_TYPES = LFG_ROLE_NUM_SHORTAGE_TYPES
+local BATTLEGROUND_HOLIDAY = BATTLEGROUND_HOLIDAY
 
 local TANK_ICON = "|TInterface\\AddOns\\ElvUI\\media\\textures\\tank.tga:14:14|t"
 local HEALER_ICON = "|TInterface\\AddOns\\ElvUI\\media\\textures\\healer.tga:14:14|t"
@@ -58,15 +58,6 @@ local function OnClick()
 	ToggleFrame(LFDParentFrame)
 end
 
-local function ValueColorUpdate(hex)
-	NOBONUSREWARDS = BATTLEGROUND_HOLIDAY..": "..hex.."N/A|r"
-
-	if lastPanel ~= nil then
-		OnEvent(lastPanel)
-	end
-end
-E["valueColorUpdateFuncs"][ValueColorUpdate] = true
-
 local function OnEnter(self)
 	if not enteredFrame then
 		enteredFrame = true
@@ -102,6 +93,11 @@ local function OnEnter(self)
 	DT.tooltip:Show()
 end
 
+local function OnLeave()
+	DT.tooltip:Hide()
+	enteredFrame = false
+end
+
 local updateInterval = 10
 local function OnUpdate(self, elapsed)
 	if self.timeSinceUpdate and self.timeSinceUpdate > updateInterval then
@@ -117,9 +113,13 @@ local function OnUpdate(self, elapsed)
 	end
 end
 
-local function OnLeave()
-	DT.tooltip:Hide()
-	enteredFrame = false
+local function ValueColorUpdate(hex)
+	NOBONUSREWARDS = BATTLEGROUND_HOLIDAY..": "..hex.."N/A|r"
+
+	if lastPanel ~= nil then
+		OnEvent(lastPanel)
+	end
 end
+E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
 DT:RegisterDatatext("Call to Arms", {"PLAYER_ENTERING_WORLD", "LFG_UPDATE_RANDOM_INFO"}, OnEvent, OnUpdate, OnClick, OnEnter, OnLeave, BATTLEGROUND_HOLIDAY)
