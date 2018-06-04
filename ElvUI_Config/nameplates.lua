@@ -3,7 +3,7 @@ local NP = E:GetModule("NamePlates")
 local ACD = LibStub("AceConfigDialog-3.0-ElvUI")
 
 local next, ipairs, pairs, type, tonumber = next, ipairs, pairs, type, tonumber
-local tremove, tinsert, tsort, tconcat = tremove, tinsert, table.sort, table.concat
+local tremove, tinsert, tsort, tconcat = table.remove, table.insert, table.sort, table.concat
 local format, match, gsub, strsplit = string.format, string.match, string.gsub, strsplit
 
 local GetSpellInfo = GetSpellInfo

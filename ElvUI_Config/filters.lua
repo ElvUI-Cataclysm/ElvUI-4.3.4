@@ -3,10 +3,9 @@ local UF = E:GetModule("UnitFrames")
 
 local type, pairs, tonumber, tostring = type, pairs, tonumber, tostring
 local gsub, match, format = string.gsub, string.match, string.format
+
 local GetSpellInfo = GetSpellInfo
-local COLOR = COLOR
-local FILTERS = FILTERS
-local NONE = NONE
+local NONE, COLOR, FILTERS = NONE, COLOR, FILTERS
 
 local selectedSpell
 local selectedFilter
@@ -1070,9 +1069,9 @@ local function UpdateFilterGroup()
 						type = "color",
 						name = L["Text Color"],
 						get = function(info)
-							if(E.db.unitframe.filters.buffwatch[selectedSpell]) then
+							if E.db.unitframe.filters.buffwatch[selectedSpell] then
 								local t = E.db.unitframe.filters.buffwatch[selectedSpell][ info[#info] ]
-								if(t) then
+								if t then
 									return t.r, t.g, t.b, t.a
 								else
 									return 1, 1, 1, 1

@@ -9,6 +9,7 @@ local IsFishingLoot = IsFishingLoot
 local GetLootRollItemInfo = GetLootRollItemInfo
 local GetItemQualityColor = GetItemQualityColor
 local GetLootSlotInfo = GetLootSlotInfo
+local LOOTFRAME_NUMBUTTONS = LOOTFRAME_NUMBUTTONS
 local NUM_GROUP_LOOT_FRAMES = NUM_GROUP_LOOT_FRAMES
 local LOOT, ITEMS = LOOT, ITEMS
 

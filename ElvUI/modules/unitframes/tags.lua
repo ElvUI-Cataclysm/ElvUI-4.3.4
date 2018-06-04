@@ -346,7 +346,7 @@ ElvUF.Tags.Methods["power:current-max"] = function(unit)
 	local pType = UnitPowerType(unit)
 	local min = UnitPower(unit, pType)
 
-	return min == 0 and " " or	E:GetFormattedText("CURRENT_MAX", min, UnitPowerMax(unit, pType))
+	return min == 0 and " " or E:GetFormattedText("CURRENT_MAX", min, UnitPowerMax(unit, pType))
 end
 
 ElvUF.Tags.Events["power:current-percent"] = "UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT UNIT_MAXPOWER"
@@ -859,6 +859,7 @@ end
 ElvUF.Tags.OnUpdateThrottle["speed:yardspersec-raw"] = 0.1
 ElvUF.Tags.Methods["speed:yardspersec-raw"] = function(unit)
 	local currentSpeedInYards = GetUnitSpeed(unit)
+
 	return format("%.1f", currentSpeedInYards)
 end
 

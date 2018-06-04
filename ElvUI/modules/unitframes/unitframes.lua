@@ -6,7 +6,7 @@ UF.LSM = LSM
 local _G = _G
 local select, pairs, type, unpack, assert, tostring = select, pairs, type, unpack, assert, tostring
 local min = math.min
-local tremove, tinsert = table.remove, table.insert
+local tinsert = table.insert
 local find, gsub, format = string.find, string.gsub, string.format
 
 local hooksecurefunc = hooksecurefunc
@@ -749,6 +749,7 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 		if(inInstance and (instanceType == "raid" or instanceType == "pvp")) then
 			local _, _, _, _, maxPlayers = GetInstanceInfo()
 			local mapID = GetCurrentMapAreaID()
+
 			if(UF.mapIDs[mapID]) then
 				maxPlayers = UF.mapIDs[mapID]
 			end
@@ -1195,9 +1196,8 @@ function UF:MergeUnitSettings(fromUnit, toUnit, isGroupUnit)
 end
 
 local function updateColor(self, r, g, b)
-	if(not self.isTransparent) then
-		return
-	end
+	if not self.isTransparent then return end
+
 	if(self.backdrop) then
 		local _, _, _, a = self.backdrop:GetBackdropColor()
 		self.backdrop:SetBackdropColor(r * 0.58, g * 0.58, b * 0.58, a)
@@ -1345,16 +1345,6 @@ function UF:Initialize()
 			self:RegisterEvent("ADDON_LOADED")
 		else
 			ElvUF:DisableBlizzard("arena")
-		end
-	end
-
-	for k, _ in pairs(UnitPopupMenus) do
-		for x, y in pairs(UnitPopupMenus[k]) do
-			if y == "SET_FOCUS" then
-				tremove(UnitPopupMenus[k], x)
-			elseif y == "CLEAR_FOCUS" then
-				tremove(UnitPopupMenus[k], x)
-			end
 		end
 	end
 
