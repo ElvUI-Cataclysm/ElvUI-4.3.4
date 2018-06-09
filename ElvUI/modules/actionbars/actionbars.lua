@@ -32,6 +32,7 @@ local GetFlyoutID = GetFlyoutID;
 local GetMouseFocus = GetMouseFocus;
 local SetCVar = SetCVar;
 local NUM_ACTIONBAR_BUTTONS = NUM_ACTIONBAR_BUTTONS;
+local LEAVE_VEHICLE = LEAVE_VEHICLE
 
 local LAB = LibStub("LibActionButton-1.0");
 local LSM = LibStub("LibSharedMedia-3.0");
@@ -498,7 +499,6 @@ function AB:UpdateButtonSettings()
 		self:RegisterEvent("PLAYER_REGEN_ENABLED")
 		return
 	end
-
 
 	for button, _ in pairs(self["handledbuttons"]) do
 		if(button) then
