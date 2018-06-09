@@ -41,6 +41,9 @@ local function LoadSkin()
 	S:HandleScrollBar(WorldMapQuestDetailScrollFrameScrollBar, 4)
 	S:HandleScrollBar(WorldMapQuestRewardScrollFrameScrollBar, 4)
 
+	WorldMapQuestSelectBar:SetInside()
+	WorldMapQuestHighlightBar:SetInside()
+
 	S:HandleCloseButton(WorldMapFrameCloseButton)
 
 	S:HandleCloseButton(WorldMapFrameSizeDownButton, nil, "-")

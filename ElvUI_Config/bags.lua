@@ -201,8 +201,8 @@ E.Options.args.bags = {
 			}
 		},
 		cooldown = {
-			type = "group",
 			order = 4,
+			type = "group",
 			name = L["Cooldown Override"],
 			get = function(info)
 				local t = E.db.bags.cooldown[ info[#info] ]
@@ -214,6 +214,7 @@ E.Options.args.bags = {
 				t.r, t.g, t.b = r, g, b
 				E:UpdateCooldownSettings("bags")
 			end,
+			disabled = function() return not E.bags end,
 			args = {
 				header = {
 					order = 1,

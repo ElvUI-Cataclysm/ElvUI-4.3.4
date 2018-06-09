@@ -1178,7 +1178,7 @@ end
 function B:PLAYER_ENTERING_WORLD()
 	self:UpdateGoldText()
 
-	E:Delay(0.05, function()
+	E:Delay(1, function()
 		B:UpdateBagTypes()
 	end)
 end
