@@ -162,7 +162,7 @@ E.Options.args.maps = {
 						    values = {
 						        ["MOUSEOVER"] = L["Minimap Mouseover"],
 						        ["SHOW"] = L["Always Display"],
-						        ["HIDE"] = L["Hide"]
+						        ["HIDE"] = HIDE
 						    },
 						    disabled = function() return not E.private.general.minimap.enable; end
 						},
@@ -253,7 +253,7 @@ E.Options.args.maps = {
 								hideCalendar = {
 									order = 2,
 									type = "toggle",
-									name = L["Hide"],
+									name = HIDE,
 									get = function(info) return E.private.general.minimap.hideCalendar end,
 									set = function(info, value) E.private.general.minimap.hideCalendar = value; MM:UpdateSettings() end,
 									width = "full"
@@ -319,7 +319,7 @@ E.Options.args.maps = {
 								hideWorldMap = {
 									order = 2,
 									type = "toggle",
-									name = L["Hide"],
+									name = HIDE,
 									get = function(info) return E.private.general.minimap.hideWorldMap end,
 									set = function(info, value) E.private.general.minimap.hideWorldMap = value; MM:UpdateSettings() end,
 									width = "full"
@@ -567,7 +567,7 @@ E.Options.args.maps = {
 								hide = {
 									order = 2,
 									type = "toggle",
-									name = L["Hide"]
+									name = HIDE
 								},
 								spacer = {
 									order = 3,
@@ -674,7 +674,7 @@ E.Options.args.maps = {
 								hideZoomIn = {
 									order = 2,
 									type = "toggle",
-									name = L["Hide"],
+									name = HIDE,
 									get = function(info) return E.private.general.minimap.hideZoomIn end,
 									set = function(info, value) E.private.general.minimap.hideZoomIn = value; MM:UpdateSettings() end,
 									width = "full"
@@ -734,7 +734,7 @@ E.Options.args.maps = {
 								hideZoomOut = {
 									order = 2,
 									type = "toggle",
-									name = L["Hide"],
+									name = HIDE,
 									get = function(info) return E.private.general.minimap.hideZoomOut end,
 									set = function(info, value) E.private.general.minimap.hideZoomOut = value; MM:UpdateSettings() end,
 									width = "full"

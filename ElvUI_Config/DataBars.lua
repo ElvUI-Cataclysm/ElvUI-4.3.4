@@ -28,7 +28,7 @@ E.Options.args.databars = {
 				header = {
  					order = 1,
 					type = "header",
-					name = L["Experience Bar"],
+					name = XPBAR_LABEL
 				},
 				enable = {
 					order = 2,
@@ -143,7 +143,7 @@ E.Options.args.databars = {
 				header = {
  					order = 1,
 					type = "header",
-					name = L["Reputation Bar"]
+					name = REPUTATION
 				},
 				enable = {
 					order = 2,

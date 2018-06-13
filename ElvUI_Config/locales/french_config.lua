@@ -52,7 +52,7 @@ Formats de la Vie / des Ressources:
 'percent' - Quantité en pourcentage
 'current-max' - Quantité actuelle maximale, n'affichera seulement la quantité maximale si la quantité actuelle est égale au maximum.
 'current-percent' - Quantité actuelle suivie par quantité en pourcentage, n'affichera seulement la quantité maximale si la quantité actuelle est égale au maximum
-'current-max-percent' -  Quantité actuelle, quantité maximale, suivie par quantité en pourcentage, n'affichera seulement la quantité maximale si la quantité actuelle est égale au maximum
+'current-max-percent' - Quantité actuelle, quantité maximale, suivie par quantité en pourcentage, n'affichera seulement la quantité maximale si la quantité actuelle est égale au maximum
 'deficit' - Affiche la valeur du déficit, n'affichera rien si il n'y a pas de déficit
 
 Format des Noms:
@@ -181,7 +181,7 @@ L["Icons and Text (Short)"] = "Icônes et textes (court)"
 L["Icons and Text"] = "Icônes et textes"
 L["Ignored Items and Search Syntax (Global)"] = true
 L["Ignored Items and Search Syntax (Profile)"] = true
-L["Item Count Font"] = "Police d'équipement du compteur"  --need review
+L["Item Count Font"] = "Police d'équipement du compteur" --need review
 L["Item Level Threshold"] = "Seuil de niveau d'objet"
 L["Item Level"] = "Niveau d'objet"
 L["Money Format"] = "Format monétaire"
@@ -242,7 +242,7 @@ L["Above Chat"] = "En-dessus du Chat"
 L["Adjust the height of your right chat panel."] = "Ajuste la hauteur de la fenêtre de discussion de droite."
 L["Adjust the width of your right chat panel."] = "Ajuste la largeur de la fenêtre de discussion de droite."
 L["Alerts"] = "Alertes"
-L["Allowed Combat Repeat"] = "Répétition des combats autorisé" 
+L["Allowed Combat Repeat"] = "Répétition des combats autorisé"
 L["Attempt to create URL links inside the chat."] = "Tentative pour créer un lien URL dans les fenêtres de discussion."
 L["Attempt to lock the left and right chat frame positions. Disabling this option will allow you to move the main chat frame anywhere you wish."] = "Tentative pour verrouiller les positions gauche et droite du cadre de discussion. La désactivation de cette option vous permet de déplacer la fenêtre de discussion principale où vous le souhaitez."
 L["Below Chat"] = "En-dessous du Chat"
@@ -406,7 +406,6 @@ L["Auto Greed/DE"] = "Dez / Cupidité Auto"
 L["Auto Repair"] = "Réparation automatique"
 L["Auto Scale"] = "Échelle Automatique"
 L["Automatically accept invites from guild/friends."] = "Accepter automatiquement les invitations venant d'amis / joueurs de la Guilde."
-L["Automatically release body when killed inside a battleground."] = "Libère automatiquement votre corps quand vous êtes tué en Champs de Bataille."
 L["Automatically repair using the following method when visiting a merchant."] = "Répare automatiquement votre équipement chez le marchand selon le mode de réparation sélectionné."
 L["Automatically scale the User Interface based on your screen resolution"] = "Redimensionne automatiquement l'Interface Utilisateur en fonction de votre résolution d'écran."
 L["Automatically select greed or disenchant (when available) on green quality items. This will only work if you are the max level."] = "Choisi automatiquement la cupidité ou le désenchantement (quand il est disponible) sur les objets inhabituels (vert). Ceci ne fonctionne que si vous êtes au niveau maximum."
@@ -435,7 +434,7 @@ L["Hide At Max Level"] = "Cacher au niveau maximum"
 L["Hide Error Text"] = "Cacher les textes d'erreurs"
 L["Hide In Vehicle"] = "Cacher en véhicule"
 L["Hides the red error text at the top of the screen while in combat."] = "Cacher les textes d'erreurs en haut de l'écran en combat."
-L["Log Taints"] = "Journal  des corruptions"
+L["Log Taints"] = "Journal des corruptions"
 L["Login Message"] = "Message de connexion"
 L["Loot Roll"] = "Cadre de butin"
 L["Loot"] = "Butin"
@@ -603,7 +602,6 @@ L["Health Threshold"] = true
 L["Hide Frame"] = true
 L["Hide Spell Name"] = true
 L["Hide Time"] = true
-L["Hide"] = "Masquer" --Also used in DataTexts
 L["How many seconds the castbar should stay visible after the cast failed or was interrupted."] = true
 L["Icon Base Height"] = true
 L["Icon Position"] = true
@@ -803,7 +801,6 @@ L["Ascending or Descending order."] = "Ordre ascendant ou descendant."
 L["Assist Frames"] = "Cadre des Soutiens"
 L["Assist Target"] = 'Cible de soutien'
 L["At what point should the text be displayed. Set to -1 to disable."] = "A quel moment le texte devrait être affiché. Mettre à -1 pour désactiver."
-L["Attach Text to Power"] = 'Attacher le texte à la puissance'
 L["Attach Text To"] = "Attacher le texte à"
 L["Attach To"] = "Attacher à"
 L["Aura Bars"] = "Barre d'auras"
@@ -1091,7 +1088,7 @@ L["Text Format"] = "Format du texte"
 L["Text Position"] = "Position du texte"
 L["Text Threshold"] = "Seuil du texte"
 L["Text Toggle On NPC"] = "Afficher le texte des PNJ"
-L["Text xOffset"] =  "Décalage de l'axe X du texte"
+L["Text xOffset"] = "Décalage de l'axe X du texte"
 L["Text yOffset"] = "Décalage de l'axe Y du texte"
 L["Text"] = "Texte"
 L["Textured Icon"] = "Texture de l'icône"
