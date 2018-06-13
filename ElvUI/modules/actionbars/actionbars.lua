@@ -752,14 +752,13 @@ function AB:DisableBlizzard()
 
 	MultiCastActionBarFrame.ignoreFramePositionManager = true;
 
-	MainMenuBar:UnregisterAllEvents();
 	MainMenuBar:Hide();
 	MainMenuBar:SetParent(UIHider);
 
-	MainMenuBarArtFrame:UnregisterEvent("ACTIONBAR_PAGE_CHANGED");
-	MainMenuBarArtFrame:UnregisterEvent("ADDON_LOADED");
-	MainMenuBarArtFrame:Hide();
-	MainMenuBarArtFrame:SetParent(UIHider);
+	MainMenuBarArtFrame:UnregisterAllEvents()
+	MainMenuBarArtFrame:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
+	MainMenuBarArtFrame:Hide()
+	MainMenuBarArtFrame:SetParent(UIHider)
 
 	ShapeshiftBarFrame:UnregisterAllEvents();
 	ShapeshiftBarFrame:Hide();
