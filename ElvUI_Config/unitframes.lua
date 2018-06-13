@@ -3449,7 +3449,11 @@ E.Options.args.unitframe.args.player = {
 							type = "range",
 							name = L["Spacing"],
 							min = ((E.db.unitframe.thinBorders or E.PixelMode) and -1 or -4), max = 20, step = 1,
-							disabled = function() return not E.db.unitframe.units["player"]["classbar"].detachFromFrame or not E.db.unitframe.units["player"]["classbar"].enable end
+							disabled = function()
+								return E.db.unitframe.units["player"]["classbar"].fill and (E.db.unitframe.units["player"]["classbar"].fill == "fill")
+								or not E.db.unitframe.units["player"]["classbar"].detachFromFrame
+								or not E.db.unitframe.units["player"]["classbar"].enable
+							end
 						},
 						parent = {
 							order = 6,
@@ -4049,7 +4053,11 @@ E.Options.args.unitframe.args.target = {
 							type = "range",
 							name = L["Spacing"],
 							min = ((E.db.unitframe.thinBorders or E.PixelMode) and -1 or -4), max = 20, step = 1,
-							disabled = function() return not E.db.unitframe.units["target"]["combobar"].detachFromFrame or not E.db.unitframe.units["target"]["combobar"].enable end
+							disabled = function()
+								return (E.db.unitframe.units["target"]["combobar"].fill and (E.db.unitframe.units["target"]["combobar"].fill == "fill"))
+								or not E.db.unitframe.units["target"]["combobar"].detachFromFrame
+								or not E.db.unitframe.units["target"]["combobar"].enable
+							end
 						},
 						parent = {
 							order = 6,
