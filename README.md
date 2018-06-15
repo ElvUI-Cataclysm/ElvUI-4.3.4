@@ -1,6 +1,6 @@
-# ElvUI Cataclysm (4.3.4)
+# ElvUI - Cataclysm (4.3.4)
 
-This is the backported version of ElvUI for World of Warcraft 4.3.4
+This is the backported version of ElvUI for World of Warcraft - Cataclysm (4.3.4) 
 <br />
 ElvUI is a full UI replacement.
 It completely replaces the default Blizzard UI at every level with a new and better interface.
