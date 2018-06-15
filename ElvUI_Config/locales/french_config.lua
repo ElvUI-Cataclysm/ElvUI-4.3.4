@@ -1081,7 +1081,7 @@ L["Tapped"] = "Collé"
 L["Targeted Glow"] = true
 L["Targeting"] = true
 L["Target Glow"] = "Cible "
-L["Target On Mouse-Down"] =  "Cibler lors d'un appui sur le clic (et non pas en relachant le clic)" --Need review
+L["Target On Mouse-Down"] = "Cibler lors d'un appui sur le clic (et non pas en relachant le clic)" --Need review
 L["Target units on mouse down rather than mouse up. \n\n|cffFF0000Warning: If you are using the addon 'Clique' you may have to adjust your clique settings when changing this."] = "Cible les unités avec un appui sur le clic souris plutôt qu'au relâchement du clic. \n\n|cffFF0000Attention: Si vous utilisez l'addon 'Clique' vous devrez peut-être ajuster vos paramètres de clic lors du changement de celui-ci."
 L["Text Color"] = "Couleur du texte"
 L["Text Format"] = "Format du texte"
@@ -1105,7 +1105,7 @@ L["This opens the UnitFrames Color settings. These settings affect all unitframe
 L["Threat Display Mode"] = "Affichage du Mode de Menace."
 L["Threshold before text goes into decimal form. Set to -1 to disable decimals."] = "Seuil avant que le texte ne s'affiche sous forme décimale. Mettre à -1 pour désactiver l'affichage en décimal."
 L["Ticks"] = "Ticks"
-L["Time Remaining Reverse"] =  "Temps restant inversé"
+L["Time Remaining Reverse"] = "Temps restant inversé"
 L["Time Remaining"] = "Temps restant"
 L["Transparent"] = "Transparent"
 L["Turtle Color"] = "Couleur 'Turtle'" -- Same
