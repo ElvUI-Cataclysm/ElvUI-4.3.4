@@ -49,7 +49,7 @@ local function LoadSkin()
 
 	HelpFrameKnowledgebaseErrorFrame:StripTextures(true)
 	HelpFrameKnowledgebaseErrorFrame:CreateBackdrop("Default")
-	
+
 	HelpFrameReportBugScrollFrame:StripTextures()
 	HelpFrameReportBugScrollFrame:CreateBackdrop("Transparent")
 	HelpFrameReportBugScrollFrame.backdrop:Point("TOPLEFT", -4, 4)
@@ -121,10 +121,10 @@ local function LoadSkin()
 	S:HandleCloseButton(HelpFrameKnowledgebaseErrorFrameCloseButton, HelpFrameKnowledgebaseErrorFrame.backdrop)
 
 	--Hearth Stone Button
-	HelpFrameCharacterStuckHearthstone:SetTemplate("Default", true)
-	HelpFrameCharacterStuckHearthstone:GetHighlightTexture():Hide()
-	HelpFrameCharacterStuckHearthstone.IconTexture:SetInside()
-	HelpFrameCharacterStuckHearthstone.IconTexture:SetTexCoord(unpack(E.TexCoords))
+	S:HandleItemButton(HelpFrameCharacterStuckHearthstone, true)
+	HelpFrameCharacterStuckHearthstone:GetHighlightTexture():SetTexture(1, 1, 1, 0.3)
+	HelpFrameCharacterStuckHearthstone.SetHighlightTexture = E.noop
+	E:RegisterCooldown(HelpFrameCharacterStuckHearthstoneCooldown)
 
 	S:HandleButton(HelpFrameGM_ResponseNeedMoreHelp)
 	S:HandleButton(HelpFrameGM_ResponseCancel)
