@@ -86,7 +86,7 @@ local menuList = {
 		ToggleFrame(RaidParentFrame)
 	end},
 	{text = ENCOUNTER_JOURNAL, notCheckable = 1, func = function()
-		if not IsAddOnLoaded("Blizzard_EncounterJournal") then EncounterJournal_LoadUI() end 
+		if not IsAddOnLoaded("Blizzard_EncounterJournal") then EncounterJournal_LoadUI() end
 		ToggleFrame(EncounterJournal)
 	end},
 	{text = HELP_BUTTON, notCheckable = 1, func = ToggleHelpFrame},

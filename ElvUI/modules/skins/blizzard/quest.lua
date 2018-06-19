@@ -73,6 +73,7 @@ local function LoadSkin()
 	end
 
 	QuestInfoRewardSpell:SetHitRectInsets(0, 1, 3, -2)
+	QuestInfoSpellObjectiveFrame:SetHitRectInsets(0, 1, 3, -2)
 
 	QuestInfoItemHighlight:StripTextures();
 	QuestInfoItemHighlight:SetTemplate("Default", nil, true);

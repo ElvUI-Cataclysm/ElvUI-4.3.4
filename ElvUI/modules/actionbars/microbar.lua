@@ -58,14 +58,6 @@ function AB:HandleMicroButton(button)
 	end
 end
 
-function AB:MainMenuMicroButton_SetNormal()
-	MainMenuBarPerformanceBar:Point("TOPLEFT", MainMenuMicroButton, "TOPLEFT", 9, -36)
-end
-
-function AB:MainMenuMicroButton_SetPushed()
-	MainMenuBarPerformanceBar:Point("TOPLEFT", MainMenuMicroButton, "TOPLEFT", 8, -37)
-end
-
 function AB:UpdateMicroButtonsParent(parent)
 	if CharacterMicroButton:GetParent() == ElvUI_MicroBar then return end
 
@@ -188,14 +180,11 @@ function AB:SetupMicroBar()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "UpdateMicroButtonsParent")
 
 	self:SecureHook("VehicleMenuBar_MoveMicroButtons", "UpdateMicroButtonsParent")
-	self:SecureHook("MainMenuMicroButton_SetPushed")
-	self:SecureHook("MainMenuMicroButton_SetNormal")
 	self:SecureHook("UpdateMicroButtonsParent")
 	self:SecureHook("MoveMicroButtons", "UpdateMicroPositionDimensions")
 	self:SecureHook("UpdateMicroButtons")
 
 	UpdateMicroButtonsParent(microBar)
-	self:MainMenuMicroButton_SetNormal()
 	self:UpdateMicroPositionDimensions()
 	MainMenuBarPerformanceBar:Kill()
 
