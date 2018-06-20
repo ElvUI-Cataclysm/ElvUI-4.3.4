@@ -466,26 +466,28 @@ local function LoadSkin()
 	S:HandleCloseButton(TokenFramePopupCloseButton)
 	TokenFramePopupCloseButton:Point("TOPRIGHT", 3, 4)
 
-	--Pet
+	-- Pet
 	PetModelFrame:CreateBackdrop("Transparent")
 
 	PetPaperDollFrameExpBar:StripTextures()
 	PetPaperDollFrameExpBar:CreateBackdrop("Default")
 	PetPaperDollFrameExpBar:SetStatusBarTexture(E["media"].normTex)
 
-	S:HandleRotateButton(PetModelFrameRotateRightButton)
 	S:HandleRotateButton(PetModelFrameRotateLeftButton)
+	PetModelFrameRotateLeftButton:Point("TOPLEFT", 2, -2)
 
-	PetModelFrameRotateRightButton:ClearAllPoints()
-	PetModelFrameRotateRightButton:Point("LEFT", PetModelFrameRotateLeftButton, "RIGHT", 4, 0)
+	S:HandleRotateButton(PetModelFrameRotateRightButton)
+	PetModelFrameRotateRightButton:Point("TOPLEFT", PetModelFrameRotateLeftButton, "TOPRIGHT", 4, 0)
 
-	local xtex = PetPaperDollPetInfo:GetRegions()
-	xtex:SetTexCoord(.12, .63, .15, .55)
-
-	PetPaperDollPetInfo:CreateBackdrop("Default")
-	PetPaperDollPetInfo:Size(24)
+	PetPaperDollPetInfo:CreateBackdrop()
+	PetPaperDollPetInfo:SetFrameLevel(PetPaperDollPetInfo:GetFrameLevel() + 2)
+	PetPaperDollPetInfo:Point("TOPRIGHT", -3, -3)
+	PetPaperDollPetInfo:Size(30)
 
 	PetPaperDollPetModelBg:SetDesaturated(true)
+
+	PetPaperDollPetInfo:GetRegions():SetTexture("Interface\\Icons\\Ability_Hunter_BeastTraining")
+	PetPaperDollPetInfo:GetRegions():SetTexCoord(unpack(E.TexCoords))
 end
 
-S:AddCallback("Character", LoadSkin);
+S:AddCallback("Character", LoadSkin)
