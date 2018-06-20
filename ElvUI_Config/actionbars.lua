@@ -485,6 +485,9 @@ local function BuildABConfig()
 				width = "full",
 				multiline = true,
 				set = function(info, value)
+					if value and value:match("[\n\r]") then
+						value = value:gsub("[\n\r]","")
+					end
 					E.db.actionbar["barPet"]["visibility"] = value
 					AB:UpdateButtonSettings()
 				end,
@@ -682,6 +685,7 @@ local function BuildABConfig()
 				order = 3,
 				type = "execute",
 				name = L["Restore Bar"],
+				desc = L["Restore the actionbars default settings"],
 				buttonElvUI = true,
 				func = function() E:CopyTable(E.db.actionbar["microbar"], P.actionbar["microbar"]) E:ResetMovers(L["Micro Bar"]) AB:UpdateMicroPositionDimensions() end,
 				disabled = function() return not E.db.actionbar.microbar.enabled end
