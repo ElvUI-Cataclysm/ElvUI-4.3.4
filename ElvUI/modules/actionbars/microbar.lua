@@ -58,7 +58,7 @@ function AB:HandleMicroButton(button)
 	end
 end
 
-function AB:UpdateMicroButtonsParent(parent)
+function AB:UpdateMicroButtonsParent()
 	if CharacterMicroButton:GetParent() == ElvUI_MicroBar then return end
 
 	for i = 1, #MICRO_BUTTONS do

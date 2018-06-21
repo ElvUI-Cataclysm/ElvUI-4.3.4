@@ -219,7 +219,7 @@ function AB:PositionAndSizeBar(barName)
 		end
 
 		self:StyleButton(button, nil, MasqueGroup and E.private.actionbar.masque.actionbars and true or nil)
-		button:SetCheckedTexture("")
+		--button:SetCheckedTexture("")
 	end
 
 	if self.db[barName].enabled or not bar.initialized then
@@ -747,6 +747,12 @@ function AB:DisableBlizzard()
 		_G["BonusActionButton"..i]:Hide()
 		_G["BonusActionButton"..i]:UnregisterAllEvents()
 		_G["BonusActionButton"..i]:SetAttribute("statehidden", true)
+
+		if E.myclass ~= "SHAMAN" then
+			_G["MultiCastActionButton"..i]:Hide()
+			_G["MultiCastActionButton"..i]:UnregisterAllEvents()
+			_G["MultiCastActionButton"..i]:SetAttribute("statehidden", true)
+		end
 	end
 
 	MultiCastActionBarFrame.ignoreFramePositionManager = true
@@ -795,6 +801,12 @@ function AB:DisableBlizzard()
 	VehicleMenuBar:UnregisterAllEvents()
 	VehicleMenuBar:Hide()
 	VehicleMenuBar:SetParent(UIHider)
+
+	if E.myclass ~= "SHAMAN" then
+		MultiCastActionBarFrame:UnregisterAllEvents()
+		MultiCastActionBarFrame:Hide()
+		MultiCastActionBarFrame:SetParent(UIHider)
+	end
 
 	--Enable/disable functionality to automatically put spells on the actionbar.
 	self:IconIntroTracker_Toggle()
@@ -946,8 +958,7 @@ local function SetupFlyoutButton()
 end
 
 function AB:StyleFlyout(button)
-	if not button.FlyoutArrow or not button.FlyoutArrow:IsShown() then return end
-
+	if not button.FlyoutArrow then return end
 	if not LAB.buttonRegistry[button] then return end
 	if not button.FlyoutBorder then return end
 	local combat = InCombatLockdown()

@@ -97,17 +97,6 @@ local ShowOverlayGlow, HideOverlayGlow, GetOverlayGlow, OverlayGlowAnimOutFinish
 
 local InitializeEventHandler, OnEvent, ForAllButtons, OnUpdate
 
-
---[[
-local SPELL_POWER_HOLY_POWER = SPELL_POWER_HOLY_POWER;
-local HAND_OF_LIGHT = GetSpellInfo(90174);
-local PLAYERCLASS = select(2, UnitClass('player'))
-local HOLY_POWER_SPELLS = {
-	[85256] = GetSpellInfo(85256), --Templar's Verdict
-	[53600] = GetSpellInfo(53600), --Shield of the Righteous
-};
-]]
-
 local DefaultConfig = {
 	outOfRangeColoring = "button",
 	tooltip = "enabled",
@@ -118,7 +107,6 @@ local DefaultConfig = {
 		mana = { 0.5, 0.5, 1.0 },
 		usable = { 1.0, 1.0, 1.0 },
 		notUsable = { 0.4, 0.4, 0.4 },
-	--	hp = { 0.5, 0.5, 1.0 }
 	},
 	hideElements = {
 		macro = false,
@@ -1084,37 +1072,12 @@ function UpdateButtonState(self)
 	lib.callbacks:Fire("OnButtonState", self)
 end
 
---[[
-local function IsHolyPowerAbility(actionId)
-	if not actionId or type(actionId) ~= 'number' then return false; end
-	local actionType, id = GetActionInfo(actionId);
-	if actionType == 'macro' then
-		local macroSpell = GetMacroSpell(id);
-		if macroSpell then
-			for spellId, spellName in pairs(HOLY_POWER_SPELLS) do
-				if macroSpell == spellName then
-					return true;
-				end
-			end
-		end
-	else
-		return HOLY_POWER_SPELLS[id];
-	end
-	return false;
-end
-]]
-
 function UpdateUsable(self)
 	if self.config.useColoring then
 		if self.config.outOfRangeColoring == "button" and self.outOfRange then
 			self.icon:SetVertexColor(unpack(self.config.colors.range))
 		else
 			local isUsable, notEnoughMana = self:IsUsable()
-		--[[
-			local action = self._state_action
-			if PLAYERCLASS == 'PALADIN' and IsHolyPowerAbility(action) and not(UnitPower('player', SPELL_POWER_HOLY_POWER) == 3 or UnitBuff('player', HAND_OF_LIGHT)) then
-				self.icon:SetVertexColor(unpack(self.config.colors.hp))
-		]]
 			if isUsable then
 				self.icon:SetVertexColor(unpack(self.config.colors.usable))
 				--self.normalTexture:SetVertexColor(1.0, 1.0, 1.0)
