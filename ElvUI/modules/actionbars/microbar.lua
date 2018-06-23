@@ -147,11 +147,7 @@ function AB:UpdateMicroButtons()
 	PVPMicroButtonTexture:Point("TOPLEFT", PVPMicroButton, "TOPLEFT", -3, 3)
 	PVPMicroButtonTexture:Point("BOTTOMRIGHT", PVPMicroButton, "BOTTOMRIGHT", 2, -3)
 	PVPMicroButtonTexture:SetTexture("Interface\\PVPFrame\\PVP-Conquest-Misc")
-	if E.myfaction == "Alliance"  then
-		PVPMicroButtonTexture:SetTexCoord(0.694, 0.748, 0.603, 0.728)
-	else
-		PVPMicroButtonTexture:SetTexCoord(0.638, 0.692, 0.603, 0.732)
-	end
+
 	if UnitLevel("player") < PVPMicroButton.minLevel then
 		PVPMicroButtonTexture:SetDesaturated(true)
 	else
@@ -176,6 +172,12 @@ function AB:SetupMicroBar()
 	end
 
 	MicroButtonPortrait:SetInside(CharacterMicroButton.backdrop)
+
+	if E.myfaction == "Alliance"  then
+		PVPMicroButtonTexture:SetTexCoord(0.694, 0.748, 0.603, 0.728)
+	else
+		PVPMicroButtonTexture:SetTexCoord(0.638, 0.692, 0.603, 0.732)
+	end
 
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "UpdateMicroButtonsParent")
 

@@ -219,7 +219,6 @@ function AB:PositionAndSizeBar(barName)
 		end
 
 		self:StyleButton(button, nil, MasqueGroup and E.private.actionbar.masque.actionbars and true or nil)
-		--button:SetCheckedTexture("")
 	end
 
 	if self.db[barName].enabled or not bar.initialized then
@@ -324,6 +323,10 @@ function AB:PLAYER_REGEN_ENABLED()
 	if AB.NeedsPositionAndSizeBarTotem then
 		self:PositionAndSizeBarTotem()
 		AB.NeedsPositionAndSizeBarTotem = nil
+	end
+	if AB.NeedRecallButtonUpdate then
+		MultiCastRecallSpellButton_Update(MultiCastRecallSpellButton)
+		AB.NeedRecallButtonUpdate = nil
 	end
 
 	self:UnregisterEvent("PLAYER_REGEN_ENABLED")
@@ -890,8 +893,6 @@ function AB:FixKeybindText(button)
 		text = gsub(text, "INSERT", L["KEY_INSERT"])
 		text = gsub(text, "HOME", L["KEY_HOME"])
 		text = gsub(text, "DELETE", L["KEY_DELETE"])
-		text = gsub(text, "MOUSEWHEELUP", L["KEY_MOUSEWHEELUP"])
-		text = gsub(text, "MOUSEWHEELDOWN", L["KEY_MOUSEWHEELDOWN"])
 		text = gsub(text, "NMULTIPLY", "*")
 		text = gsub(text, "NMINUS", "N-")
 		text = gsub(text, "NPLUS", "N+")
