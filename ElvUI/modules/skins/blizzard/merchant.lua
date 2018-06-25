@@ -133,7 +133,7 @@ local function LoadSkin()
 					local _, _, quality = GetItemInfo(itemButton.link)
 					local r, g, b = GetItemQualityColor(quality)
 
-					if quality and quality > 1 then
+					if quality then
 						itemButton:SetBackdropBorderColor(r, g, b)
 						itemName:SetTextColor(r, g, b)
 					else
@@ -155,7 +155,7 @@ local function LoadSkin()
 				local _, _, quality = GetItemInfo(buybackName)
 				local r, g, b = GetItemQualityColor(quality)
 
-				if quality and quality > 1 then
+				if quality then
 					MerchantBuyBackItemItemButton:SetBackdropBorderColor(r, g, b)
 					MerchantBuyBackItemName:SetTextColor(r, g, b)
 				else
@@ -181,7 +181,7 @@ local function LoadSkin()
 					local _, _, quality = GetItemInfo(buybackName)
 					local r, g, b = GetItemQualityColor(quality)
 
-					if quality and quality > 1 then
+					if quality then
 						itemButton:SetBackdropBorderColor(r, g, b)
 						itemName:SetTextColor(r, g, b)
 					else

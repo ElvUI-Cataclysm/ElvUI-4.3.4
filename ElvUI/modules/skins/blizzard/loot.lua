@@ -104,7 +104,7 @@ local function LoadSkin()
 						questTexture:Show()
 					elseif questId or isQuestItem then
 						button.backdrop:SetBackdropBorderColor(1.0, 0.3, 0.3)
-					elseif quality and quality > 1 then
+					elseif quality then
 						button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
 					else
 						button.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))

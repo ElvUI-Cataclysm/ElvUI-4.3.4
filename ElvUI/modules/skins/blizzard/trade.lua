@@ -1,15 +1,15 @@
-local E, L, V, P, G = unpack(select(2, ...));
+local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
-local _G = _G;
-local unpack, select = unpack, select;
+local _G = _G
+local unpack, select = unpack, select
 
 local CreateFrame = CreateFrame
 local hooksecurefunc = hooksecurefunc
-local GetItemInfo = GetItemInfo;
-local GetItemQualityColor = GetItemQualityColor;
-local GetTradePlayerItemLink = GetTradePlayerItemLink;
-local GetTradeTargetItemLink = GetTradeTargetItemLink;
+local GetItemInfo = GetItemInfo
+local GetItemQualityColor = GetItemQualityColor
+local GetTradePlayerItemLink = GetTradePlayerItemLink
+local GetTradeTargetItemLink = GetTradeTargetItemLink
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.trade ~= true then return end
@@ -107,7 +107,7 @@ local function LoadSkin()
 			local quality = select(3, GetItemInfo(link))
 
 			tradeItemName:SetTextColor(GetItemQualityColor(quality))
-			if quality and quality > 1 then
+			if quality then
 				tradeItemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
 			else
 				tradeItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
@@ -126,7 +126,7 @@ local function LoadSkin()
 			local quality = select(3, GetItemInfo(link))
 
 			tradeItemName:SetTextColor(GetItemQualityColor(quality))
-			if quality and quality > 1 then
+			if quality then
 				tradeItemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
 			else
 				tradeItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
@@ -137,4 +137,4 @@ local function LoadSkin()
 	end)
 end
 
-S:AddCallback("Trade", LoadSkin);
+S:AddCallback("Trade", LoadSkin)

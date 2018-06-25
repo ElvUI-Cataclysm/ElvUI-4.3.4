@@ -1,8 +1,8 @@
-local E, L, V, P, G = unpack(select(2, ...));
+local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
-local _G = _G;
-local pairs, unpack, select = pairs, unpack, select;
+local _G = _G
+local pairs, unpack, select = pairs, unpack, select
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.transmogrify ~= true then return end
@@ -45,7 +45,7 @@ local function LoadSkin()
 		local icon = _G["TransmogrifyFrame"..slot.."SlotIconTexture"]
 		local slot = _G["TransmogrifyFrame"..slot.."Slot"]
 
-		if(slot) then
+		if slot then
 			slot:StripTextures()
 			slot:StyleButton(false)
 			slot:SetFrameLevel(slot:GetFrameLevel() + 2)
@@ -82,4 +82,4 @@ local function LoadSkin()
 	TransmogrifyModelFrameControlFrameRotateResetButton:Point("LEFT", "TransmogrifyModelFrameControlFrameRotateLeftButton", "RIGHT", 2, 0)
 end
 
-S:AddCallbackForAddon("Blizzard_ItemAlterationUI", "ItemAlterationUI", LoadSkin);
+S:AddCallbackForAddon("Blizzard_ItemAlterationUI", "ItemAlterationUI", LoadSkin)

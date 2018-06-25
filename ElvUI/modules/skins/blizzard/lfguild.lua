@@ -1,8 +1,8 @@
-local E, L, V, P, G = unpack(select(2, ...));
+local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
-local _G = _G;
-local pairs, unpack = pairs, unpack, select;
+local _G = _G
+local pairs, unpack = pairs, unpack, select
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.lfguild ~= true then return end
@@ -66,6 +66,7 @@ local function LoadSkin()
 
 	for i = 1, 3 do
 		local headerTab = _G["LookingForGuildFrameTab"..i]
+
 		headerTab:StripTextures()
 		headerTab.backdrop = CreateFrame("Frame", nil, headerTab)
 		headerTab.backdrop:SetTemplate("Default", true)
@@ -73,8 +74,8 @@ local function LoadSkin()
 		headerTab.backdrop:Point("TOPLEFT", 3, -7)
 		headerTab.backdrop:Point("BOTTOMRIGHT", -2, -1)
 
-		headerTab:HookScript("OnEnter", S.SetModifiedBackdrop);
-		headerTab:HookScript("OnLeave", S.SetOriginalBackdrop);
+		headerTab:HookScript("OnEnter", S.SetModifiedBackdrop)
+		headerTab:HookScript("OnLeave", S.SetOriginalBackdrop)
 	end
 
 	GuildFinderRequestMembershipFrame:StripTextures(true)
@@ -111,4 +112,4 @@ local function LoadSkin()
 	LookingForGuildDamagerButton:SetNormalTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
 end
 
-S:AddCallbackForAddon("Blizzard_LookingForGuildUI", "LookingForGuild", LoadSkin);
+S:AddCallbackForAddon("Blizzard_LookingForGuildUI", "LookingForGuild", LoadSkin)

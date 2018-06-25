@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...));
+local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
 local _G = _G
@@ -52,98 +52,98 @@ local function LoadSkin()
 
 	for _, slot in pairs(slots) do
 		local icon = _G["Character"..slot.."IconTexture"]
-		local cooldown = _G["Character"..slot.."Cooldown"];
-		local popout = _G["Character" .. slot .. "PopoutButton"];
+		local cooldown = _G["Character"..slot.."Cooldown"]
+		local popout = _G["Character"..slot.."PopoutButton"]
 
 		slot = _G["Character"..slot]
 		slot:StripTextures()
 		slot:StyleButton(false)
 		slot.ignoreTexture:SetTexture([[Interface\PaperDollInfoFrame\UI-GearManager-LeaveItem-Transparent]])
-		slot:SetTemplate("Default", true, true);
+		slot:SetTemplate("Default", true, true)
 		icon:SetTexCoord(unpack(E.TexCoords))
-		icon:SetInside();
+		icon:SetInside()
 
-		slot:SetFrameLevel(PaperDollFrame:GetFrameLevel() + 2);
+		slot:SetFrameLevel(PaperDollFrame:GetFrameLevel() + 2)
 
-		if(cooldown) then
-			E:RegisterCooldown(cooldown);
+		if cooldown then
+			E:RegisterCooldown(cooldown)
 		end
 
-		if(popout) then
-			popout:StripTextures();
+		if popout then
+			popout:StripTextures()
 			popout:SetTemplate("Default", true)
-			popout:HookScript("OnEnter", S.SetModifiedBackdrop);
-			popout:HookScript("OnLeave", S.SetOriginalBackdrop);
+			popout:HookScript("OnEnter", S.SetModifiedBackdrop)
+			popout:HookScript("OnLeave", S.SetOriginalBackdrop)
 
-			popout.icon = popout:CreateTexture(nil, "ARTWORK");
-			popout.icon:Size(14);
-			popout.icon:Point("CENTER");
+			popout.icon = popout:CreateTexture(nil, "ARTWORK")
+			popout.icon:Size(14)
+			popout.icon:Point("CENTER")
 			popout.icon:SetTexture([[Interface\Buttons\SquareButtonTextures]])
 
-			if(slot.verticalFlyout) then
-				popout:Size(27, 11);
-				SquareButton_SetIcon(popout, "DOWN");
-				popout:Point("TOP", slot, "BOTTOM", 0, 5);
+			if slot.verticalFlyout then
+				popout:Size(27, 11)
+				SquareButton_SetIcon(popout, "DOWN")
+				popout:Point("TOP", slot, "BOTTOM", 0, 5)
 			else
-				popout:Size(11, 27);
-				SquareButton_SetIcon(popout, "RIGHT");
-				popout:Point("LEFT", slot, "RIGHT", -5, 0);
+				popout:Size(11, 27)
+				SquareButton_SetIcon(popout, "RIGHT")
+				popout:Point("LEFT", slot, "RIGHT", -5, 0)
 			end
 		end
 	end
 
 	local function SkinItemFlyouts(button)
-		button.icon = _G[button:GetName() .. "IconTexture"];
+		button.icon = _G[button:GetName().."IconTexture"]
 
-		button:GetNormalTexture():SetTexture(nil);
-		button:SetTemplate("Default");
-		button:StyleButton(false);
+		button:GetNormalTexture():SetTexture(nil)
+		button:SetTemplate("Default")
+		button:StyleButton(false)
 
-		button.icon:SetInside();
-		button.icon:SetTexCoord(unpack(E.TexCoords));
+		button.icon:SetInside()
+		button.icon:SetTexCoord(unpack(E.TexCoords))
 
-		local cooldown = _G[button:GetName() .."Cooldown"];
-		if(cooldown) then
-			E:RegisterCooldown(cooldown);
+		local cooldown = _G[button:GetName().."Cooldown"]
+		if cooldown then
+			E:RegisterCooldown(cooldown)
 		end
 
-		local location = button.location;
-		if(not location) then return; end
-		if(location and location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION) then return; end
+		local location = button.location
+		if not location then return end
+		if location and location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION then return end
 
-		local id = EquipmentManager_GetItemInfoByLocation(location);
-		local _, _, quality = GetItemInfo(id);
-		local r, g, b = GetItemQualityColor(quality);
+		local id = EquipmentManager_GetItemInfoByLocation(location)
+		local _, _, quality = GetItemInfo(id)
+		local r, g, b = GetItemQualityColor(quality)
 
-		button:SetBackdropBorderColor(r, g, b);
+		button:SetBackdropBorderColor(r, g, b)
  	end
- 	hooksecurefunc("EquipmentFlyout_DisplayButton", SkinItemFlyouts);
+ 	hooksecurefunc("EquipmentFlyout_DisplayButton", SkinItemFlyouts)
 
 	hooksecurefunc("EquipmentFlyout_Show", function(self)
 		EquipmentFlyoutFrameButtons:StripTextures()
 		EquipmentFlyoutFrameHighlight:Kill()
-		if(self.verticalFlyout) then
-			EquipmentFlyoutFrame.buttonFrame:Point("TOPLEFT", self.popoutButton, "BOTTOMLEFT", -10, 0);
+		if self.verticalFlyout then
+			EquipmentFlyoutFrame.buttonFrame:Point("TOPLEFT", self.popoutButton, "BOTTOMLEFT", -10, 0)
 		else
-			EquipmentFlyoutFrame.buttonFrame:Point("TOPLEFT", self.popoutButton, "TOPRIGHT", 0, 10);
+			EquipmentFlyoutFrame.buttonFrame:Point("TOPLEFT", self.popoutButton, "TOPRIGHT", 0, 10)
 		end
 	end)
 
 	hooksecurefunc("EquipmentFlyoutPopoutButton_SetReversed", function(self, isReversed)
-		if(self:GetParent().verticalFlyout) then
-			if(isReversed) then
-				SquareButton_SetIcon(self, "UP");
+		if self:GetParent().verticalFlyout then
+			if isReversed then
+				SquareButton_SetIcon(self, "UP")
 			else
-				SquareButton_SetIcon(self, "DOWN");
+				SquareButton_SetIcon(self, "DOWN")
 			end
 		else
-			if(isReversed) then
-				SquareButton_SetIcon(self, "LEFT");
+			if isReversed then
+				SquareButton_SetIcon(self, "LEFT")
 			else
-				SquareButton_SetIcon(self, "RIGHT");
+				SquareButton_SetIcon(self, "RIGHT")
 			end
 		end
-	end);
+	end)
 
 	local function ColorItemBorder()
 		for _, slot in pairs(slots) do
@@ -151,9 +151,9 @@ local function LoadSkin()
 			local slotId = GetInventorySlotInfo(slot)
 			local itemId = GetInventoryItemID("player", slotId)
 
-			if(itemId) then
-				local rarity = GetInventoryItemQuality("player", slotId);
-				if(rarity and rarity > 1) then
+			if itemId then
+				local rarity = GetInventoryItemQuality("player", slotId)
+				if rarity then
 					target:SetBackdropBorderColor(GetItemQualityColor(rarity))
 				else
 					target:SetBackdropBorderColor(unpack(E["media"].bordercolor))
@@ -174,23 +174,23 @@ local function LoadSkin()
 	S:HandleNextPrevButton(CharacterFrameExpandButton)
 
 	hooksecurefunc("CharacterFrame_Collapse", function()
-		CharacterFrameExpandButton:SetNormalTexture(nil);
-		CharacterFrameExpandButton:SetPushedTexture(nil);
-		CharacterFrameExpandButton:SetDisabledTexture(nil);
+		CharacterFrameExpandButton:SetNormalTexture(nil)
+		CharacterFrameExpandButton:SetPushedTexture(nil)
+		CharacterFrameExpandButton:SetDisabledTexture(nil)
 		SquareButton_SetIcon(CharacterFrameExpandButton, "RIGHT")
 	end)
 
 	hooksecurefunc("CharacterFrame_Expand", function()
-		CharacterFrameExpandButton:SetNormalTexture(nil);
-		CharacterFrameExpandButton:SetPushedTexture(nil);
-		CharacterFrameExpandButton:SetDisabledTexture(nil);
-		SquareButton_SetIcon(CharacterFrameExpandButton, "LEFT");
+		CharacterFrameExpandButton:SetNormalTexture(nil)
+		CharacterFrameExpandButton:SetPushedTexture(nil)
+		CharacterFrameExpandButton:SetDisabledTexture(nil)
+		SquareButton_SetIcon(CharacterFrameExpandButton, "LEFT")
 	end)
 
-	if(GetCVar("characterFrameCollapsed") ~= "0") then
+	if GetCVar("characterFrameCollapsed") ~= "0" then
 		SquareButton_SetIcon(CharacterFrameExpandButton, "RIGHT")
 	else
-		SquareButton_SetIcon(CharacterFrameExpandButton, "LEFT");
+		SquareButton_SetIcon(CharacterFrameExpandButton, "LEFT")
 	end
 
 	-- Control Frame
@@ -217,7 +217,7 @@ local function LoadSkin()
 	CharacterModelFrameControlFrameRotateRightButton:Point("LEFT", "CharacterModelFrameControlFrameRotateLeftButton", "RIGHT", 2, 0)
 	CharacterModelFrameControlFrameRotateResetButton:Point("LEFT", "CharacterModelFrameControlFrameRotateRightButton", "RIGHT", 2, 0)
 
-	--Titles
+	-- Titles
 	PaperDollTitlesPane:HookScript("OnShow", function(self)
 		for _, object in pairs(PaperDollTitlesPane.buttons) do
 			object.BgTop:SetTexture(nil)
@@ -236,7 +236,7 @@ local function LoadSkin()
 
 	S:HandleScrollBar(PaperDollTitlesPaneScrollBar)
 
-	--Equipement Manager
+	-- Equipement Manager
 	PaperDollEquipmentManagerPane:StripTextures()
 
 	PaperDollEquipmentManagerPane:HookScript("OnShow", function(self)
@@ -276,7 +276,7 @@ local function LoadSkin()
 
 	S:HandleScrollBar(PaperDollEquipmentManagerPaneScrollBar)
 
-	--Equipement Manager Popup
+	-- Equipement Manager Popup
 	S:HandleIconSelectionFrame(GearManagerDialogPopup, NUM_GEARSET_ICONS_SHOWN, "GearManagerDialogPopupButton", frameNameOverride)
 
 	S:HandleScrollBar(GearManagerDialogPopupScrollFrameScrollBar)
@@ -287,12 +287,12 @@ local function LoadSkin()
 
 	GearManagerDialogPopup:Point("TOPLEFT", PaperDollFrame, "TOPRIGHT", 1, 0)
 
-	--Bottom Tabs
+	-- Bottom Tabs
 	for i = 1, 4 do
 		S:HandleTab(_G["CharacterFrameTab"..i])
 	end
 
-	--Character Tabs
+	-- Character Tabs
 	PaperDollSidebarTabs:StripTextures()
 
 	local function FixSidebarTabCoords()
@@ -322,7 +322,7 @@ local function LoadSkin()
 	end
 	hooksecurefunc("PaperDollFrame_UpdateSidebarTabs", FixSidebarTabCoords)
 
-	--Stat Panels
+	-- Stat Panels
 	CharacterStatsPane:StripTextures()
 
 	S:HandleScrollBar(CharacterStatsPaneScrollBar)
@@ -332,16 +332,16 @@ local function LoadSkin()
 	end
 
 	hooksecurefunc("PaperDollFrame_SetResistance", function(statFrame, unit, resistanceIndex)
-		local _, resistance = UnitResistance(unit, resistanceIndex);
-		local resistanceNameShort = _G["SPELL_SCHOOL"..resistanceIndex.."_CAP"];
-		local resistanceName = _G["RESISTANCE"..resistanceIndex.."_NAME"];
-		local resistanceIconCode = "|TInterface\\PaperDollInfoFrame\\SpellSchoolIcon"..(resistanceIndex+1)..":12:12:0:0:64:64:4:55:4:55|t"
+		local _, resistance = UnitResistance(unit, resistanceIndex)
+		local resistanceNameShort = _G["SPELL_SCHOOL"..resistanceIndex.."_CAP"]
+		local resistanceName = _G["RESISTANCE"..resistanceIndex.."_NAME"]
+		local resistanceIconCode = "|TInterface\\PaperDollInfoFrame\\SpellSchoolIcon"..(resistanceIndex + 1)..":12:12:0:0:64:64:4:55:4:55|t"
 
-		_G[statFrame:GetName().."Label"]:SetText(resistanceIconCode.." "..format(STAT_FORMAT, resistanceNameShort));
-		statFrame.tooltip = resistanceIconCode.." "..HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, resistanceName).." "..resistance..FONT_COLOR_CODE_CLOSE;
+		_G[statFrame:GetName().."Label"]:SetText(resistanceIconCode.." "..format(STAT_FORMAT, resistanceNameShort))
+		statFrame.tooltip = resistanceIconCode.." "..HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, resistanceName).." "..resistance..FONT_COLOR_CODE_CLOSE
 	end)
 
-	--Reputation
+	-- Reputation
 	ReputationFrame:StripTextures(true)
 
 	ReputationListScrollFrame:StripTextures()
@@ -411,7 +411,7 @@ local function LoadSkin()
 	S:HandleCloseButton(ReputationDetailCloseButton)
 	ReputationDetailCloseButton:Point("TOPRIGHT", 3, 4)
 
-	--Currency
+	-- Currency
 	hooksecurefunc("TokenFrame_Update", function()
 		if not TokenFrameContainer.buttons then return end
 

@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...));
+local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
 local _G = _G
@@ -57,7 +57,7 @@ local function LoadSkin()
 	GuildControlUIRankSettingsFrameRankDropDownButton:Width(20)
 
 	for i = 1, NUM_RANK_FLAGS do
-		if(_G["GuildControlUIRankSettingsFrameCheckbox"..i]) then
+		if _G["GuildControlUIRankSettingsFrameCheckbox"..i] then
 			S:HandleCheckBox(_G["GuildControlUIRankSettingsFrameCheckbox"..i])
 		end
 	end
@@ -71,8 +71,8 @@ local function LoadSkin()
 	GuildControlUIRankSettingsFrameGoldBox:StripTextures()
 
 	local function fixSkin(frame)
-		frame.backdrop:Hide();
-		if(not E.PixelMode) then
+		frame.backdrop:Hide()
+		if not E.PixelMode then
 			frame.bg1 = frame:CreateTexture(nil, "BACKGROUND")
 			frame.bg1:SetDrawLayer("BACKGROUND", 4)
 			frame.bg1:SetTexture(E["media"].normTex)
@@ -116,7 +116,7 @@ local function LoadSkin()
 	local once = false
 	hooksecurefunc("GuildControlUI_BankTabPermissions_Update", function()
 		local numTabs = GetNumGuildBankTabs()
-		if(numTabs < MAX_BUY_GUILDBANK_TABS) then
+		if numTabs < MAX_BUY_GUILDBANK_TABS then
 			numTabs = numTabs + 1
 		end
 		for i = 1, numTabs do
@@ -129,7 +129,7 @@ local function LoadSkin()
 			icon:SetTexCoord(unpack(E.TexCoords))
 			icon:SetParent(tab.backdrop)
 
-			if(once == false) then
+			if once == false then
 				S:HandleButton(_G["GuildControlBankTab"..i.."BuyPurchaseButton"])
 				S:HandleEditBox(_G["GuildControlBankTab"..i.."OwnedStackBox"])
 				S:HandleCheckBox(_G["GuildControlBankTab"..i.."OwnedViewCheck"])
@@ -152,4 +152,4 @@ local function LoadSkin()
 	GuildControlUICloseButton:Point("TOPRIGHT", GuildControlUI, "TOPRIGHT", 2, 2)
 end
 
-S:AddCallbackForAddon("Blizzard_GuildControlUI", "GuildControl", LoadSkin);
+S:AddCallbackForAddon("Blizzard_GuildControlUI", "GuildControl", LoadSkin)

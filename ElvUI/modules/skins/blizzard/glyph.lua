@@ -1,8 +1,9 @@
-local E, L, V, P, G = unpack(select(2, ...));
+local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
-local _G = _G;
-local unpack = unpack;
+local _G = _G
+local unpack = unpack
+local strfind = strfind
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.talent ~= true then return end
@@ -20,66 +21,67 @@ local function LoadSkin()
 	GlyphFrame.levelOverlayText1:SetTextColor(1, 1, 1)
 	GlyphFrame.levelOverlayText2:SetTextColor(1, 1, 1)
 
-	if(not GlyphFrame.isSkinned) then
+	if not GlyphFrame.isSkinned then
 		for i = 1, 9 do
-			local Glyph = _G["GlyphFrameGlyph"..i]
-			Glyph:SetTemplate("Default", true)
-			Glyph:SetFrameLevel(Glyph:GetFrameLevel() + 5)
-			Glyph:StyleButton(nil, true)
+			local frame = _G["GlyphFrameGlyph"..i]
 
-			Glyph.ring:Hide()
-			Glyph.glyph:Hide()
-			Glyph.highlight:SetTexture(nil)
-			Glyph.glyph:Hide()
+			frame:SetTemplate("Default", true)
+			frame:SetFrameLevel(frame:GetFrameLevel() + 5)
+			frame:StyleButton(nil, true)
 
-			Glyph.icon = Glyph:CreateTexture(nil, "OVERLAY")
-			Glyph.icon:SetInside()
-			Glyph.icon:SetTexCoord(unpack(E.TexCoords))
+			frame.ring:Hide()
+			frame.glyph:Hide()
+			frame.highlight:SetTexture(nil)
+			frame.glyph:Hide()
 
-			Glyph:CreateBackdrop()
-			Glyph.backdrop:SetAllPoints()
-			Glyph.backdrop:SetFrameLevel(Glyph:GetFrameLevel() + 1)
-			Glyph.backdrop:SetBackdropColor(0, 0, 0, 0)
-			Glyph.backdrop:SetBackdropBorderColor(1, 0.80, 0.10)
+			frame.icon = frame:CreateTexture(nil, "OVERLAY")
+			frame.icon:SetInside()
+			frame.icon:SetTexCoord(unpack(E.TexCoords))
 
-			Glyph.backdrop:SetScript("OnUpdate", function(self)
-				local Alpha = Glyph.highlight:GetAlpha()
-				self:SetAlpha(Alpha)
+			frame:CreateBackdrop()
+			frame.backdrop:SetAllPoints()
+			frame.backdrop:SetFrameLevel(frame:GetFrameLevel() + 1)
+			frame.backdrop:SetBackdropColor(0, 0, 0, 0)
+			frame.backdrop:SetBackdropBorderColor(1, 0.80, 0.10)
 
-				if(strfind(Glyph.icon:GetTexture(), "Interface\\Spellbook\\UI%-Glyph%-Rune")) then
-					if(Alpha == 0) then
-						Glyph.icon:SetVertexColor(1, 1, 1)
-						Glyph.icon:SetAlpha(1)
+			frame.backdrop:SetScript("OnUpdate", function(self)
+				local alpha = frame.highlight:GetAlpha()
+				self:SetAlpha(alpha)
+
+				if strfind(frame.icon:GetTexture(), "Interface\\Spellbook\\UI%-Glyph%-Rune") then
+					if alpha == 0 then
+						frame.icon:SetVertexColor(1, 1, 1)
+						frame.icon:SetAlpha(1)
 					else
-						Glyph.icon:SetVertexColor(1, 0.80, 0.10)
-						Glyph.icon:SetAlpha(Alpha)
+						frame.icon:SetVertexColor(1, 0.80, 0.10)
+						frame.icon:SetAlpha(alpha)
 					end
 				end
 			end)
 
-			hooksecurefunc(Glyph.highlight, "Show", function()
-				Glyph.backdrop:Show()
+			hooksecurefunc(frame.highlight, "Show", function()
+				frame.backdrop:Show()
 			end)
 
-			Glyph.glyph:Hide()
-			hooksecurefunc(Glyph.glyph, "Show", function(self) self:Hide() end)
+			frame.glyph:Hide()
+			hooksecurefunc(frame.glyph, "Show", function(self) self:Hide() end)
 
 			if i == 1 or i == 4 or i == 6 then
-				Glyph:Size(Glyph:GetSize() * 0.9)
+				frame:Size(frame:GetSize() * 0.9)
 			elseif i == 2 or i == 3 or i == 5 then
-				Glyph:Size(Glyph:GetSize() * 0.6)
+				frame:Size(frame:GetSize() * 0.6)
 			else
-				Glyph:Size(Glyph:GetSize() * 1.2)
+				frame:Size(frame:GetSize() * 1.2)
 			end
 		end
 
 		hooksecurefunc("GlyphFrame_Update", function(self)
-			local isActiveTalentGroup = PlayerTalentFrame and not PlayerTalentFrame.pet and PlayerTalentFrame.talentGroup == GetActiveTalentGroup(PlayerTalentFrame.pet);
+			local isActiveTalentGroup = PlayerTalentFrame and not PlayerTalentFrame.pet and PlayerTalentFrame.talentGroup == GetActiveTalentGroup(PlayerTalentFrame.pet)
 
 			for i = 1, NUM_GLYPH_SLOTS do
 				local GlyphSocket = _G["GlyphFrameGlyph"..i]
 				local _, _, _, _, iconFilename = GetGlyphSocketInfo(i, PlayerTalentFrame.talentGroup)
-				if(iconFilename) then
+				if iconFilename then
 					GlyphSocket.icon:SetTexture(iconFilename)
 				else
 					GlyphSocket.icon:SetTexture("Interface\\Spellbook\\UI-Glyph-Rune-"..i)
@@ -101,11 +103,11 @@ local function LoadSkin()
 		local button = _G["GlyphFrameScrollFrameButton"..i]
 		local icon = _G["GlyphFrameScrollFrameButton"..i.."Icon"]
 
-		if(first) then
+		if first then
 			button:StripTextures()
 		end
 
-		if(icon) then
+		if icon then
 			icon:SetTexCoord(unpack(E.TexCoords))
 			S:HandleButton(button)
 		end
@@ -128,4 +130,4 @@ local function LoadSkin()
 	S:HandleScrollBar(GlyphFrameScrollFrameScrollBar, 5)
 end
 
-S:AddCallbackForAddon("Blizzard_GlyphUI", "Glyph", LoadSkin);
+S:AddCallbackForAddon("Blizzard_GlyphUI", "Glyph", LoadSkin)

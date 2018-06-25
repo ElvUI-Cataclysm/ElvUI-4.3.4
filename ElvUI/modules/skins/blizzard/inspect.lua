@@ -7,7 +7,7 @@ local pairs, unpack = pairs, unpack
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
-	if(not E.private.skins.blizzard.enable or not E.private.skins.blizzard.inspect) then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.inspect then return end
 
 	local InspectFrame = _G["InspectFrame"]
 	InspectFrame:StripTextures(true)
@@ -83,7 +83,7 @@ local function LoadSkin()
 						end
 					end)
 					return
-				elseif quality and quality > 1 then
+				elseif quality then
 					button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
 					return
  				end

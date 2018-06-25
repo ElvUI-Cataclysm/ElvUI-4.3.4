@@ -518,7 +518,7 @@ local function LoadSkin()
 					S:HandleCheckBox(_G[checkBoxName.."Check"])
 				end
 			end
-		elseif(checkBoxTemplate == "ChatConfigCheckBoxWithSwatchTemplate") or (checkBoxTemplate == "ChatConfigCheckBoxWithSwatchAndClassColorTemplate") then
+		elseif (checkBoxTemplate == "ChatConfigCheckBoxWithSwatchTemplate") or (checkBoxTemplate == "ChatConfigCheckBoxWithSwatchAndClassColorTemplate") then
 			frame:SetTemplate("Transparent")
 			for index, _ in ipairs(checkBoxTable) do
 				local checkBoxName = checkBoxNameString..index
@@ -565,7 +565,7 @@ local function LoadSkin()
 		for index, _ in ipairs(swatchTable) do
 			local swatchName = nameString..index
 			local swatch = _G[swatchName]
-			if(not swatch.backdrop) then
+			if not swatch.backdrop then
 				swatch:StripTextures()
 				swatch:CreateBackdrop()
 				swatch.backdrop:Point("TOPLEFT", 3, -1)

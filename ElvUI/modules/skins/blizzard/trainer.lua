@@ -1,11 +1,11 @@
-local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule("Skins");
+local E, L, V, P, G = unpack(select(2, ...))
+local S = E:GetModule("Skins")
 
 local _G = _G
-local unpack, select = unpack, select;
+local unpack, select = unpack, select
 
 local function LoadSkin()
-	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.trainer ~= true) then return; end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.trainer ~= true then return end
 
 	ClassTrainerScrollFrameScrollChild:StripTextures()
 	ClassTrainerFrameBottomInset:StripTextures()
@@ -96,7 +96,7 @@ local function LoadSkin()
 	ClassTrainerStatusBar:Point("TOP", ClassTrainerFrame, "TOP", 0, -30)
 
 	ClassTrainerStatusBar.rankText:Point("CENTER")
-	ClassTrainerStatusBar.rankText:FontTemplate(nil, 12, "OUTLINE");
+	ClassTrainerStatusBar.rankText:FontTemplate(nil, 12, "OUTLINE")
 end
 
-S:AddCallbackForAddon("Blizzard_TrainerUI", "Trainer", LoadSkin);
+S:AddCallbackForAddon("Blizzard_TrainerUI", "Trainer", LoadSkin)

@@ -1,8 +1,8 @@
-local E, L, V, P, G = unpack(select(2, ...));
+local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
-local _G = _G;
-local ipairs, unpack = ipairs, unpack;
+local _G = _G
+local ipairs, unpack = ipairs, unpack
 
 local CLASS_SORT_ORDER = CLASS_SORT_ORDER
 local CLASS_ICON_TCOORDS = CLASS_ICON_TCOORDS
@@ -54,7 +54,6 @@ local function LoadSkin()
 		frame.backdrop:Point("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2)
 	end
 
-	--backdrop
 	local bg = CreateFrame("Frame", "CalendarFrameBackdrop", CalendarFrame)
 	bg:SetTemplate("Default")
 	bg:Point("TOPLEFT", 10, -72)
@@ -71,18 +70,18 @@ local function LoadSkin()
 
 	for i = 1, 42 do
 		local button = _G["CalendarDayButton"..i]
-		local eventTexture = _G["CalendarDayButton" .. i .. "EventTexture"];
-		local overlayFrame = _G["CalendarDayButton" .. i .. "OverlayFrame"];
+		local eventTexture = _G["CalendarDayButton"..i.."EventTexture"]
+		local overlayFrame = _G["CalendarDayButton"..i.."OverlayFrame"]
 
-		button:SetFrameLevel(button:GetFrameLevel() + 1);
-		button:Size(91 - E.Border);
-		button:StripTextures();
-		button:CreateBackdrop("Default");
-		button:GetHighlightTexture():SetInside();
-		button:GetHighlightTexture():SetTexture(1, 1, 1, 0.10);
+		button:SetFrameLevel(button:GetFrameLevel() + 1)
+		button:Size(91 - E.Border)
+		button:StripTextures()
+		button:CreateBackdrop("Default")
+		button:GetHighlightTexture():SetInside()
+		button:GetHighlightTexture():SetTexture(1, 1, 1, 0.10)
 
-		eventTexture:SetInside();
-		overlayFrame:SetInside();
+		eventTexture:SetInside()
+		overlayFrame:SetInside()
 
 		for j = 1, 4 do
 			local EventButton = _G["CalendarDayButton"..i.."EventButton"..j]
@@ -90,14 +89,14 @@ local function LoadSkin()
 			EventButton:StyleButton()
 		end
 
-		button:ClearAllPoints();
+		button:ClearAllPoints()
 
-		if(i == 1) then
-			button:Point("TOPLEFT", CalendarWeekday1Background, "BOTTOMLEFT", E.Spacing, 0);
-		elseif(mod(i, 7) == 1) then
-			button:Point("TOPLEFT", _G["CalendarDayButton" .. (i - 7)], "BOTTOMLEFT", 0, -E.Border);
+		if i == 1 then
+			button:Point("TOPLEFT", CalendarWeekday1Background, "BOTTOMLEFT", E.Spacing, 0)
+		elseif mod(i, 7) == 1 then
+			button:Point("TOPLEFT", _G["CalendarDayButton"..(i - 7)], "BOTTOMLEFT", 0, -E.Border)
 		else
-			button:Point("TOPLEFT", _G["CalendarDayButton" .. (i - 1)], "TOPRIGHT", E.Border, 0);
+			button:Point("TOPLEFT", _G["CalendarDayButton"..(i - 1)], "TOPRIGHT", E.Border, 0)
 		end
 	end
 
@@ -112,7 +111,7 @@ local function LoadSkin()
 	CalendarTodayFrame.backdrop:SetBackdropColor(0, 0, 0, 0)
 	CalendarTodayFrame.backdrop:CreateShadow()
 
-	--Create Event Frame
+	-- Create Event Frame
 	CalendarCreateEventFrame:StripTextures()
 	CalendarCreateEventFrame:SetTemplate("Transparent")
 	CalendarCreateEventFrame:Point("TOPLEFT", CalendarFrame, "TOPRIGHT", 1, 0)
@@ -162,14 +161,15 @@ local function LoadSkin()
 	CalendarClassButtonContainer:HookScript("OnShow", function()
 		for i, class in ipairs(CLASS_SORT_ORDER) do
 			local button = _G["CalendarClassButton"..i]
+			local icon = button:GetNormalTexture()
+			local tcoords = CLASS_ICON_TCOORDS[class]
+
 			button:StripTextures()
 			button:CreateBackdrop("Default")
 			button:Size(23)
 
-			local tcoords = CLASS_ICON_TCOORDS[class]
-			local buttonIcon = button:GetNormalTexture()
-			buttonIcon:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes")
-			buttonIcon:SetTexCoord(tcoords[1] + 0.015, tcoords[2] - 0.02, tcoords[3] + 0.018, tcoords[4] - 0.02)
+			icon:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Classes")
+			icon:SetTexCoord(tcoords[1] + 0.015, tcoords[2] - 0.02, tcoords[3] + 0.018, tcoords[4] - 0.02)
 		end
 
 		CalendarClassButton1:Point("TOPLEFT", E.PixelMode and 2 or 5, 0)
@@ -182,7 +182,7 @@ local function LoadSkin()
 	CalendarInviteStatusContextMenu:StripTextures()
 	CalendarInviteStatusContextMenu:SetTemplate("Transparent")
 
-	--Texture Picker Frame
+	-- Texture Picker Frame
 	CalendarTexturePickerFrame:StripTextures()
 	CalendarTexturePickerFrame:SetTemplate("Transparent")
 	CalendarTexturePickerFrame:Point("TOPRIGHT", CalendarFrame, "TOPRIGHT", 640, 0)
@@ -211,7 +211,7 @@ local function LoadSkin()
 	CalendarTexturePickerCancelButton:ClearAllPoints()
 	CalendarTexturePickerCancelButton:Point("BOTTOMRIGHT", CalendarTexturePickerFrame, "BOTTOMRIGHT", -30, 7)
 
-	--Mass Invite Frame
+	-- Mass Invite Frame
 	CalendarMassInviteFrame:StripTextures()
 	CalendarMassInviteFrame:SetTemplate("Transparent")
 	CalendarMassInviteFrame:ClearAllPoints()
@@ -231,7 +231,7 @@ local function LoadSkin()
 	S:HandleEditBox(CalendarMassInviteGuildMinLevelEdit)
 	S:HandleEditBox(CalendarMassInviteGuildMaxLevelEdit)
 
-	--Raid View
+	-- Raid View
 	CalendarViewRaidFrame:StripTextures()
 	CalendarViewRaidFrame:SetTemplate("Transparent")
 	CalendarViewRaidFrame:Point("TOPLEFT", CalendarFrame, "TOPRIGHT", 1, 0)
@@ -240,7 +240,7 @@ local function LoadSkin()
 
 	S:HandleCloseButton(CalendarViewRaidCloseButton)
 
-	--Holiday View
+	-- Holiday View
 	CalendarViewHolidayFrame:StripTextures(true)
 	CalendarViewHolidayFrame:SetTemplate("Transparent")
 	CalendarViewHolidayFrame:Point("TOPLEFT", CalendarFrame, "TOPRIGHT", 1, 0)
@@ -274,7 +274,7 @@ local function LoadSkin()
 	S:HandleButton(CalendarViewEventRemoveButton)
 	S:HandleButton(CalendarViewEventDeclineButton)
 
-	--Event Picker Frame
+	-- Event Picker Frame
 	CalendarEventPickerFrame:StripTextures()
 	CalendarEventPickerFrame:SetTemplate("Transparent")
 
@@ -285,4 +285,4 @@ local function LoadSkin()
 	S:HandleButton(CalendarEventPickerCloseButton, true)
 end
 
-S:AddCallbackForAddon("Blizzard_Calendar", "Calendar", LoadSkin);
+S:AddCallbackForAddon("Blizzard_Calendar", "Calendar", LoadSkin)

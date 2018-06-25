@@ -1,24 +1,24 @@
-local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule("Skins");
+local E, L, V, P, G = unpack(select(2, ...))
+local S = E:GetModule("Skins")
 
-local _G = _G;
-local select, unpack = select, unpack;
+local _G = _G
+local select, unpack = select, unpack
 
 local CreateFrame = CreateFrame
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
-	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.spellbook ~= true) then return; end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.spellbook ~= true then return end
 
 	local SpellBookFrame = _G["SpellBookFrame"]
-	SpellBookFrame:StripTextures(true);
+	SpellBookFrame:StripTextures(true)
 	SpellBookFrame:SetTemplate("Transparent")
 	SpellBookFrame:Width(460)
 
-	SpellBookFrameInset:StripTextures(true);
-	SpellBookSpellIconsFrame:StripTextures(true);
-	SpellBookSideTabsFrame:StripTextures(true);
-	SpellBookPageNavigationFrame:StripTextures(true);
+	SpellBookFrameInset:StripTextures(true)
+	SpellBookSpellIconsFrame:StripTextures(true)
+	SpellBookSideTabsFrame:StripTextures(true)
+	SpellBookPageNavigationFrame:StripTextures(true)
 
 	SpellBookPageText:SetTextColor(1, 1, 1)
 	SpellBookPageText:Point("BOTTOMRIGHT", SpellBookFrame, "BOTTOMRIGHT", -90, 15)
@@ -39,8 +39,8 @@ local function LoadSkin()
 
 		for i = 1, button:GetNumRegions() do
 			local region = select(i, button:GetRegions())
-			if(region:GetObjectType() == "Texture") then
-				if(region:GetTexture() ~= "Interface\\Buttons\\ActionBarFlyoutButton") then
+			if region:GetObjectType() == "Texture" then
+				if region:GetTexture() ~= "Interface\\Buttons\\ActionBarFlyoutButton" then
 					region:SetTexture(nil)
 				end
 			end
@@ -55,13 +55,13 @@ local function LoadSkin()
 		_G["SpellButton"..i.."RequiredLevelString"]:SetTextColor(0.6, 0.6, 0.6)
 
 		button.bg = CreateFrame("Frame", nil, button)
-		button.bg:CreateBackdrop("Transparent", true);
-		button.bg:Point("TOPLEFT", -7, 9);
-		button.bg:Point("BOTTOMRIGHT", 170, -10);
+		button.bg:CreateBackdrop("Transparent", true)
+		button.bg:Point("TOPLEFT", -7, 9)
+		button.bg:Point("BOTTOMRIGHT", 170, -10)
 		button.bg:SetFrameLevel(button.bg:GetFrameLevel() - 2)
 
-		if(cooldown) then
-			E:RegisterCooldown(cooldown);
+		if cooldown then
+			E:RegisterCooldown(cooldown)
 		end
 	end
 
@@ -80,16 +80,16 @@ local function LoadSkin()
 
 	hooksecurefunc("SpellButton_UpdateButton", function(self)
 		local name = self:GetName()
-		local spellName = _G[name .. "SpellName"]
-		local highlight = _G[name .. "Highlight"]
+		local spellName = _G[name.."SpellName"]
+		local highlight = _G[name.."Highlight"]
 
-		if(highlight) then
+		if highlight then
 			highlight:SetTexture(1, 1, 1, 0.3)
 		end
 
 		local r, g, b = spellName:GetTextColor()
 
-		if(r < 0.8) then
+		if r < 0.8 then
 			spellName:SetTextColor(0.6, 0.6, 0.6)
 		end
 	end)
@@ -136,7 +136,7 @@ local function LoadSkin()
 
 	SpellBookSkillLineTab1:Point("TOPLEFT", SpellBookSideTabsFrame, "TOPRIGHT", E.PixelMode and -1 or 1, -40)
 
-	--Bottom Tabs
+	-- Bottom Tabs
 	for i = 1, 5 do
 		S:HandleTab(_G["SpellBookFrameTabButton"..i])
 	end
@@ -174,7 +174,7 @@ local function LoadSkin()
 		primaryBar:Point("TOPLEFT", 250, -10)
 
 		primaryBar.rankText:Point("CENTER")
-		primaryBar.rankText:FontTemplate(nil, 12, "OUTLINE");
+		primaryBar.rankText:FontTemplate(nil, 12, "OUTLINE")
 
 		primaryRank:Point("TOPLEFT", 120, -23)
 		primaryUnlearn:Point("RIGHT", primaryBar, "LEFT", -135, -10)
@@ -215,13 +215,13 @@ local function LoadSkin()
 		_G["PrimaryProfession"..i.."IconBorder"]:Hide()
 		_G["PrimaryProfession"..i.."Icon"]:SetTexCoord(unpack(E.TexCoords))
 
-		if(cooldown1) then
-			E:RegisterCooldown(cooldown1);
+		if cooldown1 then
+			E:RegisterCooldown(cooldown1)
 			cooldown1:SetAllPoints()
 		end
 
-		if(cooldown2) then
-			E:RegisterCooldown(cooldown2);
+		if cooldown2 then
+			E:RegisterCooldown(cooldown2)
 			cooldown2:SetAllPoints()
 		end
 	end
@@ -250,7 +250,7 @@ local function LoadSkin()
 		secondaryBar:Point("TOPLEFT", 5, -35)
 
 		secondaryBar.rankText:Point("CENTER")
-		secondaryBar.rankText:FontTemplate(nil, 12, "OUTLINE");
+		secondaryBar.rankText:FontTemplate(nil, 12, "OUTLINE")
 
 		spellButtonRight:Point("TOPRIGHT", -90, -10)
 
@@ -266,7 +266,7 @@ local function LoadSkin()
 		secondarySpellButtonLeft.pushed:SetAllPoints()
 		secondarySpellButtonLeft.checked:SetAllPoints()
 		secondarySpellButtonLeft:SetFrameLevel(secondarySpellButtonLeft:GetFrameLevel() + 2)
-		secondarySpellButtonLeft:Point("TOPRIGHT", secondarySpellButtonRight, "TOPLEFT", -96, 0)
+		secondarySpellButtonLeft:Point("TOPRIGHT", secondarySpellButtonRight, "TOPLEFT", -95, 0)
 
 		secondarySpellButtonLeftTex:SetTexCoord(unpack(E.TexCoords))
 		secondarySpellButtonLeftTex:SetAllPoints()
@@ -278,6 +278,7 @@ local function LoadSkin()
 		secondarySpellButtonRight.pushed:SetAllPoints()
 		secondarySpellButtonRight.checked:SetAllPoints()
 		secondarySpellButtonRight:SetFrameLevel(secondarySpellButtonRight:GetFrameLevel() + 2)
+		secondarySpellButtonRight:Point("TOPRIGHT", secondaryProf, "TOPRIGHT", -100, -10)
 
 		secondarySpellButtonRightTex:SetTexCoord(unpack(E.TexCoords))
 		secondarySpellButtonRightTex:SetAllPoints()
@@ -285,18 +286,18 @@ local function LoadSkin()
 		_G["SecondaryProfession"..i.."SpellButtonRightSubSpellName"]:SetTextColor(1, 1, 1)
 		_G["SecondaryProfession"..i.."SpellButtonLeftSubSpellName"]:SetTextColor(1, 1, 1)
 
-		if(cooldown1) then
-			E:RegisterCooldown(cooldown1);
+		if cooldown1 then
+			E:RegisterCooldown(cooldown1)
 			cooldown1:SetAllPoints()
 		end
 
-		if(cooldown2) then
-			E:RegisterCooldown(cooldown2);
+		if cooldown2 then
+			E:RegisterCooldown(cooldown2)
 			cooldown2:SetAllPoints()
 		end
 	end
 
-	--Mounts/Companions
+	-- Mounts/Companions
 	for i = 1, NUM_COMPANIONS_PER_PAGE do
 		local button = _G["SpellBookCompanionButton"..i]
 		local icon = _G["SpellBookCompanionButton"..i.."IconTexture"]
@@ -309,9 +310,9 @@ local function LoadSkin()
 		icon:SetInside(button)
 
 		button.bg = CreateFrame("Frame", nil, button)
-		button.bg:CreateBackdrop("Transparent", true);
-		button.bg:Point("TOPLEFT", E.PixelMode and 1 or -1, E.PixelMode and -1 or 1);
-		button.bg:Point("BOTTOMRIGHT", 105, E.PixelMode and 1 or -1);
+		button.bg:CreateBackdrop("Transparent", true)
+		button.bg:Point("TOPLEFT", E.PixelMode and 1 or -1, E.PixelMode and -1 or 1)
+		button.bg:Point("BOTTOMRIGHT", 105, E.PixelMode and 1 or -1)
 	end
 
 	SpellBookCompanionButton1:Point("TOPLEFT", 9, -310)
@@ -350,15 +351,15 @@ local function LoadSkin()
 	hooksecurefunc("SpellBookFrame_UpdatePages", function()
 		local mode = SpellBookCompanionsFrame.mode
 
-		if(mode) then
+		if mode then
 			local cur, max = GetNumCompanions(mode), MAX_COMPANIONS[mode]
 			progress:SetMinMaxValues(1, max)
 			progress:SetValue(cur)
 			progress.rankText:SetFormattedText("%d/%d", cur, max)
-			progress.rankText:FontTemplate(nil, 12, "OUTLINE");
+			progress.rankText:FontTemplate(nil, 12, "OUTLINE")
 			progress.rankText:Point("CENTER")
 		end
 	end)
 end
 
-S:AddCallback("Spellbook", LoadSkin);
+S:AddCallback("Spellbook", LoadSkin)

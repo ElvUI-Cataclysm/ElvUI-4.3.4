@@ -1,7 +1,7 @@
-local E, L, V, P, G = unpack(select(2, ...));
+local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
-local unpack = unpack;
+local unpack = unpack
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.inspect ~= true then return end
@@ -13,7 +13,7 @@ local function LoadSkin()
 
 	ReforgingFrameButtonFrame:StripTextures()
 
-	ReforgingFrameRestoreMessage:SetTextColor(1, 1, 1);
+	ReforgingFrameRestoreMessage:SetTextColor(1, 1, 1)
 
 	S:HandleButton(ReforgingFrameRestoreButton, true)
 
@@ -26,18 +26,18 @@ local function LoadSkin()
 
 	ReforgingFrameItemButtonIconTexture:SetInside()
 
-	ReforgingFrameItemButton.missingText:SetTextColor(1, 0.80, 0.10);
-	ReforgingFrame.missingDescription:SetTextColor(1, 1, 1);
+	ReforgingFrameItemButton.missingText:SetTextColor(1, 0.80, 0.10)
+	ReforgingFrame.missingDescription:SetTextColor(1, 1, 1)
 
 	hooksecurefunc("ReforgingFrame_Update", function(self)
 		local _, icon, _, quality = GetReforgeItemInfo()
-		if(icon) then
+		if icon then
 			ReforgingFrameItemButtonIconTexture:SetTexCoord(unpack(E.TexCoords))
 		else
 			ReforgingFrameItemButtonIconTexture:SetTexture(nil)
 		end
-		if(quality and quality > 1) then
-			ReforgingFrameItemButton:SetBackdropBorderColor(GetItemQualityColor(quality));
+		if quality then
+			ReforgingFrameItemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
 		else
 			ReforgingFrameItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 		end
@@ -46,4 +46,4 @@ local function LoadSkin()
 	S:HandleCloseButton(ReforgingFrameCloseButton)
 end
 
-S:AddCallbackForAddon("Blizzard_ReforgingUI", "ReforgingUI", LoadSkin);
+S:AddCallbackForAddon("Blizzard_ReforgingUI", "ReforgingUI", LoadSkin)

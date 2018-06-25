@@ -1,15 +1,15 @@
-local E, L, V, P, G = unpack(select(2, ...));
-local S = E:GetModule("Skins");
+local E, L, V, P, G = unpack(select(2, ...))
+local S = E:GetModule("Skins")
 
-local _G = _G;
-local pairs, unpack = pairs, unpack;
-local find = string.find;
+local _G = _G
+local pairs, unpack = pairs, unpack
+local find = string.find
 
 local CreateFrame = CreateFrame
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
-	if(E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.pvp ~= true) then return; end
+	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.pvp ~= true then return end
 
 	local buttons = {
 		"PVPFrameLeftButton",
@@ -78,7 +78,7 @@ local function LoadSkin()
 	local function ArenaHeader(self, first, i)
 		local button = _G["PVPTeamManagementFrameHeader"..i]
 
-		if(first) then
+		if first then
 			button:StripTextures()
 		end
 	end
@@ -91,7 +91,7 @@ local function LoadSkin()
 
 	for i = 1, 6 do
 		S:HandleButtonHighlight(_G["PVPTeamManagementFrameTeamMemberButton"..i])
-		_G["PVPTeamManagementFrameTeamMemberButton"..i.."ClassIcon"]:SetTexture("Interface\\WorldStateFrame\\Icons-Classes");
+		_G["PVPTeamManagementFrameTeamMemberButton"..i.."ClassIcon"]:SetTexture("Interface\\WorldStateFrame\\Icons-Classes")
 	end
 
 	PVPFrameTab1:ClearAllPoints()
@@ -230,24 +230,24 @@ local function LoadSkin()
 
 	local factionGroup = E.myfaction
 
-	if(PVPFrameCurrencyIcon) then
+	if PVPFrameCurrencyIcon then
 		PVPFrameCurrency:CreateBackdrop()
 		PVPFrameCurrency.backdrop:Point("TOPLEFT", 8, -8)
 		PVPFrameCurrency.backdrop:Point("BOTTOMRIGHT", -8, 8)
 
 		PVPFrameCurrencyIcon:SetAlpha(0)
 
-		PVPFrameCurrency.texture = PVPFrameCurrency:CreateTexture(nil, "OVERLAY");
-		PVPFrameCurrency.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..factionGroup);
+		PVPFrameCurrency.texture = PVPFrameCurrency:CreateTexture(nil, "OVERLAY")
+		PVPFrameCurrency.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..factionGroup)
 		PVPFrameCurrency.texture:SetTexCoord(unpack(E.TexCoords))
 		PVPFrameCurrency.texture:SetInside(PVPFrameCurrency.backdrop)
 	end
 
 	hooksecurefunc("PVPHonor_UpdateRandomInfo", function()
-		PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..factionGroup);
-		PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..factionGroup);
-		PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..factionGroup);
-		PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..factionGroup);
+		PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..factionGroup)
+		PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..factionGroup)
+		PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..factionGroup)
+		PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..factionGroup)
 	end)
 
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexCoord(unpack(E.TexCoords))
@@ -260,11 +260,11 @@ local function LoadSkin()
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:Size(30)
 
 	hooksecurefunc("PVPConquestFrame_Update", function()
-		PVPConquestFrameWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..factionGroup);
+		PVPConquestFrameWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..factionGroup)
 	end)
 
 	PVPConquestFrameWinRewardArenaSymbol:SetTexCoord(unpack(E.TexCoords))
 	PVPConquestFrameWinRewardArenaSymbol:Size(30)
 end
 
-S:AddCallback("PvP", LoadSkin);
+S:AddCallback("PvP", LoadSkin)
