@@ -1080,7 +1080,6 @@ L["Tank Target"] = "Alvo do Tanque"
 L["Tapped"] = "Reservado"
 L["Targeted Glow"] = true
 L["Targeting"] = true
-L["Target Glow"] = true
 L["Target On Mouse-Down"] = "Selecionar ao Pressionar o Mouse"
 L["Target units on mouse down rather than mouse up. \n\n|cffFF0000Warning: If you are using the addon 'Clique' you may have to adjust your clique settings when changing this."] = "Seleciona unidades ao pressionar o mouse em ves de ao soltar. \n\n|cffFF0000Atenção: Se você estiver usando o addon 'Clique' poderá ter que ajustá-lo quando alterar essa opção."
 L["Text Color"] = "Cor do Texto"

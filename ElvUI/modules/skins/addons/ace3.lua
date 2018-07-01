@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(select(2, ...));
+local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
 local _G = _G
@@ -70,21 +70,21 @@ local function SkinScrollBar(frame, thumbTrim)
 end
 
 local function SkinButton(f, strip, noTemplate)
-	local name = f:GetName();
+	local name = f:GetName()
 
-	if(name) then
-		local left = _G[name.."Left"];
-		local middle = _G[name.."Middle"];
-		local right = _G[name.."Right"];
+	if name then
+		local left = _G[name.."Left"]
+		local middle = _G[name.."Middle"]
+		local right = _G[name.."Right"]
 
-		if(left) then left:Kill(); end
-		if(middle) then middle:Kill(); end
-		if(right) then right:Kill(); end
+		if left then left:Kill() end
+		if middle then middle:Kill() end
+		if right then right:Kill() end
 	end
 
-	if(f.Left) then f.Left:Kill(); end
-	if(f.Middle) then f.Middle:Kill(); end
-	if(f.Right) then f.Right:Kill(); end
+	if f.Left then f.Left:Kill() end
+	if f.Middle then f.Middle:Kill() end
+	if f.Right then f.Right:Kill() end
 
 	if f.SetNormalTexture then f:SetNormalTexture("") end
 	if f.SetHighlightTexture then f:SetHighlightTexture("") end
@@ -103,6 +103,25 @@ end
 
 local function SkinNextPrevButton(...)
 	S:HandleNextPrevButton(...)
+end
+
+local function SkinDropdownPullout(self)
+	if self.obj.pullout.frame.template and self.obj.pullout.slider.template then return end
+
+	if not self.obj.pullout.frame.template then
+		self.obj.pullout.frame:SetTemplate("Default", true)
+	end
+
+	if not self.obj.pullout.slider.template then
+		self.obj.pullout.slider:SetTemplate("Default")
+		self.obj.pullout.slider:Point("TOPRIGHT", self.obj.pullout.frame, "TOPRIGHT", -10, -10)
+		self.obj.pullout.slider:Point("BOTTOMRIGHT", self.obj.pullout.frame, "BOTTOMRIGHT", -10, 10)
+		if self.obj.pullout.slider:GetThumbTexture() then
+			self.obj.pullout.slider:SetThumbTexture(E["media"].blankTex)
+			self.obj.pullout.slider:GetThumbTexture():SetVertexColor(0.3, 0.3, 0.3)
+			self.obj.pullout.slider:GetThumbTexture():Size(10, 12)
+		end
+	end
 end
 
 function S:SkinAce3()
@@ -143,6 +162,7 @@ function S:SkinAce3()
 		elseif TYPE == "Dropdown" then
 			local frame = widget.dropdown
 			local button = widget.button
+			local button_cover = widget.button_cover
 			local text = widget.text
 			frame:StripTextures()
 
@@ -158,23 +178,10 @@ function S:SkinAce3()
 			end
 			button:SetParent(frame.backdrop)
 			text:SetParent(frame.backdrop)
-			button:HookScript("OnClick", function(this)
-				local dropdown = this.obj.pullout
-				if dropdown.frame then
-					dropdown.frame:SetTemplate("Default", true)
-					if dropdown.slider then
-						dropdown.slider:SetTemplate("Default")
-						dropdown.slider:Point("TOPRIGHT", dropdown.frame, "TOPRIGHT", -10, -10)
-						dropdown.slider:Point("BOTTOMRIGHT", dropdown.frame, "BOTTOMRIGHT", -10, 10)
-
-						if dropdown.slider:GetThumbTexture() then
-							dropdown.slider:SetThumbTexture(E["media"].blankTex)
-							dropdown.slider:GetThumbTexture():SetVertexColor(0.3, 0.3, 0.3)
-							dropdown.slider:GetThumbTexture():Size(10, 12)
-						end
-					end
-				end
-			end)
+			button:HookScript("OnClick", SkinDropdownPullout)
+			if button_cover then
+				button_cover:HookScript("OnClick", SkinDropdownPullout)
+			end
 		elseif TYPE == "LSM30_Font" or TYPE == "LSM30_Sound" or TYPE == "LSM30_Border" or TYPE == "LSM30_Background" or TYPE == "LSM30_Statusbar" then
 			local frame = widget.frame
 			local button = frame.dropButton
@@ -287,7 +294,7 @@ function S:SkinAce3()
 			frame:Height(HEIGHT)
 			frame:SetThumbTexture(E["media"].blankTex)
 			frame:GetThumbTexture():SetVertexColor(0.3, 0.3, 0.3)
-			frame:GetThumbTexture():Size(HEIGHT-2,HEIGHT+2)
+			frame:GetThumbTexture():Size(HEIGHT - 2, HEIGHT + 2)
 
 			editbox:SetTemplate("Default")
 			editbox:Height(15)
@@ -318,10 +325,10 @@ function S:SkinAce3()
 			local frame = widget.content:GetParent()
 			if TYPE == "Frame" then
 				frame:StripTextures()
-				if(not E.GUIFrame) then
-					E.GUIFrame = frame;
+				if not E.GUIFrame then
+					E.GUIFrame = frame
 				end
-				for i=1, frame:GetNumChildren() do
+				for i = 1, frame:GetNumChildren() do
 					local child = select(i, frame:GetChildren())
 					if child:GetObjectType() == "Button" and child:GetText() then
 						SkinButton(child)
@@ -375,14 +382,14 @@ function S:SkinAce3()
 			if TYPE == "TabGroup" then
 				local oldCreateTab = widget.CreateTab
 				widget.CreateTab = function(self, id)
-					local tab = oldCreateTab(self, id);
-					tab:StripTextures();
-					tab.backdrop = CreateFrame("Frame", nil, tab);
-					tab.backdrop:SetTemplate("Transparent");
-					tab.backdrop:SetFrameLevel(tab:GetFrameLevel() - 1);
-					tab.backdrop:Point("TOPLEFT", 10, -3);
-					tab.backdrop:Point("BOTTOMRIGHT", -10, 0);
-					return tab;
+					local tab = oldCreateTab(self, id)
+					tab:StripTextures()
+					tab.backdrop = CreateFrame("Frame", nil, tab)
+					tab.backdrop:SetTemplate("Transparent")
+					tab.backdrop:SetFrameLevel(tab:GetFrameLevel() - 1)
+					tab.backdrop:Point("TOPLEFT", 10, -3)
+					tab.backdrop:Point("BOTTOMRIGHT", -10, 0)
+					return tab
 				end
 			end
 
@@ -411,4 +418,4 @@ local f = CreateFrame("Frame")
 f:RegisterEvent("ADDON_LOADED")
 f:SetScript("OnEvent", attemptSkin)
 
-S:AddCallback("Ace3", attemptSkin);
+S:AddCallback("Ace3", attemptSkin)

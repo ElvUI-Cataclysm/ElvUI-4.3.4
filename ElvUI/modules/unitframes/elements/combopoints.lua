@@ -61,7 +61,7 @@ function UF:Construct_Combobar(frame)
 		frame:RegisterEvent("PLAYER_ENTERING_WORLD", function()
 			E:ShapeshiftDelayedUpdate(ElvUF_Target.ComboPoints.Override, ElvUF_Target)
 		end)
-		
+
 		self:CombobarDetachedUpdate()
 	end
 

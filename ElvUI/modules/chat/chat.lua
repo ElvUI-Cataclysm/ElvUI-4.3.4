@@ -1233,7 +1233,7 @@ function CH:ChatFrame_MessageEventHandler(self, event, arg1, arg2, arg3, arg4, a
 			else
 				arg1 = gsub(arg1, "%%", "%%%%")
 			end
-     
+
 			if ((type == "PARTY_LEADER") and (HasLFGRestrictions())) then
 				type = "PARTY_GUIDE"
 			end

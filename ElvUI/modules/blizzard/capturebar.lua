@@ -1,7 +1,7 @@
-local E, L, DF = unpack(select(2, ...));
-local B = E:GetModule("Blizzard");
+local E, L, DF = unpack(select(2, ...))
+local B = E:GetModule("Blizzard")
 
-local _G = _G;
+local _G = _G
 
 local pvpHolder = CreateFrame("Frame", "PvPHolder", E.UIParent)
 

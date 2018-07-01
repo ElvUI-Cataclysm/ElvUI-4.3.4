@@ -237,6 +237,11 @@ E.Options.args.maps = {
 					type = "group",
 					name = L["Buttons"],
 					args = {
+						header = {
+							order = 0,
+							type = "header",
+							name = L["Buttons"]
+						},
 						calendar = {
 							order = 1,
 							type = "group",

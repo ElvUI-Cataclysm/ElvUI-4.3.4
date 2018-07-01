@@ -84,7 +84,6 @@ local function UpdateMemory()
 end
 
 local function UpdateCPU()
-
 	UpdateAddOnCPUUsage()
 
 	local addonCPU

@@ -24,7 +24,25 @@ local function LoadSkin()
 	CharacterModelFrame:CreateBackdrop("Default")
 	CharacterModelFrame.backdrop:Point("TOPLEFT", -1, 1)
 	CharacterModelFrame.backdrop:Point("BOTTOMRIGHT", 1, -2)
-	CharacterModelFrameBackgroundOverlay:SetTexture(0, 0, 0, 0.6)
+
+	--Re-add the overlay texture which was removed right above via StripTextures
+	CharacterModelFrameBackgroundOverlay:SetTexture(0, 0, 0)
+
+--[[
+	-- Give character frame model backdrop it's color back
+	for _, corner in pairs({"TopLeft", "TopRight", "BotLeft", "BotRight"}) do
+		local bg = _G["CharacterModelFrameBackground"..corner]
+		if bg then
+			bg:SetDesaturated(false)
+			bg.ignoreDesaturated = true -- so plugins can prevent this if they want.
+			hooksecurefunc(bg, "SetDesaturated", function(bckgnd, value)
+				if value and bckgnd.ignoreDesaturated then
+					bckgnd:SetDesaturated(false)
+				end
+			end)
+		end
+	end
+]]
 
 	S:HandleCloseButton(CharacterFrameCloseButton)
 
@@ -92,6 +110,24 @@ local function LoadSkin()
 		end
 	end
 
+	hooksecurefunc("EquipmentFlyoutPopoutButton_SetReversed", function(self, isReversed)
+		if self:GetParent().verticalFlyout then
+			if isReversed then
+				SquareButton_SetIcon(self, "UP")
+			else
+				SquareButton_SetIcon(self, "DOWN")
+			end
+		else
+			if isReversed then
+				SquareButton_SetIcon(self, "LEFT")
+			else
+				SquareButton_SetIcon(self, "RIGHT")
+			end
+		end
+	end)
+
+	EquipmentFlyoutFrameHighlight:Kill()
+
 	local function SkinItemFlyouts(button)
 		button.icon = _G[button:GetName().."IconTexture"]
 
@@ -120,28 +156,18 @@ local function LoadSkin()
  	hooksecurefunc("EquipmentFlyout_DisplayButton", SkinItemFlyouts)
 
 	hooksecurefunc("EquipmentFlyout_Show", function(self)
-		EquipmentFlyoutFrameButtons:StripTextures()
-		EquipmentFlyoutFrameHighlight:Kill()
-		if self.verticalFlyout then
-			EquipmentFlyoutFrame.buttonFrame:Point("TOPLEFT", self.popoutButton, "BOTTOMLEFT", -10, 0)
-		else
-			EquipmentFlyoutFrame.buttonFrame:Point("TOPLEFT", self.popoutButton, "TOPRIGHT", 0, 10)
-		end
-	end)
+		local frame = EquipmentFlyoutFrame.buttonFrame
 
-	hooksecurefunc("EquipmentFlyoutPopoutButton_SetReversed", function(self, isReversed)
-		if self:GetParent().verticalFlyout then
-			if isReversed then
-				SquareButton_SetIcon(self, "UP")
-			else
-				SquareButton_SetIcon(self, "DOWN")
-			end
+		frame:StripTextures()
+		frame:SetTemplate("Transparent")
+
+		local width, height = frame:GetSize()
+		frame:Size(width + 3, height)
+
+		if self.verticalFlyout then
+			frame:Point("TOPLEFT", self.popoutButton, "BOTTOMLEFT", -10, 0)
 		else
-			if isReversed then
-				SquareButton_SetIcon(self, "LEFT")
-			else
-				SquareButton_SetIcon(self, "RIGHT")
-			end
+			frame:Point("TOPLEFT", self.popoutButton, "TOPRIGHT", 0, 10)
 		end
 	end)
 
@@ -304,7 +330,7 @@ local function LoadSkin()
 				tab.Highlight:SetTexture(1, 1, 1, 0.3)
 				tab.Highlight:SetInside(tab.backdrop)
 
-				tab.Hider:SetTexture(0.4, 0.4, 0.4, 0.4)
+				tab.Hider:SetTexture(0, 0, 0, 0.8)
 				tab.Hider:SetInside(tab.backdrop)
 
 				tab.TabBg:Kill()

@@ -98,18 +98,18 @@ local function LoadSkin()
 				local name = child:GetName()
 
 				frame:CreateBackdrop("Transparent", nil, true)
-				frame.backdrop:Point("TOPLEFT", 15, -2)
-				frame.backdrop:Point("BOTTOMRIGHT", -15, 2)
+				frame.backdrop:Point("TOPLEFT", 0, -2)
+				frame.backdrop:Point("BOTTOMRIGHT", 0, 2)
 
-				frame:SetHitRectInsets(15, 15, 2, 2)
+				frame:SetHitRectInsets(2, 2, 2, 2)
 
 				child.QuestionMark:ClearAllPoints()
-				child.QuestionMark:Point("CENTER", frame.backdrop, "LEFT", 20, 0)
+				child.QuestionMark:Point("CENTER", frame.backdrop, "LEFT", 17, 0)
 				child.QuestionMark:SetParent(frame.backdrop)
 				child.QuestionMark:SetDrawLayer("OVERLAY", 7)
 
 				child.Exclamation:ClearAllPoints()
-				child.Exclamation:Point("CENTER", frame.backdrop, "LEFT", 20, 0)
+				child.Exclamation:Point("CENTER", frame.backdrop, "LEFT", 17, 0)
 				child.Exclamation:SetParent(frame.backdrop)
 				child.Exclamation:SetDrawLayer("OVERLAY", 7)
 
