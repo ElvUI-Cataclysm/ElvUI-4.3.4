@@ -204,7 +204,6 @@ function E:SetupTheme(theme, noDisplayMsg)
 		E.db.general.bordercolor = (E.PixelMode and E:GetColor(0, 0, 0) or E:GetColor(.31, .31, .31))
 		E.db.general.backdropcolor = E:GetColor(.1, .1, .1)
 		E.db.general.backdropfadecolor = E:GetColor(.06, .06, .06, .8)
-
 		E.db.unitframe.colors.borderColor = (E.PixelMode and E:GetColor(0, 0, 0) or E:GetColor(.31, .31, .31))
 		E.db.unitframe.colors.healthclass = false
 		E.db.unitframe.colors.health = E:GetColor(.31, .31, .31)
@@ -385,16 +384,11 @@ function E:SetupLayout(layout, noDataReset)
 			E.db.unitframe.units.raid.debuffs.xOffset = -4;
 			E.db.unitframe.units.raid.debuffs.yOffset = -7;
 			E.db.unitframe.units.raid.height = 45;
-			E.db.unitframe.units.raid.buffs.noConsolidated = false
 			E.db.unitframe.units.raid.buffs.xOffset = 50;
 			E.db.unitframe.units.raid.buffs.yOffset = -6;
 			E.db.unitframe.units.raid.buffs.clickThrough = true
-			E.db.unitframe.units.raid.buffs.noDuration = false
-			E.db.unitframe.units.raid.buffs.playerOnly = false;
 			E.db.unitframe.units.raid.buffs.perrow = 1
-			E.db.unitframe.units.raid.buffs.useFilter = "TurtleBuffs"
 			E.db.unitframe.units.raid.buffs.sizeOverride = 22
-			E.db.unitframe.units.raid.buffs.useBlacklist = false
 			E.db.unitframe.units.raid.buffs.enable = true
 			E.db.unitframe.units.raid.growthDirection = "LEFT_UP"
 
@@ -407,16 +401,11 @@ function E:SetupLayout(layout, noDataReset)
 			E.db.unitframe.units.party.debuffs.xOffset = -4;
 			E.db.unitframe.units.party.debuffs.yOffset = -7;
 			E.db.unitframe.units.party.height = 45;
-			E.db.unitframe.units.party.buffs.noConsolidated = false
 			E.db.unitframe.units.party.buffs.xOffset = 50;
 			E.db.unitframe.units.party.buffs.yOffset = -6;
 			E.db.unitframe.units.party.buffs.clickThrough = true
-			E.db.unitframe.units.party.buffs.noDuration = false
-			E.db.unitframe.units.party.buffs.playerOnly = false;
 			E.db.unitframe.units.party.buffs.perrow = 1
-			E.db.unitframe.units.party.buffs.useFilter = "TurtleBuffs"
 			E.db.unitframe.units.party.buffs.sizeOverride = 22
-			E.db.unitframe.units.party.buffs.useBlacklist = false
 			E.db.unitframe.units.party.buffs.enable = true	
 			E.db.unitframe.units.party.roleIcon.position = "BOTTOMRIGHT"
 			E.db.unitframe.units.party.health.text_format = "[healthcolor][health:deficit]"
@@ -459,7 +448,6 @@ function E:SetupLayout(layout, noDataReset)
 			E.db.movers.ElvAB_5 = "BOTTOM,ElvUIParent,BOTTOM,-312,4"
 			E.db.movers.ElvUF_PartyMover = "BOTTOMRIGHT,ElvUIParent,BOTTOMLEFT,"..xOffset..",450"
 			E.db.movers.ElvUF_RaidMover = "BOTTOMRIGHT,ElvUIParent,BOTTOMLEFT,"..xOffset..",450"
-
 			E.db.movers.ElvUF_Raid40Mover = "BOTTOMRIGHT,ElvUIParent,BOTTOMLEFT,"..xOffset..",450"
 
 			if not E.db.lowresolutionset then
@@ -598,6 +586,7 @@ function E:SetupLayout(layout, noDataReset)
 			E.db.movers.ElvUF_PlayerCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,-2,"..(yOffset + 5)
 		end
 	elseif (layout == 'dpsMelee' or layout == 'tank') and not E.db.lowresolutionset and not E.PixelMode then
+		if not E.db.movers then E.db.movers = {} end
 		E.db.movers.ElvUF_PlayerMover = "BOTTOM,ElvUIParent,BOTTOM,-307,76"
 		E.db.movers.ElvUF_TargetMover = "BOTTOM,ElvUIParent,BOTTOM,307,76"
 		E.db.movers.ElvUF_TargetTargetMover = "BOTTOM,ElvUIParent,BOTTOM,0,76"
@@ -605,23 +594,10 @@ function E:SetupLayout(layout, noDataReset)
 		E.db.movers["BossButton"] = "BOTTOM,ElvUIParent,BOTTOM,0,158"
 	end
 
-	if not noDataReset then
-		E:CopyTable(E.db.datatexts.panels, P.datatexts.panels)
-		if layout == 'tank' then
-			E.db.datatexts.panels.LeftChatDataPanel.left = "Vengeance"
-			E.db.datatexts.panels.LeftChatDataPanel.right = "Avoidance"
-		elseif layout == 'healer' or layout == 'dpsCaster' then
-			E.db.datatexts.panels.LeftChatDataPanel.left = "Spell/Heal Power";
-			E.db.datatexts.panels.LeftChatDataPanel.right = "Haste";
-		else
-			E.db.datatexts.panels.LeftChatDataPanel.left = "Attack Power";
-			E.db.datatexts.panels.LeftChatDataPanel.right = "Haste";
-		end
-
-		if InstallStepComplete then
-			InstallStepComplete.message = L["Layout Set"]
-			InstallStepComplete:Show()
-		end
+	--Datatexts
+	if not noDataReset and InstallStepComplete then
+		InstallStepComplete.message = L["Layout Set"]
+		InstallStepComplete:Show()
 	end
 
 	E.db.layoutSet = layout
@@ -640,8 +616,7 @@ local function SetupAuras(style)
 	E:CopyTable(E.db.unitframe.units.player.buffs, P.unitframe.units.player.buffs);
 	E:CopyTable(E.db.unitframe.units.player.debuffs, P.unitframe.units.player.debuffs);
 	E:CopyTable(E.db.unitframe.units.player.aurabar, P.unitframe.units.player.aurabar);
-
-	if(frame) then
+	if frame then
 		UF:Configure_Auras(frame, "Buffs");
 		UF:Configure_Auras(frame, "Debuffs");
 		UF:Configure_AuraBars(frame);
@@ -651,9 +626,7 @@ local function SetupAuras(style)
 	E:CopyTable(E.db.unitframe.units.target.buffs, P.unitframe.units.target.buffs);
 	E:CopyTable(E.db.unitframe.units.target.debuffs, P.unitframe.units.target.debuffs);
 	E:CopyTable(E.db.unitframe.units.target.aurabar, P.unitframe.units.target.aurabar);
-	E.db.unitframe.units.target.smartAuraDisplay = P.unitframe.units.target.smartAuraDisplay;
-
-	if(frame) then
+	if frame then
 		UF:Configure_Auras(frame, "Buffs");
 		UF:Configure_Auras(frame, "Debuffs");
 		UF:Configure_AuraBars(frame);
@@ -663,9 +636,7 @@ local function SetupAuras(style)
 	E:CopyTable(E.db.unitframe.units.focus.buffs, P.unitframe.units.focus.buffs);
 	E:CopyTable(E.db.unitframe.units.focus.debuffs, P.unitframe.units.focus.debuffs);
 	E:CopyTable(E.db.unitframe.units.focus.aurabar, P.unitframe.units.focus.aurabar);
-	E.db.unitframe.units.focus.smartAuraDisplay = P.unitframe.units.focus.smartAuraDisplay;
-
-	if(frame) then
+	if frame then
 		UF:Configure_Auras(frame, "Buffs");
 		UF:Configure_Auras(frame, "Debuffs");
 		UF:Configure_AuraBars(frame);
@@ -674,15 +645,17 @@ local function SetupAuras(style)
 	if(not style) then
 		E.db.unitframe.units.player.buffs.enable = true;
 		E.db.unitframe.units.player.buffs.attachTo = "FRAME";
-		E.db.unitframe.units.player.buffs.noDuration = false;
 		E.db.unitframe.units.player.debuffs.attachTo = "BUFFS";
 		E.db.unitframe.units.player.aurabar.enable = false;
-		E:GetModule("UnitFrames"):CreateAndUpdateUF("player");
+		if E.private.unitframe.enable then
+			E:GetModule("UnitFrames"):CreateAndUpdateUF("player")
+		end
 
-		E.db.unitframe.units.target.smartAuraDisplay = "DISABLED";
 		E.db.unitframe.units.target.debuffs.enable = true;
 		E.db.unitframe.units.target.aurabar.enable = false;
-		E:GetModule("UnitFrames"):CreateAndUpdateUF("target");
+		if E.private.unitframe.enable then
+			E:GetModule("UnitFrames"):CreateAndUpdateUF("target")
+		end
 	end
 
 	if(InstallStepComplete) then
@@ -728,7 +701,6 @@ local function SetPage(PageNum)
 
 	local r, g, b = E:ColorGradient(CURRENT_PAGE / MAX_PAGE, 1, 0, 0, 1, 1, 0, 0, 1, 0);
 	ElvUIInstallFrame.Status:SetStatusBarColor(r, g, b);
-
 	local f = ElvUIInstallFrame
 
 	if PageNum == MAX_PAGE then

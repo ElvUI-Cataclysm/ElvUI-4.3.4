@@ -188,14 +188,16 @@ local rolePaths = {
 
 local specialChatIcons
 do --this can save some main file locals
-	local IconPath = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\"
-	local ElvBlue = IconPath.."elvui_blue.tga:13:25|t"
-	local ElvPink = IconPath.."elvui_pink.tga:13:25|t"
-	local ElvRed = IconPath.."elvui_red.tga:13:25|t"
-	local ElvPurple = IconPath.."elvui_purple.tga:13:25|t"
-	local ElvOrange = IconPath.."elvui_orange.tga:13:25|t"
-	local Bathrobe = IconPath.."bathrobe.blp:15:15|t"
-	local MrHankey = IconPath.."mr_hankey.tga:16:18|t"
+	local IconPath	 = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\"
+	local ElvPurple	 = IconPath.."elvui_purple.tga:13:25|t"
+	local ElvPink	 = IconPath.."elvui_pink.tga:13:25|t"
+	local ElvBlue	 = IconPath.."elvui_blue.tga:13:25|t"
+	local ElvGreen	 = IconPath.."elvui_green.tga:13:25|t"
+	local ElvOrange	 = IconPath.."elvui_orange.tga:13:25|t"
+	local ElvRed	 = IconPath.."elvui_red.tga:13:25|t"
+	local ElvRainbow = IconPath.."elvui_rainbow.tga:13:25|t"
+	local Bathrobe	 = IconPath.."bathrobe.blp:15:15|t"
+	local MrHankey	 = IconPath.."mr_hankey.tga:16:18|t"
 	specialChatIcons = {
 		["Dragonwrath"] = {
 			["Tyrann"] = ElvPurple,
@@ -270,7 +272,7 @@ function CH:GetSmileyReplacementText(msg)
 	local outstr = ""
 	local origlen = strlen(msg)
 	local startpos = 1
-	local endpos
+	local endpos, _
 
 	while(startpos <= origlen) do
 		endpos = origlen
@@ -281,7 +283,7 @@ function CH:GetSmileyReplacementText(msg)
 		outstr = outstr .. CH:InsertEmotions(strsub(msg,startpos,endpos)) --run replacement on this bit
 		startpos = endpos + 1
 		if(pos ~= nil) then
-			endpos = find(msg,"|h]|r",startpos,-1) or find(msg,"|h",startpos,-1)
+			_, endpos = find(msg,"|h.-|h",startpos)
 			endpos = endpos or origlen
 			if(startpos < endpos) then
 				outstr = outstr .. strsub(msg,startpos,endpos) --don't run replacement on this bit

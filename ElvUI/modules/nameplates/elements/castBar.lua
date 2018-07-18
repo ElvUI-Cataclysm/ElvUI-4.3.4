@@ -283,13 +283,16 @@ function mod:ConstructElement_CastBar(parent)
 	frame.Name = frame:CreateFontString(nil, "OVERLAY")
 	frame.Name:SetFont(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
 	frame.Name:SetWordWrap(false)
+
 	frame.Time = frame:CreateFontString(nil, "OVERLAY")
 	frame.Time:SetFont(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
 	frame.Time:SetWordWrap(false)
+
 	frame.Spark = frame:CreateTexture(nil, "OVERLAY")
 	frame.Spark:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]])
 	frame.Spark:SetBlendMode("ADD")
 	frame.Spark:SetSize(15, 15)
+
 	frame:Hide()
 
 	return frame

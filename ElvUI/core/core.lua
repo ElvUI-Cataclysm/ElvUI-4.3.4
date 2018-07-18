@@ -267,7 +267,7 @@ end
 local function LSMCallback()
 	E:UpdateMedia();
 end
-E.LSM.RegisterCallback(E, "LibSharedMedia_Registered", LSMCallback);
+LSM.RegisterCallback(E, "LibSharedMedia_Registered", LSMCallback)
 
 local MasqueGroupState = {}
 local MasqueGroupToTableElement = {
@@ -1283,6 +1283,8 @@ function E:Initialize()
 	self:RegisterEvent("UPDATE_BONUS_ACTIONBAR", "CheckRole");
 	self:RegisterEvent("UPDATE_FLOATING_CHAT_WINDOWS", "UIScale");
 	self:RegisterEvent("PLAYER_ENTERING_WORLD");
+	self:RegisterEvent("UNIT_ENTERED_VEHICLE", "EnterVehicleHideFrames")
+	self:RegisterEvent("UNIT_EXITED_VEHICLE", "ExitVehicleShowFrames")
 
 	if(self.db.general.kittys) then
 		self:CreateKittys();
