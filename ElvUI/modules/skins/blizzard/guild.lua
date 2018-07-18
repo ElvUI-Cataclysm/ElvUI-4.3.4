@@ -179,7 +179,9 @@ local function LoadSkin()
 						button.string1:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b)
 					end
 				end
+			end
 
+			if button.backdrop then
 				if button.icon:IsShown() then
 					button.backdrop:Show()
 				else

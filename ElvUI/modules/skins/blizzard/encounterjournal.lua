@@ -186,22 +186,17 @@ local function LoadSkin()
 	EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrame:SetTemplate("Transparent")
 
 	for i = 1, 10 do
-		local button =  _G["EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrameClass"..i]
-		local edge = _G["EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrameClass"..i.."BevelEdge"]
-		local shadow = _G["EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrameClass"..i.."Shadow"]
-		local icon = button:GetNormalTexture()
-		local pushed = button:GetPushedTexture()
-		local highlight = button:GetHighlightTexture()
+		local button = _G["EncounterJournalEncounterFrameInfoLootScrollFrameClassFilterFrameClass"..i]
 
 		S:HandleButton(button)
-		button:StyleButton(nil, true)
 
-		icon:SetTexture("Interface\\WorldStateFrame\\Icons-Classes")
-		pushed:SetTexture("Interface\\WorldStateFrame\\Icons-Classes")
-		highlight:SetTexture()
+		button:GetNormalTexture():SetTexture("Interface\\WorldStateFrame\\Icons-Classes")
+		button:GetPushedTexture():SetTexture("Interface\\WorldStateFrame\\Icons-Classes")
+		button:GetCheckedTexture():SetTexture(1, 1, 1, 0.3)
+		button:GetHighlightTexture():SetTexture("")
 
-		edge:Kill()
-		shadow:Kill()
+		button.bevel:Kill()
+		button.shadow:Kill()
 	end
 
 	-- Dungeon/raid selection buttons
@@ -259,38 +254,45 @@ local function LoadSkin()
 		item.backdrop:Point("TOPLEFT", 0, -4)
 		item.backdrop:Point("BOTTOMRIGHT", -2, E.PixelMode and 1 or -1)
 
+		item.name:ClearAllPoints()
+		item.name:Point("TOPLEFT", item.icon, "TOPRIGHT", 6, -2)
+		item.name:SetParent(item.backdrop)
+
 		item.boss:SetTextColor(1, 1, 1)
 		item.boss:ClearAllPoints()
-		item.boss:Point("BOTTOMLEFT", 4, 4)
+		item.boss:Point("BOTTOMLEFT", 4, 6)
 		item.boss:SetParent(item.backdrop)
-
-		item.slot:SetTextColor(1, 1, 1)
-		item.slot:SetParent(item.backdrop)
 
 		item.armorType:SetTextColor(1, 1, 1)
 		item.armorType:ClearAllPoints()
 		item.armorType:Point("BOTTOMRIGHT", item.name, "TOPLEFT", 264, -25)
 		item.armorType:SetParent(item.backdrop)
 
+		item.slot:SetTextColor(1, 1, 1)
+		item.slot:ClearAllPoints()
+		item.slot:Point("TOPLEFT", item.name, "BOTTOMLEFT", 0, -3)
+		item.slot:SetParent(item.backdrop)
+
+		item.IconBackdrop = CreateFrame("Frame", nil, item)
+		item.IconBackdrop:SetTemplate("Default")
+		item.IconBackdrop:SetFrameLevel(item:GetFrameLevel())
+		item.IconBackdrop:SetOutside(item.icon)
+
+		if i == 1 then
+			item:Point("TOPLEFT", EncounterInfo.lootScroll.scrollChild, "TOPLEFT", 4, 0)
+
+			item.icon:Point("TOPLEFT", E.PixelMode and 2 or 5, -(E.PixelMode and 5 or 8))
+		else
+			item.icon:Point("TOPLEFT", E.PixelMode and 1 or 4, -(E.PixelMode and 5 or 8))
+		end
+
+		item.icon:Size(E.PixelMode and 38 or 34)
+		item.icon:SetDrawLayer("ARTWORK")
+		item.icon:SetTexCoord(unpack(E.TexCoords))
+		item.icon:SetParent(item.IconBackdrop)
+
 		item.bossTexture:SetAlpha(0)
 		item.bosslessTexture:SetAlpha(0)
-
-		item.icon:Size(38)
-		if i == 1 then
-			item.icon:Point("TOPLEFT", E.PixelMode and 2 or 3, -(E.PixelMode and 5 or 6))
-		else
-			item.icon:Point("TOPLEFT", E.PixelMode and 1 or 2, -(E.PixelMode and 5 or 6))
-		end
-		S:HandleIcon(item.icon)
-		item.icon:SetDrawLayer("OVERLAY")
-		item.icon:SetParent(item.backdrop)
-
-		item.name:SetParent(item.backdrop)
-
-		if i == 1 then
-			item:ClearAllPoints()
-			item:Point("TOPLEFT", EncounterInfo.lootScroll.scrollChild, "TOPLEFT", 5, 0)
-		end
 	end
 
 	-- Abilities Info (From Aurora)
@@ -303,22 +305,28 @@ local function LoadSkin()
 
 				header.descriptionBG:SetAlpha(0)
 				header.descriptionBGBottom:SetAlpha(0)
+
 				for i = 4, 18 do
 					select(i, header.button:GetRegions()):SetTexture("")
 				end
 
 				header.description:SetTextColor(1, 1, 1)
+
 				header.button.title:SetTextColor(unpack(E.media.rgbvaluecolor))
 				header.button.title.SetTextColor = E.noop
+
 				header.button.expandedIcon:SetTextColor(1, 1, 1)
 				header.button.expandedIcon.SetTextColor = E.noop
 
 				S:HandleButton(header.button)
 
 				header.button.bg = CreateFrame("Frame", nil, header.button)
+				header.button.bg:SetTemplate("Default")
 				header.button.bg:SetOutside(header.button.abilityIcon)
 				header.button.bg:SetFrameLevel(header.button.bg:GetFrameLevel() - 1)
-				header.button.abilityIcon:SetTexCoord(.08, .92, .08, .92)
+
+				header.button.abilityIcon:SetTexCoord(unpack(E.TexCoords))
+				header.button.abilityIcon:SetParent(header.button.bg)
 
 				header.isSkinned = true
 			end
@@ -341,16 +349,15 @@ local function LoadSkin()
 
 	for i = 1, 9 do
 		local button = _G["EncounterJournalSearchResultsScrollFrameButton"..i]
-		local icon = _G["EncounterJournalSearchResultsScrollFrameButton"..i.."Icon"]
 
 		button:StripTextures()
 		button:SetTemplate("Default")
 		button:StyleButton()
 		button:CreateBackdrop()
-		button.backdrop:SetOutside(icon)
+		button.backdrop:SetOutside(button.icon)
 
-		icon:Point("TOPLEFT", 2, -7)
-		icon:SetParent(button.backdrop)
+		button.icon:Point("TOPLEFT", 6, -7)
+		button.icon:SetParent(button.backdrop)
 	end
 
 	hooksecurefunc("EncounterJournal_SearchUpdate", function()
@@ -364,24 +371,32 @@ local function LoadSkin()
 			result = results[i]
 			index = offset + i
 			if index <= numResults then
-				local _, icon = EncounterJournal_GetSearchDisplay(index)
+				local _, icon, _, _, _, itemID, stype = EncounterJournal_GetSearchDisplay(index)
 
-				result.icon:SetTexCoord(unpack(E.TexCoords))
-				result.icon.SetTexCoord = E.noop
+				if stype == 4 then
+					result.icon:SetTexCoord(0.16796875, 0.51171875, 0.03125, 0.71875)
+				else
+					result.icon:SetTexCoord(unpack(E.TexCoords))
+					result.icon.SetTexCoord = E.noop
+				end
 			end
 		end
 	end)
 
 	for i = 1, 5 do
 		local button = _G["EncounterJournalSearchBoxSearchButton"..i]
-		local icon = _G["EncounterJournalSearchBoxSearchButton"..i.."Icon"]
 
-		button:CreateBackdrop()
 		button:StripTextures()
+		button:SetTemplate("Transparent")
 		button:StyleButton()
 
-		icon:SetTexCoord(unpack(E.TexCoords))
-		icon:Point("TOPLEFT", 1, -4)
+		button:CreateBackdrop()
+		button.backdrop:SetOutside(button.icon)
+		button.backdrop:SetFrameLevel(button.backdrop:GetFrameLevel() + 2)
+
+		button.icon:SetTexCoord(unpack(E.TexCoords))
+		button.icon:Point("TOPLEFT", 4, -5)
+		button.icon:SetParent(button.backdrop)
 	end
 
 	S:HandleButton(EncounterJournalSearchBoxShowALL)

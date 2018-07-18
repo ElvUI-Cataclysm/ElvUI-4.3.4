@@ -95,11 +95,14 @@ local function LoadSkin()
 
 		button:StripTextures()
 		button:SetTemplate()
-		button:StyleButton(nil, true)
+		button:StyleButton()
+
+		button:GetCheckedTexture():SetTexture(1, 1, 1, 0.3)
+		button:GetCheckedTexture():SetInside()
 
 		texture:SetInside()
 		texture:SetTexCoord(unpack(E.TexCoords))
-		texture:SetDrawLayer("OVERLAY")
+		texture:SetDrawLayer("ARTWORK")
 	end
 
 	for i = 1, 4 do
