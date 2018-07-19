@@ -5,6 +5,8 @@ local _G = _G
 local select, unpack, pairs = select, unpack, pairs
 
 local CreateFrame = CreateFrame
+local GetItemInfo = GetItemInfo
+local GetItemQualityColor = GetItemQualityColor
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
@@ -131,37 +133,38 @@ local function LoadSkin()
 	EncounterJournalEncounterFrameInfoBossTab:StripTextures()
 	EncounterJournalEncounterFrameInfoBossTab:SetTemplate("Transparent")
 	EncounterJournalEncounterFrameInfoBossTab:Size(45, 40)
-	EncounterJournalEncounterFrameInfoBossTab:StyleButton()
 	EncounterJournalEncounterFrameInfoBossTab:Point("TOPLEFT", EncounterJournalEncounterFrameInfo, "TOPRIGHT", E.PixelMode and 7 or 9, 40)
 
-	EncounterJournalEncounterFrameInfoBossTab.icon = EncounterJournalEncounterFrameInfoBossTab:CreateTexture(nil, "OVERLAY")
-	EncounterJournalEncounterFrameInfoBossTab.icon:SetTexture("Interface\\EncounterJournal\\UI-EncounterJournalTextures")
-	EncounterJournalEncounterFrameInfoBossTab.icon:SetTexCoord(0.902, 0.996, 0.269, 0.311)
-	EncounterJournalEncounterFrameInfoBossTab.icon:SetInside()
-	EncounterJournalEncounterFrameInfoBossTab.icon:SetDesaturated(false)
+	EncounterJournalEncounterFrameInfoBossTab:GetNormalTexture():SetTexture("Interface\\EncounterJournal\\UI-EncounterJournalTextures")
+	EncounterJournalEncounterFrameInfoBossTab:GetNormalTexture():SetTexCoord(0.902, 0.996, 0.269, 0.311)
+	EncounterJournalEncounterFrameInfoBossTab:GetPushedTexture():SetTexture("Interface\\EncounterJournal\\UI-EncounterJournalTextures")
+	EncounterJournalEncounterFrameInfoBossTab:GetPushedTexture():SetTexCoord(0.902, 0.996, 0.269, 0.311)
+	EncounterJournalEncounterFrameInfoBossTab:GetDisabledTexture():SetTexture("Interface\\EncounterJournal\\UI-EncounterJournalTextures")
+	EncounterJournalEncounterFrameInfoBossTab:GetDisabledTexture():SetTexCoord(0.902, 0.996, 0.269, 0.311)
+	EncounterJournalEncounterFrameInfoBossTab:GetHighlightTexture():SetTexture(1, 1, 1, 0.3)
+	EncounterJournalEncounterFrameInfoBossTab:GetHighlightTexture():SetInside()
+
+	EncounterJournalEncounterFrameInfoBossTab.selected:SetTexture(1, 1, 1, 0.3)
+	EncounterJournalEncounterFrameInfoBossTab.selected:SetInside()
 
 	-- Loot Tab
 	EncounterJournalEncounterFrameInfoLootTab:StripTextures()
 	EncounterJournalEncounterFrameInfoLootTab:SetTemplate("Transparent")
 	EncounterJournalEncounterFrameInfoLootTab:Size(45, 40)
-	EncounterJournalEncounterFrameInfoLootTab:StyleButton()
 	EncounterJournalEncounterFrameInfoLootTab:Point("TOP", EncounterJournalEncounterFrameInfoBossTab, "BOTTOM", 0, -10)
 
-	EncounterJournalEncounterFrameInfoLootTab.icon = EncounterJournalEncounterFrameInfoLootTab:CreateTexture(nil, "OVERLAY")
-	EncounterJournalEncounterFrameInfoLootTab.icon:SetTexture("Interface\\EncounterJournal\\UI-EncounterJournalTextures")
-	EncounterJournalEncounterFrameInfoLootTab.icon:SetTexCoord(0.632, 0.726, 0.618, 0.660)
-	EncounterJournalEncounterFrameInfoLootTab.icon:SetInside()
-	EncounterJournalEncounterFrameInfoLootTab.icon:SetDesaturated(true)
+	EncounterJournalEncounterFrameInfoLootTab:GetNormalTexture():SetTexture("Interface\\EncounterJournal\\UI-EncounterJournalTextures")
+	EncounterJournalEncounterFrameInfoLootTab:GetNormalTexture():SetTexCoord(0.632, 0.726, 0.618, 0.660)
+	EncounterJournalEncounterFrameInfoLootTab:GetPushedTexture():SetTexture("Interface\\EncounterJournal\\UI-EncounterJournalTextures")
+	EncounterJournalEncounterFrameInfoLootTab:GetPushedTexture():SetTexCoord(0.632, 0.726, 0.618, 0.660)
+	EncounterJournalEncounterFrameInfoLootTab:GetDisabledTexture():SetTexture("Interface\\EncounterJournal\\UI-EncounterJournalTextures")
+	EncounterJournalEncounterFrameInfoLootTab:GetDisabledTexture():SetTexCoord(0.632, 0.726, 0.618, 0.660)
+	EncounterJournalEncounterFrameInfoLootTab:GetHighlightTexture():SetTexture(1, 1, 1, 0.3)
+	EncounterJournalEncounterFrameInfoLootTab:GetHighlightTexture():SetInside()
 
-	EncounterJournalEncounterFrameInfoBossTab:HookScript("OnClick", function()
-		EncounterJournalEncounterFrameInfoBossTab.icon:SetDesaturated(false)
-		EncounterJournalEncounterFrameInfoLootTab.icon:SetDesaturated(true)
-	end)
-
-	EncounterJournalEncounterFrameInfoLootTab:HookScript("OnClick", function()
-		EncounterJournalEncounterFrameInfoLootTab.icon:SetDesaturated(false)
-		EncounterJournalEncounterFrameInfoBossTab.icon:SetDesaturated(true)
-	end)
+	EncounterJournalEncounterFrameInfoLootTab.selected:SetTexture(1, 1, 1, 0.3)
+	EncounterJournalEncounterFrameInfoLootTab.selected:SetInside()
+	EncounterJournalEncounterFrameInfoLootTab.selected:Hide()
 
 	-- Encounter Instance Frame
 	local EncounterInstance = EJ.encounter.instance
@@ -253,6 +256,9 @@ local function LoadSkin()
 		item:CreateBackdrop("Default")
 		item.backdrop:Point("TOPLEFT", 0, -4)
 		item.backdrop:Point("BOTTOMRIGHT", -2, E.PixelMode and 1 or -1)
+		item:SetHitRectInsets(0, 2, 4, 1)
+		item:HookScript("OnEnter", S.SetModifiedBackdrop)
+		item:HookScript("OnLeave", S.SetOriginalBackdrop)
 
 		item.name:ClearAllPoints()
 		item.name:Point("TOPLEFT", item.icon, "TOPRIGHT", 6, -2)
@@ -281,12 +287,12 @@ local function LoadSkin()
 		if i == 1 then
 			item:Point("TOPLEFT", EncounterInfo.lootScroll.scrollChild, "TOPLEFT", 4, 0)
 
-			item.icon:Point("TOPLEFT", E.PixelMode and 2 or 5, -(E.PixelMode and 5 or 8))
+			item.icon:Point("TOPLEFT", E.PixelMode and 4 or 7, -(E.PixelMode and 7 or 10))
 		else
-			item.icon:Point("TOPLEFT", E.PixelMode and 1 or 4, -(E.PixelMode and 5 or 8))
+			item.icon:Point("TOPLEFT", E.PixelMode and 3 or 5, -(E.PixelMode and 7 or 10))
 		end
 
-		item.icon:Size(E.PixelMode and 38 or 34)
+		item.icon:Size(E.PixelMode and 34 or 30)
 		item.icon:SetDrawLayer("ARTWORK")
 		item.icon:SetTexCoord(unpack(E.TexCoords))
 		item.icon:SetParent(item.IconBackdrop)
@@ -294,6 +300,27 @@ local function LoadSkin()
 		item.bossTexture:SetAlpha(0)
 		item.bosslessTexture:SetAlpha(0)
 	end
+
+	local function SkinLootItems()
+		local scrollFrame = EncounterJournal.encounter.info.lootScroll
+		local offset = HybridScrollFrame_GetOffset(scrollFrame)
+		local items = scrollFrame.buttons
+		local item, index
+		local numLoot = EJ_GetNumLoot()
+
+		for i = 1, #items do
+			item = items[i]
+			index = offset + i
+			if index <= numLoot then
+				local _, _, _, _, itemID = EJ_GetLootInfoByIndex(index)
+				local quality = select(3, GetItemInfo(itemID))
+
+				item.IconBackdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
+			end
+		end
+	end
+	hooksecurefunc("EncounterJournal_LootUpdate", SkinLootItems)
+	hooksecurefunc("HybridScrollFrame_Update", SkinLootItems)
 
 	-- Abilities Info (From Aurora)
 	local function SkinAbilitiesInfo()
@@ -360,7 +387,7 @@ local function LoadSkin()
 		button.icon:SetParent(button.backdrop)
 	end
 
-	hooksecurefunc("EncounterJournal_SearchUpdate", function()
+	local function SkinSearchUpdate()
 		local scrollFrame = EncounterJournal.searchResults.scrollFrame
 		local offset = HybridScrollFrame_GetOffset(scrollFrame)
 		local results = scrollFrame.buttons
@@ -371,17 +398,31 @@ local function LoadSkin()
 			result = results[i]
 			index = offset + i
 			if index <= numResults then
-				local _, icon, _, _, _, itemID, stype = EncounterJournal_GetSearchDisplay(index)
+				local _, _, _, _, _, itemID, stype = EncounterJournal_GetSearchDisplay(index)
 
+				local quality, r, g, b
+				if itemID then
+					quality = select(3, GetItemInfo(itemID))
+					if quality then
+						r, g, b = GetItemQualityColor(quality)
+					else
+						r, g, b = unpack(E["media"].bordercolor)
+					end
+				end
+				
 				if stype == 4 then
+					result.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
 					result.icon:SetTexCoord(0.16796875, 0.51171875, 0.03125, 0.71875)
 				else
+					result.backdrop:SetBackdropBorderColor(r, g, b)
 					result.icon:SetTexCoord(unpack(E.TexCoords))
 					result.icon.SetTexCoord = E.noop
 				end
 			end
 		end
-	end)
+	end
+	hooksecurefunc("EncounterJournal_SearchUpdate", SkinSearchUpdate)
+	hooksecurefunc("HybridScrollFrame_Update", SkinSearchUpdate)
 
 	for i = 1, 5 do
 		local button = _G["EncounterJournalSearchBoxSearchButton"..i]
@@ -407,10 +448,12 @@ local function LoadSkin()
 	S:HandleScrollBar(EncounterJournalSearchResultsScrollFrameScrollBar)
 	S:HandleCloseButton(EncounterJournalSearchResultsCloseButton)
 
+	S:HandleScrollBar(EncounterJournalEncounterFrameInstanceFrameLoreScrollFrameScrollBar, 4)
+	EncounterJournalEncounterFrameInstanceFrameLoreScrollFrameScrollBar:Point("TOPLEFT", EncounterJournalEncounterFrameInstanceFrameLoreScrollFrame, "TOPRIGHT", 10, -17)
+
 	S:HandleScrollBar(EncounterJournalInstanceSelectScrollFrameScrollBar, 4)
 	S:HandleScrollBar(EncounterJournalEncounterFrameInfoDetailsScrollFrameScrollBar, 4)
 	S:HandleScrollBar(EncounterJournalEncounterFrameInfoLootScrollFrameScrollBar, 4)
-	S:HandleScrollBar(EncounterJournalEncounterFrameInstanceFrameLoreScrollFrameScrollBar, 4)
 end
 
 S:AddCallbackForAddon("Blizzard_EncounterJournal", "EncounterJournal", LoadSkin)

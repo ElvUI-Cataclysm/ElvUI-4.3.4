@@ -89,7 +89,7 @@ local function LoadSkin()
 
 	hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button)
 		if button.hasItem then
-			local itemID = GetInventoryItemID(InspectFrame.unit, button:GetID())
+			local itemID = GetInventoryItemLink(InspectFrame.unit, button:GetID())
 
 			if itemID then
 				local _, _, quality = GetItemInfo(itemID)
@@ -100,13 +100,15 @@ local function LoadSkin()
 						end
 					end)
 					return
-				elseif quality then
+				end
+				if quality then
 					button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
 					return
- 				end
+				end
 			end
+		else
+			button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
-		button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
  	end)
 
 	-- PvP Tab
