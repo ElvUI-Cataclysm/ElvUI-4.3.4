@@ -2886,13 +2886,6 @@ E.Options.args.nameplate = {
 							type = "color",
 							name = L["Enemy"],
 							hasAlpha = false
-						},
-						tapped = {
-							order = 6,
-							type = "color",
-							name = L["Tagged NPC"],
-							hasAlpha = false,
-							hidden = true
 						}
 					}
 				}

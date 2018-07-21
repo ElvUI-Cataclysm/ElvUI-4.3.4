@@ -1,5 +1,10 @@
 local E, L, V, P, G = unpack(ElvUI)
 
+local ACHIEVEMENTS, AUCTIONS, BARBERSHOP, FRIENDS, INSPECT, TALENTS, TRADE, MERCHANT, MACROS, SPELLBOOK = ACHIEVEMENTS, AUCTIONS, BARBERSHOP, FRIENDS, INSPECT, TALENTS, TRADE, MERCHANT, MACROS, SPELLBOOK
+local GUILD, GUILD_BANK, GUILDCONTROL, FLIGHT_MAP, TRADESKILLS, TRANSMOGRIFY, VOID_STORAGE, WORLD_MAP = GUILD, GUILD_BANK, GUILDCONTROL, FLIGHT_MAP, TRADESKILLS, TRANSMOGRIFY, VOID_STORAGE, WORLD_MAP
+local PROFESSIONS_ARCHAEOLOGY, MAIL_LABEL, TIMEMANAGER_TITLE, RAID_CONTROL, LFG_TITLE, KEY_BINDING = PROFESSIONS_ARCHAEOLOGY, MAIL_LABEL, TIMEMANAGER_TITLE, RAID_CONTROL, LFG_TITLE, KEY_BINDING
+local INTERFACE_OPTIONS, ENCOUNTER_JOURNAL, DRESSUP_FRAME = INTERFACE_OPTIONS, ENCOUNTER_JOURNAL, DRESSUP_FRAME
+
 E.Options.args.skins = {
 	type = "group",
 	name = L["Skins"],
@@ -45,7 +50,7 @@ E.Options.args.skins = {
 				},
 				archaeology = {
 					type = "toggle",
-					name = L["Archaeology Frame"],
+					name = PROFESSIONS_ARCHAEOLOGY,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				auctionhouse = {
@@ -188,12 +193,12 @@ E.Options.args.skins = {
 				},
 				mail = {
 					type = "toggle",
-					name = L["Mail Frame"],
+					name = MAIL_LABEL,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				merchant = {
 					type = "toggle",
-					name = L["Merchant Frame"],
+					name = MERCHANT,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				misc = {
@@ -239,7 +244,7 @@ E.Options.args.skins = {
 				},
 				reforge = {
 					type = "toggle",
-					name = L["Reforge Frame"],
+					name = REFORGE,
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				socket = {

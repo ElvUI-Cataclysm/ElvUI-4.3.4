@@ -234,6 +234,7 @@ local function LoadSkin()
 		PVPFrameCurrency:CreateBackdrop()
 		PVPFrameCurrency.backdrop:Point("TOPLEFT", 8, -8)
 		PVPFrameCurrency.backdrop:Point("BOTTOMRIGHT", -8, 8)
+		PVPFrameCurrency:SetHitRectInsets(8, 8, 8, 8)
 
 		PVPFrameCurrencyIcon:SetAlpha(0)
 
@@ -243,26 +244,28 @@ local function LoadSkin()
 		PVPFrameCurrency.texture:SetInside(PVPFrameCurrency.backdrop)
 	end
 
-	hooksecurefunc("PVPHonor_UpdateRandomInfo", function()
-		PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..factionGroup)
-		PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..factionGroup)
-		PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..factionGroup)
-		PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..factionGroup)
-	end)
-
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..factionGroup)
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol.SetTexture = E.noop
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexCoord(unpack(E.TexCoords))
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:Size(30)
+
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..factionGroup)
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol.SetTexture = E.noop
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexCoord(unpack(E.TexCoords))
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:Size(30)
+
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..factionGroup)
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol.SetTexture = E.noop
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:SetTexCoord(unpack(E.TexCoords))
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:Size(30)
+
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..factionGroup)
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol.SetTexture = E.noop
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexCoord(unpack(E.TexCoords))
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:Size(30)
 
-	hooksecurefunc("PVPConquestFrame_Update", function()
-		PVPConquestFrameWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..factionGroup)
-	end)
-
+	PVPConquestFrameWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..factionGroup)
+	PVPConquestFrameWinRewardArenaSymbol.SetTexture = E.noop
 	PVPConquestFrameWinRewardArenaSymbol:SetTexCoord(unpack(E.TexCoords))
 	PVPConquestFrameWinRewardArenaSymbol:Size(30)
 end

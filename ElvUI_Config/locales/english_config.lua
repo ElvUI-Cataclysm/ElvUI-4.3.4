@@ -519,6 +519,7 @@ L["X-Offset"] = true
 L["Y-Offset"] = true
 
 --Misc
+L["Filters are not allowed to have commas in their name. Stripping commas from filter name."] = true
 L["Install"] = true
 L["Run the installation process."] = true
 L["Toggle Anchors"] = true
@@ -657,7 +658,6 @@ L["Shortcut to global filters."] = true
 L["Shortcuts"] = true
 L["Side Arrows"] = true
 L["Style Filter"] = true
-L["Tagged NPC"] = true
 L["Tanked Color"] = true
 L["Target Indicator Color"] = true
 L["Target Indicator"] = true
@@ -710,7 +710,6 @@ L["Table"] = true
 
 --Skins
 L["Alert Frames"] = true
-L["Archaeology Frame"] = true
 L["BG Map"] = true
 L["BG Score"] = true
 L["Calendar Frame"] = true
@@ -723,8 +722,6 @@ L["Guild Registrar"] = true
 L["Help Frame"] = true
 L["LF Guild Frame"] = true
 L["Loot Frames"] = true
-L["Mail Frame"] = true
-L["Merchant Frame"] = true
 L["Mirror Timers"] = true
 L["Misc Frames"] = true
 L["Petition Frame"] = true
@@ -732,7 +729,6 @@ L["Move Pad"] = true
 L["PvP Frames"] = true
 L["Quest Frames"] = true
 L["Raid Frame"] = true
-L["Reforge Frame"] = true
 L["Skins"] = true
 L["Socket Frame"] = true
 L["Stable"] = true

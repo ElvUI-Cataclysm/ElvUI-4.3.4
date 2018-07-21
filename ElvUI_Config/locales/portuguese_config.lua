@@ -530,6 +530,7 @@ L["X-Offset"] = true
 L["Y-Offset"] = true
 
 --Misc
+L["Filters are not allowed to have commas in their name. Stripping commas from filter name."] = true
 L["Install"] = "Instalação"
 L["Run the installation process."] = "Execute o processo de instalação."
 L["Toggle Anchors"] = "Mostrar/Ocultar Fixadores"
@@ -668,7 +669,6 @@ L["Shortcut to global filters."] = true
 L["Shortcuts"] = true
 L["Side Arrows"] = true
 L["Style Filter"] = true
-L["Tagged NPC"] = true
 L["Tanked Color"] = true
 L["Target Indicator Color"] = true
 L["Target Indicator"] = true
@@ -721,7 +721,6 @@ L["Table"] = true
 
 --Skins
 L["Alert Frames"] = "Alertas"
-L["Archaeology Frame"] = "Arqueologia"
 L["BG Map"] = "Mapa do CB"
 L["BG Score"] = "Placar do CB"
 L["Calendar Frame"] = "Calendário"
@@ -734,8 +733,6 @@ L["Guild Registrar"] = "Registrar Guilda"
 L["Help Frame"] = "Ajuda"
 L["LF Guild Frame"] = "Localizador de Guildas"
 L["Loot Frames"] = "Saques"
-L["Macro Frame"] = "Macros"
-L["Merchant Frame"] = "Comerciante"
 L["Mirror Timers"] = true
 L["Misc Frames"] = "Diversos"
 L["Petition Frame"] = "Petição"
@@ -743,7 +740,6 @@ L["Move Pad"] = true
 L["PvP Frames"] = "JxJ"
 L["Quest Frames"] = "Missões"
 L["Raid Frame"] = "Quadro de Raide"
-L["Reforge Frame"] = "Reforja"
 L["Skins"] = "Aparências"
 L["Socket Frame"] = "Engaste"
 L["Stable"] = "Estábulo"

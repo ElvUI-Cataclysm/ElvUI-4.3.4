@@ -530,6 +530,7 @@ L["X-Offset"] = "X偏移"
 L["Y-Offset"] = "Y偏移"
 
 --Misc
+L["Filters are not allowed to have commas in their name. Stripping commas from filter name."] = true
 L["Install"] = "安裝"
 L["Run the installation process."] = "執行安裝程序"
 L["Toggle Anchors"] = "解鎖元件定位"
@@ -668,7 +669,6 @@ L["Shortcut to global filters."] = true
 L["Shortcuts"] = "快捷鍵"
 L["Side Arrows"] = "側面箭頭"
 L["Style Filter"] = "樣式過濾器"
-L["Tagged NPC"] = "標記的NPC"
 L["Tanked Color"] = "坦克顏色"
 L["Target Indicator Color"] = true
 L["Target Indicator"] = "目標指示器"
@@ -721,7 +721,6 @@ L["Table"] = "表"
 
 --Skins
 L["Alert Frames"] = "警報"
-L["Archaeology Frame"] = "考古學框架"
 L["BG Map"] = "戰場地圖"
 L["BG Score"] = "戰場積分"
 L["Calendar Frame"] = "行事曆"
@@ -734,8 +733,6 @@ L["Guild Registrar"] = "公會註冊"
 L["Help Frame"] = "幫助"
 L["LF Guild Frame"] = "尋求公會"
 L["Loot Frames"] = "拾取框架"
-L["Mail Frame"] = "信箱"
-L["Merchant Frame"] = "商人"
 L["Mirror Timers"] = "鏡像計時器"
 L["Misc Frames"] = "其他"
 L["Petition Frame"] = "回報GM"
@@ -743,7 +740,6 @@ L["Move Pad"] = true
 L["PvP Frames"] = "PvP框架"
 L["Quest Frames"] = "任務"
 L["Raid Frame"] = "團隊框架"
-L["Reforge Frame"] = "重鑄"
 L["Skins"] = "美化外觀"
 L["Socket Frame"] = "珠寶插槽"
 L["Stable"] = "獸欄"
