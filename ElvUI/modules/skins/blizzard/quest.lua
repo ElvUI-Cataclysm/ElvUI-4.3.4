@@ -112,7 +112,7 @@ local function LoadSkin()
 	hooksecurefunc("QuestInfoItem_OnClick", function(self)
 		QuestInfoItemHighlight:ClearAllPoints()
 		QuestInfoItemHighlight:SetOutside(self:GetName().."IconTexture")
-		_G[self:GetName() .. "Name"]:SetTextColor(1, 1, 0)
+		_G[self:GetName().."Name"]:SetTextColor(1, 1, 0)
 
 		for i = 1, MAX_NUM_ITEMS do
 			local questItem = _G["QuestInfoItem" .. i]
@@ -194,7 +194,7 @@ local function LoadSkin()
 			if GetQuestLogRequiredMoney() > GetMoney() then
 				QuestInfoRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
 			else
-				QuestInfoRequiredMoneyText:SetTextColor(1, 0.80, 0.10)
+				QuestInfoRequiredMoneyText:SetTextColor(unpack(titleTextColor))
 			end
 		end
 

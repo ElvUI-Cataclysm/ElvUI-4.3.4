@@ -61,6 +61,7 @@ end
 function AB:BindListener(key)
 	AB.bindingsChanged = true
 	if key == "ESCAPE" or key == "RightButton" then
+
 		if bind.button.bindings then
 			for i = 1, #bind.button.bindings do
 				SetBinding(bind.button.bindings[i])
@@ -68,7 +69,7 @@ function AB:BindListener(key)
 		end
 		E:Print(format(L["All keybindings cleared for |cff00ff00%s|r."], bind.button.name))
 		self:BindUpdate(bind.button, bind.spellmacro)
-		if bind.spellmacro~="MACRO" then GameTooltip:Hide() end
+		if bind.spellmacro ~= "MACRO" then GameTooltip:Hide() end
 		return
 	end
 
@@ -139,16 +140,15 @@ function AB:BindUpdate(button, spellmacro)
 		GameTooltip:AddLine(bind.button.name, 1, 1, 1)
 		bind.button.bindings = {GetBindingKey(bind.button.bindstring)}
 
-			if #bind.button.bindings == 0 then
-				GameTooltip:AddLine(L["No bindings set."], .6, .6, .6)
-			else
-				GameTooltip:AddDoubleLine(L["Binding"], L["Key"], .6, .6, .6, .6, .6, .6)
-				for i = 1, #bind.button.bindings do
-					GameTooltip:AddDoubleLine(i, bind.button.bindings[i])
-				end
+		if #bind.button.bindings == 0 then
+			GameTooltip:AddLine(L["No bindings set."], .6, .6, .6)
+		else
+			GameTooltip:AddDoubleLine(L["Binding"], L["Key"], .6, .6, .6, .6, .6, .6)
+			for i = 1, #bind.button.bindings do
+				GameTooltip:AddDoubleLine(i, bind.button.bindings[i])
 			end
-			GameTooltip:Show()
-
+		end
+		GameTooltip:Show()
 	elseif spellmacro == "SPELL" then
 		bind.button.id = SpellBook_GetSpellBookSlot(bind.button)
 		bind.button.name = GetSpellBookItemName(bind.button.id, SpellBookFrame.bookType)
@@ -201,7 +201,7 @@ function AB:BindUpdate(button, spellmacro)
 		if not bind.button.id or bind.button.id < 1 or bind.button.id > 10 then
 			bind.button.bindstring = "CLICK "..bind.button.name..":LeftButton"
 		else
-			bind.button.bindstring = (spellmacro == "SHAPESHIFT" and "ShapeshiftButton" or "BONUSACTIONBUTTON")..bind.button.id
+			bind.button.bindstring = (spellmacro == "SHAPESHIFT" and "SHAPESHIFTBUTTON" or "BONUSACTIONBUTTON")..bind.button.id
 		end
 
 		GameTooltip:SetOwner(bind, "ANCHOR_NONE")
@@ -273,16 +273,17 @@ function AB:RegisterButton(b, override)
 	local shapeshift = ShapeshiftButton1:GetScript("OnClick")
 	local pet = PetActionButton1:GetScript("OnClick")
 	local button = SecureActionButton_OnClick
+
 	if b.IsProtected and b.GetObjectType and b.GetScript and b:GetObjectType() == "CheckButton" and b:IsProtected() then
 		local script = b:GetScript("OnClick")
-		if override then
-			b:HookScript("OnEnter", function(b) self:BindUpdate(b) end)
-		elseif script == pet then
-			b:HookScript("OnEnter", function(b) self:BindUpdate(b, "PET") end)
-		elseif script == shapeshift then
-			b:HookScript("OnEnter", function(b) self:BindUpdate(b, "SHAPESHIFT") end)
-		elseif script == button then
-			b:HookScript("OnEnter", function(b) self:BindUpdate(b) end)
+		if script == button or override then
+			b:HookScript("OnEnter", function() self:BindUpdate(b) end)
+
+			if script == pet then
+				b:HookScript("OnEnter", function() self:BindUpdate(b, "PET") end)
+			elseif script == shapeshift then
+				b:HookScript("OnEnter", function() self:BindUpdate(b, "SHAPESHIFT") end)
+			end
 		end
 	end
 end

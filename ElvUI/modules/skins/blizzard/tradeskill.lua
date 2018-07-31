@@ -48,6 +48,8 @@ local function LoadSkin()
 	TradeSkillRankFrame:ClearAllPoints()
 	TradeSkillRankFrame:Point("TOP", 0, -25)
 	TradeSkillRankFrame:SetStatusBarTexture(E["media"].normTex)
+	TradeSkillRankFrame:SetStatusBarColor(0.22, 0.39, 0.84)
+	TradeSkillRankFrame.SetStatusBarColor = E.noop
 	E:RegisterStatusBar(TradeSkillRankFrame)
 
 	TradeSkillRankFrameSkillRank:ClearAllPoints()
@@ -175,8 +177,6 @@ local function LoadSkin()
 	TradeSkillReagent8:Point("LEFT", TradeSkillReagent7, "RIGHT", 3, 0)
 
 	hooksecurefunc("TradeSkillFrame_SetSelection", function(id)
-		TradeSkillRankFrame:SetStatusBarColor(0.22, 0.39, 0.84)
-
 		if TradeSkillSkillIcon:GetNormalTexture() then
 			TradeSkillSkillIcon:SetAlpha(1)
 			TradeSkillSkillIcon:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
