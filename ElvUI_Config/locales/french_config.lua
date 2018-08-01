@@ -359,6 +359,7 @@ L["DataTexts"] = "Textes d'informations"
 L["Date Format"] = true
 L["Display data panels below the chat, used for datatexts."] = "Afficher les panneaux de données sous le Chat utilisés pour les textes d'information"
 L["Display minimap panels below the minimap, used for datatexts."] = "Afficher les panneaux sous la minicarte, utilisé pour les textes d'information."
+L["Displayed Currency"] = "Monnaie affichée"
 L["Gold Format"] = "Format monétaire"
 L["Hide specific sections in the datatext tooltip."] = true
 L["left"] = "Gauche"

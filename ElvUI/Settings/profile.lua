@@ -624,6 +624,10 @@ P["datatexts"] = {
 		["hideAFK"] = false,
 		["hideDND"] = false,
 	},
+	["currencies"] = {
+		["displayedCurrency"] = "GOLD",
+		["displayStyle"] = "ICON"
+	},
 	["minimapPanels"] = true,
 	["leftChatPanel"] = true,
 	["rightChatPanel"] = true,

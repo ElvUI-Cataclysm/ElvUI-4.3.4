@@ -359,6 +359,7 @@ L["DataTexts"] = "資訊文字"
 L["Date Format"] = true
 L["Display data panels below the chat, used for datatexts."] = "在對話框下顯示用於資訊的框架."
 L["Display minimap panels below the minimap, used for datatexts."] = "顯示小地圖下方的資訊框."
+L["Displayed Currency"] = "顯示的金額"
 L["Gold Format"] = "金幣格式"
 L["Hide specific sections in the datatext tooltip."] = true
 L["left"] = "左"

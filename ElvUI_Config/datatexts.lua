@@ -382,8 +382,42 @@ E.Options.args.datatexts = {
 					}
 				}
 			}
+		},
+		currencies = {
+			order = 7,
+			type = "group",
+			name = CURRENCY,
+			args = {
+				header = {
+					order = 1,
+					type = "header",
+					name = CURRENCY
+				},
+				displayedCurrency = {
+					order = 2,
+					type = "select",
+					name = L["Displayed Currency"],
+					width = "double",
+					get = function(info) return E.db.datatexts.currencies.displayedCurrency end,
+					set = function(info, value) E.db.datatexts.currencies.displayedCurrency = value; DT:LoadDataTexts() end,
+					values = function() return DT:Currencies_GetCurrencyList() end
+				},
+				displayStyle = {
+					order = 3,
+					type = "select",
+					name = L["Currency Format"],
+					get = function(info) return E.db.datatexts.currencies.displayStyle end,
+					set = function(info, value) E.db.datatexts.currencies.displayStyle = value; DT:LoadDataTexts() end,
+					disabled = function() return (E.db.datatexts.currencies.displayedCurrency == "GOLD") end,
+					values = {
+						["ICON"] = L["Icons Only"],
+						["ICON_TEXT"] = L["Icons and Text"],
+						["ICON_TEXT_ABBR"] = L["Icons and Text (Short)"]
+					}
+				}
+			}
 		}
 	}
-};
+}
 
 DT:PanelLayoutOptions();
