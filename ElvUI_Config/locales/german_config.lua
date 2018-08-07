@@ -84,6 +84,8 @@ L["Button Spacing"] = "Abstand der Tasten" --Also used in Bags
 L["Buttons Per Row"] = "Tasten pro Zeile"
 L["Buttons"] = "Tasten"
 L["Change the alpha level of the frame."] = "Ändere den Alphakanal des Fensters."
+L["Color Keybind Text when Out of Range, instead of the button."] = true
+L["Color Keybind Text"] = true
 L["Color of the actionbutton when not usable."] = "Farbe der Aktionsleisten wenn nicht nutzbar."
 L["Color of the actionbutton when out of power (Mana, Rage, Focus, Holy Power)."] = "Die Farbe der Aktionstasten, wenn keine Kraft, wie z.B. Mana, Wut, Fokus oder Heilige Kraft, mehr vorhanden ist."
 L["Color of the actionbutton when out of range."] = "Die Farbe der Aktionstasten, wenn das Ziel außer Reichweite ist."
@@ -468,6 +470,20 @@ L["Vendor Grays"] = "Graue Gegenstände verkaufen"
 L["Vendor Gray Detailed Report"] = "Graue Gegenstände detaillierter Report"
 L["Version Check"] = true
 L["When you go AFK display the AFK screen."] = "AFK Bildschirm anzeigen, wenn du AFK bist."
+
+--Aura Filter
+---Whitelists
+L["Personal"] = "Persönlich"
+L["nonPersonal"] = "Nicht Persönlich"
+L["notCastByUnit"] = "Nicht gezaubert von der Einheit"
+L["Dispellable"] "Bannbar"
+L["notDispellable"] = "Nicht Bannbar"
+L["CastByUnit"] = "Gezaubert von Einheit"
+---Blacklists
+L["blockNonPersonal"] = "[Blocke] Nicht Persönlich"
+L["blockNoDuration"] = "[Blocke] Keine Dauer"
+L["blockDispellable"] = "[Blocke] Bannbar"
+L["blockNotDispellable"] = "[Blocke] Nicht Bannbar"
 
 --Media
 L["Applies the font and font size settings throughout the entire user interface. Note: Some font size settings will be skipped due to them having a smaller font size by default."] = "Wendet die Schrift und Schriftgröße überall im Interface an. Hinweis: Einige Schriftarten werden übersprungen, weil sie eine kleinere Schriftgröße als Standard haben."
@@ -983,7 +999,6 @@ L["Only Match SpellID"] = "Nur SpellID entsprechen"
 L["OOR Alpha"] = "Außer Reichweite Alpha"
 L["Other Filter"] = "Anderer Filter"
 L["Others"] = "Andere"
-L["Overlay the healthbar"] = "Überblendung der Gesundheitsleiste"
 L["Overlay"] = "Überblenden"
 L["Override any custom visibility setting in certain situations, EX: Only show groups 1 and 2 inside a 10 man instance."] = "Überschreibe alle benutzerdefinierten Einstellungen für die Sichtbarkeit in bestimmten Situationen. Beispiel: Zeige nur Gruppe 1 und 2 in einer 10er-Instanz."
 L["Override the default class color setting."] = "Überschreibe die Standard Klassenfarben Einstellungen"
@@ -993,7 +1008,6 @@ L["Party Pets"] = "Gruppenbegleiter"
 L["Party Targets"] = "Gruppenziele"
 L["Per Row"] = "Pro Reihe"
 L["Percent"] = "Prozent"
-L["Personal"] = "Persönlich"
 L["Pet Name"] = "Name des Pets"
 L["Player Frame Aura Bars"] = "Spielerfenster Aurenleiste"
 L["Portrait"] = "Portrait"
@@ -1094,6 +1108,7 @@ L["The font that the unitframes will use."] = "Die Schriftart, welche die Einhei
 L["The initial group will start near the center and grow out."] = "Die anfängliche Gruppe wird nahe der Mitte starten und dann wachsen"
 L["The name you have selected is already in use by another element."] = "Den Namen den du ausgewählt hast, wird bereits von einem anderem Element benutzt."
 L["The object you want to attach to."] = "Das Objekt, das du anhängen willst"
+L["The Portrait will overlay the Healthbar. This will be automatically happen if the Frame Orientation is set to Middle."] = "Das Portrait wird die Lebensleiste überdecken. Dieses wird automatisch passieren wenn die Fensterausrichtung auf Mittel gesetzt ist."
 L["Thin Borders"] = "Dünne Rahmen"
 L["This dictates the size of the icon when it is not attached to the castbar."] = "Dieses zwingt die Größe des Symbols wenn es nicht an der Zauberleiste angehängt ist."
 L["This opens the UnitFrames Color settings. These settings affect all unitframes."] = "Dieses öffnet die Farbeinstellung für die Einheitenfenster. Diese Einstellungen wirken sich auf alle Einheitenfenster aus."

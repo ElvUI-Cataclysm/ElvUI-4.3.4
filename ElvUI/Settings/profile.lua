@@ -2843,6 +2843,7 @@ P["actionbar"] = {
 	["rightClickSelfCast"] = false,
 	["desaturateOnCooldown"] = false,
 
+	["useRangeColorText"] = false,
 	["noRangeColor"] = {r = 0.8, g = 0.1, b = 0.1},
 	["noPowerColor"] = {r = 0.5, g = 0.5, b = 1},
 	["usableColor"] = {r = 1, g = 1, b = 1},

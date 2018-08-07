@@ -11,7 +11,7 @@ local DUNGEON_DIFFICULTY, PLAYER_DIFFICULTY1, PLAYER_DIFFICULTY2, PLAYER_DIFFICU
 local FACTION_STANDING_LABEL2, FACTION_STANDING_LABEL4, FACTION_STANDING_LABEL5 = FACTION_STANDING_LABEL2, FACTION_STANDING_LABEL4, FACTION_STANDING_LABEL5
 local SPEED, DISABLE, HEALTH, LEVEL, NONE, COMBAT, FILTERS = SPEED, DISABLE, HEALTH, LEVEL, NONE, COMBAT, FILTERS
 local ARENA, RAID, DUNGEONS, BATTLEFIELDS = ARENA, RAID, DUNGEONS, BATTLEFIELDS
-local ROLE, TANK, HEALER, DAMAGER, COLOR = ROLE, TANK, HEALER, DAMAGER, COLOR
+local BLOCK, ROLE, TANK, HEALER, DAMAGER, COLOR = BLOCK, ROLE, TANK, HEALER, DAMAGER, COLOR
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
 local selectedNameplateFilter
@@ -1801,6 +1801,7 @@ local function GetUnitSettings(unit, name)
 							specialFilters = {
 								order = 5,
 								type = "select",
+								sortByValue = true,
 								name = L["Add Special Filter"],
 								desc = L["These filters don't use a list of spells like the regular filters. Instead they use the WoW API and some code logic to determine if an aura should be allowed or blocked."],
 								values = function()
@@ -1808,7 +1809,7 @@ local function GetUnitSettings(unit, name)
 									local list = E.global.nameplates["specialFilters"]
 									if not list then return end
 									for filter in pairs(list) do
-										filters[filter] = filter
+										filters[filter] = L[filter]
 									end
 									return filters
 								end,
@@ -1865,18 +1866,25 @@ local function GetUnitSettings(unit, name)
 								dragOnClick = function(info)
 									filterPriority("buffs", unit, carryFilterFrom, true)
 								end,
+								stateSwitchGetText = function(_, TEXT)
+									local text = TEXT
+									local SF, localized = E.global.unitframe["specialFilters"][text], L[text]
+									local blockText = SF and localized and text:match("^block") and localized:gsub("^%[.-]%s?", "")
+									local filterText = (blockText and format("|cFF999999%s|r %s", BLOCK, blockText)) or localized or text
+									return filterText
+								end,
 								values = function()
 									local str = E.db.nameplates.units[unit].buffs.filters.priority
 									if str == "" then return nil end
 									return {strsplit(",",str)}
 								end,
-								get = function(info, value)
+								get = function(_, value)
 									local str = E.db.nameplates.units[unit].buffs.filters.priority
 									if str == "" then return nil end
 									local tbl = {strsplit(",",str)}
 									return tbl[value]
 								end,
-								set = function(info)
+								set = function()
 									NP:ConfigureAll()
 								end
 							},
@@ -1962,6 +1970,7 @@ local function GetUnitSettings(unit, name)
 							specialFilters = {
 								order = 5,
 								type = "select",
+								sortByValue = true,
 								name = L["Add Special Filter"],
 								desc = L["These filters don't use a list of spells like the regular filters. Instead they use the WoW API and some code logic to determine if an aura should be allowed or blocked."],
 								values = function()
@@ -1969,7 +1978,7 @@ local function GetUnitSettings(unit, name)
 									local list = E.global.nameplates["specialFilters"]
 									if not list then return end
 									for filter in pairs(list) do
-										filters[filter] = filter
+										filters[filter] = L[filter]
 									end
 									return filters
 								end,
@@ -2010,8 +2019,8 @@ local function GetUnitSettings(unit, name)
 							filterPriority = {
 								order = 8,
 								type = "multiselect",
-								dragdrop = true,
 								name = L["Filter Priority"],
+								dragdrop = true,
 								dragOnLeave = function() end, --keep this here
 								dragOnEnter = function(info)
 									carryFilterTo = info.obj.value
@@ -2025,6 +2034,13 @@ local function GetUnitSettings(unit, name)
 								end,
 								dragOnClick = function(info)
 									filterPriority("debuffs", unit, carryFilterFrom, true)
+								end,
+								stateSwitchGetText = function(_, TEXT)
+									local text = TEXT
+									local SF, localized = E.global.unitframe["specialFilters"][text], L[text]
+									local blockText = SF and localized and text:match("^block") and localized:gsub("^%[.-]%s?", "")
+									local filterText = (blockText and format("|cFF999999%s|r %s", BLOCK, blockText)) or localized or text
+									return filterText
 								end,
 								values = function()
 									local str = E.db.nameplates.units[unit].debuffs.filters.priority

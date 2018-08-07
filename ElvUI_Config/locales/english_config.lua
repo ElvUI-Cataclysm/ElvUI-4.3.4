@@ -83,6 +83,8 @@ L["Button Spacing"] = true --Also used in Bags
 L["Buttons Per Row"] = true
 L["Buttons"] = true
 L["Change the alpha level of the frame."] = true
+L["Color Keybind Text when Out of Range, instead of the button."] = true
+L["Color Keybind Text"] = true
 L["Color of the actionbutton when not usable."] = true
 L["Color of the actionbutton when out of power (Mana, Rage, Focus, Holy Power)."] = true
 L["Color of the actionbutton when out of range."] = true
@@ -456,6 +458,20 @@ L["Vendor Grays"] = true
 L["Vendor Gray Detailed Report"] = true
 L["Version Check"] = true
 L["When you go AFK display the AFK screen."] = true
+
+--Aura Filter
+---Whitelists
+L["Personal"] = true
+L["nonPersonal"] = "Non Personal"
+L["notCastByUnit"] = "Not Cast By Unit"
+L["Dispellable"] = true
+L["notDispellable"] = "Not Dispellable"
+L["CastByUnit"] = "Cast By Unit"
+---Blacklists
+L["blockNonPersonal"] = "[Block] Non Personal"
+L["blockNoDuration"] = "[Block] No Duration"
+L["blockDispellable"] = "[Block] Dispellable"
+L["blockNotDispellable"] = "[Block] Not Dispellable"
 
 --Media
 L["Applies the font and font size settings throughout the entire user interface. Note: Some font size settings will be skipped due to them having a smaller font size by default."] = true
@@ -971,7 +987,6 @@ L["Only Match SpellID"] = true
 L["OOR Alpha"] = true
 L["Other Filter"] = true
 L["Others"] = true
-L["Overlay the healthbar"] = true
 L["Overlay"] = true
 L["Override any custom visibility setting in certain situations, EX: Only show groups 1 and 2 inside a 10 man instance."] = true
 L["Override the default class color setting."] = true
@@ -981,7 +996,6 @@ L["Party Pets"] = true
 L["Party Targets"] = true
 L["Per Row"] = true
 L["Percent"] = true
-L["Personal"] = true
 L["Pet Name"] = true
 L["Player Frame Aura Bars"] = true
 L["Portrait"] = true
@@ -1082,6 +1096,7 @@ L["The font that the unitframes will use."] = true
 L["The initial group will start near the center and grow out."] = true
 L["The name you have selected is already in use by another element."] = true
 L["The object you want to attach to."] = true
+L["The Portrait will overlay the Healthbar. This will be automatically happen if the Frame Orientation is set to Middle."] = true
 L["Thin Borders"] = true
 L["This dictates the size of the icon when it is not attached to the castbar."] = true
 L["This opens the UnitFrames Color settings. These settings affect all unitframes."] = true

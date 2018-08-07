@@ -83,6 +83,8 @@ L["Button Spacing"] = "Отступ кнопок"
 L["Buttons Per Row"] = "Кнопок в ряду"
 L["Buttons"] = "Кнопок"
 L["Change the alpha level of the frame."] = "Изменяет прозрачность этого элемента"
+L["Color Keybind Text when Out of Range, instead of the button."] = true
+L["Color Keybind Text"] = true
 L["Color of the actionbutton when not usable."] = "Цвет кнопок, которые невозможно использовать."
 L["Color of the actionbutton when out of power (Mana, Rage, Focus, Holy Power)."] = "Цвет кнопок на панелях команд, когда не хватает ресурса (маны, ярости, концентрации, силы света)"
 L["Color of the actionbutton when out of range."] = "Цвет кнопок панелей команд, когда цель вне радиуса действия"
@@ -427,7 +429,7 @@ L["Emotion Icons"] = "Иконки эмоций"
 L["Enable/Disable the loot frame."] = "Включить/выключить окно добычи ElvUI."
 L["Enable/Disable the loot roll frame."] = "Включить/выключить фрейм распределения добычи ElvUI."
 L["Enables the ElvUI Raid Control panel."] = "Включает панель управления рейдом ElvUI."
-L["Enhanced PVP Messages"] = "Улущенные PvP сообщения"
+L["Enhanced PVP Messages"] = "Улучшенные PvP сообщения"
 L["General"] = "Общие"
 L["Height of the objective tracker. Increase size to be able to see more objectives."] = "Высота списка заданий. Увеличение размера позволить видеть большее количество."
 L["Hide At Max Level"] = "Прятать на максимальном уровне"
@@ -467,6 +469,20 @@ L["Vendor Grays"] = "Продавать серые предметы"
 L["Vendor Gray Detailed Report"] = "Подробности продажи"
 L["Version Check"] = "Проверка версии"
 L["When you go AFK display the AFK screen."] = "Отображать специальный экран, когда вы переходите в состояние \"Отсутствует\"."
+
+--Aura Filter
+---Whitelists
+L["Personal"] = "Свое"
+L["nonPersonal"] = "Non Personal"
+L["notCastByUnit"] = "Not Cast By Unit"
+L["Dispellable"] = true
+L["notDispellable"] = "Not Dispellable"
+L["CastByUnit"] = "Cast By Unit"
+---Blacklists
+L["blockNonPersonal"] = "[Block] Non Personal"
+L["blockNoDuration"] = "[Block] No Duration"
+L["blockDispellable"] = "[Block] Dispellable"
+L["blockNotDispellable"] = "[Block] Not Dispellable"
 
 --Media
 L["Applies the font and font size settings throughout the entire user interface. Note: Some font size settings will be skipped due to them having a smaller font size by default."] = "Применить этот шрифт ко всем элементам интерфейса. Некоторые шрифты будут пропущены из-за более мелкого размера по умолчанию."
@@ -982,7 +998,6 @@ L["Only Match SpellID"] = "Сопостовлять только ID заклин
 L["OOR Alpha"] = "Прозрачность вне радиуса"
 L["Other Filter"] = "Другой фильтр"
 L["Others"] = "Чужое"
-L["Overlay the healthbar"] = "Отображение портрета на полосе здоровья."
 L["Overlay"] = "Наложение"
 L["Override any custom visibility setting in certain situations, EX: Only show groups 1 and 2 inside a 10 man instance."] = "Игнорировать пользовательские настройки отображения в определенных ситуациях. Пример: показывать только группы 1 и 2 в подземелье на 10 человек."
 L["Override the default class color setting."] = "Перекрывает установки цвета класса по умолчанию."
@@ -992,7 +1007,6 @@ L["Party Pets"] = "Питомцы группы"
 L["Party Targets"] = "Цели группы"
 L["Per Row"] = "Кол-во в ряду"
 L["Percent"] = "Процент"
-L["Personal"] = "Свое"
 L["Pet Name"] = "Имя питомца"
 L["Player Frame Aura Bars"] = "Полосы аур рамки игрока"
 L["Portrait"] = "Портрет"
@@ -1093,6 +1107,7 @@ L["The font that the unitframes will use."] = "Шрифт рамок юнито�
 L["The initial group will start near the center and grow out."] = "Первая группа появится в центре и будет расти наружу."
 L["The name you have selected is already in use by another element."] = "Выбранное вами имя уже используется другим элементом"
 L["The object you want to attach to."] = "Объект, к которому Вы хотите прикрепить полосы"
+L["The Portrait will overlay the Healthbar. This will be automatically happen if the Frame Orientation is set to Middle."] = true
 L["Thin Borders"] = "Тонкие границы"
 L["This dictates the size of the icon when it is not attached to the castbar."] = "Определяет размер иконки, когда она не привязана к инфо панели."
 L["This opens the UnitFrames Color settings. These settings affect all unitframes."] = "Открывает опции окрашивания рамок юнитов. Эти настройки влияют на все рамки."

@@ -83,6 +83,8 @@ L["Button Spacing"] = "Espacement des boutons"
 L["Buttons Per Row"] = "Boutons par ligne"
 L["Buttons"] = "Boutons"
 L["Change the alpha level of the frame."] = "Changer le niveau alpha de la fenêtre."
+L["Color Keybind Text when Out of Range, instead of the button."] = true
+L["Color Keybind Text"] = true
 L["Color of the actionbutton when not usable."] = "Couleur du bouton d'action quand inutilisable"
 L["Color of the actionbutton when out of power (Mana, Rage, Focus, Holy Power)."] = "Couleur du bouton d'action quand il n'y a pas ressource (Mana, Rage, Focalisation, Puissance sacrée)."
 L["Color of the actionbutton when out of range."] = "Couleur du bouton d'action quand hors de portée."
@@ -467,6 +469,20 @@ L["Vendor Grays"] = "Vendre les objets gris"
 L["Vendor Gray Detailed Report"] = true
 L["Version Check"] = true
 L["When you go AFK display the AFK screen."] = "Quand vous êtes AFK, affiche un écran spécial."
+
+--Aura Filter
+---Whitelists
+L["Personal"] = "Personnel"
+L["nonPersonal"] = "Non Personal"
+L["notCastByUnit"] = "Not Cast By Unit"
+L["Dispellable"] = true
+L["notDispellable"] = "Not Dispellable"
+L["CastByUnit"] = "Cast By Unit"
+---Blacklists
+L["blockNonPersonal"] = "[Block] Non Personal"
+L["blockNoDuration"] = "[Block] No Duration"
+L["blockDispellable"] = "[Block] Dispellable"
+L["blockNotDispellable"] = "[Block] Not Dispellable"
 
 --Media
 L["Applies the font and font size settings throughout the entire user interface. Note: Some font size settings will be skipped due to them having a smaller font size by default."] = true
@@ -982,7 +998,6 @@ L["Only Match SpellID"] = "Seulement les ID de sort correspondants"
 L["OOR Alpha"] = "Transparence Hors de portée"
 L["Other Filter"] = "Autre filtre"
 L["Others"] = "Autres"
-L["Overlay the healthbar"] = "Superposé sur la barre de vie"
 L["Overlay"] = "Superposition"
 L["Override any custom visibility setting in certain situations, EX: Only show groups 1 and 2 inside a 10 man instance."] = "Remplace tout paramètre de visibilité dans certaines situations, Ex: afficher seulement le groupe 1 et 2 quand vous êtes dans un raid à 10 joueurs."
 L["Override the default class color setting."] = 'Remplacer les réglages des couleurs de classes par défaut.'
@@ -992,7 +1007,6 @@ L["Party Pets"] = "Familiers des coéquipiers"
 L["Party Targets"] = "Cible des coéquipiers"
 L["Per Row"] = "par ligne"
 L["Percent"] = "Pourcent"
-L["Personal"] = "Personnel"
 L["Pet Name"] = "Nom du familier"
 L["Player Frame Aura Bars"] = "Barre d'aura du joueur"
 L["Portrait"] = "Portrait"
@@ -1070,7 +1084,7 @@ L["Statusbar Fill Orientation"] = "Orientation la barre d'état."
 L["StatusBar Texture"] = "Texture de la barre d'état."
 L["Strata and Level"] = "Couche et niveau"
 L["Style"] = "Style" 
-L["Tank Frames"] = "Cadre des tTanks"
+L["Tank Frames"] = "Cadre des Tanks"
 L["Tank Target"] = "Cible de tank"
 L["Tapped"] = "Collé"
 L["Targeted Glow"] = true
@@ -1093,6 +1107,7 @@ L["The font that the unitframes will use."] = "Police utilisée par défaut pour
 L["The initial group will start near the center and grow out."] = "Le premier groupe commence à proximité du centre et s'en développe hors."
 L["The name you have selected is already in use by another element."] = "Le nom que vous avez sélectionné est déjà utilisé par un autre élément."
 L["The object you want to attach to."] = "L'objet que vous souhaitez attacher à."
+L["The Portrait will overlay the Healthbar. This will be automatically happen if the Frame Orientation is set to Middle."] = true
 L["Thin Borders"] = "Bordures fines"
 L["This dictates the size of the icon when it is not attached to the castbar."] = "Ceci force la taille de l'icône lorsqu'elle n'est pas rattachée à la barre d'incantation."
 L["This opens the UnitFrames Color settings. These settings affect all unitframes."] = "Ouvre la configuration des couleurs des unités. Ces options impactent toutes les barres d'unités."

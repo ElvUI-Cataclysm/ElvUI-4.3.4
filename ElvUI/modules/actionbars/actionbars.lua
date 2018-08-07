@@ -579,9 +579,11 @@ function AB:StyleButton(button, noBackdrop, useMasque)
 		shine:SetAllPoints()
 	end
 
-	if self.db.hotkeytext then
+	if self.db.hotkeytext or self.db.useRangeColorText then
 		hotkey:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
-		hotkey:SetTextColor(color.r, color.g, color.b)
+		if button.config and (button.config.outOfRangeColoring ~= "hotkey") then
+			button.hotkey:SetTextColor(color.r, color.g, color.b)
+		end
 	end
 
 	if macroName then
@@ -852,6 +854,7 @@ function AB:UpdateButtonConfig(bar, buttonName)
 	bar.buttonConfig.hideElements.hotkey = not self.db.hotkeytext
 	bar.buttonConfig.showGrid = self.db["bar"..bar.id].showGrid
 	bar.buttonConfig.clickOnDown = self.db.keyDown
+	bar.buttonConfig.outOfRangeColoring = (self.db.useRangeColorText and "hotkey") or "button"
 	SetModifiedClick("PICKUPACTION", self.db.movementModifier)
 	bar.buttonConfig.colors.range = E:GetColorTable(self.db.noRangeColor)
 	bar.buttonConfig.colors.mana = E:GetColorTable(self.db.noPowerColor)
@@ -1028,7 +1031,9 @@ local color
 function AB:LAB_ButtonUpdate(button)
 	color = AB.db.fontColor
 	button.count:SetTextColor(color.r, color.g, color.b)
-	button.hotkey:SetTextColor(color.r, color.g, color.b)
+	if button.config and (button.config.outOfRangeColoring ~= "hotkey") then
+		button.hotkey:SetTextColor(color.r, color.g, color.b)
+	end
 end
 LAB.RegisterCallback(AB, "OnButtonUpdate", AB.LAB_ButtonUpdate)
 

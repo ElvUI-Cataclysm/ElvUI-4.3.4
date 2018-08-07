@@ -9,7 +9,7 @@ local format, match, gsub, strsplit = string.format, string.match, string.gsub, 
 local IsAddOnLoaded = IsAddOnLoaded
 local GetScreenWidth = GetScreenWidth
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
-local FRIEND, ENEMY, SHOW, HIDE, DELETE, NONE, FILTERS, FONT_SIZE, COLOR = FRIEND, ENEMY, SHOW, HIDE, DELETE, NONE, FILTERS, FONT_SIZE, COLOR
+local BLOCK, FRIEND, ENEMY, SHOW, HIDE, DELETE, NONE, FILTERS, FONT_SIZE, COLOR = BLOCK, FRIEND, ENEMY, SHOW, HIDE, DELETE, NONE, FILTERS, FONT_SIZE, COLOR
 local CUSTOM, DISABLE, DEFAULT, COLORS = CUSTOM, DISABLE, DEFAULT, COLORS
 local SHIFT_KEY, ALT_KEY, CTRL_KEY = SHIFT_KEY, ALT_KEY, CTRL_KEY
 local HEALTH, MANA, NAME, PLAYER, CLASS, ROLE, GROUP = HEALTH, MANA, NAME, PLAYER, CLASS, ROLE, GROUP
@@ -311,15 +311,16 @@ local function GetOptionsTable_AuraBars(updateFunc, groupName)
 	}
 	config.args.filters.args.specialPriority = {
 		order = 19,
+		type = "select",
+		sortByValue = true,
 		name = L["Add Special Filter"],
 		desc = L["These filters don't use a list of spells like the regular filters. Instead they use the WoW API and some code logic to determine if an aura should be allowed or blocked."],
-		type = "select",
 		values = function()
 			local filters = {}
 			local list = E.global.unitframe["specialFilters"]
 			if not list then return end
 			for filter in pairs(list) do
-				filters[filter] = filter
+				filters[filter] = L[filter]
 			end
 			return filters
 		end,
@@ -376,9 +377,13 @@ local function GetOptionsTable_AuraBars(updateFunc, groupName)
 		dragOnClick = function(info)
 			filterPriority("aurabar", groupName, carryFilterFrom, true)
 		end,
-		stateSwitchGetText = function(_, text)
-			local friend, enemy = match(text, "^Friendly:([^,]*)"), match(text, "^Enemy:([^,]*)")
-			return (friend and format("|cFF33FF33%s|r %s", FRIEND, friend)) or (enemy and format("|cFFFF3333%s|r %s", ENEMY, enemy))
+		stateSwitchGetText = function(_, TEXT)
+			local friend, enemy = match(TEXT, "^Friendly:([^,]*)"), match(TEXT, "^Enemy:([^,]*)")
+			local text = friend or enemy or TEXT
+			local SF, localized = E.global.unitframe["specialFilters"][text], L[text]
+			local blockText = SF and localized and text:match("^block") and localized:gsub("^%[.-]%s?", "")
+			local filterText = (blockText and format("|cFF999999%s|r %s", BLOCK, blockText)) or localized or text
+			return (friend and format("|cFF33FF33%s|r %s", FRIEND, filterText)) or (enemy and format("|cFFFF3333%s|r %s", ENEMY, filterText)) or filterText
 		end,
 		stateSwitchOnClick = function(info)
 			filterPriority("aurabar", groupName, carryFilterFrom, nil, nil, true)
@@ -577,15 +582,16 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 	}
 	config.args.filters.args.specialPriority = {
 		order = 19,
+		type = "select",
+		sortByValue = true,
 		name = L["Add Special Filter"],
 		desc = L["These filters don't use a list of spells like the regular filters. Instead they use the WoW API and some code logic to determine if an aura should be allowed or blocked."],
-		type = "select",
 		values = function()
 			local filters = {}
 			local list = E.global.unitframe["specialFilters"]
 			if not list then return end
 			for filter in pairs(list) do
-				filters[filter] = filter
+				filters[filter] = L[filter]
 			end
 			return filters
 		end,
@@ -642,9 +648,13 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 		dragOnClick = function(info)
 			filterPriority(auraType, groupName, carryFilterFrom, true)
 		end,
-		stateSwitchGetText = function(_, text)
-			local friend, enemy = match(text, "^Friendly:([^,]*)"), match(text, "^Enemy:([^,]*)")
-			return (friend and format("|cFF33FF33%s|r %s", FRIEND, friend)) or (enemy and format("|cFFFF3333%s|r %s", ENEMY, enemy))
+		stateSwitchGetText = function(_, TEXT)
+			local friend, enemy = match(TEXT, "^Friendly:([^,]*)"), match(TEXT, "^Enemy:([^,]*)")
+			local text = friend or enemy or TEXT
+			local SF, localized = E.global.unitframe["specialFilters"][text], L[text]
+			local blockText = SF and localized and text:match("^block") and localized:gsub("^%[.-]%s?", "")
+			local filterText = (blockText and format("|cFF999999%s|r %s", BLOCK, blockText)) or localized or text
+			return (friend and format("|cFF33FF33%s|r %s", FRIEND, filterText)) or (enemy and format("|cFFFF3333%s|r %s", ENEMY, filterText)) or filterText
 		end,
 		stateSwitchOnClick = function(info)
 			filterPriority(auraType, groupName, carryFilterFrom, nil, nil, true)
@@ -1056,37 +1066,15 @@ local function GetOptionsTable_Portrait(updateFunc, groupName, numUnits)
 				name = L["Enable"],
 				desc = L["If you have a lot of 3D Portraits active then it will likely have a big impact on your FPS. Disable some portraits if you experience FPS issues."]
 			},
-			width = {
-				order = 3,
-				type = "range",
-				name = L["Width"],
-				min = 15, max = 150, step = 1,
-				disabled = function() return not E.db.unitframe.units[groupName]["portrait"]["enable"] or E.db.unitframe.units[groupName]["portrait"]["overlay"] end
-			},
 			overlay = {
-				order = 4,
+				order = 3,
 				type = "toggle",
 				name = L["Overlay"],
-				desc = L["Overlay the healthbar"],
-				disabled = function() return not E.db.unitframe.units[groupName]["portrait"]["enable"] end
-			},
-			rotation = {
-				order = 5,
-				type = "range",
-				name = L["Model Rotation"],
-				min = 0, max = 360, step = 1,
-				disabled = function() return not E.db.unitframe.units[groupName]["portrait"]["enable"] end
-			},
-			camDistanceScale = {
-				order = 6,
-				type = "range",
-				name = L["Camera Distance Scale"],
-				desc = L["How far away the portrait is from the camera."],
-				min = 0.01, max = 4, step = 0.01,
+				desc = L["The Portrait will overlay the Healthbar. This will be automatically happen if the Frame Orientation is set to Middle."],
 				disabled = function() return not E.db.unitframe.units[groupName]["portrait"]["enable"] end
 			},
 			style = {
-				order = 7,
+				order = 4,
 				type = "select",
 				name = L["Style"],
 				desc = L["Select the display method of the portrait."],
@@ -1094,6 +1082,28 @@ local function GetOptionsTable_Portrait(updateFunc, groupName, numUnits)
 					["2D"] = L["2D"],
 					["3D"] = L["3D"]
 				},
+				disabled = function() return not E.db.unitframe.units[groupName]["portrait"]["enable"] end
+			},
+			width = {
+				order = 5,
+				type = "range",
+				name = L["Width"],
+				min = 15, max = 150, step = 1,
+				disabled = function() return not E.db.unitframe.units[groupName]["portrait"]["enable"] or E.db.unitframe.units[groupName]["portrait"]["overlay"] end
+			},
+			rotation = {
+				order = 6,
+				type = "range",
+				name = L["Model Rotation"],
+				min = 0, max = 360, step = 1,
+				disabled = function() return not E.db.unitframe.units[groupName]["portrait"]["enable"] end
+			},
+			camDistanceScale = {
+				order = 7,
+				type = "range",
+				name = L["Camera Distance Scale"],
+				desc = L["How far away the portrait is from the camera."],
+				min = 0.01, max = 4, step = 0.01,
 				disabled = function() return not E.db.unitframe.units[groupName]["portrait"]["enable"] end
 			},
 			xOffset = {

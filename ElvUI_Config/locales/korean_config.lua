@@ -119,6 +119,8 @@ L["Button Spacing"] = "버튼 간격"
 L["Buttons Per Row"] = "한 줄당 버튼 수"
 L["Buttons"] = "버튼 수"
 L["Change the alpha level of the frame."] = "해당 프레임의 투명한 수준을 결정합니다."
+L["Color Keybind Text when Out of Range, instead of the button."] = true
+L["Color Keybind Text"] = true
 L["Color of the actionbutton when not usable."] = "사용이 불가능할 경우 아이콘에 이 색상이 덧칠됩니다."
 L["Color of the actionbutton when out of power (Mana, Rage, Focus, Holy Power)."] = "버튼에 배치된 행동에 필요한 자원(마나, 기력, 분노 등)이 부족하면 아이콘에 이 색상이 덧칠됩니다."
 L["Color of the actionbutton when out of range."] = "대상이 버튼에 배치된 행동에 필요한 사정거리보다 밖에 있으면 아이콘에 이 색상이 덧칠됩니다."
@@ -515,6 +517,20 @@ L["Vendor Grays"] = "잡동사니 자동판매"
 L["Vendor Gray Detailed Report"] = "자동판매시 목록 보기"
 L["Version Check"] = true
 L["When you go AFK display the AFK screen."] = "자리비움 시 UI가 자리비움모드로 전환됩니다."
+
+--Aura Filter
+---Whitelists
+L["Personal"] = "플레이어"
+L["nonPersonal"] = "Non Personal"
+L["notCastByUnit"] = "Not Cast By Unit"
+L["Dispellable"] = true
+L["notDispellable"] = "Not Dispellable"
+L["CastByUnit"] = "Cast By Unit"
+---Blacklists
+L["blockNonPersonal"] = "[Block] Non Personal"
+L["blockNoDuration"] = "[Block] No Duration"
+L["blockDispellable"] = "[Block] Dispellable"
+L["blockNotDispellable"] = "[Block] Not Dispellable"
 
 --Media
 L["Applies the font and font size settings throughout the entire user interface. Note: Some font size settings will be skipped due to them having a smaller font size by default."] = "글씨와 글씨 크기 설정을 전체 사용자 인터페이스에 두루 적용합니다. 알림: 일부 글씨 크기 설정은 작은 글씨 크기가 기본값으로 지정되어 예외가 될 것입니다."
@@ -1030,7 +1046,6 @@ L["Only Match SpellID"] = "일치하는 주문ID만"
 L["OOR Alpha"] = "사거리 밖 투명도"
 L["Other Filter"] = true
 L["Others"] = "다른 유저"
-L["Overlay the healthbar"] = "생명력바에 덮어 씌워 표시합니다."
 L["Overlay"] = "덮어씌우기"
 L["Override any custom visibility setting in certain situations, EX: Only show groups 1 and 2 inside a 10 man instance."] = "현재 입던해있는 던전의 상태에 맞춰 표시할 파티수를 자동으로 제한합니다.|n|n예로 10인 인스안에 있으면 1,2파티만 표시됩니다."
 L["Override the default class color setting."] = "이 유닛프레임의 체력바에만 직업색을 적용하도록 따로 설정하는 것이 가능합니다."
@@ -1040,7 +1055,6 @@ L["Party Pets"] = "파티원 소환수"
 L["Party Targets"] = "파티원의 대상"
 L["Per Row"] = "한 줄에 표시할 아이콘 수"
 L["Percent"] = "%"
-L["Personal"] = "플레이어"
 L["Pet Name"] = "펫 이름"
 L["Player Frame Aura Bars"] = true
 L["Portrait"] = "초상화"
@@ -1141,6 +1155,7 @@ L["The font that the unitframes will use."] = "유닛프레임의 글꼴입니�
 L["The initial group will start near the center and grow out."] = "위치의 가운데에서부터 유닛프레임을 배치하기 시작합니다."
 L["The name you have selected is already in use by another element."] = "입력한 제목의 문자영역이 이미 있습니다. 다른 제목을 입력하세요."
 L["The object you want to attach to."] = "이 요소가 어느 프레임을 기준으로 배치될지를 결정합니다."
+L["The Portrait will overlay the Healthbar. This will be automatically happen if the Frame Orientation is set to Middle."] = true
 L["Thin Borders"] = "얇은 테두리"
 L["This dictates the size of the icon when it is not attached to the castbar."] = "시전바에 부착하지 않을 때의 아이콘 크기를 결정합니다."
 L["This opens the UnitFrames Color settings. These settings affect all unitframes."] = "유닛프레임 색상 설정을 엽니다. 이 설정은 모든 유닛프레임에 영향을 미칩니다."

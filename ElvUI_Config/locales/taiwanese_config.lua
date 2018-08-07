@@ -83,6 +83,8 @@ L["Button Spacing"] = "按鈕間距"
 L["Buttons Per Row"] = "每行按鈕數"
 L["Buttons"] = "按鈕數"
 L["Change the alpha level of the frame."] = "改變框架透明度."
+L["Color Keybind Text when Out of Range, instead of the button."] = true
+L["Color Keybind Text"] = true
 L["Color of the actionbutton when not usable."] = "無法使用的技能快捷鍵顏色."
 L["Color of the actionbutton when out of power (Mana, Rage, Focus, Holy Power)."] = "施放能量 (法力、怒氣、集中值、聖能) 不足的技能快捷鍵顏色."
 L["Color of the actionbutton when out of range."] = "超出施放範圍的技能快捷鍵顏色."
@@ -467,6 +469,20 @@ L["Vendor Grays"] = "出售灰色物品"
 L["Vendor Gray Detailed Report"] = true
 L["Version Check"] = true
 L["When you go AFK display the AFK screen."] = "當你離開時顯示AFK界面"
+
+--Aura Filter
+---Whitelists
+L["Personal"] = "個人的"
+L["nonPersonal"] = "Non Personal"
+L["notCastByUnit"] = "Not Cast By Unit"
+L["Dispellable"] = true
+L["notDispellable"] = "Not Dispellable"
+L["CastByUnit"] = "Cast By Unit"
+---Blacklists
+L["blockNonPersonal"] = "[Block] Non Personal"
+L["blockNoDuration"] = "[Block] No Duration"
+L["blockDispellable"] = "[Block] Dispellable"
+L["blockNotDispellable"] = "[Block] Not Dispellable"
 
 --Media
 L["Applies the font and font size settings throughout the entire user interface. Note: Some font size settings will be skipped due to them having a smaller font size by default."] = "把該字體設置應用到所有ElvUI設置中去,但是某些設置並不會被改變."
@@ -982,7 +998,6 @@ L["Only Match SpellID"] = true
 L["OOR Alpha"] = "超出距離透明度"
 L["Other Filter"] = true
 L["Others"] = "他人的"
-L["Overlay the healthbar"] = "頭像重疊顯示於生命條上"
 L["Overlay"] = "重疊顯示"
 L["Override any custom visibility setting in certain situations, EX: Only show groups 1 and 2 inside a 10 man instance."] = "複寫可見性的設定, 例如: 在10人副本里只顯示1隊和2隊."
 L["Override the default class color setting."] = "覆蓋默認職業色設置."
@@ -992,7 +1007,6 @@ L["Party Pets"] = "隊伍寵物"
 L["Party Targets"] = "隊伍目標"
 L["Per Row"] = "每行"
 L["Percent"] = "百分比"
-L["Personal"] = "個人的"
 L["Pet Name"] = "寵物名字"
 L["Player Frame Aura Bars"] = "玩家框架光環條"
 L["Portrait"] = "頭像"
@@ -1093,6 +1107,7 @@ L["The font that the unitframes will use."] = "單位框架字體."
 L["The initial group will start near the center and grow out."] = "最初的隊伍由中心開始增長."
 L["The name you have selected is already in use by another element."] = "你所選的名稱已經被另一組件佔用."
 L["The object you want to attach to."] = "你想依附的目標."
+L["The Portrait will overlay the Healthbar. This will be automatically happen if the Frame Orientation is set to Middle."] = true
 L["Thin Borders"] = "細邊框"
 L["This dictates the size of the icon when it is not attached to the castbar."] = "指定未吸附在施法條內時圖示的尺寸"
 L["This opens the UnitFrames Color settings. These settings affect all unitframes."] = "這將開啟單位框體顏色設置.這些設置會影響所有單位框體"

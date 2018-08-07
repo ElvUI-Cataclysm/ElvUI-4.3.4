@@ -64,16 +64,11 @@ local function BuildABConfig()
 				name = L["Keybind Text"],
 				desc = L["Display bind names on action buttons."]
 			},
-			rightClickSelfCast = {
+			useRangeColorText = {
 				order = 7,
 				type = "toggle",
-				name = L["RightClick Self-Cast"],
-				set = function(info, value)
-					E.db.actionbar.rightClickSelfCast = value
-					for _, bar in pairs(AB["handledBars"]) do
-						AB:UpdateButtonConfig(bar, bar.bindButtons)
-					end
-				end
+				name = L["Color Keybind Text"],
+				desc = L["Color Keybind Text when Out of Range, instead of the button."]
 			},
 			keyDown = {
 				order = 8,
@@ -93,15 +88,26 @@ local function BuildABConfig()
 					LOCK_ACTIONBAR = (value == true and "1" or "0")
 				end
 			},
-			addNewSpells = {
+			rightClickSelfCast = {
 				order = 10,
+				type = "toggle",
+				name = L["RightClick Self-Cast"],
+				set = function(info, value)
+					E.db.actionbar.rightClickSelfCast = value
+					for _, bar in pairs(AB["handledBars"]) do
+						AB:UpdateButtonConfig(bar, bar.bindButtons)
+					end
+				end
+			},
+			addNewSpells = {
+				order = 11,
 				type = "toggle",
 				name = L["Auto Add New Spells"],
 				desc = L["Allow newly learned spells to be automatically placed on an empty actionbar slot."],
 				set = function(info, value) E.db.actionbar.addNewSpells = value; AB:IconIntroTracker_Toggle() end
 			},
 			desaturateOnCooldown = {
-				order = 11,
+				order = 12,
 				type = "toggle",
 				name = L["Desaturate On Cooldown"],
 				set = function(info, value)
@@ -109,8 +115,13 @@ local function BuildABConfig()
 					AB:ToggleDesaturation(value)
 				end
 			},
+			spacer2 = {
+				order = 13,
+				type = "description",
+				name = " "
+			},
 			movementModifier = {
-				order = 12,
+				order = 14,
 				type = "select",
 				name = PICKUP_ACTION_KEY_TEXT,
 				desc = L["The button you must hold down in order to drag an ability to another action button."],
@@ -123,7 +134,7 @@ local function BuildABConfig()
 				}
 			},
 			globalFadeAlpha = {
-				order = 13,
+				order = 15,
 				type = "range",
 				name = L["Global Fade Transparency"],
 				desc = L["Transparency level when not in combat, no target exists, full health, not casting, and no focus target exists."],
@@ -132,7 +143,7 @@ local function BuildABConfig()
 				set = function(info, value) E.db.actionbar[ info[#info] ] = value AB.fadeParent:SetAlpha(1-value) end
 			},
 			colorGroup = {
-				order = 14,
+				order = 16,
 				type = "group",
 				name = COLORS,
 				guiInline = true,
@@ -174,7 +185,7 @@ local function BuildABConfig()
 				}
 			},
 			fontGroup = {
-				order = 15,
+				order = 17,
 				type = "group",
 				guiInline = true,
 				name = L["Fonts"],
@@ -221,7 +232,7 @@ local function BuildABConfig()
 				}
 			},
 			masque = {
-				order = 16,
+				order = 18,
 				type = "group",
 				guiInline = true,
 				name = L["Masque Support"],

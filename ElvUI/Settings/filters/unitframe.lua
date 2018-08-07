@@ -568,11 +568,17 @@ G.unitframe.DebuffHighlightColors = {
 }
 
 G.unitframe.specialFilters = {
+	-- Whitelists
 	["Personal"] = true,
 	["nonPersonal"] = true,
-	["blockNonPersonal"] = true,
 	["CastByUnit"] = true,
 	["notCastByUnit"] = true,
-	["blockNoDuration"] = true,
 	["Dispellable"] = true,
+	["notDispellable"] = true,
+
+	-- Blacklists
+	["blockNonPersonal"] = true,
+	["blockNoDuration"] = true,
+	["blockDispellable"] = true,
+	["blockNotDispellable"] = true,
 }

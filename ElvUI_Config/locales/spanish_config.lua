@@ -83,6 +83,8 @@ L["Button Spacing"] = "Separación de Botones"
 L["Buttons Per Row"] = "Botones por Fila"
 L["Buttons"] = "Botones"
 L["Change the alpha level of the frame."] = "Cambia el nivel de transparencia del marco"
+L["Color Keybind Text when Out of Range, instead of the button."] = true
+L["Color Keybind Text"] = true
 L["Color of the actionbutton when not usable."] = true
 L["Color of the actionbutton when out of power (Mana, Rage, Focus, Holy Power)."] = "Color del botón cuando no tengas poder (Mana, Ira, Enfoque, Poder Sagrado)"
 L["Color of the actionbutton when out of range."] = "Color del botón cuando el objetivo esté fuera de rango"
@@ -467,6 +469,20 @@ L["Vendor Grays"] = "Vender Objetos Grises"
 L["Vendor Gray Detailed Report"] = true
 L["Version Check"] = true
 L["When you go AFK display the AFK screen."] = true
+
+--Aura Filter
+---Whitelists
+L["Personal"] = true
+L["nonPersonal"] = "Non Personal"
+L["notCastByUnit"] = "Not Cast By Unit"
+L["Dispellable"] = true
+L["notDispellable"] = "Not Dispellable"
+L["CastByUnit"] = "Cast By Unit"
+---Blacklists
+L["blockNonPersonal"] = "[Block] Non Personal"
+L["blockNoDuration"] = "[Block] No Duration"
+L["blockDispellable"] = "[Block] Dispellable"
+L["blockNotDispellable"] = "[Block] Not Dispellable"
 
 --Media
 L["Applies the font and font size settings throughout the entire user interface. Note: Some font size settings will be skipped due to them having a smaller font size by default."] = true
@@ -982,7 +998,6 @@ L["Only Match SpellID"] = true
 L["OOR Alpha"] = "Transparencia FDA"
 L["Other Filter"] = true
 L["Others"] = "Otros"
-L["Overlay the healthbar"] = "Recubrir la barra de salud"
 L["Overlay"] = "Recubrir"
 L["Override any custom visibility setting in certain situations, EX: Only show groups 1 and 2 inside a 10 man instance."] = "Sobrescribir cualquier opción de visibilidad en ciertas situaciones, Ej: Sólo mostrar grupos 1 y 2 dentro de una mazmorra de banda de 10 personas."
 L["Override the default class color setting."] = "Ignorar el ajuste predeterminado del color de clase."
@@ -992,7 +1007,6 @@ L["Party Pets"] = "Mascotas de Grupo"
 L["Party Targets"] = "Objetivos del Grupo"
 L["Per Row"] = "Por Fila"
 L["Percent"] = "Porcentaje"
-L["Personal"] = true
 L["Pet Name"] = true
 L["Player Frame Aura Bars"] = true
 L["Portrait"] = "Retrato"
@@ -1093,6 +1107,7 @@ L["The font that the unitframes will use."] = "La fuente que usa el marco de uni
 L["The initial group will start near the center and grow out."] = "El grupo inicial comenzará cerca del centro y crecer."
 L["The name you have selected is already in use by another element."] = "El nombre que has seleccionado ya está en uso por otro elemento."
 L["The object you want to attach to."] = "El objeto que quieres adjuntar a."
+L["The Portrait will overlay the Healthbar. This will be automatically happen if the Frame Orientation is set to Middle."] = true
 L["Thin Borders"] = true
 L["This dictates the size of the icon when it is not attached to the castbar."] = true
 L["This opens the UnitFrames Color settings. These settings affect all unitframes."] = true
