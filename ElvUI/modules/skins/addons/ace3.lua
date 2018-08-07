@@ -136,17 +136,18 @@ function S:SkinAce3()
 		local TYPE = widget.type
 		if TYPE == "MultiLineEditBox" then
 			local frame = widget.frame
+			local scrollBG = widget.scrollBG or select(2, frame:GetChildren())
 
-			if not widget.scrollBG.template then
-				widget.scrollBG:SetTemplate("Default")
+			if not scrollBG.template then
+				scrollBG:SetTemplate("Default")
 			end
 
 			SkinButton(widget.button)
 			SkinScrollBar(widget.scrollBar)
 			widget.scrollBar:Point("RIGHT", frame, "RIGHT", 0 -4)
-			widget.scrollBG:Point("TOPRIGHT", widget.scrollBar, "TOPLEFT", -2, 19)
-			widget.scrollBG:Point("BOTTOMLEFT", widget.button, "TOPLEFT")
-			widget.scrollFrame:Point("BOTTOMRIGHT", widget.scrollBG, "BOTTOMRIGHT", -4, 8)
+			scrollBG:Point("TOPRIGHT", widget.scrollBar, "TOPLEFT", -2, 19)
+			scrollBG:Point("BOTTOMLEFT", widget.button, "TOPLEFT")
+			widget.scrollFrame:Point("BOTTOMRIGHT", scrollBG, "BOTTOMRIGHT", -4, 8)
 		elseif TYPE == "CheckBox" then
 			widget.checkbg:Kill()
 			widget.highlight:Kill()
@@ -367,10 +368,11 @@ function S:SkinAce3()
 					local groupstatus = status.groups
 					local lines = self.lines
 					local buttons = self.buttons
+					local offset = status.scrollvalue
 
-					for i, line in pairs(lines) do
-						local button = buttons[i]
-						if groupstatus[line.uniquevalue] and button then
+					for i = offset + 1, #lines do
+						local button = buttons[i - offset]
+						if groupstatus[lines[i].uniquevalue] and button then
 							button.toggleText:SetText("-")
 						elseif button then
 							button.toggleText:SetText("+")
