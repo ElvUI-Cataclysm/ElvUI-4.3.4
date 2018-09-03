@@ -1,4 +1,5 @@
 ﻿local E, L, V, P, G = unpack(ElvUI)
+local B = E:GetModule("Blizzard")
 
 local NONE, FONT_SIZE, COLORS, DISABLE = NONE, FONT_SIZE, COLORS, DISABLE
 local GUILD, PLAYER, RAID_CONTROL, LOOT = GUILD, PLAYER, RAID_CONTROL, LOOT
@@ -649,7 +650,7 @@ E.Options.args.general = {
 					desc = L["Height of the objective tracker. Increase size to be able to see more objectives."],
 					min = 400, max = E.screenheight, step = 1,
 					get = function(info) return E.db.general[ info[#info] ] end,
-					set = function(info, value) E.db.general[ info[#info] ] = value E:GetModule("Blizzard"):SetWatchFrameHeight() end
+					set = function(info, value) E.db.general[ info[#info] ] = value B:SetWatchFrameHeight() end
 				}
 			}
 		},
@@ -748,7 +749,7 @@ E.Options.args.general = {
 					desc = L["Set the width of Error Frame. Too narrow frame may cause messages to be split in several lines"],
 					min = 100, max = 1000, step = 1,
 					get = function(info) return E.db.general.errorFrame.width end,
-					set = function(info, value) E.db.general.errorFrame.width = value  E:GetModule("Blizzard"):ErrorFrameSize() end
+					set = function(info, value) E.db.general.errorFrame.width = value B:ErrorFrameSize() end
 				},
 				height = {
 					order = 4,
@@ -757,7 +758,122 @@ E.Options.args.general = {
 					desc = L["Set the height of Error Frame. Higher frame can show more lines at once."],
 					min = 30, max = 300, step = 1,
 					get = function(info) return E.db.general.errorFrame.height end,
-					set = function(info, value) E.db.general.errorFrame.height = value  E:GetModule("Blizzard"):ErrorFrameSize() end
+					set = function(info, value) E.db.general.errorFrame.height = value B:ErrorFrameSize() end
+				}
+			}
+		},
+		alternativePowerGroup = {
+			order = 12,
+			type = "group",
+			name = L["Alternative Power"],
+			get = function(info) return E.db.general.altPowerBar[ info[#info] ] end,
+			set = function(info, value)
+				E.db.general.altPowerBar[ info[#info] ] = value
+				B:UpdateAltPowerBarSettings()
+			end,
+			args = {
+				alternativePowerHeader = {
+					order = 1,
+					type = "header",
+					name = L["Alternative Power"],
+				},
+				enable = {
+					order = 2,
+					type = "toggle",
+					name = L["Enable"],
+					desc = L["Replace Blizzard's Alternative Power Bar"],
+					width = "full",
+					set = function(info, value)
+						E.db.general.altPowerBar[ info[#info] ] = value
+						E:StaticPopup_Show("PRIVATE_RL")
+					end
+				},
+				height = {
+					order = 3,
+					type = "range",
+					name = L["Height"],
+					min = 5, max = 100, step = 1
+				},
+				width = {
+					order = 4,
+					type = "range",
+					name = L["Width"],
+					min = 50, max = 1000, step = 1
+				},
+				statusBar = {
+					order = 5,
+					type = "select", dialogControl = "LSM30_Statusbar",
+					name = L["StatusBar Texture"],
+					values = AceGUIWidgetLSMlists.statusbar
+				},
+				font = {
+					order = 6,
+					type = "select", dialogControl = "LSM30_Font",
+					name = L["Font"],
+					values = AceGUIWidgetLSMlists.font
+				},
+				fontSize = {
+					order = 7,
+					type = "range",
+					name = FONT_SIZE,
+					min = 6, max = 22, step = 1
+				},
+				fontOutline = {
+					order = 8,
+					type = "select",
+					name = L["Font Outline"],
+					values = {
+						["NONE"] = NONE,
+						["OUTLINE"] = "OUTLINE",
+						["MONOCHROMEOUTLINE"] = "MONOCROMEOUTLINE",
+						["THICKOUTLINE"] = "THICKOUTLINE"
+					}
+				},
+				statusBarColorGradient = {
+					order = 9,
+					type = "toggle",
+					name = L["Color Gradient"],
+					get = function(info)
+						return E.db.general.altPowerBar[ info[#info] ]
+					end,
+					set = function(info, value)
+						E.db.general.altPowerBar[ info[#info] ] = value
+						B:UpdateAltPowerBarColors()
+					end
+				},
+				statusBarColor = {
+					order = 10,
+					type = "color",
+					name = COLOR,
+					disabled = function()
+						return E.db.general.altPowerBar.statusBarColorGradient
+					end,
+					get = function(info)
+						local t = E.db.general.altPowerBar[ info[#info] ]
+						local d = P.general.altPowerBar[ info[#info] ]
+						return t.r, t.g, t.b, t.a, d.r, d.g, d.b
+					end,
+					set = function(info, r, g, b)
+						local t = E.db.general.altPowerBar[ info[#info] ]
+						t.r, t.g, t.b = r, g, b
+						B:UpdateAltPowerBarColors()
+					end
+				},
+				textFormat = {
+					order = 11,
+					type = "select",
+					name = L["Text Format"],
+					sortByValue = true,
+					values = {
+						NONE = NONE,
+						NAME = NAME,
+						NAMEPERC = L["Name: Percent"],
+						NAMECURMAX = L["Name: Current / Max"],
+						NAMECURMAXPERC = L["Name: Current / Max - Percent"],
+						PERCENT = L["Percent"],
+						CURMAX = L["Current / Max"],
+						CURMAXPERC = L["Current / Max - Percent"]
+					}
 				}
 			}
 		}

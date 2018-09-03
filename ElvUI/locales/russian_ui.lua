@@ -7,7 +7,7 @@ if not L then return end
 L["INCOMPATIBLE_ADDON"] = "Аддон %s не совместим с модулем %s ElvUI. Пожалуйста, выберите отключить ли несовместимый аддон или модуль."
 
 --*_MSG locales
-L["LOGIN_MSG"] = "Добро пожаловать в %sElvUI|r версии %s%s|r. Если Вам нужна техническая поддержка, посетите наш форум на https://github.com/ElvUI-Cataclysm"
+L["LOGIN_MSG"] = "Welcome to %sElvUI|r version %s%s|r, type /ec to access the in-game configuration menu. If you are in need of technical support you can visit us at https://github.com/ElvUI-Cataclysm or join our Discord: https://discord.gg/Uatdmm7"
 
 --ActionBars
 L["Binding"] = "Назначение"
@@ -62,7 +62,6 @@ L["(Hold Shift) Memory Usage"] = "(Зажать Shift) Использовани�
 L["Avoidance Breakdown"] = "Распределение защиты"
 L["Bandwidth"] = "Канал"
 L["Character: "] = "Персонаж: "
-L["Combat"] = "Бой"
 L["Combat Time"] = "В бою"
 L["Coords"] = "Коорд."
 L["copperabbrev"] = "|cffeda55fм|r" --Also used in Bags

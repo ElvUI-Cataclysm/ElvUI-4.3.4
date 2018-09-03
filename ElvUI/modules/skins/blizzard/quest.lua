@@ -347,7 +347,7 @@ local function LoadSkin()
 
 	S:HandleCloseButton(QuestFrameCloseButton, QuestFrame.backdrop)
 
-	for i = 1, 6 do
+	for i = 1, MAX_REQUIRED_ITEMS do
 		local button = _G["QuestProgressItem"..i]
 		local texture = _G["QuestProgressItem"..i.."IconTexture"]
 		local count = _G["QuestProgressItem"..i.."Count"]

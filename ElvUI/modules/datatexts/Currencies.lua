@@ -35,8 +35,10 @@ local Currencies = {
 	["241"] = {NAME = GetCurrencyInfo(241), ICON = IconPath.."Ability_Paladin_ArtofWar", COUNT = select(2, GetCurrencyInfo(241))},						-- Champion's Seal
 	["081"] = {NAME = GetCurrencyInfo(81), ICON = IconPath.."INV_Misc_Ribbon_01", COUNT = select(2, GetCurrencyInfo(81))},								-- Dalaran Cooking Award
 	["061"] = {NAME = GetCurrencyInfo(61), ICON = IconPath.."INV_Misc_Gem_Variety_01", COUNT = select(2, GetCurrencyInfo(61))}, 						-- Dalaran Jewelcrafter's Token
+	["201"] = {NAME = GetCurrencyInfo(201), ICON = IconPath.."INV_Misc_Coin_16", COUNT = select(2, GetCurrencyInfo(201))},								-- Venture Coin
 	["126"] = {NAME = GetCurrencyInfo(126), ICON = IconPath.."INV_Jewelry_Ring_66", COUNT = select(2, GetCurrencyInfo(126))},							-- Wintergrasp Mark of Honor
 	-- Archaeology
+--[[
 	["398"] = {NAME = GetCurrencyInfo(398), ICON = IconPath.."trade_archaeology_draenei_artifactfragment", COUNT = select(2, GetCurrencyInfo(398))},	-- Draenei Archaeology Fragment
 	["384"] = {NAME = GetCurrencyInfo(384), ICON = IconPath.."trade_archaeology_dwarf_artifactfragment", COUNT = select(2, GetCurrencyInfo(384))},		-- Dwarf Archaeology Fragment
 	["393"] = {NAME = GetCurrencyInfo(393), ICON = IconPath.."trade_archaeology_fossil_fern", COUNT = select(2, GetCurrencyInfo(393))},					-- Fossil Archaeology Fragment
@@ -46,6 +48,7 @@ local Currencies = {
 	["385"] = {NAME = GetCurrencyInfo(385), ICON = IconPath.."trade_archaeology_troll_artifactfragment", COUNT = select(2, GetCurrencyInfo(385))},		-- Troll Archaeology Fragment
 	["401"] = {NAME = GetCurrencyInfo(401), ICON = IconPath.."trade_archaeology_titan_fragment", COUNT = select(2, GetCurrencyInfo(401))},				-- Tol'vir Archaeology Fragment
 	["399"] = {NAME = GetCurrencyInfo(399), ICON = IconPath.."trade_archaeology_vrykul_artifactfragment", COUNT = select(2, GetCurrencyInfo(399))}		-- Vrykul Archaeology Fragment
+]]
 }
 
 function DT:Currencies_GetCurrencyList()
@@ -104,9 +107,11 @@ local function OnEnter(self)
 	DT.tooltip:AddDoubleLine(join("", format(iconString, Currencies["241"].ICON, 12, 12), " ", Currencies["241"].NAME), Currencies["241"].COUNT, 1, 1, 1)	-- Champion's Seal
 	DT.tooltip:AddDoubleLine(join("", format(iconString, Currencies["081"].ICON, 12, 12), " ", Currencies["081"].NAME), Currencies["081"].COUNT, 1, 1, 1)	-- Dalaran Cooking Award
 	DT.tooltip:AddDoubleLine(join("", format(iconString, Currencies["061"].ICON, 12, 12), " ", Currencies["061"].NAME), Currencies["061"].COUNT, 1, 1, 1)	-- Dalaran Jewelcrafter's Token
+	DT.tooltip:AddDoubleLine(join("", format(iconString, Currencies["201"].ICON, 12, 12), " ", Currencies["201"].NAME), Currencies["201"].COUNT, 1, 1, 1)	-- Dalaran Jewelcrafter's Token
 	DT.tooltip:AddDoubleLine(join("", format(iconString, Currencies["126"].ICON, 12, 12), " ", Currencies["126"].NAME), Currencies["126"].COUNT, 1, 1, 1)	-- Wintergrasp Mark of Honor
 	DT.tooltip:AddLine(" ")
 	-- Archeology
+--[[
 	DT.tooltip:AddLine(PROFESSIONS_ARCHAEOLOGY)
 	DT.tooltip:AddDoubleLine(join("", format(iconString, Currencies["398"].ICON, 12, 12), " ", Currencies["398"].NAME), Currencies["398"].COUNT, 1, 1, 1)	-- Draenei Archaeology Fragment
 	DT.tooltip:AddDoubleLine(join("", format(iconString, Currencies["384"].ICON, 12, 12), " ", Currencies["384"].NAME), Currencies["384"].COUNT, 1, 1, 1)	-- Dwarf Archaeology Fragment
@@ -117,7 +122,7 @@ local function OnEnter(self)
 	DT.tooltip:AddDoubleLine(join("", format(iconString, Currencies["401"].ICON, 12, 12), " ", Currencies["401"].NAME), Currencies["401"].COUNT, 1, 1, 1)	-- Tol'vir Archaeology Fragment
 	DT.tooltip:AddDoubleLine(join("", format(iconString, Currencies["385"].ICON, 12, 12), " ", Currencies["385"].NAME), Currencies["385"].COUNT, 1, 1, 1)	-- Troll Archaeology Fragment
 	DT.tooltip:AddDoubleLine(join("", format(iconString, Currencies["399"].ICON, 12, 12), " ", Currencies["399"].NAME), Currencies["399"].COUNT, 1, 1, 1)	-- Vrykul Archaeology Fragment
-
+]]
 	DT.tooltip:Show()
 end
 

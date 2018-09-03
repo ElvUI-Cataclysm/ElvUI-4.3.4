@@ -7,7 +7,7 @@ if not L then return end
 L["INCOMPATIBLE_ADDON"] = "%s 애드온의 기능이 ElvUI의 %s 모듈과 상충됩니다. 그 애드온을 쓰지 않거나 ElvUI의 기능을 사용해제하세요."
 
 --*_MSG locales
-L["LOGIN_MSG"] = "%sElvUI|r 버전 %s%s|r 을 사용해 주셔서 감사합니다. 궁금한 점이나 기술지원은 https://github.com/ElvUI-Cataclysm 에서 해결하세요"
+L["LOGIN_MSG"] = "Welcome to %sElvUI|r version %s%s|r, type /ec to access the in-game configuration menu. If you are in need of technical support you can visit us at https://github.com/ElvUI-Cataclysm or join our Discord: https://discord.gg/Uatdmm7"
 
 --ActionBars
 L["Binding"] = " "
@@ -62,7 +62,6 @@ L["(Hold Shift) Memory Usage"] = "Shift: 메모리 사용량"
 L["Avoidance Breakdown"] = "방어율 목록"
 L["Bandwidth"] = "대역폭"
 L["Character: "] = "캐릭터:"
-L["Combat"] = "전투"
 L["Combat Time"] = true
 L["Coords"] = "좌표"
 L["copperabbrev"] = "|TInterface\\MoneyFrame\\UI-MoneyIcons:0:0:1:0:64:16:33:48:1:16|t" --"|cffeda55f●|r"

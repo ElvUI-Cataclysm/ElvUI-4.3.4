@@ -15,8 +15,9 @@ function B:Initialize()
 	self:SkinBlizzTimers();
 	self:ErrorFrameSize()
 
- 	if(not IsAddOnLoaded("SimplePowerBar")) then
- 		self:PositionAltPowerBar();
+ 	if not IsAddOnLoaded("SimplePowerBar") then
+ 		self:PositionAltPowerBar()
+		self:SkinAltPowerBar()
 	end
 
 	if(GetLocale() == "deDE") then

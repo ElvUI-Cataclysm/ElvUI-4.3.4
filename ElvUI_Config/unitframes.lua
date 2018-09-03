@@ -1147,10 +1147,11 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 				name = L["Match Frame Width"],
 				func = function() E.db.unitframe.units[groupName]["castbar"]["width"] = E.db.unitframe.units[groupName]["width"] updateFunc(UF, groupName, numUnits) end
 			},
+			--[[ -- The forceShow function need to be redone for the Party Frame
 			forceshow = {
 				order = 3,
 				type = "execute",
-				name = SHOW .. " / " .. HIDE,
+				name = SHOW.." / "..HIDE,
 				func = function()
 					local frameName = E:StringTitle(groupName)
 					frameName = "ElvUF_"..frameName
@@ -1158,7 +1159,7 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 
 					if numUnits then
 						for i = 1, numUnits do
-							local castbar = _G[frameName..i].Castbar
+							local castbar = _G[frameName.."UnitButton"..i].Castbar
 							if not castbar.oldHide then
 								castbar.oldHide = castbar.Hide
 								castbar.Hide = castbar.Show
@@ -1183,6 +1184,7 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 					end
 				end
 			},
+			--]]
 			configureButton = {
 				order = 4,
 				type = "execute",
@@ -3729,7 +3731,7 @@ E.Options.args.unitframe.args.player = {
 			}
 		},
 		pvpIcon = {
-			order = 449,
+			order = 450,
 			type = "group",
 			name = L["PvP Icon"],
 			get = function(info) return E.db.unitframe.units["player"]["pvpIcon"][ info[#info] ] end,
@@ -3778,7 +3780,7 @@ E.Options.args.unitframe.args.player = {
 			}
 		},
 		pvpText = {
-			order = 850,
+			order = 460,
 			type = "group",
 			name = L["PvP Text"],
 			get = function(info) return E.db.unitframe.units["player"]["pvp"][ info[#info] ] end,
@@ -3801,6 +3803,55 @@ E.Options.args.unitframe.args.player = {
 					name = L["Text Format"],
 					desc = L["TEXT_FORMAT_DESC"],
 					width = "full"
+				}
+			}
+		},
+		phaseIndicator = {
+			order = 450,
+			type = "group",
+			name = L["Phase Indicator"],
+			get = function(info) return E.db.unitframe.units["target"]["phaseIndicator"][ info[#info] ] end,
+			set = function(info, value) E.db.unitframe.units["target"]["phaseIndicator"][ info[#info] ] = value UF:CreateAndUpdateUF("target") end,
+			args = {
+				header = {
+					order = 1,
+					type = "header",
+					name = L["Phase Indicator"]
+				},
+				enable = {
+					order = 2,
+					type = "toggle",
+					name = L["Enable"]
+				},
+				scale = {
+					order = 3,
+					type = "range",
+					name = L["Scale"],
+					isPercent = true,
+					min = 0.5, max = 1.5, step = 0.01
+				},
+				spacer = {
+					order = 4,
+					type = "description",
+					name = " "
+				},
+				anchorPoint = {
+					order = 5,
+					type = "select",
+					name = L["Anchor Point"],
+					values = positionValues
+				},
+				xOffset = {
+					order = 6,
+					type = "range",
+					name = L["X-Offset"],
+					min = -100, max = 100, step = 1
+				},
+				yOffset = {
+					order = 7,
+					type = "range",
+					name = L["Y-Offset"],
+					min = -100, max = 100, step = 1
 				}
 			}
 		}
@@ -5823,6 +5874,7 @@ E.Options.args.unitframe.args.party = {
 		buffs = GetOptionsTable_Auras("buffs", true, UF.CreateAndUpdateHeaderGroup, "party"),
 		debuffs = GetOptionsTable_Auras("debuffs", true, UF.CreateAndUpdateHeaderGroup, "party"),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, "party"),
+		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateHeaderGroup, "party", 5),
 		petsGroup = {
 			order = 850,
 			type = "group",
@@ -6004,7 +6056,56 @@ E.Options.args.unitframe.args.party = {
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateHeaderGroup, "party"),
 		readycheckIcon = GetOptionsTable_ReadyCheckIcon(UF.CreateAndUpdateHeaderGroup, "party"),
 		resurrectIcon = GetOptionsTable_ResurrectIcon(UF.CreateAndUpdateHeaderGroup, "party"),
-		GPSArrow = GetOptionsTable_GPS("party")
+		GPSArrow = GetOptionsTable_GPS("party"),
+		phaseIndicator = {
+			order = 5005,
+			type = "group",
+			name = L["Phase Indicator"],
+			get = function(info) return E.db.unitframe.units["party"]["phaseIndicator"][ info[#info] ] end,
+			set = function(info, value) E.db.unitframe.units["party"]["phaseIndicator"][ info[#info] ] = value UF:CreateAndUpdateHeaderGroup("party") end,
+			args = {
+				header = {
+					order = 1,
+					type = "header",
+					name = L["Phase Indicator"]
+				},
+				enable = {
+					order = 2,
+					type = "toggle",
+					name = L["Enable"]
+				},
+				scale = {
+					order = 3,
+					type = "range",
+					name = L["Scale"],
+					isPercent = true,
+					min = 0.5, max = 1.5, step = 0.01
+				},
+				spacer = {
+					order = 4,
+					type = "description",
+					name = " "
+				},
+				anchorPoint = {
+					order = 5,
+					type = "select",
+					name = L["Anchor Point"],
+					values = positionValues
+				},
+				xOffset = {
+					order = 6,
+					type = "range",
+					name = L["X-Offset"],
+					min = -100, max = 100, step = 1
+				},
+				yOffset = {
+					order = 7,
+					type = "range",
+					name = L["Y-Offset"],
+					min = -100, max = 100, step = 1
+				}
+			}
+		}
 	}
 }
 
@@ -6421,6 +6522,55 @@ E.Options.args.unitframe.args.raid = {
 						["TOPLEFT"] = "TOPLEFT",
 						["TOPRIGHT"] = "TOPRIGHT"
 					}
+				}
+			}
+		},
+		phaseIndicator = {
+			order = 5006,
+			type = "group",
+			name = L["Phase Indicator"],
+			get = function(info) return E.db.unitframe.units["raid"]["phaseIndicator"][ info[#info] ] end,
+			set = function(info, value) E.db.unitframe.units["raid"]["phaseIndicator"][ info[#info] ] = value UF:CreateAndUpdateHeaderGroup("raid") end,
+			args = {
+				header = {
+					order = 1,
+					type = "header",
+					name = L["Phase Indicator"]
+				},
+				enable = {
+					order = 2,
+					type = "toggle",
+					name = L["Enable"]
+				},
+				scale = {
+					order = 3,
+					type = "range",
+					name = L["Scale"],
+					isPercent = true,
+					min = 0.5, max = 1.5, step = 0.01
+				},
+				spacer = {
+					order = 4,
+					type = "description",
+					name = " "
+				},
+				anchorPoint = {
+					order = 5,
+					type = "select",
+					name = L["Anchor Point"],
+					values = positionValues
+				},
+				xOffset = {
+					order = 6,
+					type = "range",
+					name = L["X-Offset"],
+					min = -100, max = 100, step = 1
+				},
+				yOffset = {
+					order = 7,
+					type = "range",
+					name = L["Y-Offset"],
+					min = -100, max = 100, step = 1
 				}
 			}
 		},
@@ -6845,6 +6995,55 @@ E.Options.args.unitframe.args.raid40 = {
 						["TOPLEFT"] = "TOPLEFT",
 						["TOPRIGHT"] = "TOPRIGHT"
 					}
+				}
+			}
+		},
+		phaseIndicator = {
+			order = 5007,
+			type = "group",
+			name = L["Phase Indicator"],
+			get = function(info) return E.db.unitframe.units["raid40"]["phaseIndicator"][ info[#info] ] end,
+			set = function(info, value) E.db.unitframe.units["raid40"]["phaseIndicator"][ info[#info] ] = value UF:CreateAndUpdateHeaderGroup("raid40") end,
+			args = {
+				header = {
+					order = 1,
+					type = "header",
+					name = L["Phase Indicator"]
+				},
+				enable = {
+					order = 2,
+					type = "toggle",
+					name = L["Enable"]
+				},
+				scale = {
+					order = 3,
+					type = "range",
+					name = L["Scale"],
+					isPercent = true,
+					min = 0.5, max = 1.5, step = 0.01
+				},
+				spacer = {
+					order = 4,
+					type = "description",
+					name = " "
+				},
+				anchorPoint = {
+					order = 5,
+					type = "select",
+					name = L["Anchor Point"],
+					values = positionValues
+				},
+				xOffset = {
+					order = 6,
+					type = "range",
+					name = L["X-Offset"],
+					min = -100, max = 100, step = 1
+				},
+				yOffset = {
+					order = 7,
+					type = "range",
+					name = L["Y-Offset"],
+					min = -100, max = 100, step = 1
 				}
 			}
 		},

@@ -54,6 +54,7 @@ function UF:Construct_PartyFrames()
 		self.ResurrectIndicator = UF:Construct_ResurrectionIcon(self)
 		self.GroupRoleIndicator = UF:Construct_RoleIcon(self)
 		self.RaidRoleFramesAnchor = UF:Construct_RaidRoleFrames(self)
+		self.PhaseIndicator = UF:Construct_PhaseIcon(self)
 		self.MouseGlow = UF:Construct_MouseGlow(self)
 		self.TargetGlow = UF:Construct_TargetGlow(self)
 		self.ThreatIndicator = UF:Construct_Threat(self)
@@ -61,6 +62,7 @@ function UF:Construct_PartyFrames()
 		self.ReadyCheckIndicator = UF:Construct_ReadyCheckIcon(self)
 		self.HealthPrediction = UF:Construct_HealComm(self)
 		self.GPS = UF:Construct_GPS(self)
+		self.Castbar = UF:Construct_Castbar(self)
 		self.customTexts = {}
 
 		self.unitframeType = "party"
@@ -215,6 +217,8 @@ function UF:Update_PartyFrames(frame, db)
 
 		UF:UpdateNameSettings(frame)
 
+		UF:Configure_PhaseIcon(frame)
+
 		UF:Configure_Power(frame)
 
 		UF:Configure_Portrait(frame)
@@ -226,6 +230,8 @@ function UF:Update_PartyFrames(frame, db)
 		UF:Configure_Auras(frame, 'Debuffs')
 
 		UF:Configure_RaidDebuffs(frame)
+
+		UF:Configure_Castbar(frame)
 
 		UF:Configure_RaidIcon(frame)
 
