@@ -26,6 +26,7 @@ function B:SkinBag(bag)
 	bag:StripTextures()
 	bag:SetTemplate("Default", true)
 	bag:StyleButton(true)
+
 	icon:SetTexture(bag.oldTex)
 	icon:SetInside()
 	icon:SetTexCoord(unpack(E.TexCoords))
@@ -40,8 +41,8 @@ function B:SizeAndPositionBagBar()
 	local showBackdrop = E.db.bags.bagBar.showBackdrop
 	local growthDirection = E.db.bags.bagBar.growthDirection
 	local sortDirection = E.db.bags.bagBar.sortDirection
-
 	local visibility = E.db.bags.bagBar.visibility
+
 	if visibility and visibility:match("[\n\r]") then
 		visibility = visibility:gsub("[\n\r]","")
 	end
@@ -63,8 +64,10 @@ function B:SizeAndPositionBagBar()
 	for i = 1, #ElvUIBags.buttons do
 		local button = ElvUIBags.buttons[i]
 		local prevButton = ElvUIBags.buttons[i - 1]
+
 		button:Size(bagBarSize)
 		button:ClearAllPoints()
+
 		if growthDirection == "HORIZONTAL" and sortDirection == "ASCENDING" then
 			if i == 1 then
 				button:Point("LEFT", ElvUIBags, "LEFT", (showBackdrop and (backdropSpacing + E.Border) or 0), 0)
@@ -116,9 +119,11 @@ function B:LoadBagBar()
 	MainMenuBarBackpackButton:SetParent(ElvUIBags)
 	MainMenuBarBackpackButton.SetParent = E.dummy
 	MainMenuBarBackpackButton:ClearAllPoints()
+
 	MainMenuBarBackpackButtonCount:FontTemplate(nil, 10)
 	MainMenuBarBackpackButtonCount:ClearAllPoints()
 	MainMenuBarBackpackButtonCount:Point("BOTTOMRIGHT", MainMenuBarBackpackButton, "BOTTOMRIGHT", -1, 4)
+
 	MainMenuBarBackpackButton:HookScript("OnEnter", OnEnter)
 	MainMenuBarBackpackButton:HookScript("OnLeave", OnLeave)
 
@@ -137,5 +142,6 @@ function B:LoadBagBar()
 	end
 
 	self:SizeAndPositionBagBar()
+
 	E:CreateMover(ElvUIBags, "BagsMover", L["Bags"])
 end

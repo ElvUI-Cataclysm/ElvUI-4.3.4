@@ -7,7 +7,7 @@ if not L then return end
 L["INCOMPATIBLE_ADDON"] = "Аддон %s не совместим с модулем %s ElvUI. Пожалуйста, выберите отключить ли несовместимый аддон или модуль."
 
 --*_MSG locales
-L["LOGIN_MSG"] = "Welcome to %sElvUI|r version %s%s|r, type /ec to access the in-game configuration menu. If you are in need of technical support you can visit us at https://github.com/ElvUI-Cataclysm or join our Discord: https://discord.gg/Uatdmm7"
+L["LOGIN_MSG"] = "Добро пожаловать в %sElvUI|r версии %s%s|r, наберите /ec для доступа в меню настроек. Если Вам нужна техническая поддержка, посетите наш форум на https://github.com/ElvUI-Cataclysm или присоединяйтесь к серверу Discord: https://discord.gg/Uatdmm7"
 
 --ActionBars
 L["Binding"] = "Назначение"
@@ -83,8 +83,8 @@ L["Mitigation By Level: "] = "Снижение на уровне: "
 L["Mov. Speed:"] = STAT_MOVEMENT_SPEED
 L["No Guild"] = "Нет гильдии"
 L["Profit:"] = "Прибыль:"
-L["Reset Counters: Hold Control + Right Click"] = "Сбросить счётчики: Control + ПКМ"
 L["Reload UI"] = "Перезагрузка"
+L["Reset Counters: Hold Control + Right Click"] = "Сбросить счётчики: Control + ПКМ"
 L["Reset Data: Hold Shift + Right Click"] = "Сбросить данные: Shift + ПКМ"
 L["Saved Dungeon(s)"] = "Сохраненнные подземелья"
 L["Saved Raid(s)"] = "Сохраненные рейды"

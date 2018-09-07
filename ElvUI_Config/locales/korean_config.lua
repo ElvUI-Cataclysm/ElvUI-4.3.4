@@ -182,7 +182,7 @@ L["Visibility State"] = "표시 자동전환 조건"
 L["When enabled it will use the Anchor Point setting to determine growth direction, otherwise it will be determined by where the bar is positioned."] = true
 L["Width Multiplier"] = "배경 가로길이 배율"
 L[ [=[This works like a macro, you can run different situations to get the actionbar to page differently.
- Example: [combat] 2;]=] ] = [=[이곳에 작성한 조건(예를 들어 전투여부)에 따라 이 행동단축바의 페이지를 자동으로 전환시킬 수 있습니다.
+ Example: '[combat] 2;']=] ] = [=[이곳에 작성한 조건(예를 들어 전투여부)에 따라 이 행동단축바의 페이지를 자동으로 전환시킬 수 있습니다.
 
 매크로처럼 작성하세요.
 
@@ -190,7 +190,7 @@ L[ [=[This works like a macro, you can run different situations to get the actio
 |cffceff00[combat]2;1|r
  : 전투에 돌입하면 2번 페이지로 변경, 전투가 끝나면 1번 페이지로 변경 ]=]
 L[ [=[This works like a macro, you can run different situations to get the actionbar to show/hide differently.
- Example: [combat] show;hide]=] ] = [=[이곳에 작성한 조건(예를 들어 전투여부)에 따라 이 행동단축바를 자동으로 숨기거나 표시할 수 있게 해줍니다.
+ Example: '[combat] show;hide']=] ] = [=[이곳에 작성한 조건(예를 들어 전투여부)에 따라 이 행동단축바를 자동으로 숨기거나 표시할 수 있게 해줍니다.
 
 매크로처럼 작성하세요.
 
@@ -895,6 +895,8 @@ L["Bars will transition smoothly."] = "바의 증감을 부드럽게 표현합�
 L["Below"] = "프레임 아래로"
 L["Blacklist Modifier"] = true
 L["Blacklist"] = "블랙리스트"
+L["Block Mouseover Glow"] = true
+L["Block Target Glow"] = true
 L["Borders"] = "테두리"
 L["Buff Indicator"] = "강화효과 알람"
 L["Buffs"] = "강화효과"
@@ -990,7 +992,9 @@ L["Force On"] = "강제 적용"
 L["Force Reaction Color"] = "반응색 강제설정"
 L["Force the frames to show, they will act as if they are the player frame."] = "해당 프레임의 유닛이 지금 있는 것처럼 강제로 표시하게 합니다."
 L["Forces Debuff Highlight to be disabled for these frames"] = "해당 프레임에 약화효과 강조 비활성화를 강제합니다."
+L["Forces Mouseover Glow to be disabled for these frames"] = true
 L["Forces reaction color instead of class color on units controlled by players."] = "유저에 의해 조종되는 유닛의 색을 직업색이 아닌 반응색으로 강제지정합니다."
+L["Forces Target Glow to be disabled for these frames"] = true
 L["Format"] = "형식"
 L["Frame Glow"] = "프레임 발광"
 L["Frame Level"] = true

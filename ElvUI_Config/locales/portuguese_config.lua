@@ -146,11 +146,11 @@ L["Visibility State"] = "Estado de Visibilidade"
 L["When enabled it will use the Anchor Point setting to determine growth direction, otherwise it will be determined by where the bar is positioned."] = true
 L["Width Multiplier"] = "Multiplicador de Comprimento"
 L[ [=[This works like a macro, you can run different situations to get the actionbar to page differently.
-Example: [combat] 2;]=] ] = [=[Isto funciona como uma macro, você pode executar várias situações para que a barra de ação pagine de forma diferente.
-Exemplo: [combat] 2;]=]
+Example: '[combat] 2;']=] ] = [=[Isto funciona como uma macro, você pode executar várias situações para que a barra de ação pagine de forma diferente.
+Exemplo: '[combat] 2;']=]
 L[ [=[This works like a macro, you can run different situations to get the actionbar to show/hide differently.
-Example: [combat] show;hide]=] ] = [=[Isto funciona como uma macro, você pode executar várias situações para mostrar/ocultar a barra de ação de forma diferente.
-Exemplo: [combat] show;hide]=]
+Example: '[combat] show;hide']=] ] = [=[Isto funciona como uma macro, você pode executar várias situações para mostrar/ocultar a barra de ação de forma diferente.
+Exemplo: '[combat] show;hide']=]
 
 --Bags
 L["Add an item or search syntax to the ignored list. Items matching the search syntax will be ignored."] = true
@@ -847,6 +847,8 @@ L["Bars will transition smoothly."] = "Barras terão transição suave."
 L["Below"] = "Abaixo"
 L["Blacklist Modifier"] = true
 L["Blacklist"] = "Lista negra"
+L["Block Mouseover Glow"] = true
+L["Block Target Glow"] = true
 L["Borders"] = "Bordas"
 L["Buff Indicator"] = "Indicador de Bônus"
 L["Buffs"] = "Bônus"
@@ -942,7 +944,9 @@ L["Force On"] = "Forçado Ligado"
 L["Force Reaction Color"] = true
 L["Force the frames to show, they will act as if they are the player frame."] = "Forçar os quadros para aparecerem, irão se comportar como se fossem o quadro do jogador."
 L["Forces Debuff Highlight to be disabled for these frames"] = true
+L["Forces Mouseover Glow to be disabled for these frames"] = true
 L["Forces reaction color instead of class color on units controlled by players."] = true
+L["Forces Target Glow to be disabled for these frames"] = true
 L["Format"] = "Formato"
 L["Frame Glow"] = true
 L["Frame Level"] = true

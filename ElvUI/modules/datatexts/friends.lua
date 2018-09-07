@@ -62,7 +62,7 @@ local displayString = ""
 local statusTable = {" |cffFFFFFF[|r|cffFF9900"..L["AFK"].."|r|cffFFFFFF]|r", " |cffFFFFFF[|r|cffFF3333"..L["DND"].."|r|cffFFFFFF]|r", ""}
 local groupedTable = {"|cffaaaaaa*|r", ""}
 local friendTable = {}
-local friendOnline, friendOffline = gsub(ERR_FRIEND_ONLINE_SS,"\124Hplayer:%%s\124h%[%%s%]\124h",""), gsub(ERR_FRIEND_OFFLINE_S,"%%s","")
+local friendOnline, friendOffline = gsub(ERR_FRIEND_ONLINE_SS, "\124Hplayer:%%s\124h%[%%s%]\124h", ""), gsub(ERR_FRIEND_OFFLINE_S, "%%s", "")
 local dataValid = false
 local lastPanel
 
@@ -113,6 +113,7 @@ local function OnEvent(self, event, message)
 	dataValid = false
 
 	self.text:SetFormattedText(displayString, FRIENDS, onlineFriends)
+
 	lastPanel = self
 end
 

@@ -147,11 +147,11 @@ L["Visibility State"] = "Sichbarkeitszustand"
 L["When enabled it will use the Anchor Point setting to determine growth direction, otherwise it will be determined by where the bar is positioned."] = "Wenn aktiviert, wird der Ankerpunkt benutzt um die Wachstumsrichtung festzulegen. Andernfalls wird festgelegt wo die Leiste positioniert ist."
 L["Width Multiplier"] = "Breitenmultiplikator"
 L[ [=[This works like a macro, you can run different situations to get the actionbar to page differently.
- Example: [combat] 2;]=] ] = [=[Dieses funktioniert wie ein Makro, du kannst verschiedene Situationen haben um die Aktionsleiste zu wechseln.
- Beispiel: [combat] 2;]=]
+ Example: '[combat] 2;']=] ] = [=[Dieses funktioniert wie ein Makro, du kannst verschiedene Situationen haben um die Aktionsleiste zu wechseln.
+ Beispiel: '[combat] 2;']=]
 L[ [=[This works like a macro, you can run different situations to get the actionbar to show/hide differently.
- Example: [combat] show;hide]=] ] = [=[Dieses funktioniert wie ein Makro, du kannst verschiedene Situationen haben um die Aktionsleiste ein-/auszublenden.
- Beispiel: [combat] show;hide]=]
+ Example: '[combat] show;hide']=] ] = [=[Dieses funktioniert wie ein Makro, du kannst verschiedene Situationen haben um die Aktionsleiste ein-/auszublenden.
+ Beispiel: '[combat] show;hide']=]
 
 --Bags
 L["Add an item or search syntax to the ignored list. Items matching the search syntax will be ignored."] = "Füge ein Gegenstand oder ein Suchoperator zu der Ignorierliste hinzu. Gegenstände die auf den Suchoperator zutreffen werden ignoriert."
@@ -848,6 +848,8 @@ L["Bars will transition smoothly."] = "Sanfter Übergang der Leisten."
 L["Below"] = "Unten"
 L["Blacklist Modifier"] = "Schwarze Liste Modifikator"
 L["Blacklist"] = "Schwarze Liste"
+L["Block Mouseover Glow"] = true
+L["Block Target Glow"] = true
 L["Borders"] = "Umrandungen"
 L["Buff Indicator"] = "Buff Indikator"
 L["Buffs"] = "Stärkungszauber"
@@ -943,7 +945,9 @@ L["Force On"] = "Gezwungen an"
 L["Force Reaction Color"] = "Erzwinge Reaktionsfarbe"
 L["Force the frames to show, they will act as if they are the player frame."] = "Zwinge die Fenster sichtbar zu werden. Diese Fenster werden sich wie das Spielerfenster verhalten."
 L["Forces Debuff Highlight to be disabled for these frames"] = "Erzwinge die deaktivierung der Schwächungszauber-Hervorhebung für diese Fenster"
+L["Forces Mouseover Glow to be disabled for these frames"] = true
 L["Forces reaction color instead of class color on units controlled by players."] = "Erzwinge Reaktionsfarbe anstatt Klassenfarbe auf übernommene Einheiten."
+L["Forces Target Glow to be disabled for these frames"] = true
 L["Format"] = "Formatierung"
 L["Frame Glow"] = "Fenster Leuchten"
 L["Frame Level"] = "Fenster Ebene"

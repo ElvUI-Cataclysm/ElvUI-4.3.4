@@ -146,9 +146,9 @@ L["Visibility State"] = true
 L["When enabled it will use the Anchor Point setting to determine growth direction, otherwise it will be determined by where the bar is positioned."] = true
 L["Width Multiplier"] = true
 L[ [=[This works like a macro, you can run different situations to get the actionbar to page differently.
- Example: [combat] 2;]=] ] = true
+ Example: '[combat] 2;']=] ] = true
 L[ [=[This works like a macro, you can run different situations to get the actionbar to show/hide differently.
- Example: [combat] show;hide]=] ] = true
+ Example: '[combat] show;hide']=] ] = true
 
 --Bags
 L["Add an item or search syntax to the ignored list. Items matching the search syntax will be ignored."] = true
@@ -836,6 +836,8 @@ L["Bars will transition smoothly."] = true
 L["Below"] = true
 L["Blacklist Modifier"] = true
 L["Blacklist"] = true
+L["Block Mouseover Glow"] = true
+L["Block Target Glow"] = true
 L["Borders"] = true
 L["Buff Indicator"] = true
 L["Buffs"] = true
@@ -931,7 +933,9 @@ L["Force On"] = true
 L["Force Reaction Color"] = true
 L["Force the frames to show, they will act as if they are the player frame."] = true
 L["Forces Debuff Highlight to be disabled for these frames"] = true
+L["Forces Mouseover Glow to be disabled for these frames"] = true
 L["Forces reaction color instead of class color on units controlled by players."] = true
+L["Forces Target Glow to be disabled for these frames"] = true
 L["Format"] = true
 L["Frame Glow"] = true
 L["Frame Level"] = true

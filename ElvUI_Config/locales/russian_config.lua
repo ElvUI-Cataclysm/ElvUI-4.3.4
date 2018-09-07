@@ -146,11 +146,11 @@ L["Visibility State"] = "Статус отображения"
 L["When enabled it will use the Anchor Point setting to determine growth direction, otherwise it will be determined by where the bar is positioned."] = "Если включено, будет использоваться точка фиксации для определения направления роста панели. В противном случае будет использоваться позиция фиксатора на экране."
 L["Width Multiplier"] = "Множитель ширины"
 L[ [=[This works like a macro, you can run different situations to get the actionbar to page differently.
- Example: [combat] 2;]=] ] = [=[Работает как макрос. Вы можете задать различные условия для отображения разных панелей.
- Пример: [combat] 2;]=]
+ Example: '[combat] 2;']=] ] = [=[Работает как макрос. Вы можете задать различные условия для отображения разных панелей.
+ Пример: '[combat] 2;']=]
 L[ [=[This works like a macro, you can run different situations to get the actionbar to show/hide differently.
- Example: [combat] show;hide]=] ] = [=[Работает как макрос. Вы можете задать различные условия для показа/скрытия панели.
- Пример: [combat] show;hide]=]
+ Example: '[combat] show;hide']=] ] = [=[Работает как макрос. Вы можете задать различные условия для показа/скрытия панели.
+ Пример: '[combat] show;hide']=]
 
 --Bags
 L["Add an item or search syntax to the ignored list. Items matching the search syntax will be ignored."] = "Добавить предмет или синтаксис поиска в список игнорируемых. Предметы, соответствующие синтаксису, буду игнорироваться."
@@ -558,19 +558,19 @@ L["Unlock various elements of the UI to be repositioned."] = "Разблокир
 L["Version"] = "Версия"
 
 --Module Reset
-L["Are you sure you want to reset ActionBars settings?"] = true
-L["Are you sure you want to reset Auras settings?"] = true
-L["Are you sure you want to reset Bags settings?"] = true
-L["Are you sure you want to reset Chat settings?"] = true
-L["Are you sure you want to reset Cooldown settings?"] = true
-L["Are you sure you want to reset DataBars settings?"] = true
-L["Are you sure you want to reset DataTexts settings?"] = true
-L["Are you sure you want to reset General settings?"] = true
-L["Are you sure you want to reset NamePlates settings?"] = true
-L["Are you sure you want to reset Tooltip settings?"] = true
-L["Are you sure you want to reset UnitFrames settings?"] = true
-L["Module Reset"] = true
-L["This section will help reset specfic settings back to default."] = true
+L["Are you sure you want to reset ActionBars settings?"] = "Вы уверены, что хотите сбросить настройки панелей команд?"
+L["Are you sure you want to reset Auras settings?"] = "Вы уверены, что хотите сбросить настройки аур?"
+L["Are you sure you want to reset Bags settings?"] = "Вы уверены, что хотите сбросить настройки сумок?"
+L["Are you sure you want to reset Chat settings?"] = "Вы уверены, что хотите сбросить настройки чата?"
+L["Are you sure you want to reset Cooldown settings?"] = "Вы уверены, что хотите сбросить настройки текста восстановления?"
+L["Are you sure you want to reset DataBars settings?"] = "Вы уверены, что хотите сбросить настройки инфо-полос?"
+L["Are you sure you want to reset DataTexts settings?"] = "Вы уверены, что хотите сбросить настройки инфо-текстов?"
+L["Are you sure you want to reset General settings?"] = "Вы уверены, что хотите сбросить общие настройки?"
+L["Are you sure you want to reset NamePlates settings?"] = "Вы уверены, что хотите сбросить настройки индикаторов здоровья?"
+L["Are you sure you want to reset Tooltip settings?"] = "Вы уверены, что хотите сбросить настройки подсказки?"
+L["Are you sure you want to reset UnitFrames settings?"] = "Вы уверены, что хотите сбросить настройки рамок юнитов?"
+L["Module Reset"] = "Сброс модуля"
+L["This section will help reset specfic settings back to default."] = "Эта секция поможет вернуть настройки конкретного модуля на умолчания."
 
 --NamePlates
 L["# Displayed Auras"] = "Кол-во аур"
@@ -847,6 +847,8 @@ L["Bars will transition smoothly."] = "Полосы будут изменять�
 L["Below"] = "Снизу"
 L["Blacklist Modifier"] = "Модификатор черного писка"
 L["Blacklist"] = "Черный список"
+L["Block Mouseover Glow"] = true
+L["Block Target Glow"] = true
 L["Borders"] = "Границы"
 L["Buff Indicator"] = "Индикатор баффов"
 L["Buffs"] = "Баффы"
@@ -942,7 +944,9 @@ L["Force On"] = "Постоянно включен"
 L["Force Reaction Color"] = "Принудительная реакция"
 L["Force the frames to show, they will act as if they are the player frame."] = "Принудительно показать рамки, они будут вести себя как рамка игрока."
 L["Forces Debuff Highlight to be disabled for these frames"] = "Принудительно не отображает подсветку дебаффов на этих рамках."
+L["Forces Mouseover Glow to be disabled for these frames"] = true
 L["Forces reaction color instead of class color on units controlled by players."] = "Принудительно окрашивает полосу здоровья по цвету реакции для рамок игроков."
+L["Forces Target Glow to be disabled for these frames"] = true
 L["Format"] = "Формат"
 L["Frame Glow"] = "Свечение рамки"
 L["Frame Level"] = "Уровень рамки"

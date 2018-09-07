@@ -5,7 +5,7 @@ local _G = _G
 local gsub, match = string.gsub, string.match
 
 local GameTooltip = _G["GameTooltip"]
-local FONT_SIZE, NONE, COLOR =  FONT_SIZE, NONE, COLOR
+local FONT_SIZE, NONE, COLOR, SHORT =  FONT_SIZE, NONE, COLOR, SHORT
 
 E.Options.args.bags = {
 	type = "group",

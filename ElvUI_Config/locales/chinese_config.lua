@@ -144,11 +144,11 @@ L["Visibility State"] = "可见状态"
 L["When enabled it will use the Anchor Point setting to determine growth direction, otherwise it will be determined by where the bar is positioned."] = "当启用时会使用定位点的位置来决定按钮增长的方向，否则将会按照动作条的位置来决定"
 L["Width Multiplier"] = "宽度倍增"
 L[ [=[This works like a macro, you can run different situations to get the actionbar to page differently.
- Example: [combat] 2;]=] ] = [=[和宏写法类似, 能根据不同姿态切换动作条.
- 例如: [combat] 2;]=]
+ Example: '[combat] 2;']=] ] = [=[和宏写法类似, 能根据不同姿态切换动作条.
+ 例如: '[combat] 2;']=]
 L[ [=[This works like a macro, you can run different situations to get the actionbar to show/hide differently.
- Example: [combat] show;hide]=] ] = [=[和宏写法类似, 能根据不同姿态切换动作条显示或隐藏.
- 例如: [combat] show;hide]=]
+ Example: '[combat] show;hide']=] ] = [=[和宏写法类似, 能根据不同姿态切换动作条显示或隐藏.
+ 例如: '[combat] show;hide']=]
 
 --Bags
 L["Add an item or search syntax to the ignored list. Items matching the search syntax will be ignored."] = "瘛餃銝芰祗瘜撅”泵祗瘜◤敹賜"
@@ -846,6 +846,8 @@ L["Bars will transition smoothly."] = "状态条平滑增减"
 L["Below"] = "向下"
 L["Blacklist Modifier"] = "黑名单功能键"
 L["Blacklist"] = "黑名单"
+L["Block Mouseover Glow"] = true
+L["Block Target Glow"] = true
 L["Borders"] = "边框"
 L["Buff Indicator"] = "增益指示器"
 L["Buffs"] = "增益光环"
@@ -941,7 +943,9 @@ L["Force On"] = "强制开启"
 L["Force Reaction Color"] = "强制声望颜色"
 L["Force the frames to show, they will act as if they are the player frame."] = "强制框架显示"
 L["Forces Debuff Highlight to be disabled for these frames"] = "为这些框架强制禁用debuff高亮"
+L["Forces Mouseover Glow to be disabled for these frames"] = true
 L["Forces reaction color instead of class color on units controlled by players."] = "对于玩家控制的角色强制使用声望颜色而不是职业颜色"
+L["Forces Target Glow to be disabled for these frames"] = true
 L["Format"] = "格式"
 L["Frame Glow"] = "框体高亮"
 L["Frame Level"] = "框架层次"

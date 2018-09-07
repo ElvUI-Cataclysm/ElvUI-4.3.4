@@ -38,17 +38,18 @@ local dataStrings = {
 
 function DT:UPDATE_BATTLEFIELD_SCORE()
 	lastPanel = self
-	local index = dataLayout[self:GetParent():GetName()][self.pointIndex]
+	local pointIndex = dataLayout[self:GetParent():GetName()][self.pointIndex]
 	for i = 1, GetNumBattlefieldScores() do
-		if select(1, GetBattlefieldScore(i)) == E.myname then
-			self.text:SetFormattedText(displayString, dataStrings[index], E:ShortValue(select(index, GetBattlefieldScore(i))))
+		name = GetBattlefieldScore(i)
+		if name == E.myname then
+			self.text:SetFormattedText(displayString, dataStrings[pointIndex], E:ShortValue(select(pointIndex, GetBattlefieldScore(i))))
+			break
 		end
 	end
 end
 
 function DT:BattlegroundStats()
 	DT:SetupTooltip(self)
-	local CurrentMapID = GetCurrentMapAreaID()
 
 	local classColor = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[E.myclass]
 	local numStatInfo = GetNumBattlefieldStats()
@@ -63,6 +64,7 @@ function DT:BattlegroundStats()
 				for x = 1, numStatInfo do
 					DT.tooltip:AddDoubleLine(GetBattlefieldStatInfo(x), GetBattlefieldStatData(index, x), 1, 1, 1)
 				end
+
 				break
 			end
 		end
