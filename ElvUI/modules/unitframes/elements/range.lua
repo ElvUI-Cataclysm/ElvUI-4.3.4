@@ -15,9 +15,13 @@ local UnitIsConnected = UnitIsConnected
 local UnitIsDeadOrGhost = UnitIsDeadOrGhost
 local UnitIsUnit = UnitIsUnit
 
+local SpellRangeTable = {}
+
 function UF:Construct_Range()
 	local Range = {insideAlpha = 1, outsideAlpha = E.db.unitframe.OORAlpha}
 	Range.Override = UF.UpdateRange
+
+	SpellRangeTable[class] = SpellRangeTable[class] or {}
 
 	return Range
 end
@@ -37,10 +41,7 @@ function UF:Configure_Range(frame)
 	end
 end
 
-local SpellRangeTable = {}
-
 local function AddTable(tbl)
-	SpellRangeTable[class] = SpellRangeTable[class] or {}
 	SpellRangeTable[class][tbl] = {}
 end
 
