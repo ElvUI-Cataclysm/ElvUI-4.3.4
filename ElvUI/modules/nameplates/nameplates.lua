@@ -18,6 +18,7 @@ local UnitInRaid = UnitInRaid
 local SetCVar = SetCVar
 local WorldFrame = WorldFrame
 local WorldGetChildren = WorldFrame.GetChildren
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
 local numChildren = 0
 local OVERLAY = [=[Interface\TargetingFrame\UI-TargetingFrame-Flash]=]
@@ -150,6 +151,8 @@ function mod:SetTargetFrame(frame)
 		end
 	elseif frame.isTargetChanged then
 		frame.isTargetChanged = false
+
+		mod:SetPlateFrameLevel(frame, mod:GetPlateFrameLevel(frame))
 
 		if self.db.useTargetScale then
 			self:SetFrameScale(frame, (frame.ThreatScale or 1))

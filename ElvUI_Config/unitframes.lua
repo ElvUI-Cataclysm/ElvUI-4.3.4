@@ -829,7 +829,7 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 					E.db.unitframe.units[groupName]["power"][ info[#info] ] = value
 
 					local frameName = E:StringTitle(groupName)
-					frameName = "ElvUF_" .. frameName
+					frameName = "ElvUF_"..frameName
 					frameName = frameName:gsub("t(arget)", "T%1")
 
 					if numUnits then
@@ -930,7 +930,7 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 			order = 12,
 			name = L["Detached Width"],
 			disabled = function() return not E.db.unitframe.units[groupName].power.detachFromFrame end,
-			min = 15, max = 800, step = 1
+			min = 15, max = 1000, step = 1
 		}
 		config.args.parent = {
 			type = "select",
@@ -999,14 +999,14 @@ local function GetOptionsTable_Name(updateFunc, groupName, numUnits)
 	local config = {
 		order = 300,
 		type = "group",
-		name = L["Name"],
+		name = NAME,
 		get = function(info) return E.db.unitframe.units[groupName]["name"][ info[#info] ] end,
 		set = function(info, value) E.db.unitframe.units[groupName]["name"][ info[#info] ] = value updateFunc(UF, groupName, numUnits) end,
 		args = {
 			header = {
 				order = 1,
 				type = "header",
-				name = L["Name"]
+				name = NAME
 			},
 			position = {
 				order = 2,
@@ -1147,7 +1147,6 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 				name = L["Match Frame Width"],
 				func = function() E.db.unitframe.units[groupName]["castbar"]["width"] = E.db.unitframe.units[groupName]["width"] updateFunc(UF, groupName, numUnits) end
 			},
-			--[[ -- The forceShow function need to be redone for the Party Frame
 			forceshow = {
 				order = 3,
 				type = "execute",
@@ -1157,7 +1156,26 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 					frameName = "ElvUF_"..frameName
 					frameName = frameName:gsub("t(arget)", "T%1")
 
-					if numUnits then
+					if groupName == "party" then
+						local header = UF.headers[groupName]
+						for i = 1, header:GetNumChildren() do
+							local group = select(i, header:GetChildren())
+							for j = 1, group:GetNumChildren() do
+								--Party unitbutton
+								local unitbutton = select(j, group:GetChildren())
+								local castbar = unitbutton.Castbar
+								if not castbar.oldHide then
+									castbar.oldHide = castbar.Hide
+									castbar.Hide = castbar.Show
+									castbar:Show()
+								else
+									castbar.Hide = castbar.oldHide
+									castbar.oldHide = nil
+									castbar:Hide()
+								end
+							end
+						end
+					elseif numUnits then
 						for i = 1, numUnits do
 							local castbar = _G[frameName.."UnitButton"..i].Castbar
 							if not castbar.oldHide then
@@ -1184,7 +1202,6 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 					end
 				end
 			},
-			--]]
 			configureButton = {
 				order = 4,
 				type = "execute",
@@ -3250,7 +3267,7 @@ E.Options.args.unitframe.args.player = {
 					order = 6,
 					type = "range",
 					name = L["Width"],
-					min = 50, max = 500, step = 1,
+					min = 50, max = 1000, step = 1,
 					set = function(info, value)
 						if E.db.unitframe.units["player"].castbar.width == E.db.unitframe.units["player"][ info[#info] ] then
 							E.db.unitframe.units["player"].castbar.width = value
@@ -3264,7 +3281,7 @@ E.Options.args.unitframe.args.player = {
 					order = 7,
 					type = "range",
 					name = L["Height"],
-					min = 10, max = 250, step = 1
+					min = 10, max = 500, step = 1
 				},
 				combatfade = {
 					order = 8,
@@ -3916,7 +3933,7 @@ E.Options.args.unitframe.args.target = {
 					order = 6,
 					type = "range",
 					name = L["Width"],
-					min = 50, max = 500, step = 1,
+					min = 50, max = 1000, step = 1,
 					set = function(info, value)
 						if E.db.unitframe.units["target"].castbar.width == E.db.unitframe.units["target"][ info[#info] ] then
 							E.db.unitframe.units["target"].castbar.width = value
@@ -3930,7 +3947,7 @@ E.Options.args.unitframe.args.target = {
 					order = 7,
 					type = "range",
 					name = L["Height"],
-					min = 10, max = 250, step = 1
+					min = 10, max = 500, step = 1
 				},
 				rangeCheck = {
 					order = 8,
@@ -4295,13 +4312,13 @@ E.Options.args.unitframe.args.targettarget = {
 					order = 6,
 					type = "range",
 					name = L["Width"],
-					min = 50, max = 500, step = 1
+					min = 50, max = 1000, step = 1
 				},
 				height = {
 					order = 7,
 					type = "range",
 					name = L["Height"],
-					min = 10, max = 250, step = 1
+					min = 10, max = 500, step = 1
 				},
 				rangeCheck = {
 					order = 8,
@@ -4433,13 +4450,13 @@ E.Options.args.unitframe.args.targettargettarget = {
 					order = 6,
 					type = "range",
 					name = L["Width"],
-					min = 50, max = 500, step = 1
+					min = 50, max = 1000, step = 1
 				},
 				height = {
 					order = 7,
 					type = "range",
 					name = L["Height"],
-					min = 10, max = 250, step = 1
+					min = 10, max = 500, step = 1
 				},
 				rangeCheck = {
 					order = 8,
@@ -4571,13 +4588,13 @@ E.Options.args.unitframe.args.focus = {
 					order = 6,
 					type = "range",
 					name = L["Width"],
-					min = 50, max = 500, step = 1
+					min = 50, max = 1000, step = 1
 				},
 				height = {
 					order = 7,
 					type = "range",
 					name = L["Height"],
-					min = 10, max = 250, step = 1
+					min = 10, max = 500, step = 1
 				},
 				rangeCheck = {
 					order = 8,
@@ -4712,13 +4729,13 @@ E.Options.args.unitframe.args.focustarget = {
 					order = 6,
 					type = "range",
 					name = L["Width"],
-					min = 50, max = 500, step = 1
+					min = 50, max = 1000, step = 1
 				},
 				height = {
 					order = 7,
 					type = "range",
 					name = L["Height"],
-					min = 10, max = 250, step = 1
+					min = 10, max = 500, step = 1
 				},
 				rangeCheck = {
 					order = 8,
@@ -4849,13 +4866,13 @@ E.Options.args.unitframe.args.pet = {
 					order = 6,
 					type = "range",
 					name = L["Width"],
-					min = 50, max = 500, step = 1
+					min = 50, max = 1000, step = 1
 				},
 				height = {
 					order = 7,
 					type = "range",
 					name = L["Height"],
-					min = 10, max = 250, step = 1
+					min = 10, max = 500, step = 1
 				},
 				rangeCheck = {
 					order = 8,
@@ -5020,13 +5037,13 @@ E.Options.args.unitframe.args.pettarget = {
 					order = 6,
 					type = "range",
 					name = L["Width"],
-					min = 50, max = 500, step = 1
+					min = 50, max = 1000, step = 1
 				},
 				height = {
 					order = 7,
 					type = "range",
 					name = L["Height"],
-					min = 10, max = 250, step = 1
+					min = 10, max = 500, step = 1
 				},
 				rangeCheck = {
 					order = 8,
@@ -5152,7 +5169,7 @@ E.Options.args.unitframe.args.boss = {
 					order = 6,
 					type = "range",
 					name = L["Width"],
-					min = 50, max = 500, step = 1,
+					min = 50, max = 1000, step = 1,
 					set = function(info, value)
 						if E.db.unitframe.units["boss"].castbar.width == E.db.unitframe.units["boss"][ info[#info] ] then
 							E.db.unitframe.units["boss"].castbar.width = value
@@ -5166,7 +5183,7 @@ E.Options.args.unitframe.args.boss = {
 					order = 7,
 					type = "range",
 					name = L["Height"],
-					min = 10, max = 250, step = 1
+					min = 10, max = 500, step = 1
 				},
 				rangeCheck = {
 					order = 8,
@@ -5306,7 +5323,7 @@ E.Options.args.unitframe.args.arena = {
 					order = 6,
 					type = "range",
 					name = L["Width"],
-					min = 50, max = 500, step = 1,
+					min = 50, max = 1000, step = 1,
 					set = function(info, value) 
 						if E.db.unitframe.units["arena"].castbar.width == E.db.unitframe.units["arena"][ info[#info] ] then
 							E.db.unitframe.units["arena"].castbar.width = value
@@ -5320,7 +5337,7 @@ E.Options.args.unitframe.args.arena = {
 					order = 7,
 					type = "range",
 					name = L["Height"],
-					min = 10, max = 250, step = 1
+					min = 10, max = 500, step = 1
 				},
 				rangeCheck = {
 					order = 8,
@@ -5902,7 +5919,7 @@ E.Options.args.unitframe.args.party = {
 					order = 4,
 					type = "range",
 					name = L["Height"],
-					min = 10, max = 250, step = 1
+					min = 10, max = 500, step = 1
 				},
 				anchorPoint = {
 					order = 5,
@@ -5928,7 +5945,7 @@ E.Options.args.unitframe.args.party = {
 				name = {
 					order = 8,
 					type = "group",
-					name = L["Name"],
+					name = NAME,
 					guiInline = true,
 					get = function(info) return E.db.unitframe.units["party"]["petsGroup"]["name"][ info[#info] ] end,
 					set = function(info, value) E.db.unitframe.units["party"]["petsGroup"]["name"][ info[#info] ] = value UF:CreateAndUpdateHeaderGroup("party") end,
@@ -5991,7 +6008,7 @@ E.Options.args.unitframe.args.party = {
 					order = 4,
 					type = "range",
 					name = L["Height"],
-					min = 10, max = 250, step = 1
+					min = 10, max = 500, step = 1
 				},
 				anchorPoint = {
 					order = 5,
@@ -6020,7 +6037,7 @@ E.Options.args.unitframe.args.party = {
 					guiInline = true,
 					get = function(info) return E.db.unitframe.units["party"]["targetsGroup"]["name"][ info[#info] ] end,
 					set = function(info, value) E.db.unitframe.units["party"]["targetsGroup"]["name"][ info[#info] ] = value UF:CreateAndUpdateHeaderGroup("party") end,
-					name = L["Name"],
+					name = NAME,
 					args = {
 						position = {
 							order = 1,
@@ -7388,13 +7405,13 @@ E.Options.args.unitframe.args.tank = {
 					order = 3,
 					type = "range",
 					name = L["Width"],
-					min = 50, max = 500, step = 1
+					min = 50, max = 1000, step = 1
 				},
 				height = {
 					order = 4,
 					type = "range",
 					name = L["Height"],
-					min = 10, max = 250, step = 1
+					min = 10, max = 500, step = 1
 				},
 				verticalSpacing = {
 					order = 5,
@@ -7464,7 +7481,7 @@ E.Options.args.unitframe.args.tank = {
 					order = 4,
 					type = "range",
 					name = L["Height"],
-					min = 10, max = 250, step = 1
+					min = 10, max = 500, step = 1
 				},
 				anchorPoint = {
 					order = 5,
@@ -7586,13 +7603,13 @@ E.Options.args.unitframe.args.assist = {
 					order = 3,
 					type = "range",
 					name = L["Width"],
-					min = 50, max = 500, step = 1
+					min = 50, max = 1000, step = 1
 				},
 				height = {
 					order = 4,
 					type = "range",
 					name = L["Height"],
-					min = 10, max = 250, step = 1
+					min = 10, max = 500, step = 1
 				},
 				verticalSpacing = {
 					order = 5,
@@ -7662,7 +7679,7 @@ E.Options.args.unitframe.args.assist = {
 					order = 4,
 					type = "range",
 					name = L["Height"],
-					min = 10, max = 250, step = 1
+					min = 10, max = 500, step = 1
 				},
 				anchorPoint = {
 					order = 5,

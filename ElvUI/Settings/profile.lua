@@ -318,6 +318,8 @@ P["nameplates"] = {
 			["buffs"] = {
 				["enable"] = true,
 				["numAuras"] = 4,
+				["baseHeight"] = 18,
+				["widthOverride"] = 0,
 				["filters"] = {
 					["minDuration"] = 0,
 					["maxDuration"] = 0,
@@ -328,6 +330,7 @@ P["nameplates"] = {
 				["enable"] = true,
 				["numAuras"] = 4,
 				["baseHeight"] = 18,
+				["widthOverride"] = 0,
 				["filters"] = {
 					["minDuration"] = 0,
 					["maxDuration"] = 0,
@@ -368,6 +371,7 @@ P["nameplates"] = {
 				["enable"] = true,
 				["numAuras"] = 4,
 				["baseHeight"] = 18,
+				["widthOverride"] = 0,
 				["filters"] = {
 					["minDuration"] = 0,
 					["maxDuration"] = 0,
@@ -378,6 +382,7 @@ P["nameplates"] = {
 				["enable"] = true,
 				["numAuras"] = 4,
 				["baseHeight"] = 18,
+				["widthOverride"] = 0,
 				["filters"] = {
 					["minDuration"] = 0,
 					["maxDuration"] = 0,
@@ -416,6 +421,7 @@ P["nameplates"] = {
 				["enable"] = true,
 				["numAuras"] = 4,
 				["baseHeight"] = 18,
+				["widthOverride"] = 0,
 				["filters"] = {
 					["minDuration"] = 0,
 					["maxDuration"] = 0,
@@ -426,6 +432,7 @@ P["nameplates"] = {
 				["enable"] = true,
 				["numAuras"] = 4,
 				["baseHeight"] = 18,
+				["widthOverride"] = 0,
 				["filters"] = {
 					["minDuration"] = 0,
 					["maxDuration"] = 0,
@@ -452,7 +459,7 @@ P["nameplates"] = {
 				["text"] = {
 					["enable"] = false,
 					["format"] = "CURRENT",
-				},
+				}
 			},
 			["showName"] = true,
 			["showLevel"] = true,
@@ -471,16 +478,18 @@ P["nameplates"] = {
 				["enable"] = true,
 				["numAuras"] = 4,
 				["baseHeight"] = 18,
+				["widthOverride"] = 0,
 				["filters"] = {
 					["minDuration"] = 0,
 					["maxDuration"] = 0,
 					["priority"] = "Blacklist,blockNoDuration,PlayerBuffs,TurtleBuffs" --NamePlate EnemyNPC Buffs
-				},
+				}
 			},
 			["debuffs"] = {
 				["enable"] = true,
 				["numAuras"] = 4,
 				["baseHeight"] = 18,
+				["widthOverride"] = 0,
 				["filters"] = {
 					["minDuration"] = 0,
 					["maxDuration"] = 0,
@@ -598,7 +607,7 @@ P["chat"] = {
 	["tabFont"] = "PT Sans Narrow",
 	["tabFontSize"] = 12,
 	["tabFontOutline"] = "NONE",
-	["panelColor"] = {r = .06,g = .06,b = .06, a = 0.8}
+	["panelColor"] = {r = .06, g = .06, b = .06, a = 0.8}
 }
 
 --Datatexts

@@ -67,7 +67,7 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 
 	if not db.enable then
 		auras:Hide()
-		return;
+		return
 	else
 		auras:Show()
 	end
@@ -91,20 +91,20 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 		for i = 1, #auras.icons do
 			local matchFound = false
 			for j = 1, #buffs do
-				if #buffs[j].id and #buffs[j].id == auras.icons[i] then
+				if buffs[j].id and buffs[j].id == auras.icons[i] then
 					matchFound = true
 					break
 				end
 			end
 
-			if(not matchFound) then
+			if not matchFound then
 				auras.icons[i]:Hide()
 				auras.icons[i] = nil
 			end
 		end
 	end
 
-	local unitframeFont = LSM:Fetch("font", E.db["unitframe"].font);
+	local unitframeFont = LSM:Fetch("font", E.db["unitframe"].font)
 
 	for i = 1, #buffs do
 		if buffs[i].id then
@@ -168,7 +168,7 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 				if icon.style == "coloredIcon" then
 					icon.icon:SetTexture(E["media"].blankTex)
 
-					if (buffs[i]["color"]) then
+					if buffs[i]["color"] then
 						icon.icon:SetVertexColor(buffs[i]["color"].r, buffs[i]["color"].g, buffs[i]["color"].b)
 					else
 						icon.icon:SetVertexColor(0.8, 0.8, 0.8)
@@ -203,7 +203,7 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 				end
 
 				if not icon.count then
-					icon.count = icon:CreateFontString(nil, "OVERLAY");
+					icon.count = icon:CreateFontString(nil, "OVERLAY")
 				end
 
 				icon.count:ClearAllPoints()
@@ -211,7 +211,7 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 					local point, anchorPoint, x, y = unpack(textCounterOffsets[buffs[i].point])
 					icon.count:Point(point, icon.text, anchorPoint, x, y)
 				else
-					icon.count:Point("CENTER", unpack(counterOffsets[buffs[i].point]));
+					icon.count:Point("CENTER", unpack(counterOffsets[buffs[i].point]))
 				end
 
 				icon.count:FontTemplate(unitframeFont, db.fontSize, E.db["unitframe"].fontOutline)

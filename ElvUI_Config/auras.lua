@@ -4,7 +4,7 @@ local A = E:GetModule('Auras')
 local format = string.format
 
 local BUFFOPTIONS_LABEL = BUFFOPTIONS_LABEL
-local FONT_SIZE, NONE = FONT_SIZE, NONE
+local FONT_SIZE, NAME, NONE = FONT_SIZE, NAME, NONE
 
 local function GetAuraOptions(headerName)
 	local auraOptions = {
@@ -82,7 +82,7 @@ local function GetAuraOptions(headerName)
 			values = {
 				['INDEX'] = L["Index"],
 				['TIME'] = L["Time"],
-				['NAME'] = L["Name"]
+				['NAME'] = NAME
 			}
 		},
 		sortDir = {
