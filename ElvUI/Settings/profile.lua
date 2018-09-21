@@ -205,11 +205,25 @@ P["bags"] = {
 	["cooldown"] = {
 		["threshold"] = 4,
 		["override"] = false,
+		["reverse"] = false,
 		["expiringColor"] = {r = 1, g = 0, b = 0},
 		["secondsColor"] = {r = 1, g = 1, b = 1},
 		["minutesColor"] = {r = 1, g = 1, b = 1},
 		["hoursColor"] = {r = 1, g = 1, b = 1},
 		["daysColor"] = {r = 1, g = 1, b = 1},
+
+		["checkSeconds"] = false,
+		["hhmmColor"] = {r = 1, g = 1, b = 1},
+		["mmssColor"] = {r = 1, g = 1, b = 1},
+		["hhmmThreshold"] = -1,
+		["mmssThreshold"] = -1,
+
+		["fonts"] = {
+			["enable"] = false,
+			["font"] = "PT Sans Narrow",
+			["fontOutline"] = "OUTLINE",
+			["fontSize"] = 18
+		}
 	},
 	["bagBar"] = {
 		["growthDirection"] = "VERTICAL",
@@ -259,11 +273,25 @@ P["nameplates"] = {
 	["cooldown"] = {
 		["threshold"] = 4,
 		["override"] = true,
+		["reverse"] = false,
 		["expiringColor"] = {r = 1, g = 0, b = 0},
 		["secondsColor"] = {r = 1, g = 1, b = 1},
 		["minutesColor"] = {r = 1, g = 1, b = 1},
 		["hoursColor"] = {r = 1, g = 1, b = 1},
 		["daysColor"] = {r = 1, g = 1, b = 1},
+
+		["checkSeconds"] = false,
+		["hhmmColor"] = {r = 1, g = 1, b = 1},
+		["mmssColor"] = {r = 1, g = 1, b = 1},
+		["hhmmThreshold"] = -1,
+		["mmssThreshold"] = -1,
+
+--		["fonts"] = {
+--			["enable"] = false,
+--			["font"] = "PT Sans Narrow",
+--			["fontOutline"] = "OUTLINE",
+--			["fontSize"] = 10
+--		},
 	},
 	["reactions"] = {
 		["friendlyPlayer"] = {r = 75/255, g = 175/255, b = 76/255},
@@ -556,11 +584,25 @@ P["auras"] = {
 	["cooldown"] = {
 		["threshold"] = 4,
 		["override"] = true,
+		["reverse"] = false,
 		["expiringColor"] = {r = 1, g = 0, b = 0},
 		["secondsColor"] = {r = 1, g = 1, b = 1},
 		["minutesColor"] = {r = 1, g = 1, b = 1},
 		["hoursColor"] = {r = 1, g = 1, b = 1},
 		["daysColor"] = {r = 1, g = 1, b = 1},
+
+		["checkSeconds"] = false,
+		["hhmmColor"] = {r = 1, g = 1, b = 1},
+		["mmssColor"] = {r = 1, g = 1, b = 1},
+		["hhmmThreshold"] = -1,
+		["mmssThreshold"] = -1,
+
+--		["fonts"] = {
+--			["enable"] = false,
+--			["font"] = "PT Sans Narrow",
+--			["fontOutline"] = "OUTLINE",
+--			["fontSize"] = 18
+--		}
 	}
 }
 
@@ -723,11 +765,25 @@ P["unitframe"] = {
 	["cooldown"] = {
 		["threshold"] = 4,
 		["override"] = true,
+		["reverse"] = false,
 		["expiringColor"] = {r = 1, g = 0, b = 0},
 		["secondsColor"] = {r = 1, g = 1, b = 1},
 		["minutesColor"] = {r = 1, g = 1, b = 1},
 		["hoursColor"] = {r = 1, g = 1, b = 1},
 		["daysColor"] = {r = 1, g = 1, b = 1},
+
+		["checkSeconds"] = false,
+		["hhmmColor"] = {r = 1, g = 1, b = 1},
+		["mmssColor"] = {r = 1, g = 1, b = 1},
+		["hhmmThreshold"] = -1,
+		["mmssThreshold"] = -1,
+
+		["fonts"] = {
+			["enable"] = false,
+			["font"] = "PT Sans Narrow",
+			["fontOutline"] = "OUTLINE",
+			["fontSize"] = 18
+		}
 	},
 	["colors"] = {
 		["borderColor"] = {r = 0, g = 0, b = 0},
@@ -2885,13 +2941,28 @@ P["unitframe"] = {
 	}
 }
 
+--Cooldown
 P["cooldown"] = {
-	threshold = 3,
-	expiringColor = {r = 1, g = 0, b = 0},
-	secondsColor = {r = 1, g = 1, b = 0},
-	minutesColor = {r = 1, g = 1, b = 1},
-	hoursColor = {r = 0.4, g = 1, b = 1},
-	daysColor = {r = 0.4, g = 0.4, b = 1}
+	["enable"] = true,
+	["threshold"] = 3,
+	["expiringColor"] = {r = 1, g = 0, b = 0},
+	["secondsColor"] = {r = 1, g = 1, b = 0},
+	["minutesColor"] = {r = 1, g = 1, b = 1},
+	["hoursColor"] = {r = 0.4, g = 1, b = 1},
+	["daysColor"] = {r = 0.4, g = 0.4, b = 1},
+
+	["checkSeconds"] = false,
+	["hhmmColor"] = {r = 0.43, g = 0.43, b = 0.43},
+	["mmssColor"] = {r = 0.56, g = 0.56, b = 0.56},
+	["hhmmThreshold"] = -1,
+	["mmssThreshold"] = -1,
+
+	["fonts"] = {
+		["enable"] = false,
+		["font"] = "PT Sans Narrow",
+		["fontOutline"] = "OUTLINE",
+		["fontSize"] = 18
+	}
 }
 
 --Actionbar
@@ -2916,6 +2987,30 @@ P["actionbar"] = {
 	["noPowerColor"] = {r = 0.5, g = 0.5, b = 1},
 	["usableColor"] = {r = 1, g = 1, b = 1},
 	["notUsableColor"] = {r = 0.4, g = 0.4, b = 0.4},
+
+	["cooldown"] = {
+		["threshold"] = 4,
+		["override"] = false,
+		["reverse"] = false,
+		["expiringColor"] = {r = 1, g = 0, b = 0},
+		["secondsColor"] = {r = 1, g = 1, b = 1},
+		["minutesColor"] = {r = 1, g = 1, b = 1},
+		["hoursColor"] = {r = 1, g = 1, b = 1},
+		["daysColor"] = {r = 1, g = 1, b = 1},
+
+		["checkSeconds"] = false,
+		["hhmmColor"] = {r = 1, g = 1, b = 1},
+		["mmssColor"] = {r = 1, g = 1, b = 1},
+		["hhmmThreshold"] = -1,
+		["mmssThreshold"] = -1,
+
+		["fonts"] = {
+			["enable"] = false,
+			["font"] = "PT Sans Narrow",
+			["fontOutline"] = "OUTLINE",
+			["fontSize"] = 18
+		}
+	},
 
 	["microbar"] = {
 		["enabled"] = false,

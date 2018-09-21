@@ -144,7 +144,3 @@ V["actionbar"] = {
 		["stanceBar"] = false
 	}
 }
-
-V["cooldown"] = {
-	enable = true
-}

@@ -235,86 +235,8 @@ E.Options.args.auras = {
 				}
 			}
 		},
-		cooldownGroup = {
-			order = 5,
-			type = "group",
-			name = L["Cooldown Override"],
-			get = function(info)
-				local t = E.db.auras.cooldown[ info[#info] ]
-				local d = P.auras.cooldown[ info[#info] ]
-				return t.r, t.g, t.b, t.a, d.r, d.g, d.b
-			end,
-			set = function(info, r, g, b)
-				local t = E.db.auras.cooldown[ info[#info] ]
-				t.r, t.g, t.b = r, g, b
-				E:UpdateCooldownSettings("auras")
-			end,
-			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Cooldown Override"]
-				},
-				override = {
-					order = 2,
-					type = "toggle",
-					name = L["Use Override"],
-					desc = L["This will override the global cooldown settings."],
-					get = function(info) return E.db.auras.cooldown[ info[#info] ] end,
-					set = function(info, value) E.db.auras.cooldown[ info[#info] ] = value end
-				},
-				threshold = {
-					order = 3,
-					type = "range",
-					name = L["Low Threshold"],
-					desc = L["Threshold before text turns red and is in decimal form. Set to -1 for it to never turn red"],
-					min = -1, max = 20, step = 1,
-					disabled = function() return not E.db.auras.cooldown.override end,
-					get = function(info) return E.db.auras.cooldown[ info[#info] ] end,
-					set = function(info, value)
-						E.db.auras.cooldown[ info[#info] ] = value
-						E:UpdateCooldownSettings("auras")
-					end
-				},
-				expiringColor = {
-					order = 4,
-					type = "color",
-					name = L["Expiring"],
-					desc = L["Color when the text is about to expire"],
-					disabled = function() return not E.db.auras.cooldown.override end
-				},
-				secondsColor = {
-					order = 5,
-					type = "color",
-					name = L["Seconds"],
-					desc = L["Color when the text is in the seconds format."],
-					disabled = function() return not E.db.auras.cooldown.override end
-				},
-				minutesColor = {
-					order = 6,
-					type = "color",
-					name = L["Minutes"],
-					desc = L["Color when the text is in the minutes format."],
-					disabled = function() return not E.db.auras.cooldown.override end
-				},
-				hoursColor = {
-					order = 7,
-					type = "color",
-					name = L["Hours"],
-					desc = L["Color when the text is in the hours format."],
-					disabled = function() return not E.db.auras.cooldown.override end
-				},
-				daysColor = {
-					order = 8,
-					type = "color",
-					name = L["Days"],
-					desc = L["Color when the text is in the days format."],
-					disabled = function() return not E.db.auras.cooldown.override end
-				}
-			}
-		},
 		buffs = {
-			order = 6,
+			order = 5,
 			type = 'group',
 			name = L['Buffs'],
 			get = function(info) return E.db.auras.buffs[ info[#info] ] end,
@@ -322,7 +244,7 @@ E.Options.args.auras = {
 			args = GetAuraOptions(L["Buffs"]),
 		},
 		debuffs = {
-			order = 7,
+			order = 6,
 			type = 'group',
 			name = L['Debuffs'],
 			get = function(info) return E.db.auras.debuffs[ info[#info] ] end,
@@ -330,7 +252,7 @@ E.Options.args.auras = {
 			args = GetAuraOptions(L["Debuffs"]),
 		},
 		weapons = {
-			order = 8,
+			order = 7,
 			type = "group",
 			name = L["Weapons"],
 			get = function(info) return E.db.auras.weapons[ info[#info] ] end,
@@ -400,7 +322,7 @@ E.Options.args.auras = {
 			}
 		},
 		reminder = {
-			order = 9,
+			order = 8,
 			type = 'group',
 			name = L['Reminder'],
 			get = function(info) return E.db.general.reminder[ info[#info] ] end,

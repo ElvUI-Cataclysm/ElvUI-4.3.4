@@ -8,6 +8,7 @@ L["ACTIONBARS_DESC"] = "행동단축바의 설정을 변경합니다."
 L["AURAS_DESC"] = "미니맵 근처에 표시되는 강화/약화효과 아이콘에 관련된 옵션들입니다."
 L["BAGS_DESC"] = "통합가방과 가방바에 관련된 옵션들입니다."
 L["CHAT_DESC"] = "채팅과 패널에 관련된 옵션들입니다."
+L["COOLDOWN_DESC"] = "Adjust Cooldown Settings."
 L["DATATEXT_DESC"] = "정보문자에 관련된 옵션들입니다."
 L["ELVUI_DESC"] = "ElvUI는 WoW에서 지원하는 대부분의 기능을 대체하는 통합 애드온입니다."
 L["NAMEPLATE_DESC"] = "이름표에 관련된 옵션들입니다."
@@ -285,6 +286,20 @@ L["When enabled active buff icons will light up instead of becoming darker, whil
 L["Wrap After"] = "한 줄에 표시할 오라 수"
 L["Your Auras First"] = "자기 주문 우선"
 
+--Cooldown
+L["MM:SS"] = true
+L["MM:SS Threshold"] = true
+L["HH:MM"] = true
+L["HH:MM Threshold"] = true
+L["Threshold (in seconds) before text is shown in the MM:SS format. Set to -1 to never change to this format."] = true
+L["Threshold (in minutes) before text is shown in the HH:MM format. Set to -1 to never change to this format."] = true
+L["Color Override"] = true
+L["Force Hide Blizzard Text"] = true
+L["Sets the size of the timers."] = true
+L["This option will force hide Blizzard's cooldown text if it's enabled at [Interface > ActionBars > Show Numbers on Cooldown]."] = true
+L["Reverse Toggle"] = true
+L["Reverse Toggle will enable Cooldown Text on this module when the global setting is disabled and disable them when the global setting is enabled."] = true
+
 --Chat
 L["Above Chat"] = "채팅창 위에 배치"
 L["Adjust the height of your right chat panel."] = "우측 패널의 세로길이를 결정합니다."
@@ -308,6 +323,7 @@ L["Fade Chat"] = "오래된 메시지 숨기기"
 L["Fade Tabs No Backdrop"] = true
 L["Fade the chat text when there is no activity."] = "시간이 오래 지난 이전의 메시지를 채팅창에서 보이지 않게 합니다. 삭제하는 것은 아니니 마우스 휠링으로 안보이게 한 이전의 메시지를 다시 확인할 수 있습니다."
 L["Fade Undocked Tabs"] = "채팅탭 숨기기"
+L["Fades the text on chat tabs that are docked in a panel where the backdrop is disabled."] = true
 L["Fades the text on chat tabs that are not docked at the left or right chat panel."] = "좌우 패널에 삽입되지 않은 다른 채팅창들의 채팅탭을 숨깁니다."
 L["Font Outline"] = "글꼴 외곽선"
 L["Font"] = "글꼴"

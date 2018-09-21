@@ -62,7 +62,7 @@ local function LoadSkin()
 			questTexture:SetTexCoord(0, 1, 0, 1)
 			questTexture:SetInside()
 
-			cooldown.ColorOverride = "bags"
+			cooldown.CooldownOverride = "bags"
 			E:RegisterCooldown(cooldown)
 		end
 	end

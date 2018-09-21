@@ -1153,6 +1153,13 @@ function E:DBConversions()
 		E.db.auras.fontSize = nil
 	end
 
+	--Convert old private cooldown setting to profile setting
+	if E.private.cooldown and (E.private.cooldown.enable ~= nil) then
+		E.db.cooldown.enable = E.private.cooldown.enable
+		E.private.cooldown.enable = nil
+		E.private.cooldown = nil
+	end
+
 	if not E.db.chat.panelColorConverted then
 		local color = E.db.general.backdropfadecolor
 		E.db.chat.panelColor = {r = color.r, g = color.g, b = color.b, a = color.a}

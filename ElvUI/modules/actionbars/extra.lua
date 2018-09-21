@@ -61,7 +61,8 @@ function AB:SetupExtraButton()
 			tex:SetInside()
 			button:SetCheckedTexture(tex)
 
-			if(button.cooldown and E.private.cooldown.enable) then
+			if button.cooldown then
+				button.cooldown.CooldownOverride = "actionbar"
 				E:RegisterCooldown(button.cooldown)
 				button.cooldown:HookScript("OnShow", FixExtraActionCD)
 			end

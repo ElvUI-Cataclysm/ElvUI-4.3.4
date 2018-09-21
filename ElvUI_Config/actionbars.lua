@@ -41,43 +41,37 @@ local function BuildABConfig()
 				name = L["Keybind Mode"],
 				func = function() AB:ActivateBindMode() E:ToggleConfig() GameTooltip:Hide() end
 			},
-			cooldownText = {
-				order = 3,
-				type = "execute",
-				name = L["Cooldown Text"],
-				func = function() ACD:SelectGroup("ElvUI", "general", "cooldown") end
-			},
 			spacer = {
-				order = 4,
+				order = 2,
 				type = "description",
 				name = ""
 			},
 			macrotext = {
-				order = 5,
+				order = 3,
 				type = "toggle",
 				name = L["Macro Text"],
 				desc = L["Display macro names on action buttons."]
 			},
 			hotkeytext = {
-				order = 6,
+				order = 4,
 				type = "toggle",
 				name = L["Keybind Text"],
 				desc = L["Display bind names on action buttons."]
 			},
 			useRangeColorText = {
-				order = 7,
+				order = 5,
 				type = "toggle",
 				name = L["Color Keybind Text"],
 				desc = L["Color Keybind Text when Out of Range, instead of the button."]
 			},
 			keyDown = {
-				order = 8,
+				order = 6,
 				type = "toggle",
 				name = L["Key Down"],
 				desc = OPTION_TOOLTIP_ACTION_BUTTON_USE_KEY_DOWN
 			},
 			lockActionBars = {
-				order = 9,
+				order = 7,
 				type = "toggle",
 				name = LOCK_ACTIONBAR_TEXT,
 				desc = L["If you unlock actionbars then trying to move a spell might instantly cast it if you cast spells on key press instead of key release."],
@@ -89,7 +83,7 @@ local function BuildABConfig()
 				end
 			},
 			rightClickSelfCast = {
-				order = 10,
+				order = 8,
 				type = "toggle",
 				name = L["RightClick Self-Cast"],
 				set = function(info, value)
@@ -100,14 +94,14 @@ local function BuildABConfig()
 				end
 			},
 			addNewSpells = {
-				order = 11,
+				order = 9,
 				type = "toggle",
 				name = L["Auto Add New Spells"],
 				desc = L["Allow newly learned spells to be automatically placed on an empty actionbar slot."],
 				set = function(info, value) E.db.actionbar.addNewSpells = value; AB:IconIntroTracker_Toggle() end
 			},
 			desaturateOnCooldown = {
-				order = 12,
+				order = 10,
 				type = "toggle",
 				name = L["Desaturate On Cooldown"],
 				set = function(info, value)
@@ -116,12 +110,12 @@ local function BuildABConfig()
 				end
 			},
 			spacer2 = {
-				order = 13,
+				order = 11,
 				type = "description",
 				name = " "
 			},
 			movementModifier = {
-				order = 14,
+				order = 12,
 				type = "select",
 				name = PICKUP_ACTION_KEY_TEXT,
 				desc = L["The button you must hold down in order to drag an ability to another action button."],
@@ -134,7 +128,7 @@ local function BuildABConfig()
 				}
 			},
 			globalFadeAlpha = {
-				order = 15,
+				order = 13,
 				type = "range",
 				name = L["Global Fade Transparency"],
 				desc = L["Transparency level when not in combat, no target exists, full health, not casting, and no focus target exists."],
@@ -143,7 +137,7 @@ local function BuildABConfig()
 				set = function(info, value) E.db.actionbar[ info[#info] ] = value AB.fadeParent:SetAlpha(1-value) end
 			},
 			colorGroup = {
-				order = 16,
+				order = 14,
 				type = "group",
 				name = COLORS,
 				guiInline = true,
@@ -1047,20 +1041,18 @@ E.Options.args.actionbar = {
 			func = function() ACD:SelectGroup("ElvUI", "actionbar", "general") end,
 			disabled = function() return not E.ActionBars end
 		},
-		petBarShortcut = {
+		cooldownTextShortcut = {
 			order = 6,
+			type = "execute",
+			name = L["Cooldowns"],
+			func = function() ACD:SelectGroup("ElvUI", "cooldown", "actionbar") end
+		},
+		petBarShortcut = {
+			order = 7,
 			type = "execute",
 			name = L["Pet Bar"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "actionbar", "barPet") end,
-			disabled = function() return not E.ActionBars end
-		},
-		stanceBarShortcut = {
-			order = 7,
-			type = "execute",
-			name = L["Stance Bar"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "actionbar", "stanceBar") end,
 			disabled = function() return not E.ActionBars end
 		},
 		spacer2 = {
@@ -1068,8 +1060,16 @@ E.Options.args.actionbar = {
 			type = "description",
 			name = " "
 		},
-		totemBarShortcut = {
+		stanceBarShortcut = {
 			order = 9,
+			type = "execute",
+			name = L["Stance Bar"],
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "actionbar", "stanceBar") end,
+			disabled = function() return not E.ActionBars end
+		},
+		totemBarShortcut = {
+			order = 10,
 			type = "execute",
 			name = TUTORIAL_TITLE47,
 			buttonElvUI = true,
@@ -1077,19 +1077,11 @@ E.Options.args.actionbar = {
 			disabled = function() return not E.ActionBars or E.myclass ~= "SHAMAN" end
 		},
 		microbarShortcut = {
-			order = 10,
+			order = 11,
 			type = "execute",
 			name = L["Micro Bar"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "actionbar", "microbar") end,
-			disabled = function() return not E.ActionBars end
-		},
-		extraActionButtonShortcut = {
-			order = 11,
-			type = "execute",
-			name = L["Boss Button"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "actionbar", "extraActionButton") end,
 			disabled = function() return not E.ActionBars end
 		},
 		spacer3 = {
@@ -1097,8 +1089,16 @@ E.Options.args.actionbar = {
 			type = "description",
 			name = " "
 		},
-		bar1Shortcut = {
+		extraActionButtonShortcut = {
 			order = 13,
+			type = "execute",
+			name = L["Boss Button"],
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "actionbar", "extraActionButton") end,
+			disabled = function() return not E.ActionBars end
+		},
+		bar1Shortcut = {
+			order = 14,
 			type = "execute",
 			name = L["Bar "]..1,
 			buttonElvUI = true,
@@ -1106,19 +1106,11 @@ E.Options.args.actionbar = {
 			disabled = function() return not E.ActionBars end
 		},
 		bar2Shortcut = {
-			order = 14,
+			order = 15,
 			type = "execute",
 			name = L["Bar "]..2,
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "actionbar", "bar2") end,
-			disabled = function() return not E.ActionBars end
-		},
-		bar3Shortcut = {
-			order = 15,
-			type = "execute",
-			name = L["Bar "]..3,
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "actionbar", "bar3") end,
 			disabled = function() return not E.ActionBars end
 		},
 		spacer4 = {
@@ -1126,8 +1118,16 @@ E.Options.args.actionbar = {
 			type = "description",
 			name = " "
 		},
-		bar4Shortcut = {
+		bar3Shortcut = {
 			order = 17,
+			type = "execute",
+			name = L["Bar "]..3,
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "actionbar", "bar3") end,
+			disabled = function() return not E.ActionBars end
+		},
+		bar4Shortcut = {
+			order = 18,
 			type = "execute",
 			name = L["Bar "]..4,
 			buttonElvUI = true,
@@ -1135,15 +1135,20 @@ E.Options.args.actionbar = {
 			disabled = function() return not E.ActionBars end
 		},
 		bar5Shortcut = {
-			order = 18,
+			order = 19,
 			type = "execute",
 			name = L["Bar "]..5,
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "actionbar", "bar5") end,
 			disabled = function() return not E.ActionBars end
 		},
+		spacer5 = {
+			order = 20,
+			type = "description",
+			name = " "
+		},
 		bar6Shortcut = {
-			order = 19,
+			order = 21,
 			type = "execute",
 			name = L["Bar "]..6,
 			buttonElvUI = true,

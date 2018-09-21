@@ -471,97 +471,8 @@ E.Options.args.general = {
 				}
 			}
 		},
-		cooldown = {
-			order = 7,
-			type = "group",
-			name = L["Cooldown Text"],
-			get = function(info)
-				local t = E.db.cooldown[ info[#info] ]
-				local d = P.cooldown[info[#info]]
-				return t.r, t.g, t.b, t.a, d.r, d.g, d.b
-			end,
-			set = function(info, r, g, b)
-				local t = E.db.cooldown[ info[#info] ]
-				t.r, t.g, t.b = r, g, b
-				E:UpdateCooldownSettings("global")
-			end,
-			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Cooldown Text"]
-				},
-				enable = {
-					order = 2,
-					type = "toggle",
-					name = L["Enable"],
-					desc = L["Display cooldown text on anything with the cooldown spiral."],
-					get = function(info) return E.private.cooldown[ info[#info] ] end,
-					set = function(info, value) E.private.cooldown[ info[#info] ] = value E:StaticPopup_Show("PRIVATE_RL") end
-				},
-				threshold = {
-					order = 3,
-					type = "range",
-					name = L["Low Threshold"],
-					desc = L["Threshold before text turns red and is in decimal form. Set to -1 for it to never turn red"],
-					min = -1, max = 20, step = 1,
-					get = function(info) return E.db.cooldown[ info[#info] ] end,
-					set = function(info, value) E.db.cooldown[ info[#info] ] = value end,
-					disabled = function() return not E.private.cooldown.enable end
-				},
-				restoreColors = {
-					order = 4,
-					type = "execute",
-					name = L["Restore Defaults"],
-					func = function() 
-						E.db.cooldown.expiringColor = P["cooldown"].expiringColor
-						E.db.cooldown.secondsColor = P["cooldown"].secondsColor
-						E.db.cooldown.minutesColor = P["cooldown"].minutesColor
-						E.db.cooldown.hoursColor = P["cooldown"].hoursColor
-						E.db.cooldown.daysColor = P["cooldown"].daysColor
-						E:UpdateCooldownSettings()
-					end,
-					disabled = function() return not E.private.cooldown.enable end
-				},
-				expiringColor = {
-					order = 5,
-					type = "color",
-					name = L["Expiring"],
-					desc = L["Color when the text is about to expire"],
-					disabled = function() return not E.private.cooldown.enable end
-				},
-				secondsColor = {
-					order = 6,
-					type = "color",
-					name = L["Seconds"],
-					desc = L["Color when the text is in the seconds format."],
-					disabled = function() return not E.private.cooldown.enable end
-				},
-				minutesColor = {
-					order = 7,
-					type = "color",
-					name = L["Minutes"],
-					desc = L["Color when the text is in the minutes format."],
-					disabled = function() return not E.private.cooldown.enable end
-				},
-				hoursColor = {
-					order = 8,
-					type = "color",
-					name = L["Hours"],
-					desc = L["Color when the text is in the hours format."],
-					disabled = function() return not E.private.cooldown.enable end
-				},
-				daysColor = {
-					order = 9,
-					type = "color",
-					name = L["Days"],
-					desc = L["Color when the text is in the days format."],
-					disabled = function() return not E.private.cooldown.enable end
-				}
-			}
-		},
 		chatBubbles = {
-			order = 8,
+			order = 7,
 			type = "group",
 			name = L["Chat Bubbles"],
 			args = {
@@ -634,7 +545,7 @@ E.Options.args.general = {
 			}
 		},
 		watchFrame = {
-			order = 9,
+			order = 8,
 			type = "group",
 			name = L["Objective Frame"],
 			args = {
@@ -655,7 +566,7 @@ E.Options.args.general = {
 			}
 		},
 		threatGroup = {
-			order = 10,
+			order = 9,
 			type = "group",
 			name = L["Threat"],
 			args = {
@@ -725,7 +636,7 @@ E.Options.args.general = {
 			}
 		},
 		errorFrame = {
-			order = 11,
+			order = 10,
 			type = "group",
 			name = L["Error Frame"],
 			args = {
@@ -763,7 +674,7 @@ E.Options.args.general = {
 			}
 		},
 		alternativePowerGroup = {
-			order = 12,
+			order = 11,
 			type = "group",
 			name = L["Alternative Power"],
 			get = function(info) return E.db.general.altPowerBar[ info[#info] ] end,

@@ -6,6 +6,7 @@ local _G = _G
 local select, unpack = select, unpack
 local floor = math.floor
 local format, find = string.format, string.find
+local tinsert = table.insert
 
 local GetTime = GetTime
 local CreateFrame = CreateFrame
@@ -68,22 +69,27 @@ function A:UpdateTime(elapsed)
 		return
 	end
 
-	local timeColors, timeThreshold = E.TimeColors, E.db.cooldown.threshold
-	if E.db.auras.cooldown.override and E.TimeColors["auras"] then
-		timeColors, timeThreshold = E.TimeColors["auras"], E.db.auras.cooldown.threshold
-	end
-	if not timeThreshold then
-		timeThreshold = E.TimeThreshold
-	end
-
-	local timerValue, formatID
-	timerValue, formatID, self.nextUpdate = E:GetTimeInfo(self.timeLeft, timeThreshold)
-	self.time:SetFormattedText(("%s%s|r"):format(timeColors[formatID], E.TimeFormats[formatID][1]), timerValue)
-
-	if self.timeLeft > E.db.auras.fadeThreshold then
-		E:StopFlash(self)
+	if not E:Cooldown_IsEnabled(self) then
+		self.timeLeft = nil
+		self.time:SetText("")
+		self:SetScript("OnUpdate", nil)
 	else
-		E:Flash(self, 1)
+		local timeColors, timeThreshold = (self.timerOptions and self.timerOptions.timeColors) or E.TimeColors, (self.timerOptions and self.timerOptions.timeThreshold) or E.db.cooldown.threshold
+		if not timeThreshold then timeThreshold = E.TimeThreshold end
+
+		local hhmmThreshold = (self.timerOptions and self.timerOptions.hhmmThreshold) or (E.db.cooldown.checkSeconds and E.db.cooldown.hhmmThreshold)
+		local mmssThreshold = (self.timerOptions and self.timerOptions.mmssThreshold) or (E.db.cooldown.checkSeconds and E.db.cooldown.mmssThreshold)
+
+		local value1, formatID, nextUpdate, value2 = E:GetTimeInfo(self.timeLeft, timeThreshold, hhmmThreshold, mmssThreshold)
+		self.nextUpdate = nextUpdate
+
+		self.time:SetFormattedText(format("%s%s|r", timeColors[formatID], E.TimeFormats[formatID][1]), value1, value2)
+
+		if self.timeLeft > E.db.auras.fadeThreshold then
+			E:StopFlash(self)
+		else
+			E:Flash(self, 1)
+		end
 	end
 end
 
@@ -91,9 +97,12 @@ function A:CreateIcon(button)
 	local font = LSM:Fetch("font", self.db.font)
 	local header = button:GetParent()
 	local auraType = header:GetAttribute("filter")
+
 	local db = self.db.debuffs
+	button.auraType = "debuffs" -- used to update cooldown text
 	if auraType == "HELPFUL" then
 		db = self.db.buffs
+		button.auraType = "buffs"
 	end
 
 	-- button:SetFrameLevel(4)
@@ -107,13 +116,30 @@ function A:CreateIcon(button)
 
 	button.time = button:CreateFontString(nil, "ARTWORK")
 	button.time:Point("TOP", button, "BOTTOM", 1 + self.db.timeXOffset, 0 + self.db.timeYOffset)
-	button.time:FontTemplate(font, db.durationFontSize, self.db.fontOutline)
 
 	button.highlight = button:CreateTexture(nil, "HIGHLIGHT")
 	button.highlight:SetTexture(1, 1, 1, 0.45)
 	button.highlight:SetInside()
 
 	E:SetUpAnimGroup(button)
+
+	-- fetch cooldown settings
+	A:CooldownText_Update(button)
+
+	-- support cooldown override
+	if not button.isRegisteredCooldown then
+		button.CooldownOverride = "auras"
+		button.isRegisteredCooldown = true
+
+		if not E.RegisteredCooldowns["auras"] then E.RegisteredCooldowns["auras"] = {} end
+		tinsert(E.RegisteredCooldowns["auras"], button)
+	end
+
+	if button.timerOptions and button.timerOptions.fontOptions and button.timerOptions.fontOptions.enable then
+		button.time:FontTemplate(E.LSM:Fetch("font", button.timerOptions.fontOptions.font), button.timerOptions.fontOptions.fontSize, button.timerOptions.fontOptions.fontOutline)
+	else
+		button.time:FontTemplate(font, db.durationFontSize, self.db.fontOutline)
+	end
 
 	button:SetScript("OnAttributeChanged", A.OnAttributeChanged)
 
@@ -165,7 +191,7 @@ function A:UpdateAura(button, index)
 	local name, _, texture, count, dtype, duration, expirationTime = UnitAura(unit, index, filter)
 
 	if name then
-		if duration > 0 and expirationTime then
+		if (duration > 0) and expirationTime then
 			local timeLeft = expirationTime - GetTime()
 			if not button.timeLeft then
 				button.timeLeft = timeLeft
@@ -199,6 +225,38 @@ function A:UpdateAura(button, index)
 	end
 end
 
+function A:CooldownText_Update(button)
+	if not button then return end
+
+	-- cooldown override settings
+	button.alwaysEnabled = true
+	if not button.timerOptions then
+		button.timerOptions = {}
+	end
+
+	button.timerOptions.reverseToggle = self.db.cooldown.reverse
+
+	if self.db.cooldown.override and E.TimeColors["auras"] then
+		button.timerOptions.timeColors, button.timerOptions.timeThreshold = E.TimeColors["auras"], self.db.cooldown.threshold
+	else
+		button.timerOptions.timeColors, button.timerOptions.timeThreshold = nil, nil
+	end
+
+	if self.db.cooldown.checkSeconds then
+		button.timerOptions.hhmmThreshold, button.timerOptions.mmssThreshold = self.db.cooldown.hhmmThreshold, self.db.cooldown.mmssThreshold
+	else
+		button.timerOptions.hhmmThreshold, button.timerOptions.mmssThreshold = nil, nil
+	end
+
+	if self.db.cooldown.fonts and self.db.cooldown.fonts.enable then
+		button.timerOptions.fontOptions = self.db.cooldown.fonts
+	elseif E.db.cooldown.fonts and E.db.cooldown.fonts.enable then
+		button.timerOptions.fontOptions = E.db.cooldown.fonts
+	else
+		button.timerOptions.fontOptions = nil
+	end
+end
+
 function A:OnAttributeChanged(attribute, value)
 	if attribute == "index" then
 		A:UpdateAura(self, value)
@@ -208,8 +266,10 @@ end
 function A:UpdateHeader(header)
 	if not E.private.auras.enable then return end
 
+	local auraType = "debuffs"
 	local db = self.db.debuffs
 	if header:GetAttribute("filter") == "HELPFUL" then
+		auraType = "buffs"
 		db = self.db.buffs
 	end
 
@@ -247,6 +307,8 @@ function A:UpdateHeader(header)
 			child:SetSize(db.size, db.size)
 		end
 
+		child.auraType = auraType -- used to update cooldown text
+
 		if child.time then
 			local font = LSM:Fetch("font", self.db.font)
 			child.time:ClearAllPoints()
@@ -258,7 +320,8 @@ function A:UpdateHeader(header)
 			child.count:FontTemplate(font, db.countFontSize, self.db.fontOutline)
 		end
 
-		if index > (db.maxWraps * db.wrapAfter) and child:IsShown() then
+		--Blizzard bug fix, icons arent being hidden when you reduce the amount of maximum buttons
+		if (index > (db.maxWraps * db.wrapAfter)) and child:IsShown() then
 			child:Hide()
 		end
 
@@ -353,23 +416,36 @@ end
 
 function A:UpdateWeaponText(button, expiration)
 	local duration = _G[button:GetName().."Duration"]
-	local timeColors, timeThreshold = E.TimeColors, E.db.cooldown.threshold
-	if E.db.auras.cooldown.override and E.TimeColors["auras"] then
-		timeColors, timeThreshold = E.TimeColors["auras"], E.db.auras.cooldown.threshold
-	end
-	if not timeThreshold then
-		timeThreshold = E.TimeThreshold
-	end
 
-	local timervalue, formatid
-	timervalue, formatid = E:GetTimeInfo(expiration, timeThreshold)
-
-	duration:SetFormattedText(format("%s%s|r", timeColors[formatid], E.TimeFormats[formatid][1]), timervalue)
-
-	if expiration > E.db.auras.fadeThreshold then
-		E:StopFlash(button)
+	if not E:Cooldown_IsEnabled(self) then
+		expiration = nil
+		duration:SetText("")
 	else
-		E:Flash(button, 1)
+		local timeColors, timeThreshold = E.TimeColors, E.db.cooldown.threshold
+		if E.db.auras.cooldown.override and E.TimeColors["auras"] then
+			timeColors, timeThreshold = E.TimeColors["auras"], E.db.auras.cooldown.threshold
+		end
+		if not timeThreshold then
+			timeThreshold = E.TimeThreshold
+		end
+
+		local hhmmThreshold, mmssThreshold
+		if self.db.cooldown.checkSeconds then
+			hhmmThreshold, mmssThreshold = self.db.cooldown.hhmmThreshold, self.db.cooldown.mmssThreshold
+		else
+			hhmmThreshold, mmssThreshold = E.db.cooldown.checkSeconds and E.db.cooldown.hhmmThreshold or nil, E.db.cooldown.checkSeconds and E.db.cooldown.mmssThreshold or nil
+		end
+
+		local value1, formatID, nextUpdate, value2 = E:GetTimeInfo(expiration, timeThreshold, hhmmThreshold, mmssThreshold)
+		self.nextUpdate = nextUpdate
+
+		duration:SetFormattedText(format("%s%s|r", timeColors[formatID], E.TimeFormats[formatID][1]), value1, value2)
+
+		if expiration > E.db.auras.fadeThreshold then
+			E:StopFlash(button)
+		else
+			E:Flash(button, 1)
+		end
 	end
 end
 
