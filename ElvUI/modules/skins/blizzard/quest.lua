@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
 local _G = _G
-local unpack = unpack
+local unpack, pairs, select = unpack, pairs, select
 local find = string.find
 
 local hooksecurefunc = hooksecurefunc
@@ -45,11 +45,11 @@ local function LoadSkin()
 		"QuestInfoTalentFrame"
 	}
 
-	for i = 1, #questIcons do
-		local item = _G[questIcons[i]]
-		local icon = _G[questIcons[i].."IconTexture"]
-		local count = _G[questIcons[i].."Count"]
-		local points = _G[questIcons[i].."Points"]
+	for _, frame in pairs(questIcons) do
+		local item = _G[frame]
+		local icon = _G[frame.."IconTexture"]
+		local count = _G[frame.."Count"]
+		local points = _G[frame.."Points"]
 
 		item:StripTextures()
 		item:SetTemplate("Default")
@@ -68,7 +68,16 @@ local function LoadSkin()
 		end
 
 		if points then
-			points:Point("LEFT", 42, -1)
+			local name = _G[frame.."Name"]
+			local nameFrame = _G[frame.."NameFrame"]
+
+			points:SetParent(item.backdrop)
+			points:Point("BOTTOMRIGHT", icon, "BOTTOMRIGHT")
+			points:SetTextColor(1, 1, 1)
+			points:FontTemplate(nil, nil, "OUTLINE")
+			points:SetDrawLayer("OVERLAY")
+			
+			name:Point("LEFT", nameFrame, "LEFT", 16, 0)
 		end
 	end
 

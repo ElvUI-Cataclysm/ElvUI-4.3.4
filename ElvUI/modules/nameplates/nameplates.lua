@@ -388,6 +388,8 @@ function mod:OnShow()
 	self.UnitFrame.Level:ClearAllPoints()
 	self.UnitFrame.Name:ClearAllPoints()
 
+	self.UnitFrame.CutawayHealth:Hide()
+
 	if mod.db.units[unitType].healthbar.enable or mod.db.alwaysShowTargetHealth then
 		mod:ConfigureElement_HealthBar(self.UnitFrame)
 		mod:ConfigureElement_CutawayHealth(self.UnitFrame)
@@ -717,7 +719,14 @@ end
 function mod:UpdateCVars()
 	SetCVar("ShowClassColorInNameplate", "1")
 	SetCVar("showVKeyCastbar", "1")
-	SetCVar("nameplateMotion", self.db.motionType == "STACKED" and "1" or "0")
+
+	if self.db.motionType == "OVERLAP" then
+		SetCVar("nameplateMotion", "0")
+	elseif self.db.motionType == "STACKED" then
+		SetCVar("nameplateMotion", "1")
+	elseif self.db.motionType == "SPREADING" then
+		SetCVar("nameplateMotion", "2")
+	end
 end
 
 local function CopySettings(from, to)
