@@ -7,6 +7,7 @@ local tonumber, tostring = tonumber, tostring
 local GameTooltipStatusBar = _G["GameTooltipStatusBar"]
 local COMBAT = COMBAT
 local OPACITY = OPACITY
+local ROLE = ROLE
 local NONE, FONT_SIZE = NONE, FONT_SIZE
 local ALT_KEY, CTRL_KEY, SHIFT_KEY = ALT_KEY, CTRL_KEY, SHIFT_KEY
 
@@ -46,38 +47,69 @@ E.Options.args.tooltip = {
 					name = L["Cursor Anchor"],
 					desc = L["Should tooltip be anchored to mouse cursor"]
 				},
-				targetInfo = {
+				cursorAnchorType = {
 					order = 3,
+					type = "select",
+					name = L["Cursor Anchor Type"],
+					values = {
+						["ANCHOR_CURSOR"] = "ANCHOR_CURSOR",
+						["ANCHOR_CURSOR_LEFT"] = "ANCHOR_CURSOR_LEFT",
+						["ANCHOR_CURSOR_RIGHT"] = "ANCHOR_CURSOR_RIGHT"
+					},
+					disabled = function() return (not E.db.tooltip.cursorAnchor) end
+				},
+				cursorAnchorX = {
+					order = 4,
+					type = "range",
+					name = L["Cursor Anchor Offset X"],
+					min = -128, max = 128, step = 1,
+					disabled = function() return (not E.db.tooltip.cursorAnchor) or (E.db.tooltip.cursorAnchorType == "ANCHOR_CURSOR") end
+				},
+				cursorAnchorY = {
+					order = 5,
+					type = "range",
+					name = L["Cursor Anchor Offset Y"],
+					min = -128, max = 128, step = 1,
+					disabled = function() return (not E.db.tooltip.cursorAnchor) or (E.db.tooltip.cursorAnchorType == "ANCHOR_CURSOR") end
+				},
+				targetInfo = {
+					order = 6,
 					type = "toggle",
 					name = L["Target Info"],
 					desc = L["When in a raid group display if anyone in your raid is targeting the current tooltip unit."]
 				},
 				playerTitles = {
-					order = 4,
+					order = 7,
 					type = "toggle",
 					name = L["Player Titles"],
 					desc = L["Display player titles."]
 				},
 				guildRanks = {
-					order = 5,
+					order = 8,
 					type = "toggle",
 					name = L["Guild Ranks"],
 					desc = L["Display guild ranks if a unit is guilded."]
 				},
 				inspectInfo = {
-					order = 6,
+					order = 9,
 					type = "toggle",
 					name = L["Inspect Info"],
 					desc = L["Display the players talent spec and item level in the tooltip, this may not immediately update when mousing over a unit."]
 				},
 				spellID = {
-					order = 7,
+					order = 10,
 					type = "toggle",
 					name = L["Spell/Item IDs"],
 					desc = L["Display the spell or item ID when mousing over a spell or item tooltip."]
 				},
+				role = {
+					order = 11,
+					type = "toggle",
+					name = ROLE,
+					desc = L["Display the unit role in the tooltip."]
+				},
 				itemCount = {
-					order = 8,
+					order = 12,
 					type = "select",
 					name = L["Item Count"],
 					desc = L["Display how many of a certain item you have in your possession."],
@@ -89,14 +121,14 @@ E.Options.args.tooltip = {
 					}
 				},
 				colorAlpha = {
-					order = 9,
+					order = 13,
 					type = "range",
 					name = OPACITY,
 					isPercent = true,
 					min = 0, max = 1, step = 0.01,
 				},
 				fontGroup = {
-					order = 10,
+					order = 14,
 					type = "group",
 					guiInline = true,
 					name = L["Tooltip Font Settings"],
@@ -155,7 +187,7 @@ E.Options.args.tooltip = {
 					}
 				},
 				factionColors = {
-					order = 11,
+					order = 15,
 					type = "group",
 					name = L["Custom Faction Colors"],
 					guiInline = true,

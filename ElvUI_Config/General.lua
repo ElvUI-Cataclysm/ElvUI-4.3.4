@@ -1,9 +1,23 @@
 ﻿local E, L, V, P, G = unpack(ElvUI)
 local B = E:GetModule("Blizzard")
 
+local _G = _G
+
+local FCF_GetNumActiveChatFrames = FCF_GetNumActiveChatFrames
 local NONE, NAME, FONT_SIZE, COLORS, DISABLE = NONE, NAME, FONT_SIZE, COLORS, DISABLE
 local GUILD, PLAYER, RAID_CONTROL, LOOT = GUILD, PLAYER, RAID_CONTROL, LOOT
 local SAY, CHAT_MSG_EMOTE = SAY, CHAT_MSG_EMOTE
+
+local function GetChatWindowInfo()
+	local ChatTabInfo = {}
+	for i = 1, FCF_GetNumActiveChatFrames() do
+		if i ~= 2 then
+			ChatTabInfo["ChatFrame"..i] = _G["ChatFrame"..i.."Tab"]:GetText()
+		end
+	end
+
+	return ChatTabInfo
+end
 
 E.Options.args.general = {
 	order = 1,
@@ -13,26 +27,13 @@ E.Options.args.general = {
 	get = function(info) return E.db.general[ info[#info] ] end,
 	set = function(info, value) E.db.general[ info[#info] ] = value end,
 	args = {
-		versionCheck = {
-			order = 1,
-			type = "toggle",
-			name = L["Version Check"],
-			get = function(info) return E.global.general.versionCheck end,
-			set = function(info, value) E.global.general.versionCheck = value end
-		},
-		spacer = {
-			order = 2,
-			type = "description",
-			name = "",
-			width = "full"
-		},
 		intro = {
-			order = 3,
+			order = 1,
 			type = "description",
 			name = L["ELVUI_DESC"]
 		},
 		general = {
-			order = 4,
+			order = 2,
 			type = "group",
 			name = L["General"],
 			args = {
@@ -41,13 +42,12 @@ E.Options.args.general = {
 					type = "header",
 					name = L["General"]
 				},
-				pixelPerfect = {
+				messageRedirect = {
 					order = 2,
-					type = "toggle",
-					name = L["Thin Border Theme"],
-					desc = L["The Thin Border Theme option will change the overall apperance of your UI. Using Thin Border Theme is a slight performance increase over the traditional layout."],
-					get = function(info) return E.private.general.pixelPerfect end,
-					set = function(info, value) E.private.general.pixelPerfect = value E:StaticPopup_Show("PRIVATE_RL") end
+					type = "select",
+					name = L["Chat Output"],
+					desc = L["This selects the Chat Frame to use as the output of ElvUI messages."],
+					values = GetChatWindowInfo()
 				},
 				interruptAnnounce = {
 					order = 3,
@@ -74,33 +74,29 @@ E.Options.args.general = {
 						["PLAYER"] = PLAYER
 					}
 				},
-				autoAcceptInvite = {
+				pixelPerfect = {
 					order = 5,
+					type = "toggle",
+					name = L["Thin Border Theme"],
+					desc = L["The Thin Border Theme option will change the overall apperance of your UI. Using Thin Border Theme is a slight performance increase over the traditional layout."],
+					get = function(info) return E.private.general.pixelPerfect; end,
+					set = function(info, value) E.private.general.pixelPerfect = value; E:StaticPopup_Show("PRIVATE_RL"); end
+				},
+				autoAcceptInvite = {
+					order = 6,
 					type = "toggle",
 					name = L["Accept Invites"],
 					desc = L["Automatically accept invites from guild/friends."]
 				},
-				vendorGrays = {
-					order = 6,
-					type = "toggle",
-					name = L["Vendor Grays"],
-					desc = L["Automatically vendor gray items when visiting a vendor."]
-				},
-				vendorGraysDetails = {
-					order = 7,
-					type = "toggle",
-					name = L["Vendor Gray Detailed Report"],
-					desc = L["Displays a detailed report of every item sold when enabled."]
-				},
 				autoRoll = {
-					order = 8,
+					order = 7,
 					type = "toggle",
 					name = L["Auto Greed/DE"],
 					desc = L["Automatically select greed or disenchant (when available) on green quality items. This will only work if you are the max level."],
 					disabled = function() return not E.private.general.lootRoll end
 				},
 				loot = {
-					order = 9,
+					order = 8,
 					type = "toggle",
 					name = LOOT,
 					desc = L["Enable/Disable the loot frame."],
@@ -108,7 +104,7 @@ E.Options.args.general = {
 					set = function(info, value) E.private.general.loot = value E:StaticPopup_Show("PRIVATE_RL") end
 				},
 				lootRoll = {
-					order = 10,
+					order = 9,
 					type = "toggle",
 					name = L["Loot Roll"],
 					desc = L["Enable/Disable the loot roll frame."],
@@ -116,7 +112,7 @@ E.Options.args.general = {
 					set = function(info, value) E.private.general.lootRoll = value E:StaticPopup_Show("PRIVATE_RL") end
 				},
 				eyefinity = {
-					order = 11,
+					order = 10,
 					type = "toggle",
 					name = L["Multi-Monitor Support"],
 					desc = L["Attempt to support eyefinity/nvidia surround."],
@@ -124,13 +120,13 @@ E.Options.args.general = {
 					set = function(info, value) E.global.general[ info[#info] ] = value E:StaticPopup_Show("GLOBAL_RL") end
 				},
 				taintLog = {
-					order = 12,
+					order = 11,
 					type = "toggle",
 					name = L["Log Taints"],
 					desc = L["Send ADDON_ACTION_BLOCKED errors to the Lua Error frame. These errors are less important in most cases and will not effect your game performance. Also a lot of these errors cannot be fixed. Please only report these errors if you notice a Defect in gameplay."]
 				},
 				bottomPanel = {
-					order = 13,
+					order = 12,
 					type = "toggle",
 					name = L["Bottom Panel"],
 					desc = L["Display a panel across the bottom of the screen. This is for cosmetic only."],
@@ -138,7 +134,7 @@ E.Options.args.general = {
 					set = function(info, value) E.db.general.bottomPanel = value E:GetModule("Layout"):BottomPanelVisibility() end
 				},
 				topPanel = {
-					order = 14,
+					order = 13,
 					type = "toggle",
 					name = L["Top Panel"],
 					desc = L["Display a panel across the top of the screen. This is for cosmetic only."],
@@ -146,7 +142,7 @@ E.Options.args.general = {
 					set = function(info, value) E.db.general.topPanel = value E:GetModule("Layout"):TopPanelVisibility() end
 				},
 				afk = {
-					order = 15,
+					order = 14,
 					type = "toggle",
 					name = L["AFK Mode"],
 					desc = L["When you go AFK display the AFK screen."],
@@ -154,13 +150,13 @@ E.Options.args.general = {
 					set = function(info, value) E.db.general.afk = value E:GetModule("AFK"):Toggle() end
 				},
 				enhancedPvpMessages = {
-					order = 16,
+					order = 15,
 					type = "toggle",
 					name = L["Enhanced PVP Messages"],
 					desc = L["Display battleground messages in the middle of the screen."],
 				},
 				showMissingTalentAlert = {
-					order = 17,
+					order = 16,
 					type = "toggle",
 					name = L["Missing Talent Alert"],
 					desc = L["Show an alert frame if you have unspend talent points."],
@@ -168,7 +164,7 @@ E.Options.args.general = {
 					set = function(info, value) E.global.general.showMissingTalentAlert = value E:StaticPopup_Show("GLOBAL_RL") end,
 				},
 				autoScale = {
-					order = 18,
+					order = 17,
 					type = "toggle",
 					name = L["Auto Scale"],
 					desc = L["Automatically scale the User Interface based on your screen resolution"],
@@ -176,7 +172,7 @@ E.Options.args.general = {
 					set = function(info, value) E.global.general[ info[#info] ] = value E:StaticPopup_Show("GLOBAL_RL") end
 				},
 				raidUtility = {
-					order = 19,
+					order = 18,
 					type = "toggle",
 					name = RAID_CONTROL,
 					desc = L["Enables the ElvUI Raid Control panel."],
@@ -184,12 +180,20 @@ E.Options.args.general = {
 					set = function(info, value) E.private.general.raidUtility = value E:StaticPopup_Show("PRIVATE_RL") end
 				},
 				minUiScale = {
-					order = 20,
+					order = 19,
 					type = "range",
 					name = L["Lowest Allowed UI Scale"],
 					softMin = 0.20, softMax = 0.64, step = 0.01,
 					get = function(info) return E.global.general.minUiScale end,
 					set = function(info, value) E.global.general.minUiScale = value E:StaticPopup_Show("GLOBAL_RL") end
+				},
+				vehicleSeatIndicatorSize = {
+					order = 20,
+					type = "range",
+					name = L["Vehicle Seat Indicator Size"],
+					min = 64, max = 128, step = 4,
+					get = function(info) return E.db.general.vehicleSeatIndicatorSize end,
+					set = function(info, value) E.db.general.vehicleSeatIndicatorSize = value B:UpdateVehicleFrame() end
 				},
 				decimalLength = {
 					order = 21,
@@ -218,7 +222,7 @@ E.Options.args.general = {
 			}
 		},
 		media = {
-			order = 5,
+			order = 3,
 			type = "group",
 			name = L["Media"],
 			get = function(info) return E.db.general[ info[#info] ] end,
@@ -418,7 +422,7 @@ E.Options.args.general = {
 			}
 		},
 		totems = {
-			order = 6,
+			order = 4,
 			type = "group",
 			name = L["Class Totems"],
 			get = function(info) return E.db.general.totems[ info[#info] ] end,
@@ -472,7 +476,7 @@ E.Options.args.general = {
 			}
 		},
 		chatBubbles = {
-			order = 7,
+			order = 5,
 			type = "group",
 			name = L["Chat Bubbles"],
 			args = {
@@ -545,7 +549,7 @@ E.Options.args.general = {
 			}
 		},
 		watchFrame = {
-			order = 8,
+			order = 6,
 			type = "group",
 			name = L["Objective Frame"],
 			args = {
@@ -566,7 +570,7 @@ E.Options.args.general = {
 			}
 		},
 		threatGroup = {
-			order = 9,
+			order = 7,
 			type = "group",
 			name = L["Threat"],
 			args = {
@@ -636,7 +640,7 @@ E.Options.args.general = {
 			}
 		},
 		errorFrame = {
-			order = 10,
+			order = 8,
 			type = "group",
 			name = L["Error Frame"],
 			args = {
@@ -674,7 +678,7 @@ E.Options.args.general = {
 			}
 		},
 		alternativePowerGroup = {
-			order = 11,
+			order = 9,
 			type = "group",
 			name = L["Alternative Power"],
 			get = function(info) return E.db.general.altPowerBar[ info[#info] ] end,

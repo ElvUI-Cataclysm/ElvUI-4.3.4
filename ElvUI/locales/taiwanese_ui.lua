@@ -39,6 +39,7 @@ L["Sort Bags"] = "整理背包"
 L["Temporary Move"] = "移動背包"
 L["Toggle Bags"] = "開啟/關閉背包"
 L["Vendor / Delete Grays"] = "出售/摧毁灰色物品"
+L["Vendoring Grays"] = true
 
 --Chat
 L["AFK"] = "暫離" --Also used in datatexts and tooltip
@@ -69,6 +70,7 @@ L["Deficit:"] = "赤字:"
 L["Download"] = "下載"
 L["DPS"] = "傷害輸出"
 L["Earned:"] = "賺取:"
+L["ElvUI Config"] = true
 L["Friends List"] = "好友列表"
 L["Gold"] = "金錢"
 L["goldabbrev"] = "|cffffd700金|r" --Also used in Bags

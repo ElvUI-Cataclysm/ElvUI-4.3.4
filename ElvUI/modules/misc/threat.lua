@@ -148,7 +148,7 @@ function THREAT:Initialize()
 
 	self.db = E.db.general.threat;
 
-	self.bar = CreateFrame("StatusBar", "ElvUI_ThreatBar", UIParent);
+	self.bar = CreateFrame("StatusBar", "ElvUI_ThreatBar", E.UIParent)
 	self.bar:SetStatusBarTexture(E["media"].normTex);
 	E:RegisterStatusBar(self.bar);
 	self.bar:SetMinMaxValues(0, 100);

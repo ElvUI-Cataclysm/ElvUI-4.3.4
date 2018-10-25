@@ -135,6 +135,7 @@ function mod:SetTargetFrame(frame)
 				self:ConfigureElement_Highlight(frame)
 				self:ConfigureElement_Level(frame)
 				self:ConfigureElement_Name(frame)
+				self:ConfigureElement_CPoints(frame)
 				self:RegisterEvents(frame)
 				self:UpdateElement_All(frame, true)
 			end
@@ -407,6 +408,7 @@ function mod:OnShow()
 		end
 	end
 
+	mod:ConfigureElement_CPoints(self.UnitFrame)
 	mod:ConfigureElement_Level(self.UnitFrame)
 	mod:ConfigureElement_Name(self.UnitFrame)
 	mod:ConfigureElement_Elite(self.UnitFrame)
@@ -756,13 +758,9 @@ function mod:PLAYER_ENTERING_WORLD()
 	twipe(self.Healers)
 	local inInstance, instanceType = IsInInstance()
 	if inInstance and (instanceType == "pvp") and self.db.units.ENEMY_PLAYER.markHealers then
-		self.CheckHealerTimer = self:ScheduleRepeatingTimer("CheckBGHealers", 3)
-		self:CheckBGHealers()
+		self:RegisterEvent("UPDATE_BATTLEFIELD_SCORE", "CheckBGHealers")
 	else
-		if self.CheckHealerTimer then
-			self:CancelTimer(self.CheckHealerTimer)
-			self.CheckHealerTimer = nil
-		end
+		self:UnregisterEvent("UPDATE_BATTLEFIELD_SCORE")
 	end
 end
 
@@ -827,6 +825,10 @@ end
 
 function mod:SPELL_UPDATE_COOLDOWN()
 	mod:ForEachPlate("UpdateElement_Filters", "SPELL_UPDATE_COOLDOWN")
+end
+
+function mod:UNIT_FACTION()
+	self:ForEachVisiblePlate("UpdateAllFrame")
 end
 
 function mod:UpdateFonts(plate)
@@ -895,6 +897,7 @@ function mod:Initialize()
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 	self:RegisterEvent("UNIT_AURA")
 	self:RegisterEvent("UNIT_COMBO_POINTS")
+	self:RegisterEvent("UNIT_FACTION")
 
 	self:ScheduleRepeatingTimer("ForEachVisiblePlate", 0.1, "SetTargetFrame")
 

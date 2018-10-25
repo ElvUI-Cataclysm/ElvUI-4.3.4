@@ -180,9 +180,10 @@ end
 function UF:UpdateRange()
 	local range = self.Range
 	if not range then return end
+
 	local unit = self.unit
 
-	if self.forceInRange then
+	if self.forceInRange or unit == "player" then
 		self:SetAlpha(range.insideAlpha)
 	elseif self.forceNotInRange then
 		self:SetAlpha(range.outsideAlpha)

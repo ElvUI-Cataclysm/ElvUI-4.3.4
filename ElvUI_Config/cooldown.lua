@@ -182,7 +182,6 @@ local function group(order, db, label)
 						order = 3,
 						type = "range",
 						name = FONT_SIZE,
-						desc = L["Sets the size of the timers."],
 						min = 10, max = 32, step = 1
 					},
 					font = {

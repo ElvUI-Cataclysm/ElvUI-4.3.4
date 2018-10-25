@@ -90,8 +90,8 @@ function E:UIScale(event)
 			-- if autoscale is off, find a new width value of self.UIParent for screen #1.
 			if not self.global.general.autoScale or height > 1200 then
 				local h = UIParent:GetHeight();
-				local ratio = self.screenheight / h;
-				local w = self.eyefinity / ratio;
+				local ratio = (height / h)
+				local w = (width / ratio)
 
 				width = w;
 				height = h;

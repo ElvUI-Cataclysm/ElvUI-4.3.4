@@ -39,6 +39,7 @@ L["Sort Bags"] = true
 L["Temporary Move"] = true
 L["Toggle Bags"] = true
 L["Vendor / Delete Grays"] = true
+L["Vendoring Grays"] = true
 
 --Chat
 L["AFK"] = true --Also used in datatexts
@@ -69,6 +70,7 @@ L["Deficit:"] = true
 L["Download"] = true
 L["DPS"] = true
 L["Earned:"] = true
+L["ElvUI Config"] = true
 L["Friends List"] = true
 L["Gold"] = true
 L["goldabbrev"] = "|cffffd700g|r" --Also used in Bags

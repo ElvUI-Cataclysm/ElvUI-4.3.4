@@ -39,6 +39,7 @@ L["Sort Bags"] = "Trier les sacs"
 L["Temporary Move"] = "Déplacer temporairement"
 L["Toggle Bags"] = "Afficher les sacs"
 L["Vendor / Delete Grays"] = true
+L["Vendoring Grays"] = true
 
 --Chat
 L["AFK"] = "ABS" --Also used in datatexts and tooltip
@@ -69,6 +70,7 @@ L["Deficit:"] = "Déficit:"
 L["Download"] = "Téléchargement"
 L["DPS"] = "DPS"
 L["Earned:"] = "Gagné:"
+L["ElvUI Config"] = true
 L["Friends List"] = "Liste d'amis"
 L["Gold"] = "Or"
 L["goldabbrev"] = "|cffffd700g|r" --Also used in Bags

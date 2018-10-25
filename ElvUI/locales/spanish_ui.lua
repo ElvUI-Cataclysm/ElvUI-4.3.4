@@ -39,6 +39,7 @@ L["Sort Bags"] = "Ordenar Bolsas"
 L["Temporary Move"] = "Movimiento Temporal"
 L["Toggle Bags"] = "Mostrar/Ocultar Bolsas"
 L["Vendor / Delete Grays"] = true
+L["Vendoring Grays"] = true
 
 --Chat
 L["AFK"] = "Ausente"
@@ -69,6 +70,7 @@ L["Deficit:"] = "Déficit:"
 L["Download"] = "Descarga"
 L["DPS"] = "DPS"
 L["Earned:"] = "Ganada:"
+L["ElvUI Config"] = true
 L["Friends List"] = "Lista de Amigos"
 L["Gold"] = "Oro"
 L["goldabbrev"] = "|cffffd700g|r"

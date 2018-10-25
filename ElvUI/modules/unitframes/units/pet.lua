@@ -24,6 +24,7 @@ function UF:Construct_PetFrame(frame)
 	frame.Castbar.LatencyTexture:Hide();
 	frame.ThreatIndicator = self:Construct_Threat(frame);
 	frame.AuraWatch = self:Construct_AuraWatch(frame);
+	frame.AuraBars = self:Construct_AuraBarHeader(frame)
 	frame.Range = self:Construct_Range(frame);
 	frame.InfoPanel = self:Construct_InfoPanel(frame);
 	frame.MouseGlow = self:Construct_MouseGlow(frame)
@@ -89,6 +90,8 @@ function UF:Update_PetFrame(frame, db)
 	UF:Configure_HealComm(frame)
 
 	UF:Configure_Castbar(frame);
+
+	UF:Configure_AuraBars(frame)
 
 	if(E.db.unitframe.units.player.enable and E.db.unitframe.units.player.combatfade and ElvUF_Player and not InCombatLockdown()) then
 		frame:SetParent(ElvUF_Player);

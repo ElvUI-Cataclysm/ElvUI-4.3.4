@@ -83,7 +83,7 @@ function M:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, _, sourceGUID, _, _, _, _, d
 end
 
 function M:MERCHANT_SHOW()
-	if E.db.general.vendorGrays then
+	if E.db.bags.vendorGrays.enable then
 		E:GetModule("Bags"):VendorGrays(nil, true)
 	end
 

@@ -12,8 +12,10 @@ local function LoadSkin()
 
 	S:HandleCloseButton(ItemRefCloseButton)
 
+	-- Skin Blizzard Tooltips
 	local GameTooltip = _G["GameTooltip"]
 	local GameTooltipStatusBar = _G["GameTooltipStatusBar"]
+
 	local tooltips = {
 		GameTooltip,
 		ItemRefTooltip,
@@ -31,10 +33,12 @@ local function LoadSkin()
 		WorldMapCompareTooltip2,
 		WorldMapCompareTooltip3
 	}
+
 	for _, tt in pairs(tooltips) do
 		TT:SecureHookScript(tt, "OnShow", "SetStyle")
 	end
 
+	-- Skin GameTooltip Status Bar
 	GameTooltipStatusBar:SetStatusBarTexture(E["media"].normTex)
 	E:RegisterStatusBar(GameTooltipStatusBar)
 	GameTooltipStatusBar:CreateBackdrop("Transparent")
@@ -42,11 +46,10 @@ local function LoadSkin()
 	GameTooltipStatusBar:Point("TOPLEFT", GameTooltip, "BOTTOMLEFT", E.Border, -(E.Spacing * 3))
 	GameTooltipStatusBar:Point("TOPRIGHT", GameTooltip, "BOTTOMRIGHT", -E.Border, -(E.Spacing * 3))
 
-	TT:SecureHook("GameTooltip_ShowStatusBar", "GameTooltip_ShowStatusBar")
+	TT:SecureHook("GameTooltip_ShowStatusBar") -- Skin Status Bars
 
-	TT:SecureHookScript(GameTooltip, "OnSizeChanged", "CheckBackdropColor")
+	-- [Backdrop coloring] There has to be a more elegant way of doing this.
 	TT:SecureHookScript(GameTooltip, "OnUpdate", "CheckBackdropColor")
-	TT:RegisterEvent("CURSOR_UPDATE", "CheckBackdropColor")
 end
 
 S:AddCallback("SkinTooltip", LoadSkin)

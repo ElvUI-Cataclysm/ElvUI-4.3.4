@@ -39,6 +39,7 @@ L["Sort Bags"] = "가방 정렬"
 L["Temporary Move"] = "임시 이동"
 L["Toggle Bags"] = "가방슬롯 보기"
 L["Vendor / Delete Grays"] = "잡템 자동판매/삭제"
+L["Vendoring Grays"] = true
 
 --Chat
 L["AFK"] = "자리비움"
@@ -69,6 +70,7 @@ L["Deficit:"] = "손해:"
 L["Download"] = "다운로드"
 L["DPS"] = "DPS"
 L["Earned:"] = "수입:"
+L["ElvUI Config"] = true
 L["Friends List"] = "친구 목록"
 L["Gold"] = "골드"
 L["goldabbrev"] = "|TInterface\\MoneyFrame\\UI-MoneyIcons:0:0:1:0:64:16:1:16:1:16|t" --"|cffffd700●|r"

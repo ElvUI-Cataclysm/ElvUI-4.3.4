@@ -1,92 +1,100 @@
-local E, L, V, P, G = unpack(select(2, ...));
-local UF = E:GetModule('UnitFrames');
+local E, L, V, P, G = unpack(select(2, ...))
+local UF = E:GetModule("UnitFrames")
 
 local CreateFrame = CreateFrame
+local UnitGetTotalAbsorbs = UnitGetTotalAbsorbs
 
 function UF:Construct_HealComm(frame)
-	local mhpb = CreateFrame("StatusBar", nil, frame.Health)
-	mhpb:SetStatusBarTexture(E["media"].blankTex);
-	mhpb:Hide();
+	local myBar = CreateFrame("StatusBar", nil, frame.Health)
+	myBar:SetFrameLevel(11)
+	UF["statusbars"][myBar] = true
+	myBar:Hide()
 
-	local ohpb = CreateFrame("StatusBar", nil, frame.Health)
-	ohpb:SetStatusBarTexture(E["media"].blankTex);
-	ohpb:Hide();
+	local otherBar = CreateFrame("StatusBar", nil, frame.Health)
+	otherBar:SetFrameLevel(11)
+	UF["statusbars"][otherBar] = true
+	otherBar:Hide()
 
-	local HealthPrediction = {
-		myBar = mhpb,
-		otherBar = ohpb,
+	return {
+		myBar = myBar,
+		otherBar = otherBar,
 		maxOverflow = 1,
-		PostUpdate = UF.UpdateHealComm
+		parent = frame,
 	}
-	HealthPrediction.parent = frame
-
-	return HealthPrediction
 end
 
 function UF:Configure_HealComm(frame)
-	local healPrediction = frame.HealthPrediction
-	local c = self.db.colors.healPrediction
+	if frame.db.healPrediction and frame.db.healPrediction.enable then
+		local healPrediction = frame.HealthPrediction
+		local myBar = healPrediction.myBar
+		local otherBar = healPrediction.otherBar
+		local c = self.db.colors.healPrediction
+		healPrediction.maxOverflow = 1 + (c.maxOverflow or 0)
 
-	if(frame.db.healPrediction) then
-		if(not frame:IsElementEnabled("HealthPrediction")) then
-			frame:EnableElement("HealthPrediction");
+		if not frame:IsElementEnabled("HealthPrediction") then
+			frame:EnableElement("HealthPrediction")
 		end
 
-		if(not frame.USE_PORTRAIT_OVERLAY) then
-			healPrediction.myBar:SetParent(frame.Health);
-			healPrediction.otherBar:SetParent(frame.Health);
+		if frame.USE_PORTRAIT_OVERLAY then
+			myBar:SetParent(frame.Portrait.overlay)
+			otherBar:SetParent(frame.Portrait.overlay)
 		else
-			healPrediction.myBar:SetParent(frame.Portrait.overlay);
-			healPrediction.otherBar:SetParent(frame.Portrait.overlay);
+			myBar:SetParent(frame.Health)
+			otherBar:SetParent(frame.Health)
 		end
 
-		local orientation = frame.db.health and frame.db.health.orientation
-		if(orientation) then
-			healPrediction.myBar:SetOrientation(orientation);
-			healPrediction.otherBar:SetOrientation(orientation);
+		 if frame.db.health then
+			local orientation = frame.db.health.orientation or frame.Health:GetOrientation()
+			local reverseFill = not not frame.db.health.reverseFill
+
+			myBar:SetOrientation(orientation)
+			otherBar:SetOrientation(orientation)
+
+			if orientation == "HORIZONTAL" then
+				local width = frame.Health:GetWidth()
+				width = width > 0 and width or frame.Health.WIDTH
+				local p1 = reverseFill and "RIGHT" or "LEFT"
+				local p2 = reverseFill and "LEFT" or "RIGHT"
+
+				myBar:ClearAllPoints()
+				myBar:Point("TOP", frame.Health, "TOP")
+				myBar:Point("BOTTOM", frame.Health, "BOTTOM")
+				myBar:Point(p1, frame.Health:GetStatusBarTexture(), p2)
+				myBar:Size(width, 0)
+
+				otherBar:ClearAllPoints()
+				otherBar:Point("TOP", frame.Health, "TOP")
+				otherBar:Point("BOTTOM", frame.Health, "BOTTOM")
+				otherBar:Point(p1, myBar:GetStatusBarTexture(), p2)
+				otherBar:Size(width, 0)
+			else
+				local height = frame.Health:GetHeight()
+				height = height > 0 and height or frame.Health.HEIGHT
+				local p1 = reverseFill and "TOP" or "BOTTOM"
+				local p2 = reverseFill and "BOTTOM" or "TOP"
+
+				myBar:ClearAllPoints()
+				myBar:Point("LEFT", frame.Health, "LEFT")
+				myBar:Point("RIGHT", frame.Health, "RIGHT")
+				myBar:Point(p1, frame.Health:GetStatusBarTexture(), p2)
+				myBar:Size(0, height)
+
+				otherBar:ClearAllPoints()
+				otherBar:Point("LEFT", frame.Health, "LEFT")
+				otherBar:Point("RIGHT", frame.Health, "RIGHT")
+				otherBar:Point(p1, myBar:GetStatusBarTexture(), p2)
+				otherBar:Size(0, height)
+			end
+
+			myBar:SetReverseFill(reverseFill)
+			otherBar:SetReverseFill(reverseFill)
 		end
 
-		healPrediction.myBar:SetStatusBarColor(c.personal.r, c.personal.g, c.personal.b, c.personal.a);
-		healPrediction.otherBar:SetStatusBarColor(c.others.r, c.others.g, c.others.b, c.others.a);
-
-		healPrediction.maxOverflow = (1 + (c.maxOverflow or 0))
+		myBar:SetStatusBarColor(c.personal.r, c.personal.g, c.personal.b, c.personal.a)
+		otherBar:SetStatusBarColor(c.others.r, c.others.g, c.others.b, c.others.a)
 	else
-		if(frame:IsElementEnabled("HealthPrediction")) then
-			frame:DisableElement("HealthPrediction");
+		if frame:IsElementEnabled("HealthPrediction") then
+			frame:DisableElement("HealthPrediction")
 		end
 	end
-end
-
-function UF:UpdateFillBar(frame, previousTexture, bar, amount)
-	if(amount == 0) then
-		bar:Hide();
-		return previousTexture;
-	end
-
-	local orientation = frame.Health:GetOrientation()
-	bar:ClearAllPoints();
-	if(orientation == "HORIZONTAL") then
-		bar:Point("TOPLEFT", previousTexture, "TOPRIGHT");
-		bar:Point("BOTTOMLEFT", previousTexture, "BOTTOMRIGHT");
-	else
-		bar:Point("BOTTOMRIGHT", previousTexture, "TOPRIGHT");
-		bar:Point("BOTTOMLEFT", previousTexture, "TOPLEFT");
-	end
-
-	local totalWidth, totalHeight = frame.Health:GetSize();
-	if(orientation == "HORIZONTAL") then
-		bar:Width(totalWidth);
-	else
-		bar:Height(totalHeight);
-	end
-
-	return bar:GetStatusBarTexture();
-end
-
-function UF:UpdateHealComm(_, myIncomingHeal, allIncomingHeal)
-	local frame = self.parent
-	local previousTexture = frame.Health:GetStatusBarTexture();
-
-	previousTexture = UF:UpdateFillBar(frame, previousTexture, self.myBar, myIncomingHeal)
-	previousTexture = UF:UpdateFillBar(frame, previousTexture, self.otherBar, allIncomingHeal)
 end

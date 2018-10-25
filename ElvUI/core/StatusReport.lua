@@ -14,19 +14,16 @@ local GetPrimaryTalentTree = GetPrimaryTalentTree
 local GetTalentTabInfo = GetTalentTabInfo
 local UnitLevel = UnitLevel
 
-local function IsAddOnEnabled(addon)
-	return GetAddOnEnableState(E.myname, addon) == 2
-end
-
 local function AreOtherAddOnsEnabled()
 	local name, loadable, reason, _
 	for i = 1, GetNumAddOns() do
 		name, _, _, loadable, reason = GetAddOnInfo(i)
-		if ((name ~= "ElvUI" and name ~= "ElvUI Config") and (loadable or (not loadable and reason == "DEMAND_LOADED"))) then --Loaded or load on demand
-			return "No"
+		if ((name ~= "ElvUI" and name ~= "ElvUI_Config") and (loadable or (not loadable and reason == "DEMAND_LOADED"))) then --Loaded or load on demand
+			return "Yes"
 		end
 	end
-	return "Yes"
+
+	return "No"
 end
 
 local function GetUiScale()
@@ -63,7 +60,7 @@ local EnglishClassName = {
 	["ROGUE"] = "Rogue",
 	["SHAMAN"] = "Shaman",
 	["WARLOCK"] = "Warlock",
-	["WARRIOR"] = "Warrior",
+	["WARRIOR"] = "Warrior"
 }
 
 local function GetSpecName()
@@ -122,7 +119,7 @@ function E:CreateStatusFrame()
 
 	local function CreateContentLines(num, parent, anchorTo)
 		local content = CreateFrame("Frame", nil, parent)
-		content:Size(240, (num * 20) + ((num-1)*5)) --20 height and 5 spacing
+		content:Size(240, (num * 20) + ((num - 1) * 5)) --20 height and 5 spacing
 		content:Point("TOP", anchorTo, "BOTTOM",0 , -5)
 		for i = 1, num do
 			local line = CreateFrame("Frame", nil, content)
@@ -136,7 +133,7 @@ function E:CreateStatusFrame()
 			if i == 1 then
 				content["Line"..i]:Point("TOP", content, "TOP")
 			else
-				content["Line"..i]:Point("TOP", content["Line"..(i-1)], "BOTTOM", 0, -5)
+				content["Line"..i]:Point("TOP", content["Line"..(i - 1)], "BOTTOM", 0, -5)
 			end
 		end
 

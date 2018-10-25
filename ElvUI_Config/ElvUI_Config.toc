@@ -1,7 +1,7 @@
 ## Interface: 40300
 ## Author: Elv, Bunny
 ## Version: 1.01
-## Title: |cff1784d1E|r|cffe5e3e3lvUI|r |cff1784d1C|r|cffe5e3e3onfig|r
+## Title: |cffff7000E|r|cffe5e3e3lvUI|r |cffff7000C|r|cffe5e3e3onfig|r
 ## Notes: Options for ElvUI.
 ## RequiredDeps: ElvUI
 ## LoadOnDemand: true
@@ -23,4 +23,4 @@ tooltip.lua
 unitframes.lua
 DataBars.lua
 maps.lua
-modulereset.lua
+modulecontrol.lua

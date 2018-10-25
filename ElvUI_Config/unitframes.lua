@@ -732,34 +732,39 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 				type = "header",
 				name = HEALTH
 			},
-			position = {
+			reverseFill = {
 				order = 2,
+				type = "toggle",
+				name = L["Reverse Fill"]
+			},
+			position = {
+				order = 3,
 				type = "select",
 				name = L["Text Position"],
 				values = positionValues
 			},
 			xOffset = {
-				order = 3,
+				order = 4,
 				type = "range",
 				name = L["Text xOffset"],
 				desc = L["Offset position for text."],
 				min = -300, max = 300, step = 1
 			},
 			yOffset = {
-				order = 4,
+				order = 5,
 				type = "range",
 				name = L["Text yOffset"],
 				desc = L["Offset position for text."],
 				min = -300, max = 300, step = 1
 			},
 			attachTextTo = {
-				order = 5,
+				order = 6,
 				type = "select",
 				name = L["Attach Text To"],
 				values = attachToValues
 			},
 			configureButton = {
-				order = 6,
+				order = 7,
 				type = "execute",
 				name = L["Coloring"],
 				desc = L["This opens the UnitFrames Color settings. These settings affect all unitframes."],
@@ -816,8 +821,13 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 				type = "toggle",
 				name = L["Enable"]
 			},
-			width = {
+			reverseFill = {
 				order = 3,
+				type = "toggle",
+				name = L["Reverse Fill"]
+			},
+			width = {
+				order = 4,
 				type = "select",
 				name = L["Style"],
 				values = {
@@ -864,47 +874,47 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 				end
 			},
 			height = {
-				order = 4,
+				order = 5,
 				type = "range",
 				name = L["Height"],
 				min = ((E.db.unitframe.thinBorders or E.PixelMode) and 3 or 7), max = 50, step = 1
 			},
 			offset = {
-				order = 5,
+				order = 6,
 				type = "range",
 				name = L["Offset"],
 				desc = L["Offset of the powerbar to the healthbar, set to 0 to disable."],
 				min = 0, max = 20, step = 1
 			},
 			configureButton = {
-				order = 6,
+				order = 7,
 				type = "execute",
 				name = L["Coloring"],
 				desc = L["This opens the UnitFrames Color settings. These settings affect all unitframes."],
 				func = function() ACD:SelectGroup("ElvUI", "unitframe", "general", "allColorsGroup", "powerGroup") end
 			},
 			position = {
-				order = 7,
+				order = 8,
 				type = "select",
 				name = L["Text Position"],
 				values = positionValues
 			},
 			xOffset = {
-				order = 8,
+				order = 9,
 				type = "range",
 				name = L["Text xOffset"],
 				desc = L["Offset position for text."],
 				min = -300, max = 300, step = 1
 			},
 			yOffset = {
-				order = 9,
+				order = 10,
 				type = "range",
 				name = L["Text yOffset"],
 				desc = L["Offset position for text."],
 				min = -300, max = 300, step = 1
 			},
 			attachTextTo = {
-				order = 10,
+				order = 11,
 				type = "select",
 				name = L["Attach Text To"],
 				values = attachToValues
@@ -1177,7 +1187,7 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 						end
 					elseif numUnits then
 						for i = 1, numUnits do
-							local castbar = _G[frameName.."UnitButton"..i].Castbar
+							local castbar = _G[frameName..i].Castbar
 							if not castbar.oldHide then
 								castbar.oldHide = castbar.Hide
 								castbar.Hide = castbar.Show
@@ -1232,31 +1242,39 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 				type = "toggle",
 				name = L["Latency"]
 			},
-			format = {
+			timeToHold = {
 				order = 9,
+				type = "range",
+				name = L["Time To Hold"],
+				desc = L["How many seconds the castbar should stay visible after the cast failed or was interrupted."],
+				min = 0, max = 10, step = .1
+			},
+			format = {
+				order = 10,
 				type = "select",
 				name = L["Format"],
 				values = {
 					["CURRENTMAX"] = L["Current / Max"],
 					["CURRENT"] = L["Current"],
-					["REMAINING"] = L["Remaining"]
+					["REMAINING"] = L["Remaining"],
+					["REMAININGMAX"] = L["Remaining / Max"]
 				}
 			},
 			spark = {
-				order = 10,
+				order = 11,
 				type = "toggle",
 				name = L["Spark"],
 				desc = L["Display a spark texture at the end of the castbar statusbar to help show the differance between castbar and backdrop."]
 			},
 			insideInfoPanel = {
-				order = 11,
+				order = 12,
 				type = "toggle",
 				name = L["Inside Information Panel"],
 				desc = L["Display the castbar inside the information panel, the icon will be displayed outside the main unitframe."],
 				disabled = function() return not E.db.unitframe.units[groupName].infoPanel or not E.db.unitframe.units[groupName].infoPanel.enable end
 			},
 			iconSettings = {
-				order = 12,
+				order = 13,
 				type = "group",
 				name = L["Icon"],
 				guiInline = true,
@@ -1312,6 +1330,50 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 						name = L["yOffset"],
 						min = -300, max = 300, step = 1,
 						disabled = function() return E.db.unitframe.units[groupName].castbar.iconAttached end
+					}
+				}
+			},
+			strataAndLevel = {
+				order = 14,
+				type = "group",
+				name = L["Strata and Level"],
+				get = function(info) return E.db.unitframe.units[groupName]['castbar']["strataAndLevel"][ info[#info] ] end,
+				set = function(info, value) E.db.unitframe.units[groupName]['castbar']["strataAndLevel"][ info[#info] ] = value updateFunc(UF, groupName, numUnits) end,
+				guiInline = true,
+				args = {
+					useCustomStrata = {
+						order = 1,
+						type = "toggle",
+						name = L["Use Custom Strata"]
+					},
+					frameStrata = {
+						order = 2,
+						type = "select",
+						name = L["Frame Strata"],
+						values = {
+							["BACKGROUND"] = "BACKGROUND",
+							["LOW"] = "LOW",
+							["MEDIUM"] = "MEDIUM",
+							["HIGH"] = "HIGH",
+							["DIALOG"] = "DIALOG",
+							["TOOLTIP"] = "TOOLTIP"
+						}
+					},
+					spacer = {
+						order = 3,
+						type = "description",
+						name = ""
+					},
+					useCustomLevel = {
+						order = 4,
+						type = "toggle",
+						name = L["Use Custom Level"]
+					},
+					frameLevel = {
+						order = 5,
+						type = "range",
+						name = L["Frame Level"],
+						min = 2, max = 128, step = 1
 					}
 				}
 			}
@@ -2011,6 +2073,39 @@ local function GetOptionsTable_CustomText(updateFunc, groupName, numUnits)
 	return config
 end
 
+local function GetOptionsTable_HealPrediction(updateFunc, groupName)
+	local config = {
+		order = 101,
+		type = "group",
+		name = L["Heal Prediction"],
+		desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."],
+		get = function(info) return E.db.unitframe.units[groupName]["healPrediction"][ info[#info] ] end,
+		set = function(info, value) E.db.unitframe.units[groupName]["healPrediction"][ info[#info] ] = value updateFunc(UF, groupName) end,
+		args = {
+			header = {
+				order = 1,
+				type = "header",
+				name = L["Heal Prediction"]
+			},
+			enable = {
+				order = 2,
+				type = "toggle",
+				name = L["Enable"]
+			},
+			colors = {
+				order = 3,
+				type = "execute",
+				name = COLORS,
+				buttonElvUI = true,
+				func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "allColorsGroup", "healPrediction") end,
+				disabled = function() return not E.UnitFrames end
+			}
+		}
+	}
+
+	return config
+end
+
 E.Options.args.unitframe = {
 	type = "group",
 	name = L["UnitFrames"],
@@ -2268,7 +2363,7 @@ E.Options.args.unitframe = {
 							type = "range",
 							name = L["OOR Alpha"],
 							desc = L["The alpha to set units that are out of range to."],
-							min = 0, max = 1, step = 0.01
+							softMin = .1, min = 0, max = 1, step = 0.01
 						},
 						debuffHighlighting = {
 							order = 4,
@@ -2331,7 +2426,6 @@ E.Options.args.unitframe = {
 									order = 2,
 									type = "range",
 									name = L["Animation Speed"],
-									desc = L["Speed in seconds"],
 									min = 0.1, max = 3, step = 0.01,
 									disabled = function() return not E.db.unitframe.smoothbars end,
 									set = function(info, value) E.db.unitframe[ info[#info] ] = value UF:Update_AllFrames() end
@@ -3223,14 +3317,8 @@ E.Options.args.unitframe.args.player = {
 						end
 					end
 				},
-				healPrediction = {
-					order = 9,
-					type = "toggle",
-					name = L["Heal Prediction"],
-					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."],
-				},
 				hideonnpc = {
-					order = 10,
+					order = 9,
 					type = "toggle",
 					name = L["Text Toggle On NPC"],
 					desc = L["Power text will be hidden on NPC targets, in addition the name text will be repositioned to the power texts anchor point."],
@@ -3238,51 +3326,52 @@ E.Options.args.unitframe.args.player = {
 					set = function(info, value) E.db.unitframe.units["player"]["power"].hideonnpc = value UF:CreateAndUpdateUF("player") end
 				},
 				threatStyle = {
-					order = 11,
+					order = 10,
 					type = "select",
 					name = L["Threat Display Mode"],
 					values = threatValues
 				},
 				smartAuraPosition = {
-					order = 12,
+					order = 11,
 					type = "select",
 					name = L["Smart Aura Position"],
 					desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
 					values = smartAuraPositionValues
 				},
 				orientation = {
-					order = 13,
+					order = 12,
 					type = "select",
 					name = L["Frame Orientation"],
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
 				colorOverride = {
-					order = 14,
+					order = 13,
 					type = "select",
 					name = L["Class Color Override"],
 					desc = L["Override the default class color setting."],
 					values = colorOverrideValues
 				},
 				spacer = {
-					order = 15,
+					order = 14,
 					type = "description",
 					name = ""
 				},
 				disableMouseoverGlow = {
-					order = 16,
+					order = 15,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 17,
+					order = 16,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
 				}
 			}
 		},
+		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateUF, "player"),
 		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUF, "player"),
 		health = GetOptionsTable_Health(false, UF.CreateAndUpdateUF, "player"),
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateUF, "player"),
@@ -3796,6 +3885,34 @@ E.Options.args.unitframe.args.player = {
 					min = -100, max = 100, step = 1
 				}
 			}
+		},
+		raidRoleIcons = {
+			order = 703,
+			type = "group",
+			name = L["RL / ML Icons"],
+			get = function(info) return E.db.unitframe.units["player"]["raidRoleIcons"][ info[#info] ] end,
+			set = function(info, value) E.db.unitframe.units["player"]["raidRoleIcons"][ info[#info] ] = value UF:CreateAndUpdateUF("player") end,
+			args = {
+				header = {
+					order = 1,
+					type = "header",
+					name = L["RL / ML Icons"]
+				},
+				enable = {
+					order = 2,
+					type = "toggle",
+					name = L["Enable"]
+				},
+				position = {
+					order = 3,
+					type = "select",
+					name = L["Position"],
+					values = {
+						["TOPLEFT"] = "TOPLEFT",
+						["TOPRIGHT"] = "TOPRIGHT"
+					}
+				}
+			}
 		}
 	}
 }
@@ -3880,14 +3997,8 @@ E.Options.args.unitframe.args.target = {
 					name = L["Range Check"],
 					desc = L["Check if you are in range to cast spells on this specific unit."]
 				},
-				healPrediction = {
-					order = 9,
-					type = "toggle",
-					name = L["Heal Prediction"],
-					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
-				},
 				hideonnpc = {
-					order = 10,
+					order = 9,
 					type = "toggle",
 					name = L["Text Toggle On NPC"],
 					desc = L["Power text will be hidden on NPC targets, in addition the name text will be repositioned to the power texts anchor point."],
@@ -3895,53 +4006,54 @@ E.Options.args.unitframe.args.target = {
 					set = function(info, value) E.db.unitframe.units["target"]["power"].hideonnpc = value UF:CreateAndUpdateUF("target") end
 				},
 				middleClickFocus = {
-					order = 11,
+					order = 10,
 					type = "toggle",
 					name = L["Middle Click - Set Focus"],
 					desc = L["Middle clicking the unit frame will cause your focus to match the unit."],
 					disabled = function() return IsAddOnLoaded("Clique") end
 				},
 				threatStyle = {
-					order = 12,
+					order = 11,
 					type = "select",
 					name = L["Threat Display Mode"],
 					values = threatValues
 				},
 				smartAuraPosition = {
-					order = 13,
+					order = 12,
 					type = "select",
 					name = L["Smart Aura Position"],
 					desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
 					values = smartAuraPositionValues
 				},
 				orientation = {
-					order = 14,
+					order = 13,
 					type = "select",
 					name = L["Frame Orientation"],
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
 				colorOverride = {
-					order = 15,
+					order = 14,
 					type = "select",
 					name = L["Class Color Override"],
 					desc = L["Override the default class color setting."],
 					values = colorOverrideValues
 				},
 				disableMouseoverGlow = {
-					order = 16,
+					order = 15,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 17,
+					order = 16,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
 				}
 			}
 		},
+		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateUF, "target"),
 		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUF, "target"),
 		health = GetOptionsTable_Health(false, UF.CreateAndUpdateUF, "target"),
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateUF, "target"),
@@ -4527,12 +4639,6 @@ E.Options.args.unitframe.args.focus = {
 					name = L["Range Check"],
 					desc = L["Check if you are in range to cast spells on this specific unit."]
 				},
-				healPrediction = {
-					order = 9,
-					type = "toggle",
-					name = L["Heal Prediction"],
-					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
-				},
 				hideonnpc = {
 					order = 10,
 					type = "toggle",
@@ -4582,6 +4688,7 @@ E.Options.args.unitframe.args.focus = {
 				}
 			}
 		},
+		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateUF, "focus"),
 		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUF, "focus"),
 		health = GetOptionsTable_Health(false, UF.CreateAndUpdateUF, "focus"),
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateUF, "focus"),
@@ -4805,12 +4912,6 @@ E.Options.args.unitframe.args.pet = {
 					name = L["Range Check"],
 					desc = L["Check if you are in range to cast spells on this specific unit."]
 				},
-				healPrediction = {
-					order = 9,
-					type = "toggle",
-					name = L["Heal Prediction"],
-					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
-				},
 				hideonnpc = {
 					order = 10,
 					type = "toggle",
@@ -4892,6 +4993,7 @@ E.Options.args.unitframe.args.pet = {
 				}
 			}
 		},
+		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateUF, "pet"),
 		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUF, "pet"),
 		health = GetOptionsTable_Health(false, UF.CreateAndUpdateUF, "pet"),
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateUF, "pet"),
@@ -4900,7 +5002,8 @@ E.Options.args.unitframe.args.pet = {
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "pet"),
 		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "pet"),
 		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "pet"),
-		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, "pet")
+		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, "pet"),
+		aurabar = GetOptionsTable_AuraBars(UF.CreateAndUpdateUF, "pet")
 	}
 }
 
@@ -5270,12 +5373,6 @@ E.Options.args.unitframe.args.arena = {
 					name = L["Range Check"],
 					desc = L["Check if you are in range to cast spells on this specific unit."]
 				},
-				healPrediction = {
-					order = 9,
-					type = "toggle",
-					name = L["Heal Prediction"],
-					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
-				},
 				hideonnpc = {
 					order = 10,
 					type = "toggle",
@@ -5387,6 +5484,7 @@ E.Options.args.unitframe.args.arena = {
 				}
 			}
 		},
+		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateUFGroup, "arena", 5),
 		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUFGroup, "arena", 5),
 		health = GetOptionsTable_Health(false, UF.CreateAndUpdateUFGroup, "arena", 5),
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateUFGroup, "arena", 5),
@@ -5462,12 +5560,6 @@ E.Options.args.unitframe.args.party = {
 					type = "toggle",
 					name = L["Range Check"],
 					desc = L["Check if you are in range to cast spells on this specific unit."]
-				},
-				healPrediction = {
-					order = 5,
-					type = "toggle",
-					name = L["Heal Prediction"],
-					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
 				},
 				threatStyle = {
 					order = 6,
@@ -5809,6 +5901,7 @@ E.Options.args.unitframe.args.party = {
 			}
 		},
 		health = GetOptionsTable_Health(true, UF.CreateAndUpdateHeaderGroup, "party"),
+		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateHeaderGroup, "party"),
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateHeaderGroup, "party"),
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateHeaderGroup, "party"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "party"),
@@ -6115,12 +6208,6 @@ E.Options.args.unitframe.args.raid = {
 					name = L["Range Check"],
 					desc = L["Check if you are in range to cast spells on this specific unit."]
 				},
-				healPrediction = {
-					order = 5,
-					type = "toggle",
-					name = L["Heal Prediction"],
-					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
-				},
 				threatStyle = {
 					order = 6,
 					type = "select",
@@ -6319,6 +6406,7 @@ E.Options.args.unitframe.args.raid = {
 			}
 		},
 		health = GetOptionsTable_Health(true, UF.CreateAndUpdateHeaderGroup, "raid"),
+		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateHeaderGroup, "raid"),
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateHeaderGroup, "raid"),
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateHeaderGroup, "raid"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "raid"),
@@ -6588,12 +6676,6 @@ E.Options.args.unitframe.args.raid40 = {
 					name = L["Range Check"],
 					desc = L["Check if you are in range to cast spells on this specific unit."]
 				},
-				healPrediction = {
-					order = 5,
-					type = "toggle",
-					name = L["Heal Prediction"],
-					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
-				},
 				threatStyle = {
 					order = 6,
 					type = "select",
@@ -6792,6 +6874,7 @@ E.Options.args.unitframe.args.raid40 = {
 			}
 		},
 		health = GetOptionsTable_Health(true, UF.CreateAndUpdateHeaderGroup, "raid40"),
+		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateHeaderGroup, "raid40"),
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateHeaderGroup, "raid40"),
 		infoPanel = GetOptionsTable_InformationPanel(UF.CreateAndUpdateHeaderGroup, "raid40"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "raid40"),
@@ -7053,12 +7136,6 @@ E.Options.args.unitframe.args.raidpet = {
 					name = L["Range Check"],
 					desc = L["Check if you are in range to cast spells on this specific unit."]
 				},
-				healPrediction = {
-					order = 4,
-					type = "toggle",
-					name = L["Heal Prediction"],
-					desc = L["Show an incoming heal prediction bar on the unitframe. Also display a slightly different colored bar for incoming overheals."]
-				},
 				threatStyle = {
 					order = 5,
 					type = "select",
@@ -7248,7 +7325,8 @@ E.Options.args.unitframe.args.raidpet = {
 				}
 			}
 		},
-		health = GetOptionsTable_Health(true, UF.CreateAndUpdateHeaderGroup, "raidpet"),	
+		health = GetOptionsTable_Health(true, UF.CreateAndUpdateHeaderGroup, "raidpet"),
+		healPredction = GetOptionsTable_HealPrediction(UF.CreateAndUpdateHeaderGroup, "raidpet"),
 		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "raidpet"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateHeaderGroup, "raidpet"),
 		buffs = GetOptionsTable_Auras("buffs", true, UF.CreateAndUpdateHeaderGroup, "raidpet"),
@@ -7435,12 +7513,15 @@ E.Options.args.unitframe.args.tank = {
 					name = L["Class Color Override"],
 					desc = L["Override the default class color setting."],
 					values = colorOverrideValues
-				}
+				},
+				name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "tank")
 			}
 		},
+		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "tank"),
 		buffs = GetOptionsTable_Auras("buffs", true, UF.CreateAndUpdateHeaderGroup, "tank"),
 		debuffs = GetOptionsTable_Auras("debuffs", true, UF.CreateAndUpdateHeaderGroup, "tank"),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, "tank"),
+		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateHeaderGroup, "tank"),
 		buffIndicator = {
 			order = 800,
 			type = "group",
@@ -7493,6 +7574,8 @@ E.Options.args.unitframe.args.tank = {
 		}
 	}
 }
+E.Options.args.unitframe.args.tank.args.name.args.attachTextTo.values = {["Health"] = HEALTH, ["Frame"] = L["Frame"]}
+E.Options.args.unitframe.args.tank.args.targetsGroup.args.name.args.attachTextTo.values = {["Health"] = HEALTH, ["Frame"] = L["Frame"]}
 
 E.Options.args.unitframe.args.assist = {
 	order = 1600,
@@ -7633,12 +7716,15 @@ E.Options.args.unitframe.args.assist = {
 					name = L["Class Color Override"],
 					desc = L["Override the default class color setting."],
 					values = colorOverrideValues
-				}
+				},
+				name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "assist")
 			}
 		},
+		name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "assist"),
 		buffs = GetOptionsTable_Auras("buffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
 		debuffs = GetOptionsTable_Auras("debuffs", true, UF.CreateAndUpdateHeaderGroup, "assist"),
 		rdebuffs = GetOptionsTable_RaidDebuff(UF.CreateAndUpdateHeaderGroup, "assist"),
+		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateHeaderGroup, "assist"),
 		buffIndicator = {
 			order = 800,
 			type = "group",
@@ -7691,6 +7777,8 @@ E.Options.args.unitframe.args.assist = {
 		}
 	}
 }
+E.Options.args.unitframe.args.assist.args.name.args.attachTextTo.values = {["Health"] = HEALTH, ["Frame"] = L["Frame"]}
+E.Options.args.unitframe.args.assist.args.targetsGroup.args.name.args.attachTextTo.values = {["Health"] = HEALTH, ["Frame"] = L["Frame"]}
 
 --MORE COLORING STUFF YAY
 E.Options.args.unitframe.args.generalOptionsGroup.args.allColorsGroup.args.classResourceGroup = {

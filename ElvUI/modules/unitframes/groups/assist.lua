@@ -146,17 +146,11 @@ function UF:Update_AssistFrames(frame, db)
 
 	UF:Configure_Threat(frame)
 
-	do
-		local name = frame.Name
-		name:Point("CENTER", frame.Health, "CENTER")
-		if UF.db.colors.healthclass then
-			frame:Tag(name, "[name:medium]")
-		else
-			frame:Tag(name, "[namecolor][name:medium]")
-		end
-	end
+	UF:UpdateNameSettings(frame)
 
 	UF:Configure_Range(frame)
+
+	UF:Configure_RaidIcon(frame)
 
 	if not frame.isChild then
 		UF:EnableDisable_Auras(frame)

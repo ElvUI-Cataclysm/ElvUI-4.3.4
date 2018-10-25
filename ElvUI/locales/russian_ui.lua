@@ -39,6 +39,7 @@ L["Sort Bags"] = "Сортировать"
 L["Temporary Move"] = "Временное перемещение"
 L["Toggle Bags"] = "Показать сумки"
 L["Vendor / Delete Grays"] = "Продать/удалить серые предметы"
+L["Vendoring Grays"] = "Продаю хлам"
 
 --Chat
 L["AFK"] = "АФК" --Also used in datatexts and tooltip
@@ -69,6 +70,7 @@ L["Deficit:"] = "Убыток:"
 L["Download"] = "Загрузка"
 L["DPS"] = "УВС"
 L["Earned:"] = "Заработано"
+L["ElvUI Config"] = true
 L["Friends List"] = "Список друзей"
 L["Gold"] = "Золото"
 L["goldabbrev"] = "|cffffd700з|r" --Also used in Bags

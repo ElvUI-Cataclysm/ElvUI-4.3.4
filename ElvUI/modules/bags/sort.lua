@@ -1,12 +1,12 @@
-local E, L, V, P, G = unpack(select(2, ...));
-local B = E:GetModule('Bags');
-local Search = LibStub("LibItemSearch-1.2");
+local E, L, V, P, G = unpack(select(2, ...))
+local B = E:GetModule('Bags')
+local Search = LibStub("LibItemSearch-1.2")
 
-local ipairs, pairs, tonumber, select, unpack = ipairs, pairs, tonumber, select, unpack;
-local tinsert, tremove, tsort, twipe = table.insert, table.remove, table.sort, table.wipe;
-local floor = math.floor;
-local band = bit.band;
-local match, gmatch, find = string.match, string.gmatch, string.find;
+local ipairs, pairs, tonumber, select, unpack, pcall = ipairs, pairs, tonumber, select, unpack, pcall
+local tinsert, tremove, tsort, twipe = table.insert, table.remove, table.sort, table.wipe
+local floor = math.floor
+local band = bit.band
+local match, gmatch, find = string.match, string.gmatch, string.find
 
 local GetTime = GetTime;
 local InCombatLockdown = InCombatLockdown;
@@ -72,7 +72,7 @@ local bagStacks = {};
 local bagMaxStacks = {};
 local bagGroups = {};
 local initialOrder = {};
-local itemTypes, itemSubTypes
+local itemTypes, itemSubTypes = {}, {}
 local bagSorted, bagLocked = {}, {};
 local bagRole
 local moves = {};
@@ -137,8 +137,6 @@ local function IsGuildBankBag(bagid)
 end
 
 local function BuildSortOrder()
-	itemTypes = {}
-	itemSubTypes = {}
 	for i, iType in ipairs({GetAuctionItemClasses()}) do
 		itemTypes[iType] = i
 		itemSubTypes[iType] = {}
@@ -216,7 +214,14 @@ local function DefaultSort(a, b)
 		return (itemTypes[aType] or 99) < (itemTypes[bType] or 99)
 	end
 
-	if aType == ARMOR or aType == ENCHSLOT_WEAPON then
+	local aItemClassId, aItemSubClassId = itemTypes[aType] or 99, itemSubTypes[aType] and itemSubTypes[aType][aSubType] or 99
+	local bItemClassId, bItemSubClassId = itemTypes[bType] or 99, itemSubTypes[bType] and itemSubTypes[bType][bSubType] or 99
+
+	if aItemClassId ~= bItemClassId then
+		return aItemClassId < bItemClassId
+	end
+
+	if aItemClassId == ARMOR or aItemClassId == ENCHSLOT_WEAPON then
 		local aEquipLoc = inventorySlots[aEquipLoc] or -1
 		local bEquipLoc = inventorySlots[bEquipLoc] or -1
 		if aEquipLoc == bEquipLoc then
@@ -227,11 +232,11 @@ local function DefaultSort(a, b)
 			return aEquipLoc < bEquipLoc
 		end
 	end
-	if aSubType == bSubType then
+	if (aItemClassId == bItemClassId) and (aItemSubClassId == bItemSubClassId) then
 		return PrimarySort(a, b)
 	end
 
-	return ((itemSubTypes[aType] or {})[aSubType] or 99) < ((itemSubTypes[bType] or {})[bSubType] or 99)
+	return (aItemSubClassId or 99) < (bItemSubClassId or 99)
 end
 
 local function ReverseSort(a, b)
@@ -260,7 +265,7 @@ end
 local function IterateForwards(bagList, i)
 	i = i + 1
 	local step = 1
-	for _,bag in ipairs(bagList) do
+	for _, bag in ipairs(bagList) do
 		local slots = B:GetNumSlots(bag, bagRole)
 		if i > slots + step then
 			step = step + slots
@@ -357,10 +362,10 @@ function B:GetNumSlots(bag, role)
 end
 
 local function ConvertLinkToID(link) 
-	if(not link) then return; end
+	if not link then return; end
 
-	if(tonumber(match(link, "item:(%d+)"))) then
-		return tonumber(match(link, "item:(%d+)"));
+	if tonumber(match(link, "item:(%d+)")) then
+		return tonumber(match(link, "item:(%d+)"))
 	end
 end
 
@@ -400,13 +405,13 @@ end
 
 function B:ScanBags()
 	for _, bag, slot in B.IterateBags(allBags) do
-		local bagSlot = B:Encode_BagSlot(bag, slot);
-		local itemID = ConvertLinkToID(B:GetItemLink(bag, slot));
-		if(itemID) then
-			bagMaxStacks[bagSlot] = select(8, GetItemInfo(itemID));
-			bagIDs[bagSlot] = itemID;
+		local bagSlot = B:Encode_BagSlot(bag, slot)
+		local itemID = ConvertLinkToID(B:GetItemLink(bag, slot))
+		if itemID then
+			bagMaxStacks[bagSlot] = select(8, GetItemInfo(itemID))
+			bagIDs[bagSlot] = itemID
 			bagQualities[bagSlot] = select(3, GetItemInfo(B:GetItemLink(bag, slot)))
-			bagStacks[bagSlot] = select(2, B:GetItemInfo(bag, slot));
+			bagStacks[bagSlot] = select(2, B:GetItemInfo(bag, slot))
 		end
 	end
 end
@@ -494,18 +499,20 @@ end
 
 local blackListedSlots = {}
 local blackList = {}
-local blackListQueries = {};
+local blackListQueries = {}
 
 local function buildBlacklist(...)
 	for entry in pairs(...) do
-		local itemName = GetItemInfo(entry);
-		if(itemName) then
-			blackList[itemName] = true;
-		elseif(entry ~= "") then
-			if(find(entry, "%[") and find(entry, "%]")) then
-				entry = match(entry, "%[(.*)%]");
+		local itemName = GetItemInfo(entry)
+
+		if itemName then
+			blackList[itemName] = true
+		elseif entry ~= "" then
+			if find(entry, "%[") and find(entry, "%]") then
+				--For some reason the entry was not treated as a valid item. Extract the item name.
+				entry = match(entry, "%[(.*)%]")
 			end
-			blackListQueries[#blackListQueries+1] = entry;
+			blackListQueries[#blackListQueries+1] = entry
 		end
 	end
 end
@@ -525,18 +532,18 @@ function B.Sort(bags, sorter, invertDirection)
 
 	for i, bag, slot in B.IterateBags(bags, nil, 'both') do
 		local bagSlot = B:Encode_BagSlot(bag, slot)
-		local link = B:GetItemLink(bag, slot);
+		local link = B:GetItemLink(bag, slot)
 
-		if(link) then
-			if(blackList[GetItemInfo(link)]) then
-				blackListedSlots[bagSlot] = true;
+		if link then
+			if blackList[GetItemInfo(link)] then
+				blackListedSlots[bagSlot] = true
 			end
 
-			if(not blackListedSlots[bagSlot]) then
+			if not blackListedSlots[bagSlot] then
 				for _,itemsearchquery in pairs(blackListQueries) do
-					local success, result = pcall(Search.Matches, Search, link, itemsearchquery);
-					if(success and result) then
-						blackListedSlots[bagSlot] = blackListedSlots[bagSlot] or result;
+					local success, result = pcall(Search.Matches, Search, link, itemsearchquery)
+					if success and result then
+						blackListedSlots[bagSlot] = blackListedSlots[bagSlot] or result
 						break
 					end
 				end
@@ -674,12 +681,43 @@ function B:StartStacking()
 	end
 end
 
-function B:StopStacking(message)
+local function RegisterUpdateDelayed()
+	local shouldUpdateFade
+
+	for _, bagFrame in pairs(B.BagFrames) do
+		if bagFrame.registerUpdate then
+			bagFrame:UpdateAllSlots()
+
+			bagFrame.registerUpdate = nil -- call update and re-register events, keep this after UpdateAllSlots
+			shouldUpdateFade = true -- we should refresh the bag search after sorting
+
+			bagFrame:RegisterEvent("BAG_UPDATE")
+			bagFrame:RegisterEvent("BAG_UPDATE_COOLDOWN")
+
+			for _, event in pairs(bagFrame.events) do
+				bagFrame:RegisterEvent(event)
+			end
+		end
+	end
+
+	if shouldUpdateFade then
+		B:RefreshSearch() -- this will clear the bag lock look during a sort
+	end
+end
+
+function B:StopStacking(message, noUpdate)
 	twipe(moves)
 	twipe(moveTracker)
 	moveRetries, lastItemID, lockStop, lastDestination, lastMove = 0, nil, nil, nil, nil
 
 	self.SortUpdateTimer:Hide()
+
+	if not noUpdate then
+		--Add a delayed update call, as BAG_UPDATE fires slightly delayed
+		-- and we don't want the last few unneeded updates to be catched
+		E:Delay(0.6, RegisterUpdateDelayed)
+	end
+
 	if message then
 		E:Print(message)
 	end
@@ -813,7 +851,7 @@ function B:DoMoves()
 			lastItemID = moveID
 			tremove(moves, i)
 
-			if moves[i-1] then
+			if moves[i - 1] then
 				WAIT_TIME = wasGuild and 0.3 or 0;
 				return
 			end
@@ -834,12 +872,9 @@ function B:GetGroup(id)
 end
 
 function B:CommandDecorator(func, groupsDefaults)
-	local bagGroups = {}
-
 	return function(groups)
 		if self.SortUpdateTimer:IsShown() then
-			E:Print(L['Already Running.. Bailing Out!']);
-			B:StopStacking()
+			B:StopStacking(L["Already Running.. Bailing Out!"], true)
 			return;
 		end
 
