@@ -2,6 +2,7 @@
 local AB = E:GetModule("ActionBars")
 
 local _G = _G
+local gsub, match = string.gsub, string.match
 
 local CreateFrame = CreateFrame
 local UnitLevel = UnitLevel

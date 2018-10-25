@@ -4,6 +4,7 @@ local CH = E:GetModule("Chat");
 
 local _G = _G;
 local floor = math.floor;
+local gsub, format = string.gsub, string.format
 
 local GetTime = GetTime;
 local CreateFrame = CreateFrame;
@@ -246,11 +247,11 @@ local function Chat_OnEvent(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg
 	local accessID = ChatHistory_GetAccessID(chatGroup, chatTarget)
 	local typeID = ChatHistory_GetAccessID(type, chatTarget, arg12 == "" and arg13 or arg12)
 	if CH.db.shortChannels then
-		body = body:gsub("|Hchannel:(.-)|h%[(.-)%]|h", CH.ShortChannel)
-		body = body:gsub("^(.-|h) "..L["whispers"], "%1")
-		body = body:gsub("<"..AFKString..">", "[|cffFF0000"..L["AFK"].."|r] ")
-		body = body:gsub("<"..DND..">", "[|cffE7E716"..L["DND"].."|r] ")
-		body = body:gsub("%[BN_CONVERSATION:", '%['.."")
+		body = gsub(body, "|Hchannel:(.-)|h%[(.-)%]|h", CH.ShortChannel)
+		body = gsub(body, "^(.-|h) "..L["whispers"], "%1")
+		body = gsub(body, "<"..AFKString..">", "[|cffFF0000"..L["AFK"].."|r] ")
+		body = gsub(body, "<"..DND..">", "[|cffE7E716"..L["DND"].."|r] ")
+		body = gsub(body, "%[BN_CONVERSATION:", '%['.."")
 	end
 
 	self:AddMessage(body, info.r, info.g, info.b, info.id, false, accessID, typeID)
@@ -301,10 +302,9 @@ function AFK:Initialize()
 	self.AFKMode.bottom.logo:Point("CENTER", self.AFKMode.bottom, "CENTER", 0, 50);
 	self.AFKMode.bottom.logo:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\logo");
 
-	local factionGroup = E.myfaction
 	self.AFKMode.bottom.faction = self.AFKMode.bottom:CreateTexture(nil, "OVERLAY");
 	self.AFKMode.bottom.faction:Point("BOTTOMLEFT", self.AFKMode.bottom, "BOTTOMLEFT", -20, -16);
-	self.AFKMode.bottom.faction:SetTexture("Interface\\Timer\\"..factionGroup.."-Logo")
+	self.AFKMode.bottom.faction:SetTexture("Interface\\Timer\\"..E.myfaction.."-Logo")
 	self.AFKMode.bottom.faction:Size(140);
 
 	self.AFKMode.bottom.name = self.AFKMode.bottom:CreateFontString(nil, "OVERLAY");

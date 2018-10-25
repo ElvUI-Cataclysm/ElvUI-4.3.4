@@ -609,7 +609,7 @@ function UF:PostUpdateAdditionalPower(_, min, max, event)
 					self.Text:SetFormattedText(color.."%d%%|r", floor(min / max * 100))
 				end
 			else
-				self.Text:SetParent(self)
+				self.text:SetParent(frame.RaisedElementParent)
 				self.Text:Point("CENTER", self)
 				self.Text:SetFormattedText(color.."%d%%|r", floor(min / max * 100))
 			end

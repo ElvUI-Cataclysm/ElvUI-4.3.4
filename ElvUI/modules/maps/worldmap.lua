@@ -2,6 +2,8 @@ local E, L, V, P, G = unpack(select(2, ...))
 local M = E:NewModule("WorldMap", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0")
 E.WorldMap = M
 
+local _G = _G
+local pairs = pairs
 local find, format = string.find, string.format
 
 local CreateFrame = CreateFrame
@@ -118,7 +120,7 @@ function M:UpdateCoords()
 	y = y and E:Round(100 * y, 2) or 0
 
 	if x ~= 0 and y ~= 0 then
-		CoordsHolder.playerCoords:SetText(PLAYER .. ":   " .. format("%.2f, %.2f", x, y))
+		CoordsHolder.playerCoords:SetText(PLAYER..":   "..format("%.2f, %.2f", x, y))
 	else
 		CoordsHolder.playerCoords:SetText("")
 	end
@@ -167,7 +169,7 @@ function M:Initialize()
 		CoordsHolder.playerCoords:SetTextColor(1, 1 ,0)
 		CoordsHolder.playerCoords:SetFontObject(NumberFontNormal)
 		CoordsHolder.playerCoords:SetText(PLAYER..":   0, 0")
-		
+
 		CoordsHolder.mouseCoords = CoordsHolder:CreateFontString(nil, "OVERLAY")
 		CoordsHolder.mouseCoords:SetTextColor(1, 1 ,0)
 		CoordsHolder.mouseCoords:SetFontObject(NumberFontNormal)

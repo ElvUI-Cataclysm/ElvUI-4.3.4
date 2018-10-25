@@ -2,6 +2,9 @@
 local RB = E:NewModule("ReminderBuffs", "AceEvent-3.0");
 local LSM = LibStub("LibSharedMedia-3.0");
 
+local pairs, unpack = pairs, unpack
+local format = string.format
+
 E.ReminderBuffs = RB;
 
 local Masque = LibStub("Masque", true)

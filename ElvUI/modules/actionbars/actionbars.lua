@@ -4,7 +4,7 @@ local AB = E:NewModule("ActionBars", "AceHook-3.0", "AceEvent-3.0")
 local _G = _G
 local pairs, select, unpack = pairs, select, unpack
 local ceil = math.ceil
-local format, gsub, split, strfind = string.format, string.gsub, string.split, strfind
+local format, gsub, match, split, strfind = string.format, string.gsub, string.match, string.split, strfind
 
 local CanExitVehicle = CanExitVehicle
 local ClearOverrideBindings = ClearOverrideBindings

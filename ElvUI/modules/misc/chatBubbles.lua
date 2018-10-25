@@ -3,7 +3,7 @@ local M = E:GetModule("Misc")
 local CH = E:GetModule("Chat")
 
 local select, unpack = select, unpack
-local format = string.format
+local gsub, gmatch, format, lower = string.gsub, string.gmatch, string.format, string.lower
 
 local CreateFrame = CreateFrame
 local GetPlayerInfoByGUID = GetPlayerInfoByGUID
