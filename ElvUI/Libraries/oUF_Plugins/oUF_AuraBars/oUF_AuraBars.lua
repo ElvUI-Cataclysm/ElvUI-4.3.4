@@ -53,8 +53,8 @@ local function SetAnchors(self)
 		local frame = bars[index]
 		local anchor = frame.anchor
 		frame:Height(self.auraBarHeight or 20)
-		frame.statusBar.iconHolder:Size(frame:GetHeight())			
-		frame:Width((self.auraBarWidth or self:GetWidth()) - (frame:GetHeight() + (self.gap or 0)))	
+		frame.statusBar.iconHolder:Size(frame:GetHeight())
+		frame:Width((self.auraBarWidth or self:GetWidth()) - (frame:GetHeight() + (self.gap or 0)))
 		frame:ClearAllPoints()
 		if self.down == true then
 			if self == anchor then -- Root frame so indent for icon
@@ -102,11 +102,11 @@ local function CreateAuraBar(oUF, anchor)
 		end
 	end
 
-	local spark = statusBar:CreateTexture(nil, "OVERLAY", nil);
-	spark:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]]);
-	spark:Width(12);
-	spark:SetBlendMode("ADD");
-	spark:SetPoint('CENTER', statusBar:GetStatusBarTexture(), 'RIGHT')		
+	local spark = statusBar:CreateTexture(nil, "OVERLAY", nil)
+	spark:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]])
+	spark:Width(12)
+	spark:SetBlendMode("ADD")
+	spark:SetPoint('CENTER', statusBar:GetStatusBarTexture(), 'RIGHT')
 	statusBar.spark = spark
 
 	statusBar.iconHolder = CreateFrame('Button', nil, statusBar)
@@ -276,7 +276,7 @@ local function Update(self, event, unit)
 	end
 
 	for index = 1 , lastAuraIndex do
-		if (auraBars:GetWidth() == 0) then break; end
+		if (auraBars:GetWidth() == 0) then break end
 		local aura = auras[index]
 		local frame = bars[index]
 

@@ -7,11 +7,11 @@ local UnitCanAssist = UnitCanAssist
 
 local playerClass = select(2, UnitClass("player"))
 local CanDispel = {
-	PRIEST = { Magic = true, Disease = true, },
-	SHAMAN = { Magic = false, Curse = true, },
-	PALADIN = { Magic = false, Poison = true, Disease = true, },
-	MAGE = { Curse = true, },
-	DRUID = { Magic = false, Curse = true, Poison = true, }
+	PRIEST = {Magic = true, Disease = true},
+	SHAMAN = {Magic = false, Curse = true},
+	PALADIN = {Magic = false, Poison = true, Disease = true},
+	MAGE = {Curse = true},
+	DRUID = {Magic = false, Curse = true, Poison = true}
 }
 
 local dispellist = CanDispel[playerClass] or {}
@@ -30,7 +30,7 @@ local function GetDebuffType(unit, filter, filterTable)
 		if(filterTable and filterSpell and filterSpell.enable) then
 			return debufftype, texture, true, filterSpell.style, filterSpell.color
 		elseif(debufftype and (not filter or (filter and dispellist[debufftype]))) then
-			return debufftype, texture;
+			return debufftype, texture
 		end
 		i = i + 1
 	end
@@ -40,9 +40,9 @@ function CheckForKnownTalent(spellid)
 	local wanted_name = GetSpellInfo(spellid)
 	if not wanted_name then return nil end
 	local num_tabs = GetNumTalentTabs()
-	for t=1, num_tabs do
+	for t = 1, num_tabs do
 		local num_talents = GetNumTalents(t)
-		for i=1, num_talents do
+		for i = 1, num_talents do
 			local name_talent, _, _, _, current_rank = GetTalentInfo(t,i)
 			if name_talent and (name_talent == wanted_name) then
 				if current_rank and (current_rank > 0) then
@@ -66,14 +66,14 @@ local function CheckSpec(self, event, levels)
 		if CheckForKnownTalent(53551) then
 			dispellist.Magic = true
 		else
-			dispellist.Magic = false	
+			dispellist.Magic = false
 		end
 	elseif playerClass == "SHAMAN" then
 		--Check to see if we have the 'Improved Cleanse Spirit' talent.
 		if CheckForKnownTalent(77130) then
 			dispellist.Magic = true
 		else
-			dispellist.Magic = false	
+			dispellist.Magic = false
 		end
 	elseif playerClass == "DRUID" then
 		--Check to see if we have the 'Nature's Cure' talent.
@@ -86,36 +86,36 @@ local function CheckSpec(self, event, levels)
 end
 
 local function Update(object, event, unit)
-	if(unit ~= object.unit) then return; end
+	if(unit ~= object.unit) then return end
 
-	local debuffType, texture, wasFiltered, style, color = GetDebuffType(unit, object.DebuffHighlightFilter, object.DebuffHighlightFilterTable);
+	local debuffType, texture, wasFiltered, style, color = GetDebuffType(unit, object.DebuffHighlightFilter, object.DebuffHighlightFilterTable)
 	if(wasFiltered) then
 		if(style == "GLOW" and object.DBHGlow) then
-			object.DBHGlow:Show();
-			object.DBHGlow:SetBackdropBorderColor(color.r, color.g, color.b);
+			object.DBHGlow:Show()
+			object.DBHGlow:SetBackdropBorderColor(color.r, color.g, color.b)
 		elseif(object.DBHGlow) then
-			object.DBHGlow:Hide();
-			object.DebuffHighlight:SetVertexColor(color.r, color.g, color.b, color.a or object.DebuffHighlightAlpha or .5);
+			object.DBHGlow:Hide()
+			object.DebuffHighlight:SetVertexColor(color.r, color.g, color.b, color.a or object.DebuffHighlightAlpha or .5)
 		end
 	elseif(debuffType) then
-		color = DebuffTypeColor[debuffType];
+		color = DebuffTypeColor[debuffType]
 		if(object.DebuffHighlightBackdrop and object.DBHGlow) then
-			object.DBHGlow:Show();
-			object.DBHGlow:SetBackdropBorderColor(color.r, color.g, color.b);
+			object.DBHGlow:Show()
+			object.DBHGlow:SetBackdropBorderColor(color.r, color.g, color.b)
 		elseif(object.DebuffHighlightUseTexture) then
-			object.DebuffHighlight:SetTexture(texture);
+			object.DebuffHighlight:SetTexture(texture)
 		else
-			object.DebuffHighlight:SetVertexColor(color.r, color.g, color.b, object.DebuffHighlightAlpha or .5);
+			object.DebuffHighlight:SetVertexColor(color.r, color.g, color.b, object.DebuffHighlightAlpha or .5)
 		end
 	else
 		if(object.DBHGlow) then
-			object.DBHGlow:Hide();
+			object.DBHGlow:Hide()
 		end
 
 		if(object.DebuffHighlightUseTexture) then
-			object.DebuffHighlight:SetTexture(nil);
+			object.DebuffHighlight:SetTexture(nil)
 		else
-			object.DebuffHighlight:SetVertexColor(0, 0, 0, 0);
+			object.DebuffHighlight:SetVertexColor(0, 0, 0, 0)
 		end
 	end
 
@@ -147,13 +147,13 @@ local function Disable(object)
 	object:UnregisterEvent("UNIT_AURA", Update)
 
 	if(object.DBHGlow) then
-		object.DBHGlow:Hide();
+		object.DBHGlow:Hide()
 	end
 
 	if(object.DebuffHighlight) then
-		local color = origColors[object];
+		local color = origColors[object]
 		if(color) then
-			object.DebuffHighlight:SetVertexColor(color.r, color.g, color.b, color.a);
+			object.DebuffHighlight:SetVertexColor(color.r, color.g, color.b, color.a)
 		end
 	end
 end

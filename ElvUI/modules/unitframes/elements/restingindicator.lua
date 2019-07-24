@@ -1,10 +1,10 @@
-local E, L, V, P, G = unpack(select(2, ...));
-local UF = E:GetModule("UnitFrames");
+local E, L, V, P, G = unpack(select(2, ...))
+local UF = E:GetModule("UnitFrames")
 
 local RestingTextures = {
 	["DEFAULT"] = [[Interface\CharacterFrame\UI-StateIcon]],
-	["RESTING"] = [[Interface\AddOns\ElvUI\media\textures\resting]],
-	["RESTING1"] = [[Interface\AddOns\ElvUI\media\textures\resting1]]
+	["RESTING"] = E.Media.Textures.Resting,
+	["RESTING1"] = E.Media.Textures.Resting1
 }
 
 function UF:Construct_RestingIndicator(frame)
@@ -18,8 +18,8 @@ function UF:Configure_RestingIndicator(frame)
 	local db = frame.db.RestIcon
 
 	if db.enable then
-		if(not frame:IsElementEnabled("RestingIndicator")) then
-			frame:EnableElement("RestingIndicator");
+		if not frame:IsElementEnabled("RestingIndicator") then
+			frame:EnableElement("RestingIndicator")
 		end
 
 		if db.defaultColor then
@@ -48,7 +48,7 @@ function UF:Configure_RestingIndicator(frame)
 		else
 			Icon:Point("CENTER", frame.Health, db.anchorPoint, db.xOffset, db.yOffset)
 		end
-	elseif(frame:IsElementEnabled("RestingIndicator")) then
-		frame:DisableElement("RestingIndicator");
+	elseif frame:IsElementEnabled("RestingIndicator") then
+		frame:DisableElement("RestingIndicator")
 	end
 end

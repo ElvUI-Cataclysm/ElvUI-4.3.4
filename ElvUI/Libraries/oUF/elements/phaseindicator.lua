@@ -42,7 +42,7 @@ local function Enable(self)
 			element:SetTexture([[Interface\TargetingFrame\UI-PhasingIcon]])
 		end
 
-		return true;
+		return true
 	end
 end
 

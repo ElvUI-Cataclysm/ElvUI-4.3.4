@@ -1,4 +1,4 @@
-local E, L, DF = unpack(select(2, ...))
+local E, L, V, P, G = unpack(select(2, ...))
 local B = E:GetModule("Blizzard")
 
 local _G = _G
@@ -41,7 +41,7 @@ function B:WorldStateAlwaysUpFrame_Update()
 end
 
 function B:PositionCaptureBar()
-	self:SecureHook("WorldStateAlwaysUpFrame_Update");
+	self:SecureHook("WorldStateAlwaysUpFrame_Update")
 
 	pvpHolder:Size(30, 70)
 	pvpHolder:Point("TOP", E.UIParent, "TOP", 0, -4)

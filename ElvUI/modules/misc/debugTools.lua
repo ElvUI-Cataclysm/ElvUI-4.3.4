@@ -1,6 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...))
-local D = E:NewModule("DebugTools", "AceEvent-3.0", "AceHook-3.0")
-E.DebugTools = D
+local D = E:GetModule("DebugTools")
 
 local CreateFrame = CreateFrame
 local InCombatLockdown = InCombatLockdown
@@ -50,10 +49,10 @@ function D:ModifyErrorFrame()
 
 	-- Add a first button
 	local firstButton = CreateFrame("Button", nil, ScriptErrorsFrame, "UIPanelButtonTemplate")
-	firstButton:Point("BOTTOM", ScriptErrorsFrame, "BOTTOM", -((BUTTON_WIDTH + BUTTON_WIDTH/2) + (BUTTON_SPACING * 4)), 8)
-	firstButton:Height(BUTTON_HEIGHT)
-	firstButton:Width(BUTTON_WIDTH)
+	firstButton:SetPoint("BOTTOM", ScriptErrorsFrame, "BOTTOM", -((BUTTON_WIDTH + BUTTON_WIDTH/2) + (BUTTON_SPACING * 4)), 8)
 	firstButton:SetText("First")
+	firstButton:SetHeight(BUTTON_HEIGHT)
+	firstButton:SetWidth(BUTTON_WIDTH)
 	firstButton:SetScript("OnClick", function()
 		ScriptErrorsFrame.index = 1
 		ScriptErrorsFrame_Update()
@@ -62,9 +61,9 @@ function D:ModifyErrorFrame()
 
 	-- Also add a Last button for errors
 	local lastButton = CreateFrame("Button", nil, ScriptErrorsFrame, "UIPanelButtonTemplate")
-	lastButton:Point("BOTTOMLEFT", ScriptErrorsFrame.next, "BOTTOMRIGHT", BUTTON_SPACING, 0)
-	lastButton:Height(BUTTON_HEIGHT)
-	lastButton:Width(BUTTON_WIDTH)
+	lastButton:SetPoint("BOTTOMLEFT", ScriptErrorsFrame.next, "BOTTOMRIGHT", BUTTON_SPACING, 0)
+	lastButton:SetHeight(BUTTON_HEIGHT)
+	lastButton:SetWidth(BUTTON_WIDTH)
 	lastButton:SetText("Last")
 	lastButton:SetScript("OnClick", function()
 		ScriptErrorsFrame.index = #(ScriptErrorsFrame.order)
@@ -137,6 +136,7 @@ function D:StaticPopup_Show(name)
 end
 
 function D:Initialize()
+	self.Initialized = true
 	self.HideFrame = CreateFrame("Frame")
 	self.HideFrame:Hide()
 

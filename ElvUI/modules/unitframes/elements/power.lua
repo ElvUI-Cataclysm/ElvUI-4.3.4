@@ -11,19 +11,19 @@ assert(ElvUF, "ElvUI was unable to locate oUF.")
 
 function UF:Construct_PowerBar(frame, bg, text, textPos)
 	local power = CreateFrame("StatusBar", nil, frame)
-	UF["statusbars"][power] = true
+	UF.statusbars[power] = true
 
 	power.RaisedElementParent = CreateFrame("Frame", nil, power)
 	power.RaisedElementParent:SetFrameLevel(power:GetFrameLevel() + 100)
 	power.RaisedElementParent:SetAllPoints()
 
 	power.PostUpdate = self.PostUpdatePower
+	power.PostUpdateColor = self.PostUpdatePowerColor
 
 	if bg then
-		power.bg = power:CreateTexture(nil, "BORDER")
-		power.bg:SetAllPoints()
-		power.bg:SetTexture(E["media"].blankTex)
-		power.bg.multiplier = 0.2
+		power.BG = power:CreateTexture(nil, 'BORDER')
+		power.BG:SetAllPoints()
+		power.BG:SetTexture(E.media.blankTex)
 	end
 
 	if text then
@@ -38,9 +38,9 @@ function UF:Construct_PowerBar(frame, bg, text, textPos)
 		power.value:Point(textPos, frame.Health, textPos, x, 0)
 	end
 
-	power.colorDisconnected = false;
-	power.colorTapping = false;
-	power:CreateBackdrop("Default", nil, nil, self.thinBorders, true);
+	power.colorDisconnected = false
+	power.colorTapping = false
+	power:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
 
 	return power
 end
@@ -57,9 +57,9 @@ function UF:Configure_Power(frame)
 			power:Show()
 		end
 
-		power.Smooth = self.db.smoothbars
-		power.SmoothSpeed = self.db.smoothSpeed * 10
+		E:SetSmoothing(power, self.db.smoothbars)
 
+		--Text
 		local attachPoint = self:GetObjectAnchorPoint(frame, db.power.attachTextTo)
 		power.value:ClearAllPoints()
 		power.value:Point(db.power.position, attachPoint, db.power.position, db.power.xOffset, db.power.yOffset)
@@ -77,16 +77,19 @@ function UF:Configure_Power(frame)
 			power:SetReverseFill(false)
 		end
 
+		--Colors
 		power.colorClass = nil
 		power.colorReaction = nil
 		power.colorPower = nil
-		if self.db["colors"].powerclass then
+
+		if self.db.colors.powerclass then
 			power.colorClass = true
 			power.colorReaction = true
 		else
 			power.colorPower = true
 		end
 
+		--Fix height in case it is lower than the theme allows
 		local heightChanged = false
 		if (not self.thinBorders and not E.PixelMode) and frame.POWERBAR_HEIGHT < 7 then --A height of 7 means 6px for borders and just 1px for the actual power statusbar
 			frame.POWERBAR_HEIGHT = 7
@@ -103,6 +106,7 @@ function UF:Configure_Power(frame)
 			UF:Configure_HealthBar(frame)
 		end
 
+		--Position
 		power:ClearAllPoints()
 		if frame.POWERBAR_DETACHED then
 			power:Width(frame.POWERBAR_WIDTH - ((frame.BORDER + frame.SPACING)*2))
@@ -115,9 +119,9 @@ function UF:Configure_Power(frame)
 				power:Point("BOTTOMLEFT", power.Holder, "BOTTOMLEFT", frame.BORDER+frame.SPACING, frame.BORDER+frame.SPACING)
 				--Currently only Player and Target can detach power bars, so doing it this way is okay for now
 				if frame.unitframeType and frame.unitframeType == "player" then
-					E:CreateMover(power.Holder, "PlayerPowerBarMover", L["Player Powerbar"], nil, nil, nil, "ALL,SOLO")
+					E:CreateMover(power.Holder, "PlayerPowerBarMover", L["Player Powerbar"], nil, nil, nil, "ALL,SOLO", nil, "unitframe,player,power")
 				elseif frame.unitframeType and frame.unitframeType == "target" then
-					E:CreateMover(power.Holder, "TargetPowerBarMover", L["Target Powerbar"], nil, nil, nil, "ALL,SOLO")
+					E:CreateMover(power.Holder, "TargetPowerBarMover", L["Target Powerbar"], nil, nil, nil, "ALL,SOLO", nil, "unitframe,target,power")
 				end
 			else
 				power.Holder:Size(frame.POWERBAR_WIDTH, frame.POWERBAR_HEIGHT)
@@ -197,43 +201,42 @@ function UF:Configure_Power(frame)
 		frame:Tag(power.value, "")
 	end
 
-	if frame.AdditionalPower then
-		if db.power.druidMana then
-			frame:EnableElement("AdditionalPower")
-		else
-			frame:DisableElement("AdditionalPower")
-			frame.AdditionalPower:Hide()
-		end
-	end
+	frame.Power.custom_backdrop = UF.db.colors.custompowerbackdrop and UF.db.colors.power_backdrop
 
 	--Transparency Settings
-	UF:ToggleTransparentStatusBar(UF.db.colors.transparentPower, frame.Power, frame.Power.bg)
+	UF:ToggleTransparentStatusBar(UF.db.colors.transparentPower, frame.Power, frame.Power.BG, nil, UF.db.colors.invertPower)
 end
 
 local tokens = {[0] = "MANA", "RAGE", "FOCUS", "ENERGY", "RUNIC_POWER"}
-function UF:PostUpdatePower(unit, _, _, max)
+function UF:PostUpdatePowerColor()
 	local parent = self.origParent or self:GetParent()
 
 	if parent.isForced then
-		local pType = random(0, 4)
-		local color = ElvUF['colors'].power[tokens[pType]]
-		local min = random(1, max)
-		self:SetValue(min)
+		local color = ElvUF.colors.power[tokens[random(0, 4)]]
+		self:SetValue(random(1, self.max))
 
 		if not self.colorClass then
 			self:SetStatusBarColor(color[1], color[2], color[3])
-			local mu = self.bg.multiplier or 1
-			self.bg:SetVertexColor(color[1] * mu, color[2] * mu, color[3] * mu)
+
+			if self.BG then
+				UF:UpdateBackdropTextureColor(self.BG, color[1], color[2], color[3])
+			end
 		end
 	end
+end
 
-	local db = parent.db
-	if db and db.power and db.power.hideonnpc then
+function UF:PostUpdatePower(unit, _, _, max)
+	local parent = self.origParent or self:GetParent()
+	if parent.isForced then
+		self:SetValue(random(1, max))
+	end
+
+	if parent.db and parent.db.power and parent.db.power.hideonnpc then
 		UF:PostNamePosition(parent, unit)
 	end
 
 	--Force update to AdditionalPower in order to reposition text if necessary
 	if parent:IsElementEnabled("AdditionalPower") then
-		E:Delay(0.01, parent.AdditionalPower.ForceUpdate, parent.AdditionalPower) --Delay it slightly  so Power text has a chance to clear itself first
+		E:Delay(0.01, parent.AdditionalPower.ForceUpdate, parent.AdditionalPower) --Delay it slightly so Power text has a chance to clear itself first
 	end
 end

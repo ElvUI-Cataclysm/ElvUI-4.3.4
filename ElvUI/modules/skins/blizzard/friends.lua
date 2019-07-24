@@ -80,6 +80,10 @@ local function LoadSkin()
 	FriendsFrameStatusDropDown:Point("TOPLEFT", 5, -25)
 
 	S:HandleScrollBar(FriendsFrameFriendsScrollFrameScrollBar, 5)
+	FriendsFrameFriendsScrollFrameScrollBar:ClearAllPoints()
+	FriendsFrameFriendsScrollFrameScrollBar:Point("TOPRIGHT", FriendsFrameFriendsScrollFrame, "TOPRIGHT", 24, -10)
+	FriendsFrameFriendsScrollFrameScrollBar:Point("BOTTOMRIGHT", FriendsFrameFriendsScrollFrame, "BOTTOMRIGHT", 0, 12)
+
 	S:HandleScrollBar(FriendsFriendsScrollFrameScrollBar)
 
 	S:HandleCloseButton(FriendsFrameCloseButton,FriendsFrame.backdrop)
@@ -137,9 +141,13 @@ local function LoadSkin()
 	S:HandleButton(WhoFrameGroupInviteButton)
 	WhoFrameGroupInviteButton:Point("BOTTOMRIGHT", -6, 4)
 
-	S:HandleDropDownBox(WhoFrameDropDown, 150)
+	S:HandleDropDownBox(WhoFrameDropDown)
+	WhoFrameDropDown:Point("TOPLEFT", -6, 4)
 
 	S:HandleScrollBar(WhoListScrollFrameScrollBar, 5)
+	WhoListScrollFrameScrollBar:ClearAllPoints()
+	WhoListScrollFrameScrollBar:Point("TOPRIGHT", WhoListScrollFrame, "TOPRIGHT", 26, -13)
+	WhoListScrollFrameScrollBar:Point("BOTTOMRIGHT", WhoListScrollFrame, "BOTTOMRIGHT", 0, 18)
 
 	for i = 1, 17 do
 		local button = _G["WhoFrameButton"..i]
@@ -294,15 +302,19 @@ local function LoadSkin()
 	IgnoreListFrame:StripTextures()
 
 	FriendsFrameIgnoreButton1:Point("TOPLEFT", 10, -89)
-	FriendsFrameUnsquelchButton:Point("RIGHT", -23, 0)
+	FriendsFrameUnsquelchButton:Point("RIGHT", -6, 0)
+	FriendsFrameUnsquelchButton:Width(131)
+	FriendsFrameUnsquelchButton.SetWidth = E.noop
 
 	S:HandleScrollBar(FriendsFrameIgnoreScrollFrameScrollBar)
-	FriendsFrameIgnoreScrollFrameScrollBar:Point("TOPLEFT", FriendsFrameIgnoreScrollFrame, "TOPRIGHT", 45, 0)
+	FriendsFrameIgnoreScrollFrameScrollBar:ClearAllPoints()
+	FriendsFrameIgnoreScrollFrameScrollBar:Point("TOPRIGHT", FriendsFrameIgnoreScrollFrame, "TOPRIGHT", 58, -1)
+	FriendsFrameIgnoreScrollFrameScrollBar:Point("BOTTOMRIGHT", FriendsFrameIgnoreScrollFrame, "BOTTOMRIGHT", 0, 29)
 
 	for i = 1, 19 do
 		local button = _G["FriendsFrameIgnoreButton"..i]
 
-		button:Width(310)
+		button:Width(298)
 		S:HandleButtonHighlight(button)
 
 		button.stripe = button:CreateTexture(nil, "OVERLAY")

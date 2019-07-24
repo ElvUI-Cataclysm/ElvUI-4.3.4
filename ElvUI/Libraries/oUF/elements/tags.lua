@@ -1,6 +1,6 @@
 local _, ns = ...
 local oUF = ns.oUF
- 
+
 local _G = _G
 local unpack = unpack
 local format = string.format
@@ -579,13 +579,13 @@ local function Tag(self, fs, tagstr)
 		if not self.__HookFunc then
 			self:HookScript('OnEnter', OnEnter)
 			self:HookScript('OnLeave', OnLeave)
-			self.__HookFunc = true;
+			self.__HookFunc = true
 		end
 		tagstr = tagstr:gsub('%[mouseover%]', '')
 	else
 		for index, fontString in pairs(self.__mousetags) do
 			if fontString == fs then
-				self.__mousetags[index] = nil;
+				self.__mousetags[index] = nil
 				fs:SetAlpha(1)
 			end
 		end

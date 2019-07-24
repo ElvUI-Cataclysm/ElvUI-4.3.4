@@ -16,37 +16,33 @@ local UnitReaction = UnitReaction
 
 local updateFrequentUpdates
 
-local function UpdateColor(element, unit, cur, max)
-	local parent = element.__owner
-
-	if element.frequentUpdates ~= element.__frequentUpdates then
-		element.__frequentUpdates = element.frequentUpdates
-		updateFrequentUpdates(parent)
-	end
+local function UpdateColor(self, event, unit)
+	if(not unit or self.unit ~= unit) then return end
+	local element = self.Health
 
 	local r, g, b, t
-	if(element.colorTapping and not UnitPlayerControlled(unit) and (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit) and not UnitIsTappedByAllThreatList(unit))) then
-		t = parent.colors.tapped
-	elseif(element.colorDisconnected and element.disconnected) then
-		t = parent.colors.disconnected
+	if(element.colorDisconnected and element.disconnected) then
+		t = self.colors.disconnected
+	elseif(element.colorTapping and not UnitPlayerControlled(unit) and (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit) and not UnitIsTappedByAllThreatList(unit))) then
+		t = self.colors.tapped
 	elseif(element.colorClass and UnitIsPlayer(unit)) or
 		(element.colorClassNPC and not UnitIsPlayer(unit)) or
 		(element.colorClassPet and UnitPlayerControlled(unit) and not UnitIsPlayer(unit)) then
 		local _, class = UnitClass(unit)
-		t = parent.colors.class[class]
+		t = self.colors.class[class]
 	elseif(element.colorReaction and UnitReaction(unit, 'player')) then
-		t = parent.colors.reaction[UnitReaction(unit, 'player')]
+		t = self.colors.reaction[UnitReaction(unit, 'player')]
 	elseif(element.colorSmooth) then
-		r, g, b = parent.ColorGradient(cur, max, unpack(element.smoothGradient or parent.colors.smooth))
+		r, g, b = self:ColorGradient(element.cur or 1, element.max or 1, unpack(element.smoothGradient or self.colors.smooth))
 	elseif(element.colorHealth) then
-		t = parent.colors.health
+		t = self.colors.health
 	end
 
 	if(t) then
 		r, g, b = t[1], t[2], t[3]
 	end
 
-	if(r or g or b) then
+	if(b) then
 		element:SetStatusBarColor(r, g, b)
 
 		local bg = element.bg
@@ -55,6 +51,14 @@ local function UpdateColor(element, unit, cur, max)
 			bg:SetVertexColor(r * mu, g * mu, b * mu)
 		end
 	end
+
+	if(element.PostUpdateColor) then
+		element:PostUpdateColor(unit, r, g, b)
+	end
+end
+
+local function ColorPath(self, ...)
+	(self.Health.UpdateColor or UpdateColor) (self, ...)
 end
 
 local function Update(self, event, unit)
@@ -67,6 +71,7 @@ local function Update(self, event, unit)
 
 	local cur, max = UnitHealth(unit), UnitHealthMax(unit)
 	local disconnected = not UnitIsConnected(unit)
+
 	element:SetMinMaxValues(0, max)
 
 	if(disconnected) then
@@ -75,41 +80,71 @@ local function Update(self, event, unit)
 		element:SetValue(cur)
 	end
 
+	element.cur = cur
+	element.max = max
 	element.disconnected = disconnected
 
-	element:UpdateColor(unit, cur, max)
-
 	if(element.PostUpdate) then
-		return element:PostUpdate(unit, cur, max)
+		element:PostUpdate(unit, cur, max)
 	end
 end
 
 local function Path(self, ...)
-	return (self.Health.Override or Update) (self, ...)
+	(self.Health.Override or Update) (self, ...);
+
+	ColorPath(self, ...)
 end
 
 local function ForceUpdate(element)
-	return Path(element.__owner, 'ForceUpdate', element.__owner.unit)
+	Path(element.__owner, 'ForceUpdate', element.__owner.unit)
 end
 
-function updateFrequentUpdates(self)
-	local health = self.Health
-	if health.frequentUpdates and not self:IsEventRegistered("UNIT_HEALTH_FREQUENT") then
-		if GetCVarBool("predictedHealth") ~= true then
-			SetCVar("predictedHealth", "1")
+local function SetColorDisconnected(element, state)
+	if(element.colorDisconnected ~= state) then
+		element.colorDisconnected = state
+		if(element.colorDisconnected) then
+			element.__owner:RegisterEvent('UNIT_CONNECTION', ColorPath)
+		else
+			element.__owner:UnregisterEvent('UNIT_CONNECTION', ColorPath)
 		end
+	end
+end
 
-		self:RegisterEvent('UNIT_HEALTH_FREQUENT', Path)
-		
-		if self:IsEventRegistered("UNIT_HEALTH") then
-			self:UnregisterEvent("UNIT_HEALTH", Path)
+local function SetColorTapping(element, state)
+	if(element.colorTapping ~= state) then
+		element.colorTapping = state
+		if(element.colorTapping) then
+			element.__owner:RegisterEvent('UNIT_FACTION', ColorPath)
+		else
+			element.__owner:UnregisterEvent('UNIT_FACTION', ColorPath)
 		end
-	elseif not self:IsEventRegistered("UNIT_HEALTH") then
-		self:RegisterEvent('UNIT_HEALTH', Path)
+	end
+end
 
-		if self:IsEventRegistered("UNIT_HEALTH_FREQUENT") then
-			self:UnregisterEvent("UNIT_HEALTH_FREQUENT", Path)
-		end	
+local function SetColorThreat(element, state)
+	if(element.colorThreat ~= state) then
+		element.colorThreat = state
+		if(element.colorThreat) then
+			element.__owner:RegisterEvent('UNIT_THREAT_LIST_UPDATE', ColorPath)
+		else
+			element.__owner:UnregisterEvent('UNIT_THREAT_LIST_UPDATE', ColorPath)
+		end
+	end
+end
+
+local function SetFrequentUpdates(element, state)
+	if(element.frequentUpdates ~= state) then
+		element.frequentUpdates = state
+		if(element.frequentUpdates) then
+			if(GetCVarBool("predictedHealth") ~= true) then
+				SetCVar("predictedHealth", "1")
+			end
+			element.__owner:UnregisterEvent('UNIT_HEALTH', Path)
+			element.__owner:RegisterEvent('UNIT_HEALTH_FREQUENT', Path)
+		else
+			element.__owner:UnregisterEvent('UNIT_HEALTH_FREQUENT', Path)
+			element.__owner:RegisterEvent('UNIT_HEALTH', Path)
+		end
 	end
 end
 
@@ -118,8 +153,22 @@ local function Enable(self, unit)
 	if(element) then
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
-		element.__frequentUpdates = element.frequentUpdates
-		updateFrequentUpdates(self)
+		element.SetColorDisconnected = SetColorDisconnected
+		element.SetColorTapping = SetColorTapping
+		element.SetColorThreat = SetColorThreat
+		element.SetFrequentUpdates = SetFrequentUpdates
+
+		if(element.colorDisconnected) then
+			self:RegisterEvent('UNIT_CONNECTION', ColorPath)
+		end
+
+		if(element.colorTapping) then
+			self:RegisterEvent('UNIT_FACTION', ColorPath)
+		end
+
+		if(element.colorThreat) then
+			self:RegisterEvent('UNIT_THREAT_LIST_UPDATE', ColorPath)
+		end
 
 		if(element.frequentUpdates) then
 			self:RegisterEvent('UNIT_HEALTH_FREQUENT', Path)
@@ -128,15 +177,9 @@ local function Enable(self, unit)
 		end
 
 		self:RegisterEvent('UNIT_MAXHEALTH', Path)
-		self:RegisterEvent('UNIT_CONNECTION', Path)
-		self:RegisterEvent('UNIT_FACTION', Path)
 
 		if(element:IsObjectType('StatusBar') and not element:GetStatusBarTexture()) then
 			element:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
-		end
-
-		if(not element.UpdateColor) then
-			element.UpdateColor = UpdateColor
 		end
 
 		element:Show()
@@ -153,8 +196,9 @@ local function Disable(self)
 		self:UnregisterEvent('UNIT_HEALTH_FREQUENT', Path)
 		self:UnregisterEvent('UNIT_HEALTH', Path)
 		self:UnregisterEvent('UNIT_MAXHEALTH', Path)
-		self:UnregisterEvent('UNIT_CONNECTION', Path)
-		self:UnregisterEvent('UNIT_FACTION', Path)
+		self:UnregisterEvent('UNIT_CONNECTION', ColorPath)
+		self:UnregisterEvent('UNIT_FACTION', ColorPath)
+		self:UnregisterEvent('UNIT_THREAT_LIST_UPDATE', ColorPath)
 	end
 end
 

@@ -39,12 +39,18 @@ local function LoadSkin()
 	GuildBankInfoScrollFrame:Width(572)
 
 	S:HandleScrollBar(GuildBankInfoScrollFrameScrollBar)
+	GuildBankInfoScrollFrameScrollBar:ClearAllPoints()
+	GuildBankInfoScrollFrameScrollBar:Point("TOPRIGHT", GuildBankInfoScrollFrame, "TOPRIGHT", 21, -12)
+	GuildBankInfoScrollFrameScrollBar:Point("BOTTOMRIGHT", GuildBankInfoScrollFrame, "BOTTOMRIGHT", 0, 20)
 
 	GuildBankTabInfoEditBox:Width(565)
 
 	GuildBankTransactionsScrollFrame:StripTextures()
 
 	S:HandleScrollBar(GuildBankTransactionsScrollFrameScrollBar)
+	GuildBankTransactionsScrollFrameScrollBar:ClearAllPoints()
+	GuildBankTransactionsScrollFrameScrollBar:Point("TOPRIGHT", GuildBankTransactionsScrollFrame, "TOPRIGHT", 21, -11)
+	GuildBankTransactionsScrollFrameScrollBar:Point("BOTTOMRIGHT", GuildBankTransactionsScrollFrame, "BOTTOMRIGHT", 0, 19)
 
 	GuildBankFrame.inset = CreateFrame("Frame", nil, GuildBankFrame)
 	GuildBankFrame.inset:SetTemplate("Default")
@@ -117,7 +123,7 @@ local function LoadSkin()
 		for i = 1, MAX_GUILDBANK_SLOTS_PER_TAB do
 			index = mod(i, NUM_SLOTS_PER_GUILDBANK_GROUP)
 			if index == 0 then
-				index = NUM_SLOTS_PER_GUILDBANK_GROUP;
+				index = NUM_SLOTS_PER_GUILDBANK_GROUP
 			end
 			column = ceil((i-0.5)/NUM_SLOTS_PER_GUILDBANK_GROUP)
 			button = _G["GuildBankColumn"..column.."Button"..index]

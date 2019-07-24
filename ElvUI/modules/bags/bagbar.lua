@@ -41,8 +41,8 @@ function B:SizeAndPositionBagBar()
 	local showBackdrop = E.db.bags.bagBar.showBackdrop
 	local growthDirection = E.db.bags.bagBar.growthDirection
 	local sortDirection = E.db.bags.bagBar.sortDirection
-	local visibility = E.db.bags.bagBar.visibility
 
+	local visibility = E.db.bags.bagBar.visibility
 	if visibility and visibility:match("[\n\r]") then
 		visibility = visibility:gsub("[\n\r]","")
 	end
@@ -64,10 +64,8 @@ function B:SizeAndPositionBagBar()
 	for i = 1, #ElvUIBags.buttons do
 		local button = ElvUIBags.buttons[i]
 		local prevButton = ElvUIBags.buttons[i - 1]
-
 		button:Size(bagBarSize)
 		button:ClearAllPoints()
-
 		if growthDirection == "HORIZONTAL" and sortDirection == "ASCENDING" then
 			if i == 1 then
 				button:Point("LEFT", ElvUIBags, "LEFT", (showBackdrop and (backdropSpacing + E.Border) or 0), 0)
@@ -131,17 +129,17 @@ function B:LoadBagBar()
 	self:SkinBag(MainMenuBarBackpackButton)
 
 	for i = 0, NUM_BAG_FRAMES - 1 do
-		local b = _G["CharacterBag"..i.."Slot"]
-		b:SetParent(ElvUIBags)
-		b.SetParent = E.dummy
-		b:HookScript("OnEnter", OnEnter)
-		b:HookScript("OnLeave", OnLeave)
+		local slot = _G["CharacterBag"..i.."Slot"]
 
-		self:SkinBag(b)
-		tinsert(ElvUIBags.buttons, b)
+		slot:SetParent(ElvUIBags)
+		slot.SetParent = E.dummy
+		slot:HookScript("OnEnter", OnEnter)
+		slot:HookScript("OnLeave", OnLeave)
+
+		self:SkinBag(slot)
+		tinsert(ElvUIBags.buttons, slot)
 	end
 
 	self:SizeAndPositionBagBar()
-
-	E:CreateMover(ElvUIBags, "BagsMover", L["Bags"])
+	E:CreateMover(ElvUIBags, "BagsMover", L["Bags"], nil, nil, nil, nil, nil, "bags,general")
 end

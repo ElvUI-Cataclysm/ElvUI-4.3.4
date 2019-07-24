@@ -15,25 +15,26 @@ local function LoadSkin()
 
 	-- WatchFrame Expand/Collapse Button
 	WatchFrameCollapseExpandButton:StripTextures()
-	S:HandleCloseButton(WatchFrameCollapseExpandButton)
-	WatchFrameCollapseExpandButton:Size(32)
-	WatchFrameCollapseExpandButton.text:SetText("-")
-	WatchFrameCollapseExpandButton.text:Point("CENTER")
+	WatchFrameCollapseExpandButton:Size(18)
 	WatchFrameCollapseExpandButton:SetFrameStrata("MEDIUM")
-	WatchFrameCollapseExpandButton:Point("TOPRIGHT", -20, 5)
+	WatchFrameCollapseExpandButton:Point("TOPRIGHT", -20, 0)
+	WatchFrameCollapseExpandButton.tex = WatchFrameCollapseExpandButton:CreateTexture(nil, "OVERLAY")
+	WatchFrameCollapseExpandButton.tex:SetTexture(E.Media.Textures.PlusMinusButton)
+	WatchFrameCollapseExpandButton.tex:SetInside()
+	WatchFrameCollapseExpandButton.tex:SetTexCoord(0.540, 0.965, 0.085, 0.920)
 
 	WatchFrameHeader:Point("TOPLEFT", 0, -3)
 
 	WatchFrameLines:StripTextures()
 
 	hooksecurefunc("WatchFrame_Expand", function()
-		WatchFrameCollapseExpandButton.text:SetText("-")
+		WatchFrameCollapseExpandButton.tex:SetTexCoord(0.540, 0.965, 0.085, 0.920)
 
 		WatchFrame:Width(WATCHFRAME_EXPANDEDWIDTH)
 	end)
 
 	hooksecurefunc("WatchFrame_Collapse", function()
-		WatchFrameCollapseExpandButton.text:SetText("+")
+		WatchFrameCollapseExpandButton.tex:SetTexCoord(0.040, 0.465, 0.085, 0.920)
 
 		WatchFrame:Width(WATCHFRAME_EXPANDEDWIDTH)
 	end)
@@ -76,7 +77,7 @@ local function LoadSkin()
 						WATCHFRAME_QUESTLINES[j].color = color
 					end
 				end
-				
+
 				for k = 1, #WATCHFRAME_ACHIEVEMENTLINES do
 					WATCHFRAME_ACHIEVEMENTLINES[k].color = nil
 				end
@@ -209,10 +210,10 @@ local function LoadSkin()
 				poiButton.bg:SetFrameLevel(poiButton.bg:GetFrameLevel() - 1)
 
 				poiButton:HookScript("OnEnter", function(self)
-					self.bg:SetBackdropBorderColor(unpack(E["media"].rgbvaluecolor))
+					self.bg:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
 				end)
 				poiButton:HookScript("OnLeave", function(self)
-					self.bg:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+					self.bg:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				end)
 
 				poiButton.isSkinned = true
@@ -222,13 +223,13 @@ local function LoadSkin()
 
 	hooksecurefunc("QuestPOI_SelectButton", function(poiButton)
 		if poiButton and poiButton.bg then
-			poiButton.bg.backdropTexture:SetVertexColor(unpack(E["media"].rgbvaluecolor))
+			poiButton.bg.backdropTexture:SetVertexColor(unpack(E.media.rgbvaluecolor))
 		end
 	end)
 
 	hooksecurefunc("QuestPOI_DeselectButton", function(poiButton)
 		if poiButton and poiButton.bg then
-			poiButton.bg.backdropTexture:SetVertexColor(unpack(E["media"].backdropcolor))
+			poiButton.bg.backdropTexture:SetVertexColor(unpack(E.media.backdropcolor))
 		end
 	end)
 end

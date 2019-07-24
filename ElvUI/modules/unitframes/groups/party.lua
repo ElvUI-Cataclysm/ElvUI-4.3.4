@@ -17,7 +17,7 @@ function UF:Construct_PartyFrames()
 	self:SetScript("OnLeave", UnitFrame_OnLeave)
 
 	self.RaisedElementParent = CreateFrame("Frame", nil, self)
-	self.RaisedElementParent.TextureParent = CreateFrame('Frame', nil, self.RaisedElementParent)
+	self.RaisedElementParent.TextureParent = CreateFrame("Frame", nil, self.RaisedElementParent)
 	self.RaisedElementParent:SetFrameLevel(self:GetFrameLevel() + 100)
 	self.BORDER = E.Border
 	self.SPACING = E.Spacing
@@ -56,8 +56,8 @@ function UF:Construct_PartyFrames()
 		self.ResurrectIndicator = UF:Construct_ResurrectionIcon(self)
 		self.GroupRoleIndicator = UF:Construct_RoleIcon(self)
 		self.RaidRoleFramesAnchor = UF:Construct_RaidRoleFrames(self)
-		self.PhaseIndicator = UF:Construct_PhaseIcon(self)
 		self.MouseGlow = UF:Construct_MouseGlow(self)
+		self.PhaseIndicator = UF:Construct_PhaseIcon(self)
 		self.TargetGlow = UF:Construct_TargetGlow(self)
 		self.ThreatIndicator = UF:Construct_Threat(self)
 		self.RaidTargetIndicator = UF:Construct_RaidIcon(self)
@@ -70,12 +70,11 @@ function UF:Construct_PartyFrames()
 		self.unitframeType = "party"
 	end
 
-	self.Range = UF:Construct_Range(self)
+	self.Fader = UF:Construct_Fader()
+	self.Cutaway = UF:Construct_Cutaway(self)
 
 	UF:Update_StatusBars()
 	UF:Update_FontStrings()
-
-	UF:Update_PartyFrames(self, UF.db["units"]["party"])
 
 	return self
 end
@@ -90,12 +89,12 @@ function UF:Update_PartyHeader(header, db)
 		headerHolder:ClearAllPoints()
 		headerHolder:Point("BOTTOMLEFT", E.UIParent, "BOTTOMLEFT", 4, 195)
 
-		E:CreateMover(headerHolder, headerHolder:GetName().."Mover", L["Party Frames"], nil, nil, nil, "ALL,PARTY,ARENA")
-
-		headerHolder:RegisterEvent("PLAYER_LOGIN")
-		headerHolder:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-		headerHolder:SetScript("OnEvent", UF["PartySmartVisibility"])
+		E:CreateMover(headerHolder, headerHolder:GetName().."Mover", L["Party Frames"], nil, nil, nil, "ALL,PARTY,ARENA", nil, "unitframe,party,generalGroup")
 		headerHolder.positioned = true
+
+		headerHolder:RegisterEvent("PLAYER_ENTERING_WORLD")
+		headerHolder:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+		headerHolder:SetScript("OnEvent", UF.PartySmartVisibility)
 	end
 
 	UF.PartySmartVisibility(headerHolder)
@@ -107,7 +106,7 @@ function UF:PartySmartVisibility(event)
 		return
 	end
 
-	if(event == "PLAYER_REGEN_ENABLED") then self:UnregisterEvent("PLAYER_REGEN_ENABLED") end
+	if event == "PLAYER_REGEN_ENABLED" then self:UnregisterEvent("PLAYER_REGEN_ENABLED") end
 
 	if not InCombatLockdown() then
 		local inInstance, instanceType = IsInInstance()
@@ -115,7 +114,7 @@ function UF:PartySmartVisibility(event)
 			UnregisterStateDriver(self, "visibility")
 			self:Hide()
 			self.blockVisibilityChanges = true
-		elseif(self.db.visibility) then
+		elseif self.db.visibility then
 			RegisterStateDriver(self, "visibility", self.db.visibility)
 			self.blockVisibilityChanges = false
 		end
@@ -129,10 +128,10 @@ function UF:Update_PartyFrames(frame, db)
 
 	frame.Portrait = frame.Portrait or (db.portrait.style == "2D" and frame.Portrait2D or frame.Portrait3D)
 	frame.colors = ElvUF.colors
-	frame:RegisterForClicks(self.db.targetOnMouseDown and 'AnyDown' or 'AnyUp')
+	frame:RegisterForClicks(self.db.targetOnMouseDown and "AnyDown" or "AnyUp")
 
 	do
-		if(self.thinBorders) then
+		if self.thinBorders then
 			frame.SPACING = 0
 			frame.BORDER = E.mult
 		else
@@ -146,8 +145,8 @@ function UF:Update_PartyFrames(frame, db)
 
 		frame.USE_POWERBAR = db.power.enable
 		frame.POWERBAR_DETACHED = db.power.detachFromFrame
-		frame.USE_INSET_POWERBAR = not frame.POWERBAR_DETACHED and db.power.width == 'inset' and frame.USE_POWERBAR
-		frame.USE_MINI_POWERBAR = (not frame.POWERBAR_DETACHED and db.power.width == 'spaced' and frame.USE_POWERBAR)
+		frame.USE_INSET_POWERBAR = not frame.POWERBAR_DETACHED and db.power.width == "inset" and frame.USE_POWERBAR
+		frame.USE_MINI_POWERBAR = (not frame.POWERBAR_DETACHED and db.power.width == "spaced" and frame.USE_POWERBAR)
 		frame.USE_POWERBAR_OFFSET = db.power.offset ~= 0 and frame.USE_POWERBAR and not frame.POWERBAR_DETACHED
 		frame.POWERBAR_OFFSET = frame.USE_POWERBAR_OFFSET and db.power.offset or 0
 
@@ -216,51 +215,33 @@ function UF:Update_PartyFrames(frame, db)
 		end
 
 		UF:Configure_InfoPanel(frame)
-
 		UF:Configure_HealthBar(frame)
-
 		UF:UpdateNameSettings(frame)
-
 		UF:Configure_PhaseIcon(frame)
-
 		UF:Configure_Power(frame)
-
 		UF:Configure_Portrait(frame)
-
 		UF:Configure_Threat(frame)
-
 		UF:EnableDisable_Auras(frame)
-		UF:Configure_Auras(frame, 'Buffs')
-		UF:Configure_Auras(frame, 'Debuffs')
-
+		UF:Configure_Auras(frame, "Buffs")
+		UF:Configure_Auras(frame, "Debuffs")
 		UF:Configure_RaidDebuffs(frame)
-
 		UF:Configure_Castbar(frame)
-
 		UF:Configure_RaidIcon(frame)
-
 		UF:Configure_ResurrectionIcon(frame)
-
 		UF:Configure_DebuffHighlight(frame)
-
 		UF:Configure_RoleIcon(frame)
-
 		UF:Configure_HealComm(frame)
-
 		UF:Configure_GPS(frame)
-
 		UF:Configure_RaidRoleIcons(frame)
-
 		UF:UpdateAuraWatch(frame)
-
 		UF:Configure_ReadyCheckIcon(frame)
-
 		UF:Configure_CustomTexts(frame)
 	end
 
-	UF:Configure_Range(frame)
+	UF:Configure_Fader(frame)	
+	UF:Configure_Cutaway(frame)
 
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end
 
-UF["headerstoload"]["party"] = {nil, "ELVUI_UNITPET, ELVUI_UNITTARGET"}
+UF.headerstoload.party = {nil, "ELVUI_UNITPET, ELVUI_UNITTARGET"}

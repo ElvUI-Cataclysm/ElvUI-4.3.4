@@ -23,12 +23,12 @@ local GetTrinketIcon = function(unit)
 end
 
 local Update = function(self, event, ...)
-	local _, instanceType = IsInInstance();
+	local _, instanceType = IsInInstance()
 	if instanceType ~= 'arena' then
-		self.Trinket:Hide(); 
-		return;
+		self.Trinket:Hide()
+		return
 	else
-		self.Trinket:Show(); 
+		self.Trinket:Show()
 	end
 
 	if(self.Trinket.PreUpdate) then self.Trinket:PreUpdate(event) end
@@ -79,7 +79,7 @@ local Disable = function(self)
 	if self.Trinket then
 		self:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED", Update)
 		self:UnregisterEvent("ARENA_OPPONENT_UPDATE", Update)
-		self:UnregisterEvent("PLAYER_ENTERING_WORLD", Update)		
+		self:UnregisterEvent("PLAYER_ENTERING_WORLD", Update)
 		self.Trinket:Hide()
 	end
 end

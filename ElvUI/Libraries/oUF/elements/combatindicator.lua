@@ -1,7 +1,7 @@
 local _, ns = ...
 local oUF = ns.oUF
 
-local UnitAffectingCombat = UnitAffectingCombat;
+local UnitAffectingCombat = UnitAffectingCombat
 
 local function Update(self, event)
 	local element = self.CombatIndicator
@@ -36,8 +36,8 @@ local function Enable(self, unit)
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 
-		self:RegisterEvent("PLAYER_REGEN_DISABLED", Path, true);
-		self:RegisterEvent("PLAYER_REGEN_ENABLED", Path, true);
+		self:RegisterEvent("PLAYER_REGEN_DISABLED", Path, true)
+		self:RegisterEvent("PLAYER_REGEN_ENABLED", Path, true)
 
 		if(element:IsObjectType('Texture') and not element:GetTexture()) then
 			element:SetTexture([[Interface\CharacterFrame\UI-StateIcon]])

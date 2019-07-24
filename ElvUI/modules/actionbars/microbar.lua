@@ -10,52 +10,55 @@ local UpdateMicroButtonsParent = UpdateMicroButtonsParent
 local RegisterStateDriver = RegisterStateDriver
 local InCombatLockdown = InCombatLockdown
 
-local function onLeave()
+local function onEnterBar()
+	if AB.db.microbar.mouseover then
+		E:UIFrameFadeIn(ElvUI_MicroBar, 0.2, ElvUI_MicroBar:GetAlpha(), AB.db.microbar.alpha)
+	end
+end
+
+local function onLeaveBar()
 	if AB.db.microbar.mouseover then
 		E:UIFrameFadeOut(ElvUI_MicroBar, 0.2, ElvUI_MicroBar:GetAlpha(), 0)
 	end
 end
 
-local watcher = 0
-local function onUpdate(self, elapsed)
-	if watcher > 0.1 then
-		if not self:IsMouseOver() then
-			self.IsMouseOvered = nil
-			self:SetScript("OnUpdate", nil)
-			onLeave()
-		end
-		watcher = 0
-	else
-		watcher = watcher + elapsed
+local function onEnterButton(button)
+	if AB.db.microbar.mouseover then
+		E:UIFrameFadeIn(ElvUI_MicroBar, 0.2, ElvUI_MicroBar:GetAlpha(), AB.db.microbar.alpha)
+	end
+
+	if button.backdrop then
+		button.backdrop:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
 	end
 end
 
-local function onEnter()
-	if AB.db.microbar.mouseover and not ElvUI_MicroBar.IsMouseOvered then
-		ElvUI_MicroBar.IsMouseOvered = true
-		ElvUI_MicroBar:SetScript("OnUpdate", onUpdate)
-		E:UIFrameFadeIn(ElvUI_MicroBar, 0.2, ElvUI_MicroBar:GetAlpha(), AB.db.microbar.alpha)
+local function onLeaveButton(button)
+	if AB.db.microbar.mouseover then
+		E:UIFrameFadeOut(ElvUI_MicroBar, 0.2, ElvUI_MicroBar:GetAlpha(), 0)
+	end
+
+	if button.backdrop then
+		button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 	end
 end
 
 function AB:HandleMicroButton(button)
-	assert(button, "Invalid micro button name.")
-
 	local pushed = button:GetPushedTexture()
 	local normal = button:GetNormalTexture()
 	local disabled = button:GetDisabledTexture()
 
 	local f = CreateFrame("Frame", nil, button)
-	f:SetFrameLevel(1)
-	f:SetFrameStrata("BACKGROUND")
+	f:SetFrameLevel(button:GetFrameLevel() - 1)
 	f:SetTemplate("Default", true)
 	f:SetOutside(button)
 	button.backdrop = f
 
 	button:SetParent(ElvUI_MicroBar)
 	button:GetHighlightTexture():Kill()
-	button:HookScript("OnEnter", onEnter)
+	button:HookScript("OnEnter", onEnterButton)
+	button:HookScript("OnLeave", onLeaveButton)
 	button:SetHitRectInsets(0, 0, 0, 0)
+	button:Show()
 
 	if button.Flash then
 		button.Flash:SetInside()
@@ -151,7 +154,6 @@ end
 function AB:UpdateMicroButtons()
 	-- Guild Button
 	GuildMicroButtonTabard:SetInside(GuildMicroButton)
-
 	GuildMicroButtonTabard.background:SetInside(GuildMicroButton)
 	GuildMicroButtonTabard.background:SetTexCoord(0.17, 0.87, 0.5, 0.908)
 
@@ -160,10 +162,6 @@ function AB:UpdateMicroButtons()
 	GuildMicroButtonTabard.emblem:Point("BOTTOMRIGHT", GuildMicroButton, "BOTTOMRIGHT", -4, 8)
 
 	-- PvP Micro Button
-	PVPMicroButtonTexture:Point("TOPLEFT", PVPMicroButton, "TOPLEFT", -3, 3)
-	PVPMicroButtonTexture:Point("BOTTOMRIGHT", PVPMicroButton, "BOTTOMRIGHT", 2, -3)
-	PVPMicroButtonTexture:SetTexture("Interface\\PVPFrame\\PVP-Conquest-Misc")
-
 	if UnitLevel("player") < PVPMicroButton.minLevel then
 		PVPMicroButtonTexture:SetDesaturated(true)
 	else
@@ -188,6 +186,9 @@ function AB:SetupMicroBar()
 
 	MicroButtonPortrait:SetInside(CharacterMicroButton.backdrop)
 
+	PVPMicroButtonTexture:Point("TOPLEFT", PVPMicroButton, "TOPLEFT", -3, 3)
+	PVPMicroButtonTexture:Point("BOTTOMRIGHT", PVPMicroButton, "BOTTOMRIGHT", 2, -3)
+	PVPMicroButtonTexture:SetTexture("Interface\\PVPFrame\\PVP-Conquest-Misc")
 	if E.myfaction == "Alliance"  then
 		PVPMicroButtonTexture:SetTexCoord(0.694, 0.748, 0.603, 0.728)
 	else

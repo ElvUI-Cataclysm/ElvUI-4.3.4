@@ -1,6 +1,6 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local mod = E:GetModule("DataBars")
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = E.Libs.LSM
 
 local _G = _G
 local format = format
@@ -55,8 +55,9 @@ function mod:UpdateReputation(event)
 			standingLabel = FactionStandingLabelUnknown
 		end
 
+		--Prevent a division by zero
 		local maxMinDiff = max - min
- 		if (maxMinDiff == 0) then
+ 		if maxMinDiff == 0 then
  			maxMinDiff = 1
 		end
 
@@ -84,7 +85,7 @@ function mod:ReputationBar_OnEnter()
 	if mod.db.reputation.mouseover then
 		E:UIFrameFadeIn(self, 0.4, self:GetAlpha(), 1)
 	end
-	GameTooltip:ClearLines();
+	GameTooltip:ClearLines()
 	GameTooltip:SetOwner(self, "ANCHOR_CURSOR", 0, -4)
 
 	local name, reaction, min, max, value = GetWatchedFactionInfo()
@@ -92,7 +93,7 @@ function mod:ReputationBar_OnEnter()
 		GameTooltip:AddLine(name)
 		GameTooltip:AddLine(" ")
 
-		GameTooltip:AddDoubleLine(STANDING..":", _G["FACTION_STANDING_LABEL" .. reaction], 1, 1, 1)
+		GameTooltip:AddDoubleLine(STANDING..":", _G["FACTION_STANDING_LABEL"..reaction], 1, 1, 1)
 		GameTooltip:AddDoubleLine(REPUTATION..":", format("%d / %d (%d%%)", value - min, max - min, (value - min) / ((max - min == 0) and max or (max - min)) * 100), 1, 1, 1)
 	end
 	GameTooltip:Show()
@@ -108,7 +109,14 @@ function mod:UpdateReputationDimensions()
 	self.repBar.statusBar:SetOrientation(self.db.reputation.orientation)
 	self.repBar.statusBar:SetReverseFill(self.db.reputation.reverseFill)
 	self.repBar.text:FontTemplate(LSM:Fetch("font", self.db.reputation.font), self.db.reputation.textSize, self.db.reputation.fontOutline)
-	if(self.db.reputation.mouseover) then
+
+	if self.db.reputation.orientation == "HORIZONTAL" then
+		self.repBar.statusBar:SetRotatesTexture(false)
+	else
+		self.repBar.statusBar:SetRotatesTexture(true)
+	end
+
+	if self.db.reputation.mouseover then
 		self.repBar:SetAlpha(0)
 	else
 		self.repBar:SetAlpha(1)
@@ -116,13 +124,13 @@ function mod:UpdateReputationDimensions()
 end
 
 function mod:EnableDisable_ReputationBar()
-	if(self.db.reputation.enable) then
+	if self.db.reputation.enable then
 		self:RegisterEvent("UPDATE_FACTION", "UpdateReputation")
 		self:UpdateReputation()
 		E:EnableMover(self.repBar.mover:GetName())
 	else
 		self:UnregisterEvent("UPDATE_FACTION")
-		self.repBar:Hide();
+		self.repBar:Hide()
 		E:DisableMover(self.repBar.mover:GetName())
 	end
 end
@@ -139,6 +147,6 @@ function mod:LoadReputationBar()
 
 	self:UpdateReputationDimensions()
 
-	E:CreateMover(self.repBar, "ReputationBarMover", L["Reputation Bar"])
+	E:CreateMover(self.repBar, "ReputationBarMover", L["Reputation Bar"], nil, nil, nil, nil, nil, "databars,reputation")
 	self:EnableDisable_ReputationBar()
 end

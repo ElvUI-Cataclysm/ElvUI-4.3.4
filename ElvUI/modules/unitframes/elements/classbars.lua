@@ -44,9 +44,6 @@ function UF:Configure_ClassBar(frame)
 	local color = E.db.unitframe.colors.borderColor
 	bars.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
 
-	color = self.db.colors.classResources.bgColor
-	bars.backdrop.backdropTexture:SetVertexColor(color.r, color.g, color.b)
-
 	if frame.USE_MINI_CLASSBAR and not frame.CLASSBAR_DETACHED then
 		bars:ClearAllPoints()
 		bars:Point("CENTER", frame.Health.backdrop, "TOP", 0, 0)
@@ -89,7 +86,7 @@ function UF:Configure_ClassBar(frame)
 			bars:Height(frame.CLASSBAR_HEIGHT - ((frame.BORDER+frame.SPACING)*2))
 			bars:ClearAllPoints()
 			bars:Point("BOTTOMLEFT", bars.Holder, "BOTTOMLEFT", frame.BORDER + frame.SPACING, frame.BORDER + frame.SPACING)
-			E:CreateMover(bars.Holder, "ClassBarMover", L["Classbar"], nil, nil, nil, "ALL,SOLO")
+			E:CreateMover(bars.Holder, "ClassBarMover", L["Classbar"], nil, nil, nil, "ALL,SOLO", nil, "unitframe,player,classbar")
 		else
 			bars:ClearAllPoints()
 			bars:Point("BOTTOMLEFT", bars.Holder, "BOTTOMLEFT", frame.BORDER + frame.SPACING, frame.BORDER + frame.SPACING)
@@ -126,25 +123,19 @@ function UF:Configure_ClassBar(frame)
 			bars[i].backdrop:Hide()
 
 			if i <= frame.MAX_CLASS_BAR then
-				color = E.db.unitframe.colors.borderColor
 				bars[i].backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
-
-				color = self.db.colors.classResources.bgColor
-				bars[i].backdrop.backdropTexture:SetVertexColor(color.r, color.g, color.b)
-
-
 				bars[i]:Height(bars:GetHeight())
 				if frame.MAX_CLASS_BAR == 1 then
-					bars[i]:SetWidth(CLASSBAR_WIDTH)
+					bars[i]:Width(CLASSBAR_WIDTH)
 				elseif frame.USE_MINI_CLASSBAR then
 					if frame.CLASSBAR_DETACHED and db.classbar.orientation == "VERTICAL" then
-						bars[i]:SetWidth(CLASSBAR_WIDTH)
+						bars[i]:Width(CLASSBAR_WIDTH)
 						bars.Holder:SetHeight(((frame.CLASSBAR_HEIGHT + db.classbar.spacing)* frame.MAX_CLASS_BAR) - db.classbar.spacing) -- fix the holder height
-					elseif frame.CLASSBAR_DETACHED and db.classbar.orientation == "HORIZONTAL" then
-						bars[i]:SetWidth((CLASSBAR_WIDTH - ((db.classbar.spacing + (frame.BORDER*2 + frame.SPACING*2))*(frame.MAX_CLASS_BAR - 1)))/frame.MAX_CLASS_BAR)
+				elseif frame.CLASSBAR_DETACHED and db.classbar.orientation == "HORIZONTAL" then
+						bars[i]:Width((CLASSBAR_WIDTH - ((db.classbar.spacing + (frame.BORDER*2 + frame.SPACING*2))*(frame.MAX_CLASS_BAR - 1)))/frame.MAX_CLASS_BAR)
 						bars.Holder:SetHeight(frame.CLASSBAR_HEIGHT)
 					else
-						bars[i]:SetWidth((CLASSBAR_WIDTH - ((5 + (frame.BORDER*2 + frame.SPACING*2))*(frame.MAX_CLASS_BAR - 1)))/frame.MAX_CLASS_BAR) --Width accounts for 5px spacing between each button, excluding borders
+						bars[i]:Width((CLASSBAR_WIDTH - ((5 + (frame.BORDER*2 + frame.SPACING*2))*(frame.MAX_CLASS_BAR - 1)))/frame.MAX_CLASS_BAR) --Width accounts for 5px spacing between each button, excluding borders
 						bars.Holder:SetHeight(frame.CLASSBAR_HEIGHT) -- set the holder height to default
 					end
 				elseif i ~= frame.MAX_CLASS_BAR then
@@ -216,7 +207,7 @@ function UF:Configure_ClassBar(frame)
 		bars.SolarBar:Size(CLASSBAR_WIDTH, frame.CLASSBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2))
 
 		bars.SolarBar:ClearAllPoints()
-		bars.Text:ClearAllPoints()
+		bars.Arrow:ClearAllPoints()
 
 		if frame.CLASSBAR_DETACHED and db.classbar.verticalOrientation then
 			bars.LunarBar:SetOrientation("VERTICAL")
@@ -224,14 +215,14 @@ function UF:Configure_ClassBar(frame)
 			bars.SolarBar:SetOrientation("VERTICAL")
 			bars.SolarBar:Point("BOTTOM", bars.LunarBar:GetStatusBarTexture(), "TOP")
 
-			bars.Text:Point("CENTER", bars.LunarBar:GetStatusBarTexture(), "TOP", 0, -4)
+			bars.Arrow:Point("CENTER", bars.LunarBar:GetStatusBarTexture(), "TOP", 0, -4)
 		else
 			bars.LunarBar:SetOrientation("HORIZONTAL")
 
 			bars.SolarBar:SetOrientation("HORIZONTAL")
 			bars.SolarBar:Point("LEFT", bars.LunarBar:GetStatusBarTexture(), "RIGHT")
 
-			bars.Text:Point("CENTER", bars.LunarBar:GetStatusBarTexture(), "RIGHT")
+			bars.Arrow:Point("CENTER", bars.LunarBar:GetStatusBarTexture(), "RIGHT")
 		end
 	elseif frame.ClassBar == "AdditionalPower" then
 		if frame.CLASSBAR_DETACHED and db.classbar.verticalOrientation then
@@ -318,19 +309,19 @@ function UF:Construct_ClassBar(frame)
 	local bars = CreateFrame("Frame", nil, frame)
 	bars:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
 
-	local maxBars = max(UF["classMaxResourceBar"][E.myclass] or 0)
+	local maxBars = max(UF.classMaxResourceBar[E.myclass] or 0)
 	for i = 1, maxBars do
 		bars[i] = CreateFrame("StatusBar", frame:GetName().."ClassIconButton"..i, bars)
-		bars[i]:SetStatusBarTexture(E["media"].blankTex) --Dummy really, this needs to be set so we can change the color
+		bars[i]:SetStatusBarTexture(E.media.blankTex) --Dummy really, this needs to be set so we can change the color
 		bars[i]:GetStatusBarTexture():SetHorizTile(false)
-		UF["statusbars"][bars[i]] = true
+		UF.statusbars[bars[i]] = true
 
 		bars[i]:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
 		bars[i].backdrop:SetParent(bars)
 
 		bars[i].bg = bars:CreateTexture(nil, "OVERLAY")
 		bars[i].bg:SetAllPoints(bars[i])
-		bars[i].bg:SetTexture(E["media"].blankTex)
+		bars[i].bg:SetTexture(E.media.blankTex)
 	end
 
 	bars.PostUpdate = UF.UpdateClassBar
@@ -343,7 +334,7 @@ function UF:Construct_ClassBar(frame)
 	return bars
 end
 
-function UF:UpdateClassBar(cur, max, hasMaxChanged)
+function UF:UpdateClassBar(current, maxBars, hasMaxChanged)
 	local frame = self.origParent or self:GetParent()
 	local db = frame.db
 	if not db then return end
@@ -351,7 +342,7 @@ function UF:UpdateClassBar(cur, max, hasMaxChanged)
 	local isShown = self:IsShown()
 	local stateChanged
 
-	if not frame.USE_CLASSBAR or (cur == 0 and db.classbar.autoHide) or max == nil then
+	if not frame.USE_CLASSBAR or (current == 0 and db.classbar.autoHide) or maxBars == nil then
 		self:Hide()
 		if isShown then
 			stateChanged = true
@@ -364,17 +355,22 @@ function UF:UpdateClassBar(cur, max, hasMaxChanged)
 	end
 
 	if hasMaxChanged then
-		frame.MAX_CLASS_BAR = max
-		UF:Configure_ClassBar(frame, cur)
+		frame.MAX_CLASS_BAR = maxBars
+		UF:Configure_ClassBar(frame, current)
 	elseif stateChanged then
-		UF:Configure_ClassBar(frame, cur)
+		UF:Configure_ClassBar(frame, current)
 	end
 
-	local r, g, b
+	local custom_backdrop = UF.db.colors.customclasspowerbackdrop and UF.db.colors.classpower_backdrop
 	for i = 1, #self do
-		r, g, b = self[i]:GetStatusBarColor()
-		self[i].bg:SetVertexColor(r, g, b, 0.15)
-		if(max and (i <= max)) then
+		if custom_backdrop then
+			self[i].bg:SetVertexColor(custom_backdrop.r, custom_backdrop.g, custom_backdrop.b)
+		else
+			local r, g, b = self[i]:GetStatusBarColor()
+			self[i].bg:SetVertexColor(r * 0.35, g * 0.35, b * 0.35)
+		end
+
+		if maxBars and (i <= maxBars) then
 			self[i].bg:Show()
 		else
 			self[i].bg:Hide()
@@ -389,18 +385,18 @@ function UF:Construct_PriestResourceBar(frame)
 	local bars = CreateFrame("Frame", nil, frame)
 	bars:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
 
-	for i = 1, UF["classMaxResourceBar"][E.myclass] do
+	for i = 1, UF.classMaxResourceBar[E.myclass] do
 		bars[i] = CreateFrame("StatusBar", frame:GetName().."ClassBarButton"..i, bars)
-		bars[i]:SetStatusBarTexture(E["media"].blankTex)
+		bars[i]:SetStatusBarTexture(E.media.blankTex)
 		bars[i]:GetStatusBarTexture():SetHorizTile(false)
-		UF["statusbars"][bars[i]] = true
+		UF.statusbars[bars[i]] = true
 
 		bars[i]:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
 		bars[i].backdrop:SetParent(bars)
 
 		bars[i].bg = bars[i]:CreateTexture(nil, "BORDER")
 		bars[i].bg:SetAllPoints()
-		bars[i].bg:SetTexture(E["media"].blankTex)
+		bars[i].bg:SetTexture(E.media.blankTex)
 		bars[i].bg.multiplier = 0.3
 	end
 
@@ -421,9 +417,17 @@ function UF:UpdateShadowOrbs(event, shadowOrbs, maxOrbs)
 		if db.classbar.autoHide then
 			self:Hide()
 		else
+			local custom_backdrop = UF.db.colors.customclasspowerbackdrop and UF.db.colors.classpower_backdrop
 			for i = 1, maxOrbs do
 				self[i]:SetValue(0)
 				self[i]:SetScript("OnUpdate", nil)
+
+				if custom_backdrop then
+					self[i].bg:SetVertexColor(custom_backdrop.r, custom_backdrop.g, custom_backdrop.b)
+				else
+					local r, g, b = self[i]:GetStatusBarColor()
+					self[i].bg:SetVertexColor(r * 0.35, g * 0.35, b * 0.35)
+				end
 			end
 
 			self:Show()
@@ -438,10 +442,10 @@ function UF:Construct_DeathKnightResourceBar(frame)
 	local runes = CreateFrame("Frame", nil, frame)
 	runes:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
 
-	for i = 1, UF["classMaxResourceBar"][E.myclass] do
+	for i = 1, UF.classMaxResourceBar[E.myclass] do
 		runes[i] = CreateFrame("StatusBar", frame:GetName().."RuneButton"..i, runes)
-		UF["statusbars"][runes[i]] = true
-		runes[i]:SetStatusBarTexture(E["media"].blankTex)
+		UF.statusbars[runes[i]] = true
+		runes[i]:SetStatusBarTexture(E.media.blankTex)
 		runes[i]:GetStatusBarTexture():SetHorizTile(false)
 
 		runes[i]:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
@@ -449,7 +453,7 @@ function UF:Construct_DeathKnightResourceBar(frame)
 
 		runes[i].bg = runes[i]:CreateTexture(nil, "BORDER")
 		runes[i].bg:SetAllPoints()
-		runes[i].bg:SetTexture(E["media"].blankTex)
+		runes[i].bg:SetTexture(E.media.blankTex)
 		runes[i].bg.multiplier = 0.2
 	end
 
@@ -489,15 +493,16 @@ function UF:Construct_DruidEclipseBar(frame)
 
 	eclipseBar.LunarBar = CreateFrame("StatusBar", "LunarBar", eclipseBar)
 	eclipseBar.LunarBar:Point("LEFT", eclipseBar)
-	eclipseBar.LunarBar:SetStatusBarTexture(E["media"].blankTex)
-	UF["statusbars"][eclipseBar.LunarBar] = true
+	eclipseBar.LunarBar:SetStatusBarTexture(E.media.blankTex)
+	UF.statusbars[eclipseBar.LunarBar] = true
 
 	eclipseBar.SolarBar = CreateFrame("StatusBar", "SolarBar", eclipseBar)
-	eclipseBar.SolarBar:SetStatusBarTexture(E["media"].blankTex)
-	UF["statusbars"][eclipseBar.SolarBar] = true
+	eclipseBar.SolarBar:SetStatusBarTexture(E.media.blankTex)
+	UF.statusbars[eclipseBar.SolarBar] = true
 
-	eclipseBar.Text = eclipseBar.LunarBar:CreateFontString(nil, "OVERLAY")
-	eclipseBar.Text:FontTemplate(nil, 20)
+	eclipseBar.Arrow = eclipseBar.LunarBar:CreateTexture(nil, "OVERLAY")
+	eclipseBar.Arrow:SetTexture(E.Media.Textures.ArrowUp)
+	eclipseBar.Arrow:SetPoint("CENTER")
 
 	return eclipseBar
 end
@@ -509,20 +514,22 @@ function UF:EclipsePostDirectionChange(direction)
 
 	if direction == "sun" then
 		if frame.CLASSBAR_DETACHED and db.classbar.verticalOrientation then
-			self.Text:SetText("^")
+			self.Arrow:SetRotation(0)
 		else
-			self.Text:SetText(">")
+			self.Arrow:SetRotation(-1.57)
 		end
-		self.Text:SetTextColor(.2, .2, 1, 1)
+		self.Arrow:Show()
+		self.Arrow:SetVertexColor(unpack(ElvUF.colors.ClassBars[E.myclass][1]))
 	elseif direction == "moon" then
 		if frame.CLASSBAR_DETACHED and db.classbar.verticalOrientation then
-			self.Text:SetText("v")
+			self.Arrow:SetRotation(3.14)
 		else
-			self.Text:SetText("<")
+			self.Arrow:SetRotation(1.57)
 		end
-		self.Text:SetTextColor(1, 1, .3, 1)
+		self.Arrow:Show()
+		self.Arrow:SetVertexColor(unpack(ElvUF.colors.ClassBars[E.myclass][2]))
 	else
-		self.Text:SetText("")
+		self.Arrow:Hide()
 	end
 end
 
@@ -545,12 +552,12 @@ function UF:Construct_AdditionalPowerBar(frame)
 	additionalPower.PostUpdate = UF.PostUpdateAdditionalPower
 	additionalPower.PostUpdateVisibility = UF.PostVisibilityAdditionalPower
 	additionalPower:CreateBackdrop("Default")
-	UF["statusbars"][additionalPower] = true
-	additionalPower:SetStatusBarTexture(E["media"].blankTex)
+	UF.statusbars[additionalPower] = true
+	additionalPower:SetStatusBarTexture(E.media.blankTex)
 
 	additionalPower.bg = additionalPower:CreateTexture(nil, "BORDER")
 	additionalPower.bg:SetAllPoints(additionalPower)
-	additionalPower.bg:SetTexture(E["media"].blankTex)
+	additionalPower.bg:SetTexture(E.media.blankTex)
 	additionalPower.bg.multiplier = 0.3
 
 	additionalPower.Text = additionalPower:CreateFontString(nil, "OVERLAY")
@@ -562,25 +569,25 @@ function UF:Construct_AdditionalPowerBar(frame)
 	return additionalPower
 end
 
-function UF:PostUpdateAdditionalPower(_, min, max, event)
+function UF:PostUpdateAdditionalPower(_, MIN, MAX, event)
 	local frame = self.origParent or self:GetParent()
 	local db = frame.db
 
-	if frame.USE_CLASSBAR and ((min ~= max or (not db.classbar.autoHide)) and (event ~= "ElementDisable")) then
+	if frame.USE_CLASSBAR and ((MIN ~= MAX or (not db.classbar.autoHide)) and (event ~= "ElementDisable")) then
 		if db.classbar.additionalPowerText then
 			local powerValue = frame.Power.value
 			local powerValueText = powerValue:GetText()
 			local powerValueParent = powerValue:GetParent()
 			local powerTextPosition = db.power.position
-			local color = ElvUF["colors"].power["MANA"]
+			local color = ElvUF.colors.power.MANA
 			color = E:RGBToHex(color[1], color[2], color[3])
 
 			--Attempt to remove |cFFXXXXXX color codes in order to determine if power text is really empty
 			if powerValueText then
-				local _, endIndex = find(powerValueText, "|cff")
+				local _, endIndex = strfind(powerValueText, "|cff")
 				if endIndex then
 					endIndex = endIndex + 7 --Add hex code
-					powerValueText = sub(powerValueText, endIndex)
+					powerValueText = strsub(powerValueText, endIndex)
 					powerValueText = gsub(powerValueText, "%s+", "")
 				end
 			end
@@ -589,35 +596,42 @@ function UF:PostUpdateAdditionalPower(_, min, max, event)
 			if not frame.CLASSBAR_DETACHED then
 				self.Text:SetParent(powerValueParent)
 				if (powerValueText and (powerValueText ~= "" and powerValueText ~= " ")) then
-					if find(powerTextPosition, "RIGHT") then
+					if strfind(powerTextPosition, "RIGHT") then
 						self.Text:Point("RIGHT", powerValue, "LEFT", 3, 0)
-						self.Text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(min / max * 100))
-					elseif find(powerTextPosition, "LEFT") then
+						self.Text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(MIN / MAX * 100))
+					elseif strfind(powerTextPosition, "LEFT") then
 						self.Text:Point("LEFT", powerValue, "RIGHT", -3, 0)
-						self.Text:SetFormattedText("|cffD7BEA5 -|r"..color.." %d%%|r", floor(min / max * 100))
+						self.Text:SetFormattedText("|cffD7BEA5 -|r"..color.." %d%%|r", floor(MIN / MAX * 100))
 					else
 						if select(4, powerValue:GetPoint()) <= 0 then
 							self.Text:Point("LEFT", powerValue, "RIGHT", -3, 0)
-							self.Text:SetFormattedText(" |cffD7BEA5-|r"..color.." %d%%|r", floor(min / max * 100))
+							self.Text:SetFormattedText(" |cffD7BEA5-|r"..color.." %d%%|r", floor(MIN / MAX * 100))
 						else
 							self.Text:Point("RIGHT", powerValue, "LEFT", 3, 0)
-							self.Text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(min / max * 100))
+							self.Text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(MIN / MAX * 100))
 						end
 					end
 				else
 					self.Text:Point(powerValue:GetPoint())
-					self.Text:SetFormattedText(color.."%d%%|r", floor(min / max * 100))
+					self.Text:SetFormattedText(color.."%d%%|r", floor(MIN / MAX * 100))
 				end
 			else
-				self.text:SetParent(frame.RaisedElementParent)
+				self.Text:SetParent(frame.RaisedElementParent) -- needs to be 'frame.RaisedElementParent' otherwise the new PowerPrediction Bar will overlap
 				self.Text:Point("CENTER", self)
-				self.Text:SetFormattedText(color.."%d%%|r", floor(min / max * 100))
+				self.Text:SetFormattedText(color.."%d%%|r", floor(MIN / MAX * 100))
 			end
 		else --Text disabled
-			self.Text:SetText()
+			self.Text:SetText("")
 		end
+
+		local custom_backdrop = UF.db.colors.customclasspowerbackdrop and UF.db.colors.classpower_backdrop
+		if custom_backdrop then
+			self.bg:SetVertexColor(custom_backdrop.r, custom_backdrop.g, custom_backdrop.b)
+		end
+
+		self:Show()
 	else --Bar disabled
-		self.Text:SetText()
+		self.Text:SetText("")
 		self:Hide()
 	end
 end

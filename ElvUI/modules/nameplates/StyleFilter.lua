@@ -1,6 +1,6 @@
 local E, L, V, P, G = unpack(select(2, ...))
-local mod = E:GetModule("NamePlates")
-local LSM = LibStub("LibSharedMedia-3.0")
+local NP = E:GetModule("NamePlates")
+local LSM = E.Libs.LSM
 
 local ipairs, next, pairs, rawget, rawset, select, setmetatable, tonumber, type, unpack = ipairs, next, pairs, rawget, rawset, select, setmetatable, tonumber, type, unpack
 local tinsert, tsort, twipe = table.insert, table.sort, table.wipe
@@ -17,7 +17,7 @@ local UnitLevel = UnitLevel
 local FAILED = FAILED
 local INTERRUPTED = INTERRUPTED
 
-function mod:StyleFilterAuraCheck(names, icons, mustHaveAll, missing, minTimeLeft, maxTimeLeft)
+function NP:StyleFilterAuraCheck(names, icons, mustHaveAll, missing, minTimeLeft, maxTimeLeft)
 	local total, count = 0, 0
 	for name, value in pairs(names) do
 		if value == true then --only if they are turned on
@@ -41,7 +41,7 @@ function mod:StyleFilterAuraCheck(names, icons, mustHaveAll, missing, minTimeLef
 	end
 end
 
-function mod:StyleFilterCooldownCheck(names, mustHaveAll)
+function NP:StyleFilterCooldownCheck(names, mustHaveAll)
 	local total, count, duration, _ = 0, 0
 	local _, gcd = GetSpellCooldown(61304)
 
@@ -66,7 +66,7 @@ function mod:StyleFilterCooldownCheck(names, mustHaveAll)
 	end
 end
 
-function mod:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderChanged, FlashingHealth, TextureChanged, ScaleChanged, FrameLevelChanged, AlphaChanged, NameColorChanged, NameOnlyChanged, VisibilityChanged)
+function NP:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderChanged, FlashingHealth, TextureChanged, ScaleChanged, FrameLevelChanged, AlphaChanged, NameColorChanged, NameOnlyChanged, VisibilityChanged)
 	if VisibilityChanged then
 		frame.StyleChanged = true
 		frame.VisibilityChanged = true
@@ -158,7 +158,7 @@ function mod:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderCha
 	end
 end
 
-function mod:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, FlashingHealth, TextureChanged, ScaleChanged, FrameLevelChanged, AlphaChanged, NameColorChanged, NameOnlyChanged, VisibilityChanged)
+function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, FlashingHealth, TextureChanged, ScaleChanged, FrameLevelChanged, AlphaChanged, NameColorChanged, NameOnlyChanged, VisibilityChanged)
 	frame.StyleChanged = nil
 	if VisibilityChanged then
 		frame.VisibilityChanged = nil
@@ -227,7 +227,7 @@ function mod:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, F
 	end
 end
 
-function mod:StyleFilterConditionCheck(frame, filter, trigger, failed)
+function NP:StyleFilterConditionCheck(frame, filter, trigger, failed)
 	local condition, name, inCombat, reaction, spell
 	local _, instanceType, instanceDifficulty
 	local level, myLevel, curLevel, minLevel, maxLevel, matchMyLevel, myRole
@@ -388,7 +388,7 @@ function mod:StyleFilterConditionCheck(frame, filter, trigger, failed)
 	if not failed and trigger.level then
 		condition = false
 		myLevel = UnitLevel("player")
-		level = mod:UnitLevel(frame)
+		level = NP:UnitLevel(frame)
 		level = level == "??" and -1 or tonumber(level)
 		curLevel = (trigger.curlevel and trigger.curlevel ~= 0 and (trigger.curlevel == level))
 		minLevel = (trigger.minlevel and trigger.minlevel ~= 0 and (trigger.minlevel <= level))
@@ -463,7 +463,7 @@ function mod:StyleFilterConditionCheck(frame, filter, trigger, failed)
 	end
 end
 
-function mod:StyleFilterPass(frame, actions, castbarTriggered)
+function NP:StyleFilterPass(frame, actions, castbarTriggered)
 	if castbarTriggered then
 		frame.castbarTriggered = castbarTriggered
 	end
@@ -483,21 +483,21 @@ function mod:StyleFilterPass(frame, actions, castbarTriggered)
 	)
 end
 
-function mod:ClearStyledPlate(frame)
+function NP:ClearStyledPlate(frame)
 	if frame.StyleChanged then
 		self:StyleFilterClearChanges(frame, frame.HealthColorChanged, frame.BorderChanged, frame.FlashingHealth, frame.TextureChanged, frame.ScaleChanged, frame.FrameLevelChanged, frame.AlphaChanged, frame.NameColorChanged, frame.NameOnlyChanged, frame.VisibilityChanged)
 	end
 end
 
-function mod:StyleFilterSort(place)
+function NP:StyleFilterSort(place)
 	if self[2] and place[2] then
 		return self[2] > place[2] --Sort by priority: 1=first, 2=second, 3=third, etc
 	end
 end
 
-mod.StyleFilterList = {}
-mod.StyleFilterEvents = {}
-function mod:StyleFilterConfigureEvents()
+NP.StyleFilterList = {}
+NP.StyleFilterEvents = {}
+function NP:StyleFilterConfigureEvents()
 	twipe(self.StyleFilterList)
 	twipe(self.StyleFilterEvents)
 
@@ -589,7 +589,7 @@ function mod:StyleFilterConfigureEvents()
 	end
 end
 
-function mod:UpdateElement_Filters(frame, event)
+function NP:UpdateElement_Filters(frame, event)
 	if not self.StyleFilterEvents[event] then return end
 
 	--[[if self.StyleFilterEvents[event] == true then
@@ -705,7 +705,7 @@ local function removeDefaults(db, defaults, blocker)
 	end
 end
 
-function mod:PLAYER_LOGOUT()
+function NP:PLAYER_LOGOUT()
 	for filterName, filterTable in pairs(E.global.nameplates.filters) do
 		if G.nameplates.filters[filterName] then
 			local defaultTable = E:CopyTable({}, E.StyleFilterDefaults)
@@ -717,12 +717,12 @@ function mod:PLAYER_LOGOUT()
 	end
 end
 
-function mod:StyleFilterInitializeAllFilters()
+function NP:StyleFilterInitializeAllFilters()
 	for _, filterTable in pairs(E.global.nameplates.filters) do
-		self:StyleFilterInitializeFilter(filterTable);
+		self:StyleFilterInitializeFilter(filterTable)
 	end
 end
 
-function mod:StyleFilterInitializeFilter(tbl)
+function NP:StyleFilterInitializeFilter(tbl)
 	copyDefaults(tbl, E.StyleFilterDefaults)
 end

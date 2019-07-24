@@ -3,16 +3,16 @@ Copyright (c) 2010-2015, Hendrik "nevcairiel" Leppkes <h.leppkes@gmail.com>
 
 All rights reserved.
 
-Redistribution and use in source and binary forms, with or without 
+Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
-    * Redistributions of source code must retain the above copyright notice, 
+    * Redistributions of source code must retain the above copyright notice,
       this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, 
-      this list of conditions and the following disclaimer in the documentation 
+    * Redistributions in binary form must reproduce the above copyright notice,
+      this list of conditions and the following disclaimer in the documentation
       and/or other materials provided with the distribution.
-    * Neither the name of the developer nor the names of its contributors 
-      may be used to endorse or promote products derived from this software without 
+    * Neither the name of the developer nor the names of its contributors
+      may be used to endorse or promote products derived from this software without
       specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -510,7 +510,7 @@ local function PickupAny(kind, target, detail, ...)
 end
 
 function Generic:OnUpdate()
-	if not GetCVarBool('lockActionBars') then return; end
+	if not GetCVarBool('lockActionBars') then return end
 
 	local isDragKeyDown
 	if GetModifiedClick("PICKUPACTION") == 'ALT' then
@@ -987,7 +987,6 @@ function Update(self, fromUpdateConfig)
 			self:SetAlpha(0.0)
 		end
 		self.cooldown:Hide()
-		self:SetChecked(0)
 	end
 
 	-- Add a green border if button is an equipped item
@@ -1007,6 +1006,7 @@ function Update(self, fromUpdateConfig)
 
 	-- Update icon and hotkey
 	local texture = self:GetTexture()
+
 	if texture then
 		self.icon:SetTexture(texture)
 		self.icon:Show()
@@ -1139,9 +1139,9 @@ end
 
 function UpdateTooltip(self)
 	if (GetCVar("UberTooltips") == "1") then
-		GameTooltip_SetDefaultAnchor(GameTooltip, self);
+		GameTooltip_SetDefaultAnchor(GameTooltip, self)
 	else
-		GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 	end
 	if self:SetTooltip() then
 		self.UpdateTooltip = UpdateTooltip
@@ -1154,11 +1154,11 @@ function UpdateHotkeys(self)
 	local key = self:GetHotkey()
 	if not key or key == "" or self.config.hideElements.hotkey then
 		self.hotkey:SetText(RANGE_INDICATOR)
-		self.hotkey:SetPoint("TOPRIGHT", 0, -3);
+		self.hotkey:SetPoint("TOPRIGHT", 0, -3)
 		self.hotkey:Hide()
 	else
 		self.hotkey:SetText(key)
-		self.hotkey:SetPoint("TOPRIGHT", 0, -3);
+		self.hotkey:SetPoint("TOPRIGHT", 0, -3)
 		self.hotkey:Show()
 	end
 
@@ -1175,7 +1175,7 @@ local function OverlayGlow_OnHide(self)
 end
 
 function GetOverlayGlow()
-	local overlay = tremove(lib.unusedOverlayGlows);
+	local overlay = tremove(lib.unusedOverlayGlows)
 	if not overlay then
 		lib.numOverlays = lib.numOverlays + 1
 		overlay = CreateFrame("Frame", "LAB10ActionButtonOverlay"..lib.numOverlays, UIParent, "ActionBarButtonSpellActivationAlert")
@@ -1260,7 +1260,7 @@ function UpdateFlyout(self)
 			-- Update arrow
 			self.FlyoutArrow:Show()
 			self.FlyoutArrow:ClearAllPoints()
-			local direction = self:GetAttribute("flyoutDirection");
+			local direction = self:GetAttribute("flyoutDirection")
 			if direction == "LEFT" then
 				self.FlyoutArrow:SetPoint("LEFT", self, "LEFT", -arrowDistance, 0)
 				SetClampedTextureRotation(self.FlyoutArrow, 270)

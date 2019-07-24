@@ -81,14 +81,17 @@ local function LoadSkin()
 				token.icon:Size(14)
 				token.icon:SetTexCoord(unpack(E.TexCoords))
 				token.icon:Point("LEFT", token.count, "RIGHT", 2, 0)
-				
+
 				token.isSkinned = true
 			end
 		end
 	end)
 
 	S:HandleNextPrevButton(MerchantNextPageButton)
+	MerchantNextPageButton:Size(24)
+
 	S:HandleNextPrevButton(MerchantPrevPageButton)
+	MerchantPrevPageButton:Size(24)
 
 	MerchantRepairItemButton:StyleButton()
 	MerchantRepairItemButton:SetTemplate("Default", true)
@@ -148,12 +151,12 @@ local function LoadSkin()
 						itemButton:SetBackdropBorderColor(r, g, b)
 						itemName:SetTextColor(r, g, b)
 					else
-						itemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+						itemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 						itemName:SetTextColor(1, 1, 1)
 					end
 				else
 					if itemButton then
-						itemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+						itemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 					end
 					if itemName then
 						itemName:SetTextColor(1, 1, 1)
@@ -170,11 +173,11 @@ local function LoadSkin()
 					MerchantBuyBackItemItemButton:SetBackdropBorderColor(r, g, b)
 					MerchantBuyBackItemName:SetTextColor(r, g, b)
 				else
-					MerchantBuyBackItemItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+					MerchantBuyBackItemItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 					MerchantBuyBackItemName:SetTextColor(1, 1, 1)
 				end
 			else
-				MerchantBuyBackItemItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				MerchantBuyBackItemItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end
 		end
 	end)
@@ -196,7 +199,7 @@ local function LoadSkin()
 						itemButton:SetBackdropBorderColor(r, g, b)
 						itemName:SetTextColor(r, g, b)
 					else
-						itemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+						itemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 						itemName:SetTextColor(1, 1, 1)
 					end
 				end

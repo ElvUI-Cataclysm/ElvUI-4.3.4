@@ -25,6 +25,8 @@ local function LoadSkin()
 		button:StripTextures()
 		button:CreateBackdrop()
 		button.backdrop:SetInside()
+		button:HookScript("OnEnter", S.SetModifiedBackdrop)
+		button:HookScript("OnLeave", S.SetOriginalBackdrop)
 
 		button.selectedTex:SetTexture(1, 1, 1, 0.3)
 		button.selectedTex:SetInside(button.backdrop)
@@ -42,11 +44,11 @@ local function LoadSkin()
 		button.bg:SetOutside(icon)
 
 		icon:SetTexCoord(unpack(E.TexCoords))
-		icon:Size(E.PixelMode and 43 or 34)
+		icon:Size(E.PixelMode and 39 or 34)
 		if i == 1 then
-			icon:Point("TOPLEFT", E.PixelMode and 2 or 7, E.PixelMode and -2 or -6)
+			icon:Point("TOPLEFT", E.PixelMode and 5 or 7, E.PixelMode and -3 or -6)
 		else
-			icon:Point("TOPLEFT", E.PixelMode and 2 or 6, E.PixelMode and -2 or -6)
+			icon:Point("TOPLEFT", E.PixelMode and 4 or 6, E.PixelMode and -4 or -6)
 		end
 		icon:SetParent(button.bg)
 	end
@@ -90,7 +92,7 @@ local function LoadSkin()
 	ClassTrainerStatusBar:StripTextures()
 	ClassTrainerStatusBar:CreateBackdrop("Default")
 	ClassTrainerStatusBar:Size(300, 18)
-	ClassTrainerStatusBar:SetStatusBarTexture(E["media"].normTex)
+	ClassTrainerStatusBar:SetStatusBarTexture(E.media.normTex)
 	ClassTrainerStatusBar:SetStatusBarColor(0.11, 0.50, 1.00)
 	ClassTrainerStatusBar:ClearAllPoints()
 	ClassTrainerStatusBar:Point("TOP", ClassTrainerFrame, "TOP", 0, -30)

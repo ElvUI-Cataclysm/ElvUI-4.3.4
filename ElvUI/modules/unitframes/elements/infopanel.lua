@@ -15,7 +15,7 @@ function UF:Configure_InfoPanel(frame, noTemplateChange)
 	if not frame.VARIABLES_SET then return end
 	local db = frame.db
 
-	if(frame.USE_INFO_PANEL) then
+	if frame.USE_INFO_PANEL then
 		frame.InfoPanel:Show()
 		frame.InfoPanel:ClearAllPoints()
 
@@ -35,7 +35,7 @@ function UF:Configure_InfoPanel(frame, noTemplateChange)
 			end
 		end
 
-		if (not noTemplateChange) then
+		if not noTemplateChange then
 			local thinBorders = self.thinBorders
 			if db.infoPanel.transparent then
 				frame.InfoPanel.backdrop:SetTemplate("Transparent", nil, nil, thinBorders, true)

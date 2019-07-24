@@ -23,7 +23,7 @@ local function LoadSkin()
 			self:StartMoving()
 		end
 	end)
-	InterfaceOptionsFrame:SetScript("OnDragStop", function(self) 
+	InterfaceOptionsFrame:SetScript("OnDragStop", function(self)
 		self:StopMovingOrSizing()
 	end)
 	InterfaceOptionsFrame:SetScript("OnEnter", function(self)
@@ -47,22 +47,19 @@ local function LoadSkin()
 	for i = 1, maxButtons do
 		local buttonToggle = _G["InterfaceOptionsFrameAddOnsButton"..i.."Toggle"]
 
-		buttonToggle:SetNormalTexture("")
+		buttonToggle:SetNormalTexture(E.Media.Textures.PlusMinusButton)
 		buttonToggle.SetNormalTexture = E.noop
-		buttonToggle:SetPushedTexture("")
+		buttonToggle:SetPushedTexture(E.Media.Textures.PlusMinusButton)
 		buttonToggle.SetPushedTexture = E.noop
-		buttonToggle:SetHighlightTexture(nil)
-
-		buttonToggle.Text = buttonToggle:CreateFontString(nil, "OVERLAY")
-		buttonToggle.Text:FontTemplate(nil, 22)
-		buttonToggle.Text:Point("CENTER")
-		buttonToggle.Text:SetText("+")
+		buttonToggle:SetHighlightTexture("")
 
 		hooksecurefunc(buttonToggle, "SetNormalTexture", function(self, texture)
 			if find(texture, "MinusButton") then
-				self.Text:SetText("-")
+				self:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+				self:GetPushedTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
 			else
-				self.Text:SetText("+")
+				self:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+				self:GetPushedTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
 			end
 		end)
 	end
@@ -255,6 +252,8 @@ local function LoadSkin()
 	S:HandleCheckBox(InterfaceOptionsSocialPanelChatMouseScroll)
 
 	S:HandleDropDownBox(InterfaceOptionsSocialPanelWhisperMode)
+	S:HandleDropDownBox(InterfaceOptionsSocialPanelChatStyle)
+	S:HandleDropDownBox(InterfaceOptionsSocialPanelTimestamps)
 
 	-- Game Menu Interface/Action Bars
 	S:HandleCheckBox(InterfaceOptionsActionBarsPanelBottomLeft)
@@ -433,13 +432,12 @@ local function LoadSkin()
 	S:HandleButton(ChatConfigCombatSettingsFiltersCopyFilterButton)
 	ChatConfigCombatSettingsFiltersCopyFilterButton:Point("RIGHT", ChatConfigCombatSettingsFiltersAddFilterButton, "LEFT", -1, 0)
 
-	S:HandleNextPrevButton(ChatConfigMoveFilterUpButton, true)
-	SquareButton_SetIcon(ChatConfigMoveFilterUpButton, "UP")
+	S:HandleNextPrevButton(ChatConfigMoveFilterUpButton)
 	ChatConfigMoveFilterUpButton:Size(26)
 	ChatConfigMoveFilterUpButton:Point("TOPLEFT", ChatConfigCombatSettingsFilters, "BOTTOMLEFT", 3, -1)
 	ChatConfigMoveFilterUpButton:SetHitRectInsets(0, 0, 0, 0)
 
-	S:HandleNextPrevButton(ChatConfigMoveFilterDownButton, true)
+	S:HandleNextPrevButton(ChatConfigMoveFilterDownButton)
 	ChatConfigMoveFilterDownButton:Size(26)
 	ChatConfigMoveFilterDownButton:Point("LEFT", ChatConfigMoveFilterUpButton, "RIGHT", 1, 0)
 	ChatConfigMoveFilterDownButton:SetHitRectInsets(0, 0, 0, 0)
@@ -451,6 +449,9 @@ local function LoadSkin()
 	CombatConfigColorsColorizeDamageNumber:StripTextures()
 	CombatConfigColorsColorizeDamageSchool:StripTextures()
 	CombatConfigColorsColorizeEntireLine:StripTextures()
+
+	S:HandleColorSwatch(CombatConfigColorsColorizeSpellNamesColorSwatch)
+	S:HandleColorSwatch(CombatConfigColorsColorizeDamageNumberColorSwatch)
 
 	S:HandleEditBox(CombatConfigSettingsNameEditBox)
 
@@ -503,9 +504,10 @@ local function LoadSkin()
 
 	S:SecureHook("ChatConfig_CreateCheckboxes", function(frame, checkBoxTable, checkBoxTemplate)
 		local checkBoxNameString = frame:GetName().."CheckBox"
+
 		if checkBoxTemplate == "ChatConfigCheckBoxTemplate" then
 			frame:SetTemplate("Transparent")
-			for index, _ in ipairs(checkBoxTable) do
+			for index in ipairs(checkBoxTable) do
 				local checkBoxName = checkBoxNameString..index
 				local checkbox = _G[checkBoxName]
 				if not checkbox.backdrop then
@@ -520,9 +522,11 @@ local function LoadSkin()
 			end
 		elseif (checkBoxTemplate == "ChatConfigCheckBoxWithSwatchTemplate") or (checkBoxTemplate == "ChatConfigCheckBoxWithSwatchAndClassColorTemplate") then
 			frame:SetTemplate("Transparent")
-			for index, _ in ipairs(checkBoxTable) do
+			for index in ipairs(checkBoxTable) do
 				local checkBoxName = checkBoxNameString..index
 				local checkbox = _G[checkBoxName]
+				local colorSwatch = _G[checkBoxName.."ColorSwatch"]
+
 				if not checkbox.backdrop then
 					checkbox:StripTextures()
 					checkbox:CreateBackdrop()
@@ -535,6 +539,8 @@ local function LoadSkin()
 					if checkBoxTemplate == "ChatConfigCheckBoxWithSwatchAndClassColorTemplate" then
 						S:HandleCheckBox(_G[checkBoxName.."ColorClasses"])
 					end
+
+					S:HandleColorSwatch(colorSwatch)
 				end
 			end
 		end
@@ -544,11 +550,12 @@ local function LoadSkin()
 		local checkBoxNameString = frame:GetName().."CheckBox"
 		for index, value in ipairs(checkBoxTable) do
 			local checkBoxName = checkBoxNameString..index
+
 			if _G[checkBoxName] then
 				S:HandleCheckBox(_G[checkBoxName])
 				if value.subTypes then
 					local subCheckBoxNameString = checkBoxName.."_"
-					for k, _ in ipairs(value.subTypes) do
+					for k in ipairs(value.subTypes) do
 						local subCheckBoxName = subCheckBoxNameString..k
 						if _G[subCheckBoxName] then
 							S:HandleCheckBox(_G[subCheckBoxNameString..k])
@@ -562,15 +569,20 @@ local function LoadSkin()
 	S:SecureHook("ChatConfig_CreateColorSwatches", function(frame, swatchTable)
 		frame:SetTemplate("Transparent")
 		local nameString = frame:GetName().."Swatch"
-		for index, _ in ipairs(swatchTable) do
+
+		for index in ipairs(swatchTable) do
 			local swatchName = nameString..index
 			local swatch = _G[swatchName]
+			local colorSwatch = _G[swatchName.."ColorSwatch"]
+
 			if not swatch.backdrop then
 				swatch:StripTextures()
 				swatch:CreateBackdrop()
 				swatch.backdrop:Point("TOPLEFT", 3, -1)
 				swatch.backdrop:Point("BOTTOMRIGHT", -3, 1)
 				swatch.backdrop:SetFrameLevel(swatch:GetParent():GetFrameLevel() + 1)
+
+				S:HandleColorSwatch(colorSwatch)
 			end
 		end
 	end)

@@ -5,13 +5,13 @@ Please leave comments, suggestions, and bug reports on this addon's WoWInterface
 To setup, create a table named AuraWatch in your unit frame. There are several options
 you can specify, as explained below.
 
-	icons 
+	icons
 		Mandatory!
 		A table of frames to be used as icons. oUF_Aurawatch does not position
 		these frames, so you must do so yourself. Each icon needs a spellID entry,
 		which is the spell ID of the aura to watch. Table should be set up
 		such that values are icon frames, but the keys can be anything.
-		
+
 		Note each icon can have several options set as well. See below.
 	strictMatching
 		Default: false
@@ -44,7 +44,7 @@ you can specify, as explained below.
 		and "true" be the values.
 	anyUnit
 		Default false
-		Set to true for oUF_AW to to show an aura no matter what unit it 
+		Set to true for oUF_AW to to show an aura no matter what unit it
 		originates from. This will override any fromUnits setting.
 	PostCreateIcon
 		Default nil
@@ -123,7 +123,7 @@ local PLAYER_UNITS = {
 }
 
 local setupGUID
-do 
+do
 	local cache = setmetatable({}, {__type = "k"})
 
 	local frame = CreateFrame"Frame"
@@ -161,7 +161,7 @@ local function formatTime(s, threshold)
 	elseif s >= threshold then
 		return floor(s)
 	end
-	
+
 	return format("%.1f", s)
 end
 
@@ -207,7 +207,7 @@ local function resetIcon(icon, frame, count, duration, remaining)
 
 		if icon.displayText then
 			icon.timeLeft = remaining
-			icon.first = true;
+			icon.first = true
 			icon:SetScript('OnUpdate', updateText)
 		end
 
@@ -256,7 +256,7 @@ local function Update(frame, event, unit)
 
 	while true do
 		name, _, texture, count, _, duration, remaining, caster, _, _, spellID = UnitAura(unit, index, filter)
-		if not name then 
+		if not name then
 			if filter == "HELPFUL" then
 				filter = "HARMFUL"
 				index = 1
@@ -292,12 +292,11 @@ local function Update(frame, event, unit)
 end
 
 local function setupIcons(self)
-
 	local watch = self.AuraWatch
 	local icons = watch.icons
 	watch.watched = {}
 
-	for _,icon in pairs(icons) do
+	for _, icon in pairs(icons) do
 
 		local name, _, image = GetSpellInfo(icon.spellID)
 
@@ -378,7 +377,7 @@ end
 local function Disable(self)
 	if self.AuraWatch then
 		self:UnregisterEvent("UNIT_AURA", Update)
-		for _,icon in pairs(self.AuraWatch.icons) do
+		for _, icon in pairs(self.AuraWatch.icons) do
 			icon:Hide()
 		end
 	end

@@ -8,9 +8,9 @@ local ToggleFrame = ToggleFrame
 local LFG_ROLE_NUM_SHORTAGE_TYPES = LFG_ROLE_NUM_SHORTAGE_TYPES
 local BATTLEGROUND_HOLIDAY = BATTLEGROUND_HOLIDAY
 
-local TANK_ICON = "|TInterface\\AddOns\\ElvUI\\media\\textures\\tank.tga:14:14|t"
-local HEALER_ICON = "|TInterface\\AddOns\\ElvUI\\media\\textures\\healer.tga:14:14|t"
-local DPS_ICON = "|TInterface\\AddOns\\ElvUI\\media\\textures\\dps.tga:14:14|t"
+local TANK_ICON = E:TextureString(E.Media.Textures.Tank, ":14:14")
+local HEALER_ICON = E:TextureString(E.Media.Textures.Healer, ":14:14")
+local DPS_ICON = E:TextureString(E.Media.Textures.DPS, ":14:14")
 local NOBONUSREWARDS = BATTLEGROUND_HOLIDAY..": N/A"
 local lastPanel
 local enteredFrame = false
@@ -40,9 +40,9 @@ local function OnEvent(self)
 		local id = GetLFGRandomDungeonInfo(i)
 		for x = 1, LFG_ROLE_NUM_SHORTAGE_TYPES do
 			local eligible, forTank, forHealer, forDamage, itemCount = GetLFGRoleShortageRewards(id, x)
-			if eligible and forTank and itemCount > 0 then tankReward = true; unavailable = false; end
-			if eligible and forHealer and itemCount > 0 then healerReward = true; unavailable = false; end
-			if eligible and forDamage and itemCount > 0 then dpsReward = true; unavailable = false; end
+			if eligible and forTank and itemCount > 0 then tankReward = true unavailable = false end
+			if eligible and forHealer and itemCount > 0 then healerReward = true unavailable = false end
+			if eligible and forDamage and itemCount > 0 then dpsReward = true unavailable = false end
 		end
 	end
 
@@ -120,6 +120,6 @@ local function ValueColorUpdate(hex)
 		OnEvent(lastPanel)
 	end
 end
-E["valueColorUpdateFuncs"][ValueColorUpdate] = true
+E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
 DT:RegisterDatatext("Call to Arms", {"PLAYER_ENTERING_WORLD", "LFG_UPDATE_RANDOM_INFO"}, OnEvent, OnUpdate, OnClick, OnEnter, OnLeave, BATTLEGROUND_HOLIDAY)

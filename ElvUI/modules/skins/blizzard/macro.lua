@@ -14,14 +14,22 @@ local function LoadSkin()
 	MacroFrame.backdrop:Point("BOTTOMRIGHT", -32, 65)
 
 	for i = 1, 2 do
-		local tab = _G["MacroFrameTab"..i]
-		tab:StripTextures()
-		tab:Height(22)
-		S:HandleButton(tab)
-	end
+		local Tab = _G["MacroFrameTab"..i]
+		Tab:StripTextures()
+		S:HandleButton(Tab)
 
-	MacroFrameTab1:Point("TOPLEFT", MacroFrame, "TOPLEFT", 85, -39)
-	MacroFrameTab2:Point("LEFT", MacroFrameTab1, "RIGHT", 4, 0)
+		Tab:Height(22)
+		Tab:ClearAllPoints()
+
+		if i == 1 then
+			Tab:Point("TOPLEFT", MacroFrame, "TOPLEFT", 22, -50)
+			Tab:Width(125)
+		elseif i == 2 then
+			Tab:Point("TOPRIGHT", MacroFrame, "TOPRIGHT", -66, -50)
+			Tab:Width(168)
+		end
+		Tab.SetWidth = E.noop
+	end
 
 	S:HandleButton(MacroDeleteButton)
 	MacroDeleteButton:Point("BOTTOMLEFT", 17, 69)
@@ -33,7 +41,9 @@ local function LoadSkin()
 	MacroNewButton:Point("CENTER", MacroFrame, "TOPLEFT", 220, -432)
 
 	S:HandleButton(MacroSaveButton)
+
 	S:HandleButton(MacroCancelButton)
+	MacroCancelButton:Point("BOTTOMRIGHT", MacroFrameScrollFrame, "TOPRIGHT", 26, 10)
 
 	MacroFrameCharLimitText:Point("BOTTOM", -15, 100)
 
@@ -41,18 +51,31 @@ local function LoadSkin()
 	MacroFrameCloseButton:Point("TOPRIGHT", -29, -7)
 
 	MacroFrameTextBackground:StripTextures()
-	MacroFrameTextBackground:SetTemplate("Default")
+	MacroFrameTextBackground:CreateBackdrop("Default")
+	MacroFrameTextBackground.backdrop:Point("TOPLEFT", 5, -3)
+	MacroFrameTextBackground.backdrop:Point("BOTTOMRIGHT", -22, 4)
 
+	MacroButtonScrollFrame:StripTextures()
 	MacroButtonScrollFrame:CreateBackdrop("Transparent")
 
 	S:HandleButton(MacroEditButton)
 	MacroEditButton:ClearAllPoints()
 	MacroEditButton:Point("BOTTOMLEFT", MacroFrameSelectedMacroButton, "BOTTOMRIGHT", 10, 0)
 
-	S:HandleScrollBar(MacroButtonScrollFrame)
 	S:HandleScrollBar(MacroButtonScrollFrameScrollBar)
+	MacroButtonScrollFrameScrollBar:ClearAllPoints()
+	MacroButtonScrollFrameScrollBar:Point("TOPRIGHT", MacroButtonScrollFrame, "TOPRIGHT", 21, -17)
+	MacroButtonScrollFrameScrollBar:Point("BOTTOMRIGHT", MacroButtonScrollFrame, "BOTTOMRIGHT", 0, 17)
+
 	S:HandleScrollBar(MacroFrameScrollFrameScrollBar)
+	MacroFrameScrollFrameScrollBar:ClearAllPoints()
+	MacroFrameScrollFrameScrollBar:Point("TOPRIGHT", MacroFrameScrollFrame, "TOPRIGHT", 25, -16)
+	MacroFrameScrollFrameScrollBar:Point("BOTTOMRIGHT", MacroFrameScrollFrame, "BOTTOMRIGHT", 0, 17)
+
 	S:HandleScrollBar(MacroPopupScrollFrameScrollBar)
+	MacroPopupScrollFrameScrollBar:ClearAllPoints()
+	MacroPopupScrollFrameScrollBar:Point("TOPRIGHT", MacroPopupScrollFrame, "TOPRIGHT", 23, -16)
+	MacroPopupScrollFrameScrollBar:Point("BOTTOMRIGHT", MacroPopupScrollFrame, "BOTTOMRIGHT", 0, 22)
 
 	MacroFrameSelectedMacroButton:StripTextures()
 	MacroFrameSelectedMacroButton:StyleButton(nil, true)

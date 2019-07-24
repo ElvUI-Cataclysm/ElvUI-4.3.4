@@ -1,27 +1,31 @@
-local E, L, V, P, G = unpack(select(2, ...));
-local B = E:NewModule('Blizzard', 'AceEvent-3.0', 'AceHook-3.0');
+local E, L, V, P, G = unpack(select(2, ...))
+local B = E:GetModule("Blizzard")
+local Skins = E:GetModule("Skins")
 
-E.Blizzard = B;
+local _G = _G
+local CreateFrame = CreateFrame
+local IsAddOnLoaded = IsAddOnLoaded
 
 function B:Initialize()
-	self:AlertMovers();
-	self:EnhanceColorPicker();
-	self:KillBlizzard();
-	self:PositionCaptureBar();
-	self:PositionDurabilityFrame();
-	self:PositionGMFrames();
-	self:PositionVehicleFrame();
-	self:MoveWatchFrame();
-	self:SkinBlizzTimers();
-	self:ErrorFrameSize()
+	self.Initialized = true
+
+	self:EnhanceColorPicker()
+	self:KillBlizzard()
+	self:AlertMovers()
+	self:PositionCaptureBar()
+	self:PositionDurabilityFrame()
+	self:PositionGMFrames()
+	self:SkinBlizzTimers()
+	self:PositionVehicleFrame()
+	self:MoveWatchFrame()
 
  	if not IsAddOnLoaded("SimplePowerBar") then
  		self:PositionAltPowerBar()
 		self:SkinAltPowerBar()
 	end
 
-	if(GetLocale() == "deDE") then
-		DAY_ONELETTER_ABBR = "%d d";
+	if GetLocale() == "deDE" then
+		DAY_ONELETTER_ABBR = "%d d"
 	end
 
 	CreateFrame("Frame"):SetScript("OnUpdate", function()
@@ -32,7 +36,7 @@ function B:Initialize()
 
 	-- MicroButton Talent Alert
 	if E.global.general.showMissingTalentAlert then
-		TalentMicroButtonAlert:StripTextures()
+		TalentMicroButtonAlert:StripTextures(true)
 		TalentMicroButtonAlert:SetTemplate("Transparent")
 		TalentMicroButtonAlert:ClearAllPoints()
 		TalentMicroButtonAlert:SetPoint("CENTER", E.UIParent, "TOP", 0, -75)
@@ -41,7 +45,7 @@ function B:Initialize()
 		TalentMicroButtonAlertArrow:Hide()
 		TalentMicroButtonAlertText:Point("TOPLEFT", 42, -23)
 		TalentMicroButtonAlertText:FontTemplate()
-		E:GetModule("Skins"):HandleCloseButton(TalentMicroButtonAlertCloseButton)
+		Skins:HandleCloseButton(TalentMicroButtonAlertCloseButton)
 
 		TalentMicroButtonAlert.tex = TalentMicroButtonAlert:CreateTexture(nil, "OVERLAY")
 		TalentMicroButtonAlert.tex:Point("LEFT", 5, -4)

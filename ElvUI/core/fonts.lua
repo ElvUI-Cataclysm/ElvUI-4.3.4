@@ -1,10 +1,10 @@
 local E, L, V, P, G = unpack(select(2, ...))
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = E.Libs.LSM
 
 local SetCVar = SetCVar
 
 local function SetFont(obj, font, size, style, sr, sg, sb, sa, sox, soy, r, g, b)
-	if not obj then return; end
+	if not obj then return end
 
 	obj:SetFont(font, size, style)
 	if sr and sg and sb then obj:SetShadowColor(sr, sg, sb, sa) end
@@ -14,19 +14,15 @@ local function SetFont(obj, font, size, style, sr, sg, sb, sa, sox, soy, r, g, b
 end
 
 function E:UpdateBlizzardFonts()
-	local NORMAL			= self["media"].normFont
-	local COMBAT			= LSM:Fetch("font", self.private.general.dmgfont)
-	local NUMBER			= self["media"].normFont
-	local NAMEFONT			= LSM:Fetch("font", self.private.general.namefont)
-	local MONOCHROME		= ""
+	local NORMAL		= self.media.normFont
+	local NUMBER		= self.media.normFont
+	local COMBAT		= LSM:Fetch("font", self.private.general.dmgfont)
+	local NAMEFONT		= LSM:Fetch("font", self.private.general.namefont)
+	local BUBBLE		= LSM:Fetch("font", self.private.general.chatBubbleFont)
+	local MONOCHROME	= ""
 
 	UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT = 12
-	CHAT_FONT_HEIGHTS = {10, 12, 13, 14, 15, 16, 17, 18, 19, 20}
-
-	UNIT_NAME_FONT		= NAMEFONT;
-	NAMEPLATE_FONT		= NAMEFONT;
-	DAMAGE_TEXT_FONT	= COMBAT;
-	STANDARD_TEXT_FONT	= NORMAL;
+	CHAT_FONT_HEIGHTS = {6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}
 
 	if self.db.general.font == "Homespun" then
 		MONOCHROME = "MONOCHROME"
@@ -37,15 +33,22 @@ function E:UpdateBlizzardFonts()
 		InterfaceOptionsCombatTextPanelPeriodicDamage:Hide()
 		InterfaceOptionsCombatTextPanelPetDamage:Hide()
 		InterfaceOptionsCombatTextPanelHealing:Hide()
-		SetCVar("CombatLogPeriodicSpells",0)
-		SetCVar("PetMeleeDamage",0)
-		SetCVar("CombatDamage",0)
-		SetCVar("CombatHealing",0)
+		SetCVar("CombatLogPeriodicSpells", 0)
+		SetCVar("PetMeleeDamage", 0)
+		SetCVar("CombatDamage", 0)
+		SetCVar("CombatHealing", 0)
 
-		COMBAT = [=[Interface\Addons\ElvUI\media\fonts\Invisible.ttf]=]
+		-- set an invisible font for xp, honor kill, etc
+		COMBAT = E.Media.Fonts.Invisible
 	end
 
-	if(self.private.general.replaceBlizzFonts) then
+	UNIT_NAME_FONT		= NAMEFONT
+	NAMEPLATE_FONT		= NAMEFONT
+	DAMAGE_TEXT_FONT	= COMBAT
+	STANDARD_TEXT_FONT	= NORMAL
+
+	if self.private.general.replaceBlizzFonts then
+		SetFont(ChatBubbleFont,						BUBBLE, self.private.general.chatBubbleFontSize, self.private.general.chatBubbleFontOutline)
 		SetFont(GameTooltipHeader,					NORMAL, self.db.general.fontSize)
 		SetFont(NumberFont_OutlineThick_Mono_Small,	NUMBER, self.db.general.fontSize, "OUTLINE")
 		SetFont(NumberFont_Outline_Huge,			NUMBER, 28, MONOCHROME.."THICKOUTLINE", 28)
@@ -53,8 +56,13 @@ function E:UpdateBlizzardFonts()
 		SetFont(NumberFont_Outline_Med,				NUMBER, self.db.general.fontSize, "OUTLINE")
 		SetFont(NumberFont_Shadow_Med,				NORMAL, self.db.general.fontSize)
 		SetFont(NumberFont_Shadow_Small,			NORMAL, self.db.general.fontSize)
+		SetFont(ChatFontSmall,						NORMAL, self.db.general.fontSize)
+		SetFont(QuestFontHighlight,					NORMAL, self.db.general.fontSize)
 		SetFont(QuestFont,							NORMAL, self.db.general.fontSize)
 		SetFont(QuestFont_Large,					NORMAL, 14)
+		SetFont(QuestFont_Shadow_Small,				NORMAL, self.db.general.fontSize + 2)
+		SetFont(QuestTitleFont,						NORMAL, self.db.general.fontSize + 8)
+		SetFont(QuestTitleFontBlackShadow,			NORMAL, self.db.general.fontSize + 8)
 		SetFont(SystemFont_Large,					NORMAL, 15)
 		SetFont(GameFontNormalMed3,					NORMAL, 15)
 		SetFont(SystemFont_Shadow_Huge1,			NORMAL, 20, MONOCHROME.."OUTLINE")

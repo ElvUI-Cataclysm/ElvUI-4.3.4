@@ -1,5 +1,5 @@
-local _, ns = ...;
-local oUF = ns.oUF;
+local _, ns = ...
+local oUF = ns.oUF
 
 local function Update(self, event)
 	local element = self.ResurrectIndicator

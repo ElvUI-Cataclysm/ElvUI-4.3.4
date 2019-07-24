@@ -175,8 +175,8 @@ function mixin:CheckDualSpecState()
 		local newProfile = db.char.profile
 		db.char.talentGroup = lib.talentGroup
 		if newProfile ~= currentProfile then
-			self:SetProfile(newProfile)
 			db.char.profile = currentProfile
+			self:SetProfile(newProfile)
 		end
 	end
 end

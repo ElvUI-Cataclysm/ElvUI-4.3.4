@@ -36,7 +36,7 @@ local function LoadSkin()
 		S:HandleNextPrevButton(_G[custom.."RightButton"])
 
 		if i > 1 then
-			_G[custom]:ClearAllPoints();
+			_G[custom]:ClearAllPoints()
 			_G[custom]:Point("TOP", _G["TabardFrameCustomization"..i - 1], "BOTTOM", 0, -6)
 		else
 			local point, anchor, point2, x, y = _G[custom]:GetPoint()

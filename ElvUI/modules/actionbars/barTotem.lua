@@ -21,10 +21,10 @@ local SLOT_BORDER_COLORS = {
 }
 
 local SLOT_EMPTY_TCOORDS = {
-	[EARTH_TOTEM_SLOT]	= {left = 66/128, right = 96/128, top = 3/256, bottom = 33/256},
+	[EARTH_TOTEM_SLOT]	= {left = 66/128, right = 96/128, top = 3/256,   bottom = 33/256},
 	[FIRE_TOTEM_SLOT]	= {left = 67/128, right = 97/128, top = 100/256, bottom = 130/256},
 	[WATER_TOTEM_SLOT]	= {left = 39/128, right = 69/128, top = 209/256, bottom = 239/256},
-	[AIR_TOTEM_SLOT]	= {left = 66/128, right = 96/128, top = 36/256, bottom = 66/256}
+	[AIR_TOTEM_SLOT]	= {left = 66/128, right = 96/128, top = 36/256,  bottom = 66/256}
 }
 
 local oldMultiCastRecallSpellButton_Update = MultiCastRecallSpellButton_Update
@@ -35,22 +35,16 @@ function MultiCastRecallSpellButton_Update(self)
 end
 
 function AB:MultiCastFlyoutFrameOpenButton_Show(button, type, parent)
-	local color
-	if type == "page" then
-		color = SLOT_BORDER_COLORS["summon"]
-	else
-		color = SLOT_BORDER_COLORS[parent:GetID()]
-	end
-
+	local color = type == "page" and SLOT_BORDER_COLORS.summon or SLOT_BORDER_COLORS[parent:GetID()]
 	button.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
 
 	button:ClearAllPoints()
-	if AB.db["barTotem"].flyoutDirection == "UP" then
+	if AB.db.barTotem.flyoutDirection == "UP" then
 		button:Point("BOTTOM", parent, "TOP")
-		SquareButton_SetIcon(button, "UP")
-	elseif AB.db["barTotem"].flyoutDirection == "DOWN" then
+		button.icon:SetRotation(0)
+	elseif AB.db.barTotem.flyoutDirection == "DOWN" then
 		button:Point("TOP", parent, "BOTTOM")
-		SquareButton_SetIcon(button, "DOWN")
+		button.icon:SetRotation(3.14)
 	end
 end
 
@@ -94,7 +88,7 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 	self.top:SetTexture(nil)
 	self.middle:SetTexture(nil)
 
-	local color
+	local color = type == "page" and SLOT_BORDER_COLORS.summon or SLOT_BORDER_COLORS[parent:GetID()]
 	local numButtons = 0
 	for i, button in ipairs(self.buttons) do
 		if not button.isSkinned then
@@ -114,28 +108,23 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 
 		if button:IsShown() then
 			numButtons = numButtons + 1
-			button:Size(AB.db["barTotem"].buttonsize)
+			button:Size(AB.db.barTotem.buttonsize)
 			button:ClearAllPoints()
 
-			if AB.db["barTotem"].flyoutDirection == "UP" then
+			if AB.db.barTotem.flyoutDirection == "UP" then
 				if i == 1 then
-					button:Point("BOTTOM", parent, "TOP", 0, AB.db["barTotem"].flyoutSpacing)
+					button:Point("BOTTOM", parent, "TOP", 0, AB.db.barTotem.flyoutSpacing)
 				else
-					button:Point("BOTTOM", self.buttons[i - 1], "TOP", 0, AB.db["barTotem"].flyoutSpacing)
+					button:Point("BOTTOM", self.buttons[i - 1], "TOP", 0, AB.db.barTotem.flyoutSpacing)
 				end
-			elseif AB.db["barTotem"].flyoutDirection == "DOWN" then
+			elseif AB.db.barTotem.flyoutDirection == "DOWN" then
 				if i == 1 then
-					button:Point("TOP", parent, "BOTTOM", 0, -AB.db["barTotem"].flyoutSpacing)
+					button:Point("TOP", parent, "BOTTOM", 0, -AB.db.barTotem.flyoutSpacing)
 				else
-					button:Point("TOP", self.buttons[i - 1], "BOTTOM", 0, -AB.db["barTotem"].flyoutSpacing)
+					button:Point("TOP", self.buttons[i - 1], "BOTTOM", 0, -AB.db.barTotem.flyoutSpacing)
 				end
 			end
 
-			if type == "page" then
-				color = SLOT_BORDER_COLORS["summon"]
-			else
-				color = SLOT_BORDER_COLORS[parent:GetID()]
-			end
 			button:SetBackdropBorderColor(color.r, color.g, color.b)
 
 			button.icon:SetTexCoord(unpack(E.TexCoords))
@@ -145,32 +134,31 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 	if type == "slot" then
 		local tCoords = SLOT_EMPTY_TCOORDS[parent:GetID()]
 		self.buttons[1].icon:SetTexCoord(tCoords.left, tCoords.right, tCoords.top, tCoords.bottom)
-
-		color = SLOT_BORDER_COLORS[parent:GetID()]
-		self.buttons[1]:SetBackdropBorderColor(color.r, color.g, color.b)
-	elseif type == "page" then
-		color = SLOT_BORDER_COLORS["summon"]
 	end
+
+	self.buttons[1]:SetBackdropBorderColor(color.r, color.g, color.b)
 	MultiCastFlyoutFrameCloseButton.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
 
 	self:ClearAllPoints()
 	MultiCastFlyoutFrameCloseButton:ClearAllPoints()
-	if AB.db["barTotem"].flyoutDirection == "UP" then
+	if AB.db.barTotem.flyoutDirection == "UP" then
 		self:Point("BOTTOM", parent, "TOP")
+
 		MultiCastFlyoutFrameCloseButton:Point("TOP", self, "TOP")
-		SquareButton_SetIcon(MultiCastFlyoutFrameCloseButton, "DOWN")
-	elseif AB.db["barTotem"].flyoutDirection == "DOWN" then
+		MultiCastFlyoutFrameCloseButton.icon:SetRotation(3.14)
+	elseif AB.db.barTotem.flyoutDirection == "DOWN" then
 		self:Point("TOP", parent, "BOTTOM")
+
 		MultiCastFlyoutFrameCloseButton:Point("BOTTOM", self, "BOTTOM")
-		SquareButton_SetIcon(MultiCastFlyoutFrameCloseButton, "UP")
+		MultiCastFlyoutFrameCloseButton.icon:SetRotation(0)
 	end
 
-	self:Height(((AB.db["barTotem"].buttonsize + AB.db["barTotem"].flyoutSpacing) * numButtons) + MultiCastFlyoutFrameCloseButton:GetHeight())
+	self:Height(((AB.db.barTotem.buttonsize + AB.db.barTotem.flyoutSpacing) * numButtons) + MultiCastFlyoutFrameCloseButton:GetHeight())
 end
 
 function AB:TotemOnEnter()
 	if bar.mouseover then
-		E:UIFrameFadeIn(bar, 0.2, bar:GetAlpha(), AB.db["barTotem"].alpha)
+		E:UIFrameFadeIn(bar, 0.2, bar:GetAlpha(), AB.db.barTotem.alpha)
 	end
 end
 
@@ -191,21 +179,21 @@ function AB:PositionAndSizeBarTotem()
 		return
 	end
 
-	local buttonSpacing = E:Scale(self.db["barTotem"].buttonspacing)
-	local size = E:Scale(self.db["barTotem"].buttonsize)
+	local buttonSpacing = E:Scale(self.db.barTotem.buttonspacing)
+	local size = E:Scale(self.db.barTotem.buttonsize)
 	local numActiveSlots = MultiCastActionBarFrame.numActiveSlots
 
 	bar:Width((size * (2 + numActiveSlots)) + (buttonSpacing * (2 + numActiveSlots - 1)))
 	MultiCastActionBarFrame:Width((size * (2 + numActiveSlots)) + (buttonSpacing * (2 + numActiveSlots - 1)))
 	bar:Height(size + 2)
 	MultiCastActionBarFrame:Height(size + 2)
-	bar.db = self.db["barTotem"]
+	bar.db = self.db.barTotem
 
-	bar.mouseover = self.db["barTotem"].mouseover
+	bar.mouseover = self.db.barTotem.mouseover
 	if bar.mouseover then
 		bar:SetAlpha(0)
 	else
-		bar:SetAlpha(self.db["barTotem"].alpha)
+		bar:SetAlpha(self.db.barTotem.alpha)
 	end
 
 	local visibility = bar.db.visibility
@@ -267,49 +255,46 @@ function AB:CreateTotemBar()
 	self:HookScript(MultiCastFlyoutFrame, "OnLeave", "TotemOnLeave")
 
 	local closeButton = MultiCastFlyoutFrameCloseButton
-	bar.buttons[MultiCastFlyoutFrameCloseButton] = true
 	closeButton:CreateBackdrop("Default", true, true)
 	closeButton.backdrop:SetPoint("TOPLEFT", 0, -(E.Border + E.Spacing))
 	closeButton.backdrop:SetPoint("BOTTOMRIGHT", 0, E.Border + E.Spacing)
-
 	closeButton.icon = closeButton:CreateTexture(nil, "ARTWORK")
-	closeButton.icon:SetSize(14, 14)
+	closeButton.icon:Size(16)
 	closeButton.icon:SetPoint("CENTER")
-	closeButton.icon:SetTexture([[Interface\Buttons\SquareButtonTextures]])
-
+	closeButton.icon:SetTexture(E.Media.Textures.ArrowUp)
 	closeButton.normalTexture:SetTexture("")
-
 	closeButton:StyleButton()
 	closeButton.hover:SetInside(closeButton.backdrop)
 	closeButton.pushed:SetInside(closeButton.backdrop)
+	bar.buttons[closeButton] = true
 
 	local openButton = MultiCastFlyoutFrameOpenButton
-	bar.buttons[openButton] = true
 	openButton:CreateBackdrop("Default", true, true)
 	openButton.backdrop:SetPoint("TOPLEFT", 0, -(E.Border + E.Spacing))
 	openButton.backdrop:SetPoint("BOTTOMRIGHT", 0, E.Border + E.Spacing)
-
 	openButton.icon = openButton:CreateTexture(nil, "ARTWORK")
-	openButton.icon:SetSize(14, 14)
+	openButton.icon:Size(16)
 	openButton.icon:SetPoint("CENTER")
-	openButton.icon:SetTexture([[Interface\Buttons\SquareButtonTextures]])
-
+	openButton.icon:SetTexture(E.Media.Textures.ArrowUp)
 	openButton.normalTexture:SetTexture("")
-
 	openButton:StyleButton()
 	openButton.hover:SetInside(openButton.backdrop)
 	openButton.pushed:SetInside(openButton.backdrop)
+	bar.buttons[openButton] = true
 
 	self:SkinSummonButton(MultiCastSummonSpellButton)
 	bar.buttons[MultiCastSummonSpellButton] = true
 
 	hooksecurefunc(MultiCastRecallSpellButton, "SetPoint", function(self, point, attachTo, anchorPoint, xOffset, yOffset)
-		if xOffset ~= AB.db["barTotem"].buttonspacing then
+		if xOffset ~= AB.db.barTotem.buttonspacing then
 			if InCombatLockdown() then AB.NeedRecallButtonUpdate = true AB:RegisterEvent("PLAYER_REGEN_ENABLED") return end
 
-			self:SetPoint(point, attachTo, anchorPoint, AB.db["barTotem"].buttonspacing, yOffset)
+			self:SetPoint(point, attachTo, anchorPoint, AB.db.barTotem.buttonspacing, yOffset)
 		end
 	end)
+
+	self:SkinSummonButton(MultiCastRecallSpellButton)
+	bar.buttons[MultiCastRecallSpellButton] = true
 
 	for i = 1, 4 do
 		local button = _G["MultiCastSlotButton"..i]
@@ -344,13 +329,10 @@ function AB:CreateTotemBar()
 		bar.buttons[button] = true
 	end
 
-	for button, _ in pairs(bar.buttons) do
+	for button in pairs(bar.buttons) do
 		button:HookScript("OnEnter", AB.TotemOnEnter)
 		button:HookScript("OnLeave", AB.TotemOnLeave)
 	end
-
-	self:SkinSummonButton(MultiCastRecallSpellButton)
-	bar.buttons[MultiCastRecallSpellButton] = true
 
 	self:SecureHook("MultiCastFlyoutFrameOpenButton_Show")
 	self:SecureHook("MultiCastActionButton_Update")

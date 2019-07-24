@@ -25,7 +25,8 @@ function UF:Construct_AssistFrames()
 	self.RaidTargetIndicator = UF:Construct_RaidIcon(self)
 	self.MouseGlow = UF:Construct_MouseGlow(self)
 	self.TargetGlow = UF:Construct_TargetGlow(self)
-	self.Range = UF:Construct_Range(self)
+	self.Fader = UF:Construct_Fader()
+	self.Cutaway = UF:Construct_Cutaway(self)
 
 	if not self.isChild then
 		self.Buffs = UF:Construct_Buffs(self)
@@ -39,7 +40,6 @@ function UF:Construct_AssistFrames()
 		self.unitframeType = "assisttarget"
 	end
 
-	UF:Update_AssistFrames(self, E.db["unitframe"]["units"]["assist"])
 	UF:Update_StatusBars()
 	UF:Update_FontStrings()
 
@@ -72,7 +72,7 @@ function UF:Update_AssistHeader(header, db)
 		header:ClearAllPoints()
 		header:Point("TOPLEFT", E.UIParent, "TOPLEFT", 4, -248)
 
-		E:CreateMover(header, header:GetName().."Mover", L["MA Frames"], nil, nil, nil, "ALL,RAID")
+		E:CreateMover(header, header:GetName().."Mover", L["MA Frames"], nil, nil, nil, "ALL,RAID", nil, "unitframe,assist,generalGroup")
 		header.mover.positionOverride = "TOPLEFT"
 		header:SetAttribute("minHeight", header.dirtyHeight)
 		header:SetAttribute("minWidth", header.dirtyWidth)
@@ -143,28 +143,22 @@ function UF:Update_AssistFrames(frame, db)
 	end
 
 	UF:Configure_HealthBar(frame)
-
 	UF:Configure_Threat(frame)
-
 	UF:UpdateNameSettings(frame)
-
-	UF:Configure_Range(frame)
-
+	UF:Configure_Fader(frame)
 	UF:Configure_RaidIcon(frame)
+	UF:Configure_Cutaway(frame)
 
 	if not frame.isChild then
 		UF:EnableDisable_Auras(frame)
 		UF:Configure_Auras(frame, "Buffs")
 		UF:Configure_Auras(frame, "Debuffs")
-
 		UF:Configure_RaidDebuffs(frame)
-
 		UF:Configure_DebuffHighlight(frame)
-
 		UF:UpdateAuraWatch(frame)
 	end
 
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end
 
-UF["headerstoload"]["assist"] = {"MAINASSIST", "ELVUI_UNITTARGET"}
+UF.headerstoload.assist = {"MAINASSIST", "ELVUI_UNITTARGET"}

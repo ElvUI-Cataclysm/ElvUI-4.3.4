@@ -64,7 +64,7 @@ local function LoadSkin()
 		button:StripTextures()
 
 		if button.Checked then
-			button.Checked:SetTexture(unpack(E["media"].rgbvaluecolor))
+			button.Checked:SetTexture(unpack(E.media.rgbvaluecolor))
 			button.Checked:SetAllPoints(icon)
 			button.Checked:SetAlpha(0.3)
 		end
@@ -93,7 +93,7 @@ local function LoadSkin()
 
 	end
 
-	for i = 11, 20 do 
+	for i = 11, 20 do
 		if not _G["PetStableStabledPet"..i] then
 			CreateFrame("Button", "PetStableStabledPet"..i, PetStableFrame, "PetStableSlotTemplate", i)
 		end

@@ -96,16 +96,18 @@ local function LoadSkin()
 			popout.icon = popout:CreateTexture(nil, "ARTWORK")
 			popout.icon:Size(14)
 			popout.icon:Point("CENTER")
-			popout.icon:SetTexture([[Interface\Buttons\SquareButtonTextures]])
+			popout.icon:SetTexture(E.Media.Textures.ArrowUp)
 
 			if slot.verticalFlyout then
 				popout:Size(27, 11)
-				SquareButton_SetIcon(popout, "DOWN")
 				popout:Point("TOP", slot, "BOTTOM", 0, 5)
+
+				popout.icon:SetRotation(3.14)
 			else
 				popout:Size(11, 27)
-				SquareButton_SetIcon(popout, "RIGHT")
 				popout:Point("LEFT", slot, "RIGHT", -5, 0)
+
+				popout.icon:SetRotation(-1.57)
 			end
 		end
 	end
@@ -113,15 +115,15 @@ local function LoadSkin()
 	hooksecurefunc("EquipmentFlyoutPopoutButton_SetReversed", function(self, isReversed)
 		if self:GetParent().verticalFlyout then
 			if isReversed then
-				SquareButton_SetIcon(self, "UP")
+				self.icon:SetRotation(0)
 			else
-				SquareButton_SetIcon(self, "DOWN")
+				self.icon:SetRotation(3.14)
 			end
 		else
 			if isReversed then
-				SquareButton_SetIcon(self, "LEFT")
+				self.icon:SetRotation(1.57)
 			else
-				SquareButton_SetIcon(self, "RIGHT")
+				self.icon:SetRotation(-1.57)
 			end
 		end
 	end)
@@ -182,10 +184,10 @@ local function LoadSkin()
 				if rarity then
 					target:SetBackdropBorderColor(GetItemQualityColor(rarity))
 				else
-					target:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+					target:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				end
 			else
-				target:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				target:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end
 		end
 	end
@@ -200,23 +202,29 @@ local function LoadSkin()
 	S:HandleNextPrevButton(CharacterFrameExpandButton)
 
 	hooksecurefunc("CharacterFrame_Collapse", function()
-		CharacterFrameExpandButton:SetNormalTexture(nil)
-		CharacterFrameExpandButton:SetPushedTexture(nil)
-		CharacterFrameExpandButton:SetDisabledTexture(nil)
-		SquareButton_SetIcon(CharacterFrameExpandButton, "RIGHT")
+		CharacterFrameExpandButton:SetNormalTexture(E.Media.Textures.ArrowUp)
+		CharacterFrameExpandButton:SetPushedTexture(E.Media.Textures.ArrowUp)
+		CharacterFrameExpandButton:SetDisabledTexture(E.Media.Textures.ArrowUp)
+
+		CharacterFrameExpandButton:GetNormalTexture():SetRotation(-1.57)
+		CharacterFrameExpandButton:GetPushedTexture():SetRotation(-1.57)
 	end)
 
 	hooksecurefunc("CharacterFrame_Expand", function()
-		CharacterFrameExpandButton:SetNormalTexture(nil)
-		CharacterFrameExpandButton:SetPushedTexture(nil)
-		CharacterFrameExpandButton:SetDisabledTexture(nil)
-		SquareButton_SetIcon(CharacterFrameExpandButton, "LEFT")
+		CharacterFrameExpandButton:SetNormalTexture(E.Media.Textures.ArrowUp)
+		CharacterFrameExpandButton:SetPushedTexture(E.Media.Textures.ArrowUp)
+		CharacterFrameExpandButton:SetDisabledTexture(E.Media.Textures.ArrowUp)
+
+		CharacterFrameExpandButton:GetNormalTexture():SetRotation(1.57)
+		CharacterFrameExpandButton:GetPushedTexture():SetRotation(1.57)
 	end)
 
 	if GetCVar("characterFrameCollapsed") ~= "0" then
-		SquareButton_SetIcon(CharacterFrameExpandButton, "RIGHT")
+		CharacterFrameExpandButton:GetNormalTexture():SetRotation(-1.57)
+		CharacterFrameExpandButton:GetPushedTexture():SetRotation(-1.57)
 	else
-		SquareButton_SetIcon(CharacterFrameExpandButton, "LEFT")
+		CharacterFrameExpandButton:GetNormalTexture():SetRotation(1.57)
+		CharacterFrameExpandButton:GetPushedTexture():SetRotation(1.57)
 	end
 
 	-- Control Frame
@@ -382,10 +390,10 @@ local function LoadSkin()
 
 		factionBar:StripTextures()
 		factionBar:CreateBackdrop("Default")
-		factionBar:SetStatusBarTexture(E["media"].normTex)
+		factionBar:SetStatusBarTexture(E.media.normTex)
 		E:RegisterStatusBar(factionBar)
 
-		factionButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		factionButton:SetNormalTexture(E.Media.Textures.PlusMinusButton)
 		factionButton.SetNormalTexture = E.noop
 		factionButton:GetNormalTexture():Size(14)
 		factionButton:SetHighlightTexture(nil)
@@ -461,7 +469,7 @@ local function LoadSkin()
 
 				button.icon:SetTexCoord(unpack(E.TexCoords))
 
-				button.expandIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+				button.expandIcon:SetTexture(E.Media.Textures.PlusMinusButton)
 				button.expandIcon:Size(15)
 				button.expandIcon:Point("LEFT", 4, 0)
 
@@ -497,7 +505,7 @@ local function LoadSkin()
 
 	PetPaperDollFrameExpBar:StripTextures()
 	PetPaperDollFrameExpBar:CreateBackdrop("Default")
-	PetPaperDollFrameExpBar:SetStatusBarTexture(E["media"].normTex)
+	PetPaperDollFrameExpBar:SetStatusBarTexture(E.media.normTex)
 
 	S:HandleRotateButton(PetModelFrameRotateLeftButton)
 	PetModelFrameRotateLeftButton:Point("TOPLEFT", 2, -2)

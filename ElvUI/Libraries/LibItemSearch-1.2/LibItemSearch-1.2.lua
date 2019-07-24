@@ -3,33 +3,33 @@
 		An item text search engine of some sort
 --]]
 
-local Search = LibStub("CustomSearch-1.0");
-local Unfit = LibStub("Unfit-1.0");
-local Lib = LibStub:NewLibrary("LibItemSearch-1.2", 11);
+local Search = LibStub("CustomSearch-1.0")
+local Unfit = LibStub("Unfit-1.0")
+local Lib = LibStub:NewLibrary("LibItemSearch-1.2", 11)
 if(Lib) then
-	Lib.Filters = {};
+	Lib.Filters = {}
 else
-	return;
+	return
 end
 
 --[[ User API ]]--
 
 function Lib:Matches(link, search)
-	return Search(link, search, self.Filters);
+	return Search(link, search, self.Filters)
 end
 
 function Lib:Tooltip(link, search)
-	return link and self.Filters.tip:match(link, nil, search);
+	return link and self.Filters.tip:match(link, nil, search)
 end
 
 function Lib:TooltipPhrase(link, search)
-	return link and self.Filters.tipPhrases:match(link, nil, search);
+	return link and self.Filters.tipPhrases:match(link, nil, search)
 end
 
 function Lib:InSet(link, search)
 	if(IsEquippableItem(link)) then
-		local id = tonumber(link:match("item:(%-?%d+)"));
-		return self:BelongsToSet(id, (search or ""):lower());
+		local id = tonumber(link:match("item:(%-?%d+)"))
+		return self:BelongsToSet(id, (search or ""):lower())
 	end
 end
 
@@ -39,63 +39,63 @@ Lib.Filters.name = {
   	tags = {"n", "name"},
 
 	canSearch = function(self, operator, search)
-		return not operator and search;
+		return not operator and search
 	end,
 
 	match = function(self, item, _, search)
-		local name = item:match("%[(.-)%]");
-		return Search:Find(search, name);
+		local name = item:match("%[(.-)%]")
+		return Search:Find(search, name)
 	end
-};
+}
 
 Lib.Filters.type = {
 	tags = {"t", "type", "s", "slot"},
 
 	canSearch = function(self, operator, search)
-		return not operator and search;
+		return not operator and search
 	end,
 
 	match = function(self, item, _, search)
-		local type, subType, _, equipSlot = select(6, GetItemInfo(item));
-		return Search:Find(search, type, subType, _G[equipSlot]);
+		local type, subType, _, equipSlot = select(6, GetItemInfo(item))
+		return Search:Find(search, type, subType, _G[equipSlot])
 	end
-};
+}
 
 Lib.Filters.level = {
 	tags = {"l", "level", "lvl", "ilvl"},
 
 	canSearch = function(self, _, search)
-		return tonumber(search);
+		return tonumber(search)
 	end,
 
 	match = function(self, link, operator, num)
-		local lvl = select(4, GetItemInfo(link));
+		local lvl = select(4, GetItemInfo(link))
 		if(lvl) then
-			return Search:Compare(operator, lvl, num);
+			return Search:Compare(operator, lvl, num)
 		end
 	end
-};
+}
 
 Lib.Filters.requiredlevel = {
 	tags = {"r", "req", "rl", "reql", "reqlvl"},
 
 	canSearch = function(self, _, search)
-		return tonumber(search);
+		return tonumber(search)
 	end,
 
 	match = function(self, link, operator, num)
-		local lvl = select(5, GetItemInfo(link));
+		local lvl = select(5, GetItemInfo(link))
 		if(lvl) then
-			return Search:Compare(operator, lvl, num);
+			return Search:Compare(operator, lvl, num)
 		end
 	end
-};
+}
 
 --[[ Quality ]]--
 
-local qualities = {};
+local qualities = {}
 for i = 0, #ITEM_QUALITY_COLORS do
-	qualities[i] = _G["ITEM_QUALITY" .. i .. "_DESC"]:lower();
+	qualities[i] = _G["ITEM_QUALITY" .. i .. "_DESC"]:lower()
 end
 
 Lib.Filters.quality = {
@@ -104,16 +104,16 @@ Lib.Filters.quality = {
 	canSearch = function(self, _, search)
 		for i, name in pairs(qualities) do
 			if(name:find(search)) then
-				return i;
+				return i
 			end
 		end
 	end,
 
 	match = function(self, link, operator, num)
-		local quality = select(3, GetItemInfo(link));
-		return Search:Compare(operator, quality, num);
+		local quality = select(3, GetItemInfo(link))
+		return Search:Compare(operator, quality, num)
 	end,
-};
+}
 
 --[[ Usable ]]--
 
@@ -121,20 +121,20 @@ Lib.Filters.usable = {
 	tags = {},
 
 	canSearch = function(self, operator, search)
-		return not operator and search == "usable";
+		return not operator and search == "usable"
 	end,
 
 	match = function(self, link)
 		if(not Unfit:IsItemUnusable(link)) then
-			local lvl = select(5, GetItemInfo(link));
-			return lvl and (lvl ~= 0 and lvl <= UnitLevel("player"));
+			local lvl = select(5, GetItemInfo(link))
+			return lvl and (lvl ~= 0 and lvl <= UnitLevel("player"))
 		end
 	end
-};
+}
 
 --[[ Tooltip Searches ]]--
 
-local scanner = LibItemSearchTooltipScanner or CreateFrame("GameTooltip", "LibItemSearchTooltipScanner", UIParent, "GameTooltipTemplate");
+local scanner = LibItemSearchTooltipScanner or CreateFrame("GameTooltip", "LibItemSearchTooltipScanner", UIParent, "GameTooltipTemplate")
 
 Lib.Filters.tip = {
 	tags = {"tt", "tip", "tooltip"},
@@ -142,66 +142,66 @@ Lib.Filters.tip = {
 	onlyTags = true,
 
 	canSearch = function(self, _, search)
-		return search;
+		return search
 	end,
 
 	match = function(self, link, _, search)
 		if(link:find("item:")) then
-			scanner:SetOwner(UIParent, "ANCHOR_NONE");
+			scanner:SetOwner(UIParent, "ANCHOR_NONE")
 			scanner:SetHyperlink(link)
 
 			for i = 1, scanner:NumLines() do
 				if(Search:Find(search, _G[scanner:GetName() .. "TextLeft" .. i]:GetText())) then
-					return true;
+					return true
 				end
 			end
 		end
 	end
-};
- 
+}
+
 local escapes = {
 	["|c%x%x%x%x%x%x%x%x"] = "",
 	["|r"] = ""
-};
+}
 
 local function CleanString(str)
     for k, v in pairs(escapes) do
-        str = str:gsub(k, v);
+        str = str:gsub(k, v)
     end
-    return str;
+    return str
 end
 
 Lib.Filters.tipPhrases = {
 	canSearch = function(self, _, search)
-		return self.keywords[search];
+		return self.keywords[search]
 	end,
 
 	match = function(self, link, _, search)
-		local id = link:match("item:(%d+)");
+		local id = link:match("item:(%d+)")
 		if(not id) then
-			return;
+			return
 		end
 
-		local cached = self.cache[search][id];
+		local cached = self.cache[search][id]
 		if(cached ~= nil) then
-			return cached;
+			return cached
 		end
 
-		scanner:SetOwner(UIParent, "ANCHOR_NONE");
-		scanner:SetHyperlink(link);
+		scanner:SetOwner(UIParent, "ANCHOR_NONE")
+		scanner:SetHyperlink(link)
 
 		local matches = false
 		for i = 1, scanner:NumLines() do
-			local text = _G["LibItemSearchTooltipScannerTextLeft" .. i]:GetText();
-			text = CleanString(text);
+			local text = _G["LibItemSearchTooltipScannerTextLeft" .. i]:GetText()
+			text = CleanString(text)
 			if(search == text) then
-				matches = true;
-				break;
+				matches = true
+				break
 			end
 		end
 
-		self.cache[search][id] = matches;
-		return matches;
+		self.cache[search][id] = matches
+		return matches
 	end,
 
 	cache = setmetatable({}, {__index = function(t, k) local v = {} t[k] = v return v end}),
@@ -214,9 +214,8 @@ Lib.Filters.tipPhrases = {
 		["bou"] = ITEM_BIND_ON_USE,
 		["boa"] = ITEM_BIND_TO_ACCOUNT,
 		[QUESTS_LABEL:lower()] = ITEM_BIND_QUEST
-	};
-};
-
+	}
+}
 
 --[[ Equipment Sets ]]--
 

@@ -130,7 +130,7 @@ ElvUF.Tags.Methods["altpowercolor"] = function(u)
 			r, g, b = 1, 1, 1
 		end
 
-		return Hex(r,g,b)
+		return Hex(r, g, b)
 	else
 		return nil
 	end
@@ -321,7 +321,7 @@ end
 ElvUF.Tags.Events["powercolor"] = "UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT UNIT_MAXPOWER"
 ElvUF.Tags.Methods["powercolor"] = function(unit)
 	local _, pToken, altR, altG, altB = UnitPowerType(unit)
-	local color = ElvUF["colors"].power[pToken]
+	local color = ElvUF.colors.power[pToken]
 	if color then
 		return Hex(color[1], color[2], color[3])
 	else
@@ -401,8 +401,8 @@ ElvUF.Tags.Methods["power:max"] = function(unit)
 end
 
 ElvUF.Tags.Methods["manacolor"] = function()
-	local altR, altG, altB = PowerBarColor["MANA"].r, PowerBarColor["MANA"].g, PowerBarColor["MANA"].b
-	local color = ElvUF["colors"].power["MANA"]
+	local altR, altG, altB = PowerBarColor.MANA.r, PowerBarColor.MANA.g, PowerBarColor.MANA.b
+	local color = ElvUF.colors.power.MANA
 	if color then
 		return Hex(color[1], color[2], color[3])
 	else
@@ -502,13 +502,14 @@ end
 ElvUF.Tags.Events["namecolor"] = "UNIT_NAME_UPDATE UNIT_FACTION"
 ElvUF.Tags.Methods["namecolor"] = function(unit)
 	local unitReaction = UnitReaction(unit, "player")
-	local _, unitClass = UnitClass(unit)
-	if UnitIsPlayer(unit) then
+	local unitPlayer = UnitIsPlayer(unit)
+	if (unitPlayer) then
+		local _, unitClass = UnitClass(unit)
 		local class = ElvUF.colors.class[unitClass]
 		if not class then return "" end
 		return Hex(class[1], class[2], class[3])
 	elseif unitReaction then
-		local reaction = ElvUF["colors"].reaction[unitReaction]
+		local reaction = ElvUF.colors.reaction[unitReaction]
 		return Hex(reaction[1], reaction[2], reaction[3])
 	else
 		return "|cFFC2C2C2"
@@ -629,6 +630,7 @@ local unitStatus = {}
 ElvUF.Tags.OnUpdateThrottle["statustimer"] = 1
 ElvUF.Tags.Methods["statustimer"] = function(unit)
 	if not UnitIsPlayer(unit) then return end
+
 	local guid = UnitGUID(unit)
 	if UnitIsAFK(unit) then
 		if not unitStatus[guid] or unitStatus[guid] and unitStatus[guid][1] ~= "AFK" then
@@ -638,7 +640,7 @@ ElvUF.Tags.Methods["statustimer"] = function(unit)
 		if not unitStatus[guid] or unitStatus[guid] and unitStatus[guid][1] ~= "DND" then
 			unitStatus[guid] = {"DND", GetTime()}
 		end
-	elseif(UnitIsDead(unit)) or (UnitIsGhost(unit))then
+	elseif UnitIsDead(unit) or UnitIsGhost(unit) then
 		if not unitStatus[guid] or unitStatus[guid] and unitStatus[guid][1] ~= "Dead" then
 			unitStatus[guid] = {"Dead", GetTime()}
 		end
@@ -873,16 +875,16 @@ end
 ElvUF.Tags.Events["classificationcolor"] = "UNIT_CLASSIFICATION_CHANGED"
 ElvUF.Tags.Methods["classificationcolor"] = function(unit)
 	local c = UnitClassification(unit)
-	if(c == "rare" or c == "elite") then
+	if c == "rare" or c == "elite" then
 		return Hex(1, 0.5, 0.25) --Orange
-	elseif(c == "rareelite" or c == "worldboss") then
+	elseif c == "rareelite" or c == "worldboss" then
 		return Hex(1, 0, 0) --Red
 	end
 end
 
 ElvUF.Tags.Events["guild"] = "PLAYER_GUILD_UPDATE"
 ElvUF.Tags.Methods["guild"] = function(unit)
-	return GetGuildInfo(unit) or nil
+	return GetGuildInfo(unit) or ""
 end
 
 ElvUF.Tags.Events["guild:brackets"] = "PLAYER_GUILD_UPDATE"
@@ -919,5 +921,5 @@ end
 ElvUF.Tags.Events["target"] = "UNIT_TARGET"
 ElvUF.Tags.Methods["target"] = function(unit)
 	local targetName = UnitName(unit.."target")
-	return targetName or nil
+	return targetName or ""
 end

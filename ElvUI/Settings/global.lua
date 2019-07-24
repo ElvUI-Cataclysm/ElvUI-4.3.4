@@ -1,285 +1,291 @@
-﻿local E, L, V, P, G = unpack(select(2, ...));
+﻿local E, L, V, P, G = unpack(select(2, ...))
 
-G["general"] = {
-	["autoScale"] = true,
-	["minUiScale"] = 0.64,
-	["eyefinity"] = false,
-	["smallerWorldMap"] = true,
-	["mapAlphaWhenMoving"] = 0.35,
-	["WorldMapCoordinates"] = {
-		["enable"] = true,
-		["position"] = "BOTTOMLEFT",
-		["xOffset"] = 0,
-		["yOffset"] = 0
+--Global Settings
+G.general = {
+	UIScale = 0.64,
+	locale = "auto",
+	eyefinity = false,
+	ignoreScalePopup = false,
+	smallerWorldMap = true,
+	mapAlphaWhenMoving = 0.35,
+	AceGUI = {
+		width = 1000,
+		height = 720
 	},
-	["showMissingTalentAlert"] = false
-};
-
-G["classtimer"] = {};
-
-G["nameplates"] = {};
-
-G["chat"] = {
-	["classColorMentionExcludedNames"] = {},
+	WorldMapCoordinates = {
+		enable = true,
+		position = "BOTTOMLEFT",
+		xOffset = 0,
+		yOffset = 0
+	},
+	showMissingTalentAlert = false
 }
 
-G["bags"] = {
-	["ignoredItems"] = {},
+G.classtimer = {}
+
+G.chat = {
+	classColorMentionExcludedNames = {},
 }
 
-G["unitframe"] = {
-	["aurafilters"] = {},
-	["buffwatch"] = {},
-	["raidDebuffIndicator"] = {
-		["instanceFilter"] = "RaidDebuffs",
-		["otherFilter"] = "CCDebuffs",
+G.bags = {
+	ignoredItems = {},
+}
+
+G.nameplates = {}
+
+G.unitframe = {
+	aurafilters = {},
+	buffwatch = {},
+	raidDebuffIndicator = {
+		instanceFilter = "RaidDebuffs",
+		otherFilter = "CCDebuffs",
 	},
-	["spellRangeCheck"] = {
-		["PRIEST"] = {
-			["enemySpells"] = {
+	spellRangeCheck = {
+		PRIEST = {
+			enemySpells = {
 				[585] = true, -- Smite (30 yards)
 			},
-			["longEnemySpells"] = {
+			longEnemySpells = {
 				[589] = true, -- Shadow Word: Pain (30 yards)
 			},
-			["friendlySpells"] = {
+			friendlySpells = {
 				[2061] = true, -- Flash Heal (40 yards)
 			},
-			["resSpells"] = {
+			resSpells = {
 				[2006] = true, -- Resurrection (40 yards)
 			},
-			["petSpells"] = {},
+			petSpells = {},
 		},
-		["DRUID"] = {
-			["enemySpells"] = {
+		DRUID = {
+			enemySpells = {
 				[33786] = true, -- Cyclone
 			},
-			["longEnemySpells"] = {
+			longEnemySpells = {
 				[5176] = true, -- Wrath
 			},
-			["friendlySpells"] = {
+			friendlySpells = {
 				[774] = true, -- Rejuvenation
 			},
-			["resSpells"] = {
+			resSpells = {
 				[50769] = true, -- Revive
 				[20484] = true, -- Rebirth
 			},
-			["petSpells"] = {},
+			petSpells = {},
 		},
-		["PALADIN"] = {
-			["enemySpells"] = {
+		PALADIN = {
+			enemySpells = {
 				[20271] = true, -- Judgement
 				[62124] = true, -- Hand of Reckoning
 			},
-			["longEnemySpells"] = {},
-			["friendlySpells"] = {
+			longEnemySpells = {},
+			friendlySpells = {
 				[635] = true, -- Holy Light
 			},
-			["resSpells"] = {
+			resSpells = {
 				[7328] = true, -- Redemption
 			},
-			["petSpells"] = {},
+			petSpells = {},
 		},
-		["SHAMAN"] = {
-			["enemySpells"] = {
+		SHAMAN = {
+			enemySpells = {
 				[8042] = true, -- Earth Shock
 			},
-			["longEnemySpells"] = {
+			longEnemySpells = {
 				[403] = true, -- Lightning Bolt
 			},
-			["friendlySpells"] = {
+			friendlySpells = {
 				[8004] = true, -- Healing Surge
 			},
-			["resSpells"] = {
+			resSpells = {
 				[2008] = true, -- Ancestral Spirit
 			},
-			["petSpells"] = {},
+			petSpells = {},
 		},
-		["WARLOCK"] = {
-			["enemySpells"] = {
+		WARLOCK = {
+			enemySpells = {
 				[5782] = true, -- Fear
 			},
-			["longEnemySpells"] = {
+			longEnemySpells = {
 				[172] = true, -- Corruption
 				[686] = true, -- Shadow Bolt
 				[17962] = true, -- Conflagrate
 			},
-			["friendlySpells"] = {
+			friendlySpells = {
 				[5697] = true, -- Unending Breath
 			},
-			["resSpells"] = {},
-			["petSpells"] = {
+			resSpells = {},
+			petSpells = {
 				[755] = true, -- Health Funnel
 			},
 		},
-		["MAGE"] = {
-			["enemySpells"] = {
+		MAGE = {
+			enemySpells = {
 				[118] = true, -- Polymorph
 			},
-			["longEnemySpells"] = {
+			longEnemySpells = {
 				[133] = true, -- Fireball
 				[44614] = true, -- Frostfire Bolt
 			},
-			["friendlySpells"] = {
+			friendlySpells = {
 				[475] = true, -- Remove Curse
 			},
-			["resSpells"] = {},
-			["petSpells"] = {},
+			resSpells = {},
+			petSpells = {},
 		},
-		["HUNTER"] = {
-			["enemySpells"] = {
+		HUNTER = {
+			enemySpells = {
 				[75] = true, -- Auto Shot
 			},
-			["longEnemySpells"] = {},
-			["friendlySpells"] = {},
-			["resSpells"] = {},
-			["petSpells"] = {
+			longEnemySpells = {},
+			friendlySpells = {},
+			resSpells = {},
+			petSpells = {
 				[136] = true, -- Mend Pet
 			},
 		},
-		["DEATHKNIGHT"] = {
-			["enemySpells"] = {
+		DEATHKNIGHT = {
+			enemySpells = {
 				[49576] = true, -- Death Grip
 			},
-			["longEnemySpells"] = {},
-			["friendlySpells"] = {
+			longEnemySpells = {},
+			friendlySpells = {
 				[47541] = true, -- Death Coil
 			},
-			["resSpells"] = {
+			resSpells = {
 				[61999] = true, -- Raise Ally
 			},
-			["petSpells"] = {},
+			petSpells = {},
 		},
-		["ROGUE"] = {
-			["enemySpells"] = {
+		ROGUE = {
+			enemySpells = {
 				[2094] = true, -- Blind
 			},
-			["longEnemySpells"] = {
+			longEnemySpells = {
 				[1725] = true, -- Distract
 			},
-			["friendlySpells"] = {
+			friendlySpells = {
 				[57934] = true, -- Tricks of the Trade
 			},
-			["resSpells"] = {},
-			["petSpells"] = {},
+			resSpells = {},
+			petSpells = {},
 		},
-		["WARRIOR"] = {
-			["enemySpells"] = {
+		WARRIOR = {
+			enemySpells = {
 				[5246] = true, -- Intimidating Shout
 				[100] = true, -- Charge
 			},
-			["longEnemySpells"] = {
+			longEnemySpells = {
 				[355] = true, -- Taunt
 			},
-			["friendlySpells"] = {
+			friendlySpells = {
 				[3411] = true, -- Intervene
 			},
-			["resSpells"] = {},
-			["petSpells"] = {},
+			resSpells = {},
+			petSpells = {},
 		}
 	}
 }
 
-G["profileCopy"] = {
+G.profileCopy = {
 	--Specific values
-	["selected"] = "Minimalistic",
-	["movers"] = {},
+	selected = "Minimalistic",
+	movers = {},
 	--Modules
-	["actionbar"] = {
-		["general"] = true,
-		["bar1"] = true,
-		["bar2"] = true,
-		["bar3"] = true,
-		["bar4"] = true,
-		["bar5"] = true,
-		["bar6"] = true,
-		["barPet"] = true,
-		["barShapeShift"] = true,
-		["microbar"] = true,
-		["extraActionButton"] = true,
-		["cooldown"] = true
+	actionbar = {
+		general = true,
+		bar1 = true,
+		bar2 = true,
+		bar3 = true,
+		bar4 = true,
+		bar5 = true,
+		bar6 = true,
+		barPet = true,
+		barShapeShift = true,
+		microbar = true,
+		extraActionButton = true,
+		cooldown = true
 	},
-	["auras"] = {
-		["general"] = true,
-		["buffs"] = true,
-		["debuffs"] = true,
-		["cooldown"] = true
+	auras = {
+		general = true,
+		buffs = true,
+		debuffs = true,
+		cooldown = true
 	},
-	["bags"] = {
-		["general"] = true,
-		["split"] = true,
-		["vendorGrays"] = true,
-		["bagBar"] = true,
-		["cooldown"] = true
+	bags = {
+		general = true,
+		split = true,
+		vendorGrays = true,
+		bagBar = true,
+		cooldown = true
 	},
-	["chat"] = {
-		["general"] = true
+	chat = {
+		general = true
 	},
-	["cooldown"] = {
-		["general"] = true,
-		["fonts"] = true
+	cooldown = {
+		general = true,
+		fonts = true
 	},
-	["databars"] = {
-		["experience"] = true,
-		["reputation"] = true
+	databars = {
+		experience = true,
+		reputation = true
 	},
-	["datatexts"] = {
-		["general"] = true,
-		["panels"] = true
+	datatexts = {
+		general = true,
+		panels = true
 	},
-	["general"] = {
-		["general"] = true,
-		["altPowerBar"] = true,
-		["minimap"] = true,
-		["threat"] = true,
-		["totems"] = true
+	general = {
+		general = true,
+		minimap = true,
+		threat = true,
+		totems = true,
+		altPowerBar = true
 	},
-	["nameplates"] = {
-		["general"] = true,
-		["cooldown"] = true,
-		["reactions"] = true,
-		["threat"] = true,
-		["units"] = {
-			["FRIENDLY_PLAYER"] = true,
-			["ENEMY_PLAYER"] = true,
-			["FRIENDLY_NPC"] = true,
-			["ENEMY_NPC"] = true
+	nameplates = {
+		general = true,
+		cooldown = true,
+		reactions = true,
+		threat = true,
+		units = {
+			FRIENDLY_PLAYER = true,
+			ENEMY_PLAYER = true,
+			FRIENDLY_NPC = true,
+			ENEMY_NPC = true
 		}
 	},
-	["tooltip"] = {
-		["general"] = true,
-		["visibility"] = true,
-		["healthBar"] = true
+	tooltip = {
+		general = true,
+		visibility = true,
+		healthBar = true
 	},
-	["unitframes"] = {
-		["general"] = true,
-		["cooldown"] = true,
-		["colors"] = {
-			["general"] = true,
-			["power"] = true,
-			["reaction"] = true,
-			["healPrediction"] = true,
-			["classResources"] = true,
-			["frameGlow"] = true,
-			["debuffHighlight"] = true
+	unitframe = {
+		general = true,
+		cooldown = true,
+		colors = {
+			general = true,
+			power = true,
+			reaction = true,
+			healPrediction = true,
+			classResources = true,
+			frameGlow = true,
+			debuffHighlight = true
 		},
-		["units"] = {
-			["player"] = true,
-			["target"] = true,
-			["targettarget"] = true,
-			["targettargettarget"] = true,
-			["focus"] = true,
-			["focustarget"] = true,
-			["pet"] = true,
-			["pettarget"] = true,
-			["boss"] = true,
-			["arena"] = true,
-			["party"] = true,
-			["raid"] = true,
-			["raid40"] = true,
-			["raidpet"] = true,
-			["tank"] = true,
-			["assist"] = true
+		units = {
+			player = true,
+			target = true,
+			targettarget = true,
+			targettargettarget = true,
+			focus = true,
+			focustarget = true,
+			pet = true,
+			pettarget = true,
+			boss = true,
+			arena = true,
+			party = true,
+			raid = true,
+			raid40 = true,
+			raidpet = true,
+			tank = true,
+			assist = true
 		}
 	}
 }

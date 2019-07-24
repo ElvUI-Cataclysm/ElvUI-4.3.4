@@ -26,7 +26,7 @@ local function LoadChatSkin()
 
 	GMChatTabText:Point("LEFT", GMChatTab, 8, 0)
 	GMChatTabText:FontTemplate(LSM:Fetch("font", E.db.chat.tabFont), E.db.chat.tabFontSize, E.db.chat.tabFontOutline)
-	GMChatTabText:SetTextColor(unpack(E["media"].rgbvaluecolor))
+	GMChatTabText:SetTextColor(unpack(E.media.rgbvaluecolor))
 
 	GMChatFrameEditBoxLeft:Kill()
 	GMChatFrameEditBoxRight:Kill()

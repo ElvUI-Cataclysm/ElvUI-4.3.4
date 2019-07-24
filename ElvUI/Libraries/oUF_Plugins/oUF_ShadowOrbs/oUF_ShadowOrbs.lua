@@ -97,7 +97,7 @@ local function Enable(self, unit)
 			end
 		end
 
-		return true;
+		return true
 	end
 end
 

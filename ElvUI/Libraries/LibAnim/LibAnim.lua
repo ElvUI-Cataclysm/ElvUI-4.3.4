@@ -110,7 +110,7 @@ local Smoothing = {
 		end
 	end,
 	["elastic"] = function(t, b, c, d)
-		local s, p, a = 1.70158, d * .3, c;
+		local s, p, a = 1.70158, d * .3, c
 		if t == 0 then
 			return b
 		end

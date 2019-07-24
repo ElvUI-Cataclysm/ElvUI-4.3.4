@@ -110,9 +110,9 @@ local function LoadSkin()
 	hooksecurefunc("PlayerTalentFramePanel_UpdateSummary", function(self)
 		if self.Summary then
 			if PlayerTalentFrame.primaryTree and self.talentTree == PlayerTalentFrame.primaryTree then
-				self.Summary.backdrop:SetBackdropBorderColor(unpack(E["media"].rgbvaluecolor))
+				self.Summary.backdrop:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
 			else
-				self.Summary.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+				self.Summary.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end
 		end
 	end)

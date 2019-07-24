@@ -124,13 +124,13 @@ local function LoadSkin()
 	S:HandleButtonHighlight(PVPConquestFrameConquestButtonRated)
 
 	PVPFrameConquestBar:CreateBackdrop("Default")
-	PVPFrameConquestBar.backdrop:Point("TOPLEFT", PVPFrameConquestBar.progress, "TOPLEFT", -1, 1)
+	PVPFrameConquestBar.backdrop:Point("TOPLEFT", PVPFrameConquestBar.progress, "TOPLEFT", -1, 2)
 	PVPFrameConquestBar.backdrop:Point("BOTTOMRIGHT", PVPFrameConquestBar, "BOTTOMRIGHT", 1, 2)
 	PVPFrameConquestBar:Point("LEFT", 40, 0)
 
-	PVPFrameConquestBar.progress:SetTexture(E["media"].normTex)
-	PVPFrameConquestBarCap1:SetTexture(E["media"].normTex)
-	PVPFrameConquestBarCap2:SetTexture(E["media"].normTex)
+	PVPFrameConquestBar.progress:SetTexture(E.media.normTex)
+	PVPFrameConquestBarCap1:SetTexture(E.media.normTex)
+	PVPFrameConquestBarCap2:SetTexture(E.media.normTex)
 
 	PVPFrame:StripTextures()
 	PVPFrame:SetTemplate("Transparent")
@@ -205,7 +205,7 @@ local function LoadSkin()
 		warGamesIcon:Size(E.PixelMode and 36 or 32)
 		warGamesIcon:SetParent(warGames.backdrop)
 
-		warGamesHeader:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		warGamesHeader:SetNormalTexture(E.Media.Textures.PlusMinusButton)
 		warGamesHeader.SetNormalTexture = E.noop
 		warGamesHeader:GetNormalTexture():Size(14)
 		warGamesHeader:GetNormalTexture():Point("LEFT", 3, 0)
@@ -228,8 +228,6 @@ local function LoadSkin()
 	PVPBannerFrameCancelButton.backdrop:Point("TOPLEFT", PVPBannerFrameAcceptButton, "TOPLEFT", PVPBannerFrame:GetWidth() - PVPBannerFrameAcceptButton:GetWidth() -10, 0)
 	PVPBannerFrameCancelButton.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameAcceptButton, "BOTTOMRIGHT", PVPBannerFrame:GetWidth() - PVPBannerFrameAcceptButton:GetWidth() -10, 0)
 
-	local factionGroup = E.myfaction
-
 	if PVPFrameCurrencyIcon then
 		PVPFrameCurrency:CreateBackdrop()
 		PVPFrameCurrency.backdrop:Point("TOPLEFT", 8, -8)
@@ -239,32 +237,32 @@ local function LoadSkin()
 		PVPFrameCurrencyIcon:SetAlpha(0)
 
 		PVPFrameCurrency.texture = PVPFrameCurrency:CreateTexture(nil, "OVERLAY")
-		PVPFrameCurrency.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..factionGroup)
+		PVPFrameCurrency.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..E.myfaction)
 		PVPFrameCurrency.texture:SetTexCoord(unpack(E.TexCoords))
 		PVPFrameCurrency.texture:SetInside(PVPFrameCurrency.backdrop)
 	end
 
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..factionGroup)
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..E.myfaction)
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol.SetTexture = E.noop
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexCoord(unpack(E.TexCoords))
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:Size(30)
 
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..factionGroup)
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..E.myfaction)
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol.SetTexture = E.noop
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexCoord(unpack(E.TexCoords))
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:Size(30)
 
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..factionGroup)
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..E.myfaction)
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol.SetTexture = E.noop
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:SetTexCoord(unpack(E.TexCoords))
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:Size(30)
 
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..factionGroup)
+	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..E.myfaction)
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol.SetTexture = E.noop
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexCoord(unpack(E.TexCoords))
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:Size(30)
 
-	PVPConquestFrameWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..factionGroup)
+	PVPConquestFrameWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..E.myfaction)
 	PVPConquestFrameWinRewardArenaSymbol.SetTexture = E.noop
 	PVPConquestFrameWinRewardArenaSymbol:SetTexCoord(unpack(E.TexCoords))
 	PVPConquestFrameWinRewardArenaSymbol:Size(30)

@@ -79,4 +79,4 @@ local function Disable(self)
 	end
 end
 
-oUF:AddElement('MasterLooterIndicator', Path, Enable, Disable);
+oUF:AddElement('MasterLooterIndicator', Path, Enable, Disable)

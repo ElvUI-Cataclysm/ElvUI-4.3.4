@@ -40,43 +40,42 @@ function UF:Construct_RaidFrames()
 	self.PhaseIndicator = UF:Construct_PhaseIcon(self)
 	self.MouseGlow = UF:Construct_MouseGlow(self)
 	self.TargetGlow = UF:Construct_TargetGlow(self)
-
 	self.ThreatIndicator = UF:Construct_Threat(self)
 	self.RaidTargetIndicator = UF:Construct_RaidIcon(self)
 	self.ReadyCheckIndicator = UF:Construct_ReadyCheckIcon(self)
 	self.HealthPrediction = UF:Construct_HealComm(self)
 	self.GPS = UF:Construct_GPS(self)
-	self.Range = UF:Construct_Range(self)
+	self.Fader = UF:Construct_Fader()
+	self.Cutaway = UF:Construct_Cutaway(self)
+
 	self.customTexts = {}
 	self.InfoPanel = UF:Construct_InfoPanel(self)
 
-	UF:Update_StatusBars()
-	UF:Update_FontStrings()
-
 	self.unitframeType = "raid"
 
-	UF:Update_RaidFrames(self, UF.db["units"]["raid"])
+	UF:Update_StatusBars()
+	UF:Update_FontStrings()
 
 	return self
 end
 
 function UF:RaidSmartVisibility(event)
-	if(not self.db or (self.db and not self.db.enable) or (UF.db and not UF.db.smartRaidFilter) or self.isForced) then
+	if not self.db or (self.db and not self.db.enable) or (UF.db and not UF.db.smartRaidFilter) or self.isForced then
 		self.blockVisibilityChanges = false
 		return
 	end
 
-	if(event == "PLAYER_REGEN_ENABLED") then self:UnregisterEvent("PLAYER_REGEN_ENABLED") end
+	if event == "PLAYER_REGEN_ENABLED" then self:UnregisterEvent("PLAYER_REGEN_ENABLED") end
 
 	if not InCombatLockdown() then
 		self.isInstanceForced = nil
 		local inInstance, instanceType = IsInInstance()
-		if(inInstance and (instanceType == "raid" or instanceType == "pvp")) then
+		if inInstance and (instanceType == "raid" or instanceType == "pvp") then
 			local _, _, _, _, maxPlayers = GetInstanceInfo()
 			local mapID = GetCurrentMapAreaID()
 
-			if UF.mapIDs[mapID] then
-				maxPlayers = UF.mapIDs[mapID]
+			if UF.instanceMapIDs[mapID] then
+				maxPlayers = UF.instanceMapIDs[mapID]
 			end
 
 			UnregisterStateDriver(self, "visibility")
@@ -85,7 +84,7 @@ function UF:RaidSmartVisibility(event)
 				self:Show()
 				self.isInstanceForced = true
 				self.blockVisibilityChanges = false
-				if(ElvUF_Raid.numGroups ~= E:Round(maxPlayers/5) and event) then
+				if ElvUF_Raid.numGroups ~= E:Round(maxPlayers/5) and event then
 					UF:CreateAndUpdateHeaderGroup("raid")
 				end
 			else
@@ -115,11 +114,11 @@ function UF:Update_RaidHeader(header, db)
 		headerHolder:ClearAllPoints()
 		headerHolder:Point("BOTTOMLEFT", E.UIParent, "BOTTOMLEFT", 4, 195)
 
-		E:CreateMover(headerHolder, headerHolder:GetName().."Mover", L["Raid Frames"], nil, nil, nil, "ALL,RAID")
+		E:CreateMover(headerHolder, headerHolder:GetName().."Mover", L["Raid Frames"], nil, nil, nil, "ALL,RAID", nil, "unitframe,raid,generalGroup")
 
 		headerHolder:RegisterEvent("PLAYER_ENTERING_WORLD")
 		headerHolder:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-		headerHolder:SetScript("OnEvent", UF["RaidSmartVisibility"])
+		headerHolder:SetScript("OnEvent", UF.RaidSmartVisibility)
 		headerHolder.positioned = true
 	end
 
@@ -178,48 +177,30 @@ function UF:Update_RaidFrames(frame, db)
 	end
 
 	UF:Configure_InfoPanel(frame)
-
 	UF:Configure_HealthBar(frame)
-
 	UF:UpdateNameSettings(frame)
-
 	UF:Configure_Power(frame)
-
 	UF:Configure_Portrait(frame)
-
 	UF:Configure_Threat(frame)
-
 	UF:EnableDisable_Auras(frame)
 	UF:Configure_Auras(frame, "Buffs")
 	UF:Configure_Auras(frame, "Debuffs")
-
 	UF:Configure_RaidDebuffs(frame)
-
 	UF:Configure_RaidIcon(frame)
-
 	UF:Configure_ResurrectionIcon(frame)
-
 	UF:Configure_DebuffHighlight(frame)
-
 	UF:Configure_RoleIcon(frame)
-
 	UF:Configure_HealComm(frame)
-
 	UF:Configure_GPS(frame)
-
 	UF:Configure_RaidRoleIcons(frame)
-
-	UF:Configure_Range(frame)
-
+	UF:Configure_Fader(frame)
 	UF:UpdateAuraWatch(frame)
-
 	UF:Configure_ReadyCheckIcon(frame)
-
 	UF:Configure_CustomTexts(frame)
-
 	UF:Configure_PhaseIcon(frame)
+	UF:Configure_Cutaway(frame)
 
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end
 
-UF["headerstoload"]["raid"] = true
+UF.headerstoload.raid = true

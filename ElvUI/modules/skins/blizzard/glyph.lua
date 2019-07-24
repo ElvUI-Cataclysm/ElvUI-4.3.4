@@ -16,7 +16,8 @@ local function LoadSkin()
 	GlyphFrameScrollFrameScrollChild:StripTextures()
 
 	S:HandleEditBox(GlyphFrameSearchBox)
-	S:HandleDropDownBox(GlyphFrameFilterDropDown, 212)
+	S:HandleDropDownBox(GlyphFrameFilterDropDown, 206)
+	GlyphFrameFilterDropDown:Point("TOPLEFT", GlyphFrameSearchBox, "BOTTOMLEFT", -13, -3)
 
 	GlyphFrame.levelOverlayText1:SetTextColor(1, 1, 1)
 	GlyphFrame.levelOverlayText2:SetTextColor(1, 1, 1)
@@ -86,8 +87,8 @@ local function LoadSkin()
 				else
 					GlyphSocket.icon:SetTexture("Interface\\Spellbook\\UI-Glyph-Rune-"..i)
 				end
-				GlyphFrameGlyph_UpdateSlot(GlyphSocket);
-				SetDesaturation(GlyphSocket.icon, not isActiveTalentGroup);
+				GlyphFrameGlyph_UpdateSlot(GlyphSocket)
+				SetDesaturation(GlyphSocket.icon, not isActiveTalentGroup)
 			end
 		end)
 

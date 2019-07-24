@@ -32,26 +32,25 @@ function UF:Construct_RaidpetFrames()
 	self.ThreatIndicator = UF:Construct_Threat(self)
 	self.RaidTargetIndicator = UF:Construct_RaidIcon(self)
 	self.HealthPrediction = UF:Construct_HealComm(self)
-	self.Range = UF:Construct_Range(self)
+	self.Fader = UF:Construct_Fader()
+	self.Cutaway = UF:Construct_Cutaway(self)
+
 	self.customTexts = {}
+	self.unitframeType = "raidpet"
 
 	UF:Update_StatusBars()
 	UF:Update_FontStrings()
-
-	self.unitframeType = "raidpet"
-
-	UF:Update_RaidpetFrames(self, UF.db["units"]["raidpet"])
 
 	return self
 end
 
 function UF:RaidPetsSmartVisibility(event)
 	if not self.db or (self.db and not self.db.enable) or (UF.db and not UF.db.smartRaidFilter) or self.isForced then return end
-	if(event == "PLAYER_REGEN_ENABLED") then self:UnregisterEvent("PLAYER_REGEN_ENABLED") end
+	if event == "PLAYER_REGEN_ENABLED" then self:UnregisterEvent("PLAYER_REGEN_ENABLED") end
 
 	if not InCombatLockdown() then
 		local inInstance, instanceType = IsInInstance()
-		if(inInstance and instanceType == "raid") then
+		if inInstance and instanceType == "raid" then
 			UnregisterStateDriver(self, "visibility")
 			self:Show()
 		elseif self.db.visibility then
@@ -73,12 +72,12 @@ function UF:Update_RaidpetHeader(header, db)
 		headerHolder:ClearAllPoints()
 		headerHolder:Point("BOTTOMLEFT", E.UIParent, "BOTTOMLEFT", 4, 574)
 
-		E:CreateMover(headerHolder, headerHolder:GetName().."Mover", L["Raid Pet Frames"], nil, nil, nil, "ALL,RAID")
+		E:CreateMover(headerHolder, headerHolder:GetName().."Mover", L["Raid Pet Frames"], nil, nil, nil, "ALL,RAID", nil, "unitframe,raidpet,generalGroup")
 		headerHolder.positioned = true
 
 		headerHolder:RegisterEvent("PLAYER_ENTERING_WORLD")
 		headerHolder:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-		headerHolder:SetScript("OnEvent", UF["RaidPetsSmartVisibility"])
+		headerHolder:SetScript("OnEvent", UF.RaidPetsSmartVisibility)
 	end
 
 	UF.RaidPetsSmartVisibility(headerHolder)
@@ -132,32 +131,22 @@ function UF:Update_RaidpetFrames(frame, db)
 	end
 
 	UF:Configure_HealthBar(frame)
-
 	UF:UpdateNameSettings(frame)
-
 	UF:Configure_Portrait(frame)
-
 	UF:Configure_Threat(frame)
-
 	UF:EnableDisable_Auras(frame)
 	UF:Configure_Auras(frame, "Buffs")
 	UF:Configure_Auras(frame, "Debuffs")
-
 	UF:Configure_RaidDebuffs(frame)
-
 	UF:Configure_RaidIcon(frame)
-
 	UF:Configure_DebuffHighlight(frame)
-
 	UF:Configure_HealComm(frame)
-
-	UF:Configure_Range(frame)
-
+	UF:Configure_Fader(frame)
 	UF:UpdateAuraWatch(frame, true)
-
+	UF:Configure_Cutaway(frame)
 	UF:Configure_CustomTexts(frame)
 
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end
 
-UF["headerstoload"]["raidpet"] = {nil, nil, "SecureGroupPetHeaderTemplate"}
+UF.headerstoload.raidpet = {nil, nil, "SecureGroupPetHeaderTemplate"}

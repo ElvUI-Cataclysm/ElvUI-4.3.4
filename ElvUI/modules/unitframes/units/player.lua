@@ -58,11 +58,12 @@ function UF:Construct_PlayerFrame(frame)
 	frame.AuraBars = self:Construct_AuraBarHeader(frame)
 	frame.InfoPanel = self:Construct_InfoPanel(frame)
  	frame.PvPIndicator = self:Construct_PvPIcon(frame)
-	frame.CombatFade = true
+	frame.Fader = self:Construct_Fader()
+	frame.Cutaway = self:Construct_Cutaway(frame)
 	frame.customTexts = {}
 
-	frame:Point("BOTTOMLEFT", E.UIParent, "BOTTOM", -413, 68) --Set to default position
-	E:CreateMover(frame, frame:GetName().."Mover", L["Player Frame"], nil, nil, nil, "ALL,SOLO")
+	frame:Point("BOTTOMLEFT", E.UIParent, "BOTTOM", -413, 68)
+	E:CreateMover(frame, frame:GetName().."Mover", L["Player Frame"], nil, nil, nil, "ALL,SOLO", nil, "unitframe,player,generalGroup")
 	frame.unitframeType = "player"
 end
 
@@ -70,7 +71,7 @@ function UF:Update_PlayerFrame(frame, db)
 	frame.db = db
 
 	do
-		frame.ORIENTATION = db.orientation --allow this value to change when unitframes position changes on screen?
+		frame.ORIENTATION = db.orientation
 
 		frame.UNIT_WIDTH = db.width
 		frame.UNIT_HEIGHT = db.infoPanel.enable and (db.height + db.infoPanel.height) or db.height
@@ -90,7 +91,7 @@ function UF:Update_PlayerFrame(frame, db)
 		frame.PORTRAIT_WIDTH = (frame.USE_PORTRAIT_OVERLAY or not frame.USE_PORTRAIT) and 0 or db.portrait.width
 
 		frame.CAN_HAVE_CLASSBAR = CAN_HAVE_CLASSBAR
-		frame.MAX_CLASS_BAR = frame.MAX_CLASS_BAR or max(UF.classMaxResourceBar[E.myclass] or 0) --only set this initially
+		frame.MAX_CLASS_BAR = frame.MAX_CLASS_BAR or UF.classMaxResourceBar[E.myclass] or 0
 		frame.USE_CLASSBAR = db.classbar.enable and frame.CAN_HAVE_CLASSBAR
 		frame.CLASSBAR_SHOWN = frame.CAN_HAVE_CLASSBAR and frame[frame.ClassBar]:IsShown()
 		frame.CLASSBAR_DETACHED = db.classbar.detachFromFrame
@@ -115,80 +116,39 @@ function UF:Update_PlayerFrame(frame, db)
 	_G[frame:GetName().."Mover"]:Size(frame:GetSize())
 
 	UF:Configure_InfoPanel(frame)
-
-	--Threat
 	UF:Configure_Threat(frame)
-
-	--Rest Icon
 	UF:Configure_RestingIndicator(frame)
-
-	--Combat Icon
 	UF:Configure_CombatIndicator(frame)
-
-	--Health
 	UF:Configure_HealthBar(frame)
-
-	--Name
 	UF:UpdateNameSettings(frame)
-
-	--PvP
 	UF:Configure_PVPIndicator(frame)
-
-	--Power
 	UF:Configure_Power(frame)
-
-	--Portrait
 	UF:Configure_Portrait(frame)
-
-	--Auras
 	UF:EnableDisable_Auras(frame)
 	UF:Configure_Auras(frame, "Buffs")
 	UF:Configure_Auras(frame, "Debuffs")
-
-	--Castbar
 	UF:Configure_Castbar(frame)
-
-	--Resource Bars
 	UF:Configure_ClassBar(frame)
-
-	--Combat Fade
-	if db.combatfade and not frame:IsElementEnabled("CombatFade") then
-		frame:EnableElement("CombatFade")
-	elseif not db.combatfade and frame:IsElementEnabled("CombatFade") then
-		frame:DisableElement("CombatFade")
-	end
-
-	--Debuff Highlight
+	UF:Configure_Fader(frame)
 	UF:Configure_DebuffHighlight(frame)
-
-	--Raid Icon
 	UF:Configure_RaidIcon(frame)
-
-	--OverHealing
 	UF:Configure_HealComm(frame)
-
-	--AuraBars
 	UF:Configure_AuraBars(frame)
 	--We need to update Target AuraBars if attached to Player AuraBars
 	--mainly because of issues when using power offset on player and switching to/from middle orientation
 	if E.db.unitframe.units.target.aurabar.attachTo == "PLAYER_AURABARS" and ElvUF_Target then
 		UF:Configure_AuraBars(ElvUF_Target)
 	end
-
-	--PvP Icon
 	UF:Configure_PVPIcon(frame)
-
-	--Raid Icons
 	UF:Configure_RaidRoleIcons(frame)
-
-	--CustomTexts
+	UF:Configure_Cutaway(frame)
 	UF:Configure_CustomTexts(frame)
 
 	E:SetMoverSnapOffset(frame:GetName().."Mover", -(12 + db.castbar.height))
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end
 
-tinsert(UF["unitstoload"], "player")
+tinsert(UF.unitstoload, "player")
 
 local function UpdateClassBar()
 	local frame = _G["ElvUF_Player"]

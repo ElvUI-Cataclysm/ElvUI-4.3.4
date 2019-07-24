@@ -1,6 +1,6 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local UF = E:GetModule("UnitFrames")
-local LSM = LibStub("LibSharedMedia-3.0")
+local LSM = E.Libs.LSM
 
 local assert, select, pairs, unpack = assert, select, pairs, unpack
 local tinsert, wipe = tinsert, wipe
@@ -74,13 +74,13 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 	end
 
 	if frame.unit == "pet" and not petOverride then
-		local petWatch = E.global["unitframe"].buffwatch.PET or {}
+		local petWatch = E.global.unitframe.buffwatch.PET or {}
 		for _, value in pairs(petWatch) do
 			if value.style == "text" then value.style = "NONE" end --depreciated
 			tinsert(buffs, value)
 		end
 	else
-		local buffWatch = not db.profileSpecific and (E.global["unitframe"].buffwatch[E.myclass] or {}) or (E.db["unitframe"]["filters"].buffwatch or {})
+		local buffWatch = not db.profileSpecific and (E.global.unitframe.buffwatch[E.myclass] or {}) or (E.db.unitframe.filters.buffwatch or {})
 		for _, value in pairs(buffWatch) do
 			if value.style == "text" then value.style = "NONE" end --depreciated
 			tinsert(buffs, value)
@@ -105,7 +105,7 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 		end
 	end
 
-	local unitframeFont = LSM:Fetch("font", E.db["unitframe"].font)
+	local unitframeFont = LSM:Fetch("font", E.db.unitframe.font)
 
 	for i = 1, #buffs do
 		if buffs[i].id then
@@ -153,24 +153,22 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 					icon.border = icon:CreateTexture(nil, "BACKGROUND")
 					icon.border:Point("TOPLEFT", -E.mult, E.mult)
 					icon.border:Point("BOTTOMRIGHT", E.mult, -E.mult)
-					icon.border:SetTexture(E["media"].blankTex)
+					icon.border:SetTexture(E.media.blankTex)
 					icon.border:SetVertexColor(0, 0, 0)
 				end
 
 				if not icon.cd then
 					icon.cd = CreateFrame("Cooldown", nil, icon, "CooldownFrameTemplate")
 					icon.cd:SetAllPoints(icon)
-					--icon.cd.noOCC = true
-					--icon.cd.noCooldownCount = true
 					icon.cd:SetReverse(true)
 					icon.cd:SetFrameLevel(icon:GetFrameLevel())
 				end
 
 				if icon.style == "coloredIcon" then
-					icon.icon:SetTexture(E["media"].blankTex)
+					icon.icon:SetTexture(E.media.blankTex)
 
-					if buffs[i]["color"] then
-						icon.icon:SetVertexColor(buffs[i]["color"].r, buffs[i]["color"].g, buffs[i]["color"].b)
+					if (buffs[i].color) then
+						icon.icon:SetVertexColor(buffs[i].color.r, buffs[i].color.g, buffs[i].color.b)
 					else
 						icon.icon:SetVertexColor(0.8, 0.8, 0.8)
 					end
@@ -179,7 +177,7 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 					icon.cd:SetAlpha(1)
 				elseif icon.style == "texturedIcon" then
 					icon.icon:SetVertexColor(1, 1, 1)
-					--icon.icon:SetTexCoord(.18, .82, .18, .82)
+					-- icon.icon:SetTexCoord(.18, .82, .18, .82)
 					icon.icon:SetTexCoord(unpack(E.TexCoords))
 					icon.icon:SetTexture(icon.image)
 					icon.icon:Show()
@@ -215,8 +213,8 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 					icon.count:Point("CENTER", unpack(counterOffsets[buffs[i].point]))
 				end
 
-				icon.count:FontTemplate(unitframeFont, db.fontSize, E.db["unitframe"].fontOutline)
-				icon.text:FontTemplate(unitframeFont, db.fontSize, E.db["unitframe"].fontOutline)
+				icon.count:FontTemplate(unitframeFont, db.fontSize, E.db.unitframe.fontOutline)
+				icon.text:FontTemplate(unitframeFont, db.fontSize, E.db.unitframe.fontOutline)
 				icon.text:ClearAllPoints()
 				icon.text:Point(buffs[i].point, icon, buffs[i].point)
 
@@ -239,6 +237,4 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 	if frame.AuraWatch.Update then
 		frame.AuraWatch.Update(frame)
 	end
-
-	frame:UpdateElement("AuraWatch")
 end

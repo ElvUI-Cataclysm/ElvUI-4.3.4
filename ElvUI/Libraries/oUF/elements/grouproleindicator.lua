@@ -1,7 +1,7 @@
-local _, ns = ...;
+local _, ns = ...
 local oUF = ns.oUF
 
-local UnitGroupRolesAssigned = UnitGroupRolesAssigned;
+local UnitGroupRolesAssigned = UnitGroupRolesAssigned
 
 local function Update(self, event)
 	local element = self.GroupRoleIndicator

@@ -2,7 +2,6 @@ local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
 local _G = _G
-local format = format
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.mirrorTimers ~= true then return end
@@ -16,9 +15,9 @@ local function LoadSkin()
 			local text = frame.label:GetText()
 
 			if frame.value > 0 then
- 				frame.TimerText:SetText(format("%s (%d:%02d)", text, minutes, seconds))
+				frame.TimerText:SetFormattedText("%s (%d:%02d)", text, minutes, seconds)
  			else
- 				frame.TimerText:SetText(format("%s (0:00)", text))
+				frame.TimerText:SetFormattedText("%s (0:00)", text)
 			end
 			frame.timeSinceUpdate = 0
 		else
@@ -34,7 +33,7 @@ local function LoadSkin()
 		mirrorTimer:StripTextures()
 		mirrorTimer:Size(222, 18)
 		mirrorTimer.label = text
-		statusBar:SetStatusBarTexture(E["media"].normTex)
+		statusBar:SetStatusBarTexture(E.media.normTex)
 		E:RegisterStatusBar(statusBar)
 		statusBar:CreateBackdrop()
 		statusBar:Size(222, 18)

@@ -27,12 +27,12 @@ local function LoadSkin()
 	LootFramePortraitOverlay:SetParent(E.HiddenFrame)
 
 	S:HandleNextPrevButton(LootFrameUpButton)
-	SquareButton_SetIcon(LootFrameUpButton, "UP")
 	LootFrameUpButton:Point("BOTTOMLEFT", 25, 20)
+	LootFrameUpButton:Size(24)
 
 	S:HandleNextPrevButton(LootFrameDownButton)
-	SquareButton_SetIcon(LootFrameDownButton, "DOWN")
 	LootFrameDownButton:Point("BOTTOMLEFT", 145, 20)
+	LootFrameDownButton:Size(24)
 
 	LootFrame:EnableMouseWheel(true)
 	LootFrame:SetScript("OnMouseWheel", function(_, value)
@@ -86,7 +86,7 @@ local function LoadSkin()
 		button.bg:Point("BOTTOMRIGHT", 110, 0)
 		button.bg:SetFrameLevel(button.bg:GetFrameLevel() - 1)
 
-		questTexture:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\bagQuestIcon.tga")
+		questTexture:SetTexture(E.Media.Textures.BagQuestIcon)
 		questTexture.SetTexture = E.noop
 		questTexture:SetTexCoord(0, 1, 0, 1)
 		questTexture:SetInside()
@@ -104,7 +104,7 @@ local function LoadSkin()
 		local button = _G["LootButton"..index]
 		local slot = (numLootToShow * (LootFrame.page - 1)) + index
 
-		if slot <= numLootItems then 
+		if slot <= numLootItems then
 			if (LootSlotIsItem(slot) or LootSlotIsCoin(slot) or LootSlotIsCurrency(slot)) and index <= numLootToShow then
 				local texture, _, _, quality, _, isQuestItem, questId, isActive = GetLootSlotInfo(slot)
 				if texture then
@@ -120,7 +120,7 @@ local function LoadSkin()
 					elseif quality then
 						button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
 					else
-						button.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+						button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 					end
 				end
 			end
@@ -170,7 +170,7 @@ local function LoadRollSkin()
 		local statusBar = _G[frameName.."Timer"]
 		statusBar:StripTextures()
 		statusBar:CreateBackdrop("Default")
-		statusBar:SetStatusBarTexture(E["media"].normTex)
+		statusBar:SetStatusBarTexture(E.media.normTex)
 		E:RegisterStatusBar(statusBar)
 
 		local decoration = _G[frameName.."Decoration"]

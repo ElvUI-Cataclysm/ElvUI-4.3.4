@@ -1,6 +1,7 @@
 local E, L, V, P, G = unpack(select(2, ...))
-local M = E:NewModule("Minimap", "AceEvent-3.0")
-E.Minimap = M
+local M = E:GetModule("Minimap")
+local S = E:GetModule("Skins")
+local RBR = E:GetModule("ReminderBuffs")
 
 local _G = _G
 local unpack = unpack
@@ -163,7 +164,7 @@ function M:Update_ZoneText()
 
 	Minimap.location:SetText(strsub(GetMinimapZoneText(), 1, 46))
 	Minimap.location:SetTextColor(self:GetLocTextColor())
-	Minimap.location:FontTemplate(E.LSM:Fetch("font", E.db.general.minimap.locationFont), E.db.general.minimap.locationFontSize, E.db.general.minimap.locationFontOutline)
+	Minimap.location:FontTemplate(E.Libs.LSM:Fetch("font", E.db.general.minimap.locationFont), E.db.general.minimap.locationFontSize, E.db.general.minimap.locationFontOutline)
 end
 
 function M:PLAYER_REGEN_ENABLED()
@@ -192,8 +193,7 @@ function M:UpdateSettings()
 		self:RegisterEvent("PLAYER_REGEN_ENABLED")
 	end
 	E.MinimapSize = E.private.general.minimap.enable and E.db.general.minimap.size or Minimap:GetWidth() + 10
-	E.MinimapWidth = E.MinimapSize
-	E.MinimapHeight = E.MinimapSize
+	E.MinimapWidth, E.MinimapHeight = E.MinimapSize, E.MinimapSize
 
 	if E.db.general.reminder.enable then
 		E.RBRWidth = (E.MinimapHeight + ((E.Border - E.Spacing*3) * 5) + E.Border*2) / 6
@@ -297,13 +297,11 @@ function M:UpdateSettings()
 	end
 
 	if ElvUI_ReminderBuffs then
-		E:GetModule("ReminderBuffs"):UpdateSettings()
+		RBR:UpdateSettings()
 	end
 
 	--Stop here if ElvUI Minimap is disabled.
 	if not E.private.general.minimap.enable then return end
-
-	local S = E:GetModule("Skins")
 
 	if GameTimeFrame then
 		if E.private.general.minimap.hideCalendar then
@@ -422,50 +420,6 @@ function M:UpdateSettings()
 		MiniMapWorldMapButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords))
 		MiniMapWorldMapButton:GetPushedTexture():SetInside()
 	end
-
-	if MinimapZoomIn then
-		if E.private.general.minimap.hideZoomIn then
-			MinimapZoomIn:Hide()
-		else
-			local pos = E.db.general.minimap.icons.zoomIn.position or "TOPRIGHT"
-			local scale = E.db.general.minimap.icons.zoomIn.scale or 1
-			local x = E.db.general.minimap.icons.zoomIn.xOffset or 0
-			local y = E.db.general.minimap.icons.zoomIn.yOffset or 0
-			MinimapZoomIn:ClearAllPoints()
-			MinimapZoomIn:Point(pos, Minimap, pos, x, y)
-			MinimapZoomIn:SetScale(scale)
-			MinimapZoomIn:Show()
-		end
-
-		--Skin ZoonIn Button
-		S:HandleCloseButton(MinimapZoomIn)
-		MinimapZoomIn.text:SetText("+")
-		MinimapZoomIn.text:FontTemplate(nil, 22)
-		MinimapZoomIn:Size(40)
-		MinimapZoomIn:SetFrameStrata("MEDIUM")
-	end
-
-	if MinimapZoomOut then
-		if E.private.general.minimap.hideZoomOut then
-			MinimapZoomOut:Hide()
-		else
-			local pos = E.db.general.minimap.icons.zoomOut.position or "TOPRIGHT"
-			local scale = E.db.general.minimap.icons.zoomOut.scale or 1
-			local x = E.db.general.minimap.icons.zoomOut.xOffset or 0
-			local y = E.db.general.minimap.icons.zoomOut.yOffset or 0
-			MinimapZoomOut:ClearAllPoints()
-			MinimapZoomOut:Point(pos, Minimap, pos, x, y)
-			MinimapZoomOut:SetScale(scale)
-			MinimapZoomOut:Show()
-		end
-
-		--Skin ZoonOut Button
-		S:HandleCloseButton(MinimapZoomOut)
-		MinimapZoomOut.text:SetText("-")
-		MinimapZoomOut.text:FontTemplate(nil, 22)
-		MinimapZoomOut:Size(40)
-		MinimapZoomOut:SetFrameStrata("MEDIUM")
-	end
 end
 
 local function MinimapPostDrag()
@@ -478,10 +432,12 @@ end
 function M:Initialize()
 	menuFrame:SetTemplate("Transparent", true)
 	self:UpdateSettings()
-	if not E.private.general.minimap.enable then 
+	if not E.private.general.minimap.enable then
 		Minimap:SetMaskTexture("Textures\\MinimapMask")
 		return
 	end
+
+	self.Initialized = true
 
 	--Support for other mods
 	function GetMinimapShape()
@@ -489,7 +445,7 @@ function M:Initialize()
 	end
 
 	local mmholder = CreateFrame("Frame", "MMHolder", Minimap)
-	mmholder:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -3, -3)
+	mmholder:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -4, -4)
 	mmholder:Width((Minimap:GetWidth() + 29) + E.RBRWidth)
 	mmholder:Height(Minimap:GetHeight() + 53)
 
@@ -524,6 +480,9 @@ function M:Initialize()
 	MinimapBorder:Hide()
 	MinimapBorderTop:Hide()
 
+	MinimapZoomIn:Hide()
+	MinimapZoomOut:Hide()
+
 	MiniMapVoiceChatFrame:Hide()
 
 	MinimapNorthTag:Kill()
@@ -533,7 +492,7 @@ function M:Initialize()
 	MiniMapTracking:Kill()
 
 	MiniMapMailBorder:Hide()
-	MiniMapMailIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\mail")
+	MiniMapMailIcon:SetTexture(E.Media.Textures.Mail)
 
 	MiniMapBattlefieldBorder:Hide()
 

@@ -1,17 +1,19 @@
-local E, L, DF = unpack(select(2, ...))
-local B = E:GetModule('Blizzard');
+local E, L, V, P, G = unpack(select(2, ...))
+local B = E:GetModule("Blizzard")
 
-local _G = _G;
+local _G = _G
+local hooksecurefunc = hooksecurefunc
 
-function B:PositionDurabilityFrame()
-	DurabilityFrame:SetFrameStrata("HIGH");
-
-	local function SetPosition(self, _, parent)
-		if((parent == "MinimapCluster") or (parent == _G["MinimapCluster"])) then
-			self:ClearAllPoints();
-			self:Point("RIGHT", Minimap, "RIGHT");
-			self:SetScale(0.6);
-		end
+local function SetPosition(frame, _, parent)
+	if parent == "MinimapCluster" or parent == _G["MinimapCluster"] then
+		frame:ClearAllPoints()
+		frame:Point("RIGHT", Minimap, "RIGHT")
+		frame:SetScale(0.6)
 	end
-	hooksecurefunc(DurabilityFrame, "SetPoint", SetPosition);
+end
+	
+function B:PositionDurabilityFrame()
+	DurabilityFrame:SetFrameStrata("HIGH")
+
+	hooksecurefunc(DurabilityFrame, "SetPoint", SetPosition)
 end

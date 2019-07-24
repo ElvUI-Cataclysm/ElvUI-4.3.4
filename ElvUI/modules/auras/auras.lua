@@ -1,6 +1,6 @@
 local E, L, V, P, G = unpack(select(2, ...))
-local A = E:NewModule("Auras", "AceHook-3.0", "AceEvent-3.0")
-local LSM = LibStub("LibSharedMedia-3.0")
+local A = E:GetModule("Auras")
+local LSM = E.Libs.LSM
 
 local _G = _G
 local select, unpack = select, unpack
@@ -17,7 +17,7 @@ local UnitAura = UnitAura
 local GetItemQualityColor = GetItemQualityColor
 local GetInventoryItemQuality = GetInventoryItemQuality
 
-local Masque = LibStub("Masque", true)
+local Masque = E.Libs.Masque
 local MasqueGroupBuffs = Masque and Masque:Group("ElvUI", "Buffs")
 local MasqueGroupDebuffs = Masque and Masque:Group("ElvUI", "Debuffs")
 
@@ -82,7 +82,6 @@ function A:UpdateTime(elapsed)
 
 		local value1, formatID, nextUpdate, value2 = E:GetTimeInfo(self.timeLeft, timeThreshold, hhmmThreshold, mmssThreshold)
 		self.nextUpdate = nextUpdate
-
 		self.time:SetFormattedText(format("%s%s|r", timeColors[formatID], E.TimeFormats[formatID][1]), value1, value2)
 
 		if self.timeLeft > E.db.auras.fadeThreshold then
@@ -131,12 +130,12 @@ function A:CreateIcon(button)
 		button.CooldownOverride = "auras"
 		button.isRegisteredCooldown = true
 
-		if not E.RegisteredCooldowns["auras"] then E.RegisteredCooldowns["auras"] = {} end
-		tinsert(E.RegisteredCooldowns["auras"], button)
+		if not E.RegisteredCooldowns.auras then E.RegisteredCooldowns.auras = {} end
+		tinsert(E.RegisteredCooldowns.auras, button)
 	end
 
 	if button.timerOptions and button.timerOptions.fontOptions and button.timerOptions.fontOptions.enable then
-		button.time:FontTemplate(E.LSM:Fetch("font", button.timerOptions.fontOptions.font), button.timerOptions.fontOptions.fontSize, button.timerOptions.fontOptions.fontOutline)
+		button.time:FontTemplate(LSM:Fetch("font", button.timerOptions.fontOptions.font), button.timerOptions.fontOptions.fontSize, button.timerOptions.fontOptions.fontOutline)
 	else
 		button.time:FontTemplate(font, db.durationFontSize, self.db.fontOutline)
 	end
@@ -166,7 +165,7 @@ function A:CreateIcon(button)
 		if MasqueGroupBuffs and E.private.auras.masque.buffs then
 			MasqueGroupBuffs:AddButton(button, ButtonData)
 			if button.__MSQ_BaseFrame then
-				button.__MSQ_BaseFrame:SetFrameLevel(2)
+				button.__MSQ_BaseFrame:SetFrameLevel(2) --Lower the framelevel to fix issue with buttons created during combat
 			end
 			MasqueGroupBuffs:ReSkin()
 		else
@@ -176,7 +175,7 @@ function A:CreateIcon(button)
 		if MasqueGroupDebuffs and E.private.auras.masque.debuffs then
 			MasqueGroupDebuffs:AddButton(button, ButtonData)
 			if button.__MSQ_BaseFrame then
-				button.__MSQ_BaseFrame:SetFrameLevel(2)
+				button.__MSQ_BaseFrame:SetFrameLevel(2) --Lower the framelevel to fix issue with buttons created during combat
 			end
 			MasqueGroupDebuffs:ReSkin()
 		else
@@ -208,7 +207,7 @@ function A:UpdateAura(button, index)
 			button:SetScript("OnUpdate", nil)
 		end
 
-		if count > 1 then
+		if count and (count > 1) then
 			button.count:SetText(count)
 		else
 			button.count:SetText("")
@@ -229,15 +228,16 @@ function A:CooldownText_Update(button)
 	if not button then return end
 
 	-- cooldown override settings
-	button.alwaysEnabled = true
+	button.forceEnabled = true
+
 	if not button.timerOptions then
 		button.timerOptions = {}
 	end
 
 	button.timerOptions.reverseToggle = self.db.cooldown.reverse
 
-	if self.db.cooldown.override and E.TimeColors["auras"] then
-		button.timerOptions.timeColors, button.timerOptions.timeThreshold = E.TimeColors["auras"], self.db.cooldown.threshold
+	if self.db.cooldown.override and E.TimeColors.auras then
+		button.timerOptions.timeColors, button.timerOptions.timeThreshold = E.TimeColors.auras, self.db.cooldown.threshold
 	else
 		button.timerOptions.timeColors, button.timerOptions.timeThreshold = nil, nil
 	end
@@ -301,10 +301,9 @@ function A:UpdateHeader(header)
 
 	local index = 1
 	local child = select(index, header:GetChildren())
-
 	while child do
 		if (floor(child:GetWidth() * 100 + 0.5) / 100) ~= db.size then
-			child:SetSize(db.size, db.size)
+			child:Size(db.size, db.size)
 		end
 
 		child.auraType = auraType -- used to update cooldown text
@@ -422,8 +421,8 @@ function A:UpdateWeaponText(button, expiration)
 		duration:SetText("")
 	else
 		local timeColors, timeThreshold = E.TimeColors, E.db.cooldown.threshold
-		if E.db.auras.cooldown.override and E.TimeColors["auras"] then
-			timeColors, timeThreshold = E.TimeColors["auras"], E.db.auras.cooldown.threshold
+		if E.db.auras.cooldown.override and E.TimeColors.auras then
+			timeColors, timeThreshold = E.TimeColors.auras, E.db.auras.cooldown.threshold
 		end
 		if not timeThreshold then
 			timeThreshold = E.TimeThreshold
@@ -460,6 +459,7 @@ function A:Initialize()
 
 	if not E.private.auras.enable then return end
 
+	self.Initialized = true
 	self.db = E.db.auras
 
 	self.BuffFrame = self:CreateAuraHeader("HELPFUL")

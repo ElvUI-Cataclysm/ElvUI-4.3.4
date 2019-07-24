@@ -44,15 +44,15 @@ local function LoadSkin()
 
 	GuildXPBar:CreateBackdrop("Default")
 	GuildXPBar.backdrop:Point("TOPLEFT", 0, 1)
-	GuildXPBar.backdrop:Point("BOTTOMRIGHT", -1, 4)
-	GuildXPBar.progress:SetTexture(E["media"].normTex)
+	GuildXPBar.backdrop:Point("BOTTOMRIGHT", -1, 5)
+	GuildXPBar.progress:SetTexture(E.media.normTex)
 
 	-- Faction Bar
 	GuildFactionFrame:SetTemplate("Default")
 
 	GuildFactionBar:StripTextures()
 	GuildFactionBar:SetAllPoints(GuildFactionFrame)
-	GuildFactionBar.progress:SetTexture(E["media"].normTex)
+	GuildFactionBar.progress:SetTexture(E.media.normTex)
 
 	-- Guild Latest/Next Perks/Updates
 	GuildNewPerksFrame:StripTextures()
@@ -119,7 +119,7 @@ local function LoadSkin()
 							self.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
 							self.name:SetTextColor(GetItemQualityColor(quality))
 						else
-							self:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+							self:SetBackdropBorderColor(unpack(E.media.bordercolor))
 							self.name:SetTextColor(1, 1, 1)
 						end
 					end
@@ -142,7 +142,7 @@ local function LoadSkin()
 		button.icon:SetParent(button.backdrop)
 		button.icon:Size(18)
 
-		_G["GuildRosterContainerButton"..i.."BarTexture"]:SetTexture(E["media"].normTex)
+		_G["GuildRosterContainerButton"..i.."BarTexture"]:SetTexture(E.media.normTex)
 		S:HandleButton(_G["GuildRosterContainerButton"..i.."HeaderButton"], true)
 	end
 
@@ -327,17 +327,17 @@ local function LoadSkin()
 		button.fullComment:SetParent(button.backdrop)
 		button.timeLeft:SetParent(button.backdrop)
 
-		button.tankTex:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\tank.tga")
+		button.tankTex:SetTexture(E.Media.Textures.Tank)
 		button.tankTex:SetTexCoord(unpack(E.TexCoords))
 		button.tankTex:Size(20)
 		button.tankTex:SetParent(button.backdrop)
 
-		button.healerTex:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\healer.tga")
+		button.healerTex:SetTexture(E.Media.Textures.Healer)
 		button.healerTex:SetTexCoord(unpack(E.TexCoords))
 		button.healerTex:Size(18)
 		button.healerTex:SetParent(button.backdrop)
 
-		button.damageTex:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\dps.tga")
+		button.damageTex:SetTexture(E.Media.Textures.DPS)
 		button.damageTex:SetTexCoord(unpack(E.TexCoords))
 		button.damageTex:Size(16)
 		button.damageTex:SetParent(button.backdrop)
@@ -424,6 +424,10 @@ local function LoadSkin()
 	-- Guild Log
 	S:HandleScrollBar(GuildLogScrollFrameScrollBar, 4)
 
+	GuildLogScrollFrameScrollBar:ClearAllPoints()
+	GuildLogScrollFrameScrollBar:Point("TOPLEFT", GuildLogScrollFrame, "TOPRIGHT", 26, -13)
+	GuildLogScrollFrameScrollBar:Point("BOTTOMRIGHT", GuildLogScrollFrame, "BOTTOMRIGHT", 0, 12)
+
 	GuildLogFrame:StripTextures()
 	GuildLogFrame:CreateBackdrop("Transparent")
 	GuildLogFrame.backdrop:Point("TOPLEFT", 15, 0)
@@ -443,7 +447,7 @@ local function LoadSkin()
 			child:Point("TOPRIGHT", -10, 5)
 		elseif child:GetName() == "GuildLogFrameCloseButton" then
 			S:HandleButton(child, true)
-			child:Point("BOTTOMRIGHT", -28, 16)
+			child:Point("BOTTOMRIGHT", -25, 16)
 		end
 	end
 

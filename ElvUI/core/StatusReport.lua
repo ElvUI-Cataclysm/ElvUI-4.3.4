@@ -1,6 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...))
-
-local max = math.max
+local Skins = E:GetModule("Skins")
 
 local CreateFrame = CreateFrame
 local GetAddOnInfo = GetAddOnInfo
@@ -18,19 +17,12 @@ local function AreOtherAddOnsEnabled()
 	local name, loadable, reason, _
 	for i = 1, GetNumAddOns() do
 		name, _, _, loadable, reason = GetAddOnInfo(i)
-		if ((name ~= "ElvUI" and name ~= "ElvUI_Config") and (loadable or (not loadable and reason == "DEMAND_LOADED"))) then --Loaded or load on demand
+		if (name ~= "ElvUI" and name ~= "ElvUI_OptionsUI") and (loadable or (not loadable and reason == "DEMAND_LOADED")) then --Loaded or load on demand
 			return "Yes"
 		end
 	end
 
 	return "No"
-end
-
-local function GetUiScale()
-	local uiScale = GetCVar("uiScale")
-	local minUiScale = E.global.general.minUiScale
-
-	return max(uiScale, minUiScale)
 end
 
 local function GetDisplayMode()
@@ -120,7 +112,7 @@ function E:CreateStatusFrame()
 	local function CreateContentLines(num, parent, anchorTo)
 		local content = CreateFrame("Frame", nil, parent)
 		content:Size(240, (num * 20) + ((num - 1) * 5)) --20 height and 5 spacing
-		content:Point("TOP", anchorTo, "BOTTOM",0 , -5)
+		content:Point("TOP", anchorTo, "BOTTOM", 0, -5)
 		for i = 1, num do
 			local line = CreateFrame("Frame", nil, content)
 			line:Size(240, 20)
@@ -164,7 +156,7 @@ function E:CreateStatusFrame()
 	StatusFrame.TitleLogoFrame:Size(128, 64)
 	StatusFrame.TitleLogoFrame:Point("CENTER", StatusFrame, "TOP", 0, 0)
 	StatusFrame.TitleLogoFrame.Texture = StatusFrame.TitleLogoFrame:CreateTexture(nil, "ARTWORK")
-	StatusFrame.TitleLogoFrame.Texture:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\logo.tga")
+	StatusFrame.TitleLogoFrame.Texture:SetTexture(E.Media.Textures.Logo)
 	StatusFrame.TitleLogoFrame.Texture:SetAllPoints()
 
 	--Sections
@@ -190,8 +182,8 @@ function E:CreateStatusFrame()
 	--Content lines
 	StatusFrame.Section1.Content.Line1.Text:SetFormattedText("Version of ElvUI: |cff4beb2c%s|r", E.version)
 	StatusFrame.Section1.Content.Line2.Text:SetFormattedText("Other AddOns Enabled: |cff4beb2c%s|r", AreOtherAddOnsEnabled())
-	StatusFrame.Section1.Content.Line3.Text:SetFormattedText("Auto Scale Enabled: |cff4beb2c%s|r", (E.global.general.autoScale == true and "Yes" or "No"))
-	StatusFrame.Section1.Content.Line4.Text:SetFormattedText("UI Scale Is: |cff4beb2c%.4f|r", GetUiScale())
+	StatusFrame.Section1.Content.Line3.Text:SetFormattedText("Recommended Scale: |cff4beb2c%s|r", E:PixelClip(E:PixelBestSize()))
+	StatusFrame.Section1.Content.Line4.Text:SetFormattedText("UI Scale Is: |cff4beb2c%s|r", E.global.general.UIScale)
 
 	StatusFrame.Section2.Content.Line1.Text:SetFormattedText("Version of WoW: |cff4beb2c%s (build %s)|r", E.wowpatch, E.wowbuild)
 	StatusFrame.Section2.Content.Line2.Text:SetFormattedText("Client Language: |cff4beb2c%s|r", GetLocale())
@@ -213,14 +205,14 @@ function E:CreateStatusFrame()
 	StatusFrame.Section4.Content.Button1:Point("LEFT", StatusFrame.Section4.Content, "LEFT")
 	StatusFrame.Section4.Content.Button1:SetText("Forum")
 	StatusFrame.Section4.Content.Button1:SetButtonState("DISABLED")
-	E:GetModule("Skins"):HandleButton(StatusFrame.Section4.Content.Button1, true)
+	Skins:HandleButton(StatusFrame.Section4.Content.Button1, true)
 
 	StatusFrame.Section4.Content.Button2 = CreateFrame("Button", nil, StatusFrame.Section4.Content, "UIPanelButtonTemplate")
 	StatusFrame.Section4.Content.Button2:Size(100, 25)
 	StatusFrame.Section4.Content.Button2:Point("RIGHT", StatusFrame.Section4.Content, "RIGHT")
 	StatusFrame.Section4.Content.Button2:SetText("Ticket")
 	StatusFrame.Section4.Content.Button2:SetButtonState("DISABLED")
-	E:GetModule("Skins"):HandleButton(StatusFrame.Section4.Content.Button2, true)
+	Skins:HandleButton(StatusFrame.Section4.Content.Button2, true)
 
 	E.StatusFrame = StatusFrame
 end

@@ -75,42 +75,42 @@ function M:AddChatBubbleName(chatBubble, guid, name)
 	if guid ~= nil and guid ~= "" then
 		local _, class = GetPlayerInfoByGUID(guid)
 		if class then
-			color = (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] and E:RGBToHex(CUSTOM_CLASS_COLORS[class].r, CUSTOM_CLASS_COLORS[class].g, CUSTOM_CLASS_COLORS[class].b)) or (RAID_CLASS_COLORS[class] and E:RGBToHex(RAID_CLASS_COLORS[class].r, RAID_CLASS_COLORS[class].g, RAID_CLASS_COLORS[class].b))
+			color = (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] and CUSTOM_CLASS_COLORS[class].colorStr) or (RAID_CLASS_COLORS[class] and RAID_CLASS_COLORS[class].colorStr)
 		end
 	else
 		color = defaultColor
 	end
 
-	chatBubble.Name:SetFormattedText("%s%s|r", color, name)
+	chatBubble.Name:SetFormattedText("|c%s%s|r", color, name)
 end
 
 function M:SkinBubble(frame)
 	local mult = E.mult * UIParent:GetScale()
 	for i = 1, frame:GetNumRegions() do
 		local region = select(i, frame:GetRegions())
-		if region:GetObjectType() == "Texture" then
+		if region:IsObjectType("Texture") then
 			region:SetTexture(nil)
-		elseif region:GetObjectType() == "FontString" then
+		elseif region:IsObjectType("FontString") then
 			frame.text = region
 		end
 	end
 
-	local name = frame:CreateFontString(nil, "OVERLAY")
+	local name = frame:CreateFontString(nil, "BORDER")
 	if E.private.general.chatBubbles == "backdrop" then
-		name:SetPoint("TOPLEFT", 5, 19)
+		name:SetPoint("TOPLEFT", 5, E.PixelMode and 15 or 18)
 	else
 		name:SetPoint("TOPLEFT", 5, 6)
 	end
 	name:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", -5, -5)
 	name:SetJustifyH("LEFT")
-	name:FontTemplate(E.LSM:Fetch("font", E.private.general.chatBubbleFont), E.private.general.chatBubbleFontSize * 0.85, E.private.general.chatBubbleFontOutline)
+	name:FontTemplate(E.Libs.LSM:Fetch("font", E.private.general.chatBubbleFont), E.private.general.chatBubbleFontSize * 0.85, E.private.general.chatBubbleFontOutline)
 	frame.Name = name
 
 	if E.private.general.chatBubbles == "backdrop" then
 		if E.PixelMode then
 			frame:SetBackdrop({
-				bgFile = E["media"].blankTex,
-				edgeFile = E["media"].blankTex,
+				bgFile = E.media.blankTex,
+				edgeFile = E.media.blankTex,
 				tile = false, tileSize = 0, edgeSize = mult,
 				insets = {left = 0, right = 0, top = 0, bottom = 0}
 			})
@@ -183,18 +183,18 @@ function M:SkinBubble(frame)
 			frame.borderright.backdrop:SetTexture(0, 0, 0)
 			frame.borderright.backdrop:SetDrawLayer("ARTWORK", -7)
 		end
-		frame.text:FontTemplate(E.LSM:Fetch("font", E.private.general.chatBubbleFont), E.private.general.chatBubbleFontSize, E.private.general.chatBubbleFontOutline)
+		frame.text:FontTemplate(E.Libs.LSM:Fetch("font", E.private.general.chatBubbleFont), E.private.general.chatBubbleFontSize, E.private.general.chatBubbleFontOutline)
 	elseif E.private.general.chatBubbles == "backdrop_noborder" then
 		frame:SetBackdrop(nil)
 		frame.backdrop = frame:CreateTexture(nil, "ARTWORK")
 		frame.backdrop:SetInside(frame, 4, 4)
 		frame.backdrop:SetTexture(unpack(E.media.backdropfadecolor))
 		frame.backdrop:SetDrawLayer("ARTWORK", -8)
-		frame.text:FontTemplate(E.LSM:Fetch("font", E.private.general.chatBubbleFont), E.private.general.chatBubbleFontSize, E.private.general.chatBubbleFontOutline)
+		frame.text:FontTemplate(E.Libs.LSM:Fetch("font", E.private.general.chatBubbleFont), E.private.general.chatBubbleFontSize, E.private.general.chatBubbleFontOutline)
 		frame:SetClampedToScreen(false)
 	elseif E.private.general.chatBubbles == "nobackdrop" then
 		frame:SetBackdrop(nil)
-		frame.text:FontTemplate(E.LSM:Fetch("font", E.private.general.chatBubbleFont), E.private.general.chatBubbleFontSize, E.private.general.chatBubbleFontOutline)
+		frame.text:FontTemplate(E.Libs.LSM:Fetch("font", E.private.general.chatBubbleFont), E.private.general.chatBubbleFontSize, E.private.general.chatBubbleFontOutline)
 		frame:SetClampedToScreen(false)
 		frame.Name:Hide()
 	end
@@ -225,6 +225,7 @@ end
 
 local numChildren = 0
 local function ChatBubble_OnUpdate(self, elapsed)
+	if not M.BubbleFrame then return end
 	if not M.BubbleFrame.lastupdate then
 		M.BubbleFrame.lastupdate = -2 -- wait 2 seconds before hooking frames
 	end
@@ -237,7 +238,7 @@ local function ChatBubble_OnUpdate(self, elapsed)
 	if count ~= numChildren then
 		for i = numChildren + 1, count do
 			local frame = select(i, WorldGetChildren(WorldFrame))
-				
+
 			if M:IsChatBubble(frame) then
 				if not frame.isSkinnedElvUI then
 					M:SkinBubble(frame)

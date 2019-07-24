@@ -38,7 +38,7 @@ local function OnEvent(self)
 		current, max = GetInventoryItemDurability(slot)
 		if current then
 			invDurability[value] = (current / max) * 100
-			if(((current / max) * 100) < totalDurability) then
+			if ((current / max) * 100) < totalDurability then
 				totalDurability = (current / max) * 100
 			end
 		end
@@ -68,6 +68,6 @@ local function ValueColorUpdate(hex)
 		OnEvent(lastPanel, "ELVUI_COLOR_UPDATE")
 	end
 end
-E["valueColorUpdateFuncs"][ValueColorUpdate] = true
+E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
 DT:RegisterDatatext("Durability", {"PLAYER_ENTERING_WORLD", "UPDATE_INVENTORY_DURABILITY", "MERCHANT_SHOW"}, OnEvent, nil, OnClick, OnEnter, nil, DURABILITY)

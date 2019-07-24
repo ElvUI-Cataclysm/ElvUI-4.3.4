@@ -50,11 +50,11 @@ local function LoadSkin()
 	LFDQueueFrameCapBar.backdrop:Point("TOPLEFT", LFDQueueFrameCapBar, "TOPLEFT", -1, -2)
 	LFDQueueFrameCapBar.backdrop:Point("BOTTOMRIGHT", LFDQueueFrameCapBar, "BOTTOMRIGHT", 1, 2)
 
-	LFDQueueFrameCapBarProgress:SetTexture(E["media"].normTex)
+	LFDQueueFrameCapBarProgress:SetTexture(E.media.normTex)
 
 	for i = 1, 2 do
 		_G["LFDQueueFrameCapBarCap"..i.."Marker"]:Kill()
-		_G["LFDQueueFrameCapBarCap"..i]:SetTexture(E["media"].normTex)
+		_G["LFDQueueFrameCapBarCap"..i]:SetTexture(E.media.normTex)
 	end
 
 	-- LFD Role Icons
@@ -159,7 +159,7 @@ local function LoadSkin()
 		button.enableButton:CreateBackdrop("Default")
 		button.enableButton.backdrop:SetInside(nil, 4, 4)
 
-		button.expandOrCollapseButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		button.expandOrCollapseButton:SetNormalTexture(E.Media.Textures.PlusMinusButton)
 		button.expandOrCollapseButton.SetNormalTexture = E.noop
 		button.expandOrCollapseButton:SetHighlightTexture(nil)
 		button.expandOrCollapseButton:GetNormalTexture():Size(14)
@@ -256,21 +256,21 @@ local function LoadSkin()
 		local currentIcon = 1
 		if tank then
 			local icon = _G["LFGSearchStatusRoleIcon"..currentIcon]
-			icon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\tank.tga")
+			icon:SetTexture(E.Media.Textures.Tank)
 			icon:SetTexCoord(unpack(E.TexCoords))
 			icon:Size(22)
 			currentIcon = currentIcon + 1
 		end
 		if healer then
 			local icon = _G["LFGSearchStatusRoleIcon"..currentIcon]
-			icon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\healer.tga")
+			icon:SetTexture(E.Media.Textures.Healer)
 			icon:SetTexCoord(unpack(E.TexCoords))
 			icon:Size(20)
 			currentIcon = currentIcon + 1
 		end
 		if damage then
 			local icon = _G["LFGSearchStatusRoleIcon"..currentIcon]
-			icon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\dps.tga")
+			icon:SetTexture(E.Media.Textures.DPS)
 			icon:SetTexCoord(unpack(E.TexCoords))
 			icon:Size(17)
 			currentIcon = currentIcon + 1
@@ -287,9 +287,7 @@ local function LoadSkin()
 	S:HandleButton(LFGDungeonReadyDialogLeaveQueueButton)
 	S:HandleButton(LFGDungeonReadyDialogEnterDungeonButton)
 
-	S:HandleCloseButton(LFGDungeonReadyDialogCloseButton)
-	LFGDungeonReadyDialogCloseButton.text:SetText("-")
-	LFGDungeonReadyDialogCloseButton.text:FontTemplate(nil, 22)
+	S:HandleArrowButton(LFGDungeonReadyDialogCloseButton, true)
 
 	hooksecurefunc("LFGDungeonReadyDialog_UpdateRewards", function()
 		for i = 1, LFG_ROLE_NUM_SHORTAGE_TYPES do
@@ -347,7 +345,7 @@ local function LoadSkin()
 			roleButton:CreateBackdrop("Default")
 			roleButton.backdrop:Point("TOPLEFT", 3, -3)
 			roleButton.backdrop:Point("BOTTOMRIGHT", -3, 3)
-			roleButton.texture:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\UI-LFG-ICON-ROLES")
+			roleButton.texture:SetTexture(E.Media.Textures.RoleIcons)
 			roleButton.texture:Point("TOPLEFT", roleButton.backdrop, "TOPLEFT", -8, 6)
 			roleButton.texture:Point("BOTTOMRIGHT", roleButton.backdrop, "BOTTOMRIGHT", 8, -10)
 			roleButton.statusIcon:SetDrawLayer("OVERLAY", 2)
@@ -371,7 +369,7 @@ local function LoadSkin()
 		tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
 	end
 
-	for i = 1, 3 do 
+	for i = 1, 3 do
 		S:HandleTab(_G["RaidParentFrameTab"..i])
 	end
 
@@ -403,8 +401,8 @@ local function LoadSkin()
 			icon:SetParent(button.backdrop)
 			icon:SetDrawLayer("OVERLAY")
 
-			if count then 
-				count:SetParent(button.backdrop) 
+			if count then
+				count:SetParent(button.backdrop)
 				count:SetDrawLayer("OVERLAY")
 			end
 		end
@@ -493,7 +491,7 @@ local function LoadSkin()
 		local button = _G["LFRQueueFrameSpecificListButton"..i]
 		S:HandleCheckBox(button.enableButton)
 
-		button.expandOrCollapseButton:SetNormalTexture("Interface\\AddOns\\ElvUI\\media\\textures\\PlusMinusButton")
+		button.expandOrCollapseButton:SetNormalTexture(E.Media.Textures.PlusMinusButton)
 		button.expandOrCollapseButton.SetNormalTexture = E.noop
 		button.expandOrCollapseButton:SetHighlightTexture(nil)
 		button.expandOrCollapseButton:GetNormalTexture():Size(14)
@@ -551,12 +549,12 @@ local function LoadSkin()
 		_G[button]:StyleButton()
 	end
 
-	-- Desaturate/Incentive Scripts (Role Icons)
+	-- Incentive
 	hooksecurefunc("LFG_SetRoleIconIncentive", function(roleButton, incentiveIndex)
 		if incentiveIndex then
 			roleButton.backdrop:SetBackdropBorderColor(1, 0.80, 0.10)
 		else
-			roleButton.backdrop:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+			roleButton.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
 	end)
 end

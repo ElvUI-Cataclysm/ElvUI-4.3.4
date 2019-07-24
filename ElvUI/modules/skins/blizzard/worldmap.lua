@@ -24,6 +24,11 @@ local function LoadSkin()
 
 	WorldMapQuestDetailScrollChildFrame:SetScale(1)
 
+	S:HandleScrollBar(WorldMapQuestDetailScrollFrameScrollBar, 4)
+	WorldMapQuestDetailScrollFrameScrollBar:ClearAllPoints()
+	WorldMapQuestDetailScrollFrameScrollBar:Point("TOPRIGHT", WorldMapQuestDetailScrollFrame, "TOPRIGHT", 22, -16)
+	WorldMapQuestDetailScrollFrameScrollBar:Point("BOTTOMRIGHT", WorldMapQuestDetailScrollFrame, "BOTTOMRIGHT", 0, 14)
+
 	WorldMapQuestRewardScrollFrame:Width(340)
 	WorldMapQuestRewardScrollFrame:Point("LEFT", WorldMapQuestDetailScrollFrame, "RIGHT", 8, 0)
 	WorldMapQuestRewardScrollFrame:CreateBackdrop("Transparent")
@@ -33,26 +38,68 @@ local function LoadSkin()
 	WorldMapQuestRewardScrollFrame.backdrop:SetFrameLevel(WorldMapQuestRewardScrollFrame:GetFrameLevel())
 
 	WorldMapQuestRewardScrollChildFrame:SetScale(1)
+	S:HandleScrollBar(WorldMapQuestRewardScrollFrameScrollBar, 4)
+	WorldMapQuestRewardScrollFrameScrollBar:ClearAllPoints()
+	WorldMapQuestRewardScrollFrameScrollBar:Point("TOPRIGHT", WorldMapQuestRewardScrollFrame, "TOPRIGHT", 21, -16)
+	WorldMapQuestRewardScrollFrameScrollBar:Point("BOTTOMRIGHT", WorldMapQuestRewardScrollFrame, "BOTTOMRIGHT", 0, 14)
 
 	WorldMapQuestScrollFrame:CreateBackdrop("Transparent")
-	WorldMapQuestScrollFrame.backdrop:Point("TOPLEFT", 0, 2)
+	WorldMapQuestScrollFrame.backdrop:Point("TOPLEFT", -1, 1)
 	WorldMapQuestScrollFrame.backdrop:Point("BOTTOMRIGHT", 25, -3)
 	WorldMapQuestScrollFrame.backdrop:SetFrameLevel(WorldMapQuestScrollFrame:GetFrameLevel())
 
 	S:HandleScrollBar(WorldMapQuestScrollFrameScrollBar)
-	S:HandleScrollBar(WorldMapQuestDetailScrollFrameScrollBar, 4)
-	S:HandleScrollBar(WorldMapQuestRewardScrollFrameScrollBar, 4)
+	WorldMapQuestScrollFrameScrollBar:ClearAllPoints()
+	WorldMapQuestScrollFrameScrollBar:Point("TOPRIGHT", WorldMapQuestScrollFrame, "TOPRIGHT", 21, -20)
+	WorldMapQuestScrollFrameScrollBar:Point("BOTTOMRIGHT", WorldMapQuestScrollFrame, "BOTTOMRIGHT", 0, 18)
 
-	WorldMapQuestSelectBar:SetInside()
-	WorldMapQuestHighlightBar:SetInside()
+	WorldMapQuestSelectedFrame:StripTextures()
+
+	WorldMapQuestSelectedFrame.Left = WorldMapQuestSelectedFrame:CreateTexture(nil, "ARTWORK")
+	WorldMapQuestSelectedFrame.Left:SetPoint("LEFT", WorldMapQuestSelectedFrame, "CENTER")
+	WorldMapQuestSelectedFrame.Left:SetTexture(E.media.blankTex)
+
+	WorldMapQuestSelectedFrame.Right = WorldMapQuestSelectedFrame:CreateTexture(nil, "ARTWORK")
+	WorldMapQuestSelectedFrame.Right:SetPoint("RIGHT", WorldMapQuestSelectedFrame, "CENTER")
+	WorldMapQuestSelectedFrame.Right:SetTexture(E.media.blankTex)
+
+	hooksecurefunc(WorldMapQuestSelectBar, "SetVertexColor", function(_, r, g, b)
+		WorldMapQuestSelectedFrame.Left:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
+		WorldMapQuestSelectedFrame.Right:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
+	end)
+
+	WorldMapQuestSelectedFrame:HookScript("OnUpdate", function()
+		local height = WorldMapQuestSelectBar:GetHeight()
+
+		WorldMapQuestSelectedFrame.Left:Size(140, height)
+		WorldMapQuestSelectedFrame.Right:Size(140, height)
+	end)
+
+	WorldMapQuestHighlightedFrame:StripTextures()
+	WorldMapQuestHighlightedFrame.Left = WorldMapQuestHighlightedFrame:CreateTexture(nil, "ARTWORK")
+	WorldMapQuestHighlightedFrame.Left:SetPoint("LEFT", WorldMapQuestHighlightedFrame, "CENTER")
+	WorldMapQuestHighlightedFrame.Left:SetTexture(E.media.blankTex)
+
+	WorldMapQuestHighlightedFrame.Right = WorldMapQuestHighlightedFrame:CreateTexture(nil, "ARTWORK")
+	WorldMapQuestHighlightedFrame.Right:SetPoint("RIGHT", WorldMapQuestHighlightedFrame, "CENTER")
+	WorldMapQuestHighlightedFrame.Right:SetTexture(E.media.blankTex)
+
+	hooksecurefunc(WorldMapQuestHighlightBar, "SetVertexColor", function(_, r, g, b)
+		WorldMapQuestHighlightedFrame.Left:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
+		WorldMapQuestHighlightedFrame.Right:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
+	end)
+
+	WorldMapQuestHighlightedFrame:HookScript("OnUpdate", function()
+		local height = WorldMapQuestHighlightBar:GetHeight()
+
+		WorldMapQuestHighlightedFrame.Left:Size(140, height)
+		WorldMapQuestHighlightedFrame.Right:Size(140, height)
+	end)
 
 	S:HandleCloseButton(WorldMapFrameCloseButton)
 
-	S:HandleCloseButton(WorldMapFrameSizeDownButton, nil, "-")
-	WorldMapFrameSizeDownButton.text:Point("CENTER")
-
-	S:HandleCloseButton(WorldMapFrameSizeUpButton, nil, "+")
-	WorldMapFrameSizeUpButton.text:Point("CENTER", 0, -1)
+	S:HandleArrowButton(WorldMapFrameSizeUpButton)
+	S:HandleArrowButton(WorldMapFrameSizeDownButton, true)
 
 	S:HandleDropDownBox(WorldMapLevelDropDown)
 	S:HandleDropDownBox(WorldMapZoneMinimapDropDown)
@@ -61,15 +108,13 @@ local function LoadSkin()
 	S:HandleDropDownBox(WorldMapShowDropDown)
 
 	S:HandleButton(WorldMapZoomOutButton)
-	WorldMapZoomOutButton:Point("LEFT", WorldMapZoneDropDown, "RIGHT", 0, 4)
+	WorldMapZoomOutButton:Point("LEFT", WorldMapZoneDropDown, "RIGHT", 0, 0)
 
 	S:HandleNextPrevButton(WorldMapLevelUpButton)
-	SquareButton_SetIcon(WorldMapLevelUpButton, "UP")
 	WorldMapLevelUpButton:Point("TOPLEFT", WorldMapLevelDropDown, "TOPRIGHT", -2, 6)
 	WorldMapLevelUpButton:Size(16)
 
 	S:HandleNextPrevButton(WorldMapLevelDownButton)
-	SquareButton_SetIcon(WorldMapLevelDownButton, "DOWN")
 	WorldMapLevelDownButton:Point("BOTTOMLEFT", WorldMapLevelDropDown, "BOTTOMRIGHT", -2, 3)
 	WorldMapLevelDownButton:Size(16)
 

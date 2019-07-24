@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(select(2, ...))
-local mod = E:GetModule("NamePlates")
+local NP = E:GetModule("NamePlates")
 
-function mod:UpdateElement_Elite(frame)
+function NP:UpdateElement_Elite(frame)
 	if not self.db.units[frame.UnitType].eliteIcon then return end
 
 	local icon = frame.Elite
@@ -22,7 +22,7 @@ function mod:UpdateElement_Elite(frame)
 	end
 end
 
-function mod:ConfigureElement_Elite(frame)
+function NP:ConfigureElement_Elite(frame)
 	if not self.db.units[frame.UnitType].eliteIcon then return end
 
 	local icon = frame.Elite
@@ -41,9 +41,9 @@ function mod:ConfigureElement_Elite(frame)
 	end
 end
 
-function mod:ConstructElement_Elite(frame)
+function NP:ConstructElement_Elite(frame)
 	local icon = frame.HealthBar:CreateTexture(nil, "OVERLAY")
-	icon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\nameplates")
+	icon:SetTexture(E.Media.Textures.Nameplates)
 	icon:Hide()
 
 	return icon

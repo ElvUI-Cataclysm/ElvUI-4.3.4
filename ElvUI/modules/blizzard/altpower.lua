@@ -50,20 +50,22 @@ function B:SetAltPowerBarText(name, value, max, percent)
 end
 
 function B:PositionAltPowerBar()
-	local holder = CreateFrame("Frame", "AltPowerBarHolder", UIParent)
-	holder:Point("TOP", E.UIParent, "TOP", 0, -160)
+	local holder = CreateFrame("Frame", "AltPowerBarHolder", E.UIParent)
+	holder:Point("TOP", E.UIParent, "TOP", 0, -18)
 	holder:Size(128, 50)
 
 	PlayerPowerBarAlt:ClearAllPoints()
 	PlayerPowerBarAlt:Point("CENTER", holder, "CENTER")
 	PlayerPowerBarAlt:SetParent(holder)
 	PlayerPowerBarAlt.ignoreFramePositionManager = true
-	PlayerPowerBarAlt:SetScale(0.9)
 
-	local function Position(bar) bar:Point('CENTER', AltPowerBarHolder, 'CENTER') end
+	--The Blizzard function FramePositionDelegate:UIParentManageFramePositions()
+	--calls :ClearAllPoints on PlayerPowerBarAlt under certain conditions.
+	--Doing ".ClearAllPoints = E.noop" causes error when you enter combat.
+	local function Position(bar) bar:Point("CENTER", AltPowerBarHolder, "CENTER") end
 	hooksecurefunc(PlayerPowerBarAlt, "ClearAllPoints", Position)
 
-	E:CreateMover(holder, "AltPowerBarMover", L["Alternative Power"])
+	E:CreateMover(holder, "AltPowerBarMover", L["Alternative Power"], nil, nil, nil, nil, nil, "general,alternativePowerGroup")
 end
 
 function B:UpdateAltPowerBarColors()
@@ -92,20 +94,17 @@ end
 
 function B:UpdateAltPowerBarSettings()
 	local bar = ElvUI_AltPowerBar
-	local width = E.db.general.altPowerBar.width or 250
-	local height = E.db.general.altPowerBar.height or 20
-	local fontOutline = E.db.general.altPowerBar.fontOutline or "OUTLINE"
-	local fontSize = E.db.general.altPowerBar.fontSize or 12
-	local statusBar = E.db.general.altPowerBar.statusBar
-	local font = E.db.general.altPowerBar.font
+	local db = E.db.general.altPowerBar
 
-	bar:SetSize(width, height)
-	bar:SetStatusBarTexture(E.LSM:Fetch("statusbar", statusBar))
-	bar.text:SetFont(E.LSM:Fetch("font", font), fontSize, fontOutline)
-	AltPowerBarHolder:SetSize(bar.backdrop:GetSize())
+	bar:Size(db.width or 250, db.height or 20)
+	bar:SetStatusBarTexture(E.Libs.LSM:Fetch("statusbar", db.statusBar))
+	bar.text:FontTemplate(E.Libs.LSM:Fetch("font", db.font), db.fontSize or 12, db.fontOutline or 'OUTLINE')
+	AltPowerBarHolder:Size(bar.backdrop:GetSize())
+
+	E:SetSmoothing(bar, db.smoothbars)
 
 	local textFormat = E.db.general.altPowerBar.textFormat
-	if textFormat == 'NONE' or not textFormat then
+	if textFormat == "NONE" or not textFormat then
 		bar.text:SetText("")
 	else
 		local power, maxPower, perc = bar.powerValue or 0, bar.powerMaxValue or 0, bar.powerPercent or 0
@@ -120,11 +119,14 @@ function B:SkinAltPowerBar()
 	local powerbar = CreateFrame("StatusBar", "ElvUI_AltPowerBar", E.UIParent)
 	powerbar:CreateBackdrop("Transparent")
 	powerbar:SetMinMaxValues(0, 200)
-	powerbar:SetPoint("CENTER", AltPowerBarHolder)
+	powerbar:Point("CENTER", AltPowerBarHolder)
 	powerbar:Hide()
 
+	powerbar:SetScript("OnEnter", onEnter)
+	powerbar:SetScript("OnLeave", onLeave)
+
 	powerbar.text = powerbar:CreateFontString(nil, "OVERLAY")
-	powerbar.text:SetPoint("CENTER", powerbar, "CENTER")
+	powerbar.text:Point("CENTER", powerbar, "CENTER")
 	powerbar.text:SetJustifyH("CENTER")
 
 	B:UpdateAltPowerBarSettings()
@@ -135,7 +137,6 @@ function B:SkinAltPowerBar()
 	powerbar:RegisterEvent("UNIT_POWER_BAR_SHOW")
 	powerbar:RegisterEvent("UNIT_POWER_BAR_HIDE")
 	powerbar:RegisterEvent("PLAYER_ENTERING_WORLD")
-
 	powerbar:SetScript("OnEvent", function(bar)
 		PlayerPowerBarAlt:UnregisterAllEvents()
 		PlayerPowerBarAlt:Hide()

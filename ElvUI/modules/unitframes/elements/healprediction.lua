@@ -7,17 +7,24 @@ local UnitGetTotalAbsorbs = UnitGetTotalAbsorbs
 function UF:Construct_HealComm(frame)
 	local myBar = CreateFrame("StatusBar", nil, frame.Health)
 	myBar:SetFrameLevel(11)
-	UF["statusbars"][myBar] = true
+	myBar.parent = frame.Health
+	UF.statusbars[myBar] = true
 	myBar:Hide()
 
 	local otherBar = CreateFrame("StatusBar", nil, frame.Health)
 	otherBar:SetFrameLevel(11)
-	UF["statusbars"][otherBar] = true
+	otherBar.parent = frame.Health
+	UF.statusbars[otherBar] = true
 	otherBar:Hide()
+
+	local texture = (not frame.Health.isTransparent and frame.Health:GetStatusBarTexture()) or E.media.blankTex
+	UF:Update_StatusBar(myBar, texture)
+	UF:Update_StatusBar(otherBar, texture)
 
 	return {
 		myBar = myBar,
 		otherBar = otherBar,
+		PostUpdate = UF.UpdateHealComm,
 		maxOverflow = 1,
 		parent = frame,
 	}
@@ -35,13 +42,8 @@ function UF:Configure_HealComm(frame)
 			frame:EnableElement("HealthPrediction")
 		end
 
-		if frame.USE_PORTRAIT_OVERLAY then
-			myBar:SetParent(frame.Portrait.overlay)
-			otherBar:SetParent(frame.Portrait.overlay)
-		else
-			myBar:SetParent(frame.Health)
-			otherBar:SetParent(frame.Health)
-		end
+		myBar:SetParent(frame.Health)
+		otherBar:SetParent(frame.Health)
 
 		 if frame.db.health then
 			local orientation = frame.db.health.orientation or frame.Health:GetOrientation()

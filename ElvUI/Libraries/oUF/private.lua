@@ -1,8 +1,8 @@
-local parent, ns = ...;
-local Private = ns.oUF.Private;
+local parent, ns = ...
+local Private = ns.oUF.Private
 
-local match = string.match;
-local format = string.format;
+local match = string.match
+local format = string.format
 
 function Private.argcheck(value, num, ...)
 	assert(type(num) == 'number', "Bad argument #2 to 'argcheck' (number expected, got " .. type(num) .. ')')

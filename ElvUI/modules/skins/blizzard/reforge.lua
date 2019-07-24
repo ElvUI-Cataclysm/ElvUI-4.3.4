@@ -39,7 +39,7 @@ local function LoadSkin()
 		if quality then
 			ReforgingFrameItemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
 		else
-			ReforgingFrameItemButton:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+			ReforgingFrameItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
 	end)
 

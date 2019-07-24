@@ -1,6 +1,8 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local UF = E:GetModule("UnitFrames")
 
+local unpack = unpack
+
 local CreateFrame = CreateFrame
 local GetComboPoints = GetComboPoints
 local GetShapeshiftForm = GetShapeshiftForm
@@ -44,12 +46,17 @@ function UF:Construct_Combobar(frame)
 
 	for i = 1, MAX_COMBO_POINTS do
 		ComboPoints[i] = CreateFrame("StatusBar", frame:GetName().."ComboBarButton"..i, ComboPoints)
-		UF["statusbars"][ComboPoints[i]] = true
-		ComboPoints[i]:SetStatusBarTexture(E["media"].blankTex)
+		UF.statusbars[ComboPoints[i]] = true
+		ComboPoints[i]:SetStatusBarTexture(E.media.blankTex)
 		ComboPoints[i]:GetStatusBarTexture():SetHorizTile(false)
 		ComboPoints[i]:SetAlpha(0.15)
 		ComboPoints[i]:CreateBackdrop("Default", nil, nil, UF.thinBorders, true)
 		ComboPoints[i].backdrop:SetParent(ComboPoints)
+
+		ComboPoints[i].bg = ComboPoints[i]:CreateTexture(nil, "BORDER")
+		ComboPoints[i].bg:SetAllPoints()
+		ComboPoints[i].bg:SetTexture(E.media.blankTex)
+		ComboPoints[i].bg.multiplier = 0.3
 	end
 
 	frame:RegisterEvent("UNIT_ENTERED_VEHICLE", UF.UpdateComboDisplay)
@@ -99,9 +106,6 @@ function UF:Configure_ComboPoints(frame)
 	local color = E.db.unitframe.colors.borderColor
 	ComboPoints.backdrop:SetBackdropColor(color.r, color.g, color.b)
 
-	color = self.db.colors.classResources.bgColor
-	ComboPoints.backdrop.backdropTexture:SetVertexColor(color.r, color.g, color.b)
-
 	if frame.USE_MINI_CLASSBAR and not frame.CLASSBAR_DETACHED then
 		ComboPoints:ClearAllPoints()
 		ComboPoints:Point("CENTER", frame.Health.backdrop, "TOP", 0, 0)
@@ -138,7 +142,7 @@ function UF:Configure_ComboPoints(frame)
 			ComboPoints:Height(frame.CLASSBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2))
 			ComboPoints:ClearAllPoints()
 			ComboPoints:Point("BOTTOMLEFT", ComboPoints.Holder, "BOTTOMLEFT", frame.BORDER + frame.SPACING, frame.BORDER + frame.SPACING)
-			E:CreateMover(ComboPoints.Holder, "ComboBarMover", L["Combobar"], nil, nil, nil, "ALL,SOLO")
+			E:CreateMover(ComboPoints.Holder, "ComboBarMover", L["Combobar"], nil, nil, nil, "ALL,SOLO", nil, "unitframe,target,combobar")
 		else
 			ComboPoints:ClearAllPoints()
 			ComboPoints:Point("BOTTOMLEFT", ComboPoints.Holder, "BOTTOMLEFT", frame.BORDER + frame.SPACING, frame.BORDER + frame.SPACING)
@@ -173,12 +177,7 @@ function UF:Configure_ComboPoints(frame)
 
 		color = E.db.unitframe.colors.borderColor
 		ComboPoints[i].backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
-
-		color = self.db.colors.classResources.bgColor
-		ComboPoints[i].backdrop.backdropTexture:SetVertexColor(color.r, color.g, color.b)
-
 		ComboPoints[i]:Height(ComboPoints:GetHeight())
-
 		ComboPoints[i]:Hide()
 		ComboPoints[i].backdrop:Hide()
 
@@ -274,6 +273,7 @@ function UF:UpdateComboDisplay(event, unit)
 				cp = GetComboPoints("player", "target")
 			end
 
+			local custom_backdrop = UF.db.colors.customclasspowerbackdrop and UF.db.colors.classpower_backdrop
 			if cp == 0 and db.combobar.autoHide then
 				element:Hide()
 				UF.ToggleResourceBar(element)
@@ -283,7 +283,14 @@ function UF:UpdateComboDisplay(event, unit)
 					if i <= cp then
 						element[i]:SetAlpha(1)
 					else
-						element[i]:SetAlpha(0.2)
+						element[i]:SetAlpha(0.15)
+					end
+
+					if custom_backdrop then
+						element[i].bg:SetVertexColor(custom_backdrop.r, custom_backdrop.g, custom_backdrop.b)
+					else
+						local r, g, b = element[i]:GetStatusBarColor()
+						element[i].bg:SetVertexColor(r * 0.3, g * 0.3, b * 0.3)
 					end
 				end
 				UF.ToggleResourceBar(element)

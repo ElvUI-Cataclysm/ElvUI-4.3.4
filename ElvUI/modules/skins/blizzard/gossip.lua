@@ -48,7 +48,11 @@ local function LoadSkin()
 	ItemTextCurrentPage:Point("TOP", -15, -52)
 
 	S:HandleScrollBar(ItemTextScrollFrameScrollBar)
+
 	S:HandleScrollBar(GossipGreetingScrollFrameScrollBar, 5)
+	GossipGreetingScrollFrameScrollBar:ClearAllPoints()
+	GossipGreetingScrollFrameScrollBar:Point("TOPRIGHT", GossipGreetingScrollFrame, "TOPRIGHT", 22, -16)
+	GossipGreetingScrollFrameScrollBar:Point("BOTTOMRIGHT", GossipGreetingScrollFrame, "BOTTOMRIGHT", 0, 20)
 
 	S:HandleCloseButton(GossipFrameCloseButton)
 	GossipFrameCloseButton:Point("CENTER", GossipFrame, "TOPRIGHT", -44, -25)

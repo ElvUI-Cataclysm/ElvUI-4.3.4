@@ -1,5 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...))
-local RU = E:NewModule("RaidUtility", "AceEvent-3.0")
+local RU = E:GetModule("RaidUtility")
 
 local _G = _G
 local unpack, ipairs, pairs, next = unpack, ipairs, pairs, next
@@ -28,7 +28,6 @@ local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 local GameTooltip = GameTooltip
 local GameTooltip_Hide = GameTooltip_Hide
 
-E.RaidUtility = RU
 local PANEL_HEIGHT = 145
 
 --Check if We are Raid Leader or Raid Officer
@@ -43,12 +42,12 @@ end
 
 --Change border when mouse is inside the button
 local function ButtonEnter(self)
-	self:SetBackdropBorderColor(unpack(E["media"].rgbvaluecolor))
+	self:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
 end
 
 --Change border back to normal when mouse leaves button
 local function ButtonLeave(self)
-	self:SetBackdropBorderColor(unpack(E["media"].bordercolor))
+	self:SetBackdropBorderColor(unpack(E.media.bordercolor))
 end
 
 -- Function to create buttons in this module
@@ -195,6 +194,7 @@ end
 
 function RU:Initialize()
 	if E.private.general.raidUtility == false then return end
+	self.Initialized = true
 
 	--Create main frame
 	local RaidUtilityPanel = CreateFrame("Frame", "RaidUtilityPanel", E.UIParent, "SecureHandlerClickTemplate")
@@ -295,7 +295,7 @@ function RU:Initialize()
 		frame:SetSize(28, 28)
 
 		local texture = frame:CreateTexture(nil, "OVERLAY")
-		texture:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\UI-LFG-ICON-ROLES")
+		texture:SetTexture(E.Media.Textures.RoleIcons)
 		local texA, texB, texC, texD = GetTexCoordsForRole(role)
 		texture:SetTexCoord(texA, texB, texC, texD)
 		--[[if E.PixelMode then

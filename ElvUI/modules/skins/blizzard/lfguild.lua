@@ -45,11 +45,11 @@ local function LoadSkin()
 		button:SetTemplate("Transparent")
 		button:StyleButton()
 
-		button.selectedTex:SetTexture(1, 1, 1, 0.3);
-		button.selectedTex:SetInside();
+		button.selectedTex:SetTexture(1, 1, 1, 0.3)
+		button.selectedTex:SetInside()
 
-		button.name:Point("TOPLEFT", 75, -10);
-		button.level:Point("TOPLEFT", 58, -10);
+		button.name:Point("TOPLEFT", 75, -10)
+		button.level:Point("TOPLEFT", 58, -10)
 
 		_G["LookingForGuildBrowseFrameContainerButton"..i.."Ring"]:SetAlpha(0)
 		_G["LookingForGuildBrowseFrameContainerButton"..i.."LevelRing"]:SetAlpha(0)

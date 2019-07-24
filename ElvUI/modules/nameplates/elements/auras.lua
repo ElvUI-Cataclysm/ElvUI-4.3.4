@@ -1,6 +1,6 @@
 local E, L, V, P, G = unpack(select(2, ...))
-local mod = E:GetModule("NamePlates")
-local LSM = LibStub("LibSharedMedia-3.0")
+local NP = E:GetModule("NamePlates")
+local LSM = E.Libs.LSM
 
 local select, unpack, pairs = select, unpack, pairs
 local tonumber = tonumber
@@ -108,21 +108,21 @@ end
 local function UpdateAuraTime(frame, expiration)
 	local timeleft = expiration - GetTime()
 
-	if E.db.cooldown.enable and mod.db.cooldown.reverse or not E.db.cooldown.enable and not mod.db.cooldown.reverse then
+	if (E.db.cooldown.enable and NP.db.cooldown.reverse) or (not E.db.cooldown.enable and not NP.db.cooldown.reverse) then
 		timeleft = nil
 		frame.timeLeft:SetText("")
 	else
 		local timeColors, timeThreshold = E.TimeColors, E.db.cooldown.threshold
-		if mod.db.cooldown.override and E.TimeColors["nameplates"] then
-			timeColors, timeThreshold = E.TimeColors["nameplates"], mod.db.cooldown.threshold
+		if NP.db.cooldown.override and E.TimeColors.nameplates then
+			timeColors, timeThreshold = E.TimeColors.nameplates, NP.db.cooldown.threshold
 		end
 		if not timeThreshold then
 			timeThreshold = E.TimeThreshold
 		end
 
 		local hhmmThreshold, mmssThreshold
-		if mod.db.cooldown.checkSeconds then
-			hhmmThreshold, mmssThreshold = mod.db.cooldown.hhmmThreshold, mod.db.cooldown.mmssThreshold
+		if NP.db.cooldown.checkSeconds then
+			hhmmThreshold, mmssThreshold = NP.db.cooldown.hhmmThreshold, NP.db.cooldown.mmssThreshold
 		else
 			hhmmThreshold, mmssThreshold = E.db.cooldown.checkSeconds and E.db.cooldown.hhmmThreshold or nil, E.db.cooldown.checkSeconds and E.db.cooldown.mmssThreshold or nil
 		end
@@ -205,7 +205,7 @@ local function WipeAuraList(guid)
 	end
 end
 
-function mod:CleanAuraLists()
+function NP:CleanAuraLists()
 	local currentTime = GetTime()
 	for guid, instanceList in pairs(auraList) do
 		local auraCount = 0
@@ -231,7 +231,7 @@ function mod:CleanAuraLists()
 	end
 end
 
-function mod:SetAura(aura, index, name, icon, count, expirationTime, spellID)
+function NP:SetAura(aura, index, name, icon, count, expirationTime, spellID)
 	aura.icon:SetTexture(icon)
 	aura.name = name
 	aura.spellID = spellID
@@ -246,13 +246,13 @@ function mod:SetAura(aura, index, name, icon, count, expirationTime, spellID)
 	PolledHideIn(aura, expirationTime)
 end
 
-function mod:HideAuraIcons(auras)
+function NP:HideAuraIcons(auras)
 	for i = 1, #auras.icons do
 		PolledHideIn(auras.icons[i], 0)
 	end
 end
 
-function mod:CheckFilter(name, spellID, isPlayer, allowDuration, noDuration, ...)
+function NP:CheckFilter(name, spellID, isPlayer, allowDuration, noDuration, ...)
 	local filterName, filter, filterType, spellList, spell = false, false
 	for i = 1, select("#", ...) do
 		filterName = select(i, ...)
@@ -281,7 +281,7 @@ function mod:CheckFilter(name, spellID, isPlayer, allowDuration, noDuration, ...
 	end
 end
 
-function mod:AuraFilter(frame, frameNum, index, buffType, minDuration, maxDuration, priority, name, texture, count, duration, expiration, caster, spellID)
+function NP:AuraFilter(frame, frameNum, index, buffType, minDuration, maxDuration, priority, name, texture, count, duration, expiration, caster, spellID)
 	if not name then return nil end -- checking for an aura that is not there, pass nil to break while loop
 	local filterCheck, isPlayer, allowDuration, noDuration = false, false, false, false
 
@@ -290,13 +290,13 @@ function mod:AuraFilter(frame, frameNum, index, buffType, minDuration, maxDurati
 
 	if priority ~= "" then
 		isPlayer = (caster == UnitGUID("player"))
-		filterCheck = mod:CheckFilter(name, spellID, isPlayer, allowDuration, noDuration, strsplit(",", priority))
+		filterCheck = NP:CheckFilter(name, spellID, isPlayer, allowDuration, noDuration, strsplit(",", priority))
 	else
 		filterCheck = allowDuration and true -- Allow all auras to be shown when the filter list is empty, while obeying duration sliders
 	end
 
 	if filterCheck == true then
-		mod:SetAura(frame[buffType].icons[frameNum], index, name, texture, count, expiration, spellID)
+		NP:SetAura(frame[buffType].icons[frameNum], index, name, texture, count, expiration, spellID)
 		return true
 	end
 
@@ -304,7 +304,7 @@ function mod:AuraFilter(frame, frameNum, index, buffType, minDuration, maxDurati
 end
 
 local currentAura = {}
-function mod:UpdateElement_Auras(frame)
+function NP:UpdateElement_Auras(frame)
 	if not frame.HealthBar:IsShown() then return end
 
 	local guid = frame.guid
@@ -378,7 +378,7 @@ function mod:UpdateElement_Auras(frame)
 			while frameNum <= maxAuras do
 				local aura = filterType[index]
 				if not aura then break end
-				showAura = mod:AuraFilter(frame, frameNum, index, buffType, minDuration, maxDuration, priority, aura.name, aura.icon, aura.count, aura.duration, aura.expirationTime, aura.caster, tonumber(aura.spellID))
+				showAura = NP:AuraFilter(frame, frameNum, index, buffType, minDuration, maxDuration, priority, aura.name, aura.icon, aura.count, aura.duration, aura.expirationTime, aura.caster, tonumber(aura.spellID))
 				if showAura == nil then
 					break -- used to break the while loop when index is over the limit of auras we have (unitaura name will pass nil)
 				elseif showAura == false then
@@ -420,10 +420,10 @@ function mod:UpdateElement_Auras(frame)
 		frame.TopOffset = TopOffset
 	end
 
-	mod:UpdateElement_Filters(frame, "UNIT_AURA")
+	NP:UpdateElement_Filters(frame, "UNIT_AURA")
 end
 
-function mod:UpdateElement_AurasByUnitID(unit)
+function NP:UpdateElement_AurasByUnitID(unit)
 	local guid = UnitGUID(unit)
 	WipeAuraList(guid)
 
@@ -462,7 +462,7 @@ local function GuidIsLocalUnitId(guid)
 	end
 end
 
-function mod:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, _, sourceGUID, _, _, _, destGUID, destName, destFlags, ...)
+function NP:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, _, sourceGUID, _, _, _, destGUID, destName, destFlags, ...)
 	if not (event == "SPELL_AURA_APPLIED" or event == "SPELL_AURA_REFRESH" or event == "SPELL_AURA_APPLIED_DOSE" or event == "SPELL_AURA_REMOVED_DOSE" or event == "SPELL_AURA_BROKEN" or event == "SPELL_AURA_BROKEN_SPELL" or event == "SPELL_AURA_REMOVED") then return end
 
 	if not GuidIsLocalUnitId(destGUID) then -- Skip over the aura update if the unit is accessible by a local unitid.
@@ -502,7 +502,7 @@ function mod:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, _, sourceGUID, _, _, _, de
 	end
 end
 
-function mod:CreateAuraIcon(parent)
+function NP:CreateAuraIcon(parent)
 	local aura = CreateFrame("Frame", nil, parent)
 	self:StyleFrame(aura, true)
 
@@ -511,13 +511,13 @@ function mod:CreateAuraIcon(parent)
 	aura.icon:SetTexCoord(unpack(E.TexCoords))
 
 	aura.timeLeft = aura:CreateFontString(nil, "OVERLAY")
-	aura.timeLeft:SetFont(LSM:Fetch("font", mod.db.durationFont), mod.db.durationFontSize, mod.db.durationFontOutline)
+	aura.timeLeft:SetFont(LSM:Fetch("font", NP.db.durationFont), NP.db.durationFontSize, NP.db.durationFontOutline)
 	aura.timeLeft:ClearAllPoints()
-	if mod.db.durationPosition == "TOPLEFT" then
+	if NP.db.durationPosition == "TOPLEFT" then
 		aura.timeLeft:Point("TOPLEFT", 1, 1)
-	elseif mod.db.durationPosition == "BOTTOMLEFT" then
+	elseif NP.db.durationPosition == "BOTTOMLEFT" then
 		aura.timeLeft:Point("BOTTOMLEFT", 1, 1)
-	elseif mod.db.durationPosition == "TOPRIGHT" then
+	elseif NP.db.durationPosition == "TOPRIGHT" then
 		aura.timeLeft:Point("TOPRIGHT", 1, 1)
 	else
 		aura.timeLeft:Point("CENTER", 0, 0)
@@ -532,7 +532,7 @@ function mod:CreateAuraIcon(parent)
 	return aura
 end
 
-function mod:Auras_SizeChanged(width)
+function NP:Auras_SizeChanged(width)
 	local numAuras = #self.icons
 	for i = 1, numAuras do
 		self.icons[i]:SetWidth(self.db.widthOverride > 0 and self.db.widthOverride or ((width - numAuras) / numAuras) - (E.private.general.pixelPerfect and 0 or 3))
@@ -541,7 +541,7 @@ function mod:Auras_SizeChanged(width)
 	self:SetHeight((self.db.baseHeight or 18) * (self:GetParent().HealthBar.currentScale or 1))
 end
 
-function mod:UpdateAuraIcons(auras)
+function NP:UpdateAuraIcons(auras)
 	local maxAuras = auras.db.numAuras
 	local numCurrentAuras = #auras.icons
 	if numCurrentAuras > maxAuras then
@@ -557,7 +557,7 @@ function mod:UpdateAuraIcons(auras)
 	end
 
 	for i = 1, maxAuras do
-		auras.icons[i] = auras.icons[i] or tremove(auraCache) or mod:CreateAuraIcon(auras)
+		auras.icons[i] = auras.icons[i] or tremove(auraCache) or NP:CreateAuraIcon(auras)
 		auras.icons[i]:SetParent(auras)
 		auras.icons[i]:ClearAllPoints()
 		auras.icons[i]:Hide()
@@ -568,14 +568,14 @@ function mod:UpdateAuraIcons(auras)
 		end
 
 		if auras.icons[i].timeLeft then
-			auras.icons[i].timeLeft:SetFont(LSM:Fetch("font", mod.db.durationFont), mod.db.durationFontSize, mod.db.durationFontOutline)
+			auras.icons[i].timeLeft:SetFont(LSM:Fetch("font", NP.db.durationFont), NP.db.durationFontSize, NP.db.durationFontOutline)
 
 			auras.icons[i].timeLeft:ClearAllPoints()
-			if mod.db.durationPosition == "TOPLEFT" then
+			if NP.db.durationPosition == "TOPLEFT" then
 				auras.icons[i].timeLeft:Point("TOPLEFT", 1, 1)
-			elseif mod.db.durationPosition == "BOTTOMLEFT" then
+			elseif NP.db.durationPosition == "BOTTOMLEFT" then
 				auras.icons[i].timeLeft:Point("BOTTOMLEFT", 1, 1)
-			elseif mod.db.durationPosition == "TOPRIGHT" then
+			elseif NP.db.durationPosition == "TOPRIGHT" then
 				auras.icons[i].timeLeft:Point("TOPRIGHT", 1, 1)
 			else
 				auras.icons[i].timeLeft:Point("CENTER", 0, 0)
@@ -598,10 +598,10 @@ function mod:UpdateAuraIcons(auras)
 	end
 end
 
-function mod:ConstructElement_Auras(frame, side)
+function NP:ConstructElement_Auras(frame, side)
 	local auras = CreateFrame("Frame", nil, frame)
 
-	auras:SetScript("OnSizeChanged", mod.Auras_SizeChanged)
+	auras:SetScript("OnSizeChanged", NP.Auras_SizeChanged)
 	auras:SetHeight(18)
 	auras.side = side
 	auras.PollFunction = UpdateAuraTime

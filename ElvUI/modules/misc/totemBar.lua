@@ -1,6 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...))
-local TOTEMS = E:NewModule("Totems", "AceEvent-3.0")
-E.TotemBar = TOTEMS
+local TOTEMS = E:GetModule("Totems")
 
 local _G = _G
 local unpack = unpack
@@ -19,6 +18,7 @@ local SLOT_BORDER_COLORS = {
 
 function TOTEMS:Update()
 	local displayedTotems = 0
+
 	for i = 1, MAX_TOTEMS do
 		local color
 		local haveTotem, _, startTime, duration, icon = GetTotemInfo(i)
@@ -109,6 +109,7 @@ function TOTEMS:PositionAndSize()
 end
 
 function TOTEMS:Initialize()
+	self.Initialized = true
 	self.db = E.db.general.totems
 
 	local bar = CreateFrame("Frame", "ElvUI_TotemBar", E.UIParent)
@@ -127,8 +128,8 @@ function TOTEMS:Initialize()
 		frame.holder:SetAllPoints()
 
 		frame.iconTexture = frame:CreateTexture(nil, "ARTWORK")
-		frame.iconTexture:SetInside()
 		frame.iconTexture:SetTexCoord(unpack(E.TexCoords))
+		frame.iconTexture:SetInside()
 
 		frame.cooldown = CreateFrame("Cooldown", frame:GetName().."Cooldown", frame, "CooldownFrameTemplate")
 		frame.cooldown:SetReverse(true)
@@ -140,7 +141,7 @@ function TOTEMS:Initialize()
 
 	self:PositionAndSize()
 
-	E:CreateMover(bar, "TotemBarMover", L["Class Totems"])
+	E:CreateMover(bar, "TotemBarMover", L["Class Totems"], nil, nil, nil, nil, nil, "general,totems")
 	self:ToggleEnable()
 end
 

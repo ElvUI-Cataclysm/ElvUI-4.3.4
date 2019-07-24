@@ -1,13 +1,13 @@
 local E, L, V, P, G = unpack(select(2, ...))
-local mod = E:GetModule("NamePlates")
-local LSM = LibStub("LibSharedMedia-3.0")
+local NP = E:GetModule("NamePlates")
+local LSM = E.Libs.LSM
 
 local unpack = unpack
 
 local GetComboPoints = GetComboPoints
 local MAX_COMBO_POINTS = MAX_COMBO_POINTS
 
-function mod:UpdateElement_CPoints(frame)
+function NP:UpdateElement_CPoints(frame)
 	if not frame.UnitType then return end
 	if frame.UnitType == "FRIENDLY_PLAYER" or frame.UnitType == "FRIENDLY_NPC" then return end
 	if self.db.units[frame.UnitType].comboPoints.enable ~= true then return end
@@ -31,7 +31,7 @@ function mod:UpdateElement_CPoints(frame)
 	end
 end
 
-function mod:ConfigureElement_CPoints(frame)
+function NP:ConfigureElement_CPoints(frame)
 	if not frame.UnitType then return end
 	if frame.UnitType == "FRIENDLY_PLAYER" or frame.UnitType == "FRIENDLY_NPC" then return end
 
@@ -66,7 +66,7 @@ function mod:ConfigureElement_CPoints(frame)
 	end
 end
 
-function mod:ConstructElement_CPoints(parent)
+function NP:ConstructElement_CPoints(parent)
 	local comboBar = CreateFrame("Frame", "$parentComboPoints", parent)
 	comboBar:SetSize(68, 1)
 	comboBar:Hide()

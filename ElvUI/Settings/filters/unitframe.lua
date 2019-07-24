@@ -15,14 +15,19 @@ local function SpellName(id)
 end
 
 local function Defaults(priorityOverride)
-	return {["enable"] = true, ["priority"] = priorityOverride or 0, ["stackThreshold"] = 0}
+	return {
+		enable = true,
+		priority = priorityOverride or 0,
+		stackThreshold = 0
+	}
 end
 
 G.unitframe.aurafilters = {}
 
-G.unitframe.aurafilters["CCDebuffs"] = {
-	["type"] = "Whitelist",
-	["spells"] = {
+-- These are debuffs that are some form of CC
+G.unitframe.aurafilters.CCDebuffs = {
+	type = "Whitelist",
+	spells = {
 	-- Death Knight
 		[47476] = Defaults(),	-- Strangulate
 		[49203] = Defaults(),	-- Hungering Cold
@@ -96,9 +101,9 @@ G.unitframe.aurafilters["CCDebuffs"] = {
 	}
 }
 
-G.unitframe.aurafilters["TurtleBuffs"] = {
-	["type"] = "Whitelist",
-	["spells"] = {
+G.unitframe.aurafilters.TurtleBuffs = {
+	type = "Whitelist",
+	spells = {
 	-- Mage
 		[45438] = Defaults(5),	-- Ice Block
 	-- Death Knight
@@ -145,9 +150,9 @@ G.unitframe.aurafilters["TurtleBuffs"] = {
 	}
 }
 
-G.unitframe.aurafilters["PlayerBuffs"] = {
-	["type"] = "Whitelist",
-	["spells"] = {
+G.unitframe.aurafilters.PlayerBuffs = {
+	type = "Whitelist",
+	spells = {
 	-- Mage
 		[12042] = Defaults(),	-- Arcane Power
 		[12051] = Defaults(),	-- Evocation
@@ -255,9 +260,10 @@ G.unitframe.aurafilters["PlayerBuffs"] = {
 	}
 }
 
-G.unitframe.aurafilters["Blacklist"] = {
-	["type"] = "Blacklist",
-	["spells"] = {
+-- Buffs that really we dont need to see
+G.unitframe.aurafilters.Blacklist = {
+	type = "Blacklist",
+	spells = {
 	-- Spells
 		[6788] = Defaults(),	-- Weakended Soul
 		[8326] = Defaults(),	-- Ghost
@@ -294,9 +300,13 @@ G.unitframe.aurafilters["Blacklist"] = {
 	}
 }
 
-G.unitframe.aurafilters["Whitelist"] = {
-	["type"] = "Whitelist",
-	["spells"] = {
+--[[
+	This should be a list of important buffs that we always want to see when they are active
+	bloodlust, paladin hand spells, raid cooldowns, etc..
+]]
+G.unitframe.aurafilters.Whitelist = {
+	type = "Whitelist",
+	spells = {
 		[1022] = Defaults(),	-- Hand protection
 		[1490] = Defaults(),	-- Curse of the elements
 		[2825] = Defaults(),	-- Bloodlust
@@ -327,9 +337,10 @@ G.unitframe.aurafilters["Whitelist"] = {
 	}
 }
 
-G.unitframe.aurafilters["RaidDebuffs"] = {
-	["type"] = "Whitelist",
-	["spells"] = {
+-- RAID DEBUFFS: This should be pretty self explainitory
+G.unitframe.aurafilters.RaidDebuffs = {
+	type = "Whitelist",
+	spells = {
 	--Blackwing Descent
 		--Magmaw
 		[91911] = Defaults(),	-- Constricting Chains
@@ -452,7 +463,7 @@ E.ReverseTimer = {
 }
 
 --BuffWatch
---List of personal spells to show on unitframes as icon
+-- BuffWatch: List of personal spells to show on unitframes as icon
 local function ClassBuff(id, point, color, anyUnit, onlyShowMissing, style, displayText, decimalThreshold, textColor, textThreshold, xOffset, yOffset, sizeOverride)
 	local r, g, b = unpack(color)
 
@@ -461,37 +472,50 @@ local function ClassBuff(id, point, color, anyUnit, onlyShowMissing, style, disp
 		r2, g2, b2 = unpack(textColor)
 	end
 
-	return {["enabled"] = true, ["id"] = id, ["point"] = point, ["color"] = {["r"] = r, ["g"] = g, ["b"] = b},
-	["anyUnit"] = anyUnit, ["onlyShowMissing"] = onlyShowMissing, ["style"] = style or "coloredIcon", ["displayText"] = displayText or false, ["decimalThreshold"] = decimalThreshold or 5,
-	["textColor"] = {["r"] = r2, ["g"] = g2, ["b"] = b2}, ["textThreshold"] = textThreshold or -1, ["xOffset"] = xOffset or 0, ["yOffset"] = yOffset or 0, ["sizeOverride"] = sizeOverride or 0}
+	return {
+		enabled = true,
+		id = id,
+		point = point,
+		color = {r = r, g = g, b = b},
+		anyUnit = anyUnit,
+		onlyShowMissing = onlyShowMissing,
+		style = style or "coloredIcon",
+		displayText = displayText or false,
+		decimalThreshold = decimalThreshold or 5,
+		textColor = {r = r2, g = g2, b = b2},
+		textThreshold = textThreshold or -1,
+		xOffset = xOffset or 0,
+		yOffset = yOffset or 0,
+		sizeOverride = sizeOverride or 0
+	}
 end
 
 G.unitframe.buffwatch = {
 	PRIEST = {
-		[6788] = ClassBuff(6788, "TOPLEFT", {1, 0, 0}, true),				-- Weakened Soul
+		[6788]	= ClassBuff(6788, "TOPLEFT", {1, 0, 0}, true),				-- Weakened Soul
 		[41635] = ClassBuff(41635, "TOPRIGHT", {0.2, 0.7, 0.2}),			-- Prayer of Mending
-		[139] = ClassBuff(139, "BOTTOMLEFT", {0.4, 0.7, 0.2}),				-- Renew
-		[17] = ClassBuff(17, "BOTTOMRIGHT", {0.7, 0.7, 0.7}, true),			-- Power Word: Shield
+		[139]	= ClassBuff(139, "BOTTOMLEFT", {0.4, 0.7, 0.2}),			-- Renew
+		[17]	= ClassBuff(17, "BOTTOMRIGHT", {0.7, 0.7, 0.7}, true),		-- Power Word: Shield
 		[10060] = ClassBuff(10060, "RIGHT", {0.47, 0.35, 0.74}),			-- Power Infusion
 		[33206] = ClassBuff(33206, "LEFT", {0.47, 0.35, 0.74}, true),		-- Pain Suppression
 		[47788] = ClassBuff(47788, "LEFT", {0.86, 0.45, 0}, true),			-- Guardian Spirit
 	},
 	DRUID = {
-		[774] = ClassBuff(774, "TOPRIGHT", {0.8, 0.4, 0.8}),				-- Rejuvenation
-		[8936] = ClassBuff(8936, "BOTTOMLEFT", {0.2, 0.8, 0.2}),			-- Regrowth
+		[774]	= ClassBuff(774, "TOPRIGHT", {0.8, 0.4, 0.8}),				-- Rejuvenation
+		[8936]	= ClassBuff(8936, "BOTTOMLEFT", {0.2, 0.8, 0.2}),			-- Regrowth
 		[33763] = ClassBuff(33763, "TOPLEFT", {0.4, 0.8, 0.2}),				-- Lifebloom
 		[48438] = ClassBuff(48438, "BOTTOMRIGHT", {0.8, 0.4, 0}),			-- Wild Growth
 	},
 	PALADIN = {
 		[53563] = ClassBuff(53563, "TOPLEFT", {0.7, 0.3, 0.7}),				-- Beacon of Light
-		[1022] = ClassBuff(1022, "BOTTOMRIGHT", {0.2, 0.2, 1}, true),		-- Hand of Protection
-		[1044] = ClassBuff(1044, "BOTTOMRIGHT", {0.89, 0.45, 0}, true),		-- Hand of Freedom
-		[6940] = ClassBuff(6940, "BOTTOMRIGHT", {0.89, 0.1, 0.1}, true),	-- Hand of Sacrifice
-		[1038] = ClassBuff(1038, "BOTTOMRIGHT", {0.89, 0.78, 0}, true),		-- Hand of Salvation
+		[1022]	= ClassBuff(1022, "BOTTOMRIGHT", {0.2, 0.2, 1}, true),		-- Hand of Protection
+		[1044]	= ClassBuff(1044, "BOTTOMRIGHT", {0.89, 0.45, 0}, true),	-- Hand of Freedom
+		[6940]	= ClassBuff(6940, "BOTTOMRIGHT", {0.89, 0.1, 0.1}, true),	-- Hand of Sacrifice
+		[1038]	= ClassBuff(1038, "BOTTOMRIGHT", {0.89, 0.78, 0}, true),	-- Hand of Salvation
 	},
 	SHAMAN = {
 		[16236] = ClassBuff(16236, "BOTTOMLEFT", {0.4, 0.7, 0.2}),			-- Ancestral Fortitude
-		[974] = ClassBuff(974, "TOPRIGHT", {0.2, 0.7, 0.2}),				-- Earth Shield
+		[974]	= ClassBuff(974, "TOPRIGHT", {0.2, 0.7, 0.2}),				-- Earth Shield
 		[51945] = ClassBuff(51945, "BOTTOMRIGHT", {0.7, 0.4, 0}),			-- Earthliving
 		[61295] = ClassBuff(61295, "TOPLEFT", {0.7, 0.3, 0.7}),				-- Riptide
 	},
@@ -502,21 +526,22 @@ G.unitframe.buffwatch = {
 		[54646] = ClassBuff(54646, "TOPRIGHT", {0.2, 0.2, 1}),				-- Focus Magic
 	},
 	WARRIOR = {
-		[3411] = ClassBuff(3411, "TOPRIGHT", {0.89, 0.09, 0.05}),			-- Intervene
+		[3411]	= ClassBuff(3411, "TOPRIGHT", {0.89, 0.09, 0.05}),			-- Intervene
 		[50720] = ClassBuff(50720, "TOPLEFT", {0.2, 0.2, 1}),				-- Vigilance
 	},
 	DEATHKNIGHT = {
 		[49016] = ClassBuff(49016, "TOPRIGHT", {0.89, 0.1, 0.1})			-- Unholy Frenzy
 	},
 	PET = {
-		[136] = ClassBuff(136, "TOPRIGHT", {0.2, 0.8, 0.2}, true)			-- Mend Pet
+		[136]	= ClassBuff(136, "TOPRIGHT", {0.2, 0.8, 0.2}, true)			-- Mend Pet
 	},
 	HUNTER = {},
 	WARLOCK = {},
 }
 
-P["unitframe"]["filters"] = {
-	["buffwatch"] = {}
+-- Profile specific BuffIndicator
+P.unitframe.filters = {
+	buffwatch = {}
 }
 
 -- Ticks
@@ -552,15 +577,12 @@ G.unitframe.HastedChannelTicks = {
 	[SpellName(1120)] = true,	-- Drain Soul
 }
 
+-- This should probably be the same as the whitelist filter + any personal class ones that may be important to watch
 G.unitframe.AuraBarColors = {
-	[2825] = {r = 0.98, g = 0.57, b = 0.10},	-- Bloodlust
+	[2825]	= {r = 0.98, g = 0.57, b = 0.10},	-- Bloodlust
 	[32182] = {r = 0.98, g = 0.57, b = 0.10},	-- Heroism
 	[80353] = {r = 0.98, g = 0.57, b = 0.10},	-- Time Warp
 	[90355] = {r = 0.98, g = 0.57, b = 0.10},	-- Ancient Hysteria
-}
-
-G.unitframe.InvalidSpells = {
-
 }
 
 G.unitframe.DebuffHighlightColors = {
@@ -569,16 +591,16 @@ G.unitframe.DebuffHighlightColors = {
 
 G.unitframe.specialFilters = {
 	-- Whitelists
-	["Personal"] = true,
-	["nonPersonal"] = true,
-	["CastByUnit"] = true,
-	["notCastByUnit"] = true,
-	["Dispellable"] = true,
-	["notDispellable"] = true,
+	Personal = true,
+	nonPersonal = true,
+	CastByUnit = true,
+	notCastByUnit = true,
+	Dispellable = true,
+	notDispellable = true,
 
 	-- Blacklists
-	["blockNonPersonal"] = true,
-	["blockNoDuration"] = true,
-	["blockDispellable"] = true,
-	["blockNotDispellable"] = true,
+	blockNonPersonal = true,
+	blockNoDuration = true,
+	blockDispellable = true,
+	blockNotDispellable = true,
 }

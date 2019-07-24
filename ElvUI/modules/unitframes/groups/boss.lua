@@ -16,11 +16,8 @@ function UF:Construct_BossFrames(frame)
 	frame.RaisedElementParent:SetFrameLevel(frame:GetFrameLevel() + 100)
 
 	frame.Health = self:Construct_HealthBar(frame, true, true, "RIGHT")
-
 	frame.Power = self:Construct_PowerBar(frame, true, true, "LEFT")
-
 	frame.Name = self:Construct_NameText(frame)
-
 	frame.Portrait3D = self:Construct_Portrait(frame, "model")
 	frame.Portrait2D = self:Construct_Portrait(frame, "texture")
 	frame.InfoPanel = self:Construct_InfoPanel(frame)
@@ -31,14 +28,15 @@ function UF:Construct_BossFrames(frame)
 	frame.RaidTargetIndicator = self:Construct_RaidIcon(frame)
 	frame.AlternativePower = self:Construct_AltPowerBar(frame)
 	frame.ClassBar = "AlternativePower"
-	frame.Range = self:Construct_Range(frame)
+	frame.Fader = self:Construct_Fader()
+	frame.Cutaway = self:Construct_Cutaway(frame)
 	frame.MouseGlow = self:Construct_MouseGlow(frame)
 	frame.TargetGlow = self:Construct_TargetGlow(frame)
 	frame:SetAttribute("type2", "focus")
 	frame.customTexts = {}
 
 	BossHeader:Point("BOTTOMRIGHT", E.UIParent, "RIGHT", -105, -165)
-	E:CreateMover(BossHeader, BossHeader:GetName().."Mover", L["Boss Frames"], nil, nil, nil, "ALL,PARTY,RAID")
+	E:CreateMover(BossHeader, BossHeader:GetName().."Mover", L["Boss Frames"], nil, nil, nil, "ALL,PARTY,RAID", nil, "unitframe,boss,generalGroup")
 	frame.mover = BossHeader.mover
 
 	frame.unitframeType = "boss"
@@ -90,30 +88,20 @@ function UF:Update_BossFrames(frame, db)
 	frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
 
 	UF:Configure_InfoPanel(frame)
-
 	UF:Configure_HealthBar(frame)
-
 	UF:UpdateNameSettings(frame)
-
 	UF:Configure_Power(frame)
-
 	UF:Configure_Portrait(frame)
-
 	UF:EnableDisable_Auras(frame)
 	UF:Configure_Auras(frame, "Buffs")
 	UF:Configure_Auras(frame, "Debuffs")
-
 	UF:Configure_Castbar(frame)
-
 	UF:Configure_RaidIcon(frame)
-
 	UF:Configure_AltPower(frame)
-
 	UF:Configure_DebuffHighlight(frame)
-
 	UF:Configure_CustomTexts(frame)
-
-	UF:Configure_Range(frame)
+	UF:Configure_Fader(frame)
+	UF:Configure_Cutaway(frame)
 
 	frame:ClearAllPoints()
 	if frame.index == 1 then
@@ -149,4 +137,4 @@ function UF:Update_BossFrames(frame, db)
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end
 
-UF["unitgroupstoload"]["boss"] = {MAX_BOSS_FRAMES}
+UF.unitgroupstoload.boss = {MAX_BOSS_FRAMES}

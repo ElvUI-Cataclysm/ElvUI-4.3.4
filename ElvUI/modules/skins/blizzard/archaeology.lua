@@ -23,7 +23,7 @@ local function LoadSkin()
 	-- Status Rank Bar
 	ArchaeologyFrameRankBar:StripTextures()
 	ArchaeologyFrameRankBar:CreateBackdrop("Default")
-	ArchaeologyFrameRankBar:SetStatusBarTexture(E["media"].normTex)
+	ArchaeologyFrameRankBar:SetStatusBarTexture(E.media.normTex)
 	ArchaeologyFrameRankBar:SetStatusBarColor(0.22, 0.39, 0.84)
 	ArchaeologyFrameRankBar:Size(332, 20)
 	ArchaeologyFrameRankBar:ClearAllPoints()
@@ -34,7 +34,7 @@ local function LoadSkin()
 	-- Solve Rank Bar
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:StripTextures()
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:CreateBackdrop("Default")
-	ArchaeologyFrameArtifactPageSolveFrameStatusBar:SetStatusBarTexture(E["media"].normTex)
+	ArchaeologyFrameArtifactPageSolveFrameStatusBar:SetStatusBarTexture(E.media.normTex)
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:SetStatusBarColor(0.7, 0.2, 0)
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:Width(460)
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:Point("TOP", -15, -40)
@@ -233,4 +233,4 @@ local function LoadSkin()
 	ArchaeologyFrameRaceFilter:Point("TOPRIGHT", -25, -3)
 end
 
-S:AddCallbackForAddon("Blizzard_ArchaeologyUI", "Archaeology", LoadSkin);
+S:AddCallbackForAddon("Blizzard_ArchaeologyUI", "Archaeology", LoadSkin)

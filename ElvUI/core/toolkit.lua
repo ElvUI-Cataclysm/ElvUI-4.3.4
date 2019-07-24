@@ -1,49 +1,32 @@
-local E, L, V, P, G = unpack(select(2, ...));
-local LSM = LibStub("LibSharedMedia-3.0")
+local E, L, V, P, G = unpack(select(2, ...))
+local LSM = E.Libs.LSM
 
-local _G = _G;
-local unpack, type, select, getmetatable, assert = unpack, type, select, getmetatable, assert;
+local _G = _G
+local unpack, type, select, getmetatable, assert, pairs = unpack, type, select, getmetatable, assert, pairs
 
-local CreateFrame = CreateFrame;
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS;
+local CreateFrame = CreateFrame
+local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
-E.mult = 1;
-local backdropr, backdropg, backdropb, backdropa, borderr, borderg, borderb = 0, 0, 0, 1, 0, 0, 0;
-
-local function GetTemplate(t, isUnitFrameElement)
+local backdropr, backdropg, backdropb, backdropa, borderr, borderg, borderb = 0, 0, 0, 1, 0, 0, 0
+local function GetTemplate(template, isUnitFrameElement)
 	backdropa = 1
-	if t == "ClassColor" then
-		if(CUSTOM_CLASS_COLORS) then
-			borderr, borderg, borderb = CUSTOM_CLASS_COLORS[E.myclass].r, CUSTOM_CLASS_COLORS[E.myclass].g, CUSTOM_CLASS_COLORS[E.myclass].b;
-		else
-			borderr, borderg, borderb = RAID_CLASS_COLORS[E.myclass].r, RAID_CLASS_COLORS[E.myclass].g, RAID_CLASS_COLORS[E.myclass].b;
-		end
 
-		if t ~= "Transparent" then
-			backdropr, backdropg, backdropb = unpack(E["media"].backdropcolor)
-		else
-			backdropr, backdropg, backdropb, backdropa = unpack(E["media"].backdropfadecolor)
-		end
-	elseif t == "Transparent" then
-		if isUnitFrameElement then
-			borderr, borderg, borderb = unpack(E["media"].unitframeBorderColor)
-		else
-			borderr, borderg, borderb = unpack(E["media"].bordercolor)
-		end
-		backdropr, backdropg, backdropb, backdropa = unpack(E["media"].backdropfadecolor)
+	if template == "ClassColor" then
+		local color = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass]
+		borderr, borderg, borderb = color.r, color.g, color.b
+		backdropr, backdropg, backdropb = unpack(E.media.backdropcolor)
+	elseif template == "Transparent" then
+		borderr, borderg, borderb = unpack(isUnitFrameElement and E.media.unitframeBorderColor or E.media.bordercolor)
+		backdropr, backdropg, backdropb, backdropa = unpack(E.media.backdropfadecolor)
 	else
-		if isUnitFrameElement then
-			borderr, borderg, borderb = unpack(E["media"].unitframeBorderColor)
-		else
-			borderr, borderg, borderb = unpack(E["media"].bordercolor)
-		end
-		backdropr, backdropg, backdropb = unpack(E["media"].backdropcolor)
+		borderr, borderg, borderb = unpack(isUnitFrameElement and E.media.unitframeBorderColor or E.media.bordercolor)
+		backdropr, backdropg, backdropb = unpack(E.media.backdropcolor)
 	end
 end
 
 local function Size(frame, width, height)
-	assert(width);
-	frame:SetSize(E:Scale(width), E:Scale(height or width));
+	assert(width)
+	frame:SetSize(E:Scale(width), E:Scale(height or width))
 end
 
 local function Width(frame, width)
@@ -53,19 +36,16 @@ end
 
 local function Height(frame, height)
 	assert(height)
-	frame:SetHeight(E:Scale(height));
+	frame:SetHeight(E:Scale(height))
 end
 
 local function Point(obj, arg1, arg2, arg3, arg4, arg5)
-	if(arg2 == nil) then
-		arg2 = obj:GetParent();
-	end
+	if arg2 == nil then arg2 = obj:GetParent() end
 
-	if type(arg1)=="number" then arg1 = E:Scale(arg1) end
-	if type(arg2)=="number" then arg2 = E:Scale(arg2) end
-	if type(arg3)=="number" then arg3 = E:Scale(arg3) end
-	if type(arg4)=="number" then arg4 = E:Scale(arg4) end
-	if type(arg5)=="number" then arg5 = E:Scale(arg5) end
+	if type(arg2) == "number" then arg2 = E:Scale(arg2) end
+	if type(arg3) == "number" then arg3 = E:Scale(arg3) end
+	if type(arg4) == "number" then arg4 = E:Scale(arg4) end
+	if type(arg5) == "number" then arg5 = E:Scale(arg5) end
 
 	obj:SetPoint(arg1, arg2, arg3, arg4, arg5)
 end
@@ -75,7 +55,7 @@ local function SetOutside(obj, anchor, xOffset, yOffset, anchor2)
 	yOffset = yOffset or E.Border
 	anchor = anchor or obj:GetParent()
 
-	assert(anchor);
+	assert(anchor)
 	if obj:GetPoint() then
 		obj:ClearAllPoints()
 	end
@@ -89,7 +69,7 @@ local function SetInside(obj, anchor, xOffset, yOffset, anchor2)
 	yOffset = yOffset or E.Border
 	anchor = anchor or obj:GetParent()
 
-	assert(anchor);
+	assert(anchor)
 	if obj:GetPoint() then
 		obj:ClearAllPoints()
 	end
@@ -98,151 +78,136 @@ local function SetInside(obj, anchor, xOffset, yOffset, anchor2)
 	obj:Point("BOTTOMRIGHT", anchor2 or anchor, "BOTTOMRIGHT", -xOffset, yOffset)
 end
 
-local function SetTemplate(f, t, glossTex, ignoreUpdates, forcePixelMode, isUnitFrameElement)
-	GetTemplate(t, isUnitFrameElement)
+local function SetTemplate(frame, template, glossTex, ignoreUpdates, forcePixelMode, isUnitFrameElement)
+	GetTemplate(template, isUnitFrameElement)
 
-	if(t) then
-		f.template = t;
-	end
+	if template then frame.template = template end
+	if glossTex then frame.glossTex = glossTex end
+	if ignoreUpdates then frame.ignoreUpdates = ignoreUpdates end
+	if forcePixelMode then frame.forcePixelMode = forcePixelMode end
+	if isUnitFrameElement then frame.isUnitFrameElement = isUnitFrameElement end
 
-	if(glossTex) then
-		f.glossTex = glossTex;
-	end
+	if template ~= "NoBackdrop" then
+		frame:SetBackdrop({
+			bgFile = E.media.blankTex,
+			edgeFile = E.media.blankTex,
+			tile = false, tileSize = 0, edgeSize = E.mult,
+			insets = {left = 0, right = 0, top = 0, bottom = 0}
+		})
 
-	if(ignoreUpdates) then
-		f.ignoreUpdates = ignoreUpdates;
-	end
-
-	if(forcePixelMode) then
-		f.forcePixelMode = forcePixelMode
-	end
-
-	if(isUnitFrameElement) then
-		f.isUnitFrameElement = isUnitFrameElement
-	end
-
-	if(t ~= "NoBackdrop") then
-		if(E.private.general.pixelPerfect or f.forcePixelMode) then
-			f:SetBackdrop({
-				bgFile = E["media"].blankTex,
-				edgeFile = E["media"].blankTex,
-				tile = false, tileSize = 0, edgeSize = E.mult,
-				insets = {left = 0, right = 0, top = 0, bottom = 0}
-			});
-		else
-			f:SetBackdrop({
-				bgFile = E["media"].blankTex,
-				edgeFile = E["media"].blankTex,
-				tile = false, tileSize = 0, edgeSize = E.mult,
-				insets = {left = -E.mult, right = -E.mult, top = -E.mult, bottom = -E.mult}
-			});
-		end
-
-		if not f.backdropTexture and t ~= "Transparent" then
-			local backdropTexture = f:CreateTexture(nil, "BORDER")
+		if not frame.backdropTexture and template ~= "Transparent" then
+			local backdropTexture = frame:CreateTexture(nil, "BORDER")
 			backdropTexture:SetDrawLayer("BACKGROUND", 1)
-			f.backdropTexture = backdropTexture
-		elseif t == "Transparent" then
-			f:SetBackdropColor(backdropr, backdropg, backdropb, backdropa)
+			frame.backdropTexture = backdropTexture
+		elseif template == "Transparent" then
+			frame:SetBackdropColor(backdropr, backdropg, backdropb, backdropa)
 
-			if f.backdropTexture then
-				f.backdropTexture:Hide()
-				f.backdropTexture = nil
-			end
-
-			if not f.oborder and not f.iborder and not E.private.general.pixelPerfect and not f.forcePixelMode then
-				local border = CreateFrame("Frame", nil, f)
-				border:SetInside(f, E.mult, E.mult)
-				border:SetBackdrop({
-					edgeFile = E["media"].blankTex,
-					edgeSize = E.mult,
-					insets = {left = E.mult, right = E.mult, top = E.mult, bottom = E.mult}
-				});
-				border:SetBackdropBorderColor(0, 0, 0, 1)
-				f.iborder = border
-
-				if f.oborder then return end
-				border = CreateFrame("Frame", nil, f)
-				border:SetOutside(f, E.mult, E.mult)
-				border:SetFrameLevel(f:GetFrameLevel() + 1)
-				border:SetBackdrop({
-					edgeFile = E["media"].blankTex,
-					edgeSize = E.mult,
-					insets = {left = E.mult, right = E.mult, top = E.mult, bottom = E.mult}
-				});
-				border:SetBackdropBorderColor(0, 0, 0, 1)
-				f.oborder = border
+			if frame.backdropTexture then
+				frame.backdropTexture:Hide()
+				frame.backdropTexture = nil
 			end
 		end
 
-		if f.backdropTexture then
-			f:SetBackdropColor(0, 0, 0, backdropa)
-			f.backdropTexture:SetVertexColor(backdropr, backdropg, backdropb)
-			f.backdropTexture:SetAlpha(backdropa)
+		if not E.PixelMode and not frame.forcePixelMode then
+			if not frame.iborder then
+				local border = CreateFrame("Frame", nil, frame)
+				border:SetInside(frame, E.mult, E.mult)
+				border:SetBackdrop({
+					edgeFile = E.media.blankTex,
+					edgeSize = E.mult,
+					insets = {left = -E.mult, right = -E.mult, top = -E.mult, bottom = -E.mult}
+				})
+				border:SetBackdropBorderColor(0, 0, 0, 1)
+				frame.iborder = border
+			end
+
+			if not frame.oborder then
+				local border = CreateFrame("Frame", nil, frame)
+				border:SetOutside(frame, E.mult, E.mult)
+				border:SetFrameLevel(frame:GetFrameLevel() + 1)
+				border:SetBackdrop({
+					edgeFile = E.media.blankTex,
+					edgeSize = E.mult,
+					insets = {left = E.mult, right = E.mult, top = E.mult, bottom = E.mult}
+				})
+				border:SetBackdropBorderColor(0, 0, 0, 1)
+				frame.oborder = border
+			end
+		end
+
+		if frame.backdropTexture then
+			frame:SetBackdropColor(0, 0, 0, backdropa)
+			frame.backdropTexture:SetVertexColor(backdropr, backdropg, backdropb)
+			frame.backdropTexture:SetAlpha(backdropa)
+
 			if glossTex then
-				f.backdropTexture:SetTexture(E["media"].glossTex)
+				frame.backdropTexture:SetTexture(E.media.glossTex)
 			else
-				f.backdropTexture:SetTexture(E["media"].blankTex)
+				frame.backdropTexture:SetTexture(E.media.blankTex)
 			end
 
-			if(f.forcePixelMode or forcePixelMode) then
-				f.backdropTexture:SetInside(f, E.mult, E.mult)
+			if frame.forcePixelMode or forcePixelMode then
+				frame.backdropTexture:SetInside(frame, E.mult, E.mult)
 			else
-				f.backdropTexture:SetInside(f)
+				frame.backdropTexture:SetInside(frame)
 			end
 		end
 	else
-		f:SetBackdrop(nil);
-		if f.backdropTexture then f.backdropTexture:SetTexture(nil) end
+		frame:SetBackdrop(nil)
+		if frame.backdropTexture then
+			frame.backdropTexture:SetTexture(nil)
+		end
 	end
+	frame:SetBackdropBorderColor(borderr, borderg, borderb)
 
-	f:SetBackdropBorderColor(borderr, borderg, borderb)
-
-	if(not f.ignoreUpdates) then
-		if f.isUnitFrameElement then
-			E["unitFrameElements"][f] = true
+	if not frame.ignoreUpdates then
+		if frame.isUnitFrameElement then
+			E.unitFrameElements[frame] = true
 		else
-			E["frames"][f] = true
+			E.frames[frame] = true
 		end
 	end
 end
 
-local function CreateBackdrop(f, t, tex, ignoreUpdates, forcePixelMode, isUnitFrameElement)
-	if(not t) then t = "Default"; end
+local function CreateBackdrop(frame, template, glossTex, ignoreUpdates, forcePixelMode, isUnitFrameElement)
+	if frame.backdrop then return end
 
-	local parent = f.IsObjectType and f:IsObjectType('Texture') and f:GetParent() or f
+	if not template then template = "Default" end
 
-	local b = CreateFrame("Frame", nil, parent)
-	if(f.forcePixelMode or forcePixelMode) then
-		b:SetOutside(nil, E.mult, E.mult);
+	local parent = (frame.IsObjectType and frame:IsObjectType("Texture") and frame:GetParent()) or frame
+	local backdrop = CreateFrame("Frame", nil, parent)
+	frame.backdrop = backdrop
+
+	if frame.forcePixelMode or forcePixelMode then
+		backdrop:SetOutside(frame, E.mult, E.mult)
 	else
-		b:SetOutside();
-	end
-	b:SetTemplate(t, tex, ignoreUpdates, forcePixelMode, isUnitFrameElement);
-
-	if (parent:GetFrameLevel() - 1) >= 0 then
-		b:SetFrameLevel(parent:GetFrameLevel() - 1)
-	else
-		b:SetFrameLevel(0);
+		backdrop:SetOutside(frame)
 	end
 
-	f.backdrop = b;
+	backdrop:SetTemplate(template, glossTex, ignoreUpdates, forcePixelMode, isUnitFrameElement)
+
+	local frameLevel = parent.GetFrameLevel and parent:GetFrameLevel()
+	local frameLevelMinusOne = frameLevel and (frameLevel - 1)
+	if frameLevelMinusOne and (frameLevelMinusOne >= 0) then
+		backdrop:SetFrameLevel(frameLevelMinusOne)
+	else
+		backdrop:SetFrameLevel(0)
+	end
 end
 
-local function CreateShadow(f)
-	if f.shadow then return end
+local function CreateShadow(frame, size)
+	if frame.shadow then return end
 
-	borderr, borderg, borderb = 0, 0, 0
-	backdropr, backdropg, backdropb = 0, 0, 0
+	backdropr, backdropg, backdropb, borderr, borderg, borderb = 0, 0, 0, 0, 0, 0
 
-	local shadow = CreateFrame("Frame", nil, f)
+	local shadow = CreateFrame("Frame", nil, frame)
 	shadow:SetFrameLevel(1)
-	shadow:SetFrameStrata(f:GetFrameStrata())
-	shadow:SetOutside(f, 3, 3)
-	shadow:SetBackdrop({edgeFile = LSM:Fetch("border", "ElvUI GlowBorder"), edgeSize = E:Scale(3)})
+	shadow:SetFrameStrata(frame:GetFrameStrata())
+	shadow:SetOutside(frame, size or 3, size or 3)
+	shadow:SetBackdrop({edgeFile = LSM:Fetch("border", "ElvUI GlowBorder"), edgeSize = E:Scale(size or 3)})
 	shadow:SetBackdropColor(backdropr, backdropg, backdropb, 0)
 	shadow:SetBackdropBorderColor(borderr, borderg, borderb, 0.9)
-	f.shadow = shadow
+	frame.shadow = shadow
 end
 
 local function Kill(object)
@@ -257,17 +222,27 @@ local function Kill(object)
 end
 
 local function StripTextures(object, kill)
-	for i = 1, object:GetNumRegions() do
-		local region = select(i, object:GetRegions())
-		if region and region:GetObjectType() == "Texture" then
-			if kill and type(kill) == "boolean" then
-				region:Kill()
-			elseif region:GetDrawLayer() == kill then
-				region:SetTexture(nil)
-			elseif kill and type(kill) == "string" and region:GetTexture() ~= kill then
-				region:SetTexture(nil)
-			else
-				region:SetTexture(nil)
+	if object:IsObjectType("Texture") then
+		if kill then
+			object:Kill()
+		elseif alpha then
+			object:SetAlpha(0)
+		else
+			object:SetTexture()
+		end
+	else
+		if object.GetNumRegions then
+			for i = 1, object:GetNumRegions() do
+				local region = select(i, object:GetRegions())
+				if region and region.IsObjectType and region:IsObjectType("Texture") then
+					if kill then
+						region:Kill()
+					elseif alpha then
+						region:SetAlpha(0)
+					else
+						region:SetTexture()
+					end
+				end
 			end
 		end
 	end
@@ -278,86 +253,90 @@ local function FontTemplate(fs, font, fontSize, fontStyle)
 	fs.fontSize = fontSize
 	fs.fontStyle = fontStyle
 
-	font = font or LSM:Fetch("font", E.db["general"].font)
+	font = font or LSM:Fetch("font", E.db.general.font)
 	fontSize = fontSize or E.db.general.fontSize
+	fontStyle = fontStyle or E.db.general.fontStyle
 
-	if fontStyle == "OUTLINE" and (E.db.general.font == "Homespun") then
-		if (fontSize > 10 and not fs.fontSize) then
-			fontStyle = "MONOCHROMEOUTLINE"
-			fontSize = 10
-		end
+	if fontStyle == "OUTLINE" and E.db.general.font == "Homespun" and (fontSize > 10 and not fs.fontSize) then
+		fontSize, fontStyle = 10, "MONOCHROMEOUTLINE"
 	end
 
 	fs:SetFont(font, fontSize, fontStyle)
-	if fontStyle and (fontStyle ~= "NONE") then
-		fs:SetShadowColor(0, 0, 0, 0.2)
-	else
-		fs:SetShadowColor(0, 0, 0, 1)
-	end
-	fs:SetShadowOffset((E.mult or 1), -(E.mult or 1))
 
-	E["texts"][fs] = true
+	if fontStyle == "NONE" then
+		local s = E.mult or 1
+		fs:SetShadowOffset(s, -s/2)
+		fs:SetShadowColor(0, 0, 0, 1)
+	else
+		fs:SetShadowOffset(0, 0)
+		fs:SetShadowColor(0, 0, 0, 0)
+	end
+
+	E.texts[fs] = true
 end
 
 local function StyleButton(button, noHover, noPushed, noChecked)
 	if button.SetHighlightTexture and not button.hover and not noHover then
-		local hover = button:CreateTexture();
-		hover:SetTexture(1, 1, 1, 0.3)
+		local hover = button:CreateTexture()
 		hover:SetInside()
-		button.hover = hover
+		hover:SetTexture(1, 1, 1, 0.3)
 		button:SetHighlightTexture(hover)
+		button.hover = hover
 	end
 
 	if button.SetPushedTexture and not button.pushed and not noPushed then
-		local pushed = button:CreateTexture();
-		pushed:SetTexture(0.9, 0.8, 0.1, 0.3)
+		local pushed = button:CreateTexture()
 		pushed:SetInside()
-		button.pushed = pushed
+		pushed:SetTexture(0.9, 0.8, 0.1, 0.3)
 		button:SetPushedTexture(pushed)
+		button.pushed = pushed
 	end
 
 	if button.SetCheckedTexture and not button.checked and not noChecked then
-		local checked = button:CreateTexture();
-		checked:SetTexture(1, 1, 1, 0.3)
+		local checked = button:CreateTexture()
 		checked:SetInside()
-		button.checked = checked
+		checked:SetTexture(1, 1, 1, 0.3)
 		button:SetCheckedTexture(checked)
+		button.checked = checked
 	end
 
-	local cooldown = button:GetName() and _G[button:GetName().."Cooldown"]
+	local name = button.GetName and button:GetName()
+	local cooldown = name and _G[name.."Cooldown"]
 	if cooldown then
 		cooldown:ClearAllPoints()
 		cooldown:SetInside()
 	end
 end
 
-local function CreateCloseButton(frame, size, offset, texture, backdrop)
-	size = (size or 16)
-	offset = (offset or -6)
-	texture = (texture or "Interface\\AddOns\\ElvUI\\media\\textures\\close.tga")
+local CreateCloseButton
+do
+	local CloseButtonOnClick = function(btn) btn:GetParent():Hide() end
+	local CloseButtonOnEnter = function(btn) if btn.Texture then btn.Texture:SetVertexColor(unpack(E.media.rgbvaluecolor)) end end
+	local CloseButtonOnLeave = function(btn) if btn.Texture then btn.Texture:SetVertexColor(1, 1, 1) end end
+	CreateCloseButton = function(frame, size, offset, texture, backdrop)
+		if frame.CloseButton then return end
 
-	local CloseButton = CreateFrame("Button", nil, frame)
-	CloseButton:Size(size)
-	CloseButton:Point("TOPRIGHT", offset, offset)
-	if backdrop then
-		CloseButton:CreateBackdrop("Default", true)
+		local CloseButton = CreateFrame("Button", nil, frame)
+		CloseButton:Size(size or 16)
+		CloseButton:Point("TOPRIGHT", offset or -6, offset or -6)
+		if backdrop then CloseButton:CreateBackdrop("Default", true) end
+
+		CloseButton.Texture = CloseButton:CreateTexture(nil, "OVERLAY")
+		CloseButton.Texture:SetAllPoints()
+		CloseButton.Texture:SetTexture(texture or E.Media.Textures.Close)
+
+		CloseButton:SetScript("OnClick", CloseButtonOnClick)
+		CloseButton:SetScript("OnEnter", CloseButtonOnEnter)
+		CloseButton:SetScript("OnLeave", CloseButtonOnLeave)
+
+		frame.CloseButton = CloseButton
 	end
+end
 
-	CloseButton.Texture = CloseButton:CreateTexture(nil, "OVERLAY")
-	CloseButton.Texture:SetAllPoints()
-	CloseButton.Texture:SetTexture(texture)
-
-	CloseButton:SetScript("OnClick", function(self)
-		self:GetParent():Hide()
-	end)
-	CloseButton:SetScript("OnEnter", function(self)
-		self.Texture:SetVertexColor(unpack(E["media"].rgbvaluecolor))
-	end)
-	CloseButton:SetScript("OnLeave", function(self)
-		self.Texture:SetVertexColor(1, 1, 1)
-	end)
-
-	frame.CloseButton = CloseButton
+local function GetNamedChild(frame, childName, index)
+	local name = frame and frame.GetName and frame:GetName()
+	if not name or not childName then return nil end
+	return _G[name..childName..(index or "")]
 end
 
 local function addapi(object)
@@ -376,6 +355,7 @@ local function addapi(object)
 	if not object.StripTextures then mt.StripTextures = StripTextures end
 	if not object.StyleButton then mt.StyleButton = StyleButton end
 	if not object.CreateCloseButton then mt.CreateCloseButton = CreateCloseButton end
+	if not object.GetNamedChild then mt.GetNamedChild = GetNamedChild end
 end
 
 local handled = {["Frame"] = true}
