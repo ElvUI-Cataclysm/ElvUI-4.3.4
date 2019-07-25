@@ -13,7 +13,9 @@ assert(oUF, "oUF_Cutaway was unable to locate oUF install.")
 local hooksecurefunc = hooksecurefunc
 local UnitHealthMax = UnitHealthMax
 local UnitPowerMax = UnitPowerMax
-local UnitIsTapDenied = UnitIsTapDenied
+local UnitIsTapped = UnitIsTapped
+local UnitIsTappedByPlayer = UnitIsTappedByPlayer
+local UnitGUID = UnitGUID
 
 local E  -- holder
 local function closureFunc(self)
@@ -38,19 +40,25 @@ end
 
 local function Shared_PreUpdate(self, element, unit)
 	element.unit = unit
+	local oldGUID = element.guid
+	element.guid = UnitGUID(unit)
+	if (not oldGUID or oldGUID ~= UnitGUID(unit)) then
+		return
+	end
 	element.cur = self.cur
 	element.ready = true
 end
 
-local function UpdateSize(self, element, cur, max)
-	local parentMeasurement = self:GetOrientation() == "VERTICAL" and self:GetHeight() or self:GetWidth()
-	local perc1Measurement = (1 / max) * parentMeasurement
-	local change = element.cur - cur
-	local myMeasurement = change * perc1Measurement
+local function UpdateSize(self, element, curV, maxV)
+	local pm = self:GetOrientation() == "VERTICAL" and self:GetHeight() or self:GetWidth()
+	local oum = (1 / maxV) * pm
+	local c = element.cur - curV
+	if c < (maxV * 0.01) then return end
+	local mm = c * oum
 	if (self:GetOrientation() == "VERTICAL") then
-		element:SetHeight(myMeasurement)
+		element:SetHeight(mm)
 	else
-		element:SetWidth(myMeasurement)
+		element:SetWidth(mm)
 	end
 end
 

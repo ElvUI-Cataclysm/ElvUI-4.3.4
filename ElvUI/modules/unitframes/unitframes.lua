@@ -1133,7 +1133,7 @@ function ElvUF:DisableBlizzard(unit)
 		PlayerFrame:RegisterEvent("UNIT_EXITING_VEHICLE")
 		PlayerFrame:RegisterEvent("UNIT_EXITED_VEHICLE")
 
-		-- User placed frames don"t animate
+		-- User placed frames don't animate
 		PlayerFrame:SetUserPlaced(true)
 		PlayerFrame:SetDontSavePosition(true)
 		RuneFrame:SetParent(PlayerFrame)

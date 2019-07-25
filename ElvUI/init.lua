@@ -221,7 +221,7 @@ LoadUI:SetScript("OnEvent", function()
 end)
 
 function AddOn:PLAYER_REGEN_ENABLED()
-	self:ToggleOptionsUI() 
+	self:ToggleOptionsUI()
 	self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 end
 
