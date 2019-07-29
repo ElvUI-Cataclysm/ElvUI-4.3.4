@@ -11,12 +11,15 @@ local GetContainerNumFreeSlots = GetContainerNumFreeSlots
 local GetItemInfo = GetItemInfo
 local GetItemQualityColor = GetItemQualityColor
 local hooksecurefunc = hooksecurefunc
+local BACKPACK_TOOLTIP = BACKPACK_TOOLTIP
 local BANK_CONTAINER = BANK_CONTAINER
 local MAX_CONTAINER_ITEMS = MAX_CONTAINER_ITEMS
 local MAX_WATCHED_TOKENS = MAX_WATCHED_TOKENS
 local NUM_BANKBAGSLOTS = NUM_BANKBAGSLOTS
 local NUM_BANKGENERIC_SLOTS = NUM_BANKGENERIC_SLOTS
 local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES
+
+local bagIconCache = {}
 
 local function LoadSkin()
 	if E.private.bags.enable then return end
@@ -90,18 +93,49 @@ local function LoadSkin()
 		token.icon:Size(15)
 	end
 
-	hooksecurefunc("ContainerFrame_Update", function(self)
-		local id = self:GetID()
-		local name = self:GetName()
-		local item, link, quality
-		local r, g, b
-		local questIcon, isQuestItem, questId, isActive
-		local _, bagType = GetContainerNumFreeSlots(id)
+	local function BagIcon(container, texture)
+		local portraitButton = _G[container:GetName().."PortraitButton"]
 
-		for i = 1, self.size, 1 do
-			item = _G[name.."Item"..i]
-			questIcon = _G[name.."Item"..i.."IconQuestTexture"]
-			link = GetContainerItemLink(id, item:GetID())
+		if portraitButton then
+			portraitButton:CreateBackdrop()
+			portraitButton:Size(36)
+			portraitButton:Point("TOPLEFT", 12, -7)
+
+			if not container.BagIcon then
+				container.BagIcon = portraitButton:CreateTexture()
+				container.BagIcon:SetTexCoord(unpack(E.TexCoords))
+				container.BagIcon:SetAllPoints()
+			end
+
+			container.BagIcon:SetTexture(texture)
+		end
+	end
+
+	hooksecurefunc("ContainerFrame_Update", function(frame)
+		local id = frame:GetID()
+		local _, bagType = GetContainerNumFreeSlots(id)
+		local frameName = frame:GetName()
+		local title = _G[frameName.."Name"]
+
+		if title and title.GetText then
+			local name = title:GetText()
+			if bagIconCache[name] then
+				BagIcon(frame, bagIconCache[name])
+			else
+				if name == BACKPACK_TOOLTIP then
+					bagIconCache[name] = MainMenuBarBackpackButtonIconTexture:GetTexture()
+				else
+					bagIconCache[name] = select(10, GetItemInfo(name))
+				end
+
+				BagIcon(frame, bagIconCache[name])
+			end
+		end
+
+		for i = 1, frame.size, 1 do
+			local item = _G[frameName.."Item"..i]
+			local questIcon = _G[frameName.."Item"..i.."IconQuestTexture"]
+			local link = GetContainerItemLink(id, item:GetID())
 
 			questIcon:Hide()
 
@@ -109,8 +143,8 @@ local function LoadSkin()
 				item:SetBackdropBorderColor(unpack(ProfessionColors[bagType]))
 				item.ignoreBorderColors = true
 			elseif link then
-				isQuestItem, questId, isActive = GetContainerItemQuestInfo(id, item:GetID())
-				_, _, quality = GetItemInfo(link)
+				local isQuestItem, questId, isActive = GetContainerItemQuestInfo(id, item:GetID())
+				local _, _, quality = GetItemInfo(link)
 
 				if questId and not isActive then
 					item:SetBackdropBorderColor(unpack(QuestColors.questStarter))
@@ -199,30 +233,22 @@ local function LoadSkin()
 
 	hooksecurefunc("BankFrameItemButton_Update", function(button)
 		local id = button:GetID()
-		local link, quality, questTexture
-		local isQuestItem, questId, isActive
-
-		if button.isBag then
-			link = GetInventoryItemLink("player", ContainerIDToInventoryID(id))
-		else
-			link = GetContainerItemLink(BANK_CONTAINER, id)
-		end
+		local link = button.isBag and GetInventoryItemLink("player", ContainerIDToInventoryID(id)) or GetContainerItemLink(BANK_CONTAINER, id)
 
 		if link then
-			questTexture = _G[button:GetName().."IconQuestTexture"]
-			isQuestItem, questId, isActive = GetContainerItemQuestInfo(BANK_CONTAINER, id)
-			quality = select(3, GetItemInfo(link))
+			local questTexture = _G[button:GetName().."IconQuestTexture"]
+			local isQuestItem, questId, isActive = GetContainerItemQuestInfo(BANK_CONTAINER, id)
+			local quality = select(3, GetItemInfo(link))
 
-			if questTexture then
-				questTexture:Hide()
-			end
+			if questTexture then questTexture:Hide() end
 
-			if questId and not isActive then
+			if button.isBag then
+				button:SetBackdropBorderColor(GetItemQualityColor(quality))
+				button.ignoreBorderColors = true
+			elseif questId and not isActive then
 				button:SetBackdropBorderColor(unpack(QuestColors.questStarter))
 				button.ignoreBorderColors = true
-				if questTexture then
-					questTexture:Show()
-				end
+				if questTexture then questTexture:Show() end
 			elseif questId or isQuestItem then
 				button:SetBackdropBorderColor(unpack(QuestColors.questItem))
 				button.ignoreBorderColors = true

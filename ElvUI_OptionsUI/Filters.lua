@@ -22,7 +22,7 @@ end
 
 local function removePriority(value)
 	if not value then return end
-	local x,y,z=E.db.unitframe.units,E.db.nameplates.units
+	local x,y,z = E.db.unitframe.units,E.db.nameplates.units
 	for n, t in pairs(x) do
 		if t and t.buffs and t.buffs.priority and t.buffs.priority ~= "" then
 			z = filterMatch(t.buffs.priority, filterValue(value))
@@ -181,9 +181,9 @@ local function UpdateFilterGroup()
 			guiInline = true,
 			args = {
 				enabled = {
-					name = L["ENABLE"],
 					order = 0,
 					type = "toggle",
+					name = L["ENABLE"],
 					get = function(info)
 						return E.global.unitframe.DebuffHighlightColors[(spellID or selectedSpell)].enable
 					end,

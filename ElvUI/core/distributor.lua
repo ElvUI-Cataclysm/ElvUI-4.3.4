@@ -377,7 +377,7 @@ function D:Decode(dataString)
 		end
 
 		local serializedData, success
-		serializedData, profileInfo = E:StringSplitMultiDelim(decompressedData, "^^::") -- "^^" indicates the end of the AceSerializer string
+		serializedData, profileInfo = E:SplitString(decompressedData, "^^::") -- "^^" indicates the end of the AceSerializer string
 
 		if not profileInfo then
 			E:Print("Error importing profile. String is invalid or corrupted!")
@@ -385,7 +385,7 @@ function D:Decode(dataString)
 		end
 
 		serializedData = format("%s%s", serializedData, "^^") --Add back the AceSerializer terminator
-		profileType, profileKey = E:StringSplitMultiDelim(profileInfo, "::")
+		profileType, profileKey = E:SplitString(profileInfo, "::")
 		success, profileData = D:Deserialize(serializedData)
 
 		if not success then
@@ -394,7 +394,7 @@ function D:Decode(dataString)
 		end
 	elseif stringType == "Table" then
 		local profileDataAsString
-		profileDataAsString, profileInfo = E:StringSplitMultiDelim(dataString, "}::") -- "}::" indicates the end of the table
+		profileDataAsString, profileInfo = E:SplitString(dataString, "}::") -- "}::" indicates the end of the table
 
 		if not profileInfo then
 			E:Print("Error extracting profile info. Invalid import string!")
@@ -408,7 +408,7 @@ function D:Decode(dataString)
 
 		profileDataAsString = format("%s%s", profileDataAsString, "}") --Add back the missing "}"
 		profileDataAsString = gsub(profileDataAsString, "\124\124", "\124") --Remove escape pipe characters
-		profileType, profileKey = E:StringSplitMultiDelim(profileInfo, "::")
+		profileType, profileKey = E:SplitString(profileInfo, "::")
 
 		local profileMessage
 		local profileToTable = loadstring(format("%s %s", "return", profileDataAsString))

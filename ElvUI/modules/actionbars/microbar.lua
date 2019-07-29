@@ -5,7 +5,6 @@ local _G = _G
 local gsub, match = string.gsub, string.match
 
 local CreateFrame = CreateFrame
-local UnitLevel = UnitLevel
 local UpdateMicroButtonsParent = UpdateMicroButtonsParent
 local RegisterStateDriver = RegisterStateDriver
 local InCombatLockdown = InCombatLockdown
@@ -162,7 +161,7 @@ function AB:UpdateMicroButtons()
 	GuildMicroButtonTabard.emblem:Point("BOTTOMRIGHT", GuildMicroButton, "BOTTOMRIGHT", -4, 8)
 
 	-- PvP Micro Button
-	if UnitLevel("player") < PVPMicroButton.minLevel then
+	if E.mylevel < PVPMicroButton.minLevel then
 		PVPMicroButtonTexture:SetDesaturated(true)
 	else
 		PVPMicroButtonTexture:SetDesaturated(false)

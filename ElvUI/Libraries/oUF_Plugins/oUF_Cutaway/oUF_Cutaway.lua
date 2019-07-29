@@ -1,5 +1,5 @@
 local _, ns = ...
-local oUF = oUF or ns.oUF
+local oUF = _G.oUF or ns.oUF
 assert(oUF, "oUF_Cutaway was unable to locate oUF install.")
 
 --[[
@@ -17,7 +17,7 @@ local UnitIsTapped = UnitIsTapped
 local UnitIsTappedByPlayer = UnitIsTappedByPlayer
 local UnitGUID = UnitGUID
 
-local E  -- holder
+local E -- placeholder
 local function closureFunc(self)
 	self.ready = nil
 	self.playing = nil
@@ -33,7 +33,7 @@ local function fadeClosure(element)
 		}
 	end
 
-	if not E then E = ElvUI[1] end
+	if not E then E = _G.ElvUI[1] end
 
 	E:UIFrameFadeOut(element, element.fadeOutTime, element.__parentElement:GetAlpha(), 0)
 end
@@ -52,8 +52,7 @@ end
 local function UpdateSize(self, element, curV, maxV)
 	local pm = self:GetOrientation() == "VERTICAL" and self:GetHeight() or self:GetWidth()
 	local oum = (1 / maxV) * pm
-	local c = element.cur - curV
-	if c < (maxV * 0.01) then return end
+	local c = math.max(element.cur - curV, 0)
 	local mm = c * oum
 	if (self:GetOrientation() == "VERTICAL") then
 		element:SetHeight(mm)
@@ -62,26 +61,43 @@ local function UpdateSize(self, element, curV, maxV)
 	end
 end
 
+local PRE = 0
+local POST = 1
+
+local function Shared_UpdateCheckReturn(self, element, updateType, ...)
+	if not element:IsShown() then
+		return true
+	end
+	if (updateType == PRE) then
+		local maxV = ...
+		return (not element.enabled or not self.cur) or element.ready or not maxV
+	elseif (updateType == POST) then
+		local curV, maxV, unit = ...
+		return (not element.enabled or not element.cur) or (not element.ready or not curV or not maxV) or element.unit ~= unit
+	else
+		return false
+	end
+end
+
 local function Health_PreUpdate(self, unit)
 	local element = self.__owner.Cutaway.Health
-	local max = UnitHealthMax(unit)
-	if (not element.enabled or not self.cur) or element.ready or (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit)) or not max then return end
+	local maxV = UnitHealthMax(unit)
+	if Shared_UpdateCheckReturn(self, element, PRE, maxV) or (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit)) then return end
 
 	Shared_PreUpdate(self, element, unit)
 end
 
 local function Health_PostUpdate(self, unit, curHealth, maxHealth)
 	local element = self.__owner.Cutaway.Health
-	if (not element.ready or not element.cur or not curHealth or not maxHealth) or element.unit ~= unit then return end
+	if Shared_UpdateCheckReturn(self, element, POST, curHealth, maxHealth, unit) then return end
 
 	UpdateSize(self, element, curHealth, maxHealth)
-
 	if element.playing then return end
 
 	if (element.cur - curHealth) > (maxHealth * 0.01) then
 		element:SetAlpha(self:GetAlpha())
 
-		if not E then E = ElvUI[1] end
+		if not E then E = _G.ElvUI[1] end
 
 		E:Delay(element.lengthBeforeFade, fadeClosure, element)
 
@@ -99,24 +115,23 @@ end
 
 local function Power_PreUpdate(self, unit)
 	local element = self.__owner.Cutaway.Power
-	local max = UnitPowerMax(unit)
-	if (not element.enabled or not self.cur) or element.ready or not max then return end
+	local maxV = UnitPowerMax(unit)
+	if Shared_UpdateCheckReturn(self, element, PRE, maxV) then return end
 
 	Shared_PreUpdate(self, element, unit)
 end
 
 local function Power_PostUpdate(self, unit, curPower, maxPower)
 	local element = self.__owner.Cutaway.Power
-	if (not element.ready or not element.cur or not curPower or not maxPower) or element.unit ~= unit then return end
+	if Shared_UpdateCheckReturn(self, element, POST, curPower, maxPower, unit) then return end
 
 	UpdateSize(self, element, curPower, maxPower)
-
 	if element.playing then return end
 
 	if (element.cur - curPower) > (maxPower * 0.1) then
 		element:SetAlpha(self:GetAlpha())
 
-		if not E then E = ElvUI[1] end
+		if not E then E = _G.ElvUI[1] end
 
 		E:Delay(element.lengthBeforeFade, fadeClosure, element)
 
@@ -132,26 +147,72 @@ local function Power_PostUpdateColor(self, _, _, _, _)
 	self.__owner.Cutaway.Power:SetStatusBarColor(r * 1.5, g * 1.5, b * 1.5, a)
 end
 
+local defaults = {
+	health = {
+		enabled = false,
+		lengthBeforeFade = 0.3,
+		fadeOutTime = 0.6
+	},
+	power = {
+		enabled = false,
+		lengthBeforeFade = 0.3,
+		fadeOutTime = 0.6
+	}
+}
+
+local function UpdateConfigurationValues(self, db)
+	local hs, ps = false, false
+	if (self.Health) then
+		local health = self.Health
+		local hdb = db.health
+		hs = hdb.enabled
+		if (hs) then
+			health.enabled = hs
+			health.lengthBeforeFade = hdb.lengthBeforeFade
+			health.fadeOutTime = hdb.fadeOutTime
+			health:Show()
+		else
+			health:Hide()
+		end
+	end
+	if (self.Power) then
+		local power = self.Power
+		local pdb = db.power
+		ps = pdb.enabled
+		if (ps) then
+			power.enabled = ps
+			power.lengthBeforeFade = pdb.lengthBeforeFade
+			power.fadeOutTime = pdb.fadeOutTime
+			power:Show()
+		else
+			power:Hide()
+		end
+	end
+	return hs, ps
+end
+
 local function Enable(self)
 	local element = self and self.Cutaway
-	if element then
-		if element.Health and element.Health:IsObjectType("StatusBar") and not element.Health:GetStatusBarTexture() then
+	if (element) then
+		if (element.Health and element.Health:IsObjectType("StatusBar") and not element.Health:GetStatusBarTexture()) then
 			element.Health:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 		end
 
-		if element.Power and element.Power:IsObjectType("StatusBar") and not element.Power:GetStatusBarTexture() then
+		if (element.Power and element.Power:IsObjectType("StatusBar") and not element.Power:GetStatusBarTexture()) then
 			element.Power:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
+		end
+
+		if (not element.defaultsSet) then
+			UpdateConfigurationValues(element, defaults)
+			element.defaultsSet = true
 		end
 
 		if element.Health and self.Health then
 			self.Health.__owner = self
 
-			element.Health.lengthBeforeFade = element.Health.lengthBeforeFade or 0.3
-			element.Health.fadeOutTime = element.Health.fadeOutTime or 0.6
 			element.Health:SetMinMaxValues(0, 1)
 			element.Health:SetValue(1)
 			element.Health.__parentElement = self.Health
-			element.Health:Show()
 
 			if not element.Health.hasCutawayHook then
 				if self.Health.PreUpdate then
@@ -179,12 +240,9 @@ local function Enable(self)
 		if element.Power and self.Power then
 			self.Power.__owner = self
 
-			element.Power.lengthBeforeFade = element.Power.lengthBeforeFade or 0.3
-			element.Power.fadeOutTime = element.Power.fadeOutTime or 0.6
 			element.Power:SetMinMaxValues(0, 1)
 			element.Power:SetValue(1)
 			element.Power.__parentElement = self.Power
-			element.Power:Show()
 
 			if not element.Power.hasCutawayHook then
 				if self.Power.PreUpdate then
@@ -209,6 +267,10 @@ local function Enable(self)
 			end
 		end
 
+		if not (element.UpdateConfigurationValues) then
+			element.UpdateConfigurationValues = UpdateConfigurationValues
+		end
+
 		element:Show()
 
 		return true
@@ -218,13 +280,6 @@ end
 local function Disable(self)
 	if self and self.Cutaway then
 		self.Cutaway:Hide()
-
-		if self.Cutaway.Health then
-			self.Cutaway.Health:Hide()
-		end
-		if self.Cutaway.Power then
-			self.Cutaway.Power:Hide()
-		end
 	end
 end
 

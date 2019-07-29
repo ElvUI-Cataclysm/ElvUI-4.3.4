@@ -1527,7 +1527,7 @@ function B:CreateSellFrame()
 	B.SellFrame.statusbar:SetStatusBarColor(1, 0, 0)
 	B.SellFrame.statusbar:CreateBackdrop("Transparent")
 
-	B.SellFrame.statusbar.anim = CreateAnimationGroup(B.SellFrame.statusbar)
+	B.SellFrame.statusbar.anim = _G.CreateAnimationGroup(B.SellFrame.statusbar)
 	B.SellFrame.statusbar.anim.progress = B.SellFrame.statusbar.anim:CreateAnimation("Progress")
 	B.SellFrame.statusbar.anim.progress:SetSmoothing("Out")
 	B.SellFrame.statusbar.anim.progress:SetDuration(0.3)

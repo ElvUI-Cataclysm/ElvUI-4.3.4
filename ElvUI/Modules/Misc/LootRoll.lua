@@ -20,7 +20,6 @@ local GetLootRollTimeLeft = GetLootRollTimeLeft
 local GetLootRollItemInfo = GetLootRollItemInfo
 local GetLootRollItemLink = GetLootRollItemLink
 local SetDesaturation = SetDesaturation
-local UnitLevel = UnitLevel
 local ITEM_QUALITY_COLORS = ITEM_QUALITY_COLORS
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 local ROLL_DISENCHANT = ROLL_DISENCHANT
@@ -313,7 +312,7 @@ function M:START_LOOT_ROLL(_, rollID, time)
 	f:Show()
 	AlertFrame_FixAnchors()
 
-	if E.db.general.autoRoll and UnitLevel("player") == MAX_PLAYER_LEVEL and quality == 2 and not bop then
+	if E.db.general.autoRoll and E.mylevel == MAX_PLAYER_LEVEL and quality == 2 and not bop then
 		if canDisenchant then
 			RollOnLoot(rollID, 3)
 		else

@@ -69,14 +69,14 @@ local menuList = {
 	{text = TIMEMANAGER_TITLE, notCheckable = 1, func = ToggleTimeManager},
 	{text = guildText, notCheckable = 1, func = ToggleGuildFrame},
 	{text = PLAYER_V_PLAYER, notCheckable = 1, func = function()
-		if UnitLevel("player") >= SHOW_PVP_LEVEL then
+		if E.mylevel >= SHOW_PVP_LEVEL then
 			ToggleFrame(PVPFrame)
 		else
 			UIErrorsFrame:AddMessage(format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, SHOW_PVP_LEVEL), 1, 0.1, 0.1)
 		end
 	end},
 	{text = DUNGEONS_BUTTON, notCheckable = 1, func = function()
-		if UnitLevel("player") >= SHOW_LFD_LEVEL then
+		if E.mylevel >= SHOW_LFD_LEVEL then
 			ToggleFrame(LFDParentFrame)
 		else
 			UIErrorsFrame:AddMessage(format(FEATURE_BECOMES_AVAILABLE_AT_LEVEL, SHOW_LFD_LEVEL), 1, 0.1, 0.1)

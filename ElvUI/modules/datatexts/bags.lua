@@ -36,14 +36,6 @@ local function OnEnter(self)
 	local free, total, used
 
 	for i = 0, NUM_BAG_SLOTS do
-		if i ~= 0 then
-			link = GetInventoryItemLink("player", ContainerIDToInventoryID(i))
-			if link then
-				name, _, quality = GetItemInfo(link)
-				r, g, b = GetItemQualityColor(quality)
-			end
-		end
-
 		free, total, used = 0, 0, 0
 		free, total = GetContainerNumFreeSlots(i), GetContainerNumSlots(i)
 		used = total - free
@@ -52,7 +44,10 @@ local function OnEnter(self)
 			DT.tooltip:AddLine(L["Bags"]..":")
 			DT.tooltip:AddDoubleLine(join("", BACKPACK_TOOLTIP), format("%d / %d", used, total), 1, 1, 1)
 		else
+			link = GetInventoryItemLink("player", ContainerIDToInventoryID(i))
 			if link then
+				name, _, quality = GetItemInfo(link)
+				r, g, b = GetItemQualityColor(quality)
 				DT.tooltip:AddDoubleLine(join("", name), format("%d / %d", used, total), r, g, b)
 			end
 		end

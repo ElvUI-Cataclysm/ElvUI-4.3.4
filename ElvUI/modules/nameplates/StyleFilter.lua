@@ -12,7 +12,6 @@ local GetTime = GetTime
 local UnitAffectingCombat = UnitAffectingCombat
 local UnitHealth = UnitHealth
 local UnitHealthMax = UnitHealthMax
-local UnitLevel = UnitLevel
 
 local FAILED = FAILED
 local INTERRUPTED = INTERRUPTED
@@ -105,10 +104,11 @@ function NP:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderChan
 	if TextureChanged then
 		frame.StyleChanged = true
 		frame.TextureChanged = true
-		frame.Highlight.texture:SetTexture(LSM:Fetch("statusbar", actions.texture.texture))
-		frame.HealthBar:SetStatusBarTexture(LSM:Fetch("statusbar", actions.texture.texture))
+		local tex = LSM:Fetch("statusbar", actions.texture.texture)
+		frame.Highlight.texture:SetTexture(tex)
+		frame.HealthBar:SetStatusBarTexture(tex)
 		if FlashingHealth then
-			frame.FlashTexture:SetTexture(LSM:Fetch("statusbar", actions.texture.texture))
+			frame.FlashTexture:SetTexture(tex)
 		end
 	end
 	if ScaleChanged then
@@ -174,10 +174,11 @@ function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, Fl
 	end
 	if BorderChanged then
 		frame.BorderChanged = nil
-		frame.HealthBar.bordertop:SetTexture(unpack(E.media.bordercolor))
-		frame.HealthBar.borderbottom:SetTexture(unpack(E.media.bordercolor))
-		frame.HealthBar.borderleft:SetTexture(unpack(E.media.bordercolor))
-		frame.HealthBar.borderright:SetTexture(unpack(E.media.bordercolor))
+		local r, g, b = unpack(E.media.bordercolor)
+		frame.HealthBar.bordertop:SetTexture(r, g, b)
+		frame.HealthBar.borderbottom:SetTexture(r, g, b)
+		frame.HealthBar.borderleft:SetTexture(r, g, b)
+		frame.HealthBar.borderright:SetTexture(r, g, b)
 	end
 	if FlashingHealth then
 		frame.FlashingHealth = nil
@@ -186,8 +187,9 @@ function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, Fl
 	end
 	if TextureChanged then
 		frame.TextureChanged = nil
-		frame.Highlight.texture:SetTexture(LSM:Fetch("statusbar", self.db.statusbar))
-		frame.HealthBar:SetStatusBarTexture(LSM:Fetch("statusbar", self.db.statusbar))
+		local tex = LSM:Fetch("statusbar", mod.db.statusbar)
+		frame.Highlight.texture:SetTexture(tex)
+		frame.HealthBar:SetStatusBarTexture(tex)
 	end
 	if ScaleChanged then
 		frame.ScaleChanged = nil
@@ -387,7 +389,7 @@ function NP:StyleFilterConditionCheck(frame, filter, trigger, failed)
 	--Try to match by level conditions
 	if not failed and trigger.level then
 		condition = false
-		myLevel = UnitLevel("player")
+		myLevel = E.mylevel
 		level = NP:UnitLevel(frame)
 		level = level == "??" and -1 or tonumber(level)
 		curLevel = (trigger.curlevel and trigger.curlevel ~= 0 and (trigger.curlevel == level))

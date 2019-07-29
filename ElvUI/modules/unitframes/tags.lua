@@ -482,7 +482,7 @@ ElvUF.Tags.Methods["difficultycolor"] = function(unit)
 	local r, g, b
 	local level = UnitLevel(unit)
 	if level > 1 then
-		local DiffColor = UnitLevel(unit) - UnitLevel("player")
+		local DiffColor = UnitLevel(unit) - E.mylevel
 		if DiffColor >= 5 then
 			r, g, b = 0.69, 0.31, 0.31
 		elseif DiffColor >= 3 then
@@ -519,7 +519,7 @@ end
 ElvUF.Tags.Events["smartlevel"] = "UNIT_LEVEL PLAYER_LEVEL_UP"
 ElvUF.Tags.Methods["smartlevel"] = function(unit)
 	local level = UnitLevel(unit)
-	if level == UnitLevel("player") then
+	if level == E.mylevel then
 		return ""
 	elseif level > 0 then
 		return level

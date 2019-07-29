@@ -120,7 +120,6 @@ function NP:UpdateElement_Health(frame)
 
 	frame.HealthBar:SetValue(health)
 	frame:GetParent().UnitFrame.FlashTexture:Point("TOPRIGHT", frame.HealthBar:GetStatusBarTexture(), "TOPRIGHT") --idk why this fixes this
-	--E:SetSmoothing(frame.HealthBar, self.db.smoothbars)
 
 	if self.db.units[frame.UnitType].healthbar.text.enable then
 		frame.HealthBar.text:SetText(E:GetFormattedText(self.db.units[frame.UnitType].healthbar.text.format, health, maxHealth))

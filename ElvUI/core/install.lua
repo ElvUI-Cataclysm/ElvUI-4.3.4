@@ -317,7 +317,6 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.unitframe.units.player.classbar.height = 14
 		E.db.unitframe.units.player.debuffs.perrow = 7
 		E.db.unitframe.units.player.disableMouseoverGlow = true
-		E.db.unitframe.units.player.healPrediction.showOverAbsorbs = false
 		E.db.unitframe.units.player.health.attachTextTo = "InfoPanel"
 		E.db.unitframe.units.player.height = 82
 		E.db.unitframe.units.player.infoPanel.enable = true
@@ -336,7 +335,6 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.unitframe.units.target.debuffs.maxDuration = 0
 		E.db.unitframe.units.target.debuffs.perrow = 7
 		E.db.unitframe.units.target.disableMouseoverGlow = true
-		E.db.unitframe.units.target.healPrediction.showOverAbsorbs = false
 		E.db.unitframe.units.target.health.attachTextTo = "InfoPanel"
 		E.db.unitframe.units.target.height = 82
 		E.db.unitframe.units.target.infoPanel.enable = true
@@ -774,8 +772,8 @@ function E:Install()
 		-- Setup StatusBar Animation
 		f.Status.anim = CreateAnimationGroup(f.Status)
 		f.Status.anim.progress = f.Status.anim:CreateAnimation("Progress")
-		f.Status.anim.progress:SetSmoothing("Out")
-		f.Status.anim.progress:SetDuration(.3)
+		f.Status.anim.progress:SetEasing("Out")
+		f.Status.anim.progress:SetDuration(0.3)
 
 		f.Status.text = f.Status:CreateFontString(nil, "OVERLAY")
 		f.Status.text:FontTemplate()
@@ -853,9 +851,9 @@ function E:Install()
 		f.Option4:Hide()
 		f.Option4:SetScript("OnShow", function()
 			f.Option1:Width(100)
-			f.Option2:Width(100)
 			f.Option1:ClearAllPoints()
 			f.Option1:Point("RIGHT", f.Option2, "LEFT", -4, 0) 
+			f.Option2:Width(100)
 			f.Option2:ClearAllPoints()
 			f.Option2:Point("BOTTOMRIGHT", f, "BOTTOM", -4, 45)
 		end)
@@ -888,10 +886,10 @@ function E:Install()
 		f.Desc3:Point("TOPLEFT", 20, -175)
 		f.Desc3:Width(f:GetWidth() - 40)
 
-		local close = CreateFrame("Button", "InstallCloseButton", f, "UIPanelCloseButton")
-		close:Point("TOPRIGHT", f, "TOPRIGHT")
-		close:SetScript("OnClick", function() f:Hide() end)
-		S:HandleCloseButton(close)
+		local closeButton = CreateFrame("Button", "InstallCloseButton", f, "UIPanelCloseButton")
+		closeButton:Point("TOPRIGHT", f, "TOPRIGHT")
+		closeButton:SetScript("OnClick", function() f:Hide() end)
+		S:HandleCloseButton(closeButton)
 
 		f.tutorialImage = f:CreateTexture("InstallTutorialImage", "OVERLAY")
 		f.tutorialImage:Size(256, 128)

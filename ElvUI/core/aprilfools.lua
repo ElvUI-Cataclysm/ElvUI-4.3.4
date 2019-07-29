@@ -105,6 +105,12 @@ do
 				tinsert(self.massiveShakeObjects, button)
 			end
 		end
+
+		if ElvUI_MicroBar then
+			for i = 1, #MICRO_BUTTONS do
+				tinsert(self.massiveShakeObjects, _G[MICRO_BUTTONS[i]])
+			end
+		end
 	end
 
 	function E:HarlemShakeToggle()

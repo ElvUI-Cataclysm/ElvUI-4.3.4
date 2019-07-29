@@ -1,6 +1,6 @@
 ## Interface: 40300
 ## Author: Elv, Bunny
-## Version: 1.01
+## Version: 1.06
 ## Title: |cffff7000E|r|cffe5e3e3lvUI|r |cffff7000O|r|cffe5e3e3ptionsUI|r
 ## Notes: Options for ElvUI.
 ## RequiredDeps: ElvUI
