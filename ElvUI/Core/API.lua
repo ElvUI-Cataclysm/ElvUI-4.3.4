@@ -1,9 +1,9 @@
 local E, L, V, P, G = unpack(select(2, ...))
 
 local _G = _G
-local format, select, type, pairs, date = format, select, type, pairs, date
+local wipe, date = wipe, date
+local format, select, type, ipairs, pairs = format, select, type, ipairs, pairs
 local strmatch, strfind, tonumber, tostring = strmatch, strfind, tonumber, tostring
-local twipe = twipe
 
 local GetCVarBool = GetCVarBool
 local GetCombatRatingBonus = GetCombatRatingBonus
@@ -24,10 +24,6 @@ local PLAYER_FACTION_GROUP = PLAYER_FACTION_GROUP
 local FACTION_HORDE = FACTION_HORDE
 local FACTION_ALLIANCE = FACTION_ALLIANCE
 
-function E:IsFoolsDay()
-	return strfind(date(), "04/01/") and not E.global.aprilFools
-end
-
 do -- other non-english locales require this
 	E.UnlocalizedClasses = {}
 	for k, v in pairs(_G.LOCALIZED_CLASS_NAMES_MALE) do E.UnlocalizedClasses[v] = k end
@@ -38,8 +34,31 @@ do -- other non-english locales require this
 	end
 end
 
+function E:IsFoolsDay()
+	return strfind(date(), "04/01/") and not E.global.aprilFools
+end
+
+function E:ScanTooltipTextures(clean, grabTextures)
+	local textures
+	for i = 1, 10 do
+		local tex = _G["ElvUI_ScanTooltipTexture"..i]
+		local texture = tex and tex:GetTexture()
+		if texture then
+			if grabTextures then
+				if not textures then textures = {} end
+				textures[i] = texture
+			end
+			if clean then
+				tex:SetTexture()
+			end
+		end
+	end
+
+	return textures
+end
+
 function E:CheckTalentTree(tree)
-	local activeGroup = GetActiveTalentGroup(false,false)
+	local activeGroup = GetActiveTalentGroup(false, false)
 	if type(tree) == "number" then
 		if activeGroup and GetPrimaryTalentTree(activeGroup - 1) then
 			return tree == GetPrimaryTalentTree(activeGroup - 1)
@@ -226,7 +245,7 @@ do
 			E:Print("CPU Usage: No CPU Usage differences found.")
 		end
 
-		twipe(CPU_USAGE)
+		wipe(CPU_USAGE)
 	end
 
 	function E:GetTopCPUFunc(msg)
@@ -242,7 +261,7 @@ do
 		delay = (delay == "nil" and nil) or tonumber(delay) or 5
 		minCalls = (minCalls == "nil" and nil) or tonumber(minCalls) or 15
 
-		twipe(CPU_USAGE)
+		wipe(CPU_USAGE)
 		if module == "all" then
 			for moduName, modu in pairs(self.modules) do
 				for funcName, func in pairs(modu) do

@@ -46,7 +46,7 @@ function NP:CheckBGHealers()
 	for i = 1, GetNumBattlefieldScores() do
 		name, _, _, _, _, _, _, _, _, _, _, _, _, _, _, talentSpec = GetBattlefieldScore(i)
 		if name then
-			name = match(name,"([^%-]+).*")
+			name = match(name, "([^%-]+).*")
 			if name and self.HealerSpecs[talentSpec] then
 				self.Healers[name] = talentSpec
 			elseif name and self.Healers[name] then
@@ -145,7 +145,6 @@ function NP:SetTargetFrame(frame)
 				frame:SetAlpha(1)
 			end
 
-			-- TEST
 			NP:UpdateElement_Highlight(frame)
 			NP:UpdateElement_CPoints(frame)
 			NP:UpdateElement_Filters(frame, "PLAYER_TARGET_CHANGED")
@@ -176,7 +175,6 @@ function NP:SetTargetFrame(frame)
 			end
 		end
 
-		-- TEST
 		NP:UpdateElement_CPoints(frame)
 		NP:UpdateElement_Filters(frame, "PLAYER_TARGET_CHANGED")
 		NP:ForEachPlate("ResetNameplateFrameLevel") --keep this after `UpdateElement_Filters`
@@ -326,7 +324,7 @@ end
 function NP:UnitDetailedThreatSituation(frame)
 	if not frame.Threat:IsShown() then
 		if frame.UnitType == "ENEMY_NPC" then
-			local r, g, b = frame.oldName:GetTextColor()
+			local r, g = frame.oldName:GetTextColor()
 			return (r > 0.5 and g < 0.5) and 0 or nil
 		end
 	else
@@ -343,7 +341,7 @@ function NP:UnitDetailedThreatSituation(frame)
 end
 
 function NP:UnitLevel(frame)
-	local level, elite, boss = frame.oldLevel:GetObjectType() == "FontString" and tonumber(frame.oldLevel:GetText()) or false, frame.EliteIcon:IsShown(), frame.BossIcon:IsShown()
+	local level, boss = frame.oldLevel:GetObjectType() == "FontString" and tonumber(frame.oldLevel:GetText()) or false, frame.BossIcon:IsShown()
 	if boss or not level then
 		return "??", 0.9, 0, 0
 	else

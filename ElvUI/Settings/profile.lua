@@ -4007,7 +4007,7 @@ P.actionbar = {
 		inheritGlobalFade = false,
 		visibility = "[pet,novehicleui,nobonusbar:5] show;hide"
 	},
-	barShapeShift = {
+	stanceBar = {
 		enabled = true,
 		style = "darkenInactive",
 		mouseover = false,

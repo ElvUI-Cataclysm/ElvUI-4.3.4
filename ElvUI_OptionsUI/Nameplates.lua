@@ -12,9 +12,6 @@ local GetSpellInfo = GetSpellInfo
 local selectedNameplateFilter
 
 local carryFilterFrom, carryFilterTo
-local function filterValue(value)
-	return gsub(value,"([%(%)%.%%%+%-%*%?%[%^%$])","%%%1")
-end
 
 local function filterMatch(s,v)
 	local m1, m2, m3, m4 = "^"..v.."$", "^"..v..",", ","..v.."$", ","..v..","
@@ -25,7 +22,7 @@ local function filterPriority(auraType, unit, value, remove, movehere)
 	if not auraType or not value then return end
 	local filter = E.db.nameplates.units[unit] and E.db.nameplates.units[unit][auraType] and E.db.nameplates.units[unit][auraType].filters and E.db.nameplates.units[unit][auraType].filters.priority
 	if not filter then return end
-	local found = filterMatch(filter, filterValue(value))
+	local found = filterMatch(filter, E:EscapeString(value))
 	if found and movehere then
 		local tbl, sv, sm = {strsplit(",",filter)}
 		for i in ipairs(tbl) do

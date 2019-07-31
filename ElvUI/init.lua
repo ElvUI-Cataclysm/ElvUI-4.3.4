@@ -105,23 +105,11 @@ AddOn.TotemBar = AddOn:NewModule("Totems", "AceEvent-3.0")
 AddOn.UnitFrames = AddOn:NewModule("UnitFrames", "AceTimer-3.0", "AceEvent-3.0", "AceHook-3.0")
 AddOn.WorldMap = AddOn:NewModule("WorldMap", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0")
 
-function AddOn:ScanTooltipTextures(clean, grabTextures)
-	local textures
-	for i = 1, 10 do
-		local tex = _G["ElvUI_ScanTooltipTexture"..i]
-		local texture = tex and tex:GetTexture()
-		if texture then
-			if grabTextures then
-				if not textures then textures = {} end
-				textures[i] = texture
-			end
-			if clean then
-				tex:SetTexture()
-			end
-		end
+do
+	local arg2, arg3 = "([%(%)%.%%%+%-%*%?%[%^%$])", "%%%1"
+	function AddOn:EscapeString(str)
+		return gsub(str, arg2, arg3)
 	end
-
-	return textures
 end
 
 function AddOn:OnInitialize()
@@ -178,7 +166,7 @@ function AddOn:OnInitialize()
 		self:StaticPopup_Show("TUKUI_ELVUI_INCOMPATIBLE")
 	end
 
-	local GameMenuButton = CreateFrame("Button", "ElvUI", GameMenuFrame, "GameMenuButtonTemplate")
+	local GameMenuButton = CreateFrame("Button", "GameMenuButtonElvUI", GameMenuFrame, "GameMenuButtonTemplate")
 	GameMenuButton:SetText(self.title)
 	GameMenuButton:SetScript("OnClick", function()
 		AddOn:ToggleOptionsUI()
@@ -207,11 +195,6 @@ function AddOn:OnInitialize()
 			GameMenuButtonLogout:Point("TOPLEFT", GameMenuFrame[AddOnName], "BOTTOMLEFT", 0, -16)
 		end
 	end)
-
-	if AddOn.private.skins.blizzard.enable ~= true or AddOn.private.skins.blizzard.misc ~= true then return end
-
-	local S = AddOn:GetModule("Skins")
-	S:HandleButton(GameMenuButton)
 end
 
 local LoadUI = CreateFrame("Frame")
@@ -226,7 +209,7 @@ function AddOn:PLAYER_REGEN_ENABLED()
 end
 
 function AddOn:PLAYER_REGEN_DISABLED()
-	local err = false
+	local err
 
 	if IsAddOnLoaded("ElvUI_OptionsUI") then
 		local ACD = self.Libs.AceConfigDialog
@@ -239,14 +222,15 @@ function AddOn:PLAYER_REGEN_DISABLED()
 
 	if self.CreatedMovers then
 		for name in pairs(self.CreatedMovers) do
-			if _G[name] and _G[name]:IsShown() then
+			local mover = _G[name]
+			if mover and mover:IsShown() then
+				mover:Hide()
 				err = true
-				_G[name]:Hide()
 			end
 		end
 	end
 
-	if err == true then
+	if err then
 		self:Print(ERR_NOT_IN_COMBAT)
 	end
 end
@@ -337,7 +321,7 @@ function AddOn:ToggleOptionsUI(msg)
 	local pages, msgStr
 	if msg and msg ~= "" then
 		pages = {strsplit(",", msg)}
-		msgStr = msg:gsub(",","\001")
+		msgStr = gsub(msg, ",","\001")
 	end
 
 	local mode = "Close"
@@ -353,13 +337,13 @@ function AddOn:ToggleOptionsUI(msg)
 					if i == 1 then
 						main = pages[i] and ACD and ACD.Status and ACD.Status.ElvUI
 						mainSel = main and main.status and main.status.groups and main.status.groups.selected
-						mainSelStr = mainSel and ("^"..mainSel:gsub("([%(%)%.%%%+%-%*%?%[%^%$])","%%%1").."\001")
+						mainSelStr = mainSel and ("^"..AddOn:EscapeString(mainSel).."\001")
 						mainNode = main and main.children and main.children[pages[i]]
 						pageNodes[index + 1], pageNodes[index + 2] = main, mainNode
 					else
 						sub = pages[i] and pageNodes[i] and ((i == pageCount and pageNodes[i]) or pageNodes[i].children[pages[i]])
 						subSel = sub and sub.status and sub.status.groups and sub.status.groups.selected
-						subNode = (mainSelStr and msgStr:match(mainSelStr..pages[i]:gsub("([%(%)%.%%%+%-%*%?%[%^%$])","%%%1").."$") and (subSel and subSel == pages[i])) or ((i == pageCount and not subSel) and mainSel and mainSel == msgStr)
+						subNode = (mainSelStr and msgStr:match(mainSelStr..AddOn:EscapeString(pages[i]).."$") and (subSel and subSel == pages[i])) or ((i == pageCount and not subSel) and mainSel and mainSel == msgStr)
 						pageNodes[index + 1], pageNodes[index + 2] = sub, subNode
 					end
 					index = index + 2

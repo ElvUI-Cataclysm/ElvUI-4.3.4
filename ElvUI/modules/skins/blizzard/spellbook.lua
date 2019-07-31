@@ -86,7 +86,7 @@ local function LoadSkin()
 			highlight:SetTexture(1, 1, 1, 0.3)
 		end
 
-		local r, g, b = spellName:GetTextColor()
+		local r = spellName:GetTextColor()
 
 		if r < 0.8 then
 			spellName:SetTextColor(0.6, 0.6, 0.6)
@@ -242,7 +242,6 @@ local function LoadSkin()
 	SpellBookCompanionModelFrame:Point("TOP", SpellBookCompanionsFrame, "TOP", 0, -46)
 
 	SpellBookCompanionsModelFrame:SetInside(SpellBookCompanionModelFrame.backdrop)
-	SpellBookCompanionsModelFrame:SetDesaturated(true)
 
 	S:HandleButton(SpellBookCompanionSummonButton)
 	SpellBookCompanionSummonButton:Point("BOTTOM", -3, 10)

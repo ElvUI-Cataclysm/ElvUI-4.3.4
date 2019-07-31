@@ -15,23 +15,28 @@ local function LoadSkin()
 	GameMenuFrame:CreateBackdrop("Transparent")
 
 	local BlizzardMenuButtons = {
-		"Options",
-		"UIOptions",
-		"Keybindings",
-		"Macros",
-		"AddOns",
-		"Logout",
-		"Quit",
-		"Continue",
-		"Help"
+		_G.GameMenuButtonOptions,
+		_G.GameMenuButtonUIOptions,
+		_G.GameMenuButtonKeybindings,
+		_G.GameMenuButtonMacros,
+		_G.GameMenuButtonAddOns,
+		_G.GameMenuButtonRatings,
+		_G.GameMenuButtonLogout,
+		_G.GameMenuButtonQuit,
+		_G.GameMenuButtonContinue,
+		_G.GameMenuButtonMacOptions,
+		_G.GameMenuButtonHelp
 	}
 
 	for i = 1, #BlizzardMenuButtons do
-		local ElvuiMenuButtons = _G["GameMenuButton"..BlizzardMenuButtons[i]]
-		if ElvuiMenuButtons then
-			S:HandleButton(ElvuiMenuButtons)
+		local menuButton = BlizzardMenuButtons[i]
+		if menuButton then
+			S:HandleButton(menuButton)
 		end
 	end
+
+	-- Skin the ElvUI Menu Button
+	S:HandleButton(_G.GameMenuFrame.ElvUI)
 
 	if IsAddOnLoaded("OptionHouse") then
 		S:HandleButton(GameMenuButtonOptionHouse)
@@ -116,8 +121,6 @@ local function LoadSkin()
 	StreamingIcon:Point("TOP", UIParent, "TOP", 0, -100)
 
 	if GetLocale() == "koKR" then
-		S:HandleButton(GameMenuButtonRatings)
-
 		RatingMenuFrame:SetTemplate("Transparent")
 		RatingMenuFrameHeader:Kill()
 		S:HandleButton(RatingMenuButtonOkay)

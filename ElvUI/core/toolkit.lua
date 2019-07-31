@@ -170,13 +170,11 @@ local function SetTemplate(frame, template, glossTex, ignoreUpdates, forcePixelM
 end
 
 local function CreateBackdrop(frame, template, glossTex, ignoreUpdates, forcePixelMode, isUnitFrameElement)
-	if frame.backdrop then return end
-
 	if not template then template = "Default" end
 
 	local parent = (frame.IsObjectType and frame:IsObjectType("Texture") and frame:GetParent()) or frame
-	local backdrop = CreateFrame("Frame", nil, parent)
-	frame.backdrop = backdrop
+	local backdrop = frame.backdrop or CreateFrame("Frame", nil, parent)
+	if not frame.backdrop then frame.backdrop = backdrop end
 
 	if frame.forcePixelMode or forcePixelMode then
 		backdrop:SetOutside(frame, E.mult, E.mult)

@@ -4,6 +4,8 @@ local _G = _G
 local min, max, abs, floor = min, max, abs, floor
 local format, tonumber = format, tonumber
 
+local UIParent = UIParent
+
 function E:IsEyefinity(width, height)
 	if E.global.general.eyefinity and width >= 3840 then
 		--HQ resolution
@@ -31,7 +33,6 @@ function E:UIScale(init)
 		E.Spacing = (E.PixelMode and 0) or E.mult
 		E.Border = (E.PixelMode and E.mult) or E.mult*2
 	else --E.Initialize
-		local UIParent = UIParent
 		UIParent:SetScale(scale)
 
 		--Check if we are using `E.eyefinity`

@@ -6,34 +6,27 @@ local ipairs = ipairs
 local find = string.find
 
 local InCombatLockdown = InCombatLockdown
-local IsShiftKeyDown = IsShiftKeyDown
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.BlizzardOptions ~= true then return end
 
-	-- Interface Enable Mouse Move
-	InterfaceOptionsFrame:SetClampedToScreen(true)
-	InterfaceOptionsFrame:SetMovable(true)
-	InterfaceOptionsFrame:EnableMouse(true)
-	InterfaceOptionsFrame:RegisterForDrag("LeftButton", "RightButton")
-	InterfaceOptionsFrame:SetScript("OnDragStart", function(self)
-		if InCombatLockdown() then return end
+	-- Interface/Options Frame Enable Mouse Move
+	for _, frame in pairs({"InterfaceOptionsFrame", "VideoOptionsFrame"}) do
+		local Frame = _G[frame]
 
-		if IsShiftKeyDown() then
+		Frame:SetClampedToScreen(true)
+		Frame:SetMovable(true)
+		Frame:EnableMouse(true)
+		Frame:RegisterForDrag("LeftButton", "RightButton")
+		Frame:SetScript("OnDragStart", function(self)
+			if InCombatLockdown() then return end
+
 			self:StartMoving()
-		end
-	end)
-	InterfaceOptionsFrame:SetScript("OnDragStop", function(self)
-		self:StopMovingOrSizing()
-	end)
-	InterfaceOptionsFrame:SetScript("OnEnter", function(self)
-		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", -1, 4)
-		GameTooltip:ClearLines()
-		GameTooltip:AddDoubleLine(L["Hold Shift + Drag:"], L["Temporary Move"], 1, 1, 1)
-
-		GameTooltip:Show()
-	end)
-	InterfaceOptionsFrame:SetScript("OnLeave", function() GameTooltip:Hide() end)
+		end)
+		Frame:SetScript("OnDragStop", function(self)
+			self:StopMovingOrSizing()
+		end)
+	end
 
 	-- Game Menu Interface/Tabs
 	for i = 1, 2 do

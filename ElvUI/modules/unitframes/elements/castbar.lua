@@ -1,10 +1,6 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local UF = E:GetModule("UnitFrames")
 
-local _, ns = ...
-local ElvUF = ns.oUF
-assert(ElvUF, "ElvUI was unable to locate oUF.")
-
 local unpack, tonumber = unpack, tonumber
 local abs, min = abs, math.min
 
@@ -14,6 +10,10 @@ local UnitIsPlayer = UnitIsPlayer
 local UnitClass = UnitClass
 local UnitReaction = UnitReaction
 local UnitCanAttack = UnitCanAttack
+
+local _, ns = ...
+local ElvUF = ns.oUF
+assert(ElvUF, "ElvUI was unable to locate oUF.")
 
 local INVERT_ANCHORPOINT = {
 	TOPLEFT = "BOTTOMRIGHT",
@@ -33,15 +33,11 @@ function UF:Construct_Castbar(frame, moverName)
 	local castbar = CreateFrame("StatusBar", nil, frame)
 	castbar:SetFrameLevel(frame.RaisedElementParent:GetFrameLevel() + 30) --Make it appear above everything else
 	self.statusbars[castbar] = true
-
 	castbar.CustomDelayText = self.CustomCastDelayText
 	castbar.CustomTimeText = self.CustomTimeText
 	castbar.PostCastStart = self.PostCastStart
-	castbar.PostChannelStart = self.PostCastStart
-	castbar.PostChannelUpdate = self.PostChannelUpdate
+	castbar.PostCastStop = self.PostCastStop
 	castbar.PostCastInterruptible = self.PostCastInterruptible
-	castbar.PostCastNotInterruptible = self.PostCastNotInterruptible
-
 	castbar:SetClampedToScreen(true)
 	castbar:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
 
@@ -58,9 +54,11 @@ function UF:Construct_Castbar(frame, moverName)
 	castbar.Text:SetJustifyH("LEFT")
 	castbar.Text:SetWordWrap(false)
 
-	castbar.Spark = castbar:CreateTexture(nil, "OVERLAY")
-	castbar.Spark:SetBlendMode("ADD")
-	castbar.Spark:SetVertexColor(1, 1, 1)
+	castbar.Spark_ = castbar:CreateTexture(nil, "OVERLAY")
+	castbar.Spark_:SetTexture([[Interface\CastingBar\UI-CastingBar-Spark]])
+	castbar.Spark_:SetBlendMode("ADD")
+	castbar.Spark_:SetVertexColor(1, 1, 1)
+	castbar.Spark_:Size(20, 40)
 
 	--Set to castbar.SafeZone
 	castbar.LatencyTexture = castbar:CreateTexture(nil, "OVERLAY")
@@ -91,7 +89,6 @@ function UF:Construct_Castbar(frame, moverName)
 	local icon = button:CreateTexture(nil, "ARTWORK")
 	local offset = frame.BORDER --use frame.BORDER since it may be different from E.Border due to forced thin borders
 	icon:SetInside(nil, offset, offset)
-	icon:SetTexCoord(unpack(E.TexCoords))
 	icon.bg = button
 
 	--Set to castbar.Icon
@@ -102,10 +99,8 @@ end
 
 function UF:Configure_Castbar(frame)
 	if not frame.VARIABLES_SET then return end
-
 	local castbar = frame.Castbar
 	local db = frame.db
-
 	castbar:Width(db.castbar.width - ((frame.BORDER+frame.SPACING)*2))
 	castbar:Height(db.castbar.height - ((frame.BORDER+frame.SPACING)*2))
 	castbar.Holder:Width(db.castbar.width)
@@ -160,9 +155,12 @@ function UF:Configure_Castbar(frame)
 	end
 
 	if db.castbar.spark then
-		castbar.Spark:Show()
-	else
+		castbar.Spark = castbar.Spark_
+		castbar.Spark:Point("CENTER", castbar:GetStatusBarTexture(), "RIGHT", 0, 0)
+		castbar.Spark:Height(db.castbar.height * 2)
+	elseif castbar.Spark then
 		castbar.Spark:Hide()
+		castbar.Spark = nil
 	end
 
 	castbar:ClearAllPoints()
@@ -181,8 +179,7 @@ function UF:Configure_Castbar(frame)
 		end
 
 		if db.castbar.spark then
-			--castbar.Spark:Height(db.infoPanel and db.infoPanel.height -(E.PixelMode and 2 or 6))
-			castbar.Spark:Height(db.infoPanel and db.infoPanel.height * 2)
+			castbar.Spark:Height(db.infoPanel and db.infoPanel.height * 2) -- Grab the height from the infopanel.
 		end
 
 		if castbar.Holder.mover then
@@ -256,7 +253,7 @@ end
 
 function UF:CustomCastDelayText(duration)
 	local db = self:GetParent().db
-	if not db then return end
+	if not (db and db.castbar) then return end
 	db = db.castbar.format
 
 	if self.channeling then
@@ -318,9 +315,7 @@ end
 
 function UF:SetCastTicks(frame, numTicks)
 	UF:HideTicks()
-
 	if numTicks and numTicks <= 0 then return end
-
 	local w = frame:GetWidth()
 	local d = w / numTicks
 
@@ -340,16 +335,14 @@ function UF:SetCastTicks(frame, numTicks)
 	end
 end
 
-function UF:PostCastStart(unit, name)
+function UF:PostCastStart(unit)
 	local db = self:GetParent().db
 	if not db or not db.castbar then return end
 
 	if unit == "vehicle" then unit = "player" end
 
 	if db.castbar.displayTarget and self.curTarget then
-		self.Text:SetText(name.." --> "..self.curTarget)
-	else
-		self.Text:SetText(name)
+		self.Text:SetText(GetSpellInfo(self.spellID).." > "..self.curTarget)
 	end
 
 	-- Get length of Time, then calculate available length for Text
@@ -361,21 +354,19 @@ function UF:PostCastStart(unit, name)
 		E:Delay(0.05, function() -- Delay may need tweaking
 			textWidth = self:GetWidth() - self.Time:GetStringWidth() - 10
 			textStringWidth = self.Text:GetStringWidth()
-			if textWidth > 0 then self.Text:SetWidth(min(textWidth, textStringWidth)) end
+			if textWidth > 0 then self.Text:Width(min(textWidth, textStringWidth)) end
 		end)
 	else
-		self.Text:SetWidth(min(textWidth, textStringWidth))
+		self.Text:Width(min(textWidth, textStringWidth))
 	end
-
-	self.Spark:Height(self:GetHeight() * 2)
 
 	self.unit = unit
 
-	if db.castbar.ticks and unit == "player" then
+	if self.channeling and db.castbar.ticks and unit == "player" then
 		local unitframe = E.global.unitframe
-		local baseTicks = unitframe.ChannelTicks[name]
+		local baseTicks = unitframe.ChannelTicks[self.spellID]
 
-		if baseTicks and unitframe.HastedChannelTicks[name] then
+		if baseTicks and unitframe.HastedChannelTicks[self.spellID] then
 			local tickIncRate = 1 / baseTicks
 			local curHaste = UnitSpellHaste("player") * 0.01
 			local firstTickInc = tickIncRate / 2
@@ -393,13 +384,13 @@ function UF:PostCastStart(unit, name)
 			end
 
 			UF:SetCastTicks(self, baseTicks + bonusTicks)
+			self.hadTicks = true
 		elseif baseTicks then
 			UF:SetCastTicks(self, baseTicks)
+			self.hadTicks = true
 		else
 			UF:HideTicks()
 		end
-	elseif unit == "player" then
-		UF:HideTicks()
 	end
 
 	local colors = ElvUF.colors
@@ -420,40 +411,10 @@ function UF:PostCastStart(unit, name)
 	self:SetStatusBarColor(r, g, b)
 end
 
-function UF:PostChannelUpdate(unit, name)
-	local db = self:GetParent().db
-	if not db then return end
-	if not (unit == "player" or unit == "vehicle") then return end
-
-	if db.castbar.ticks then
-		local unitframe = E.global.unitframe
-		local baseTicks = unitframe.ChannelTicks[name]
-
-		if baseTicks and unitframe.HastedChannelTicks[name] then
-			local tickIncRate = 1 / baseTicks
-			local curHaste = UnitSpellHaste("player") * 0.01
-			local firstTickInc = tickIncRate / 2
-			local bonusTicks = 0
-			if curHaste >= firstTickInc then
-				bonusTicks = bonusTicks + 1
-			end
-
-			local x = tonumber(E:Round(firstTickInc + tickIncRate, 2))
-			while curHaste >= x do
-				x = tonumber(E:Round(firstTickInc + (tickIncRate * bonusTicks), 2))
-				if curHaste >= x then
-					bonusTicks = bonusTicks + 1
-				end
-			end
-
-			UF:SetCastTicks(self, baseTicks + bonusTicks)
-		elseif baseTicks then
-			UF:SetCastTicks(self, baseTicks)
-		else
-			UF:HideTicks()
-		end
-	else
+function UF:PostCastStop(unit)
+	if self.hadTicks and unit == "player" then
 		UF:HideTicks()
+		self.hadTicks = false
 	end
 end
 
@@ -476,9 +437,4 @@ function UF:PostCastInterruptible(unit)
 	end
 
 	self:SetStatusBarColor(r, g, b)
-end
-
-function UF:PostCastNotInterruptible()
-	local colors = ElvUF.colors
-	self:SetStatusBarColor(colors.castNoInterrupt[1], colors.castNoInterrupt[2], colors.castNoInterrupt[3])
 end

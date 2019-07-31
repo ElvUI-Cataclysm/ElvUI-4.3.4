@@ -111,6 +111,25 @@ do
 				tinsert(self.massiveShakeObjects, _G[MICRO_BUTTONS[i]])
 			end
 		end
+
+		if ElvUI_BarTotem then
+			tinsert(self.massiveShakeObjects, MultiCastSummonSpellButton)
+			tinsert(self.massiveShakeObjects, MultiCastRecallSpellButton)
+
+			for i = 1, 12 do
+				local button = _G["MultiCastActionButton"..i]
+				if button then
+					tinsert(self.massiveShakeObjects, button)
+				end
+			end
+
+			for i = 1, 4 do
+				local button = _G["MultiCastSlotButton"..i]
+				if button then
+					tinsert(self.massiveShakeObjects, button)
+				end
+			end
+		end
 	end
 
 	function E:HarlemShakeToggle()

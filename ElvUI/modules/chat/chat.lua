@@ -220,7 +220,7 @@ end
 function CH:InsertEmotions(msg)
 	for word in gmatch(msg, "%s-%S+%s*") do
 		word = strtrim(word)
-		local pattern = gsub(word, "([%(%)%.%%%+%-%*%?%[%^%$])", "%%%1")
+		local pattern = E:EscapeString(word)
 		local emoji = CH.Smileys[pattern]
 		if emoji and strmatch(msg, "[%s%p]-"..pattern.."[%s%p]*") then
 			local base64 = LibBase64:Encode(word) -- btw keep `|h|cFFffffff|r|h` as it is
@@ -913,6 +913,18 @@ function CH:ShortChannel()
 	return format("|Hchannel:%s|h[%s]|h", self, DEFAULT_STRINGS[strupper(self)] or gsub(self, "channel:", ""))
 end
 
+function CH:HandleShortChannels(msg)
+	msg = gsub(msg, "|Hchannel:(.-)|h%[(.-)%]|h", CH.ShortChannel)
+	msg = gsub(msg, "CHANNEL:", "")
+	msg = gsub(msg, "^(.-|h) "..L["whispers"], "%1")
+	msg = gsub(msg, "^(.-|h) "..L["says"], "%1")
+	msg = gsub(msg, "^(.-|h) "..L["yells"], "%1")
+	msg = gsub(msg, "<"..GlobalStrings.AFK..">", "[|cffFF0000"..L["AFK"].."|r] ")
+	msg = gsub(msg, "<"..GlobalStrings.DND..">", "[|cffE7E716"..L["DND"].."|r] ")
+	msg = gsub(msg, "^%["..GlobalStrings.RAID_WARNING.."%]", "["..L["RW"].."]")
+	return msg
+end
+
 --Copied from FrameXML ChatFrame.lua and modified to add CUSTOM_CLASS_COLORS
 function CH:GetColoredName(event, _, arg2, _, _, _, _, _, arg8, _, _, _, arg12)
 	local chatType = strsub(event, 10)
@@ -1297,19 +1309,12 @@ function CH:ChatFrame_MessageEventHandler(self, event, arg1, arg2, arg3, arg4, a
 				body = "|Hchannel:channel:"..arg8.."|h["..arg4.."]|h "..body
 			end
 
+			if CH.db.shortChannels and (chatType ~= "EMOTE" and chatType ~= "TEXT_EMOTE") then
+				body = CH:HandleShortChannels(body)
+			end
+
 			local accessID = ChatHistory_GetAccessID(chatGroup, chatTarget)
 			local typeID = ChatHistory_GetAccessID(infoType, chatTarget, arg12 == "" and arg13 or arg12)
-			if CH.db.shortChannels then
-				body = gsub(body, "|Hchannel:(.-)|h%[(.-)%]|h", CH.ShortChannel)
-				body = gsub(body, "CHANNEL:", "")
-				body = gsub(body, "^(.-|h) "..L["whispers"], "%1")
-				body = gsub(body, "^(.-|h) "..L["says"], "%1")
-				body = gsub(body, "^(.-|h) "..L["yells"], "%1")
-				body = gsub(body, "<"..GlobalStrings.AFK..">", "[|cffFF0000"..L["AFK"].."|r] ")
-				body = gsub(body, "<"..GlobalStrings.DND..">", "[|cffE7E716"..L["DND"].."|r] ")
-				body = gsub(body, "%[BN_CONVERSATION:", "%[".."")
-				body = gsub(body, "^%["..GlobalStrings.RAID_WARNING.."%]", "["..L["RW"].."]")
-			end
 			self:AddMessage(body, info.r, info.g, info.b, info.id, accessID, typeID, isHistory, historyTime)
 		end
 
@@ -1503,7 +1508,7 @@ function CH:CheckKeyword(message)
 	end
 
 	for hyperLink, tempLink in pairs(protectLinks) do
-		message = gsub(message, gsub(hyperLink, "([%(%)%.%%%+%-%*%?%[%^%$])", "%%%1"), tempLink)
+		message = gsub(message, E:EscapeString(hyperLink), tempLink)
 	end
 
 	local rebuiltString
@@ -1549,7 +1554,7 @@ function CH:CheckKeyword(message)
 	end
 
 	for hyperLink, tempLink in pairs(protectLinks) do
-		rebuiltString = gsub(rebuiltString, gsub(tempLink, "([%(%)%.%%%+%-%*%?%[%^%$])","%%%1"), hyperLink)
+		rebuiltString = gsub(rebuiltString, E:EscapeString(tempLink), hyperLink)
 		protectLinks[hyperLink] = nil
 	end
 

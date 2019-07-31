@@ -91,8 +91,8 @@ local function LoadSkin()
 
 		if button then
 			button:StripTextures()
-			button:StyleButton(nil, true)
 			button:SetTemplate("Default", true)
+			button:StyleButton(nil, true)
 		end
 
 		if buttonIcon then

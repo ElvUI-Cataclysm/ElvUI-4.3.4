@@ -127,7 +127,19 @@ function UF:Update_PlayerFrame(frame, db)
 	UF:EnableDisable_Auras(frame)
 	UF:Configure_Auras(frame, "Buffs")
 	UF:Configure_Auras(frame, "Debuffs")
+	--Castbar
+	frame:DisableElement("Castbar")
 	UF:Configure_Castbar(frame)
+
+	if (not db.enable and not E.private.unitframe.disabledBlizzardFrames.player) then
+		CastingBarFrame_OnLoad(CastingBarFrame, "player", true, false)
+		CastingBarFrame_SetUnit(CastingBarFrame, "player", true, false)
+		PetCastingBarFrame_OnLoad(PetCastingBarFrame)
+		CastingBarFrame_SetUnit(PetCastingBarFrame, "pet", false, false)
+	elseif not db.enable and E.private.unitframe.disabledBlizzardFrames.player or (db.enable and not db.castbar.enable) then
+		CastingBarFrame_SetUnit(CastingBarFrame, nil)
+		CastingBarFrame_SetUnit(PetCastingBarFrame, nil)
+	end
 	UF:Configure_ClassBar(frame)
 	UF:Configure_Fader(frame)
 	UF:Configure_DebuffHighlight(frame)
