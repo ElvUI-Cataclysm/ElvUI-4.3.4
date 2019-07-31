@@ -23,6 +23,7 @@ local colors = {
 	debuff = {},
 	reaction = {},
 	power = {},
+	threat = {},
 }
 
 -- We do this because people edit the vars directly, and changing the default
@@ -93,7 +94,11 @@ colors.power[6] = colors.power.RUNIC_POWER
 colors.power[7] = colors.power.SOUL_SHARDS
 colors.power[8] = colors.power.ECLIPSE
 colors.power[9] = colors.power.HOLY_POWER
-colors.power[10] = colors.power.ALTERNATE_POWER
+colors.power[10] = {0.7, 0.7, 0.6}
+
+for i = 0, 3 do
+	colors.threat[i] = {GetThreatStatusColor(i)}
+end
 
 local function colorsAndPercent(a, b, ...)
 	if(a <= 0 or b == 0) then
@@ -107,6 +112,19 @@ local function colorsAndPercent(a, b, ...)
 	return relperc, select((segment * 3) + 1, ...)
 end
 
+-- http://www.wowwiki.com/ColorGradient
+--[[ Colors: oUF:RGBColorGradient(a, b, ...)
+Used to convert a percent value (the quotient of `a` and `b`) into a gradient from 2 or more RGB colors. If more than 2
+colors are passed, the gradient will be between the two colors which perc lies in an evenly divided range. A RGB color
+is a sequence of 3 consecutive RGB percent values (in the range [0-1]). If `a` is negative or `b` is zero then the first
+RGB color (the first 3 RGB values passed to the function) is returned. If `a` is bigger than or equal to `b`, then the
+last 3 RGB values are returned.
+
+* self - the global oUF object
+* a    - value used as numerator to calculate the percentage (number)
+* b    - value used as denominator to calculate the percentage (number)
+* ...  - a list of RGB percent values. At least 6 values should be passed (number [0-1])
+--]]
 function oUF:RGBColorGradient(...)
 	local relperc, r1, g1, b1, r2, g2, b2 = colorsAndPercent(...)
 	if(relperc) then
@@ -116,6 +134,7 @@ function oUF:RGBColorGradient(...)
 	end
 end
 
+-- HCY functions are based on http://www.chilliant.com/rgb2hsv.html
 local function getY(r, g, b)
 	return 0.299 * r + 0.587 * g + 0.114 * b
 end
@@ -170,6 +189,18 @@ local function hcyToRGB(hue, chroma, luma)
 	return r, g, b
 end
 
+--[[ Colors: oUF:HCYColorGradient(a, b, ...)
+Used to convert a percent value (the quotient of `a` and `b`) into a gradient from 2 or more HCY colors. If more than 2
+colors are passed, the gradient will be between the two colors which perc lies in an evenly divided range. A HCY color
+is a sequence of 3 consecutive values in the range [0-1]. If `a` is negative or `b` is zero then the first
+HCY color (the first 3 HCY values passed to the function) is returned. If `a` is bigger than or equal to `b`, then the
+last 3 HCY values are returned.
+
+* self - the global oUF object
+* a    - value used as numerator to calculate the percentage (number)
+* b    - value used as denominator to calculate the percentage (number)
+* ...  - a list of HCY color values. At least 6 values should be passed (number [0-1])
+--]]
 function oUF:HCYColorGradient(...)
 	local relperc, r1, g1, b1, r2, g2, b2 = colorsAndPercent(...)
 	if(not relperc) then
@@ -195,6 +226,15 @@ function oUF:HCYColorGradient(...)
 	end
 end
 
+--[[ Colors: oUF:ColorGradient(a, b, ...) or frame:ColorGradient(a, b, ...)
+Used as a proxy to call the proper gradient function depending on the user's preference. If `oUF.useHCYColorGradient` is
+set to true, `:HCYColorGradient` will be called, else `:RGBColorGradient`.
+
+* self - the global oUF object or a unit frame
+* a    - value used as numerator to calculate the percentage (number)
+* b    - value used as denominator to calculate the percentage (number)
+* ...  - a list of color values. At least 6 values should be passed (number [0-1])
+--]]
 function oUF:ColorGradient(...)
 	return (oUF.useHCYColorGradient and oUF.HCYColorGradient or oUF.RGBColorGradient)(self, ...)
 end

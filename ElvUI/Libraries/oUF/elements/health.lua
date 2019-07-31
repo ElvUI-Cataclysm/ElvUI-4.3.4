@@ -1,20 +1,87 @@
+--[[
+# Element: Health Bar
+
+Handles the updating of a status bar that displays the unit's health.
+
+## Widget
+
+Health - A `StatusBar` used to represent the unit's health.
+
+## Sub-Widgets
+
+.bg - A `Texture` used as a background. It will inherit the color of the main StatusBar.
+
+## Notes
+
+A default texture will be applied if the widget is a StatusBar and doesn't have a texture set.
+
+## Options
+
+.frequentUpdates                  - Indicates whether to use UNIT_HEALTH_FREQUENT instead of UNIT_HEALTH to update the
+                                    bar (boolean)
+.smoothGradient                   - 9 color values to be used with the .colorSmooth option (table)
+.considerSelectionInCombatHostile - Indicates whether selection should be considered hostile while the unit is in
+                                    combat with the player (boolean)
+
+The following options are listed by priority. The first check that returns true decides the color of the bar.
+
+.colorDisconnected - Use `self.colors.disconnected` to color the bar if the unit is offline (boolean)
+.colorTapping      - Use `self.colors.tapping` to color the bar if the unit isn't tapped by the player (boolean)
+.colorThreat       - Use `self.colors.threat[threat]` to color the bar based on the unit's threat status. `threat` is
+                     defined by the first return of [UnitThreatSituation](https://wow.gamepedia.com/API_UnitThreatSituation) (boolean)
+.colorClass        - Use `self.colors.class[class]` to color the bar based on unit class. `class` is defined by the
+                     second return of [UnitClass](http://wowprogramming.com/docs/api/UnitClass.html) (boolean)
+.colorClassNPC     - Use `self.colors.class[class]` to color the bar if the unit is a NPC (boolean)
+.colorClassPet     - Use `self.colors.class[class]` to color the bar if the unit is player controlled, but not a player
+                     (boolean)
+.colorReaction     - Use `self.colors.reaction[reaction]` to color the bar based on the player's reaction towards the
+                     unit. `reaction` is defined by the return value of
+                     [UnitReaction](http://wowprogramming.com/docs/api/UnitReaction.html) (boolean)
+.colorSmooth       - Use `smoothGradient` if present or `self.colors.smooth` to color the bar with a smooth gradient
+                     based on the player's current health percentage (boolean)
+.colorHealth       - Use `self.colors.health` to color the bar. This flag is used to reset the bar color back to default
+                     if none of the above conditions are met (boolean)
+
+## Sub-Widgets Options
+
+.multiplier - Used to tint the background based on the main widgets R, G and B values. Defaults to 1 (number)[0-1]
+
+## Attributes
+
+.disconnected - Indicates whether the unit is disconnected (boolean)
+
+## Examples
+
+    -- Position and size
+    local Health = CreateFrame('StatusBar', nil, self)
+    Health:SetHeight(20)
+    Health:SetPoint('TOP')
+    Health:SetPoint('LEFT')
+    Health:SetPoint('RIGHT')
+
+    -- Add a background
+    local Background = Health:CreateTexture(nil, 'BACKGROUND')
+    Background:SetAllPoints(Health)
+    Background:SetTexture(1, 1, 1, .5)
+
+    -- Options
+    Health.frequentUpdates = true
+    Health.colorTapping = true
+    Health.colorDisconnected = true
+    Health.colorClass = true
+    Health.colorReaction = true
+    Health.colorHealth = true
+
+    -- Make the background darker.
+    Background.multiplier = .5
+
+    -- Register it with oUF
+    Health.bg = Background
+    self.Health = Health
+--]]
+
 local _, ns = ...
 local oUF = ns.oUF
-
-local unpack = unpack
-
-local UnitClass = UnitClass
-local UnitHealth = UnitHealth
-local UnitHealthMax = UnitHealthMax
-local UnitIsConnected = UnitIsConnected
-local UnitIsPlayer = UnitIsPlayer
-local UnitIsTapped = UnitIsTapped
-local UnitIsTappedByAllThreatList = UnitIsTappedByAllThreatList
-local UnitIsTappedByPlayer = UnitIsTappedByPlayer
-local UnitPlayerControlled = UnitPlayerControlled
-local UnitReaction = UnitReaction
-
-local updateFrequentUpdates
 
 local function UpdateColor(self, event, unit)
 	if(not unit or self.unit ~= unit) then return end
@@ -25,6 +92,8 @@ local function UpdateColor(self, event, unit)
 		t = self.colors.disconnected
 	elseif(element.colorTapping and not UnitPlayerControlled(unit) and (UnitIsTapped(unit) and not UnitIsTappedByPlayer(unit) and not UnitIsTappedByAllThreatList(unit))) then
 		t = self.colors.tapped
+	elseif(element.colorThreat and not UnitPlayerControlled(unit) and UnitThreatSituation('player', unit)) then
+		t =  self.colors.threat[UnitThreatSituation('player', unit)]
 	elseif(element.colorClass and UnitIsPlayer(unit)) or
 		(element.colorClassNPC and not UnitIsPlayer(unit)) or
 		(element.colorClassPet and UnitPlayerControlled(unit) and not UnitIsPlayer(unit)) then
@@ -58,6 +127,13 @@ local function UpdateColor(self, event, unit)
 end
 
 local function ColorPath(self, ...)
+	--[[ Override: Health.UpdateColor(self, event, unit)
+	Used to completely override the internal function for updating the widgets' colors.
+
+	* self  - the parent object
+	* event - the event triggering the update (string)
+	* unit  - the unit accompanying the event (string)
+	--]]
 	(self.Health.UpdateColor or UpdateColor) (self, ...)
 end
 
@@ -65,6 +141,12 @@ local function Update(self, event, unit)
 	if(not unit or self.unit ~= unit) then return end
 	local element = self.Health
 
+	--[[ Callback: Health:PreUpdate(unit)
+	Called before the element has been updated.
+
+	* self - the Health element
+	* unit - the unit for which the update has been triggered (string)
+	--]]
 	if(element.PreUpdate) then
 		element:PreUpdate(unit)
 	end
@@ -84,12 +166,27 @@ local function Update(self, event, unit)
 	element.max = max
 	element.disconnected = disconnected
 
+	--[[ Callback: Health:PostUpdate(unit, cur, max)
+	Called after the element has been updated.
+
+	* self - the Health element
+	* unit - the unit for which the update has been triggered (string)
+	* cur  - the unit's current health value (number)
+	* max  - the unit's maximum possible health value (number)
+	--]]
 	if(element.PostUpdate) then
 		element:PostUpdate(unit, cur, max)
 	end
 end
 
 local function Path(self, ...)
+	--[[ Override: Health.Override(self, event, unit)
+	Used to completely override the internal update function.
+
+	* self  - the parent object
+	* event - the event triggering the update (string)
+	* unit  - the unit accompanying the event (string)
+	--]]
 	(self.Health.Override or Update) (self, ...);
 
 	ColorPath(self, ...)
@@ -99,6 +196,12 @@ local function ForceUpdate(element)
 	Path(element.__owner, 'ForceUpdate', element.__owner.unit)
 end
 
+--[[ Health:SetColorDisconnected(state)
+Used to toggle coloring if the unit is offline.
+
+* self  - the Health element
+* state - the desired state (boolean)
+--]]
 local function SetColorDisconnected(element, state)
 	if(element.colorDisconnected ~= state) then
 		element.colorDisconnected = state
@@ -110,6 +213,12 @@ local function SetColorDisconnected(element, state)
 	end
 end
 
+--[[ Health:SetColorTapping(state)
+Used to toggle coloring if the unit isn't tapped by the player.
+
+* self  - the Health element
+* state - the desired state (boolean)
+--]]
 local function SetColorTapping(element, state)
 	if(element.colorTapping ~= state) then
 		element.colorTapping = state
@@ -121,6 +230,12 @@ local function SetColorTapping(element, state)
 	end
 end
 
+--[[ Health:SetColorThreat(state)
+Used to toggle coloring by the unit's threat status.
+
+* self  - the Health element
+* state - the desired state (boolean)
+--]]
 local function SetColorThreat(element, state)
 	if(element.colorThreat ~= state) then
 		element.colorThreat = state
@@ -132,13 +247,16 @@ local function SetColorThreat(element, state)
 	end
 end
 
+--[[ Health:SetFrequentUpdates(state)
+Used to toggle frequent updates.
+
+* self  - the Health element
+* state - the desired state (boolean)
+--]]
 local function SetFrequentUpdates(element, state)
 	if(element.frequentUpdates ~= state) then
 		element.frequentUpdates = state
 		if(element.frequentUpdates) then
-			if(GetCVarBool("predictedHealth") ~= true) then
-				SetCVar("predictedHealth", "1")
-			end
 			element.__owner:UnregisterEvent('UNIT_HEALTH', Path)
 			element.__owner:RegisterEvent('UNIT_HEALTH_FREQUENT', Path)
 		else

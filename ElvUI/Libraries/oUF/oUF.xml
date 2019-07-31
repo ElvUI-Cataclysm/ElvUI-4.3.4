@@ -7,17 +7,19 @@
 	<Script file="blizzard.lua"/>
 	<Script file="units.lua"/>
 	<Script file="colors.lua"/>
-	<Script file="finalize.lua"/>
 
+	<Script file="elements\alternativepower.lua"/>
 	<Script file="elements\assistantindicator.lua"/>
 	<Script file="elements\auras.lua"/>
 	<Script file="elements\castbar.lua"/>
+	<Script file="elements\classpower.lua"/>
 	<Script file="elements\combatindicator.lua"/>
 	<Script file="elements\combopoints.lua"/>
+	<Script file="elements\eclipsebar.lua"/>
+	<Script file="elements\grouproleindicator.lua"/>
 	<Script file="elements\health.lua"/>
 	<Script file="elements\healthprediction.lua"/>
 	<Script file="elements\leaderindicator.lua"/>
-	<Script file="elements\grouproleindicator.lua"/>
 	<Script file="elements\masterlooterindicator.lua"/>
 	<Script file="elements\phaseindicator.lua"/>
 	<Script file="elements\portrait.lua"/>
@@ -29,12 +31,11 @@
 	<Script file="elements\runes.lua"/>
 	<Script file="elements\tags.lua"/>
 	<Script file="elements\threatindicator.lua"/>
-	<Script file="elements\classpower.lua"/>
-	<Script file="elements\eclipsebar.lua"/>
 	<Script file="elements\resurrectindicator.lua"/>
 	<Script file="elements\readycheckindicator.lua"/>
 	<Script file="elements\questindicator.lua"/>
-	<Script file="elements\alternativepower.lua"/>
+
+	<!--Script file="finalize.lua"/-->
 
 	<!-- Clique support -->
 	<Button name="oUF_ClickCastUnitTemplate" virtual="true" inherits="SecureUnitButtonTemplate,SecureHandlerEnterLeaveTemplate">

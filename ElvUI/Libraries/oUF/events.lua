@@ -2,15 +2,13 @@ local parent, ns = ...
 local oUF = ns.oUF
 local Private = oUF.Private
 
-local tremove, tinsert = table.remove, table.insert
-
 local argcheck = Private.argcheck
 local error = Private.error
 local frame_metatable = Private.frame_metatable
 
+-- Original event methods
 local registerEvent = frame_metatable.__index.RegisterEvent
 local unregisterEvent = frame_metatable.__index.UnregisterEvent
-local isEventRegistered = frame_metatable.__index.IsEventRegistered
 
 function Private.UpdateUnits(frame, unit, realUnit)
 	if(unit == realUnit) then
@@ -18,15 +16,18 @@ function Private.UpdateUnits(frame, unit, realUnit)
 	end
 
 	if(frame.unit ~= unit or frame.realUnit ~= realUnit) then
+		-- don't let invalid units in, otherwise unit events will end up being
+		-- registered as unitless
 		frame.unit = unit
 		frame.realUnit = realUnit
 		frame.id = unit:match('^.-(%d+)')
+
 		return true
 	end
 end
 
 local function onEvent(self, event, ...)
-	if self:IsVisible() then
+	if(self:IsVisible()) then
 		return self[event](self, event, ...)
 	end
 end
@@ -39,70 +40,80 @@ local event_metatable = {
 	end,
 }
 
+--[[ Events: frame:RegisterEvent(event, func)
+Used to register a frame for a game event and add an event handler. OnUpdate polled frames are prevented from
+registering events.
+
+* self     - frame that will be registered for the given event.
+* event    - name of the event to register (string)
+* func     - a function that will be executed when the event fires. Multiple functions can be added for the same frame
+             and event (function)
+--]]
 function frame_metatable.__index:RegisterEvent(event, func)
 	-- Block OnUpdate polled frames from registering events except for
 	-- UNIT_PORTRAIT_UPDATE and UNIT_MODEL_CHANGED which are used for
 	-- portrait updates.
 	if(self.__eventless and event ~= 'UNIT_PORTRAIT_UPDATE' and event ~= 'UNIT_MODEL_CHANGED') then return end
 
-	argcheck(event, 2, "string")
-
-	if(type(func) == 'string' and type(self[func]) == 'function') then
-		func = self[func]
-	end
+	argcheck(event, 2, 'string')
+	argcheck(func, 3, 'function')
 
 	local curev = self[event]
 	local kind = type(curev)
-	if(curev and func) then
-		if(kind == "function" and curev ~= func) then
+	if(curev) then
+		if(kind == 'function' and curev ~= func) then
 			self[event] = setmetatable({curev, func}, event_metatable)
-		elseif(kind == "table") then
+		elseif(kind == 'table') then
 			for _, infunc in next, curev do
 				if(infunc == func) then return end
 			end
 
-			tinsert(curev, func)
+			table.insert(curev, func)
 		end
-	elseif(isEventRegistered(self, event)) then
-		return
 	else
-		if(type(func) == "function") then
-			self[event] = func
-		elseif(not self[event]) then
-			return error("Style [%s] attempted to register event [%s] on unit [%s] with a handler that doesn't exist.", self.style, event, self.unit or "unknown")
-		end
+		self[event] = func
 
-		if not self:GetScript("OnEvent") then
-			self:SetScript("OnEvent", onEvent)
+		if(not self:GetScript('OnEvent')) then
+			self:SetScript('OnEvent', onEvent)
 		end
 
 		registerEvent(self, event)
 	end
 end
 
+--[[ Events: frame:UnregisterEvent(event, func)
+Used to remove a function from the event handler list for a game event.
+
+* self  - the frame registered for the event
+* event - name of the registered event (string)
+* func  - function to be removed from the list of event handlers. If this is the only handler for the given event, then
+          the frame will be unregistered for the event (function)
+--]]
 function frame_metatable.__index:UnregisterEvent(event, func)
 	argcheck(event, 2, 'string')
 
+	local cleanUp = false
 	local curev = self[event]
 	if(type(curev) == 'table' and func) then
 		for k, infunc in next, curev do
 			if(infunc == func) then
-				tremove(curev, k)
-
-				local n = #curev
-				if(n == 1) then
-					local _, handler = next(curev)
-					self[event] = handler
-				elseif(n == 0) then
-					-- This should not happen
-					unregisterEvent(self, event)
-				end
+				curev[k] = nil
 
 				break
 			end
 		end
-	elseif(curev == func) then
+
+		if(not next(curev)) then
+			cleanUp = true
+		end
+	end
+
+	if(cleanUp or curev == func) then
 		self[event] = nil
+		if(self.unitEvents) then
+			self.unitEvents[event] = nil
+		end
+
 		unregisterEvent(self, event)
 	end
 end

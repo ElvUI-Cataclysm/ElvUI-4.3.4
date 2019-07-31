@@ -1,3 +1,53 @@
+--[[
+# Element: Health Prediction Bars
+
+Handles the visibility and updating of incoming heals and heal/damage absorbs.
+
+## Widget
+
+HealthPrediction - A `table` containing references to sub-widgets and options.
+
+## Sub-Widgets
+
+myBar          - A `StatusBar` used to represent incoming heals from the player.
+otherBar       - A `StatusBar` used to represent incoming heals from others.
+
+## Notes
+
+A default texture will be applied to the StatusBar widgets if they don't have a texture set.
+A default texture will be applied to the Texture widgets if they don't have a texture or a color set.
+
+## Options
+
+.maxOverflow     - The maximum amount of overflow past the end of the health bar. Set this to 1 to disable the overflow.
+                   Defaults to 1.05 (number)
+.frequentUpdates - Indicates whether to use UNIT_HEALTH_FREQUENT instead of UNIT_HEALTH. Use this if .frequentUpdates is
+                   also set on the Health element (boolean)
+
+## Examples
+
+    -- Position and size
+    local myBar = CreateFrame('StatusBar', nil, self.Health)
+    myBar:SetPoint('TOP')
+    myBar:SetPoint('BOTTOM')
+    myBar:SetPoint('LEFT', self.Health:GetStatusBarTexture(), 'RIGHT')
+    myBar:SetWidth(200)
+
+    local otherBar = CreateFrame('StatusBar', nil, self.Health)
+    otherBar:SetPoint('TOP')
+    otherBar:SetPoint('BOTTOM')
+    otherBar:SetPoint('LEFT', myBar:GetStatusBarTexture(), 'RIGHT')
+    otherBar:SetWidth(200)
+
+    -- Register with oUF
+    self.HealthPrediction = {
+        myBar = myBar,
+        otherBar = otherBar,
+        maxOverflow = 1.05,
+        frequentUpdates = true,
+    }
+--]]
+
 local _, ns = ...
 local oUF = ns.oUF
 
@@ -6,6 +56,12 @@ local function Update(self, event, unit)
 
 	local element = self.HealthPrediction
 
+	--[[ Callback: HealthPrediction:PreUpdate(unit)
+	Called before the element has been updated.
+
+	* self - the HealthPrediction element
+	* unit - the unit for which the update has been triggered (string)
+	--]]
 	if(element.PreUpdate) then
 		element:PreUpdate(unit)
 	end
@@ -13,12 +69,12 @@ local function Update(self, event, unit)
 	local myIncomingHeal = UnitGetIncomingHeals(unit, 'player') or 0
 	local allIncomingHeal = UnitGetIncomingHeals(unit) or 0
 	local health, maxHealth = UnitHealth(unit), UnitHealthMax(unit)
+	local otherIncomingHeal = 0
 
 	if(health + allIncomingHeal > maxHealth * element.maxOverflow) then
 		allIncomingHeal = maxHealth * element.maxOverflow - health
 	end
 
-	local otherIncomingHeal = 0
 	if(allIncomingHeal < myIncomingHeal) then
 		myIncomingHeal = allIncomingHeal
 	else
@@ -37,12 +93,27 @@ local function Update(self, event, unit)
 		element.otherBar:Show()
 	end
 
+	--[[ Callback: HealthPrediction:PostUpdate(unit, myIncomingHeal, otherIncomingHeal)
+	Called after the element has been updated.
+
+	* self              - the HealthPrediction element
+	* unit              - the unit for which the update has been triggered (string)
+	* myIncomingHeal    - the amount of incoming healing done by the player (number)
+	* otherIncomingHeal - the amount of incoming healing done by others (number)
+	--]]
 	if(element.PostUpdate) then
 		return element:PostUpdate(unit, myIncomingHeal, otherIncomingHeal)
 	end
 end
 
 local function Path(self, ...)
+	--[[ Override: HealthPrediction.Override(self, event, unit)
+	Used to completely override the internal update function.
+
+	* self  - the parent object
+	* event - the event triggering the update (string)
+	* unit  - the unit accompanying the event
+	--]]
 	return (self.HealthPrediction.Override or Update) (self, ...)
 end
 

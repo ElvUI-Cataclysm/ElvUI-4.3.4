@@ -10,6 +10,9 @@ assert(oUF, "oUF_Cutaway was unable to locate oUF install.")
 ]]
 -- GLOBALS: ElvUI
 
+local _G = _G
+local max = math.max
+local assert = assert
 local hooksecurefunc = hooksecurefunc
 local UnitHealthMax = UnitHealthMax
 local UnitPowerMax = UnitPowerMax
@@ -18,6 +21,14 @@ local UnitIsTappedByPlayer = UnitIsTappedByPlayer
 local UnitGUID = UnitGUID
 
 local E -- placeholder
+
+local function checkElvUI()
+	if not E then
+		E = _G.ElvUI[1]
+		assert(E, "oUF_Cutaway was not able to locate ElvUI and it is required.")
+	end
+end
+
 local function closureFunc(self)
 	self.ready = nil
 	self.playing = nil
@@ -33,16 +44,14 @@ local function fadeClosure(element)
 		}
 	end
 
-	if not E then E = _G.ElvUI[1] end
-
 	E:UIFrameFadeOut(element, element.fadeOutTime, element.__parentElement:GetAlpha(), 0)
 end
 
 local function Shared_PreUpdate(self, element, unit)
 	element.unit = unit
-	local oldGUID = element.guid
-	element.guid = UnitGUID(unit)
-	if (not oldGUID or oldGUID ~= UnitGUID(unit)) then
+	local oldGUID, newGUID = element.guid, UnitGUID(unit)
+	element.guid = newGUID
+	if (not oldGUID or oldGUID ~= newGUID) then
 		return
 	end
 	element.cur = self.cur
@@ -50,11 +59,12 @@ local function Shared_PreUpdate(self, element, unit)
 end
 
 local function UpdateSize(self, element, curV, maxV)
-	local pm = self:GetOrientation() == "VERTICAL" and self:GetHeight() or self:GetWidth()
+	local isVertical = self:GetOrientation() == "VERTICAL"
+	local pm = (isVertical and self:GetHeight()) or self:GetWidth()
 	local oum = (1 / maxV) * pm
-	local c = math.max(element.cur - curV, 0)
+	local c = max(element.cur - curV, 0)
 	local mm = c * oum
-	if (self:GetOrientation() == "VERTICAL") then
+	if isVertical then
 		element:SetHeight(mm)
 	else
 		element:SetWidth(mm)
@@ -65,7 +75,7 @@ local PRE = 0
 local POST = 1
 
 local function Shared_UpdateCheckReturn(self, element, updateType, ...)
-	if not element:IsShown() then
+	if not element:IsVisible() then
 		return true
 	end
 	if (updateType == PRE) then
@@ -96,8 +106,6 @@ local function Health_PostUpdate(self, unit, curHealth, maxHealth)
 
 	if (element.cur - curHealth) > (maxHealth * 0.01) then
 		element:SetAlpha(self:GetAlpha())
-
-		if not E then E = _G.ElvUI[1] end
 
 		E:Delay(element.lengthBeforeFade, fadeClosure, element)
 
@@ -130,8 +138,6 @@ local function Power_PostUpdate(self, unit, curPower, maxPower)
 
 	if (element.cur - curPower) > (maxPower * 0.1) then
 		element:SetAlpha(self:GetAlpha())
-
-		if not E then E = _G.ElvUI[1] end
 
 		E:Delay(element.lengthBeforeFade, fadeClosure, element)
 
@@ -166,8 +172,8 @@ local function UpdateConfigurationValues(self, db)
 		local health = self.Health
 		local hdb = db.health
 		hs = hdb.enabled
+		health.enabled = hs
 		if (hs) then
-			health.enabled = hs
 			health.lengthBeforeFade = hdb.lengthBeforeFade
 			health.fadeOutTime = hdb.fadeOutTime
 			health:Show()
@@ -179,8 +185,8 @@ local function UpdateConfigurationValues(self, db)
 		local power = self.Power
 		local pdb = db.power
 		ps = pdb.enabled
+		power.enabled = ps
 		if (ps) then
-			power.enabled = ps
 			power.lengthBeforeFade = pdb.lengthBeforeFade
 			power.fadeOutTime = pdb.fadeOutTime
 			power:Show()
@@ -194,6 +200,8 @@ end
 local function Enable(self)
 	local element = self and self.Cutaway
 	if (element) then
+		checkElvUI()
+
 		if (element.Health and element.Health:IsObjectType("StatusBar") and not element.Health:GetStatusBarTexture()) then
 			element.Health:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 		end
@@ -277,9 +285,17 @@ local function Enable(self)
 	end
 end
 
+local function disableElement(element)
+	if element then
+		element.enabled = false
+	end
+end
+
 local function Disable(self)
 	if self and self.Cutaway then
 		self.Cutaway:Hide()
+		disableElement(self.Cutaway.Health)
+		disableElement(self.Cutaway.Power)
 	end
 end
 
