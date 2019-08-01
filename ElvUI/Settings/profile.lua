@@ -904,6 +904,12 @@ P.unitframe = {
 			NEUTRAL = {r = 0.85, g = 0.77, b = 0.36},
 			GOOD = {r = 0.29, g = 0.68, b = 0.29}
 		},
+		threat = {
+			[ 0] = {r = 0.5, g = 0.5, b = 0.5}, -- low
+			[ 1] = {r = 1.0, g = 1.0, b = 0.5}, -- overnuking
+			[ 2] = {r = 1.0, g = 0.5, b = 0.0}, -- losing threat
+			[ 3] = {r = 1.0, g = 0.2, b = 0.2}, -- tanking securely
+		},
 		healPrediction = {
 			personal = {r = 0, g = 1, b = 0.5, a = 0.25},
 			others = {r = 0, g = 1, b = 0, a = 0.25},
