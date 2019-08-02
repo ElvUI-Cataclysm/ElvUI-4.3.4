@@ -173,7 +173,11 @@ local function LoadSkin()
 			item.statusBar.rankText:FontTemplate(nil, 12, "OUTLINE")
 
 			if item.unlearn then item.unlearn:Point("RIGHT", item.statusBar, "LEFT", -135, -10) end
-			if item.icon then item.icon:SetTexCoord(unpack(E.TexCoords)) end
+			if item.icon then
+				item.icon:SetTexCoord(unpack(E.TexCoords))
+				item.icon:SetDesaturated(false)
+				item.icon:SetAlpha(1)
+			end
 
 			if numItems == 2 then
 				item:Point("TOPLEFT", 10, -(i == 1 and 30 or 130))
@@ -205,6 +209,9 @@ local function LoadSkin()
 
 				button.iconTexture:SetTexCoord(unpack(E.TexCoords))
 				button.iconTexture:SetAllPoints()
+
+				button.spellString:SetTextColor(1, 0.80, 0.10)
+				button.spellString.SetTextColor = E.noop
 
 				button.subSpellString:SetTextColor(1, 1, 1)
 

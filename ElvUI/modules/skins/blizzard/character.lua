@@ -28,7 +28,6 @@ local function LoadSkin()
 	--Re-add the overlay texture which was removed right above via StripTextures
 	CharacterModelFrameBackgroundOverlay:SetTexture(0, 0, 0)
 
---[[
 	-- Give character frame model backdrop it's color back
 	for _, corner in pairs({"TopLeft", "TopRight", "BotLeft", "BotRight"}) do
 		local bg = _G["CharacterModelFrameBackground"..corner]
@@ -42,7 +41,6 @@ local function LoadSkin()
 			end)
 		end
 	end
-]]
 
 	S:HandleCloseButton(CharacterFrameCloseButton)
 
