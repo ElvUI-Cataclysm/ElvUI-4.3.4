@@ -47,7 +47,12 @@ function UF:Configure_Portrait(frame, dontHide)
 		portrait:ClearAllPoints()
 		portrait.backdrop:ClearAllPoints()
 		if frame.USE_PORTRAIT_OVERLAY then
-			portrait:SetParent(frame.Health)
+			if db.portrait.style == "3D" then
+				portrait:SetFrameLevel(frame.Health:GetFrameLevel() + 1)
+ 			else
+				portrait:SetParent(frame.Health)
+			end
+
 			portrait:SetAlpha(0.35)
 			if not dontHide then
 				portrait:Show()
@@ -77,7 +82,11 @@ function UF:Configure_Portrait(frame, dontHide)
 				portrait:Show()
 			end
 			portrait.backdrop:Show()
-			portrait:SetParent(frame)
+			if db.portrait.style == "3D" then
+				portrait:SetFrameLevel(frame.Health:GetFrameLevel() - 4)
+ 			else
+				portrait:SetParent(frame)
+			end
 
 			if frame.ORIENTATION == "LEFT" then
 				portrait.backdrop:Point("TOPLEFT", frame, "TOPLEFT", frame.SPACING, frame.USE_MINI_CLASSBAR and -(frame.CLASSBAR_YOFFSET+frame.SPACING) or -frame.SPACING)

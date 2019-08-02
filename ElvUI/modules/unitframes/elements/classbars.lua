@@ -551,17 +551,17 @@ function UF:Construct_AdditionalPowerBar(frame)
 	additionalPower.colorPower = true
 	additionalPower.PostUpdate = UF.PostUpdateAdditionalPower
 	additionalPower.PostUpdateVisibility = UF.PostVisibilityAdditionalPower
-	additionalPower:CreateBackdrop("Default")
-	UF.statusbars[additionalPower] = true
+	additionalPower:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
 	additionalPower:SetStatusBarTexture(E.media.blankTex)
+	UF.statusbars[additionalPower] = true
 
 	additionalPower.bg = additionalPower:CreateTexture(nil, "BORDER")
 	additionalPower.bg:SetAllPoints(additionalPower)
 	additionalPower.bg:SetTexture(E.media.blankTex)
-	additionalPower.bg.multiplier = 0.3
+	additionalPower.bg.multiplier = 0.35
 
-	additionalPower.Text = additionalPower:CreateFontString(nil, "OVERLAY")
-	UF:Configure_FontString(additionalPower.Text)
+	additionalPower.text = additionalPower:CreateFontString(nil, "OVERLAY")
+	UF:Configure_FontString(additionalPower.text)
 
 	additionalPower:SetScript("OnShow", ToggleResourceBar)
 	additionalPower:SetScript("OnHide", ToggleResourceBar)
@@ -592,36 +592,36 @@ function UF:PostUpdateAdditionalPower(_, MIN, MAX, event)
 				end
 			end
 
-			self.Text:ClearAllPoints()
+			self.text:ClearAllPoints()
 			if not frame.CLASSBAR_DETACHED then
-				self.Text:SetParent(powerValueParent)
+				self.text:SetParent(powerValueParent)
 				if (powerValueText and (powerValueText ~= "" and powerValueText ~= " ")) then
 					if strfind(powerTextPosition, "RIGHT") then
-						self.Text:Point("RIGHT", powerValue, "LEFT", 3, 0)
-						self.Text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(MIN / MAX * 100))
+						self.text:Point("RIGHT", powerValue, "LEFT", 3, 0)
+						self.text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(MIN / MAX * 100))
 					elseif strfind(powerTextPosition, "LEFT") then
-						self.Text:Point("LEFT", powerValue, "RIGHT", -3, 0)
-						self.Text:SetFormattedText("|cffD7BEA5 -|r"..color.." %d%%|r", floor(MIN / MAX * 100))
+						self.text:Point("LEFT", powerValue, "RIGHT", -3, 0)
+						self.text:SetFormattedText("|cffD7BEA5 -|r"..color.." %d%%|r", floor(MIN / MAX * 100))
 					else
 						if select(4, powerValue:GetPoint()) <= 0 then
-							self.Text:Point("LEFT", powerValue, "RIGHT", -3, 0)
-							self.Text:SetFormattedText(" |cffD7BEA5-|r"..color.." %d%%|r", floor(MIN / MAX * 100))
+							self.text:Point("LEFT", powerValue, "RIGHT", -3, 0)
+							self.text:SetFormattedText(" |cffD7BEA5-|r"..color.." %d%%|r", floor(MIN / MAX * 100))
 						else
-							self.Text:Point("RIGHT", powerValue, "LEFT", 3, 0)
-							self.Text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(MIN / MAX * 100))
+							self.text:Point("RIGHT", powerValue, "LEFT", 3, 0)
+							self.text:SetFormattedText(color.."%d%%|r |cffD7BEA5- |r", floor(MIN / MAX * 100))
 						end
 					end
 				else
-					self.Text:Point(powerValue:GetPoint())
-					self.Text:SetFormattedText(color.."%d%%|r", floor(MIN / MAX * 100))
+					self.text:Point(powerValue:GetPoint())
+					self.text:SetFormattedText(color.."%d%%|r", floor(MIN / MAX * 100))
 				end
 			else
-				self.Text:SetParent(frame.RaisedElementParent) -- needs to be 'frame.RaisedElementParent' otherwise the new PowerPrediction Bar will overlap
-				self.Text:Point("CENTER", self)
-				self.Text:SetFormattedText(color.."%d%%|r", floor(MIN / MAX * 100))
+				self.text:SetParent(frame.RaisedElementParent) -- needs to be 'frame.RaisedElementParent' otherwise the new PowerPrediction Bar will overlap
+				self.text:Point("CENTER", self)
+				self.text:SetFormattedText(color.."%d%%|r", floor(MIN / MAX * 100))
 			end
 		else --Text disabled
-			self.Text:SetText("")
+			self.text:SetText("")
 		end
 
 		local custom_backdrop = UF.db.colors.customclasspowerbackdrop and UF.db.colors.classpower_backdrop
@@ -631,7 +631,7 @@ function UF:PostUpdateAdditionalPower(_, MIN, MAX, event)
 
 		self:Show()
 	else --Bar disabled
-		self.Text:SetText("")
+		self.text:SetText("")
 		self:Hide()
 	end
 end
@@ -643,6 +643,7 @@ function UF:PostVisibilityAdditionalPower(enabled, stateChanged)
 		frame.ClassBar = "AdditionalPower"
 	else
 		frame.ClassBar = "EclipseBar"
+		self.text:SetText("")
 	end
 
 	if stateChanged then
