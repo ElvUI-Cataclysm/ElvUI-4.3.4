@@ -163,7 +163,7 @@ local function Path(self, ...)
 	* unit  - the unit accompanying the event (string)
 	* ...   - the arguments accompanying the event
 	--]]
-	(self.AdditionalPower.Override or Update) (self, ...);
+	(self.AdditionalPower.Override or Update) (self, ...)
 
 	ColorPath(self, ...)
 end

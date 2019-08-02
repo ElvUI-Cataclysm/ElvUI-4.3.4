@@ -20,8 +20,6 @@ A default texture will be applied if the widget is a StatusBar and doesn't have 
 .frequentUpdates                  - Indicates whether to use UNIT_HEALTH_FREQUENT instead of UNIT_HEALTH to update the
                                     bar (boolean)
 .smoothGradient                   - 9 color values to be used with the .colorSmooth option (table)
-.considerSelectionInCombatHostile - Indicates whether selection should be considered hostile while the unit is in
-                                    combat with the player (boolean)
 
 The following options are listed by priority. The first check that returns true decides the color of the bar.
 
@@ -187,7 +185,7 @@ local function Path(self, ...)
 	* event - the event triggering the update (string)
 	* unit  - the unit accompanying the event (string)
 	--]]
-	(self.Health.Override or Update) (self, ...);
+	(self.Health.Override or Update) (self, ...)
 
 	ColorPath(self, ...)
 end
