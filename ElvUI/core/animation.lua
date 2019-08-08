@@ -2,14 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...))
 
 local random, next, unpack, strsub = random, next, unpack, strsub
 
-E.AnimShake = {
-	{-9, 7, -7, 12},
-	{-5, 9, -9, 5},
-	{-5, 7, -7, 5},
-	{-9, 9, -9, 9},
-	{-5, 7, -7, 5},
-	{-9, 7, -9, 5}
-}
+E.AnimShake = {{-9, 7, -7, 12}, {-5, 9, -9, 5}, {-5, 7, -7, 5}, {-9, 9, -9, 9}, {-5, 7, -7, 5}, {-9, 7, -9, 5}}
 E.AnimShakeH = {-5, 5, -2, 5, -2, 5}
 
 function E:FlashLoopFinished(requested)

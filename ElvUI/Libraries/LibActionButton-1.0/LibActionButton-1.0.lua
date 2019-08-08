@@ -1139,6 +1139,7 @@ end
 
 function UpdateTooltip(self)
 	if (GetCVar("UberTooltips") == "1") then
+		GameTooltip:ClearAllPoints()
 		GameTooltip_SetDefaultAnchor(GameTooltip, self)
 	else
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")

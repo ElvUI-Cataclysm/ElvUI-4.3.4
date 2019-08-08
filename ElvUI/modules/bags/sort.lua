@@ -135,7 +135,7 @@ do
 end
 
 local function IsGuildBankBag(bagid)
-	return (bagid > 50 and bagid <= 58)
+	return bagid > 50 and bagid <= 58
 end
 
 local function BuildSortOrder()
@@ -206,7 +206,7 @@ local function DefaultSort(a, b)
 	local _, _, _, _, _, aType, aSubType, _, aEquipLoc = GetItemInfo(aID)
 	local _, _, _, _, _, bType, bSubType, _, bEquipLoc = GetItemInfo(bID)
 
- 	local aRarity, bRarity = bagQualities[a], bagQualities[b]
+	local aRarity, bRarity = bagQualities[a], bagQualities[b]
 
 	if aRarity ~= bRarity and aRarity and bRarity then
 		return aRarity > bRarity
@@ -363,7 +363,7 @@ function B:GetNumSlots(bag, role)
 	return 0
 end
 
-local function ConvertLinkToID(link) 
+local function ConvertLinkToID(link)
 	if not link then return end
 
 	if tonumber(strmatch(link, "item:(%d+)")) then
@@ -376,7 +376,7 @@ local function DefaultCanMove()
 end
 
 function B:Encode_BagSlot(bag, slot)
-	return (bag * 100) + slot 
+	return (bag * 100) + slot
 end
 
 function B:Decode_BagSlot(int)
@@ -752,7 +752,7 @@ function B:DoMove(move)
 		end
 	end
 
-	local stackSize = select(8, GetItemInfo(sourceItemID))	
+	local stackSize = select(8, GetItemInfo(sourceItemID))
 	if (sourceItemID == targetItemID) and (targetCount ~= stackSize) and ((targetCount + sourceCount) > stackSize) then
 		B:SplitItem(sourceBag, sourceSlot, stackSize - targetCount)
 	else
@@ -838,7 +838,7 @@ function B:DoMoves()
 	wipe(moveTracker)
 
 	local success, moveID, targetID, moveSource, moveTarget, wasGuild
-	if #moves > 0 then 
+	if #moves > 0 then
 		for i = #moves, 1, -1 do
 			success, moveID, moveSource, targetID, moveTarget, wasGuild = B:DoMove(moves[i])
 			if not success then

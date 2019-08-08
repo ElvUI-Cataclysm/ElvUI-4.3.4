@@ -311,7 +311,6 @@ local function Enable(self)
 		element.__owner = self
 		element.ForceUpdate = ForceUpdate
 		element.SetColorDisconnected = SetColorDisconnected
-		element.SetColorSelection = SetColorSelection
 		element.SetColorTapping = SetColorTapping
 		element.SetColorThreat = SetColorThreat
 		element.SetFrequentUpdates = SetFrequentUpdates

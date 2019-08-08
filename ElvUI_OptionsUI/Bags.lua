@@ -113,7 +113,7 @@ E.Options.args.bags = {
 					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAllBagSlots() end
 				},
 				clearSearchOnClose = {
- 					order = 10,
+					order = 10,
 					type = "toggle",
 					name = L["Clear Search On Close"],
 					set = function(info, value) E.db.bags[info[#info]] = value end
@@ -435,20 +435,20 @@ E.Options.args.bags = {
 					get = function(info) return E.private.bags.bagBar end,
 					set = function(info, value) E.private.bags.bagBar = value E:StaticPopup_Show("PRIVATE_RL") end
 				},
- 				showBackdrop = {
+				showBackdrop = {
 					order = 3,
- 					type = "toggle",
- 					name = L["Backdrop"],
+					type = "toggle",
+					name = L["Backdrop"],
 					disabled = function() return not E.private.bags.bagBar end
- 				},
- 				mouseover = {
- 					order = 4,
- 					type = "toggle",
- 					name = L["Mouse Over"],
- 					desc = L["The frame is not shown unless you mouse over the frame."],
+				},
+				mouseover = {
+					order = 4,
+					type = "toggle",
+					name = L["Mouse Over"],
+					desc = L["The frame is not shown unless you mouse over the frame."],
 					disabled = function() return not E.private.bags.bagBar end
- 				},
- 				size = {
+				},
+				size = {
 					order = 5,
 					type = "range",
 					name = L["Button Size"],
@@ -464,12 +464,12 @@ E.Options.args.bags = {
 					min = -1, max = 10, step = 1,
 					disabled = function() return not E.private.bags.bagBar end
 				},
- 				backdropSpacing = {
- 					order = 7,
- 					type = "range",
- 					name = L["Backdrop Spacing"],
- 					desc = L["The spacing between the backdrop and the buttons."],
- 					min = 0, max = 10, step = 1,
+				backdropSpacing = {
+					order = 7,
+					type = "range",
+					name = L["Backdrop Spacing"],
+					desc = L["The spacing between the backdrop and the buttons."],
+					min = 0, max = 10, step = 1,
 					disabled = function() return not E.private.bags.bagBar end
 				},
 				sortDirection = {

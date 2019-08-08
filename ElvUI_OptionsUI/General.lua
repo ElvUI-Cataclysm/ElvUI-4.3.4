@@ -8,7 +8,6 @@ local Threat = E:GetModule("Threat")
 local AFK = E:GetModule("AFK")
 
 local _G = _G
-local min, max = math.min, math.max
 
 local FCF_GetNumActiveChatFrames = FCF_GetNumActiveChatFrames
 
@@ -42,7 +41,7 @@ E.Options.args.general = {
 			name = L["General"],
 			args = {
 				generalHeader = {
- 					order = 1,
+					order = 1,
 					type = "header",
 					name = L["General"]
 				},

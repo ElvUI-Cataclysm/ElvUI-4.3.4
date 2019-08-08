@@ -2,7 +2,7 @@
 Button Widget (Modified to change text color on SetDisabled method)
 Graphical Button.
 -------------------------------------------------------------------------------]]
-local Type, Version = "Button-ElvUI", 23
+local Type, Version = "Button-ElvUI", 3
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 
@@ -20,6 +20,7 @@ Scripts
 -------------------------------------------------------------------------------]]
 local dragdropButton
 local function lockTooltip()
+	GameTooltip:ClearAllPoints()
 	GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
 	GameTooltip:SetText(" ")
 	GameTooltip:Show()
@@ -35,12 +36,13 @@ end
 local function dragdrop_OnMouseUp(frame, ...)
 	if frame.obj.dragOnMouseUp then
 		frame:SetAlpha(1)
-		GameTooltip:Hide()
-		dragdropButton:Hide()
 		if dragdropButton.enteredFrame and dragdropButton.enteredFrame ~= frame and dragdropButton.enteredFrame:IsMouseOver() then
 			frame.obj.dragOnMouseUp(frame, ...)
 			frame.obj.ActivateMultiControl(frame.obj, ...)
 		end
+
+		GameTooltip:Hide()
+		dragdropButton:Hide()
 		dragdropButton.enteredFrame = nil
 		dragdropButton.mouseDownFrame = nil
 	end

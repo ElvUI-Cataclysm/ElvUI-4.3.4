@@ -158,6 +158,7 @@ function AddOn:OnInitialize()
 	self.PixelMode = self.private.general.pixelPerfect -- keep this over `UIScale`
 	self:UIScale(true)
 	self:UpdateMedia()
+
 	self:RegisterEvent("PLAYER_REGEN_DISABLED")
 	self:Contruct_StaticPopups()
 	self:InitializeInitialModules()
@@ -195,6 +196,8 @@ function AddOn:OnInitialize()
 			GameMenuButtonLogout:Point("TOPLEFT", GameMenuFrame[AddOnName], "BOTTOMLEFT", 0, -16)
 		end
 	end)
+
+	self.loadedtime = GetTime()
 end
 
 local LoadUI = CreateFrame("Frame")
@@ -301,7 +304,7 @@ function AddOn:ToggleOptionsUI(msg)
 			--Workaround: Try to load addon and check if it is loaded right after.
 			if not IsAddOnLoaded("ElvUI_OptionsUI") then noConfig = true end
 
-			-- version check elvui config if it's actually enabled
+			-- version check elvui options if it's actually enabled
 			if (not noConfig) and GetAddOnMetadata("ElvUI_OptionsUI", "Version") ~= "1.06" then
 				self:StaticPopup_Show("CLIENT_UPDATE_REQUEST")
 			end

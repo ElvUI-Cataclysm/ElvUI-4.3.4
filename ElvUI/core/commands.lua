@@ -8,7 +8,7 @@ local format, lower, split = string.format, string.lower, string.split
 
 local InCombatLockdown = InCombatLockdown
 local UIFrameFadeOut, UIFrameFadeIn = UIFrameFadeOut, UIFrameFadeIn
-local EnableAddOn, DisableAddOn, DisableAllAddOns = EnableAddOn, DisableAddOn, DisableAllAddOns
+local EnableAddOn, DisableAllAddOns = EnableAddOn, DisableAllAddOns
 local SetCVar = SetCVar
 local ReloadUI = ReloadUI
 local GuildControlGetNumRanks = GuildControlGetNumRanks
@@ -76,7 +76,7 @@ end
 
 function FarmMode()
 	if InCombatLockdown() then E:Print(ERR_NOT_IN_COMBAT) return end
-	if E.private.general.minimap.enable ~= true then return end
+	if not E.private.general.minimap.enable then return end
 
 	if Minimap:IsShown() then
 		UIFrameFadeOut(Minimap, 0.3)

@@ -33,7 +33,7 @@ E.Options.args.chat = {
 			type = "group",
 			name = L["General"],
 			disabled = function() return not E.private.chat.enable end,
- 			args = {
+			args = {
 				header = {
 					order = 1,
 					type = "header",
@@ -114,8 +114,8 @@ E.Options.args.chat = {
 					end
 				},
 				lfgIcons = {
- 					order = 10,
- 					type = "toggle",
+					order = 10,
+					type = "toggle",
 					name = L["LFG Icons"],
 					desc = L["Display LFG Icons in group chat."],
 					set = function(self, value)
@@ -130,7 +130,7 @@ E.Options.args.chat = {
 					desc = L["Log the main chat frames history. So when you reloadui or log in and out you see the history from your last session."]
 				},
 				useAltKey = {
- 					order = 12,
+					order = 12,
 					type = "toggle",
 					name = L["Use Alt Key"],
 					desc = L["Require holding the Alt key down to move cursor or cycle through messages in the editbox."],
@@ -168,18 +168,18 @@ E.Options.args.chat = {
 					end
 				},
 				numAllowedCombatRepeat = {
- 					order = 16,
+					order = 16,
 					type = "range",
 					name = L["Allowed Combat Repeat"],
 					desc = L["Number of repeat characters while in combat before the chat editbox is automatically closed."],
 					min = 2, max = 10, step = 1
 				},
- 				numScrollMessages = {
- 					order = 17,
- 					type = "range",
- 					name = L["Scroll Messages"],
- 					desc = L["Number of messages you scroll for each step."],
- 					min = 1, max = 10, step = 1,
+				numScrollMessages = {
+					order = 17,
+					type = "range",
+					name = L["Scroll Messages"],
+					desc = L["Number of messages you scroll for each step."],
+					min = 1, max = 10, step = 1,
 				},
 				spacer2 = {
 					order = 18,
@@ -253,7 +253,7 @@ E.Options.args.chat = {
 					set = function(info, value) E.db.chat.keywordSound = value end
 				},
 				noAlertInCombat = {
- 					order = 4,
+					order = 4,
 					type = "toggle",
 					name = L["No Alert In Combat"]
 				},

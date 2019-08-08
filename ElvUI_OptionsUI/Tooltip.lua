@@ -217,8 +217,8 @@ E.Options.args.tooltip = {
 					name = L["Visibility"]
 				},
 				actionbars = {
- 					order = 2,
- 					type = "select",
+					order = 2,
+					type = "select",
 					name = L["ActionBars"],
 					desc = L["Choose when you want the tooltip to show. If a modifer is chosen, then you need to hold that down to show the tooltip."],
 					values = {
@@ -308,40 +308,40 @@ E.Options.args.tooltip = {
 				text = {
 					order = 4,
 					type = "toggle",
- 					name = L["Text"],
- 					set = function(info, value) E.db.tooltip.healthBar.text = value if value then GameTooltipStatusBar.text:Show() else GameTooltipStatusBar.text:Hide() end  end,
- 				},
- 				font = {
- 					order = 5,
- 					type = "select", dialogControl = "LSM30_Font",
- 					name = L["Font"],
- 					values = AceGUIWidgetLSMlists.font,
- 					set = function(info, value)
- 						E.db.tooltip.healthBar.font = value
- 						GameTooltipStatusBar.text:FontTemplate(E.Libs.LSM:Fetch("font", E.db.tooltip.healthBar.font), E.db.tooltip.healthBar.fontSize, E.db.tooltip.healthBar.fontOutline)
- 					end,
- 					disabled = function() return not E.db.tooltip.healthBar.text end,
- 				},
- 				fontSize = {
- 					order = 6,
- 					type = "range",
- 					name = L["FONT_SIZE"],
- 					min = 4, max = 33, step = 1,
- 					set = function(info, value)
- 						E.db.tooltip.healthBar.fontSize = value
- 						GameTooltipStatusBar.text:FontTemplate(E.Libs.LSM:Fetch("font", E.db.tooltip.healthBar.font), E.db.tooltip.healthBar.fontSize, E.db.tooltip.healthBar.fontOutline)
- 					end,
- 					disabled = function() return not E.db.tooltip.healthBar.text end,
- 				},
- 				fontOutline = {
- 					order = 7,
- 					type = "select",
- 					name = L["Font Outline"],
- 					values = C.Values.FontFlags,
- 					set = function(info, value)
- 						E.db.tooltip.healthBar.fontOutline = value
- 						GameTooltipStatusBar.text:FontTemplate(E.Libs.LSM:Fetch("font", E.db.tooltip.healthBar.font), E.db.tooltip.healthBar.fontSize, E.db.tooltip.healthBar.fontOutline)
- 					end,
+					name = L["Text"],
+					set = function(info, value) E.db.tooltip.healthBar.text = value if value then GameTooltipStatusBar.text:Show() else GameTooltipStatusBar.text:Hide() end  end,
+				},
+				font = {
+					order = 5,
+					type = "select", dialogControl = "LSM30_Font",
+					name = L["Font"],
+					values = AceGUIWidgetLSMlists.font,
+					set = function(info, value)
+						E.db.tooltip.healthBar.font = value
+						GameTooltipStatusBar.text:FontTemplate(E.Libs.LSM:Fetch("font", E.db.tooltip.healthBar.font), E.db.tooltip.healthBar.fontSize, E.db.tooltip.healthBar.fontOutline)
+					end,
+					disabled = function() return not E.db.tooltip.healthBar.text end,
+				},
+				fontSize = {
+					order = 6,
+					type = "range",
+					name = L["FONT_SIZE"],
+					min = 4, max = 33, step = 1,
+					set = function(info, value)
+						E.db.tooltip.healthBar.fontSize = value
+						GameTooltipStatusBar.text:FontTemplate(E.Libs.LSM:Fetch("font", E.db.tooltip.healthBar.font), E.db.tooltip.healthBar.fontSize, E.db.tooltip.healthBar.fontOutline)
+					end,
+					disabled = function() return not E.db.tooltip.healthBar.text end,
+				},
+				fontOutline = {
+					order = 7,
+					type = "select",
+					name = L["Font Outline"],
+					values = C.Values.FontFlags,
+					set = function(info, value)
+						E.db.tooltip.healthBar.fontOutline = value
+						GameTooltipStatusBar.text:FontTemplate(E.Libs.LSM:Fetch("font", E.db.tooltip.healthBar.font), E.db.tooltip.healthBar.fontSize, E.db.tooltip.healthBar.fontOutline)
+					end,
 					disabled = function() return not E.db.tooltip.healthBar.text end
 				}
 			}

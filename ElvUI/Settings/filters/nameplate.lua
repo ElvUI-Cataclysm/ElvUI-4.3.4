@@ -1,6 +1,6 @@
 local E, L, V, P, G = unpack(select(2, ...))
 
-G.nameplatesfilters = {
+G.nameplates.filters = {
 	Boss = {
 		triggers = {
 			level = true,

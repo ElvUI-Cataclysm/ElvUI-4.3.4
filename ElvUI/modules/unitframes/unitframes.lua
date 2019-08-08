@@ -357,22 +357,24 @@ function UF:UpdateColors()
 	ElvUF.colors.ComboPoints[1] = E:SetColorTable(ElvUF.colors.ComboPoints[1], db.classResources.comboPoints[1])
 	ElvUF.colors.ComboPoints[2] = E:SetColorTable(ElvUF.colors.ComboPoints[2], db.classResources.comboPoints[2])
 	ElvUF.colors.ComboPoints[3] = E:SetColorTable(ElvUF.colors.ComboPoints[3], db.classResources.comboPoints[3])
-	ElvUF.colors.ComboPoints[4] = E:SetColorTable(ElvUF.colors.ComboPoints[5], db.classResources.comboPoints[4])
+	ElvUF.colors.ComboPoints[4] = E:SetColorTable(ElvUF.colors.ComboPoints[4], db.classResources.comboPoints[4])
 	ElvUF.colors.ComboPoints[5] = E:SetColorTable(ElvUF.colors.ComboPoints[5], db.classResources.comboPoints[5])
 
 	--Paladin, Priest, Warlock and Death Knight
 	if not ElvUF.colors.ClassBars then ElvUF.colors.ClassBars = {} end
-	if not ElvUF.colors.ClassBars.DEATHKNIGHT then ElvUF.colors.ClassBars.DEATHKNIGHT = {} end
 	if not ElvUF.colors.ClassBars.DRUID then ElvUF.colors.ClassBars.DRUID = {} end
-	ElvUF.colors.ClassBars.DEATHKNIGHT[1] = E:SetColorTable(ElvUF.colors.ClassBars.DEATHKNIGHT[1], db.classResources.DEATHKNIGHT[1])
-	ElvUF.colors.ClassBars.DEATHKNIGHT[2] = E:SetColorTable(ElvUF.colors.ClassBars.DEATHKNIGHT[2], db.classResources.DEATHKNIGHT[2])
-	ElvUF.colors.ClassBars.DEATHKNIGHT[3] = E:SetColorTable(ElvUF.colors.ClassBars.DEATHKNIGHT[3], db.classResources.DEATHKNIGHT[3])
-	ElvUF.colors.ClassBars.DEATHKNIGHT[4] = E:SetColorTable(ElvUF.colors.ClassBars.DEATHKNIGHT[4], db.classResources.DEATHKNIGHT[4])
 	ElvUF.colors.ClassBars.DRUID[1] = E:SetColorTable(ElvUF.colors.ClassBars.DRUID[1], db.classResources.DRUID[1])
 	ElvUF.colors.ClassBars.DRUID[2] = E:SetColorTable(ElvUF.colors.ClassBars.DRUID[2], db.classResources.DRUID[2])
 	ElvUF.colors.ClassBars.PALADIN = E:SetColorTable(ElvUF.colors.ClassBars.PALADIN, db.classResources.PALADIN)
 	ElvUF.colors.ClassBars.PRIEST = E:SetColorTable(ElvUF.colors.ClassBars.PRIEST, db.classResources.PRIEST)
 	ElvUF.colors.ClassBars.WARLOCK = E:SetColorTable(ElvUF.colors.ClassBars.WARLOCK, db.classResources.WARLOCK)
+
+	if not ElvUF.colors.ClassBars.DEATHKNIGHT then ElvUF.colors.ClassBars.DEATHKNIGHT = {} end
+	if not ElvUF.colors.runes then ElvUF.colors.runes = {} end
+	ElvUF.colors.runes[1] = E:SetColorTable(ElvUF.colors.ClassBars.DEATHKNIGHT[1], db.classResources.DEATHKNIGHT[1])
+	ElvUF.colors.runes[2] = E:SetColorTable(ElvUF.colors.ClassBars.DEATHKNIGHT[2], db.classResources.DEATHKNIGHT[2])
+	ElvUF.colors.runes[3] = E:SetColorTable(ElvUF.colors.ClassBars.DEATHKNIGHT[3], db.classResources.DEATHKNIGHT[3])
+	ElvUF.colors.runes[4] = E:SetColorTable(ElvUF.colors.ClassBars.DEATHKNIGHT[4], db.classResources.DEATHKNIGHT[4])
 
 	-- these are just holders.. to maintain and update tables
 	if not ElvUF.colors.reaction.good then ElvUF.colors.reaction.good = {} end

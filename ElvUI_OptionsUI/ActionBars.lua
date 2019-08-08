@@ -611,7 +611,7 @@ local function BuildABConfig()
 				disabled = function() return not E.db.actionbar.stanceBar.enabled end
 			},
 			inheritGlobalFade = {
- 				order = 8,
+				order = 8,
 				type = "toggle",
 				name = L["Inherit Global Fade"],
 				desc = L["Inherit the global fade, mousing over, targetting, setting focus, losing health, entering combat will set the remove transparency. Otherwise it will use the transparency level in the general actionbar settings for global fade alpha."],

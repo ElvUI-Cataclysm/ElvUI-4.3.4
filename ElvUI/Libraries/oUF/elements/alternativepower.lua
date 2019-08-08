@@ -41,6 +41,7 @@ end
 local function onEnter(self)
 	if(not self:IsVisible()) then return end
 
+	GameTooltip:ClearAllPoints()
 	GameTooltip_SetDefaultAnchor(GameTooltip, self)
 	self:UpdateTooltip()
 end

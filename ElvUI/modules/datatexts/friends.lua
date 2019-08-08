@@ -75,8 +75,8 @@ local function BuildFriendTable(total)
 
 		if connected then
 			local className = E:UnlocalizedClassName(class) or ""
-			local status = statusTable[(status == "<"..AFK..">" and 1) or (status == "<"..DND..">" and 2) or 3]
-			friendTable[i] = {name, level, className, area, connected, status, note}
+			local state = statusTable[(status == "<"..AFK..">" and 1) or (status == "<"..DND..">" and 2) or 3]
+			friendTable[i] = {name, level, className, area, connected, state, note}
 		end
 	end
 
