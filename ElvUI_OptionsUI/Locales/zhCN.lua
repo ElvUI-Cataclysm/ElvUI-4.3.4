@@ -380,6 +380,8 @@ L["ENEMY_NPC"] = "敌对NPC"
 L["ENEMY_PLAYER"] = "敌对玩家"
 L["Engineering"] = "工程"
 L["Enhanced PVP Messages"] = "PVP增强信息"
+L["Equipped Item Color"] = true
+L["Equipped Item"] = true
 L["Error decoding data. Import string may be corrupted!"] = "解码错误.导入的字符串可能已损坏！"
 L["Error exporting profile!"] = "导出配置文件失败"
 L["Exclude Name"] = "排除名字"
@@ -412,6 +414,7 @@ L["Fluid Position Buffs on Debuffs"] = "增益流动定位在减益上"
 L["Fluid Position Debuffs on Buffs"] = "减益流动定位在增益上"
 L["Flyout Direction"] = "飞出方向"
 L["Flyout Spacing"] = true
+L["Focus"] = "焦点"
 L["FocusTarget"] = "焦点的目标"
 L["Font Outline"] = "字体描边"
 L["Font"] = "字体"
@@ -1066,7 +1069,6 @@ L["Use Custom Strata"] = "使用自定义层级"
 L["Use Dead Backdrop"] = "死亡背景"
 L["Use Default"] = "使用默认值"
 L["Use drag and drop to rearrange filter priority or right click to remove a filter."] = "使用拖拽的方式调整过滤器优先级, 或者右键移除一个过滤器"
-L["Use Health Texture on Background"] = "对背景使用生命条材质"
 L["Use Position Override"] = "使用位置覆盖"
 L["Use Reaction Color"] = true
 L["Use Shift+LeftClick to toggle between friendly or enemy or normal state. Normal state will allow the filter to be checked on all units. Friendly state is for friendly units only and enemy state is for enemy units."] = "使用Shift+左键来改变友方/敌方/普通状态. 普通状态将允许过滤器检查所有单位. 友方/敌方将只检查对应单位."
@@ -1178,19 +1180,21 @@ L["TEXT_FORMAT_DESC"] = [=[提供一个更改文字格式的方式
 [powercolor][power:current]
 
 生命条 / 能量条 格式:
-'current' - 当前值
-'percent' - 百分比
-'current-max' - 当前值 - 最大值. 当当前值等于最大值时只显示最大值
-'current-percent' - 当前值 - 百分比. 当百分比为100%时只显示当前值
-'current-max-percent' - 当前值 - 最大值 - 百分比. 当当前值不等于最大值时显示
-'deficit' - 失去值. 没有失去值时不显示
+"current" - 当前值
+"percent" - 百分比
+"current-max" - 当前值 - 最大值. 当当前值等于最大值时只显示最大值
+"current-percent" - 当前值 - 百分比. 当百分比为100%时只显示当前值
+"current-max-percent" - 当前值 - 最大值 - 百分比. 当当前值不等于最大值时显示
+"deficit" - 失去值. 没有失去值时不显示
 
 姓名格式:
-'name:short' - 姓名显示限制于10字节内
-'name:medium' -姓名显示限制于15字节内
-'name:long' - 姓名显示限制于20字节内
+"name:veryshort" - Name restricted to 5 characters
+"name:short" - 姓名显示限制于10字节内
+"name:medium" -姓名显示限制于15字节内
+"name:long" - 姓名显示限制于20字节内
+"name:short:translit" - Name restricted to 10 characters with transliteration
 
-空白则为禁用. 如需技术支持请至http://www.tukui.org]=]
+空白则为禁用. 如需技术支持请至https://www.tukui.org/forum/viewtopic.php?t=6]=]
 L["NAMEPLATE_FRAMELEVEL_DESC"] = [=[如果你设置为1则所有符合这个过滤器的姓名板将在其他姓名板上方。
 如果你将另一个过滤器设置为2则符合那个过滤器的姓名板将在设为1的姓名板以及未触发的姓名板上方。
 请注意：这个设置不会修复在互相重叠的姓名板上点击/鼠标指向的问题。该问题是由于我们无法处理姓名板可点击区域的层次。]=]

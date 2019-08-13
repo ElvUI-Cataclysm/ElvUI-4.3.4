@@ -380,6 +380,8 @@ L["ENEMY_NPC"] = "敵對NPC"
 L["ENEMY_PLAYER"] = "敵對玩家"
 L["Engineering"] = "工程學"
 L["Enhanced PVP Messages"] = "PVP增強信息"
+L["Equipped Item Color"] = true
+L["Equipped Item"] = true
 L["Error decoding data. Import string may be corrupted!"] = "解碼錯誤.導出字符串可能已損壞！"
 L["Error exporting profile!"] = "導出配置文件失敗"
 L["Exclude Name"] = "排除名字"
@@ -412,6 +414,7 @@ L["Fluid Position Buffs on Debuffs"] = "增益流動定位在減益上"
 L["Fluid Position Debuffs on Buffs"] = "減益流動定位在增益上"
 L["Flyout Direction"] = "飛出方向"
 L["Flyout Spacing"] = true
+L["Focus"] = "專注目標"
 L["FocusTarget"] = "專注目標的目標"
 L["Font Outline"] = "字體描邊"
 L["Font"] = "字體"
@@ -1066,7 +1069,6 @@ L["Use Custom Strata"] = "使用自訂層級"
 L["Use Dead Backdrop"] = "死亡背景"
 L["Use Default"] = "自定義默認值"
 L["Use drag and drop to rearrange filter priority or right click to remove a filter."] = "使用拖拽的方式調整過濾器優先順序, 或者右鍵移除一個過濾器"
-L["Use Health Texture on Background"] = "在背景使用生命條材質"
 L["Use Position Override"] = "使用位置覆蓋"
 L["Use Reaction Color"] = true
 L["Use Shift+LeftClick to toggle between friendly or enemy or normal state. Normal state will allow the filter to be checked on all units. Friendly state is for friendly units only and enemy state is for enemy units."] = "使用 Shift + 左键 来切换友方狀態, 敵方狀態及正常狀態. 正常狀態將允許在所有單位上設為啟用的過濾器。友方狀態僅允許用於友方單位的過濾器, 敵方狀態僅允許用於敵方單位的過濾器."
@@ -1178,19 +1180,21 @@ L["TEXT_FORMAT_DESC"] = [=[請填入代碼以變更文字格式。
 [powercolor][power:current]
 
 生命/能量值格式：
-'current' - 目前數值
-'percent' - 百分比
-'current-max' - 目前數值 - 最大值, 當兩者相同時, 僅會顯示最大值
-'current-percent' - 目前數值 - 百分比
-'current-max-percent' - 目前數值 - 最大值 - 百分比, 當目前數值等同於最大值時, 僅會顯示最大值
-'deficit' - 顯示損失數值, 若未損失生命/能量值, 將不予顯示
+"current" - 目前數值
+"percent" - 百分比
+"current-max" - 目前數值 - 最大值, 當兩者相同時, 僅會顯示最大值
+"current-percent" - 目前數值 - 百分比
+"current-max-percent" - 目前數值 - 最大值 - 百分比, 當目前數值等同於最大值時, 僅會顯示最大值
+"deficit" - 顯示損失數值, 若未損失生命/能量值, 將不予顯示
 
 名稱格式：
-'name:short' - 名稱上限為 10 個字元
-'name:medium' - 名稱上限為 15 個字元
-'name:long' - 名稱上限為 20 個字元
+"name:veryshort" - Name restricted to 5 characters
+"name:short" - 名稱上限為 10 個字元
+"name:medium" - 名稱上限為 15 個字元
+"name:long" - 名稱上限為 20 個字元
+"name:short:translit" - Name restricted to 10 characters with transliteration
 
-若要停用此功能, 此欄位請留空。如需更多資訊, 請至 http://www.tukui.org]=]
+若要停用此功能, 此欄位請留空。如需更多資訊, 請至 https://www.tukui.org/forum/viewtopic.php?t=6]=]
 L["NAMEPLATE_FRAMELEVEL_DESC"] = [=[If you set this to 1 then all plates triggered by this style filter will be above any of the non-triggered plates.
 
 If you set this to 2 in another style filter then all plates triggered by that filter will be above plates with frame level set to 1 and all non-triggered plates, and so on.

@@ -554,11 +554,14 @@ end
 function E:StaticPopup_SetUpPosition(dialog)
 	if not tContains(E.StaticPopup_DisplayedFrames, dialog) then
 		local lastFrame = E.StaticPopup_DisplayedFrames[#E.StaticPopup_DisplayedFrames]
+		dialog:ClearAllPoints()
+
 		if lastFrame then
 			dialog:Point("TOP", lastFrame, "BOTTOM", 0, -4)
 		else
 			dialog:Point("TOP", E.UIParent, "TOP", 0, -100)
 		end
+
 		tinsert(E.StaticPopup_DisplayedFrames, dialog)
 	end
 end

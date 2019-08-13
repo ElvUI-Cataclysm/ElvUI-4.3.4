@@ -104,9 +104,21 @@ function S:Ace3_RegisterAsWidget(widget)
 
 		check:SetParent(checkbg.backdrop)
 
-		hooksecurefunc(widget, "SetDisabled", function(w, checked)
-			if S:Ace3_CheckBoxIsEnableSwitch(w) then
-				w:SetLabel(checked and S.Ace3_L.RED_ENABLE or S.Ace3_L.GREEN_ENABLE)
+		hooksecurefunc(widget, "SetDisabled", function(w, value)
+			local isSwitch = S:Ace3_CheckBoxIsEnableSwitch(w)
+
+			if value then
+				if isSwitch then
+					w:SetLabel(S.Ace3_L.RED_ENABLE)
+				end
+			end
+		end)
+
+		hooksecurefunc(widget, "SetValue", function(w, value)
+			local isSwitch = S:Ace3_CheckBoxIsEnableSwitch(w)
+
+			if isSwitch then
+				w:SetLabel(value and S.Ace3_L.GREEN_ENABLE or S.Ace3_L.RED_ENABLE)
 			end
 		end)
 
@@ -258,9 +270,10 @@ function S:Ace3_RegisterAsWidget(widget)
 		frame:SetTemplate("Default")
 		frame:Height(HEIGHT)
 
+		local thumbTex = frame:GetThumbTexture()
 		frame:SetThumbTexture(E.Media.Textures.Melli)
-		frame:GetThumbTexture():SetVertexColor(1, 0.82, 0, 0.8)
-		frame:GetThumbTexture():Size(HEIGHT - 2, HEIGHT - 2)
+		thumbTex:SetVertexColor(1, 0.82, 0, 0.8)
+		thumbTex:Size(HEIGHT - 2, HEIGHT - 2)
 
 		editbox:SetTemplate("Default")
 		editbox:Height(15)
@@ -268,6 +281,14 @@ function S:Ace3_RegisterAsWidget(widget)
 
 		lowtext:Point("TOPLEFT", frame, "BOTTOMLEFT", 2, -2)
 		hightext:Point("TOPRIGHT", frame, "BOTTOMRIGHT", -2, -2)
+
+		hooksecurefunc(widget, "SetDisabled", function(_, disabled)
+			if disabled then
+				thumbTex:SetVertexColor(0.6, 0.6, 0.6, 0.8)
+			else
+				thumbTex:SetVertexColor(1, 0.82, 0, 0.8)
+			end
+		end)
 	elseif TYPE == "Keybinding" then
 		local button = widget.button
 		local msgframe = widget.msgframe

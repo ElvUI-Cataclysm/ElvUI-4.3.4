@@ -121,13 +121,13 @@ function AB:PositionAndSizeBar(barName)
 		numColumns = 1
 	end
 
- 	if bar.db.backdrop == true then
- 		bar.backdrop:Show()
- 	else
- 		bar.backdrop:Hide()
- 		--Set size multipliers to 1 when backdrop is disabled
- 		widthMult = 1
- 		heightMult = 1
+	if bar.db.backdrop == true then
+		bar.backdrop:Show()
+	else
+		bar.backdrop:Hide()
+		--Set size multipliers to 1 when backdrop is disabled
+		widthMult = 1
+		heightMult = 1
 	end
 
 	local sideSpacing = (bar.db.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)
@@ -368,7 +368,7 @@ function AB:CreateVehicleLeave()
 	vehicle:Size(26)
 	vehicle:SetFrameStrata("HIGH")
 	vehicle:Point("BOTTOMLEFT", Minimap, "BOTTOMLEFT", 2, 2)
- 	vehicle:SetNormalTexture(E.Media.Textures.ExitVehicle)
+	vehicle:SetNormalTexture(E.Media.Textures.ExitVehicle)
 	vehicle:SetPushedTexture(E.Media.Textures.ExitVehicle)
 	vehicle:SetHighlightTexture(E.Media.Textures.ExitVehicle)
 	vehicle:SetTemplate("Default")
@@ -742,7 +742,7 @@ function AB:DisableBlizzard()
 			_G["VehicleMenuBarActionButton"..i]:Hide()
 			_G["VehicleMenuBarActionButton"..i]:UnregisterAllEvents()
 			_G["VehicleMenuBarActionButton"..i]:SetAttribute("statehidden", true)
- 		end
+		end
 
 		_G["BonusActionButton"..i]:Hide()
 		_G["BonusActionButton"..i]:UnregisterAllEvents()
@@ -1108,6 +1108,11 @@ function AB:LAB_ButtonUpdate(button)
 	button.count:SetTextColor(color.r, color.g, color.b)
 	if button.config and (button.config.outOfRangeColoring ~= "hotkey") then
 		button.hotkey:SetTextColor(color.r, color.g, color.b)
+	end
+
+	if button.backdrop and AB.db.equippedItem then
+		color = (button:IsEquipped() and AB.db.equippedItemColor) or E.db.general.bordercolor
+		button.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
 	end
 end
 

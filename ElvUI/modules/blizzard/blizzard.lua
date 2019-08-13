@@ -19,8 +19,8 @@ function B:Initialize()
 	self:PositionVehicleFrame()
 	self:MoveWatchFrame()
 
- 	if not IsAddOnLoaded("SimplePowerBar") then
- 		self:PositionAltPowerBar()
+	if not IsAddOnLoaded("SimplePowerBar") then
+		self:PositionAltPowerBar()
 		self:SkinAltPowerBar()
 	end
 

@@ -21,9 +21,9 @@ function UF:Construct_PowerBar(frame, bg, text, textPos)
 	power.PostUpdateColor = self.PostUpdatePowerColor
 
 	if bg then
-		power.bg = power:CreateTexture(nil, "BORDER")
-		power.bg:SetAllPoints()
-		power.bg:SetTexture(E.media.blankTex)
+		power.BG = power:CreateTexture(nil, "BORDER")
+		power.BG:SetAllPoints()
+		power.BG:SetTexture(E.media.blankTex)
 	end
 
 	if text then
@@ -41,6 +41,12 @@ function UF:Construct_PowerBar(frame, bg, text, textPos)
 	power.colorDisconnected = false
 	power.colorTapping = false
 	power:CreateBackdrop("Default", nil, nil, self.thinBorders, true)
+
+	local clipFrame = CreateFrame('Frame', nil, power)
+	clipFrame:SetAllPoints()
+	clipFrame:EnableMouse(false)
+	clipFrame.__frame = frame
+	power.ClipFrame = clipFrame
 
 	return power
 end
@@ -201,10 +207,10 @@ function UF:Configure_Power(frame)
 		frame:Tag(power.value, "")
 	end
 
-	frame.Power.custom_backdrop = UF.db.colors.custompowerbackdrop and UF.db.colors.power_backdrop
+	power.custom_backdrop = UF.db.colors.custompowerbackdrop and UF.db.colors.power_backdrop
 
 	--Transparency Settings
-	UF:ToggleTransparentStatusBar(UF.db.colors.transparentPower, frame.Power, frame.Power.bg, nil, UF.db.colors.invertPower)
+	UF:ToggleTransparentStatusBar(UF.db.colors.transparentPower, power, power.BG, nil, UF.db.colors.invertPower)
 end
 
 local tokens = {[0] = "MANA", "RAGE", "FOCUS", "ENERGY", "RUNIC_POWER"}
@@ -218,17 +224,17 @@ function UF:PostUpdatePowerColor()
 		if not self.colorClass then
 			self:SetStatusBarColor(color[1], color[2], color[3])
 
-			if self.bg then
-				UF:UpdateBackdropTextureColor(self.bg, color[1], color[2], color[3])
+			if self.BG then
+				UF:UpdateBackdropTextureColor(self.BG, color[1], color[2], color[3])
 			end
 		end
 	end
 end
 
-function UF:PostUpdatePower(unit, _, _, max)
+function UF:PostUpdatePower(unit)
 	local parent = self.origParent or self:GetParent()
 	if parent.isForced then
-		self:SetValue(random(1, max))
+		self:SetValue(random(1, self.max))
 	end
 
 	if parent.db and parent.db.power and parent.db.power.hideonnpc then

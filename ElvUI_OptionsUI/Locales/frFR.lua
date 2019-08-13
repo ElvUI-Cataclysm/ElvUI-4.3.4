@@ -380,6 +380,8 @@ L["ENEMY_NPC"] = "PNJ ennemi"
 L["ENEMY_PLAYER"] = "Joueur ennemi"
 L["Engineering"] = true
 L["Enhanced PVP Messages"] = "Messages PVP améliorés"
+L["Equipped Item Color"] = true
+L["Equipped Item"] = true
 L["Error decoding data. Import string may be corrupted!"] = "Erreur lors du décodage des données. Celles-ci sont peut être corropues"
 L["Error exporting profile!"] = "Erreur d'exportation du profil"
 L["Exclude Name"] = "Exclure le nom"
@@ -412,6 +414,7 @@ L["Fluid Position Buffs on Debuffs"] = "Position fluide des améliorations avec 
 L["Fluid Position Debuffs on Buffs"] = "Position fluide des affaiblissements avec les améliorations"
 L["Flyout Direction"] = "Sens d'agrandissement"
 L["Flyout Spacing"] = true
+L["Focus"] = true
 L["FocusTarget"] = true
 L["Font Outline"] = "Contours extérieurs de la police"
 L["Font"] = "Police"
@@ -1066,7 +1069,6 @@ L["Use Custom Strata"] = "Utiliser une couche définie"
 L["Use Dead Backdrop"] = "Utiliser le fond pour les joueurs morts"
 L["Use Default"] = "Par défaut"
 L["Use drag and drop to rearrange filter priority or right click to remove a filter."] = true
-L["Use Health Texture on Background"] = true
 L["Use Position Override"] = true
 L["Use Reaction Color"] = true
 L["Use Shift+LeftClick to toggle between friendly or enemy or normal state. Normal state will allow the filter to be checked on all units. Friendly state is for friendly units only and enemy state is for enemy units."] = true
@@ -1178,19 +1180,21 @@ Exemples:
 [powercolor][power:current]
 
 Formats de la Vie / des Ressources:
-'current' - Quantité actuelle
-'percent' - Quantité en pourcentage
-'current-max' - Quantité actuelle maximale, n'affichera seulement la quantité maximale si la quantité actuelle est égale au maximum.
-'current-percent' - Quantité actuelle suivie par quantité en pourcentage, n'affichera seulement la quantité maximale si la quantité actuelle est égale au maximum
-'current-max-percent' - Quantité actuelle, quantité maximale, suivie par quantité en pourcentage, n'affichera seulement la quantité maximale si la quantité actuelle est égale au maximum
-'deficit' - Affiche la valeur du déficit, n'affichera rien si il n'y a pas de déficit
+"current" - Quantité actuelle
+"percent" - Quantité en pourcentage
+"current-max" - Quantité actuelle maximale, n'affichera seulement la quantité maximale si la quantité actuelle est égale au maximum.
+"current-percent" - Quantité actuelle suivie par quantité en pourcentage, n'affichera seulement la quantité maximale si la quantité actuelle est égale au maximum
+"current-max-percent" - Quantité actuelle, quantité maximale, suivie par quantité en pourcentage, n'affichera seulement la quantité maximale si la quantité actuelle est égale au maximum
+"deficit" - Affiche la valeur du déficit, n'affichera rien si il n'y a pas de déficit
 
 Format des Noms:
-'name:short' - Nom limité à 10 caractères
-'name:medium' - Nom limité à 15 caractères
-'name:long' - Nom limité à 20 caractères
+"name:veryshort" - Name restricted to 5 characters
+"name:short" - Nom limité à 10 caractères
+"name:medium" - Nom limité à 15 caractères
+"name:long" - Nom limité à 20 caractères
+"name:short:translit" - Name restricted to 10 characters with transliteration
 
-Pour désactiver, laisser le champs vide. Pour plus d'information, merci de visiter http://www.tukui.org]=]
+Pour désactiver, laisser le champs vide. Pour plus d'information, merci de visiter https://www.tukui.org/forum/viewtopic.php?t=6]=]
 L["NAMEPLATE_FRAMELEVEL_DESC"] = [=[If you set this to 1 then all plates triggered by this style filter will be above any of the non-triggered plates.
 
 If you set this to 2 in another style filter then all plates triggered by that filter will be above plates with frame level set to 1 and all non-triggered plates, and so on.

@@ -98,8 +98,10 @@ local function LoadSkin()
 
 		if portraitButton then
 			portraitButton:CreateBackdrop()
-			portraitButton:Size(36)
+			portraitButton:Size(32)
 			portraitButton:Point("TOPLEFT", 12, -7)
+			portraitButton:StyleButton(nil, true)
+			portraitButton.hover:SetAllPoints()
 
 			if not container.BagIcon then
 				container.BagIcon = portraitButton:CreateTexture()
@@ -207,6 +209,7 @@ local function LoadSkin()
 	for i = 1, NUM_BANKBAGSLOTS, 1 do
 		local button = _G["BankFrameBag"..i]
 		local icon = _G["BankFrameBag"..i.."IconTexture"]
+		local highlight = _G["BankFrameBag"..i.."HighlightFrameTexture"]
 
 		button:SetNormalTexture(nil)
 		button:SetTemplate("Default", true)
@@ -215,8 +218,8 @@ local function LoadSkin()
 		icon:SetInside()
 		icon:SetTexCoord(unpack(E.TexCoords))
 
-		_G["BankFrameBag"..i.."HighlightFrameTexture"]:SetInside()
-		_G["BankFrameBag"..i.."HighlightFrameTexture"]:SetTexture(unpack(E.media.rgbvaluecolor), 0.3)
+		highlight:SetInside()
+		highlight:SetTexture(unpack(E.media.rgbvaluecolor), 0.3)
 	end
 
 	BankFrame.bagBackdrop = CreateFrame("Frame", "BankFrameBagBackdrop", BankFrame)

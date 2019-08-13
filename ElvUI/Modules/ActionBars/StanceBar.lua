@@ -165,18 +165,18 @@ function AB:PositionAndSizeBarShapeShift()
 		numColumns = 1
 	end
 
- 	if self.db.stanceBar.backdrop == true then
- 		bar.backdrop:Show()
- 	else
- 		bar.backdrop:Hide()
- 		--Set size multipliers to 1 when backdrop is disabled
- 		widthMult = 1
- 		heightMult = 1
- 	end
+	if self.db.stanceBar.backdrop == true then
+		bar.backdrop:Show()
+	else
+		bar.backdrop:Hide()
+		--Set size multipliers to 1 when backdrop is disabled
+		widthMult = 1
+		heightMult = 1
+	end
 
- 	local barWidth = (size * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult-1)) + ((self.db.stanceBar.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2)
- 	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult-1)) + ((self.db.stanceBar.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2)
- 	bar:Width(barWidth)
+	local barWidth = (size * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult-1)) + ((self.db.stanceBar.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2)
+	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult-1)) + ((self.db.stanceBar.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2)
+	bar:Width(barWidth)
 	bar:Height(barHeight)
 
 	if self.db.stanceBar.enabled then

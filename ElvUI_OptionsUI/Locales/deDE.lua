@@ -380,6 +380,8 @@ L["ENEMY_NPC"] = "Gegnerischer NPC"
 L["ENEMY_PLAYER"] = "Gegnerischer Spieler"
 L["Engineering"] = "Ingenieurskunst"
 L["Enhanced PVP Messages"] = "Erweiterte PvP Nachrichten"
+L["Equipped Item Color"] = true
+L["Equipped Item"] = true
 L["Error decoding data. Import string may be corrupted!"] = "Fehler beim entschlüsseln der Daten. Die importierende Zeichenfolge scheint beschädigt zu sein!"
 L["Error exporting profile!"] = "Fehler beim Exportieren des Profils!"
 L["Exclude Name"] = "Ausgeschlossener Name"
@@ -412,6 +414,7 @@ L["Fluid Position Buffs on Debuffs"] = "Flüssige Position Stärkungszauber auf 
 L["Fluid Position Debuffs on Buffs"] = "Flüssige Position Schwächungszauber auf Stärkungszauber"
 L["Flyout Direction"] = "Ausklapprichtung"
 L["Flyout Spacing"] = true
+L["Focus"] = "Fokus"
 L["FocusTarget"] = "Fokus Ziel"
 L["Font Outline"] = "Kontur der Schriftart"
 L["Font"] = "Schriftart"
@@ -1066,7 +1069,6 @@ L["Use Custom Strata"] = "Benutze benutzerdefinierte Schicht"
 L["Use Dead Backdrop"] = "Benutze Hintergrundfarbe vom Tod"
 L["Use Default"] = "Benutze Standard"
 L["Use drag and drop to rearrange filter priority or right click to remove a filter."] = "Benutze Drag und Drop um die Filter Priorität zu arrangieren oder rechts klick um einen Filter zu entfernen."
-L["Use Health Texture on Background"] = "Benutze Gesundheitstextur auf dem Hintergrund"
 L["Use Position Override"] = "Benutze Überschreibung der Position"
 L["Use Reaction Color"] = true
 L["Use Shift+LeftClick to toggle between friendly or enemy or normal state. Normal state will allow the filter to be checked on all units. Friendly state is for friendly units only and enemy state is for enemy units."] = "Benutze Shift+Linksklick um zwischen freundlichem oder freindlichen Status umzuschalten. Normaler Status erlaubt den Filter alle Einheiten zu überprüfen. Freundlicher Status überprüft nur freundliche Einheiten. Feindliche überprüft nur feindliche Einheiten."
@@ -1186,11 +1188,13 @@ Leben / Kraft Formate:
 "deficit" - Zeigt das Defizit. Es wird nichts angezeigt, wenn kein Defizit vorhanden ist
 
 Namensformate:
+"name:veryshort" - Name restricted to 5 characters
 "name:short" - Name auf 10 Zeichen beschränkt
 "name:medium" - Name auf 15 Zeichen beschränkt
 "name:long" - Name auf 20 Zeichen beschränkt
+"name:short:translit" - Name restricted to 10 characters with transliteration
 
-Zum Deaktvieren lasse das Feld leer. Brauchst du mehr Informationen besuche http://www.tukui.org]=]
+Zum Deaktvieren lasse das Feld leer. Brauchst du mehr Informationen besuche https://www.tukui.org/forum/viewtopic.php?t=6]=]
 L["NAMEPLATE_FRAMELEVEL_DESC"] = [=[Wenn du dieses auf 1 setzt werden alle Namensplaketten die vom Stilfilter ausgelöst werden über jeder anderen Namensplakette liegen.
 
 Wenn du dieses auf 2 setzt in einem anderen Stilfilter, werden alle Namensplakette die vom Filter ausgelöst wurden, über den Namensplaketten liegen die auf 1 gesetzt sind, usw.

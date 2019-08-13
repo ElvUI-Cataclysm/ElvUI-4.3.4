@@ -380,6 +380,8 @@ L["ENEMY_NPC"] = "Враждебный НИП"
 L["ENEMY_PLAYER"] = "Враждебный игрок"
 L["Engineering"] = "Инженерия"
 L["Enhanced PVP Messages"] = "Улучшенные PvP сообщения"
+L["Equipped Item Color"] = true
+L["Equipped Item"] = true
 L["Error decoding data. Import string may be corrupted!"] = "Ошибка при кодировании. Импортируемая строка может быть повреждена!"
 L["Error exporting profile!"] = "Ошибка при экспорте профиля!"
 L["Exclude Name"] = "Исключить имя"
@@ -412,6 +414,7 @@ L["Fluid Position Buffs on Debuffs"] = "Переменная позиция ба
 L["Fluid Position Debuffs on Buffs"] = "Переменная позиция дебаффов над баффами"
 L["Flyout Direction"] = "Направление раскрытия"
 L["Flyout Spacing"] = true
+L["Focus"] = "Фокус"
 L["FocusTarget"] = "Цель фокуса"
 L["Font Outline"] = "Граница шрифта"
 L["Font"] = "Шрифт"
@@ -1066,7 +1069,6 @@ L["Use Custom Strata"] = "Свой слой"
 L["Use Dead Backdrop"] = "Фон мертвого"
 L["Use Default"] = "Использовать умолчания"
 L["Use drag and drop to rearrange filter priority or right click to remove a filter."] = "Используйте перетаскивание для смены приоритета или ПКМ для удаления фильтра."
-L["Use Health Texture on Background"] = "Использовать текстуру здоровья на фоне"
 L["Use Position Override"] = "Использовать точку фиксации"
 L["Use Reaction Color"] = true
 L["Use Shift+LeftClick to toggle between friendly or enemy or normal state. Normal state will allow the filter to be checked on all units. Friendly state is for friendly units only and enemy state is for enemy units."] = "Используйте Shift+ЛКМ для переключения между дружественным, враждебным или нормальным режимами. В нормальном режиме фильтр будет проверять все юниты. В дружеском только дружественные, во враждебном только враждебные."
@@ -1186,11 +1188,13 @@ L["TEXT_FORMAT_DESC"] = [=[Строка для изменения вида те�
 "deficit" - отображает значение недостающего до максимума здоровья/ресурса. Не будет отображать ничего, если текущее значение равно максимальному.
 
 Форматы имени:
+"name:veryshort" - Name restricted to 5 characters
 "name:short" - Имя с ограничением длины в 10 символов
 "name:medium" - Имя с ограничением длины в 15 символов
 "name:long" - Имя с ограничением длины в 20 символов
+"name:short:translit" - Name restricted to 10 characters with transliteration
 
-Для отключения оставьте поле пустым, для дополнительной информации посетите http://www.tukui.org]=]
+Для отключения оставьте поле пустым, для дополнительной информации посетите https://www.tukui.org/forum/viewtopic.php?t=6]=]
 L["NAMEPLATE_FRAMELEVEL_DESC"] = [=[If you set this to 1 then all plates triggered by this style filter will be above any of the non-triggered plates.
 
 If you set this to 2 in another style filter then all plates triggered by that filter will be above plates with frame level set to 1 and all non-triggered plates, and so on.

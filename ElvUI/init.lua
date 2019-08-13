@@ -72,6 +72,7 @@ do
 	AddOn:AddLib("Compress", "LibCompress")
 	AddOn:AddLib("Base64", "LibBase64-1.0-ElvUI")
 	AddOn:AddLib("Masque", "Masque", true)
+	AddOn:AddLib("Translit", "LibTranslit-1.0")
 	-- added on ElvUI_OptionsUI load: AceGUI, AceConfig, AceConfigDialog, AceConfigRegistry, AceDBOptions
 
 	-- backwards compatible for plugins

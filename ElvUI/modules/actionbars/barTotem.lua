@@ -29,7 +29,7 @@ local SLOT_EMPTY_TCOORDS = {
 
 local oldMultiCastRecallSpellButton_Update = MultiCastRecallSpellButton_Update
 function MultiCastRecallSpellButton_Update(self)
-	if InCombatLockdown() then AB.NeedRecallButtonUpdate = true; AB:RegisterEvent("PLAYER_REGEN_ENABLED") return end
+	if InCombatLockdown() then AB.NeedRecallButtonUpdate = true AB:RegisterEvent("PLAYER_REGEN_ENABLED") return end
 
 	oldMultiCastRecallSpellButton_Update(self)
 end
@@ -340,5 +340,5 @@ function AB:CreateTotemBar()
 	self:SecureHook("MultiCastFlyoutFrame_ToggleFlyout")
 	self:SecureHook("ShowMultiCastActionBar")
 
-	E:CreateMover(bar, "ElvBar_Totem", TUTORIAL_TITLE47, nil, nil, nil, "ALL, ACTIONBARS")
+	E:CreateMover(bar, "ElvBar_Totem", TUTORIAL_TITLE47, nil, nil, nil, "ALL, ACTIONBARS", nil, "actionbar,barTotem")
 end

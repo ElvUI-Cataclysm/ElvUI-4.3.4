@@ -380,6 +380,8 @@ L["ENEMY_NPC"] = "Enemy NPC"
 L["ENEMY_PLAYER"] = "Enemy Player"
 L["Engineering"] = true
 L["Enhanced PVP Messages"] = true
+L["Equipped Item Color"] = true
+L["Equipped Item"] = true
 L["Error decoding data. Import string may be corrupted!"] = true
 L["Error exporting profile!"] = true
 L["Exclude Name"] = true
@@ -412,6 +414,7 @@ L["Fluid Position Buffs on Debuffs"] = true
 L["Fluid Position Debuffs on Buffs"] = true
 L["Flyout Direction"] = true
 L["Flyout Spacing"] = true
+L["Focus"] = true
 L["FocusTarget"] = true
 L["Font Outline"] = true
 L["Font"] = true
@@ -1066,7 +1069,6 @@ L["Use Custom Strata"] = true
 L["Use Dead Backdrop"] = true
 L["Use Default"] = true
 L["Use drag and drop to rearrange filter priority or right click to remove a filter."] = true
-L["Use Health Texture on Background"] = true
 L["Use Position Override"] = true
 L["Use Reaction Color"] = true
 L["Use Shift+LeftClick to toggle between friendly or enemy or normal state. Normal state will allow the filter to be checked on all units. Friendly state is for friendly units only and enemy state is for enemy units."] = true
@@ -1186,11 +1188,13 @@ Health / Power Formats:
 "deficit" - display the deficit value, will display nothing if there is no deficit
 
 Name Formats:
+"name:veryshort" - Name restricted to 5 characters
 "name:short" - Name restricted to 10 characters
 "name:medium" - Name restricted to 15 characters
 "name:long" - Name restricted to 20 characters
+"name:short:translit" - Name restricted to 10 characters with transliteration
 
-To disable leave the field blank, if you need more information visit http://www.tukui.org]=]
+To disable leave the field blank, if you need more information visit https://www.tukui.org/forum/viewtopic.php?t=6]=]
 L["NAMEPLATE_FRAMELEVEL_DESC"] = [=[If you set this to 1 then all plates triggered by this style filter will be above any of the non-triggered plates.
 
 If you set this to 2 in another style filter then all plates triggered by that filter will be above plates with frame level set to 1 and all non-triggered plates, and so on.

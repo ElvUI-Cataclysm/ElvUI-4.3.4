@@ -2,6 +2,8 @@ local E, L, V, P, G = unpack(select(2, ...))
 local _, ns = ...
 local ElvUF = ns.oUF
 assert(ElvUF, "ElvUI was unable to locate oUF.")
+local Translit = E.Libs.Translit
+local translitMark = "!"
 
 local _G = _G
 local floor = math.floor
@@ -503,7 +505,7 @@ ElvUF.Tags.Events["namecolor"] = "UNIT_NAME_UPDATE UNIT_FACTION"
 ElvUF.Tags.Methods["namecolor"] = function(unit)
 	local unitReaction = UnitReaction(unit, "player")
 	local unitPlayer = UnitIsPlayer(unit)
-	if (unitPlayer) then
+	if unitPlayer then
 		local _, unitClass = UnitClass(unit)
 		local class = ElvUF.colors.class[unitClass]
 		if not class then return "" end
@@ -594,6 +596,30 @@ ElvUF.Tags.Methods["name:long:status"] = function(unit)
 	else
 		return name ~= nil and E:ShortenString(name, 20) or nil
 	end
+end
+
+ElvUF.Tags.Events["name:veryshort:translit"] = "UNIT_NAME_UPDATE"
+ElvUF.Tags.Methods["name:veryshort:translit"] = function(unit)
+	local name = Translit:Transliterate(UnitName(unit), translitMark)
+	return name ~= nil and E:ShortenString(name, 5) or nil
+end
+
+ElvUF.Tags.Events["name:short:translit"] = "UNIT_NAME_UPDATE"
+ElvUF.Tags.Methods["name:short:translit"] = function(unit)
+	local name = Translit:Transliterate(UnitName(unit), translitMark)
+	return name ~= nil and E:ShortenString(name, 10) or nil
+end
+
+ElvUF.Tags.Events["name:medium:translit"] = "UNIT_NAME_UPDATE"
+ElvUF.Tags.Methods["name:medium:translit"] = function(unit)
+	local name = Translit:Transliterate(UnitName(unit), translitMark)
+	return name ~= nil and E:ShortenString(name, 15) or nil
+end
+
+ElvUF.Tags.Events["name:long:translit"] = "UNIT_NAME_UPDATE"
+ElvUF.Tags.Methods["name:long:translit"] = function(unit)
+	local name = Translit:Transliterate(UnitName(unit), translitMark)
+	return name ~= nil and E:ShortenString(name, 20) or nil
 end
 
 ElvUF.Tags.Events["threat:percent"] = "UNIT_THREAT_LIST_UPDATE"
@@ -890,6 +916,20 @@ end
 ElvUF.Tags.Events["guild:brackets"] = "PLAYER_GUILD_UPDATE"
 ElvUF.Tags.Methods["guild:brackets"] = function(unit)
 	local guildName = GetGuildInfo(unit)
+
+	return guildName and format("<%s>", guildName) or nil
+end
+
+ElvUF.Tags.Events["guild:translit"] = "UNIT_NAME_UPDATE PLAYER_GUILD_UPDATE"
+ElvUF.Tags.Methods["guild:translit"] = function(unit)
+	if UnitIsPlayer(unit) then
+		return Translit:Transliterate(GetGuildInfo(unit), translitMark) or nil
+	end
+end
+
+ElvUF.Tags.Events["guild:brackets:translit"] = "PLAYER_GUILD_UPDATE"
+ElvUF.Tags.Methods["guild:brackets:translit"] = function(unit)
+	local guildName = Translit:Transliterate(GetGuildInfo(unit), translitMark)
 
 	return guildName and format("<%s>", guildName) or nil
 end

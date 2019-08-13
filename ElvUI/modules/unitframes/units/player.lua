@@ -26,24 +26,24 @@ function UF:Construct_PlayerFrame(frame)
 	if CAN_HAVE_CLASSBAR then
 		frame.ClassBarHolder = CreateFrame("Frame", nil, frame)
 		frame.ClassBarHolder:Point("BOTTOM", E.UIParent, "BOTTOM", 0, 150)
-	end
 
-	if E.myclass == "PALADIN" then
-		frame.ClassPower = self:Construct_ClassBar(frame)
-		frame.ClassBar = "ClassPower"
-	elseif E.myclass == "WARLOCK" then
-		frame.ClassPower = self:Construct_ClassBar(frame)
-		frame.ClassBar = "ClassPower"
-	elseif E.myclass == "PRIEST" then
-		frame.ShadowOrbs = self:Construct_PriestResourceBar(frame, nil, UF.UpdateClassBar)
-		frame.ClassBar = "ShadowOrbs"
-	elseif E.myclass == "DEATHKNIGHT" then
-		frame.Runes = self:Construct_DeathKnightResourceBar(frame)
-		frame.ClassBar = "Runes"
-	elseif E.myclass == "DRUID" then
-		frame.EclipseBar = self:Construct_DruidEclipseBar(frame)
-		frame.ClassBar = "EclipseBar"
-		frame.AdditionalPower = self:Construct_AdditionalPowerBar(frame)
+		if E.myclass == "PALADIN" then
+			frame.ClassPower = self:Construct_ClassBar(frame)
+			frame.ClassBar = "ClassPower"
+		elseif E.myclass == "WARLOCK" then
+			frame.ClassPower = self:Construct_ClassBar(frame)
+			frame.ClassBar = "ClassPower"
+		elseif E.myclass == "PRIEST" then
+			frame.ShadowOrbs = self:Construct_PriestResourceBar(frame, nil, UF.UpdateClassBar)
+			frame.ClassBar = "ShadowOrbs"
+		elseif E.myclass == "DEATHKNIGHT" then
+			frame.Runes = self:Construct_DeathKnightResourceBar(frame)
+			frame.ClassBar = "Runes"
+		elseif E.myclass == "DRUID" then
+			frame.EclipseBar = self:Construct_DruidEclipseBar(frame)
+			frame.ClassBar = "EclipseBar"
+			frame.AdditionalPower = self:Construct_AdditionalPowerBar(frame)
+		end
 	end
 
 	frame.MouseGlow = self:Construct_MouseGlow(frame)
@@ -85,7 +85,6 @@ function UF:Update_PlayerFrame(frame, db)
 
 		frame.POWERBAR_HEIGHT = not frame.USE_POWERBAR and 0 or db.power.height
 		frame.POWERBAR_WIDTH = frame.USE_MINI_POWERBAR and (frame.UNIT_WIDTH - (frame.BORDER*2))/2 or (frame.POWERBAR_DETACHED and db.power.detachedWidth or (frame.UNIT_WIDTH - ((frame.BORDER+frame.SPACING)*2)))
-
 		frame.USE_PORTRAIT = db.portrait and db.portrait.enable
 		frame.USE_PORTRAIT_OVERLAY = frame.USE_PORTRAIT and (db.portrait.overlay or frame.ORIENTATION == "MIDDLE")
 		frame.PORTRAIT_WIDTH = (frame.USE_PORTRAIT_OVERLAY or not frame.USE_PORTRAIT) and 0 or db.portrait.width

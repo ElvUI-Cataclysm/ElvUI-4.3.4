@@ -41,7 +41,7 @@ RB.Spell1Buffs = {
 	79481,	-- Elixir of Impossible Accuracy	(225 Hit)
 	79632,	-- Elixir of Mighty Speed			(225 Haste)
 	79477,	-- Elixir of the Cobra				(225 Critical)
-	79635,	-- Elixir of the Master 			(225 Mastery)
+	79635,	-- Elixir of the Master				(225 Mastery)
 	79474,	-- Elixir of the Naga				(225 Expertise)
 	79468,	-- Ghost Elixir						(225 Spirit)
 	80532,	-- Elixir of Armor Piercing			(25 Agility / 25 Critical Strike)

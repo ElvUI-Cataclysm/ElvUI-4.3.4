@@ -416,8 +416,8 @@ function CH:StyleChat(frame)
 		if btn == "RightButton" and id == 1 then
 			ToggleFrame(ChatMenu)
 		else
- 			CH:CopyChat(frame)
- 		end
+			CH:CopyChat(frame)
+		end
 	end)
 
 	frame.button:SetScript("OnEnter", function(button) button:SetAlpha(1) end)
@@ -585,7 +585,7 @@ function CH:UpdateAnchors()
 			frame:Point("BOTTOMRIGHT", ChatFrame1, "BOTTOMRIGHT", noBackdrop and 10 or 7, -LeftChatTab:GetHeight()-(noBackdrop and 1 or 4))
 		elseif E.db.chat.editBoxPosition == "BELOW_CHAT" then
 			frame:SetAllPoints(LeftChatDataPanel)
- 		else
+		else
 			frame:Point("BOTTOMLEFT", ChatFrame1, "TOPLEFT", noBackdrop and -1 or -1, noBackdrop and 1 or 4)
 			frame:Point("TOPRIGHT", ChatFrame1, "TOPRIGHT", noBackdrop and 10 or 4, LeftChatTab:GetHeight()+(noBackdrop and 1 or 4))
 		end
@@ -651,7 +651,7 @@ end
 function CH:PositionChat(override)
 	if (InCombatLockdown() and not override and self.initialMove) or (IsMouseButtonDown("LeftButton") and not override) then return end
 	if not RightChatPanel or not LeftChatPanel then return end
-	if not self.db.lockPositions or E.private.chat.enable ~= true then return end
+	if not E.db.chat.lockPositions or E.private.chat.enable ~= true then return end
 
 	RightChatPanel:Size(E.db.chat.separateSizes and E.db.chat.panelWidthRight or E.db.chat.panelWidth, E.db.chat.separateSizes and E.db.chat.panelHeightRight or E.db.chat.panelHeight)
 	LeftChatPanel:Size(E.db.chat.panelWidth, E.db.chat.panelHeight)	
@@ -686,7 +686,7 @@ function CH:PositionChat(override)
 		if chat:IsShown() and not (id > NUM_CHAT_WINDOWS) and id == self.RightChatWindowID then
 			chat:ClearAllPoints()
 			if E.db.datatexts.rightChatPanel then
- 				chat:Point("BOTTOMLEFT", RightChatDataPanel, "TOPLEFT", 1, 3)
+				chat:Point("BOTTOMLEFT", RightChatDataPanel, "TOPLEFT", 1, 3)
 			else
 				BASE_OFFSET = BASE_OFFSET - 24
 				chat:Point("BOTTOMLEFT", RightChatDataPanel, "BOTTOMLEFT", 1, 1)
@@ -1218,7 +1218,7 @@ function CH:ChatFrame_MessageEventHandler(self, event, arg1, arg2, arg3, arg4, a
 
 				if lfgRoles[arg2] and (chatType == "PARTY_LEADER" or chatType == "PARTY" or chatType == "RAID" or chatType == "RAID_LEADER" or chatType == "RAID_WARNING" or chatType == "BATTLEGROUND" or chatType == "BATTLEGROUND_LEADER") then
 					pflag = lfgRoles[arg2]..(pflag or "")
- 				end
+				end
 			end
 
 			pflag = pflag or ""
@@ -1391,7 +1391,7 @@ function CH:SetupChat()
 
 			if id ~= 2 then
 				frame:SetScript("OnEvent", FloatingChatFrameOnEvent)
- 			end
+			end
 
 			hooksecurefunc(frame, "SetScript", function(f, script, func)
 				if script == "OnMouseWheel" and func ~= ChatFrame_OnMouseScroll then
@@ -2054,8 +2054,8 @@ function CH:Initialize()
 	CombatLogQuickButtonFrame_CustomProgressBar:SetInside(CombatLogButton.backdrop)
 
 	Skins:HandleNextPrevButton(CombatLogQuickButtonFrame_CustomAdditionalFilterButton)
- 	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:Size(20, 22)
- 	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:Point("TOPRIGHT", CombatLogButton, "TOPRIGHT", 0, -1)
+	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:Size(20, 22)
+	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:Point("TOPRIGHT", CombatLogButton, "TOPRIGHT", 0, -1)
 	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:SetHitRectInsets(0, 0, 0, 0)
 end
 

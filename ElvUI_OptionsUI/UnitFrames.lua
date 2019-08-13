@@ -815,10 +815,14 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 				name = L["Attach Text To"],
 				values = attachToValues
 			},
-			bgUseBarTexture = {
+			colorOverride = {
 				order = 7,
-				type = "toggle",
-				name = L["Use Health Texture on Background"]
+				type = "select",
+				name = L["Class Color Override"],
+				desc = L["Override the default class color setting."],
+				values = colorOverrideValues,
+				get = function(info) return E.db.unitframe.units[groupName][info[#info]] end,
+				set = function(info, value) E.db.unitframe.units[groupName][info[#info]] = value; updateFunc(UF, groupName, numUnits) end,
 			},
 			configureButton = {
 				order = 8,
@@ -828,7 +832,7 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 				func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "allColorsGroup", "healthGroup") end
 			},
 			text_format = {
-				order = 10,
+				order = 11,
 				type = "input",
 				name = L["Text Format"],
 				desc = L["TEXT_FORMAT_DESC"],
@@ -1257,7 +1261,7 @@ local function GetOptionsTable_Fader(updateFunc, groupName, numUnits)
 			focus = {
 				order = 8,
 				type = "toggle",
-				name = L["FOCUS"],
+				name = L["Focus"],
 				disabled = function() return not E.db.unitframe.units[groupName].fader.enable or E.db.unitframe.units[groupName].fader.range end
 			},
 			health = {
@@ -2478,7 +2482,7 @@ E.Options.args.unitframe = {
 		focusShortcut = {
 			order = 17,
 			type = "execute",
-			name = L["FOCUS"],
+			name = L["Focus"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "unitframe", "focus") end,
 			disabled = function() return not E.UnitFrames.Initialized end
@@ -3253,7 +3257,7 @@ E.Options.args.unitframe = {
 									set = function(info, value) E.db.unitframe.colors[info[#info]] = value UF:Update_AllFrames() end
 								},
 								invertAurabars = {
-									order = 2,
+									order = 3,
 									type = "toggle",
 									name = L["Invert Colors"],
 									desc = L["Invert foreground and background colors."],
@@ -3262,25 +3266,25 @@ E.Options.args.unitframe = {
 									set = function(info, value) E.db.unitframe.colors[info[#info]] = value UF:Update_AllFrames() end
 								},
 								auraBarByType = {
-									order = 3,
+									order = 4,
 									type = "toggle",
 									name = L["By Type"],
 									desc = L["Color aurabar debuffs by type."]
 								},
 								auraBarTurtle = {
-									order = 4,
+									order = 5,
 									type = "toggle",
 									name = L["Color Turtle Buffs"],
 									desc = L["Color all buffs that reduce the unit's incoming damage."]
 								},
 								spacer1 = {
-									order = 5,
+									order = 6,
 									type = "description",
 									name = " ",
 									width = "full"
 								},
 								customaurabarbackdrop = {
-									order = 6,
+									order = 7,
 									type = "toggle",
 									name = L["Custom Backdrop"],
 									desc = L["Use the custom backdrop color instead of a multiple of the main color."],
@@ -3288,7 +3292,7 @@ E.Options.args.unitframe = {
 									set = function(info, value) E.db.unitframe.colors[info[#info]] = value UF:Update_AllFrames() end,
 								},
 								aurabar_backdrop = {
-									order = 7,
+									order = 8,
 									type = "color",
 									name = L["Custom Backdrop"],
 									desc = L["Use the custom backdrop color instead of a multiple of the main color."],
@@ -3305,13 +3309,13 @@ E.Options.args.unitframe = {
 									end,
 								},
 								spacer2 = {
-									order = 8,
+									order = 9,
 									type = "description",
 									name = " ",
 									width = "full"
 								},
 								BUFFS = {
-									order = 9,
+									order = 10,
 									type = "color",
 									name = L["Buffs"],
 									get = function(info)
@@ -3334,7 +3338,7 @@ E.Options.args.unitframe = {
 									end
 								},
 								DEBUFFS = {
-									order = 10,
+									order = 11,
 									type = "color",
 									name = L["Debuffs"],
 									get = function(info)
@@ -3349,7 +3353,7 @@ E.Options.args.unitframe = {
 									end
 								},
 								auraBarTurtleColor = {
-									order = 11,
+									order = 12,
 									type = "color",
 									name = L["Turtle Color"],
 									get = function(info)
@@ -3769,26 +3773,14 @@ E.Options.args.unitframe.args.player = {
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
-				colorOverride = {
-					order = 8,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
-				},
-				spacer = {
-					order = 9,
-					type = "description",
-					name = ""
-				},
 				disableMouseoverGlow = {
-					order = 10,
+					order = 8,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 11,
+					order = 9,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -4453,26 +4445,14 @@ E.Options.args.unitframe.args.target = {
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
-				colorOverride = {
-					order = 13,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
-				},
-				spacer = {
-					order = 14,
-					type = "description",
-					name = " "
-				},
 				disableMouseoverGlow = {
-					order = 15,
+					order = 13,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 16,
+					order = 14,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -4862,26 +4842,14 @@ E.Options.args.unitframe.args.targettarget = {
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
-				colorOverride = {
-					order = 8,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
-				},
-				spacer = {
-					order = 9,
-					type = "description",
-					name = ""
-				},
 				disableMouseoverGlow = {
-					order = 10,
+					order = 8,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 11,
+					order = 9,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -4996,26 +4964,14 @@ E.Options.args.unitframe.args.targettargettarget = {
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
-				colorOverride = {
-					order = 8,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
-				},
-				spacer = {
-					order = 9,
-					type = "description",
-					name = ""
-				},
 				disableMouseoverGlow = {
-					order = 10,
+					order = 8,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 11,
+					order = 9,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -5040,7 +4996,7 @@ E.Options.args.unitframe.args.targettargettarget = {
 E.Options.args.unitframe.args.focus = {
 	order = 600,
 	type = "group",
-	name = L["FOCUS"],
+	name = L["Focus"],
 	childGroups = "tab",
 	get = function(info) return E.db.unitframe.units.focus[info[#info]] end,
 	set = function(info, value) E.db.unitframe.units.focus[info[#info]] = value UF:CreateAndUpdateUF("focus") end,
@@ -5070,7 +5026,7 @@ E.Options.args.unitframe.args.focus = {
 			order = 3,
 			type = "execute",
 			name = L["Restore Defaults"],
-			func = function(info) E:StaticPopup_Show("RESET_UF_UNIT", L["FOCUS"], nil, {unit="focus", mover="Focus Frame"}) end
+			func = function(info) E:StaticPopup_Show("RESET_UF_UNIT", L["Focus"], nil, {unit="focus", mover="Focus Frame"}) end
 		},
 		copyFrom = {
 			order = 4,
@@ -5130,26 +5086,14 @@ E.Options.args.unitframe.args.focus = {
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
-				colorOverride = {
-					order = 8,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
-				},
-				spacer = {
-					order = 9,
-					type = "description",
-					name = " "
-				},
 				disableMouseoverGlow = {
-					order = 10,
+					order = 8,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 11,
+					order = 9,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -5268,26 +5212,14 @@ E.Options.args.unitframe.args.focustarget = {
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
-				colorOverride = {
-					order = 13,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
-				},
-				spacer = {
-					order = 14,
-					type = "description",
-					name = ""
-				},
 				disableMouseoverGlow = {
-					order = 15,
+					order = 13,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 16,
+					order = 14,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -5402,26 +5334,14 @@ E.Options.args.unitframe.args.pet = {
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
-				colorOverride = {
-					order = 8,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
-				},
-				spacer = {
-					order = 9,
-					type = "description",
-					name = " "
-				},
 				disableMouseoverGlow = {
-					order = 10,
+					order = 8,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 11,
+					order = 9,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -5570,26 +5490,14 @@ E.Options.args.unitframe.args.pettarget = {
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
-				colorOverride = {
-					order = 8,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
-				},
-				spacer = {
-					order = 9,
-					type = "description",
-					name = ""
-				},
 				disableMouseoverGlow = {
-					order = 10,
+					order = 8,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 11,
+					order = 9,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -5723,21 +5631,14 @@ E.Options.args.unitframe.args.boss = {
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
-				colorOverride = {
-					order = 10,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
-				},
 				disableMouseoverGlow = {
-					order = 11,
+					order = 10,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 12,
+					order = 11,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -5853,22 +5754,15 @@ E.Options.args.unitframe.args.arena = {
 					name = L["Spacing"],
 					min = 0, max = 400, step = 1
 				},
-				colorOverride = {
-					order = 7,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
-				},
 				smartAuraPosition = {
-					order = 8,
+					order = 7,
 					type = "select",
 					name = L["Smart Aura Position"],
 					desc = L["Will show Buffs in the Debuff position when there are no Debuffs active, or vice versa."],
 					values = smartAuraPositionValues
 				},
 				orientation = {
-					order = 9,
+					order = 8,
 					type = "select",
 					name = L["Frame Orientation"],
 					desc = L["Set the orientation of the UnitFrame."],
@@ -5879,19 +5773,14 @@ E.Options.args.unitframe.args.arena = {
 						["RIGHT"] = L["Right"]
 					}
 				},
-				spacer = {
-					order = 10,
-					type = "description",
-					name = " "
-				},
 				disableMouseoverGlow = {
-					order = 11,
+					order = 10,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 12,
+					order = 11,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -6024,28 +5913,21 @@ E.Options.args.unitframe.args.party = {
 					name = L["Threat Display Mode"],
 					values = threatValues
 				},
-				colorOverride = {
-					order = 6,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
-				},
 				orientation = {
-					order = 7,
+					order = 6,
 					type = "select",
 					name = L["Frame Orientation"],
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
 				disableMouseoverGlow = {
-					order = 8,
+					order = 7,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 9,
+					order = 8,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -6670,28 +6552,21 @@ E.Options.args.unitframe.args.raid = {
 					name = L["Threat Display Mode"],
 					values = threatValues
 				},
-				colorOverride = {
-					order = 4,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
-				},
 				orientation = {
-					order = 5,
+					order = 4,
 					type = "select",
 					name = L["Frame Orientation"],
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
 				disableMouseoverGlow = {
-					order = 6,
+					order = 5,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 7,
+					order = 6,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -7143,28 +7018,21 @@ E.Options.args.unitframe.args.raid40 = {
 					name = L["Threat Display Mode"],
 					values = threatValues
 				},
-				colorOverride = {
-					order = 4,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
-				},
 				orientation = {
-					order = 5,
+					order = 4,
 					type = "select",
 					name = L["Frame Orientation"],
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
 				disableMouseoverGlow = {
-					order = 6,
+					order = 5,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 7,
+					order = 6,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -7602,28 +7470,21 @@ E.Options.args.unitframe.args.raidpet = {
 					name = L["Threat Display Mode"],
 					values = threatValues
 				},
-				colorOverride = {
-					order = 3,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
-				},
 				orientation = {
-					order = 4,
+					order = 3,
 					type = "select",
 					name = L["Frame Orientation"],
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
 				disableMouseoverGlow = {
-					order = 5,
+					order = 4,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 6,
+					order = 5,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -7899,21 +7760,14 @@ E.Options.args.unitframe.args.tank = {
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
-				colorOverride = {
-					order = 7,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
-				},
 				disableMouseoverGlow = {
-					order = 8,
+					order = 7,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 9,
+					order = 8,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -7969,13 +7823,6 @@ E.Options.args.unitframe.args.tank = {
 					name = L["yOffset"],
 					desc = L["An Y offset (in pixels) to be used when anchoring new frames."],
 					min = -500, max = 500, step = 1
-				},
-				colorOverride = {
-					order = 8,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
 				},
 				name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "tank")
 			}
@@ -8107,21 +7954,14 @@ E.Options.args.unitframe.args.assist = {
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
-				colorOverride = {
-					order = 7,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
-				},
 				disableMouseoverGlow = {
-					order = 8,
+					order = 7,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 9,
+					order = 8,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -8177,13 +8017,6 @@ E.Options.args.unitframe.args.assist = {
 					name = L["yOffset"],
 					desc = L["An Y offset (in pixels) to be used when anchoring new frames."],
 					min = -500, max = 500, step = 1
-				},
-				colorOverride = {
-					order = 8,
-					type = "select",
-					name = L["Class Color Override"],
-					desc = L["Override the default class color setting."],
-					values = colorOverrideValues
 				},
 				name = GetOptionsTable_Name(UF.CreateAndUpdateHeaderGroup, "assist")
 			}
