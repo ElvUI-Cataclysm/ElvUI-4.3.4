@@ -53,41 +53,11 @@ local function LoadSkin()
 	WorldMapQuestScrollFrameScrollBar:Point("TOPRIGHT", WorldMapQuestScrollFrame, "TOPRIGHT", 21, -20)
 	WorldMapQuestScrollFrameScrollBar:Point("BOTTOMRIGHT", WorldMapQuestScrollFrame, "BOTTOMRIGHT", 0, 18)
 
-	-- Quest Selected / Highlight
-	local function HighlightSize()
-		local highlightHeight = WorldMapQuestHighlightBar:GetHeight()
-		WorldMapQuestHighlightedFrame.Left:Size(140, highlightHeight)
-		WorldMapQuestHighlightedFrame.Right:Size(140, highlightHeight)
+	WorldMapQuestHighlightBar:SetTexture(E.Media.Textures.Highlight)
+	WorldMapQuestHighlightBar:SetAlpha(0.35)
 
-		local selectedHeight = WorldMapQuestSelectBar:GetHeight()
-		WorldMapQuestSelectedFrame.Left:Size(140, selectedHeight)
-		WorldMapQuestSelectedFrame.Right:Size(140, selectedHeight)
-	end
-
-	for _, frame in pairs({"WorldMapQuestSelectedFrame", "WorldMapQuestHighlightedFrame"}) do
-		local Frame = _G[frame]
-
-		Frame:StripTextures()
-
-		Frame.Left = Frame:CreateTexture(nil, "ARTWORK")
-		Frame.Left:SetPoint("LEFT", Frame, "CENTER")
-		Frame.Left:SetTexture(E.media.blankTex)
-
-		Frame.Right = Frame:CreateTexture(nil, "ARTWORK")
-		Frame.Right:SetPoint("RIGHT", Frame, "CENTER")
-		Frame.Right:SetTexture(E.media.blankTex)
-
-		Frame:HookScript("OnUpdate", HighlightSize)
-	end
-
-	hooksecurefunc(WorldMapQuestSelectBar, "SetVertexColor", function(_, r, g, b)
-		WorldMapQuestSelectedFrame.Left:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
-		WorldMapQuestSelectedFrame.Right:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
-	end)
-	hooksecurefunc(WorldMapQuestHighlightBar, "SetVertexColor", function(_, r, g, b)
-		WorldMapQuestHighlightedFrame.Left:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
-		WorldMapQuestHighlightedFrame.Right:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
-	end)
+	WorldMapQuestSelectBar:SetTexture(E.Media.Textures.Highlight)
+	WorldMapQuestSelectBar:SetAlpha(0.35)
 
 	S:HandleCloseButton(WorldMapFrameCloseButton)
 

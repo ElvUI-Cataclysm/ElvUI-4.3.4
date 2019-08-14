@@ -323,25 +323,8 @@ local function LoadSkin()
 		QuestLogDetailScrollFrameScrollBar:Point("TOPLEFT", QuestLogDetailScrollFrame, "TOPRIGHT", 6, -15)
 	end)
 
-	QuestLogHighlightFrame:Width(306)
-	QuestLogHighlightFrame.SetWidth = E.noop
-
-	QuestLogHighlightFrame.Left = QuestLogHighlightFrame:CreateTexture(nil, "ARTWORK")
-	QuestLogHighlightFrame.Left:Size(152, 15)
-	QuestLogHighlightFrame.Left:SetPoint("LEFT", QuestLogHighlightFrame, "CENTER")
-	QuestLogHighlightFrame.Left:SetTexture(E.media.blankTex)
-
-	QuestLogHighlightFrame.Right = QuestLogHighlightFrame:CreateTexture(nil, "ARTWORK")
-	QuestLogHighlightFrame.Right:Size(152, 15)
-	QuestLogHighlightFrame.Right:SetPoint("RIGHT", QuestLogHighlightFrame, "CENTER")
-	QuestLogHighlightFrame.Right:SetTexture(E.media.blankTex)
-
-	QuestLogSkillHighlight:StripTextures()
-
-	hooksecurefunc(QuestLogSkillHighlight, "SetVertexColor", function(_, r, g, b)
-		QuestLogHighlightFrame.Left:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
-		QuestLogHighlightFrame.Right:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
-	end)
+	QuestLogSkillHighlight:SetTexture(E.Media.Textures.Highlight)
+	QuestLogSkillHighlight:SetAlpha(0.35)
 
 	S:HandleCloseButton(QuestLogDetailFrameCloseButton)
 	QuestLogDetailFrameCloseButton:Point("TOPRIGHT", 4, -8)

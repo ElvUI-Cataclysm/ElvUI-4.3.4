@@ -1110,8 +1110,8 @@ function AB:LAB_ButtonUpdate(button)
 		button.hotkey:SetTextColor(color.r, color.g, color.b)
 	end
 
-	if button.backdrop and AB.db.equippedItem then
-		color = (button:IsEquipped() and AB.db.equippedItemColor) or E.db.general.bordercolor
+	if button.backdrop then
+		color = (AB.db.equippedItem and button:IsEquipped()) and AB.db.equippedItemColor or E.media.bordercolor
 		button.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
 	end
 end

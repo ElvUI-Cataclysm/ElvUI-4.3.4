@@ -77,6 +77,8 @@ function E:PixelScaleChanged(event, skip)
 	E:UIScale(true) -- repopulate variables
 	E:UIScale() -- setup the scale
 
+	E:UpdateConfigSize(true) -- reposition config
+
 	if skip or E.global.general.ignoreScalePopup then return end
 
 	if event == "UISCALE_CHANGE" then

@@ -2,9 +2,8 @@ local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
 local _G = _G
-local unpack, assert, pairs, ipairs, select, type, pcall = unpack, assert, pairs, ipairs, select, type, pcall
-local find = string.find
-local tinsert, wipe = table.insert, table.wipe
+local unpack, assert, pairs, ipairs, select, type = unpack, assert, pairs, ipairs, select, type
+local strfind = strfind
 
 local CreateFrame = CreateFrame
 local SetDesaturation = SetDesaturation
@@ -12,8 +11,6 @@ local hooksecurefunc = hooksecurefunc
 local IsAddOnLoaded = IsAddOnLoaded
 local GetCVarBool = GetCVarBool
 
-S.addonsToLoad = {}
-S.nonAddonsToLoad = {}
 S.allowBypass = {}
 S.addonCallbacks = {}
 S.nonAddonCallbacks = {["CallPriority"] = {}}
@@ -215,6 +212,7 @@ function S:HandleNextPrevButton(btn, arrowDir, color, noBackdrop, stipTexts)
 	if not arrowDir then
 		arrowDir = "down"
 		local ButtonName = btn:GetName() and btn:GetName():lower()
+
 		if ButtonName then
 			if (strfind(ButtonName, "left") or strfind(ButtonName, "prev") or strfind(ButtonName, "decrement") or strfind(ButtonName, "backward") or strfind(ButtonName, "back")) then
 				arrowDir = "left"
@@ -641,11 +639,7 @@ function S:ADDON_LOADED(_, addon)
 	S:SkinAce3()
 
 	if self.allowBypass[addon] then
-		if self.addonsToLoad[addon] then
-			--Load addons using the old deprecated register method
-			self.addonsToLoad[addon]()
-			self.addonsToLoad[addon] = nil
-		elseif self.addonCallbacks[addon] then
+		if self.addonCallbacks[addon] then
 			--Fire events to the skins that rely on this addon
 			for index, event in ipairs(self.addonCallbacks[addon].CallPriority) do
 				self.addonCallbacks[addon][event] = nil
@@ -658,31 +652,12 @@ function S:ADDON_LOADED(_, addon)
 
 	if not E.initialized then return end
 
-	if self.addonsToLoad[addon] then
-		self.addonsToLoad[addon]()
-		self.addonsToLoad[addon] = nil
-	elseif self.addonCallbacks[addon] then
+	if self.addonCallbacks[addon] then
 		for index, event in ipairs(self.addonCallbacks[addon].CallPriority) do
 			self.addonCallbacks[addon][event] = nil
 			self.addonCallbacks[addon].CallPriority[index] = nil
 			E.callbacks:Fire(event)
 		end
-	end
-end
-
---Old deprecated register function. Keep it for the time being for any plugins that may need it.
-function S:RegisterSkin(name, loadFunc, forceLoad, bypass)
-	if bypass then
-		self.allowBypass[name] = true;
-	end
-
-	if forceLoad then
-		loadFunc()
-		self.addonsToLoad[name] = nil;
-	elseif name == "ElvUI" then
-		tinsert(self.nonAddonsToLoad, loadFunc)
-	else
-		self.addonsToLoad[name] = loadFunc;
 	end
 end
 
@@ -753,8 +728,8 @@ function S:AddCallback(eventName, loadFunc)
 end
 
 function S:SkinAce3()
-	S:HookAce3(_G.LibStub("AceGUI-3.0", true))
-	S:Ace3_SkinTooltip(_G.LibStub("AceConfigDialog-3.0", true))
+	S:HookAce3(LibStub("AceGUI-3.0", true))
+	S:Ace3_SkinTooltip(LibStub("AceConfigDialog-3.0", true))
 	S:Ace3_SkinTooltip(E.Libs.AceConfigDialog, E.LibsMinor.AceConfigDialog)
 end
 
@@ -781,26 +756,6 @@ function S:Initialize()
 		self.nonAddonCallbacks.CallPriority[index] = nil
 		E.callbacks:Fire(event)
 	end
-
-	--Old deprecated load functions. We keep this for the time being in case plugins make use of it.
-	for addon, loadFunc in pairs(self.addonsToLoad) do
-		if IsAddOnLoaded(addon) then
-			self.addonsToLoad[addon] = nil
-			local _, catch = pcall(loadFunc)
-			if catch and GetCVarBool("scriptErrors") == true then
-				ScriptErrorsFrame_OnError(catch, false)
-			end
-		end
-	end
-
-	for _, loadFunc in pairs(self.nonAddonsToLoad) do
-		local _, catch = pcall(loadFunc)
-		if catch and GetCVarBool("scriptErrors") == true then
-			ScriptErrorsFrame_OnError(catch, false)
-		end
-	end
-
-	wipe(self.nonAddonsToLoad)
 end
 
 S:RegisterEvent("ADDON_LOADED")
