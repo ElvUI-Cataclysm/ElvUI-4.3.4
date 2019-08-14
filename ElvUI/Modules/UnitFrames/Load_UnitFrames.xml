@@ -40,7 +40,7 @@
 	</Button>
 
 	<Script file="Unitframes.lua"/>
-	<Script file="Config_Enviroment.lua"/>
+	<Script file="ConfigEnviroment.lua"/>
 	<Script file="Tags.lua"/>
 	<Include file="Elements\Load_Elements.xml"/>
 	<Include file="Units\Load_Units.xml"/>
