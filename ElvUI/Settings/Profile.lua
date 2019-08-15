@@ -270,7 +270,6 @@ P.bags = {
 
 --NamePlate
 P.nameplates = {
-	smoothbars = false,
 	statusbar = "ElvUI Norm",
 	font = "PT Sans Narrow",
 	fontSize = 11,
@@ -322,7 +321,7 @@ P.nameplates = {
 --			font = "PT Sans Narrow",
 --			fontOutline = "OUTLINE",
 --			fontSize = 10
---		},
+--		}
 	},
 	reactions = {
 		friendlyPlayer = {r = 75/255, g = 175/255, b = 76/255},
@@ -339,7 +338,7 @@ P.nameplates = {
 		beingTankedByTank = true,
 		goodScale = 0.8,
 		badScale = 1.2,
-		useThreatColor = true,
+		useThreatColor = true
 	},
 	comboBar = {
 		colors = {
@@ -778,9 +777,9 @@ P.tooltip = {
 	targetInfo = true,
 	playerTitles = true,
 	guildRanks = true,
-	inspectInfo = true,
 	itemCount = "BAGS_ONLY",
 	spellID = true,
+	inspectInfo = true,
 	role = true,
 	font = "PT Sans Narrow",
 	fontOutline = "NONE",
@@ -1183,7 +1182,7 @@ P.unitframe = {
 				sort = "TIME_REMAINING",
 				uniformThreshold = 0,
 				yOffset = 0,
-				spacing = 0,
+				spacing = 0
 			},
 			raidicon = {
 				enable = true,
@@ -1217,7 +1216,7 @@ P.unitframe = {
 			smartAuraPosition = "DISABLED",
 			colorOverride = "USE_DEFAULT",
 			healPrediction = {
-				enable = true,
+				enable = true
 			},
 			middleClickFocus = true,
 			disableMouseoverGlow = false,
@@ -1837,7 +1836,7 @@ P.unitframe = {
 				sort = "TIME_REMAINING",
 				uniformThreshold = 0,
 				yOffset = 0,
-				spacing = 0,
+				spacing = 0
 			},
 			raidicon = {
 				enable = true,

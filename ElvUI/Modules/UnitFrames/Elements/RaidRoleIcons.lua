@@ -26,21 +26,22 @@ local function CheckLeader(unit)
 end
 
 local function UpdateOverride(self)
-	local leader = self.LeaderIndicator
-	if leader.PreUpdate then
-		leader:PreUpdate()
+	local element = self.LeaderIndicator
+
+	if element.PreUpdate then
+		element:PreUpdate()
 	end
 
 	local isLeader = CheckLeader(self.unit)
 
 	if isLeader then
-		leader:Show()
+		element:Show()
 	else
-		leader:Hide()
+		element:Hide()
 	end
 
-	if leader.PostUpdate then
-		return leader:PostUpdate(isLeader)
+	if element.PostUpdate then
+		return element:PostUpdate(isLeader)
 	end
 end
 

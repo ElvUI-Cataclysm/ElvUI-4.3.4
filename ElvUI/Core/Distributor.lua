@@ -105,7 +105,7 @@ function D:OnCommReceived(prefix, msg, dist, sender)
 			return
 		end
 
-		if self.statusBar:IsShown() then 
+		if self.statusBar:IsShown() then
 			self:SendCommMessage(REPLY_PREFIX, profile..":NO", dist, sender)
 			return
 		end
@@ -209,7 +209,7 @@ function D:OnCommReceived(prefix, msg, dist, sender)
 					end
 					Downloads[sender] = nil
 				end,
-				OnCancel = function() 
+				OnCancel = function()
 					Downloads[sender] = nil
 				end,
 				button1 = YES,

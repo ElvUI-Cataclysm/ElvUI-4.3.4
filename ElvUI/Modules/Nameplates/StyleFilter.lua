@@ -41,7 +41,7 @@ function NP:StyleFilterAuraCheck(names, icons, mustHaveAll, missing, minTimeLeft
 end
 
 function NP:StyleFilterCooldownCheck(names, mustHaveAll)
-	local total, count, duration, _ = 0, 0
+	local total, count, duration = 0, 0
 	local _, gcd = GetSpellCooldown(61304)
 
 	for name, value in pairs(names) do
@@ -625,11 +625,11 @@ local function copyDefaults(dest, src)
 				-- This is a metatable used for table defaults
 				local mt = {
 					-- This handles the lookup and creation of new subtables
-					__index = function(t,k)
-							if k == nil then return nil end
+					__index = function(t, key)
+							if key == nil then return nil end
 							local tbl = {}
 							copyDefaults(tbl, v)
-							rawset(t, k, tbl)
+							rawset(t, key, tbl)
 							return tbl
 						end,
 				}
@@ -642,7 +642,7 @@ local function copyDefaults(dest, src)
 				end
 			else
 				-- Values are not tables, so this is just a simple return
-				local mt = {__index = function(_,k) return k~=nil and v or nil end}
+				local mt = {__index = function(_, key) return key ~= nil and v or nil end}
 				setmetatable(dest, mt)
 			end
 		elseif type(v) == "table" then

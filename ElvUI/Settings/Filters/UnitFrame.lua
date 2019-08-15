@@ -547,27 +547,27 @@ P.unitframe.filters = {
 -- Ticks
 G.unitframe.ChannelTicks = {
 	-- Warlock
-	[SpellName(1120)] = 5,		-- Drain Soul
-	[SpellName(689)] = 5,		-- Drain Life
-	[SpellName(5740)] = 4,		-- Rain of Fire
-	[SpellName(755)] = 10,		-- Health Funnel
-	[SpellName(79268)] = 3,		-- Soul Harvest
-	[SpellName(1949)] = 15,		-- Hellfire
+	[SpellName(1120)]	= 5,	-- Drain Soul
+	[SpellName(689)]	= 5,	-- Drain Life
+	[SpellName(5740)]	= 4,	-- Rain of Fire
+	[SpellName(755)]	= 10,	-- Health Funnel
+	[SpellName(79268)]	= 3,	-- Soul Harvest
+	[SpellName(1949)]	= 15,	-- Hellfire
 	-- Druid
-	[SpellName(44203)] = 4,		-- Tranquility
-	[SpellName(16914)] = 10,	-- Hurricane
+	[SpellName(44203)]	= 4,	-- Tranquility
+	[SpellName(16914)]	= 10,	-- Hurricane
 	-- Priest
-	[SpellName(15407)] = 3,		-- Mind Flay
-	[SpellName(48045)] = 5,		-- Mind Sear
-	[SpellName(47540)] = 3,		-- Penance
-	[SpellName(64901)] = 4,		-- Hymn of Hope
-	[SpellName(64843)] = 4,		-- Divine Hymn
+	[SpellName(15407)]	= 3,	-- Mind Flay
+	[SpellName(48045)]	= 5,	-- Mind Sear
+	[SpellName(47540)]	= 3,	-- Penance
+	[SpellName(64901)]	= 4,	-- Hymn of Hope
+	[SpellName(64843)]	= 4,	-- Divine Hymn
 	-- Mage
-	[SpellName(5143)] = 5,		-- Arcane Missiles
-	[SpellName(10)] = 8,		-- Blizzard
-	[SpellName(12051)] = 4,		-- Evocation
+	[SpellName(5143)]	= 5,	-- Arcane Missiles
+	[SpellName(10)]		= 8,	-- Blizzard
+	[SpellName(12051)]	= 4,	-- Evocation
 	-- Death Knight
-    [SpellName(42650)] = 8		-- Army of the Dead
+    [SpellName(42650)]	= 8		-- Army of the Dead
 }
 
 --Spells Effected By Haste
@@ -586,7 +586,7 @@ G.unitframe.AuraBarColors = {
 }
 
 G.unitframe.DebuffHighlightColors = {
-	[25771] = {enable = false, style = "FILL", color = {r = 0.85, g = 0, b = 0, a = 0.85}}, -- Forbearance
+	[25771] = {enable = false, style = "FILL", color = {r = 0.85, g = 0, b = 0, a = 0.85}} -- Forbearance
 }
 
 G.unitframe.specialFilters = {

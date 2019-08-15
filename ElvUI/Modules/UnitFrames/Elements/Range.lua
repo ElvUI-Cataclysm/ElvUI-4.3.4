@@ -39,13 +39,13 @@ end
 
 local function getUnit(unit)
 	if not unit:find("party") or not unit:find("raid") then
-		for i=1, 4 do
+		for i = 1, 4 do
 			if UnitIsUnit(unit, "party"..i) then
 				return "party"..i
 			end
 		end
 
-		for i=1, 40 do
+		for i = 1, 40 do
 			if UnitIsUnit(unit, "raid"..i) then
 				return "raid"..i
 			end
@@ -160,7 +160,7 @@ function UF:UpdateRange(unit)
 
 	unit = unit or self.unit
 
-	if self.forceInRange or unit == 'player' then
+	if self.forceInRange or unit == "player" then
 		alpha = self.Fader.MaxAlpha
 	elseif self.forceNotInRange then
 		alpha = self.Fader.MinAlpha

@@ -692,9 +692,9 @@ function CH:PositionChat(override)
 				chat:Point("BOTTOMLEFT", RightChatDataPanel, "BOTTOMLEFT", 1, 1)
 			end
 			if id ~= 2 then
-				chat:SetSize((E.db.chat.separateSizes and E.db.chat.panelWidthRight or E.db.chat.panelWidth) - 11, (E.db.chat.separateSizes and E.db.chat.panelHeightRight or E.db.chat.panelHeight) - BASE_OFFSET)
+				chat:Size((E.db.chat.separateSizes and E.db.chat.panelWidthRight or E.db.chat.panelWidth) - 11, (E.db.chat.separateSizes and E.db.chat.panelHeightRight or E.db.chat.panelHeight) - BASE_OFFSET)
 			else
-				chat:SetSize(E.db.chat.panelWidth - 11, (E.db.chat.panelHeight - BASE_OFFSET) - CombatLogQuickButtonFrame_Custom:GetHeight())
+				chat:Size(E.db.chat.panelWidth - 11, (E.db.chat.panelHeight - BASE_OFFSET) - CombatLogQuickButtonFrame_Custom:GetHeight())
 			end
 
 			FCF_SavePositionAndDimensions(chat, true)
@@ -723,7 +723,7 @@ function CH:PositionChat(override)
 					BASE_OFFSET = BASE_OFFSET - 24
 					chat:Point("BOTTOMLEFT", LeftChatToggleButton, "BOTTOMLEFT", 1, 1)
 				end
-				chat:SetSize(E.db.chat.panelWidth - 11, (E.db.chat.panelHeight - BASE_OFFSET))
+				chat:Size(E.db.chat.panelWidth - 11, (E.db.chat.panelHeight - BASE_OFFSET))
 
 				FCF_SavePositionAndDimensions(chat, true)
 			end
@@ -782,10 +782,10 @@ function CH:FindURL(event, msg, ...)
 		CH.SoundTimer = E:Delay(1, CH.ThrottleSound)
 	end
 
-	if not CH.db.url then 
+	if not CH.db.url then
 		msg = CH:CheckKeyword(msg)
 		msg = CH:GetSmileyReplacementText(msg)
-		return false, msg, ... 
+		return false, msg, ...
 	end
 
 	local text, tag = msg, strmatch(msg, "{(.-)}")
@@ -1232,8 +1232,8 @@ function CH:ChatFrame_MessageEventHandler(self, event, arg1, arg2, arg3, arg4, a
 				arg1 = gsub(arg1, "%%", "%%%%")
 			end
 
-			if (type == "PARTY_LEADER") and (HasLFGRestrictions()) then
-				type = "PARTY_GUIDE"
+			if chatType == "PARTY_LEADER" and HasLFGRestrictions() then
+				chatType = "PARTY_GUIDE"
 			end
 
 			-- Search for icon links and replace them with texture links.
@@ -1376,7 +1376,7 @@ function CH:SetupChat()
 		local _, fontSize = FCF_GetChatWindowInfo(id)
 		self:StyleChat(frame)
 		FCFTab_UpdateAlpha(frame)
-		frame:SetFont(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
+		frame:FontTemplate(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
 		if self.db.fontOutline ~= "NONE" then
 			frame:SetShadowColor(0, 0, 0, 0.2)
 		else
@@ -1586,7 +1586,7 @@ function CH:SetChatFont(dropDown, chatFrame, fontSize)
 	if not fontSize then
 		fontSize = dropDown.value
 	end
-	chatFrame:SetFont(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
+	chatFrame:FontTemplate(LSM:Fetch("font", self.db.font), fontSize, self.db.fontOutline)
 	if self.db.fontOutline ~= "NONE" then
 		chatFrame:SetShadowColor(0, 0, 0, 0.2)
 	else
@@ -1691,7 +1691,7 @@ function CH:SaveChatHistory(event, ...)
 	local data = ElvCharacterDB.ChatHistoryLog
 
 	local tempHistory = {}
-	for i = 1, select("#", ...) do	
+	for i = 1, select("#", ...) do
 		tempHistory[i] = select(i, ...) or false
 	end
 
@@ -1944,7 +1944,7 @@ function CH:BuildCopyChatFrame()
 	CopyChatFrameEditBox:SetScript("OnTextChanged", function(_, userInput)
 		if userInput then return end
 		local _, max = CopyChatScrollFrameScrollBar:GetMinMaxValues()
-		for i = 1, max do
+		for _ = 1, max do
 			ScrollFrameTemplate_OnMouseWheel(CopyChatScrollFrame, -1)
 		end
 	end)

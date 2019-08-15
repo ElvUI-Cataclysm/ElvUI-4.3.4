@@ -257,13 +257,13 @@ function UF:Configure_Auras(frame, auraType)
 end
 
 local function SortAurasByTime(a, b)
-	if (a and b and a:GetParent().db) then
+	if a and b and a:GetParent().db then
 		if a:IsShown() and b:IsShown() then
 			local sortDirection = a:GetParent().db.sortDirection
 			local aTime = a.expiration or -1
 			local bTime = b.expiration or -1
 			if (aTime and bTime) then
-				if(sortDirection == "DESCENDING") then
+				if sortDirection == "DESCENDING" then
 					return aTime < bTime
 				else
 					return aTime > bTime
@@ -276,13 +276,13 @@ local function SortAurasByTime(a, b)
 end
 
 local function SortAurasByName(a, b)
-	if (a and b and a:GetParent().db) then
+	if a and b and a:GetParent().db then
 		if a:IsShown() and b:IsShown() then
 			local sortDirection = a:GetParent().db.sortDirection
 			local aName = a.spell or ""
 			local bName = b.spell or ""
-			if (aName and bName) then
-				if(sortDirection == "DESCENDING") then
+			if aName and bName then
+				if sortDirection == "DESCENDING" then
 					return aName < bName
 				else
 					return aName > bName
@@ -295,13 +295,13 @@ local function SortAurasByName(a, b)
 end
 
 local function SortAurasByDuration(a, b)
-	if (a and b and a:GetParent().db) then
+	if a and b and a:GetParent().db then
 		if a:IsShown() and b:IsShown() then
 			local sortDirection = a:GetParent().db.sortDirection
 			local aTime = a.duration or -1
 			local bTime = b.duration or -1
-			if (aTime and bTime) then
-				if(sortDirection == "DESCENDING") then
+			if aTime and bTime then
+				if sortDirection == "DESCENDING" then
 					return aTime < bTime
 				else
 					return aTime > bTime
@@ -314,7 +314,7 @@ local function SortAurasByDuration(a, b)
 end
 
 local function SortAurasByCaster(a, b)
-	if (a and b and a:GetParent().db) then
+	if a and b and a:GetParent().db then
 		if a:IsShown() and b:IsShown() then
 			local sortDirection = a:GetParent().db.sortDirection
 			local aPlayer = a.isPlayer or false
@@ -353,7 +353,7 @@ local unstableAffliction = GetSpellInfo(30108)
 local vampiricTouch = GetSpellInfo(34914)
 function UF:PostUpdateAura(unit, button)
 	if button.isDebuff then
-		if(not button.isFriend and not button.isPlayer) then --[[and (not E.isDebuffWhiteList[name])]]
+		if not button.isFriend and not button.isPlayer then --[[and (not E.isDebuffWhiteList[name])]]
 			button:SetBackdropBorderColor(0.9, 0.1, 0.1)
 			button.icon:SetDesaturated((unit and not strfind(unit, "arena%d")) and true or false)
 		else
@@ -379,7 +379,7 @@ function UF:PostUpdateAura(unit, button)
 end
 
 function UF:AuraFilter(unit, button, name, _, _, _, debuffType, duration, expiration, caster, isStealable, _, spellID)
-	if not name then return end
+	if not name then return end -- checking for an aura that is not there, pass nil to break while loop
 
 	local parent = self:GetParent()
 	local db = parent.db and parent.db[self.type]
@@ -396,8 +396,8 @@ function UF:AuraFilter(unit, button, name, _, _, _, debuffType, duration, expira
 	button.expiration = expiration
 	button.name = name
 	button.spellID = spellID
-	button.owner = caster
-	button.spell = name
+	button.owner = caster --what uses this?
+	button.spell = name --what uses this? (SortAurasByName?)
 	button.priority = 0
 
 	local noDuration = (not duration or duration == 0)

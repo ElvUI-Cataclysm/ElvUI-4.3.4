@@ -120,7 +120,7 @@ V.skins = {
 }
 
 V.tooltip = {
-	enable = true,
+	enable = true
 }
 
 V.unitframe = {

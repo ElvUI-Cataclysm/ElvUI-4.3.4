@@ -6,7 +6,7 @@ function UF:Construct_PvPIcon(frame)
 	PvPIndicator:SetSize(30, 30)
 	PvPIndicator:SetPoint("CENTER", frame, "CENTER")
 
-	PvPIndicator.Override = UF.UpdateOverride
+	PvPIndicator.Override = UF.PvPIconOverride
 
 	return PvPIndicator
 end
@@ -26,7 +26,7 @@ function UF:Configure_PVPIcon(frame)
 	end
 end
 
-function UF:UpdateOverride(event, unit)
+function UF:PvPIconOverride(event, unit)
 	if not unit or self.unit ~= unit then return end
 
 	local element = self.PvPIndicator

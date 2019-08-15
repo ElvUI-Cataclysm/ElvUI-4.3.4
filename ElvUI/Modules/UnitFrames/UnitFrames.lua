@@ -110,7 +110,7 @@ UF.headerGroupBy = {
 		header:SetAttribute("groupingOrder", "1,2,3,4,5,6,7,8")
 		header:SetAttribute("sortMethod", "NAME")
 		header:SetAttribute("groupBy", nil)
-		header:SetAttribute("filterOnPet", true)
+		header:SetAttribute("filterOnPet", true) --This is the line that matters. Without this, it sorts based on the owners name
 	end
 }
 
@@ -171,7 +171,7 @@ local INVERTED_DIRECTION_TO_COLUMN_ANCHOR_POINT = {
 	LEFT_DOWN = "BOTTOM",
 	LEFT_UP = "TOP",
 	UP = "TOP",
-	DOWN = "BOTTOM"	
+	DOWN = "BOTTOM"
 }
 
 local DIRECTION_TO_COLUMN_ANCHOR_POINT = {
@@ -237,8 +237,8 @@ function UF:Construct_UF(frame, unit)
 	end
 
 	frame.SHADOW_SPACING = 3
-	frame.CLASSBAR_YOFFSET = 0
-	frame.BOTTOM_OFFSET = 0
+	frame.CLASSBAR_YOFFSET = 0 --placeholder
+	frame.BOTTOM_OFFSET = 0 --placeholder
 
 	frame.RaisedElementParent = CreateFrame("Frame", nil, frame)
 	frame.RaisedElementParent.TextureParent = CreateFrame("Frame", nil, frame.RaisedElementParent)
@@ -833,11 +833,9 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 	local raidFilter = UF.db.smartRaidFilter
 	local numGroups = db.numGroups
 	if raidFilter and numGroups and (self[group] and not self[group].blockVisibilityChanges) then
-		local inInstance, instanceType = IsInInstance()
-		if inInstance and (instanceType == "raid" or instanceType == "pvp") then
-			local _, _, _, _, maxPlayers = GetInstanceInfo()
+		local _, instanceType, _, _, maxPlayers = GetInstanceInfo()
+		if instanceType == "raid" or instanceType == "pvp" then
 			local mapID = GetCurrentMapAreaID()
-
 			if UF.instanceMapIDs[mapID] then
 				maxPlayers = UF.instanceMapIDs[mapID]
 			end
@@ -1008,19 +1006,18 @@ function UF:LoadUnits()
 end
 
 function UF:RegisterRaidDebuffIndicator()
-	local _, instanceType = IsInInstance()
 	local ORD = ns.oUF_RaidDebuffs or oUF_RaidDebuffs
 	if ORD then
 		ORD:ResetDebuffData()
 
-		local instance = E.global.unitframe.raidDebuffIndicator.instanceFilter
-		local other = E.global.unitframe.raidDebuffIndicator.otherFilter
-		local instanceSpells = ((E.global.unitframe.aurafilters[instance] and E.global.unitframe.aurafilters[instance].spells) or E.global.unitframe.aurafilters.RaidDebuffs.spells)
-		local otherSpells = ((E.global.unitframe.aurafilters[other] and E.global.unitframe.aurafilters[other].spells) or E.global.unitframe.aurafilters.CCDebuffs.spells)
-
+		local _, instanceType = GetInstanceInfo()
 		if instanceType == "party" or instanceType == "raid" then
+			local instance = E.global.unitframe.raidDebuffIndicator.instanceFilter
+			local instanceSpells = ((E.global.unitframe.aurafilters[instance] and E.global.unitframe.aurafilters[instance].spells) or E.global.unitframe.aurafilters.RaidDebuffs.spells)
 			ORD:RegisterDebuffs(instanceSpells)
 		else
+			local other = E.global.unitframe.raidDebuffIndicator.otherFilter
+			local otherSpells = ((E.global.unitframe.aurafilters[other] and E.global.unitframe.aurafilters[other].spells) or E.global.unitframe.aurafilters.CCDebuffs.spells)
 			ORD:RegisterDebuffs(otherSpells)
 		end
 	end
@@ -1196,23 +1193,25 @@ function UF:ADDON_LOADED(_, addon)
 	self:UnregisterEvent("ADDON_LOADED")
 end
 
-local hasEnteredWorld = false
-function UF:PLAYER_ENTERING_WORLD()
-	if not hasEnteredWorld then
-		--We only want to run Update_AllFrames once when we first log in or /reload
-		UF:Update_AllFrames()
-		hasEnteredWorld = true
-	else
-		local _, instanceType = IsInInstance()
-		if instanceType ~= "none" then
-			--We need to update headers in case we zoned into an instance
-			UF:UpdateAllHeaders()
+do
+	local hasEnteredWorld = false
+	function UF:PLAYER_ENTERING_WORLD()
+		if not hasEnteredWorld then
+			--We only want to run Update_AllFrames once when we first log in or /reload
+			UF:Update_AllFrames()
+			hasEnteredWorld = true
+		else
+			local _, instanceType = IsInInstance()
+			if instanceType ~= "none" then
+				--We need to update headers when we zone into an instance
+				UF:UpdateAllHeaders()
+			end
 		end
 	end
 end
 
 function UF:UnitFrameThreatIndicator_Initialize(_, unitFrame)
-	unitFrame:UnregisterAllEvents()
+	unitFrame:UnregisterAllEvents() --Arena Taint Fix
 end
 
 function UF:ResetUnitSettings(unit)

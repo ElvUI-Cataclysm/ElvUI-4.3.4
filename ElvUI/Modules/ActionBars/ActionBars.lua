@@ -121,7 +121,7 @@ function AB:PositionAndSizeBar(barName)
 		numColumns = 1
 	end
 
-	if bar.db.backdrop == true then
+	if bar.db.backdrop then
 		bar.backdrop:Show()
 	else
 		bar.backdrop:Hide()
@@ -338,7 +338,7 @@ local function Vehicle_OnEvent(self, event)
 		return
 	end
 
-	if (CanExitVehicle()) and not E.db.general.minimap.icons.vehicleLeave.hide then
+	if CanExitVehicle() and not E.db.general.minimap.icons.vehicleLeave.hide then
 		self:Show()
 		self:GetNormalTexture():SetVertexColor(1, 1, 1)
 		self:EnableMouse(true)
@@ -404,8 +404,8 @@ function AB:ReassignBindings(event)
 		if bar then
 			ClearOverrideBindings(bar)
 			for i = 1, #bar.buttons do
-				local button = (bar.bindButtons.."%d"):format(i)
-				local real_button = (bar:GetName().."Button%d"):format(i)
+				local button = format(bar.bindButtons.."%d", i)
+				local real_button = format(bar:GetName().."Button%d", i)
 				for k = 1, select("#", GetBindingKey(button)) do
 					local key = select(k, GetBindingKey(button))
 					if key and key ~= "" then
@@ -675,11 +675,11 @@ function AB:BlizzardOptionsPanel_OnEvent()
 end
 
 function AB:FadeParent_OnEvent(event, unit)
-	if((event == "UNIT_SPELLCAST_START"
+	if (event == "UNIT_SPELLCAST_START"
 	or event == "UNIT_SPELLCAST_STOP"
 	or event == "UNIT_SPELLCAST_CHANNEL_START"
 	or event == "UNIT_SPELLCAST_CHANNEL_STOP"
-	or event == "UNIT_HEALTH") and unit ~= "player") then return end
+	or event == "UNIT_HEALTH") and unit ~= "player" then return end
 
 	local cur, max = UnitHealth("player"), UnitHealthMax("player")
 	local cast, channel = UnitCastingInfo("player"), UnitChannelInfo("player")
@@ -856,7 +856,6 @@ function AB:UpdateButtonConfig(bar, buttonName)
 	bar.buttonConfig.colors.usable = E:SetColorTable(bar.buttonConfig.colors.usable, self.db.usableColor)
 	bar.buttonConfig.colors.notUsable = E:SetColorTable(bar.buttonConfig.colors.notUsable, self.db.notUsableColor)
 
-
 	for i, button in pairs(bar.buttons) do
 		bar.buttonConfig.keyBoundTarget = format(buttonName.."%d", i)
 		button.keyBoundTarget = bar.buttonConfig.keyBoundTarget
@@ -878,7 +877,7 @@ function AB:FixKeybindText(button)
 	local hotkey = _G[button:GetName().."HotKey"]
 	local text = hotkey:GetText()
 
-	local hotkeyPosition = E.db.actionbar.hotkeyTextPosition or 'TOPRIGHT'
+	local hotkeyPosition = E.db.actionbar.hotkeyTextPosition or "TOPRIGHT"
 	local hotkeyXOffset = E.db.actionbar.hotkeyTextXOffset or 0
 	local hotkeyYOffset =  E.db.actionbar.hotkeyTextYOffset or -3
 
@@ -1149,9 +1148,11 @@ function AB:Initialize()
 	self:CreateBarPet()
 	self:CreateBarShapeShift()
 	self:CreateVehicleLeave()
+
 	if E.myclass == "SHAMAN" and self.db.barTotem.enabled then
 		self:CreateTotemBar()
 	end
+
 	self:UpdateButtonSettings()
 	self:LoadKeyBinder()
 

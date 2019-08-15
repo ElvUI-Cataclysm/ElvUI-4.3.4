@@ -38,6 +38,7 @@ local function LoadSkin()
 		local button = _G["SpellButton"..i]
 		local icon = _G["SpellButton"..i.."IconTexture"]
 		local cooldown = _G["SpellButton"..i.."Cooldown"]
+		local highlight = _G["SpellButton"..i.."Highlight"]
 
 		for i = 1, button:GetNumRegions() do
 			local region = select(i, button:GetRegions())
@@ -51,8 +52,6 @@ local function LoadSkin()
 		button:CreateBackdrop("Default", true)
 		button.backdrop:SetFrameLevel(button.backdrop:GetFrameLevel() - 1)
 
-		icon:SetTexCoord(unpack(E.TexCoords))
-
 		button.SpellSubName:SetTextColor(0.6, 0.6, 0.6)
 		button.RequiredLevelString:SetTextColor(0.6, 0.6, 0.6)
 
@@ -62,6 +61,15 @@ local function LoadSkin()
 		button.bg:Point("BOTTOMRIGHT", 170, -10)
 		button.bg:SetFrameLevel(button.bg:GetFrameLevel() - 2)
 
+		icon:SetTexCoord(unpack(E.TexCoords))
+
+		highlight:SetAllPoints()
+		hooksecurefunc(highlight, "SetTexture", function(self, texture)
+			if texture == "Interface\\Buttons\\ButtonHilight-Square" or texture == "Interface\\Buttons\\UI-PassiveHighlight" then
+				self:SetTexture(1, 1, 1, 0.3)
+			end
+		end)
+	
 		E:RegisterCooldown(cooldown)
 	end
 
@@ -80,12 +88,6 @@ local function LoadSkin()
 
 	hooksecurefunc("SpellButton_UpdateButton", function(self)
 		local spellName = _G[self:GetName().."SpellName"]
-		local highlight = _G[self:GetName().."Highlight"]
-
-		if highlight then
-			highlight:SetTexture(1, 1, 1, 0.3)
-		end
-
 		local r = spellName:GetTextColor()
 
 		if r < 0.8 then
@@ -202,16 +204,13 @@ local function LoadSkin()
 				button.checked:SetAllPoints()
 				button.highlightTexture:SetAllPoints()
 				hooksecurefunc(button.highlightTexture, "SetTexture", function(self, texture)
-					if texture == "Interface\\Buttons\\ButtonHilight-Square" then
+					if texture == "Interface\\Buttons\\ButtonHilight-Square" or texture == "Interface\\Buttons\\UI-PassiveHighlight" then
 						self:SetTexture(1, 1, 1, 0.3)
 					end
 				end)
 
 				button.iconTexture:SetTexCoord(unpack(E.TexCoords))
 				button.iconTexture:SetAllPoints()
-
-				button.spellString:SetTextColor(1, 0.80, 0.10)
-				button.spellString.SetTextColor = E.noop
 
 				button.subSpellString:SetTextColor(1, 1, 1)
 
@@ -220,6 +219,10 @@ local function LoadSkin()
 			end
 		end
 	end
+
+	hooksecurefunc("UpdateProfessionButton", function(self)
+		self.spellString:SetTextColor(1, 0.80, 0.10)
+	end)
 
 	-- Mounts/Companions
 	for i = 1, NUM_COMPANIONS_PER_PAGE do

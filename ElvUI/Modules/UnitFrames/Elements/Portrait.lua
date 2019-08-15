@@ -49,7 +49,7 @@ function UF:Configure_Portrait(frame, dontHide)
 		if frame.USE_PORTRAIT_OVERLAY then
 			if db.portrait.style == "3D" then
 				portrait:SetFrameLevel(frame.Health:GetFrameLevel() + 1)
- 			else
+			else
 				portrait:SetParent(frame.Health)
 			end
 
@@ -83,8 +83,8 @@ function UF:Configure_Portrait(frame, dontHide)
 			end
 			portrait.backdrop:Show()
 			if db.portrait.style == "3D" then
-				portrait:SetFrameLevel(frame.Health:GetFrameLevel() - 4)
- 			else
+				portrait:SetFrameLevel(frame.Health:GetFrameLevel() - 4) --Make sure portrait is behind Health and Power
+			else
 				portrait:SetParent(frame)
 			end
 

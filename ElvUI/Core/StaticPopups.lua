@@ -108,15 +108,8 @@ E.PopupDialogs.ELVUI_EDITBOX = {
 }
 
 E.PopupDialogs.CLIENT_UPDATE_REQUEST = {
-	text = L["Detected that your ElvUI Config addon is out of date. Not having your ElvUI Config addon up to date will result in missing options."],
+	text = L["Detected that your ElvUI OptionsUI addon is out of date. Not having your ElvUI OptionsUI addon up to date will result in missing options."],
 	button1 = OKAY,
-	OnAccept = E.noop,
-	showAlert = 1
-}
-
-E.PopupDialogs.CLIQUE_ADVERT = {
-	text = L["Using the healer layout it is highly recommended you download the addon Clique if you wish to have the click-to-heal function."],
-	button1 = YES,
 	OnAccept = E.noop,
 	showAlert = 1
 }
@@ -171,7 +164,7 @@ E.PopupDialogs.INCOMPATIBLE_ADDON = {
 }
 
 E.PopupDialogs.UISCALE_CHANGE = {
-	text = L["The UI Scale has been changes, if you would like to preview the change press the preview button. It is recommended that you reload your User Interface for the best appearance."],
+	text = L["The UI Scale has been changed, if you would like to preview the change press the preview button. It is recommended that you reload your User Interface for the best appearance."],
 	OnAccept = function() ReloadUI() end,
 	OnCancel = E.noop,
 	button1 = ACCEPT,

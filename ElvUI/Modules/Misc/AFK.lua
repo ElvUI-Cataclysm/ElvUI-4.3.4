@@ -153,6 +153,7 @@ function AFK:OnEvent(event, ...)
 	if not E.db.general.afk then return end
 	if InCombatLockdown() or CinematicFrame:IsShown() or MovieFrame:IsShown() then return end
 	if UnitCastingInfo("player") ~= nil then
+		--Don't activate afk if player is crafting stuff, check back in 30 seconds
 		self:ScheduleTimer("OnEvent", 30)
 		return
 	end
@@ -182,7 +183,7 @@ function AFK:Toggle()
 	end
 end
 
-local function OnKeyDown(self, key)
+local function OnKeyDown(_, key)
 	if ignoreKeys[key] then return end
 
 	if printKeys[key] then
@@ -260,6 +261,10 @@ end
 
 function AFK:Initialize()
 	self.Initialized = true
+
+	if E.global.afkEnabled then
+		E.global.afkEnabled = nil
+	end
 
 	local classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass]
 

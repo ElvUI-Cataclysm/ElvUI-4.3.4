@@ -12,7 +12,7 @@ local oldRegisterAsWidget, oldRegisterAsContainer
 -- these do *not* need to match the current lib minor version
 -- these numbers are used to not attempt skinning way older
 -- versions of AceGUI and AceConfigDialog.
-local minorGUI, minorConfigDialog = 36, 76
+local minorGUI, minorConfigDialog = 1, 76
 
 function S:Ace3_SkinDropdownPullout()
 	if self and self.obj then
@@ -353,9 +353,6 @@ function S:Ace3_RegisterAsContainer(widget)
 		local frame = widget.content:GetParent()
 		if TYPE == "Frame" then
 			frame:StripTextures()
-			if not E.GUIFrame then
-				E.GUIFrame = frame
-			end
 			for i = 1, frame:GetNumChildren() do
 				local child = select(i, frame:GetChildren())
 				if child:IsObjectType("Button") and child:GetText() then
@@ -368,20 +365,27 @@ function S:Ace3_RegisterAsContainer(widget)
 			frame:StripTextures()
 			S:HandleCloseButton(frame.obj.closebutton)
 		end
-		frame:SetTemplate("Transparent")
+
+		if TYPE == "InlineGroup" then
+			frame:SetTemplate("Transparent")
+			frame.ignoreBackdropColors = true
+			frame:SetBackdropColor(0, 0, 0, 0.25)
+		else
+			frame:SetTemplate("Transparent")
+		end
 
 		if widget.treeframe then
 			widget.treeframe:SetTemplate("Transparent")
 			frame:Point("TOPLEFT", widget.treeframe, "TOPRIGHT", 1, 0)
 
 			local oldRefreshTree = widget.RefreshTree
-			widget.RefreshTree = function(self, scrollToSelection)
-				oldRefreshTree(self, scrollToSelection)
-				if not self.tree then return end
-				local status = self.status or self.localstatus
+			widget.RefreshTree = function(wdg, scrollToSelection)
+				oldRefreshTree(wdg, scrollToSelection)
+				if not wdg.tree then return end
+				local status = wdg.status or wdg.localstatus
 				local groupstatus = status.groups
-				local lines = self.lines
-				local buttons = self.buttons
+				local lines = wdg.lines
+				local buttons = wdg.buttons
 				local offset = status.scrollvalue
 
 				for i = offset + 1, #lines do
@@ -410,14 +414,18 @@ function S:Ace3_RegisterAsContainer(widget)
 
 		if TYPE == "TabGroup" then
 			local oldCreateTab = widget.CreateTab
-			widget.CreateTab = function(self, id)
-				local tab = oldCreateTab(self, id)
+			widget.CreateTab = function(wdg, id)
+				local tab = oldCreateTab(wdg, id)
 				tab:StripTextures()
-				tab.backdrop = CreateFrame("Frame", nil, tab)
-				tab.backdrop:SetTemplate("Transparent")
-				tab.backdrop:SetFrameLevel(tab:GetFrameLevel() - 1)
+				tab:CreateBackdrop("Transparent")
 				tab.backdrop:Point("TOPLEFT", 10, -3)
 				tab.backdrop:Point("BOTTOMRIGHT", -10, 0)
+
+				hooksecurefunc(tab, "SetPoint", function(fr, a, b, c, d, e, f)
+					if f ~= "ignore" and a == "TOPLEFT" then
+						fr:SetPoint(a, b, c, d, e + 2, "ignore")
+					end
+				end)
 
 				return tab
 			end

@@ -8,36 +8,36 @@ local AcceptGroup = AcceptGroup
 local CanGuildBankRepair = CanGuildBankRepair
 local CanMerchantRepair = CanMerchantRepair
 local GetCVarBool, SetCVar = GetCVarBool, SetCVar
+local GetFriendInfo = GetFriendInfo
 local GetGuildBankWithdrawMoney = GetGuildBankWithdrawMoney
+local GetGuildRosterInfo = GetGuildRosterInfo
+local GetNumFriends = GetNumFriends
+local GetNumGuildMembers = GetNumGuildMembers
 local GetNumPartyMembers = GetNumPartyMembers
 local GetNumRaidMembers = GetNumRaidMembers
 local GetRaidRosterInfo = GetRaidRosterInfo
 local GetRepairAllCost = GetRepairAllCost
-local GetNumFriends = GetNumFriends
-local GetFriendInfo = GetFriendInfo
-local GetNumGuildMembers = GetNumGuildMembers
-local GetGuildRosterInfo = GetGuildRosterInfo
 local GetUnitSpeed = GetUnitSpeed
 local GuildRoster = GuildRoster
+local InCombatLockdown = InCombatLockdown
+local IsInGuild = IsInGuild
 local IsInInstance = IsInInstance
 local IsShiftKeyDown = IsShiftKeyDown
-local IsInGuild = IsInGuild
-local InCombatLockdown = InCombatLockdown
 local LeaveParty = LeaveParty
-local RepairAllItems = RepairAllItems
 local RaidNotice_AddMessage = RaidNotice_AddMessage
-local SendChatMessage = SendChatMessage
 local ShowFriends = ShowFriends
 local StaticPopup_Hide = StaticPopup_Hide
+local RepairAllItems = RepairAllItems
+local SendChatMessage = SendChatMessage
 local UninviteUnit = UninviteUnit
 local UnitExists = UnitExists
-local UnitGUID = UnitGUID
 local UnitInRaid = UnitInRaid
+local UnitGUID = UnitGUID
 local UnitName = UnitName
 local UIErrorsFrame = UIErrorsFrame
-local MAX_PARTY_MEMBERS = MAX_PARTY_MEMBERS
 local ERR_NOT_ENOUGH_MONEY = ERR_NOT_ENOUGH_MONEY
 local ERR_GUILD_NOT_ENOUGH_MONEY = ERR_GUILD_NOT_ENOUGH_MONEY
+local MAX_PARTY_MEMBERS = MAX_PARTY_MEMBERS
 
 local interruptMsg = INTERRUPTED.." %s's \124cff71d5ff\124Hspell:%d\124h[%s]\124h\124r!"
 
@@ -60,8 +60,7 @@ function M:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, _, sourceGUID, _, _, _, _, d
 	elseif E.db.general.interruptAnnounce == "EMOTE" then
 		SendChatMessage(format(interruptMsg, destName, spellID, spellName), "EMOTE")
 	else
-		local party = GetNumPartyMembers()
-		local raid = GetNumRaidMembers()
+		local party, raid = GetNumPartyMembers(), GetNumRaidMembers()
 		local _, instanceType = IsInInstance()
 		local battleground = instanceType == "pvp"
 
@@ -228,7 +227,6 @@ function M:AutoInvite(event, leaderName)
 				local guildMemberName = gsub(GetGuildRosterInfo(guildIndex), "-.*", "")
 				if guildMemberName == leaderName then
 					AcceptGroup()
-					inGroup = true
 					break
 				end
 			end
@@ -243,10 +241,6 @@ function M:ForceCVars()
 	if not GetCVarBool("lockActionBars") and E.private.actionbar.enable then
 		SetCVar("lockActionBars", 1)
 	end
-end
-
-function M:PLAYER_ENTERING_WORLD()
-	self:ForceCVars()
 end
 
 function M:Initialize()
@@ -265,7 +259,7 @@ function M:Initialize()
 	self:RegisterEvent("PARTY_INVITE_REQUEST", "AutoInvite")
 	self:RegisterEvent("PARTY_MEMBERS_CHANGED", "AutoInvite")
 	self:RegisterEvent("CVAR_UPDATE", "ForceCVars")
-	self:RegisterEvent("PLAYER_ENTERING_WORLD")
+	self:RegisterEvent("PLAYER_ENTERING_WORLD", "ForceCVars")
 
 	if E.global.general.mapAlphaWhenMoving < 1 then
 		self.MovingTimer = self:ScheduleRepeatingTimer("CheckMovement", 0.1)

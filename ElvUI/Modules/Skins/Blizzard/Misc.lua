@@ -307,7 +307,9 @@ local function LoadSkin()
 				local highlight = _G["DropDownList"..i.."Button"..j.."Highlight"]
 				local colorSwatch = _G["DropDownList"..i.."Button"..j.."ColorSwatch"]
 
-				highlight:SetTexture(1, 1, 1, 0.3)
+				highlight:SetTexture(E.Media.Textures.Highlight)
+				highlight:SetVertexColor(0.9, 0.9, 0.9, 0.40)
+
 				S:HandleColorSwatch(colorSwatch, 14)
 			end
 		end

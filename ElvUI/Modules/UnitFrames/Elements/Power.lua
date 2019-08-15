@@ -188,8 +188,8 @@ function UF:Configure_Power(frame)
 
 		if db.power.strataAndLevel and db.power.strataAndLevel.useCustomStrata then
 			power:SetFrameStrata(db.power.strataAndLevel.frameStrata)
- 		else
- 			power:SetFrameStrata("LOW")
+		else
+			power:SetFrameStrata("LOW")
 		end
 		if db.power.strataAndLevel and db.power.strataAndLevel.useCustomLevel then
 			power:SetFrameLevel(db.power.strataAndLevel.frameLevel)

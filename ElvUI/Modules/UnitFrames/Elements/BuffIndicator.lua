@@ -167,7 +167,7 @@ function UF:UpdateAuraWatch(frame, petOverride, db)
 				if icon.style == "coloredIcon" then
 					icon.icon:SetTexture(E.media.blankTex)
 
-					if (buffs[i].color) then
+					if buffs[i].color then
 						icon.icon:SetVertexColor(buffs[i].color.r, buffs[i].color.g, buffs[i].color.b)
 					else
 						icon.icon:SetVertexColor(0.8, 0.8, 0.8)
