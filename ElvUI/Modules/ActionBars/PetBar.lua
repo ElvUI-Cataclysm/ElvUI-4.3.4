@@ -55,7 +55,6 @@ function AB:UpdatePet(event, unit)
 				PetActionButton_StartFlash(button)
 			end
 		else
-			--button:SetCheckedTexture("")
 			button:SetChecked(false)
 			if IsPetAttackAction(i) then
 				PetActionButton_StopFlash(button)
@@ -277,12 +276,9 @@ function AB:CreateBarPet()
 
 	PetActionBarFrame.showgrid = 1
 	PetActionBar_ShowGrid()
+
 	self:HookScript(bar, "OnEnter", "Bar_OnEnter")
 	self:HookScript(bar, "OnLeave", "Bar_OnLeave")
-	for i = 1, NUM_PET_ACTION_SLOTS do
-		self:HookScript(_G["PetActionButton"..i], "OnEnter", "Button_OnEnter")
-		self:HookScript(_G["PetActionButton"..i], "OnLeave", "Button_OnLeave")
-	end
 
 	self:RegisterEvent("SPELLS_CHANGED", "UpdatePet")
 	self:RegisterEvent("PLAYER_CONTROL_GAINED", "UpdatePet")
@@ -295,13 +291,18 @@ function AB:CreateBarPet()
 	self:RegisterEvent("PLAYER_FARSIGHT_FOCUS_CHANGED", "UpdatePet")
 	self:RegisterEvent("PET_BAR_UPDATE_COOLDOWN", PetActionBar_UpdateCooldowns)
 
-	E:CreateMover(bar, "ElvBar_Pet", L["Pet Bar"], nil, nil, nil,"ALL, ACTIONBARS", nil, "actionbar,barPet")
+	E:CreateMover(bar, "ElvBar_Pet", L["Pet Bar"], nil, nil, nil,"ALL,ACTIONBARS", nil, "actionbar,barPet")
+
 	self:PositionAndSizeBarPet()
 	self:UpdatePetBindings()
 
-	if MasqueGroup and E.private.actionbar.masque.petBar then
-		for i = 1, NUM_PET_ACTION_SLOTS do
-			local button = _G["PetActionButton"..i]
+	for i = 1, NUM_PET_ACTION_SLOTS do
+		local button = _G["PetActionButton"..i]
+
+		self:HookScript(button, "OnEnter", "Button_OnEnter")
+		self:HookScript(button, "OnLeave", "Button_OnLeave")
+
+		if MasqueGroup and E.private.actionbar.masque.petBar then
 			MasqueGroup:AddButton(button)
 		end
 	end
