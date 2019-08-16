@@ -6,8 +6,8 @@ local ElvUF = ns.oUF
 assert(ElvUF, "ElvUI was unable to locate oUF.")
 
 local select, unpack = select, unpack
-local floor, max = math.floor, math.max
-local find, sub, gsub = string.find, string.sub, string.gsub
+local strfind, strsub, gsub = strfind, strsub, gsub
+local floor, max = floor, max
 
 local CreateFrame = CreateFrame
 local IsSpellKnown = IsSpellKnown
@@ -48,7 +48,7 @@ function UF:Configure_ClassBar(frame)
 		bars:ClearAllPoints()
 		bars:Point("CENTER", frame.Health.backdrop, "TOP", 0, 0)
 
-		if frame.ClassBar == "EclipseBar" or frame.ClassBar == "AdditionalPower" then
+		if frame.MAX_CLASS_BAR == 1 or frame.ClassBar == "EclipseBar" or frame.ClassBar == "AdditionalPower" then
 			CLASSBAR_WIDTH = CLASSBAR_WIDTH * 2/3
 		else
 			CLASSBAR_WIDTH = CLASSBAR_WIDTH * (frame.MAX_CLASS_BAR - 1) / frame.MAX_CLASS_BAR
@@ -397,7 +397,6 @@ function UF:Construct_PriestResourceBar(frame)
 		bars[i].bg = bars[i]:CreateTexture(nil, "BORDER")
 		bars[i].bg:SetAllPoints()
 		bars[i].bg:SetTexture(E.media.blankTex)
-		bars[i].bg.multiplier = 0.3
 	end
 
 	bars.PostUpdate = UF.UpdateShadowOrbs
@@ -427,6 +426,12 @@ function UF:UpdateShadowOrbs(event, shadowOrbs, maxOrbs)
 				else
 					local r, g, b = self[i]:GetStatusBarColor()
 					self[i].bg:SetVertexColor(r * 0.35, g * 0.35, b * 0.35)
+				end
+
+				if maxOrbs and (i <= maxOrbs) then
+					self[i].bg:Show()
+				else
+					self[i].bg:Hide()
 				end
 			end
 
@@ -555,10 +560,9 @@ function UF:Construct_AdditionalPowerBar(frame)
 	additionalPower:SetStatusBarTexture(E.media.blankTex)
 	UF.statusbars[additionalPower] = true
 
-	additionalPower.bg = additionalPower:CreateTexture(nil, "BORDER")
-	additionalPower.bg:SetAllPoints(additionalPower)
-	additionalPower.bg:SetTexture(E.media.blankTex)
-	additionalPower.bg.multiplier = 0.35
+	additionalPower.BG = additionalPower:CreateTexture(nil, "BORDER")
+	additionalPower.BG:SetAllPoints(additionalPower)
+	additionalPower.BG:SetTexture(E.media.blankTex)
 
 	additionalPower.text = additionalPower:CreateFontString(nil, "OVERLAY")
 	UF:Configure_FontString(additionalPower.text)
@@ -626,7 +630,10 @@ function UF:PostUpdateAdditionalPower(_, MIN, MAX, event)
 
 		local custom_backdrop = UF.db.colors.customclasspowerbackdrop and UF.db.colors.classpower_backdrop
 		if custom_backdrop then
-			self.bg:SetVertexColor(custom_backdrop.r, custom_backdrop.g, custom_backdrop.b)
+			self.BG:SetVertexColor(custom_backdrop.r, custom_backdrop.g, custom_backdrop.b)
+		else
+			local r, g, b = self:GetStatusBarColor()
+			self.BG:SetVertexColor(r * 0.35, g * 0.35, b * 0.35)
 		end
 
 		self:Show()
