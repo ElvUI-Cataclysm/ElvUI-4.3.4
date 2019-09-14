@@ -2,8 +2,9 @@
 
 --Global Settings
 G.general = {
-	UIScale = 0.64,
-	locale = "auto",
+	UIScale = 0.711111,
+	version = 1.37,
+	locale = E:GetLocale(),
 	eyefinity = false,
 	ignoreScalePopup = false,
 	smallerWorldMap = true,

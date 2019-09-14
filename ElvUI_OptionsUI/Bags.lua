@@ -9,7 +9,7 @@ local GameTooltip = _G["GameTooltip"]
 
 E.Options.args.bags = {
 	type = "group",
-	name = L["Bags"],
+	name = L["BAGSLOT"],
 	childGroups = "tab",
 	get = function(info) return E.db.bags[info[#info]] end,
 	set = function(info, value) E.db.bags[info[#info]] = value end,
@@ -86,58 +86,71 @@ E.Options.args.bags = {
 					desc = L["Use coin icons instead of colored text."],
 					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateGoldText() end
 				},
-				junkIcon = {
+				transparent = {
 					order = 6,
+					type = "toggle",
+					name = L["Transparent Buttons"],
+					set = function(info, value) E.db.bags[info[#info]] = value E:StaticPopup_Show("CONFIG_RL") end
+				},
+				questIcon = {
+					order = 7,
+					type = "toggle",
+					name = L["Show Quest Icon"],
+					desc = L["Display an exclamation mark on items that starts a quest."],
+					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAllBagSlots() end
+				},
+				junkIcon = {
+					order = 8,
 					type = "toggle",
 					name = L["Show Junk Icon"],
 					desc = L["Display the junk icon on all grey items that can be vendored."],
 					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAllBagSlots() end
 				},
 				junkDesaturate = {
-					order = 7,
+					order = 9,
 					type = "toggle",
 					name = L["Desaturate Junk Items"],
 					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAllBagSlots() end,
 				},
 				qualityColors = {
-					order = 8,
+					order = 10,
 					type = "toggle",
 					name = L["Show Quality Color"],
 					desc = L["Colors the border according to the Quality of the Item."],
 					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAllBagSlots() end
 				},
 				showBindType = {
-					order = 9,
+					order = 11,
 					type = "toggle",
 					name = L["Show Bind on Equip/Use Text"],
 					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAllBagSlots() end
 				},
 				clearSearchOnClose = {
-					order = 10,
+					order = 12,
 					type = "toggle",
 					name = L["Clear Search On Close"],
 					set = function(info, value) E.db.bags[info[#info]] = value end
 				},
 				reverseSlots = {
-					order = 11,
+					order = 13,
 					type = "toggle",
 					name = L["Reverse Bag Slots"],
 					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAll() B:UpdateTokens() end
 				},
 				disableBagSort = {
-					order = 12,
+					order = 14,
 					type = "toggle",
 					name = L["Disable Bag Sort"],
 					set = function(info, value) E.db.bags[info[#info]] = value B:ToggleSortButtonState(false) end
 				},
 				disableBankSort = {
-					order = 13,
+					order = 15,
 					type = "toggle",
 					name = L["Disable Bank Sort"],
 					set = function(info, value) E.db.bags[info[#info]] = value B:ToggleSortButtonState(true) end
 				},
 				countGroup = {
-					order = 14,
+					order = 16,
 					type = "group",
 					name = L["Item Count Font"],
 					guiInline = true,
@@ -182,7 +195,7 @@ E.Options.args.bags = {
 					}
 				},
 				itemLevelGroup = {
-					order = 15,
+					order = 17,
 					type = "group",
 					name = L["Item Level"],
 					guiInline = true,
@@ -315,71 +328,87 @@ E.Options.args.bags = {
 					type = "header",
 					name = L["COLORS"]
 				},
-				bags = {
+				profession = {
 					order = 2,
 					type = "group",
-					name = L["Bags"],
+					name = L["Profession Bags"],
 					guiInline = true,
+					get = function(info)
+						local t = E.db.bags.colors.profession[info[#info]]
+						local d = P.bags.colors.profession[info[#info]]
+						return t.r, t.g, t.b, t.a, d.r, d.g, d.b
+					end,
+					set = function(info, r, g, b)
+						local t = E.db.bags.colors.profession[info[#info]]
+						t.r, t.g, t.b = r, g, b
+						if not E.Bags.Initialized then return end
+						B:UpdateBagColors("ProfessionColors", info[#info], r, g, b)
+						B:UpdateAllBagSlots()
+					end,
 					args = {
-						profession = {
+						professionBagColors = {
 							order = 1,
-							type = "group",
-							name = L["Profession Bags"],
-							guiInline = true,
-							get = function(info)
-								local t = E.db.bags.colors.profession[info[#info]]
-								local d = P.bags.colors.profession[info[#info]]
-								return t.r, t.g, t.b, t.a, d.r, d.g, d.b
-							end,
-							set = function(info, r, g, b)
-								local t = E.db.bags.colors.profession[info[#info]]
-								t.r, t.g, t.b = r, g, b
+							type = "toggle",
+							name = L["ENABLE"],
+							get = function(info) return E.db.bags[info[#info]] end,
+							set = function(info, value)
+								E.db.bags[info[#info]] = value
 								if not E.Bags.Initialized then return end
-								B:UpdateBagColors("ProfessionColors", info[#info], r, g, b)
 								B:UpdateAllBagSlots()
-							end,
-							args = {
-								leatherworking = {
-									order = 1,
-									type = "color",
-									name = L["Leatherworking"]
-								},
-								inscription = {
-									order = 2,
-									type = "color",
-									name = L["INSCRIPTION"]
-								},
-								herbs = {
-									order = 3,
-									type = "color",
-									name = L["Herbalism"]
-								},
-								enchanting = {
-									order = 4,
-									type = "color",
-									name = L["Enchanting"]
-								},
-								engineering = {
-									order = 5,
-									type = "color",
-									name = L["Engineering"]
-								},
-								gems = {
-									order = 6,
-									type = "color",
-									name = L["Gems"]
-								},
-								mining = {
-									order = 7,
-									type = "color",
-									name = L["Mining"]
-								},
-								fishing = {
-									order = 8,
-									type = "color",
-									name = L["PROFESSIONS_FISHING"]
-								}
-							}
+							end
+						},
+						spacer = {
+							order = 2,
+							type = "description",
+							name = ""
+						},
+						leatherworking = {
+							order = 3,
+							type = "color",
+							name = L["Leatherworking"],
+							disabled = function() return not E.db.bags.professionBagColors end
+						},
+						inscription = {
+							order = 4,
+							type = "color",
+							name = L["INSCRIPTION"],
+							disabled = function() return not E.db.bags.professionBagColors end
+						},
+						herbs = {
+							order = 5,
+							type = "color",
+							name = L["Herbalism"],
+							disabled = function() return not E.db.bags.professionBagColors end
+						},
+						enchanting = {
+							order = 6,
+							type = "color",
+							name = L["Enchanting"],
+							disabled = function() return not E.db.bags.professionBagColors end
+						},
+						engineering = {
+							order = 7,
+							type = "color",
+							name = L["Engineering"],
+							disabled = function() return not E.db.bags.professionBagColors end
+						},
+						gems = {
+							order = 8,
+							type = "color",
+							name = L["Gems"],
+							disabled = function() return not E.db.bags.professionBagColors end
+						},
+						mining = {
+							order = 9,
+							type = "color",
+							name = L["Mining"],
+							disabled = function() return not E.db.bags.professionBagColors end
+						},
+						fishing = {
+							order = 10,
+							type = "color",
+							name = L["PROFESSIONS_FISHING"],
+							disabled = function() return not E.db.bags.professionBagColors end
 						}
 					}
 				},
@@ -401,15 +430,28 @@ E.Options.args.bags = {
 						B:UpdateAllBagSlots()
 					end,
 					args = {
-						questStarter = {
+						questItemColors = {
 							order = 1,
-							type = "color",
-							name = L["Quest Starter"]
+							type = "toggle",
+							name = L["ENABLE"],
+							get = function(info) return E.db.bags[info[#info]] end,
+							set = function(info, value)
+								E.db.bags[info[#info]] = value
+								if not E.Bags.Initialized then return end
+								B:UpdateAllBagSlots()
+							end
 						},
-						questItem = {
+						questStarter = {
 							order = 2,
 							type = "color",
-							name = L["ITEM_BIND_QUEST"]
+							name = L["Quest Starter"],
+							disabled = function() return not E.db.bags.questItemColors end
+						},
+						questItem = {
+							order = 3,
+							type = "color",
+							name = L["ITEM_BIND_QUEST"],
+							disabled = function() return not E.db.bags.questItemColors end
 						}
 					}
 				}

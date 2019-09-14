@@ -164,7 +164,9 @@ local function LoadSkin()
 
 	S:HandleButton(QuestLogFrameCompleteButton, true)
 	QuestLogFrameCompleteButton:Point("TOPRIGHT", QuestLogFrameCancelButton, "TOPLEFT", -3, 0)
-	QuestLogFrameCompleteButton:HookScript("OnUpdate", function(self) self:SetAlpha(QuestLogFrameCompleteButtonFlash:GetAlpha()) end)
+	QuestLogFrameCompleteButton:HookScript("OnUpdate", function(self)
+		self:SetAlpha(QuestLogFrameCompleteButtonFlash:GetAlpha())
+	end)
 
 	QuestLogFramePushQuestButton:Point("LEFT", QuestLogFrameAbandonButton, "RIGHT", 2, 0)
 	QuestLogFramePushQuestButton:Point("RIGHT", QuestLogFrameTrackButton, "LEFT", -2, 0)
@@ -190,6 +192,7 @@ local function LoadSkin()
 
 	hooksecurefunc("QuestInfo_Display", function()
 		local textColor = {1, 1, 1}
+		local greyColor = {0.6, 0.6, 0.6}
 		local titleTextColor = {1, 0.80, 0.10}
 
 		QuestInfoTitleHeader:SetTextColor(unpack(titleTextColor))
@@ -214,7 +217,7 @@ local function LoadSkin()
 
 		if GetQuestLogRequiredMoney() > 0 then
 			if GetQuestLogRequiredMoney() > GetMoney() then
-				QuestInfoRequiredMoneyText:SetTextColor(0.6, 0.6, 0.6)
+				QuestInfoRequiredMoneyText:SetTextColor(unpack(greyColor))
 			else
 				QuestInfoRequiredMoneyText:SetTextColor(unpack(titleTextColor))
 			end
@@ -289,7 +292,7 @@ local function LoadSkin()
 		if not QuestLogDetailScrollFrame.backdrop then
 			QuestLogDetailScrollFrame:CreateBackdrop("Transparent")
 		end
-		QuestLogDetailScrollFrame.backdrop:Point("TOPLEFT", 0, 3)
+		QuestLogDetailScrollFrame.backdrop:Point("TOPLEFT", -2, 3)
 		QuestLogDetailScrollFrame.backdrop:Point("BOTTOMRIGHT", 0, -2)
 		QuestLogDetailScrollFrame:Height(331)
 		QuestLogDetailScrollFrame:Point("TOPRIGHT", -32, -76)
@@ -419,20 +422,20 @@ local function LoadSkin()
 
 	for i = 1, #QuestLogScrollFrame.buttons do
 		local questLogTitle = _G["QuestLogScrollFrameButton"..i]
-		questLogTitle:SetNormalTexture(E.Media.Textures.PlusMinusButton)
+		questLogTitle:SetNormalTexture(E.Media.Textures.Plus)
 		questLogTitle.SetNormalTexture = E.noop
-		questLogTitle:GetNormalTexture():Size(14)
-		questLogTitle:GetNormalTexture():Point("LEFT", 3, 0)
+		questLogTitle:GetNormalTexture():Size(16)
+		questLogTitle:GetNormalTexture():Point("LEFT", 3, 1)
 		questLogTitle:SetHighlightTexture("")
 		questLogTitle.SetHighlightTexture = E.noop
 
 		hooksecurefunc(questLogTitle, "SetNormalTexture", function(self, texture)
 			if find(texture, "MinusButton") then
-				self:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+				self:GetNormalTexture():SetTexture(E.Media.Textures.Minus)
 			elseif find(texture, "PlusButton") then
-				self:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+				self:GetNormalTexture():SetTexture(E.Media.Textures.Plus)
 			else
-				self:GetNormalTexture():SetTexCoord(0, 0, 0, 0)
+				self:GetNormalTexture():SetTexture("")
  			end
 		end)
 	end

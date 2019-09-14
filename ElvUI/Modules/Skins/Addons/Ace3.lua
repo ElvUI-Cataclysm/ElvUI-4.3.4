@@ -3,6 +3,9 @@ local S = E:GetModule("Skins")
 
 local _G = _G
 local select = select
+local format = format
+local strmatch = strmatch
+
 local hooksecurefunc = hooksecurefunc
 
 -- functions that were overwritten, we need these to
@@ -61,13 +64,47 @@ function S:Ace3_SkinDropdownPullout()
 	end
 end
 
-function S:Ace3_CheckBoxIsEnableSwitch(widget)
+function S:Ace3_CheckBoxIsEnable(widget)
 	local text = widget.text and widget.text:GetText()
-	if text then
-		local enabled, disabled = text == S.Ace3_L.GREEN_ENABLE, text == S.Ace3_L.RED_ENABLE
-		local isSwitch = (text == S.Ace3_L.Enable) or enabled or disabled
+	if text then return strmatch(text, S.Ace3_EnableMatch) end
+end
 
-		return isSwitch
+function S:Ace3_CheckBoxSetDesaturated(value)
+	local widget = self:GetParent():GetParent().obj
+
+	if value == true then
+		if S:Ace3_CheckBoxIsEnable(widget) then
+			self:SetVertexColor(1.0, 0.2, 0.2, 1.0)
+		else
+			self:SetVertexColor(0.6, 0.6, 0.6, 0.8)
+		end
+	else
+		if S:Ace3_CheckBoxIsEnable(widget) then
+			self:SetVertexColor(0.2, 1.0, 0.2, 1.0)
+		else
+			self:SetVertexColor(1, 0.82, 0, 0.8)
+		end
+	end
+end
+
+function S:Ace3_CheckBoxSetDisabled(disabled)
+	if S:Ace3_CheckBoxIsEnable(self) then
+		local tristateOrDisabled = disabled or (self.tristate and self.checked == nil)
+		self:SetLabel((tristateOrDisabled and S.Ace3_EnableOff) or (self.checked and S.Ace3_EnableOn) or S.Ace3_EnableOff)
+	end
+end
+
+function S:Ace3_EditBoxSetTextInsets(l, r, t, b)
+	if l == 0 then self:SetTextInsets(4, 43, t, b) end
+end
+
+function S:Ace3_EditBoxSetPoint(a, b, c, d, e)
+	if d == 7 then self:Point(a, b, c, 0, e) end
+end
+
+function S:Ace3_CreateTabSetPoint(a, b, c, d, e, f)
+	if f ~= "ignore" and a == "TOPLEFT" then
+		self:SetPoint(a, b, c, d, e + 2, "ignore")
 	end
 end
 
@@ -104,23 +141,7 @@ function S:Ace3_RegisterAsWidget(widget)
 
 		check:SetParent(checkbg.backdrop)
 
-		hooksecurefunc(widget, "SetDisabled", function(w, value)
-			local isSwitch = S:Ace3_CheckBoxIsEnableSwitch(w)
-
-			if value then
-				if isSwitch then
-					w:SetLabel(S.Ace3_L.RED_ENABLE)
-				end
-			end
-		end)
-
-		hooksecurefunc(widget, "SetValue", function(w, value)
-			local isSwitch = S:Ace3_CheckBoxIsEnableSwitch(w)
-
-			if isSwitch then
-				w:SetLabel(value and S.Ace3_L.GREEN_ENABLE or S.Ace3_L.RED_ENABLE)
-			end
-		end)
+		hooksecurefunc(widget, "SetDisabled", S.Ace3_CheckBoxSetDisabled)
 
 		if E.private.skins.checkBoxSkin then
 			checkbg.backdrop:SetInside(checkbg, 5, 5)
@@ -128,22 +149,7 @@ function S:Ace3_RegisterAsWidget(widget)
 			check.SetTexture = E.noop
 			check:SetInside(checkbg.backdrop)
 
-			hooksecurefunc(check, "SetDesaturated", function(chk, value)
-				local isSwitch = S:Ace3_CheckBoxIsEnableSwitch(widget)
-				if value == true then
-					if isSwitch then
-						chk:SetVertexColor(1.0, 0.2, 0.2, 1.0)
-					else
-						chk:SetVertexColor(0.6, 0.6, 0.6, 0.8)
-					end
-				else
-					if isSwitch then
-						chk:SetVertexColor(0.2, 1.0, 0.2, 1.0)
-					else
-						chk:SetVertexColor(1, 0.82, 0, 0.8)
-					end
-				end
-			end)
+			hooksecurefunc(check, "SetDesaturated", S.Ace3_CheckBoxSetDesaturated)
 		else
 			checkbg.backdrop:SetInside(checkbg, 4, 4)
 			check:SetOutside(checkbg.backdrop, 3, 3)
@@ -241,17 +247,13 @@ function S:Ace3_RegisterAsWidget(widget)
 		frame.backdrop:Point("BOTTOMRIGHT", -2, 0)
 		frame.backdrop:SetParent(widget.frame)
 		frame:SetParent(frame.backdrop)
-		frame:SetTextInsets(4, 43, 3, 3)
-		frame.SetTextInsets = E.noop
 
 		S:HandleButton(button)
 		button:Point("RIGHT", frame.backdrop, "RIGHT", -2, 0)
 
-		hooksecurefunc(frame, "SetPoint", function(self, a, b, c, d, e)
-			if d == 7 then
-				self:SetPoint(a, b, c, 0, e)
-			end
-		end)
+		hooksecurefunc(frame, "SetTextInsets", S.Ace3_EditBoxSetTextInsets)
+		hooksecurefunc(frame, "SetPoint", S.Ace3_EditBoxSetPoint)
+
 	elseif TYPE == "Button" or TYPE == "Button-ElvUI" then
 		local frame = widget.frame
 
@@ -396,16 +398,14 @@ function S:Ace3_RegisterAsContainer(widget)
 						button.highlight:Point("TOPLEFT", 0, 0)
 						button.highlight:Point("BOTTOMRIGHT", 0, 1)
 
-						button.toggle:SetNormalTexture(E.Media.Textures.PlusMinusButton)
-						button.toggle:SetPushedTexture(E.Media.Textures.PlusMinusButton)
 						button.toggle:SetHighlightTexture("")
 
 						if groupstatus[lines[i].uniquevalue] then
-							button.toggle:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
-							button.toggle:GetPushedTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+							button.toggle:SetNormalTexture(E.Media.Textures.Minus)
+							button.toggle:SetPushedTexture(E.Media.Textures.Minus)
 						else
-							button.toggle:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
-							button.toggle:GetPushedTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+							button.toggle:SetNormalTexture(E.Media.Textures.Plus)
+							button.toggle:SetPushedTexture(E.Media.Textures.Plus)
 						end
 					end
 				end
@@ -421,11 +421,7 @@ function S:Ace3_RegisterAsContainer(widget)
 				tab.backdrop:Point("TOPLEFT", 10, -3)
 				tab.backdrop:Point("BOTTOMRIGHT", -10, 0)
 
-				hooksecurefunc(tab, "SetPoint", function(fr, a, b, c, d, e, f)
-					if f ~= "ignore" and a == "TOPLEFT" then
-						fr:SetPoint(a, b, c, d, e + 2, "ignore")
-					end
-				end)
+				hooksecurefunc(tab, "SetPoint", S.Ace3_CreateTabSetPoint)
 
 				return tab
 			end
@@ -436,7 +432,7 @@ function S:Ace3_RegisterAsContainer(widget)
 		end
 	elseif TYPE == "SimpleGroup" then
 		local frame = widget.content:GetParent()
-		frame:SetTemplate("Transparent", nil, true)
+		frame:SetTemplate("Transparent")
 		frame.ignoreBackdropColors = true
 		frame:SetBackdropColor(0, 0, 0, 0.25)
 	end
@@ -471,7 +467,12 @@ function S:HookAce3(lib, minor) -- lib: AceGUI
 	if not lib or (not minor or minor < minorGUI) then return end
 
 	if not S.Ace3_L then
-		S.Ace3_L = E.Libs.ACL:GetLocale("ElvUI", E.global.general.locale or "enUS")
+		S.Ace3_L = E.Libs.ACL:GetLocale("ElvUI", E.global.general.locale)
+
+		-- Special Enable Coloring
+		if not S.Ace3_EnableMatch then S.Ace3_EnableMatch = "^|?c?F?F?%x?%x?%x?%x?%x?%x?"..E:EscapeString(S.Ace3_L.Enable).."|?r?$" end
+		if not S.Ace3_EnableOff then S.Ace3_EnableOff = format("|cFFff3333%s|r", S.Ace3_L.Enable) end
+		if not S.Ace3_EnableOn then S.Ace3_EnableOn = format("|cFF33ff33%s|r", S.Ace3_L.Enable) end
 	end
 
 	if lib.RegisterAsWidget ~= S.Ace3_RegisterAsWidget then

@@ -56,7 +56,7 @@ end
 
 --Auras
 local function CreateAurasConfig()
-	local config = MC:CreateModuleConfigGroup(L["Auras"], "auras")
+	local config = MC:CreateModuleConfigGroup(L["BUFFOPTIONS_LABEL"], "auras")
 	config.args.buffs = {
 		order = 2,
 		type = "toggle",
@@ -384,7 +384,7 @@ local function CreateUnitframesConfig()
 			["pet"] = {
 				order = 7,
 				type = "toggle",
-				name = L["Pet"]
+				name = L["PET"]
 			},
 			["pettarget"] = {
 				order = 8,
@@ -414,7 +414,7 @@ local function CreateUnitframesConfig()
 			["tank"] = {
 				order = 13,
 				type = "toggle",
-				name = L["Tank"]
+				name = L["TANK"]
 			},
 			["assist"] = {
 				order = 14,
@@ -549,7 +549,7 @@ E.Options.args.modulecontrol= {
 				auras = {
 					order = 7,
 					type = "execute",
-					name = L["Auras"],
+					name = L["BUFFOPTIONS_LABEL"],
 					confirm = true,
 					confirmText = L["Are you sure you want to reset Auras settings?"],
 					func = function() E:CopyTable(E.db.auras, P.auras) end

@@ -10,10 +10,10 @@ local SetCVar = SetCVar
 local GameTooltip = _G.GameTooltip
 
 local points = {
-	["TOPLEFT"] = "TOPLEFT",
-	["TOPRIGHT"] = "TOPRIGHT",
-	["BOTTOMLEFT"] = "BOTTOMLEFT",
-	["BOTTOMRIGHT"] = "BOTTOMRIGHT",
+	TOPLEFT = L["Top Left"],
+	TOPRIGHT = L["Top Right"],
+	BOTTOMLEFT = L["Bottom Left"],
+	BOTTOMRIGHT = L["Bottom Right"]
 }
 
 local ACD = E.Libs.AceConfigDialog
@@ -36,7 +36,7 @@ local function BuildABConfig()
 				type = "execute",
 				name = L["Keybind Mode"],
 				func = function() AB:ActivateBindMode() E:ToggleOptionsUI() GameTooltip:Hide() end,
-				disabled = function() return not E.private.actionbar.enable end,
+				disabled = function() return not E.private.actionbar.enable end
 			},
 			spacer = {
 				order = 3,
@@ -55,13 +55,13 @@ local function BuildABConfig()
 				type = "toggle",
 				name = L["Keybind Text"],
 				desc = L["Display bind names on action buttons."],
-				disabled = function() return not E.private.actionbar.enable end,
+				disabled = function() return not E.private.actionbar.enable end
 			},
 			useRangeColorText = {
 				order = 6,
 				type = "toggle",
 				name = L["Color Keybind Text"],
-				desc = L["Color Keybind Text when Out of Range, instead of the button."],
+				desc = L["Color Keybind Text when Out of Range, instead of the button."]
 			},
 			rightClickSelfCast = {
 				order = 7,
@@ -106,43 +106,48 @@ local function BuildABConfig()
 				order = 11,
 				type = "toggle",
 				name = L["Desaturate Cooldowns"],
-				customWidth = 180,
 				set = function(info, value)
 					E.db.actionbar.desaturateOnCooldown = value
 					AB:ToggleDesaturation(value)
 				end
 			},
-			movementModifier = {
+			transparentBackdrops = {
 				order = 12,
-				type = "select",
-				name = L["PICKUP_ACTION_KEY_TEXT"],
-				desc = L["The button you must hold down in order to drag an ability to another action button."],
-				disabled = function() return (not E.private.actionbar.enable or not E.db.actionbar.lockActionBars) end,
-				values = {
-					["NONE"] = L["NONE"],
-					["SHIFT"] = L["SHIFT_KEY"],
-					["ALT"] = L["ALT_KEY"],
-					["CTRL"] = L["CTRL_KEY"]
-				}
+				type = "toggle",
+				name = L["Transparent Backdrops"],
+				set = function(info, value)
+					E.db.actionbar.transparentBackdrops = value
+					E:StaticPopup_Show("CONFIG_RL")
+				end
 			},
-			globalFadeAlpha = {
+			transparentButtons = {
 				order = 13,
-				type = "range",
-				name = L["Global Fade Transparency"],
-				desc = L["Transparency level when not in combat, no target exists, full health, not casting, and no focus target exists."],
-				min = 0, max = 1, step = 0.01,
-				isPercent = true,
-				set = function(info, value) E.db.actionbar[info[#info]] = value AB.fadeParent:SetAlpha(1-value) end
+				type = "toggle",
+				name = L["Transparent Buttons"],
+				set = function(info, value)
+					E.db.actionbar.transparentButtons = value
+					E:StaticPopup_Show("CONFIG_RL")
+				end
+			},
+			flashAnimation = {
+				order = 14,
+				type = "toggle",
+				name = L["Button Flash"],
+				desc = L["Use a more visible flash animation for Auto Attacks."],
+				set = function(info, value)
+					E.db.actionbar.flashAnimation = value
+					E:StaticPopup_Show("CONFIG_RL")
+				end
 			},
 			equippedItem = {
-				order = 14,
+				order = 15,
 				type = "toggle",
 				name = L["Equipped Item"],
 				get = function(info) return E.db.actionbar[info[#info]] end,
 				set = function(info, value) E.db.actionbar[info[#info]] = value AB:UpdateButtonSettings() end
 			},
 			equippedItemColor = {
-				order = 15,
+				order = 16,
 				type = "color",
 				name = L["Equipped Item Color"],
 				get = function(info)
@@ -157,8 +162,30 @@ local function BuildABConfig()
 				end,
 				disabled = function() return not E.db.actionbar.equippedItem end
 			},
+			movementModifier = {
+				order = 17,
+				type = "select",
+				name = L["PICKUP_ACTION_KEY_TEXT"],
+				desc = L["The button you must hold down in order to drag an ability to another action button."],
+				disabled = function() return (not E.private.actionbar.enable or not E.db.actionbar.lockActionBars) end,
+				values = {
+					["NONE"] = L["NONE"],
+					["SHIFT"] = L["SHIFT_KEY"],
+					["ALT"] = L["ALT_KEY"],
+					["CTRL"] = L["CTRL_KEY"]
+				}
+			},
+			globalFadeAlpha = {
+				order = 18,
+				type = "range",
+				name = L["Global Fade Transparency"],
+				desc = L["Transparency level when not in combat, no target exists, full health, not casting, and no focus target exists."],
+				min = 0, max = 1, step = 0.01,
+				isPercent = true,
+				set = function(info, value) E.db.actionbar[info[#info]] = value AB.fadeParent:SetAlpha(1-value) end
+			},
 			colorGroup = {
-				order = 16,
+				order = 19,
 				type = "group",
 				name = L["COLORS"],
 				guiInline = true,
@@ -200,7 +227,7 @@ local function BuildABConfig()
 				}
 			},
 			fontGroup = {
-				order = 17,
+				order = 20,
 				type = "group",
 				name = L["Fonts"],
 				guiInline = true,
@@ -302,7 +329,7 @@ local function BuildABConfig()
 				}
 			},
 			masque = {
-				order = 18,
+				order = 21,
 				type = "group",
 				guiInline = true,
 				name = L["Masque Support"],
@@ -1061,15 +1088,26 @@ local function BuildABConfig()
 				}
 			}
 		}
+	end
 
-		if i == 6 then
-			group["bar"..i].args.enabled.set = function(info, value)
-				E.db.actionbar["bar"..i].enabled = value
-				AB:PositionAndSizeBar("bar6")
-				AB:UpdateBar1Paging()
-				AB:PositionAndSizeBar("bar1")
-			end
-		end
+	group.bar1.args.pagingReset = {
+		order = 2.1,
+		type = "execute",
+		name = L["Reset Action Paging"],
+		confirm = true,
+		confirmText = L["You are about to reset paging. Are you sure?"],
+		buttonElvUI = true,
+		func = function() E.db.actionbar.bar1.paging[E.myclass] = P.actionbar.bar1.paging[E.myclass] AB:UpdateButtonSettings() end,
+		disabled = function() return not E.db.actionbar.bar1.enabled end
+	}
+
+	group.bar6.args.enabled.set = function(info, value)
+		E.db.actionbar.bar6.enabled = value
+		AB:PositionAndSizeBar("bar6")
+
+		--Update Bar 1 paging when Bar 6 is enabled/disabled
+		AB:UpdateBar1Paging()
+		AB:PositionAndSizeBar("bar1")
 	end
 end
 

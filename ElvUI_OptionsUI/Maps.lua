@@ -5,6 +5,17 @@ local MM = E:GetModule("Minimap")
 local AB = E:GetModule("ActionBars")
 local Misc = E:GetModule("Misc")
 
+local positionValues = {
+	TOP = L["Top"],
+	LEFT = L["Left"],
+	RIGHT = L["Right"],
+	BOTTOM = L["Bottom"],
+	TOPLEFT = L["Top Left"],
+	TOPRIGHT = L["Top Right"],
+	BOTTOMLEFT = L["Bottom Left"],
+	BOTTOMRIGHT = L["Bottom Right"]
+}
+
 E.Options.args.maps = {
 	type = "group",
 	name = L["Maps"],
@@ -88,7 +99,7 @@ E.Options.args.maps = {
 						xOffset = {
 							order = 4,
 							type = "range",
-							name = L["xOffset"],
+							name = L["X-Offset"],
 							get = function(info) return E.global.general.WorldMapCoordinates.xOffset end,
 							set = function(info, value) E.global.general.WorldMapCoordinates.xOffset = value WM:PositionCoords() end,
 							disabled = function() return not E.global.general.WorldMapCoordinates.enable end,
@@ -97,7 +108,7 @@ E.Options.args.maps = {
 						yOffset = {
 							order = 5,
 							type = "range",
-							name = L["yOffset"],
+							name = L["Y-Offset"],
 							get = function(info) return E.global.general.WorldMapCoordinates.yOffset end,
 							set = function(info, value) E.global.general.WorldMapCoordinates.yOffset = value WM:PositionCoords() end,
 							disabled = function() return not E.global.general.WorldMapCoordinates.enable end,
@@ -138,7 +149,7 @@ E.Options.args.maps = {
 							type = "range",
 							name = L["Size"],
 							desc = L["Adjust the size of the minimap."],
-							min = 120, max = 250, step = 1,
+							min = 120, max = 400, step = 1,
 							get = function(info) return E.db.general.minimap[info[#info]] end,
 							set = function(info, value) E.db.general.minimap[info[#info]] = value MM:UpdateSettings() end,
 							disabled = function() return not E.private.general.minimap.enable end
@@ -272,16 +283,7 @@ E.Options.args.maps = {
 									type = "select",
 									name = L["Position"],
 									disabled = function() return E.private.general.minimap.hideCalendar end,
-									values = {
-										["LEFT"] = L["Left"],
-										["RIGHT"] = L["Right"],
-										["TOP"] = L["Top"],
-										["BOTTOM"] = L["Bottom"],
-										["TOPLEFT"] = L["Top Left"],
-										["TOPRIGHT"] = L["Top Right"],
-										["BOTTOMLEFT"] = L["Bottom Left"],
-										["BOTTOMRIGHT"] = L["Bottom Right"]
-									}
+									values = positionValues
 								},
 								scale = {
 									order = 5,
@@ -293,14 +295,14 @@ E.Options.args.maps = {
 								xOffset = {
 									order = 6,
 									type = "range",
-									name = L["xOffset"],
+									name = L["X-Offset"],
 									min = -50, max = 50, step = 1,
 									disabled = function() return E.private.general.minimap.hideCalendar end
 								},
 								yOffset = {
 									order = 7,
 									type = "range",
-									name = L["yOffset"],
+									name = L["Y-Offset"],
 									min = -50, max = 50, step = 1,
 									disabled = function() return E.private.general.minimap.hideCalendar end
 								}
@@ -331,16 +333,7 @@ E.Options.args.maps = {
 									order = 3,
 									type = "select",
 									name = L["Position"],
-									values = {
-										["LEFT"] = L["Left"],
-										["RIGHT"] = L["Right"],
-										["TOP"] = L["Top"],
-										["BOTTOM"] = L["Bottom"],
-										["TOPLEFT"] = L["Top Left"],
-										["TOPRIGHT"] = L["Top Right"],
-										["BOTTOMLEFT"] = L["Bottom Left"],
-										["BOTTOMRIGHT"] = L["Bottom Right"]
-									}
+									values = positionValues
 								},
 								scale = {
 									order = 4,
@@ -351,13 +344,13 @@ E.Options.args.maps = {
 								xOffset = {
 									order = 5,
 									type = "range",
-									name = L["xOffset"],
+									name = L["X-Offset"],
 									min = -50, max = 50, step = 1
 								},
 								yOffset = {
 									order = 6,
 									type = "range",
-									name = L["yOffset"],
+									name = L["Y-Offset"],
 									min = -50, max = 50, step = 1
 								}
 							}
@@ -379,16 +372,7 @@ E.Options.args.maps = {
 									order = 2,
 									type = "select",
 									name = L["Position"],
-									values = {
-										["LEFT"] = L["Left"],
-										["RIGHT"] = L["Right"],
-										["TOP"] = L["Top"],
-										["BOTTOM"] = L["Bottom"],
-										["TOPLEFT"] = L["Top Left"],
-										["TOPRIGHT"] = L["Top Right"],
-										["BOTTOMLEFT"] = L["Bottom Left"],
-										["BOTTOMRIGHT"] = L["Bottom Right"]
-									}
+									values = positionValues
 								},
 								scale = {
 									order = 3,
@@ -399,13 +383,13 @@ E.Options.args.maps = {
 								xOffset = {
 									order = 4,
 									type = "range",
-									name = L["xOffset"],
+									name = L["X-Offset"],
 									min = -50, max = 50, step = 1
 								},
 								yOffset = {
 									order = 5,
 									type = "range",
-									name = L["yOffset"],
+									name = L["Y-Offset"],
 									min = -50, max = 50, step = 1
 								}
 							}
@@ -427,16 +411,7 @@ E.Options.args.maps = {
 									order = 2,
 									type = "select",
 									name = L["Position"],
-									values = {
-										["LEFT"] = L["Left"],
-										["RIGHT"] = L["Right"],
-										["TOP"] = L["Top"],
-										["BOTTOM"] = L["Bottom"],
-										["TOPLEFT"] = L["Top Left"],
-										["TOPRIGHT"] = L["Top Right"],
-										["BOTTOMLEFT"] = L["Bottom Left"],
-										["BOTTOMRIGHT"] = L["Bottom Right"]
-									}
+									values = positionValues
 								},
 								scale = {
 									order = 3,
@@ -447,13 +422,13 @@ E.Options.args.maps = {
 								xOffset = {
 									order = 4,
 									type = "range",
-									name = L["xOffset"],
+									name = L["X-Offset"],
 									min = -50, max = 50, step = 1
 								},
 								yOffset = {
 									order = 5,
 									type = "range",
-									name = L["yOffset"],
+									name = L["Y-Offset"],
 									min = -50, max = 50, step = 1
 								}
 							}
@@ -475,16 +450,7 @@ E.Options.args.maps = {
 									order = 2,
 									type = "select",
 									name = L["Position"],
-									values = {
-										["LEFT"] = L["Left"],
-										["RIGHT"] = L["Right"],
-										["TOP"] = L["Top"],
-										["BOTTOM"] = L["Bottom"],
-										["TOPLEFT"] = L["Top Left"],
-										["TOPRIGHT"] = L["Top Right"],
-										["BOTTOMLEFT"] = L["Bottom Left"],
-										["BOTTOMRIGHT"] = L["Bottom Right"]
-									}
+									values = positionValues
 								},
 								scale = {
 									order = 3,
@@ -495,13 +461,13 @@ E.Options.args.maps = {
 								xOffset = {
 									order = 4,
 									type = "range",
-									name = L["xOffset"],
+									name = L["X-Offset"],
 									min = -50, max = 50, step = 1
 								},
 								yOffset = {
 									order = 5,
 									type = "range",
-									name = L["yOffset"],
+									name = L["Y-Offset"],
 									min = -50, max = 50, step = 1
 								}
 							}
@@ -523,16 +489,7 @@ E.Options.args.maps = {
 									order = 2,
 									type = "select",
 									name = L["Position"],
-									values = {
-										["LEFT"] = L["Left"],
-										["RIGHT"] = L["Right"],
-										["TOP"] = L["Top"],
-										["BOTTOM"] = L["Bottom"],
-										["TOPLEFT"] = L["Top Left"],
-										["TOPRIGHT"] = L["Top Right"],
-										["BOTTOMLEFT"] = L["Bottom Left"],
-										["BOTTOMRIGHT"] = L["Bottom Right"]
-									}
+									values = positionValues
 								},
 								scale = {
 									order = 3,
@@ -543,13 +500,13 @@ E.Options.args.maps = {
 								xOffset = {
 									order = 4,
 									type = "range",
-									name = L["xOffset"],
+									name = L["X-Offset"],
 									min = -50, max = 50, step = 1
 								},
 								yOffset = {
 									order = 5,
 									type = "range",
-									name = L["yOffset"],
+									name = L["Y-Offset"],
 									min = -50, max = 50, step = 1
 								}
 							}
@@ -582,16 +539,7 @@ E.Options.args.maps = {
 									order = 4,
 									type = "select",
 									name = L["Position"],
-									values = {
-										["LEFT"] = L["Left"],
-										["RIGHT"] = L["Right"],
-										["TOP"] = L["Top"],
-										["BOTTOM"] = L["Bottom"],
-										["TOPLEFT"] = L["Top Left"],
-										["TOPRIGHT"] = L["Top Right"],
-										["BOTTOMLEFT"] = L["Bottom Left"],
-										["BOTTOMRIGHT"] = L["Bottom Right"]
-									}
+									values = positionValues
 								},
 								scale = {
 									order = 5,
@@ -602,13 +550,13 @@ E.Options.args.maps = {
 								xOffset = {
 									order = 6,
 									type = "range",
-									name = L["xOffset"],
+									name = L["X-Offset"],
 									min = -50, max = 50, step = 1
 								},
 								yOffset = {
 									order = 7,
 									type = "range",
-									name = L["yOffset"],
+									name = L["Y-Offset"],
 									min = -50, max = 50, step = 1
 								}
 							}
@@ -630,16 +578,7 @@ E.Options.args.maps = {
 									order = 2,
 									type = "select",
 									name = L["Position"],
-									values = {
-										["LEFT"] = L["Left"],
-										["RIGHT"] = L["Right"],
-										["TOP"] = L["Top"],
-										["BOTTOM"] = L["Bottom"],
-										["TOPLEFT"] = L["Top Left"],
-										["TOPRIGHT"] = L["Top Right"],
-										["BOTTOMLEFT"] = L["Bottom Left"],
-										["BOTTOMRIGHT"] = L["Bottom Right"]
-									}
+									values = positionValues
 								},
 								scale = {
 									order = 3,
@@ -650,13 +589,13 @@ E.Options.args.maps = {
 								xOffset = {
 									order = 4,
 									type = "range",
-									name = L["xOffset"],
+									name = L["X-Offset"],
 									min = -50, max = 50, step = 1
 								},
 								yOffset = {
 									order = 5,
 									type = "range",
-									name = L["yOffset"],
+									name = L["Y-Offset"],
 									min = -50, max = 50, step = 1
 								}
 							}

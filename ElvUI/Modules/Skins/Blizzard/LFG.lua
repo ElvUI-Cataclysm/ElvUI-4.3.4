@@ -153,26 +153,59 @@ local function LoadSkin()
 
 	S:HandleScrollBar(LFDQueueFrameSpecificListScrollFrameScrollBar)
 
-	for i = 1, NUM_LFD_CHOICE_BUTTONS do
-		local button = _G["LFDQueueFrameSpecificListButton"..i]
-		button.enableButton:StripTextures()
-		button.enableButton:CreateBackdrop("Default")
-		button.enableButton.backdrop:SetInside(nil, 4, 4)
+	for frame, numItems in pairs({["LFDQueueFrameSpecificListButton"] = NUM_LFD_CHOICE_BUTTONS, ["LFRQueueFrameSpecificListButton"] = NUM_LFR_CHOICE_BUTTONS}) do
+		for i = 1, numItems do
+			local button = _G[frame..i]
 
-		button.expandOrCollapseButton:SetNormalTexture(E.Media.Textures.PlusMinusButton)
-		button.expandOrCollapseButton.SetNormalTexture = E.noop
-		button.expandOrCollapseButton:SetHighlightTexture(nil)
-		button.expandOrCollapseButton:GetNormalTexture():Size(14)
-		button.expandOrCollapseButton:GetNormalTexture():Point("CENTER", 4, 0)
+			button.enableButton:CreateBackdrop("Default")
+			button.enableButton.backdrop:SetInside(nil, 4, 4)
 
-		hooksecurefunc(button.expandOrCollapseButton, "SetNormalTexture", function(self, texture)
-			if find(texture, "MinusButton") then
-				self:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+			button.enableButton:SetNormalTexture("")
+			button.enableButton.SetNormalTexture = E.noop
+
+			button.enableButton:SetPushedTexture("")
+			button.enableButton.SetPushedTexture = E.noop
+
+			if E.private.skins.checkBoxSkin then
+				button.enableButton:SetHighlightTexture(E.Media.Textures.Melli)
+				button.enableButton.SetHighlightTexture = E.noop
+
+				button.enableButton:SetCheckedTexture(E.Media.Textures.Melli)
+				button.enableButton.SetCheckedTexture = E.noop
+
+				button.enableButton:SetDisabledCheckedTexture(E.Media.Textures.Melli)
+				button.enableButton.SetDisabledCheckedTexture = E.noop
+
+				local Checked, Highlight, DisabledChecked = button.enableButton:GetCheckedTexture(), button.enableButton:GetHighlightTexture(), button.enableButton:GetDisabledCheckedTexture()
+
+				Checked:SetInside(button.enableButton.backdrop)
+				Checked:SetVertexColor(1, 0.8, 0.1, 0.8)
+
+				Highlight:SetInside(button.enableButton.backdrop)
+				Highlight:SetVertexColor(1, 1, 1, 0.35)
+
+				DisabledChecked:SetInside(button.enableButton.backdrop)
+				DisabledChecked:SetVertexColor(0.6, 0.6, 0.5, 0.8)
 			else
-				self:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+				button.enableButton:SetHighlightTexture("")
+				button.enableButton.SetHighlightTexture = E.noop
 			end
-		end)
- 	end
+
+			button.expandOrCollapseButton:SetNormalTexture(E.Media.Textures.Plus)
+			button.expandOrCollapseButton.SetNormalTexture = E.noop
+			button.expandOrCollapseButton:SetHighlightTexture(nil)
+			button.expandOrCollapseButton:GetNormalTexture():Size(16)
+			button.expandOrCollapseButton:GetNormalTexture():Point("CENTER", 2, 3)
+
+			hooksecurefunc(button.expandOrCollapseButton, "SetNormalTexture", function(self, texture)
+				if find(texture, "MinusButton") then
+					self:GetNormalTexture():SetTexture(E.Media.Textures.Minus)
+				else
+					self:GetNormalTexture():SetTexture(E.Media.Textures.Plus)
+				end
+			end)
+		end
+	end
 
 	--LFD Role Picker PopUp Frame
 	LFDRoleCheckPopup:StripTextures()
@@ -486,25 +519,6 @@ local function LoadSkin()
 
 	LFRQueueFrameRoleButtonTank:Point("TOPLEFT", LFRQueueFrame, "TOPLEFT", 50, -45)
 	LFRQueueFrameRoleButtonHealer:Point("LEFT", LFRQueueFrameRoleButtonTank, "RIGHT", 43, 0)
-
-	for i = 1, NUM_LFR_CHOICE_BUTTONS do
-		local button = _G["LFRQueueFrameSpecificListButton"..i]
-		S:HandleCheckBox(button.enableButton)
-
-		button.expandOrCollapseButton:SetNormalTexture(E.Media.Textures.PlusMinusButton)
-		button.expandOrCollapseButton.SetNormalTexture = E.noop
-		button.expandOrCollapseButton:SetHighlightTexture(nil)
-		button.expandOrCollapseButton:GetNormalTexture():Size(14)
-		button.expandOrCollapseButton:GetNormalTexture():Point("CENTER", 4, 0)
-
-		hooksecurefunc(button.expandOrCollapseButton, "SetNormalTexture", function(self, texture)
-			if find(texture, "MinusButton") then
-				self:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
-			else
-				self:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
-			end
-		end)
- 	end
 
 	-- LFR Browse Frame
 	LFRBrowseFrame:StripTextures()

@@ -554,6 +554,7 @@ function UF:Construct_AdditionalPowerBar(frame)
 	local additionalPower = CreateFrame("StatusBar", "AdditionalPowerBar", frame)
 	additionalPower:SetFrameLevel(additionalPower:GetFrameLevel() + 1)
 	additionalPower.colorPower = true
+	additionalPower.frequentUpdates = true
 	additionalPower.PostUpdate = UF.PostUpdateAdditionalPower
 	additionalPower.PostUpdateVisibility = UF.PostVisibilityAdditionalPower
 	additionalPower:CreateBackdrop("Default", nil, nil, self.thinBorders, true)

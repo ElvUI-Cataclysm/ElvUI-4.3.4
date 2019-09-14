@@ -88,8 +88,12 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 	self.top:SetTexture(nil)
 	self.middle:SetTexture(nil)
 
+	local size = AB.db.barTotem.buttonsize
+	local flyoutDirection = AB.db.barTotem.flyoutDirection
+	local flyoutSpacing = AB.db.barTotem.flyoutSpacing
 	local color = type == "page" and SLOT_BORDER_COLORS.summon or SLOT_BORDER_COLORS[parent:GetID()]
 	local numButtons = 0
+
 	for i, button in ipairs(self.buttons) do
 		if not button.isSkinned then
 			button:SetTemplate("Default")
@@ -108,20 +112,20 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 
 		if button:IsShown() then
 			numButtons = numButtons + 1
-			button:Size(AB.db.barTotem.buttonsize)
+			button:Size(size)
 			button:ClearAllPoints()
 
-			if AB.db.barTotem.flyoutDirection == "UP" then
+			if flyoutDirection == "UP" then
 				if i == 1 then
-					button:Point("BOTTOM", parent, "TOP", 0, AB.db.barTotem.flyoutSpacing)
+					button:Point("BOTTOM", parent, "TOP", 0, flyoutSpacing)
 				else
-					button:Point("BOTTOM", self.buttons[i - 1], "TOP", 0, AB.db.barTotem.flyoutSpacing)
+					button:Point("BOTTOM", self.buttons[i - 1], "TOP", 0, flyoutSpacing)
 				end
-			elseif AB.db.barTotem.flyoutDirection == "DOWN" then
+			elseif flyoutDirection == "DOWN" then
 				if i == 1 then
-					button:Point("TOP", parent, "BOTTOM", 0, -AB.db.barTotem.flyoutSpacing)
+					button:Point("TOP", parent, "BOTTOM", 0, -flyoutSpacing)
 				else
-					button:Point("TOP", self.buttons[i - 1], "BOTTOM", 0, -AB.db.barTotem.flyoutSpacing)
+					button:Point("TOP", self.buttons[i - 1], "BOTTOM", 0, -flyoutSpacing)
 				end
 			end
 
@@ -141,19 +145,19 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 
 	self:ClearAllPoints()
 	MultiCastFlyoutFrameCloseButton:ClearAllPoints()
-	if AB.db.barTotem.flyoutDirection == "UP" then
+	if flyoutDirection == "UP" then
 		self:Point("BOTTOM", parent, "TOP")
 
 		MultiCastFlyoutFrameCloseButton:Point("TOP", self, "TOP")
 		MultiCastFlyoutFrameCloseButton.icon:SetRotation(3.14)
-	elseif AB.db.barTotem.flyoutDirection == "DOWN" then
+	elseif flyoutDirection == "DOWN" then
 		self:Point("TOP", parent, "BOTTOM")
 
 		MultiCastFlyoutFrameCloseButton:Point("BOTTOM", self, "BOTTOM")
 		MultiCastFlyoutFrameCloseButton.icon:SetRotation(0)
 	end
 
-	self:Height(((AB.db.barTotem.buttonsize + AB.db.barTotem.flyoutSpacing) * numButtons) + MultiCastFlyoutFrameCloseButton:GetHeight())
+	self:Height(((size + flyoutSpacing) * numButtons) + MultiCastFlyoutFrameCloseButton:GetHeight())
 end
 
 function AB:TotemOnEnter()
@@ -340,5 +344,5 @@ function AB:CreateTotemBar()
 	self:SecureHook("MultiCastFlyoutFrame_ToggleFlyout")
 	self:SecureHook("ShowMultiCastActionBar")
 
-	E:CreateMover(bar, "ElvBar_Totem", TUTORIAL_TITLE47, nil, nil, nil, "ALL, ACTIONBARS", nil, "actionbar,barTotem")
+	E:CreateMover(bar, "ElvBar_Totem", TUTORIAL_TITLE47, nil, nil, nil, "ALL,ACTIONBARS", nil, "actionbar,barTotem")
 end

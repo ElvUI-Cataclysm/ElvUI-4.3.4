@@ -324,11 +324,11 @@ function AB:AdjustMaxStanceButtons(event)
 end
 
 function AB:UpdateStanceBindings()
-	local color = self.db.fontColor
-
 	for i = 1, NUM_SHAPESHIFT_SLOTS do
 		if self.db.hotkeytext then
 			local key = GetBindingKey("SHAPESHIFTBUTTON"..i)
+			local color = self.db.fontColor
+
 			_G["ElvUI_StanceBarButton"..i.."HotKey"]:Show()
 			_G["ElvUI_StanceBarButton"..i.."HotKey"]:SetText(key)
 			_G["ElvUI_StanceBarButton"..i.."HotKey"]:SetTextColor(color.r, color.g, color.b)
@@ -340,7 +340,7 @@ function AB:UpdateStanceBindings()
 end
 
 function AB:CreateBarShapeShift()
-	bar:CreateBackdrop("Default")
+	bar:CreateBackdrop(self.db.transparentBackdrops and "Transparent")
 	bar.backdrop:SetAllPoints()
 	bar:Point("TOPLEFT", E.UIParent, "TOPLEFT", 4, -4)
 	bar.buttons = {}

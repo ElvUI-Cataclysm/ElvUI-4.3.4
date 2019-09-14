@@ -48,10 +48,10 @@ L["Binds Saved"] = "Raccourcis sauvegardés"
 L["BNet Frame"] = "Cadre BNet"
 L["Boss Button"] = "Bouton du Boss"
 L["Boss Frames"] = "Cadre du Boss"
-L["Calendar"] = 'Calendrier'
 L["Can't Roll"] = "Ne peut pas jeter les dés"
 L["Can't buy anymore slots!"] = "Impossible d'acheter plus emplacements !"
 L["Caster DPS"] = "DPS Distance"
+L["Change Talent Specialization"] = "Changer de spécialisation des talents"
 L["Character: "] = "Personnage: "
 L["Chat Set"] = "Chat configuré"
 L["Chat"] = "Discussion"
@@ -91,6 +91,7 @@ L["ElvUI is five or more revisions out of date. You can download the newest vers
 L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm"] = "ElvUI est périmé. Vous pouvez télécharger la nouvelle version sur https://github.com/ElvUI-Cataclysm"
 L["ElvUI needs to perform database optimizations please be patient."] = "ElvUI a besoin d'effectuer des optimisations de la base de données, merci de patienter."
 L["ElvUI Plugin Installation"] = "Installation des Plugins ElvUI"
+L["ElvUI was updated while the game is still running. Please relaunch the game, as this is required for the files to be properly updated."] = true
 L["Empty Slot"] = "Emplacement vide"
 L["Enable"] = "Activer"
 L["Error resetting UnitFrame."] = true
@@ -171,7 +172,6 @@ L["MT Frames"] = "Cadres du Tank principal"
 L["No bindings set."] = "Aucune assignation"
 L["No gray items to delete."] = "Aucun objet gris à détruire."
 L["No Guild"] = "Pas de Guilde"
-L["No locals to dump"] = "Aucunes données à vider"
 L["No, Revert Changes!"] = "Non, annuler les changements!"
 L["Nudge"] = "Pousser"
 L["O"] = "O"
@@ -233,6 +233,7 @@ L["Session:"] = "Session:"
 L["Setup CVars"] = "Configurer les CVars"
 L["Setup Chat"] = "Configurer le Chat."
 L["Show BG Texts"] = "Voir les textes de BG"
+L["Show Talent Specialization UI"] = "Voir la spécialisation des talents de l'interface"
 L["silverabbrev"] = "|cffc7c7cfs|r"
 L["Skip Process"] = "Passer cette étape"
 L["Sort Bags"] = "Trier les sacs"
@@ -246,7 +247,6 @@ L["Steps"] = "Etapes"
 L["Sticky Frames"] = "Cadres aimantés"
 L["System"] = "Système"
 L["Talent Specialization"] = "Spécialisation des talents"
-L["Talent Specialization:"] = "Spécialisation des talents"
 L["Tank / Physical DPS"] = true
 L["Target Castbar"] = "Barre d'incantation de la cible"
 L["Target Frame"] = "Cadre de la cible"
@@ -312,12 +312,8 @@ L["Your items have been repaired for: "] = "Votre équipement a été réparé p
 L["Your items have been repaired using guild bank funds for: "] = "Votre équipement a été réparé avec l'argent de la banque de guilde pour: "
 L["Your profile was successfully recieved by the player."] = "Votre profil a été reçu avec succès par le joueur."
 L["|cFFE30000Lua error recieved. You can view the error message when you exit combat."] = "|cFFE30000Erreur Lua reçue. Vous pouvez voir ce message d'erreur quand vous sortirez de combat."
-L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = '|cffFFFFFFClick Gauche:|r Changer de spécialisation des talents'
-L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = "|cffFFFFFFRight + Click Gauche :|r Voir la spécialisation des talents de l'interface"
 
 ----------------------------------
-L["RED_ENABLE"] = "|cFFff3333Activer|r"
-L["GREEN_ENABLE"] = "|cFF33ff33Activer|r"
 L["DESC_MOVERCONFIG"] = [=[Cadres déverrouillés. Déplacez-les et cliquez sur Verrouiller une fois terminé.
 
 Options:

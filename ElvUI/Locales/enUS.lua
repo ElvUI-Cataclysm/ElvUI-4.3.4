@@ -48,10 +48,10 @@ L["Binds Saved"] = true
 L["BNet Frame"] = true
 L["Boss Button"] = true
 L["Boss Frames"] = true
-L["Calendar"] = true
 L["Can't buy anymore slots!"] = true
 L["Can't Roll"] = true
 L["Caster DPS"] = true
+L["Change Talent Specialization"] = true
 L["Character: "] = true
 L["Chat Set"] = true
 L["Chat"] = true
@@ -91,6 +91,7 @@ L["ElvUI is five or more revisions out of date. You can download the newest vers
 L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm"] = true
 L["ElvUI needs to perform database optimizations please be patient."] = true
 L["ElvUI Plugin Installation"] = true
+L["ElvUI was updated while the game is still running. Please relaunch the game, as this is required for the files to be properly updated."] = true
 L["Empty Slot"] = true
 L["Enable"] = true
 L["Error resetting UnitFrame."] = true
@@ -171,7 +172,6 @@ L["MT Frames"] = true
 L["No bindings set."] = true
 L["No gray items to delete."] = true
 L["No Guild"] = true
-L["No locals to dump"] = true
 L["No, Revert Changes!"] = true
 L["Nudge"] = true
 L["O"] = true
@@ -233,6 +233,7 @@ L["Session:"] = true
 L["Setup Chat"] = true
 L["Setup CVars"] = true
 L["Show BG Texts"] = true
+L["Show Talent Specialization UI"] = true
 L["silverabbrev"] = "|cffc7c7cfs|r"
 L["Skip Process"] = true
 L["Sort Bags"] = true
@@ -246,7 +247,6 @@ L["Steps"] = true
 L["Sticky Frames"] = true
 L["System"] = true
 L["Talent Specialization"] = true
-L["Talent Specialization:"] = true
 L["Tank / Physical DPS"] = true
 L["Target Castbar"] = true
 L["Target Frame"] = true
@@ -312,12 +312,8 @@ L["Your items have been repaired for: "] = true
 L["Your items have been repaired using guild bank funds for: "] = true
 L["Your profile was successfully recieved by the player."] = true
 L["|cFFE30000Lua error recieved. You can view the error message when you exit combat."] = true
-L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = true
-L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = true
 
 ----------------------------------
-L["RED_ENABLE"] = "|cFFff3333Enable|r"
-L["GREEN_ENABLE"] = "|cFF33ff33Enable|r"
 L["DESC_MOVERCONFIG"] = [=[Movers unlocked. Move them now and click Lock when you are done.
 
 Options:

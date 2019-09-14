@@ -216,28 +216,7 @@ local function LoadSkin()
 	InspectGuildFrameGuildNumMembers:SetParent(InspectGuildFrame.bg)
 
 	-- Control Frame
-	InspectModelFrameControlFrame:StripTextures()
-	InspectModelFrameControlFrame:Size(123, 23)
-
-	local controlbuttons = {
-		"InspectModelFrameControlFrameZoomInButton",
-		"InspectModelFrameControlFrameZoomOutButton",
-		"InspectModelFrameControlFramePanButton",
-		"InspectModelFrameControlFrameRotateRightButton",
-		"InspectModelFrameControlFrameRotateLeftButton",
-		"InspectModelFrameControlFrameRotateResetButton"
-	}
-
-	for i = 1, #controlbuttons do
-		S:HandleButton(_G[controlbuttons[i]])
-		_G[controlbuttons[i].."Bg"]:Hide()
-	end
-
-	InspectModelFrameControlFrameZoomOutButton:Point("LEFT", "InspectModelFrameControlFrameZoomInButton", "RIGHT", 2, 0)
-	InspectModelFrameControlFramePanButton:Point("LEFT", "InspectModelFrameControlFrameZoomOutButton", "RIGHT", 2, 0)
-	InspectModelFrameControlFrameRotateRightButton:Point("LEFT", "InspectModelFrameControlFramePanButton", "RIGHT", 2, 0)
-	InspectModelFrameControlFrameRotateLeftButton:Point("LEFT", "InspectModelFrameControlFrameRotateRightButton", "RIGHT", 2, 0)
-	InspectModelFrameControlFrameRotateResetButton:Point("LEFT", "InspectModelFrameControlFrameRotateLeftButton", "RIGHT", 2, 0)
+	S:HandleModelControlFrame(InspectModelFrameControlFrame)
 end
 
 S:AddCallbackForAddon("Blizzard_InspectUI", "Inspect", LoadSkin)

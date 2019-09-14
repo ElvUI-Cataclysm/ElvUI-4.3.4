@@ -3,21 +3,34 @@ local DT = E:GetModule("DataTexts")
 
 local format, join = string.format, string.join
 
+local ContainerIDToInventoryID = ContainerIDToInventoryID
+local GetBackpackCurrencyInfo = GetBackpackCurrencyInfo
+local GetContainerItemInfo = GetContainerItemInfo
 local GetContainerNumFreeSlots = GetContainerNumFreeSlots
 local GetContainerNumSlots = GetContainerNumSlots
-local GetBackpackCurrencyInfo = GetBackpackCurrencyInfo
+local GetItemInfo = GetItemInfo
+local GetInventoryItemLink = GetInventoryItemLink
+local GetItemQualityColor = GetItemQualityColor
+local BACKPACK_TOOLTIP = BACKPACK_TOOLTIP
 local CURRENCY = CURRENCY
 local NUM_BAG_SLOTS = NUM_BAG_SLOTS
 local MAX_WATCHED_TOKENS = MAX_WATCHED_TOKENS
 
-local currencyString = "|T%s:14:14:0:0:64:64:4:60:4:60|t %s"
+local currencyString = "|T%s:12:12:0:0:64:64:4:60:4:60|t %s"
 local displayString = ""
+
 local lastPanel
 
 local function OnEvent(self)
 	local free, total = 0, 0
+
 	for i = 0, NUM_BAG_SLOTS do
-		free, total = free + GetContainerNumFreeSlots(i), total + GetContainerNumSlots(i)
+		local bagFreeSlots, bagType = GetContainerNumFreeSlots(i)
+		local bagSlots = GetContainerNumSlots(i)
+
+		if not bagType or bagType == 0 then
+			free, total = free + bagFreeSlots, total + bagSlots
+		end
 	end
 	self.text:SetFormattedText(displayString, L["Bags"], total - free, total)
 

@@ -229,7 +229,7 @@ local function LoadSkin()
 	end)
 
 	-- Filter Dropdown
-	S:HandleDropDownBox(ArchaeologyFrameRaceFilter, 125)
+	S:HandleDropDownBox(ArchaeologyFrameRaceFilter, 185)
 	ArchaeologyFrameRaceFilter:Point("TOPRIGHT", -25, -3)
 end
 

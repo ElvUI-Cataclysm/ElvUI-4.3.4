@@ -26,7 +26,6 @@ local GetCursorPosition = GetCursorPosition
 local GetLootSlotInfo = GetLootSlotInfo
 local GiveMasterLoot = GiveMasterLoot
 local ITEM_QUALITY_COLORS = ITEM_QUALITY_COLORS
-local TEXTURE_ITEM_QUEST_BANG = TEXTURE_ITEM_QUEST_BANG
 local LOOT = LOOT
 
 local lootFrame, lootFrameHolder
@@ -146,9 +145,9 @@ local function createSlot(id)
 	frame.drop = drop
 
 	local questTexture = iconFrame:CreateTexture(nil, "OVERLAY")
+	questTexture:SetTexture(E.Media.Textures.BagQuestIcon)
+	questTexture:SetTexCoord(0, 1, 0, 1)
 	questTexture:SetInside()
-	questTexture:SetTexture(TEXTURE_ITEM_QUEST_BANG)
-	questTexture:SetTexCoord(unpack(E.TexCoords))
 	frame.questTexture = questTexture
 
 	lootFrame.slots[id] = frame
@@ -250,17 +249,14 @@ function M:LOOT_OPENED(_, autoLoot)
 			end
 			w = max(w, slot.name:GetStringWidth())
 
-			local questTexture = slot.questTexture
+			slot.questTexture:Hide()
+
 			if questId and not isActive then
-				questTexture:SetTexture(TEXTURE_ITEM_QUEST_BANG)
-				questTexture:Show()
+				slot.questTexture:Show()
 				ActionButton_ShowOverlayGlow(slot.iconFrame)
 			elseif questId or isQuestItem then
-				questTexture:SetTexture(TEXTURE_ITEM_QUEST_BORDER)
-				questTexture:Show()
 				ActionButton_ShowOverlayGlow(slot.iconFrame)
 			else
-				questTexture:Hide()
 				ActionButton_HideOverlayGlow(slot.iconFrame)
 			end
 

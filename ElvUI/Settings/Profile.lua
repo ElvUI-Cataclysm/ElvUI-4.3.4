@@ -195,6 +195,10 @@ P.bags = {
 	strata = "DIALOG",
 	qualityColors = true,
 	showBindType = false,
+	transparent = false,
+	questIcon = true,
+	professionBagColors = true,
+	questItemColors = true,
 	colors = {
 		profession = {
 			leatherworking = {r = 0.88, g = 0.73, b = 0.29},
@@ -774,11 +778,13 @@ P.tooltip = {
 	cursorAnchorType = "ANCHOR_CURSOR",
 	cursorAnchorX = 0,
 	cursorAnchorY = 0,
+	alwaysShowRealm = false,
 	targetInfo = true,
 	playerTitles = true,
 	guildRanks = true,
 	itemCount = "BAGS_ONLY",
 	spellID = true,
+	npcID = true,
 	inspectInfo = true,
 	role = true,
 	font = "PT Sans Narrow",
@@ -1082,7 +1088,8 @@ P.unitframe = {
 				rotation = 0,
 				style = "3D",
 				xOffset = 0,
-				yOffset = 0
+				yOffset = 0,
+				overlayAlpha = 0.35
 			},
 			buffs = {
 				enable = false,
@@ -1303,7 +1310,8 @@ P.unitframe = {
 				rotation = 0,
 				style = "3D",
 				xOffset = 0,
-				yOffset = 0
+				yOffset = 0,
+				overlayAlpha = 0.35
 			},
 			buffs = {
 				enable = true,
@@ -1496,7 +1504,8 @@ P.unitframe = {
 				rotation = 0,
 				style = "3D",
 				xOffset = 0,
-				yOffset = 0
+				yOffset = 0,
+				overlayAlpha = 0.35
 			},
 			buffs = {
 				enable = false,
@@ -1625,7 +1634,8 @@ P.unitframe = {
 				rotation = 0,
 				style = "3D",
 				xOffset = 0,
-				yOffset = 0
+				yOffset = 0,
+				overlayAlpha = 0.35
 			},
 			buffs = {
 				enable = false,
@@ -1760,7 +1770,8 @@ P.unitframe = {
 				rotation = 0,
 				style = "3D",
 				xOffset = 0,
-				yOffset = 0
+				yOffset = 0,
+				overlayAlpha = 0.35
 			},
 			buffs = {
 				enable = false,
@@ -1935,7 +1946,8 @@ P.unitframe = {
 				rotation = 0,
 				style = "3D",
 				xOffset = 0,
-				yOffset = 0
+				yOffset = 0,
+				overlayAlpha = 0.35
 			},
 			buffs = {
 				enable = false,
@@ -2067,7 +2079,8 @@ P.unitframe = {
 				rotation = 0,
 				style = "3D",
 				xOffset = 0,
-				yOffset = 0
+				yOffset = 0,
+				overlayAlpha = 0.35
 			},
 			buffs = {
 				enable = false,
@@ -2231,7 +2244,8 @@ P.unitframe = {
 				rotation = 0,
 				style = "3D",
 				xOffset = 0,
-				yOffset = 0
+				yOffset = 0,
+				overlayAlpha = 0.35
 			},
 			buffs = {
 				enable = false,
@@ -2345,7 +2359,8 @@ P.unitframe = {
 				rotation = 0,
 				style = "3D",
 				xOffset = 0,
-				yOffset = 0
+				yOffset = 0,
+				overlayAlpha = 0.35
 			},
 			infoPanel = {
 				enable = false,
@@ -2517,7 +2532,8 @@ P.unitframe = {
 				rotation = 0,
 				style = "3D",
 				xOffset = 0,
-				yOffset = 0
+				yOffset = 0,
+				overlayAlpha = 0.35
 			},
 			buffs = {
 				enable = true,
@@ -2696,7 +2712,8 @@ P.unitframe = {
 				rotation = 0,
 				style = "3D",
 				xOffset = 0,
-				yOffset = 0
+				yOffset = 0,
+				overlayAlpha = 0.35
 			},
 			buffs = {
 				enable = false,
@@ -2969,7 +2986,8 @@ P.unitframe = {
 				rotation = 0,
 				style = "3D",
 				xOffset = 0,
-				yOffset = 0
+				yOffset = 0,
+				overlayAlpha = 0.35
 			},
 			buffs = {
 				enable = false,
@@ -3190,7 +3208,8 @@ P.unitframe = {
 				rotation = 0,
 				style = "3D",
 				xOffset = 0,
-				yOffset = 0
+				yOffset = 0,
+				overlayAlpha = 0.35
 			},
 			buffs = {
 				enable = false,
@@ -3396,7 +3415,8 @@ P.unitframe = {
 				rotation = 0,
 				style = "3D",
 				xOffset = 0,
-				yOffset = 0
+				yOffset = 0,
+				overlayAlpha = 0.35
 			},
 			buffs = {
 				enable = false,
@@ -3832,6 +3852,8 @@ P.actionbar = {
 
 	keyDown = true,
 	movementModifier = "SHIFT",
+	transparentBackdrops = false,
+	transparentButtons = false,
 	globalFadeAlpha = 0,
 	lockActionBars = true,
 	addNewSpells = false,
@@ -3846,6 +3868,8 @@ P.actionbar = {
 	noPowerColor = {r = 0.5, g = 0.5, b = 1},
 	usableColor = {r = 1, g = 1, b = 1},
 	notUsableColor = {r = 0.4, g = 0.4, b = 0.4},
+
+	flashAnimation = false,
 
 	cooldown = {
 		threshold = 4,

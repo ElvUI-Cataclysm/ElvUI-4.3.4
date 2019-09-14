@@ -40,6 +40,7 @@ local IsModifiedClick = IsModifiedClick
 local IsShiftKeyDown, IsControlKeyDown = IsShiftKeyDown, IsControlKeyDown
 local PickupContainerItem = PickupContainerItem
 local PlaySound = PlaySound
+local PutItemInBackpack = PutItemInBackpack
 local PutItemInBag = PutItemInBag
 local SetItemButtonCount = SetItemButtonCount
 local SetItemButtonDesaturated = SetItemButtonDesaturated
@@ -47,6 +48,7 @@ local SetItemButtonTexture = SetItemButtonTexture
 local SetItemButtonTextureVertexColor = SetItemButtonTextureVertexColor
 local ToggleFrame = ToggleFrame
 local UseContainerItem = UseContainerItem
+local BACKPACK_TOOLTIP = BACKPACK_TOOLTIP
 local CONTAINER_OFFSET_X, CONTAINER_OFFSET_Y = CONTAINER_OFFSET_X, CONTAINER_OFFSET_Y
 local CONTAINER_SCALE = CONTAINER_SCALE
 local CONTAINER_SPACING, VISIBLE_CONTAINER_SPACING = CONTAINER_SPACING, VISIBLE_CONTAINER_SPACING
@@ -57,7 +59,6 @@ local ITEM_BIND_ON_USE = ITEM_BIND_ON_USE
 local ITEM_BNETACCOUNTBOUND = ITEM_BNETACCOUNTBOUND
 local ITEM_SOULBOUND = ITEM_SOULBOUND
 local MAX_CONTAINER_ITEMS = MAX_CONTAINER_ITEMS
-local MAX_GUILDBANK_SLOTS_PER_TAB = MAX_GUILDBANK_SLOTS_PER_TAB
 local MAX_WATCHED_TOKENS = MAX_WATCHED_TOKENS
 local NUM_BAG_FRAMES = NUM_BAG_FRAMES
 local NUM_CONTAINER_FRAMES = NUM_CONTAINER_FRAMES
@@ -301,7 +302,7 @@ function B:UpdateSlot(frame, bagID, slotID)
 		E.ScanTooltip:Show()
 	end
 
-	if B.ProfessionColors[bagType] then
+	if B.db.professionBagColors and B.ProfessionColors[bagType] then
 		slot:SetBackdropBorderColor(unpack(B.ProfessionColors[bagType]))
 		slot.ignoreBorderColors = true
 	elseif clink then
@@ -353,15 +354,19 @@ function B:UpdateSlot(frame, bagID, slotID)
 			end
 		end
 
+		-- Quest Icon
+		if B.db.questIcon and (questId and not isActiveQuest) then
+			slot.questIcon:Show()
+		end
+
 		-- color slot according to item quality
-		if questId and not isActiveQuest then
+		if B.db.questItemColors and (questId and not isActiveQuest) then
 			slot:SetBackdropBorderColor(unpack(B.QuestColors.questStarter))
 			slot.ignoreBorderColors = true
-			slot.questIcon:Show()
-		elseif questId or isQuestItem then
+		elseif B.db.questItemColors and (questId or isQuestItem) then
 			slot:SetBackdropBorderColor(unpack(B.QuestColors.questItem))
 			slot.ignoreBorderColors = true
-		elseif B.db.qualityColors and slot.rarity and slot.rarity > 1 then
+		elseif B.db.qualityColors and (slot.rarity and slot.rarity > 1) then
 			slot:SetBackdropBorderColor(r, g, b)
 			slot.ignoreBorderColors = true
 		else
@@ -507,23 +512,43 @@ function B:Layout(isBank)
 		end
 
 		--Bag Containers
-		if (not isBank and bagID <= 3) or (isBank and bagID ~= -1 and numContainerSlots >= 1 and not (i - 1 > numContainerSlots)) then
+		if (not isBank) or (isBank and bagID ~= -1 and numContainerSlots >= 1 and not (i - 1 > numContainerSlots)) then
 			if not f.ContainerHolder[i] then
 				if isBank then
 					f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIBankBag"..bagID - 4, f.ContainerHolder, "BankItemButtonBagTemplate")
 					f.ContainerHolder[i]:SetScript("OnClick", function(holder)
 						local inventoryID = holder:GetInventorySlot()
-						PutItemInBag(inventoryID) --Put bag on empty slot, or drop item in this bag
+						PutItemInBag(inventoryID)
 					end)
 				else
-					f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIMainBag"..bagID.."Slot", f.ContainerHolder, "BagSlotButtonTemplate")
-					f.ContainerHolder[i]:SetScript("OnClick", function(holder)
-						local id = holder:GetID()
-						PutItemInBag(id) --Put bag on empty slot, or drop item in this bag
-					end)
+					if bagID == 0 then
+						f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIMainBagBackpack", f.ContainerHolder, "ItemButtonTemplate")
+
+						f.ContainerHolder[i].model = CreateFrame("Model", "$parentItemAnim", f.ContainerHolder[i], "ItemAnimTemplate")
+						f.ContainerHolder[i].model:SetPoint("BOTTOMRIGHT", -10, 0)
+
+						f.ContainerHolder[i]:SetScript("OnClick", function()
+							PutItemInBackpack()
+						end)
+						f.ContainerHolder[i]:SetScript("OnReceiveDrag", function()
+							PutItemInBackpack()
+						end)
+						f.ContainerHolder[i]:SetScript("OnEnter", function(holder)
+							GameTooltip:SetOwner(holder, "ANCHOR_LEFT")
+							GameTooltip:SetText(BACKPACK_TOOLTIP, 1, 1, 1)
+							GameTooltip:Show()
+						end)
+						f.ContainerHolder[i]:SetScript("OnLeave", GameTooltip_Hide)
+					else
+						f.ContainerHolder[i] = CreateFrame("CheckButton", "ElvUIMainBag"..(bagID - 1).."Slot", f.ContainerHolder, "BagSlotButtonTemplate")
+						f.ContainerHolder[i]:SetScript("OnClick", function(holder)
+							local id = holder:GetID()
+							PutItemInBag(id)
+						end)
+					end
 				end
 
-				f.ContainerHolder[i]:SetTemplate(nil, true)
+				f.ContainerHolder[i]:SetTemplate(E.db.bags.transparent and "Transparent", true)
 				f.ContainerHolder[i]:StyleButton()
 				f.ContainerHolder[i]:SetNormalTexture("")
 				f.ContainerHolder[i]:SetCheckedTexture(nil)
@@ -540,11 +565,14 @@ function B:Layout(isBank)
 				end
 
 				f.ContainerHolder[i].iconTexture = _G[f.ContainerHolder[i]:GetName().."IconTexture"]
+				if bagID == 0 then
+					f.ContainerHolder[i].iconTexture:SetTexture("Interface\\Buttons\\Button-Backpack-Up")
+				end
 				f.ContainerHolder[i].iconTexture:SetInside()
 				f.ContainerHolder[i].iconTexture:SetTexCoord(unpack(E.TexCoords))
 			end
 
-			f.ContainerHolder:Size(((buttonSize + buttonSpacing) * (isBank and i - 1 or i)) + buttonSpacing,buttonSize + (buttonSpacing * 2))
+			f.ContainerHolder:Size(((buttonSize + buttonSpacing) * (isBank and i - 1 or i)) + buttonSpacing, buttonSize + (buttonSpacing * 2))
 
 			if isBank then
 				BankFrameItemButton_Update(f.ContainerHolder[i])
@@ -585,7 +613,7 @@ function B:Layout(isBank)
 				if not f.Bags[bagID][slotID] then
 					f.Bags[bagID][slotID] = CreateFrame("CheckButton", f.Bags[bagID]:GetName().."Slot"..slotID, f.Bags[bagID], bagID == -1 and "BankItemButtonGenericTemplate" or "ContainerFrameItemButtonTemplate")
 					f.Bags[bagID][slotID]:StyleButton()
-					f.Bags[bagID][slotID]:SetTemplate("Default", true)
+					f.Bags[bagID][slotID]:SetTemplate(E.db.bags.transparent and "Transparent", true)
 					f.Bags[bagID][slotID]:SetNormalTexture(nil)
 					f.Bags[bagID][slotID]:SetCheckedTexture(nil)
 

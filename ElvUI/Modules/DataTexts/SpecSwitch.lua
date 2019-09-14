@@ -9,8 +9,7 @@ local GetNumTalentTabs = GetNumTalentTabs
 local GetTalentTabInfo = GetTalentTabInfo
 local GetNumTalentGroups = GetNumTalentGroups
 local GetPrimaryTalentTree = GetPrimaryTalentTree
-local ShowUIPanel = ShowUIPanel
-local HideUIPanel = HideUIPanel
+local HideUIPanel, ShowUIPanel = HideUIPanel, ShowUIPanel
 local ACTIVE_PETS = ACTIVE_PETS
 local FACTION_INACTIVE = FACTION_INACTIVE
 
@@ -30,10 +29,7 @@ local function LoadTalentTrees()
 end
 
 local function OnEvent(self)
-	lastPanel = self
-	if not GetTalentTabInfo(1) then
-		return
-	end
+	if not GetTalentTabInfo(1) then return end
 
 	LoadTalentTrees()
 
@@ -41,6 +37,8 @@ local function OnEvent(self)
 	if GetPrimaryTalentTree(false, false, active) then
 		self.text:SetFormattedText(displayString, select(2, GetTalentTabInfo(GetPrimaryTalentTree(false, false, active))), talent[active][1], talent[active][2], talent[active][3])
 	end
+
+	lastPanel = self
 end
 
 local function OnEnter(self)
@@ -48,32 +46,26 @@ local function OnEnter(self)
 
 	for i = 1, GetNumTalentGroups() do
 		if GetPrimaryTalentTree(false, false, i) then
-			DT.tooltip:AddLine(join(" ", format(displayString, select(2, GetTalentTabInfo(GetPrimaryTalentTree(false, false, i))), talent[i][1], talent[i][2], talent[i][3]), (i == active and activeString or inactiveString)), 1, 1, 1)
+			DT.tooltip:AddDoubleLine(join("", format(displayString, select(2, GetTalentTabInfo(GetPrimaryTalentTree(false, false, i))), talent[i][1], talent[i][2], talent[i][3])), (i == active and activeString or inactiveString), 1, 1, 1)
 		end
 	end
 
 	DT.tooltip:AddLine(" ")
-	DT.tooltip:AddLine(L["|cffFFFFFFLeft Click:|r Change Talent Specialization"])
-	DT.tooltip:AddLine(L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"])
+	DT.tooltip:AddDoubleLine(join("", L["Left Click:"]), L["Change Talent Specialization"], 1, 1, 1)
+	DT.tooltip:AddDoubleLine(join("", L["Right Click:"]), L["Show Talent Specialization UI"], 1, 1, 1)
 
 	DT.tooltip:Show()
 end
 
 local function OnClick(_, btn)
+	if not PlayerTalentFrame then LoadAddOn("Blizzard_TalentUI") end
+
 	if btn == "LeftButton" then
 		DT.tooltip:Hide()
-
-		if not PlayerTalentFrame then
-			LoadAddOn("Blizzard_TalentUI")
-		end
 
 		SetActiveTalentGroup(active == 1 and 2 or 1)
 	elseif btn == "RightButton" then
 		DT.tooltip:Hide()
-
-		if not PlayerTalentFrame then
-			LoadAddOn("Blizzard_TalentUI")
-		end
 
 		if not PlayerTalentFrame:IsShown() then
 			ShowUIPanel(PlayerTalentFrame)

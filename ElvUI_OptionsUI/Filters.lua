@@ -45,6 +45,17 @@ end
 
 local FilterResetState = {}
 
+local positionValues = {
+	TOP = L["Top"],
+	LEFT = L["Left"],
+	RIGHT = L["Right"],
+	BOTTOM = L["Bottom"],
+	TOPLEFT = L["Top Left"],
+	TOPRIGHT = L["Top Right"],
+	BOTTOMLEFT = L["Bottom Left"],
+	BOTTOMRIGHT = L["Bottom Right"]
+}
+
 local function UpdateFilterGroup()
 	--Prevent errors when choosing a new filter, by doing a reset of the groups
 	E.Options.args.filters.args.filterGroup = nil
@@ -530,16 +541,7 @@ local function UpdateFilterGroup()
 							order = 1,
 							type = "select",
 							name = L["Anchor Point"],
-							values = {
-								["TOPLEFT"] = "TOPLEFT",
-								["TOPRIGHT"] = "TOPRIGHT",
-								["BOTTOMLEFT"] = "BOTTOMLEFT",
-								["BOTTOMRIGHT"] = "BOTTOMRIGHT",
-								["LEFT"] = "LEFT",
-								["RIGHT"] = "RIGHT",
-								["TOP"] = "TOP",
-								["BOTTOM"] = "BOTTOM"
-							}
+							values = positionValues
 						},
 						sizeOverride = {
 							order = 2,
@@ -550,13 +552,13 @@ local function UpdateFilterGroup()
 						xOffset = {
 							order = 3,
 							type = "range",
-							name = L["xOffset"],
+							name = L["X-Offset"],
 							min = -75, max = 75, step = 1
 						},
 						yOffset = {
 							order = 4,
 							type = "range",
-							name = L["yOffset"],
+							name = L["Y-Offset"],
 							min = -75, max = 75, step = 1
 						},
 						style = {
@@ -787,16 +789,7 @@ local function UpdateFilterGroup()
 						order = 1,
 						type = "select",
 						name = L["Anchor Point"],
-						values = {
-							["TOPLEFT"] = "TOPLEFT",
-							["TOPRIGHT"] = "TOPRIGHT",
-							["BOTTOMLEFT"] = "BOTTOMLEFT",
-							["BOTTOMRIGHT"] = "BOTTOMRIGHT",
-							["LEFT"] = "LEFT",
-							["RIGHT"] = "RIGHT",
-							["TOP"] = "TOP",
-							["BOTTOM"] = "BOTTOM"
-						}
+						values = positionValues
 					},
 					sizeOverride = {
 						order = 2,
@@ -807,13 +800,13 @@ local function UpdateFilterGroup()
 					xOffset = {
 						order = 3,
 						type = "range",
-						name = L["xOffset"],
+						name = L["X-Offset"],
 						min = -75, max = 75, step = 1
 					},
 					yOffset = {
 						order = 4,
 						type = "range",
-						name = L["yOffset"],
+						name = L["Y-Offset"],
 						min = -75, max = 75, step = 1
 					},
 					style = {
@@ -1046,16 +1039,7 @@ local function UpdateFilterGroup()
 						order = 1,
 						type = "select",
 						name = L["Anchor Point"],
-						values = {
-							["TOPLEFT"] = "TOPLEFT",
-							["TOPRIGHT"] = "TOPRIGHT",
-							["BOTTOMLEFT"] = "BOTTOMLEFT",
-							["BOTTOMRIGHT"] = "BOTTOMRIGHT",
-							["LEFT"] = "LEFT",
-							["RIGHT"] = "RIGHT",
-							["TOP"] = "TOP",
-							["BOTTOM"] = "BOTTOM"
-						}
+						values = positionValues
 					},
 					sizeOverride = {
 						order = 2,
@@ -1066,13 +1050,13 @@ local function UpdateFilterGroup()
 					xOffset = {
 						order = 3,
 						type = "range",
-						name = L["xOffset"],
+						name = L["X-Offset"],
 						min = -75, max = 75, step = 1
 					},
 					yOffset = {
 						order = 4,
 						type = "range",
-						name = L["yOffset"],
+						name = L["Y-Offset"],
 						min = -75, max = 75, step = 1
 					},
 					style = {

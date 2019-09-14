@@ -14,8 +14,7 @@ local NUM_GROUP_LOOT_FRAMES = NUM_GROUP_LOOT_FRAMES
 local LOOT, ITEMS = LOOT, ITEMS
 
 local function LoadSkin()
-	if E.private.general.loot then return end
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.loot ~= true then return end
+	if E.private.general.loot or E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.loot ~= true then return end
 
 	local LootFrame = _G["LootFrame"]
 	LootFrame:StripTextures()
@@ -94,6 +93,11 @@ local function LoadSkin()
 		nameFrame:Hide()
 	end
 
+	local QuestColors = {
+		questStarter = {E.db.bags.colors.items.questStarter.r, E.db.bags.colors.items.questStarter.g, E.db.bags.colors.items.questStarter.b},
+		questItem =	{E.db.bags.colors.items.questItem.r, E.db.bags.colors.items.questItem.g, E.db.bags.colors.items.questItem.b}
+	}
+
 	hooksecurefunc("LootFrame_UpdateButton", function(index)
 		local numLootItems = LootFrame.numLootItems
 		local numLootToShow = LOOTFRAME_NUMBUTTONS
@@ -113,10 +117,10 @@ local function LoadSkin()
 					questTexture:Hide()
 
 					if questId and not isActive then
-						button.backdrop:SetBackdropBorderColor(1.0, 1.0, 0.0)
+						button.backdrop:SetBackdropBorderColor(unpack(QuestColors.questStarter))
 						questTexture:Show()
 					elseif questId or isQuestItem then
-						button.backdrop:SetBackdropBorderColor(1.0, 0.3, 0.3)
+						button.backdrop:SetBackdropBorderColor(unpack(QuestColors.questItem))
 					elseif quality then
 						button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
 					else

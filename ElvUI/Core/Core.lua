@@ -1,33 +1,6 @@
 ﻿local ElvUI = select(2, ...)
-
-local gameLocale
-do -- Locale doesn't exist yet, make it exist.
-	local convert = {["enGB"] = "enUS", ["esES"] = "esMX", ["itIT"] = "enUS"}
-	local lang = GetLocale()
-
-	gameLocale = convert[lang] or lang or "enUS"
-	ElvUI[2] = ElvUI[1].Libs.ACL:GetLocale("ElvUI", gameLocale)
-end
-
-local E, L, V, P, G = unpack(ElvUI)
-
-local ActionBars = E:GetModule("ActionBars")
-local AFK = E:GetModule("AFK")
-local Auras = E:GetModule("Auras")
-local Bags = E:GetModule("Bags")
-local Blizzard = E:GetModule("Blizzard")
-local Chat = E:GetModule("Chat")
-local DataBars = E:GetModule("DataBars")
-local DataTexts = E:GetModule("DataTexts")
-local Layout = E:GetModule("Layout")
-local Minimap = E:GetModule("Minimap")
-local NamePlates = E:GetModule("NamePlates")
-local Threat = E:GetModule("Threat")
-local Tooltip = E:GetModule("Tooltip")
-local Totems = E:GetModule("Totems")
-local ReminderBuffs = E:GetModule("ReminderBuffs")
-local UnitFrames = E:GetModule("UnitFrames")
-	
+ElvUI[2] = ElvUI[1].Libs.ACL:GetLocale("ElvUI", ElvUI[1]:GetLocale()) -- Locale doesn't exist yet, make it exist.
+local E, L, V, P, G = unpack(ElvUI)	
 local LSM = E.Libs.LSM
 
 local _G = _G
@@ -48,6 +21,24 @@ local InCombatLockdown = InCombatLockdown
 local ERR_NOT_IN_COMBAT = ERR_NOT_IN_COMBAT
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
+--Modules
+local ActionBars = E:GetModule("ActionBars")
+local AFK = E:GetModule("AFK")
+local Auras = E:GetModule("Auras")
+local Bags = E:GetModule("Bags")
+local Blizzard = E:GetModule("Blizzard")
+local Chat = E:GetModule("Chat")
+local DataBars = E:GetModule("DataBars")
+local DataTexts = E:GetModule("DataTexts")
+local Layout = E:GetModule("Layout")
+local Minimap = E:GetModule("Minimap")
+local NamePlates = E:GetModule("NamePlates")
+local Threat = E:GetModule("Threat")
+local Tooltip = E:GetModule("Tooltip")
+local Totems = E:GetModule("Totems")
+local ReminderBuffs = E:GetModule("ReminderBuffs")
+local UnitFrames = E:GetModule("UnitFrames")
+
 --Constants
 E.noop = function() end
 E.title = format("|cffff7000E|r|cffe5e3e3lvUI|r")
@@ -63,6 +54,7 @@ E.wowbuild = tonumber(E.wowbuild)
 E.resolution = GetCVar("gxResolution")
 E.screenwidth, E.screenheight = tonumber(match(E.resolution, "(%d+)x+%d")), tonumber(match(E.resolution, "%d+x(%d+)"))
 E.isMacClient = IsMacClient()
+E.InfoColor = "|cfffe7b2c"
 
 --Tables
 E.media = {}
@@ -766,7 +758,13 @@ do
 				local msg, ver = tonumber(message), tonumber(E.version)
 				local inCombat = InCombatLockdown()
 
-				if msg and (msg > ver) then -- you're outdated D:
+				if ver ~= G.general.version then
+					if not E.shownUpdatedWhileRunningPopup and not inCombat then
+						E:StaticPopup_Show("ELVUI_UPDATED_WHILE_RUNNING", nil, nil, {mismatch = ver > G.general.version})
+
+						E.shownUpdatedWhileRunningPopup = true
+					end
+				elseif msg and (msg > ver) then -- you're outdated D:
 					if not E.recievedOutOfDateMessage then
 						E:Print(L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm"])
 
@@ -795,6 +793,8 @@ do
 			end
 		end
 	end
+
+	RegisterAddonMessagePrefix("ELVUI_VERSIONCHK")
 
 	local f = CreateFrame("Frame")
 	f:RegisterEvent("CHAT_MSG_ADDON")
@@ -1018,10 +1018,6 @@ end
 function E:ResetAllUI()
 	self:ResetMovers()
 
-	if E.db.lowresolutionset then
-		E:SetupResolution(true)
-	end
-
 	if E.db.layoutSet then
 		E:SetupLayout(E.db.layoutSet, true)
 	end
@@ -1088,10 +1084,6 @@ function E:DBConversions()
 	--Not sure how this one happens, but prevent it in any case
 	if E.global.general.UIScale <= 0 then
 		E.global.general.UIScale = G.general.UIScale
-	end
-
-	if gameLocale and E.global.general.locale == "auto" then
-		E.global.general.locale = gameLocale
 	end
 
 	--Combat & Resting Icon options update

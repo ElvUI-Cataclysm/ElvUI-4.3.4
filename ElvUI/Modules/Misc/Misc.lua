@@ -39,7 +39,7 @@ local ERR_NOT_ENOUGH_MONEY = ERR_NOT_ENOUGH_MONEY
 local ERR_GUILD_NOT_ENOUGH_MONEY = ERR_GUILD_NOT_ENOUGH_MONEY
 local MAX_PARTY_MEMBERS = MAX_PARTY_MEMBERS
 
-local interruptMsg = INTERRUPTED.." %s's \124cff71d5ff\124Hspell:%d\124h[%s]\124h\124r!"
+local INTERRUPT_MSG = INTERRUPTED.." %s's \124cff71d5ff\124Hspell:%d\124h[%s]\124h\124r!"
 
 function M:ErrorFrameToggle(event)
 	if not E.db.general.hideErrorFrame then return end
@@ -55,28 +55,30 @@ function M:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, _, sourceGUID, _, _, _, _, d
 	if E.db.general.interruptAnnounce == "NONE" then return end
 	if not (event == "SPELL_INTERRUPT" and (sourceGUID == E.myguid or sourceGUID == UnitGUID("pet"))) then return end
 
-	if E.db.general.interruptAnnounce == "SAY" then
-		SendChatMessage(format(interruptMsg, destName, spellID, spellName), "SAY")
-	elseif E.db.general.interruptAnnounce == "EMOTE" then
-		SendChatMessage(format(interruptMsg, destName, spellID, spellName), "EMOTE")
+	local interruptAnnounce, msg = E.db.general.interruptAnnounce, format(INTERRUPT_MSG, destName, spellID, spellName)
+
+	if interruptAnnounce == "SAY" then
+		SendChatMessage(msg, "SAY")
+	elseif interruptAnnounce == "EMOTE" then
+		SendChatMessage(msg, "EMOTE")
 	else
 		local party, raid = GetNumPartyMembers(), GetNumRaidMembers()
 		local _, instanceType = IsInInstance()
 		local battleground = instanceType == "pvp"
 
-		if E.db.general.interruptAnnounce == "PARTY" then
+		if interruptAnnounce == "PARTY" then
 			if party > 0 then
-				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY")
+				SendChatMessage(msg, battleground and "BATTLEGROUND" or "PARTY")
 			end
-		elseif E.db.general.interruptAnnounce == "RAID" then
+		elseif interruptAnnounce == "RAID" then
 			if raid > 0 then
-				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID")
+				SendChatMessage(msg, battleground and "BATTLEGROUND" or "RAID")
 			elseif party > 0 then
-				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "PARTY")
+				SendChatMessage(msg, battleground and "BATTLEGROUND" or "PARTY")
 			end
-		elseif E.db.general.interruptAnnounce == "RAID_ONLY" then
+		elseif interruptAnnounce == "RAID_ONLY" then
 			if raid > 0 then
-				SendChatMessage(format(interruptMsg, destName, spellID, spellName), battleground and "BATTLEGROUND" or "RAID")
+				SendChatMessage(msg, battleground and "BATTLEGROUND" or "RAID")
 			end
 		end
 	end
@@ -89,7 +91,7 @@ do -- Auto Repair Functions
 
 		if POSS and COST > 0 then
 			--This check evaluates to true even if the guild bank has 0 gold, so we add an override
-			if TYPE == "GUILD" and (playerOverride or (not CanGuildBankRepair() or COST > GetGuildBankWithdrawMoney())) then
+			if IsInGuild() and TYPE == "GUILD" and (playerOverride or (not CanGuildBankRepair() or COST > GetGuildBankWithdrawMoney())) then
 				TYPE = "PLAYER"
 			end
 

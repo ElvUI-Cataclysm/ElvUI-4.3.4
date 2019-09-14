@@ -15,7 +15,6 @@ local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.mail ~= true then return end
 
 	-- Inbox Frame
-	local MailFrame = _G["MailFrame"]
 	MailFrame:StripTextures(true)
 	MailFrame:CreateBackdrop("Transparent")
 	MailFrame.backdrop:Point("TOPLEFT", 4, 0)
@@ -37,24 +36,29 @@ local function LoadSkin()
 		local mail = _G["MailItem"..i]
 		local button = _G["MailItem"..i.."Button"]
 		local icon = _G["MailItem"..i.."ButtonIcon"]
+		local expire = _G["MailItem"..i.."ExpireTime"]
 
 		mail:StripTextures()
-		mail:CreateBackdrop("Default")
-		mail.backdrop:Point("TOPLEFT", 42, -2)
-		mail.backdrop:Point("BOTTOMRIGHT", -2, 6)
-
-		mail.bg = CreateFrame("Frame", nil, mail)
-		mail.bg:SetTemplate("Default", true)
-		mail.bg:Point("TOPLEFT", -2, -2)
-		mail.bg:Point("BOTTOMRIGHT", -270, 6)
-		mail.bg:SetFrameLevel(mail.bg:GetFrameLevel() - 2)
+		mail:CreateBackdrop("Transparent")
+		mail.backdrop:SetParent(button)
+		mail.backdrop:ClearAllPoints()
+		mail.backdrop:Point("TOPLEFT", mail, 42, -2)
+		mail.backdrop:Point("BOTTOMRIGHT", mail, 4, 7)
+		mail.backdrop:SetFrameLevel(mail:GetFrameLevel() - 1)
 
 		button:StripTextures()
+		button:CreateBackdrop()
+		button:Point("TOPLEFT", 2, -3)
+		button:Size(34)
 		button:StyleButton()
-		button:SetAllPoints(mail.bg)
+		button.hover:SetAllPoints()
 
 		icon:SetTexCoord(unpack(E.TexCoords))
-		icon:SetInside(mail.bg)
+		icon:SetInside(button.backdrop)
+
+		if expire then
+			expire:Point("TOPRIGHT", mail, "TOPRIGHT", 4, -3)
+		end
 	end
 
 	hooksecurefunc("InboxFrame_Update", function()
@@ -62,7 +66,7 @@ local function LoadSkin()
 		local index = ((InboxFrame.pageNum - 1) * INBOXITEMS_TO_DISPLAY) + 1
 
 		for i = 1, INBOXITEMS_TO_DISPLAY do
-			local mail = _G["MailItem"..i]
+			local button = _G["MailItem"..i.."Button"]
 
 			if index <= numItems then
 				local packageIcon, _, _, _, _, _, _, _, _, _, _, _, isGM = GetInboxHeaderInfo(index)
@@ -74,34 +78,42 @@ local function LoadSkin()
 						local quality = select(3, GetItemInfo(ItemLink))
 
 						if quality then
-							mail.bg:SetBackdropBorderColor(GetItemQualityColor(quality))
+							button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
 						else
-							mail.bg:SetBackdropBorderColor(unpack(E.media.bordercolor))
+							button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 						end
 					end
 				elseif isGM then
-					mail.bg:SetBackdropBorderColor(0, 0.56, 0.94)
+					button.backdrop:SetBackdropBorderColor(0, 0.56, 0.94)
 				else
-					mail.bg:SetBackdropBorderColor(unpack(E.media.bordercolor))
+					button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				end
 			else
-				mail.bg:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end
 
 			index = index + 1
 		end
 	end)
 
-	S:HandleNextPrevButton(InboxPrevPageButton)
-	InboxPrevPageButton:Size(24)
-	InboxPrevPageButton:Point("CENTER", InboxFrame, "BOTTOMLEFT", 38, 104) 
+	InboxTitleText:ClearAllPoints()
+	InboxTitleText:Point("TOP", InboxFrame, "TOP", 0, -5)
 
-	S:HandleNextPrevButton(InboxNextPageButton)
-	InboxNextPageButton:Size(24)
-	InboxNextPageButton:Point("CENTER", InboxFrame, "BOTTOMLEFT", 319, 104) 
+	SendMailTitleText:ClearAllPoints()
+	SendMailTitleText:Point("TOP", SendMailFrame, "TOP", 0, -5)
 
-	S:HandleCloseButton(InboxCloseButton)
-	InboxCloseButton:Point("CENTER", MailFrame, "TOPRIGHT", -40, -13)
+	InboxTooMuchMail:ClearAllPoints()
+	InboxTooMuchMail:Point("TOP", SendMailFrame, "TOP", -10, -30)
+
+	S:HandleNextPrevButton(InboxPrevPageButton, nil, nil, true)
+	InboxPrevPageButton:Size(32)
+	InboxPrevPageButton:Point("CENTER", InboxFrame, "BOTTOMLEFT", 36, 104)
+
+	S:HandleNextPrevButton(InboxNextPageButton, nil, nil, true)
+	InboxNextPageButton:Size(32)
+	InboxNextPageButton:Point("CENTER", InboxFrame, "BOTTOMLEFT", 328, 104)
+
+	S:HandleCloseButton(InboxCloseButton, MailFrame.backdrop)
 
 	for i = 1, 2 do
 		local tab = _G["MailFrameTab"..i]
@@ -170,6 +182,9 @@ local function LoadSkin()
 
 	S:HandleButton(SendMailCancelButton)
 	SendMailCancelButton:Point("BOTTOMRIGHT", -45, 80)
+
+	S:HandleRadioButton(SendMailSendMoneyButton)
+	S:HandleRadioButton(SendMailCODButton)
 
 	SendMailMoneyFrame:Point("BOTTOMLEFT", 170, 84)
 

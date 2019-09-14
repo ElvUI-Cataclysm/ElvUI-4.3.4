@@ -11,17 +11,25 @@ local hooksecurefunc = hooksecurefunc
 local function SkinGuildRanks()
 	for i = 1, GuildControlGetNumRanks() do
 		local rankFrame = _G["GuildControlUIRankOrderFrameRank"..i]
-		if rankFrame then
-			if not rankFrame.nameBox.backdrop then
-				S:HandleButton(rankFrame.downButton)
-				S:HandleButton(rankFrame.upButton)
-				S:HandleButton(rankFrame.deleteButton)
-				S:HandleEditBox(rankFrame.nameBox)
-			end
+		local deleteIcon = _G["GuildControlUIRankOrderFrameRank"..i.."DeleteButtonIcon"]
 
+		if rankFrame and not rankFrame.isSkinned then
+			S:HandleNextPrevButton(rankFrame.downButton)
+			rankFrame.downButton:Size(26)
+
+			S:HandleNextPrevButton(rankFrame.upButton)
+			rankFrame.upButton:Size(26)
+
+			S:HandleButton(rankFrame.deleteButton)
+			deleteIcon:SetTexture(E.Media.Textures.Close)
+			deleteIcon:SetTexCoord(0, 1, 0, 1)
+
+			S:HandleEditBox(rankFrame.nameBox)
 			rankFrame.nameBox.backdrop:ClearAllPoints()
 			rankFrame.nameBox.backdrop:Point("TOPLEFT", -2, -4)
 			rankFrame.nameBox.backdrop:Point("BOTTOMRIGHT", -4, 4)
+
+			rankFrame.isSkinned = true
 		end
 	end
 end

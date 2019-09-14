@@ -3,7 +3,7 @@ local C, L = unpack(select(2, ...))
 local TT = E:GetModule("Tooltip")
 
 local _G = _G
-local tonumber, tostring = tonumber, tostring
+local tonumber = tonumber
 
 local GameTooltipStatusBar = _G["GameTooltipStatusBar"]
 
@@ -74,38 +74,49 @@ E.Options.args.tooltip = {
 					name = L["Target Info"],
 					desc = L["When in a raid group display if anyone in your raid is targeting the current tooltip unit."]
 				},
-				playerTitles = {
+				alwaysShowRealm = {
 					order = 7,
+					type = "toggle",
+					name = L["Always Show Realm"]
+				},
+				playerTitles = {
+					order = 8,
 					type = "toggle",
 					name = L["Player Titles"],
 					desc = L["Display player titles."]
 				},
 				guildRanks = {
-					order = 8,
+					order = 9,
 					type = "toggle",
 					name = L["Guild Ranks"],
 					desc = L["Display guild ranks if a unit is guilded."]
 				},
 				inspectInfo = {
-					order = 9,
+					order = 10,
 					type = "toggle",
 					name = L["Inspect Info"],
 					desc = L["Display the players talent spec and item level in the tooltip, this may not immediately update when mousing over a unit."]
 				},
 				spellID = {
-					order = 10,
+					order = 11,
 					type = "toggle",
 					name = L["Spell/Item IDs"],
 					desc = L["Display the spell or item ID when mousing over a spell or item tooltip."]
 				},
+				npcID = {
+					order = 12,
+					type = "toggle",
+					name = L["NPC IDs"],
+					desc = L["Display the npc ID when mousing over a npc tooltip."]
+				},
 				role = {
-					order = 11,
+					order = 13,
 					type = "toggle",
 					name = L["ROLE"],
 					desc = L["Display the unit role in the tooltip."]
 				},
 				itemCount = {
-					order = 12,
+					order = 14,
 					type = "select",
 					name = L["Item Count"],
 					desc = L["Display how many of a certain item you have in your possession."],
@@ -117,14 +128,14 @@ E.Options.args.tooltip = {
 					}
 				},
 				colorAlpha = {
-					order = 13,
+					order = 15,
 					type = "range",
 					name = L["OPACITY"],
 					isPercent = true,
 					min = 0, max = 1, step = 0.01,
 				},
 				fontGroup = {
-					order = 14,
+					order = 16,
 					type = "group",
 					guiInline = true,
 					name = L["Tooltip Font Settings"],
@@ -178,7 +189,7 @@ E.Options.args.tooltip = {
 					}
 				},
 				factionColors = {
-					order = 15,
+					order = 17,
 					type = "group",
 					name = L["Custom Faction Colors"],
 					guiInline = true,
@@ -192,12 +203,14 @@ E.Options.args.tooltip = {
 						}
 					},
 					get = function(info)
-						local t = E.db.tooltip.factionColors[tonumber(info[#info])]
-						local d = P.tooltip.factionColors[tonumber(info[#info])]
+						local v = tonumber(info[#info])
+						local t = E.db.tooltip.factionColors[v]
+						local d = P.tooltip.factionColors[v]
 						return t.r, t.g, t.b, t.a, d.r, d.g, d.b
 					end,
 					set = function(info, r, g, b)
-						local t = E.db.tooltip.factionColors[tonumber(info[#info])]
+						local v = tonumber(info[#info])
+						local t = E.db.tooltip.factionColors[v]
 						t.r, t.g, t.b = r, g, b
 					end
 				}
@@ -255,14 +268,19 @@ E.Options.args.tooltip = {
 						["CTRL"] = L["CTRL_KEY"]
 					}
 				},
-				combat = {
+				spacer = {
 					order = 5,
+					type = "description",
+					name = ""
+				},
+				combat = {
+					order = 6,
 					type = "toggle",
 					name = L["Hide In Combat"],
 					desc = L["Hide tooltip while in combat."]
 				},
 				combatOverride = {
-					order = 6,
+					order = 7,
 					type = "select",
 					name = L["Combat Override Key"],
 					desc = L["Choose when you want the tooltip to show in combat. If a modifer is chosen, then you need to hold that down to show the tooltip."],
@@ -309,10 +327,22 @@ E.Options.args.tooltip = {
 					order = 4,
 					type = "toggle",
 					name = L["Text"],
-					set = function(info, value) E.db.tooltip.healthBar.text = value if value then GameTooltipStatusBar.text:Show() else GameTooltipStatusBar.text:Hide() end  end,
+					set = function(info, value)
+						E.db.tooltip.healthBar.text = value
+						if value then
+							GameTooltipStatusBar.text:Show()
+						else
+							GameTooltipStatusBar.text:Hide()
+						end 
+					end
+				},
+				spacer = {
+					order = 5,
+					type = "description",
+					name = ""
 				},
 				font = {
-					order = 5,
+					order = 6,
 					type = "select", dialogControl = "LSM30_Font",
 					name = L["Font"],
 					values = AceGUIWidgetLSMlists.font,
@@ -323,7 +353,7 @@ E.Options.args.tooltip = {
 					disabled = function() return not E.db.tooltip.healthBar.text end,
 				},
 				fontSize = {
-					order = 6,
+					order = 7,
 					type = "range",
 					name = L["FONT_SIZE"],
 					min = 4, max = 33, step = 1,
@@ -334,7 +364,7 @@ E.Options.args.tooltip = {
 					disabled = function() return not E.db.tooltip.healthBar.text end,
 				},
 				fontOutline = {
-					order = 7,
+					order = 8,
 					type = "select",
 					name = L["Font Outline"],
 					values = C.Values.FontFlags,
@@ -350,11 +380,11 @@ E.Options.args.tooltip = {
 }
 
 for i = 1, 8 do
-	E.Options.args.tooltip.args.general.args.factionColors.args[tostring(i)] = {
+	E.Options.args.tooltip.args.general.args.factionColors.args[""..i] = {
 		order = i,
 		type = "color",
 		hasAlpha = false,
-		name = _G["FACTION_STANDING_LABEL"..i],
+		name = L["FACTION_STANDING_LABEL"..i],
 		disabled = function() return not E.Tooltip.Initialized or not E.db.tooltip.useCustomFactionColors end
 	}
 end

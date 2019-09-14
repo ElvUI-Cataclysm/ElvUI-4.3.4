@@ -48,10 +48,10 @@ L["Binds Saved"] = "Ligações Salvas"
 L["BNet Frame"] = "Quadro do Bnet"
 L["Boss Button"] = "Botão de Chefe"
 L["Boss Frames"] = "Quadros dos Chefes"
-L["Calendar"] = "Calendário"
 L["Can't Roll"] = "Não pode rolar"
 L["Can't buy anymore slots!"] = "Não é possível comprar mais espaços!"
 L["Caster DPS"] = "DPS Lançador"
+L["Change Talent Specialization"] = "Altera Especialização de Talento"
 L["Character: "] = "Personagem: "
 L["Chat Set"] = "Bate-Papo configurado"
 L["Chat"] = "Bate-papo"
@@ -91,6 +91,7 @@ L["ElvUI is five or more revisions out of date. You can download the newest vers
 L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm"] = true
 L["ElvUI needs to perform database optimizations please be patient."] = true
 L["ElvUI Plugin Installation"] = true
+L["ElvUI was updated while the game is still running. Please relaunch the game, as this is required for the files to be properly updated."] = true
 L["Empty Slot"] = true
 L["Enable"] = "Ativar"
 L["Error resetting UnitFrame."] = true
@@ -171,7 +172,6 @@ L["MT Frames"] = "Quadro do Tank Principal"
 L["No bindings set."] = "Sem atalhos definidos"
 L["No gray items to delete."] = "Nenhum item cinzento para destruir."
 L["No Guild"] = "Sem Guilda"
-L["No locals to dump"] = "Sem locais para despejar"
 L["No, Revert Changes!"] = true
 L["Nudge"] = "Ajuste fino"
 L["O"] = "O"
@@ -233,6 +233,7 @@ L["Session:"] = "Sessão:"
 L["Setup CVars"] = "Configurar CVars"
 L["Setup Chat"] = "Configurar Bate-papo"
 L["Show BG Texts"] = "Mostrar Textos do CB"
+L["Show Talent Specialization UI"] = true
 L["silverabbrev"] = "|cffc7c7cfs|r"
 L["Skip Process"] = "Pular Processo"
 L["Sort Bags"] = "Organizar Bolsas"
@@ -246,7 +247,6 @@ L["Steps"] = true
 L["Sticky Frames"] = "Quadros Pegadiços"
 L["System"] = true
 L["Talent Specialization"] = true
-L["Talent Specialization:"] = true
 L["Tank / Physical DPS"] = true
 L["Target Castbar"] = "Barra de lançamento do Alvo"
 L["Target Frame"] = "Quadro do Alvo"
@@ -312,12 +312,8 @@ L["Your items have been repaired for: "] = "Seus itens foram reparadas por: "
 L["Your items have been repaired using guild bank funds for: "] = "Seus itens foram reparados usando fundos do banco da guilda por: "
 L["Your profile was successfully recieved by the player."] = "Seu perfil foi recebido com sucesso pelo jogador."
 L["|cFFE30000Lua error recieved. You can view the error message when you exit combat."] = "|cFFE30000Erro Lua recebido. Pode ver a mensagem de erro quando sair de combate"
-L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFFClique Esquerdo:|r Altera Especialização de Talento"
-L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = true
 
 ----------------------------------
-L["RED_ENABLE"] = "|cFFff3333Ativar|r"
-L["GREEN_ENABLE"] = "|cFF33ff33Ativar|r"
 L["DESC_MOVERCONFIG"] = [=[Movedores destravados. Mova-os agora e clique Travar quando acabar.
 
 Options:

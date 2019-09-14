@@ -136,47 +136,28 @@ function LO:ToggleChatTabPanels(rightOverride, leftOverride)
 end
 
 function LO:SetChatTabStyle()
-	if E.db.chat.panelTabTransparency then
-		LeftChatTab:SetTemplate("Transparent")
-		RightChatTab:SetTemplate("Transparent")
-	else
-		LeftChatTab:SetTemplate("Default", true)
-		RightChatTab:SetTemplate("Default", true)
-	end
+	local tabStyle = (E.db.chat.panelTabTransparency and "Transparent") or "Default"
+	local glossTex = (not tabStyle and true) or nil
+
+	LeftChatTab:SetTemplate(tabStyle, glossTex)
+	RightChatTab:SetTemplate(tabStyle, glossTex)
 end
 
 function LO:SetDataPanelStyle()
-	if E.db.datatexts.panelTransparency then
-		if not E.db.datatexts.panelBackdrop then
-			LeftChatDataPanel:SetTemplate("NoBackdrop")
-			LeftChatToggleButton:SetTemplate("NoBackdrop")
-			RightChatDataPanel:SetTemplate("NoBackdrop")
-			RightChatToggleButton:SetTemplate("NoBackdrop")
-		else
-			LeftChatDataPanel:SetTemplate("Transparent")
-			LeftChatToggleButton:SetTemplate("Transparent")
-			RightChatDataPanel:SetTemplate("Transparent")
-			RightChatToggleButton:SetTemplate("Transparent")
-		end
-		LeftMiniPanel:SetTemplate("Transparent")
-		RightMiniPanel:SetTemplate("Transparent")
-		ElvConfigToggle:SetTemplate("Transparent")
-	else
-		if not E.db.datatexts.panelBackdrop then
-			LeftChatDataPanel:SetTemplate("NoBackdrop")
-			LeftChatToggleButton:SetTemplate("NoBackdrop")
-			RightChatDataPanel:SetTemplate("NoBackdrop")
-			RightChatToggleButton:SetTemplate("NoBackdrop")
-		else
-			LeftChatDataPanel:SetTemplate("Default", true)
-			LeftChatToggleButton:SetTemplate("Default", true)
-			RightChatDataPanel:SetTemplate("Default", true)
-			RightChatToggleButton:SetTemplate("Default", true)
-		end
-		RightMiniPanel:SetTemplate("Default", true)
-		LeftMiniPanel:SetTemplate("Default", true)
-		ElvConfigToggle:SetTemplate("Default", true)
-	end
+	local miniStyle = E.db.datatexts.panelTransparency and "Transparent" or "Default"
+	local panelStyle = (not E.db.datatexts.panelBackdrop) and "NoBackdrop" or miniStyle
+
+	local panelGlossTex = (panelStyle and true) or nil
+	local miniGlossTex = (miniStyle and nil) or true
+
+	LeftChatDataPanel:SetTemplate(panelStyle, panelGlossTex)
+	LeftChatToggleButton:SetTemplate(panelStyle, panelGlossTex)
+	RightChatDataPanel:SetTemplate(panelStyle, panelGlossTex)
+	RightChatToggleButton:SetTemplate(panelStyle, panelGlossTex)
+
+	LeftMiniPanel:SetTemplate(miniStyle, miniGlossTex)
+	RightMiniPanel:SetTemplate(miniStyle, miniGlossTex)
+	ElvConfigToggle:SetTemplate(miniStyle, miniGlossTex)
 end
 
 function LO:RepositionChatDataPanels()
@@ -317,7 +298,7 @@ function LO:CreateChatPanels()
 	lchattab:Point("TOPRIGHT", lchat, "TOPRIGHT", -SPACING, -SPACING)
 	lchattab:Point("BOTTOMRIGHT", lchat, "TOPRIGHT", -SPACING, -(SPACING + PANEL_HEIGHT))
 	lchattab:Point("BOTTOMLEFT", lchat, "TOPLEFT", SPACING, -(SPACING + PANEL_HEIGHT))
-	lchattab:SetTemplate(E.db.chat.panelTabTransparency == true and "Transparent" or "Default", true)
+	lchattab:SetTemplate(E.db.chat.panelTabTransparency and "Transparent" or "Default", true)
 
 	--Left Chat Data Panel
 	local lchatdp = CreateFrame("Frame", "LeftChatDataPanel", LeftChatPanel)
@@ -371,7 +352,7 @@ function LO:CreateChatPanels()
 	rchattab:Point("TOPLEFT", rchat, "TOPLEFT", SPACING, -SPACING)
 	rchattab:Point("BOTTOMLEFT", rchat, "TOPLEFT", SPACING, -(SPACING + PANEL_HEIGHT))
 	rchattab:Point("BOTTOMRIGHT", rchat, "TOPRIGHT", -SPACING, -(SPACING + PANEL_HEIGHT))
-	rchattab:SetTemplate(E.db.chat.panelTabTransparency == true and "Transparent" or "Default", true)
+	rchattab:SetTemplate(E.db.chat.panelTabTransparency and "Transparent" or "Default", true)
 
 	--Right Chat Data Panel
 	local rchatdp = CreateFrame("Frame", "RightChatDataPanel", RightChatPanel)

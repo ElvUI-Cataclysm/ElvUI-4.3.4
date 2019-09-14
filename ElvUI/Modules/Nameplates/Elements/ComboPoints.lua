@@ -8,8 +8,7 @@ local GetComboPoints = GetComboPoints
 local MAX_COMBO_POINTS = MAX_COMBO_POINTS
 
 function NP:UpdateElement_CPoints(frame)
-	if not frame.UnitType then return end
-	if frame.UnitType == "FRIENDLY_PLAYER" or frame.UnitType == "FRIENDLY_NPC" then return end
+	if not frame.UnitType or (frame.UnitType == "FRIENDLY_PLAYER" or frame.UnitType == "FRIENDLY_NPC") then return end
 	if self.db.units[frame.UnitType].comboPoints.enable ~= true then return end
 
 	local numPoints
@@ -32,8 +31,7 @@ function NP:UpdateElement_CPoints(frame)
 end
 
 function NP:ConfigureElement_CPoints(frame)
-	if not frame.UnitType then return end
-	if frame.UnitType == "FRIENDLY_PLAYER" or frame.UnitType == "FRIENDLY_NPC" then return end
+	if not frame.UnitType or (frame.UnitType == "FRIENDLY_PLAYER" or frame.UnitType == "FRIENDLY_NPC") then return end
 
 	local comboPoints = frame.CPoints
 	local healthShown = self.db.units[frame.UnitType].healthbar.enable or (frame.isTarget and self.db.alwaysShowTargetHealth)

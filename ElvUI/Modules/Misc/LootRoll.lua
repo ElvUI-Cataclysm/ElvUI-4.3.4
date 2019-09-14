@@ -36,6 +36,13 @@ local rollpairs = locale == "deDE" and {
 	["(.*) hat für (.+) 'Gier' ausgewählt"] = "greed",
 	["(.*) hat für (.+) 'Bedarf' ausgewählt"] = "need",
 	["(.*) hat für '(.+)' Entzauberung gewählt."] = "disenchant",
+} or locale == "zhCN" and {
+	["(.*)自动放弃了：(.+)，因为他无法拾取该物品$"] = "pass",
+	["(.*)自动放弃了：(.+)，因为她无法拾取该物品$"] = "pass",
+	["(.*)放弃了：(.+)"] = "pass",
+	["(.*)选择了贪婪取向：(.+)"] = "greed",
+	["(.*)选择了需求取向：(.+)"] = "need",
+	["(.*)选择了分解取向：(.+)"] = "disenchant",
 } or locale == "frFR" and {
 	["(.*) a passé pour : (.+) parce qu'((il)|(elle)) ne peut pas ramasser cette objet.$"] = "pass",
 	["(.*) a passé pour : (.+)"] = "pass",

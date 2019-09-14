@@ -226,28 +226,7 @@ local function LoadSkin()
 	end
 
 	-- Control Frame
-	CharacterModelFrameControlFrame:StripTextures()
-	CharacterModelFrameControlFrame:Size(123, 23)
-
-	local controlbuttons = {
-		"CharacterModelFrameControlFrameZoomInButton",
-		"CharacterModelFrameControlFrameZoomOutButton",
-		"CharacterModelFrameControlFramePanButton",
-		"CharacterModelFrameControlFrameRotateLeftButton",
-		"CharacterModelFrameControlFrameRotateRightButton",
-		"CharacterModelFrameControlFrameRotateResetButton"
-	}
-
-	for i = 1, #controlbuttons do
-		S:HandleButton(_G[controlbuttons[i]])
-		_G[controlbuttons[i].."Bg"]:Hide()
-	end
-
-	CharacterModelFrameControlFrameZoomOutButton:Point("LEFT", "CharacterModelFrameControlFrameZoomInButton", "RIGHT", 2, 0)
-	CharacterModelFrameControlFramePanButton:Point("LEFT", "CharacterModelFrameControlFrameZoomOutButton", "RIGHT", 2, 0)
-	CharacterModelFrameControlFrameRotateLeftButton:Point("LEFT", "CharacterModelFrameControlFramePanButton", "RIGHT", 2, 0)
-	CharacterModelFrameControlFrameRotateRightButton:Point("LEFT", "CharacterModelFrameControlFrameRotateLeftButton", "RIGHT", 2, 0)
-	CharacterModelFrameControlFrameRotateResetButton:Point("LEFT", "CharacterModelFrameControlFrameRotateRightButton", "RIGHT", 2, 0)
+	S:HandleModelControlFrame(CharacterModelFrameControlFrame)
 
 	-- Titles
 	PaperDollTitlesPane:HookScript("OnShow", function(self)
@@ -385,21 +364,21 @@ local function LoadSkin()
 		local factionButton = _G["ReputationBar"..i.."ExpandOrCollapseButton"]
 
 		factionRow:StripTextures(true)
-
 		factionBar:StripTextures()
 		factionBar:CreateBackdrop("Default")
 		factionBar:SetStatusBarTexture(E.media.normTex)
 		E:RegisterStatusBar(factionBar)
 
-		factionButton:SetNormalTexture(E.Media.Textures.PlusMinusButton)
+		factionButton:SetNormalTexture(E.Media.Textures.Minus)
 		factionButton.SetNormalTexture = E.noop
-		factionButton:GetNormalTexture():Size(14)
+		factionButton:GetNormalTexture():Size(16)
+		factionButton:GetNormalTexture():Point("LEFT", 4, 1)
 		factionButton:SetHighlightTexture(nil)
 
 		factionRow.War = factionRow:CreateTexture(nil, "OVERLAY")
 		factionRow.War:SetTexture("Interface\\Buttons\\UI-CheckBox-SwordCheck")
 		factionRow.War:Size(30)
-		factionRow.War:Point("RIGHT", 32, -7)
+		factionRow.War:Point("RIGHT", 32, -5)
 	end
 
 	local function UpdateFaction()
@@ -415,9 +394,9 @@ local function LoadSkin()
 				local _, _, _, _, _, _, atWarWith, canToggleAtWar, isHeader, isCollapsed = GetFactionInfo(factionIndex)
 
 				if isCollapsed then
-					Button:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+					Button:GetNormalTexture():SetTexture(E.Media.Textures.Plus)
 				else
-					Button:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+					Button:GetNormalTexture():SetTexture(E.Media.Textures.Minus)
 				end
 
 				if atWarWith and canToggleAtWar and (not isHeader) then
@@ -467,9 +446,10 @@ local function LoadSkin()
 
 				button.icon:SetTexCoord(unpack(E.TexCoords))
 
-				button.expandIcon:SetTexture(E.Media.Textures.PlusMinusButton)
-				button.expandIcon:Size(15)
-				button.expandIcon:Point("LEFT", 4, 0)
+				button.expandIcon:SetTexture(E.Media.Textures.Plus)
+				button.expandIcon:SetTexCoord(0, 1, 0, 1)
+				button.expandIcon:Size(16)
+				button.expandIcon:Point("LEFT", 4, 1)
 
 				button.isSkinned = true
 			end
@@ -477,10 +457,11 @@ local function LoadSkin()
 			if name or name == "" then
 				if isHeader then
 					if isExpanded then
-						button.expandIcon:SetTexCoord(0.540, 0.965, 0.085, 0.920)
+						button.expandIcon:SetTexture(E.Media.Textures.Minus)
 					else
-						button.expandIcon:SetTexCoord(0.040, 0.465, 0.085, 0.920)
+						button.expandIcon:SetTexture(E.Media.Textures.Plus)
 					end
+					button.expandIcon:SetTexCoord(0, 1, 0, 1)
 				end
 			end
 		end

@@ -1,10 +1,10 @@
 ﻿local E = unpack(ElvUI)
 local D = E:GetModule("Distributor")
 
-local _, Engine = ...
+local Engine = select(2, ...)
 
 Engine[1] = {}
-Engine[2] = E.Libs.ACL:GetLocale("ElvUI", E.global.general.locale or "enUS")
+Engine[2] = E.Libs.ACL:GetLocale("ElvUI", E.global.general.locale)
 
 local _G = _G
 local pairs = pairs
@@ -535,3 +535,10 @@ E.Options.args.profiles.plugins.ElvUI = {
 		func = function() ExportImport_Open("import") end
 	}
 }
+
+for i = 1, GetNumAddOns() do
+	local name, _, _, loadable, reason = GetAddOnInfo(i)
+	if name == "ElvUI_Config" and (loadable or (not loadable and reason == "DEMAND_LOADED")) then
+		E:StaticPopup_Show("ELVUI_CONFIG_FOUND")
+	end
+end

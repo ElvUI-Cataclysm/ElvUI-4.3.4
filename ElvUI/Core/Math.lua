@@ -17,7 +17,7 @@ E.ShortPrefixStyles = {
 	["METRIC"] = {{1e12, "T"}, {1e9, "G"}, {1e6, "M"}, {1e3, "k"}}
 }
 
-local gftStyles = {
+E.GetFormattedTextStyles = {
 	["CURRENT"] = "%s",
 	["CURRENT_MAX"] = "%s - %s",
 	["CURRENT_PERCENT"] = "%s - %.1f%%",
@@ -33,25 +33,31 @@ function E:BuildPrefixValues()
 	E.ShortValueDec = format("%%.%df", E.db.general.decimalLength or 1)
 
 	for _, style in ipairs(E.ShortPrefixValues) do
-		style[2] = E.ShortValueDec..style[2]
+		style[3] = E.ShortValueDec..style[2]
 	end
 
-	local gftDec = tostring(E.db.general.decimalLength or 1)
-	for style, str in pairs(gftStyles) do
-		gftStyles[style] = gsub(str, "%d", gftDec)
+	local dec = tostring(E.db.general.decimalLength or 1)
+	for style, str in pairs(E.GetFormattedTextStyles) do
+		E.GetFormattedTextStyles[style] = gsub(str, "%d", dec)
 	end
 end
 
 --Return short value of a number
-function E:ShortValue(v)
-	local abs_v = v < 0 and -v or v
+function E:ShortValue(value, dec)
+	local abs_value = value < 0 and -value or value
+	local decimal = dec and format("%%.%df", tonumber(dec) or 0)
+
 	for i = 1, #E.ShortPrefixValues do
-		if abs_v >= E.ShortPrefixValues[i][1] then
-			return format(E.ShortPrefixValues[i][2], v / E.ShortPrefixValues[i][1])
+		if abs_value >= E.ShortPrefixValues[i][1] then
+			if decimal then
+				return format(decimal..E.ShortPrefixValues[i][2], value / E.ShortPrefixValues[i][1])
+			else
+				return format(E.ShortPrefixValues[i][3], value / E.ShortPrefixValues[i][1])
+			end
 		end
 	end
 
-	return format("%.0f", v)
+	return format("%.0f", value)
 end
 
 function E:IsEvenNumber(num)
@@ -174,23 +180,32 @@ function E:GetXYOffset(position, override)
 	end
 end
 
-function E:GetFormattedText(style, min, max)
+function E:GetFormattedText(style, min, max, dec)
 	if max == 0 then max = 1 end
 
-	local gftUseStyle = gftStyles[style]
-	if style == "DEFICIT" then
-		local gftDeficit = max - min
-		return ((gftDeficit > 0) and format(gftUseStyle, E:ShortValue(gftDeficit))) or ""
-	elseif style == "PERCENT" then
-		return format(gftUseStyle, min / max * 100)
-	elseif style == "CURRENT" or ((style == "CURRENT_MAX" or style == "CURRENT_MAX_PERCENT" or style == "CURRENT_PERCENT") and min == max) then
-		return format(gftStyles.CURRENT, E:ShortValue(min))
-	elseif style == "CURRENT_MAX" then
-		return format(gftUseStyle, E:ShortValue(min), E:ShortValue(max))
-	elseif style == "CURRENT_PERCENT" then
-		return format(gftUseStyle, E:ShortValue(min), min / max * 100)
-	elseif style == "CURRENT_MAX_PERCENT" then
-		return format(gftUseStyle, E:ShortValue(min), E:ShortValue(max), min / max * 100)
+	if style == "CURRENT" or ((style == "CURRENT_MAX" or style == "CURRENT_MAX_PERCENT" or style == "CURRENT_PERCENT") and min == max) then
+		return format(E.GetFormattedTextStyles.CURRENT, E:ShortValue(min, dec))
+	else
+		local useStyle = E.GetFormattedTextStyles[style]
+		if not useStyle then return end
+
+		if style == "DEFICIT" then
+			local deficit = max - min
+			return (deficit > 0 and format(useStyle, E:ShortValue(deficit, dec))) or ""
+		elseif style == "CURRENT_MAX" then
+			return format(useStyle, E:ShortValue(min, dec), E:ShortValue(max, dec))
+		elseif style == "PERCENT" or style == "CURRENT_PERCENT" or style == "CURRENT_MAX_PERCENT" then
+			if dec then useStyle = gsub(useStyle, "%d", tonumber(dec) or 0) end
+			local perc = min / max * 100
+
+			if style == "PERCENT" then
+				return format(useStyle, perc)
+			elseif style == "CURRENT_PERCENT" then
+				return format(useStyle, E:ShortValue(min, dec), perc)
+			elseif style == "CURRENT_MAX_PERCENT" then
+				return format(useStyle, E:ShortValue(min, dec), E:ShortValue(max, dec), perc)
+			end
+		end
 	end
 end
 
@@ -295,7 +310,7 @@ E.TimeFormats = { -- short and long aura time formats
 
 local DAY, HOUR, MINUTE = 86400, 3600, 60 --used for calculating aura time text
 local DAYISH, HOURISH, MINUTEISH = HOUR * 23.5, MINUTE * 59.5, 59.5 --used for caclculating aura time at transition points
-local HALFDAYISH, HALFHOURISH, HALFMINUTEISH = DAY/2 + 0.5, HOUR/2 + 0.5, MINUTE/2 + 0.5 --used for calculating next update times
+local HALFDAYISH, HALFHOURISH, HALFMINUTEISH = DAY / 2 + 0.5, HOUR / 2 + 0.5, MINUTE / 2 + 0.5 --used for calculating next update times
 
 -- will return the the value to display, the formatter id to use and calculates the next update for the Aura
 function E:GetTimeInfo(s, threshhold, hhmm, mmss)
@@ -309,25 +324,25 @@ function E:GetTimeInfo(s, threshhold, hhmm, mmss)
 		if mmss and s < mmss then
 			return s/MINUTE, 5, 0.51, s%MINUTE
 		else
-			local minutes = floor((s/MINUTE)+.5)
+			local minutes = floor((s / MINUTE) + 0.5)
 			if hhmm and s < (hhmm * MINUTE) then
-				return s/HOUR, 6, minutes > 1 and (s - (minutes*MINUTE - HALFMINUTEISH)) or (s - MINUTEISH), minutes%MINUTE
+				return s / HOUR, 6, minutes > 1 and (s - (minutes * MINUTE - HALFMINUTEISH)) or (s - MINUTEISH), minutes%MINUTE
 			else
-				return ceil(s / MINUTE), 2, minutes > 1 and (s - (minutes*MINUTE - HALFMINUTEISH)) or (s - MINUTEISH)
+				return ceil(s / MINUTE), 2, minutes > 1 and (s - (minutes * MINUTE - HALFMINUTEISH)) or (s - MINUTEISH)
 			end
 		end
 	elseif s < DAY then
 		if mmss and s < mmss then
-			return s/MINUTE, 5, 0.51, s%MINUTE
+			return s / MINUTE, 5, 0.51, s%MINUTE
 		elseif hhmm and s < (hhmm * MINUTE) then
-			local minutes = floor((s/MINUTE)+.5)
-			return s/HOUR, 6, minutes > 1 and (s - (minutes*MINUTE - HALFMINUTEISH)) or (s - MINUTEISH), minutes%MINUTE
+			local minutes = floor((s / MINUTE) + 0.5)
+			return s / HOUR, 6, minutes > 1 and (s - (minutes * MINUTE - HALFMINUTEISH)) or (s - MINUTEISH), minutes%MINUTE
 		else
-			local hours = floor((s/HOUR)+.5)
-			return ceil(s / HOUR), 1, hours > 1 and (s - (hours*HOUR - HALFHOURISH)) or (s - HOURISH)
+			local hours = floor((s / HOUR) + 0.5)
+			return ceil(s / HOUR), 1, hours > 1 and (s - (hours * HOUR - HALFHOURISH)) or (s - HOURISH)
 		end
 	else
-		local days = floor((s/DAY)+.5)
+		local days = floor((s / DAY)+.5)
 		return ceil(s / DAY), 0, days > 1 and (s - (days*DAY - HALFDAYISH)) or (s - DAYISH)
 	end
 end

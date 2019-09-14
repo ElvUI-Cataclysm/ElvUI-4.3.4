@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
 local _G = _G
-local ipairs = ipairs
+local ipairs, pairs = ipairs, pairs
 local find = string.find
 
 local InCombatLockdown = InCombatLockdown
@@ -11,9 +11,9 @@ local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.BlizzardOptions ~= true then return end
 
 	-- Interface/Options Frame Enable Mouse Move
-	for _, frame in pairs({"InterfaceOptionsFrame", "VideoOptionsFrame"}) do
-		local Frame = _G[frame]
-
+	for _, Frame in pairs({InterfaceOptionsFrame, VideoOptionsFrame}) do
+		Frame:StripTextures()
+		Frame:CreateBackdrop("Transparent")
 		Frame:SetClampedToScreen(true)
 		Frame:SetMovable(true)
 		Frame:EnableMouse(true)
@@ -36,28 +36,374 @@ local function LoadSkin()
 		tab:StripTextures()
 	end
 
+	for frame, numItems in pairs({["InterfaceOptionsFrameCategoriesButton"] = 31, ["VideoOptionsFrameCategoryFrameButton"] = 23}) do
+		for i = 1, numItems do
+			local item = _G[frame..i]
+
+			item:SetHighlightTexture(E.Media.Textures.Highlight)
+
+			local getHighlight = item:GetHighlightTexture()
+			getHighlight:SetVertexColor(1, 0.8, 0.1, 0.3)
+			getHighlight:Point("TOPLEFT", 0, 0)
+			getHighlight:Point("BOTTOMRIGHT", 0, 1)
+		end
+	end
+
 	local maxButtons = (InterfaceOptionsFrameAddOns:GetHeight() - 8) / InterfaceOptionsFrameAddOns.buttonHeight
 	for i = 1, maxButtons do
+		local button = _G["InterfaceOptionsFrameAddOnsButton"..i]
 		local buttonToggle = _G["InterfaceOptionsFrameAddOnsButton"..i.."Toggle"]
 
-		buttonToggle:SetNormalTexture(E.Media.Textures.PlusMinusButton)
+		button:SetHighlightTexture(E.Media.Textures.Highlight)
+		local getHighlight = button:GetHighlightTexture()
+		getHighlight:SetVertexColor(1, 0.8, 0.1, 0.3)
+		getHighlight:Point("TOPLEFT", 0, 0)
+		getHighlight:Point("BOTTOMRIGHT", 0, 1)
+
+		buttonToggle:SetNormalTexture(E.Media.Textures.Plus)
 		buttonToggle.SetNormalTexture = E.noop
-		buttonToggle:SetPushedTexture(E.Media.Textures.PlusMinusButton)
+		buttonToggle:SetPushedTexture(E.Media.Textures.Plus)
 		buttonToggle.SetPushedTexture = E.noop
 		buttonToggle:SetHighlightTexture("")
 
 		hooksecurefunc(buttonToggle, "SetNormalTexture", function(self, texture)
 			if find(texture, "MinusButton") then
-				self:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
-				self:GetPushedTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
+				self:GetNormalTexture():SetTexture(E.Media.Textures.Minus)
+				self:GetPushedTexture():SetTexture(E.Media.Textures.Minus)
 			else
-				self:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
-				self:GetPushedTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+				self:GetNormalTexture():SetTexture(E.Media.Textures.Plus)
+				self:GetPushedTexture():SetTexture(E.Media.Textures.Plus)
 			end
 		end)
 	end
 
-	-- Options/Interface Buttons Position
+	local Buttons = {
+		InterfaceOptionsFrameDefaults,
+		InterfaceOptionsFrameOkay,
+		InterfaceOptionsFrameCancel,
+		VideoOptionsFrameOkay,
+		VideoOptionsFrameCancel,
+		VideoOptionsFrameDefaults,
+		VideoOptionsFrameApply,
+		CompactUnitFrameProfilesSaveButton,
+		CompactUnitFrameProfilesDeleteButton,
+		CompactUnitFrameProfilesGeneralOptionsFrameResetPositionButton,
+		InterfaceOptionsHelpPanelResetTutorials,
+		ChatConfigCombatSettingsFiltersDeleteButton,
+		ChatConfigCombatSettingsFiltersAddFilterButton,
+		ChatConfigCombatSettingsFiltersCopyFilterButton,
+		CombatConfigSettingsSaveButton,
+		ChatConfigFrameDefaultButton,
+		CombatLogDefaultButton,
+		ChatConfigFrameCancelButton,
+		ChatConfigFrameOkayButton
+	}
+
+	local DropDowns = {
+		Graphics_DisplayModeDropDown,
+		Graphics_ResolutionDropDown,
+		Graphics_RefreshDropDown,
+		Graphics_PrimaryMonitorDropDown,
+		Graphics_MultiSampleDropDown,
+		Graphics_VerticalSyncDropDown,
+		Graphics_TextureResolutionDropDown,
+		Graphics_FilteringDropDown,
+		Graphics_ProjectedTexturesDropDown,
+		Graphics_ViewDistanceDropDown,
+		Graphics_EnvironmentalDetailDropDown,
+		Graphics_GroundClutterDropDown,
+		Graphics_ShadowsDropDown,
+		Graphics_LiquidDetailDropDown,
+		Graphics_SunshaftsDropDown,
+		Graphics_ParticleDensityDropDown,
+		Advanced_BufferingDropDown,
+		Advanced_LagDropDown,
+		Advanced_HardwareCursorDropDown,
+		Advanced_GraphicsAPIDropDown,
+		InterfaceOptionsLanguagesPanelLocaleDropDown,
+		AudioOptionsSoundPanelHardwareDropDown,
+		AudioOptionsSoundPanelSoundChannelsDropDown,
+		InterfaceOptionsControlsPanelAutoLootKeyDropDown,
+		InterfaceOptionsCombatPanelTOTDropDown,
+		InterfaceOptionsCombatPanelFocusCastKeyDropDown,
+		InterfaceOptionsCombatPanelSelfCastKeyDropDown,
+		InterfaceOptionsSocialPanelWhisperMode,
+		InterfaceOptionsSocialPanelChatStyle,
+		InterfaceOptionsSocialPanelTimestamps,
+		InterfaceOptionsDisplayPanelAggroWarningDisplay,
+		InterfaceOptionsDisplayPanelWorldPVPObjectiveDisplay,
+		InterfaceOptionsActionBarsPanelPickupActionKeyDropDown,
+		InterfaceOptionsNamesPanelNPCNamesDropDown,
+		InterfaceOptionsNamesPanelUnitNameplatesMotionDropDown,
+		InterfaceOptionsCombatTextPanelFCTDropDown,
+		CompactUnitFrameProfilesGeneralOptionsFrameSortByDropdown,
+		CompactUnitFrameProfilesProfileSelector,
+		CompactUnitFrameProfilesGeneralOptionsFrameHealthTextDropdown,
+		InterfaceOptionsCameraPanelStyleDropDown,
+		InterfaceOptionsMousePanelClickMoveStyleDropDown
+	}
+
+	local CheckBoxes = {
+		NetworkOptionsPanelOptimizeSpeed,
+		NetworkOptionsPanelUseIPv6,
+		Advanced_MaxFPSCheckBox,
+		Advanced_MaxFPSBKCheckBox,
+		Advanced_UseUIScale,
+		Advanced_DesktopGamma,
+		AudioOptionsSoundPanelEnableSound,
+		AudioOptionsSoundPanelSoundEffects,
+		AudioOptionsSoundPanelErrorSpeech,
+		AudioOptionsSoundPanelEmoteSounds,
+		AudioOptionsSoundPanelPetSounds,
+		AudioOptionsSoundPanelMusic,
+		AudioOptionsSoundPanelLoopMusic,
+		AudioOptionsSoundPanelAmbientSounds,
+		AudioOptionsSoundPanelSoundInBG,
+		AudioOptionsSoundPanelReverb,
+		AudioOptionsSoundPanelHRTF,
+		AudioOptionsSoundPanelEnableDSPs,
+		AudioOptionsSoundPanelUseHardware,
+		InterfaceOptionsControlsPanelStickyTargeting,
+		InterfaceOptionsControlsPanelAutoDismount,
+		InterfaceOptionsControlsPanelAutoClearAFK,
+		InterfaceOptionsControlsPanelBlockTrades,
+		InterfaceOptionsControlsPanelBlockGuildInvites,
+		InterfaceOptionsControlsPanelLootAtMouse,
+		InterfaceOptionsControlsPanelAutoLootCorpse,
+		InterfaceOptionsControlsPanelInteractOnLeftClick,
+		InterfaceOptionsCombatPanelAttackOnAssist,
+		InterfaceOptionsCombatPanelStopAutoAttack,
+		InterfaceOptionsCombatPanelNameplateClassColors,
+		InterfaceOptionsCombatPanelTargetOfTarget,
+		InterfaceOptionsCombatPanelShowSpellAlerts,
+		InterfaceOptionsCombatPanelReducedLagTolerance,
+		InterfaceOptionsCombatPanelActionButtonUseKeyDown,
+		InterfaceOptionsCombatPanelEnemyCastBarsOnPortrait,
+		InterfaceOptionsCombatPanelEnemyCastBarsOnNameplates,
+		InterfaceOptionsCombatPanelAutoSelfCast,
+		InterfaceOptionsDisplayPanelShowCloak,
+		InterfaceOptionsDisplayPanelShowHelm,
+		InterfaceOptionsDisplayPanelShowAggroPercentage,
+		InterfaceOptionsDisplayPanelPlayAggroSounds,
+		InterfaceOptionsDisplayPanelDetailedLootInfo,
+		InterfaceOptionsDisplayPanelShowSpellPointsAvg,
+		InterfaceOptionsDisplayPanelScreenEdgeFlash,
+		InterfaceOptionsDisplayPanelRotateMinimap,
+		InterfaceOptionsDisplayPanelCinematicSubtitles,
+		InterfaceOptionsDisplayPanelShowFreeBagSpace,
+		InterfaceOptionsDisplayPanelemphasizeMySpellEffects,
+		InterfaceOptionsObjectivesPanelAutoQuestTracking,
+		InterfaceOptionsObjectivesPanelAutoQuestProgress,
+		InterfaceOptionsObjectivesPanelMapQuestDifficulty,
+		InterfaceOptionsObjectivesPanelWatchFrameWidth,
+		InterfaceOptionsSocialPanelProfanityFilter,
+		InterfaceOptionsSocialPanelSpamFilter,
+		InterfaceOptionsSocialPanelChatBubbles,
+		InterfaceOptionsSocialPanelPartyChat,
+		InterfaceOptionsSocialPanelChatHoverDelay,
+		InterfaceOptionsSocialPanelGuildMemberAlert,
+		InterfaceOptionsSocialPanelChatMouseScroll,
+		InterfaceOptionsActionBarsPanelBottomLeft,
+		InterfaceOptionsActionBarsPanelBottomRight,
+		InterfaceOptionsActionBarsPanelRight,
+		InterfaceOptionsActionBarsPanelRightTwo,
+		InterfaceOptionsActionBarsPanelLockActionBars,
+		InterfaceOptionsActionBarsPanelAlwaysShowActionBars,
+		InterfaceOptionsActionBarsPanelSecureAbilityToggle,
+		InterfaceOptionsNamesPanelGuilds,
+		InterfaceOptionsNamesPanelGuildTitles,
+		InterfaceOptionsNamesPanelTitles,
+		InterfaceOptionsNamesPanelNonCombatCreature,
+		InterfaceOptionsNamesPanelEnemyPlayerNames,
+		InterfaceOptionsNamesPanelEnemyPets,
+		InterfaceOptionsNamesPanelEnemyGuardians,
+		InterfaceOptionsNamesPanelEnemyTotems,
+		InterfaceOptionsNamesPanelUnitNameplatesEnemies,
+		InterfaceOptionsNamesPanelUnitNameplatesEnemyPets,
+		InterfaceOptionsNamesPanelUnitNameplatesEnemyGuardians,
+		InterfaceOptionsNamesPanelUnitNameplatesEnemyTotems,
+		InterfaceOptionsNamesPanelUnitNameplatesFriendlyTotems,
+		InterfaceOptionsNamesPanelUnitNameplatesFriendlyGuardians,
+		InterfaceOptionsNamesPanelUnitNameplatesFriendlyPets,
+		InterfaceOptionsNamesPanelUnitNameplatesFriends,
+		InterfaceOptionsNamesPanelFriendlyTotems,
+		InterfaceOptionsNamesPanelFriendlyGuardians,
+		InterfaceOptionsNamesPanelFriendlyPets,
+		InterfaceOptionsNamesPanelFriendlyPlayerNames,
+		InterfaceOptionsNamesPanelMyName,
+		InterfaceOptionsCombatTextPanelTargetDamage,
+		InterfaceOptionsCombatTextPanelPeriodicDamage,
+		InterfaceOptionsCombatTextPanelPetDamage,
+		InterfaceOptionsCombatTextPanelHealing,
+		InterfaceOptionsCombatTextPanelEnableFCT,
+		InterfaceOptionsCombatTextPanelDodgeParryMiss,
+		InterfaceOptionsCombatTextPanelDamageReduction,
+		InterfaceOptionsCombatTextPanelRepChanges,
+		InterfaceOptionsCombatTextPanelReactiveAbilities,
+		InterfaceOptionsCombatTextPanelFriendlyHealerNames,
+		InterfaceOptionsCombatTextPanelCombatState,
+		InterfaceOptionsCombatTextPanelAuras,
+		InterfaceOptionsCombatTextPanelHonorGains,
+		InterfaceOptionsCombatTextPanelPeriodicEnergyGains,
+		InterfaceOptionsCombatTextPanelEnergyGains,
+		InterfaceOptionsCombatTextPanelLowManaHealth,
+		InterfaceOptionsCombatTextPanelComboPoints,
+		InterfaceOptionsCombatTextPanelOtherTargetEffects,
+		InterfaceOptionsCombatTextPanelTargetEffects,
+		InterfaceOptionsStatusTextPanelPlayer,
+		InterfaceOptionsStatusTextPanelPet,
+		InterfaceOptionsStatusTextPanelParty,
+		InterfaceOptionsStatusTextPanelTarget,
+		InterfaceOptionsStatusTextPanelAlternateResource,
+		InterfaceOptionsStatusTextPanelPercentages,
+		InterfaceOptionsStatusTextPanelXP,
+		InterfaceOptionsUnitFramePanelPartyBackground,
+		InterfaceOptionsUnitFramePanelPartyPets,
+		InterfaceOptionsUnitFramePanelArenaEnemyFrames,
+		InterfaceOptionsUnitFramePanelArenaEnemyCastBar,
+		InterfaceOptionsUnitFramePanelArenaEnemyPets,
+		InterfaceOptionsUnitFramePanelFullSizeFocusFrame,
+		CompactUnitFrameProfilesGeneralOptionsFrameKeepGroupsTogether,
+		CompactUnitFrameProfilesGeneralOptionsFrameHorizontalGroups,
+		CompactUnitFrameProfilesGeneralOptionsFrameDisplayIncomingHeals,
+		CompactUnitFrameProfilesGeneralOptionsFrameDisplayPowerBar,
+		CompactUnitFrameProfilesGeneralOptionsFrameDisplayAggroHighlight,
+		CompactUnitFrameProfilesGeneralOptionsFrameUseClassColors,
+		CompactUnitFrameProfilesGeneralOptionsFrameDisplayPets,
+		CompactUnitFrameProfilesGeneralOptionsFrameDisplayMainTankAndAssist,
+		CompactUnitFrameProfilesGeneralOptionsFrameDisplayBorder,
+		CompactUnitFrameProfilesGeneralOptionsFrameShowDebuffs,
+		CompactUnitFrameProfilesGeneralOptionsFrameDisplayOnlyDispellableDebuffs,
+		CompactUnitFrameProfilesRaidStylePartyFrames,
+		CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate2Players,
+		CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate3Players,
+		CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate5Players,
+		CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate10Players,
+		CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate15Players,
+		CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate25Players,
+		CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate40Players,
+		CompactUnitFrameProfilesGeneralOptionsFrameAutoActivateSpec1,
+		CompactUnitFrameProfilesGeneralOptionsFrameAutoActivateSpec2,
+		CompactUnitFrameProfilesGeneralOptionsFrameAutoActivatePvP,
+		CompactUnitFrameProfilesGeneralOptionsFrameAutoActivatePvE,
+		CombatConfigColorsHighlightingLine,
+		CombatConfigColorsHighlightingAbility,
+		CombatConfigColorsHighlightingDamage,
+		CombatConfigColorsHighlightingSchool,
+		CombatConfigColorsColorizeUnitNameCheck,
+		CombatConfigColorsColorizeSpellNamesCheck,
+		CombatConfigColorsColorizeSpellNamesSchoolColoring,
+		CombatConfigColorsColorizeDamageNumberCheck,
+		CombatConfigColorsColorizeDamageNumberSchoolColoring,
+		CombatConfigColorsColorizeDamageSchoolCheck,
+		CombatConfigColorsColorizeEntireLineCheck,
+		CombatConfigFormattingShowTimeStamp,
+		CombatConfigFormattingShowBraces,
+		CombatConfigFormattingUnitNames,
+		CombatConfigFormattingSpellNames,
+		CombatConfigFormattingItemNames,
+		CombatConfigFormattingFullText,
+		CombatConfigSettingsShowQuickButton,
+		CombatConfigSettingsSolo,
+		CombatConfigSettingsParty,
+		CombatConfigSettingsRaid,
+		InterfaceOptionsBuffsPanelBuffDurations,
+		InterfaceOptionsBuffsPanelDispellableDebuffs,
+		InterfaceOptionsBuffsPanelCastableBuffs,
+		InterfaceOptionsBuffsPanelConsolidateBuffs,
+		InterfaceOptionsBuffsPanelShowAllEnemyDebuffs,
+		InterfaceOptionsCameraPanelFollowTerrain,
+		InterfaceOptionsCameraPanelHeadBob,
+		InterfaceOptionsCameraPanelWaterCollision,
+		InterfaceOptionsCameraPanelSmartPivot,
+		InterfaceOptionsMousePanelInvertMouse,
+		InterfaceOptionsMousePanelClickToMove,
+		InterfaceOptionsMousePanelWoWMouse,
+		InterfaceOptionsHelpPanelShowTutorials,
+		InterfaceOptionsHelpPanelLoadingScreenTips,
+		InterfaceOptionsHelpPanelEnhancedTooltips,
+		InterfaceOptionsHelpPanelBeginnerTooltips,
+		InterfaceOptionsHelpPanelShowLuaErrors,
+		InterfaceOptionsHelpPanelColorblindMode,
+		InterfaceOptionsHelpPanelMovePad
+	}
+
+	local Sliders = {
+		Graphics_Quality,
+		Advanced_MaxFPSSlider,
+		Advanced_UIScaleSlider,
+		Advanced_MaxFPSBKSlider,
+		Advanced_GammaSlider,
+		AudioOptionsSoundPanelSoundQuality,
+		AudioOptionsSoundPanelAmbienceVolume,
+		AudioOptionsSoundPanelMusicVolume,
+		AudioOptionsSoundPanelSoundVolume,
+		AudioOptionsSoundPanelMasterVolume,
+		InterfaceOptionsCombatPanelSpellAlertOpacitySlider,
+		InterfaceOptionsCombatPanelMaxSpellStartRecoveryOffset,
+		CompactUnitFrameProfilesGeneralOptionsFrameHeightSlider,
+		CompactUnitFrameProfilesGeneralOptionsFrameWidthSlider,
+		InterfaceOptionsCameraPanelMaxDistanceSlider,
+		InterfaceOptionsCameraPanelFollowSpeedSlider,
+		InterfaceOptionsMousePanelMouseSensitivitySlider,
+		InterfaceOptionsMousePanelMouseLookSpeedSlider
+	}
+
+	local Scrollbars = {
+		InterfaceOptionsFrameCategoriesListScrollBar,
+		InterfaceOptionsFrameAddOnsListScrollBar,
+		ChatConfigCombatSettingsFiltersScrollFrameScrollBar
+	}
+
+	local Strip = {
+		Graphics_RightQuality,
+		InterfaceOptionsFrameCategoriesList,
+		InterfaceOptionsFrameAddOnsList,
+		ChatConfigFrame,
+		ChatConfigCombatSettingsFiltersScrollFrame,
+		CombatConfigColorsHighlighting,
+		CombatConfigColorsColorizeUnitName,
+		CombatConfigColorsColorizeSpellNames,
+		CombatConfigColorsColorizeDamageNumber,
+		CombatConfigColorsColorizeDamageSchool,
+		CombatConfigColorsColorizeEntireLine
+	}
+
+	local StripBackdrops = {
+		VideoOptionsFrameCategoryFrame,
+		VideoOptionsFramePanelContainer,
+		AudioOptionsSoundPanelVolume,
+		AudioOptionsSoundPanelHardware,
+		AudioOptionsSoundPanelPlayback,
+		InterfaceOptionsFrameCategories,
+		InterfaceOptionsFramePanelContainer,
+		InterfaceOptionsFrameAddOns
+	}
+
+	for _, Frame in pairs(StripBackdrops) do
+		Frame:StripTextures()
+		Frame:CreateBackdrop("Transparent")
+	end
+	for _, Frame in pairs(Strip) do
+		Frame:StripTextures()
+	end
+	for _, Button in pairs(Buttons) do
+		S:HandleButton(Button, true)
+	end
+	for _, DropDown in pairs(DropDowns) do
+		S:HandleDropDownBox(DropDown)
+	end
+	for _, CheckBox in pairs(CheckBoxes) do
+		S:HandleCheckBox(CheckBox)
+	end
+	for _, Slider in pairs(Sliders) do
+		S:HandleSliderFrame(Slider)
+	end
+	for _, Scrollbar in pairs(Scrollbars) do
+		S:HandleScrollBar(Scrollbar)
+	end
+
+	-- Reposition Buttons 
 	VideoOptionsFrameCancel:ClearAllPoints()
 	VideoOptionsFrameCancel:Point("RIGHT", VideoOptionsFrameApply, "LEFT", -4, 0)
 
@@ -67,362 +413,18 @@ local function LoadSkin()
 	InterfaceOptionsFrameOkay:ClearAllPoints()
 	InterfaceOptionsFrameOkay:Point("RIGHT", InterfaceOptionsFrameCancel, "LEFT", -4, 0)
 
-	-- Game Menu Options/Frames
-	InterfaceOptionsFrame:StripTextures()
-	InterfaceOptionsFrame:CreateBackdrop("Transparent")
-
-	S:HandleButton(InterfaceOptionsFrameDefaults)
-	S:HandleButton(InterfaceOptionsFrameOkay)
-	S:HandleButton(InterfaceOptionsFrameCancel)
-
-	VideoOptionsFrame:StripTextures()
-	VideoOptionsFrame:CreateBackdrop("Transparent")
-
-	VideoOptionsFrameCategoryFrame:StripTextures()
-	VideoOptionsFrameCategoryFrame:CreateBackdrop("Transparent")
-
-	VideoOptionsFramePanelContainer:StripTextures()
-	VideoOptionsFramePanelContainer:CreateBackdrop("Transparent")
-
-	S:HandleButton(VideoOptionsFrameOkay)
-	S:HandleButton(VideoOptionsFrameCancel)
-	S:HandleButton(VideoOptionsFrameDefaults)
-	S:HandleButton(VideoOptionsFrameApply)
-
-	-- Game Menu Options/Graphics
-	Graphics_RightQuality:StripTextures()
-	S:HandleSliderFrame(Graphics_Quality)
-
-	S:HandleDropDownBox(Graphics_DisplayModeDropDown)
-	S:HandleDropDownBox(Graphics_ResolutionDropDown)
-	S:HandleDropDownBox(Graphics_RefreshDropDown)
-	S:HandleDropDownBox(Graphics_PrimaryMonitorDropDown)
-	S:HandleDropDownBox(Graphics_MultiSampleDropDown)
-	S:HandleDropDownBox(Graphics_VerticalSyncDropDown)
-	S:HandleDropDownBox(Graphics_TextureResolutionDropDown)
-	S:HandleDropDownBox(Graphics_FilteringDropDown)
-	S:HandleDropDownBox(Graphics_ProjectedTexturesDropDown)
-	S:HandleDropDownBox(Graphics_ViewDistanceDropDown)
-	S:HandleDropDownBox(Graphics_EnvironmentalDetailDropDown)
-	S:HandleDropDownBox(Graphics_GroundClutterDropDown)
-	S:HandleDropDownBox(Graphics_ShadowsDropDown)
-	S:HandleDropDownBox(Graphics_LiquidDetailDropDown)
-	S:HandleDropDownBox(Graphics_SunshaftsDropDown)
-	S:HandleDropDownBox(Graphics_ParticleDensityDropDown)
-
-	-- Game Menu Options/Advanced
-	S:HandleDropDownBox(Advanced_BufferingDropDown)
-	S:HandleDropDownBox(Advanced_LagDropDown)
-	S:HandleDropDownBox(Advanced_HardwareCursorDropDown)
-	S:HandleDropDownBox(Advanced_GraphicsAPIDropDown)
-
-	S:HandleCheckBox(Advanced_MaxFPSCheckBox)
-	S:HandleCheckBox(Advanced_MaxFPSBKCheckBox)
-	S:HandleCheckBox(Advanced_UseUIScale)
-	S:HandleCheckBox(Advanced_DesktopGamma)
-
-	S:HandleSliderFrame(Advanced_MaxFPSSlider)
-	S:HandleSliderFrame(Advanced_UIScaleSlider)
-	S:HandleSliderFrame(Advanced_MaxFPSBKSlider)
-	S:HandleSliderFrame(Advanced_GammaSlider)
-
-	-- Game Menu Options/Network
-	S:HandleCheckBox(NetworkOptionsPanelOptimizeSpeed)
-	S:HandleCheckBox(NetworkOptionsPanelUseIPv6)
-
-	-- Game Menu Options/Languages
-	S:HandleDropDownBox(InterfaceOptionsLanguagesPanelLocaleDropDown)
-
-	-- Game Menu Options/Sound
-	S:HandleCheckBox(AudioOptionsSoundPanelEnableSound)
-	S:HandleCheckBox(AudioOptionsSoundPanelSoundEffects)
-	S:HandleCheckBox(AudioOptionsSoundPanelErrorSpeech)
-	S:HandleCheckBox(AudioOptionsSoundPanelEmoteSounds)
-	S:HandleCheckBox(AudioOptionsSoundPanelPetSounds)
-	S:HandleCheckBox(AudioOptionsSoundPanelMusic)
-	S:HandleCheckBox(AudioOptionsSoundPanelLoopMusic)
-	S:HandleCheckBox(AudioOptionsSoundPanelAmbientSounds)
-	S:HandleCheckBox(AudioOptionsSoundPanelSoundInBG)
-	S:HandleCheckBox(AudioOptionsSoundPanelReverb)
-	S:HandleCheckBox(AudioOptionsSoundPanelHRTF)
-	S:HandleCheckBox(AudioOptionsSoundPanelEnableDSPs)
-	S:HandleCheckBox(AudioOptionsSoundPanelUseHardware)
-
-	S:HandleSliderFrame(AudioOptionsSoundPanelSoundQuality)
-	S:HandleSliderFrame(AudioOptionsSoundPanelAmbienceVolume)
-	S:HandleSliderFrame(AudioOptionsSoundPanelMusicVolume)
-	S:HandleSliderFrame(AudioOptionsSoundPanelSoundVolume)
-	S:HandleSliderFrame(AudioOptionsSoundPanelMasterVolume)
-
-	S:HandleDropDownBox(AudioOptionsSoundPanelHardwareDropDown)
-	S:HandleDropDownBox(AudioOptionsSoundPanelSoundChannelsDropDown)
-
-	AudioOptionsSoundPanelVolume:StripTextures()
-	AudioOptionsSoundPanelVolume:CreateBackdrop("Transparent")
-
-	AudioOptionsSoundPanelHardware:StripTextures()
-	AudioOptionsSoundPanelHardware:CreateBackdrop("Transparent")
-
-	AudioOptionsSoundPanelPlayback:StripTextures()
-	AudioOptionsSoundPanelPlayback:CreateBackdrop("Transparent")
-
-	-- Game Menu Interface
-	InterfaceOptionsFrameCategories:StripTextures()
-	InterfaceOptionsFrameCategories:CreateBackdrop("Transparent")
-
-	InterfaceOptionsFramePanelContainer:StripTextures()
-	InterfaceOptionsFramePanelContainer:CreateBackdrop("Transparent")
-
-	InterfaceOptionsFrameAddOns:StripTextures()
-	InterfaceOptionsFrameAddOns:CreateBackdrop("Transparent")
-
-	InterfaceOptionsFrameCategoriesList:StripTextures()
-	S:HandleScrollBar(InterfaceOptionsFrameCategoriesListScrollBar)
-
-	InterfaceOptionsFrameAddOnsList:StripTextures()
-	S:HandleScrollBar(InterfaceOptionsFrameAddOnsListScrollBar)
-
-	-- Game Menu Interface/Controls
-	S:HandleCheckBox(InterfaceOptionsControlsPanelStickyTargeting)
-	S:HandleCheckBox(InterfaceOptionsControlsPanelAutoDismount)
-	S:HandleCheckBox(InterfaceOptionsControlsPanelAutoClearAFK)
-	S:HandleCheckBox(InterfaceOptionsControlsPanelBlockTrades)
-	S:HandleCheckBox(InterfaceOptionsControlsPanelBlockGuildInvites)
-	S:HandleCheckBox(InterfaceOptionsControlsPanelLootAtMouse)
-	S:HandleCheckBox(InterfaceOptionsControlsPanelAutoLootCorpse)
-	S:HandleCheckBox(InterfaceOptionsControlsPanelInteractOnLeftClick)
-
-	S:HandleDropDownBox(InterfaceOptionsControlsPanelAutoLootKeyDropDown)
-
-	-- Game Menu Interface/Combat
-	S:HandleCheckBox(InterfaceOptionsCombatPanelAttackOnAssist)
-	S:HandleCheckBox(InterfaceOptionsCombatPanelStopAutoAttack)
-	S:HandleCheckBox(InterfaceOptionsCombatPanelNameplateClassColors)
-	S:HandleCheckBox(InterfaceOptionsCombatPanelTargetOfTarget)
-	S:HandleCheckBox(InterfaceOptionsCombatPanelShowSpellAlerts)
-	S:HandleCheckBox(InterfaceOptionsCombatPanelReducedLagTolerance)
-	S:HandleCheckBox(InterfaceOptionsCombatPanelActionButtonUseKeyDown)
-	S:HandleCheckBox(InterfaceOptionsCombatPanelEnemyCastBarsOnPortrait)
-	S:HandleCheckBox(InterfaceOptionsCombatPanelEnemyCastBarsOnNameplates)
-	S:HandleCheckBox(InterfaceOptionsCombatPanelAutoSelfCast)
-
-	S:HandleDropDownBox(InterfaceOptionsCombatPanelTOTDropDown)
-	S:HandleDropDownBox(InterfaceOptionsCombatPanelFocusCastKeyDropDown)
-	S:HandleDropDownBox(InterfaceOptionsCombatPanelSelfCastKeyDropDown)
-
-	S:HandleSliderFrame(InterfaceOptionsCombatPanelSpellAlertOpacitySlider)
-	S:HandleSliderFrame(InterfaceOptionsCombatPanelMaxSpellStartRecoveryOffset)
-
-	-- Game Menu Interface/Display
-	S:HandleCheckBox(InterfaceOptionsDisplayPanelShowCloak)
-	S:HandleCheckBox(InterfaceOptionsDisplayPanelShowHelm)
-	S:HandleCheckBox(InterfaceOptionsDisplayPanelShowAggroPercentage)
-	S:HandleCheckBox(InterfaceOptionsDisplayPanelPlayAggroSounds)
-	S:HandleCheckBox(InterfaceOptionsDisplayPanelDetailedLootInfo)
-	S:HandleCheckBox(InterfaceOptionsDisplayPanelShowSpellPointsAvg)
-	S:HandleCheckBox(InterfaceOptionsDisplayPanelScreenEdgeFlash)
-	S:HandleCheckBox(InterfaceOptionsDisplayPanelRotateMinimap)
-	S:HandleCheckBox(InterfaceOptionsDisplayPanelCinematicSubtitles)
-	S:HandleCheckBox(InterfaceOptionsDisplayPanelShowFreeBagSpace)
-	S:HandleCheckBox(InterfaceOptionsDisplayPanelemphasizeMySpellEffects)
-
-	S:HandleDropDownBox(InterfaceOptionsDisplayPanelAggroWarningDisplay)
-	S:HandleDropDownBox(InterfaceOptionsDisplayPanelWorldPVPObjectiveDisplay)
-
-	-- Game Menu Interface/Objectives
-	S:HandleCheckBox(InterfaceOptionsObjectivesPanelAutoQuestTracking)
-	S:HandleCheckBox(InterfaceOptionsObjectivesPanelAutoQuestProgress)
-	S:HandleCheckBox(InterfaceOptionsObjectivesPanelMapQuestDifficulty)
-	S:HandleCheckBox(InterfaceOptionsObjectivesPanelWatchFrameWidth)
-
-	-- Game Menu Interface/Social
-	S:HandleCheckBox(InterfaceOptionsSocialPanelProfanityFilter)
-	S:HandleCheckBox(InterfaceOptionsSocialPanelSpamFilter)
-	S:HandleCheckBox(InterfaceOptionsSocialPanelChatBubbles)
-	S:HandleCheckBox(InterfaceOptionsSocialPanelPartyChat)
-	S:HandleCheckBox(InterfaceOptionsSocialPanelChatHoverDelay)
-	S:HandleCheckBox(InterfaceOptionsSocialPanelGuildMemberAlert)
-	S:HandleCheckBox(InterfaceOptionsSocialPanelChatMouseScroll)
-
-	S:HandleDropDownBox(InterfaceOptionsSocialPanelWhisperMode)
-	S:HandleDropDownBox(InterfaceOptionsSocialPanelChatStyle)
-	S:HandleDropDownBox(InterfaceOptionsSocialPanelTimestamps)
-
-	-- Game Menu Interface/Action Bars
-	S:HandleCheckBox(InterfaceOptionsActionBarsPanelBottomLeft)
-	S:HandleCheckBox(InterfaceOptionsActionBarsPanelBottomRight)
-	S:HandleCheckBox(InterfaceOptionsActionBarsPanelRight)
-	S:HandleCheckBox(InterfaceOptionsActionBarsPanelRightTwo)
-	S:HandleCheckBox(InterfaceOptionsActionBarsPanelLockActionBars)
-	S:HandleCheckBox(InterfaceOptionsActionBarsPanelAlwaysShowActionBars)
-	S:HandleCheckBox(InterfaceOptionsActionBarsPanelSecureAbilityToggle)
-
-	S:HandleDropDownBox(InterfaceOptionsActionBarsPanelPickupActionKeyDropDown)
-
-	-- Game Menu Interface/Names
-	S:HandleCheckBox(InterfaceOptionsNamesPanelGuilds)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelGuildTitles)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelTitles)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelNonCombatCreature)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelEnemyPlayerNames)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelEnemyPets)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelEnemyGuardians)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelEnemyTotems)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelUnitNameplatesEnemies)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelUnitNameplatesEnemyPets)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelUnitNameplatesEnemyGuardians)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelUnitNameplatesEnemyTotems)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelUnitNameplatesFriendlyTotems)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelUnitNameplatesFriendlyGuardians)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelUnitNameplatesFriendlyPets)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelUnitNameplatesFriends)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelFriendlyTotems)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelFriendlyGuardians)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelFriendlyPets)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelFriendlyPlayerNames)
-	S:HandleCheckBox(InterfaceOptionsNamesPanelMyName)
-
-	S:HandleDropDownBox(InterfaceOptionsNamesPanelNPCNamesDropDown)
-	S:HandleDropDownBox(InterfaceOptionsNamesPanelUnitNameplatesMotionDropDown)
-
-	-- Game Menu Interface/Floating Combat Text
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelTargetDamage)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelPeriodicDamage)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelPetDamage)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelHealing)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelEnableFCT)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelDodgeParryMiss)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelDamageReduction)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelRepChanges)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelReactiveAbilities)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelFriendlyHealerNames)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelCombatState)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelAuras)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelHonorGains)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelPeriodicEnergyGains)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelEnergyGains)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelLowManaHealth)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelComboPoints)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelOtherTargetEffects)
-	S:HandleCheckBox(InterfaceOptionsCombatTextPanelTargetEffects)
-
-	S:HandleDropDownBox(InterfaceOptionsCombatTextPanelFCTDropDown)
-
-	-- Game Menu Interface/Status Text
-	S:HandleCheckBox(InterfaceOptionsStatusTextPanelPlayer)
-	S:HandleCheckBox(InterfaceOptionsStatusTextPanelPet)
-	S:HandleCheckBox(InterfaceOptionsStatusTextPanelParty)
-	S:HandleCheckBox(InterfaceOptionsStatusTextPanelTarget)
-	S:HandleCheckBox(InterfaceOptionsStatusTextPanelAlternateResource)
-	S:HandleCheckBox(InterfaceOptionsStatusTextPanelPercentages)
-	S:HandleCheckBox(InterfaceOptionsStatusTextPanelXP)
-
-	-- Game Menu Interface/Unit Frames
-	S:HandleCheckBox(InterfaceOptionsUnitFramePanelPartyBackground)
-	S:HandleCheckBox(InterfaceOptionsUnitFramePanelPartyPets)
-	S:HandleCheckBox(InterfaceOptionsUnitFramePanelArenaEnemyFrames)
-	S:HandleCheckBox(InterfaceOptionsUnitFramePanelArenaEnemyCastBar)
-	S:HandleCheckBox(InterfaceOptionsUnitFramePanelArenaEnemyPets)
-	S:HandleCheckBox(InterfaceOptionsUnitFramePanelFullSizeFocusFrame)
-
-	-- Game Menu Interface/Raid Profiles
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameKeepGroupsTogether)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameHorizontalGroups)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameDisplayIncomingHeals)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameDisplayPowerBar)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameDisplayAggroHighlight)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameUseClassColors)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameDisplayPets)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameDisplayMainTankAndAssist)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameDisplayBorder)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameShowDebuffs)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameDisplayOnlyDispellableDebuffs)
-	S:HandleCheckBox(CompactUnitFrameProfilesRaidStylePartyFrames)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate2Players)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate3Players)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate5Players)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate10Players)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate15Players)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate25Players)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivate40Players)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivateSpec1)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivateSpec2)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivatePvP)
-	S:HandleCheckBox(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivatePvE)
-
-	S:HandleButton(CompactUnitFrameProfilesSaveButton)
-	S:HandleButton(CompactUnitFrameProfilesDeleteButton)
-	S:HandleButton(CompactUnitFrameProfilesGeneralOptionsFrameResetPositionButton)
-
-	S:HandleSliderFrame(CompactUnitFrameProfilesGeneralOptionsFrameHeightSlider)
-	S:HandleSliderFrame(CompactUnitFrameProfilesGeneralOptionsFrameWidthSlider)
-
-	S:HandleDropDownBox(CompactUnitFrameProfilesGeneralOptionsFrameSortByDropdown)
-	S:HandleDropDownBox(CompactUnitFrameProfilesProfileSelector)
-	S:HandleDropDownBox(CompactUnitFrameProfilesGeneralOptionsFrameHealthTextDropdown)
-
-	-- Game Menu Interface/Buffs and Debuffs
-	S:HandleCheckBox(InterfaceOptionsBuffsPanelBuffDurations)
-	S:HandleCheckBox(InterfaceOptionsBuffsPanelDispellableDebuffs)
-	S:HandleCheckBox(InterfaceOptionsBuffsPanelCastableBuffs)
-	S:HandleCheckBox(InterfaceOptionsBuffsPanelConsolidateBuffs)
-	S:HandleCheckBox(InterfaceOptionsBuffsPanelShowAllEnemyDebuffs)
-
-	-- Game Menu Interface/Camera
-	S:HandleCheckBox(InterfaceOptionsCameraPanelFollowTerrain)
-	S:HandleCheckBox(InterfaceOptionsCameraPanelHeadBob)
-	S:HandleCheckBox(InterfaceOptionsCameraPanelWaterCollision)
-	S:HandleCheckBox(InterfaceOptionsCameraPanelSmartPivot)
-
-	S:HandleSliderFrame(InterfaceOptionsCameraPanelMaxDistanceSlider)
-	S:HandleSliderFrame(InterfaceOptionsCameraPanelFollowSpeedSlider)
-
-	S:HandleDropDownBox(InterfaceOptionsCameraPanelStyleDropDown)
-
-	-- Game Menu Interface/Mouse
-	S:HandleCheckBox(InterfaceOptionsMousePanelInvertMouse)
-	S:HandleCheckBox(InterfaceOptionsMousePanelClickToMove)
-	S:HandleCheckBox(InterfaceOptionsMousePanelWoWMouse)
-
-	S:HandleSliderFrame(InterfaceOptionsMousePanelMouseSensitivitySlider)
-	S:HandleSliderFrame(InterfaceOptionsMousePanelMouseLookSpeedSlider)
-
-	S:HandleDropDownBox(InterfaceOptionsMousePanelClickMoveStyleDropDown)
-
-	-- Game Menu Interface/Help
-	S:HandleCheckBox(InterfaceOptionsHelpPanelShowTutorials)
-	S:HandleCheckBox(InterfaceOptionsHelpPanelLoadingScreenTips)
-	S:HandleCheckBox(InterfaceOptionsHelpPanelEnhancedTooltips)
-	S:HandleCheckBox(InterfaceOptionsHelpPanelBeginnerTooltips)
-	S:HandleCheckBox(InterfaceOptionsHelpPanelShowLuaErrors)
-	S:HandleCheckBox(InterfaceOptionsHelpPanelColorblindMode)
-	S:HandleCheckBox(InterfaceOptionsHelpPanelMovePad)
-
-	S:HandleButton(InterfaceOptionsHelpPanelResetTutorials)
-
 	-- Chat Config
-	ChatConfigFrame:StripTextures()
 	ChatConfigFrame:SetTemplate("Transparent")
 	ChatConfigCategoryFrame:SetTemplate("Transparent")
 	ChatConfigBackgroundFrame:SetTemplate("Transparent")
-
 	ChatConfigChatSettingsClassColorLegend:SetTemplate("Transparent")
 	ChatConfigChannelSettingsClassColorLegend:SetTemplate("Transparent")
-
 	ChatConfigCombatSettingsFilters:SetTemplate("Transparent")
 
-	ChatConfigCombatSettingsFiltersScrollFrame:StripTextures()
-
-	S:HandleScrollBar(ChatConfigCombatSettingsFiltersScrollFrameScrollBar)
 	ChatConfigCombatSettingsFiltersScrollFrameScrollBarBorder:Kill()
 
-	S:HandleButton(ChatConfigCombatSettingsFiltersDeleteButton)
 	ChatConfigCombatSettingsFiltersDeleteButton:Point("TOPRIGHT", ChatConfigCombatSettingsFilters, "BOTTOMRIGHT", 0, -1)
-
-	S:HandleButton(ChatConfigCombatSettingsFiltersAddFilterButton)
 	ChatConfigCombatSettingsFiltersAddFilterButton:Point("RIGHT", ChatConfigCombatSettingsFiltersDeleteButton, "LEFT", -1, 0)
-
-	S:HandleButton(ChatConfigCombatSettingsFiltersCopyFilterButton)
 	ChatConfigCombatSettingsFiltersCopyFilterButton:Point("RIGHT", ChatConfigCombatSettingsFiltersAddFilterButton, "LEFT", -1, 0)
 
 	S:HandleNextPrevButton(ChatConfigMoveFilterUpButton)
@@ -435,42 +437,13 @@ local function LoadSkin()
 	ChatConfigMoveFilterDownButton:Point("LEFT", ChatConfigMoveFilterUpButton, "RIGHT", 1, 0)
 	ChatConfigMoveFilterDownButton:SetHitRectInsets(0, 0, 0, 0)
 
-	CombatConfigColorsHighlighting:StripTextures()
-	CombatConfigColorsColorizeUnitName:StripTextures()
-	CombatConfigColorsColorizeSpellNames:StripTextures()
-
-	CombatConfigColorsColorizeDamageNumber:StripTextures()
-	CombatConfigColorsColorizeDamageSchool:StripTextures()
-	CombatConfigColorsColorizeEntireLine:StripTextures()
-
 	S:HandleColorSwatch(CombatConfigColorsColorizeSpellNamesColorSwatch)
 	S:HandleColorSwatch(CombatConfigColorsColorizeDamageNumberColorSwatch)
 
 	S:HandleEditBox(CombatConfigSettingsNameEditBox)
 
-	S:HandleButton(CombatConfigSettingsSaveButton)
-
-	S:HandleCheckBox(CombatConfigColorsHighlightingLine)
-	S:HandleCheckBox(CombatConfigColorsHighlightingAbility)
-	S:HandleCheckBox(CombatConfigColorsHighlightingDamage)
-	S:HandleCheckBox(CombatConfigColorsHighlightingSchool)
-	S:HandleCheckBox(CombatConfigColorsColorizeUnitNameCheck)
-	S:HandleCheckBox(CombatConfigColorsColorizeSpellNamesCheck)
-	S:HandleCheckBox(CombatConfigColorsColorizeSpellNamesSchoolColoring)
-	S:HandleCheckBox(CombatConfigColorsColorizeDamageNumberCheck)
-	S:HandleCheckBox(CombatConfigColorsColorizeDamageNumberSchoolColoring)
-	S:HandleCheckBox(CombatConfigColorsColorizeDamageSchoolCheck)
-	S:HandleCheckBox(CombatConfigColorsColorizeEntireLineCheck)
-	S:HandleCheckBox(CombatConfigFormattingShowTimeStamp)
-	S:HandleCheckBox(CombatConfigFormattingShowBraces)
-	S:HandleCheckBox(CombatConfigFormattingUnitNames)
-	S:HandleCheckBox(CombatConfigFormattingSpellNames)
-	S:HandleCheckBox(CombatConfigFormattingItemNames)
-	S:HandleCheckBox(CombatConfigFormattingFullText)
-	S:HandleCheckBox(CombatConfigSettingsShowQuickButton)
-	S:HandleCheckBox(CombatConfigSettingsSolo)
-	S:HandleCheckBox(CombatConfigSettingsParty)
-	S:HandleCheckBox(CombatConfigSettingsRaid)
+	S:HandleRadioButton(CombatConfigColorsColorizeEntireLineBySource)
+	S:HandleRadioButton(CombatConfigColorsColorizeEntireLineByTarget)
 
 	for i = 1, 5 do
 		local tab = _G["CombatConfigTab"..i]
@@ -484,16 +457,12 @@ local function LoadSkin()
 		tab:HookScript("OnLeave", S.SetOriginalBackdrop)
 	end
 
-	S:HandleButton(ChatConfigFrameDefaultButton)
 	ChatConfigFrameDefaultButton:Point("BOTTOMLEFT", 12, 8)
 	ChatConfigFrameDefaultButton:Width(125)
 
-	S:HandleButton(CombatLogDefaultButton)
-
-	S:HandleButton(ChatConfigFrameCancelButton)
 	ChatConfigFrameCancelButton:Point("BOTTOMRIGHT", -11, 8)
 
-	S:HandleButton(ChatConfigFrameOkayButton)
+	ChatConfigFrameOkayButton:Point("RIGHT", ChatConfigFrameCancelButton, "RIGHT", 0, 0)
 
 	S:SecureHook("ChatConfig_CreateCheckboxes", function(frame, checkBoxTable, checkBoxTemplate)
 		local checkBoxNameString = frame:GetName().."CheckBox"

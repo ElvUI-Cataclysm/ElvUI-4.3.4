@@ -43,41 +43,41 @@ local UIHider
 AB.handledBars = {} --List of all bars
 AB.handledbuttons = {} --List of all buttons that have been modified.
 AB.barDefaults = {
-	["bar1"] = {
-		["page"] = 1,
-		["bindButtons"] = "ACTIONBUTTON",
-		["conditions"] = "[bonusbar:5] 11; [bar:2] 2; [bar:3] 3; [bar:4] 4; [bar:5] 5; [bar:6] 6;",
-		["position"] = "BOTTOM,ElvUIParent,BOTTOM,0,4",
+	bar1 = {
+		page = 1,
+		bindButtons = "ACTIONBUTTON",
+		conditions = "[bonusbar:5] 11; [bar:2] 2; [bar:3] 3; [bar:4] 4; [bar:5] 5; [bar:6] 6;",
+		position = "BOTTOM,ElvUIParent,BOTTOM,0,4"
 	},
-	["bar2"] = {
-		["page"] = 5,
-		["bindButtons"] = "MULTIACTIONBAR2BUTTON",
-		["conditions"] = "",
-		["position"] = "BOTTOM,ElvUI_Bar1,TOP,0,2",
+	bar2 = {
+		page = 5,
+		bindButtons = "MULTIACTIONBAR2BUTTON",
+		conditions = "",
+		position = "BOTTOM,ElvUI_Bar1,TOP,0,2"
 	},
-	["bar3"] = {
-		["page"] = 6,
-		["bindButtons"] = "MULTIACTIONBAR1BUTTON",
-		["conditions"] = "",
-		["position"] = "LEFT,ElvUI_Bar1,RIGHT,4,0",
+	bar3 = {
+		page = 6,
+		bindButtons = "MULTIACTIONBAR1BUTTON",
+		conditions = "",
+		position = "LEFT,ElvUI_Bar1,RIGHT,4,0"
 	},
-	["bar4"] = {
-		["page"] = 4,
-		["bindButtons"] = "MULTIACTIONBAR4BUTTON",
-		["conditions"] = "",
-		["position"] = "RIGHT,ElvUIParent,RIGHT,-4,0",
+	bar4 = {
+		page = 4,
+		bindButtons = "MULTIACTIONBAR4BUTTON",
+		conditions = "",
+		position = "RIGHT,ElvUIParent,RIGHT,-4,0"
 	},
-	["bar5"] = {
-		["page"] = 3,
-		["bindButtons"] = "MULTIACTIONBAR3BUTTON",
-		["conditions"] = "",
-		["position"] = "RIGHT,ElvUI_Bar1,LEFT,-4,0",
+	bar5 = {
+		page = 3,
+		bindButtons = "MULTIACTIONBAR3BUTTON",
+		conditions = "",
+		position = "RIGHT,ElvUI_Bar1,LEFT,-4,0"
 	},
-	["bar6"] = {
-		["page"] = 2,
-		["bindButtons"] = "ELVUIBAR6BUTTON",
-		["conditions"] = "",
-		["position"] = "BOTTOM,ElvUI_Bar2,TOP,0,2",
+	bar6 = {
+		page = 2,
+		bindButtons = "ELVUIBAR6BUTTON",
+		conditions = "",
+		position = "BOTTOM,ElvUI_Bar2,TOP,0,2"
 	}
 }
 
@@ -252,7 +252,7 @@ function AB:CreateBar(id)
 	local point, anchor, attachTo, x, y = split(",", self.barDefaults["bar"..id].position)
 	bar:Point(point, anchor, attachTo, x, y)
 	bar.id = id
-	bar:CreateBackdrop("Default")
+	bar:CreateBackdrop(self.db.transparentBackdrops and "Transparent")
 	bar:SetFrameStrata("LOW")
 
 	--Use this method instead of :SetAllPoints, as the size of the mover would otherwise be incorrect
@@ -549,10 +549,20 @@ function AB:StyleButton(button, noBackdrop, useMasque, ignoreNormal)
 	button.useMasque = useMasque
 	button.ignoreNormal = ignoreNormal
 
-	if flash then flash:SetTexture() end
 	if normal and not ignoreNormal then normal:SetTexture() normal:Hide() normal:SetAlpha(0) end
 	if normal2 then normal2:SetTexture() normal2:Hide() normal2:SetAlpha(0) end
 	if border and not button.useMasque then border:Kill() end
+
+	if flash then
+		if self.db.flashAnimation then
+			flash:SetTexture(1.0, 0.2, 0.2, 0.50)
+			flash:ClearAllPoints()
+			flash:SetOutside(icon, 2, 2)
+			flash:SetDrawLayer("BACKGROUND", -1)
+		else
+			flash:SetTexture()
+		end
+	end
 
 	if count then
 		count:ClearAllPoints()
@@ -569,7 +579,7 @@ function AB:StyleButton(button, noBackdrop, useMasque, ignoreNormal)
 	end
 
 	if not button.noBackdrop and not button.backdrop and not button.useMasque then
-		button:CreateBackdrop("Default", true)
+		button:CreateBackdrop(self.db.transparentButtons and "Transparent", true)
 		button.backdrop:SetAllPoints()
 	end
 
@@ -919,11 +929,15 @@ end
 AB.FlyoutButtons = 0
 function AB:SetupFlyoutButton()
 	for i = 1, AB.FlyoutButtons do
+		local Button = _G["SpellFlyoutButton"..i]
+
 		--prevent error if you don't have max amount of buttons
-		if _G["SpellFlyoutButton"..i] then
-			AB:StyleButton(_G["SpellFlyoutButton"..i], nil, MasqueGroup and E.private.actionbar.masque.actionbars and true or nil)
-			_G["SpellFlyoutButton"..i]:StyleButton()
-			_G["SpellFlyoutButton"..i]:HookScript("OnEnter", function(self)
+		if Button then
+			AB:StyleButton(Button, nil, MasqueGroup and E.private.actionbar.masque.actionbars and true or nil)
+
+			Button:Size(Button:GetParent():GetParent():GetSize())
+
+			Button:HookScript("OnEnter", function(self)
 				local parent = self:GetParent()
 				local parentAnchorButton = select(2, parent:GetPoint())
 				if not AB.handledbuttons[parentAnchorButton] then return end
@@ -931,7 +945,8 @@ function AB:SetupFlyoutButton()
 				local parentAnchorBar = parentAnchorButton:GetParent()
 				AB:Bar_OnEnter(parentAnchorBar)
 			end)
-			_G["SpellFlyoutButton"..i]:HookScript("OnLeave", function(self)
+
+			Button:HookScript("OnLeave", function(self)
 				local parent = self:GetParent()
 				local parentAnchorButton = select(2, parent:GetPoint())
 				if not AB.handledbuttons[parentAnchorButton] then return end
@@ -941,12 +956,8 @@ function AB:SetupFlyoutButton()
 			end)
 
 			if MasqueGroup and E.private.actionbar.masque.actionbars then
-				MasqueGroup:RemoveButton(_G["SpellFlyoutButton"..i]) --Remove first to fix issue with backdrops appearing at the wrong flyout menu
-				MasqueGroup:AddButton(_G["SpellFlyoutButton"..i])
-			else
-				_G["SpellFlyoutButton"..i]:SetTemplate("Default")
-				_G["SpellFlyoutButton"..i]:SetBackdropColor(0, 0, 0, 0)
-				_G["SpellFlyoutButton"..i].backdropTexture:SetAlpha(0)
+				MasqueGroup:RemoveButton(Button) --Remove first to fix issue with backdrops appearing at the wrong flyout menu
+				MasqueGroup:AddButton(Button)
 			end
 		end
 	end
@@ -972,7 +983,6 @@ function AB:StyleFlyout(button)
 	if not button.FlyoutArrow then return end
 	if not LAB.buttonRegistry[button] then return end
 	if not button.FlyoutBorder then return end
-	local combat = InCombatLockdown()
 
 	button.FlyoutBorder:SetAlpha(0)
 	button.FlyoutBorderShadow:SetAlpha(0)
@@ -995,31 +1005,32 @@ function AB:StyleFlyout(button)
 
 	--Change arrow direction depending on what bar the button is on
 	local arrowDistance = 2
-	if ((SpellFlyout:IsShown() and SpellFlyout:GetParent() == button) or GetMouseFocus() == button) then
+	if (SpellFlyout:IsShown() and SpellFlyout:GetParent() == button) or GetMouseFocus() == button then
 		arrowDistance = 5
 	end
 
 	if actionbar then
 		local direction = actionbar.db and actionbar.db.flyoutDirection or "AUTOMATIC"
+		local combat = InCombatLockdown()
 		local point = E:GetScreenQuadrant(actionbar)
 		if point == "UNKNOWN" then return end
 
-		if ((direction == "AUTOMATIC" and strfind(point, "TOP")) or direction == "DOWN") then
+		if (direction == "AUTOMATIC" and strfind(point, "TOP")) or direction == "DOWN" then
 			button.FlyoutArrow:ClearAllPoints()
 			button.FlyoutArrow:Point("BOTTOM", button, "BOTTOM", 0, -arrowDistance)
 			SetClampedTextureRotation(button.FlyoutArrow, 180)
 			if not combat then button:SetAttribute("flyoutDirection", "DOWN") end
-		elseif ((direction == "AUTOMATIC" and point == "RIGHT") or direction == "LEFT") then
+		elseif (direction == "AUTOMATIC" and point == "RIGHT") or direction == "LEFT" then
 			button.FlyoutArrow:ClearAllPoints()
 			button.FlyoutArrow:Point("LEFT", button, "LEFT", -arrowDistance, 0)
 			SetClampedTextureRotation(button.FlyoutArrow, 270)
 			if not combat then button:SetAttribute("flyoutDirection", "LEFT") end
-		elseif ((direction == "AUTOMATIC" and point == "LEFT") or direction == "RIGHT") then
+		elseif (direction == "AUTOMATIC" and point == "LEFT") or direction == "RIGHT" then
 			button.FlyoutArrow:ClearAllPoints()
 			button.FlyoutArrow:Point("RIGHT", button, "RIGHT", arrowDistance, 0)
 			SetClampedTextureRotation(button.FlyoutArrow, 90)
 			if not combat then button:SetAttribute("flyoutDirection", "RIGHT") end
-		elseif ((direction == "AUTOMATIC" and (point == "CENTER" or strfind(point, "BOTTOM"))) or direction == "UP") then
+		elseif (direction == "AUTOMATIC" and (point == "CENTER" or strfind(point, "BOTTOM"))) or direction == "UP" then
 			button.FlyoutArrow:ClearAllPoints()
 			button.FlyoutArrow:Point("TOP", button, "TOP", 0, arrowDistance)
 			SetClampedTextureRotation(button.FlyoutArrow, 0)
@@ -1032,24 +1043,30 @@ local function OnCooldownUpdate(_, button, start, duration)
 	if not button._state_type == "action" then return end
 
 	if duration and duration > 1.5 then
-		button.saturationLocked = true
+		button.saturationLocked = true --Lock any new actions that are created after we activated desaturation option
 
 		button.icon:SetDesaturated(true)
-		if not button.onCooldownDoneHooked then
-			if (E.db.cooldown.enable and AB.db.cooldown.reverse) or (not E.db.cooldown.enable and not AB.db.cooldown.reverse) then
-				button.icon:SetDesaturated(true)
+
+		if (E.db.cooldown.enable and AB.db.cooldown.reverse) or (not E.db.cooldown.enable and not AB.db.cooldown.reverse) then
+			if not button.onCooldownDoneHooked then
 				AB:HookScript(button.cooldown, "OnHide", function()
 					button.icon:SetDesaturated(false)
 				end)
-			else
-				button.icon:SetDesaturated(true)
+
+				button.onCooldownDoneHooked = true
+			end
+		else
+			if not button.onCooldownTimerDoneHooked then
 				if button.cooldown.timer then
 					AB:HookScript(button.cooldown.timer, "OnHide", function()
+						if (E.db.cooldown.enable and AB.db.cooldown.reverse) or (not E.db.cooldown.enable and not AB.db.cooldown.reverse) then return end
+
 						button.icon:SetDesaturated(false)
 					end)
+
+					button.onCooldownTimerDoneHooked = true
 				end
 			end
-			button.onCooldownDoneHooked = true
 		end
 	end
 end
@@ -1070,15 +1087,22 @@ function AB:ToggleDesaturation(value)
 		for button in pairs(LAB.actionButtons) do
 			button.saturationLocked = nil
 			button.icon:SetDesaturated(false)
-			if button.onCooldownDoneHooked then
-				if (E.db.cooldown.enable and AB.db.cooldown.reverse) or (not E.db.cooldown.enable and not AB.db.cooldown.reverse) then
+			if (E.db.cooldown.enable and AB.db.cooldown.reverse) or (not E.db.cooldown.enable and not AB.db.cooldown.reverse) then
+				if button.onCooldownDoneHooked then
 					AB:Unhook(button.cooldown, "OnHide")
-				else
+
+					button.onCooldownDoneHooked = nil
+				end
+			else
+				if button.onCooldownTimerDoneHooked then
 					if button.cooldown.timer then
+						if (E.db.cooldown.enable and AB.db.cooldown.reverse) or (not E.db.cooldown.enable and not AB.db.cooldown.reverse) then return end
+
 						AB:Unhook(button.cooldown.timer, "OnHide")
+
+						button.onCooldownTimerDoneHooked = nil
 					end
 				end
-				button.onCooldownDoneHooked = nil
 			end
 		end
 	end
@@ -1110,8 +1134,19 @@ function AB:LAB_ButtonUpdate(button)
 	end
 
 	if button.backdrop then
-		color = (AB.db.equippedItem and button:IsEquipped()) and AB.db.equippedItemColor or E.media.bordercolor
-		button.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
+		if AB.db.equippedItem then
+			if button:IsEquipped() and AB.db.equippedItemColor then
+				color = AB.db.equippedItemColor
+				button.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
+				button.backdrop.isColored = true
+			elseif button.backdrop.isColored then
+				button.backdrop.isColored = nil
+				button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			end
+		elseif button.backdrop.isColored then
+			button.backdrop.isColored = nil
+			button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
+		end
 	end
 end
 

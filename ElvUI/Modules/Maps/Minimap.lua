@@ -309,6 +309,7 @@ function M:UpdateSettings()
 		else
 			local pos = E.db.general.minimap.icons.calendar.position or "TOPRIGHT"
 			local scale = E.db.general.minimap.icons.calendar.scale or 1
+
 			GameTimeFrame:ClearAllPoints()
 			GameTimeFrame:Point(pos, Minimap, pos, E.db.general.minimap.icons.calendar.xOffset or 0, E.db.general.minimap.icons.calendar.yOffset or 0)
 			GameTimeFrame:SetScale(scale)
@@ -319,6 +320,7 @@ function M:UpdateSettings()
 	if MiniMapMailFrame then
 		local pos = E.db.general.minimap.icons.mail.position or "TOPRIGHT"
 		local scale = E.db.general.minimap.icons.mail.scale or 1
+
 		MiniMapMailFrame:ClearAllPoints()
 		MiniMapMailFrame:Point(pos, Minimap, pos, E.db.general.minimap.icons.mail.xOffset or 3, E.db.general.minimap.icons.mail.yOffset or 4)
 		MiniMapMailFrame:SetScale(scale)
@@ -327,6 +329,7 @@ function M:UpdateSettings()
 	if MiniMapLFGFrame then
 		local pos = E.db.general.minimap.icons.lfgEye.position or "BOTTOMRIGHT"
 		local scale = E.db.general.minimap.icons.lfgEye.scale or 1
+
 		MiniMapLFGFrame:ClearAllPoints()
 		MiniMapLFGFrame:Point(pos, Minimap, pos, E.db.general.minimap.icons.lfgEye.xOffset or 3, E.db.general.minimap.icons.lfgEye.yOffset or 0)
 		MiniMapLFGFrame:SetScale(scale)
@@ -345,9 +348,8 @@ function M:UpdateSettings()
 		MiniMapBattlefieldFrame:CreateBackdrop()
 		MiniMapBattlefieldFrame:Size(28)
 
-		local factionGroup = E.myfaction
 		MiniMapBattlefieldFrame.texture = MiniMapBattlefieldFrame:CreateTexture(nil, "OVERLAY")
-		MiniMapBattlefieldFrame.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..factionGroup)
+		MiniMapBattlefieldFrame.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..E.myfaction)
 		MiniMapBattlefieldFrame.texture:SetTexCoord(unpack(E.TexCoords))
 		MiniMapBattlefieldFrame.texture:SetInside(MiniMapBattlefieldFrame.backdrop)
 	end
@@ -357,9 +359,11 @@ function M:UpdateSettings()
 		local scale = E.db.general.minimap.icons.difficulty.scale or 1
 		local x = E.db.general.minimap.icons.difficulty.xOffset or 0
 		local y = E.db.general.minimap.icons.difficulty.yOffset or 0
+
 		MiniMapInstanceDifficulty:ClearAllPoints()
 		MiniMapInstanceDifficulty:Point(pos, Minimap, pos, x, y)
 		MiniMapInstanceDifficulty:SetScale(scale)
+
 		GuildInstanceDifficulty:ClearAllPoints()
 		GuildInstanceDifficulty:Point(pos, Minimap, pos, x, y)
 		GuildInstanceDifficulty:SetScale(scale)
@@ -479,24 +483,19 @@ function M:Initialize()
 
 	MinimapBorder:Hide()
 	MinimapBorderTop:Hide()
-
 	MinimapZoomIn:Hide()
 	MinimapZoomOut:Hide()
-
 	MiniMapVoiceChatFrame:Hide()
-
-	MinimapNorthTag:Kill()
-
 	MinimapZoneTextButton:Hide()
-
-	MiniMapTracking:Kill()
-
 	MiniMapMailBorder:Hide()
-	MiniMapMailIcon:SetTexture(E.Media.Textures.Mail)
-
+	MiniMapLFGFrameBorder:Hide()
 	MiniMapBattlefieldBorder:Hide()
 
-	MiniMapLFGFrameBorder:Hide()
+	MiniMapTracking:Kill()
+	MinimapNorthTag:Kill()
+
+	MiniMapMailIcon:SetTexture(E.Media.Textures.Mail)
+
 	MiniMapLFGFrame:SetClampedToScreen(true)
 
 	MiniMapInstanceDifficulty:SetParent(Minimap)

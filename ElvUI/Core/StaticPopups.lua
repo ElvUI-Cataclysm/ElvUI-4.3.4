@@ -26,8 +26,32 @@ local STATICPOPUP_TEXTURE_ALERT = STATICPOPUP_TEXTURE_ALERT
 local STATICPOPUP_TEXTURE_ALERTGEAR = STATICPOPUP_TEXTURE_ALERTGEAR
 local YES, NO, OKAY, CANCEL, ACCEPT, DECLINE = YES, NO, OKAY, CANCEL, ACCEPT, DECLINE
 
+local DOWNLOAD_URL = "https://github.com/ElvUI-Cataclysm"
+
 E.PopupDialogs = {}
 E.StaticPopup_DisplayedFrames = {}
+
+E.PopupDialogs.ELVUI_UPDATED_WHILE_RUNNING = {
+	text = L["ElvUI was updated while the game is still running. Please relaunch the game, as this is required for the files to be properly updated."],
+	button1 = ACCEPT,
+	button2 = CANCEL,
+	OnShow = function(self, data)
+		local secureButton = E:StaticPopup_GetSecureButton("Quit")
+		if secureButton then
+			E:StaticPopup_PositionSecureButton(self, self.button1, secureButton)
+		else
+			secureButton = E:StaticPopup_CreateSecureButton(self, self.button1, _G.QUIT, "/quit")
+			E:StaticPopup_SetSecureButton("Quit", secureButton)
+		end
+
+		if data and data.mismatch then
+			self.button2:Disable()
+		end
+
+		self.button1:Hide()
+	end,
+	whileDead = 1
+}
 
 E.PopupDialogs.ELVUI_UPDATE_AVAILABLE = {
 	text = L["ElvUI is five or more revisions out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm"],
@@ -36,7 +60,7 @@ E.PopupDialogs.ELVUI_UPDATE_AVAILABLE = {
 		self.editBox:SetAutoFocus(false)
 		self.editBox.width = self.editBox:GetWidth()
 		self.editBox:Width(220)
-		self.editBox:SetText("https://github.com/ElvUI-Cataclysm")
+		self.editBox:SetText(DOWNLOAD_URL)
 		self.editBox:HighlightText()
 		ChatEdit_FocusActiveWindow()
 	end,
@@ -56,9 +80,10 @@ E.PopupDialogs.ELVUI_UPDATE_AVAILABLE = {
 		self:GetParent():Hide()
 	end,
 	EditBoxOnTextChanged = function(self)
-		if self:GetText() ~= "https://github.com/ElvUI-Cataclysm" then
-			self:SetText("https://github.com/ElvUI-Cataclysm")
+		if self:GetText() ~= DOWNLOAD_URL then
+			self:SetText(DOWNLOAD_URL)
 		end
+
 		self:HighlightText()
 		self:ClearFocus()
 		ChatEdit_FocusActiveWindow()
@@ -475,6 +500,13 @@ E.PopupDialogs.SCRIPT_PROFILE = {
 	showAlert = 1,
 	whileDead = 1,
 	hideOnEscape = false
+}
+
+E.PopupDialogs.ELVUI_CONFIG_FOUND = {
+    text = L["You still have ElvUI_Config installed. ElvUI_Config has been renamed to ElvUI_OptionsUI, please remove it."],
+    button1 = ACCEPT,
+    whileDead = 1,
+    hideOnEscape = false
 }
 
 local MAX_STATIC_POPUPS = 4
@@ -1090,6 +1122,56 @@ function E:StaticPopup_Hide(which, data)
 			dialog:Hide()
 		end
 	end
+end
+
+-- Static popup secure buttons
+local SecureButtons = {}
+local SecureOnEnter = function(s) s.text:SetTextColor(1, 1, 1) end
+local SecureOnLeave = function(s) s.text:SetTextColor(1, 0.17, 0.26) end
+function E:StaticPopup_CreateSecureButton(popup, button, text, macro)
+	local btn = CreateFrame("Button", nil, popup, "SecureActionButtonTemplate")
+	btn:SetAttribute("type", "macro")
+	btn:SetAttribute("macrotext", macro)
+	btn:SetAllPoints(button)
+	btn:SetSize(button:GetSize())
+	btn:HookScript("OnEnter", SecureOnEnter)
+	btn:HookScript("OnLeave", SecureOnLeave)
+	Skins:HandleButton(btn)
+
+	local t = btn:CreateFontString(nil, "OVERLAY", btn)
+	t:Point("CENTER", 0, 1)
+	t:FontTemplate(nil, nil, "NONE")
+	t:SetJustifyH("CENTER")
+	t:SetText(text)
+	btn.text = t
+
+	btn:SetFontString(t)
+	btn:SetTemplate(nil, true)
+	SecureOnLeave(btn)
+
+	return btn
+end
+
+function E:StaticPopup_GetAllSecureButtons()
+	return SecureButtons
+end
+
+function E:StaticPopup_GetSecureButton(which)
+	return SecureButtons[which]
+end
+
+function E:StaticPopup_PositionSecureButton(popup, popupButton, secureButton)
+	secureButton:SetParent(popup)
+	secureButton:SetAllPoints(popupButton)
+	secureButton:SetSize(popupButton:GetSize())
+end
+
+function E:StaticPopup_SetSecureButton(which, btn)
+	if SecureButtons[which] then
+		error("A secure StaticPopup Button called `"..which.."` already exists.")
+	end
+
+	SecureButtons[which] = btn
 end
 
 function E:Contruct_StaticPopups()

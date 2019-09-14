@@ -1551,7 +1551,7 @@ local ORDER = 100
 local function GetUnitSettings(unit, name)
 	local copyValues = {}
 	for x, y in pairs(NP.db.units) do
-		if(type(y) == "table" and x ~= unit) then
+		if type(y) == "table" and x ~= unit then
 			copyValues[x] = L[x]
 		end
 	end
@@ -1635,7 +1635,7 @@ local function GetUnitSettings(unit, name)
 								values = {
 									["CURRENT"] = L["Current"],
 									["CURRENT_MAX"] = L["Current / Max"],
-									["CURRENT_PERCENT"] =  L["Current - Percent"],
+									["CURRENT_PERCENT"] = L["Current - Percent"],
 									["CURRENT_MAX_PERCENT"] = L["Current - Max | Percent"],
 									["PERCENT"] = L["Percent"],
 									["DEFICIT"] = L["Deficit"]
@@ -2184,14 +2184,14 @@ local function GetUnitSettings(unit, name)
 					xOffset = {
 						order = 6,
 						type = "range",
-						name = L["xOffset"],
+						name = L["X-Offset"],
 						min = -100, max = 100, step = 1,
 						disabled = function() return not E.db.nameplates.units.ENEMY_PLAYER.comboPoints.enable end
 					},
 					yOffset = {
 						order = 7,
 						type = "range",
-						name = L["yOffset"],
+						name = L["Y-Offset"],
 						min = -100, max = 100, step = 1,
 						disabled = function() return not E.db.nameplates.units.ENEMY_PLAYER.comboPoints.enable end
 					}
@@ -2254,14 +2254,14 @@ local function GetUnitSettings(unit, name)
 				xOffset = {
 					order = 6,
 					type = "range",
-					name = L["xOffset"],
+					name = L["X-Offset"],
 					min = -100, max = 100, step = 1,
 					disabled = function() return not E.db.nameplates.units[unit].eliteIcon.enable end
 				},
 				yOffset = {
 					order = 7,
 					type = "range",
-					name = L["yOffset"],
+					name = L["Y-Offset"],
 					min = -100, max = 100, step = 1,
 					disabled = function() return not E.db.nameplates.units[unit].eliteIcon.enable end
 				}
@@ -2309,14 +2309,14 @@ local function GetUnitSettings(unit, name)
 					xOffset = {
 						order = 6,
 						type = "range",
-						name = L["xOffset"],
+						name = L["X-Offset"],
 						min = -100, max = 100, step = 1,
 						disabled = function() return not E.db.nameplates.units.ENEMY_NPC.comboPoints.enable end
 					},
 					yOffset = {
 						order = 7,
 						type = "range",
-						name = L["yOffset"],
+						name = L["Y-Offset"],
 						min = -100, max = 100, step = 1,
 						disabled = function() return not E.db.nameplates.units.ENEMY_NPC.comboPoints.enable end
 					}
@@ -2432,7 +2432,7 @@ E.Options.args.nameplate = {
 		cutawayHealthShortcut = {
 			order = 14,
 			type = "execute",
-			name = L["Cutaway Health"],
+			name = L["Cutaway Bars"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "cutawayHealth") end,
 			disabled = function() return not E.NamePlates.Initialized end
@@ -2573,13 +2573,6 @@ E.Options.args.nameplate = {
 							type = "toggle",
 							name = L["Name Colored Glow"],
 							desc = L["Use the Name Color of the unit for the Name Glow."]
-						},
-						smoothbars = {
-							order = 8.1,
-							type = "toggle",
-							name = L["Smooth Bars"],
-							desc = L["Bars will transition smoothly."],
-							set = function(info, value) E.db.nameplates[info[#info]] = value NP:ConfigureAll() end,
 						},
 						targetedNamePlate = {
 							order = 9,
@@ -2759,9 +2752,9 @@ E.Options.args.nameplate = {
 									name = L["Position"],
 									values = {
 										["CENTER"] = L["Center"],
-										["TOPLEFT"] = "TOPLEFT",
-										["BOTTOMLEFT"] = "BOTTOMLEFT",
-										["TOPRIGHT"] = "TOPRIGHT"
+										["TOPLEFT"] = L["Top Left"],
+										["BOTTOMLEFT"] = L["Bottom Left"],
+										["TOPRIGHT"] = L["Top Right"]
 									}
 								}
 							}
@@ -2991,12 +2984,12 @@ E.Options.args.nameplate = {
 				cutawayHealth = {
 					order = 9,
 					type = "group",
-					name = L["Cutaway Health"],
+					name = L["Cutaway Bars"],
 					args = {
 						header = {
 							order = 1,
 							type = "header",
-							name = L["Cutaway Health"]
+							name = L["Cutaway Bars"]
 						},
 						enabled = {
 							order = 2,
@@ -3009,7 +3002,7 @@ E.Options.args.nameplate = {
 							order = 3,
 							type = "range",
 							name = L["Health Length"],
-							desc = L["How much time before the CutawayHealth starts to fade."],
+							desc = L["How much time before the cutaway health starts to fade."],
 							min = 0.1, max = 1, step = 0.1,
 							get = function(info) return E.db.nameplates.cutawayHealthLength end,
 							set = function(info, value) E.db.nameplates.cutawayHealthLength = value end,
@@ -3019,7 +3012,7 @@ E.Options.args.nameplate = {
 							order = 4,
 							type = "range",
 							name = L["Fade Out"],
-							desc = L["How long the CutawayHealth will take to fade out."],
+							desc = L["How long the cutaway health will take to fade out."],
 							min = 0.1, max = 1, step = 0.1,
 							get = function(info) return E.db.nameplates.cutawayHealthFadeOutTime end,
 							set = function(info, value) E.db.nameplates.cutawayHealthFadeOutTime = value end,
@@ -3118,7 +3111,7 @@ for i = 1, 5 do
 		set = function(info, r, g, b)
 			local t = E.db.nameplates.comboBar.colors[i]
 			t.r, t.g, t.b = r, g, b
-			NP:PLAYER_COMBO_POINTS()
+			NP:UNIT_COMBO_POINTS()
 			NP:ConfigureAll()
 		end
 	}

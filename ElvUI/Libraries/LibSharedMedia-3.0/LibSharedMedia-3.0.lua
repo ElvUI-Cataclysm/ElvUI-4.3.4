@@ -20,7 +20,6 @@ local pairs		= _G.pairs
 local type		= _G.type
 
 local band			= _G.bit.band
-
 local table_sort	= _G.table.sort
 
 local locale = GetLocale()
@@ -173,11 +172,14 @@ function lib:Register(mediatype, key, data, langmask)
 		error(MAJOR..":Register(mediatype, key, data, langmask) - key must be string, got "..type(key))
 	end
 	mediatype = mediatype:lower()
-	if mediatype == lib.MediaType.FONT and ((langmask and band(langmask, LOCALE_MASK) == 0) or not (langmask or locale_is_western)) then return false end
+	if mediatype == lib.MediaType.FONT and ((langmask and band(langmask, LOCALE_MASK) == 0) or not (langmask or locale_is_western)) then
+		-- ignore fonts that aren't flagged as supporting local glyphs on non-western clients
+		return false
+	end
 	if mediatype == lib.MediaType.SOUND and type(data) == "string" then
 		local path = data:lower()
-		-- Only wav, ogg and mp3 are valid sounds.
 		if not path:find(".ogg", nil, true) and not path:find(".mp3", nil, true) and not path:find(".wav", nil, true) then
+			-- Only wav, ogg and mp3 are valid sounds.
 			return false
 		end
 	end

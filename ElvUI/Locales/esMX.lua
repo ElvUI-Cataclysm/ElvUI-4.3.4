@@ -48,10 +48,10 @@ L["Binds Saved"] = "Teclas Guardadas"
 L["BNet Frame"] = "Marco BNet"
 L["Boss Button"] = "Botón de Jefe"
 L["Boss Frames"] = "Marco de Jefe"
-L["Calendar"] = "Calendario"
 L["Can't Roll"] = "No puede tirar dados"
 L["Can't buy anymore slots!"] = "¡No puedes comprar más huecos!"
 L["Caster DPS"] = "DPS Hechizos"
+L["Change Talent Specialization"] = "Cambiar Especialización de Talentos"
 L["Character: "] = "Personaje: "
 L["Chat Set"] = "Chat Configurado"
 L["Chat"] = "Chat"
@@ -91,6 +91,7 @@ L["ElvUI is five or more revisions out of date. You can download the newest vers
 L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm"] = true
 L["ElvUI needs to perform database optimizations please be patient."] = "ElvUI necesita realizar optimizaciones de base de datos por favor se paciente."
 L["ElvUI Plugin Installation"] = "Instalación del plugin de ElvUI"
+L["ElvUI was updated while the game is still running. Please relaunch the game, as this is required for the files to be properly updated."] = true
 L["Empty Slot"] = true
 L["Enable"] = "Habilitar"
 L["Error resetting UnitFrame."] = true
@@ -171,7 +172,6 @@ L["MT Frames"] = "Marcos de TP"
 L["No bindings set."] = "No hay teclas establecidas."
 L["No gray items to delete."] = "No hay objetos grises para eliminar."
 L["No Guild"] = "Sin Hermandad"
-L["No locals to dump"] = "No hay locales para volcar"
 L["No, Revert Changes!"] = "¡No, Revierte los Cambios!"
 L["Nudge"] = "Ajuste Fino"
 L["O"] = "O"
@@ -233,6 +233,7 @@ L["Session:"] = "Sesión:"
 L["Setup CVars"] = "Configurar CVars"
 L["Setup Chat"] = "Configurar Chat"
 L["Show BG Texts"] = "Mostrar Textos de CB"
+L["Show Talent Specialization UI"] = "Mostrar Interfaz de Especialización de Talentos"
 L["silverabbrev"] = "|cffc7c7cfs|r"
 L["Skip Process"] = "Saltar Proceso"
 L["Sort Bags"] = "Ordenar Bolsas"
@@ -245,8 +246,7 @@ L["Stats For:"] = "Estadísticas para:"
 L["Steps"] = "Pasos"
 L["Sticky Frames"] = "Marcos Adhesivos"
 L["System"] = true
-L["Talent Specialization"] = true
-L["Talent Specialization:"] = "Especialización de Talentos:"
+L["Talent Specialization"] = "Especialización de Talentos"
 L["Tank / Physical DPS"] = true
 L["Target Castbar"] = "Barra de Lanzamiento del Objetivo"
 L["Target Frame"] = "Marco de Objetivo"
@@ -312,12 +312,8 @@ L["Your items have been repaired for: "] = "Tus objetos han sido reparados por:"
 L["Your items have been repaired using guild bank funds for: "] = "Tus objetos han sido reparados con fondos del banco de hermandad por:"
 L["Your profile was successfully recieved by the player."] = "Tu perfil ha sido recibido exitosamente por el jugador."
 L["|cFFE30000Lua error recieved. You can view the error message when you exit combat."] = "|cFFE30000Error de Lua recibido. Podrás ver el error cuando salgas de combate."
-L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "|cffFFFFFFClick Izquierdo:|r Cambiar Especialización de Talentos"
-L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = "|cffFFFFFFClick Derecho:|r Mostrar Interfaz de Especialización de Talentos"
 
 ----------------------------------
-L["RED_ENABLE"] = "|cFFff3333Habilitar|r"
-L["GREEN_ENABLE"] = "|cFF33ff33Habilitar|r"
 L["DESC_MOVERCONFIG"] = [=[Fijadores desbloqueados. Muévelos ahora y haz click en Bloquear cuando termines.
 
 Options:

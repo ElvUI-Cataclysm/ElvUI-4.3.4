@@ -27,30 +27,21 @@ local function LoadSkin()
 	S:HandleCloseButton(TransmogrifyArtFrameCloseButton)
 
 	local slots = {
-		"Head",
-		"Shoulder",
-		"Chest",
-		"Waist",
-		"Legs",
-		"Feet",
-		"Wrist",
-		"Hands",
-		"Back",
-		"MainHand",
-		"SecondaryHand",
-		"Ranged"
+		"HeadSlot", "ShoulderSlot", "ChestSlot", "WaistSlot",
+		"LegsSlot", "FeetSlot", "WristSlot", "HandsSlot", "BackSlot",
+		"MainHandSlot", "SecondaryHandSlot", "RangedSlot"
 	}
 
 	for _, slot in pairs(slots) do
-		local icon = _G["TransmogrifyFrame"..slot.."SlotIconTexture"]
-		local slot = _G["TransmogrifyFrame"..slot.."Slot"]
+		local item = _G["TransmogrifyFrame"..slot]
+		local icon = _G["TransmogrifyFrame"..slot.."IconTexture"]
 
-		if slot then
-			slot:StripTextures()
-			slot:StyleButton(false)
-			slot:SetFrameLevel(slot:GetFrameLevel() + 2)
-			slot:CreateBackdrop("Default")
-			slot.backdrop:SetAllPoints()
+		if item then
+			item:StripTextures()
+			item:StyleButton(false)
+			item:SetFrameLevel(item:GetFrameLevel() + 2)
+			item:CreateBackdrop("Default")
+			item.backdrop:SetAllPoints()
 
 			icon:SetTexCoord(unpack(E.TexCoords))
 			icon:SetInside()
@@ -58,28 +49,7 @@ local function LoadSkin()
 	end
 
 	-- Control Frame
-	TransmogrifyModelFrameControlFrame:StripTextures()
-	TransmogrifyModelFrameControlFrame:Size(123, 23)
-
-	local controlbuttons = {
-		"TransmogrifyModelFrameControlFrameZoomInButton",
-		"TransmogrifyModelFrameControlFrameZoomOutButton",
-		"TransmogrifyModelFrameControlFramePanButton",
-		"TransmogrifyModelFrameControlFrameRotateRightButton",
-		"TransmogrifyModelFrameControlFrameRotateLeftButton",
-		"TransmogrifyModelFrameControlFrameRotateResetButton"
-	}
-
-	for i = 1, #controlbuttons do
-		S:HandleButton(_G[controlbuttons[i]])
-		_G[controlbuttons[i].."Bg"]:Hide()
-	end
-
-	TransmogrifyModelFrameControlFrameZoomOutButton:Point("LEFT", "TransmogrifyModelFrameControlFrameZoomInButton", "RIGHT", 2, 0)
-	TransmogrifyModelFrameControlFramePanButton:Point("LEFT", "TransmogrifyModelFrameControlFrameZoomOutButton", "RIGHT", 2, 0)
-	TransmogrifyModelFrameControlFrameRotateRightButton:Point("LEFT", "TransmogrifyModelFrameControlFramePanButton", "RIGHT", 2, 0)
-	TransmogrifyModelFrameControlFrameRotateLeftButton:Point("LEFT", "TransmogrifyModelFrameControlFrameRotateRightButton", "RIGHT", 2, 0)
-	TransmogrifyModelFrameControlFrameRotateResetButton:Point("LEFT", "TransmogrifyModelFrameControlFrameRotateLeftButton", "RIGHT", 2, 0)
+	S:HandleModelControlFrame(TransmogrifyModelFrameControlFrame)
 end
 
 S:AddCallbackForAddon("Blizzard_ItemAlterationUI", "ItemAlterationUI", LoadSkin)

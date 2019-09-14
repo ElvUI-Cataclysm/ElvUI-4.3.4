@@ -3,7 +3,6 @@ local AB = E:GetModule("ActionBars")
 
 local _G = _G
 local ceil = math.ceil
-local gsub, match = string.gsub, string.match
 
 local RegisterStateDriver = RegisterStateDriver
 local GetBindingKey = GetBindingKey
@@ -242,11 +241,11 @@ function AB:PositionAndSizeBarPet()
 end
 
 function AB:UpdatePetBindings()
-	local color = self.db.fontColor
-
 	for i = 1, NUM_PET_ACTION_SLOTS do
 		if self.db.hotkeytext then
 			local key = GetBindingKey("BONUSACTIONBUTTON"..i)
+			local color = self.db.fontColor
+
 			_G["PetActionButton"..i.."HotKey"]:Show()
 			_G["PetActionButton"..i.."HotKey"]:SetText(key)
 			_G["PetActionButton"..i.."HotKey"]:SetTextColor(color.r, color.g, color.b)
@@ -258,7 +257,7 @@ function AB:UpdatePetBindings()
 end
 
 function AB:CreateBarPet()
-	bar:CreateBackdrop("Default")
+	bar:CreateBackdrop(self.db.transparentBackdrops and "Transparent")
 	bar.backdrop:SetAllPoints()
 	if self.db.bar4.enabled then
 		bar:Point("RIGHT", ElvUI_Bar4, "LEFT", -4, 0)

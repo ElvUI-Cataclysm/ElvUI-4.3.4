@@ -103,7 +103,7 @@ local DEFAULT_ICON = [[Interface\ICONS\INV_Misc_QuestionMark]]
 -- ElvUI block
 local UNIT_SPELLCAST_SENT = function (self, event, unit, _, _, target, castID)
 	local castbar = self.Castbar
-	castbar.curTarget = (target and target ~= "") and target or nil
+	castbar.curTarget = (target and target ~= '') and target or nil
 
 	if castbar.isTradeSkill then
 		castbar.tradeSkillCastId = castID
@@ -163,7 +163,7 @@ local function CastStart(self, event, unit)
 		element.holdTime = 1
 		element.tradeSkillCastId = castID
 
-		if(unit == "player") then
+		if(unit == 'player') then
 			tradeskillCurrent = tradeskillCurrent + 1
 		end
 	end
@@ -217,7 +217,7 @@ local function CastUpdate(self, event, unit, _, _, castID)
 	if(self.unit ~= unit) then return end
 
 	local element = self.Castbar
-	if(not element:IsShown() or element.castID ~= castID) then
+	if(not element:IsShown() or element.castID and element.castID ~= castID) then
 		return
 	end
 
@@ -299,7 +299,7 @@ local function CastFail(self, event, unit, _, _, castID)
 	if(self.unit ~= unit) then return end
 
 	local element = self.Castbar
-	if(not element:IsShown() or element.castID ~= castID) then
+	if(not element:IsShown() or element.castID and element.castID ~= castID) then
 		return
 	end
 
@@ -523,31 +523,31 @@ function CastingBarFrame_SetUnit(self, unit, showTradeSkills, showShield)
 		self.fadeOut = nil
 
 		if(unit) then
-			self:RegisterEvent("UNIT_SPELLCAST_START")
-			self:RegisterEvent("UNIT_SPELLCAST_STOP")
-			self:RegisterEvent("UNIT_SPELLCAST_FAILED")
-			self:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED")
-			self:RegisterEvent("UNIT_SPELLCAST_DELAYED")
-			self:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START")
-			self:RegisterEvent("UNIT_SPELLCAST_CHANNEL_UPDATE")
-			self:RegisterEvent("UNIT_SPELLCAST_CHANNEL_STOP")
-			self:RegisterEvent("UNIT_SPELLCAST_INTERRUPTIBLE")
-			self:RegisterEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE")
-			self:RegisterEvent("PLAYER_ENTERING_WORLD")
+			self:RegisterEvent('UNIT_SPELLCAST_START')
+			self:RegisterEvent('UNIT_SPELLCAST_STOP')
+			self:RegisterEvent('UNIT_SPELLCAST_FAILED')
+			self:RegisterEvent('UNIT_SPELLCAST_INTERRUPTED')
+			self:RegisterEvent('UNIT_SPELLCAST_DELAYED')
+			self:RegisterEvent('UNIT_SPELLCAST_CHANNEL_START')
+			self:RegisterEvent('UNIT_SPELLCAST_CHANNEL_UPDATE')
+			self:RegisterEvent('UNIT_SPELLCAST_CHANNEL_STOP')
+			self:RegisterEvent('UNIT_SPELLCAST_INTERRUPTIBLE')
+			self:RegisterEvent('UNIT_SPELLCAST_NOT_INTERRUPTIBLE')
+			self:RegisterEvent('PLAYER_ENTERING_WORLD')
 
-			CastingBarFrame_OnEvent(self, "PLAYER_ENTERING_WORLD")
+			CastingBarFrame_OnEvent(self, 'PLAYER_ENTERING_WORLD')
 		else
-			self:UnregisterEvent("UNIT_SPELLCAST_INTERRUPTED")
-			self:UnregisterEvent("UNIT_SPELLCAST_DELAYED")
-			self:UnregisterEvent("UNIT_SPELLCAST_CHANNEL_START")
-			self:UnregisterEvent("UNIT_SPELLCAST_CHANNEL_UPDATE")
-			self:UnregisterEvent("UNIT_SPELLCAST_CHANNEL_STOP")
-			self:UnregisterEvent("UNIT_SPELLCAST_INTERRUPTIBLE")
-			self:UnregisterEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE")
-			self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-			self:UnregisterEvent("UNIT_SPELLCAST_START")
-			self:UnregisterEvent("UNIT_SPELLCAST_STOP")
-			self:UnregisterEvent("UNIT_SPELLCAST_FAILED")
+			self:UnregisterEvent('UNIT_SPELLCAST_INTERRUPTED')
+			self:UnregisterEvent('UNIT_SPELLCAST_DELAYED')
+			self:UnregisterEvent('UNIT_SPELLCAST_CHANNEL_START')
+			self:UnregisterEvent('UNIT_SPELLCAST_CHANNEL_UPDATE')
+			self:UnregisterEvent('UNIT_SPELLCAST_CHANNEL_STOP')
+			self:UnregisterEvent('UNIT_SPELLCAST_INTERRUPTIBLE')
+			self:UnregisterEvent('UNIT_SPELLCAST_NOT_INTERRUPTIBLE')
+			self:UnregisterEvent('PLAYER_ENTERING_WORLD')
+			self:UnregisterEvent('UNIT_SPELLCAST_START')
+			self:UnregisterEvent('UNIT_SPELLCAST_STOP')
+			self:UnregisterEvent('UNIT_SPELLCAST_FAILED')
 
 			self:Hide()
 		end

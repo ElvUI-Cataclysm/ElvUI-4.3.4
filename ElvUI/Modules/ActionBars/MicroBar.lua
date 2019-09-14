@@ -2,41 +2,29 @@
 local AB = E:GetModule("ActionBars")
 
 local _G = _G
-local gsub, match = string.gsub, string.match
 
 local CreateFrame = CreateFrame
 local UpdateMicroButtonsParent = UpdateMicroButtonsParent
 local RegisterStateDriver = RegisterStateDriver
 local InCombatLockdown = InCombatLockdown
+local MICRO_BUTTONS = MICRO_BUTTONS
 
-local function onEnterBar()
-	if AB.db.microbar.mouseover then
-		E:UIFrameFadeIn(ElvUI_MicroBar, 0.2, ElvUI_MicroBar:GetAlpha(), AB.db.microbar.alpha)
-	end
-end
-
-local function onLeaveBar()
-	if AB.db.microbar.mouseover then
-		E:UIFrameFadeOut(ElvUI_MicroBar, 0.2, ElvUI_MicroBar:GetAlpha(), 0)
-	end
-end
-
-local function onEnterButton(button)
+local function onEnter(button)
 	if AB.db.microbar.mouseover then
 		E:UIFrameFadeIn(ElvUI_MicroBar, 0.2, ElvUI_MicroBar:GetAlpha(), AB.db.microbar.alpha)
 	end
 
-	if button.backdrop then
+	if button and button.backdrop then
 		button.backdrop:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
 	end
 end
 
-local function onLeaveButton(button)
+local function onLeave(button)
 	if AB.db.microbar.mouseover then
 		E:UIFrameFadeOut(ElvUI_MicroBar, 0.2, ElvUI_MicroBar:GetAlpha(), 0)
 	end
 
-	if button.backdrop then
+	if button and button.backdrop then
 		button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 	end
 end
@@ -54,8 +42,8 @@ function AB:HandleMicroButton(button)
 
 	button:SetParent(ElvUI_MicroBar)
 	button:GetHighlightTexture():Kill()
-	button:HookScript("OnEnter", onEnterButton)
-	button:HookScript("OnLeave", onLeaveButton)
+	button:HookScript("OnEnter", onEnter)
+	button:HookScript("OnLeave", onLeave)
 	button:SetHitRectInsets(0, 0, 0, 0)
 	button:Show()
 
@@ -118,7 +106,7 @@ function AB:UpdateMicroPositionDimensions()
 		button:ClearAllPoints()
 
 		if prevButton == ElvUI_MicroBar then
-			button:Point("TOPLEFT", prevButton, "TOPLEFT", offset, -offset)
+			button:Point("TOPLEFT", ElvUI_MicroBar, "TOPLEFT", offset, -offset)
 		elseif (i - 1) % self.db.microbar.buttonsPerRow == 0 then
 			button:Point("TOP", lastColumnButton, "BOTTOM", 0, -spacing)
 			numRows = numRows + 1
@@ -153,6 +141,7 @@ end
 function AB:UpdateMicroButtons()
 	-- Guild Button
 	GuildMicroButtonTabard:SetInside(GuildMicroButton)
+
 	GuildMicroButtonTabard.background:SetInside(GuildMicroButton)
 	GuildMicroButtonTabard.background:SetTexCoord(0.17, 0.87, 0.5, 0.908)
 
@@ -161,11 +150,8 @@ function AB:UpdateMicroButtons()
 	GuildMicroButtonTabard.emblem:Point("BOTTOMRIGHT", GuildMicroButton, "BOTTOMRIGHT", -4, 8)
 
 	-- PvP Micro Button
-	if E.mylevel < PVPMicroButton.minLevel then
-		PVPMicroButtonTexture:SetDesaturated(true)
-	else
-		PVPMicroButtonTexture:SetDesaturated(false)
-	end
+	local desaturate = (E.mylevel < PVPMicroButton.minLevel and true) or false
+	PVPMicroButtonTexture:SetDesaturated(desaturate)
 
 	self:UpdateMicroPositionDimensions()
 end
@@ -174,6 +160,8 @@ function AB:SetupMicroBar()
 	local microBar = CreateFrame("Frame", "ElvUI_MicroBar", E.UIParent)
 	microBar:Point("TOPLEFT", E.UIParent, "TOPLEFT", 4, -48)
 	microBar:EnableMouse(false)
+	microBar:SetScript("OnEnter", onEnter)
+	microBar:SetScript("OnLeave", onLeave)
 
 	microBar.visibility = CreateFrame("Frame", nil, E.UIParent, "SecureHandlerStateTemplate")
 	microBar.visibility:SetScript("OnShow", function() microBar:Show() end)
@@ -205,5 +193,5 @@ function AB:SetupMicroBar()
 	self:UpdateMicroPositionDimensions()
 	MainMenuBarPerformanceBar:Kill()
 
-	E:CreateMover(microBar, "MicrobarMover", L["Micro Bar"], nil, nil, nil, "ALL, ACTIONBARS")
+	E:CreateMover(microBar, "MicrobarMover", L["Micro Bar"], nil, nil, nil, "ALL,ACTIONBARS", nil, "actionbar,microbar")
 end

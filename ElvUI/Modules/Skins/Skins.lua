@@ -75,6 +75,9 @@ function S:SetOriginalBackdrop()
 	end
 end
 
+local handleCloseButtonOnEnter = function(btn) if btn.Texture then btn.Texture:SetVertexColor(unpack(E.media.rgbvaluecolor)) end end
+local handleCloseButtonOnLeave = function(btn) if btn.Texture then btn.Texture:SetVertexColor(1, 1, 1) end end
+
 function S:HandleButton(button, strip, isDeclineButton, useCreateBackdrop, noSetTemplate)
 	if button.isSkinned then return end
 	assert(button, "doesn't exist!")
@@ -468,6 +471,42 @@ function S:HandleColorSwatch(frame, size)
 	frame:GetNormalTexture():SetInside(frame.backdrop)
 end
 
+function S:HandleRadioButton(Button)
+	if Button.isSkinned then return end
+
+	Button:CreateBackdrop("Transparent")
+	Button.backdrop:Point("TOPLEFT", 2, -2)
+	Button.backdrop:Point("BOTTOMRIGHT", -2, 2)
+
+	Button:SetNormalTexture("")
+	Button:SetCheckedTexture(E.Media.Textures.Melli)
+	Button:SetHighlightTexture(E.Media.Textures.Melli)
+	Button:SetDisabledTexture(E.Media.Textures.Melli)
+	Button:SetDisabledCheckedTexture(E.Media.Textures.Melli)
+
+	local Checked, Highlight, Disabled, DisabledChecked = Button:GetCheckedTexture(), Button:GetHighlightTexture(), Button:GetDisabledTexture(), Button:GetDisabledCheckedTexture()
+
+	Checked:SetVertexColor(unpack(E.media.rgbvaluecolor))
+	Checked:SetInside(Button.backdrop)
+
+	Highlight:SetVertexColor(1, 1, 1, 0.3)
+	Highlight:SetInside(Button.backdrop)
+
+	Disabled:SetVertexColor(0.6, 0.6, 0.5, 0.8)
+	Disabled:SetInside(Button.backdrop)
+
+	DisabledChecked:SetVertexColor(0.6, 0.6, 0.5, 0.8)
+	DisabledChecked:SetInside(Button.backdrop)
+
+	hooksecurefunc(Button, "SetNormalTexture", function(f, t) if t ~= "" then f:SetNormalTexture("") end end)
+	hooksecurefunc(Button, "SetPushedTexture", function(f, t) if t ~= "" then f:SetPushedTexture("") end end)
+	hooksecurefunc(Button, "SetHighlightTexture", function(f, t) if t ~= "" then f:SetHighlightTexture("") end end)
+	hooksecurefunc(Button, "SetDisabledTexture", function(f, t) if t ~= "" then f:SetDisabledTexture("") end end)
+	hooksecurefunc(Button, "SetDisabledCheckedTexture", function(f, t) if t ~= "" then f:SetDisabledCheckedTexture("") end end)
+
+	Button.isSkinned = true
+end
+
 function S:HandleIcon(icon, parent)
 	parent = parent or icon:GetParent()
 
@@ -515,9 +554,6 @@ function S:HandleItemButton(b, shrinkIcon)
 	b.isSkinned = true
 end
 
-local handleCloseButtonOnEnter = function(btn) if btn.Texture then btn.Texture:SetVertexColor(unpack(E.media.rgbvaluecolor)) end end
-local handleCloseButtonOnLeave = function(btn) if btn.Texture then btn.Texture:SetVertexColor(1, 1, 1) end end
-
 function S:HandleCloseButton(f, point)
 	f:StripTextures()
 
@@ -532,7 +568,7 @@ function S:HandleCloseButton(f, point)
 	end
 
 	if point then
-		f:Point("TOPRIGHT", point, "TOPRIGHT", 2, 2)
+		f:Point("TOPRIGHT", point, "TOPRIGHT", 2, 4)
 	end
 end
 
@@ -597,6 +633,36 @@ function S:HandleSliderFrame(frame)
 			end
 		end
 	end
+end
+
+local controlButtons = {
+	"ZoomInButton",
+	"ZoomOutButton",
+	"PanButton",
+	"RotateLeftButton",
+	"RotateRightButton",
+	"RotateResetButton"
+}
+
+function S:HandleModelControlFrame(frame)
+	local frameName = frame.GetName and frame:GetName()
+
+	frame:StripTextures()
+	frame:Size(123, 23)
+
+	for _, object in pairs(controlButtons) do
+		local button = _G[frameName..object]
+		local buttonBG = _G[frameName..object.."Bg"]
+
+		S:HandleButton(button)
+		buttonBG:Hide()
+	end
+
+	_G[frameName.."ZoomOutButton"]:Point("LEFT", _G[frameName.."ZoomInButton"], "RIGHT", 2, 0)
+	_G[frameName.."PanButton"]:Point("LEFT", _G[frameName.."ZoomOutButton"], "RIGHT", 2, 0)
+	_G[frameName.."RotateLeftButton"]:Point("LEFT", _G[frameName.."PanButton"], "RIGHT", 2, 0)
+	_G[frameName.."RotateRightButton"]:Point("LEFT", _G[frameName.."RotateLeftButton"], "RIGHT", 2, 0)
+	_G[frameName.."RotateResetButton"]:Point("LEFT", _G[frameName.."RotateRightButton"], "RIGHT", 2, 0)
 end
 
 function S:HandleIconSelectionFrame(frame, numIcons, buttonNameTemplate, frameNameOverride)

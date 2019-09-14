@@ -4,16 +4,17 @@ local DT = E:GetModule("DataTexts")
 local pairs = pairs
 local strfind, strjoin = strfind, strjoin
 
-local GetNumAddOns = GetNumAddOns
 local GetAddOnInfo = GetAddOnInfo
 local GetAddOnMetadata = GetAddOnMetadata
+local GetNumAddOns = GetNumAddOns
 local IsShiftKeyDown = IsShiftKeyDown
 local ReloadUI = ReloadUI
+local InCombatLockdown = InCombatLockdown
 
 local displayString = ""
 local configText = "ElvUI"
-local plugins
-local lastPanel
+
+local plugins, lastPanel
 
 local function OnEvent(self, event)
 	lastPanel = self
@@ -49,6 +50,7 @@ local function OnEnter(self)
 end
 
 local function OnClick(_, button)
+	if InCombatLockdown() then UIErrorsFrame:AddMessage(E.InfoColor..ERR_NOT_IN_COMBAT) return end
 	if button == "LeftButton" or (button == "RightButton" and not IsShiftKeyDown()) then
 		E:ToggleOptionsUI()
 	elseif button == "RightButton" and IsShiftKeyDown() then

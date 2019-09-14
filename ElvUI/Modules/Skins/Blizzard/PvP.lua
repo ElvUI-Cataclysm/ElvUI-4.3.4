@@ -205,18 +205,18 @@ local function LoadSkin()
 		warGamesIcon:Size(E.PixelMode and 36 or 32)
 		warGamesIcon:SetParent(warGames.backdrop)
 
-		warGamesHeader:SetNormalTexture(E.Media.Textures.PlusMinusButton)
+		warGamesHeader:SetNormalTexture(E.Media.Textures.Plus)
 		warGamesHeader.SetNormalTexture = E.noop
-		warGamesHeader:GetNormalTexture():Size(14)
-		warGamesHeader:GetNormalTexture():Point("LEFT", 3, 0)
+		warGamesHeader:GetNormalTexture():Size(16)
+		warGamesHeader:GetNormalTexture():Point("LEFT", 2, 1)
 		warGamesHeader:SetHighlightTexture("")
 		warGamesHeader.SetHighlightTexture = E.noop
 
 		hooksecurefunc(warGamesHeader, "SetNormalTexture", function(self, texture)
 			if find(texture, "MinusButton") then
-				self:GetNormalTexture():SetTexCoord(0.540, 0.965, 0.085, 0.920)
-			elseif find(texture, "PlusButton") then
-				self:GetNormalTexture():SetTexCoord(0.040, 0.465, 0.085, 0.920)
+				self:GetNormalTexture():SetTexture(E.Media.Textures.Minus)
+			else
+				self:GetNormalTexture():SetTexture(E.Media.Textures.Plus)
 			end
 		end)
 	end

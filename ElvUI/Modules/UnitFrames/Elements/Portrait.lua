@@ -53,7 +53,7 @@ function UF:Configure_Portrait(frame, dontHide)
 				portrait:SetParent(frame.Health)
 			end
 
-			portrait:SetAlpha(0.35)
+			portrait:SetAlpha(db.portrait.overlayAlpha)
 			if not dontHide then
 				portrait:Show()
 			end
@@ -123,8 +123,8 @@ function UF:PortraitUpdate(unit, event, shouldUpdate)
 
 	local portrait = db.portrait
 	if portrait.enable and self:GetParent().USE_PORTRAIT_OVERLAY then
-		self:SetAlpha(0)
-		self:SetAlpha(0.35)
+		self:SetAlpha(0) -- there was a reason for this. i dont remember
+		self:SetAlpha(db.portrait.overlayAlpha)
 	else
 		self:SetAlpha(1)
 	end
@@ -134,12 +134,12 @@ function UF:PortraitUpdate(unit, event, shouldUpdate)
 		local camDistanceScale = portrait.camDistanceScale or 1
 		local xOffset, yOffset = (portrait.xOffset or 0), (portrait.yOffset or 0)
 
-		if self:GetFacing() ~= (rotation / 60) then
-			self:SetFacing(rotation / 60)
+		if self:GetFacing() ~= (rotation / 57.29573671972358) then
+			self:SetFacing(rotation / 57.29573671972358) -- because 1 degree is equal 0,0174533 radian. Credit: Hndrxuprt
 		end
 
 		self:SetCamDistanceScale(camDistanceScale)
-		self:SetPosition(0, xOffset, yOffset)
+		self:SetPosition(xOffset, xOffset, yOffset)
 
 		--Refresh model to fix incorrect display issues
 		self:ClearModel()

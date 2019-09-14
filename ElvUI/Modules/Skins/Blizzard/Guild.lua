@@ -211,16 +211,15 @@ local function LoadSkin()
 	GuildMemberOfficerNoteBackground:StripTextures()
 	GuildMemberOfficerNoteBackground:SetTemplate("Transparent")
 
+	S:HandleDropDownBox(GuildMemberRankDropdown, 175)
 	GuildMemberRankDropdown:SetFrameLevel(GuildMemberRankDropdown:GetFrameLevel() + 5)
 	GuildMemberRankDropdown:ClearAllPoints()
-	GuildMemberRankDropdown:Point("CENTER", GuildMemberDetailFrame, "CENTER", 8, 42)
+	GuildMemberRankDropdown:Point("CENTER", GuildMemberDetailFrame, "CENTER", 18, 45)
 
 	S:HandleButton(GuildMemberGroupInviteButton)
 
 	S:HandleButton(GuildMemberRemoveButton)
 	GuildMemberRemoveButton:Point("BOTTOMLEFT", 9, 4)
-
-	S:HandleDropDownBox(GuildMemberRankDropdown, 175)
 
 	-- Guild Member Detail
 	GuildMemberDetailFrame:StripTextures()
@@ -266,7 +265,7 @@ local function LoadSkin()
 		S:HandleCheckBox(_G["GuildNewsFilterButton"..i])
 	end
 
-	GuildGMImpeachButton:StyleButton()
+	S:HandleButton(GuildGMImpeachButton)
 
 	S:HandleCloseButton(GuildNewsFiltersFrameCloseButton)
 	GuildNewsFiltersFrameCloseButton:Point("TOPRIGHT", 2, 2)

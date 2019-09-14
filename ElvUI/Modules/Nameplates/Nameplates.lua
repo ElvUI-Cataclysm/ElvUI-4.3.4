@@ -113,35 +113,37 @@ function NP:SetTargetFrame(frame)
 
 			NP:SetPlateFrameLevel(frame, NP:GetPlateFrameLevel(frame), true)
 
-			if self.db.useTargetScale then
-				self:SetFrameScale(frame, (frame.ThreatScale or 1) * self.db.targetScale)
+			if NP.db.useTargetScale then
+				NP:SetFrameScale(frame, (frame.ThreatScale or 1) * NP.db.targetScale)
 			end
 			frame.unit = "target"
 			frame.guid = UnitGUID("target")
 
-			self:RegisterEvents(frame)
+			NP:RegisterEvents(frame)
 			NP:UpdateElement_AurasByUnitID("target")
 
-			if self.db.units[frame.UnitType].healthbar.enable ~= true and self.db.alwaysShowTargetHealth then
+			if NP.db.units[frame.UnitType].healthbar.enable ~= true and NP.db.alwaysShowTargetHealth then
 				frame.Name:ClearAllPoints()
 				frame.Level:ClearAllPoints()
 				frame.HealthBar.r, frame.HealthBar.g, frame.HealthBar.b = nil, nil, nil
 				frame.CastBar:Hide()
-				self:ConfigureElement_HealthBar(frame)
-				self:ConfigureElement_CutawayHealth(frame)
-				self:ConfigureElement_CastBar(frame)
-				self:ConfigureElement_Glow(frame)
-				self:ConfigureElement_Elite(frame)
-				self:ConfigureElement_Highlight(frame)
-				self:ConfigureElement_Level(frame)
-				self:ConfigureElement_Name(frame)
-				self:ConfigureElement_CPoints(frame)
-				self:RegisterEvents(frame)
+				NP:ConfigureElement_HealthBar(frame)
+				NP:ConfigureElement_CutawayHealth(frame)
+				NP:ConfigureElement_CastBar(frame)
+				NP:ConfigureElement_Glow(frame)
+				NP:ConfigureElement_Elite(frame)
+				NP:ConfigureElement_Highlight(frame)
+				NP:ConfigureElement_Level(frame)
+				NP:ConfigureElement_Name(frame)
+				NP:ConfigureElement_CPoints(frame)
+				NP:RegisterEvents(frame)
 
-				self:UpdateElement_All(frame, true)
+				NP:UpdateElement_All(frame, true)
 			end
 
-			if self.hasTarget then
+			frame.CastBar.Icon:SetWidth((NP.db.units[frame.UnitType].castbar.height + NP.db.units[frame.UnitType].healthbar.height + NP.db.units[frame.UnitType].castbar.offset) * (frame.HealthBar.currentScale or 1))
+
+			if NP.hasTarget then
 				frame:SetAlpha(1)
 			end
 
@@ -155,21 +157,21 @@ function NP:SetTargetFrame(frame)
 
 		NP:SetPlateFrameLevel(frame, NP:GetPlateFrameLevel(frame))
 
-		if self.db.useTargetScale then
-			self:SetFrameScale(frame, (frame.ThreatScale or 1))
+		if NP.db.useTargetScale then
+			NP:SetFrameScale(frame, (frame.ThreatScale or 1))
 		end
 		frame.unit = nil
 		frame.guid = nil
 		frame:UnregisterAllEvents()
 		frame.CastBar:Hide()
 
-		if self.db.units[frame.UnitType].healthbar.enable ~= true then
-			self:UpdateAllFrame(frame)
+		if NP.db.units[frame.UnitType].healthbar.enable ~= true then
+			NP:UpdateAllFrame(frame)
 		end
 
 		if not frame.AlphaChanged then
-			if self.hasTarget then
-				frame:SetAlpha(1 - self.db.nonTargetTransparency)
+			if NP.hasTarget then
+				frame:SetAlpha(1 - NP.db.nonTargetTransparency)
 			else
 				frame:SetAlpha(1)
 			end
@@ -187,6 +189,9 @@ function NP:SetTargetFrame(frame)
 
 			NP:UpdateElement_AurasByUnitID("mouseover")
 		end
+
+		frame.CastBar.Icon:SetWidth((NP.db.units[frame.UnitType].castbar.height + NP.db.units[frame.UnitType].healthbar.height + NP.db.units[frame.UnitType].castbar.offset) * (frame.HealthBar.currentScale or 1))
+
 		NP:UpdateElement_Cast(frame, nil, frame.unit)
 		NP:UpdateElement_Highlight(frame)
 	elseif frame.isMouseover then
@@ -199,8 +204,8 @@ function NP:SetTargetFrame(frame)
 		NP:UpdateElement_Highlight(frame)
 	else
 		if not frame.AlphaChanged then
-			if self.hasTarget then
-				frame:SetAlpha(1 - self.db.nonTargetTransparency)
+			if NP.hasTarget then
+				frame:SetAlpha(1 - NP.db.nonTargetTransparency)
 			else
 				frame:SetAlpha(1)
 			end
@@ -209,8 +214,8 @@ function NP:SetTargetFrame(frame)
 		NP:UpdateElement_Filters(frame, "UNIT_AURA")
 	end
 
-	self:UpdateElement_Glow(frame)
-	self:UpdateElement_HealthColor(frame)
+	NP:UpdateElement_Glow(frame)
+	NP:UpdateElement_HealthColor(frame)
 end
 
 function NP:StyleFrame(parent, noBackdrop, point)
@@ -304,13 +309,13 @@ function NP:RoundColors(r, g, b)
 	return floor(r*100 + 0.5) / 100, floor(g*100 + 0.5) / 100, floor(b*100 + 0.5) / 100
 end
 
-function NP:UnitClass(frame, type)
-	if type == "FRIENDLY_PLAYER" then
+function NP:UnitClass(frame, unitType)
+	if unitType == "FRIENDLY_PLAYER" then
 		if UnitInParty("player") or UnitInRaid("player") then -- FRIENDLY_PLAYER
 			local _, class = UnitClass(frame.UnitName)
 			if class then return class end
 		end
-	elseif type == "ENEMY_PLAYER" then
+	elseif unitType == "ENEMY_PLAYER" then
 		local r, g, b = self:RoundColors(frame.oldHealthBar:GetStatusBarColor())
 		for class in pairs(RAID_CLASS_COLORS) do -- ENEMY_PLAYER
 			local bb = b
@@ -644,29 +649,35 @@ function NP:QueueObject(object)
 	object:Hide()
 end
 
-function NP:OnUpdate()
-	local count = select("#", WorldGetChildren(WorldFrame))
-	if count ~= numChildren then
-		local frame, region
-		for i = numChildren + 1, count do
-			frame = select(i, WorldGetChildren(WorldFrame))
+local function findNewPlate(...)
+	local argc = select("#", ...)
+	if argc == numChildren then return end
+
+	local frame, region
+	for i = numChildren + 1, argc do
+		frame = select(i, ...)
+		if not NP.CreatedPlates[frame] then
 			region = frame:GetRegions()
 
-			if not NP.CreatedPlates[frame] and (frame:GetName() and frame:GetName():find("NamePlate%d")) and region and region:GetObjectType() == "Texture" and region:GetTexture() == OVERLAY then
+			if (frame:GetName() and frame:GetName():find("NamePlate%d")) and (region and region:GetObjectType() == "Texture" and region:GetTexture() == OVERLAY) then
 				NP:OnCreated(frame)
 			end
 		end
-		numChildren = count
 	end
+
+	numChildren = argc
+end
+
+function NP:OnUpdate()
+	findNewPlate(WorldGetChildren(WorldFrame))
 
 	for frame in pairs(NP.VisiblePlates) do
 		if NP.hasTarget then
 			frame.alpha = frame:GetParent():GetAlpha()
+			frame:GetParent():SetAlpha(1)
 		else
 			frame.alpha = 1
 		end
-
-		frame:GetParent():SetAlpha(1)
 
 		frame.isTarget = NP.hasTarget and frame.alpha == 1
 	end

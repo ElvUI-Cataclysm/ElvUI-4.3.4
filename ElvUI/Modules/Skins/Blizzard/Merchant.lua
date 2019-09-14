@@ -34,6 +34,7 @@ local function LoadSkin()
 		local item = _G["MerchantItem"..i]
 		local button = _G["MerchantItem"..i.."ItemButton"]
 		local icon = _G["MerchantItem"..i.."ItemButtonIconTexture"]
+		local stock = _G["MerchantItem"..i.."ItemButtonStock"]
 		local money = _G["MerchantItem"..i.."MoneyFrame"]
 		local currency = _G["MerchantItem"..i.."AltCurrencyFrame"]
 
@@ -48,6 +49,8 @@ local function LoadSkin()
 
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetInside()
+
+		stock:Point("TOPLEFT", 2, -2)
 
 		money:ClearAllPoints()
 		money:Point("BOTTOMLEFT", button, "BOTTOMRIGHT", 3, 0)
@@ -87,11 +90,11 @@ local function LoadSkin()
 		end
 	end)
 
-	S:HandleNextPrevButton(MerchantNextPageButton)
-	MerchantNextPageButton:Size(24)
+	S:HandleNextPrevButton(MerchantNextPageButton, nil, nil, true)
+	MerchantNextPageButton:Size(32)
 
-	S:HandleNextPrevButton(MerchantPrevPageButton)
-	MerchantPrevPageButton:Size(24)
+	S:HandleNextPrevButton(MerchantPrevPageButton, nil, nil, true)
+	MerchantPrevPageButton:Size(32)
 
 	S:HandleButton(MerchantRepairItemButton)
 	MerchantRepairItemButton:StyleButton(false)

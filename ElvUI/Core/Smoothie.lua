@@ -9,6 +9,10 @@ local handledObjects = {}
 local TARGET_FPS = 60
 local AMOUNT = 0.33
 
+local function lerp(startValue, endValue, amount)
+	return (1 - amount) * startValue + amount * endValue
+end
+
 local function clamp(v, min, max)
 	min = min or 0
 	max = max or 1
@@ -30,14 +34,10 @@ local function isCloseEnough(new, target, range)
 	return true
 end
 
-local function Lerp(startValue, endValue, amount)
-	return (1 - amount) * startValue + amount * endValue
-end
-
 local frame = CreateFrame("Frame")
 local function onUpdate(_, elapsed)
 	for object, target in next, activeObjects do
-		local new = Lerp(object._value, target, clamp(AMOUNT * elapsed * TARGET_FPS))
+		local new = lerp(object._value, target, clamp(AMOUNT * elapsed * TARGET_FPS))
 		if isCloseEnough(new, target, object._max - object._min) then
 			new = target
 			activeObjects[object] = nil

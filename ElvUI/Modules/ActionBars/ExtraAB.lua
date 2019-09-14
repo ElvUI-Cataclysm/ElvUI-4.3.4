@@ -48,14 +48,19 @@ function AB:SetupExtraButton()
 
 	for i = 1, ExtraActionBarFrame:GetNumChildren() do
 		local button = _G["ExtraActionButton"..i]
+
 		if button then
+			local icon = _G["ExtraActionButton"..i.."Icon"]
+
 			button.noResize = true
 			button.pushed = true
 			button.checked = true
 
 			self:StyleButton(button, true)
 			button:SetTemplate()
-			_G["ExtraActionButton"..i.."Icon"]:SetDrawLayer("ARTWORK")
+
+			icon:SetDrawLayer("ARTWORK")
+
 			local tex = button:CreateTexture(nil, "OVERLAY")
 			tex:SetTexture(0.9, 0.8, 0.1, 0.3)
 			tex:SetInside()

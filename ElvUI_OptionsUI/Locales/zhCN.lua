@@ -40,6 +40,7 @@ L["Alpha Key"] = true
 L["Alpha"] = "透明度"
 L["Always Display"] = "总是显示"
 L["Always Hide"] = "总是隐藏"
+L["Always Show Realm"] = "总是显示服务器"
 L["Always Show Target Health"] = "始终显示目标血量"
 L["An X offset (in pixels) to be used when anchoring new frames."] = "锚定新框架时的X偏移(像素)"
 L["An Y offset (in pixels) to be used when anchoring new frames."] = "锚定新框架时的Y偏移(像素)"
@@ -57,6 +58,7 @@ L["Apply this filter if a buff has remaining time greater than this. Set to zero
 L["Apply this filter if a buff has remaining time less than this. Set to zero to disable."] = "当增益剩余时间小于该值时应用该过滤器. 设为0以禁用."
 L["Apply this filter if a debuff has remaining time greater than this. Set to zero to disable."] = "当减益剩余时间大于该值时应用该过滤器. 设为0以禁用."
 L["Apply this filter if a debuff has remaining time less than this. Set to zero to disable."] = "当减益剩余时间小于该值时应用该过滤器. 设为0以禁用."
+L["Are you sure you want to reset ActionBars settings?"] = "你确定要重置‘动作条’的设置吗？"
 L["Are you sure you want to reset Auras settings?"] = "你确定要重置‘光环’的设置吗？"
 L["Are you sure you want to reset Bags settings?"] = "你确定要重置‘背包’的设置吗？"
 L["Are you sure you want to reset Chat settings?"] = "你确定要重置‘聊天框’的设置吗？"
@@ -65,7 +67,6 @@ L["Are you sure you want to reset DataBars settings?"] = "你确定要重置‘�
 L["Are you sure you want to reset DataTexts settings?"] = "你确定要重置‘信息文字’的设置吗？"
 L["Are you sure you want to reset General settings?"] = "你确定要重置‘一般’的设置吗？"
 L["Are you sure you want to reset NamePlates settings?"] = "你确定要重置‘姓名板’的设置吗？"
-L["Are you sure you want to reset NamePlates settings?"] = "你确定要重置‘姓名版’的设置吗？"
 L["Are you sure you want to reset Tooltip settings?"] = "你确定要重置‘鼠标提示’的设置吗？"
 L["Are you sure you want to reset UnitFrames settings?"] = "你确定要重置‘单位框架’的设置吗？"
 L["Ascending or Descending order."] = "升序或降序"
@@ -156,6 +157,7 @@ L["BottomRightMiniPanel"] = "小地图右下内侧"
 L["BoU"] = "使用后绑定"
 L["Buff Indicator"] = "增益指示器"
 L["Buffs"] = "增益光环"
+L["Button Flash"] = true
 L["Button Size (Bag)"] = "背包格子尺寸"
 L["Button Size (Bank)"] = "银行格子尺寸"
 L["Button Size"] = "按钮大小"
@@ -164,6 +166,7 @@ L["Buttons Per Row"] = "每行按钮数"
 L["Buttons"] = "按钮数"
 L["By Type"] = "类型"
 L["Camera Distance Scale"] = "视角镜头的距离"
+L["Calendar"] = "日历"
 L["Cast Bar"] = "施法条"
 L["Cast Color"] = "施法条颜色"
 L["Cast No Interrupt Color"] = "无法打断的颜色"
@@ -206,6 +209,7 @@ L["Color castbars by the reaction type of non-player units."] = "按非玩家单
 L["Color Gradient"] = "颜色渐变"
 L["Color health by amount remaining."] = "按数值变化血量颜色"
 L["Color health by classcolor or reaction."] = "以职业色显示生命"
+L["Color health by threat status."] = "按仇恨状态显示血量"
 L["Color Keybind Text when Out of Range, instead of the button."] = "当你超过射程时对键位文字着色而不是对按钮着色"
 L["Color Keybind Text"] = "键位文字着色"
 L["Color of the actionbutton when not usable."] = "动作条按键不可用时的颜色"
@@ -214,6 +218,7 @@ L["Color of the actionbutton when out of range."] = "当超出距离时动作条
 L["Color of the actionbutton when usable."] = "动作条按键可用时的颜色"
 L["Color Override"] = "颜色覆盖"
 L["Color power by classcolor or reaction."] = "以职业色显示能量"
+L["Color power by threat status."] = "按仇恨状态显示能量"
 L["Color some texts use."] = "数值(非文字)使用的颜色"
 L["Color Tanked"] = "被坦住的颜色"
 L["Color the health backdrop by class or reaction."] = "生命条背景色以职业色显示"
@@ -275,7 +280,7 @@ L["Custom Faction Colors"] = "自定义声望颜色"
 L["Custom Texts"] = "自定义字体"
 L["Custom Texture"] = "自定义材质"
 L["Custom Timestamp Color"] = "自定义时间戳颜色"
-L["Cutaway Health"] = "血量变化高亮"
+L["Cutaway Bars"] = true
 L["Darken Inactive"] = "未激活时暗化"
 L["DataBars"] = "数据条"
 L["Datatext Panel (Left)"] = "左侧信息框"
@@ -318,6 +323,7 @@ L["Display a healer icon over known healers inside battlegrounds or arenas."] = 
 L["Display a panel across the bottom of the screen. This is for cosmetic only."] = "显示跨越屏幕底部的面板,仅仅是用于装饰."
 L["Display a panel across the top of the screen. This is for cosmetic only."] = "显示跨越屏幕顶部的面板,仅仅是用于装饰."
 L["Display a spark texture at the end of the castbar statusbar to help show the differance between castbar and backdrop."] = "在施法状态条的末端显示一个火花材质来区分施法条和背景条"
+L["Display an exclamation mark on items that starts a quest."] = true
 L["Display battleground messages in the middle of the screen."] = "屏幕中间显示战场信息"
 L["Display bind names on action buttons."] = "在动作条按钮上显示键位名称"
 L["Display cooldown text on anything with the cooldown spiral."] = "显示技能冷却时间"
@@ -340,6 +346,7 @@ L["Display the castbar inside the information panel, the icon will be displayed 
 L["Display the hyperlink tooltip while hovering over a hyperlink."] = "鼠标指向链接时显示鼠标提示"
 L["Display the junk icon on all grey items that can be vendored."] = "为所有能够卖店的灰色物品显示垃圾图标"
 L["Display the name of the unit on the chat bubble."] = "在聊天气泡上显示单位的名字."
+L["Display the npc ID when mousing over a npc tooltip."] = "在指向NPC时显示NPC ID."
 L["Display the players talent spec and item level in the tooltip, this may not immediately update when mousing over a unit."] = "当按住shift时展示该玩家的专精和装等,由于需要读取所以不会在指向某玩家时立即更新"
 L["Display the spell or item ID when mousing over a spell or item tooltip."] = "在鼠标提示中显示技能或物品的ID."
 L["Display the target of your current cast. Useful for mouseover casts."] = "显示你当前的施法目标. 可以转换成鼠标滑过类型"
@@ -500,9 +507,11 @@ L["Horizontal"] = "水平"
 L["Hours"] = "时"
 L["Hover"] = "鼠标指向"
 L["How far away the portrait is from the camera."] = "人像和镜头间有多远"
-L["How long the CutawayHealth will take to fade out."] = "血量变化高亮淡出过程所需的时间"
+L["How long the cutaway health will take to fade out."] = "血量变化高亮淡出过程所需的时间"
+L["How long the cutaway power will take to fade out."] = true
 L["How many seconds the castbar should stay visible after the cast failed or was interrupted."] = "在施法失败或被打断时施法条保持可见的秒数"
-L["How much time before the CutawayHealth starts to fade."] = "血量变化高亮淡出前所需要的时间"
+L["How much time before the cutaway health starts to fade."] = "血量变化高亮淡出前所需要的时间"
+L["How much time before the cutaway power starts to fade."] = true
 L["Hyperlink Hover"] = "链接悬停"
 L["Icon Base Height"] = "图标基础高度"
 L["Icon Inside Castbar"] = "施法条内的图标"
@@ -679,6 +688,7 @@ L["Non-Target Alpha"] = "非目标透明度"
 L["Not Targeted"] = "非当前目标"
 L["Not Usable"] = "不可用"
 L["Not valid spell id"] = "不正确的技能ID"
+L["NPC IDs"] = "NPC ID"
 L["Num Rows"] = "行数"
 L["Number of Groups"] = "队伍数目"
 L["Number of messages you scroll for each step."] = "每次滚动的聊天信息数目"
@@ -703,6 +713,7 @@ L["Out of Range"] = "超出范围"
 L["Over Health Threshold"] = "高于血量阈值"
 L["Over Power Threshold"] = "高于能量阈值"
 L["Overlay"] = "重叠显示"
+L["Overlay Alpha"] = true
 L["Override any custom visibility setting in certain situations, EX: Only show groups 1 and 2 inside a 10 man instance."] = "复写可见性的设定, 例如: 在10人副本里只显示1队和2队"
 L["Override the default class color setting."] = "覆盖默认的职业色设置"
 L["Owners Name"] = "所有者姓名"
@@ -723,7 +734,6 @@ L["Party Targets"] = "队伍目标"
 L["Per Row"] = "每行"
 L["Percent"] = "百分比"
 L["Pet Name"] = "宠物名字"
-L["Pet"] = "宠物"
 L["Petition Frame"] = "回报GM"
 L["PetTarget"] = "宠物的目标"
 L["Phase Indicator"] = "位面指示器"
@@ -848,6 +858,7 @@ L["Sends your filter settings to your target."] = "发送你的过滤器配置�
 L["Separate Panel Sizes"] = "分离框体大小"
 L["Seperate"] = "光环分离"
 L["Set Settings to Default"] = "恢复默认设置"
+L["Set the alpha level of portrait when frame is overlayed."] = true
 L["Set the filter type. Blacklist will hide any auras in the list and show all others. Whitelist will show any auras in the filter and hide all others."] = "设置过滤器类型. 黑名单将隐藏列表内的任何光环而显示其他. 白名单将显示过滤器内的任何光环而隐藏其他所有光环"
 L["Set the font outline."] = "设定字体的描边"
 L["Set the font size for everything in UI. Note: This doesn't effect somethings that have their own seperate options (UnitFrame Font, Datatext Font, ect..)"] = "设定界面上所有字体的大小, 但不包含本身有独立设定的字体(如单位框架字体、信息文字字体等)"
@@ -884,6 +895,7 @@ L["Show For Healers"] = "为治疗显示"
 L["Show For Tanks"] = "为坦克显示"
 L["Show Junk Icon"] = "显示垃圾图标"
 L["Show Quality Color"] = "显示稀有度图标"
+L["Show Quest Icon"] = true
 L["Show When Not Active"] = "显示当前无效的光环"
 L["Side Arrows"] = "侧面箭头"
 L["Size Override"] = "尺寸覆盖"
@@ -1045,6 +1057,8 @@ L["TopMiniPanel"] = "小地图顶部内侧"
 L["TopRightMiniPanel"] = "小地图右上内侧"
 L["Trainer Frame"] = "训练师"
 L["Transparency level when not in combat, no target exists, full health, not casting, and no focus target exists."] = "在非战斗, 无目标存在, 满血, 未施法, 无焦点目标存在时的不透明度"
+L["Transparent Backdrops"] = true
+L["Transparent Buttons"] = true
 L["Transparent"] = "透明"
 L["Triggers"] = "触发器"
 L["Turtle Color"] = "减伤类的颜色"
@@ -1060,6 +1074,7 @@ L["Unlock various elements of the UI to be repositioned."] = "解锁界面上的
 L["Up"] = "上"
 L["URL Links"] = "网址链接"
 L["Usable"] = "可用"
+L["Use a more visible flash animation for Auto Attacks."] = true
 L["Use Alt Key"] = "聊天历史Alt键"
 L["Use class color for the names of players when they are mentioned."] = "当玩家名字被提及时使用职业颜色"
 L["Use Class Color"] = "使用职业颜色"
@@ -1113,12 +1128,14 @@ L["Will show Buffs in the Debuff position when there are no Debuffs active, or v
 L["Word Wrap"] = "自动换行"
 L["World Map Coordinates"] = "世界地图坐标"
 L["Wrap After"] = "每行行数"
-L["xOffset"] = "X轴偏移"
-L["yOffset"] = "Y轴偏移"
+L["X-Offset"] = "X轴偏移"
+L["Y-Offset"] = "Y轴偏移"
+L["You are about to reset paging. Are you sure?"] = true
 L["You cannot copy settings from the same unit."] = "你不能从相同的单位复制设定"
 L["You may not remove a spell from a default filter that is not customly added. Setting spell to false instead."] = "你不能移除一个内建技能, 仅能停用此技能."
 L["You must be targeting a player."] = "你必须以一名玩家为目标"
 L["You need to hold this modifier down in order to blacklist an aura by right-clicking the icon. Set to None to disable the blacklist functionality."] = "按住设置按键+右键单击会把该玩家加入黑名单,设置无则关闭该功能!"
+L["You still have ElvUI_Config installed. ElvUI_Config has been renamed to ElvUI_OptionsUI, please remove it."] = "你仍然安装有ElvUI_Config. ElvUI_Config已经被重命名为ElvUI_OptionsUI, 请删除原文件夹."
 L["Your Auras First"] = "自身光环优先"
 
 ----------------------------------
@@ -1148,30 +1165,31 @@ L["SKINS_DESC"] = "调整外观设定"
 L["TOGGLESKIN_DESC"] = "启用/停用此外观"
 L["TOOLTIP_DESC"] = "鼠标提示信息设定选项"
 L["UNITFRAME_DESC"] = "修改单位框架设定"
-L["SEARCH_SYNTAX_DESC"] = [=[With the new addition of LibItemSearch, you now have access to much more advanced item searches. The following is a documentation of the search syntax. See the full explanation at: https://github.com/Jaliborc/LibItemSearch-1.2/wiki/Search-Syntax.
+L["SEARCH_SYNTAX_DESC"] = [=[因为新增了LibItemSearch，你现在可以使用更高级的物品检索. 下面是一份检索语法的文档. 查看完整说明: https://github.com/Jaliborc/LibItemSearch-1.2/wiki/Search-Syntax.
 
-Specific Searching:
-    • q:[quality] or quality:[quality]. For instance, q:epic will find all epic items.
-    • l:[level], lvl:[level] or level:[level]. For example, l:30 will find all items with level 30.
-    • t:[search], type:[search] or slot:[search]. For instance, t:weapon will find all weapons.
-    • n:[name] or name:[name]. For instance, typing n:muffins will find all items with names containing "muffins".
-    • s:[set] or set:[set]. For example, s:fire will find all items in equipment sets you have with names that start with fire.
-    • tt:[search], tip:[search] or tooltip:[search]. For instance, tt:binds will find all items that can be bound to account, on equip, or on pickup.
-
-
-Search Operators:
-    • ! : Negates a search. For example, !q:epic will find all items that are NOT epic.
-    • | : Joins two searches. Typing q:epic | t:weapon will find all items that are either epic OR weapons.
-    • & : Intersects two searches. For instance, q:epic & t:weapon will find all items that are epic AND weapons
-    • >, <, <=, => : Performs comparisons on numerical searches. For example, typing lvl: >30 will find all items with level HIGHER than 30.
+特性检索:
+    • q:[品质] 或 quality:[品质]. 例如, 输入 q:史诗 会检索所有史诗物品.
+    • l:[物品等级], lvl:[物品等级] 或 level:[物品等级]. 例如, 输入 l:30 会检索所有物品等级为30的物品.
+    • t:[类型], type:[类型] 或 slot:[类型]. 例如, 输入 t:武器 会检索所有武器类型的物品.
+    • n:[名称] 或 name:[名称]. 例如, 输入 n:muffins 会检索所有包含"muffins"字样的物品.
+    • s:[方案名称] 或 set:[方案名称]. 例如, 输入 set:fire 会检索所有以fire开头命名的装备配置方案中的物品.
+    • r:[等级], reg:[等级], rl:[等级], regl:[等级] 或 reqlvl:[等级]. 例如, 输入 reqlvl:30 会检索所有需要等级达到30才可以使用的物品.
+    • tt:[提示文字], tip:[提示文字] 或 tooltip:[提示文字]. 例如, 输入 tt:绑定 会检索所有鼠标提示文字中包含"绑定"字样的物品.
 
 
-The following search keywords can also be used:
-    • soulbound, bound, bop : Bind on pickup items.
-    • bou : Bind on use items.
-    • boe : Bind on equip items.
-    • boa : Bind on account items.
-    • quest : Quest bound items.]=]
+检索运算符:
+    • ! : 反向检索. 例如, 输入 !q:史诗 会检索所有非史诗的物品.
+    • | : 并集检索. 例如, 输入 q:史诗 | t:武器 会检索所有品质为史诗或类型为武器的物品.
+    • & : 交集检索. 例如, 输入 q:史诗 & t:武器 会检索所有品质为史诗并且类型是武器的物品
+    • >, <, <=, => : 对数值进行比较的检索. 例如, 输入 lvl: >30 会检索所有物品等级大于30的物品.
+
+
+还可以使用下列检索关键字:
+    • soulbound, bound, bop : 拾取绑定物品.
+    • bou : 使用绑定物品.
+    • boe : 装备绑定物品.
+    • boa : 账号绑定物品.
+    • quest : 任务绑定物品.]=]
 L["TEXT_FORMAT_DESC"] = [=[提供一个更改文字格式的方式
 
 例如:
@@ -1207,7 +1225,7 @@ L[ [=[This works like a macro, you can run different situations to get the actio
  Example: '[combat] show;hide']=] ] = [=[和宏写法类似, 能根据不同姿态切换动作条显示或隐藏.
  例如: '[combat] show;hide']=]
 
- L[ [=[Specify a filename located inside the World of Warcraft directory. Textures folder that you wish to have set as a panel background.
+L[ [=[Specify a filename located inside the World of Warcraft directory. Textures folder that you wish to have set as a panel background.
 
 Please Note:
 -The image size recommended is 256x128
@@ -1234,6 +1252,7 @@ L["AFK"] = "离开"
 L["ALT_KEY"] = "ALT"
 L["ARENA"] = "竞技场"
 L["AUCTIONS"] = "拍卖"
+L["BAGSLOT"] = "背包"
 L["BALANCE_NEGATIVE_ENERGY"] = "月亮能量"
 L["BALANCE_POSITIVE_ENERGY"] = "太阳能量"
 L["BARBERSHOP"] = "理发店"
@@ -1270,9 +1289,14 @@ L["ENCOUNTER_JOURNAL_SECTION_FLAG8"] = "诅咒效果"
 L["ENCOUNTER_JOURNAL_SECTION_FLAG9"] = "中毒效果"
 L["ENEMY"] = "敌方"
 L["ENERGY"] = "能量"
+L["FACTION_STANDING_LABEL1"] = "仇恨"
 L["FACTION_STANDING_LABEL2"] = "敌对"
+L["FACTION_STANDING_LABEL3"] = "冷淡"
 L["FACTION_STANDING_LABEL4"] = "中立"
 L["FACTION_STANDING_LABEL5"] = "友善"
+L["FACTION_STANDING_LABEL6"] = "尊敬"
+L["FACTION_STANDING_LABEL7"] = "崇敬"
+L["FACTION_STANDING_LABEL8"] = "崇拜"
 L["FILTERS"] = "过滤器"
 L["FLIGHT_MAP"] = "飞行地图"
 L["FOCUS"] = "集中值"

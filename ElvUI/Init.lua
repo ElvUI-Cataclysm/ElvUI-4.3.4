@@ -45,6 +45,16 @@ Engine[5] = AddOn.DF.global
 _G[AddOnName] = Engine
 
 do
+	local locale = GetLocale()
+	local convert = {enGB = "enUS", esES = "esMX", itIT = "enUS"}
+	local gameLocale = convert[locale] or locale or "enUS"
+
+	function AddOn:GetLocale()
+		return gameLocale
+	end
+end
+
+do
 	AddOn.Libs = {}
 	AddOn.LibsMinor = {}
 	function AddOn:AddLib(name, major, minor)

@@ -48,10 +48,10 @@ L["Binds Saved"] = "단축키가 저장되었습니다."
 L["BNet Frame"] = "배틀넷 알림"
 L["Boss Button"] = "특수능력 버튼"
 L["Boss Frames"] = "보스 프레임"
-L["Calendar"] = "달력"
 L["Can't Roll"] = "주사위를 굴릴 수 없습니다."
 L["Can't buy anymore slots!"] = "더 이상 가방 칸을 늘릴 수 없습니다."
 L["Caster DPS"] = "원거리 딜러"
+L["Change Talent Specialization"] = "전문화 교체"
 L["Character: "] = "캐릭터:"
 L["Chat Set"] = "대화창 설정"
 L["Chat"] = "대화창"
@@ -91,6 +91,7 @@ L["ElvUI is five or more revisions out of date. You can download the newest vers
 L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm"] = "ElvUI가 오래된 버전입니다. https://github.com/ElvUI-Cataclysm 에서 새 버전을 다운로드 받으세요."
 L["ElvUI needs to perform database optimizations please be patient."] = "ElvUI의 데이터베이스를 조정할 필요가 있습니다. 잠시 기다려주세요."
 L["ElvUI Plugin Installation"] = "ElvUI 플러그인  설치"
+L["ElvUI was updated while the game is still running. Please relaunch the game, as this is required for the files to be properly updated."] = true
 L["Empty Slot"] = "빈 칸"
 L["Enable"] = "사용"
 L["Error resetting UnitFrame."] = "유닛프레임 초기화 오류"
@@ -171,7 +172,6 @@ L["MT Frames"] = "방어전담 프레임"
 L["No bindings set."] = "설정한 단축키가 없습니다."
 L["No gray items to delete."] = "잡동사니가 없습니다."
 L["No Guild"] = "길드 없음"
-L["No locals to dump"] = true
 L["No, Revert Changes!"] = "예전으로 돌려주세요"
 L["Nudge"] = "미세조정"
 L["O"] = "관리자"
@@ -233,6 +233,7 @@ L["Session:"] = "현재 접속:"
 L["Setup CVars"] = "인터페이스 설정 적용"
 L["Setup Chat"] = "대화창 설치"
 L["Show BG Texts"] = "전장전용 정보문자 표시"
+L["Show Talent Specialization UI"] = "특성 전문화창 보기"
 L["silverabbrev"] = "|TInterface\\MoneyFrame\\UI-MoneyIcons:0:0:1:0:64:16:17:32:1:16|t"
 L["Skip Process"] = "건너뛰기"
 L["Sort Bags"] = "가방 정렬"
@@ -245,8 +246,7 @@ L["Stats For:"] = "점수:"
 L["Steps"] = "단계"
 L["Sticky Frames"] = "자석"
 L["System"] = "시스템"
-L["Talent Specialization"] = true
-L["Talent Specialization:"] = "특성:"
+L["Talent Specialization"] = "특성"
 L["Tank / Physical DPS"] = true
 L["Target Castbar"] = "대상 시전바"
 L["Target Frame"] = "대상 프레임"
@@ -312,12 +312,8 @@ L["Your items have been repaired for: "] = "자동으로 수리하고 비용을 
 L["Your items have been repaired using guild bank funds for: "] = "길드자금으로 수리하고 비용을 지불했습니다:"
 L["Your profile was successfully recieved by the player."] = "상대에게 데이터를 성공적으로 전송했습니다."
 L["|cFFE30000Lua error recieved. You can view the error message when you exit combat."] = "Lua 에러가 발생하였습니다. 전투가 끝난 후에 내역을 표시하겠습니다."
-L["|cffFFFFFFLeft Click:|r Change Talent Specialization"] = "클릭 : 전문화 교체"
-L["|cffFFFFFFRight Click:|r Show Talent Specialization UI"] = true
 
 ----------------------------------
-L["RED_ENABLE"] = "|cFFff3333사용|r"
-L["GREEN_ENABLE"] = "|cFF33ff33사용|r"
 L["DESC_MOVERCONFIG"] = [=[프레임을 드래그로 원하는 위치로 이동시키세요.|n[잠금] 버튼을 누르면 이동모드가 종료됩니다.
 
 선택사항:

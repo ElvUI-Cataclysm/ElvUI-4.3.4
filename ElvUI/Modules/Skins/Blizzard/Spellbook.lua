@@ -174,7 +174,16 @@ local function LoadSkin()
 			item.statusBar.rankText:Point("CENTER")
 			item.statusBar.rankText:FontTemplate(nil, 12, "OUTLINE")
 
-			if item.unlearn then item.unlearn:Point("RIGHT", item.statusBar, "LEFT", -135, -10) end
+			if item.unlearn then
+				S:HandleCloseButton(item.unlearn)
+				item.unlearn:Size(26)
+				item.unlearn:Point("RIGHT", item.statusBar, "LEFT", -130, -9)
+				item.unlearn.Texture:SetVertexColor(1, 0, 0)
+
+				item.unlearn:HookScript("OnEnter", function(btn) btn.Texture:SetVertexColor(1, 1, 1) end)
+				item.unlearn:HookScript("OnLeave", function(btn) btn.Texture:SetVertexColor(1, 0, 0) end)
+			end
+
 			if item.icon then
 				item.icon:SetTexCoord(unpack(E.TexCoords))
 				item.icon:SetDesaturated(false)

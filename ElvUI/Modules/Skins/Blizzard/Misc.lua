@@ -309,6 +309,7 @@ local function LoadSkin()
 
 				highlight:SetTexture(E.Media.Textures.Highlight)
 				highlight:SetVertexColor(0.9, 0.9, 0.9, 0.40)
+				highlight:SetInside()
 
 				S:HandleColorSwatch(colorSwatch, 14)
 			end
