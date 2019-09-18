@@ -17,11 +17,7 @@ V.general = {
 	pixelPerfect = true,
 	replaceBlizzFonts = true,
 	minimap = {
-		enable = true,
-		hideCalendar = true,
-		hideWorldMap = true,
-		hideZoomIn = true,
-		hideZoomOut = true
+		enable = true
 	},
 	classColorMentionsSpeech = true,
 	raidUtility = true

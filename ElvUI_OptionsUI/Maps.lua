@@ -88,12 +88,12 @@ E.Options.args.maps = {
 							set = function(info, value) E.global.general.WorldMapCoordinates.position = value WM:PositionCoords() end,
 							disabled = function() return not E.global.general.WorldMapCoordinates.enable end,
 							values = {
-								["TOP"] = "TOP",
-								["TOPLEFT"] = "TOPLEFT",
-								["TOPRIGHT"] = "TOPRIGHT",
-								["BOTTOM"] = "BOTTOM",
-								["BOTTOMLEFT"] = "BOTTOMLEFT",
-								["BOTTOMRIGHT"] = "BOTTOMRIGHT"
+								["TOP"] = L["Top"],
+								["BOTTOM"] = L["Bottom"],
+								["TOPLEFT"] = L["Top Left"],
+								["TOPRIGHT"] = L["Top Right"],
+								["BOTTOMLEFT"] = L["Bottom Left"],
+								["BOTTOMRIGHT"] = L["Bottom Right"]
 							}
 						},
 						xOffset = {
@@ -264,12 +264,10 @@ E.Options.args.maps = {
 									type = "header",
 									name = L["Calendar"]
 								},
-								hideCalendar = {
+								hide = {
 									order = 2,
 									type = "toggle",
 									name = L["HIDE"],
-									get = function(info) return E.private.general.minimap.hideCalendar end,
-									set = function(info, value) E.private.general.minimap.hideCalendar = value MM:UpdateSettings() end,
 									width = "full"
 								},
 								spacer = {
@@ -282,29 +280,29 @@ E.Options.args.maps = {
 									order = 4,
 									type = "select",
 									name = L["Position"],
-									disabled = function() return E.private.general.minimap.hideCalendar end,
-									values = positionValues
+									values = positionValues,
+									disabled = function() return E.db.general.minimap.icons.calendar.hide end
 								},
 								scale = {
 									order = 5,
 									type = "range",
 									name = L["Scale"],
 									min = 0.5, max = 2, step = 0.05,
-									disabled = function() return E.private.general.minimap.hideCalendar end
+									disabled = function() return E.db.general.minimap.icons.calendar.hide end
 								},
 								xOffset = {
 									order = 6,
 									type = "range",
 									name = L["X-Offset"],
 									min = -50, max = 50, step = 1,
-									disabled = function() return E.private.general.minimap.hideCalendar end
+									disabled = function() return E.db.general.minimap.icons.calendar.hide end
 								},
 								yOffset = {
 									order = 7,
 									type = "range",
 									name = L["Y-Offset"],
 									min = -50, max = 50, step = 1,
-									disabled = function() return E.private.general.minimap.hideCalendar end
+									disabled = function() return E.db.general.minimap.icons.calendar.hide end
 								}
 							}
 						},
@@ -321,37 +319,39 @@ E.Options.args.maps = {
 									type = "header",
 									name = L["WORLD_MAP"]
 								},
-								hideWorldMap = {
+								hide = {
 									order = 2,
 									type = "toggle",
 									name = L["HIDE"],
-									get = function(info) return E.private.general.minimap.hideWorldMap end,
-									set = function(info, value) E.private.general.minimap.hideWorldMap = value MM:UpdateSettings() end,
 									width = "full"
 								},
 								position = {
 									order = 3,
 									type = "select",
 									name = L["Position"],
-									values = positionValues
+									values = positionValues,
+									disabled = function() return E.db.general.minimap.icons.worldMap.hide end
 								},
 								scale = {
 									order = 4,
 									type = "range",
 									name = L["Scale"],
-									min = 0.5, max = 2, step = 0.05
+									min = 0.5, max = 2, step = 0.05,
+									disabled = function() return E.db.general.minimap.icons.worldMap.hide end
 								},
 								xOffset = {
 									order = 5,
 									type = "range",
 									name = L["X-Offset"],
-									min = -50, max = 50, step = 1
+									min = -50, max = 50, step = 1,
+									disabled = function() return E.db.general.minimap.icons.worldMap.hide end
 								},
 								yOffset = {
 									order = 6,
 									type = "range",
 									name = L["Y-Offset"],
-									min = -50, max = 50, step = 1
+									min = -50, max = 50, step = 1,
+									disabled = function() return E.db.general.minimap.icons.worldMap.hide end
 								}
 							}
 						},
@@ -539,25 +539,29 @@ E.Options.args.maps = {
 									order = 4,
 									type = "select",
 									name = L["Position"],
-									values = positionValues
+									values = positionValues,
+									disabled = function() return E.db.general.minimap.icons.vehicleLeave.hide end
 								},
 								scale = {
 									order = 5,
 									type = "range",
 									name = L["Scale"],
 									min = 0.5, max = 2, step = 0.05,
+									disabled = function() return E.db.general.minimap.icons.vehicleLeave.hide end
 								},
 								xOffset = {
 									order = 6,
 									type = "range",
 									name = L["X-Offset"],
-									min = -50, max = 50, step = 1
+									min = -50, max = 50, step = 1,
+									disabled = function() return E.db.general.minimap.icons.vehicleLeave.hide end
 								},
 								yOffset = {
 									order = 7,
 									type = "range",
 									name = L["Y-Offset"],
-									min = -50, max = 50, step = 1
+									min = -50, max = 50, step = 1,
+									disabled = function() return E.db.general.minimap.icons.vehicleLeave.hide end
 								}
 							}
 						},

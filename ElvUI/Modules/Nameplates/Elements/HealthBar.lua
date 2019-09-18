@@ -94,8 +94,8 @@ function NP:UpdateElement_HealthColor(frame)
 
 	if frame.ThreatScale ~= scale then
 		frame.ThreatScale = scale
-		if frame.isTarget and self.db.useTargetScale then
-			scale = scale * self.db.targetScale
+		if frame.isTarget and NP.db.useTargetScale then
+			scale = scale * NP.db.targetScale
 		end
 		self:SetFrameScale(frame, scale * (frame.ActionScale or 1))
 	end
@@ -106,29 +106,23 @@ function NP:UpdateElement_Health(frame)
 	local _, maxHealth = frame.oldHealthBar:GetMinMaxValues()
 	frame.HealthBar:SetMinMaxValues(0, maxHealth)
 
-	if frame.MaxHealthChangeCallbacks then
-		for _, cb in ipairs(frame.MaxHealthChangeCallbacks) do
-			cb(self, frame, maxHealth)
-		end
-	end	
-
 	if frame.HealthValueChangeCallbacks then
 		for _, cb in ipairs(frame.HealthValueChangeCallbacks) do
-			cb(self, frame, health)
+			cb(self, frame, health, maxHealth)
 		end
 	end
 
 	frame.HealthBar:SetValue(health)
 	frame:GetParent().UnitFrame.FlashTexture:Point("TOPRIGHT", frame.HealthBar:GetStatusBarTexture(), "TOPRIGHT") --idk why this fixes this
 
-	if self.db.units[frame.UnitType].healthbar.text.enable then
-		frame.HealthBar.text:SetText(E:GetFormattedText(self.db.units[frame.UnitType].healthbar.text.format, health, maxHealth))
+	if NP.db.units[frame.UnitType].healthbar.text.enable then
+		frame.HealthBar.text:SetText(E:GetFormattedText(NP.db.units[frame.UnitType].healthbar.text.format, health, maxHealth))
 	else
 		frame.HealthBar.text:SetText("")
 	end
 end
 
-function NP:RegisterHealthBarCallbacks(frame, valueChangeCB, colorChangeCB, maxHealthChangeCB)
+function NP:RegisterHealthBarCallbacks(frame, valueChangeCB, colorChangeCB)
 	if valueChangeCB then
 		frame.HealthValueChangeCallbacks = frame.HealthValueChangeCallbacks or {}
 		tinsert(frame.HealthValueChangeCallbacks, valueChangeCB)
@@ -138,41 +132,38 @@ function NP:RegisterHealthBarCallbacks(frame, valueChangeCB, colorChangeCB, maxH
 		frame.HealthColorChangeCallbacks = frame.HealthColorChangeCallbacks or {}
 		tinsert(frame.HealthColorChangeCallbacks, colorChangeCB)
 	end
-
-	if maxHealthChangeCB then
-		frame.MaxHealthChangeCallbacks = frame.MaxHealthChangeCallbacks or {}
-		tinsert(frame.MaxHealthChangeCallbacks, maxHealthChangeCB)
-	end
 end
 
 function NP:ConfigureElement_HealthBar(frame, configuring)
 	local healthBar = frame.HealthBar
 
-	healthBar:SetPoint("TOP", frame, "CENTER", 0, self.db.units[frame.UnitType].castbar.height + 3)
+	healthBar:SetPoint("TOP", frame, "CENTER", 0, NP.db.units[frame.UnitType].castbar.height + 3)
 
-	healthBar:SetWidth(self.db.units[frame.UnitType].healthbar.width * (frame.ThreatScale or 1) * (frame.isTarget and self.db.useTargetScale and self.db.targetScale or 1))
-	healthBar:SetHeight(self.db.units[frame.UnitType].healthbar.height * (frame.ThreatScale or 1) * (frame.isTarget and self.db.useTargetScale and self.db.targetScale or 1))
+	healthBar:SetWidth(NP.db.units[frame.UnitType].healthbar.width * (frame.ThreatScale or 1) * (frame.isTarget and NP.db.useTargetScale and NP.db.targetScale or 1))
+	healthBar:SetHeight(NP.db.units[frame.UnitType].healthbar.height * (frame.ThreatScale or 1) * (frame.isTarget and NP.db.useTargetScale and NP.db.targetScale or 1))
 
-	healthBar:SetStatusBarTexture(LSM:Fetch("statusbar", self.db.statusbar), "BORDER")
+	healthBar:SetStatusBarTexture(LSM:Fetch("statusbar", NP.db.statusbar), "BORDER")
 
-	if (not configuring) and (self.db.units[frame.UnitType].healthbar.enable or frame.isTarget) then
+	if (not configuring) and (NP.db.units[frame.UnitType].healthbar.enable or frame.isTarget) then
 		healthBar:Show()
 	end
 
 	healthBar.text:SetAllPoints(healthBar)
-	healthBar.text:SetFont(LSM:Fetch("font", self.db.healthFont), self.db.healthFontSize, self.db.healthFontOutline)
+	healthBar.text:SetFont(LSM:Fetch("font", NP.db.healthFont), NP.db.healthFontSize, NP.db.healthFontOutline)
+end
+
+local function HealthBar_OnSizeChanged(self, width)
+	local health = self:GetValue()
+	local _, maxHealth = self:GetMinMaxValues()
+	self:GetStatusBarTexture():SetPoint("TOPRIGHT", -(width * ((maxHealth - health) / maxHealth)), 0)
 end
 
 function NP:ConstructElement_HealthBar(parent)
 	local frame = CreateFrame("StatusBar", "$parentHealthBar", parent)
-	frame:SetStatusBarTexture(LSM:Fetch("statusbar", self.db.statusbar), "BORDER")
+	frame:SetStatusBarTexture(LSM:Fetch("statusbar", NP.db.statusbar), "BORDER")
 	self:StyleFrame(frame)
 
-	frame:SetScript("OnSizeChanged", function(self, width)
-		local health = self:GetValue()
-		local _, maxHealth = self:GetMinMaxValues()
-		self:GetStatusBarTexture():SetPoint("TOPRIGHT", -(width * ((maxHealth - health) / maxHealth)), 0)
-	end)
+	frame:SetScript("OnSizeChanged", HealthBar_OnSizeChanged)
 
 	parent.FlashTexture = frame:CreateTexture(nil, "OVERLAY")
 	parent.FlashTexture:SetTexture(LSM:Fetch("background", "ElvUI Blank"))
@@ -181,7 +172,7 @@ function NP:ConstructElement_HealthBar(parent)
 	parent.FlashTexture:Hide()
 
 	frame.text = frame:CreateFontString(nil, "OVERLAY")
-	frame.text:SetFont(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
+	frame.text:SetFont(LSM:Fetch("font", NP.db.font), NP.db.fontSize, NP.db.fontOutline)
 	frame.text:SetWordWrap(false)
 
 	frame.scale = CreateAnimationGroup(frame)

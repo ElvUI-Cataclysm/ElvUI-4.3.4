@@ -17,10 +17,10 @@ Target Glow Style Option Variables
 ]]
 
 function NP:UpdatePoisiton_Arrow(frame, shouldShow)
-	if frame.TopArrow and (shouldShow ~= 2) and (self.db.targetGlow == "style3" or self.db.targetGlow == "style5" or self.db.targetGlow == "style6") then -- top arrow
+	if frame.TopArrow and (shouldShow ~= 2) and (NP.db.targetGlow == "style3" or NP.db.targetGlow == "style5" or NP.db.targetGlow == "style6") then -- top arrow
 		local topArrowSpace = -3
-		if self.db.units[frame.UnitType].showName and (frame.Name:GetText() ~= nil and frame.Name:GetText() ~= "") then
-			topArrowSpace = self.db.fontSize + topArrowSpace
+		if NP.db.units[frame.UnitType].showName and (frame.Name:GetText() ~= nil and frame.Name:GetText() ~= "") then
+			topArrowSpace = NP.db.fontSize + topArrowSpace
 		end
 		frame.TopArrow:Point("BOTTOM", frame.HealthBar, "TOP", 0, topArrowSpace)
 
@@ -29,7 +29,7 @@ function NP:UpdatePoisiton_Arrow(frame, shouldShow)
 		end
 	end
 
-	if (frame.LeftArrow and frame.RightArrow) and (shouldShow ~= 2) and (self.db.targetGlow == "style4" or self.db.targetGlow == "style7" or self.db.targetGlow == "style8") then -- side arrows
+	if (frame.LeftArrow and frame.RightArrow) and (shouldShow ~= 2) and (NP.db.targetGlow == "style4" or NP.db.targetGlow == "style7" or NP.db.targetGlow == "style8") then -- side arrows
 		frame.RightArrow:Point("RIGHT", frame.HealthBar, "LEFT", 3, 0)
 		frame.LeftArrow:Point("LEFT", frame.HealthBar, "RIGHT", -3, 0)
 
@@ -42,11 +42,11 @@ end
 
 function NP:UpdatePosition_Glow(frame, shouldShow)
 	local castBar = frame.CastBar and frame.CastBar:IsShown() and frame.CastBar
-	local iconPosition = castBar and (castBar.Icon and castBar.Icon:IsShown()) and (frame.UnitType and self.db.units[frame.UnitType].castbar.iconPosition)
+	local iconPosition = castBar and (castBar.Icon and castBar.Icon:IsShown()) and (frame.UnitType and NP.db.units[frame.UnitType].castbar.iconPosition)
 
-	if frame.Glow and (self.db.targetGlow == "style1" or self.db.targetGlow == "style5" or self.db.targetGlow == "style7") then -- original glow
+	if frame.Glow and (NP.db.targetGlow == "style1" or NP.db.targetGlow == "style5" or NP.db.targetGlow == "style7") then -- original glow
 		local offset = E:Scale(E.PixelMode and 6 or 8) -- edgeSize is 6 (not attached to the backdrop needs +1 for pixel mode or +3 for non pixel mode)
-		if self.db.units[frame.UnitType].castbar.offset < 4 then
+		if NP.db.units[frame.UnitType].castbar.offset < 4 then
 			frame.Glow:SetOutside((iconPosition == "LEFT" and castBar.Icon) or frame.HealthBar, offset, offset, (iconPosition == "RIGHT" and castBar.Icon) or castBar)
 		else
 			frame.Glow:SetOutside(frame.HealthBar, offset, offset)
@@ -57,11 +57,11 @@ function NP:UpdatePosition_Glow(frame, shouldShow)
 		end
 	end
 
-	if frame.Glow2 and (self.db.targetGlow == "style2" or self.db.targetGlow == "style6" or self.db.targetGlow == "style8") then -- new background glow
+	if frame.Glow2 and (NP.db.targetGlow == "style2" or NP.db.targetGlow == "style6" or NP.db.targetGlow == "style8") then -- new background glow
 		local scale = 1
-		if self.db.useTargetScale then
-			if self.db.targetScale >= 0.75 then
-				scale = self.db.targetScale
+		if NP.db.useTargetScale then
+			if NP.db.targetScale >= 0.75 then
+				scale = NP.db.targetScale
 			else
 				scale = 0.75
 			end
@@ -86,15 +86,15 @@ function NP:UpdateElement_Glow(frame)
 	if not frame.HealthBar:IsShown() then return end
 
 	local shouldShow, r, g, b, a = 0
-	if frame.isTarget and self.db.targetGlow ~= "none" then
-		r, g, b, a = self.db.glowColor.r, self.db.glowColor.g, self.db.glowColor.b, self.db.glowColor.a
+	if frame.isTarget and NP.db.targetGlow ~= "none" then
+		r, g, b, a = NP.db.glowColor.r, NP.db.glowColor.g, NP.db.glowColor.b, NP.db.glowColor.a
 		shouldShow = 1
-	elseif self.db.lowHealthThreshold > 0 then
+	elseif NP.db.lowHealthThreshold > 0 then
 		local health = frame.oldHealthBar:GetValue()
 		local _, maxHealth = frame.oldHealthBar:GetMinMaxValues()
 		local perc = health / maxHealth
-		if perc <= self.db.lowHealthThreshold then
-			if perc <= self.db.lowHealthThreshold / 2 then
+		if perc <= NP.db.lowHealthThreshold then
+			if perc <= NP.db.lowHealthThreshold / 2 then
 				r, g, b, a = 1, 0, 0, 1
 			else
 				r, g, b, a = 1, 1, 0, 1
@@ -105,8 +105,8 @@ function NP:UpdateElement_Glow(frame)
 	end
 
 	if shouldShow ~= 0 then
-		self:UpdatePosition_Glow(frame, shouldShow)
-		self:UpdatePoisiton_Arrow(frame, shouldShow)
+		NP:UpdatePosition_Glow(frame, shouldShow)
+		NP:UpdatePoisiton_Arrow(frame, shouldShow)
 
 		if frame.Glow and (r ~= frame.Glow.r or g ~= frame.Glow.g or b ~= frame.Glow.b or a ~= frame.Glow.a) then
 			frame.Glow:SetBackdropBorderColor(r, g, b, a)

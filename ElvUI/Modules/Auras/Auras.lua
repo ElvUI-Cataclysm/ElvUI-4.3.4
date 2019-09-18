@@ -464,11 +464,11 @@ function A:Initialize()
 
 	self.BuffFrame = self:CreateAuraHeader("HELPFUL")
 	self.BuffFrame:Point("TOPRIGHT", MMHolder, "TOPLEFT", -(6 + E.Border), -E.Border - E.Spacing)
-	E:CreateMover(self.BuffFrame, "BuffsMover", L["Player Buffs"])
+	E:CreateMover(self.BuffFrame, "BuffsMover", L["Player Buffs"], nil, nil, nil, nil, nil, "auras,buffs")
 
 	self.DebuffFrame = self:CreateAuraHeader("HARMFUL")
 	self.DebuffFrame:Point("BOTTOMRIGHT", MMHolder, "BOTTOMLEFT", -(6 + E.Border), E.Border + E.Spacing)
-	E:CreateMover(self.DebuffFrame, "DebuffsMover", L["Player Debuffs"])
+	E:CreateMover(self.DebuffFrame, "DebuffsMover", L["Player Debuffs"], nil, nil, nil, nil, nil, "auras,debuffs")
 
 	self.EnchantHeader = CreateFrame("Frame", "ElvUITemporaryEnchantFrame", E.UIParent, "SecureHandlerStateTemplate")
 	self.EnchantHeader:Point("TOPRIGHT", MMHolder, "BOTTOMRIGHT", 0, -E.Border - E.Spacing)
@@ -503,35 +503,33 @@ function A:Initialize()
 	self:SecureHook("AuraButton_UpdateDuration", "UpdateWeaponText")
 
 	self.EnchantHeader.GetUpdateWeaponEnchant = function(self)
-		local hasMainHandEnchant, _, _, hasOffHandEnchant, _, _, hasThrownEnchant = GetWeaponEnchantInfo()
-		local mainHand = GetInventoryItemQuality("player", 16)
-		local offHand = GetInventoryItemQuality("player", 17)
-		local thrown = GetInventoryItemQuality("player", 18)
+		local mainEnchant, _, _, offEnchant, _, _, thrownEnchant = GetWeaponEnchantInfo()
+		local mainHand, offHand, thrown = GetInventoryItemQuality("player", 16), GetInventoryItemQuality("player", 17), GetInventoryItemQuality("player", 18)
 
-		if hasMainHandEnchant and hasOffHandEnchant and hasThrownEnchant then
+		if mainEnchant and offEnchant and thrownEnchant then
 			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(thrown))
 			TempEnchant2:SetBackdropBorderColor(GetItemQualityColor(offHand))
 			TempEnchant3:SetBackdropBorderColor(GetItemQualityColor(mainHand))
 			return true
-		elseif hasMainHandEnchant and hasOffHandEnchant and not hasThrownEnchant then
+		elseif mainEnchant and offEnchant and not thrownEnchant then
 			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(offHand))
 			TempEnchant2:SetBackdropBorderColor(GetItemQualityColor(mainHand))
 			return true
-		elseif hasMainHandEnchant and not hasOffHandEnchant and hasThrownEnchant then
+		elseif mainEnchant and not offEnchant and thrownEnchant then
 			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(thrown))
 			TempEnchant2:SetBackdropBorderColor(GetItemQualityColor(mainHand))
 			return true
-		elseif not hasMainHandEnchant and hasOffHandEnchant and hasThrownEnchant then
+		elseif not mainEnchant and offEnchant and thrownEnchant then
 			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(thrown))
 			TempEnchant2:SetBackdropBorderColor(GetItemQualityColor(offHand))
 			return true
-		elseif hasMainHandEnchant and not hasOffHandEnchant and not hasThrownEnchant then
+		elseif mainEnchant and not offEnchant and not thrownEnchant then
 			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(mainHand))
 			return true
-		elseif not hasMainHandEnchant and hasOffHandEnchant and not hasThrownEnchant then
+		elseif not mainEnchant and offEnchant and not thrownEnchant then
 			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(offHand))
 			return true
-		elseif not hasMainHandEnchant and not hasOffHandEnchant and hasThrownEnchant then
+		elseif not mainEnchant and not offEnchant and thrownEnchant then
 			TempEnchant1:SetBackdropBorderColor(GetItemQualityColor(thrown))
 			return true
 		end
@@ -541,7 +539,7 @@ function A:Initialize()
 		if self:GetUpdateWeaponEnchant() then A:UpdateTempEnchant() end
 	end)
 
-	E:CreateMover(self.EnchantHeader, "TempEnchantMover", L["Weapons"])
+	E:CreateMover(self.EnchantHeader, "TempEnchantMover", L["Weapons"], nil, nil, nil, nil, nil, "auras,weapons")
 
 	if Masque then
 		if MasqueGroupBuffs then A.BuffsMasqueGroup = MasqueGroupBuffs end

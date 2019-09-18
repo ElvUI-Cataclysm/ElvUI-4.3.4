@@ -18,6 +18,7 @@ P.general = {
 	hideErrorFrame = true,
 	enhancedPvpMessages = true,
 	watchFrameHeight = 480,
+	watchFrameAutoHide = true,
 	vehicleSeatIndicatorSize = 128,
 	afk = true,
 	numberPrefixStyle = "ENGLISH",
@@ -58,7 +59,8 @@ P.general = {
 				scale = 1,
 				position = "TOPRIGHT",
 				xOffset = 0,
-				yOffset = 0
+				yOffset = 0,
+				hide = true
 			},
 			mail = {
 				scale = 1,
@@ -101,7 +103,8 @@ P.general = {
 				scale = 1,
 				position = "TOP",
 				xOffset = 0,
-				yOffset = 0
+				yOffset = 0,
+				hide = true
 			}
 		}
 	},

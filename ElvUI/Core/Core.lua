@@ -880,7 +880,7 @@ function E:UpdateAll(ignoreInstall)
 
 	if E.private.nameplates.enable then
 		NamePlates:ConfigureAll()
-		NamePlates:StyleFilterInitializeAllFilters()
+		NamePlates:StyleFilterInitialize()
 	end
 
 	Threat:ToggleEnable()

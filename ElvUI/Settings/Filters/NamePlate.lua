@@ -23,7 +23,12 @@ E.StyleFilterDefaults = {
 		notTarget = false,
 		level = false,
 		casting = {
+			isCasting = false,
+			isChanneling = false,
+			notCasting = false,
+			notChanneling = false,
 			interruptible = false,
+			notSpell = false,
 			spells = {}
 		},
 		role = {

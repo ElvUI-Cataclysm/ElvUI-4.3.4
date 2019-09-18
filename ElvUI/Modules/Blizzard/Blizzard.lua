@@ -24,6 +24,8 @@ function B:Initialize()
 		self:SkinAltPowerBar()
 	end
 
+	self:RegisterEvent("ZONE_CHANGED_NEW_AREA", SetMapToCurrentZone)
+
 	if GetLocale() == "deDE" then
 		DAY_ONELETTER_ABBR = "%d d"
 	end
@@ -55,12 +57,9 @@ function B:Initialize()
 		TalentMicroButtonAlert.button = CreateFrame("Button", nil, TalentMicroButtonAlert, nil)
 		TalentMicroButtonAlert.button:SetAllPoints(TalentMicroButtonAlert)
 		TalentMicroButtonAlert.button:HookScript("OnClick", function()
-			if not PlayerTalentFrame then
-				TalentFrame_LoadUI()
-			end
-			if not GlyphFrame then
-				GlyphFrame_LoadUI()
-			end
+			if not PlayerTalentFrame then TalentFrame_LoadUI() end
+			if not GlyphFrame then GlyphFrame_LoadUI() end
+
 			if not PlayerTalentFrame:IsShown() then
 				ShowUIPanel(PlayerTalentFrame)
 			else

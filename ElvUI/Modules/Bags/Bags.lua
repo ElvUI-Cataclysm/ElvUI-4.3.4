@@ -348,10 +348,8 @@ function B:UpdateSlot(frame, bagID, slotID)
 		slot.junkDesaturate = slot.isJunk and E.db.bags.junkDesaturate
 
 		-- Junk Icon
-		if slot.JunkIcon then
-			if E.db.bags.junkIcon and slot.isJunk then
-				slot.JunkIcon:Show()
-			end
+		if E.db.bags.junkIcon and slot.isJunk then
+			slot.JunkIcon:Show()
 		end
 
 		-- Quest Icon

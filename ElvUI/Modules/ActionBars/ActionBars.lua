@@ -788,6 +788,7 @@ function AB:DisableBlizzard()
 	ReputationWatchBar:SetParent(UIHider)
 
 	MainMenuBarArtFrame:UnregisterAllEvents()
+	--Prevents taint in combat while using a vehicle.
 	MainMenuBarArtFrame:RegisterEvent("CURRENCY_DISPLAY_UPDATE")
 	MainMenuBarArtFrame:Hide()
 	MainMenuBarArtFrame:SetParent(UIHider)
@@ -935,7 +936,9 @@ function AB:SetupFlyoutButton()
 		if Button then
 			AB:StyleButton(Button, nil, MasqueGroup and E.private.actionbar.masque.actionbars and true or nil)
 
-			Button:Size(Button:GetParent():GetParent():GetSize())
+			if not InCombatLockdown() then -- Taint
+				Button:Size(Button:GetParent():GetParent():GetSize())
+			end
 
 			Button:HookScript("OnEnter", function(self)
 				local parent = self:GetParent()

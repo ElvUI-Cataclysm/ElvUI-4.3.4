@@ -9,7 +9,7 @@ local MAX_COMBO_POINTS = MAX_COMBO_POINTS
 
 function NP:UpdateElement_CPoints(frame)
 	if not frame.UnitType or (frame.UnitType == "FRIENDLY_PLAYER" or frame.UnitType == "FRIENDLY_NPC") then return end
-	if self.db.units[frame.UnitType].comboPoints.enable ~= true then return end
+	if NP.db.units[frame.UnitType].comboPoints.enable ~= true then return end
 
 	local numPoints
 	if UnitExists("target") and frame.isTarget then
@@ -34,33 +34,33 @@ function NP:ConfigureElement_CPoints(frame)
 	if not frame.UnitType or (frame.UnitType == "FRIENDLY_PLAYER" or frame.UnitType == "FRIENDLY_NPC") then return end
 
 	local comboPoints = frame.CPoints
-	local healthShown = self.db.units[frame.UnitType].healthbar.enable or (frame.isTarget and self.db.alwaysShowTargetHealth)
+	local healthShown = NP.db.units[frame.UnitType].healthbar.enable or (frame.isTarget and NP.db.alwaysShowTargetHealth)
 
 	comboPoints:ClearAllPoints()
 	if healthShown then
-		comboPoints:Point("CENTER", frame.HealthBar, "BOTTOM", self.db.units[frame.UnitType].comboPoints.xOffset, self.db.units[frame.UnitType].comboPoints.yOffset)
+		comboPoints:Point("CENTER", frame.HealthBar, "BOTTOM", NP.db.units[frame.UnitType].comboPoints.xOffset, NP.db.units[frame.UnitType].comboPoints.yOffset)
 	else
-		comboPoints:Point("CENTER", frame, "TOP", self.db.units[frame.UnitType].comboPoints.xOffset, self.db.units[frame.UnitType].comboPoints.yOffset)
+		comboPoints:Point("CENTER", frame, "TOP", NP.db.units[frame.UnitType].comboPoints.xOffset, NP.db.units[frame.UnitType].comboPoints.yOffset)
 	end
 
 	local width, height
 	for i = 1, MAX_COMBO_POINTS do
-		comboPoints[i]:SetStatusBarTexture(LSM:Fetch("statusbar", self.db.statusbar))
-		comboPoints[i]:SetStatusBarColor(unpack(E:GetColorTable(self.db.comboBar.colors[i])))
+		comboPoints[i]:SetStatusBarTexture(LSM:Fetch("statusbar", NP.db.statusbar))
+		comboPoints[i]:SetStatusBarColor(unpack(E:GetColorTable(NP.db.comboBar.colors[i])))
 
 		if i == 3 then
 			comboPoints[i]:Point("CENTER", comboPoints, "CENTER")
 		elseif i == 1 or i == 2 then
-			comboPoints[i]:Point("RIGHT", comboPoints[i + 1], "LEFT", -self.db.units[frame.UnitType].comboPoints.spacing, 0)
+			comboPoints[i]:Point("RIGHT", comboPoints[i + 1], "LEFT", -NP.db.units[frame.UnitType].comboPoints.spacing, 0)
 		else
-			comboPoints[i]:Point("LEFT", comboPoints[i - 1], "RIGHT", self.db.units[frame.UnitType].comboPoints.spacing, 0)
+			comboPoints[i]:Point("LEFT", comboPoints[i - 1], "RIGHT", NP.db.units[frame.UnitType].comboPoints.spacing, 0)
 		end
 
-		width = self.db.units[frame.UnitType].comboPoints.width
-		height = self.db.units[frame.UnitType].comboPoints.height
+		width = NP.db.units[frame.UnitType].comboPoints.width
+		height = NP.db.units[frame.UnitType].comboPoints.height
 
-		comboPoints[i]:Width(healthShown and width * (frame.ThreatScale or 1) * (self.db.useTargetScale and self.db.targetScale or 1) or width)
-		comboPoints[i]:Height(healthShown and height * (frame.ThreatScale or 1) * (self.db.useTargetScale and self.db.targetScale or 1) or height)
+		comboPoints[i]:Width(healthShown and width * (frame.ThreatScale or 1) * (NP.db.useTargetScale and NP.db.targetScale or 1) or width)
+		comboPoints[i]:Height(healthShown and height * (frame.ThreatScale or 1) * (NP.db.useTargetScale and NP.db.targetScale or 1) or height)
 	end
 end
 

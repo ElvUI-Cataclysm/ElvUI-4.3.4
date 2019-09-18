@@ -40,14 +40,7 @@ local function LoadSkin()
 		end
 	end
 
-	local questIcons = {
-		"QuestInfoSkillPointFrame",
-		"QuestInfoSpellObjectiveFrame",
-		"QuestInfoRewardSpell",
-		"QuestInfoTalentFrame"
-	}
-
-	for _, frame in pairs(questIcons) do
+	for _, frame in pairs({"QuestInfoSkillPointFrame", "QuestInfoSpellObjectiveFrame", "QuestInfoRewardSpell", "QuestInfoTalentFrame"}) do
 		local item = _G[frame]
 		local icon = _G[frame.."IconTexture"]
 		local name = _G[frame.."Name"]

@@ -179,9 +179,11 @@ local function LoadSkin()
 
 	ArchaeologyFrameCompletedPage.infoText:SetTextColor(1, 1, 1)
 
-	S:HandleButton(ArchaeologyFrameCompletedPageNextPageButton)
+	S:HandleNextPrevButton(ArchaeologyFrameCompletedPageNextPageButton)
+	ArchaeologyFrameCompletedPageNextPageButton:Size(24)
 
-	S:HandleButton(ArchaeologyFrameCompletedPagePrevPageButton)
+	S:HandleNextPrevButton(ArchaeologyFrameCompletedPagePrevPageButton)
+	ArchaeologyFrameCompletedPagePrevPageButton:Size(24)
 	ArchaeologyFrameCompletedPagePrevPageButton:ClearAllPoints()
 	ArchaeologyFrameCompletedPagePrevPageButton:Point("LEFT", ArchaeologyFrameCompletedPagePageText, "RIGHT", 10, 0)
 

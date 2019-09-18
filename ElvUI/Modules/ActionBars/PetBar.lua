@@ -47,7 +47,7 @@ function AB:UpdatePet(event, unit)
 		button.isToken = isToken
 		button.tooltipSubtext = subtext
 
-		if isActive --[[and name ~= "PET_ACTION_FOLLOW"]] then
+		if isActive then
 			button:SetChecked(true)
 
 			if IsPetAttackAction(i) then
@@ -85,7 +85,7 @@ function AB:UpdatePet(event, unit)
 			icon:Hide()
 		end
 
-		if not PetHasActionBar() and texture --[[and name ~= "PET_ACTION_FOLLOW"]] then
+		if not PetHasActionBar() and texture then
 			PetActionButton_StopFlash(button)
 			SetDesaturation(icon, 1)
 			button:SetChecked(0)

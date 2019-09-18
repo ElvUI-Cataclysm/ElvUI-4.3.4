@@ -497,8 +497,36 @@ E.Options.args.general = {
 				}
 			}
 		},
-		threatGroup = {
+		objectiveFrameGroup = {
 			order = 6,
+			type = "group",
+			name = L["Objective Frame"],
+			get = function(info) return E.db.general[info[#info]] end,
+			args = {
+				objectiveFrameHeader = {
+					order = 1,
+					type = "header",
+					name = L["Objective Frame"]
+				},
+				watchFrameAutoHide = {
+					order = 2,
+					type = "toggle",
+					name = L["Auto Hide"],
+					desc = L["Automatically hide the objetive frame during boss or arena fights."],
+					set = function(info, value) E.db.general.watchFrameAutoHide = value Blizzard:SetObjectiveFrameAutoHide() end
+				},
+				watchFrameHeight = {
+					order = 3,
+					type = "range",
+					name = L["Objective Frame Height"],
+					desc = L["Height of the objective tracker. Increase size to be able to see more objectives."],
+					min = 400, max = E.screenheight, step = 1,
+					set = function(info, value) E.db.general.watchFrameHeight = value Blizzard:SetWatchFrameHeight() end
+				}
+			}
+		},
+		threatGroup = {
+			order = 7,
 			type = "group",
 			name = L["Threat"],
 			get = function(info) return E.db.general.threat[info[#info]] end,
@@ -757,15 +785,6 @@ E.Options.args.general = {
 					min = 64, max = 128, step = 4,
 					get = function(info) return E.db.general.vehicleSeatIndicatorSize end,
 					set = function(info, value) E.db.general.vehicleSeatIndicatorSize = value Blizzard:UpdateVehicleFrame() end
-				},
-				watchFrameHeight = {
-					order = 9,
-					type = "range",
-					name = L["Objective Frame Height"],
-					desc = L["Height of the objective tracker. Increase size to be able to see more objectives."],
-					min = 400, max = E.screenheight, step = 1,
-					get = function(info) return E.db.general.watchFrameHeight end,
-					set = function(info, value) E.db.general.watchFrameHeight = value Blizzard:SetWatchFrameHeight() end
 				}
 			}
 		},

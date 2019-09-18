@@ -304,7 +304,7 @@ function M:UpdateSettings()
 	if not E.private.general.minimap.enable then return end
 
 	if GameTimeFrame then
-		if E.private.general.minimap.hideCalendar then
+		if E.db.general.minimap.icons.calendar.hide then
 			GameTimeFrame:Hide()
 		else
 			local pos = E.db.general.minimap.icons.calendar.position or "TOPRIGHT"
@@ -396,7 +396,7 @@ function M:UpdateSettings()
 	end
 
 	if MiniMapWorldMapButton then
-		if E.private.general.minimap.hideWorldMap then
+		if E.db.general.minimap.icons.worldMap.hide then
 			MiniMapWorldMapButton:Hide()
 		else
 			local pos = E.db.general.minimap.icons.worldMap.position or "TOPRIGHT"
@@ -510,7 +510,7 @@ function M:Initialize()
 		TimeManagerClockButton:Kill()
 	end
 
-	E:CreateMover(MMHolder, "MinimapMover", L["Minimap"], nil, nil, MinimapPostDrag)
+	E:CreateMover(MMHolder, "MinimapMover", L["Minimap"], nil, nil, MinimapPostDrag, nil, nil, "maps,minimap")
 
 	Minimap:EnableMouseWheel(true)
 	Minimap:SetScript("OnMouseWheel", M.Minimap_OnMouseWheel)

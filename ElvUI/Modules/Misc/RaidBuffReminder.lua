@@ -2,7 +2,7 @@
 local RB = E:GetModule("ReminderBuffs")
 local LSM = E.Libs.LSM
 
-local pairs, unpack = pairs, unpack
+local ipairs, unpack = ipairs, unpack
 local format = string.format
 
 local Masque = E.Libs.Masque
@@ -142,7 +142,7 @@ RB.MeleeSpell6Buffs = {
 function RB:CheckFilterForActiveBuff(filter)
 	local spellName, name, texture, duration, expirationTime
 
-	for _, spell in pairs(filter) do
+	for _, spell in ipairs(filter) do
 		spellName = GetSpellInfo(spell)
 		name, _, texture, _, _, duration, expirationTime = UnitAura("player", spellName)
 
@@ -286,12 +286,10 @@ function RB:UpdateSettings(isCallback)
 
 		if i == 1 then
 			button:Point("TOP", ElvUI_ReminderBuffs, "TOP", 0, 0)
+		elseif i == 6 then
+			button:Point("BOTTOM", ElvUI_ReminderBuffs, "BOTTOM", 0, 0)
 		else
 			button:Point("TOP", frame[i - 1], "BOTTOM", 0, E.Border - E.Spacing*3)
-		end
-
-		if i == 6 then
-			button:Point("BOTTOM", ElvUI_ReminderBuffs, "BOTTOM", 0, 0)
 		end
 
 		if E.db.general.reminder.durations then

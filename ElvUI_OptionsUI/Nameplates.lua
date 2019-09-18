@@ -355,7 +355,7 @@ local function UpdateFilterGroup()
 						if G.nameplates.filters[selectedNameplateFilter] then
 							filter = E:CopyTable(filter, G.nameplates.filters[selectedNameplateFilter])
 						end
-						NP:StyleFilterInitializeFilter(filter)
+						NP:StyleFilterCopyDefaults(filter)
 						E.global.nameplates.filters[selectedNameplateFilter] = filter
 						UpdateStyleLists()
 						UpdateInstanceDifficulty()
@@ -445,49 +445,81 @@ local function UpdateFilterGroup()
 					order = 6,
 					type = "group",
 					name = L["Casting"],
-					disabled = true,
-					--disabled = function() return not (E.db.nameplates and E.db.nameplates.filters and E.db.nameplates.filters[selectedNameplateFilter] and E.db.nameplates.filters[selectedNameplateFilter].triggers and E.db.nameplates.filters[selectedNameplateFilter].triggers.enable) end,
+					get = function(info)
+						return E.global.nameplates.filters[selectedNameplateFilter].triggers.casting[info[#info]]
+					end,
+					set = function(info, value)
+						E.global.nameplates.filters[selectedNameplateFilter].triggers.casting[info[#info]] = value
+						NP:ConfigureAll()
+					end,
+					disabled = function()
+						return not (E.db.nameplates and E.db.nameplates.filters and E.db.nameplates.filters[selectedNameplateFilter] and
+							E.db.nameplates.filters[selectedNameplateFilter].triggers and
+							E.db.nameplates.filters[selectedNameplateFilter].triggers.enable)
+					end,
 					args = {
-						interruptible = {
+						types = {
 							order = 1,
-							type = "toggle",
-							name = L["Interruptible"],
-							desc = L["If enabled then the filter will only activate if the unit is casting interruptible spells."],
-							get = function(info)
-								return E.global.nameplates.filters[selectedNameplateFilter].triggers.casting.interruptible
-							end,
-							set = function(info, value)
-								E.global.nameplates.filters[selectedNameplateFilter].triggers.casting.interruptible = value
-								NP:ConfigureAll()
-							end
-						},
-						notInterruptible = {
-							order = 2,
-							type = "toggle",
-							name = L["Non-Interruptable"],
-							desc = L["If enabled then the filter will only activate if the unit is casting not interruptible spells."],
-							get = function(info)
-								return E.global.nameplates.filters[selectedNameplateFilter].triggers.casting.notInterruptible
-							end,
-							set = function(info, value)
-								E.global.nameplates.filters[selectedNameplateFilter].triggers.casting.notInterruptible = value
-								NP:ConfigureAll()
-							end
-						},
-						spacer2 = {
-							order = 3,
-							type = "description",
-							name = ""
+							type = "group",
+							name = "",
+							guiInline = true,
+							args = {
+								isCasting = {
+									order = 1,
+									type = "toggle",
+									name = L["Is Casting Anything"],
+									desc = L["If enabled then the filter will activate if the unit is casting anything."]
+								},
+								notCasting = {
+									order = 2,
+									type = "toggle",
+									name = L["Not Casting Anything"],
+									desc = L["If enabled then the filter will activate if the unit is not casting anything."]
+								},
+								isChanneling = {
+									order = 3,
+									type = "toggle",
+									customWidth = 200,
+									name = L["Is Channeling Anything"],
+									desc = L["If enabled then the filter will activate if the unit is channeling anything."]
+								},
+								notChanneling = {
+									order = 4,
+									type = "toggle",
+									customWidth = 200,
+									name = L["Not Channeling Anything"],
+									desc = L["If enabled then the filter will activate if the unit is not channeling anything."]
+								},
+								spacer1 = {
+									order = 5,
+									type = "description",
+									name = " ",
+									width = "full"
+								},
+								interruptible = {
+									order = 6,
+									type = "toggle",
+									name = L["Interruptible"],
+									desc = L["If enabled then the filter will only activate if the unit is casting interruptible spells."]
+								},
+								notInterruptible = {
+									order = 7,
+									type = "toggle",
+									name = L["Non-Interruptable"],
+									desc = L["If enabled then the filter will only activate if the unit is casting not interruptible spells."]
+								}
+							}
 						},
 						addSpell = {
-							order = 4,
+							order = 9,
 							type = "input",
 							name = L["Add Spell ID or Name"],
-							get = function(info) return "" end,
+							get = function(info)
+								return ""
+							end,
 							set = function(info, value)
-								if match(value, "^[%s%p]-$") then
-									return
-								end
+								if match(value, "^[%s%p]-$") then return end
+
 								E.global.nameplates.filters[selectedNameplateFilter].triggers.casting.spells[value] = true
 								UpdateFilterGroup()
 								NP:ConfigureAll()
@@ -498,20 +530,32 @@ local function UpdateFilterGroup()
 							type = "input",
 							name = L["Remove Spell ID or Name"],
 							desc = L["If the aura is listed with a number then you need to use that to remove it from the list."],
-							get = function(info) return "" end,
+							get = function(info)
+								return ""
+							end,
 							set = function(info, value)
-								if match(value, "^[%s%p]-$") then
-									return
-								end
+								if match(value, "^[%s%p]-$") then return end
+
 								E.global.nameplates.filters[selectedNameplateFilter].triggers.casting.spells[value] = nil
 								UpdateFilterGroup()
 								NP:ConfigureAll()
 							end
 						},
-						description = {
-							order = 6,
-							type = "descriptiption",
+						description1 = {
+							order = 12,
+							type = "description",
+							name = L["You do not need to use 'Is Casting Anything' or 'Is Channeling Anything' for these spells to trigger."]
+						},
+						description2 = {
+							order = 13,
+							type = "description",
 							name = L["If this list is empty, and if 'Interruptible' is checked, then the filter will activate on any type of cast that can be interrupted."]
+						},
+						notSpell = {
+							order = -2,
+							type = "toggle",
+							name = L["Not Spell"],
+							desc = L["If enabled then the filter will only activate if the unit is not casting or channeling one of the selected spells."]
 						}
 					}
 				},
@@ -896,8 +940,14 @@ local function UpdateFilterGroup()
 								NP:ConfigureAll()
 							end
 						},
-						minTimeLeft = {
+						spacer1 = {
 							order = 3,
+							type = "description",
+							name = " ",
+							width = "full"
+						},
+						minTimeLeft = {
+							order = 4,
 							type = "range",
 							name = L["Minimum Time Left"],
 							desc = L["Apply this filter if a buff has remaining time greater than this. Set to zero to disable."],
@@ -911,7 +961,7 @@ local function UpdateFilterGroup()
 							end
 						},
 						maxTimeLeft = {
-							order = 4,
+							order = 5,
 							type = "range",
 							name = L["Maximum Time Left"],
 							desc = L["Apply this filter if a buff has remaining time less than this. Set to zero to disable."],
@@ -924,13 +974,13 @@ local function UpdateFilterGroup()
 								NP:ConfigureAll()
 							end
 						},
-						spacer1 = {
-							order = 5,
+						spacer2 = {
+							order = 6,
 							type = "description",
 							name = " "
 						},
 						addBuff = {
-							order = 6,
+							order = 7,
 							type = "input",
 							name = L["Add Spell ID or Name"],
 							get = function(info) return "" end,
@@ -944,7 +994,7 @@ local function UpdateFilterGroup()
 							end
 						},
 						removeBuff = {
-							order = 7,
+							order = 8,
 							type = "input",
 							name = L["Remove Spell ID or Name"],
 							desc = L["If the aura is listed with a number then you need to use that to remove it from the list."],
@@ -994,8 +1044,13 @@ local function UpdateFilterGroup()
 								NP:ConfigureAll()
 							end
 						},
-						minTimeLeft = {
+						spacer1 = {
 							order = 3,
+							type = "description",
+							name = " "
+						},
+						minTimeLeft = {
+							order = 4,
 							type = "range",
 							name = L["Minimum Time Left"],
 							desc = L["Apply this filter if a debuff has remaining time greater than this. Set to zero to disable."],
@@ -1009,7 +1064,7 @@ local function UpdateFilterGroup()
 							end
 						},
 						maxTimeLeft = {
-							order = 4,
+							order = 5,
 							type = "range",
 							name = L["Maximum Time Left"],
 							desc = L["Apply this filter if a debuff has remaining time less than this. Set to zero to disable."],
@@ -1022,13 +1077,13 @@ local function UpdateFilterGroup()
 								NP:ConfigureAll()
 							end
 						},
-						spacer1 = {
-							order = 5,
+						spacer2 = {
+							order = 6,
 							type = "description",
 							name = " "
 						},
 						addDebuff = {
-							order = 6,
+							order = 7,
 							type = "input",
 							name = L["Add Spell ID or Name"],
 							get = function(info) return "" end,
@@ -1042,7 +1097,7 @@ local function UpdateFilterGroup()
 							end
 						},
 						removeDebuff = {
-							order = 7,
+							order = 8,
 							type = "input",
 							name = L["Remove Spell ID or Name"],
 							desc = L["If the aura is listed with a number then you need to use that to remove it from the list."],
@@ -1639,7 +1694,8 @@ local function GetUnitSettings(unit, name)
 									["CURRENT_MAX_PERCENT"] = L["Current - Max | Percent"],
 									["PERCENT"] = L["Percent"],
 									["DEFICIT"] = L["Deficit"]
-								}
+								},
+								disabled = function() return not E.db.nameplates.units[unit].healthbar.text.enable end
 							}
 						}
 					}
@@ -1665,31 +1721,36 @@ local function GetUnitSettings(unit, name)
 					hideSpellName = {
 						order = 3,
 						type = "toggle",
-						name = L["Hide Spell Name"]
+						name = L["Hide Spell Name"],
+						disabled = function() return not E.db.nameplates.units[unit].castbar.enable end
 					},
 					hideTime = {
 						order = 4,
 						type = "toggle",
-						name = L["Hide Time"]
+						name = L["Hide Time"],
+						disabled = function() return not E.db.nameplates.units[unit].castbar.enable end
 					},
 					height = {
 						order = 5,
 						type = "range",
 						name = L["Height"],
-						min = 4, max = 20, step = 1
+						min = 4, max = 20, step = 1,
+						disabled = function() return not E.db.nameplates.units[unit].castbar.enable end
 					},
 					offset = {
 						order = 6,
 						type = "range",
 						name = L["Offset"],
-						min = 0, max = 15, step = 1
+						min = 0, max = 15, step = 1,
+						disabled = function() return not E.db.nameplates.units[unit].castbar.enable end
 					},
 					timeToHold = {
 						order = 7,
 						type = "range",
 						name = L["Time To Hold"],
 						desc = L["How many seconds the castbar should stay visible after the cast failed or was interrupted."],
-						min = 0, max = 4, step = 0.1
+						min = 0, max = 4, step = 0.1,
+						disabled = function() return not E.db.nameplates.units[unit].castbar.enable end
 					},
 					castTimeFormat = {
 						order = 8,
@@ -1699,7 +1760,8 @@ local function GetUnitSettings(unit, name)
 							["CURRENT"] = L["Current"],
 							["CURRENT_MAX"] = L["Current / Max"],
 							["REMAINING"] = L["Remaining"]
-						}
+						},
+						disabled = function() return not E.db.nameplates.units[unit].castbar.enable end
 					},
 					channelTimeFormat = {
 						order = 9,
@@ -1709,7 +1771,8 @@ local function GetUnitSettings(unit, name)
 							["CURRENT"] = L["Current"],
 							["CURRENT_MAX"] = L["Current / Max"],
 							["REMAINING"] = L["Remaining"]
-						}
+						},
+						disabled = function() return not E.db.nameplates.units[unit].castbar.enable end
 					},
 					iconPosition = {
 						order = 10,
@@ -1718,7 +1781,8 @@ local function GetUnitSettings(unit, name)
 						values = {
 							["LEFT"] = L["Left"],
 							["RIGHT"] = L["Right"]
-						}
+						},
+						disabled = function() return not E.db.nameplates.units[unit].castbar.enable end
 					}
 				}
 			},
@@ -1749,7 +1813,8 @@ local function GetUnitSettings(unit, name)
 						desc = L["Controls how many auras are displayed, this will also affect the size of the auras."],
 						min = 1, max = 8, step = 1,
 						get = function(info) return E.db.nameplates.units[unit].buffs[info[#info]] end,
-						set = function(info, value) E.db.nameplates.units[unit].buffs[info[#info]] = value NP:ConfigureAll() end
+						set = function(info, value) E.db.nameplates.units[unit].buffs[info[#info]] = value NP:ConfigureAll() end,
+						disabled = function() return not E.db.nameplates.units[unit].buffs.enable end
 					},
 					baseHeight = {
 						order = 4,
@@ -1758,7 +1823,8 @@ local function GetUnitSettings(unit, name)
 						desc = L["Base Height for the Aura Icon"],
 						min = 6, max = 60, step = 1,
 						get = function(info) return E.db.nameplates.units[unit].buffs[info[#info]] end,
-						set = function(info, value) E.db.nameplates.units[unit].buffs[info[#info]] = value NP:ConfigureAll() end
+						set = function(info, value) E.db.nameplates.units[unit].buffs[info[#info]] = value NP:ConfigureAll() end,
+						disabled = function() return not E.db.nameplates.units[unit].buffs.enable end
 					},
 					widthOverride = {
 						order = 5,
@@ -1767,7 +1833,8 @@ local function GetUnitSettings(unit, name)
 						desc = L["If not set to 0 then set the width of the Aura Icon to this"],
 						min = 0, max = 60, step = 1,
 						get = function(info) return E.db.nameplates.units[unit].buffs[ info[#info]] end,
-						set = function(info, value) E.db.nameplates.units[unit].buffs[info[#info]] = value NP:ConfigureAll() end
+						set = function(info, value) E.db.nameplates.units[unit].buffs[info[#info]] = value NP:ConfigureAll() end,
+						disabled = function() return not E.db.nameplates.units[unit].buffs.enable end
 					},
 					filtersGroup = {
 						order = 6,
@@ -1781,6 +1848,7 @@ local function GetUnitSettings(unit, name)
 								name = L["Minimum Duration"],
 								desc = L["Don't display auras that are shorter than this duration (in seconds). Set to zero to disable."],
 								min = 0, max = 10800, step = 1,
+								disabled = function() return not E.db.nameplates.units[unit].buffs.enable end
 							},
 							maxDuration = {
 								order = 2,
@@ -1788,18 +1856,21 @@ local function GetUnitSettings(unit, name)
 								name = L["Maximum Duration"],
 								desc = L["Don't display auras that are longer than this duration (in seconds). Set to zero to disable."],
 								min = 0, max = 10800, step = 1,
+								disabled = function() return not E.db.nameplates.units[unit].buffs.enable end
 							},
 							jumpToFilter = {
 								order = 3,
 								type = "execute",
 								name = L["Filters Page"],
 								desc = L["Shortcut to global filters."],
+								buttonElvUI = true,
 								func = function() ACD:SelectGroup("ElvUI", "filters") end,
+								disabled = function() return not E.db.nameplates.units[unit].buffs.enable end
 							},
 							spacer1 = {
 								order = 4,
 								type = "description",
-								name = " ",
+								name = " "
 							},
 							specialFilters = {
 								order = 5,
@@ -1819,7 +1890,8 @@ local function GetUnitSettings(unit, name)
 								set = function(info, value)
 									filterPriority("buffs", unit, value)
 									NP:ConfigureAll()
-								end
+								end,
+								disabled = function() return not E.db.nameplates.units[unit].buffs.enable end
 							},
 							filter = {
 								order = 6,
@@ -1838,17 +1910,20 @@ local function GetUnitSettings(unit, name)
 								set = function(info, value)
 									filterPriority("buffs", unit, value)
 									NP:ConfigureAll()
-								end
+								end,
+								disabled = function() return not E.db.nameplates.units[unit].buffs.enable end
 							},
 							resetPriority = {
 								order = 7,
 								type = "execute",
 								name = L["Reset Priority"],
 								desc = L["Reset filter priority to the default state."],
+								buttonElvUI = true,
 								func = function()
 									E.db.nameplates.units[unit].buffs.filters.priority = P.nameplates.units[unit].buffs.filters.priority
 									NP:ConfigureAll()
-								end
+								end,
+								disabled = function() return not E.db.nameplates.units[unit].buffs.enable end
 							},
 							filterPriority = {
 								order = 8,
@@ -1889,7 +1964,8 @@ local function GetUnitSettings(unit, name)
 								end,
 								set = function()
 									NP:ConfigureAll()
-								end
+								end,
+								disabled = function() return not E.db.nameplates.units[unit].buffs.enable end
 							},
 							spacer3 = {
 								order = 9,
@@ -1927,7 +2003,8 @@ local function GetUnitSettings(unit, name)
 						desc = L["Controls how many auras are displayed, this will also affect the size of the auras."],
 						min = 1, max = 8, step = 1,
 						get = function(info) return E.db.nameplates.units[unit].debuffs[info[#info]] end,
-						set = function(info, value) E.db.nameplates.units[unit].debuffs[info[#info]] = value NP:ConfigureAll() end
+						set = function(info, value) E.db.nameplates.units[unit].debuffs[info[#info]] = value NP:ConfigureAll() end,
+						disabled = function() return not E.db.nameplates.units[unit].debuffs.enable end
 					},
 					baseHeight = {
 						order = 4,
@@ -1936,7 +2013,8 @@ local function GetUnitSettings(unit, name)
 						desc = L["Base Height for the Aura Icon"],
 						min = 6, max = 60, step = 1,
 						get = function(info) return E.db.nameplates.units[unit].debuffs[info[#info]] end,
-						set = function(info, value) E.db.nameplates.units[unit].debuffs[info[#info]] = value NP:ConfigureAll() end
+						set = function(info, value) E.db.nameplates.units[unit].debuffs[info[#info]] = value NP:ConfigureAll() end,
+						disabled = function() return not E.db.nameplates.units[unit].debuffs.enable end
 					},
 					widthOverride = {
 						order = 5,
@@ -1945,7 +2023,8 @@ local function GetUnitSettings(unit, name)
 						desc = L["If not set to 0 then set the width of the Aura Icon to this"],
 						min = 0, max = 60, step = 1,
 						get = function(info) return E.db.nameplates.units[unit].debuffs[ info[#info]] end,
-						set = function(info, value) E.db.nameplates.units[unit].debuffs[info[#info]] = value NP:ConfigureAll() end
+						set = function(info, value) E.db.nameplates.units[unit].debuffs[info[#info]] = value NP:ConfigureAll() end,
+						disabled = function() return not E.db.nameplates.units[unit].debuffs.enable end
 					},
 					filtersGroup = {
 						order = 6,
@@ -1959,6 +2038,7 @@ local function GetUnitSettings(unit, name)
 								name = L["Minimum Duration"],
 								desc = L["Don't display auras that are shorter than this duration (in seconds). Set to zero to disable."],
 								min = 0, max = 10800, step = 1,
+								disabled = function() return not E.db.nameplates.units[unit].debuffs.enable end
 							},
 							maxDuration = {
 								order = 2,
@@ -1966,13 +2046,16 @@ local function GetUnitSettings(unit, name)
 								name = L["Maximum Duration"],
 								desc = L["Don't display auras that are longer than this duration (in seconds). Set to zero to disable."],
 								min = 0, max = 10800, step = 1,
+								disabled = function() return not E.db.nameplates.units[unit].debuffs.enable end
 							},
 							jumpToFilter = {
 								order = 3,
 								type = "execute",
 								name = L["Filters Page"],
 								desc = L["Shortcut to global filters."],
+								buttonElvUI = true,
 								func = function() ACD:SelectGroup("ElvUI", "filters") end,
+								disabled = function() return not E.db.nameplates.units[unit].debuffs.enable end
 							},
 							spacer1 = {
 								order = 4,
@@ -1997,7 +2080,8 @@ local function GetUnitSettings(unit, name)
 								set = function(info, value)
 									filterPriority("debuffs", unit, value)
 									NP:ConfigureAll()
-								end
+								end,
+								disabled = function() return not E.db.nameplates.units[unit].debuffs.enable end
 							},
 							filter = {
 								order = 6,
@@ -2016,17 +2100,20 @@ local function GetUnitSettings(unit, name)
 								set = function(info, value)
 									filterPriority("debuffs", unit, value)
 									NP:ConfigureAll()
-								end
+								end,
+								disabled = function() return not E.db.nameplates.units[unit].debuffs.enable end
 							},
 							resetPriority = {
 								order = 7,
 								type = "execute",
 								name = L["Reset Priority"],
 								desc = L["Reset filter priority to the default state."],
+								buttonElvUI = true,
 								func = function()
 									E.db.nameplates.units[unit].debuffs.filters.priority = P.nameplates.units[unit].debuffs.filters.priority
 									NP:ConfigureAll()
-								end
+								end,
+								disabled = function() return not E.db.nameplates.units[unit].debuffs.enable end
 							},
 							filterPriority = {
 								order = 8,
@@ -2067,7 +2154,8 @@ local function GetUnitSettings(unit, name)
 								end,
 								set = function(info)
 									NP:ConfigureAll()
-								end
+								end,
+								disabled = function() return not E.db.nameplates.units[unit].debuffs.enable end
 							},
 							spacer3 = {
 								order = 9,
@@ -3047,7 +3135,7 @@ E.Options.args.nameplate = {
 							return
 						end
 						local filter = {}
-						NP:StyleFilterInitializeFilter(filter)
+						NP:StyleFilterCopyDefaults(filter)
 						E.global.nameplates.filters[value] = filter
 						UpdateFilterGroup()
 						NP:ConfigureAll()

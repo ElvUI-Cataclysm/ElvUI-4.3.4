@@ -16,6 +16,15 @@ local points = {
 	BOTTOMRIGHT = L["Bottom Right"]
 }
 
+local textPoints = {
+	TOP = L["Top"],
+	BOTTOM = L["Bottom"],
+	TOPLEFT = L["Top Left"],
+	TOPRIGHT = L["Top Right"],
+	BOTTOMLEFT = L["Bottom Left"],
+	BOTTOMRIGHT = L["Bottom Right"]
+}
+
 local ACD = E.Libs.AceConfigDialog
 
 local function BuildABConfig()
@@ -278,14 +287,7 @@ local function BuildABConfig()
 								order = 1,
 								type = "select",
 								name = L["Stack Text Position"],
-								values = {
-									["BOTTOMRIGHT"] = "BOTTOMRIGHT",
-									["BOTTOMLEFT"] = "BOTTOMLEFT",
-									["TOPRIGHT"] = "TOPRIGHT",
-									["TOPLEFT"] = "TOPLEFT",
-									["BOTTOM"] = "BOTTOM",
-									["TOP"] = "TOP"
-								}
+								values = textPoints
 							},
 							countTextXOffset = {
 								order = 2,
@@ -303,14 +305,7 @@ local function BuildABConfig()
 								order = 4,
 								type = "select",
 								name = L["Keybind Text Position"],
-								values = {
-									["BOTTOMRIGHT"] = "BOTTOMRIGHT",
-									["BOTTOMLEFT"] = "BOTTOMLEFT",
-									["TOPRIGHT"] = "TOPRIGHT",
-									["TOPLEFT"] = "TOPLEFT",
-									["BOTTOM"] = "BOTTOM",
-									["TOP"] = "TOP"
-								}
+								values = textPoints
 							},
 							hotkeyTextXOffset = {
 								order = 5,
@@ -672,14 +667,7 @@ local function BuildABConfig()
 				type = "select",
 				name = L["Anchor Point"],
 				desc = L["The first button anchors itself to this point on the bar."],
-				values = {
-					["TOPLEFT"] = "TOPLEFT",
-					["TOPRIGHT"] = "TOPRIGHT",
-					["BOTTOMLEFT"] = "BOTTOMLEFT",
-					["BOTTOMRIGHT"] = "BOTTOMRIGHT",
-					["BOTTOM"] = "BOTTOM",
-					["TOP"] = "TOP"
-				},
+				values = textPoints,
 				disabled = function() return not E.db.actionbar.stanceBar.enabled end
 			},
 			buttons = {

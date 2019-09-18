@@ -441,14 +441,19 @@ E.Options.args.bags = {
 								B:UpdateAllBagSlots()
 							end
 						},
-						questStarter = {
+						spacer = {
 							order = 2,
+							type = "description",
+							name = ""
+						},
+						questStarter = {
+							order = 3,
 							type = "color",
 							name = L["Quest Starter"],
 							disabled = function() return not E.db.bags.questItemColors end
 						},
 						questItem = {
-							order = 3,
+							order = 4,
 							type = "color",
 							name = L["ITEM_BIND_QUEST"],
 							disabled = function() return not E.db.bags.questItemColors end

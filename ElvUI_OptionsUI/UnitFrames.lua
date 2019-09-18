@@ -545,13 +545,13 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 						type = "select",
 						name = L["Position"],
 						values = {
-							["TOP"] = "TOP",
-							["LEFT"] = "LEFT",
-							["BOTTOM"] = "BOTTOM",
-							["CENTER"] = "CENTER",
-							["TOPLEFT"] = "TOPLEFT",
-							["BOTTOMLEFT"] = "BOTTOMLEFT",
-							["TOPRIGHT"] = "TOPRIGHT"
+							["TOP"] = L["Top"],
+							["LEFT"] = L["Left"],
+							["CENTER"] = L["Center"],
+							["BOTTOM"] = L["Bottom"],
+							["TOPLEFT"] = L["Top Left"],
+							["TOPRIGHT"] = L["Top Right"],
+							["BOTTOMLEFT"] = L["Bottom Left"]
 						}
 					}
 				}
@@ -3873,7 +3873,7 @@ E.Options.args.unitframe.args.player = {
 				autoHide = {
 					order = 5,
 					type = "toggle",
-					name = L["Auto-Hide"],
+					name = L["Auto Hide"],
 					disabled = function() return not E.db.unitframe.units.player.classbar.enable end
 				},
 				additionalPowerText = {
@@ -4546,7 +4546,7 @@ E.Options.args.unitframe.args.target = {
 				autoHide = {
 					order = 5,
 					type = "toggle",
-					name = L["Auto-Hide"],
+					name = L["Auto Hide"],
 					disabled = function() return not E.db.unitframe.units.target.combobar.enable end
 				},
 				spacer = {
@@ -5584,8 +5584,8 @@ E.Options.args.unitframe.args.boss = {
 			name = L["Copy From"],
 			desc = L["Select a unit to copy settings from."],
 			values = {
-				["boss"] = "boss",
-				["arena"] = "arena"
+				["boss"] = L["BOSS"],
+				["arena"] = L["ARENA"]
 			},
 			set = function(info, value) UF:MergeUnitSettings(value, "boss") end
 		},
@@ -5727,8 +5727,8 @@ E.Options.args.unitframe.args.arena = {
 			name = L["Copy From"],
 			desc = L["Select a unit to copy settings from."],
 			values = {
-				["boss"] = "boss",
-				["arena"] = "arena"
+				["boss"] = L["BOSS"],
+				["arena"] = L["ARENA"]
 			},
 			set = function(info, value) UF:MergeUnitSettings(value, "arena") end
 		},

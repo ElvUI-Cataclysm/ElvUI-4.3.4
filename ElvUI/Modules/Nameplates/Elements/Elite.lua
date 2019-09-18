@@ -2,10 +2,10 @@ local E, L, V, P, G = unpack(select(2, ...))
 local NP = E:GetModule("NamePlates")
 
 function NP:UpdateElement_Elite(frame)
-	if not self.db.units[frame.UnitType].eliteIcon then return end
+	if not NP.db.units[frame.UnitType].eliteIcon then return end
 
 	local icon = frame.Elite
-	if self.db.units[frame.UnitType].eliteIcon.enable then
+	if NP.db.units[frame.UnitType].eliteIcon.enable then
 		local elite, boss = frame.EliteIcon:IsShown(), frame.BossIcon:IsShown()
 
 		if boss then
@@ -23,21 +23,21 @@ function NP:UpdateElement_Elite(frame)
 end
 
 function NP:ConfigureElement_Elite(frame)
-	if not self.db.units[frame.UnitType].eliteIcon then return end
+	if not NP.db.units[frame.UnitType].eliteIcon then return end
 
 	local icon = frame.Elite
-	local size = self.db.units[frame.UnitType].eliteIcon.size
-	local position = self.db.units[frame.UnitType].eliteIcon.position
+	local size = NP.db.units[frame.UnitType].eliteIcon.size
+	local position = NP.db.units[frame.UnitType].eliteIcon.position
 
 	icon:Size(size)
 	icon:ClearAllPoints()
 
 	if frame.HealthBar:IsShown() then
 		icon:SetParent(frame.HealthBar)
-		icon:Point(position, frame.HealthBar, position, self.db.units[frame.UnitType].eliteIcon.xOffset, self.db.units[frame.UnitType].eliteIcon.yOffset)
+		icon:Point(position, frame.HealthBar, position, NP.db.units[frame.UnitType].eliteIcon.xOffset, NP.db.units[frame.UnitType].eliteIcon.yOffset)
 	else
 		icon:SetParent(frame)
-		icon:Point(position, frame, position, self.db.units[frame.UnitType].eliteIcon.xOffset, self.db.units[frame.UnitType].eliteIcon.yOffset)
+		icon:Point(position, frame, position, NP.db.units[frame.UnitType].eliteIcon.xOffset, NP.db.units[frame.UnitType].eliteIcon.yOffset)
 	end
 end
 

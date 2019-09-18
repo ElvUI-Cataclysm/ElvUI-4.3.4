@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
 local _G = _G
-local pairs, select, unpack = pairs, select, unpack
+local ipairs, select, unpack = ipairs, select, unpack
 
 local GetAchievementCriteriaInfo = GetAchievementCriteriaInfo
 local GetAchievementNumCriteria = GetAchievementNumCriteria
@@ -10,21 +10,25 @@ local hooksecurefunc = hooksecurefunc
 local IsAddOnLoaded = IsAddOnLoaded
 
 local function LoadSkin(event)
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.achievement ~= true then return end
+	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.achievement) then return end
 
 	local function SkinAchievement(achievement, BiggerIcon)
 		if achievement.isSkinned then return end
 
 		achievement:StripTextures(true)
-		achievement:SetTemplate("Default", true)
+		achievement:CreateBackdrop("Default", true)
+		achievement.backdrop:Point("TOPLEFT", 2, -1)
+		achievement.backdrop:Point("BOTTOMRIGHT", -2, 1)
+
 		achievement.icon:SetTemplate()
 		achievement.icon:SetSize(BiggerIcon and 54 or 36, BiggerIcon and 54 or 36)
 		achievement.icon:ClearAllPoints()
-		achievement.icon:Point("TOPLEFT", 8, -8)
+		achievement.icon:Point("TOPLEFT", 8, -6)
 		achievement.icon.bling:Kill()
 		achievement.icon.frame:Kill()
 		achievement.icon.texture:SetTexCoord(unpack(E.TexCoords))
 		achievement.icon.texture:SetInside()
+		achievement.icon:SetParent(achievement.backdrop)
 
 		if achievement.highlight then
 			achievement.highlight:StripTextures()
@@ -34,26 +38,41 @@ local function LoadSkin(event)
 
 		if achievement.label then
 			achievement.label:SetTextColor(1, 1, 1)
+			achievement.label:SetParent(achievement.backdrop)
 		end
 
 		if achievement.description then
-			achievement.description:SetTextColor(.6, .6, .6)
+			achievement.description:SetTextColor(0.6, 0.6, 0.6)
+			achievement.description:SetParent(achievement.backdrop)
 			hooksecurefunc(achievement.description, "SetTextColor", function(_, r, g, b)
 				if r == 0 and g == 0 and b == 0 then
-					achievement.description:SetTextColor(.6, .6, .6)
+					achievement.description:SetTextColor(0.6, 0.6, 0.6)
 				end
 			end)
 		end
 
 		if achievement.hiddenDescription then
 			achievement.hiddenDescription:SetTextColor(1, 1, 1)
+			achievement.hiddenDescription:SetParent(achievement.backdrop)
+		end
+
+		if achievement.shield then
+			achievement.shield:SetParent(achievement.backdrop)
 		end
 
 		if achievement.tracked then
 			S:HandleCheckBox(achievement.tracked, true)
 			achievement.tracked:Size(14, 14)
 			achievement.tracked:ClearAllPoints()
-			achievement.tracked:Point("TOPLEFT", achievement.icon, "BOTTOMLEFT", 0, -2)
+			achievement.tracked:Point("TOPLEFT", achievement.icon, "BOTTOMLEFT", 0, -4)
+			achievement.tracked:SetParent(achievement.backdrop)
+			achievement.tracked:SetFrameLevel(achievement.backdrop:GetFrameLevel() + 2)
+		end
+
+		local trackedText = _G[achievement:GetName().."TrackedText"]
+		if trackedText then
+			trackedText:SetTextColor(1, 1, 1)
+			trackedText:Point("TOPLEFT", 18, -2)
 		end
 
 		hooksecurefunc(achievement, "Saturate", function()
@@ -69,30 +88,32 @@ local function LoadSkin(event)
 	if event == "PLAYER_ENTERING_WORLD" then
 		hooksecurefunc("HybridScrollFrame_CreateButtons", function(frame, template)
 			if template == "AchievementCategoryTemplate" then
-				for _, button in pairs(frame.buttons) do
+				for _, button in ipairs(frame.buttons) do
 					if button.isSkinned then return end
 
-					button:StripTextures(true)
-					button:StyleButton()
+					button:StripTextures()
+
+					local highlight = button:GetHighlightTexture()
+					highlight:SetTexture(E.Media.Textures.Highlight)
+					highlight:SetTexCoord(0, 1, 0, 1)
+					highlight:SetAlpha(0.35)
+					highlight:SetInside()
+
 					button.isSkinned = true
 				end
-			end
-			if template == "AchievementTemplate" then
-				for _, achievement in pairs(frame.buttons) do
+			elseif template == "AchievementTemplate" then
+				for _, achievement in ipairs(frame.buttons) do
 					SkinAchievement(achievement, true)
 				end
-			end
-			if template == "ComparisonTemplate" then
-				for _, achievement in pairs(frame.buttons) do
+			elseif template == "ComparisonTemplate" then
+				for _, achievement in ipairs(frame.buttons) do
 					if achievement.isSkinned then return end
 
 					SkinAchievement(achievement.player)
 					SkinAchievement(achievement.friend)
 				end
-			end
-			if template == "StatTemplate" then
-				for _, stats in pairs(frame.buttons) do
-					-- stats:StripTextures(true)
+			elseif template == "StatTemplate" then
+				for _, stats in ipairs(frame.buttons) do
 					stats:StyleButton()
 				end
 			end
@@ -116,7 +137,7 @@ local function LoadSkin(event)
 		"AchievementFrameComparisonSummaryFriend"
 	}
 
-	for _, frame in pairs(frames) do
+	for _, frame in ipairs(frames) do
 		_G[frame]:StripTextures(true)
 	end
 
@@ -127,9 +148,10 @@ local function LoadSkin(event)
 		"AchievementFrameComparison"
 	}
 
-	for _, frame in pairs(noname_frames) do
-		for i = 1, _G[frame]:GetNumChildren() do
-			local child = select(i, _G[frame]:GetChildren())
+	for _, frame in ipairs(noname_frames) do
+		frame = _G[frame]
+		for i = 1, frame:GetNumChildren() do
+			local child = select(i, frame:GetChildren())
 			if child and not child:GetName() then
 				child:SetBackdrop(nil)
 			end
@@ -139,66 +161,112 @@ local function LoadSkin(event)
 	local AchievementFrame = _G["AchievementFrame"]
 	AchievementFrame:CreateBackdrop("Transparent")
 	AchievementFrame.backdrop:Point("TOPLEFT", 0, 6)
-	AchievementFrame.backdrop:Point("BOTTOMRIGHT")
+	AchievementFrame.backdrop:Point("BOTTOMRIGHT", -15, 0)
 
 	AchievementFrameHeaderTitle:ClearAllPoints()
 	AchievementFrameHeaderTitle:Point("TOPLEFT", AchievementFrame.backdrop, "TOPLEFT", -30, -8)
+
 	AchievementFrameHeaderPoints:ClearAllPoints()
 	AchievementFrameHeaderPoints:Point("LEFT", AchievementFrameHeaderTitle, "RIGHT", 2, 0)
 
-	AchievementFrameCategoriesContainer:CreateBackdrop("Default")
-	AchievementFrameCategoriesContainer.backdrop:Point("TOPLEFT", 0, 4)
-	AchievementFrameCategoriesContainer.backdrop:Point("BOTTOMRIGHT", -2, -3)
-	AchievementFrameAchievementsContainer:CreateBackdrop("Transparent")
-	AchievementFrameAchievementsContainer.backdrop:Point("TOPLEFT", -2, 2)
-	AchievementFrameAchievementsContainer.backdrop:Point("BOTTOMRIGHT", -2, -3)
+	AchievementFrameSummaryAchievementsEmptyText:Point("TOP", AchievementFrameSummaryAchievements, "TOP", 0, 20)
+
+	S:HandleDropDownBox(AchievementFrameFilterDropDown, 200)
+	AchievementFrameFilterDropDown:Point("TOPRIGHT", AchievementFrame, "TOPRIGHT", -38, 8)
 
 	S:HandleCloseButton(AchievementFrameCloseButton, AchievementFrame.backdrop)
-	S:HandleDropDownBox(AchievementFrameFilterDropDown)
-	AchievementFrameFilterDropDown:Point("TOPRIGHT", AchievementFrame, "TOPRIGHT", -44, 5)
 
-	S:HandleScrollBar(AchievementFrameCategoriesContainerScrollBar, 5)
-	S:HandleScrollBar(AchievementFrameAchievementsContainerScrollBar, 5)
-	S:HandleScrollBar(AchievementFrameStatsContainerScrollBar, 5)
-	S:HandleScrollBar(AchievementFrameComparisonContainerScrollBar, 5)
-	S:HandleScrollBar(AchievementFrameComparisonStatsContainerScrollBar, 5)
+	AchievementFrameCategoriesContainer:CreateBackdrop("Transparent")
+	AchievementFrameCategoriesContainer.backdrop:Point("TOPLEFT", 0, 3)
+	AchievementFrameCategoriesContainer.backdrop:Point("BOTTOMRIGHT", -2, -2)
+
+	AchievementFrameAchievementsContainer:CreateBackdrop("Transparent")
+	AchievementFrameAchievementsContainer.backdrop:Point("TOPLEFT", -2, 1)
+	AchievementFrameAchievementsContainer.backdrop:Point("BOTTOMRIGHT", -4, -2)
+
+	AchievementFrameComparisonContainer:CreateBackdrop("Transparent")
+	AchievementFrameComparisonContainer.backdrop:Point("TOPLEFT", -2, 2)
+	AchievementFrameComparisonContainer.backdrop:Point("BOTTOMRIGHT", -3, -2)
+
+	AchievementFrameComparisonStatsContainer:CreateBackdrop("Transparent")
+	AchievementFrameComparisonStatsContainer.backdrop:Point("TOPLEFT", -1, 1)
+	AchievementFrameComparisonStatsContainer.backdrop:Point("BOTTOMRIGHT", -7, -2)
+
+	S:HandleScrollBar(AchievementFrameComparisonContainerScrollBar)
+	AchievementFrameComparisonContainerScrollBar:ClearAllPoints()
+	AchievementFrameComparisonContainerScrollBar:Point("TOPLEFT", AchievementFrameComparisonSummary, "TOPRIGHT", 7, -63)
+	AchievementFrameComparisonContainerScrollBar:Point("BOTTOMLEFT", AchievementFrameComparisonSummary, "BOTTOMRIGHT", 0, -389)
+
+	S:HandleScrollBar(AchievementFrameComparisonStatsContainerScrollBar)
+	AchievementFrameComparisonStatsContainerScrollBar:ClearAllPoints()
+	AchievementFrameComparisonStatsContainerScrollBar:Point("TOPLEFT", AchievementFrameComparisonStatsContainer, "TOPRIGHT", 1, -15)
+	AchievementFrameComparisonStatsContainerScrollBar:Point("BOTTOMLEFT", AchievementFrameComparisonStatsContainer, "BOTTOMRIGHT", 0, 14)
+
+	S:HandleScrollBar(AchievementFrameCategoriesContainerScrollBar)
+	AchievementFrameCategoriesContainerScrollBar:ClearAllPoints()
+	AchievementFrameCategoriesContainerScrollBar:Point("TOPLEFT", AchievementFrameCategoriesContainer, "TOPRIGHT", 1, -13)
+	AchievementFrameCategoriesContainerScrollBar:Point("BOTTOMLEFT", AchievementFrameCategoriesContainer, "BOTTOMRIGHT", 0, 14)
+
+	S:HandleScrollBar(AchievementFrameAchievementsContainerScrollBar)
+	AchievementFrameAchievementsContainerScrollBar:ClearAllPoints()
+	AchievementFrameAchievementsContainerScrollBar:Point("TOPLEFT", AchievementFrameAchievementsContainer, "TOPRIGHT", 0, -15)
+	AchievementFrameAchievementsContainerScrollBar:Point("BOTTOMLEFT", AchievementFrameAchievementsContainer, "BOTTOMRIGHT", 0, 14)
+
+	S:HandleScrollBar(AchievementFrameStatsContainerScrollBar)
+	AchievementFrameStatsContainerScrollBar:ClearAllPoints()
+	AchievementFrameStatsContainerScrollBar:Point("TOPLEFT", AchievementFrameStatsContainer, "TOPRIGHT", 0, -15)
+	AchievementFrameStatsContainerScrollBar:Point("BOTTOMLEFT", AchievementFrameStatsContainer, "BOTTOMRIGHT", 0, 14)
 
 	for i = 1, 3 do
 		S:HandleTab(_G["AchievementFrameTab"..i])
 	end
 
 	local function SkinStatusBar(bar)
+		local r, g, b = unpack(E.media.rgbvaluecolor)
+
 		bar:StripTextures()
-		bar:CreateBackdrop("Default")
+		bar:CreateBackdrop("Transparent")
 		bar:SetStatusBarTexture(E.media.normTex)
-		bar:SetStatusBarColor(0.22, 0.39, 0.84)
+		bar:SetStatusBarColor(r, g, b)
 		E:RegisterStatusBar(bar)
 
 		local barName = bar:GetName()
 		if _G[barName.."Title"] then
 			_G[barName.."Title"]:Point("LEFT", 4, 0)
+			_G[barName.."Title"]:FontTemplate()
 		end
-
 		if _G[barName.."Label"] then
 			_G[barName.."Label"]:Point("LEFT", 4, 0)
+			_G[barName.."Label"]:FontTemplate()
 		end
-
 		if _G[barName.."Text"] then
 			_G[barName.."Text"]:Point("RIGHT", -4, 0)
+			_G[barName.."Text"]:FontTemplate()
+		end
+		if _G[barName.."FillBar"] then
+			_G[barName.."FillBar"]:SetTexture(E.media.normTex)
+			_G[barName.."FillBar"]:SetVertexColor(r * 0.3, g * 0.3, b * 0.3)
 		end
 	end
 
 	SkinStatusBar(AchievementFrameSummaryCategoriesStatusBar)
+
 	SkinStatusBar(AchievementFrameComparisonSummaryPlayerStatusBar)
+	AchievementFrameComparisonSummaryPlayerStatusBar:Point("TOPLEFT", -1, -17)
+
 	SkinStatusBar(AchievementFrameComparisonSummaryFriendStatusBar)
+	AchievementFrameComparisonSummaryFriendStatusBar:Point("TOP", -13, -17)
+
 	AchievementFrameComparisonSummaryFriendStatusBar.text:ClearAllPoints()
 	AchievementFrameComparisonSummaryFriendStatusBar.text:Point("CENTER")
+
 	AchievementFrameComparisonHeader:Point("BOTTOMRIGHT", AchievementFrameComparison, "TOPRIGHT", 45, -10)
 
 	for i = 1, 8 do
 		local frame = _G["AchievementFrameSummaryCategoriesCategory"..i]
 		local button = _G["AchievementFrameSummaryCategoriesCategory"..i.."Button"]
 		local highlight = _G["AchievementFrameSummaryCategoriesCategory"..i.."ButtonHighlight"]
+
 		SkinStatusBar(frame)
 		button:StripTextures()
 		highlight:StripTextures()
@@ -222,7 +290,7 @@ local function LoadSkin(event)
 				frame.isSkinned = true
 			end
 
-			local prevFrame = _G["AchievementFrameSummaryAchievement"..i - 1]
+			local prevFrame = _G["AchievementFrameSummaryAchievement"..(i - 1)]
 			if i ~= 1 then
 				frame:ClearAllPoints()
 				frame:Point("TOPLEFT", prevFrame, "BOTTOMLEFT", 0, -1)
@@ -233,50 +301,58 @@ local function LoadSkin(event)
 		end
 	end)
 
-	for i = 1, 20 do
-		local frame = _G["AchievementFrameStatsContainerButton"..i]
+	AchievementFrameStatsContainer:CreateBackdrop("Transparent")
+	AchievementFrameStatsContainer.backdrop:Point("TOPLEFT", -1, 1)
+	AchievementFrameStatsContainer.backdrop:Point("BOTTOMRIGHT", -6, -2)
 
-		frame:StyleButton()
+	for _, frame in pairs({"AchievementFrameStatsContainerButton", "AchievementFrameComparisonStatsContainerButton"}) do
+		for i = 1, 20 do
+			_G[frame..i]:StripTextures()
 
-		_G["AchievementFrameStatsContainerButton"..i.."BG"]:SetTexture(1, 1, 1, 0.2)
-		_G["AchievementFrameStatsContainerButton"..i.."HeaderLeft"]:Kill()
-		_G["AchievementFrameStatsContainerButton"..i.."HeaderRight"]:Kill()
-		_G["AchievementFrameStatsContainerButton"..i.."HeaderMiddle"]:Kill()
+			_G[frame..i]:SetHighlightTexture(E.Media.Textures.Highlight)
+			_G[frame..i]:GetHighlightTexture():SetAlpha(0.35)
+			_G[frame..i]:GetHighlightTexture():SetInside()
 
-		frame = "AchievementFrameComparisonStatsContainerButton"..i
-
-		_G[frame]:StripTextures()
-		_G[frame]:StyleButton()
-		_G[frame.."BG"]:SetTexture(1, 1, 1, 0.2)
-		_G[frame.."HeaderLeft"]:Kill()
-		_G[frame.."HeaderRight"]:Kill()
-		_G[frame.."HeaderMiddle"]:Kill()
+			_G[frame..i.."BG"]:SetTexture(0, 0, 0, 0.6)
+			_G[frame..i.."BG"]:Point("TOPLEFT", 1, 0)
+			_G[frame..i.."BG"]:Point("BOTTOMRIGHT", -1, 0)
+			_G[frame..i.."HeaderLeft"]:Kill()
+			_G[frame..i.."HeaderRight"]:Kill()
+			_G[frame..i.."HeaderMiddle"]:Kill()
+		end
 	end
 
 	hooksecurefunc("AchievementButton_GetProgressBar", function(index)
-		local frame = _G["AchievementFrameProgressBar"..index]
-		if frame then
-			if not frame.isSkinned then
-				frame:StripTextures()
-				frame:SetTemplate("Default")
-				frame:SetStatusBarTexture(E.media.normTex)
-				frame:SetStatusBarColor(0.22, 0.39, 0.84)
-				frame:GetStatusBarTexture():SetInside()
-				E:RegisterStatusBar(frame)
-				frame:Height(frame:GetHeight() + (E.Border + E.Spacing))
-				frame.text:ClearAllPoints()
-				frame.text:Point("CENTER", frame, "CENTER", 0, -1)
-				frame.text:SetJustifyH("CENTER")
+		local Bar = _G["AchievementFrameProgressBar"..index]
 
-				if index > 1 then
-					frame:ClearAllPoints()
-					frame:Point("TOP", _G["AchievementFrameProgressBar"..index - 1], "BOTTOM", 0, -5)
-					frame.SetPoint = E.noop
-					frame.ClearAllPoints = E.noop
-				end
+		if Bar and not Bar.isSkinned then
+			local BarBG = _G["AchievementFrameProgressBar"..index.."BG"]
+			local r, g, b = unpack(E.media.rgbvaluecolor)
 
-				frame.isSkinned = true
+			Bar:StripTextures()
+			Bar:CreateBackdrop("Transparent")
+			Bar.backdrop:SetBackdropColor(0, 0, 0, 0)
+			Bar:Height(Bar:GetHeight() + 2)
+			Bar:SetStatusBarTexture(E.media.normTex)
+			Bar:SetStatusBarColor(r, g, b)
+			E:RegisterStatusBar(Bar)
+
+			BarBG:SetTexture(E.media.normTex)
+			BarBG:SetVertexColor(r * 0.3, g * 0.3, b * 0.3)
+
+			Bar.text:ClearAllPoints()
+			Bar.text:Point("CENTER", Bar, "CENTER", 0, -1)
+			Bar.text:FontTemplate()
+			Bar.text:SetJustifyH("CENTER")
+
+			if index > 1 then
+				Bar:ClearAllPoints()
+				Bar.ClearAllPoints = E.noop
+				Bar:Point("TOP", _G["AchievementFrameProgressBar"..index - 1], "BOTTOM", 0, -5)
+				Bar.SetPoint = E.noop
 			end
+
+			Bar.isSkinned = true
 		end
 	end)
 
@@ -304,7 +380,7 @@ local function LoadSkin(event)
 					metaCriteria.label:SetTextColor(0, 1, 0, 1)
 				else
 					metaCriteria.label:SetShadowOffset(1, -1)
-					metaCriteria.label:SetTextColor(.6, .6, .6, 1)
+					metaCriteria.label:SetTextColor(0.6, 0.6, 0.6, 1)
 				end
 			elseif criteriaType ~= 1 then
 				textStrings = textStrings + 1
@@ -326,12 +402,13 @@ local function LoadSkin(event)
 	hooksecurefunc("AchievementObjectives_DisplayProgressiveAchievement", function(objectivesFrame, id)
 		for i = 1, 18 do
 			local mini = _G["AchievementFrameMiniAchievement"..i]
-			local icon = _G["AchievementFrameMiniAchievement"..i.."Icon"]
-			local points = _G["AchievementFrameMiniAchievement"..i.."Points"]
-			local border = _G["AchievementFrameMiniAchievement"..i.."Border"]
-			local shield = _G["AchievementFrameMiniAchievement"..i.."Shield"]
 
 			if mini and not mini.isSkinned then
+				local icon = _G["AchievementFrameMiniAchievement"..i.."Icon"]
+				local points = _G["AchievementFrameMiniAchievement"..i.."Points"]
+				local border = _G["AchievementFrameMiniAchievement"..i.."Border"]
+				local shield = _G["AchievementFrameMiniAchievement"..i.."Shield"]
+
 				mini:SetTemplate()
 				mini:SetBackdropColor(0, 0, 0, 0)
 				mini.backdropTexture:SetAlpha(0)
