@@ -2475,18 +2475,18 @@ E.Options.args.nameplate = {
 			func = function() ACD:SelectGroup("ElvUI", "cooldown", "nameplates") end,
 			disabled = function() return not E.NamePlates.Initialized end
 		},
-		spacer2 = {
-			order = 8,
-			type = "description",
-			name = " "
-		},
 		threatShortcut = {
-			order = 9,
+			order = 8,
 			type = "execute",
 			name = L["Threat"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "threatGroup") end,
 			disabled = function() return not E.NamePlates.Initialized end
+		},
+		spacer2 = {
+			order = 9,
+			type = "description",
+			name = " "
 		},
 		castBarShortcut = {
 			order = 10,
@@ -2504,13 +2504,8 @@ E.Options.args.nameplate = {
 			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "comboBar") end,
 			disabled = function() return not E.NamePlates.Initialized end
 		},
-		spacer3 = {
-			order = 12,
-			type = "description",
-			name = " "
-		},
 		reactionShortcut = {
-			order = 13,
+			order = 12,
 			type = "execute",
 			name = L["Reaction Colors"],
 			buttonElvUI = true,
@@ -2518,12 +2513,17 @@ E.Options.args.nameplate = {
 			disabled = function() return not E.NamePlates.Initialized end
 		},
 		cutawayHealthShortcut = {
-			order = 14,
+			order = 13,
 			type = "execute",
 			name = L["Cutaway Bars"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "cutawayHealth") end,
 			disabled = function() return not E.NamePlates.Initialized end
+		},
+		spacer3 = {
+			order = 14,
+			type = "description",
+			name = " "
 		},
 		friendlyPlayerShortcut = {
 			order = 15,
@@ -2533,13 +2533,8 @@ E.Options.args.nameplate = {
 			func = function() ACD:SelectGroup("ElvUI", "nameplate", "friendlyPlayerGroup") end,
 			disabled = function() return not E.NamePlates.Initialized end
 		},
-		spacer4 = {
-			order = 16,
-			type = "description",
-			name = " "
-		},
 		enemyPlayerShortcut = {
-			order = 17,
+			order = 16,
 			type = "execute",
 			name = L["ENEMY_PLAYER"],
 			buttonElvUI = true,
@@ -2547,7 +2542,7 @@ E.Options.args.nameplate = {
 			disabled = function() return not E.NamePlates.Initialized end
 		},
 		friendlyNPCShortcut = {
-			order = 18,
+			order = 17,
 			type = "execute",
 			name = L["FRIENDLY_NPC"],
 			buttonElvUI = true,
@@ -2555,20 +2550,20 @@ E.Options.args.nameplate = {
 			disabled = function() return not E.NamePlates.Initialized end
 		},
 		enemyNPCShortcut = {
-			order = 19,
+			order = 18,
 			type = "execute",
 			name = L["ENEMY_NPC"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "nameplate", "enemyNPCGroup") end,
 			disabled = function() return not E.NamePlates.Initialized end
 		},
-		spacer5 = {
-			order = 20,
+		spacer4 = {
+			order = 19,
 			type = "description",
 			name = " "
 		},
 		filtersShortcut = {
-			order = 21,
+			order = 20,
 			type = "execute",
 			name = L["Style Filter"],
 			buttonElvUI = true,
@@ -2576,7 +2571,7 @@ E.Options.args.nameplate = {
 			disabled = function() return not E.NamePlates.Initialized end
 		},
 		generalGroup = {
-			order = 22,
+			order = 21,
 			type = "group",
 			name = L["General Options"],
 			childGroups = "tab",

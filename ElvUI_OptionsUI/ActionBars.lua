@@ -1150,18 +1150,18 @@ E.Options.args.actionbar = {
 			func = function() ACD:SelectGroup("ElvUI", "actionbar", "barPet") end,
 			disabled = function() return not E.ActionBars.Initialized end
 		},
-		spacer2 = {
-			order = 8,
-			type = "description",
-			name = " "
-		},
 		stanceBarShortcut = {
-			order = 9,
+			order = 8,
 			type = "execute",
 			name = L["Stance Bar"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "actionbar", "stanceBar") end,
 			disabled = function() return not E.ActionBars.Initialized end
+		},
+		spacer2 = {
+			order = 9,
+			type = "description",
+			name = " "
 		},
 		totemBarShortcut = {
 			order = 10,
@@ -1179,13 +1179,8 @@ E.Options.args.actionbar = {
 			func = function() ACD:SelectGroup("ElvUI", "actionbar", "microbar") end,
 			disabled = function() return not E.ActionBars.Initialized end
 		},
-		spacer3 = {
-			order = 12,
-			type = "description",
-			name = " "
-		},
 		extraActionButtonShortcut = {
-			order = 13,
+			order = 12,
 			type = "execute",
 			name = L["Boss Button"],
 			buttonElvUI = true,
@@ -1193,12 +1188,17 @@ E.Options.args.actionbar = {
 			disabled = function() return not E.ActionBars.Initialized end
 		},
 		bar1Shortcut = {
-			order = 14,
+			order = 13,
 			type = "execute",
 			name = L["Bar "]..1,
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "actionbar", "bar1") end,
 			disabled = function() return not E.ActionBars.Initialized end
+		},
+		spacer3 = {
+			order = 14,
+			type = "description",
+			name = " "
 		},
 		bar2Shortcut = {
 			order = 15,
@@ -1208,13 +1208,8 @@ E.Options.args.actionbar = {
 			func = function() ACD:SelectGroup("ElvUI", "actionbar", "bar2") end,
 			disabled = function() return not E.ActionBars.Initialized end
 		},
-		spacer4 = {
-			order = 16,
-			type = "description",
-			name = " "
-		},
 		bar3Shortcut = {
-			order = 17,
+			order = 16,
 			type = "execute",
 			name = L["Bar "]..3,
 			buttonElvUI = true,
@@ -1222,7 +1217,7 @@ E.Options.args.actionbar = {
 			disabled = function() return not E.ActionBars.Initialized end
 		},
 		bar4Shortcut = {
-			order = 18,
+			order = 17,
 			type = "execute",
 			name = L["Bar "]..4,
 			buttonElvUI = true,
@@ -1230,20 +1225,20 @@ E.Options.args.actionbar = {
 			disabled = function() return not E.ActionBars.Initialized end
 		},
 		bar5Shortcut = {
-			order = 19,
+			order = 18,
 			type = "execute",
 			name = L["Bar "]..5,
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "actionbar", "bar5") end,
 			disabled = function() return not E.ActionBars.Initialized end
 		},
-		spacer5 = {
-			order = 20,
+		spacer4 = {
+			order = 19,
 			type = "description",
 			name = " "
 		},
 		bar6Shortcut = {
-			order = 21,
+			order = 20,
 			type = "execute",
 			name = L["Bar "]..6,
 			buttonElvUI = true,
