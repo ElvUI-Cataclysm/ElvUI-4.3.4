@@ -369,12 +369,12 @@ function NP:UpdateElement_Auras(frame)
 		index = 1
 		frameNum = 1
 		maxAuras = #frame[buffType].icons
-		minDuration = NP.db.units[frame.UnitType][buffTypeLower].filters.minDuration
-		maxDuration = NP.db.units[frame.UnitType][buffTypeLower].filters.maxDuration
-		priority = NP.db.units[frame.UnitType][buffTypeLower].filters.priority
+		minDuration = self.db.units[frame.UnitType][buffTypeLower].filters.minDuration
+		maxDuration = self.db.units[frame.UnitType][buffTypeLower].filters.maxDuration
+		priority = self.db.units[frame.UnitType][buffTypeLower].filters.priority
 
 		self:HideAuraIcons(frame[buffType])
-		if NP.db.units[frame.UnitType][buffTypeLower].enable then
+		if self.db.units[frame.UnitType][buffTypeLower].enable then
 			while frameNum <= maxAuras do
 				local aura = filterType[index]
 				if not aura then break end
@@ -396,7 +396,7 @@ function NP:UpdateElement_Auras(frame)
 	buffCache = wipe(buffCache)
 
 	local TopLevel = frame.HealthBar
-	local TopOffset = ((NP.db.units[frame.UnitType].showName and select(2, frame.Name:GetFont()) + 5) or 0)
+	local TopOffset = ((self.db.units[frame.UnitType].showName and select(2, frame.Name:GetFont()) + 5) or 0)
 	if hasDebuffs then
 		TopOffset = TopOffset + 3
 		frame.Debuffs:SetPoint("BOTTOMLEFT", TopLevel, "TOPLEFT", 0, TopOffset)
@@ -511,20 +511,20 @@ function NP:CreateAuraIcon(parent)
 	aura.icon:SetTexCoord(unpack(E.TexCoords))
 
 	aura.timeLeft = aura:CreateFontString(nil, "OVERLAY")
-	aura.timeLeft:SetFont(LSM:Fetch("font", NP.db.durationFont), NP.db.durationFontSize, NP.db.durationFontOutline)
+	aura.timeLeft:SetFont(LSM:Fetch("font", self.db.durationFont), self.db.durationFontSize, self.db.durationFontOutline)
 	aura.timeLeft:ClearAllPoints()
-	if NP.db.durationPosition == "TOPLEFT" then
+	if self.db.durationPosition == "TOPLEFT" then
 		aura.timeLeft:Point("TOPLEFT", 1, 1)
-	elseif NP.db.durationPosition == "BOTTOMLEFT" then
+	elseif self.db.durationPosition == "BOTTOMLEFT" then
 		aura.timeLeft:Point("BOTTOMLEFT", 1, 1)
-	elseif NP.db.durationPosition == "TOPRIGHT" then
+	elseif self.db.durationPosition == "TOPRIGHT" then
 		aura.timeLeft:Point("TOPRIGHT", 1, 1)
 	else
 		aura.timeLeft:Point("CENTER", 0, 0)
 	end
 
 	aura.count = aura:CreateFontString(nil, "OVERLAY")
-	aura.count:SetFont(LSM:Fetch("font", NP.db.stackFont), NP.db.stackFontSize, NP.db.stackFontOutline)
+	aura.count:SetFont(LSM:Fetch("font", self.db.stackFont), self.db.stackFontSize, self.db.stackFontOutline)
 	aura.count:Point("BOTTOMRIGHT", 1, 1)
 
 	aura.Poll = parent.PollFunction
@@ -535,10 +535,10 @@ end
 function NP:Auras_SizeChanged(width)
 	local numAuras = #self.icons
 	for i = 1, numAuras do
-		self.icons[i]:SetWidth(NP.db.widthOverride > 0 and NP.db.widthOverride or ((width - numAuras) / numAuras) - (E.private.general.pixelPerfect and 0 or 3))
-		self.icons[i]:SetHeight((NP.db.baseHeight or 18) * (self:GetParent().HealthBar.currentScale or 1))
+		self.icons[i]:SetWidth(self.db.widthOverride > 0 and self.db.widthOverride or ((width - numAuras) / numAuras) - (E.private.general.pixelPerfect and 0 or 3))
+		self.icons[i]:SetHeight((self.db.baseHeight or 18) * (self:GetParent().HealthBar.currentScale or 1))
 	end
-	self:SetHeight((NP.db.baseHeight or 18) * (self:GetParent().HealthBar.currentScale or 1))
+	self:SetHeight((self.db.baseHeight or 18) * (self:GetParent().HealthBar.currentScale or 1))
 end
 
 function NP:UpdateAuraIcons(auras)
@@ -564,18 +564,18 @@ function NP:UpdateAuraIcons(auras)
 		auras.icons[i]:SetHeight(auras.db.baseHeight or 18)
 
 		if auras.icons[i].count then
-			auras.icons[i].count:SetFont(LSM:Fetch("font", NP.db.stackFont), NP.db.stackFontSize, NP.db.stackFontOutline)
+			auras.icons[i].count:SetFont(LSM:Fetch("font", self.db.stackFont), self.db.stackFontSize, self.db.stackFontOutline)
 		end
 
 		if auras.icons[i].timeLeft then
-			auras.icons[i].timeLeft:SetFont(LSM:Fetch("font", NP.db.durationFont), NP.db.durationFontSize, NP.db.durationFontOutline)
+			auras.icons[i].timeLeft:SetFont(LSM:Fetch("font", self.db.durationFont), self.db.durationFontSize, self.db.durationFontOutline)
 
 			auras.icons[i].timeLeft:ClearAllPoints()
-			if NP.db.durationPosition == "TOPLEFT" then
+			if self.db.durationPosition == "TOPLEFT" then
 				auras.icons[i].timeLeft:Point("TOPLEFT", 1, 1)
-			elseif NP.db.durationPosition == "BOTTOMLEFT" then
+			elseif self.db.durationPosition == "BOTTOMLEFT" then
 				auras.icons[i].timeLeft:Point("BOTTOMLEFT", 1, 1)
-			elseif NP.db.durationPosition == "TOPRIGHT" then
+			elseif self.db.durationPosition == "TOPRIGHT" then
 				auras.icons[i].timeLeft:Point("TOPRIGHT", 1, 1)
 			else
 				auras.icons[i].timeLeft:Point("CENTER", 0, 0)

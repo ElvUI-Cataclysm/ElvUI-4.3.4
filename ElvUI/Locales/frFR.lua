@@ -18,7 +18,7 @@ L["Adjust the UI Scale to fit your screen, press the autoscale button to set the
 L["All keybindings cleared for |cff00ff00%s|r."] = "Tous les raccourcis ont été effacés pour |cff00ff00%s|r."
 L["Already Running.. Bailing Out!"] = "Déjà en cours d'exécution, arrêt du processus..."
 L["Alternative Power"] = "Puissance Alternative"
-L["Are you sure you want to apply this font to all ElvUI elements?"] =  "Êtes-vous sûr de vouloir appliquer cette police à tous les éléments d'ELvUI ?"
+L["Are you sure you want to apply this font to all ElvUI elements?"] = "Êtes-vous sûr de vouloir appliquer cette police à tous les éléments d'ELvUI ?"
 L["Are you sure you want to disband the group?"] = "Êtes-vous sûr de vouloir dissoudre le groupe ? "
 L["Are you sure you want to reset all the settings on this profile?"] = "Êtes-vous sûr de vouloir réinitialiser tous les réglages sur ce profile?"
 L["Are you sure you want to reset every mover back to it's default position?"] = "Êtes-vous sûr de vouloir réinitialiser tous les cadres à leur position par défaut ?"

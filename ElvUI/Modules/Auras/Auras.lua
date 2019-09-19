@@ -502,7 +502,7 @@ function A:Initialize()
 
 	self:SecureHook("AuraButton_UpdateDuration", "UpdateWeaponText")
 
-	self.EnchantHeader.GetUpdateWeaponEnchant = function(self)
+	self.EnchantHeader.GetUpdateWeaponEnchant = function()
 		local mainEnchant, _, _, offEnchant, _, _, thrownEnchant = GetWeaponEnchantInfo()
 		local mainHand, offHand, thrown = GetInventoryItemQuality("player", 16), GetInventoryItemQuality("player", 17), GetInventoryItemQuality("player", 18)
 

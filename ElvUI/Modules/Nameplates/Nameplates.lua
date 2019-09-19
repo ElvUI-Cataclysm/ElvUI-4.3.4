@@ -180,7 +180,7 @@ function NP:SetTargetFrame(frame)
 
 		if not frame.AlphaChanged then
 			if hasTarget then
-				frame:SetAlpha(1 - NP.db.nonTargetTransparency)
+				frame:SetAlpha(NP.db.nonTargetTransparency)
 			else
 				frame:SetAlpha(1)
 			end

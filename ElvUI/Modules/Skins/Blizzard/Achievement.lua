@@ -9,97 +9,103 @@ local GetAchievementNumCriteria = GetAchievementNumCriteria
 local hooksecurefunc = hooksecurefunc
 local IsAddOnLoaded = IsAddOnLoaded
 
-local function LoadSkin(event)
-	if not (E.private.skins.blizzard.enable and E.private.skins.blizzard.achievement) then return end
+local function LoadSkin(preSkin)
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.achievement then return end
 
-	local function SkinAchievement(achievement, BiggerIcon)
-		if achievement.isSkinned then return end
+	local function SkinAchievement(Achievement, BiggerIcon)
+		if not Achievement.isSkinned then
+			Achievement:StripTextures(true)
+			Achievement:CreateBackdrop("Default", true)
+			Achievement.backdrop:Point("TOPLEFT", 2, -1)
+			Achievement.backdrop:Point("BOTTOMRIGHT", -2, 1)
 
-		achievement:StripTextures(true)
-		achievement:CreateBackdrop("Default", true)
-		achievement.backdrop:Point("TOPLEFT", 2, -1)
-		achievement.backdrop:Point("BOTTOMRIGHT", -2, 1)
+			Achievement.icon:SetTemplate()
+			Achievement.icon:SetSize(BiggerIcon and 54 or 36, BiggerIcon and 54 or 36)
+			Achievement.icon:ClearAllPoints()
+			Achievement.icon:Point("TOPLEFT", 8, -6)
+			Achievement.icon.bling:Kill()
+			Achievement.icon.frame:Kill()
+			Achievement.icon.texture:SetTexCoord(unpack(E.TexCoords))
+			Achievement.icon.texture:SetInside()
+			Achievement.icon:SetParent(Achievement.backdrop)
 
-		achievement.icon:SetTemplate()
-		achievement.icon:SetSize(BiggerIcon and 54 or 36, BiggerIcon and 54 or 36)
-		achievement.icon:ClearAllPoints()
-		achievement.icon:Point("TOPLEFT", 8, -6)
-		achievement.icon.bling:Kill()
-		achievement.icon.frame:Kill()
-		achievement.icon.texture:SetTexCoord(unpack(E.TexCoords))
-		achievement.icon.texture:SetInside()
-		achievement.icon:SetParent(achievement.backdrop)
+			if Achievement.highlight then
+				Achievement.highlight:StripTextures()
+				Achievement:HookScript("OnEnter", S.SetModifiedBackdrop)
+				Achievement:HookScript("OnLeave", S.SetOriginalBackdrop)
+			end
 
-		if achievement.highlight then
-			achievement.highlight:StripTextures()
-			achievement:HookScript("OnEnter", S.SetModifiedBackdrop)
-			achievement:HookScript("OnLeave", S.SetOriginalBackdrop)
-		end
+			if Achievement.label then
+				Achievement.label:SetTextColor(1, 1, 1)
+				Achievement.label:SetParent(Achievement.backdrop)
+			end
 
-		if achievement.label then
-			achievement.label:SetTextColor(1, 1, 1)
-			achievement.label:SetParent(achievement.backdrop)
-		end
+			if Achievement.description then
+				Achievement.description:SetTextColor(0.6, 0.6, 0.6)
+				Achievement.description:SetParent(Achievement.backdrop)
+				hooksecurefunc(Achievement.description, "SetTextColor", function(self)
+					if self._blocked then return end
 
-		if achievement.description then
-			achievement.description:SetTextColor(0.6, 0.6, 0.6)
-			achievement.description:SetParent(achievement.backdrop)
-			hooksecurefunc(achievement.description, "SetTextColor", function(_, r, g, b)
-				if r == 0 and g == 0 and b == 0 then
-					achievement.description:SetTextColor(0.6, 0.6, 0.6)
-				end
+					self._blocked = true
+					self:SetTextColor(0.6, 0.6, 0.6)
+					self._blocked = nil
+				end)
+			end
+
+			if Achievement.hiddenDescription then
+				Achievement.hiddenDescription:SetTextColor(1, 1, 1)
+				Achievement.hiddenDescription:SetParent(Achievement.backdrop)
+			end
+
+			if Achievement.shield then
+				Achievement.shield:SetParent(Achievement.backdrop)
+			end
+
+			if Achievement.tracked then
+				S:HandleCheckBox(Achievement.tracked, true)
+				Achievement.tracked:Size(14)
+				Achievement.tracked:ClearAllPoints()
+				Achievement.tracked:Point("TOPLEFT", Achievement.icon, "BOTTOMLEFT", 0, -4)
+				Achievement.tracked:SetParent(Achievement.backdrop)
+				Achievement.tracked:SetFrameLevel(Achievement.backdrop:GetFrameLevel() + 2)
+			end
+
+			local trackedText = _G[Achievement:GetName().."TrackedText"]
+			if trackedText then
+				trackedText:SetTextColor(1, 1, 1)
+				trackedText:Point("TOPLEFT", 18, -2)
+			end
+
+			if Achievement.reward then
+				Achievement.reward:SetParent(Achievement.backdrop)
+			end
+
+			hooksecurefunc(Achievement, "Saturate", function(self)
+				self:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end)
+			hooksecurefunc(Achievement, "Desaturate", function(self)
+				self:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			end)
+
+			Achievement.isSkinned = true
 		end
-
-		if achievement.hiddenDescription then
-			achievement.hiddenDescription:SetTextColor(1, 1, 1)
-			achievement.hiddenDescription:SetParent(achievement.backdrop)
-		end
-
-		if achievement.shield then
-			achievement.shield:SetParent(achievement.backdrop)
-		end
-
-		if achievement.tracked then
-			S:HandleCheckBox(achievement.tracked, true)
-			achievement.tracked:Size(14, 14)
-			achievement.tracked:ClearAllPoints()
-			achievement.tracked:Point("TOPLEFT", achievement.icon, "BOTTOMLEFT", 0, -4)
-			achievement.tracked:SetParent(achievement.backdrop)
-			achievement.tracked:SetFrameLevel(achievement.backdrop:GetFrameLevel() + 2)
-		end
-
-		local trackedText = _G[achievement:GetName().."TrackedText"]
-		if trackedText then
-			trackedText:SetTextColor(1, 1, 1)
-			trackedText:Point("TOPLEFT", 18, -2)
-		end
-
-		hooksecurefunc(achievement, "Saturate", function()
-			achievement:SetBackdropBorderColor(unpack(E.media.bordercolor))
-		end)
-		hooksecurefunc(achievement, "Desaturate", function()
-			achievement:SetBackdropBorderColor(unpack(E.media.bordercolor))
-		end)
-
-		achievement.isSkinned = true
 	end
 
-	if event == "PLAYER_ENTERING_WORLD" then
+	if preSkin then
 		hooksecurefunc("HybridScrollFrame_CreateButtons", function(frame, template)
 			if template == "AchievementCategoryTemplate" then
 				for _, button in ipairs(frame.buttons) do
-					if button.isSkinned then return end
+					if not button.isSkinned then
+						button:StripTextures()
 
-					button:StripTextures()
+						local highlight = button:GetHighlightTexture()
+						highlight:SetTexture(E.Media.Textures.Highlight)
+						highlight:SetTexCoord(0, 1, 0, 1)
+						highlight:SetAlpha(0.35)
+						highlight:SetInside()
 
-					local highlight = button:GetHighlightTexture()
-					highlight:SetTexture(E.Media.Textures.Highlight)
-					highlight:SetTexCoord(0, 1, 0, 1)
-					highlight:SetAlpha(0.35)
-					highlight:SetInside()
-
-					button.isSkinned = true
+						button.isSkinned = true
+					end
 				end
 			elseif template == "AchievementTemplate" then
 				for _, achievement in ipairs(frame.buttons) do
@@ -107,20 +113,22 @@ local function LoadSkin(event)
 				end
 			elseif template == "ComparisonTemplate" then
 				for _, achievement in ipairs(frame.buttons) do
-					if achievement.isSkinned then return end
-
 					SkinAchievement(achievement.player)
 					SkinAchievement(achievement.friend)
 				end
 			elseif template == "StatTemplate" then
 				for _, stats in ipairs(frame.buttons) do
-					stats:StyleButton()
+					if not stats.isSkinned then
+						stats:StyleButton()
+
+						stats.isSkinned = true
+					end
 				end
 			end
 		end)
-	end
 
-	if not IsAddOnLoaded("Blizzard_AchievementUI") then return end
+		if not IsAddOnLoaded("Blizzard_AchievementUI") then return end
+	end
 
 	local frames = {
 		"AchievementFrame",
@@ -141,14 +149,14 @@ local function LoadSkin(event)
 		_G[frame]:StripTextures(true)
 	end
 
-	local noname_frames = {
+	local nonameFrames = {
 		"AchievementFrameStats",
 		"AchievementFrameSummary",
 		"AchievementFrameAchievements",
 		"AchievementFrameComparison"
 	}
 
-	for _, frame in ipairs(noname_frames) do
+	for _, frame in ipairs(nonameFrames) do
 		frame = _G[frame]
 		for i = 1, frame:GetNumChildren() do
 			local child = select(i, frame:GetChildren())
@@ -231,21 +239,26 @@ local function LoadSkin(event)
 		E:RegisterStatusBar(bar)
 
 		local barName = bar:GetName()
-		if _G[barName.."Title"] then
-			_G[barName.."Title"]:Point("LEFT", 4, 0)
-			_G[barName.."Title"]:FontTemplate()
+		local title = _G[barName.."Title"]
+		local label = _G[barName.."Label"]
+		local text = _G[barName.."Text"]
+		local fillBar = _G[barName.."FillBar"]
+
+		if title then
+			title:Point("LEFT", 4, 0)
+			title:FontTemplate()
 		end
-		if _G[barName.."Label"] then
-			_G[barName.."Label"]:Point("LEFT", 4, 0)
-			_G[barName.."Label"]:FontTemplate()
+		if label then
+			label:Point("LEFT", 4, 0)
+			label:FontTemplate()
 		end
-		if _G[barName.."Text"] then
-			_G[barName.."Text"]:Point("RIGHT", -4, 0)
-			_G[barName.."Text"]:FontTemplate()
+		if text then
+			text:Point("RIGHT", -4, 0)
+			text:FontTemplate()
 		end
-		if _G[barName.."FillBar"] then
-			_G[barName.."FillBar"]:SetTexture(E.media.normTex)
-			_G[barName.."FillBar"]:SetVertexColor(r * 0.3, g * 0.3, b * 0.3)
+		if fillBar then
+			fillBar:SetTexture(E.media.normTex)
+			fillBar:SetVertexColor(r * 0.3, g * 0.3, b * 0.3)
 		end
 	end
 
@@ -266,32 +279,34 @@ local function LoadSkin(event)
 		local frame = _G["AchievementFrameSummaryCategoriesCategory"..i]
 		local button = _G["AchievementFrameSummaryCategoriesCategory"..i.."Button"]
 		local highlight = _G["AchievementFrameSummaryCategoriesCategory"..i.."ButtonHighlight"]
+		local middle = _G["AchievementFrameSummaryCategoriesCategory"..i.."ButtonHighlightMiddle"]
 
 		SkinStatusBar(frame)
 		button:StripTextures()
 		highlight:StripTextures()
 
-		_G[highlight:GetName().."Middle"]:SetTexture(1, 1, 1, 0.3)
-		_G[highlight:GetName().."Middle"]:SetAllPoints(frame)
+		middle:SetTexture(1, 1, 1, 0.3)
+		middle:SetAllPoints(frame)
 	end
 
 	hooksecurefunc("AchievementFrameSummary_UpdateAchievements", function()
+		local frame, prevFrame
+
 		for i = 1, ACHIEVEMENTUI_MAX_SUMMARY_ACHIEVEMENTS do
 			local frame = _G["AchievementFrameSummaryAchievement"..i]
 
-			if not frame.isSkinned then
-				SkinAchievement(frame)
+			SkinAchievement(frame)
 
-				if frame.shield.points then
-					frame.shield.points:ClearAllPoints()
-					frame.shield.points:Point("CENTER", 0, 2)
-				end
+			if frame.shield.points and not frame.shield.points.isSkinned then
+				frame.shield.points:ClearAllPoints()
+				frame.shield.points:Point("CENTER", 0, 2)
 
-				frame.isSkinned = true
+				frame.shield.points.isSkinned = true
 			end
 
-			local prevFrame = _G["AchievementFrameSummaryAchievement"..(i - 1)]
 			if i ~= 1 then
+				prevFrame = _G["AchievementFrameSummaryAchievement"..(i - 1)]
+
 				frame:ClearAllPoints()
 				frame:Point("TOPLEFT", prevFrame, "BOTTOMLEFT", 0, -1)
 				frame:Point("TOPRIGHT", prevFrame, "BOTTOMRIGHT", 0, 1)
@@ -307,15 +322,19 @@ local function LoadSkin(event)
 
 	for _, frame in pairs({"AchievementFrameStatsContainerButton", "AchievementFrameComparisonStatsContainerButton"}) do
 		for i = 1, 20 do
-			_G[frame..i]:StripTextures()
+			local button = _G[frame..i]
+			local buttonBG = _G[frame..i.."BG"]
 
-			_G[frame..i]:SetHighlightTexture(E.Media.Textures.Highlight)
-			_G[frame..i]:GetHighlightTexture():SetAlpha(0.35)
-			_G[frame..i]:GetHighlightTexture():SetInside()
+			button:StripTextures()
 
-			_G[frame..i.."BG"]:SetTexture(0, 0, 0, 0.6)
-			_G[frame..i.."BG"]:Point("TOPLEFT", 1, 0)
-			_G[frame..i.."BG"]:Point("BOTTOMRIGHT", -1, 0)
+			button:SetHighlightTexture(E.Media.Textures.Highlight)
+			button:GetHighlightTexture():SetAlpha(0.35)
+			button:GetHighlightTexture():SetInside()
+
+			buttonBG:SetTexture(0, 0, 0, 0.6)
+			buttonBG:Point("TOPLEFT", 1, 0)
+			buttonBG:Point("BOTTOMRIGHT", -1, 0)
+
 			_G[frame..i.."HeaderLeft"]:Kill()
 			_G[frame..i.."HeaderRight"]:Kill()
 			_G[frame..i.."HeaderMiddle"]:Kill()
@@ -359,18 +378,28 @@ local function LoadSkin(event)
 	hooksecurefunc("AchievementObjectives_DisplayCriteria", function(objectivesFrame, id)
 		local numCriteria = GetAchievementNumCriteria(id)
 		local textStrings, metas = 0, 0
+
 		for i = 1, numCriteria do
 			local _, criteriaType, completed, _, _, _, _, assetID = GetAchievementCriteriaInfo(id, i)
+
 			if criteriaType == CRITERIA_TYPE_ACHIEVEMENT and assetID then
 				metas = metas + 1
 				local metaCriteria = AchievementButton_GetMeta(metas)
 
+				metaCriteria:CreateBackdrop("Transparent")
+				metaCriteria.backdrop:SetOutside(metaCriteria.icon)
+				metaCriteria.backdrop:SetBackdropColor(0, 0, 0, 0)
 				metaCriteria:Height(21)
 				metaCriteria:StyleButton()
-				metaCriteria.border:Kill()
-				metaCriteria.icon:SetTexCoord(unpack(E.TexCoords))
+
+				metaCriteria.hover:Point("TOPLEFT", 20, -1)
+
 				metaCriteria.icon:Point("TOPLEFT", 2, -2)
-				metaCriteria.label:Point("LEFT", 26, 0)
+				metaCriteria.icon:SetTexCoord(unpack(E.TexCoords))
+
+				metaCriteria.label:Point("LEFT", 24, -1)
+
+				metaCriteria.border:Kill()
 
 				if objectivesFrame.completed and completed then
 					metaCriteria.label:SetShadowOffset(0, 0)
@@ -385,6 +414,7 @@ local function LoadSkin(event)
 			elseif criteriaType ~= 1 then
 				textStrings = textStrings + 1
 				local criteria = AchievementButton_GetCriteria(textStrings)
+
 				if objectivesFrame.completed and completed then
 					criteria.name:SetTextColor(1, 1, 1, 1)
 					criteria.name:SetShadowOffset(0, 0)
@@ -392,7 +422,7 @@ local function LoadSkin(event)
 					criteria.name:SetTextColor(0, 1, 0, 1)
 					criteria.name:SetShadowOffset(1, -1)
 				else
-					criteria.name:SetTextColor(.6, .6, .6, 1)
+					criteria.name:SetTextColor(0.6, 0.6, 0.6, 1)
 					criteria.name:SetShadowOffset(1, -1)
 				end
 			end
@@ -439,11 +469,5 @@ local function LoadSkin(event)
 	end)
 end
 
-local f = CreateFrame("Frame")
-f:RegisterEvent("PLAYER_ENTERING_WORLD")
-f:SetScript("OnEvent", function(self, event)
-	self:UnregisterEvent(event)
-	LoadSkin(event)
-end)
-
-S:AddCallbackForAddon("Blizzard_AchievementUI", "Achievement", LoadSkin)
+S:AddCallback("Skin_AchievementUI", function() LoadSkin(true) end)
+S:AddCallbackForAddon("Blizzard_AchievementUI", "Skin_Blizzard_AchievementUI", LoadSkin)

@@ -15,17 +15,17 @@ local function LoadSkin()
 	GameMenuFrame:CreateBackdrop("Transparent")
 
 	local BlizzardMenuButtons = {
-		_G.GameMenuButtonOptions,
-		_G.GameMenuButtonUIOptions,
-		_G.GameMenuButtonKeybindings,
-		_G.GameMenuButtonMacros,
-		_G.GameMenuButtonAddOns,
-		_G.GameMenuButtonRatings,
-		_G.GameMenuButtonLogout,
-		_G.GameMenuButtonQuit,
-		_G.GameMenuButtonContinue,
-		_G.GameMenuButtonMacOptions,
-		_G.GameMenuButtonHelp
+		GameMenuButtonOptions,
+		GameMenuButtonUIOptions,
+		GameMenuButtonKeybindings,
+		GameMenuButtonMacros,
+		GameMenuButtonRatings,
+		GameMenuButtonLogout,
+		GameMenuButtonQuit,
+		GameMenuButtonContinue,
+		GameMenuButtonMacOptions,
+		GameMenuButtonHelp,
+		GameMenuFrame.ElvUI
 	}
 
 	for i = 1, #BlizzardMenuButtons do
@@ -34,9 +34,6 @@ local function LoadSkin()
 			S:HandleButton(menuButton)
 		end
 	end
-
-	-- Skin the ElvUI Menu Button
-	S:HandleButton(_G.GameMenuFrame.ElvUI)
 
 	if IsAddOnLoaded("OptionHouse") then
 		S:HandleButton(GameMenuButtonOptionHouse)
@@ -114,8 +111,6 @@ local function LoadSkin()
 	TicketStatusFrameButton:SetTemplate("Transparent")
 
 	AutoCompleteBox:SetTemplate("Transparent")
-
-	ConsolidatedBuffsTooltip:SetTemplate("Transparent")
 
 	StreamingIcon:ClearAllPoints()
 	StreamingIcon:Point("TOP", UIParent, "TOP", 0, -100)

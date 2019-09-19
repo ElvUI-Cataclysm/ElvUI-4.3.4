@@ -890,7 +890,7 @@ function AB:FixKeybindText(button)
 
 	local hotkeyPosition = E.db.actionbar.hotkeyTextPosition or "TOPRIGHT"
 	local hotkeyXOffset = E.db.actionbar.hotkeyTextXOffset or 0
-	local hotkeyYOffset =  E.db.actionbar.hotkeyTextYOffset or -3
+	local hotkeyYOffset = E.db.actionbar.hotkeyTextYOffset or -3
 
 	local justify = "RIGHT"
 	if hotkeyPosition == "TOPLEFT" or hotkeyPosition == "BOTTOMLEFT" then

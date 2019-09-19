@@ -176,7 +176,7 @@ function AB:SetupMicroBar()
 	PVPMicroButtonTexture:Point("TOPLEFT", PVPMicroButton, "TOPLEFT", -3, 3)
 	PVPMicroButtonTexture:Point("BOTTOMRIGHT", PVPMicroButton, "BOTTOMRIGHT", 2, -3)
 	PVPMicroButtonTexture:SetTexture("Interface\\PVPFrame\\PVP-Conquest-Misc")
-	if E.myfaction == "Alliance"  then
+	if E.myfaction == "Alliance" then
 		PVPMicroButtonTexture:SetTexCoord(0.694, 0.748, 0.603, 0.728)
 	else
 		PVPMicroButtonTexture:SetTexCoord(0.638, 0.692, 0.603, 0.732)

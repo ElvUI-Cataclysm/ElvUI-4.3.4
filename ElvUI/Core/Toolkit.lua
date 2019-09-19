@@ -87,11 +87,13 @@ local function SetTemplate(frame, template, glossTex, ignoreUpdates, forcePixelM
 	if forcePixelMode then frame.forcePixelMode = forcePixelMode end
 	if isUnitFrameElement then frame.isUnitFrameElement = isUnitFrameElement end
 
+	local edgeSize = (not E.twoPixelsPlease and E.mult) or E.mult*2
+
 	if template ~= "NoBackdrop" then
 		frame:SetBackdrop({
 			bgFile = E.media.blankTex,
 			edgeFile = E.media.blankTex,
-			tile = false, tileSize = 0, edgeSize = E.mult,
+			tile = false, tileSize = 0, edgeSize = edgeSize,
 			insets = {left = 0, right = 0, top = 0, bottom = 0}
 		})
 
@@ -114,7 +116,7 @@ local function SetTemplate(frame, template, glossTex, ignoreUpdates, forcePixelM
 				border:SetInside(frame, E.mult, E.mult)
 				border:SetBackdrop({
 					edgeFile = E.media.blankTex,
-					edgeSize = E.mult,
+					edgeSize = edgeSize,
 					insets = {left = -E.mult, right = -E.mult, top = -E.mult, bottom = -E.mult}
 				})
 				border:SetBackdropBorderColor(0, 0, 0, 1)
@@ -127,7 +129,7 @@ local function SetTemplate(frame, template, glossTex, ignoreUpdates, forcePixelM
 				border:SetFrameLevel(frame:GetFrameLevel() + 1)
 				border:SetBackdrop({
 					edgeFile = E.media.blankTex,
-					edgeSize = E.mult,
+					edgeSize = edgeSize,
 					insets = {left = E.mult, right = E.mult, top = E.mult, bottom = E.mult}
 				})
 				border:SetBackdropBorderColor(0, 0, 0, 1)
