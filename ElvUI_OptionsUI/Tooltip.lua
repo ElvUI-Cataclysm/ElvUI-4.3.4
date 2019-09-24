@@ -132,7 +132,7 @@ E.Options.args.tooltip = {
 					type = "range",
 					name = L["OPACITY"],
 					isPercent = true,
-					min = 0, max = 1, step = 0.01,
+					min = 0, max = 1, step = 0.01
 				},
 				fontGroup = {
 					order = 16,

@@ -327,15 +327,15 @@ function S:Ace3_RegisterAsWidget(widget)
 		colorSwatch:SetParent(frame.backdrop)
 		colorSwatch:SetInside(frame.backdrop)
 
-		if frame.texture then
-			frame.texture:SetTexture(0, 0, 0, 0)
+		if colorSwatch.background then
+			colorSwatch.background:SetTexture(0, 0, 0, 0)
 		end
 
-		if frame.checkers then
-			frame.checkers:ClearAllPoints()
-			frame.checkers:SetDrawLayer("ARTWORK")
-			frame.checkers:SetParent(frame.backdrop)
-			frame.checkers:SetInside(frame.backdrop)
+		if colorSwatch.checkers then
+			colorSwatch.checkers:ClearAllPoints()
+			colorSwatch.checkers:SetDrawLayer("ARTWORK")
+			colorSwatch.checkers:SetParent(frame.backdrop)
+			colorSwatch.checkers:SetInside(frame.backdrop)
 		end
 	elseif TYPE == "Icon" then
 		widget.frame:StripTextures()

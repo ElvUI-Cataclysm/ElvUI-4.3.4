@@ -918,6 +918,7 @@ function CH:HandleShortChannels(msg)
 	msg = gsub(msg, "<"..AFK..">", "[|cffFF0000"..L["AFK"].."|r] ")
 	msg = gsub(msg, "<"..DND..">", "[|cffE7E716"..L["DND"].."|r] ")
 	msg = gsub(msg, "^%["..RAID_WARNING.."%]", "["..L["RW"].."]")
+
 	return msg
 end
 

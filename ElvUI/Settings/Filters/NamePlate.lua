@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(select(2, ...))
 
 G.nameplates.filters = {
-	Boss = {
+	ElvUI_Boss = {
 		triggers = {
 			level = true,
 			curlevel = -1,
@@ -12,6 +12,30 @@ G.nameplates.filters = {
 		},
 		actions = {
 			scale = 1.15
+		}
+	},
+	ElvUI_Target = {
+		triggers = {
+			isTarget = true
+		},
+		actions = {
+			scale = 1.2
+		}
+	},
+	ElvUI_NonTarget = {
+		triggers = {
+			notTarget = true,
+			requireTarget = true,
+			nameplateType = {
+				enable = true,
+				friendlyPlayer = true,
+				friendlyNPC = true,
+				enemyPlayer = true,
+				enemyNPC = true
+			}
+		},
+		actions = {
+			alpha = 30
 		}
 	}
 }

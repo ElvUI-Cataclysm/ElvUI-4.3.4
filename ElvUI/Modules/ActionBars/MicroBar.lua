@@ -106,7 +106,7 @@ function AB:UpdateMicroPositionDimensions()
 		button:ClearAllPoints()
 
 		if prevButton == ElvUI_MicroBar then
-			button:Point("TOPLEFT", ElvUI_MicroBar, "TOPLEFT", offset, -offset)
+			button:Point("TOPLEFT", prevButton, "TOPLEFT", offset, -offset)
 		elseif (i - 1) % self.db.microbar.buttonsPerRow == 0 then
 			button:Point("TOP", lastColumnButton, "BOTTOM", 0, -spacing)
 			numRows = numRows + 1

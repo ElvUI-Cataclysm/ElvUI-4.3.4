@@ -73,22 +73,6 @@ function E:CheckTalentTree(tree)
 	end
 end
 
-function E:GetPlayerRole()
-	local assignedRole = UnitGroupRolesAssigned("player")
-
-	if assignedRole == "NONE" then
-		if self.HealingClasses[self.myclass] ~= nil and self:CheckTalentTree(self.HealingClasses[E.myclass]) then
-			return "HEALER"
-		elseif E.Role == "Tank" then
-			return "TANK"
-		else
-			return "DAMAGER"
-		end
-	else
-		return assignedRole
-	end
-end
-
 function E:CheckTalent(spellID)
 	local spellName = GetSpellInfo(spellID)
 	if not spellName then return nil end
@@ -109,37 +93,53 @@ function E:CheckTalent(spellID)
 	return false
 end
 
+function E:GetPlayerRole()
+	local assignedRole = UnitGroupRolesAssigned("player")
+
+	if assignedRole == "NONE" then
+		if self.HealingClasses[E.myclass] ~= nil and self:CheckTalentTree(self.HealingClasses[E.myclass]) then
+			return "HEALER"
+		elseif E.Role == "Tank" then
+			return "TANK"
+		else
+			return "DAMAGER"
+		end
+	else
+		return assignedRole
+	end
+end
+
 function E:CheckRole()
 	local talentTree = GetPrimaryTalentTree()
-	local resilperc = GetCombatRatingBonus(COMBAT_RATING_RESILIENCE_PLAYER_DAMAGE_TAKEN)
+	local resilPerc = GetCombatRatingBonus(COMBAT_RATING_RESILIENCE_PLAYER_DAMAGE_TAKEN)
 	local resilience, role
 
-	if resilperc > GetDodgeChance() and resilperc > GetParryChance() and E.mylevel == MAX_PLAYER_LEVEL then
+	if resilPerc > GetDodgeChance() and resilPerc > GetParryChance() and E.mylevel == MAX_PLAYER_LEVEL then
 		resilience = true
 	else
 		resilience = false
 	end
 
-	if type(self.ClassRole[self.myclass]) == "string" then
-		role = self.ClassRole[self.myclass]
+	if type(self.ClassRole[E.myclass]) == "string" then
+		role = self.ClassRole[E.myclass]
 	elseif talentTree then
-		local DeathKnight = (self.myclass == "DEATHKNIGHT" and talentTree == 1) and resilience == false
+		local DeathKnight = (E.myclass == "DEATHKNIGHT" and talentTree == 1) and resilience == false
 		local Druid = (E.myclass == "DRUID" and talentTree == 2 and GetBonusBarOffset() == 3)
 
 		if DeathKnight or Druid then
 			role = "Tank"
 		else
-			role = self.ClassRole[self.myclass][talentTree]
+			role = self.ClassRole[E.myclass][talentTree]
 		end
 	end
 
 	if not role then
-		local playerint = select(2, UnitStat("player", 4))
-		local playeragi = select(2, UnitStat("player", 2))
+		local playerInt = select(2, UnitStat("player", 4))
+		local playerAgi = select(2, UnitStat("player", 2))
 		local base, posBuff, negBuff = UnitAttackPower("player")
-		local playerap = base + posBuff + negBuff
+		local playerAP = base + posBuff + negBuff
 
-		if (playerap > playerint) or (playeragi > playerint) then
+		if (playerAP > playerInt) or (playerAgi > playerInt) then
 			role = "Melee"
 		else
 			role = "Caster"
@@ -153,42 +153,42 @@ function E:CheckRole()
 	end
 
 	if E.myclass == "SHAMAN" and talentTree == 3 then
-		if self:CheckTalent(77130) then -- Improved Cleanse Spirit
-			self.DispelClasses[self.myclass].Magic = true
+		if E:CheckTalent(77130) then -- Improved Cleanse Spirit
+			self.DispelClasses[E.myclass].Magic = true
 		else
-			self.DispelClasses[self.myclass].Magic = false
+			self.DispelClasses[E.myclass].Magic = false
 		end
 	elseif E.myclass == "DRUID" and talentTree == 3 then
-		if self:CheckTalent(88423) then -- Nature's Cure
-			self.DispelClasses[self.myclass].Magic = true
+		if E:CheckTalent(88423) then -- Nature's Cure
+			self.DispelClasses[E.myclass].Magic = true
 		else
-			self.DispelClasses[self.myclass].Magic = false
+			self.DispelClasses[E.myclass].Magic = false
 		end
 	elseif E.myclass == "PALADIN" and talentTree == 1 then
-		if self:CheckTalent(53551) then -- Sacred Cleansing
-			self.DispelClasses[self.myclass].Magic = true
+		if E:CheckTalent(53551) then -- Sacred Cleansing
+			self.DispelClasses[E.myclass].Magic = true
 		else
-			self.DispelClasses[self.myclass].Magic = false
+			self.DispelClasses[E.myclass].Magic = false
 		end
 	end
 end
 
 function E:IsDispellableByMe(debuffType)
-	if not self.DispelClasses[self.myclass] then return end
+	if not self.DispelClasses[E.myclass] then return end
 
-	if self.DispelClasses[self.myclass][debuffType] then return true end
+	if self.DispelClasses[E.myclass][debuffType] then return true end
 end
 
 do
 	local Masque = E.Libs.Masque
 	local MasqueGroupState = {}
 	local MasqueGroupToTableElement = {
-		["ActionBars"] = {"actionbar", "actionbars"},
-		["Pet Bar"] = {"actionbar", "petBar"},
-		["Stance Bar"] = {"actionbar", "stanceBar"},
-		["Buffs"] = {"auras", "buffs"},
-		["Debuffs"] = {"auras", "debuffs"},
-		["Reminder"] = {"auras", "reminder"}
+		["ActionBars"]	= {"actionbar", "actionbars"},
+		["Pet Bar"]		= {"actionbar", "petBar"},
+		["Stance Bar"]	= {"actionbar", "stanceBar"},
+		["Buffs"]		= {"auras", "buffs"},
+		["Debuffs"]		= {"auras", "debuffs"},
+		["Reminder"]	= {"auras", "reminder"}
 	}
 
 	function E:MasqueCallback(Group, _, _, _, _, Disabled)

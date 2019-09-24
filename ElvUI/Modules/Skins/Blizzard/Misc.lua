@@ -4,7 +4,6 @@ local S = E:GetModule("Skins")
 local _G = _G
 local unpack = unpack
 
-local UnitIsUnit = UnitIsUnit
 local IsAddOnLoaded = IsAddOnLoaded
 
 local function LoadSkin()
@@ -149,12 +148,6 @@ local function LoadSkin()
 	ReadyCheckFrameText:SetTextColor(1, 1, 1)
 
 	ReadyCheckListenerFrame:SetAlpha(0)
-
-	ReadyCheckFrame:HookScript("OnShow", function(self) -- bug fix, don't show it if initiator
-		if UnitIsUnit("player", self.initiator) then
-			self:Hide()
-		end
-	end)
 
 	-- Coin PickUp Frame
 	CoinPickupFrame:StripTextures()

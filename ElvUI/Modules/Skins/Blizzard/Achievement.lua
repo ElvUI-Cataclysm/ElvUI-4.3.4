@@ -166,7 +166,6 @@ local function LoadSkin(preSkin)
 		end
 	end
 
-	local AchievementFrame = _G["AchievementFrame"]
 	AchievementFrame:CreateBackdrop("Transparent")
 	AchievementFrame.backdrop:Point("TOPLEFT", 0, 6)
 	AchievementFrame.backdrop:Point("BOTTOMRIGHT", -15, 0)
@@ -230,19 +229,16 @@ local function LoadSkin(preSkin)
 	end
 
 	local function SkinStatusBar(bar)
-		local r, g, b = unpack(E.media.rgbvaluecolor)
-
 		bar:StripTextures()
 		bar:CreateBackdrop("Transparent")
 		bar:SetStatusBarTexture(E.media.normTex)
-		bar:SetStatusBarColor(r, g, b)
+		bar:SetStatusBarColor(0.22, 0.39, 0.84)
 		E:RegisterStatusBar(bar)
 
 		local barName = bar:GetName()
 		local title = _G[barName.."Title"]
 		local label = _G[barName.."Label"]
 		local text = _G[barName.."Text"]
-		local fillBar = _G[barName.."FillBar"]
 
 		if title then
 			title:Point("LEFT", 4, 0)
@@ -255,10 +251,6 @@ local function LoadSkin(preSkin)
 		if text then
 			text:Point("RIGHT", -4, 0)
 			text:FontTemplate()
-		end
-		if fillBar then
-			fillBar:SetTexture(E.media.normTex)
-			fillBar:SetVertexColor(r * 0.3, g * 0.3, b * 0.3)
 		end
 	end
 
@@ -346,18 +338,17 @@ local function LoadSkin(preSkin)
 
 		if Bar and not Bar.isSkinned then
 			local BarBG = _G["AchievementFrameProgressBar"..index.."BG"]
-			local r, g, b = unpack(E.media.rgbvaluecolor)
 
 			Bar:StripTextures()
 			Bar:CreateBackdrop("Transparent")
 			Bar.backdrop:SetBackdropColor(0, 0, 0, 0)
 			Bar:Height(Bar:GetHeight() + 2)
 			Bar:SetStatusBarTexture(E.media.normTex)
-			Bar:SetStatusBarColor(r, g, b)
+			Bar:SetStatusBarColor(0.22, 0.39, 0.84)
 			E:RegisterStatusBar(Bar)
 
 			BarBG:SetTexture(E.media.normTex)
-			BarBG:SetVertexColor(r * 0.3, g * 0.3, b * 0.3)
+			BarBG:SetVertexColor(0.22 * 0.3, 0.39 * 0.3, 0.84 * 0.3)
 
 			Bar.text:ClearAllPoints()
 			Bar.text:Point("CENTER", Bar, "CENTER", 0, -1)

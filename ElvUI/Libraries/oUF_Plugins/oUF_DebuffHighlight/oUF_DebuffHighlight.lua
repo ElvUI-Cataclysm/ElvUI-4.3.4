@@ -6,32 +6,33 @@ local UnitAura = UnitAura
 local UnitCanAssist = UnitCanAssist
 
 local playerClass = select(2, UnitClass("player"))
-local CanDispel = {
+
+local dispellClasses = {
 	PRIEST = {Magic = true, Disease = true},
-	SHAMAN = {Magic = false, Curse = true},
 	PALADIN = {Magic = false, Poison = true, Disease = true},
+	SHAMAN = {Magic = false, Curse = true},
+	DRUID = {Magic = false, Curse = true, Poison = true},
 	MAGE = {Curse = true},
-	DRUID = {Magic = false, Curse = true, Poison = true}
 }
 
-local dispellist = CanDispel[playerClass] or {}
-local origColors = {}
-local origBorderColors = {}
-local origPostUpdateAura = {}
+local dispellFilter = dispellClasses[playerClass] or {}
 
 local function GetDebuffType(unit, filter, filterTable)
 	if not unit or not UnitCanAssist("player", unit) then return nil end
+
 	local i = 1
 	while true do
 		local name, _, texture, _, debufftype, _, _, _, _, _, spellID = UnitAura(unit, i, "HARMFUL")
 		if not texture then break end
+
 		local filterSpell = filterTable[spellID] or filterTable[name]
 
-		if(filterTable and filterSpell and filterSpell.enable) then
+		if filterTable and filterSpell and filterSpell.enable then
 			return debufftype, texture, true, filterSpell.style, filterSpell.color
-		elseif(debufftype and (not filter or (filter and dispellist[debufftype]))) then
+		elseif debufftype and (not filter or (filter and dispellFilter[debufftype])) then
 			return debufftype, texture
 		end
+
 		i = i + 1
 	end
 end
@@ -39,7 +40,9 @@ end
 function CheckForKnownTalent(spellid)
 	local wanted_name = GetSpellInfo(spellid)
 	if not wanted_name then return nil end
+
 	local num_tabs = GetNumTalentTabs()
+
 	for t = 1, num_tabs do
 		local num_talents = GetNumTalents(t)
 		for i = 1, num_talents do
@@ -53,6 +56,7 @@ function CheckForKnownTalent(spellid)
 			end
 		end
 	end
+
 	return false
 end
 
@@ -64,55 +68,57 @@ local function CheckSpec(self, event, levels)
 	if playerClass == "PALADIN" then
 		--Check to see if we have the 'Sacred Cleansing' talent.
 		if CheckForKnownTalent(53551) then
-			dispellist.Magic = true
+			dispellFilter.Magic = true
 		else
-			dispellist.Magic = false
+			dispellFilter.Magic = false
 		end
 	elseif playerClass == "SHAMAN" then
 		--Check to see if we have the 'Improved Cleanse Spirit' talent.
 		if CheckForKnownTalent(77130) then
-			dispellist.Magic = true
+			dispellFilter.Magic = true
 		else
-			dispellist.Magic = false
+			dispellFilter.Magic = false
 		end
 	elseif playerClass == "DRUID" then
 		--Check to see if we have the 'Nature's Cure' talent.
 		if CheckForKnownTalent(88423) then
-			dispellist.Magic = true
+			dispellFilter.Magic = true
 		else
-			dispellist.Magic = false
+			dispellFilter.Magic = false
 		end
 	end
 end
 
 local function Update(object, event, unit)
-	if(unit ~= object.unit) then return end
+	if unit ~= object.unit then return end
 
 	local debuffType, texture, wasFiltered, style, color = GetDebuffType(unit, object.DebuffHighlightFilter, object.DebuffHighlightFilterTable)
-	if(wasFiltered) then
-		if(style == "GLOW" and object.DBHGlow) then
+
+	if wasFiltered then
+		if style == "GLOW" and object.DBHGlow then
 			object.DBHGlow:Show()
 			object.DBHGlow:SetBackdropBorderColor(color.r, color.g, color.b)
-		elseif(object.DBHGlow) then
+		elseif object.DBHGlow then
 			object.DBHGlow:Hide()
 			object.DebuffHighlight:SetVertexColor(color.r, color.g, color.b, color.a or object.DebuffHighlightAlpha or .5)
 		end
-	elseif(debuffType) then
+	elseif debuffType then
 		color = DebuffTypeColor[debuffType]
-		if(object.DebuffHighlightBackdrop and object.DBHGlow) then
+
+		if object.DebuffHighlightBackdrop and object.DBHGlow then
 			object.DBHGlow:Show()
 			object.DBHGlow:SetBackdropBorderColor(color.r, color.g, color.b)
-		elseif(object.DebuffHighlightUseTexture) then
+		elseif object.DebuffHighlightUseTexture then
 			object.DebuffHighlight:SetTexture(texture)
 		else
 			object.DebuffHighlight:SetVertexColor(color.r, color.g, color.b, object.DebuffHighlightAlpha or .5)
 		end
 	else
-		if(object.DBHGlow) then
+		if object.DBHGlow then
 			object.DBHGlow:Hide()
 		end
 
-		if(object.DebuffHighlightUseTexture) then
+		if object.DebuffHighlightUseTexture then
 			object.DebuffHighlight:SetTexture(nil)
 		else
 			object.DebuffHighlight:SetVertexColor(0, 0, 0, 0)
@@ -129,10 +135,12 @@ local function Enable(object)
 	if not object.DebuffHighlightBackdrop and not object.DebuffHighlight and not object.DBHGlow then
 		return
 	end
+
 	-- if we're filtering highlights and we're not of the dispelling type, return
-	if object.DebuffHighlightFilter and not CanDispel[playerClass] then
+	if object.DebuffHighlightFilter and not dispellClasses[playerClass] then
 		return
 	end
+
 	-- make sure aura scanning is active for this object
 	object:RegisterEvent("UNIT_AURA", Update)
 	object:RegisterEvent("PLAYER_TALENT_UPDATE", CheckSpec)
@@ -142,20 +150,13 @@ local function Enable(object)
 end
 
 local function Disable(object)
+	object:UnregisterEvent("UNIT_AURA", Update)
 	object:UnregisterEvent("PLAYER_TALENT_UPDATE", CheckSpec)
 	object:UnregisterEvent("CHARACTER_POINTS_CHANGED", CheckSpec)
-	object:UnregisterEvent("UNIT_AURA", Update)
 
-	if(object.DBHGlow) then
+	if object.DBHGlow then
 		object.DBHGlow:Hide()
-	end
-
-	if(object.DebuffHighlight) then
-		local color = origColors[object]
-		if(color) then
-			object.DebuffHighlight:SetVertexColor(color.r, color.g, color.b, color.a)
-		end
 	end
 end
 
-oUF:AddElement('DebuffHighlight', Update, Enable, Disable)
+oUF:AddElement("DebuffHighlight", Update, Enable, Disable)

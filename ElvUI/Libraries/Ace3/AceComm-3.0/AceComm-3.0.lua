@@ -2,7 +2,7 @@
 -- It'll automatically split the messages into multiple parts and rebuild them on the receiving end.\\
 -- **ChatThrottleLib** is of course being used to avoid being disconnected by the server.
 --
--- **AceComm-3.0** can be embeded into your addon, either explicitly by calling AceComm:Embed(MyAddon) or by 
+-- **AceComm-3.0** can be embeded into your addon, either explicitly by calling AceComm:Embed(MyAddon) or by
 -- specifying it as an embeded library in your AceAddon. All functions will be available on your addon object
 -- and can be accessed directly, without having to explicitly call AceComm itself.\\
 -- It is recommended to embed AceComm, otherwise you'll have to specify a custom `self` on all calls you
@@ -21,7 +21,6 @@ local CallbackHandler = LibStub("CallbackHandler-1.0")
 local CTL = assert(ChatThrottleLib, "AceComm-3.0 requires ChatThrottleLib")
 
 local MAJOR, MINOR = "AceComm-3.0", 12
-
 local AceComm,oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not AceComm then return end
@@ -50,7 +49,7 @@ AceComm.multipart_origprefixes = nil
 AceComm.multipart_reassemblers = nil
 
 -- the multipart message spool: indexed by a combination of sender+distribution+
-AceComm.multipart_spool = AceComm.multipart_spool or {} 
+AceComm.multipart_spool = AceComm.multipart_spool or {}
 
 --- Register for Addon Traffic on a specified prefix
 -- @param prefix A printable character (\032-\255) classification of the message (typically AddonName or AddonNameEvent), max 16 characters
@@ -84,7 +83,7 @@ function AceComm:SendCommMessage(prefix, text, distribution, target, prio, callb
 			type(text)=="string" and
 			type(distribution)=="string" and
 			(target==nil or type(target)=="string" or type(target)=="number") and
-			(prio=="BULK" or prio=="NORMAL" or prio=="ALERT") 
+			(prio=="BULK" or prio=="NORMAL" or prio=="ALERT")
 		) then
 		error('Usage: SendCommMessage(addon, "prefix", "text", "distribution"[, "target"[, "prio"[, callbackFn, callbackarg]]])', 2)
 	end
@@ -143,7 +142,7 @@ do
 	local compost = setmetatable({}, {__mode = "k"})
 	local function new()
 		local t = next(compost)
-		if t then 
+		if t then
 			compost[t]=nil
 			for i=#t,3,-1 do	-- faster than pairs loop. don't even nil out 1/2 since they'll be overwritten
 				t[i]=nil
@@ -163,7 +162,7 @@ do
 		local spool = AceComm.multipart_spool
 
 		--[[
-		if spool[key] then 
+		if spool[key] then
 			lostdatawarning(prefix,sender,"First")
 			-- continue and overwrite
 		end

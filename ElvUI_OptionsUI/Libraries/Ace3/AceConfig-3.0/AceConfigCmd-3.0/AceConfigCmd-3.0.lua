@@ -14,7 +14,6 @@ REQUIRES: AceConsole-3.0 for command registration (loaded on demand)
 
 -- TODO: plugin args
 
-
 local cfgreg = LibStub("AceConfigRegistry-3.0-ElvUI")
 
 local MAJOR, MINOR = "AceConfigCmd-3.0-ElvUI", 14

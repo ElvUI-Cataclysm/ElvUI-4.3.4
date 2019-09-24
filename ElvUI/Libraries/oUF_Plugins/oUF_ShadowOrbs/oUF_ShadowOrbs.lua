@@ -1,17 +1,19 @@
 local _, ns = ...
 local oUF = oUF or ns.oUF
-if(not oUF) then return end
+assert(oUF, "oUF_ShadowOrbs was unable to locate oUF install.")
 
-if(select(2, UnitClass("player")) ~= "PRIEST") then return end
+if select(2, UnitClass("player")) ~= "PRIEST" then return end
 
 local SHADOW_ORBS = GetSpellInfo(77487)
 
 local function UpdateBar(self, elapsed)
-	if(not self.expirationTime) then return end
+	if not self.expirationTime then return end
 
 	self.elapsed = (self.elapsed or 0) + elapsed
-	if(self.elapsed >= 0.5) then
+
+	if self.elapsed >= 0.5 then
 		local timeLeft = self.expirationTime - GetTime()
+
 		if timeLeft > 0 then
 			self:SetValue(timeLeft)
 		else
@@ -21,44 +23,40 @@ local function UpdateBar(self, elapsed)
 end
 
 local Update = function(self, event)
+	local element = self.ShadowOrbs
 	local unit = self.unit or "player"
-	local bar = self.ShadowOrbs
-	if(bar.PreUpdate) then bar:PreUpdate(event) end
+
+	if element.PreUpdate then
+		element:PreUpdate(event)
+	end
 
 	local name, _, _, count, _, start, timeLeft = UnitBuff(unit, SHADOW_ORBS)
 	local orbs, maxOrbs = 0, 3
-	if(name) then
+
+	if name then
 		orbs = count or 0
 		duration = start
 		expirationTime = timeLeft
 	end
 
-	if(orbs < 1) then
-		bar:Hide()
-	else
-		bar:Show()
-	end
+	for i = 1, maxOrbs do
+		if start and timeLeft then
+			element[i]:SetMinMaxValues(0, start)
+			element[i].duration = start
+			element[i].expirationTime = timeLeft
+		end
 
-	if(bar:IsShown()) then
-		for i = 1, maxOrbs do
-			if(start and timeLeft) then
-				bar[i]:SetMinMaxValues(0, start)
-				bar[i].duration = start
-				bar[i].expirationTime = timeLeft
-			end
-
-			if(i <= orbs) then
-				bar[i]:SetValue(start)
-				bar[i]:SetScript("OnUpdate", UpdateBar)
-			else
-				bar[i]:SetValue(0)
-				bar[i]:SetScript("OnUpdate", nil)
-			end
+		if i <= orbs then
+			element[i]:SetValue(start)
+			element[i]:SetScript("OnUpdate", UpdateBar)
+		else
+			element[i]:SetValue(0)
+			element[i]:SetScript("OnUpdate", nil)
 		end
 	end
 
-	if(bar.PostUpdate) then
-		return bar:PostUpdate(event, orbs, maxOrbs)
+	if element.PostUpdate then
+		return element:PostUpdate(event, orbs, maxOrbs)
 	end
 end
 
@@ -71,45 +69,41 @@ local ForceUpdate = function(element)
 end
 
 local function Enable(self, unit)
-	local bar = self.ShadowOrbs
+	local element = self.ShadowOrbs
 
-	if(bar) then
+	if element then
+		element.__owner = self
+		element.ForceUpdate = ForceUpdate
+
+		for i = 1, 3 do
+			if element[i]:IsObjectType("StatusBar") and not element[i]:GetStatusBarTexture() then
+				element[i]:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
+			end
+
+			element[i]:SetMinMaxValues(0, 1)
+			element[i]:SetValue(0)
+			element[i]:SetFrameLevel(element:GetFrameLevel() + 1)
+		end
+
 		self:RegisterEvent("UNIT_AURA", Path)
 		self:RegisterEvent("SPELLS_CHANGED", Path)
 		self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", Path)
 		self:RegisterEvent("PLAYER_ENTERING_WORLD", Path)
-		bar.__owner = self
-		bar.ForceUpdate = ForceUpdate
-
-		for i = 1, 3 do
-			if(not bar[i]:GetStatusBarTexture()) then
-				bar[i]:SetStatusBarTexture([=[Interface\TargetingFrame\UI-StatusBar]=])
-			end
-
-			bar[i]:SetFrameLevel(bar:GetFrameLevel() + 1)
-			bar[i]:GetStatusBarTexture():SetHorizTile(false)
-
-			if(bar[i].bg) then
-				bar[i]:SetMinMaxValues(0, 1)
-				bar[i]:SetValue(0)
-				bar[i].bg:SetAlpha(0.2)
-				bar[i].bg:SetAllPoints()
-			end
-		end
 
 		return true
 	end
 end
 
-local function Disable(self,unit)
-	local bar = self.ShadowOrbs
+local function Disable(self, unit)
+	local element = self.ShadowOrbs
 
-	if(bar) then
+	if element then
 		self:UnregisterEvent("UNIT_AURA", Path)
 		self:UnregisterEvent("SPELLS_CHANGED", Path)
 		self:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED", Path)
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD", Path)
-		bar:Hide()
+
+		element:Hide()
 	end
 end
 

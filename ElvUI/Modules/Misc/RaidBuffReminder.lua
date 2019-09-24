@@ -187,7 +187,7 @@ function RB:UpdateReminder(event, unit)
 			button.t:SetTexture(texture)
 
 			if (duration == 0 and expirationTime == 0) or E.db.general.reminder.durations ~= true then
-				button.t:SetAlpha(reverseStyle == true and 1 or 0.3)
+				button.t:SetAlpha(reverseStyle and 1 or 0.3)
 				button:SetScript("OnUpdate", nil)
 				button.timer:SetText(nil)
 				CooldownFrame_SetTimer(button.cd, 0, 0, 0)
@@ -196,12 +196,12 @@ function RB:UpdateReminder(event, unit)
 				button.nextUpdate = 0
 				button.t:SetAlpha(1)
 				CooldownFrame_SetTimer(button.cd, expirationTime - duration, duration, 1)
-				button.cd:SetReverse(reverseStyle == true and true or false)
+				button.cd:SetReverse(reverseStyle and true or false)
 				button:SetScript("OnUpdate", self.UpdateReminderTime)
 			end
 		else
 			CooldownFrame_SetTimer(button.cd, 0, 0, 0)
-			button.t:SetAlpha(reverseStyle == true and 0.3 or 1)
+			button.t:SetAlpha(reverseStyle and 0.3 or 1)
 			button:SetScript("OnUpdate", nil)
 			button.timer:SetText(nil)
 			button.t:SetTexture(self.DefaultIcons[i])

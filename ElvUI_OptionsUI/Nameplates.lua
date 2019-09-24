@@ -2533,20 +2533,20 @@ E.Options.args.nameplate = {
 			func = function() ACD:SelectGroup("ElvUI", "nameplate", "friendlyPlayerGroup") end,
 			disabled = function() return not E.NamePlates.Initialized end
 		},
-		enemyPlayerShortcut = {
-			order = 16,
-			type = "execute",
-			name = L["ENEMY_PLAYER"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "enemyPlayerGroup") end,
-			disabled = function() return not E.NamePlates.Initialized end
-		},
 		friendlyNPCShortcut = {
-			order = 17,
+			order = 16,
 			type = "execute",
 			name = L["FRIENDLY_NPC"],
 			buttonElvUI = true,
 			func = function() ACD:SelectGroup("ElvUI", "nameplate", "friendlyNPCGroup") end,
+			disabled = function() return not E.NamePlates.Initialized end
+		},
+		enemyPlayerShortcut = {
+			order = 17,
+			type = "execute",
+			name = L["ENEMY_PLAYER"],
+			buttonElvUI = true,
+			func = function() ACD:SelectGroup("ElvUI", "nameplate", "enemyPlayerGroup") end,
 			disabled = function() return not E.NamePlates.Initialized end
 		},
 		enemyNPCShortcut = {
@@ -3106,8 +3106,8 @@ E.Options.args.nameplate = {
 			}
 		},
 		friendlyPlayerGroup = GetUnitSettings("FRIENDLY_PLAYER", L["FRIENDLY_PLAYER"]),
-		enemyPlayerGroup = GetUnitSettings("ENEMY_PLAYER", L["ENEMY_PLAYER"]),
 		friendlyNPCGroup = GetUnitSettings("FRIENDLY_NPC", L["FRIENDLY_NPC"]),
+		enemyPlayerGroup = GetUnitSettings("ENEMY_PLAYER", L["ENEMY_PLAYER"]),
 		enemyNPCGroup = GetUnitSettings("ENEMY_NPC", L["ENEMY_NPC"]),
 		filters = {
 			order = -99,

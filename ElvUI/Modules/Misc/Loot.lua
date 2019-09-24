@@ -151,6 +151,7 @@ local function createSlot(id)
 	frame.questTexture = questTexture
 
 	lootFrame.slots[id] = frame
+
 	return frame
 end
 

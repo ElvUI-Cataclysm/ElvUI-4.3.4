@@ -437,6 +437,8 @@ function UF:UpdateShadowOrbs(event, shadowOrbs, maxOrbs)
 
 			self:Show()
 		end
+	else
+		self:Hide()
 	end
 end
 

@@ -5,6 +5,7 @@ local Skins = E:GetModule("Skins")
 local _G = _G
 local CreateFrame = CreateFrame
 local IsAddOnLoaded = IsAddOnLoaded
+local UnitIsUnit = UnitIsUnit
 
 function B:Initialize()
 	self.Initialized = true
@@ -33,6 +34,12 @@ function B:Initialize()
 	CreateFrame("Frame"):SetScript("OnUpdate", function()
 		if LFRBrowseFrame.timeToClear then
 			LFRBrowseFrame.timeToClear = nil
+		end
+	end)
+
+	ReadyCheckFrame:HookScript("OnShow", function(self)
+		if UnitIsUnit("player", self.initiator) then
+			self:Hide()
 		end
 	end)
 

@@ -10,7 +10,6 @@ local hooksecurefunc = hooksecurefunc
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.spellbook ~= true then return end
 
-	local SpellBookFrame = _G["SpellBookFrame"]
 	SpellBookFrame:StripTextures(true)
 	SpellBookFrame:SetTemplate("Transparent")
 	SpellBookFrame:Width(460)
@@ -113,15 +112,11 @@ local function LoadSkin()
 		end
 
 		hooksecurefunc(tab:GetHighlightTexture(), "SetTexture", function(self, texPath)
-			if texPath ~= nil then
-				self:SetPushedTexture(nil)
-			end
+			if texPath ~= nil then self:SetPushedTexture(nil) end
 		end)
 
 		hooksecurefunc(tab:GetCheckedTexture(), "SetTexture", function(self, texPath)
-			if texPath ~= nil then
-				self:SetHighlightTexture(nil)
-			end
+			if texPath ~= nil then self:SetHighlightTexture(nil) end
 		end)
 
 		flash:Kill()
@@ -239,7 +234,7 @@ local function LoadSkin()
 
 		button:StripTextures()
 		button:SetTemplate("Default", true)
-		button:StyleButton(false)
+		button:StyleButton()
 
 		if i == 1 then
 			button:Point("TOPLEFT", 9, -310)

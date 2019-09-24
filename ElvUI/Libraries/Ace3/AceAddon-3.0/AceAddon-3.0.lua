@@ -6,24 +6,24 @@
 -- * **OnEnable** which gets called during the PLAYER_LOGIN event, when most of the data provided by the game is already present.
 -- * **OnDisable**, which is only called when your addon is manually being disabled.
 -- @usage
--- -- A small (but complete) addon, that doesn't do anything, 
+-- -- A small (but complete) addon, that doesn't do anything,
 -- -- but shows usage of the callbacks.
 -- local MyAddon = LibStub("AceAddon-3.0"):NewAddon("MyAddon")
-
+--
 -- function MyAddon:OnInitialize()
 --   -- do init tasks here, like loading the Saved Variables,
 --   -- or setting up slash commands.
 -- end
-
+--
 -- function MyAddon:OnEnable()
 --   -- Do more initialization here, that really enables the use of your addon.
---   -- Register Events, Hook functions, Create Frames, Get information from 
+--   -- Register Events, Hook functions, Create Frames, Get information from
 --   -- the game that wasn't available in OnInitialize
 -- end
-
+--
 -- function MyAddon:OnDisable()
 --   -- Unhook, Unregister Events, Hide frames that you created.
---   -- You would probably only use an OnDisable if you want to 
+--   -- You would probably only use an OnDisable if you want to
 --   -- build a "standby" mode, or be able to toggle modules on/off.
 -- end
 -- @class file
@@ -119,7 +119,7 @@ local function queuedForInitialization(addon)
 end
 
 --- Create a new AceAddon-3.0 addon.
--- Any libraries you specified will be embeded, and the addon will be scheduled for 
+-- Any libraries you specified will be embeded, and the addon will be scheduled for
 -- its OnInitialize and OnEnable callbacks.
 -- The final addon object, with all libraries embeded, will be returned.
 -- @paramsig [object ,]name[, lib, ...]
@@ -129,7 +129,7 @@ end
 -- @usage
 -- -- Create a simple addon object
 -- MyAddon = LibStub("AceAddon-3.0"):NewAddon("MyAddon", "AceEvent-3.0")
-
+--
 -- -- Create a Addon object based on the table of a frame
 -- local MyFrame = CreateFrame("Frame")
 -- MyAddon = LibStub("AceAddon-3.0"):NewAddon(MyFrame, "MyAddon", "AceEvent-3.0")
@@ -206,7 +206,7 @@ end
 -- This function will check if the specified library is registered with LibStub
 -- and if it has a :Embed function to call. It'll error if any of those conditions
 -- fails.
-
+--
 -- **Note:** This function is for internal use by :EmbedLibraries
 -- @paramsig addon, libname[, silent[, offset]]
 -- @param addon addon object to embed the library in
@@ -255,10 +255,10 @@ local function IsModuleTrue(self) return true end
 -- @param name unique name of the module
 -- @param prototype object to derive this module from, methods and values from this table will be mixed into the module (optional)
 -- @param lib List of libraries to embed into the addon
--- @usage 
+-- @usage
 -- -- Create a module with some embeded libraries
 -- MyModule = MyAddon:NewModule("MyModule", "AceEvent-3.0", "AceHook-3.0")
--- 
+--
 -- -- Create a module with a prototype
 -- local prototype = { OnEnable = function(self) print("OnEnable called!") end }
 -- MyModule = MyAddon:NewModule("MyModule", prototype, "AceEvent-3.0", "AceHook-3.0")
@@ -355,7 +355,7 @@ end
 -- MyAddon = LibStub("AceAddon-3.0"):GetAddon("MyAddon")
 -- MyModule = MyAddon:GetModule("MyModule")
 -- MyModule:Enable()
-
+--
 -- -- Enable MyModule using the short-hand
 -- MyAddon = LibStub("AceAddon-3.0"):GetAddon("MyAddon")
 -- MyAddon:EnableModule("MyModule")
@@ -368,12 +368,12 @@ end
 -- Short-hand function that retrieves the module via `:GetModule` and calls `:Disable` on the module object.
 -- @name //addon//:DisableModule
 -- @paramsig name
--- @usage 
+-- @usage
 -- -- Disable MyModule using :GetModule
 -- MyAddon = LibStub("AceAddon-3.0"):GetAddon("MyAddon")
 -- MyModule = MyAddon:GetModule("MyModule")
 -- MyModule:Disable()
-
+--
 -- -- Disable MyModule using the short-hand
 -- MyAddon = LibStub("AceAddon-3.0"):GetAddon("MyAddon")
 -- MyAddon:DisableModule("MyModule")
@@ -387,7 +387,7 @@ end
 -- @name //addon//:SetDefaultModuleLibraries
 -- @paramsig lib[, lib, ...]
 -- @param lib List of libraries to embed into the addon
--- @usage 
+-- @usage
 -- -- Create the addon object
 -- MyAddon = LibStub("AceAddon-3.0"):NewAddon("MyAddon")
 -- -- Configure default libraries for modules (all modules need AceEvent-3.0)
@@ -406,7 +406,7 @@ end
 -- @name //addon//:SetDefaultModuleState
 -- @paramsig state
 -- @param state Default state for new modules, true for enabled, false for disabled
--- @usage 
+-- @usage
 -- -- Create the addon object
 -- MyAddon = LibStub("AceAddon-3.0"):NewAddon("MyAddon")
 -- -- Set the default state to "disabled"
@@ -426,7 +426,7 @@ end
 -- @name //addon//:SetDefaultModulePrototype
 -- @paramsig prototype
 -- @param prototype Default prototype for the new modules (table)
--- @usage 
+-- @usage
 -- -- Define a prototype
 -- local prototype = { OnEnable = function(self) print("OnEnable called!") end }
 -- -- Set the default prototype
@@ -457,8 +457,8 @@ end
 
 --- Return an iterator of all modules associated to the addon.
 -- @name //addon//:IterateModules
--- @paramsig 
--- @usage 
+-- @paramsig
+-- @usage
 -- -- Enable all modules
 -- for name, module in MyAddon:IterateModules() do
 --    module:Enable()
@@ -467,13 +467,13 @@ local function IterateModules(self) return pairs(self.modules) end
 
 -- Returns an iterator of all embeds in the addon
 -- @name //addon//:IterateEmbeds
--- @paramsig 
+-- @paramsig
 local function IterateEmbeds(self) return pairs(AceAddon.embeds[self]) end
 
 --- Query the enabledState of an addon.
 -- @name //addon//:IsEnabled
--- @paramsig 
--- @usage 
+-- @paramsig
+-- @usage
 -- if MyAddon:IsEnabled() then
 --     MyAddon:Disable()
 -- end
@@ -517,9 +517,9 @@ end
 
 -- - Initialize the addon after creation.
 -- This function is only used internally during the ADDON_LOADED event
--- It will call the **OnInitialize** function on the addon object (if present), 
+-- It will call the **OnInitialize** function on the addon object (if present),
 -- and the **OnEmbedInitialize** function on all embeded libraries.
--- 
+--
 -- **Note:** Do not call this function manually, unless you're absolutely sure that you know what you are doing.
 -- @param addon addon object to intialize
 function AceAddon:InitializeAddon(addon)
@@ -541,7 +541,7 @@ end
 -- It will call the **OnEnable** function on the addon object (if present),
 -- and the **OnEmbedEnable** function on all embeded libraries.\\
 -- This function does not toggle the enable state of the addon itself, and will return early if the addon is disabled.
-
+--
 -- **Note:** Do not call this function manually, unless you're absolutely sure that you know what you are doing.
 -- Use :Enable on the addon itself instead.
 -- @param addon addon object to enable
@@ -577,7 +577,7 @@ end
 -- and the **OnEmbedDisable** function on all embeded libraries.\\
 -- This function does not toggle the enable state of the addon itself, and will return early if the addon is still enabled.
 --
--- **Note:** Do not call this function manually, unless you're absolutely sure that you know what you are doing. 
+-- **Note:** Do not call this function manually, unless you're absolutely sure that you know what you are doing.
 -- Use :Disable on the addon itself instead.
 -- @param addon addon object to enable
 function AceAddon:DisableAddon(addon)
@@ -590,7 +590,7 @@ function AceAddon:DisableAddon(addon)
 	safecall( addon.OnDisable, addon )
 
 	-- make sure we're still disabling...
-	if not self.statuses[addon.name] then 
+	if not self.statuses[addon.name] then
 		local embeds = self.embeds[addon]
 		for i = 1, #embeds do
 			local lib = LibStub:GetLibrary(embeds[i], true)
@@ -607,7 +607,7 @@ function AceAddon:DisableAddon(addon)
 end
 
 --- Get an iterator over all registered addons.
--- @usage 
+-- @usage
 -- -- Print a list of all installed AceAddon's
 -- for name, addon in AceAddon:IterateAddons() do
 --   print("Addon: " .. name)
@@ -615,7 +615,7 @@ end
 function AceAddon:IterateAddons() return pairs(self.addons) end
 
 --- Get an iterator over the internal status registry.
--- @usage 
+-- @usage
 -- -- Print a list of all enabled addons
 -- for name, status in AceAddon:IterateAddonStatus() do
 --   if status then

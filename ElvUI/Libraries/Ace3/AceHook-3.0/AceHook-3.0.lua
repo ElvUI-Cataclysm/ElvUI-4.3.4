@@ -2,7 +2,7 @@
 -- Using AceHook-3.0 is recommended when you need to unhook your hooks again, so the hook chain isn't broken
 -- when you manually restore the original function.
 --
--- **AceHook-3.0** can be embeded into your addon, either explicitly by calling AceHook:Embed(MyAddon) or by 
+-- **AceHook-3.0** can be embeded into your addon, either explicitly by calling AceHook:Embed(MyAddon) or by
 -- specifying it as an embeded library in your AceAddon. All functions will be available on your addon object
 -- and can be accessed directly, without having to explicitly call AceHook itself.\\
 -- It is recommended to embed AceHook, otherwise you'll have to specify a custom `self` on all calls you
@@ -246,7 +246,7 @@ function hook(self, obj, method, handler, script, secure, raw, forceSecure, usag
 		end
 	end
 
-	actives[uid], handlers[uid], scripts[uid] = true, handler, script and true or nil	
+	actives[uid], handlers[uid], scripts[uid] = true, handler, script and true or nil
 end
 
 --- Hook a function or a method on an object.
@@ -262,7 +262,7 @@ end
 -- @usage
 -- -- create an addon with AceHook embeded
 -- MyAddon = LibStub("AceAddon-3.0"):NewAddon("HookDemo", "AceHook-3.0")
--- 
+--
 -- function MyAddon:OnEnable()
 --   -- Hook ActionButton_UpdateHotkeys, overwriting the secure status
 --   self:Hook("ActionButton_UpdateHotkeys", true)
@@ -280,7 +280,7 @@ function AceHook:Hook(object, method, handler, hookSecure)
 		handler, hookSecure = nil, true
 	end
 
-	hook(self, object, method, handler, false, false, false, hookSecure or false, "Usage: Hook([object], method, [handler], [hookSecure])")	
+	hook(self, object, method, handler, false, false, false, hookSecure or false, "Usage: Hook([object], method, [handler], [hookSecure])")
 end
 
 --- RawHook a function or a method on an object.
@@ -297,7 +297,7 @@ end
 -- @usage
 -- -- create an addon with AceHook embeded
 -- MyAddon = LibStub("AceAddon-3.0"):NewAddon("HookDemo", "AceHook-3.0")
--- 
+--
 -- function MyAddon:OnEnable()
 --   -- Hook ActionButton_UpdateHotkeys, overwriting the secure status
 --   self:RawHook("ActionButton_UpdateHotkeys", true)
@@ -354,9 +354,9 @@ end
 -- @usage
 -- -- create an addon with AceHook embeded
 -- MyAddon = LibStub("AceAddon-3.0"):NewAddon("HookDemo", "AceHook-3.0")
--- 
+--
 -- function MyAddon:OnEnable()
---   -- Hook the OnShow of FriendsFrame 
+--   -- Hook the OnShow of FriendsFrame
 --   self:HookScript(FriendsFrame, "OnShow", "FriendsFrameOnShow")
 -- end
 --
@@ -380,9 +380,9 @@ end
 -- @usage
 -- -- create an addon with AceHook embeded
 -- MyAddon = LibStub("AceAddon-3.0"):NewAddon("HookDemo", "AceHook-3.0")
--- 
+--
 -- function MyAddon:OnEnable()
---   -- Hook the OnShow of FriendsFrame 
+--   -- Hook the OnShow of FriendsFrame
 --   self:RawHookScript(FriendsFrame, "OnShow", "FriendsFrameOnShow")
 -- end
 --
@@ -450,7 +450,7 @@ function AceHook:Unhook(obj, method)
 		if not self.hooks[obj] or not self.hooks[obj][method] then return true end
 
 		if scripts[uid] and obj:GetScript(method) == uid then  -- unhooks scripts
-			obj:SetScript(method, self.hooks[obj][method] ~= donothing and self.hooks[obj][method] or nil)	
+			obj:SetScript(method, self.hooks[obj][method] ~= donothing and self.hooks[obj][method] or nil)
 			scripts[uid] = nil
 		elseif obj and self.hooks[obj] and self.hooks[obj][method] and obj[method] == uid then -- unhooks methods
 			obj[method] = self.hooks[obj][method]

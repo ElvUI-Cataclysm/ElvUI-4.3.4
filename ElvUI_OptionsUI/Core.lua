@@ -50,7 +50,7 @@ E.Options.args = {
 		order = 1,
 		type = "header",
 		name = L["Version"]..format(": |cff99ff33%s|r", E.version),
-		width = "full",
+		width = "full"
 	},
 	RepositionWindow = {
 		order = 2,
@@ -288,6 +288,7 @@ local function ExportImport_Open(mode)
 	Frame:AddChild(Label1)
 
 	local Label2 = E.Libs.AceGUI:Create("Label")
+	font = GameFontHighlightSmall:GetFont()
 	Label2:SetFont(font, 14)
 	Label2:SetText(" \n ")
 	Label2:SetWidth(800)
@@ -338,7 +339,10 @@ local function ExportImport_Open(mode)
 		Frame:AddChild(exportButton)
 
 		--Set scripts
-		Box.editBox:SetScript("OnChar", function() Box:SetText(exportString) Box.editBox:HighlightText() end)
+		Box.editBox:SetScript("OnChar", function()
+			Box:SetText(exportString)
+			Box.editBox:HighlightText()
+		end)
 		Box.editBox:SetScript("OnTextChanged", function(self, userInput)
 			if userInput then
 				--Prevent user from changing export string
@@ -449,7 +453,7 @@ local function ExportImport_Open(mode)
 	Label1:SetText(" ")
 	Label2:SetText(" ")
 
-	--Close ElvUI Config
+	--Close ElvUI OptionsUI
 	E.Libs.AceConfigDialog:Close("ElvUI")
 
 	GameTooltip_Hide() --The tooltip from the Export/Import button stays on screen, so hide it
@@ -536,9 +540,9 @@ E.Options.args.profiles.plugins.ElvUI = {
 	}
 }
 
-for i = 1, GetNumAddOns() do
-	local name, _, _, loadable, reason = GetAddOnInfo(i)
-	if name == "ElvUI_Config" and (loadable or (not loadable and reason == "DEMAND_LOADED")) then
+do
+	local enabled = select(3, GetAddOnInfo("ElvUI_Config"))
+	if enabled then
 		E:StaticPopup_Show("ELVUI_CONFIG_FOUND")
 	end
 end

@@ -161,7 +161,7 @@ function E:SetupTheme(theme, noDisplayMsg)
 	if theme == "classic" then
 		E.db.general.bordercolor = (E.PixelMode and E:GetColor(0, 0, 0) or E:GetColor(0.31, 0.31, 0.31))
 		E.db.general.backdropcolor = E:GetColor(0.1, 0.1, 0.1)
-		E.db.general.backdropfadecolor = E:GetColor(13/255, 13/255, 13/255, 0.69)
+		E.db.general.backdropfadecolor = E:GetColor(0.054, 0.054, 0.054, 0.69)
 		E.db.unitframe.colors.borderColor = (E.PixelMode and E:GetColor(0, 0, 0) or E:GetColor(0.31, 0.31, 0.31))
 		E.db.unitframe.colors.healthclass = false
 		E.db.unitframe.colors.health = E:GetColor(0.31, 0.31, 0.31)
@@ -194,7 +194,7 @@ function E:SetupTheme(theme, noDisplayMsg)
 	if theme == "class" then
 		E.db.general.valuecolor = E:GetColor(classColor.r, classColor.g, classColor.b)
 	else
-		E.db.general.valuecolor = E:GetColor(254/255, 123/255, 44/255)
+		E.db.general.valuecolor = E:GetColor(0.99, 0.48, 0.17)
 	end
 
 	E:UpdateAll(true)

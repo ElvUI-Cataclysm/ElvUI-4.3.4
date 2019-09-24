@@ -41,16 +41,13 @@ function UF:Configure_Portrait(frame, dontHide)
 			frame:EnableElement("Portrait")
 		end
 
-		local color = E.db.unitframe.colors.borderColor
-		portrait.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
-
 		portrait:ClearAllPoints()
 		portrait.backdrop:ClearAllPoints()
 		if frame.USE_PORTRAIT_OVERLAY then
-			if db.portrait.style == "3D" then
-				portrait:SetFrameLevel(frame.Health:GetFrameLevel() + 1)
-			else
+			if db.portrait.style == "2D" then
 				portrait:SetParent(frame.Health)
+			else
+				portrait:SetFrameLevel(frame.Health:GetFrameLevel() + 1)
 			end
 
 			portrait:SetAlpha(db.portrait.overlayAlpha)
@@ -82,10 +79,11 @@ function UF:Configure_Portrait(frame, dontHide)
 				portrait:Show()
 			end
 			portrait.backdrop:Show()
-			if db.portrait.style == "3D" then
-				portrait:SetFrameLevel(frame.Health:GetFrameLevel() - 4) --Make sure portrait is behind Health and Power
-			else
+
+			if db.portrait.style == "2D" then
 				portrait:SetParent(frame)
+			else
+				portrait:SetFrameLevel(frame.Health:GetFrameLevel() - 4) --Make sure portrait is behind Health and Power
 			end
 
 			if frame.ORIENTATION == "LEFT" then

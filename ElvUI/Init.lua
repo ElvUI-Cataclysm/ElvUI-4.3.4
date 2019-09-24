@@ -4,23 +4,26 @@ local min = min
 local tcopy, wipe = table.copy, wipe
 local format, strsplit = string.format, string.split
 
+local hooksecurefunc = hooksecurefunc
 local CreateFrame = CreateFrame
 local GetAddOnInfo = GetAddOnInfo
 local GetAddOnMetadata = GetAddOnMetadata
+local GetLocale = GetLocale
+local GetTime = GetTime
 local HideUIPanel = HideUIPanel
 local InCombatLockdown = InCombatLockdown
 local IsAddOnLoaded = IsAddOnLoaded
 local LoadAddOn = LoadAddOn
 local ReloadUI = ReloadUI
-local GameMenuFrame = GameMenuFrame
-local GameMenuButtonLogout = GameMenuButtonLogout
-local GameMenuButtonAddons = GameMenuButtonAddons
+
 local ERR_NOT_IN_COMBAT = ERR_NOT_IN_COMBAT
+local GameMenuButtonLogout = GameMenuButtonLogout
+local GameMenuFrame = GameMenuFrame
 
 BINDING_HEADER_ELVUI = GetAddOnMetadata(..., "Title")
 
-local AceAddon, AceAddonMinor = _G.LibStub("AceAddon-3.0")
-local CallbackHandler = _G.LibStub("CallbackHandler-1.0")
+local AceAddon, AceAddonMinor = LibStub("AceAddon-3.0")
+local CallbackHandler = LibStub("CallbackHandler-1.0")
 
 local AddOnName, Engine = ...
 local AddOn = AceAddon:NewAddon(AddOnName, "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceHook-3.0")
@@ -64,7 +67,7 @@ do
 		if type(major) == "table" and type(minor) == "number" then
 			self.Libs[name], self.LibsMinor[name] = major, minor
 		else -- in this case: `major` is the lib name and `minor` is the silent switch
-			self.Libs[name], self.LibsMinor[name] = _G.LibStub(major, minor)
+			self.Libs[name], self.LibsMinor[name] = LibStub(major, minor)
 		end
 	end
 
@@ -108,7 +111,7 @@ AddOn.ModuleCopy = AddOn:NewModule("ModuleCopy", "AceEvent-3.0", "AceTimer-3.0",
 AddOn.NamePlates = AddOn:NewModule("NamePlates", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0")
 AddOn.PluginInstaller = AddOn:NewModule("PluginInstaller")
 AddOn.RaidUtility = AddOn:NewModule("RaidUtility", "AceEvent-3.0")
-AddOn.Reminder = AddOn:NewModule("ReminderBuffs", "AceEvent-3.0")
+AddOn.ReminderBuffs = AddOn:NewModule("ReminderBuffs", "AceEvent-3.0")
 AddOn.Skins = AddOn:NewModule("Skins", "AceHook-3.0", "AceEvent-3.0")
 AddOn.Threat = AddOn:NewModule("Threat", "AceEvent-3.0")
 AddOn.Tooltip = AddOn:NewModule("Tooltip", "AceHook-3.0", "AceEvent-3.0")
@@ -289,7 +292,7 @@ function AddOn:UpdateConfigSize(reset)
 
 	local maxWidth, maxHeight = self.UIParent:GetSize()
 	frame:SetMinResize(600, 500)
-	frame:SetMaxResize(maxWidth-50, maxHeight-50)
+	frame:SetMaxResize(maxWidth - 50, maxHeight - 50)
 
 	self.Libs.AceConfigDialog:SetDefaultSize(AddOnName, self:GetConfigDefaultSize())
 
@@ -337,7 +340,7 @@ function AddOn:ToggleOptionsUI(msg)
 
 	if not IsAddOnLoaded("ElvUI_OptionsUI") then
 		local noConfig
-		local _, _, _, _, _, reason = GetAddOnInfo("ElvUI_OptionsUI")
+		local _, _, _, _, reason = GetAddOnInfo("ElvUI_OptionsUI")
 		if reason ~= "MISSING" and reason ~= "DISABLED" then
 			self.GUIFrame = false
 			LoadAddOn("ElvUI_OptionsUI")
@@ -355,7 +358,7 @@ function AddOn:ToggleOptionsUI(msg)
 		end
 
 		if noConfig then
-			self:Print("|cffff0000Error -- Addon 'ElvUI_OptionsUI' not found or is disabled.|r") 
+			self:Print("|cffff0000Error -- Addon 'ElvUI_OptionsUI' not found or is disabled.|r")
 			return
 		end
 	end

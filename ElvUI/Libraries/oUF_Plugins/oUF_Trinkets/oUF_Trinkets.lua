@@ -1,6 +1,6 @@
 local _, ns = ...
 local oUF = ns.oUF or oUF
-assert(oUF, "oUF not loaded")
+assert(oUF, "oUF_Trinkets was unable to locate oUF install")
 
 local GetTime = GetTime
 local IsInInstance = IsInInstance
@@ -9,12 +9,12 @@ local UnitFactionGroup = UnitFactionGroup
 local UnitIsPlayer = UnitIsPlayer
 
 local trinketSpells = {
-	[59752] = 120,
-	[42292] = 120,
 	[7744] = 45,
+	[42292] = 120,
+	[59752] = 120
 }
 
-local GetTrinketIcon = function(unit)
+local function GetTrinketIcon(unit)
 	if UnitFactionGroup(unit) == "Horde" then
 		return "Interface\\Icons\\INV_Jewelry_TrinketPVP_02"
 	else
@@ -22,66 +22,77 @@ local GetTrinketIcon = function(unit)
 	end
 end
 
-local Update = function(self, event, ...)
+local function Update(self, event, ...)
+	local element = self.Trinket
+
 	local _, instanceType = IsInInstance()
-	if instanceType ~= 'arena' then
-		self.Trinket:Hide()
+	if instanceType ~= "arena" then
+		element:Hide()
 		return
 	else
-		self.Trinket:Show()
+		element:Show()
 	end
 
-	if(self.Trinket.PreUpdate) then self.Trinket:PreUpdate(event) end
+	if element.PreUpdate then
+		element:PreUpdate(event)
+	end
 
 	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
 		local _, eventType, _, sourceGUID, _, _, _, _, _, _, _, spellID = ...
-		if eventType == "SPELL_CAST_SUCCESS" and sourceGUID == UnitGUID(self.unit) and trinketSpells[spellID] then
-			CooldownFrame_SetTimer(self.Trinket.cooldownFrame, GetTime(), trinketSpells[spellID], 1)
+		if eventType == "SPELL_CAST_SUCCESS" and trinketSpells[spellID] and sourceGUID == UnitGUID(self.unit) then
+			CooldownFrame_SetTimer(element.cooldownFrame, GetTime(), trinketSpells[spellID], 1)
 		end
 	elseif event == "ARENA_OPPONENT_UPDATE" then
 		local unit, type = ...
 		if type == "seen" then
 			if UnitExists(unit) and UnitIsPlayer(unit) then
-				self.Trinket.Icon:SetTexture(GetTrinketIcon(unit))
+				element.Icon:SetTexture(GetTrinketIcon(unit))
 			end
 		end
-	elseif event == 'PLAYER_ENTERING_WORLD' then
-		CooldownFrame_SetTimer(self.Trinket.cooldownFrame, 1, 1, 1)
+	elseif event == "PLAYER_ENTERING_WORLD" then
+		CooldownFrame_SetTimer(element.cooldownFrame, 1, 1, 1)
 	end
 
-	if(self.Trinket.PostUpdate) then self.Trinket:PostUpdate(event) end
+	if element.PostUpdate then
+		element:PostUpdate(event)
+	end
 end
 
-local Enable = function(self)
-	if self.Trinket then
+local function Enable(self)
+	local element = self.Trinket
+
+	if element then
 		self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED", Update, true)
 		self:RegisterEvent("ARENA_OPPONENT_UPDATE", Update, true)
 		self:RegisterEvent("PLAYER_ENTERING_WORLD", Update, true)
 
-		if not self.Trinket.cooldownFrame then
-			self.Trinket.cooldownFrame = CreateFrame("Cooldown", nil, self.Trinket)
-			self.Trinket.cooldownFrame:SetAllPoints(self.Trinket)
-			ElvUI[1]:RegisterCooldown(self.Trinket.cooldownFrame)
+		if not element.cooldownFrame then
+			element.cooldownFrame = CreateFrame("Cooldown", nil, element)
+			element.cooldownFrame:SetAllPoints(element)
+			ElvUI[1]:RegisterCooldown(element.cooldownFrame)
 		end
 
-		if not self.Trinket.Icon then
-			self.Trinket.Icon = self.Trinket:CreateTexture(nil, "BORDER")
-			self.Trinket.Icon:SetAllPoints(self.Trinket)
-			self.Trinket.Icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
-			self.Trinket.Icon:SetTexture(GetTrinketIcon('player'))
+		if not element.Icon then
+			element.Icon = element:CreateTexture(nil, "BORDER")
+			element.Icon:SetAllPoints(element)
+			element.Icon:SetTexture(GetTrinketIcon("player"))
+			element.Icon:SetTexCoord(unpack(ElvUI[1].TexCoords))
 		end
 
 		return true
 	end
 end
 
-local Disable = function(self)
-	if self.Trinket then
+local function Disable(self)
+	local element = self.Trinket
+
+	if element then
 		self:UnregisterEvent("COMBAT_LOG_EVENT_UNFILTERED", Update)
 		self:UnregisterEvent("ARENA_OPPONENT_UPDATE", Update)
 		self:UnregisterEvent("PLAYER_ENTERING_WORLD", Update)
-		self.Trinket:Hide()
+
+		element:Hide()
 	end
 end
 
-oUF:AddElement('Trinket', Update, Enable, Disable)
+oUF:AddElement("Trinket", Update, Enable, Disable)

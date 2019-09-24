@@ -80,6 +80,7 @@ function NP:GetPlateFrameLevel(frame)
 	if frame.plateID then
 		plateLevel = frame.plateID*NP.levelStep
 	end
+
 	return plateLevel
 end
 
@@ -350,6 +351,7 @@ function NP:UnitDetailedThreatSituation(frame)
 			return 3
 		end
 	end
+
 	return nil
 end
 
@@ -382,6 +384,7 @@ function NP:GetUnitInfo(frame)
 			return 1, "ENEMY_NPC"
 		end
 	end
+
 	return 3, "ENEMY_PLAYER"
 end
 
