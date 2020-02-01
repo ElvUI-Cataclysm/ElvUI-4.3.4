@@ -107,27 +107,23 @@ local function LoadSkin()
 	S:HandleButton(TradeSkillCreateAllButton)
 
 	S:HandleNextPrevButton(TradeSkillDecrementButton)
-	S:HandleNextPrevButton(TradeSkillIncrementButton)
+	TradeSkillDecrementButton:Height(22)
 
-	TradeSkillInputBox:Height(16)
+	S:HandleNextPrevButton(TradeSkillIncrementButton)
+	TradeSkillIncrementButton:Height(22)
+
 	S:HandleEditBox(TradeSkillInputBox)
+	TradeSkillInputBox:Size(26, 20)
+	TradeSkillInputBox.backdrop:Point("TOPLEFT", -2, 1)
+	TradeSkillInputBox.backdrop:Point("BOTTOMRIGHT", 2, -1)
 
 	S:HandleCloseButton(TradeSkillFrameCloseButton)
 
-	TradeSkillFilterButton:StripTextures(true)
-	TradeSkillFilterButton.backdrop = CreateFrame("Frame", nil, TradeSkillFilterButton)
-	TradeSkillFilterButton.backdrop:SetTemplate("Default", true)
-	TradeSkillFilterButton.backdrop:SetFrameLevel(TradeSkillFilterButton:GetFrameLevel() - 1)
-	TradeSkillFilterButton.backdrop:SetAllPoints()
+	S:HandleButton(TradeSkillFilterButton, true)
 
-	TradeSkillFilterButton:HookScript("OnEnter", S.SetModifiedBackdrop)
-	TradeSkillFilterButton:HookScript("OnLeave", S.SetOriginalBackdrop)
-
-	TradeSkillLinkButton:GetNormalTexture():SetTexCoord(0.25, 0.7, 0.37, 0.75)
-	TradeSkillLinkButton:GetPushedTexture():SetTexCoord(0.25, 0.7, 0.45, 0.8)
-	TradeSkillLinkButton:GetHighlightTexture():Kill()
-	TradeSkillLinkButton:CreateBackdrop("Default")
-	TradeSkillLinkButton:Size(17, 14)
+	S:HandleNextPrevButton(TradeSkillLinkButton, "right")
+	TradeSkillLinkButton:Size(22)
+	TradeSkillLinkButton:Point("LEFT", -3, -3)
 
 	S:HandleEditBox(TradeSkillFrameSearchBox)
 
@@ -166,7 +162,7 @@ local function LoadSkin()
 		nameFrame:Kill()
 	end
 
-	TradeSkillReagent1:Point("TOPLEFT", TradeSkillReagentLabel, "BOTTOMLEFT", 1, -3)
+	TradeSkillReagent1:Point("TOPLEFT", TradeSkillReagentLabel, "BOTTOMLEFT", 0, -3)
 	TradeSkillReagent2:Point("LEFT", TradeSkillReagent1, "RIGHT", 3, 0)
 	TradeSkillReagent3:Point("TOPLEFT", TradeSkillReagent1, "BOTTOMLEFT", 0, -3)
 	TradeSkillReagent4:Point("LEFT", TradeSkillReagent3, "RIGHT", 3, 0)

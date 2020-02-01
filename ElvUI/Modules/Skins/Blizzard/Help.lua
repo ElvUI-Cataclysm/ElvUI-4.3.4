@@ -47,6 +47,9 @@ local function LoadSkin()
 
 	HelpFrameHeader:StripTextures(true)
 
+	HelpFrame:StripTextures(true)
+	HelpFrame:CreateBackdrop("Transparent")
+
 	HelpFrameKnowledgebaseErrorFrame:StripTextures(true)
 	HelpFrameKnowledgebaseErrorFrame:CreateBackdrop("Default")
 
@@ -72,7 +75,7 @@ local function LoadSkin()
 
 	for i = 1, HelpFrameTicket:GetNumChildren() do
 		local child = select(i, HelpFrameTicket:GetChildren())
-		if(not child:GetName()) then
+		if not child:GetName() then
 			child:StripTextures()
 		end
 	end
@@ -94,6 +97,7 @@ local function LoadSkin()
 
 	for i = 1, 6 do
 		local button = _G["HelpFrameButton"..i]
+
 		S:HandleButton(button, true)
 		button.text:ClearAllPoints()
 		button.text:SetPoint("CENTER")
@@ -103,20 +107,18 @@ local function LoadSkin()
 	-- skin table options
 	for i = 1, HelpFrameKnowledgebaseScrollFrameScrollChild:GetNumChildren() do
 		local button = _G["HelpFrameKnowledgebaseScrollFrameButton"..i]
+
 		button:StripTextures(true)
 		S:HandleButton(button, true)
 	end
 
 	-- skin misc items
+	S:HandleEditBox(HelpFrameKnowledgebaseSearchBox)
 	HelpFrameKnowledgebaseSearchBox:ClearAllPoints()
 	HelpFrameKnowledgebaseSearchBox:Point("TOPLEFT", HelpFrameMainInset, "TOPLEFT", 13, -10)
 
-	local HelpFrame = _G["HelpFrame"]
-	HelpFrame:StripTextures(true)
-	HelpFrame:CreateBackdrop("Transparent")
-
-	S:HandleEditBox(HelpFrameKnowledgebaseSearchBox)
 	S:HandleScrollBar(HelpFrameKnowledgebaseScrollFrameScrollBar, 5)
+
 	S:HandleCloseButton(HelpFrameCloseButton, HelpFrame.backdrop)
 	S:HandleCloseButton(HelpFrameKnowledgebaseErrorFrameCloseButton, HelpFrameKnowledgebaseErrorFrame.backdrop)
 
@@ -124,6 +126,7 @@ local function LoadSkin()
 	S:HandleItemButton(HelpFrameCharacterStuckHearthstone, true)
 	HelpFrameCharacterStuckHearthstone:GetHighlightTexture():SetTexture(1, 1, 1, 0.3)
 	HelpFrameCharacterStuckHearthstone.SetHighlightTexture = E.noop
+
 	E:RegisterCooldown(HelpFrameCharacterStuckHearthstoneCooldown)
 
 	S:HandleButton(HelpFrameGM_ResponseNeedMoreHelp)

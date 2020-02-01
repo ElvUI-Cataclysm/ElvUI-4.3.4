@@ -48,6 +48,7 @@ local SetItemButtonTexture = SetItemButtonTexture
 local SetItemButtonTextureVertexColor = SetItemButtonTextureVertexColor
 local ToggleFrame = ToggleFrame
 local UseContainerItem = UseContainerItem
+
 local BACKPACK_TOOLTIP = BACKPACK_TOOLTIP
 local CONTAINER_OFFSET_X, CONTAINER_OFFSET_Y = CONTAINER_OFFSET_X, CONTAINER_OFFSET_Y
 local CONTAINER_SCALE = CONTAINER_SCALE
@@ -172,12 +173,18 @@ end
 
 function B:SetSearch(query)
 	local empty = #(gsub(query, " ", "")) == 0
+	local method = Search.Matches
+	if Search.Filters.tipPhrases.keywords[query] then
+		method = Search.TooltipPhrase
+		query = Search.Filters.tipPhrases.keywords[query]
+	end
+
 	for _, bagFrame in pairs(B.BagFrames) do
 		for _, bagID in ipairs(bagFrame.BagIDs) do
 			for slotID = 1, GetContainerNumSlots(bagID) do
 				local _, _, _, _, _, _, link = GetContainerItemInfo(bagID, slotID)
 				local button = bagFrame.Bags[bagID][slotID]
-				local success, result = pcall(Search.Matches, Search, link, query)
+				local success, result = pcall(method, Search, link, query)
 
 				if empty or (success and result) then
 					SetItemButtonDesaturated(button, button.locked or button.junkDesaturate)
@@ -195,6 +202,12 @@ end
 
 function B:SetGuildBankSearch(query)
 	local empty = #(gsub(query, " ", "")) == 0
+	local method = Search.Matches
+	if Search.Filters.tipPhrases.keywords[query] then
+		method = Search.TooltipPhrase
+		query = Search.Filters.tipPhrases.keywords[query]
+	end
+
 	if GuildBankFrame and GuildBankFrame:IsShown() then
 		local tab = GetCurrentGuildBankTab()
 		local _, _, isViewable = GetGuildBankTabInfo(tab)
@@ -208,7 +221,7 @@ function B:SetGuildBankSearch(query)
 				if col == 0 then col = 1 end
 				if btn == 0 then btn = 14 end
 				local button = _G["GuildBankColumn"..col.."Button"..btn]
-				local success, result = pcall(Search.Matches, Search, link, query)
+				local success, result = pcall(method, Search, link, query)
 				if empty or (success and result) then
 					SetItemButtonDesaturated(button, button.locked or button.junkDesaturate)
 					button.searchOverlay:Hide()
@@ -242,15 +255,12 @@ end
 function B:UpdateCountDisplay()
 	if E.private.bags.enable ~= true then return end
 
-	local color = E.db.bags.countFontColor
-
 	for _, bagFrame in pairs(B.BagFrames) do
 		for _, bagID in ipairs(bagFrame.BagIDs) do
 			for slotID = 1, GetContainerNumSlots(bagID) do
 				local slot = bagFrame.Bags[bagID][slotID]
 				if slot and slot.Count then
 					slot.Count:FontTemplate(E.Libs.LSM:Fetch("font", E.db.bags.countFont), E.db.bags.countFontSize, E.db.bags.countFontOutline)
-					slot.Count:SetTextColor(color.r, color.g, color.b)
 				end
 			end
 		end
@@ -260,7 +270,7 @@ function B:UpdateCountDisplay()
 end
 
 function B:UpdateBagTypes(isBank)
-	local f = self:GetContainerFrame(isBank)
+	local f = B:GetContainerFrame(isBank)
 	for _, bagID in ipairs(f.BagIDs) do
 		if f.Bags[bagID] then
 			f.Bags[bagID].type = select(2, GetContainerNumFreeSlots(bagID))
@@ -357,6 +367,9 @@ function B:UpdateSlot(frame, bagID, slotID)
 			slot.questIcon:Show()
 		end
 
+		local color = E.db.bags.countFontColor
+		slot.Count:SetTextColor(color.r, color.g, color.b)
+
 		-- color slot according to item quality
 		if B.db.questItemColors and (questId and not isActiveQuest) then
 			slot:SetBackdropBorderColor(unpack(B.QuestColors.questStarter))
@@ -368,11 +381,15 @@ function B:UpdateSlot(frame, bagID, slotID)
 			slot:SetBackdropBorderColor(r, g, b)
 			slot.ignoreBorderColors = true
 		else
-			slot:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			local rr, gg, bb = unpack(E.media.bordercolor)
+			slot:SetBackdropBorderColor(rr, gg, bb)
+			slot:SetBackdropColor(unpack(E.db.bags.transparent and E.media.backdropfadecolor or E.media.backdropcolor))
 			slot.ignoreBorderColors = nil
 		end
 	else
-		slot:SetBackdropBorderColor(unpack(E.media.bordercolor))
+		local rr, gg, bb = unpack(E.media.bordercolor)
+		slot:SetBackdropBorderColor(rr, gg, bb)
+		slot:SetBackdropColor(unpack(E.db.bags.transparent and E.media.backdropfadecolor or E.media.backdropcolor))
 		slot.ignoreBorderColors = nil
 	end
 
@@ -491,9 +508,7 @@ function B:Layout(isBank)
 	local containerWidth = ((isBank and B.db.bankWidth) or B.db.bagWidth)
 	local numContainerColumns = floor(containerWidth / (buttonSize + buttonSpacing))
 	local holderWidth = ((buttonSize + buttonSpacing) * numContainerColumns) - buttonSpacing
-	local numContainerRows = 0
-	local numBags = 0
-	local numBagSlots = 0
+	local numContainerRows, numBags, numBagSlots = 0, 0, 0
 	local bagSpacing = B.db.split.bagSpacing
 	local countColor = E.db.bags.countFontColor
 	local isSplit = B.db.split[isBank and "bank" or "player"]
@@ -662,7 +677,7 @@ function B:Layout(isBank)
 				f.Bags[bagID][slotID]:Size(buttonSize)
 
 				if f.Bags[bagID][slotID].JunkIcon then
-					f.Bags[bagID][slotID].JunkIcon:Size(buttonSize/2)
+					f.Bags[bagID][slotID].JunkIcon:Size(buttonSize / 2)
 				end
 
 				B:UpdateSlot(f, bagID, slotID)
@@ -760,63 +775,64 @@ end
 function B:UpdateTokens()
 	local f = B.BagFrame
 	local numTokens = 0
+
+	for _, button in ipairs(f.currencyButton) do
+		button:Hide()
+	end
+
 	for i = 1, MAX_WATCHED_TOKENS do
 		local name, count, icon, currencyID = GetBackpackCurrencyInfo(i)
+		if not name then break end
+
 		local button = f.currencyButton[i]
-
 		button:ClearAllPoints()
-		if name then
-			button.icon:SetTexture(icon)
+		button.icon:SetTexture(icon)
 
-			if B.db.currencyFormat == "ICON_TEXT" then
-				button.text:SetText(name..": "..count)
-			elseif B.db.currencyFormat == "ICON_TEXT_ABBR" then
-				button.text:SetText(E:AbbreviateString(name)..": "..count)
-			elseif B.db.currencyFormat == "ICON" then
-				button.text:SetText(count)
-			end
-
-			button.currencyID = currencyID
-			button:Show()
-			numTokens = numTokens + 1
-		else
-			button:Hide()
+		if B.db.currencyFormat == "ICON_TEXT" then
+			button.text:SetText(name..": "..count)
+		elseif B.db.currencyFormat == "ICON_TEXT_ABBR" then
+			button.text:SetText(E:AbbreviateString(name)..": "..count)
+		elseif B.db.currencyFormat == "ICON" then
+			button.text:SetText(count)
 		end
+
+		button.currencyID = currencyID
+		button:Show()
+		numTokens = numTokens + 1
 	end
 
 	if numTokens == 0 then
-		f.bottomOffset = 8
-
-		if f.currencyButton:IsShown() then
-			f.currencyButton:Hide()
+		if f.bottomOffset > 8 then
+			f.bottomOffset = 8
+			B:Layout()
+		end
+	else
+		if f.bottomOffset < 28 then
+			f.bottomOffset = 28
 			B:Layout()
 		end
 
-		return
-	elseif not f.currencyButton:IsShown() then
-		f.bottomOffset = 28
-		f.currencyButton:Show()
-		B:Layout()
-	end
-
-	f.bottomOffset = 28
-
-	if numTokens == 1 then
-		f.currencyButton[1]:Point("BOTTOM", f.currencyButton, "BOTTOM", -(f.currencyButton[1].text:GetWidth() / 2), 3)
-	elseif numTokens == 2 then
-		f.currencyButton[1]:Point("BOTTOM", f.currencyButton, "BOTTOM", -(f.currencyButton[1].text:GetWidth()) - (f.currencyButton[1]:GetWidth() / 2), 3)
-		f.currencyButton[2]:Point("BOTTOMLEFT", f.currencyButton, "BOTTOM", f.currencyButton[2]:GetWidth() / 2, 3)
-	else
-		f.currencyButton[1]:Point("BOTTOMLEFT", f.currencyButton, "BOTTOMLEFT", 3, 3)
-		f.currencyButton[2]:Point("BOTTOM", f.currencyButton, "BOTTOM", -(f.currencyButton[2].text:GetWidth() / 3), 3)
-		f.currencyButton[3]:Point("BOTTOMRIGHT", f.currencyButton, "BOTTOMRIGHT", -(f.currencyButton[3].text:GetWidth()) - (f.currencyButton[3]:GetWidth() / 2), 3)
+		if numTokens == 1 then
+			f.currencyButton[1]:Point("BOTTOM", f.currencyButton, "BOTTOM", -(f.currencyButton[1].text:GetWidth() / 2), 3)
+		elseif numTokens == 2 then
+			f.currencyButton[1]:Point("BOTTOM", f.currencyButton, "BOTTOM", -(f.currencyButton[1].text:GetWidth()) - (f.currencyButton[1]:GetWidth() / 2), 3)
+			f.currencyButton[2]:Point("BOTTOMLEFT", f.currencyButton, "BOTTOM", f.currencyButton[2]:GetWidth() / 2, 3)
+		else
+			f.currencyButton[1]:Point("BOTTOMLEFT", f.currencyButton, "BOTTOMLEFT", 3, 3)
+			f.currencyButton[2]:Point("BOTTOM", f.currencyButton, "BOTTOM", -(f.currencyButton[2].text:GetWidth() / 3), 3)
+			f.currencyButton[3]:Point("BOTTOMRIGHT", f.currencyButton, "BOTTOMRIGHT", -(f.currencyButton[3].text:GetWidth()) - (f.currencyButton[3]:GetWidth() / 2), 3)
+		end
 	end
 end
 
 function B:Token_OnEnter()
-	GameTooltip:ClearAllPoints()
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 	GameTooltip:SetBackpackToken(self:GetID())
+
+	if TT.db.spellID then
+		GameTooltip:AddLine(format("|cFFCA3C3C%s|r %d", ID, self.currencyID))
+		GameTooltip:Show()
+	end
 end
 
 function B:Token_OnClick()
@@ -924,7 +940,7 @@ function B:VendorGrayCheck()
 	end
 end
 
-function B:ContructContainerFrame(name, isBank)
+function B:ConstructContainerFrame(name, isBank)
 	local strata = E.db.bags.strata or "DIALOG"
 
 	local f = CreateFrame("Button", name, E.UIParent)
@@ -938,7 +954,6 @@ function B:ContructContainerFrame(name, isBank)
 		f:RegisterEvent(event)
 	end
 
-	f:SetScript("OnEvent", B.OnEvent)
 	f:Hide()
 
 	f.isBank = isBank
@@ -957,6 +972,8 @@ function B:ContructContainerFrame(name, isBank)
 	f:SetMovable(true)
 	f:RegisterForDrag("LeftButton", "RightButton")
 	f:RegisterForClicks("AnyUp")
+	f:SetScript("OnEvent", B.OnEvent)
+	f:SetScript("OnShow", B.RefreshSearch)
 	f:SetScript("OnDragStart", function(frame) if IsShiftKeyDown() then frame:StartMoving() end end)
 	f:SetScript("OnDragStop", function(frame) frame:StopMovingOrSizing() end)
 	f:SetScript("OnClick", function(frame) if IsControlKeyDown() then B.PostBagMove(frame.mover) end end)
@@ -1216,7 +1233,6 @@ function B:ContructContainerFrame(name, isBank)
 			f.currencyButton[i]:Hide()
 		end
 
-		f:SetScript("OnShow", B.RefreshSearch)
 		f:SetScript("OnHide", function()
 			CloseBackpack()
 			for i = 1, NUM_BAG_FRAMES do
@@ -1241,7 +1257,7 @@ function B:ContructContainerFrame(name, isBank)
 end
 
 function B:ToggleBags(id)
-	if id and (GetContainerNumSlots(id) == 0) then return end --Closes a bag when inserting a new container..
+	if id and (GetContainerNumSlots(id) == 0) then return end
 
 	if B.BagFrame:IsShown() then
 		B:CloseBags()
@@ -1297,7 +1313,7 @@ end
 
 function B:OpenBank()
 	if not B.BankFrame then
-		B.BankFrame = B:ContructContainerFrame("ElvUI_BankContainerFrame", true)
+		B.BankFrame = B:ConstructContainerFrame("ElvUI_BankContainerFrame", true)
 	end
 
 	--Call :Layout first so all elements are created before we update
@@ -1318,7 +1334,7 @@ function B:GuildBankFrame_Update()
 end
 
 function B:CloseBank()
-	if not B.BankFrame then return end -- WHY??? WHO KNOWS!
+	if not B.BankFrame then return end
 
 	B.BankFrame:Hide()
 	B.BagFrame:Hide()
@@ -1335,14 +1351,18 @@ function B:GUILDBANKFRAME_OPENED(event)
 
 	hooksecurefunc("GuildBankFrame_Update", B.GuildBankFrame_Update)
 
-	self:UnregisterEvent(event)
+	B:UnregisterEvent(event)
 end
 
-local playerEnteringWorldFunc = function() B:UpdateBagTypes() B:Layout() end
+function B:PlayerEnteringWorld()
+	B:UpdateBagTypes()
+	B:Layout()
+end
 function B:PLAYER_ENTERING_WORLD()
 	B:UpdateGoldText()
 
-	E:Delay(2, playerEnteringWorldFunc) -- Update bag types for bagslot coloring
+	-- Update bag types for bagslot coloring
+	E:Delay(2, B.PlayerEnteringWorld)
 end
 
 function B:updateContainerFrameAnchors()
@@ -1647,8 +1667,8 @@ function B:Initialize()
 	ElvUIBankMover.textGrowDown = L["Bank Mover (Grow Down)"]
 	ElvUIBankMover.POINT = "BOTTOM"
 
-	--Create Bag Frame
-	B.BagFrame = B:ContructContainerFrame("ElvUI_ContainerFrame")
+	--Create Containers
+	B.BagFrame = B:ConstructContainerFrame("ElvUI_ContainerFrame")
 
 	--Hook onto Blizzard Functions
 	B:SecureHook("ToggleBackpack")

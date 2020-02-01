@@ -63,7 +63,6 @@ local UnitGroupRolesAssigned = UnitGroupRolesAssigned
 local UnitName = UnitName
 local wipe = wipe
 local NUM_CHAT_WINDOWS = NUM_CHAT_WINDOWS
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 local AFK = AFK
 local BN_INLINE_TOAST_BROADCAST = BN_INLINE_TOAST_BROADCAST
 local BN_INLINE_TOAST_BROADCAST_INFORM = BN_INLINE_TOAST_BROADCAST_INFORM
@@ -937,7 +936,7 @@ function CH:GetColoredName(event, _, arg2, _, _, _, _, _, arg8, _, _, _, arg12)
 		local _, englishClass = GetPlayerInfoByGUID(arg12)
 
 		if englishClass then
-			local classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[englishClass] or RAID_CLASS_COLORS[englishClass]
+			local classColorTable = E:ClassColor(englishClass)
 			if not classColorTable then
 				return arg2
 			end
@@ -1245,7 +1244,7 @@ function CH:ChatFrame_MessageEventHandler(self, event, arg1, arg2, arg3, arg4, a
 					for i = 1, GetNumRaidMembers() do
 						local name, _, subgroup, _, _, classFileName = GetRaidRosterInfo(i)
 						if name and subgroup == groupIndex then
-							local classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classFileName] or RAID_CLASS_COLORS[classFileName]
+							local classColorTable = E:ClassColor(classFileName)
 							if classColorTable then
 								name = format("\124cff%.2x%.2x%.2x%s\124r", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255, name)
 							end
@@ -1533,7 +1532,7 @@ function CH:CheckKeyword(message, author)
 				local wordMatch = classMatch and lowerCaseWord
 
 				if wordMatch and not E.global.chat.classColorMentionExcludedNames[wordMatch] then
-					local classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classMatch] or RAID_CLASS_COLORS[classMatch]
+					local classColorTable = E:ClassColor(classMatch)
 					word = gsub(word, gsub(tempWord, "%-","%%-"), format("\124cff%.2x%.2x%.2x%s\124r", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255, tempWord))
 				end
 			end
@@ -2028,22 +2027,20 @@ function CH:Initialize()
 		end
 	end)
 
-	-- Combat Log Skinning (credit: Aftermathh)
-	local CombatLogButton = _G.CombatLogQuickButtonFrame_Custom
-	CombatLogButton:StripTextures()
-	CombatLogButton:CreateBackdrop("Default", true)
-	CombatLogButton.backdrop:Point("TOPLEFT", 0, -1)
-	CombatLogButton.backdrop:Point("BOTTOMRIGHT", -22, 1)
+	CombatLogQuickButtonFrame_Custom:StripTextures()
+	CombatLogQuickButtonFrame_Custom:CreateBackdrop("Default", true)
+	CombatLogQuickButtonFrame_Custom.backdrop:Point("TOPLEFT", 0, -1)
+	CombatLogQuickButtonFrame_Custom.backdrop:Point("BOTTOMRIGHT", -22, 1)
 
 	CombatLogQuickButtonFrame_CustomProgressBar:StripTextures()
 	CombatLogQuickButtonFrame_CustomProgressBar:SetStatusBarTexture(E.media.normTex)
 	CombatLogQuickButtonFrame_CustomProgressBar:SetStatusBarColor(0.31, 0.31, 0.31)
 	CombatLogQuickButtonFrame_CustomProgressBar:ClearAllPoints()
-	CombatLogQuickButtonFrame_CustomProgressBar:SetInside(CombatLogButton.backdrop)
+	CombatLogQuickButtonFrame_CustomProgressBar:SetInside(CombatLogQuickButtonFrame_Custom.backdrop)
 
 	Skins:HandleNextPrevButton(CombatLogQuickButtonFrame_CustomAdditionalFilterButton)
 	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:Size(22)
-	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:Point("TOPRIGHT", CombatLogButton, "TOPRIGHT", 2, -1)
+	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:Point("TOPRIGHT", CombatLogQuickButtonFrame_Custom, "TOPRIGHT", 2, -1)
 	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:SetHitRectInsets(0, 0, 0, 0)
 	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:RegisterForClicks("AnyUp")
 end

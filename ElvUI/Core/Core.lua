@@ -1,6 +1,6 @@
 ﻿local ElvUI = select(2, ...)
 ElvUI[2] = ElvUI[1].Libs.ACL:GetLocale("ElvUI", ElvUI[1]:GetLocale()) -- Locale doesn't exist yet, make it exist.
-local E, L, V, P, G = unpack(ElvUI)	
+local E, L, V, P, G = unpack(ElvUI)
 local LSM = E.Libs.LSM
 
 local _G = _G
@@ -55,6 +55,10 @@ E.resolution = GetCVar("gxResolution")
 E.screenwidth, E.screenheight = tonumber(match(E.resolution, "(%d+)x+%d")), tonumber(match(E.resolution, "%d+x(%d+)"))
 E.isMacClient = IsMacClient()
 E.InfoColor = "|cfffe7b2c"
+
+-- oUF Defines
+E.oUF.Tags.Vars.E = E
+E.oUF.Tags.Vars.L = L
 
 --Tables
 E.media = {}
@@ -132,26 +136,13 @@ E.DispelClasses = {
 	DRUID = {Magic = false, Curse = true, Poison = true}
 }
 
-local colorizedName
-function E:ColorizedName(name, arg2)
-	local length = strlen(name)
-	for i = 1, length do
-		local letter = sub(name, i, i)
-		if i == 1 then
-			colorizedName = format("|cffff7000%s", letter)
-		elseif i == 2 then
-			colorizedName = format("%s|r|cffC4C4C4%s", colorizedName, letter)
-		elseif i == length and arg2 then
-			colorizedName = format("%s%s|r|cffff7000:|r", colorizedName, letter)
-		else
-			colorizedName = colorizedName..letter
-		end
-	end
-	return colorizedName
-end
+E.BadDispels = {
+	[30108] = "Unstable Affliction", --silences
+	[34914] = "Vampiric Touch" --horrifies
+}
 
 --Workaround for people wanting to use white and it reverting to their class color.
-E.PriestColors = {r = 0.99, g = 0.99, b = 0.99}
+E.PriestColors = {r = 0.99, g = 0.99, b = 0.99, colorStr = "fffcfcfc"}
 
 --This frame everything in ElvUI should be anchored to for Eyefinity support.
 E.UIParent = CreateFrame("Frame", "ElvUIParent", UIParent)
@@ -170,8 +161,26 @@ do -- used in optionsUI
 	end
 end
 
+local colorizedName
+function E:ColorizedName(name, arg2)
+	local length = strlen(name)
+	for i = 1, length do
+		local letter = sub(name, i, i)
+		if i == 1 then
+			colorizedName = format("|cffff7000%s", letter)
+		elseif i == 2 then
+			colorizedName = format("%s|r|cffC4C4C4%s", colorizedName, letter)
+		elseif i == length and arg2 then
+			colorizedName = format("%s%s|r|cffff7000:|r", colorizedName, letter)
+		else
+			colorizedName = colorizedName..letter
+		end
+	end
+	return colorizedName
+end
+
 function E:Print(...)
-	(_G[self.db.general.messageRedirect] or DEFAULT_CHAT_FRAME):AddMessage(strjoin("", self:ColorizedName("ElvUI", true), ...)) -- I put DEFAULT_CHAT_FRAME as a fail safe.
+	(_G[self.db.general.messageRedirect] or DEFAULT_CHAT_FRAME):AddMessage(strjoin("", E:ColorizedName("ElvUI", true), ...)) -- I put DEFAULT_CHAT_FRAME as a fail safe.
 end
 
 local delayedTimer
@@ -218,7 +227,7 @@ function E:CheckClassColor(r, g, b)
 	local matchFound = false
 	for class in pairs(RAID_CLASS_COLORS) do
 		if class ~= E.myclass then
-			local colorTable = class == "PRIEST" and E.PriestColors or (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class])
+			local colorTable = E:ClassColor(class, true)
 			local red, green, blue = E:GrabColorPickerValues(colorTable.r, colorTable.g, colorTable.b)
 			if red == r and green == g and blue == b then
 				matchFound = true
@@ -292,7 +301,7 @@ function E:UpdateMedia()
 	-- Border Color
 	local border = E.db.general.bordercolor
 	if self:CheckClassColor(border.r, border.g, border.b) then
-		local classColor = E.myclass == "PRIEST" and E.PriestColors or (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass])
+		local classColor = E:ClassColor(E.myclass, true)
 		E.db.general.bordercolor.r = classColor.r
 		E.db.general.bordercolor.g = classColor.g
 		E.db.general.bordercolor.b = classColor.b
@@ -303,7 +312,7 @@ function E:UpdateMedia()
 	-- UnitFrame Border Color
 	border = E.db.unitframe.colors.borderColor
 	if self:CheckClassColor(border.r, border.g, border.b) then
-		local classColor = E.myclass == "PRIEST" and E.PriestColors or (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass])
+		local classColor = E:ClassColor(E.myclass, true)
 		E.db.unitframe.colors.borderColor.r = classColor.r
 		E.db.unitframe.colors.borderColor.g = classColor.g
 		E.db.unitframe.colors.borderColor.b = classColor.b
@@ -320,7 +329,7 @@ function E:UpdateMedia()
 	local value = self.db.general.valuecolor
 
 	if self:CheckClassColor(value.r, value.g, value.b) then
-		value = E.myclass == "PRIEST" and E.PriestColors or (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass])
+		value = E:ClassColor(E.myclass, true)
 		self.db.general.valuecolor.r = value.r
 		self.db.general.valuecolor.g = value.g
 		self.db.general.valuecolor.b = value.b

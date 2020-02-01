@@ -11,27 +11,42 @@ E.Options.args.skins = {
 			type = "description",
 			name = L["SKINS_DESC"]
 		},
-		blizzardEnable = {
-			order = 2,
-			type = "toggle",
-			name = L["Blizzard"],
-			get = function(info) return E.private.skins.blizzard.enable end,
-			set = function(info, value) E.private.skins.blizzard.enable = value E:StaticPopup_Show("PRIVATE_RL") end
-		},
-		ace3 = {
-			order = 3,
-			type = "toggle",
-			name = "Ace3",
-			get = function(info) return E.private.skins.ace3.enable end,
-			set = function(info, value) E.private.skins.ace3.enable = value E:StaticPopup_Show("PRIVATE_RL") end
-		},
-		checkBoxSkin = {
-			order = 4,
-			type = "toggle",
-			name = L["CheckBox Skin"],
-			get = function(info) return E.private.skins.checkBoxSkin end,
-			set = function(info, value) E.private.skins.checkBoxSkin = value E:StaticPopup_Show("PRIVATE_RL") end,
-			disabled = function() return not E.private.skins.ace3.enable and not E.private.skins.blizzard.enable end
+		general = {
+			order = 1,
+			type = "group",
+			name = L["General"],
+			guiInline = true,
+			args = {
+				blizzardEnable = {
+					order = 1,
+					type = "toggle",
+					name = L["Blizzard"],
+					get = function(info) return E.private.skins.blizzard.enable end,
+					set = function(info, value) E.private.skins.blizzard.enable = value E:StaticPopup_Show("PRIVATE_RL") end
+				},
+				ace3 = {
+					order = 2,
+					type = "toggle",
+					name = "Ace3",
+					get = function(info) return E.private.skins.ace3.enable end,
+					set = function(info, value) E.private.skins.ace3.enable = value E:StaticPopup_Show("PRIVATE_RL") end
+				},
+				checkBoxSkin = {
+					order = 3,
+					type = "toggle",
+					name = L["CheckBox Skin"],
+					get = function(info) return E.private.skins.checkBoxSkin end,
+					set = function(info, value) E.private.skins.checkBoxSkin = value E:StaticPopup_Show("PRIVATE_RL") end,
+					disabled = function() return not E.private.skins.ace3.enable and not E.private.skins.blizzard.enable end
+				},
+				cleanBossButton = {
+					order = 4,
+					type = "toggle",
+					name = L["Clean Boss Button"],
+					get = function(info) return E.private.skins.cleanBossButton end,
+					set = function(info, value) E.private.skins.cleanBossButton = value; E:StaticPopup_Show("PRIVATE_RL") end
+				}
+			}
 		},
 		blizzard = {
 			order = 100,
@@ -313,7 +328,7 @@ E.Options.args.skins = {
 				},
 				tutorial = {
 					type = "toggle",
-					name = L["Tutorial Frame"],
+					name = L["Tutorials"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
 				voidstorage = {

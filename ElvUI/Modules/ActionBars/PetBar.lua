@@ -171,6 +171,8 @@ function AB:PositionAndSizeBarPet()
 		bar:SetParent(E.UIParent)
 	end
 
+	bar:EnableMouse(not self.db.barPet.clickThrough)
+
 	local button, lastButton, lastColumnButton, autoCast
 	local firstButtonSpacing = (self.db.barPet.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)
 	for i = 1, NUM_PET_ACTION_SLOTS do
@@ -182,8 +184,10 @@ function AB:PositionAndSizeBarPet()
 		button:SetParent(bar)
 		button:ClearAllPoints()
 		button:Size(size)
-		autoCast:SetOutside(button, autoCastSize, autoCastSize)
 		button:SetAttribute("showgrid", 1)
+		button:EnableMouse(not self.db.barPet.clickThrough)
+
+		autoCast:SetOutside(button, autoCastSize, autoCastSize)
 
 		if i == 1 then
 			local x, y
@@ -237,21 +241,28 @@ function AB:PositionAndSizeBarPet()
 	--Fix issue with mover not updating size when bar is hidden
 	bar:GetScript("OnSizeChanged")(bar)
 
-	if MasqueGroup and E.private.actionbar.masque.petBar then MasqueGroup:ReSkin() end
+	if MasqueGroup and E.private.actionbar.masque.petBar then
+		MasqueGroup:ReSkin()
+	end
 end
 
 function AB:UpdatePetBindings()
-	for i = 1, NUM_PET_ACTION_SLOTS do
-		if self.db.hotkeytext then
-			local key = GetBindingKey("BONUSACTIONBUTTON"..i)
-			local color = self.db.fontColor
+	local button, hotKey, key, color
 
-			_G["PetActionButton"..i.."HotKey"]:Show()
-			_G["PetActionButton"..i.."HotKey"]:SetText(key)
-			_G["PetActionButton"..i.."HotKey"]:SetTextColor(color.r, color.g, color.b)
-			self:FixKeybindText(_G["PetActionButton"..i])
+	for i = 1, NUM_PET_ACTION_SLOTS do
+		button = _G["PetActionButton"..i]
+		hotKey = _G["PetActionButton"..i.."HotKey"]
+
+		if self.db.hotkeytext then
+			key = GetBindingKey("BONUSACTIONBUTTON"..i)
+			color = self.db.fontColor
+
+			hotKey:Show()
+			hotKey:SetText(key)
+			hotKey:SetTextColor(color.r, color.g, color.b)
+			self:FixKeybindText(button)
 		else
-			_G["PetActionButton"..i.."HotKey"]:Hide()
+			hotKey:Hide()
 		end
 	end
 end

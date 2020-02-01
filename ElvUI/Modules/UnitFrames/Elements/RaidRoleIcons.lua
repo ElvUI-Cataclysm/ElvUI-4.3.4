@@ -78,9 +78,9 @@ function UF:Configure_RaidRoleIcons(frame)
 
 		raidRoleFrameAnchor:ClearAllPoints()
 		if frame.db.raidRoleIcons.position == "TOPLEFT" then
-			raidRoleFrameAnchor:Point("LEFT", frame.Health, "TOPLEFT", 2, 0)
+			raidRoleFrameAnchor:Point("LEFT", frame, "TOPLEFT", frame.db.raidRoleIcons.xOffset, frame.db.raidRoleIcons.yOffset)
 		else
-			raidRoleFrameAnchor:Point("RIGHT", frame, "TOPRIGHT", -2, 0)
+			raidRoleFrameAnchor:Point("RIGHT", frame, "TOPRIGHT", -frame.db.raidRoleIcons.xOffset, frame.db.raidRoleIcons.yOffset)
 		end
 	elseif frame:IsElementEnabled("LeaderIndicator") then
 		raidRoleFrameAnchor:Hide()
@@ -110,21 +110,21 @@ function UF:RaidRoleUpdate()
 
 	if db and db.raidRoleIcons then
 		if isLeader and db.raidRoleIcons.position == "TOPLEFT" then
-			leader:Point("LEFT", anchor, "LEFT")
-			masterLooter:Point("RIGHT", anchor, "RIGHT")
+			leader:Point("LEFT", anchor, "LEFT", db.raidRoleIcons.xOffset, db.raidRoleIcons.yOffset)
+			masterLooter:Point("RIGHT", anchor, "RIGHT", db.raidRoleIcons.xOffset, db.raidRoleIcons.yOffset)
 		elseif isLeader and db.raidRoleIcons.position == "TOPRIGHT" then
-			leader:Point("RIGHT", anchor, "RIGHT")
-			masterLooter:Point("LEFT", anchor, "LEFT")
+			leader:Point("RIGHT", anchor, "RIGHT", db.raidRoleIcons.xOffset, db.raidRoleIcons.yOffset)
+			masterLooter:Point("LEFT", anchor, "LEFT", db.raidRoleIcons.xOffset, db.raidRoleIcons.yOffset)
 		elseif isAssist and db.raidRoleIcons.position == "TOPLEFT" then
-			assistant:Point("LEFT", anchor, "LEFT")
-			masterLooter:Point("RIGHT", anchor, "RIGHT")
+			assistant:Point("LEFT", anchor, "LEFT", db.raidRoleIcons.xOffset, db.raidRoleIcons.yOffset)
+			masterLooter:Point("RIGHT", anchor, "RIGHT", db.raidRoleIcons.xOffset, db.raidRoleIcons.yOffset)
 		elseif isAssist and db.raidRoleIcons.position == "TOPRIGHT" then
-			assistant:Point("RIGHT", anchor, "RIGHT")
-			masterLooter:Point("LEFT", anchor, "LEFT")
+			assistant:Point("RIGHT", anchor, "RIGHT", db.raidRoleIcons.xOffset, db.raidRoleIcons.yOffset)
+			masterLooter:Point("LEFT", anchor, "LEFT", db.raidRoleIcons.xOffset, db.raidRoleIcons.yOffset)
 		elseif isMasterLooter and db.raidRoleIcons.position == "TOPLEFT" then
-			masterLooter:Point("LEFT", anchor, "LEFT")
+			masterLooter:Point("LEFT", anchor, "LEFT", db.raidRoleIcons.xOffset, db.raidRoleIcons.yOffset)
 		else
-			masterLooter:Point("RIGHT", anchor, "RIGHT")
+			masterLooter:Point("RIGHT", anchor, "RIGHT", db.raidRoleIcons.xOffset, db.raidRoleIcons.yOffset)
 		end
 	end
 end

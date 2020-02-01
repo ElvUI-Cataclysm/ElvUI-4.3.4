@@ -1,10 +1,10 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local DT = E:GetModule("DataTexts")
 
-local next, unpack = next, unpack
-local format, join = string.format, string.join
+local date, time = date, time
+local next, unpack, select, tonumber = next, unpack, select, tonumber
+local find, format, gsub, join, utf8sub = string.find, string.format, string.gsub, string.join, string.utf8sub
 local tsort, tinsert = table.sort, table.insert
-local time, utf8sub = time, string.utf8sub
 
 local GetGameTime = GetGameTime
 local RequestRaidInfo = RequestRaidInfo
@@ -13,33 +13,61 @@ local GetWorldPVPAreaInfo = GetWorldPVPAreaInfo
 local SecondsToTime = SecondsToTime
 local GetNumSavedInstances = GetNumSavedInstances
 local GetSavedInstanceInfo = GetSavedInstanceInfo
+
+local QUEUE_TIME_UNAVAILABLE = QUEUE_TIME_UNAVAILABLE
+local TIMEMANAGER_AM = TIMEMANAGER_AM
+local TIMEMANAGER_PM = TIMEMANAGER_PM
+local TIMEMANAGER_TOOLTIP_LOCALTIME = TIMEMANAGER_TOOLTIP_LOCALTIME
+local TIMEMANAGER_TOOLTIP_REALMTIME = TIMEMANAGER_TOOLTIP_REALMTIME
 local VOICE_CHAT_BATTLEGROUND = VOICE_CHAT_BATTLEGROUND
 local WINTERGRASP_IN_PROGRESS = WINTERGRASP_IN_PROGRESS
-local QUEUE_TIME_UNAVAILABLE = QUEUE_TIME_UNAVAILABLE
-local TIMEMANAGER_TOOLTIP_REALMTIME = TIMEMANAGER_TOOLTIP_REALMTIME
 
-local timeDisplayFormat = ""
-local dateDisplayFormat = ""
-local europeDisplayFormat_nocolor = join("", "%02d", ":|r%02d")
+local timeDisplayFormat, dateDisplayFormat = "", ""
 local lockoutInfoFormat = "%s%s %s |cffaaaaaa(%s, |cfff04000%s/%s|r|cffaaaaaa)"
 local lockoutInfoFormatNoEnc = "%s%s %s |cffaaaaaa(%s)"
 local formatBattleGroundInfo = "%s: "
 local lockoutColorExtended, lockoutColorNormal = {r = 0.3, g = 1, b = 0.3}, {r = 0.8, g = 0.8, b = 0.8}
 local enteredFrame = false
+local timeFormat, showAMPM
+local realmDiffSeconds
 local lastPanel
 
-local function OnClick(_, btn)
-	if btn == "RightButton" then
-		if not IsAddOnLoaded("Blizzard_TimeManager") then LoadAddOn("Blizzard_TimeManager") end
- 		TimeManagerClockButton_OnClick(TimeManagerClockButton)
- 	else
- 		GameTimeFrame:Click()
- 	end
+local locale = GetLocale()
+local krcntw = locale == "koKR" or locale == "zhCN" or locale == "zhTW"
+local difficultyTag = {
+	(krcntw and PLAYER_DIFFICULTY3) or utf8sub(PLAYER_DIFFICULTY3, 1, 1), -- Raid Finder
+	(krcntw and PLAYER_DIFFICULTY1) or utf8sub(PLAYER_DIFFICULTY1, 1, 1), -- Normal
+	(krcntw and PLAYER_DIFFICULTY2) or utf8sub(PLAYER_DIFFICULTY2, 1, 1), -- Heroic
+}
+
+local function getRealmTimeDiff()
+	local hours, minutes = GetGameTime()
+	local systemTime = date("*t")
+
+	local diffHours = systemTime.hour - hours
+	local diffMinutes = systemTime.min - minutes
+
+	return (diffHours * 60 + diffMinutes) * 60
 end
 
-local function OnLeave()
-	DT.tooltip:Hide()
-	enteredFrame = false
+local function GetCurrentDate(formatString)
+	if timeFormat ~= E.db.datatexts.timeFormat then
+		timeFormat = E.db.datatexts.timeFormat
+		showAMPM = find(E.db.datatexts.timeFormat, "%%p") ~= nil
+	end
+
+	if showAMPM then
+		local localizedAMPM = tonumber(date("%H")) >= 12 and TIMEMANAGER_PM or TIMEMANAGER_AM
+
+		formatString = gsub(formatString, "^%%p", localizedAMPM)
+		formatString = gsub(formatString, "([^%%])%%p", "%1"..localizedAMPM)
+	end
+
+	if realmDiffSeconds ~= 0 and not E.db.datatexts.localTime then
+		return date(formatString, time() -realmDiffSeconds)
+	else
+		return date(formatString)
+	end
 end
 
 local instanceIconByName = {}
@@ -57,26 +85,29 @@ local function GetInstanceImages(...)
 	end
 end
 
-local locale = GetLocale()
-local krcntw = locale == "koKR" or locale == "zhCN" or locale == "zhTW"
-local difficultyTag = {
-	(krcntw and PLAYER_DIFFICULTY3) or utf8sub(PLAYER_DIFFICULTY3, 1, 1), -- Raid Finder
-	(krcntw and PLAYER_DIFFICULTY1) or utf8sub(PLAYER_DIFFICULTY1, 1, 1), -- Normal
-	(krcntw and PLAYER_DIFFICULTY2) or utf8sub(PLAYER_DIFFICULTY2, 1, 1), -- Heroic
-}
+local function OnClick(_, btn)
+	if btn == "RightButton" then
+		if not IsAddOnLoaded("Blizzard_TimeManager") then LoadAddOn("Blizzard_TimeManager") end
+ 		TimeManagerClockButton_OnClick(TimeManagerClockButton)
+ 	else
+ 		GameTimeFrame:Click()
+ 	end
+end
 
 local collectedInstanceImages = false
 local function OnEnter(self)
 	DT:SetupTooltip(self)
 
 	if not enteredFrame then
-		enteredFrame = true
 		RequestRaidInfo()
+
+		enteredFrame = true
 	end
 
 	if not collectedInstanceImages then
 		GetInstanceImages(CalendarEventGetTextures(1))
 		GetInstanceImages(CalendarEventGetTextures(2))
+
 		collectedInstanceImages = true
 	end
 
@@ -171,12 +202,25 @@ local function OnEnter(self)
 		DT.tooltip:AddLine(" ")
 	end
 
-	DT.tooltip:AddDoubleLine(TIMEMANAGER_TOOLTIP_REALMTIME, format(europeDisplayFormat_nocolor, GetGameTime()), 1, 1, 1, lockoutColorNormal.r, lockoutColorNormal.g, lockoutColorNormal.b)
+	local timeType = E.db.datatexts.localTime and TIMEMANAGER_TOOLTIP_REALMTIME or TIMEMANAGER_TOOLTIP_LOCALTIME
+	local timeString = E.db.datatexts.localTime and format("%02d:%02d", GetGameTime()) or date("%H:%M")
+
+	DT.tooltip:AddDoubleLine(timeType, timeString, 1, 1, 1, lockoutColorNormal.r, lockoutColorNormal.g, lockoutColorNormal.b)
 
 	DT.tooltip:Show()
 end
 
+local function OnLeave()
+	DT.tooltip:Hide()
+
+	enteredFrame = false
+end
+
 local function OnEvent(self, event)
+	if not realmDiffSeconds then
+		realmDiffSeconds = getRealmTimeDiff()
+	end
+
 	if event == "UPDATE_INSTANCE_INFO" and enteredFrame then
 		OnEnter(self)
 	end
@@ -188,19 +232,18 @@ function OnUpdate(self, t)
 
 	if int > 0 then return end
 
+	if enteredFrame then OnEnter(self) end
+
 	if GameTimeFrame.flashInvite then
 		E:Flash(self, 0.53, true)
 	else
 		E:StopFlash(self)
 	end
 
-	if enteredFrame then
-		OnEnter(self)
-	end
-
-	self.text:SetText(BetterDate(E.db.datatexts.timeFormat.." "..E.db.datatexts.dateFormat, time()):gsub(":", timeDisplayFormat):gsub("%s", dateDisplayFormat))
+	self.text:SetText(gsub(gsub(GetCurrentDate(E.db.datatexts.timeFormat.." "..E.db.datatexts.dateFormat), ":", timeDisplayFormat), "%s", dateDisplayFormat))
 
 	lastPanel = self
+
 	int = 1
 end
 

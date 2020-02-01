@@ -8,7 +8,7 @@ local pairs = pairs
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tooltip ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.tooltip then return end
 
 	S:HandleCloseButton(ItemRefCloseButton)
 
@@ -49,6 +49,7 @@ local function LoadSkin()
 	TT:SecureHook("GameTooltip_ShowStatusBar") -- Skin Status Bars
 
 	-- [Backdrop coloring] There has to be a more elegant way of doing this.
+	TT:SecureHookScript(GameTooltip, "OnSizeChanged", "CheckBackdropColor")
 	TT:SecureHookScript(GameTooltip, "OnUpdate", "CheckBackdropColor")
 end
 

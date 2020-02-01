@@ -140,50 +140,69 @@ RB.MeleeSpell6Buffs = {
 }
 
 function RB:CheckFilterForActiveBuff(filter)
-	local spellName, name, texture, duration, expirationTime
-
 	for _, spell in ipairs(filter) do
-		spellName = GetSpellInfo(spell)
-		name, _, texture, _, _, duration, expirationTime = UnitAura("player", spellName)
+		local spellName = GetSpellInfo(spell)
+		local name, _, texture, _, _, duration, expirationTime = UnitAura("player", spellName)
 
 		if name then
-			return true, texture, duration, expirationTime
+			return texture, duration, expirationTime
 		end
 	end
-
-	return false, texture, duration, expirationTime
 end
 
 function RB:UpdateReminderTime(elapsed)
+	if self.expiration == nil then return end
+
 	self.expiration = self.expiration - elapsed
 
 	if self.nextUpdate > 0 then
 		self.nextUpdate = self.nextUpdate - elapsed
-
 		return
 	end
 
 	if self.expiration <= 0 then
 		self.timer:SetText("")
 		self:SetScript("OnUpdate", nil)
-
 		return
 	end
 
-	local timervalue, formatid
-	timervalue, formatid, self.nextUpdate = E:GetTimeInfo(self.expiration, 4)
-	self.timer:SetFormattedText(("%s%s|r"):format(E.TimeColors[formatid], E.TimeFormats[formatid][1]), timervalue)
+	local threshold = E.db.cooldown.threshold
+	if not threshold then threshold = E.TimeThreshold end
+
+	local hhmmThreshold = E.db.cooldown.checkSeconds and E.db.cooldown.hhmmThreshold or nil 
+	local mmssThreshold = E.db.cooldown.checkSeconds and E.db.cooldown.mmssThreshold or nil
+	local textColors = E.db.cooldown.useIndicatorColor and E.TimeIndicatorColors or nil
+
+	local value, id, nextUpdate, remainder = E:GetTimeInfo(self.expiration, threshold, hhmmThreshold, mmssThreshold)
+	local style = E.TimeFormats[id]
+
+	self.nextUpdate = nextUpdate
+
+	if style then
+		local which = textColors and 2 or 1
+
+		if textColors then
+			self.timer:SetFormattedText(style[which], value, textColors[id], remainder)
+		else
+			self.timer:SetFormattedText(style[which], value, remainder)
+		end
+	end
+
+	local color = E.TimeColors[id]
+	if color then
+		self.timer:SetTextColor(color.r, color.g, color.b)
+	end
 end
 
 function RB:UpdateReminder(event, unit)
 	if event == "UNIT_AURA" and unit ~= "player" then return end
 
 	for i = 1, 6 do
-		local hasBuff, texture, duration, expirationTime = self:CheckFilterForActiveBuff(self["Spell"..i.."Buffs"])
+		local texture, duration, expirationTime = self:CheckFilterForActiveBuff(self["Spell"..i.."Buffs"])
 		local button = self.frame[i]
 		local reverseStyle = E.db.general.reminder.reverse
 
-		if hasBuff then
+		if texture then
 			button.t:SetTexture(texture)
 
 			if (duration == 0 and expirationTime == 0) or E.db.general.reminder.durations ~= true then

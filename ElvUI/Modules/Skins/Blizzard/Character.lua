@@ -4,10 +4,10 @@ local S = E:GetModule("Skins")
 local _G = _G
 local unpack, pairs, select = unpack, pairs, select
 
+local CharacterFrameExpandButton = CharacterFrameExpandButton
 local GetCurrencyListSize = GetCurrencyListSize
 local GetNumFactions = GetNumFactions
 local hooksecurefunc = hooksecurefunc
-local CharacterFrameExpandButton = CharacterFrameExpandButton
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.character ~= true then return end
@@ -34,6 +34,7 @@ local function LoadSkin()
 		if bg then
 			bg:SetDesaturated(false)
 			bg.ignoreDesaturated = true -- so plugins can prevent this if they want.
+
 			hooksecurefunc(bg, "SetDesaturated", function(bckgnd, value)
 				if value and bckgnd.ignoreDesaturated then
 					bckgnd:SetDesaturated(false)
@@ -67,19 +68,19 @@ local function LoadSkin()
 	}
 
 	for _, slot in pairs(slots) do
+		local button = _G["Character"..slot]
 		local icon = _G["Character"..slot.."IconTexture"]
 		local cooldown = _G["Character"..slot.."Cooldown"]
 		local popout = _G["Character"..slot.."PopoutButton"]
 
-		slot = _G["Character"..slot]
-		slot:StripTextures()
-		slot:StyleButton(false)
-		slot.ignoreTexture:SetTexture([[Interface\PaperDollInfoFrame\UI-GearManager-LeaveItem-Transparent]])
-		slot:SetTemplate("Default", true, true)
+		button:StripTextures()
+		button:SetTemplate("Default", true, true)
+		button:StyleButton()
+		button:SetFrameLevel(PaperDollFrame:GetFrameLevel() + 2)
+		button.ignoreTexture:SetTexture([[Interface\PaperDollInfoFrame\UI-GearManager-LeaveItem-Transparent]])
+
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetInside()
-
-		slot:SetFrameLevel(PaperDollFrame:GetFrameLevel() + 2)
 
 		if cooldown then
 			E:RegisterCooldown(cooldown)
@@ -96,14 +97,14 @@ local function LoadSkin()
 			popout.icon:Point("CENTER")
 			popout.icon:SetTexture(E.Media.Textures.ArrowUp)
 
-			if slot.verticalFlyout then
+			if button.verticalFlyout then
 				popout:Size(27, 11)
-				popout:Point("TOP", slot, "BOTTOM", 0, 5)
+				popout:Point("TOP", button, "BOTTOM", 0, 5)
 
 				popout.icon:SetRotation(3.14)
 			else
 				popout:Size(11, 27)
-				popout:Point("LEFT", slot, "RIGHT", -5, 0)
+				popout:Point("LEFT", button, "RIGHT", -5, 0)
 
 				popout.icon:SetRotation(-1.57)
 			end
@@ -128,15 +129,14 @@ local function LoadSkin()
 
 	EquipmentFlyoutFrameHighlight:Kill()
 
-	local function SkinItemFlyouts(button)
-		button.icon = _G[button:GetName().."IconTexture"]
-
+	hooksecurefunc("EquipmentFlyout_DisplayButton", function(button)
 		button:GetNormalTexture():SetTexture(nil)
 		button:SetTemplate("Default")
-		button:StyleButton(false)
+		button:StyleButton()
 
-		button.icon:SetInside()
+		button.icon = _G[button:GetName().."IconTexture"]
 		button.icon:SetTexCoord(unpack(E.TexCoords))
+		button.icon:SetInside()
 
 		local cooldown = _G[button:GetName().."Cooldown"]
 		if cooldown then
@@ -152,8 +152,7 @@ local function LoadSkin()
 		local r, g, b = GetItemQualityColor(quality)
 
 		button:SetBackdropBorderColor(r, g, b)
- 	end
- 	hooksecurefunc("EquipmentFlyout_DisplayButton", SkinItemFlyouts)
+ 	end)
 
 	hooksecurefunc("EquipmentFlyout_Show", function(self)
 		local frame = EquipmentFlyoutFrame.buttonFrame
@@ -173,19 +172,19 @@ local function LoadSkin()
 
 	local function ColorItemBorder()
 		for _, slot in pairs(slots) do
-			local target = _G["Character"..slot]
-			local slotId = GetInventorySlotInfo(slot)
-			local itemId = GetInventoryItemID("player", slotId)
+			local button = _G["Character"..slot]
+			local slotID = GetInventorySlotInfo(slot)
+			local itemID = GetInventoryItemID("player", slotID)
 
-			if itemId then
-				local rarity = GetInventoryItemQuality("player", slotId)
+			if itemID then
+				local rarity = GetInventoryItemQuality("player", slotID)
 				if rarity then
-					target:SetBackdropBorderColor(GetItemQualityColor(rarity))
+					button:SetBackdropBorderColor(GetItemQualityColor(rarity))
 				else
-					target:SetBackdropBorderColor(unpack(E.media.bordercolor))
+					button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				end
 			else
-				target:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end
 		end
 	end
@@ -229,7 +228,7 @@ local function LoadSkin()
 	S:HandleModelControlFrame(CharacterModelFrameControlFrame)
 
 	-- Titles
-	PaperDollTitlesPane:HookScript("OnShow", function(self)
+	PaperDollTitlesPane:HookScript("OnShow", function()
 		for _, object in pairs(PaperDollTitlesPane.buttons) do
 			object.BgTop:SetTexture(nil)
 			object.BgBottom:SetTexture(nil)
@@ -250,7 +249,7 @@ local function LoadSkin()
 	-- Equipement Manager
 	PaperDollEquipmentManagerPane:StripTextures()
 
-	PaperDollEquipmentManagerPane:HookScript("OnShow", function(self)
+	PaperDollEquipmentManagerPane:HookScript("OnShow", function()
 		for _, object in pairs(PaperDollEquipmentManagerPane.buttons) do
 			object.BgTop:SetTexture(nil)
 			object.BgBottom:SetTexture(nil)
@@ -306,7 +305,7 @@ local function LoadSkin()
 	-- Character Tabs
 	PaperDollSidebarTabs:StripTextures()
 
-	local function FixSidebarTabCoords()
+	hooksecurefunc("PaperDollFrame_UpdateSidebarTabs", function()
 		for i = 1, #PAPERDOLL_SIDEBARS do
 			local tab = _G["PaperDollSidebarTab"..i]
 			if tab then
@@ -330,8 +329,7 @@ local function LoadSkin()
 				end
 			end
 		end
-	end
-	hooksecurefunc("PaperDollFrame_UpdateSidebarTabs", FixSidebarTabCoords)
+	end)
 
 	-- Stat Panels
 	CharacterStatsPane:StripTextures()
@@ -359,29 +357,35 @@ local function LoadSkin()
 	S:HandleScrollBar(ReputationListScrollFrameScrollBar)
 
 	for i = 1, NUM_FACTIONS_DISPLAYED do
-		local factionRow = _G["ReputationBar"..i]
-		local factionBar = _G["ReputationBar"..i.."ReputationBar"]
-		local factionButton = _G["ReputationBar"..i.."ExpandOrCollapseButton"]
+		local frame = _G["ReputationBar"..i]
+		local bar = _G["ReputationBar"..i.."ReputationBar"]
+		local button = _G["ReputationBar"..i.."ExpandOrCollapseButton"]
 
-		factionRow:StripTextures(true)
-		factionBar:StripTextures()
-		factionBar:CreateBackdrop("Default")
-		factionBar:SetStatusBarTexture(E.media.normTex)
-		E:RegisterStatusBar(factionBar)
+		frame:StripTextures(true)
 
-		factionButton:SetNormalTexture(E.Media.Textures.Minus)
-		factionButton.SetNormalTexture = E.noop
-		factionButton:GetNormalTexture():Size(16)
-		factionButton:GetNormalTexture():Point("LEFT", 4, 1)
-		factionButton:SetHighlightTexture(nil)
+		if i == 1 then
+			frame:Point("TOPRIGHT", -50, -63)
+			frame.SetPoint = E.noop
+		end
 
-		factionRow.War = factionRow:CreateTexture(nil, "OVERLAY")
-		factionRow.War:SetTexture("Interface\\Buttons\\UI-CheckBox-SwordCheck")
-		factionRow.War:Size(30)
-		factionRow.War:Point("RIGHT", 32, -5)
+		frame.War = frame:CreateTexture(nil, "OVERLAY")
+		frame.War:SetTexture("Interface\\Buttons\\UI-CheckBox-SwordCheck")
+		frame.War:Size(30)
+		frame.War:Point("RIGHT", 32, -5)
+
+		bar:StripTextures()
+		bar:CreateBackdrop("Default")
+		bar:SetStatusBarTexture(E.media.normTex)
+		E:RegisterStatusBar(bar)
+
+		button:SetNormalTexture(E.Media.Textures.Minus)
+		button.SetNormalTexture = E.noop
+		button:GetNormalTexture():Size(16)
+		button:GetNormalTexture():Point("LEFT", 4, 1)
+		button:SetHighlightTexture(nil)
 	end
 
-	local function UpdateFaction()
+	hooksecurefunc("ReputationFrame_Update", function()
 		local factionOffset = FauxScrollFrame_GetOffset(ReputationListScrollFrame)
 		local numFactions = GetNumFactions()
 
@@ -406,8 +410,7 @@ local function LoadSkin()
 				end
 			end
 		end
-	end
-	hooksecurefunc("ReputationFrame_Update", UpdateFaction)
+	end)
 
 	ReputationDetailFrame:StripTextures()
 	ReputationDetailFrame:SetTemplate("Transparent")

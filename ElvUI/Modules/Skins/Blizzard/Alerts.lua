@@ -90,7 +90,7 @@ local function LoadSkin()
 
 	for i = 1, GuildChallengeAlertFrame:GetNumRegions() do
 		local region = select(i, GuildChallengeAlertFrame:GetRegions()) 
-		if region and region:GetObjectType() == "Texture" and not region:GetName() then
+		if region and region:IsObjectType("Texture") and not region:GetName() then
 			region:SetTexture(nil)
 		end
 	end

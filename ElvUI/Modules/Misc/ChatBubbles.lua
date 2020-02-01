@@ -9,7 +9,8 @@ local CreateFrame = CreateFrame
 local GetPlayerInfoByGUID = GetPlayerInfoByGUID
 local WorldFrame = WorldFrame
 local WorldGetChildren = WorldFrame.GetChildren
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
+
+local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
 
 --Message caches
 local messageToGUID = {}
@@ -49,7 +50,7 @@ function M:UpdateBubbleBorder()
 				wordMatch = classMatch and lowerCaseWord
 
 				if wordMatch and not E.global.chat.classColorMentionExcludedNames[wordMatch] then
-					classColorTable = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classMatch] or RAID_CLASS_COLORS[classMatch]
+					classColorTable = E:ClassColor(classMatch)
 					word = word:gsub(tempWord:gsub("%-","%%-"), format("\124cff%.2x%.2x%.2x%s\124r", classColorTable.r*255, classColorTable.g*255, classColorTable.b*255, tempWord))
 				end
 
@@ -71,17 +72,16 @@ end
 function M:AddChatBubbleName(chatBubble, guid, name)
 	if not name then return end
 
-	local defaultColor, color = "|cffffffff"
-	if guid ~= nil and guid ~= "" then
-		local _, class = GetPlayerInfoByGUID(guid)
-		if class then
-			color = (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] and CUSTOM_CLASS_COLORS[class].colorStr) or (RAID_CLASS_COLORS[class] and RAID_CLASS_COLORS[class].colorStr)
+	local color = PRIEST_COLOR
+	if guid and guid ~= "" then
+		local _, Class = GetPlayerInfoByGUID(guid)
+		if Class then
+			local c = E:ClassColor(Class)
+			if c then color = c end
 		end
-	else
-		color = defaultColor
 	end
 
-	chatBubble.Name:SetFormattedText("|c%s%s|r", color, name)
+	chatBubble.Name:SetFormattedText("|c%s%s|r", color.colorStr, name)
 end
 
 function M:SkinBubble(frame)
@@ -260,6 +260,7 @@ function M:LoadChatBubbles()
 	self.BubbleFrame:RegisterEvent("CHAT_MSG_PARTY_LEADER")
 	self.BubbleFrame:RegisterEvent("CHAT_MSG_MONSTER_SAY")
 	self.BubbleFrame:RegisterEvent("CHAT_MSG_MONSTER_YELL")
+
 	self.BubbleFrame:SetScript("OnEvent", ChatBubble_OnEvent)
 	self.BubbleFrame:SetScript("OnUpdate", ChatBubble_OnUpdate)
 end

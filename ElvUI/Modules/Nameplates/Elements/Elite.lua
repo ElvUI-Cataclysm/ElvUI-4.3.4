@@ -1,7 +1,7 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local NP = E:GetModule("NamePlates")
 
-function NP:UpdateElement_Elite(frame)
+function NP:Update_Elite(frame)
 	if not NP.db.units[frame.UnitType].eliteIcon then return end
 
 	local icon = frame.Elite
@@ -22,7 +22,7 @@ function NP:UpdateElement_Elite(frame)
 	end
 end
 
-function NP:ConfigureElement_Elite(frame)
+function NP:Configure_Elite(frame)
 	if not NP.db.units[frame.UnitType].eliteIcon then return end
 
 	local icon = frame.Elite
@@ -32,17 +32,17 @@ function NP:ConfigureElement_Elite(frame)
 	icon:Size(size)
 	icon:ClearAllPoints()
 
-	if frame.HealthBar:IsShown() then
-		icon:SetParent(frame.HealthBar)
-		icon:Point(position, frame.HealthBar, position, NP.db.units[frame.UnitType].eliteIcon.xOffset, NP.db.units[frame.UnitType].eliteIcon.yOffset)
+	if frame.Health:IsShown() then
+		icon:SetParent(frame.Health)
+		icon:Point(position, frame.Health, position, NP.db.units[frame.UnitType].eliteIcon.xOffset, NP.db.units[frame.UnitType].eliteIcon.yOffset)
 	else
 		icon:SetParent(frame)
 		icon:Point(position, frame, position, NP.db.units[frame.UnitType].eliteIcon.xOffset, NP.db.units[frame.UnitType].eliteIcon.yOffset)
 	end
 end
 
-function NP:ConstructElement_Elite(frame)
-	local icon = frame.HealthBar:CreateTexture(nil, "OVERLAY")
+function NP:Construct_Elite(frame)
+	local icon = frame.Health:CreateTexture(nil, "OVERLAY")
 	icon:SetTexture(E.Media.Textures.Nameplates)
 	icon:Hide()
 

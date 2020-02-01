@@ -374,7 +374,7 @@ local function CreateUnitframesConfig()
 			["focus"] = {
 				order = 5,
 				type = "toggle",
-				name = L["FOCUS"]
+				name = L["Focus"]
 			},
 			["focustarget"] = {
 				order = 6,

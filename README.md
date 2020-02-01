@@ -1,6 +1,6 @@
 # ElvUI - Cataclysm (4.3.4)
 
-This is the backported version of ElvUI for World of Warcraft - Cataclysm (4.3.4) 
+This is the backported version of ElvUI for World of Warcraft - Cataclysm (4.3.4)
 <br />
 ElvUI is a full UI replacement.
 It completely replaces the default Blizzard UI at every level with a new and better interface.
@@ -24,23 +24,11 @@ This UI will arrange your interface to be more flexible and practical.
 <br />
 [ElvUI_EnhancedFriendsList](https://github.com/ElvUI-Cataclysm/ElvUI_EnhancedFriendsList-4.3.4)
 <br />
-[ElvUI_ExtraActionBars](https://github.com/ElvUI-Cataclysm/ElvUI_ExtraActionBars-4.3.4)
-<br />
 [ElvUI_MicrobarEnhancement](https://github.com/ElvUI-Cataclysm/ElvUI_MicrobarEnhancement-4.3.4)
 <br />
 [ElvUI_MinimapButtons](https://github.com/ElvUI-Cataclysm/ElvUI_MinimapButtons-4.3.4)
 <br />
-[ElvUI_CustomTweaks](https://github.com/ElvUI-Cataclysm/ElvUI_CustomTweaks-4.3.4)
-<br />
 [ElvUI_BagControl](https://github.com/ElvUI-Cataclysm/ElvUI_BagControl)
-<br />
-[ElvUI_AuraBarsMovers](https://github.com/ElvUI-Cataclysm/ElvUI_AuraBarsMovers-4.3.4)
-<br />
-[ElvUI_DataTextBarCreator](https://github.com/ElvUI-Cataclysm/ElvUI_DataTextBarCreator-4.3.4)
-<br />
-[ElvUI_DataTextColors](https://github.com/ElvUI-Cataclysm/ElvUI_DataTextColors-4.3.4)
-<br />
-[ElvUI_EverySecondCounts](https://github.com/ElvUI-Cataclysm/ElvUI_EverySecondCounts-4.3.4)
 <br />
 [ElvUI_ChannelAlerts](https://github.com/ElvUI-Cataclysm/ElvUI_ChannelAlerts-4.3.4)
 <br />
@@ -71,7 +59,7 @@ This UI will arrange your interface to be more flexible and practical.
     /disable          Disable an Addon.
                           usage: /disable <addon>
                           example: /disable AtlasLoot
-    
+
     ---------------------------------------------------------------------------------------------------------------
     -- Development ------------------------------------------------------------------------------------------------
     ---------------------------------------------------------------------------------------------------------------
@@ -85,10 +73,9 @@ This UI will arrange your interface to be more flexible and practical.
                           example: /frame WorldFrame
     /framelist        Dumps frame level information with children and parents. Also places info into copy box.
     /framestack       Toggles dynamic mouseover frame displaying frame name and level information.
-    /resetui          If no argument is provided it will reset all frames to their default positions. 
-                      If an argument is provided it will reset only that frame. 
+    /resetui          If no argument is provided it will reset all frames to their default positions.
+                      If an argument is provided it will reset only that frame.
                           example: /resetui uf (resets all unitframes)
-                  
 
 ## Languages:
 

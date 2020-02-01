@@ -42,7 +42,7 @@ E.Options.args.bags = {
 					order = 2,
 					type = "select",
 					name = L["Frame Strata"],
-					set = function(info, value) E.db.bags[info[#info]] = value E:StaticPopup_Show("PRIVATE_RL") end,
+					set = function(info, value) E.db.bags[info[#info]] = value E:StaticPopup_Show("CONFIG_RL") end,
 					values = {
 						["BACKGROUND"] = "BACKGROUND",
 						["LOW"] = "LOW",

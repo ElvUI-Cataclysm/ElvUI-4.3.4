@@ -100,30 +100,28 @@ end
 function UF:Configure_Castbar(frame)
 	if not frame.VARIABLES_SET then return end
 	local castbar = frame.Castbar
-	local db = frame.db
-	castbar:Width(db.castbar.width - ((frame.BORDER+frame.SPACING)*2))
-	castbar:Height(db.castbar.height - ((frame.BORDER+frame.SPACING)*2))
-	castbar.Holder:Width(db.castbar.width)
-	castbar.Holder:Height(db.castbar.height)
+	local db = frame.db.castbar
 
-	local color = E.db.unitframe.colors.borderColor
-	castbar.ButtonIcon.bg:SetBackdropBorderColor(color.r, color.g, color.b)
+	castbar:Width(db.width - ((frame.BORDER+frame.SPACING)*2))
+	castbar:Height(db.height - ((frame.BORDER+frame.SPACING)*2))
+	castbar.Holder:Width(db.width)
+	castbar.Holder:Height(db.height)
 
 	local oSC = castbar.Holder:GetScript("OnSizeChanged")
 	if oSC then oSC(castbar.Holder) end
 
-	if db.castbar.strataAndLevel and db.castbar.strataAndLevel.useCustomStrata then
-		castbar:SetFrameStrata(db.castbar.strataAndLevel.frameStrata)
+	if db.strataAndLevel and db.strataAndLevel.useCustomStrata then
+		castbar:SetFrameStrata(db.strataAndLevel.frameStrata)
 	end
 
-	if db.castbar.strataAndLevel and db.castbar.strataAndLevel.useCustomLevel then
-		castbar:SetFrameLevel(db.castbar.strataAndLevel.frameLevel)
+	if db.strataAndLevel and db.strataAndLevel.useCustomLevel then
+		castbar:SetFrameLevel(db.strataAndLevel.frameLevel)
 	end
 
-	castbar.timeToHold = db.castbar.timeToHold
+	castbar.timeToHold = db.timeToHold
 
 	--Latency
-	if db.castbar.latency then
+	if frame.unit == "player" and db.latency then
 		castbar.SafeZone = castbar.LatencyTexture
 		castbar.LatencyTexture:Show()
 	else
@@ -131,21 +129,32 @@ function UF:Configure_Castbar(frame)
 		castbar.LatencyTexture:Hide()
 	end
 
+	--Text
+	local textColor = db.textColor
+	castbar.Text:SetTextColor(textColor.r, textColor.g, textColor.b, textColor.a)
+	castbar.Time:SetTextColor(textColor.r, textColor.g, textColor.b, textColor.a)
+
+	castbar.Text:Point("LEFT", castbar, "LEFT", db.xOffsetText, db.yOffsetText)
+	castbar.Time:Point("RIGHT", castbar, "RIGHT", db.xOffsetTime, db.yOffsetTime)
+
+	if db.hidetext then
+		castbar.Text:Hide()
+		castbar.Time:Hide()
+	else
+		castbar.Text:Show()
+		castbar.Time:Show()
+	end
+
 	--Icon
-	if db.castbar.icon then
+	if db.icon then
 		castbar.Icon = castbar.ButtonIcon
 		castbar.Icon:SetTexCoord(unpack(E.TexCoords))
 
-		if not db.castbar.iconAttached then
-			castbar.Icon.bg:Size(db.castbar.iconSize)
+		if not db.iconAttached then
+			castbar.Icon.bg:Size(db.iconSize)
 		else
-			if db.castbar.insideInfoPanel and frame.USE_INFO_PANEL then
-				castbar.Icon.bg:Size(db.infoPanel.height - frame.SPACING*2)
-			else
-				castbar.Icon.bg:Size(db.castbar.height - frame.SPACING*2)
-			end
-
-			castbar:Width(db.castbar.width - castbar.Icon.bg:GetWidth() - (frame.BORDER + frame.SPACING*5))
+			castbar.Icon.bg:Size(db.height - frame.SPACING * 2)
+			castbar:Width(db.width - castbar.Icon.bg:GetWidth() - (frame.BORDER + frame.SPACING*5))
 		end
 
 		castbar.Icon.bg:Show()
@@ -154,32 +163,39 @@ function UF:Configure_Castbar(frame)
 		castbar.Icon = nil
 	end
 
-	if db.castbar.spark then
+	if db.spark then
 		castbar.Spark = castbar.Spark_
 		castbar.Spark:Point("CENTER", castbar:GetStatusBarTexture(), "RIGHT", 0, 0)
-		castbar.Spark:Height(db.castbar.height * 2)
+		castbar.Spark:Height(db.height * 2)
 	elseif castbar.Spark then
 		castbar.Spark:Hide()
 		castbar.Spark = nil
 	end
 
 	castbar:ClearAllPoints()
-	if db.castbar.insideInfoPanel and frame.USE_INFO_PANEL then
-		if not db.castbar.iconAttached then
-			castbar:SetInside(frame.InfoPanel, 0, 0)
+
+	if db.overlayOnFrame ~= "None" then
+		local anchor = frame[db.overlayOnFrame]
+
+		if not db.iconAttached then
+			castbar:SetInside(anchor, 0, 0)
 		else
-			local iconWidth = db.castbar.icon and (castbar.Icon.bg:GetWidth() - frame.BORDER) or 0
+			if castbar.Icon then
+				castbar.Icon.bg:Size(anchor:GetHeight() - frame.SPACING * 2)
+			end
+
+			local iconWidth = db.icon and (castbar.Icon.bg:GetWidth() - frame.BORDER) or 0
 			if frame.ORIENTATION == "RIGHT" then
-				castbar:Point("TOPLEFT", frame.InfoPanel, "TOPLEFT")
-				castbar:Point("BOTTOMRIGHT", frame.InfoPanel, "BOTTOMRIGHT", -iconWidth - frame.SPACING*3, 0)
+				castbar:Point("TOPLEFT", anchor, "TOPLEFT")
+				castbar:Point("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", -iconWidth - frame.SPACING * 3, 0)
 			else
-				castbar:Point("TOPLEFT", frame.InfoPanel, "TOPLEFT", iconWidth + frame.SPACING*3, 0)
-				castbar:Point("BOTTOMRIGHT", frame.InfoPanel, "BOTTOMRIGHT")
+				castbar:Point("TOPLEFT", anchor, "TOPLEFT", iconWidth + frame.SPACING * 3, 0)
+				castbar:Point("BOTTOMRIGHT", anchor, "BOTTOMRIGHT")
 			end
 		end
 
-		if db.castbar.spark then
-			castbar.Spark:Height(db.infoPanel and db.infoPanel.height * 2) -- Grab the height from the infopanel.
+		if db.spark then
+			castbar.Spark:Height(anchor:GetHeight() * 2)
 		end
 
 		if castbar.Holder.mover then
@@ -209,12 +225,12 @@ function UF:Configure_Castbar(frame)
 		end
 	end
 
-	if not db.castbar.iconAttached and db.castbar.icon then
-		local attachPoint = db.castbar.iconAttachedTo == "Frame" and frame or frame.Castbar
-		local anchorPoint = db.castbar.iconPosition
+	if not db.iconAttached and db.icon then
+		local attachPoint = db.iconAttachedTo == "Frame" and frame or frame.Castbar
+		local anchorPoint = db.iconPosition
 		castbar.Icon.bg:ClearAllPoints()
-		castbar.Icon.bg:Point(INVERT_ANCHORPOINT[anchorPoint], attachPoint, anchorPoint, db.castbar.iconXOffset, db.castbar.iconYOffset)
-	elseif db.castbar.icon then
+		castbar.Icon.bg:Point(INVERT_ANCHORPOINT[anchorPoint], attachPoint, anchorPoint, db.iconXOffset, db.iconYOffset)
+	elseif db.icon then
 		castbar.Icon.bg:ClearAllPoints()
 		if frame.ORIENTATION == "RIGHT" then
 			castbar.Icon.bg:Point("LEFT", castbar, "RIGHT", frame.SPACING*3, 0)
@@ -226,10 +242,10 @@ function UF:Configure_Castbar(frame)
 	--Adjust tick heights
 	castbar.tickHeight = castbar:GetHeight()
 
-	if db.castbar.ticks then --Only player unitframe has this
+	if db.ticks then --Only player unitframe has this
 		--Set tick width and color
-		castbar.tickWidth = db.castbar.tickWidth
-		castbar.tickColor = db.castbar.tickColor
+		castbar.tickWidth = db.tickWidth
+		castbar.tickColor = db.tickColor
 
 		for i = 1, #ticks do
 			ticks[i]:SetVertexColor(castbar.tickColor.r, castbar.tickColor.g, castbar.tickColor.b, castbar.tickColor.a)
@@ -240,9 +256,9 @@ function UF:Configure_Castbar(frame)
 	castbar.custom_backdrop = UF.db.colors.customcastbarbackdrop and UF.db.colors.castbar_backdrop
 	UF:ToggleTransparentStatusBar(UF.db.colors.transparentCastbar, castbar, castbar.bg, nil, UF.db.colors.invertCastbar)
 
-	if db.castbar.enable and not frame:IsElementEnabled("Castbar") then
+	if db.enable and not frame:IsElementEnabled("Castbar") then
 		frame:EnableElement("Castbar")
-	elseif not db.castbar.enable and frame:IsElementEnabled("Castbar") then
+	elseif not db.enable and frame:IsElementEnabled("Castbar") then
 		frame:DisableElement("Castbar")
 
 		if castbar.Holder.mover then

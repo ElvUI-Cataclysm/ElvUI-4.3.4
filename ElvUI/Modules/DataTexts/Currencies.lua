@@ -9,7 +9,6 @@ local GetMoney = GetMoney
 local PROFESSIONS_ARCHAEOLOGY = PROFESSIONS_ARCHAEOLOGY
 local EXPANSION_NAME2 = EXPANSION_NAME2
 local EXPANSION_NAME3 = EXPANSION_NAME3
-local OTHER = OTHER
 
 local displayString = ""
 local displayString2 = ""
@@ -56,7 +55,7 @@ function DT:Currencies_GetCurrencyList()
 	for currency, data in pairs(Currencies) do
 		currencyList[currency] = data.NAME
 	end
-	currencyList["GOLD"] = L["Gold"]
+	currencyList.GOLD = L["Gold"]
 
 	return currencyList
 end

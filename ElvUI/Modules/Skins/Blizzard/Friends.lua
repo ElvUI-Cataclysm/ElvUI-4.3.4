@@ -9,7 +9,6 @@ local format = string.format
 local CreateFrame = CreateFrame
 local hooksecurefunc = hooksecurefunc
 local GetWhoInfo = GetWhoInfo
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.friends ~= true then return end
@@ -198,7 +197,7 @@ local function LoadSkin()
 
 			local _, guild, level, race, _, zone, classFileName = GetWhoInfo(index)
 
-			local classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[classFileName] or RAID_CLASS_COLORS[classFileName]
+			local classTextColor = E:ClassColor(classFileName)
 			local levelTextColor = GetQuestDifficultyColor(level)
 
 			if classFileName then

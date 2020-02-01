@@ -14,7 +14,6 @@
 	<Script file="HealPrediction.lua"/>
 	<Script file="Health.lua"/>
 	<Script file="InfoPanel.lua"/>
-	<Script file="Misc.lua"/>
 	<Script file="Name.lua"/>
 	<Script file="PhaseIndicator.lua"/>
 	<Script file="Portrait.lua"/>

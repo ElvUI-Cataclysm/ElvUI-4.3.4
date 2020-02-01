@@ -158,7 +158,10 @@ end
 function M:LOOT_SLOT_CLEARED(_, slot)
 	if not lootFrame:IsShown() then return end
 
-	lootFrame.slots[slot]:Hide()
+	if lootFrame.slots[slot] then
+		lootFrame.slots[slot]:Hide()
+	end
+
 	anchorSlots(lootFrame)
 end
 
@@ -186,8 +189,6 @@ function M:LOOT_OPENED(_, autoLoot)
 		CloseLoot(autoLoot == 0)
 	end
 
-	local items = GetNumLootItems()
-
 	if IsFishingLoot() then
 		lootFrame.title:SetText(L["Fishy Loot"])
 	elseif not UnitIsFriend("player", "target") and UnitIsDead("target") then
@@ -214,6 +215,8 @@ function M:LOOT_OPENED(_, autoLoot)
 	end
 
 	local m, w, t = 0, 0, lootFrame.title:GetStringWidth()
+	local items = GetNumLootItems()
+
 	if items > 0 then
 		for i = 1, items do
 			local slot = lootFrame.slots[i] or createSlot(i)

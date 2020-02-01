@@ -172,7 +172,7 @@ local function LoadSkin()
 			if item.unlearn then
 				S:HandleCloseButton(item.unlearn)
 				item.unlearn:Size(26)
-				item.unlearn:Point("RIGHT", item.statusBar, "LEFT", -130, -9)
+				item.unlearn:Point("RIGHT", item.statusBar, "LEFT", -128, -9)
 				item.unlearn.Texture:SetVertexColor(1, 0, 0)
 
 				item.unlearn:HookScript("OnEnter", function(btn) btn.Texture:SetVertexColor(1, 1, 1) end)
@@ -215,6 +215,16 @@ local function LoadSkin()
 
 				button.iconTexture:SetTexCoord(unpack(E.TexCoords))
 				button.iconTexture:SetAllPoints()
+
+				if button.unlearn then
+					S:HandleCloseButton(button.unlearn)
+					button.unlearn:Size(26)
+					button.unlearn:Point("RIGHT", button, "LEFT", 0, 0)
+					button.unlearn.Texture:SetVertexColor(1, 0, 0)
+
+					button.unlearn:HookScript("OnEnter", function(btn) btn.Texture:SetVertexColor(1, 1, 1) end)
+					button.unlearn:HookScript("OnLeave", function(btn) btn.Texture:SetVertexColor(1, 0, 0) end)
+				end
 
 				button.subSpellString:SetTextColor(1, 1, 1)
 

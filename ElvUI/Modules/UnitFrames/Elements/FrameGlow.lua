@@ -2,9 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...))
 local UF = E:GetModule("UnitFrames")
 
 local _G = _G
-local pairs = pairs
-local select = select
-local assert = assert
+local assert, pairs, select = assert, pairs, select
 local tinsert = table.insert
 
 local CreateFrame = CreateFrame
@@ -13,7 +11,7 @@ local UnitReaction = UnitReaction
 local UnitIsPlayer = UnitIsPlayer
 local UnitClass = UnitClass
 local UnitExists = UnitExists
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
+
 local FACTION_BAR_COLORS = FACTION_BAR_COLORS
 
 function UF:FrameGlow_MouseOnUnit(frame)
@@ -34,7 +32,7 @@ function UF:FrameGlow_ElementHook(frame, glow, which)
 		end
 
 		if which == "mouseoverGlow" then
-			UF:FrameGlow_PositionGlow(frame)
+			UF:FrameGlow_PositionTexture(frame)
 			UF:FrameGlow_CheckMouseover(frame)
 		else
 			UF:FrameGlow_PositionGlow(frame, glow, glow.powerGlow)
@@ -84,9 +82,9 @@ function UF:FrameGlow_ClassGlowPosition(frame, powerName, glow, offset, fromScri
 		power = bonus
 	end
 
-	local portrait = (frame.USE_PORTRAIT and not frame.USE_PORTRAIT_OVERLAY) and (frame.Portrait and frame.Portrait.backdrop)
+	local portrait = (frame.USE_PORTRAIT and not frame.USE_PORTRAIT_OVERLAY and not frame.PORTRAIT_DETACHED) and (frame.Portrait and frame.Portrait.backdrop)
 
-	if (power and power.backdrop and power:IsVisible()) and ((power == frame.AlternativePower) or not (frame.CLASSBAR_DETACHED or frame.USE_MINI_CLASSBAR)) then
+	if (power and power.backdrop and power:IsVisible()) and ((power == frame.AlternativePower and not frame.USE_MINI_CLASSBAR) or not (frame.CLASSBAR_DETACHED or frame.USE_MINI_CLASSBAR)) then
 		glow:Point("TOPLEFT", (frame.ORIENTATION == "LEFT" and portrait) or power.backdrop, -offset, offset)
 		glow:Point("TOPRIGHT", (frame.ORIENTATION == "RIGHT" and portrait) or power.backdrop, offset, offset)
 	elseif frame.Health and frame.Health.backdrop then
@@ -98,17 +96,15 @@ end
 function UF:FrameGlow_PositionGlow(frame, mainGlow, powerGlow)
 	if not (frame and frame.VARIABLES_SET) then return end
 
-	local infoPanel = frame.InfoPanel
 	local additionalPower = frame.AdditionalPower
 	local classPower = frame.ClassPower
 	local runes = frame.Runes
-	local shadowOrbs = frame.ShadowOrbs
 	local comboPoints = frame.ComboPoints
 	local altPower = frame.AlternativePower
 	local power = frame.Power and frame.Power.backdrop
 	local health = frame.Health and frame.Health.backdrop
-	local portrait = (frame.USE_PORTRAIT and not frame.USE_PORTRAIT_OVERLAY) and (frame.Portrait and frame.Portrait.backdrop)
-	local offset = (E.PixelMode and E.mult*3) or E.mult*4 -- edgeSize is 3
+	local portrait = (frame.USE_PORTRAIT and not frame.USE_PORTRAIT_OVERLAY and not frame.PORTRAIT_DETACHED) and (frame.Portrait and frame.Portrait.backdrop)
+	local offset = (E.PixelMode and 3) or 4 -- edgeSize is 3
 
 	mainGlow:ClearAllPoints()
 	mainGlow:Point("TOPLEFT", (frame.ORIENTATION == "LEFT" and portrait) or health, -offset, offset)
@@ -137,8 +133,6 @@ function UF:FrameGlow_PositionGlow(frame, mainGlow, powerGlow)
 		UF:FrameGlow_ClassGlowPosition(frame, "ClassPower", mainGlow, offset)
 	elseif runes then
 		UF:FrameGlow_ClassGlowPosition(frame, "Runes", mainGlow, offset)
-	elseif shadowOrbs then
-		UF:FrameGlow_ClassGlowPosition(frame, "ShadowOrbs", mainGlow, offset)
 	elseif comboPoints then
 		UF:FrameGlow_ClassGlowPosition(frame, "ComboPoints", mainGlow, offset)
 	elseif altPower and (frame.isForced or (frame.unit and frame.unit:find("boss%d"))) then
@@ -173,7 +167,7 @@ function UF:FrameGlow_CreateGlow(frame, mouse)
 	if not frame.FrameGlow then
 		frame.FrameGlow = CreateFrame("Frame", nil, frame)
 		frame.FrameGlow:Hide()
-		frame.FrameGlow:HookScript("OnEvent", function(_, event)
+		frame.FrameGlow:SetScript("OnEvent", function(_, event)
 			if event == "UPDATE_MOUSEOVER_UNIT" then
 				UF:FrameGlow_CheckMouseover(frame)
 			elseif event == "PLAYER_TARGET_CHANGED" then
@@ -183,6 +177,7 @@ function UF:FrameGlow_CreateGlow(frame, mouse)
 	end
 
 	mainGlow.powerGlow = powerGlow
+
 	return mainGlow
 end
 
@@ -203,7 +198,7 @@ function UF:FrameGlow_SetGlowColor(glow, unit, which)
 		if isPlayer then
 			local _, class = UnitClass(unit)
 			if class then
-				local color = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
+				local color = E:ClassColor(class)
 				if color then
 					r, g, b = color.r, color.g, color.b
 				end
@@ -228,6 +223,7 @@ end
 
 function UF:FrameGlow_HideGlow(glow)
 	if not glow then return end
+
 	if glow:IsShown() then glow:Hide() end
 	if glow.powerGlow and glow.powerGlow:IsShown() then
 		glow.powerGlow:Hide()
@@ -335,7 +331,7 @@ function UF:FrameGlow_CheckMouseover(frame)
 	end
 end
 
-function UF:FrameGlow_PositionGlow(frame)
+function UF:FrameGlow_PositionTexture(frame)
 	if frame.FrameGlow and frame.FrameGlow.texture then
 		frame.FrameGlow.texture:ClearAllPoints()
 		frame.FrameGlow.texture:Point("TOPLEFT", frame.Health, "TOPLEFT")
@@ -352,7 +348,7 @@ end
 
 function UF:Construct_FrameGlow(frame, glow)
 	if frame.Health and frame.FrameGlow then
-		frame.FrameGlow:HookScript("OnHide", function(watcher)
+		frame.FrameGlow:SetScript("OnHide", function(watcher)
 			UF:FrameGlow_HideGlow(glow)
 
 			if watcher.texture and watcher.texture:IsShown() then

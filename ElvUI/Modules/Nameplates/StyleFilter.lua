@@ -36,13 +36,83 @@ NP.TriggerConditions = {
 		[17] = "lfr",
 		[14] = "normal",
 		[15] = "heroic"
+	},
+	totems = {},
+	uniqueUnits = {}
+}
+
+local totemTypes = {
+	earth = {
+		[2062] = "e1",	-- Earth Elemental Totem
+		[2484] = "e2",	-- Earthbind Totem
+		[5730] = "e3",	-- Stoneclaw Totem
+		[8071] = "e4",	-- Stoneskin Totem
+		[8075] = "e5",	-- Strength of Earth Totem
+		[8143] = "e6"	-- Tremor Totem
+	},
+	fire = {
+		[2894] = "f1",	-- Fire Elemental Totem
+		[8227] = "f2",	-- Flametongue Totem
+		[8190] = "f3",	-- Magma Totem
+		[3599] = "f4",	-- Searing Totem
+	},
+	water = {
+		[8184] = "w1",	-- Elemental Resistance Totem
+		[5394] = "w2",	-- Healing Stream Totem
+		[5675] = "w3",	-- Mana Spring Totem
+		[16190] = "w4",	-- Mana Tide Totem
+		[87718] = "w5" 	-- Tranquil Totem
+	},
+	air = {
+		[8177] = "a1",	-- Grounding Totem
+		[8512] = "a2",	-- Windfury Totem
+		[3738] = "a3",	-- Wrath of Air Totem
+		[98008] = "a4"	-- Spirit Link Totem
+	},
+	other = {
+		[724] = "o1"	-- Lightwell
 	}
 }
+
+for totemSchool, totems in pairs(totemTypes) do
+	for spellID, totemID in pairs(totems) do
+		local totemName, _, texture = GetSpellInfo(spellID)
+
+		if not NP.TriggerConditions.totems[totemID] then
+			NP.TriggerConditions.totems[totemID] = {totemName, totemSchool, texture}
+		end
+
+		totemName = totemName
+
+		NP.Totems[totemName] = totemID
+	end
+end
+
+G.nameplates.totemTypes = totemTypes
+
+local uniqueUnitTypes = {
+	pvp = {
+		[34433] = "u1" -- Shadow Fiend
+	},
+	pve = {
+		[72052] = "u2" -- Kinetic Bomb
+	}
+}
+
+G.nameplates.uniqueUnitTypes = uniqueUnitTypes
+
+for unitType, units in pairs(uniqueUnitTypes) do
+	for spellID, unit in pairs(units) do
+		local name, _, texture = GetSpellInfo(spellID)
+		NP.TriggerConditions.uniqueUnits[unit] = {name, unitType, texture}
+		NP.UniqueUnits[name] = unit
+	end
+end
 
 function NP:StyleFilterAuraCheck(names, icons, mustHaveAll, missing, minTimeLeft, maxTimeLeft)
 	local total, count = 0, 0
 	for name, value in pairs(names) do
-		if value then --only if they are turned on
+		if value == true then --only if they are turned on
 			total = total + 1 --keep track of the names
 		end
 		for _, icon in ipairs(icons) do
@@ -72,8 +142,7 @@ function NP:StyleFilterCooldownCheck(names, mustHaveAll)
 			total = total + 1 --keep track of the names
 
 			local _, duration = GetSpellCooldown(name)
-			if (duration > gcd and value == "ONCD")
-			or (duration <= gcd and value == "OFFCD") then
+			if (duration > gcd and value == "ONCD") or (duration <= gcd and value == "OFFCD") then
 				count = count + 1
 				--print(((duration > gcd and value == "ONCD") and name.."passes because it is on cd.") or ((duration <= gcd and value == "OFFCD") and name.." passes because it is off cd."))
 			end
@@ -87,7 +156,7 @@ function NP:StyleFilterCooldownCheck(names, mustHaveAll)
 	end
 end
 
-function NP:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderChanged, FlashingHealth, TextureChanged, ScaleChanged, FrameLevelChanged, AlphaChanged, NameColorChanged, NameOnlyChanged, VisibilityChanged)
+function NP:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderChanged, FlashingHealth, TextureChanged, ScaleChanged, FrameLevelChanged, AlphaChanged, NameColorChanged, NameOnlyChanged, VisibilityChanged, IconChanged, IconOnlyChanged)
 	if VisibilityChanged then
 		frame.StyleChanged = true
 		frame.VisibilityChanged = true
@@ -101,16 +170,16 @@ function NP:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderChan
 	if HealthColorChanged then
 		frame.StyleChanged = true
 		frame.HealthColorChanged = true
-		frame.HealthBar:SetStatusBarColor(actions.color.healthColor.r, actions.color.healthColor.g, actions.color.healthColor.b, actions.color.healthColor.a)
+		frame.Health:SetStatusBarColor(actions.color.healthColor.r, actions.color.healthColor.g, actions.color.healthColor.b, actions.color.healthColor.a)
 		frame.CutawayHealth:SetStatusBarColor(actions.color.healthColor.r * 1.5, actions.color.healthColor.g * 1.5, actions.color.healthColor.b * 1.5, actions.color.healthColor.a)
 	end
 	if BorderChanged then --Lets lock this to the values we want (needed for when the media border color changes)
 		frame.StyleChanged = true
 		frame.BorderChanged = true
-		frame.HealthBar.bordertop:SetTexture(actions.color.borderColor.r, actions.color.borderColor.g, actions.color.borderColor.b, actions.color.borderColor.a)
-		frame.HealthBar.borderbottom:SetTexture(actions.color.borderColor.r, actions.color.borderColor.g, actions.color.borderColor.b, actions.color.borderColor.a)
-		frame.HealthBar.borderleft:SetTexture(actions.color.borderColor.r, actions.color.borderColor.g, actions.color.borderColor.b, actions.color.borderColor.a)
-		frame.HealthBar.borderright:SetTexture(actions.color.borderColor.r, actions.color.borderColor.g, actions.color.borderColor.b, actions.color.borderColor.a)
+		frame.Health.bordertop:SetTexture(actions.color.borderColor.r, actions.color.borderColor.g, actions.color.borderColor.b, actions.color.borderColor.a)
+		frame.Health.borderbottom:SetTexture(actions.color.borderColor.r, actions.color.borderColor.g, actions.color.borderColor.b, actions.color.borderColor.a)
+		frame.Health.borderleft:SetTexture(actions.color.borderColor.r, actions.color.borderColor.g, actions.color.borderColor.b, actions.color.borderColor.a)
+		frame.Health.borderright:SetTexture(actions.color.borderColor.r, actions.color.borderColor.g, actions.color.borderColor.b, actions.color.borderColor.a)
 	end
 	if FlashingHealth then
 		frame.StyleChanged = true
@@ -127,8 +196,8 @@ function NP:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderChan
 		frame.StyleChanged = true
 		frame.TextureChanged = true
 		local tex = LSM:Fetch("statusbar", actions.texture.texture)
-		frame.Highlight.texture:SetTexture(tex)
-		frame.HealthBar:SetStatusBarTexture(tex)
+		frame.Health.Highlight:SetTexture(tex)
+		frame.Health:SetStatusBarTexture(tex)
 		if FlashingHealth then
 			frame.FlashTexture:SetTexture(tex)
 		end
@@ -146,7 +215,7 @@ function NP:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderChan
 	if AlphaChanged then
 		frame.StyleChanged = true
 		frame.AlphaChanged = true
-		frame:SetAlpha(actions.alpha / 100)
+		NP:PlateFade(frame, NP.db.fadeIn and 1 or 0, frame:GetAlpha(), actions.alpha / 100)
 	end
 	if NameColorChanged then
 		frame.StyleChanged = true
@@ -164,26 +233,47 @@ function NP:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderChan
 		frame.NameOnlyChanged = true
 		--hide the bars
 		if frame.CastBar:IsShown() then frame.CastBar:Hide() end
-		if frame.HealthBar:IsShown() then frame.HealthBar:Hide() end
+		if frame.Health:IsShown() then frame.Health:Hide() end
 		--hide the target indicator
-		NP:UpdateElement_Glow(frame)
+		NP:Configure_Glow(frame)
 		--position the name and update its color
 		frame.Name:ClearAllPoints()
 		frame.Name:SetJustifyH("CENTER")
-		frame.Name:SetPoint("TOP", frame, "CENTER")
+		frame.Name:SetPoint("TOP", frame)
 		frame.Level:ClearAllPoints()
 		frame.Level:SetPoint("LEFT", frame.Name, "RIGHT")
 		frame.Level:SetJustifyH("LEFT")
 		if not NameColorChanged then
-			NP:UpdateElement_Name(frame, true)
+			NP:Update_Name(frame, true)
+		end
+	end
+	if IconChanged then
+		frame.StyleChanged = true
+		frame.IconChanged = true
+		NP:Configure_IconFrame(frame)
+		NP:Update_IconFrame(frame)
+	end
+	if IconOnlyChanged then
+		frame.StyleChanged = true
+		frame.IconOnlyChanged = true
+		NP:Update_IconFrame(frame, true)
+		if frame.CastBar:IsShown() then frame.CastBar:Hide() end
+		if frame.Health:IsShown() then frame.Health:Hide() end
+		frame.Level:Hide()
+		frame.Name:Hide()
+		NP:Configure_Glow(frame)
+		NP:Configure_NameOnlyGlow(frame)
+		if not NameColorChanged then
+			NP:Update_Name(frame, true)
 		end
 	end
 end
 
-function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, FlashingHealth, TextureChanged, ScaleChanged, FrameLevelChanged, AlphaChanged, NameColorChanged, NameOnlyChanged, VisibilityChanged)
+function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, FlashingHealth, TextureChanged, ScaleChanged, FrameLevelChanged, AlphaChanged, NameColorChanged, NameOnlyChanged, VisibilityChanged, IconChanged, IconOnlyChanged)
 	frame.StyleChanged = nil
 	if VisibilityChanged then
 		frame.VisibilityChanged = nil
+		NP:PlateFade(frame, NP.db.fadeIn and 1 or 0, 0, 1) -- fade those back in so it looks clean
 		frame:Show()
 	end
 	if FrameLevelChanged then
@@ -191,16 +281,16 @@ function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, Fl
 	end
 	if HealthColorChanged then
 		frame.HealthColorChanged = nil
-		frame.HealthBar:SetStatusBarColor(frame.HealthBar.r, frame.HealthBar.g, frame.HealthBar.b)
-		frame.CutawayHealth:SetStatusBarColor(frame.HealthBar.r * 1.5, frame.HealthBar.g * 1.5, frame.HealthBar.b * 1.5, 1)
+		frame.Health:SetStatusBarColor(frame.Health.r, frame.Health.g, frame.Health.b)
+		frame.CutawayHealth:SetStatusBarColor(frame.Health.r * 1.5, frame.Health.g * 1.5, frame.Health.b * 1.5, 1)
 	end
 	if BorderChanged then
 		frame.BorderChanged = nil
 		local r, g, b = unpack(E.media.bordercolor)
-		frame.HealthBar.bordertop:SetTexture(r, g, b)
-		frame.HealthBar.borderbottom:SetTexture(r, g, b)
-		frame.HealthBar.borderleft:SetTexture(r, g, b)
-		frame.HealthBar.borderright:SetTexture(r, g, b)
+		frame.Health.bordertop:SetTexture(r, g, b)
+		frame.Health.borderbottom:SetTexture(r, g, b)
+		frame.Health.borderleft:SetTexture(r, g, b)
+		frame.Health.borderright:SetTexture(r, g, b)
 	end
 	if FlashingHealth then
 		frame.FlashingHealth = nil
@@ -210,8 +300,8 @@ function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, Fl
 	if TextureChanged then
 		frame.TextureChanged = nil
 		local tex = LSM:Fetch("statusbar", NP.db.statusbar)
-		frame.Highlight.texture:SetTexture(tex)
-		frame.HealthBar:SetStatusBarTexture(tex)
+		frame.Health.Highlight:SetTexture(tex)
+		frame.Health:SetStatusBarTexture(tex)
 	end
 	if ScaleChanged then
 		frame.ScaleChanged = nil
@@ -224,11 +314,7 @@ function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, Fl
 	end
 	if AlphaChanged then
 		frame.AlphaChanged = nil
-		if frame.isTarget then
-			frame:SetAlpha(1)
-		else
-			frame:SetAlpha(1 - NP.db.nonTargetTransparency)
-		end
+		NP:PlateFade(frame, NP.db.fadeIn and 1 or 0, (frame.FadeObject and frame.FadeObject.endAlpha) or 0.5, 1)
 	end
 	if NameColorChanged then
 		frame.NameColorChanged = nil
@@ -237,22 +323,63 @@ function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, Fl
 	if NameOnlyChanged then
 		frame.NameOnlyChanged = nil
 		frame.TopLevelFrame = nil --We can safely clear this here because it is set upon `UpdateElement_Auras` if needed
-		if NP.db.units[frame.UnitType].healthbar.enable or (frame.isTarget and NP.db.alwaysShowTargetHealth) then
-			frame.HealthBar:Show()
-			NP:UpdateElement_Glow(frame)
+		if NP.db.units[frame.UnitType].health.enable or (frame.isTarget and NP.db.alwaysShowTargetHealth) then
+			frame.Health:Show()
+			NP:Configure_Glow(frame)
 		end
-		if NP.db.units[frame.UnitType].showName then
-			NP:ConfigureElement_Level(frame)
-			NP:ConfigureElement_Name(frame)
-			NP:UpdateElement_Name(frame)
+		if NP.db.units[frame.UnitType].level.enable then
+			frame.Level:ClearAllPoints()
+			NP:Update_Level(frame)
+		end
+		if NP.db.units[frame.UnitType].name.enable then
+			frame.Name:ClearAllPoints()
+			NP:Update_Name(frame)
 		else
 			frame.Name:SetText()
 		end
+	end
+	if IconChanged then
+		frame.IconChanged = nil
+		frame.IconFrame:Hide()
+	end
+	if IconOnlyChanged then
+		frame.IconOnlyChanged = nil
+		if NP.db.units[frame.UnitType].iconFrame and NP.db.units[frame.UnitType].iconFrame.enable then
+			NP:Configure_IconFrame(frame)
+		end
+		if NP.db.units[frame.UnitType].health.enable or (frame.isTarget and NP.db.alwaysShowTargetHealth) then
+			frame.Health:Show()
+			NP:Configure_Glow(frame)
+		end
+		if NP.db.units[frame.UnitType].level.enable then
+			frame.Level:Show()
+			frame.Level:ClearAllPoints()
+			NP:Update_Level(frame)
+		end
+		if NP.db.units[frame.UnitType].name.enable then
+			frame.Name:Show()
+			frame.Name:ClearAllPoints()
+			NP:Update_Name(frame)
+		else
+			frame.Name:SetText()
+		end
+		NP:Configure_NameOnlyGlow(frame)
 	end
 end
 
 function NP:StyleFilterConditionCheck(frame, filter, trigger)
 	local passed -- skip StyleFilterPass when triggers are empty
+
+	-- Name
+	if trigger.names and next(trigger.names) then
+		for _, value in pairs(trigger.names) do
+			if value then -- only run if at least one is selected
+				local name = trigger.names[frame.UnitName]
+				if (not trigger.negativeMatch and name) or (trigger.negativeMatch and not name) then passed = true else return end
+				break -- we can execute this once on the first enabled option then kill the loop
+			end
+		end
+	end
 
 	-- Health
 	if trigger.healthThreshold then
@@ -273,16 +400,9 @@ function NP:StyleFilterConditionCheck(frame, filter, trigger)
 		if underPowerThreshold or overPowerThreshold then passed = true else return end
 	end
 
-	-- Level
-	if trigger.level then
-		local myLevel = E.mylevel
-		local level = NP:UnitLevel(frame)
-		level = level == "??" and -1 or tonumber(level)
-		local curLevel = (trigger.curlevel and trigger.curlevel ~= 0 and (trigger.curlevel == level))
-		local minLevel = (trigger.minlevel and trigger.minlevel ~= 0 and (trigger.minlevel <= level))
-		local maxLevel = (trigger.maxlevel and trigger.maxlevel ~= 0 and (trigger.maxlevel >= level))
-		local matchMyLevel = trigger.mylevel and (level == myLevel)
-		if curLevel or minLevel or maxLevel or matchMyLevel then passed = true else return end
+	-- Require Target
+	if trigger.requireTarget then
+		if UnitExists("target") then passed = true else return end
 	end
 
 	-- Player Combat
@@ -301,17 +421,6 @@ function NP:StyleFilterConditionCheck(frame, filter, trigger)
 		if trigger.role[NP.TriggerConditions.roles[E:GetPlayerRole()]] then passed = true else return end
 	end
 
-	-- Unit Type
-	if trigger.nameplateType and trigger.nameplateType.enable then
-		if trigger.nameplateType[NP.TriggerConditions.frameTypes[frame.UnitType]] then passed = true else return end
-	end
-
-	-- Reaction Type
-	if trigger.reactionType and trigger.reactionType.enable then
-		local reaction = frame.UnitReaction
-		if ((reaction == 1 or reaction == 2 or reaction == 3) and trigger.reactionType.hostile) or (reaction == 4 and trigger.reactionType.neutral) or (reaction == 5 and trigger.reactionType.friendly) then passed = true else return end
-	end
-
 	-- Instance Type
 	if trigger.instanceType.none or trigger.instanceType.party or trigger.instanceType.raid or trigger.instanceType.arena or trigger.instanceType.pvp then
 		local _, instanceType, difficultyID = GetInstanceInfo()
@@ -326,6 +435,31 @@ function NP:StyleFilterConditionCheck(frame, filter, trigger)
 				end
 			end
 		else return end
+	elseif trigger.instanceType.sanctuary then
+		if UnitIsPVPSanctuary("player") then passed = true else return end
+	end
+
+	-- Level
+	if trigger.level then
+		local myLevel = E.mylevel
+		local level = NP:UnitLevel(frame)
+		level = level == "??" and -1 or tonumber(level)
+		local curLevel = (trigger.curlevel and trigger.curlevel ~= 0 and (trigger.curlevel == level))
+		local minLevel = (trigger.minlevel and trigger.minlevel ~= 0 and (trigger.minlevel <= level))
+		local maxLevel = (trigger.maxlevel and trigger.maxlevel ~= 0 and (trigger.maxlevel >= level))
+		local matchMyLevel = trigger.mylevel and (level == myLevel)
+		if curLevel or minLevel or maxLevel or matchMyLevel then passed = true else return end
+	end
+
+	-- Unit Type
+	if trigger.nameplateType and trigger.nameplateType.enable then
+		if trigger.nameplateType[NP.TriggerConditions.frameTypes[frame.UnitType]] then passed = true else return end
+	end
+
+	-- Reaction Type
+	if trigger.reactionType and trigger.reactionType.enable then
+		local reaction = frame.UnitReaction
+		if ((reaction == 1 or reaction == 2 or reaction == 3) and trigger.reactionType.hostile) or (reaction == 4 and trigger.reactionType.neutral) or (reaction == 5 and trigger.reactionType.friendly) then passed = true else return end
 	end
 
 	-- Casting
@@ -383,15 +517,16 @@ function NP:StyleFilterConditionCheck(frame, filter, trigger)
 		end
 	end
 
-	-- Name
-	if trigger.names and next(trigger.names) then
-		for _, value in pairs(trigger.names) do
-			if value then -- only run if at least one is selected
-				local name = trigger.names[frame.UnitName]
-				if (not trigger.negativeMatch and name) or (trigger.negativeMatch and not name) then passed = true else return end
-				break -- we can execute this once on the first enabled option then kill the loop
-			end
-		end
+	-- Totems
+	if frame.UnitName and trigger.totems.enable then
+		local totem = NP.Totems[frame.UnitName]
+		if totem then if trigger.totems[totem] then passed = true else return end end
+	end
+
+	-- Unique Units
+	if frame.UnitName and trigger.uniqueUnits.enable then
+		local unit = NP.UniqueUnits[frame.UnitName]
+		if unit then if trigger.uniqueUnits[unit] then passed = true else return end end
 	end
 
 	-- Plugin Callback
@@ -411,12 +546,12 @@ function NP:StyleFilterConditionCheck(frame, filter, trigger)
 end
 
 function NP:StyleFilterPass(frame, actions)
-	local healthBarEnabled = (frame.UnitType and NP.db.units[frame.UnitType].healthbar.enable) or (frame.isTarget and NP.db.alwaysShowTargetHealth)
-	local healthBarShown = healthBarEnabled and frame.HealthBar:IsShown()
+	local healthBarEnabled = (frame.UnitType and NP.db.units[frame.UnitType].health.enable) or (frame.isTarget and NP.db.alwaysShowTargetHealth)
+	local healthBarShown = healthBarEnabled and frame.Health:IsShown()
 
 	NP:StyleFilterSetChanges(frame, actions,
 		(healthBarShown and actions.color and actions.color.health), --HealthColorChanged
-		(healthBarShown and actions.color and actions.color.border and frame.HealthBar.backdrop), --BorderChanged
+		(healthBarShown and actions.color and actions.color.border and frame.Health.backdrop), --BorderChanged
 		(healthBarShown and actions.flash and actions.flash.enable and frame.FlashTexture), --FlashingHealth
 		(healthBarShown and actions.texture and actions.texture.enable), --TextureChanged
 		(healthBarShown and actions.scale and actions.scale ~= 1), --ScaleChanged
@@ -424,13 +559,15 @@ function NP:StyleFilterPass(frame, actions)
 		(actions.alpha and actions.alpha ~= -1), --AlphaChanged
 		(actions.color and actions.color.name), --NameColorChanged
 		(actions.nameOnly), --NameOnlyChanged
-		(actions.hide) --VisibilityChanged
+		(actions.hide), --VisibilityChanged
+		(actions.icon), --IconChanged
+		(actions.iconOnly) --IconOnlyChanged
 	)
 end
 
 function NP:StyleFilterClear(frame)
 	if frame and frame.StyleChanged then
-		NP:StyleFilterClearChanges(frame, frame.HealthColorChanged, frame.BorderChanged, frame.FlashingHealth, frame.TextureChanged, frame.ScaleChanged, frame.FrameLevelChanged, frame.AlphaChanged, frame.NameColorChanged, frame.NameOnlyChanged, frame.VisibilityChanged)
+		NP:StyleFilterClearChanges(frame, frame.HealthColorChanged, frame.BorderChanged, frame.FlashingHealth, frame.TextureChanged, frame.ScaleChanged, frame.FrameLevelChanged, frame.AlphaChanged, frame.NameColorChanged, frame.NameOnlyChanged, frame.VisibilityChanged, frame.IconChanged, frame.IconOnlyChanged)
 	end
 end
 
@@ -477,7 +614,7 @@ function NP:StyleFilterConfigure()
 				end
 
 				-- real events
-				NP.StyleFilterTriggerEvents.PLAYER_TARGET_CHANGED = 1
+				NP.StyleFilterTriggerEvents.PLAYER_TARGET_CHANGED = true
 
 				if t.healthThreshold then
 					NP.StyleFilterTriggerEvents.UNIT_HEALTH = 1
@@ -542,18 +679,19 @@ function NP:StyleFilterConfigure()
 	end
 end
 
-function NP:UpdateElement_Filters(frame, event)
-	if not NP.StyleFilterTriggerEvents[event] then return end
-
-	--[[if NP.StyleFilterTriggerEvents[event] == true then
+function NP:StyleFilterUpdate(frame, event)
+	local hasEvent = NP.StyleFilterTriggerEvents[event]
+	if not hasEvent then
+		return
+	elseif hasEvent == true then -- skip on 1 or 0
 		if not frame.StyleFilterWaitTime then
 			frame.StyleFilterWaitTime = GetTime()
 		elseif GetTime() > (frame.StyleFilterWaitTime + 0.1) then
 			frame.StyleFilterWaitTime = nil
 		else
-			return --block calls faster than 0.1 second
+			return -- block calls faster than 0.1 second
 		end
-	end]]
+	end
 
 	NP:StyleFilterClear(frame)
 

@@ -335,6 +335,12 @@ E.Options.args.datatexts = {
 						["%m.%d.%y "] = "MM.DD.YY",
 						["%y.%m.%d "] = "YY.MM.DD"
 					}
+				},
+				localTime = {
+					order = 4,
+					type = "toggle",
+					name = L["Local Time"],
+					desc = L["If not set to true then the server time will be displayed instead."]
 				}
 			}
 		},

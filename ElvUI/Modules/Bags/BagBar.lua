@@ -6,12 +6,12 @@ local unpack = unpack
 local tinsert = table.insert
 
 local CreateFrame = CreateFrame
-local NUM_BAG_FRAMES = NUM_BAG_FRAMES
 local RegisterStateDriver = RegisterStateDriver
+local NUM_BAG_FRAMES = NUM_BAG_FRAMES
 
 local function OnEnter()
 	if not E.db.bags.bagBar.mouseover then return end
-	E:UIFrameFadeOut(ElvUIBags, 0.2, ElvUIBags:GetAlpha(), 1)
+	E:UIFrameFadeIn(ElvUIBags, 0.2, ElvUIBags:GetAlpha(), 1)
 end
 
 local function OnLeave()
@@ -123,7 +123,7 @@ function B:LoadBagBar()
 	ElvUIBags:SetScript("OnLeave", OnLeave)
 
 	MainMenuBarBackpackButton:SetParent(ElvUIBags)
-	MainMenuBarBackpackButton.SetParent = E.dummy
+	MainMenuBarBackpackButton.SetParent = E.noop
 	MainMenuBarBackpackButton:ClearAllPoints()
 
 	MainMenuBarBackpackButtonCount:FontTemplate(nil, 10)
@@ -140,7 +140,7 @@ function B:LoadBagBar()
 		local slot = _G["CharacterBag"..i.."Slot"]
 
 		slot:SetParent(ElvUIBags)
-		slot.SetParent = E.dummy
+		slot.SetParent = E.noop
 		slot:HookScript("OnEnter", OnEnter)
 		slot:HookScript("OnLeave", OnLeave)
 

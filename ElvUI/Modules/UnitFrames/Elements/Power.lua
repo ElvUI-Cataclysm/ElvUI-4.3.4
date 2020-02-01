@@ -99,11 +99,11 @@ function UF:Configure_Power(frame)
 		local heightChanged = false
 		if (not self.thinBorders and not E.PixelMode) and frame.POWERBAR_HEIGHT < 7 then --A height of 7 means 6px for borders and just 1px for the actual power statusbar
 			frame.POWERBAR_HEIGHT = 7
-			if db.power then db.power.height = 7 end
+			db.power.height = 7
 			heightChanged = true
 		elseif (self.thinBorders or E.PixelMode) and frame.POWERBAR_HEIGHT < 3 then --A height of 3 means 2px for borders and just 1px for the actual power statusbar
 			frame.POWERBAR_HEIGHT = 3
-			if db.power then db.power.height = 3 end
+			db.power.height = 3
 			heightChanged = true
 		end
 		if heightChanged then
@@ -149,7 +149,7 @@ function UF:Configure_Power(frame)
 				power:Point("TOPLEFT", frame.Health, "TOPLEFT", -frame.POWERBAR_OFFSET, -frame.POWERBAR_OFFSET)
 				power:Point("BOTTOMRIGHT", frame.Health, "BOTTOMRIGHT", -frame.POWERBAR_OFFSET, -frame.POWERBAR_OFFSET)
 			end
-			power:SetFrameLevel(frame.Health:GetFrameLevel() -5) --Health uses 10
+			power:SetFrameLevel(frame.Health:GetFrameLevel() - 5) --Health uses 10
 		elseif frame.USE_INSET_POWERBAR then
 			power:Height(frame.POWERBAR_HEIGHT  - ((frame.BORDER + frame.SPACING)*2))
 			power:Point("BOTTOMLEFT", frame.Health, "BOTTOMLEFT", frame.BORDER + (frame.BORDER*2), frame.BORDER + (frame.BORDER*2))
@@ -175,7 +175,7 @@ function UF:Configure_Power(frame)
 			power:Point("TOPLEFT", frame.Health.backdrop, "BOTTOMLEFT", frame.BORDER, -frame.SPACING*3)
 			power:Height(frame.POWERBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2))
 
-			power:SetFrameLevel(frame.Health:GetFrameLevel() - 5)
+			power:SetFrameLevel(frame.Health:GetFrameLevel() + 5) --Health uses 10
 		end
 
 		--Hide mover until we detach again
@@ -193,8 +193,9 @@ function UF:Configure_Power(frame)
 		end
 		if db.power.strataAndLevel and db.power.strataAndLevel.useCustomLevel then
 			power:SetFrameLevel(db.power.strataAndLevel.frameLevel)
-			power.backdrop:SetFrameLevel(power:GetFrameLevel() - 1)
 		end
+
+		power.backdrop:SetFrameLevel(power:GetFrameLevel() - 1)
 
 		if frame.POWERBAR_DETACHED and db.power.parent == "UIPARENT" then
 			power:SetParent(E.UIParent)
@@ -210,7 +211,7 @@ function UF:Configure_Power(frame)
 	power.custom_backdrop = UF.db.colors.custompowerbackdrop and UF.db.colors.power_backdrop
 
 	--Transparency Settings
-	UF:ToggleTransparentStatusBar(UF.db.colors.transparentPower, power, power.BG, nil, UF.db.colors.invertPower)
+	UF:ToggleTransparentStatusBar(UF.db.colors.transparentPower, power, power.BG, nil, UF.db.colors.invertPower, db.power.reverseFill)
 end
 
 local tokens = {[0] = "MANA", "RAGE", "FOCUS", "ENERGY", "RUNIC_POWER"}

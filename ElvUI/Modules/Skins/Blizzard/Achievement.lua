@@ -66,7 +66,7 @@ local function LoadSkin(preSkin)
 				Achievement.tracked:Size(14)
 				Achievement.tracked:ClearAllPoints()
 				Achievement.tracked:Point("TOPLEFT", Achievement.icon, "BOTTOMLEFT", 0, -4)
-				Achievement.tracked:SetParent(Achievement.backdrop)
+				--Achievement.tracked:SetParent(Achievement.backdrop)
 				Achievement.tracked:SetFrameLevel(Achievement.backdrop:GetFrameLevel() + 2)
 			end
 

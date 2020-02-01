@@ -35,13 +35,13 @@ local function LoadSkin()
 	--Re-add the overlay texture which was removed via StripTextures
 	InspectModelFrameBackgroundOverlay:SetTexture(0, 0, 0)
 
---[[
 	-- Give inspect frame model backdrop it's color back
 	for _, corner in pairs({"TopLeft", "TopRight", "BotLeft", "BotRight"}) do
 		local bg = _G["InspectModelFrameBackground"..corner]
 		if bg then
 			bg:SetDesaturated(false)
 			bg.ignoreDesaturated = true -- so plugins can prevent this if they want.
+
 			hooksecurefunc(bg, "SetDesaturated", function(bckgnd, value)
 				if value and bckgnd.ignoreDesaturated then
 					bckgnd:SetDesaturated(false)
@@ -49,7 +49,6 @@ local function LoadSkin()
 			end)
 		end
 	end
-]]
 
 	local slots = {
 		"HeadSlot",
@@ -74,14 +73,14 @@ local function LoadSkin()
 	}
 
 	for _, slot in pairs(slots) do
+		local button = _G["Inspect"..slot]
 		local icon = _G["Inspect"..slot.."IconTexture"]
-		local slot = _G["Inspect"..slot]
 
-		slot:StripTextures()
-		slot:CreateBackdrop("Default")
-		slot.backdrop:SetAllPoints()
-		slot:SetFrameLevel(slot:GetFrameLevel() + 2)
-		slot:StyleButton()
+		button:StripTextures()
+		button:CreateBackdrop("Default")
+		button.backdrop:SetAllPoints()
+		button:SetFrameLevel(button:GetFrameLevel() + 2)
+		button:StyleButton()
 
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetInside()

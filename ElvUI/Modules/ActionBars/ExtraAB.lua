@@ -11,6 +11,7 @@ local ExtraActionBarHolder
 
 local function FixExtraActionCD(cd)
 	local start, duration = GetActionCooldown(cd:GetParent().action)
+
 	E.OnSetCooldown(cd, start, duration, 0, 0)
 end
 
@@ -50,16 +51,21 @@ function AB:SetupExtraButton()
 		local button = _G["ExtraActionButton"..i]
 
 		if button then
-			local icon = _G["ExtraActionButton"..i.."Icon"]
+			self:StyleButton(button, true)
+			button:SetTemplate()
 
 			button.noResize = true
 			button.pushed = true
 			button.checked = true
 
-			self:StyleButton(button, true)
-			button:SetTemplate()
+			button.icon:SetDrawLayer("ARTWORK")
 
-			icon:SetDrawLayer("ARTWORK")
+			if E.private.skins.cleanBossButton and button.style then -- Hide the Artwork
+				button.style:SetTexture()
+				hooksecurefunc(button.style, "SetTexture", function(btn, tex)
+					if tex ~= nil then btn:SetTexture() end
+				end)
+			end
 
 			local tex = button:CreateTexture(nil, "OVERLAY")
 			tex:SetTexture(0.9, 0.8, 0.1, 0.3)

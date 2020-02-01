@@ -97,7 +97,7 @@ local function LoadSkin()
 	MerchantPrevPageButton:Size(32)
 
 	S:HandleButton(MerchantRepairItemButton)
-	MerchantRepairItemButton:StyleButton(false)
+	MerchantRepairItemButton:StyleButton()
 	MerchantRepairItemButton:GetRegions():SetTexCoord(0.04, 0.24, 0.07, 0.5)
 	MerchantRepairItemButton:GetRegions():SetInside()
 
@@ -107,7 +107,7 @@ local function LoadSkin()
 	MerchantGuildBankRepairButtonIcon:SetInside()
 
 	S:HandleButton(MerchantRepairAllButton)
-	MerchantRepairAllIcon:StyleButton(false)
+	MerchantRepairAllButton:StyleButton()
 	MerchantRepairAllIcon:SetTexCoord(0.34, 0.1, 0.34, 0.535, 0.535, 0.1, 0.535, 0.535)
 	MerchantRepairAllIcon:SetInside()
 

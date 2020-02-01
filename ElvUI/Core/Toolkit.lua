@@ -3,16 +3,16 @@ local LSM = E.Libs.LSM
 
 local _G = _G
 local unpack, type, select, getmetatable, assert, pairs = unpack, type, select, getmetatable, assert, pairs
+local tonumber = tonumber
 
 local CreateFrame = CreateFrame
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
 local backdropr, backdropg, backdropb, backdropa, borderr, borderg, borderb = 0, 0, 0, 1, 0, 0, 0
 local function GetTemplate(template, isUnitFrameElement)
 	backdropa = 1
 
 	if template == "ClassColor" then
-		local color = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass]
+		local color = E:ClassColor(E.myclass)
 		borderr, borderg, borderb = color.r, color.g, color.b
 		backdropr, backdropg, backdropb = unpack(E.media.backdropcolor)
 	elseif template == "Transparent" then
@@ -249,9 +249,11 @@ local function StripTextures(object, kill, alpha)
 end
 
 local function FontTemplate(fs, font, fontSize, fontStyle)
-	fs.font = font
-	fs.fontSize = fontSize
-	fs.fontStyle = fontStyle
+	if type(fontSize) == "string" then
+		fontSize = tonumber(fontSize)
+	end
+
+	fs.font, fs.fontSize, fs.fontStyle = font, fontSize, fontStyle
 
 	font = font or LSM:Fetch("font", E.db.general.font)
 	fontSize = fontSize or E.db.general.fontSize

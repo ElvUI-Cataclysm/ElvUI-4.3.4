@@ -202,11 +202,11 @@ function B:EnhanceColorPicker()
 	-- add Color Swatch for original color
 	local t = ColorPickerFrame:CreateTexture("ColorPPOldColorSwatch")
 	local w, h = ColorSwatch:GetSize()
-	t:Size(w*0.75, h*0.75)
+	t:Size(w * 0.75, h * 0.75)
 	t:SetTexture(0, 0, 0)
 	-- OldColorSwatch to appear beneath ColorSwatch
 	t:SetDrawLayer("BORDER")
-	t:Point("BOTTOMLEFT", ColorSwatch, "TOPRIGHT", -(w/2), -(h/3))
+	t:Point("BOTTOMLEFT", ColorSwatch, "TOPRIGHT", -(w / 2), -(h / 3))
 
 	-- add Color Swatch for the copied color
 	t = ColorPickerFrame:CreateTexture("ColorPPCopyColorSwatch")
@@ -244,7 +244,7 @@ function B:EnhanceColorPicker()
 	b:Point("TOP", ColorPPCopy, "BOTTOMRIGHT", 0, -7)
 
 	b:SetScript("OnClick", function()
-		local color = E.myclass == "PRIEST" and E.PriestColors or (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass])
+		local color = E:ClassColor(E.myclass, true)
 		ColorPickerFrame:SetColorRGB(color.r, color.g, color.b)
 		ColorSwatch:SetTexture(color.r, color.g, color.b)
 		if ColorPickerFrame.hasOpacity then

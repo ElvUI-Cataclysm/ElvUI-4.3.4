@@ -24,6 +24,25 @@ local PLAYER_FACTION_GROUP = PLAYER_FACTION_GROUP
 local FACTION_HORDE = FACTION_HORDE
 local FACTION_ALLIANCE = FACTION_ALLIANCE
 
+function E:ClassColor(class, usePriestColor)
+	if not class then return end
+
+	local color = (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class]) or RAID_CLASS_COLORS[class]
+	if type(color) ~= "table" then return end
+
+	if not color.colorStr then
+		color.colorStr = E:RGBToHex(color.r, color.g, color.b, "ff")
+	elseif strlen(color.colorStr) == 6 then
+		color.colorStr = "ff"..color.colorStr
+	end
+
+	if (usePriestColor and class == "PRIEST") and tonumber(color.colorStr, 16) > tonumber(E.PriestColors.colorStr, 16) then
+		return E.PriestColors
+	else
+		return color
+	end
+end
+
 do -- other non-english locales require this
 	E.UnlocalizedClasses = {}
 	for k, v in pairs(_G.LOCALIZED_CLASS_NAMES_MALE) do E.UnlocalizedClasses[v] = k end
@@ -405,7 +424,7 @@ function E:LoadAPI()
 	self:RegisterEvent("UNIT_EXITED_VEHICLE", "ExitVehicleShowFrames")
 	self:RegisterEvent("UI_SCALE_CHANGED", "PixelScaleChanged")
 
-	if not strfind(date(), "04/01/") then
+	if date("%d%m") ~= "0104" then
 		E.global.aprilFools = nil
 	end
 

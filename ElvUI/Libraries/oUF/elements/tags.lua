@@ -181,7 +181,7 @@ local tagStrings = {
 		end
 	end]],
 
-	['holypower'] = [[funtion()
+	['holypower'] = [[function()
 		local num = UnitPower('player', SPELL_POWER_HOLY_POWER)
 		if(num > 0) then
 			return num
@@ -530,7 +530,7 @@ local function createOnUpdate(timer)
 		frame:SetScript('OnUpdate', function(self, elapsed)
 			if(total >= timer) then
 				for _, fs in next, strings do
-					if(fs:IsShown() and fs.parent:IsShown() and unitExists(fs.parent.unit)) then -- ElvUI adds fs IsShown
+					if fs.parent:IsShown() and unitExists(fs.parent.unit) then
 						fs:UpdateTag()
 					end
 				end
@@ -575,9 +575,8 @@ local funcPool = {}
 local tmp = {}
 
 local function getTagName(tag)
-	local tagStart = (tag:match('>+()') or 2)
-	local tagEnd = tag:match('.*()<+')
-	tagEnd = (tagEnd and tagEnd - 1) or -2
+	local tagStart = tag:match('>+()') or 2
+	local tagEnd = (tag:match('.-()<') or -1) - 1
 
 	return tag:sub(tagStart, tagEnd), tagStart, tagEnd
 end
@@ -879,7 +878,7 @@ oUF.Tags = {
 
 		funcPool['[' .. tag .. ']'] = nil
 
-		tag = '%[' .. tag .. '%]'
+		tag = '%[' .. tag:gsub('[%^%$%(%)%%%.%*%+%-%?]', '%%%1') .. '%]'
 		for tagstr, func in next, tagPool do
 			if(tagstr:match(tag)) then
 				tagPool[tagstr] = nil
@@ -899,7 +898,7 @@ oUF.Tags = {
 	RefreshEvents = function(self, tag)
 		if(not tag) then return end
 
-		tag = '%[' .. tag .. '%]'
+		tag = '%[' .. tag:gsub('[%^%$%(%)%%%.%*%+%-%?]', '%%%1') .. '%]'
 		for tagstr in next, tagPool do
 			if(tagstr:match(tag)) then
 				for fs, ts in next, taggedFS do

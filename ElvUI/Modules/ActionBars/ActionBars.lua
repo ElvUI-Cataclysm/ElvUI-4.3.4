@@ -31,6 +31,7 @@ local UnitHealth = UnitHealth
 local UnitHealthMax = UnitHealthMax
 local UnregisterStateDriver = UnregisterStateDriver
 local VehicleExit = VehicleExit
+
 local NUM_ACTIONBAR_BUTTONS = NUM_ACTIONBAR_BUTTONS
 local LEAVE_VEHICLE = LEAVE_VEHICLE
 
@@ -78,6 +79,30 @@ AB.barDefaults = {
 		bindButtons = "ELVUIBAR6BUTTON",
 		conditions = "",
 		position = "BOTTOM,ElvUI_Bar2,TOP,0,2"
+	},
+	bar7 = {
+		page = 7,
+		bindButtons = "EXTRABAR7BUTTON",
+		conditions = "",
+		position = "BOTTOM,ElvUI_Bar1,TOP,0,82"
+	},
+	bar8 = {
+		page = 8,
+		bindButtons = "EXTRABAR8BUTTON",
+		conditions = "",
+		position = "BOTTOM,ElvUI_Bar1,TOP,0,122'"
+	},
+	bar9 = {
+		page = 9,
+		bindButtons = "EXTRABAR9BUTTON",
+		conditions = "",
+		position = "BOTTOM,ElvUI_Bar1,TOP,0,162"
+	},
+	bar10 = {
+		page = 10,
+		bindButtons = "EXTRABAR10BUTTON",
+		conditions = "",
+		position = "BOTTOM,ElvUI_Bar1,TOP,0,202"
 	}
 }
 
@@ -164,6 +189,8 @@ function AB:PositionAndSizeBar(barName)
 		bar:SetParent(E.UIParent)
 	end
 
+	bar:EnableMouse(not bar.db.clickThrough)
+
 	local button, lastButton, lastColumnButton
 	for i = 1, NUM_ACTIONBAR_BUTTONS do
 		button = bar.buttons[i]
@@ -171,8 +198,9 @@ function AB:PositionAndSizeBar(barName)
 		lastColumnButton = bar.buttons[i-buttonsPerRow]
 		button:SetParent(bar)
 		button:ClearAllPoints()
-		button:Size(size)
 		button:SetAttribute("showgrid", 1)
+		button:Size(size)
+		button:EnableMouse(not bar.db.clickThrough)
 
 		if i == 1 then
 			local x, y
@@ -214,7 +242,7 @@ function AB:PositionAndSizeBar(barName)
 			button:Show()
 		end
 
-		self:StyleButton(button, nil, (MasqueGroup and E.private.actionbar.masque.actionbars and true) or nil)
+		self:StyleButton(button, nil, (MasqueGroup and E.private.actionbar.masque.actionbars) or nil)
 	end
 
 	if bar.db.enabled or not bar.initialized then
@@ -553,17 +581,6 @@ function AB:StyleButton(button, noBackdrop, useMasque, ignoreNormal)
 	if normal2 then normal2:SetTexture() normal2:Hide() normal2:SetAlpha(0) end
 	if border and not button.useMasque then border:Kill() end
 
-	if flash then
-		if self.db.flashAnimation then
-			flash:SetTexture(1.0, 0.2, 0.2, 0.50)
-			flash:ClearAllPoints()
-			flash:SetOutside(icon, 2, 2)
-			flash:SetDrawLayer("BACKGROUND", -1)
-		else
-			flash:SetTexture()
-		end
-	end
-
 	if count then
 		count:ClearAllPoints()
 		count:Point(countPosition, countXOffset, countYOffset)
@@ -581,6 +598,17 @@ function AB:StyleButton(button, noBackdrop, useMasque, ignoreNormal)
 	if not button.noBackdrop and not button.backdrop and not button.useMasque then
 		button:CreateBackdrop(self.db.transparentButtons and "Transparent", true)
 		button.backdrop:SetAllPoints()
+	end
+
+	if flash then
+		if self.db.flashAnimation then
+			flash:SetTexture(1.0, 0.2, 0.2, 0.45)
+			flash:ClearAllPoints()
+			flash:SetOutside(icon, 2, 2)
+			flash:SetDrawLayer("BACKGROUND", -1)
+		else
+			flash:SetTexture()
+		end
 	end
 
 	if icon then
@@ -940,8 +968,8 @@ function AB:SetupFlyoutButton()
 				Button:Size(Button:GetParent():GetParent():GetSize())
 			end
 
-			Button:HookScript("OnEnter", function(self)
-				local parent = self:GetParent()
+			Button:HookScript("OnEnter", function(btn)
+				local parent = btn:GetParent()
 				local parentAnchorButton = select(2, parent:GetPoint())
 				if not AB.handledbuttons[parentAnchorButton] then return end
 
@@ -949,8 +977,8 @@ function AB:SetupFlyoutButton()
 				AB:Bar_OnEnter(parentAnchorBar)
 			end)
 
-			Button:HookScript("OnLeave", function(self)
-				local parent = self:GetParent()
+			Button:HookScript("OnLeave", function(btn)
+				local parent = btn:GetParent()
 				local parentAnchorButton = select(2, parent:GetPoint())
 				if not AB.handledbuttons[parentAnchorButton] then return end
 
@@ -965,16 +993,16 @@ function AB:SetupFlyoutButton()
 		end
 	end
 
-	SpellFlyout:HookScript("OnEnter", function(self)
-		local anchorButton = select(2, self:GetPoint())
+	SpellFlyout:HookScript("OnEnter", function(btn)
+		local anchorButton = select(2, btn:GetPoint())
 		if not AB.handledbuttons[anchorButton] then return end
 
 		local parentAnchorBar = anchorButton:GetParent()
 		AB:Bar_OnEnter(parentAnchorBar)
 	end)
 
-	SpellFlyout:HookScript("OnLeave", function(self)
-		local anchorButton = select(2, self:GetPoint())
+	SpellFlyout:HookScript("OnLeave", function(btn)
+		local anchorButton = select(2, btn:GetPoint())
 		if not AB.handledbuttons[anchorButton] then return end
 
 		local parentAnchorBar = anchorButton:GetParent()
@@ -1179,7 +1207,7 @@ function AB:Initialize()
 	self:SetupMicroBar()
 	self:UpdateBar1Paging()
 
-	for i = 1, 6 do
+	for i = 1, 10 do
 		self:CreateBar(i)
 	end
 

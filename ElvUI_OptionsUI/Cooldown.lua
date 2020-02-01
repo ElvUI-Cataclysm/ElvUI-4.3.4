@@ -98,8 +98,8 @@ local function group(order, db, label)
 					},
 					spacer1 = {
 						order = 3,
-						type = "description",
-						name = " "
+						type = "header",
+						name = L["Threshold Colors"]
 					},
 					spacer2 = {
 						order = 4,
@@ -152,6 +152,71 @@ local function group(order, db, label)
 						type = "color",
 						name = L["HH:MM"],
 						disabled = function() return not (profile(db)).override end
+					},
+					spacer3 = {
+						order = 12,
+						type = "header",
+						name = L["Time Indicator Colors"]
+					},
+					useIndicatorColor = {
+						order = 13,
+						type = "toggle",
+						name = L["Use Indicator Color"],
+						get = function(info) return (profile(db))[info[#info]] end,
+						set = function(info, value) (profile(db))[info[#info]] = value E:UpdateCooldownSettings(db) end,
+						disabled = function() return not (profile(db)).override end
+					},
+					spacer4 = {
+						order = 14,
+						type = "description",
+						name = ''
+					},
+					expireIndicator = {
+						order = 15,
+						type = "color",
+						name = L["Expiring"],
+						desc = L["Color when the text is about to expire"],
+						disabled = function() return not (profile(db)).override end
+					},
+					secondsIndicator = {
+						order = 16,
+						type = "color",
+						name = L["Seconds"],
+						desc = L["Color when the text is in the seconds format."],
+						disabled = function() return not (profile(db)).override end
+					},
+					minutesIndicator = {
+						order = 17,
+						type = "color",
+						name = L["Minutes"],
+						desc = L["Color when the text is in the minutes format."],
+						disabled = function() return not (profile(db)).override end
+					},
+					hoursIndicator = {
+						order = 18,
+						type = "color",
+						name = L["Hours"],
+						desc = L["Color when the text is in the hours format."],
+						disabled = function() return not (profile(db)).override end
+					},
+					daysIndicator = {
+						order = 19,
+						type = "color",
+						name = L["Days"],
+						desc = L["Color when the text is in the days format."],
+						disabled = function() return not (profile(db)).override end
+					},
+					hhmmColorIndicator = {
+						order = 20,
+						type = "color",
+						name = L["MM:SS"],
+						disabled = function() return not (profile(db)).override end
+					},
+					mmssColorIndicator = {
+						order = 21,
+						type = "color",
+						name = L["HH:MM"],
+						disabled = function() return not (profile(db)).override end
 					}
 				}
 			},
@@ -171,26 +236,21 @@ local function group(order, db, label)
 						desc = L["This will override the global cooldown settings."],
 						disabled = E.noop
 					},
-					spacer1 = {
-						order = 2,
-						type = "description",
-						name = " "
-					},
 					fontSize = {
-						order = 3,
+						order = 2,
 						type = "range",
 						name = L["FONT_SIZE"],
-						min = 10, max = 32, step = 1
+						min = 10, max = 50, step = 1
 					},
 					font = {
-						order = 4,
+						order = 3,
 						type = "select",
 						name = L["Font"],
 						dialogControl = "LSM30_Font",
 						values = AceGUIWidgetLSMlists.font
 					},
 					fontOutline = {
-						order = 5,
+						order = 4,
 						type = "select",
 						name = L["Font Outline"],
 						values = C.Values.FontFlags
@@ -216,12 +276,11 @@ local function group(order, db, label)
 		E.Options.args.cooldown.args[db].args.colorGroup.args.spacer2 = nil
 	end
 
-	if db == "auras" then
+	if db == "auras" or db == "nameplates" then
 		-- even though the top auras can support hiding the text don't allow this to be a setting to prevent confusion
 		E.Options.args.cooldown.args[db].args.reverse = nil
-	end
 
-	if db == "nameplates" then
+		-- this is basically creates a second way to change font, we only really need one
 		E.Options.args.cooldown.args[db].args.fontGroup = nil
 	end
 end

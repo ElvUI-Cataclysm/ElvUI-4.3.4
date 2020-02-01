@@ -114,6 +114,10 @@ local inventorySlots = {
 	INVTYPE_TABARD = 25,
 }
 
+local conjured_items = {
+	[5512] = true -- Healthstone
+}
+
 local safe = {
 	[BANK_CONTAINER] = true,
 	[0] = true
@@ -207,6 +211,14 @@ local function DefaultSort(a, b)
 	local _, _, _, _, _, bType, bSubType, _, bEquipLoc = GetItemInfo(bID)
 
 	local aRarity, bRarity = bagQualities[a], bagQualities[b]
+
+	if conjured_items[aID] then
+		aRarity = -99
+	end
+
+	if conjured_items[bID] then
+		bRarity = -99
+	end
 
 	if aRarity ~= bRarity and aRarity and bRarity then
 		return aRarity > bRarity
@@ -540,8 +552,14 @@ function B.Sort(bags, sorter, invertDirection)
 			end
 
 			if not blackListedSlots[bagSlot] then
+				local method
 				for _,itemsearchquery in pairs(blackListQueries) do
-					local success, result = pcall(Search.Matches, Search, link, itemsearchquery)
+					method = Search.Matches
+					if Search.Filters.tipPhrases.keywords[itemsearchquery] then
+						method = Search.TooltipPhrase
+						itemsearchquery = Search.Filters.tipPhrases.keywords[itemsearchquery]
+					end
+					local success, result = pcall(method, Search, link, itemsearchquery)
 					if success and result then
 						blackListedSlots[bagSlot] = result
 						break

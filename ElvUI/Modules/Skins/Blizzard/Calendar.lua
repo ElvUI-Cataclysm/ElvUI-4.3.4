@@ -10,11 +10,10 @@ local CLASS_ICON_TCOORDS = CLASS_ICON_TCOORDS
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.calendar ~= true then return end
 
-	local CalendarFrame = _G["CalendarFrame"]
 	CalendarFrame:StripTextures()
 	CalendarFrame:CreateBackdrop("Transparent")
-	CalendarFrame.backdrop:Point("TOPLEFT", 5, 0)
-	CalendarFrame.backdrop:Point("BOTTOMRIGHT", -4, -1)
+	CalendarFrame.backdrop:Point("TOPLEFT", 9, -2)
+	CalendarFrame.backdrop:Point("BOTTOMRIGHT", -7, 2)
 	CalendarFrame:EnableMouseWheel(true)
 	CalendarFrame:SetScript("OnMouseWheel", function(_, value)
 		if value > 0 then
@@ -126,7 +125,7 @@ local function LoadSkin()
 	-- Create Event Frame
 	CalendarCreateEventFrame:StripTextures()
 	CalendarCreateEventFrame:SetTemplate("Transparent")
-	CalendarCreateEventFrame:Point("TOPLEFT", CalendarFrame, "TOPRIGHT", -3, 0)
+	CalendarCreateEventFrame:Point("TOPLEFT", CalendarFrame, "TOPRIGHT", -(E.PixelMode and 6 or 4), -2)
 
 	CalendarCreateEventTitleFrame:StripTextures()
 
@@ -251,7 +250,7 @@ local function LoadSkin()
 	-- Raid View
 	CalendarViewRaidFrame:StripTextures()
 	CalendarViewRaidFrame:SetTemplate("Transparent")
-	CalendarViewRaidFrame:Point("TOPLEFT", CalendarFrame, "TOPRIGHT", 1, 0)
+	CalendarViewRaidFrame:Point("TOPLEFT", CalendarFrame, "TOPRIGHT", -(E.PixelMode and 6 or 4), -2)
 
 	CalendarViewRaidTitleFrame:StripTextures()
 
@@ -260,7 +259,7 @@ local function LoadSkin()
 	-- Holiday View
 	CalendarViewHolidayFrame:StripTextures(true)
 	CalendarViewHolidayFrame:SetTemplate("Transparent")
-	CalendarViewHolidayFrame:Point("TOPLEFT", CalendarFrame, "TOPRIGHT", -3, 0)
+	CalendarViewHolidayFrame:Point("TOPLEFT", CalendarFrame, "TOPRIGHT", -(E.PixelMode and 6 or 4), -2)
 
 	CalendarViewHolidayTitleFrame:StripTextures()
 
@@ -269,7 +268,7 @@ local function LoadSkin()
 	-- Event View
 	CalendarViewEventFrame:StripTextures()
 	CalendarViewEventFrame:SetTemplate("Transparent")
-	CalendarViewEventFrame:Point("TOPLEFT", CalendarFrame, "TOPRIGHT", -3, 0)
+	CalendarViewEventFrame:Point("TOPLEFT", CalendarFrame, "TOPRIGHT", -(E.PixelMode and 6 or 4), -2)
 
 	CalendarViewEventTitleFrame:StripTextures()
 

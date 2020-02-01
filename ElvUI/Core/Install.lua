@@ -31,7 +31,6 @@ local CLASS, CONTINUE, PREVIOUS = CLASS, CONTINUE, PREVIOUS
 local NUM_CHAT_WINDOWS = NUM_CHAT_WINDOWS
 local LOOT, GENERAL, TRADE = LOOT, GENERAL, TRADE
 local GUILD_EVENT_LOG = GUILD_EVENT_LOG
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
 local CURRENT_PAGE = 0
 local MAX_PAGE = 8
@@ -169,7 +168,7 @@ function E:SetupTheme(theme, noDisplayMsg)
 		E.db.unitframe.colors.castColor = E:GetColor(0.31, 0.31, 0.31)
 		E.db.unitframe.colors.castClassColor = false
 	elseif theme == "class" then
-		classColor = E.myclass == "PRIEST" and E.PriestColors or (CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[E.myclass] or RAID_CLASS_COLORS[E.myclass])
+		classColor = E:ClassColor(E.myclass, true)
 
 		E.db.general.bordercolor = (E.PixelMode and E:GetColor(0, 0, 0) or E:GetColor(0.31, 0.31, 0.31))
 		E.db.general.backdropcolor = E:GetColor(0.1, 0.1, 0.1)
@@ -593,11 +592,11 @@ local function SetPage(PageNum)
 		InstallSlider:SetValueStep(0.01)
 		InstallSlider:SetMinMaxValues(0.4, 1.15)
 
-		local value = E:PixelClip(E.global.general.UIScale)
+		local value = E.global.general.UIScale
 		InstallSlider:SetValue(value)
 		InstallSlider.Cur:SetText(value)
 		InstallSlider:SetScript("OnValueChanged", function(self)
-			E.global.general.UIScale =  E:PixelClip(self:GetValue())
+			E.global.general.UIScale = self:GetValue()
 			InstallSlider.Cur:SetText(E.global.general.UIScale)
 		end)
 
@@ -605,7 +604,7 @@ local function SetPage(PageNum)
 		InstallSlider.Max:SetText(1.15)
 		InstallOption1Button:Show()
 		InstallOption1Button:SetScript("OnClick", function()
-			local scale = E:PixelClip(E:PixelBestSize())
+			local scale = E:PixelBestSize()
 
 			-- this is to just keep the slider in place, the values need updated again afterwards
 			InstallSlider:SetValue(scale)

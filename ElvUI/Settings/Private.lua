@@ -35,7 +35,8 @@ V.nameplates = {
 V.auras = {
 	enable = true,
 	disableBlizzard = true,
-
+	buffsHeader = true,
+	debuffsHeader = true,
 	masque = {
 		buffs = false,
 		debuffs = false,
@@ -52,6 +53,7 @@ V.skins = {
 		enable = true
 	},
 	checkBoxSkin = true,
+	cleanBossButton = false,
 	blizzard = {
 		enable = true,
 		achievement = true,

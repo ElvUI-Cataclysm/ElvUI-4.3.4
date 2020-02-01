@@ -26,25 +26,26 @@ local AceAddon, AceAddonMinor = LibStub("AceAddon-3.0")
 local CallbackHandler = LibStub("CallbackHandler-1.0")
 
 local AddOnName, Engine = ...
-local AddOn = AceAddon:NewAddon(AddOnName, "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceHook-3.0")
+local E = AceAddon:NewAddon(AddOnName, "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceHook-3.0")
 
-AddOn.callbacks = AddOn.callbacks or CallbackHandler:New(AddOn)
+E.version = GetAddOnMetadata("ElvUI", "Version")
+E.callbacks = E.callbacks or CallbackHandler:New(E)
 
 -- Defaults
-AddOn.DF = {profile = {}, global = {}}
-AddOn.privateVars = {profile = {}}
+E.DF = {profile = {}, global = {}}
+E.privateVars = {profile = {}}
 
-AddOn.Options = {
+E.Options = {
 	type = "group",
 	name = AddOnName,
 	args = {}
 }
 
-Engine[1] = AddOn
+Engine[1] = E
 Engine[2] = {}
-Engine[3] = AddOn.privateVars.profile
-Engine[4] = AddOn.DF.profile
-Engine[5] = AddOn.DF.global
+Engine[3] = E.privateVars.profile
+Engine[4] = E.DF.profile
+Engine[5] = E.DF.global
 _G[AddOnName] = Engine
 
 do
@@ -52,15 +53,15 @@ do
 	local convert = {enGB = "enUS", esES = "esMX", itIT = "enUS"}
 	local gameLocale = convert[locale] or locale or "enUS"
 
-	function AddOn:GetLocale()
+	function E:GetLocale()
 		return gameLocale
 	end
 end
 
 do
-	AddOn.Libs = {}
-	AddOn.LibsMinor = {}
-	function AddOn:AddLib(name, major, minor)
+	E.Libs = {}
+	E.LibsMinor = {}
+	function E:AddLib(name, major, minor)
 		if not name then return end
 
 		-- in this case: `major` is the lib table and `minor` is the minor version
@@ -71,62 +72,71 @@ do
 		end
 	end
 
-	AddOn:AddLib("AceAddon", AceAddon, AceAddonMinor)
-	AddOn:AddLib("AceDB", "AceDB-3.0")
-	AddOn:AddLib("EP", "LibElvUIPlugin-1.0")
-	AddOn:AddLib("LSM", "LibSharedMedia-3.0")
-	AddOn:AddLib("ACL", "AceLocale-3.0-ElvUI")
-	AddOn:AddLib("LAB", "LibActionButton-1.0-ElvUI")
-	AddOn:AddLib("LDB", "LibDataBroker-1.1")
-	AddOn:AddLib("DualSpec", "LibDualSpec-1.0")
-	AddOn:AddLib("SimpleSticky", "LibSimpleSticky-1.0")
-	AddOn:AddLib("SpellRange", "SpellRange-1.0")
-	AddOn:AddLib("ItemSearch", "LibItemSearch-1.2-ElvUI")
-	AddOn:AddLib("Compress", "LibCompress")
-	AddOn:AddLib("Base64", "LibBase64-1.0-ElvUI")
-	AddOn:AddLib("Masque", "Masque", true)
-	AddOn:AddLib("Translit", "LibTranslit-1.0")
+	E:AddLib("AceAddon", AceAddon, AceAddonMinor)
+	E:AddLib("AceDB", "AceDB-3.0")
+	E:AddLib("EP", "LibElvUIPlugin-1.0")
+	E:AddLib("LSM", "LibSharedMedia-3.0")
+	E:AddLib("ACL", "AceLocale-3.0-ElvUI")
+	E:AddLib("LAB", "LibActionButton-1.0-ElvUI")
+	E:AddLib("LAI", "LibAuraInfo-1.0-ElvUI", true)
+	E:AddLib("LDB", "LibDataBroker-1.1")
+	E:AddLib("DualSpec", "LibDualSpec-1.0")
+	E:AddLib("SimpleSticky", "LibSimpleSticky-1.0")
+	E:AddLib("SpellRange", "SpellRange-1.0")
+	E:AddLib("ItemSearch", "LibItemSearch-1.2-ElvUI")
+	E:AddLib("Compress", "LibCompress")
+	E:AddLib("Base64", "LibBase64-1.0-ElvUI")
+	E:AddLib("Masque", "Masque", true)
+	E:AddLib("Translit", "LibTranslit-1.0")
 	-- added on ElvUI_OptionsUI load: AceGUI, AceConfig, AceConfigDialog, AceConfigRegistry, AceDBOptions
 
 	-- backwards compatible for plugins
-	AddOn.LSM = AddOn.Libs.LSM
-	AddOn.Masque = AddOn.Libs.Masque
+	E.LSM = E.Libs.LSM
+	E.Masque = E.Libs.Masque
 end
 
-AddOn.oUF = Engine.oUF
-AddOn.ActionBars = AddOn:NewModule("ActionBars", "AceHook-3.0", "AceEvent-3.0")
-AddOn.AFK = AddOn:NewModule("AFK", "AceEvent-3.0", "AceTimer-3.0")
-AddOn.Auras = AddOn:NewModule("Auras", "AceHook-3.0", "AceEvent-3.0")
-AddOn.Bags = AddOn:NewModule("Bags", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0")
-AddOn.Blizzard = AddOn:NewModule("Blizzard", "AceEvent-3.0", "AceHook-3.0")
-AddOn.Chat = AddOn:NewModule("Chat", "AceTimer-3.0", "AceHook-3.0", "AceEvent-3.0")
-AddOn.DataBars = AddOn:NewModule("DataBars", "AceEvent-3.0")
-AddOn.DataTexts = AddOn:NewModule("DataTexts", "AceTimer-3.0", "AceHook-3.0", "AceEvent-3.0")
-AddOn.DebugTools = AddOn:NewModule("DebugTools", "AceEvent-3.0", "AceHook-3.0")
-AddOn.Distributor = AddOn:NewModule("Distributor", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0")
-AddOn.Layout = AddOn:NewModule("Layout", "AceEvent-3.0")
-AddOn.Minimap = AddOn:NewModule("Minimap", "AceEvent-3.0")
-AddOn.Misc = AddOn:NewModule("Misc", "AceEvent-3.0", "AceTimer-3.0")
-AddOn.ModuleCopy = AddOn:NewModule("ModuleCopy", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0")
-AddOn.NamePlates = AddOn:NewModule("NamePlates", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0")
-AddOn.PluginInstaller = AddOn:NewModule("PluginInstaller")
-AddOn.RaidUtility = AddOn:NewModule("RaidUtility", "AceEvent-3.0")
-AddOn.ReminderBuffs = AddOn:NewModule("ReminderBuffs", "AceEvent-3.0")
-AddOn.Skins = AddOn:NewModule("Skins", "AceHook-3.0", "AceEvent-3.0")
-AddOn.Threat = AddOn:NewModule("Threat", "AceEvent-3.0")
-AddOn.Tooltip = AddOn:NewModule("Tooltip", "AceHook-3.0", "AceEvent-3.0")
-AddOn.TotemBar = AddOn:NewModule("Totems", "AceEvent-3.0")
-AddOn.UnitFrames = AddOn:NewModule("UnitFrames", "AceTimer-3.0", "AceEvent-3.0", "AceHook-3.0")
-AddOn.WorldMap = AddOn:NewModule("WorldMap", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0")
+E.oUF = Engine.oUF
+E.ActionBars = E:NewModule("ActionBars", "AceHook-3.0", "AceEvent-3.0")
+E.AFK = E:NewModule("AFK", "AceEvent-3.0", "AceTimer-3.0")
+E.Auras = E:NewModule("Auras", "AceHook-3.0", "AceEvent-3.0")
+E.Bags = E:NewModule("Bags", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0")
+E.Blizzard = E:NewModule("Blizzard", "AceEvent-3.0", "AceHook-3.0")
+E.Chat = E:NewModule("Chat", "AceTimer-3.0", "AceHook-3.0", "AceEvent-3.0")
+E.DataBars = E:NewModule("DataBars", "AceEvent-3.0")
+E.DataTexts = E:NewModule("DataTexts", "AceTimer-3.0", "AceHook-3.0", "AceEvent-3.0")
+E.DebugTools = E:NewModule("DebugTools", "AceEvent-3.0", "AceHook-3.0")
+E.Distributor = E:NewModule("Distributor", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0")
+E.Layout = E:NewModule("Layout", "AceEvent-3.0")
+E.Minimap = E:NewModule("Minimap", "AceEvent-3.0")
+E.Misc = E:NewModule("Misc", "AceEvent-3.0", "AceTimer-3.0")
+E.ModuleCopy = E:NewModule("ModuleCopy", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0")
+E.NamePlates = E:NewModule("NamePlates", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0")
+E.PluginInstaller = E:NewModule("PluginInstaller")
+E.RaidUtility = E:NewModule("RaidUtility", "AceEvent-3.0")
+E.ReminderBuffs = E:NewModule("ReminderBuffs", "AceEvent-3.0")
+E.Skins = E:NewModule("Skins", "AceHook-3.0", "AceEvent-3.0")
+E.Threat = E:NewModule("Threat", "AceEvent-3.0")
+E.Tooltip = E:NewModule("Tooltip", "AceHook-3.0", "AceEvent-3.0")
+E.TotemBar = E:NewModule("Totems", "AceEvent-3.0")
+E.UnitFrames = E:NewModule("UnitFrames", "AceTimer-3.0", "AceEvent-3.0", "AceHook-3.0")
+E.WorldMap = E:NewModule("WorldMap", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0")
 
 do
 	local arg2, arg3 = "([%(%)%.%%%+%-%*%?%[%^%$])", "%%%1"
-	function AddOn:EscapeString(str)
+	function E:EscapeString(str)
 		return gsub(str, arg2, arg3)
 	end
 end
 
-function AddOn:OnInitialize()
+do
+	DisableAddOn("ElvUI_VisualAuraTimers")
+	DisableAddOn("ElvUI_ExtraActionBars")
+	DisableAddOn("ElvUI_CastBarOverlay")
+	DisableAddOn("ElvUI_EverySecondCounts")
+	DisableAddOn("ElvUI_AuraBarsMovers")
+end
+
+function E:OnInitialize()
 	if not ElvCharacterDB then
 		ElvCharacterDB = {}
 	end
@@ -185,7 +195,7 @@ function AddOn:OnInitialize()
 	local GameMenuButton = CreateFrame("Button", "GameMenuButtonElvUI", GameMenuFrame, "GameMenuButtonTemplate")
 	GameMenuButton:SetText(self.title)
 	GameMenuButton:SetScript("OnClick", function()
-		AddOn:ToggleOptionsUI()
+		E:ToggleOptionsUI()
 		HideUIPanel(GameMenuFrame)
 	end)
 	GameMenuFrame[AddOnName] = GameMenuButton
@@ -218,15 +228,15 @@ end
 local LoadUI = CreateFrame("Frame")
 LoadUI:RegisterEvent("PLAYER_LOGIN")
 LoadUI:SetScript("OnEvent", function()
-	AddOn:Initialize()
+	E:Initialize()
 end)
 
-function AddOn:PLAYER_REGEN_ENABLED()
+function E:PLAYER_REGEN_ENABLED()
 	self:ToggleOptionsUI()
 	self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 end
 
-function AddOn:PLAYER_REGEN_DISABLED()
+function E:PLAYER_REGEN_DISABLED()
 	local err
 
 	if IsAddOnLoaded("ElvUI_OptionsUI") then
@@ -253,7 +263,7 @@ function AddOn:PLAYER_REGEN_DISABLED()
 	end
 end
 
-function AddOn:ResetProfile()
+function E:ResetProfile()
 	local profileKey
 
 	local ElvPrivateDB = ElvPrivateDB
@@ -269,29 +279,29 @@ function AddOn:ResetProfile()
 	ReloadUI()
 end
 
-function AddOn:OnProfileReset()
+function E:OnProfileReset()
 	self:StaticPopup_Show("RESET_PROFILE_PROMPT")
 end
 
-function AddOn:ResetConfigSettings()
-	AddOn.configSavedPositionTop, AddOn.configSavedPositionLeft = nil, nil
-	AddOn.global.general.AceGUI = AddOn:CopyTable({}, AddOn.DF.global.general.AceGUI)
+function E:ResetConfigSettings()
+	E.configSavedPositionTop, E.configSavedPositionLeft = nil, nil
+	E.global.general.AceGUI = E:CopyTable({}, E.DF.global.general.AceGUI)
 end
 
-function AddOn:GetConfigPosition()
-	return AddOn.configSavedPositionTop, AddOn.configSavedPositionLeft
+function E:GetConfigPosition()
+	return E.configSavedPositionTop, E.configSavedPositionLeft
 end
 
-function AddOn:GetConfigSize()
-	return AddOn.global.general.AceGUI.width, AddOn.global.general.AceGUI.height
+function E:GetConfigSize()
+	return E.global.general.AceGUI.width, E.global.general.AceGUI.height
 end
 
-function AddOn:UpdateConfigSize(reset)
+function E:UpdateConfigSize(reset)
 	local frame = self.GUIFrame
 	if not frame then return end
 
 	local maxWidth, maxHeight = self.UIParent:GetSize()
-	frame:SetMinResize(600, 500)
+	frame:SetMinResize(800, 600)
 	frame:SetMaxResize(maxWidth - 50, maxHeight - 50)
 
 	self.Libs.AceConfigDialog:SetDefaultSize(AddOnName, self:GetConfigDefaultSize())
@@ -316,22 +326,22 @@ function AddOn:UpdateConfigSize(reset)
 	end
 end
 
-function AddOn:GetConfigDefaultSize()
-	local width, height = AddOn:GetConfigSize()
-	local maxWidth, maxHeight = AddOn.UIParent:GetSize()
+function E:GetConfigDefaultSize()
+	local width, height = E:GetConfigSize()
+	local maxWidth, maxHeight = E.UIParent:GetSize()
 	width, height = min(maxWidth - 50, width), min(maxHeight - 50, height)
 	return width, height
 end
 
-function AddOn:ConfigStopMovingOrSizing()
+function E:ConfigStopMovingOrSizing()
 	if self.obj and self.obj.status then
-		AddOn.configSavedPositionTop, AddOn.configSavedPositionLeft = AddOn:Round(self:GetTop(), 2), AddOn:Round(self:GetLeft(), 2)
-		AddOn.global.general.AceGUI.width, AddOn.global.general.AceGUI.height = AddOn:Round(self:GetWidth(), 2), AddOn:Round(self:GetHeight(), 2)
+		E.configSavedPositionTop, E.configSavedPositionLeft = E:Round(self:GetTop(), 2), E:Round(self:GetLeft(), 2)
+		E.global.general.AceGUI.width, E.global.general.AceGUI.height = E:Round(self:GetWidth(), 2), E:Round(self:GetHeight(), 2)
 	end
 end
 
 local pageNodes = {}
-function AddOn:ToggleOptionsUI(msg)
+function E:ToggleOptionsUI(msg)
 	if InCombatLockdown() then
 		self:Print(ERR_NOT_IN_COMBAT)
 		self:RegisterEvent("PLAYER_REGEN_ENABLED")
@@ -369,7 +379,7 @@ function AddOn:ToggleOptionsUI(msg)
 	local pages, msgStr
 	if msg and msg ~= "" then
 		pages = {strsplit(",", msg)}
-		msgStr = gsub(msg, ",","\001")
+		msgStr = gsub(msg, ",", "\001")
 	end
 
 	local mode = "Close"
@@ -385,13 +395,13 @@ function AddOn:ToggleOptionsUI(msg)
 					if i == 1 then
 						main = pages[i] and ACD and ACD.Status and ACD.Status.ElvUI
 						mainSel = main and main.status and main.status.groups and main.status.groups.selected
-						mainSelStr = mainSel and ("^"..self:EscapeString(mainSel).."\001")
+						mainSelStr = mainSel and ("^"..E:EscapeString(mainSel).."\001")
 						mainNode = main and main.children and main.children[pages[i]]
 						pageNodes[index + 1], pageNodes[index + 2] = main, mainNode
 					else
 						sub = pages[i] and pageNodes[i] and ((i == pageCount and pageNodes[i]) or pageNodes[i].children[pages[i]])
 						subSel = sub and sub.status and sub.status.groups and sub.status.groups.selected
-						subNode = (mainSelStr and msgStr:match(mainSelStr..self:EscapeString(pages[i]).."$") and (subSel and subSel == pages[i])) or ((i == pageCount and not subSel) and mainSel and mainSel == msgStr)
+						subNode = (mainSelStr and msgStr:match(mainSelStr..E:EscapeString(pages[i]).."$") and (subSel and subSel == pages[i])) or ((i == pageCount and not subSel) and mainSel and mainSel == msgStr)
 						pageNodes[index + 1], pageNodes[index + 2] = sub, subNode
 					end
 					index = index + 2
@@ -424,7 +434,7 @@ function AddOn:ToggleOptionsUI(msg)
 				ElvUIGUIFrame = self.GUIFrame
 
 				self:UpdateConfigSize()
-				hooksecurefunc(frame, "StopMovingOrSizing", AddOn.ConfigStopMovingOrSizing)
+				hooksecurefunc(frame, "StopMovingOrSizing", E.ConfigStopMovingOrSizing)
 			end
 		end
 

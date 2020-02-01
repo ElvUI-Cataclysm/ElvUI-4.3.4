@@ -142,7 +142,7 @@ function UF:Update_RaidpetFrames(frame, db)
 	UF:Configure_DebuffHighlight(frame)
 	UF:Configure_HealComm(frame)
 	UF:Configure_Fader(frame)
-	UF:UpdateAuraWatch(frame, true)
+	UF:Configure_AuraWatch(frame, true)
 	UF:Configure_Cutaway(frame)
 	UF:Configure_CustomTexts(frame)
 

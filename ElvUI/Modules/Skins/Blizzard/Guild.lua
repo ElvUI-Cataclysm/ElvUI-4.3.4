@@ -354,7 +354,7 @@ local function LoadSkin()
 			index = offset + i
 			local name, level, class = GetGuildApplicantInfo(index)
 			if name then
-				local classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
+				local classTextColor = E:ClassColor(class)
 				local levelTextColor = GetQuestDifficultyColor(level)
 
 				button.name:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b)

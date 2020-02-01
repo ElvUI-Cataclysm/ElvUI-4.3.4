@@ -11,9 +11,6 @@ local NUM_GROUP_LOOT_FRAMES = NUM_GROUP_LOOT_FRAMES
 local POSITION, ANCHOR_POINT, YOFFSET = "TOP", "BOTTOM", -10
 
 function E:PostAlertMove(screenQuadrant)
-	local AlertFrameMover = _G.AlertFrameMover
-	local AlertFrameHolder = _G.AlertFrameHolder
-
 	local _, y = AlertFrameMover:GetCenter()
 	local screenHeight = E.UIParent:GetTop()
 

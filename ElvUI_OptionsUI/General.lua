@@ -57,7 +57,7 @@ E.Options.args.general = {
 					type = "execute",
 					name = L["Auto Scale"],
 					func = function()
-						E.global.general.UIScale = E:PixelClip(E:PixelBestSize())
+						E.global.general.UIScale = E:PixelBestSize()
 						E:StaticPopup_Show("UISCALE_CHANGE")
 					end
 				},
@@ -65,7 +65,7 @@ E.Options.args.general = {
 					order = 4,
 					type = "range",
 					name = L["UI_SCALE"],
-					min = 0.1, max = 1.25, step = 0.00001,
+					min = 0.1, max = 1.25, step = 0.0000000000000001,
 					softMin = 0.40, softMax = 1.15, bigStep = 0.01,
 					get = function(info) return E.global.general.UIScale end,
 					set = function(info, value)
@@ -381,7 +381,7 @@ E.Options.args.general = {
 							end,
 							set = function(info, value)
 								E.db.general[info[#info]] = (value and 2) or (value == nil and 1) or 0
-								E:StaticPopup_Show("PRIVATE_RL")
+								E:StaticPopup_Show("CONFIG_RL")
 							end
 						}
 					}
@@ -612,7 +612,7 @@ E.Options.args.general = {
 					width = "full",
 					set = function(info, value)
 						E.db.general.altPowerBar[info[#info]] = value
-						E:StaticPopup_Show("PRIVATE_RL")
+						E:StaticPopup_Show("CONFIG_RL")
 					end
 				},
 				width = {
@@ -760,7 +760,7 @@ E.Options.args.general = {
 					order = 5,
 					type = "toggle",
 					name = L["Enhanced PVP Messages"],
-					desc = L["Display battleground messages in the middle of the screen."],
+					desc = L["Display battleground messages in the middle of the screen."]
 				},
 				showMissingTalentAlert = {
 					order = 6,
@@ -785,6 +785,14 @@ E.Options.args.general = {
 					min = 64, max = 128, step = 4,
 					get = function(info) return E.db.general.vehicleSeatIndicatorSize end,
 					set = function(info, value) E.db.general.vehicleSeatIndicatorSize = value Blizzard:UpdateVehicleFrame() end
+				},
+				durabilityScale = {
+					order = 9,
+					type = "range",
+					name = L["Durability Scale"],
+					min = 0.5, max = 8, step = 0.5,
+					get = function(info) return E.db.general.durabilityScale end,
+					set = function(info, value) E.db.general.durabilityScale = value E:StaticPopup_Show("CONFIG_RL") end
 				}
 			}
 		},

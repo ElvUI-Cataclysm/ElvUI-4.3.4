@@ -3,13 +3,12 @@ local B = E:GetModule("Blizzard")
 local Skins = E:GetModule("Skins")
 
 local _G = _G
+
 local CreateFrame = CreateFrame
 local IsAddOnLoaded = IsAddOnLoaded
 local UnitIsUnit = UnitIsUnit
 
 function B:Initialize()
-	self.Initialized = true
-
 	self:EnhanceColorPicker()
 	self:KillBlizzard()
 	self:AlertMovers()
@@ -48,7 +47,7 @@ function B:Initialize()
 		TalentMicroButtonAlert:StripTextures(true)
 		TalentMicroButtonAlert:SetTemplate("Transparent")
 		TalentMicroButtonAlert:ClearAllPoints()
-		TalentMicroButtonAlert:SetPoint("CENTER", E.UIParent, "TOP", 0, -75)
+		TalentMicroButtonAlert:Point("CENTER", E.UIParent, "TOP", 0, -75)
 		TalentMicroButtonAlert:Width(230)
 
 		TalentMicroButtonAlertArrow:Hide()
@@ -59,7 +58,7 @@ function B:Initialize()
 		TalentMicroButtonAlert.tex = TalentMicroButtonAlert:CreateTexture(nil, "OVERLAY")
 		TalentMicroButtonAlert.tex:Point("LEFT", 5, -4)
 		TalentMicroButtonAlert.tex:SetTexture("Interface\\DialogFrame\\UI-Dialog-Icon-AlertNew")
-		TalentMicroButtonAlert.tex:SetSize(32, 32)
+		TalentMicroButtonAlert.tex:Size(32)
 
 		TalentMicroButtonAlert.button = CreateFrame("Button", nil, TalentMicroButtonAlert, nil)
 		TalentMicroButtonAlert.button:SetAllPoints(TalentMicroButtonAlert)
@@ -76,6 +75,8 @@ function B:Initialize()
 	else
 		TalentMicroButtonAlert:Kill() -- Kill it, because then the blizz default will show
 	end
+
+	self.Initialized = true
 end
 
 local function InitializeCallback()

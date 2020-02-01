@@ -179,16 +179,6 @@ function AB:PositionAndSizeBarShapeShift()
 	bar:Width(barWidth)
 	bar:Height(barHeight)
 
-	if self.db.stanceBar.enabled then
-		bar:SetScale(1)
-		bar:SetAlpha(bar.db.alpha)
-		E:EnableMover(bar.mover:GetName())
-	else
-		bar:SetScale(0.0001)
-		bar:SetAlpha(0)
-		E:DisableMover(bar.mover:GetName())
-	end
-
 	local horizontalGrowth, verticalGrowth
 	if point == "TOPLEFT" or point == "TOPRIGHT" then
 		verticalGrowth = "DOWN"
@@ -208,8 +198,11 @@ function AB:PositionAndSizeBarShapeShift()
 		bar:SetParent(E.UIParent)
 	end
 
+	bar:EnableMouse(not self.db.stanceBar.clickThrough)
+
 	local button, lastButton, lastColumnButton
 	local firstButtonSpacing = (self.db.stanceBar.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)
+
 	for i = 1, NUM_SHAPESHIFT_SLOTS do
 		button = _G["ElvUI_StanceBarButton"..i]
 		lastButton = _G["ElvUI_StanceBarButton"..i - 1]
@@ -218,6 +211,7 @@ function AB:PositionAndSizeBarShapeShift()
 		button:SetParent(bar)
 		button:ClearAllPoints()
 		button:Size(size)
+		button:EnableMouse(not self.db.stanceBar.clickThrough)
 
 		if self.db.stanceBar.mouseover == true then
 			bar:SetAlpha(0)
@@ -262,10 +256,8 @@ function AB:PositionAndSizeBarShapeShift()
 		end
 
 		if i > numButtons then
-			button:SetScale(0.0001)
 			button:SetAlpha(0)
 		else
-			button:SetScale(1)
 			button:SetAlpha(bar.db.alpha)
 		end
 
@@ -274,7 +266,22 @@ function AB:PositionAndSizeBarShapeShift()
 		end
 	end
 
-	if MasqueGroup and E.private.actionbar.masque.stanceBar then MasqueGroup:ReSkin() end
+	if MasqueGroup and E.private.actionbar.masque.stanceBar then
+		MasqueGroup:ReSkin()
+	end
+
+	if self.db.stanceBar.enabled then
+		local visibility = self.db.stanceBar.visibility
+		if visibility and visibility:match("[\n\r]") then
+			visibility = visibility:gsub("[\n\r]", "")
+		end
+
+		RegisterStateDriver(bar, "visibility", (GetNumShapeshiftForms() == 0 and "hide") or visibility)
+		E:EnableMover(bar.mover:GetName())
+	else
+		RegisterStateDriver(bar, "visibility", "hide")
+		E:DisableMover(bar.mover:GetName())
+	end
 end
 
 function AB:AdjustMaxStanceButtons(event)
@@ -282,11 +289,6 @@ function AB:AdjustMaxStanceButtons(event)
 		AB.NeedsAdjustMaxStanceButtons = event or true
 		self:RegisterEvent("PLAYER_REGEN_ENABLED")
 		return
-	end
-
-	local visibility = self.db.stanceBar.visibility
-	if visibility and visibility:match("[\n\r]") then
-		visibility = visibility:gsub("[\n\r]","")
 	end
 
 	for i = 1, #bar.buttons do
@@ -319,22 +321,25 @@ function AB:AdjustMaxStanceButtons(event)
 	if event == "UPDATE_SHAPESHIFT_FORMS" then
 		self:StyleShapeShift()
 	end
-
-	RegisterStateDriver(bar, "visibility", (numButtons == 0 and "hide") or visibility)
 end
 
 function AB:UpdateStanceBindings()
-	for i = 1, NUM_SHAPESHIFT_SLOTS do
-		if self.db.hotkeytext then
-			local key = GetBindingKey("SHAPESHIFTBUTTON"..i)
-			local color = self.db.fontColor
+	local button, hotKey, key, color
 
-			_G["ElvUI_StanceBarButton"..i.."HotKey"]:Show()
-			_G["ElvUI_StanceBarButton"..i.."HotKey"]:SetText(key)
-			_G["ElvUI_StanceBarButton"..i.."HotKey"]:SetTextColor(color.r, color.g, color.b)
-			self:FixKeybindText(_G["ElvUI_StanceBarButton"..i])
+	for i = 1, NUM_SHAPESHIFT_SLOTS do
+		button = _G["ElvUI_StanceBarButton"..i]
+		hotKey = _G["ElvUI_StanceBarButton"..i.."HotKey"]
+
+		if self.db.hotkeytext then
+			key = GetBindingKey("SHAPESHIFTBUTTON"..i)
+			color = self.db.fontColor
+
+			hotKey:Show()
+			hotKey:SetText(key)
+			hotKey:SetTextColor(color.r, color.g, color.b)
+			self:FixKeybindText(button)
 		else
-			_G["ElvUI_StanceBarButton"..i.."HotKey"]:Hide()
+			hotKey:Hide()
 		end
 	end
 end

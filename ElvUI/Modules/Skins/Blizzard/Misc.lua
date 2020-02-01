@@ -34,10 +34,6 @@ local function LoadSkin()
 		end
 	end
 
-	if IsAddOnLoaded("OptionHouse") then
-		S:HandleButton(GameMenuButtonOptionHouse)
-	end
-
 	-- Static Popups
 	for i = 1, 4 do
 		local staticPopup = _G["StaticPopup"..i]
@@ -283,56 +279,93 @@ local function LoadSkin()
 	ChannelPulloutCloseButton:Size(32)
 
 	-- Dropdown Menu
+	hooksecurefunc("UIDropDownMenu_CreateFrames", function(level, index)
+		local listFrame = _G["DropDownList"..level]
+		local listFrameName = listFrame:GetName()
+		local expandArrow = _G[listFrameName.."Button"..index.."ExpandArrow"]
+
+		if expandArrow then
+			expandArrow:Size(16)
+			expandArrow:SetNormalTexture(E.Media.Textures.ArrowUp)
+			expandArrow:GetNormalTexture():SetRotation(S.ArrowRotation.right)
+			expandArrow:GetNormalTexture():SetVertexColor(unpack(E.media.rgbvaluecolor))
+		end
+
+		local Backdrop = _G[listFrameName.."Backdrop"]
+		if not Backdrop.template then Backdrop:StripTextures() end
+		Backdrop:SetTemplate("Transparent")
+
+		local menuBackdrop = _G[listFrameName.."MenuBackdrop"]
+		if not menuBackdrop.template then menuBackdrop:StripTextures() end
+		menuBackdrop:SetTemplate("Transparent")
+	end)
+
 	hooksecurefunc("UIDropDownMenu_InitializeHelper", function()
 		for i = 1, UIDROPDOWNMENU_MAXLEVELS do
-			local dropBackdrop = _G["DropDownList"..i.."Backdrop"]
-			local dropMenuBackdrop = _G["DropDownList"..i.."MenuBackdrop"]
-
-			dropBackdrop:SetTemplate("Transparent")
-			dropMenuBackdrop:SetTemplate("Transparent")
-
 			for j = 1, UIDROPDOWNMENU_MAXBUTTONS do
+				local button = _G["DropDownList"..i.."Button"..j]
+				local check = _G["DropDownList"..i.."Button"..j.."Check"]
+				local uncheck = _G["DropDownList"..i.."Button"..j.."UnCheck"]
 				local highlight = _G["DropDownList"..i.."Button"..j.."Highlight"]
 				local colorSwatch = _G["DropDownList"..i.."Button"..j.."ColorSwatch"]
+				local r, g, b = unpack(E.media.rgbvaluecolor)
 
-				highlight:SetTexture(E.Media.Textures.Highlight)
-				highlight:SetVertexColor(0.9, 0.9, 0.9, 0.40)
-				highlight:SetInside()
+				if not button.isSkinned then
+					button:CreateBackdrop()
+					button.backdrop:SetOutside(check)
 
-				S:HandleColorSwatch(colorSwatch, 14)
+					highlight:SetTexture(E.Media.Textures.Highlight)
+					highlight:SetVertexColor(r, g, b, 0.7)
+					highlight:SetInside()
+					highlight:SetBlendMode("BLEND")
+					highlight:SetDrawLayer("BACKGROUND")
+
+					check:SetTexture(E.media.normTex)
+					check:SetVertexColor(r, g, b)
+					check:SetTexCoord(0, 1, 0, 1)
+					check.SetTexCoord = E.noop
+					check:Size(12)
+
+					uncheck:SetTexture()
+
+					S:HandleColorSwatch(colorSwatch, 12)
+
+					button.isSkinned = true
+				end
+
+				if not button.notCheckable then
+					button.backdrop:Show()
+				else
+					button.backdrop:Hide()
+				end
 			end
 		end
 	end)
 
 	-- Chat Menu
-	local ChatMenus = {
-		"ChatMenu",
-		"EmoteMenu",
-		"LanguageMenu",
-		"VoiceMacroMenu"
-	}
-
-	for i = 1, #ChatMenus do
-		if _G[ChatMenus[i]] == _G["ChatMenu"] then
-			_G[ChatMenus[i]]:HookScript("OnShow", function(self)
-				self:SetTemplate("Transparent", true)
+	for _, frame in pairs({"ChatMenu", "EmoteMenu", "LanguageMenu", "VoiceMacroMenu"}) do
+		if _G[frame] == _G["ChatMenu"] then
+			_G[frame]:HookScript("OnShow", function(self)
+				self:SetTemplate("Transparent")
 				self:SetBackdropColor(unpack(E.media.backdropfadecolor))
 				self:ClearAllPoints()
 				self:Point("BOTTOMLEFT", ChatFrame1, "TOPLEFT", 0, 30)
 			end)
 		else
-			_G[ChatMenus[i]]:HookScript("OnShow", function(self)
-				self:SetTemplate("Transparent", true)
+			_G[frame]:HookScript("OnShow", function(self)
+				self:SetTemplate("Transparent")
 				self:SetBackdropColor(unpack(E.media.backdropfadecolor))
 			end)
 		end
-	end
 
-	for i = 1, 32 do
-		_G["ChatMenuButton"..i]:StyleButton()
-		_G["EmoteMenuButton"..i]:StyleButton()
-		_G["LanguageMenuButton"..i]:StyleButton()
-		_G["VoiceMacroMenuButton"..i]:StyleButton()
+		for i = 1, 32 do
+			local button = _G[frame.."Button"..i]
+			local r, g, b = unpack(E.media.rgbvaluecolor)
+
+			button:SetHighlightTexture(E.Media.Textures.Highlight)
+			button:GetHighlightTexture():SetVertexColor(r, g, b, 0.7)
+			button:GetHighlightTexture():SetInside()
+		end
 	end
 end
 

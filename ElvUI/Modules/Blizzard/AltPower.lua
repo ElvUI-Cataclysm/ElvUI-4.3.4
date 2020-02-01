@@ -118,7 +118,7 @@ function B:SkinAltPowerBar()
 	if E.db.general.altPowerBar.enable ~= true then return end
 
 	local powerbar = CreateFrame("StatusBar", "ElvUI_AltPowerBar", E.UIParent)
-	powerbar:CreateBackdrop("Transparent")
+	powerbar:CreateBackdrop("Default", true)
 	powerbar:SetMinMaxValues(0, 200)
 	powerbar:Point("CENTER", AltPowerBarHolder)
 	powerbar:Hide()
@@ -142,9 +142,9 @@ function B:SkinAltPowerBar()
 		PlayerPowerBarAlt:UnregisterAllEvents()
 		PlayerPowerBarAlt:Hide()
 
-		local barType, min, _, _, _, _, _, _, _, _, powerName, powerTooltip = UnitAlternatePowerInfo('player')
+		local barType, min, _, _, _, _, _, _, _, _, powerName, powerTooltip = UnitAlternatePowerInfo("player")
 		if not barType then
-			barType, min, _, _, _, _, _, _, _, _, powerName, powerTooltip = UnitAlternatePowerInfo('target')
+			barType, min, _, _, _, _, _, _, _, _, powerName, powerTooltip = UnitAlternatePowerInfo("target")
 		end
 
 		bar.powerName = powerName

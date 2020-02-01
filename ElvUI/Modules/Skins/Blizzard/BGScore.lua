@@ -6,7 +6,6 @@ local split = string.split
 
 local GetBattlefieldScore = GetBattlefieldScore
 local IsActiveBattlefieldArena = IsActiveBattlefieldArena
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.bgscore ~= true then return end
@@ -81,7 +80,7 @@ local function LoadSkin()
 					n = n.."|cffffffff - |r"..r
 				end
 
-				local classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
+				local classTextColor = E:ClassColor(class)
 
 				_G["WorldStateScoreButton"..i.."NameText"]:SetText(n)
 				_G["WorldStateScoreButton"..i.."NameText"]:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b)

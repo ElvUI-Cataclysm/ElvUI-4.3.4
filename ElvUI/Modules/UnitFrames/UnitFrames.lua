@@ -54,8 +54,7 @@ UF.headerFunctions = {}
 UF.classMaxResourceBar = {
 	["DEATHKNIGHT"] = 6,
 	["PALADIN"] = 3,
-	["WARLOCK"] = 3,
-	["PRIEST"] = 3
+	["WARLOCK"] = 3
 }
 
 UF.instanceMapIDs = {
@@ -245,11 +244,7 @@ function UF:Construct_UF(frame, unit)
 	frame.RaisedElementParent:SetFrameLevel(frame:GetFrameLevel() + 125)
 
 	if not self.groupunits[unit] then
-		local stringTitle = E:StringTitle(unit)
-		if stringTitle:find("target") then
-			stringTitle = gsub(stringTitle, "target", "Target")
-		end
-		self["Construct_"..stringTitle.."Frame"](self, frame, unit)
+		UF["Construct_"..gsub(E:StringTitle(unit), "t(arget)", "T%1").."Frame"](self, frame, unit)
 	else
 		UF["Construct_"..E:StringTitle(self.groupunits[unit]).."Frames"](self, frame, unit)
 	end
@@ -360,13 +355,12 @@ function UF:UpdateColors()
 	ElvUF.colors.ComboPoints[4] = E:SetColorTable(ElvUF.colors.ComboPoints[4], db.classResources.comboPoints[4])
 	ElvUF.colors.ComboPoints[5] = E:SetColorTable(ElvUF.colors.ComboPoints[5], db.classResources.comboPoints[5])
 
-	--Paladin, Priest, Warlock and Death Knight
+	--Paladin, Warlock and Death Knight
 	if not ElvUF.colors.ClassBars then ElvUF.colors.ClassBars = {} end
 	if not ElvUF.colors.ClassBars.DRUID then ElvUF.colors.ClassBars.DRUID = {} end
 	ElvUF.colors.ClassBars.DRUID[1] = E:SetColorTable(ElvUF.colors.ClassBars.DRUID[1], db.classResources.DRUID[1])
 	ElvUF.colors.ClassBars.DRUID[2] = E:SetColorTable(ElvUF.colors.ClassBars.DRUID[2], db.classResources.DRUID[2])
 	ElvUF.colors.ClassBars.PALADIN = E:SetColorTable(ElvUF.colors.ClassBars.PALADIN, db.classResources.PALADIN)
-	ElvUF.colors.ClassBars.PRIEST = E:SetColorTable(ElvUF.colors.ClassBars.PRIEST, db.classResources.PRIEST)
 	ElvUF.colors.ClassBars.WARLOCK = E:SetColorTable(ElvUF.colors.ClassBars.WARLOCK, db.classResources.WARLOCK)
 
 	if not ElvUF.colors.ClassBars.DEATHKNIGHT then ElvUF.colors.ClassBars.DEATHKNIGHT = {} end
@@ -534,8 +528,7 @@ function UF:CreateAndUpdateUFGroup(group, numGroup)
 
 	for i = 1, numGroup do
 		local unit = group..i
-		local frameName = E:StringTitle(unit)
-		frameName = frameName:gsub("t(arget)", "T%1")
+		local frameName = gsub(E:StringTitle(unit), "t(arget)", "T%1")
 		local frame = self[unit]
 
 		if not frame then
@@ -547,8 +540,7 @@ function UF:CreateAndUpdateUFGroup(group, numGroup)
 			self[unit] = frame
 		end
 
-		frameName = E:StringTitle(group)
-		frameName = frameName:gsub("t(arget)", "T%1")
+		frameName = gsub(E:StringTitle(group), "t(arget)", "T%1")
 		frame.Update = function()
 			UF["Update_"..E:StringTitle(frameName).."Frames"](self, frame, self.db.units[group])
 		end
@@ -757,20 +749,22 @@ end
 function UF.headerPrototype:Update(isForced)
 	local group = self.groupName
 	local db = UF.db.units[group]
-	UF["Update_"..E:StringTitle(group).."Header"](UF, self, db, isForced)
+	local groupName = E:StringTitle(group)
+
+	UF["Update_"..groupName.."Header"](UF, self, db, isForced)
 
 	local i = 1
 	local child = self:GetAttribute("child"..i)
 
 	while child do
-		UF["Update_"..E:StringTitle(group).."Frames"](UF, child, db)
+		UF["Update_"..groupName.."Frames"](UF, child, db)
 
 		if _G[child:GetName().."Pet"] then
-			UF["Update_"..E:StringTitle(group).."Frames"](UF, _G[child:GetName().."Pet"], db)
+			UF["Update_"..groupName.."Frames"](UF, _G[child:GetName().."Pet"], db)
 		end
 
 		if _G[child:GetName().."Target"] then
-			UF["Update_"..E:StringTitle(group).."Frames"](UF, _G[child:GetName().."Target"], db)
+			UF["Update_"..groupName.."Frames"](UF, _G[child:GetName().."Target"], db)
 		end
 
 		i = i + 1
@@ -782,11 +776,9 @@ function UF.headerPrototype:Reset()
 	self:Hide()
 
 	self:SetAttribute("showPlayer", true)
-
 	self:SetAttribute("showSolo", true)
 	self:SetAttribute("showParty", true)
 	self:SetAttribute("showRaid", true)
-
 	self:SetAttribute("columnSpacing", nil)
 	self:SetAttribute("columnAnchorPoint", nil)
 	self:SetAttribute("groupBy", nil)
@@ -829,9 +821,11 @@ end
 
 function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdate, headerTemplate)
 	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED") return end
+
 	local db = self.db.units[group]
 	local raidFilter = UF.db.smartRaidFilter
 	local numGroups = db.numGroups
+
 	if raidFilter and numGroups and (self[group] and not self[group].blockVisibilityChanges) then
 		local _, instanceType, _, _, maxPlayers = GetInstanceInfo()
 		if instanceType == "raid" or instanceType == "pvp" then
@@ -847,12 +841,12 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 	end
 
 	if not self[group] then
-		local stringTitle = E:StringTitle(group)
-		ElvUF:RegisterStyle("ElvUF_"..stringTitle, UF["Construct_"..stringTitle.."Frames"])
-		ElvUF:SetActiveStyle("ElvUF_"..stringTitle)
+		local groupName = E:StringTitle(group)
+		ElvUF:RegisterStyle("ElvUF_"..groupName, UF["Construct_"..groupName.."Frames"])
+		ElvUF:SetActiveStyle("ElvUF_"..groupName)
 
 		if db.numGroups then
-			self[group] = CreateFrame("Frame", "ElvUF_"..stringTitle, ElvUF_Parent, "SecureHandlerStateTemplate")
+			self[group] = CreateFrame("Frame", "ElvUF_"..groupName, ElvUF_Parent, "SecureHandlerStateTemplate")
 			self[group].groups = {}
 			self[group].groupName = group
 			self[group].template = self[group].template or template
@@ -862,7 +856,7 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 				UF.headerFunctions[group][k] = v
 			end
 		else
-			self[group] = self:CreateHeader(ElvUF_Parent, groupFilter, "ElvUF_"..E:StringTitle(group), template, group, headerTemplate)
+			self[group] = self:CreateHeader(ElvUF_Parent, groupFilter, "ElvUF_"..groupName, template, group, headerTemplate)
 		end
 
 		self[group].db = db
@@ -872,14 +866,15 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 
 	self[group].numGroups = numGroups
 	if numGroups then
+		local groupName = E:StringTitle(self[group].groupName)
 		if db.raidWideSorting then
 			if not self[group].groups[1] then
-				self[group].groups[1] = self:CreateHeader(self[group], nil, "ElvUF_"..E:StringTitle(self[group].groupName).."Group1", template or self[group].template, nil, headerTemplate or self[group].headerTemplate)
+				self[group].groups[1] = self:CreateHeader(self[group], nil, "ElvUF_"..groupName.."Group1", template or self[group].template, nil, headerTemplate or self[group].headerTemplate)
 			end
 		else
 			while numGroups > #self[group].groups do
 				local index = tostring(#self[group].groups + 1)
-				tinsert(self[group].groups, self:CreateHeader(self[group], index, "ElvUF_"..E:StringTitle(self[group].groupName).."Group"..index, template or self[group].template, nil, headerTemplate or self[group].headerTemplate))
+				tinsert(self[group].groups, self:CreateHeader(self[group], index, "ElvUF_"..groupName.."Group"..index, template or self[group].template, nil, headerTemplate or self[group].headerTemplate))
 			end
 		end
 
@@ -910,6 +905,8 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 	else
 		self[group].db = db
 
+		local groupName = E:StringTitle(group)
+
 		if not UF.headerFunctions[group] then UF.headerFunctions[group] = {} end
 		UF.headerFunctions[group].Update = function()
 			local db = UF.db.units[group]
@@ -921,18 +918,18 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 				end
 				return
 			end
-			UF["Update_"..E:StringTitle(group).."Header"](UF, UF[group], db)
+			UF["Update_"..groupName.."Header"](UF, UF[group], db)
 
 			for i = 1, UF[group]:GetNumChildren() do
 				local child = select(i, UF[group]:GetChildren())
-				UF["Update_"..E:StringTitle(group).."Frames"](UF, child, UF.db.units[group])
+				UF["Update_"..groupName.."Frames"](UF, child, UF.db.units[group])
 
 				if _G[child:GetName().."Target"] then
-					UF["Update_"..E:StringTitle(group).."Frames"](UF, _G[child:GetName().."Target"], UF.db.units[group])
+					UF["Update_"..groupName.."Frames"](UF, _G[child:GetName().."Target"], UF.db.units[group])
 				end
 
 				if _G[child:GetName().."Pet"] then
-					UF["Update_"..E:StringTitle(group).."Frames"](UF, _G[child:GetName().."Pet"], UF.db.units[group])
+					UF["Update_"..groupName.."Frames"](UF, _G[child:GetName().."Pet"], UF.db.units[group])
 				end
 			end
 
@@ -940,7 +937,7 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 		end
 
 		if headerUpdate then
-			UF["Update_"..E:StringTitle(group).."Header"](self, self[group], db)
+			UF["Update_"..groupName.."Header"](self, self[group], db)
 		else
 			UF.headerFunctions[group]:Update(self[group])
 		end
@@ -956,8 +953,7 @@ function UF:CreateAndUpdateUF(unit)
 	assert(unit, "No unit provided to create or update.")
 	if InCombatLockdown() then self:RegisterEvent("PLAYER_REGEN_ENABLED") return end
 
-	local frameName = E:StringTitle(unit)
-	frameName = frameName:gsub("t(arget)", "T%1")
+	local frameName = gsub(E:StringTitle(unit), "t(arget)", "T%1")
 	if not self[unit] then
 		self[unit] = ElvUF:Spawn(unit, "ElvUF_"..frameName)
 		self.units[unit] = unit
@@ -1050,11 +1046,6 @@ function UF:UpdateAllHeaders(event)
 			shouldUpdateHeader = true
 		end
 		self:CreateAndUpdateHeaderGroup(group, nil, nil, shouldUpdateHeader)
-
-		if group == "party" or group == "raid" or group == "raid40" then
-			--Update BuffIndicators on profile change as they might be using profile specific data
-			self:UpdateAuraWatchFromHeader(group)
-		end
 	end
 end
 
@@ -1396,10 +1387,73 @@ function UF:ToggleTransparentStatusBar(isTransparent, statusBar, backdropTex, ad
 	end
 end
 
+function UF:TargetSound(unit)
+	if not E.db.unitframe.targetSound then return end
+
+	if UnitExists(unit) then
+		if UnitIsEnemy(unit, "player") then
+			PlaySound("igCreatureAggroSelect")
+		elseif UnitIsFriend("player", unit) then
+			PlaySound("igCharacterNPCSelect")
+		else
+			PlaySound("igCreatureNeutralSelect")
+		end
+	else
+		PlaySound("INTERFACESOUND_LOSTTARGETUNIT")
+	end
+end
+
+function UF:PLAYER_FOCUS_CHANGED()
+	if E.db.unitframe.targetSound then
+		UF:TargetSound("focus")
+	end
+end
+
+function UF:PLAYER_TARGET_CHANGED()
+	if E.db.unitframe.targetSound then
+		UF:TargetSound("target")
+	end
+end
+
+function UF:SpawnMenu()
+	local unit = E:StringTitle(self.unit)
+	if self.unit:find("targettarget") then return end
+
+	if _G[unit.."FrameDropDown"] then
+		ToggleDropDownMenu(1, nil, _G[unit.."FrameDropDown"], "cursor")
+	elseif self.unit:match("party") then
+		ToggleDropDownMenu(1, nil, _G["PartyMemberFrame"..self.id.."DropDown"], "cursor")
+	else
+		FriendsDropDown.unit = self.unit
+		FriendsDropDown.id = self.id
+		FriendsDropDown.initialize = RaidFrameDropDown_Initialize
+		ToggleDropDownMenu(1, nil, FriendsDropDown, "cursor")
+	end
+end
+
+function UF:PopupMenus()
+	UnitPopupMenus.PARTY = {"MUTE", "UNMUTE", "PARTY_SILENCE", "PARTY_UNSILENCE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "WHISPER", "PROMOTE", "PROMOTE_GUIDE", "LOOT_PROMOTE", "VOTE_TO_KICK", "UNINVITE", "INSPECT", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "SELECT_ROLE", "PVP_REPORT_AFK", "RAF_SUMMON", "RAF_GRANT_LEVEL", "CANCEL"}
+	UnitPopupMenus.RAID_PLAYER = {"MUTE", "UNMUTE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "WHISPER", "INSPECT", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "SELECT_ROLE", "RAID_LEADER", "RAID_PROMOTE", "RAID_DEMOTE", "LOOT_PROMOTE", "VOTE_TO_KICK", "RAID_REMOVE", "PVP_REPORT_AFK", "RAF_SUMMON", "RAF_GRANT_LEVEL", "CANCEL"}
+	UnitPopupMenus.RAID = {"WHISPER",  "INSPECT", "MUTE", "UNMUTE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "RAID_LEADER", "RAID_PROMOTE", "RAID_MAINTANK", "RAID_MAINASSIST", "RAID_TARGET_ICON", "SELECT_ROLE", "LOOT_PROMOTE", "RAID_DEMOTE", "VOTE_TO_KICK", "RAID_REMOVE", "PVP_REPORT_AFK", "CANCEL"}
+	UnitPopupMenus.FOCUS = {"RAID_TARGET_ICON", "CANCEL"}
+	UnitPopupMenus.SELF = {"PVP_FLAG", "LOOT_METHOD", "LOOT_THRESHOLD", "OPT_OUT_LOOT_TITLE", "LOOT_PROMOTE", "DUNGEON_DIFFICULTY", "RAID_DIFFICULTY", "RESET_INSTANCES", "RAID_TARGET_ICON", "SELECT_ROLE", "CONVERT_TO_PARTY", "CONVERT_TO_RAID", "LEAVE", "CANCEL"}
+	if E.myclass == "HUNTER" then
+		UnitPopupMenus.PET = {"PET_PAPERDOLL", "PET_RENAME", "PET_ABANDON", "RAID_TARGET_ICON", "CANCEL"}
+	else
+		UnitPopupMenus.PET = {"PET_PAPERDOLL", "PET_RENAME", "PET_ABANDON", "PET_DISMISS", "RAID_TARGET_ICON", "CANCEL"}
+	end
+	UnitPopupMenus.PLAYER = {"WHISPER", "INSPECT", "INVITE", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "RAF_SUMMON", "RAF_GRANT_LEVEL", "REPORT_PLAYER", "CANCEL"}	
+	UnitPopupMenus.VEHICLE = {"RAID_TARGET_ICON", "VEHICLE_LEAVE", "CANCEL"}
+	UnitPopupMenus.TARGET = {"RAID_TARGET_ICON", "CANCEL"}
+	UnitPopupMenus.BOSS = {"RAID_TARGET_ICON", "CANCEL"}
+	UnitPopupMenus.ARENAENEMY = {"CANCEL"}
+end
+
 function UF:Initialize()
 	self.db = E.db.unitframe
 	self.thinBorders = self.db.thinBorders or E.PixelMode
 	if E.private.unitframe.enable ~= true then return end
+
 	self.Initialized = true
 
 	local ElvUF_Parent = CreateFrame("Frame", "ElvUF_Parent", E.UIParent, "SecureHandlerStateTemplate")
@@ -1409,9 +1463,14 @@ function UF:Initialize()
 	ElvUF:RegisterStyle("ElvUF", function(frame, unit)
 		self:Construct_UF(frame, unit)
 	end)
+	ElvUF:SetActiveStyle("ElvUF")
 
 	self:LoadUnits()
+	self:PopupMenus()
+
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
+	self:RegisterEvent("PLAYER_TARGET_CHANGED")
+	self:RegisterEvent("PLAYER_FOCUS_CHANGED")
 
 	if E.private.unitframe.disabledBlizzardFrames.arena and E.private.unitframe.disabledBlizzardFrames.focus and E.private.unitframe.disabledBlizzardFrames.party then
 		InterfaceOptionsFrameCategoriesButton10:SetScale(0.0001)
@@ -1465,22 +1524,6 @@ function UF:Initialize()
 			ElvUF:DisableBlizzard("arena")
 		end
 	end
-
-	UnitPopupMenus.PARTY = {"MUTE", "UNMUTE", "PARTY_SILENCE", "PARTY_UNSILENCE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "WHISPER", "PROMOTE", "PROMOTE_GUIDE", "LOOT_PROMOTE", "VOTE_TO_KICK", "UNINVITE", "INSPECT", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "SELECT_ROLE", "PVP_REPORT_AFK", "RAF_SUMMON", "RAF_GRANT_LEVEL", "CANCEL"}
-	UnitPopupMenus.RAID_PLAYER = {"MUTE", "UNMUTE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "WHISPER", "INSPECT", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "SELECT_ROLE", "RAID_LEADER", "RAID_PROMOTE", "RAID_DEMOTE", "LOOT_PROMOTE", "VOTE_TO_KICK", "RAID_REMOVE", "PVP_REPORT_AFK", "RAF_SUMMON", "RAF_GRANT_LEVEL", "CANCEL"}
-	UnitPopupMenus.RAID = {"WHISPER",  "INSPECT", "MUTE", "UNMUTE", "RAID_SILENCE", "RAID_UNSILENCE", "BATTLEGROUND_SILENCE", "BATTLEGROUND_UNSILENCE", "RAID_LEADER", "RAID_PROMOTE", "RAID_MAINTANK", "RAID_MAINASSIST", "RAID_TARGET_ICON", "SELECT_ROLE", "LOOT_PROMOTE", "RAID_DEMOTE", "VOTE_TO_KICK", "RAID_REMOVE", "PVP_REPORT_AFK", "CANCEL"}
-	UnitPopupMenus.FOCUS = {"RAID_TARGET_ICON", "CANCEL"}
-	UnitPopupMenus.SELF = {"PVP_FLAG", "LOOT_METHOD", "LOOT_THRESHOLD", "OPT_OUT_LOOT_TITLE", "LOOT_PROMOTE", "DUNGEON_DIFFICULTY", "RAID_DIFFICULTY", "RESET_INSTANCES", "RAID_TARGET_ICON", "SELECT_ROLE", "CONVERT_TO_PARTY", "CONVERT_TO_RAID", "LEAVE", "CANCEL"}
-	if E.myclass == "HUNTER" then
-		UnitPopupMenus.PET = {"PET_PAPERDOLL", "PET_RENAME", "PET_ABANDON", "RAID_TARGET_ICON", "CANCEL"}
-	else
-		UnitPopupMenus.PET = {"PET_PAPERDOLL", "PET_RENAME", "PET_ABANDON", "PET_DISMISS", "RAID_TARGET_ICON", "CANCEL"}
-	end
-	UnitPopupMenus.PLAYER = {"WHISPER", "INSPECT", "INVITE", "ACHIEVEMENTS", "TRADE", "FOLLOW", "DUEL", "RAID_TARGET_ICON", "RAF_SUMMON", "RAF_GRANT_LEVEL", "REPORT_PLAYER", "CANCEL"}	
-	UnitPopupMenus.VEHICLE = {"RAID_TARGET_ICON", "VEHICLE_LEAVE", "CANCEL"}
-	UnitPopupMenus.TARGET = {"RAID_TARGET_ICON", "CANCEL"}
-	UnitPopupMenus.BOSS = {"RAID_TARGET_ICON", "CANCEL"}
-	UnitPopupMenus.ARENAENEMY = {"CANCEL"}
 
 	local ORD = ns.oUF_RaidDebuffs or oUF_RaidDebuffs
 	if not ORD then return end

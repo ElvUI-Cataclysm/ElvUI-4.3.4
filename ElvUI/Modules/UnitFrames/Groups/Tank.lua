@@ -156,7 +156,7 @@ function UF:Update_TankFrames(frame, db)
 		UF:Configure_Auras(frame, "Debuffs")
 		UF:Configure_RaidDebuffs(frame)
 		UF:Configure_DebuffHighlight(frame)
-		UF:UpdateAuraWatch(frame)
+		UF:Configure_AuraWatch(frame)
 	end
 
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")

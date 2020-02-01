@@ -45,14 +45,16 @@ local GetItemCount = GetItemCount
 local UnitAura = UnitAura
 local SetTooltipMoney = SetTooltipMoney
 local GameTooltip_ClearMoney = GameTooltip_ClearMoney
+
 local AFK, BOSS, DEAD, DND = AFK, BOSS, DEAD, DND
 local FACTION_ALLIANCE, FACTION_HORDE, FACTION_BAR_COLORS = FACTION_ALLIANCE, FACTION_HORDE, FACTION_BAR_COLORS
 local FOREIGN_SERVER_LABEL = FOREIGN_SERVER_LABEL
 local ID, NONE, PVP = ID, NONE, PVP
 local ROLE, TANK, HEALER = ROLE, TANK, HEALER
 local ITEM_QUALITY3_DESC = ITEM_QUALITY3_DESC
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
-	
+local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
+local UNKNOWN = UNKNOWN
+
 -- Custom to find LEVEL string on tooltip
 local LEVEL1 = TOOLTIP_UNIT_LEVEL:gsub("%s?%%s%s?%-?", "")
 local LEVEL2 = TOOLTIP_UNIT_LEVEL_CLASS:gsub("^%%2$s%s?(.-)%s?%%1$s", "%1"):gsub("^%-?г?о?%s?", ""):gsub("%s?%%s%s?%-?", "")
@@ -188,11 +190,7 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 		local guildName, guildRankName, _, guildRealm = GetGuildInfo(unit)
 		local pvpName = UnitPVPName(unit)
 
-		color = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
-
-		if not color then
-			color = RAID_CLASS_COLORS.PRIEST
-		end
+		color = E:ClassColor(class) or PRIEST_COLOR
 
 		if self.db.playerTitles and pvpName then
 			name = pvpName
@@ -212,7 +210,7 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 			name = name..DND_LABEL
 		end
 
-		GameTooltipTextLeft1:SetFormattedText("%s%s", E:RGBToHex(color.r, color.g, color.b), name)
+		GameTooltipTextLeft1:SetFormattedText("|c%s%s|r", color.colorStr, name or UNKNOWN)
 
 		local lineOffset = 2
 		if guildName then
@@ -336,7 +334,9 @@ function TT:GetTalentSpec(unit, isInspect)
 	local primaryTree = 1
 	for i = 1, 3 do
 		local _, _, _, _, pointsSpent = GetTalentTabInfo(i, isInspect, nil, group)
+
 		tree[i] = pointsSpent
+
 		if tree[i] > tree[primaryTree] then
 			primaryTree = i
 		end
@@ -418,6 +418,7 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 	local isShiftKeyDown = IsShiftKeyDown()
 	local isControlKeyDown = IsControlKeyDown()
 	local isPlayerUnit = UnitIsPlayer(unit)
+
 	if tt:GetOwner() ~= UIParent and (self.db.visibility and self.db.visibility.unitFrames ~= "NONE") then
 		local modifier = self.db.visibility.unitFrames
 
@@ -446,7 +447,7 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 			local targetColor
 			if UnitIsPlayer(unitTarget) and not UnitHasVehicleUI(unitTarget) then
 				local _, class = UnitClass(unitTarget)
-				targetColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
+				targetColor = E:ClassColor(class) or PRIEST_COLOR
 			else
 				targetColor = E.db.tooltip.useCustomFactionColors and E.db.tooltip.factionColors[UnitReaction(unitTarget, "player")] or FACTION_BAR_COLORS[UnitReaction(unitTarget, "player")]
 			end
@@ -460,7 +461,7 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 				local groupUnit = (numRaid > 0 and "raid"..i or "party"..i)
 				if UnitIsUnit(groupUnit.."target", unit) and not UnitIsUnit(groupUnit,"player") then
 					local _, class = UnitClass(groupUnit)
-					local classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
+					local classColor = E:ClassColor(class) or PRIEST_COLOR
 					if not classColor then classColor = RAID_CLASS_COLORS.PRIEST end
 					tinsert(targetList, format("%s%s", E:RGBToHex(classColor.r, classColor.g, classColor.b), UnitName(groupUnit)))
 				end
@@ -541,9 +542,7 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 		local _, link = tt:GetItem()
 		local num = GetItemCount(link)
 		local numall = GetItemCount(link, true)
-		local left = " "
-		local right = " "
-		local bankCount = " "
+		local left, right, bankCount = " ", " ", " "
 
 		if link ~= nil and self.db.spellID then
 			local id = tonumber(match(link, ":(%w+)"))
@@ -622,9 +621,8 @@ function TT:SetUnitAura(tt, ...)
 		if caster then
 			local name = UnitName(caster)
 			local _, class = UnitClass(caster)
-			local color = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
-			if not color then color = RAID_CLASS_COLORS.PRIEST end
-			tt:AddDoubleLine(format("|cFFCA3C3C%s|r %d", ID, id), format("%s%s", E:RGBToHex(color.r, color.g, color.b), name))
+			local color = E:ClassColor(class) or PRIEST_COLOR
+			tt:AddDoubleLine(format("|cFFCA3C3C%s|r %d", ID, id), format("|c%s%s|r", color.colorStr, name))
 		else
 			tt:AddLine(format("|cFFCA3C3C%s|r %d", ID, id))
 		end
@@ -638,9 +636,8 @@ function TT:GameTooltip_OnTooltipSetSpell(tt)
 	if not id or not self.db.spellID then return end
 
 	local displayString = format("|cFFCA3C3C%s|r %d", ID, id)
-	local lines = tt:NumLines()
 	local isFound
-	for i = 1, lines do
+	for i = 1, tt:NumLines() do
 		local line = _G[format("GameTooltipTextLeft%d", i)]
 		if line and line:GetText() and strfind(line:GetText(), displayString) then
 			isFound = true

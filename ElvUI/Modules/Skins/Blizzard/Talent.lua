@@ -10,7 +10,6 @@ local hooksecurefunc = hooksecurefunc
 local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.talent ~= true then return end
 
-	local PlayerTalentFrame = _G["PlayerTalentFrame"]
 	PlayerTalentFrame:StripTextures()
 	PlayerTalentFrame:CreateBackdrop("Transparent")
 	PlayerTalentFrame.backdrop:Point("BOTTOMRIGHT", PlayerTalentFrame, 0, -1)
@@ -24,11 +23,12 @@ local function LoadSkin()
 	S:HandleButton(PlayerTalentFrameToggleSummariesButton)
 	PlayerTalentFrameToggleSummariesButton:Point("BOTTOM", PlayerTalentFrame, "BOTTOM", 0, 5)
 
-	local function StripTalentFramePanelTextures(object)
+	local function StripPanelTextures(object)
 		for i = 1, object:GetNumRegions() do
 			local region = select(i, object:GetRegions())
-			if region:GetObjectType() == "Texture" then
-				if region:GetName():find("Branch") then
+
+			if region and region:IsObjectType("Texture") then
+				if find(region:GetName(), "Branch") then
 					region:SetDrawLayer("OVERLAY")
 				else
 					region:SetTexture(nil)
@@ -38,73 +38,64 @@ local function LoadSkin()
 	end
 
 	for i = 1, 3 do
-		local panel = _G["PlayerTalentFramePanel"..i]
-		local summary = _G["PlayerTalentFramePanel"..i.."Summary"]
-		local summaryIcon = _G["PlayerTalentFramePanel"..i.."SummaryIcon"]
-		local header = _G["PlayerTalentFramePanel"..i.."HeaderIcon"]
-		local headerIcon = _G["PlayerTalentFramePanel"..i.."HeaderIconIcon"]
-		local headerText = _G["PlayerTalentFramePanel"..i.."HeaderIconPointsSpent"]
-		local shadow = _G["PlayerTalentFramePanel"..i.."InactiveShadow"]
-		local roleIcon = _G["PlayerTalentFramePanel"..i.."SummaryRoleIcon"]
-		local treeButton = _G["PlayerTalentFramePanel"..i.."SelectTreeButton"]
-		local activeBonus = _G["PlayerTalentFramePanel"..i.."SummaryActiveBonus1"]
-		local activeBonusIcon = _G["PlayerTalentFramePanel"..i.."SummaryActiveBonus1Icon"]
-		local arrow = _G["PlayerTalentFramePanel"..i.."Arrow"]
 		local tab = _G["PlayerTalentFrameTab"..i]
+		local panel = _G["PlayerTalentFramePanel"..i]
+		local arrow = _G["PlayerTalentFramePanel"..i.."Arrow"]
+		local activeBonus = _G["PlayerTalentFramePanel"..i.."SummaryActiveBonus1"]
 
-		StripTalentFramePanelTextures(panel)
+		S:HandleTab(tab)
 
+		StripPanelTextures(panel)
 		panel:CreateBackdrop("Transparent")
 		panel.backdrop:Point("TOPLEFT", 4, -4)
 		panel.backdrop:Point("BOTTOMRIGHT", -4, 4)
 
-		summary:StripTextures()
-		summary:CreateBackdrop()
-		summary:SetFrameLevel(summary:GetFrameLevel() + 2)
+		panel.InactiveShadow:Kill()
 
-		summaryIcon:SetTexCoord(unpack(E.TexCoords))
+		panel.Summary:StripTextures()
+		panel.Summary:CreateBackdrop()
+		panel.Summary:SetFrameLevel(panel.Summary:GetFrameLevel() + 2)
 
-		header:StripTextures()
-		header:CreateBackdrop()
-		header.backdrop:SetOutside(headerIcon)
-		header:SetFrameLevel(header:GetFrameLevel() + 1)
-		header:Point("TOPLEFT", panel, "TOPLEFT", 4, -4)
+		panel.Summary.Icon:SetTexCoord(unpack(E.TexCoords))
 
-		headerIcon:Size(E.PixelMode and 34 or 30)
-		headerIcon:SetTexCoord(unpack(E.TexCoords))
-		headerIcon:Point("TOPLEFT", E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
+		panel.Summary.RoleIcon:Kill()
+		panel.Summary.RoleIcon2:Kill()
 
-		headerText:FontTemplate(nil, 13, "OUTLINE")
-		headerText:Point("BOTTOMRIGHT", header, "BOTTOMRIGHT", 125, 11)
+		panel.HeaderIcon:StripTextures()
+		panel.HeaderIcon:CreateBackdrop()
+		panel.HeaderIcon.backdrop:SetOutside(panel.HeaderIcon.Icon)
+		panel.HeaderIcon:SetFrameLevel(panel.HeaderIcon:GetFrameLevel() + 1)
+		panel.HeaderIcon:Point("TOPLEFT", 4, -4)
 
-		activeBonus:StripTextures()
-		activeBonus:CreateBackdrop()
-		activeBonus.backdrop:SetOutside(activeBonusIcon)
-		activeBonus:SetFrameLevel(activeBonus:GetFrameLevel() + 1)
+		panel.HeaderIcon.Icon:Size(E.PixelMode and 34 or 30)
+		panel.HeaderIcon.Icon:SetTexCoord(unpack(E.TexCoords))
+		panel.HeaderIcon.Icon:Point("TOPLEFT", E.PixelMode and 1 or 4, -(E.PixelMode and 1 or 4))
 
-		activeBonusIcon:SetTexCoord(unpack(E.TexCoords))
+		panel.HeaderIcon.PointsSpent:FontTemplate(nil, 13, "OUTLINE")
+		panel.HeaderIcon.PointsSpent:Point("BOTTOMRIGHT", 125, 11)
 
-		S:HandleButton(treeButton)
-		treeButton:SetFrameLevel(treeButton:GetFrameLevel() + 5)
+		S:HandleButton(panel.SelectTreeButton)
+		panel.SelectTreeButton:SetFrameLevel(panel.SelectTreeButton:GetFrameLevel() + 5)
 
 		arrow:SetFrameLevel(arrow:GetFrameLevel() + 2)
 
-		shadow:Kill()
-		roleIcon:Kill()
+		activeBonus:StripTextures()
+		activeBonus:CreateBackdrop()
+		activeBonus.backdrop:SetOutside(activeBonus.Icon)
+		activeBonus:SetFrameLevel(activeBonus:GetFrameLevel() + 1)
 
-		for j = 1, 4 do
-			local summaryBonus = _G["PlayerTalentFramePanel"..i.."SummaryBonus"..j]
-			local summaryBonusIcon = _G["PlayerTalentFramePanel"..i.."SummaryBonus"..j.."Icon"]
+		activeBonus.Icon:SetTexCoord(unpack(E.TexCoords))
 
-			summaryBonus:StripTextures()
-			summaryBonus:CreateBackdrop()
-			summaryBonus.backdrop:SetOutside(summaryBonusIcon)
-			summaryBonus:SetFrameLevel(summaryBonus:GetFrameLevel() + 1)
+		for j = 1, 5 do
+			local bonus = _G["PlayerTalentFramePanel"..i.."SummaryBonus"..j]
 
-			summaryBonusIcon:SetTexCoord(unpack(E.TexCoords))
+			bonus:StripTextures()
+			bonus:CreateBackdrop()
+			bonus.backdrop:SetOutside(bonus.Icon)
+			bonus:SetFrameLevel(bonus:GetFrameLevel() + 1)
+
+			bonus.Icon:SetTexCoord(unpack(E.TexCoords))
 		end
-
-		S:HandleTab(tab)
 	end
 
 	hooksecurefunc("PlayerTalentFramePanel_UpdateSummary", function(self)
@@ -117,76 +108,74 @@ local function LoadSkin()
 		end
 	end)
 
-	function talentpairs(inspect, pet)
-		local tab, tal = 1, 0
+	local function talentPairs()
+		local tab, talent = 1, 0
+
 		return function()
-			tal = tal + 1
-			if tal > GetNumTalents(tab, inspect, pet) then
-				tal = 1
+			talent = talent + 1
+
+			if talent > GetNumTalents(tab) then
+				talent = 1
 				tab = tab + 1
 			end
-			if tab <= GetNumTalentTabs(inspect, pet) then
-				return tab, tal
+
+			if tab <= GetNumTalentTabs() then
+				return tab, talent
 			end
 		end
 	end
 
-	local function TalentButtons(self, first, i, j)
-		local button = _G["PlayerTalentFramePanel"..i.."Talent"..j]
-		local icon = _G["PlayerTalentFramePanel"..i.."Talent"..j.."IconTexture"]
+	local function SkinTalents(button, icon)
+		button:StripTextures()
+		button:CreateBackdrop()
+		button:StyleButton()
+		button:SetFrameLevel(button:GetFrameLevel() + 1)
 
-		if first then
-			button:StripTextures()
-		end
+		button.SetHighlightTexture = E.noop
+		button:GetHighlightTexture():SetAllPoints(icon)
 
-		if button.Rank then
-			button.Rank:FontTemplate(nil, 12, "OUTLINE")
-			button.Rank:Point("BOTTOMRIGHT", 9, -12)
-		end
+		button.SetPushedTexture = E.noop
+		button:GetPushedTexture():SetAllPoints(icon)
 
-		if icon then
-			button:CreateBackdrop()
-			button:StyleButton()
-			button:SetFrameLevel(button:GetFrameLevel() + 1)
+		icon:SetTexCoord(unpack(E.TexCoords))
+		icon:SetAllPoints()
 
-			button.SetHighlightTexture = E.noop
-			button:GetHighlightTexture():SetAllPoints(icon)
-			button.SetPushedTexture = E.noop
-			button:GetPushedTexture():SetAllPoints(icon)
-			button:GetPushedTexture():SetTexCoord(unpack(E.TexCoords))
-			button:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
-
-			icon:SetTexCoord(unpack(E.TexCoords))
-			icon:SetAllPoints()
-		end
+		button.Rank:FontTemplate(nil, 12, "OUTLINE")
+		button.Rank:Point("BOTTOMRIGHT", 9, -12)
 	end
 
-	for tab, talent in talentpairs() do
-		TalentButtons(nil, true, tab, talent)
+	for panel, talent in talentPairs() do
+		local button = _G["PlayerTalentFramePanel"..panel.."Talent"..talent]
+		local icon = _G["PlayerTalentFramePanel"..panel.."Talent"..talent.."IconTexture"]
+
+		SkinTalents(button, icon)
 	end
 
-	PlayerTalentFramePanel2SummaryRoleIcon2:Kill()
-	PlayerTalentFramePetShadowOverlay:Kill()
 	PlayerTalentFrameHeaderHelpBox:Kill()
 
 	S:HandleCloseButton(PlayerTalentFrameCloseButton)
 
-	-- Side Tabs
-	for i = 1, 2 do
-		local tab = _G["PlayerSpecTab"..i]
-
-		tab:GetRegions():Hide()
-		tab:SetTemplate()
-		tab:StyleButton(nil, true)
-		tab:GetNormalTexture():SetInside()
-		tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
-	end
-
-	PlayerSpecTab1:ClearAllPoints()
-	PlayerSpecTab1:Point("TOPLEFT", PlayerTalentFrame, "TOPRIGHT", E.PixelMode and -1 or 1, -32)
-	PlayerSpecTab1.SetPoint = E.noop
-
 	-- Pet Talents
+	StripPanelTextures(PlayerTalentFramePetPanel)
+	PlayerTalentFramePetPanel:CreateBackdrop("Transparent")
+	PlayerTalentFramePetPanel.backdrop:Point("TOPLEFT", 4, -4)
+	PlayerTalentFramePetPanel.backdrop:Point("BOTTOMRIGHT", -4, 4)
+
+	PlayerTalentFramePetPanel:HookScript("OnShow", function()
+		for i = 1, GetNumTalents(1, false, true) do
+			local button = _G["PlayerTalentFramePetPanelTalent"..i]
+			local icon = _G["PlayerTalentFramePetPanelTalent"..i.."IconTexture"]
+
+			if not button.isSkinned then
+				SkinTalents(button, icon)
+
+				button.isSkinned = true
+			end
+		end
+	end)
+
+	PlayerTalentFramePetShadowOverlay:Kill()
+
 	PlayerTalentFramePetTalents:StripTextures()
 
 	PlayerTalentFramePetModel:CreateBackdrop("Transparent")
@@ -212,20 +201,18 @@ local function LoadSkin()
 	PlayerTalentFramePetDiet:Point("TOPRIGHT", 2, -2)
 	PlayerTalentFramePetDiet:Size(40)
 
-	PlayerTalentFramePetDiet.icon = PlayerTalentFramePetDiet:CreateTexture(nil, "OVERLAY")
+	PlayerTalentFramePetDiet.icon = PlayerTalentFramePetDiet:CreateTexture(nil, "ARTWORK")
 	PlayerTalentFramePetDiet.icon:SetTexture("Interface\\Icons\\Ability_Hunter_BeastTraining")
 	PlayerTalentFramePetDiet.icon:SetAllPoints()
 	PlayerTalentFramePetDiet.icon:SetTexCoord(unpack(E.TexCoords))
 
 	PlayerTalentFramePetTypeText:Point("BOTTOMRIGHT", -45, 10)
 
-	StripTalentFramePanelTextures(PlayerTalentFramePetPanel)
-
 	PlayerTalentFramePetPanelHeaderIcon:StripTextures()
 	PlayerTalentFramePetPanelHeaderIcon:CreateBackdrop()
 	PlayerTalentFramePetPanelHeaderIcon.backdrop:SetOutside(PlayerTalentFramePetPanelHeaderIconIcon)
 	PlayerTalentFramePetPanelHeaderIcon:SetFrameLevel(PlayerTalentFramePetPanelHeaderIcon:GetFrameLevel() + 1)
-	PlayerTalentFramePetPanelHeaderIcon:Point("TOPLEFT", PlayerTalentFramePetPanel, "TOPLEFT", 5, -5)
+	PlayerTalentFramePetPanelHeaderIcon:Point("TOPLEFT", 5, -5)
 
 	PlayerTalentFramePetPanelHeaderIconIcon:Size(E.PixelMode and 46 or 42)
 	PlayerTalentFramePetPanelHeaderIconIcon:SetTexCoord(unpack(E.TexCoords))
@@ -234,45 +221,26 @@ local function LoadSkin()
 	local petPoints = select(4, PlayerTalentFramePetPanelHeaderIcon:GetRegions())
 	petPoints:FontTemplate(nil, 13, "OUTLINE")
 	petPoints:ClearAllPoints()
-	petPoints:Point("BOTTOMRIGHT", PlayerTalentFramePetPanelHeaderIcon, "BOTTOMRIGHT", 150, 15)
+	petPoints:Point("BOTTOMRIGHT", 150, 15)
 
 	PlayerTalentFramePetPanelArrow:SetFrameStrata("HIGH")
 
-	PlayerTalentFramePetPanel:CreateBackdrop("Transparent")
-	PlayerTalentFramePetPanel.backdrop:Point("TOPLEFT", 4, -4)
-	PlayerTalentFramePetPanel.backdrop:Point("BOTTOMRIGHT", -4, 4)
+	-- Side Tabs
+	for i = 1, 2 do
+		local tab = _G["PlayerSpecTab"..i]
 
-	PlayerTalentFramePetPanel:HookScript("OnShow", function()
-		for i = 1, GetNumTalents(1, false, true) do
-			local button = _G["PlayerTalentFramePetPanelTalent"..i]
-			local icon = _G["PlayerTalentFramePetPanelTalent"..i.."IconTexture"]
-
-			if not button.isSkinned then
-				button:StripTextures()
-				button:CreateBackdrop()
-				button:StyleButton()
-				button:SetFrameLevel(button:GetFrameLevel() + 1)
-
-				button.SetHighlightTexture = E.noop
-				button:GetHighlightTexture():SetAllPoints(icon)
-				button.SetPushedTexture = E.noop
-				button:GetPushedTexture():SetAllPoints(icon)
-				button:GetPushedTexture():SetTexCoord(unpack(E.TexCoords))
-				button:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
-
-				icon:SetTexCoord(unpack(E.TexCoords))
-				icon:SetAllPoints()
-
-				if button.Rank then
-					button.Rank:FontTemplate(nil, 12, "OUTLINE")
-					button.Rank:ClearAllPoints()
-					button.Rank:Point("BOTTOMRIGHT", 9, -12)
-				end
-
-				button.isSkinned = true
-			end
+		if i == 1 then
+			tab:ClearAllPoints()
+			tab:Point("TOPLEFT", PlayerTalentFrame, "TOPRIGHT", E.PixelMode and -1 or 1, -32)
+			tab.SetPoint = E.noop
 		end
-	end)
+
+		tab:GetRegions():Hide()
+		tab:SetTemplate()
+		tab:StyleButton(nil, true)
+		tab:GetNormalTexture():SetInside()
+		tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
+	end
 end
 
 S:AddCallbackForAddon("Blizzard_TalentUI", "Talent", LoadSkin)

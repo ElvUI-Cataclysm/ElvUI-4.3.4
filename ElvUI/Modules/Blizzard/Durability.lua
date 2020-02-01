@@ -5,15 +5,23 @@ local _G = _G
 local hooksecurefunc = hooksecurefunc
 
 local function SetPosition(frame, _, parent)
-	if parent == "MinimapCluster" or parent == _G["MinimapCluster"] then
+	if parent ~= DurabilityFrameHolder then
 		frame:ClearAllPoints()
-		frame:Point("RIGHT", Minimap, "RIGHT")
-		frame:SetScale(0.6)
+		frame:SetPoint("CENTER", DurabilityFrameHolder, "CENTER")
 	end
 end
-	
+
 function B:PositionDurabilityFrame()
+	local Scale = E.db.general.durabilityScale or 1
+
+	local DurabilityFrameHolder = CreateFrame("Frame", "DurabilityFrameHolder", E.UIParent)
+	DurabilityFrameHolder:Size(DurabilityFrame:GetSize())
+	DurabilityFrameHolder:SetPoint("TOPRIGHT", E.UIParent, "TOPRIGHT", -135, -300)
+
+	E:CreateMover(DurabilityFrameHolder, "DurabilityFrameMover", L["Durability Frame"], nil, nil, nil, nil, nil, "all,general")
+
 	DurabilityFrame:SetFrameStrata("HIGH")
+	DurabilityFrame:SetScale(Scale)
 
 	hooksecurefunc(DurabilityFrame, "SetPoint", SetPosition)
 end

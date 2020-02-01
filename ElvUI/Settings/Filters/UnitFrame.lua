@@ -1,4 +1,5 @@
 ﻿local E, L, V, P, G = unpack(select(2, ...))
+local UF = E:GetModule("UnitFrames")
 
 local print, unpack = print, unpack
 
@@ -464,25 +465,19 @@ E.ReverseTimer = {
 
 --BuffWatch
 -- BuffWatch: List of personal spells to show on unitframes as icon
-local function ClassBuff(id, point, color, anyUnit, onlyShowMissing, style, displayText, decimalThreshold, textColor, textThreshold, xOffset, yOffset, sizeOverride)
-	local r, g, b = unpack(color)
-
-	local r2, g2, b2 = 1, 1, 1
-	if textColor then
-		r2, g2, b2 = unpack(textColor)
-	end
+function UF:AuraWatch_AddSpell(id, point, color, anyUnit, onlyShowMissing, displayText, textThreshold, xOffset, yOffset, sizeOverride)
+	local r, g, b = 1, 1, 1
+	if color then r, g, b = unpack(color) end
 
 	return {
 		enabled = true,
 		id = id,
-		point = point,
+		point = point or "TOPLEFT",
 		color = {r = r, g = g, b = b},
-		anyUnit = anyUnit,
-		onlyShowMissing = onlyShowMissing,
-		style = style or "coloredIcon",
+		anyUnit = anyUnit or false,
+		onlyShowMissing = onlyShowMissing or false,
+		styleOverride = "Default",
 		displayText = displayText or false,
-		decimalThreshold = decimalThreshold or 5,
-		textColor = {r = r2, g = g2, b = b2},
 		textThreshold = textThreshold or -1,
 		xOffset = xOffset or 0,
 		yOffset = yOffset or 0,
@@ -492,48 +487,48 @@ end
 
 G.unitframe.buffwatch = {
 	PRIEST = {
-		[6788]	= ClassBuff(6788, "TOPLEFT", {1, 0, 0}, true),				-- Weakened Soul
-		[41635] = ClassBuff(41635, "TOPRIGHT", {0.2, 0.7, 0.2}),			-- Prayer of Mending
-		[139]	= ClassBuff(139, "BOTTOMLEFT", {0.4, 0.7, 0.2}),			-- Renew
-		[17]	= ClassBuff(17, "BOTTOMRIGHT", {0.7, 0.7, 0.7}, true),		-- Power Word: Shield
-		[10060] = ClassBuff(10060, "RIGHT", {0.47, 0.35, 0.74}),			-- Power Infusion
-		[33206] = ClassBuff(33206, "LEFT", {0.47, 0.35, 0.74}, true),		-- Pain Suppression
-		[47788] = ClassBuff(47788, "LEFT", {0.86, 0.45, 0}, true),			-- Guardian Spirit
+		[6788]	= UF:AuraWatch_AddSpell(6788, "TOPLEFT", {1, 0, 0}, true),				-- Weakened Soul
+		[41635] = UF:AuraWatch_AddSpell(41635, "TOPRIGHT", {0.2, 0.7, 0.2}),			-- Prayer of Mending
+		[139]	= UF:AuraWatch_AddSpell(139, "BOTTOMLEFT", {0.4, 0.7, 0.2}),			-- Renew
+		[17]	= UF:AuraWatch_AddSpell(17, "BOTTOMRIGHT", {0.7, 0.7, 0.7}, true),		-- Power Word: Shield
+		[10060] = UF:AuraWatch_AddSpell(10060, "RIGHT", {0.47, 0.35, 0.74}),			-- Power Infusion
+		[33206] = UF:AuraWatch_AddSpell(33206, "LEFT", {0.47, 0.35, 0.74}, true),		-- Pain Suppression
+		[47788] = UF:AuraWatch_AddSpell(47788, "LEFT", {0.86, 0.45, 0}, true),			-- Guardian Spirit
 	},
 	DRUID = {
-		[774]	= ClassBuff(774, "TOPRIGHT", {0.8, 0.4, 0.8}),				-- Rejuvenation
-		[8936]	= ClassBuff(8936, "BOTTOMLEFT", {0.2, 0.8, 0.2}),			-- Regrowth
-		[33763] = ClassBuff(33763, "TOPLEFT", {0.4, 0.8, 0.2}),				-- Lifebloom
-		[48438] = ClassBuff(48438, "BOTTOMRIGHT", {0.8, 0.4, 0}),			-- Wild Growth
+		[774]	= UF:AuraWatch_AddSpell(774, "TOPRIGHT", {0.8, 0.4, 0.8}),				-- Rejuvenation
+		[8936]	= UF:AuraWatch_AddSpell(8936, "BOTTOMLEFT", {0.2, 0.8, 0.2}),			-- Regrowth
+		[33763] = UF:AuraWatch_AddSpell(33763, "TOPLEFT", {0.4, 0.8, 0.2}),				-- Lifebloom
+		[48438] = UF:AuraWatch_AddSpell(48438, "BOTTOMRIGHT", {0.8, 0.4, 0}),			-- Wild Growth
 	},
 	PALADIN = {
-		[53563] = ClassBuff(53563, "TOPLEFT", {0.7, 0.3, 0.7}),				-- Beacon of Light
-		[1022]	= ClassBuff(1022, "BOTTOMRIGHT", {0.2, 0.2, 1}, true),		-- Hand of Protection
-		[1044]	= ClassBuff(1044, "BOTTOMRIGHT", {0.89, 0.45, 0}, true),	-- Hand of Freedom
-		[6940]	= ClassBuff(6940, "BOTTOMRIGHT", {0.89, 0.1, 0.1}, true),	-- Hand of Sacrifice
-		[1038]	= ClassBuff(1038, "BOTTOMRIGHT", {0.89, 0.78, 0}, true),	-- Hand of Salvation
+		[53563] = UF:AuraWatch_AddSpell(53563, "TOPLEFT", {0.7, 0.3, 0.7}),				-- Beacon of Light
+		[1022]	= UF:AuraWatch_AddSpell(1022, "BOTTOMRIGHT", {0.2, 0.2, 1}, true),		-- Hand of Protection
+		[1044]	= UF:AuraWatch_AddSpell(1044, "BOTTOMRIGHT", {0.89, 0.45, 0}, true),	-- Hand of Freedom
+		[6940]	= UF:AuraWatch_AddSpell(6940, "BOTTOMRIGHT", {0.89, 0.1, 0.1}, true),	-- Hand of Sacrifice
+		[1038]	= UF:AuraWatch_AddSpell(1038, "BOTTOMRIGHT", {0.89, 0.78, 0}, true),	-- Hand of Salvation
 	},
 	SHAMAN = {
-		[16236] = ClassBuff(16236, "BOTTOMLEFT", {0.4, 0.7, 0.2}),			-- Ancestral Fortitude
-		[974]	= ClassBuff(974, "TOPRIGHT", {0.2, 0.7, 0.2}),				-- Earth Shield
-		[51945] = ClassBuff(51945, "BOTTOMRIGHT", {0.7, 0.4, 0}),			-- Earthliving
-		[61295] = ClassBuff(61295, "TOPLEFT", {0.7, 0.3, 0.7}),				-- Riptide
+		[16236] = UF:AuraWatch_AddSpell(16236, "BOTTOMLEFT", {0.4, 0.7, 0.2}),			-- Ancestral Fortitude
+		[974]	= UF:AuraWatch_AddSpell(974, "TOPRIGHT", {0.2, 0.7, 0.2}),				-- Earth Shield
+		[51945] = UF:AuraWatch_AddSpell(51945, "BOTTOMRIGHT", {0.7, 0.4, 0}),			-- Earthliving
+		[61295] = UF:AuraWatch_AddSpell(61295, "TOPLEFT", {0.7, 0.3, 0.7}),				-- Riptide
 	},
 	ROGUE = {
-		[57933] = ClassBuff(57933, "TOPRIGHT", {0.89, 0.09, 0.05}),			-- Tricks of the Trade
+		[57933] = UF:AuraWatch_AddSpell(57933, "TOPRIGHT", {0.89, 0.09, 0.05}),			-- Tricks of the Trade
 	},
 	MAGE = {
-		[54646] = ClassBuff(54646, "TOPRIGHT", {0.2, 0.2, 1}),				-- Focus Magic
+		[54646] = UF:AuraWatch_AddSpell(54646, "TOPRIGHT", {0.2, 0.2, 1}),				-- Focus Magic
 	},
 	WARRIOR = {
-		[3411]	= ClassBuff(3411, "TOPRIGHT", {0.89, 0.09, 0.05}),			-- Intervene
-		[50720] = ClassBuff(50720, "TOPLEFT", {0.2, 0.2, 1}),				-- Vigilance
+		[3411]	= UF:AuraWatch_AddSpell(3411, "TOPRIGHT", {0.89, 0.09, 0.05}),			-- Intervene
+		[50720] = UF:AuraWatch_AddSpell(50720, "TOPLEFT", {0.2, 0.2, 1}),				-- Vigilance
 	},
 	DEATHKNIGHT = {
-		[49016] = ClassBuff(49016, "TOPRIGHT", {0.89, 0.1, 0.1})			-- Unholy Frenzy
+		[49016] = UF:AuraWatch_AddSpell(49016, "TOPRIGHT", {0.89, 0.1, 0.1})			-- Unholy Frenzy
 	},
 	PET = {
-		[136]	= ClassBuff(136, "TOPRIGHT", {0.2, 0.8, 0.2}, true)			-- Mend Pet
+		[136]	= UF:AuraWatch_AddSpell(136, "TOPRIGHT", {0.2, 0.8, 0.2}, true)			-- Mend Pet
 	},
 	HUNTER = {},
 	WARLOCK = {},

@@ -479,21 +479,18 @@ function S:HandleRadioButton(Button)
 	Button.backdrop:Point("BOTTOMRIGHT", -2, 2)
 
 	Button:SetNormalTexture("")
+	Button:SetDisabledTexture("")
 	Button:SetCheckedTexture(E.Media.Textures.Melli)
 	Button:SetHighlightTexture(E.Media.Textures.Melli)
-	Button:SetDisabledTexture(E.Media.Textures.Melli)
 	Button:SetDisabledCheckedTexture(E.Media.Textures.Melli)
 
-	local Checked, Highlight, Disabled, DisabledChecked = Button:GetCheckedTexture(), Button:GetHighlightTexture(), Button:GetDisabledTexture(), Button:GetDisabledCheckedTexture()
+	local Checked, Highlight, DisabledChecked = Button:GetCheckedTexture(), Button:GetHighlightTexture(), Button:GetDisabledCheckedTexture()
 
 	Checked:SetVertexColor(unpack(E.media.rgbvaluecolor))
 	Checked:SetInside(Button.backdrop)
 
 	Highlight:SetVertexColor(1, 1, 1, 0.3)
 	Highlight:SetInside(Button.backdrop)
-
-	Disabled:SetVertexColor(0.6, 0.6, 0.5, 0.8)
-	Disabled:SetInside(Button.backdrop)
 
 	DisabledChecked:SetVertexColor(0.6, 0.6, 0.5, 0.8)
 	DisabledChecked:SetInside(Button.backdrop)
@@ -651,11 +648,8 @@ function S:HandleModelControlFrame(frame)
 	frame:Size(123, 23)
 
 	for _, object in pairs(controlButtons) do
-		local button = _G[frameName..object]
-		local buttonBG = _G[frameName..object.."Bg"]
-
-		S:HandleButton(button)
-		buttonBG:Hide()
+		S:HandleButton(_G[frameName..object])
+		_G[frameName..object.."Bg"]:Hide()
 	end
 
 	_G[frameName.."ZoomOutButton"]:Point("LEFT", _G[frameName.."ZoomInButton"], "RIGHT", 2, 0)

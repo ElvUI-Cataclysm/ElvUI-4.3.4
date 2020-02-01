@@ -333,7 +333,7 @@ function M:UpdateSettings()
 		MiniMapLFGFrame:ClearAllPoints()
 		MiniMapLFGFrame:Point(pos, Minimap, pos, E.db.general.minimap.icons.lfgEye.xOffset or 3, E.db.general.minimap.icons.lfgEye.yOffset or 0)
 		MiniMapLFGFrame:SetScale(scale)
-		LFGSearchStatus:SetScale(1/scale)
+		LFGSearchStatus:SetScale(1 / scale)
 	end
 
 	if MiniMapBattlefieldFrame then
@@ -447,6 +447,8 @@ function M:Initialize()
 	function GetMinimapShape()
 		return "SQUARE"
 	end
+
+	Minimap:Size(E.db.general.minimap.size, E.db.general.minimap.size)
 
 	local mmholder = CreateFrame("Frame", "MMHolder", Minimap)
 	mmholder:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", -4, -4)

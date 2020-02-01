@@ -13,7 +13,6 @@ local function LoadSkin()
 	-- Main Frame
 	ArchaeologyFrameInset:StripTextures(true)
 
-	local ArchaeologyFrame = _G["ArchaeologyFrame"]
 	ArchaeologyFrame:StripTextures(true)
 	ArchaeologyFrame:SetTemplate("Transparent")
 	ArchaeologyFrame:Width(500)
@@ -51,7 +50,7 @@ local function LoadSkin()
 	ArchaeologyFrameHelpPageDigTex:SetTexCoord(0.05, 0.885, 0.055, 0.9)
 	ArchaeologyFrameHelpPageDigTex:Point("LEFT", -35, 0)
 
-	ArchaeologyFrameHelpPage:CreateBackdrop("Transparent", true)
+	ArchaeologyFrameHelpPage:CreateBackdrop("Transparent")
 	ArchaeologyFrameHelpPage.backdrop:Point("TOPLEFT", -28, -235)
 	ArchaeologyFrameHelpPage.backdrop:Point("BOTTOMRIGHT", -22, 37)
 

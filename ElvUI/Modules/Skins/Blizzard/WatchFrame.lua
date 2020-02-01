@@ -90,36 +90,36 @@ local function LoadSkin()
 			local frame = _G["WatchFrameAutoQuestPopUp"..i]
 			local child = _G["WatchFrameAutoQuestPopUp"..i.."ScrollChild"]
 
-			if frame and frame.isSkinned ~= true then
+			if frame and not frame.isSkinned then
 				local name = child:GetName()
 
-				frame:CreateBackdrop("Transparent", nil, true)
+				frame:CreateBackdrop("Transparent")
 				frame.backdrop:Point("TOPLEFT", 0, -2)
 				frame.backdrop:Point("BOTTOMRIGHT", 0, 2)
 
 				frame:SetHitRectInsets(2, 2, 2, 2)
-
-				child.QuestionMark:ClearAllPoints()
-				child.QuestionMark:Point("CENTER", frame.backdrop, "LEFT", 12, 0)
-				child.QuestionMark:SetParent(frame.backdrop)
-				child.QuestionMark:SetDrawLayer("OVERLAY", 7)
-
-				child.Exclamation:ClearAllPoints()
-				child.Exclamation:Point("CENTER", frame.backdrop, "LEFT", 12, 0)
-				child.Exclamation:SetParent(frame.backdrop)
-				child.Exclamation:SetDrawLayer("OVERLAY", 7)
 
 				child.TopText:ClearAllPoints()
 				child.TopText:Point("TOP", frame.backdrop, "TOP", 0, -10)
 				child.TopText.SetPoint = E.noop
 
 				child.QuestName:ClearAllPoints()
-				child.QuestName:Point("LEFT", child.Exclamation, "RIGHT", 2, 0)
+				child.QuestName:Point("CENTER", frame.backdrop, "CENTER", 0, 0)
 				child.QuestName.SetPoint = E.noop
 
 				child.BottomText:ClearAllPoints()
 				child.BottomText:Point("BOTTOM", frame.backdrop, "BOTTOM", 0, 10)
 				child.BottomText.SetPoint = E.noop
+
+				child.QuestionMark:ClearAllPoints()
+				child.QuestionMark:Point("RIGHT", child.QuestName, "LEFT", -2, 0)
+				child.QuestionMark:SetParent(frame.backdrop)
+				child.QuestionMark:SetDrawLayer("OVERLAY", 7)
+
+				child.Exclamation:ClearAllPoints()
+				child.Exclamation:Point("RIGHT", child.QuestName, "LEFT", -2, 0)
+				child.Exclamation:SetParent(frame.backdrop)
+				child.Exclamation:SetDrawLayer("OVERLAY", 7)
 
 				_G[name.."Bg"]:Kill()
 				_G[name.."QuestIconBg"]:Kill()
@@ -136,8 +136,12 @@ local function LoadSkin()
 				_G[name.."BorderTopLeft"]:Kill()
 				_G[name.."BorderTopRight"]:Kill()
 
-				frame:HookScript("OnEnter", S.SetModifiedBackdrop)
-				frame:HookScript("OnLeave", S.SetOriginalBackdrop)
+				frame:HookScript("OnEnter", function(self)
+					self.backdrop:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
+				end)
+				frame:HookScript("OnLeave", function(self)
+					self.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				end)
 
 				frame.isSkinned = true
 			end
@@ -167,8 +171,7 @@ local function LoadSkin()
 
 	-- WatchFrame POI Buttons
 	hooksecurefunc("QuestPOI_DisplayButton", function(parentName, buttonType, buttonIndex)
-		local buttonName = "poi"..parentName..buttonType.."_"..buttonIndex
-		local poiButton = _G[buttonName]
+		local poiButton = _G[format("poi%s%s_%d", parentName, buttonType, buttonIndex)]
 
 		if poiButton and parentName == "WatchFrameLines" then
 			if not poiButton.isSkinned then

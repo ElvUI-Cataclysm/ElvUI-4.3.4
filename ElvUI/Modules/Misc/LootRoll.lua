@@ -20,8 +20,8 @@ local GetLootRollTimeLeft = GetLootRollTimeLeft
 local GetLootRollItemInfo = GetLootRollItemInfo
 local GetLootRollItemLink = GetLootRollItemLink
 local SetDesaturation = SetDesaturation
+
 local ITEM_QUALITY_COLORS = ITEM_QUALITY_COLORS
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 local ROLL_DISENCHANT = ROLL_DISENCHANT
 
 local pos = "TOP"
@@ -106,7 +106,7 @@ local function SetTip(frame)
 
 	for name, tbl in pairs(frame.parent.rolls) do
 		if tbl[1] == rolltypes[frame.rolltype] then
-			local classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[tbl[2]] or RAID_CLASS_COLORS[tbl[2]]
+			local classColor = E:ClassColor(tbl[2])
 			GameTooltip:AddLine(name, classColor.r, classColor.g, classColor.b)
 		end
 	end
