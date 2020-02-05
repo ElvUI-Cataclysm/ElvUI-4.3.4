@@ -60,11 +60,13 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag, sh
 	local f = CreateFrame("Button", name, E.UIParent)
 	f:SetClampedToScreen(true)
 	f:RegisterForDrag("LeftButton", "RightButton")
+	f:SetFrameLevel(parent:GetFrameLevel() + 1)
+	f:SetFrameStrata(overlay and "DIALOG" or "BACKGROUND")
 	f:EnableMouseWheel(true)
 	f:SetMovable(true)
-	f:Width(width)
-	f:Height(height)
 	f:SetTemplate("Transparent", nil, nil, true)
+	f:Height(height)
+	f:Width(width)
 	f:Hide()
 	f.parent = parent
 	f.name = name
@@ -74,13 +76,6 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag, sh
 	f.snapOffset = snapOffset or -2
 	f.shouldDisable = shouldDisable
 	f.configString = configString
-
-	f:SetFrameLevel(parent:GetFrameLevel() + 1)
-	if overlay == true then
-		f:SetFrameStrata("DIALOG")
-	else
-		f:SetFrameStrata("BACKGROUND")
-	end
 
 	E.CreatedMovers[name].mover = f
 	E.snapBars[#E.snapBars + 1] = f

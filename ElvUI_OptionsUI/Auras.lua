@@ -8,11 +8,6 @@ local format = string.format
 
 local function GetAuraOptions(headerName)
 	local auraOptions = {
-		header = {
-			order = 1,
-			type = "header",
-			name = headerName
-		},
 		size = {
 			order = 2,
 			type = "range",
@@ -112,6 +107,7 @@ local function GetAuraOptions(headerName)
 end
 
 E.Options.args.auras = {
+	order = 2,
 	type = "group",
 	name = L["BUFFOPTIONS_LABEL"],
 	childGroups = "tab",

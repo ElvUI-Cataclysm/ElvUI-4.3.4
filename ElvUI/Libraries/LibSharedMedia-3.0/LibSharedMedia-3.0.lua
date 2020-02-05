@@ -143,6 +143,7 @@ end
 if not lib.MediaTable.statusbar then lib.MediaTable.statusbar = {} end
 lib.MediaTable.statusbar["Blizzard"]						= [[Interface\TargetingFrame\UI-StatusBar]]
 lib.MediaTable.statusbar["Blizzard Character Skills Bar"]	= [[Interface\PaperDollInfoFrame\UI-Character-Skills-Bar]]
+lib.MediaTable.statusbar["Solid"]							= [[Interface\Buttons\WHITE8X8]]
 lib.DefaultMedia.statusbar = "Blizzard"
 
 -- SOUND
@@ -176,9 +177,10 @@ function lib:Register(mediatype, key, data, langmask)
 		-- ignore fonts that aren't flagged as supporting local glyphs on non-western clients
 		return false
 	end
-	if mediatype == lib.MediaType.SOUND and type(data) == "string" then
+	if type(data) == "string" and (mediatype == lib.MediaType.BACKGROUND or mediatype == lib.MediaType.BORDER or mediatype == lib.MediaType.STATUSBAR or mediatype == lib.MediaType.SOUND) then
 		local path = data:lower()
-		if not path:find(".ogg", nil, true) and not path:find(".mp3", nil, true) and not path:find(".wav", nil, true) then
+		if mediatype == lib.MediaType.SOUND and not (path:find(".ogg", nil, true) or not path:find(".mp3", nil, true) or not path:find(".wav", nil, true)) then
+
 			-- Only wav, ogg and mp3 are valid sounds.
 			return false
 		end

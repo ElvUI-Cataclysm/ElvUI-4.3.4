@@ -40,6 +40,7 @@ function UF:Construct_TankFrames()
 		self.unitframeType = "tanktarget"
 	end
 
+	UF:Update_TankFrames(self, E.db.unitframe.units.tank)
 	UF:Update_StatusBars()
 	UF:Update_FontStrings()
 
@@ -54,21 +55,19 @@ function UF:Update_TankHeader(header, db)
 
 	UF:ClearChildPoints(header:GetChildren())
 
-	header:SetAttribute("startingIndex", -1)
-	RegisterStateDriver(header, "visibility", "show")
-	RegisterStateDriver(header, "visibility", "[@raid1,exists] show;hide")
-	header:SetAttribute("startingIndex", 1)
+	if not header.isForced and db.enable then
+	--	RegisterStateDriver(header, "visibility", "show")
+		RegisterStateDriver(header, "visibility", "[@raid1,exists] show;hide")
+	end
 
 	header:SetAttribute("point", "BOTTOM")
 	header:SetAttribute("columnAnchorPoint", "LEFT")
-
-	UF:ClearChildPoints(header:GetChildren())
 	header:SetAttribute("yOffset", db.verticalSpacing)
 
-	local width, height = header:GetSize()
-	header.dirtyWidth, header.dirtyHeight = width, max(height, 2*db.height + db.verticalSpacing)
-
 	if not header.positioned then
+		local width, height = header:GetSize()
+
+		header.dirtyWidth, header.dirtyHeight = width, max(height, 2*db.height + db.verticalSpacing)
 		header:ClearAllPoints()
 		header:Point("TOPLEFT", E.UIParent, "TOPLEFT", 4, -186)
 
@@ -139,21 +138,20 @@ function UF:Update_TankFrames(frame, db)
 				frame:SetParent(E.HiddenFrame)
 			end
 		end
-	elseif not InCombatLockdown() then
-		frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
 	end
+
+	frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
 
 	UF:Configure_HealthBar(frame)
 	UF:UpdateNameSettings(frame)
 	UF:Configure_Threat(frame)
 	UF:Configure_Fader(frame)
-	UF:Configure_RaidIcon(frame)
 	UF:Configure_Cutaway(frame)
+	UF:Configure_RaidIcon(frame)
 
 	if not frame.isChild then
 		UF:EnableDisable_Auras(frame)
-		UF:Configure_Auras(frame, "Buffs")
-		UF:Configure_Auras(frame, "Debuffs")
+		UF:Configure_AllAuras(frame)
 		UF:Configure_RaidDebuffs(frame)
 		UF:Configure_DebuffHighlight(frame)
 		UF:Configure_AuraWatch(frame)

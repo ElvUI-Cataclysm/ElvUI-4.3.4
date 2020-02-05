@@ -57,6 +57,7 @@ function DT:PanelLayoutOptions()
 end
 
 E.Options.args.datatexts = {
+	order = 2,
 	type = "group",
 	name = L["DataTexts"],
 	childGroups = "tab",

@@ -31,7 +31,7 @@ function E:UIScale(init)
 		local pixel, ratio = 1, 768 / E.screenheight
 		E.mult = (pixel / scale) - ((pixel - ratio) / scale)
 		E.Spacing = (E.PixelMode and 0) or E.mult
-		E.Border = ((not E.twoPixelsPlease) and E.PixelMode and E.mult) or E.mult*2
+		E.Border = ((not E.twoPixelsPlease) and E.PixelMode and E.mult) or E.mult * 2
 	else --E.Initialize
 		UIParent:SetScale(scale)
 
@@ -66,7 +66,9 @@ function E:UIScale(init)
 end
 
 function E:PixelBestSize()
-	return max(0.4, min(1.15, 768 / E.screenheight))
+	local scale = E:Round(768 / E.screenheight, 5)
+
+	return max(0.4, min(1.15, scale))
 end
 
 function E:PixelScaleChanged(event, skip)
@@ -85,5 +87,7 @@ function E:PixelScaleChanged(event, skip)
 end
 
 function E:Scale(x)
-	return E.mult * floor(x / E.mult + 0.5)
+	local mult = E.mult
+
+	return mult * floor(x / mult + 0.5)
 end

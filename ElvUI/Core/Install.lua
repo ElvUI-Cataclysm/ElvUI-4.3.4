@@ -80,6 +80,7 @@ local function SetupChat(noDisplayMsg)
 		ChatFrame_AddMessageGroup(ChatFrame1, v)
 	end
 
+	-- keys taken from `ChatTypeGroup` which weren't added above to ChatFrame1
 	chatGroup = {"COMBAT_XP_GAIN", "COMBAT_HONOR_GAIN", "COMBAT_FACTION_CHANGE", "COMBAT_GUILD_XP_GAIN", "SKILL", "LOOT", "CURRENCY", "MONEY"}
 	ChatFrame_RemoveAllMessageGroups(ChatFrame3)
 	for _, v in ipairs(chatGroup) do
@@ -90,6 +91,7 @@ local function SetupChat(noDisplayMsg)
 	ChatFrame_RemoveChannel(ChatFrame1, TRADE)
 	ChatFrame_AddChannel(ChatFrame3, TRADE)
 
+	-- set the chat groups names in class color to enabled for all chat groups which players names appear
 	chatGroup = {"SAY", "EMOTE", "YELL", "WHISPER", "PARTY", "PARTY_LEADER", "RAID", "RAID_LEADER", "RAID_WARNING", "BATTLEGROUND", "BATTLEGROUND_LEADER", "GUILD", "OFFICER", "ACHIEVEMENT", "GUILD_ACHIEVEMENT"}
 	for i = 1, MAX_WOW_CHAT_CHANNELS do
 		tinsert(chatGroup, "CHANNEL"..i)
@@ -213,7 +215,9 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 
 		--Shared base layout, tweaks to individual layouts will be below
 		E:ResetMovers("")
-		if not E.db.movers then E.db.movers = {} end
+		if not E.db.movers then
+			E.db.movers = {}
+		end
 
 	--ActionBars
 		E.db.actionbar.backdropSpacingConverted = true
@@ -261,7 +265,7 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.databars.reputation.height = 10
 		E.db.databars.reputation.orientation = "HORIZONTAL"
 		E.db.databars.reputation.width = 222
-		--General
+	--General
 		E.db.general.minimap.size = 220
 		E.db.general.watchFrameHeight = 400
 		E.db.general.totems.growthDirection = "HORIZONTAL"
@@ -386,7 +390,6 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 			E.db.unitframe.units.party.width = 231
 		--Raid
 			E.db.unitframe.units.raid.growthDirection = "RIGHT_UP"
-			E.db.unitframe.units.raid.health.frequentUpdates = true
 			E.db.unitframe.units.raid.infoPanel.enable = true
 			E.db.unitframe.units.raid.name.attachTextTo = "InfoPanel"
 			E.db.unitframe.units.raid.name.position = "BOTTOMLEFT"
@@ -422,13 +425,12 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 			E.db.movers.LootFrameMover = "TOPLEFT,ElvUIParent,TOPLEFT,250,-104"
 			E.db.movers.ShiftAB = "TOPLEFT,ElvUIParent,BOTTOMLEFT,4,273"
 			E.db.unitframe.units.party.enable = false
-			E.db.unitframe.units.party.health.frequentUpdates = true
 			E.db.unitframe.units.raid.visibility = "[nogroup] hide;show"
-			E.db.unitframe.units.raid40.health.frequentUpdates = true
 		end
 	end
 
 	E:UpdateAll(true)
+	E.db.layoutSetting = layout
 
 	if InstallStepComplete and not noDisplayMsg then
 		InstallStepComplete.message = L["Layout Set"]
@@ -442,8 +444,7 @@ local function SetupAuras(style, noDisplayMsg)
 	E:CopyTable(E.db.unitframe.units.player.debuffs, P.unitframe.units.player.debuffs)
 	E:CopyTable(E.db.unitframe.units.player.aurabar, P.unitframe.units.player.aurabar)
 	if frame then
-		UF:Configure_Auras(frame, "Buffs")
-		UF:Configure_Auras(frame, "Debuffs")
+		UF:Configure_AllAuras(frame)
 		UF:Configure_AuraBars(frame)
 	end
 
@@ -452,8 +453,7 @@ local function SetupAuras(style, noDisplayMsg)
 	E:CopyTable(E.db.unitframe.units.target.debuffs, P.unitframe.units.target.debuffs)
 	E:CopyTable(E.db.unitframe.units.target.aurabar, P.unitframe.units.target.aurabar)
 	if frame then
-		UF:Configure_Auras(frame, "Buffs")
-		UF:Configure_Auras(frame, "Debuffs")
+		UF:Configure_AllAuras(frame)
 		UF:Configure_AuraBars(frame)
 	end
 
@@ -462,8 +462,7 @@ local function SetupAuras(style, noDisplayMsg)
 	E:CopyTable(E.db.unitframe.units.focus.debuffs, P.unitframe.units.focus.debuffs)
 	E:CopyTable(E.db.unitframe.units.focus.aurabar, P.unitframe.units.focus.aurabar)
 	if frame then
-		UF:Configure_Auras(frame, "Buffs")
-		UF:Configure_Auras(frame, "Debuffs")
+		UF:Configure_AllAuras(frame)
 		UF:Configure_AuraBars(frame)
 	end
 
@@ -586,7 +585,7 @@ local function SetPage(PageNum)
 		InstallOption3Button:SetScript("OnClick", function() E:SetupTheme("class") end)
 		InstallOption3Button:SetText(CLASS)
 	elseif PageNum == 5 then
-		f.SubTitle:SetText(L["UI Scale"])
+		f.SubTitle:SetText(UISCALE)
 		f.Desc1:SetFormattedText(L["Adjust the UI Scale to fit your screen, press the autoscale button to set the UI Scale automatically."])
 		InstallSlider:Show()
 		InstallSlider:SetValueStep(0.01)
@@ -596,8 +595,9 @@ local function SetPage(PageNum)
 		InstallSlider:SetValue(value)
 		InstallSlider.Cur:SetText(value)
 		InstallSlider:SetScript("OnValueChanged", function(self)
-			E.global.general.UIScale = self:GetValue()
-			InstallSlider.Cur:SetText(E.global.general.UIScale)
+			local val = E:Round(self:GetValue(), 2)
+			E.global.general.UIScale = val
+			InstallSlider.Cur:SetText(val)
 		end)
 
 		InstallSlider.Min:SetText(0.4)
@@ -784,16 +784,16 @@ function E:Install()
 		f.Slider:Height(15)
 		f.Slider:Width(400)
 		f.Slider:SetHitRectInsets(0, 0, -10, 0)
-		f.Slider:SetPoint("CENTER", 0, 45)
+		f.Slider:Point("CENTER", 0, 45)
 		S:HandleSliderFrame(f.Slider)
 		f.Slider:Hide()
 
 		f.Slider.Min = f.Slider:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.Slider.Min:SetPoint("RIGHT", f.Slider, "LEFT", -3, 0)
+		f.Slider.Min:Point("RIGHT", f.Slider, "LEFT", -3, 0)
 		f.Slider.Max = f.Slider:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.Slider.Max:SetPoint("LEFT", f.Slider, "RIGHT", 3, 0)
+		f.Slider.Max:Point("LEFT", f.Slider, "RIGHT", 3, 0)
 		f.Slider.Cur = f.Slider:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.Slider.Cur:SetPoint("BOTTOM", f.Slider, "TOP", 0, 10)
+		f.Slider.Cur:Point("BOTTOM", f.Slider, "TOP", 0, 10)
 		f.Slider.Cur:FontTemplate(nil, 30, nil)
 
 		f.Option1 = CreateFrame("Button", "InstallOption1Button", f, "UIPanelButtonTemplate")

@@ -65,6 +65,9 @@ function UF:Configure_Power(frame)
 
 		E:SetSmoothing(power, self.db.smoothbars)
 
+		frame:SetPowerUpdateMethod(E.global.unitframe.effectivePower)
+		frame:SetPowerUpdateSpeed(E.global.unitframe.effectivePowerSpeed)
+
 		--Text
 		local attachPoint = self:GetObjectAnchorPoint(frame, db.power.attachTextTo)
 		power.value:ClearAllPoints()
@@ -217,29 +220,39 @@ end
 local tokens = {[0] = "MANA", "RAGE", "FOCUS", "ENERGY", "RUNIC_POWER"}
 function UF:PostUpdatePowerColor()
 	local parent = self.origParent or self:GetParent()
-
-	if parent.isForced then
+	if parent.isForced and not self.colorClass then
 		local color = ElvUF.colors.power[tokens[random(0, 4)]]
-		self:SetValue(random(1, self.max))
+		self:SetStatusBarColor(color[1], color[2], color[3])
 
-		if not self.colorClass then
-			self:SetStatusBarColor(color[1], color[2], color[3])
-
-			if self.BG then
-				UF:UpdateBackdropTextureColor(self.BG, color[1], color[2], color[3])
-			end
+		if self.BG then
+			UF:UpdateBackdropTextureColor(self.BG, color[1], color[2], color[3])
 		end
 	end
 end
 
-function UF:PostUpdatePower(unit)
+function UF:PostUpdatePower(unit, cur)
 	local parent = self.origParent or self:GetParent()
 	if parent.isForced then
-		self:SetValue(random(1, self.max))
+		self.cur = random(1, 100)
+		self.max = 100
+		self:SetMinMaxValues(0, self.max)
+		self:SetValue(self.cur)
 	end
 
-	if parent.db and parent.db.power and parent.db.power.hideonnpc then
-		UF:PostNamePosition(parent, unit)
+	if parent.db and parent.db.power then
+		if unit == "player" and parent.db.power.autoHide and parent.POWERBAR_DETACHED then
+			if cur == 0 then
+				self:Hide()
+			else
+				self:Show()
+			end
+		elseif not self:IsShown() then
+			self:Show()
+		end
+
+		if parent.db.power.hideonnpc then
+			UF:PostNamePosition(parent, unit)
+		end
 	end
 
 	--Force update to AdditionalPower in order to reposition text if necessary

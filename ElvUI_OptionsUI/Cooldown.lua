@@ -286,6 +286,7 @@ local function group(order, db, label)
 end
 
 E.Options.args.cooldown = {
+	order = 2,
 	type = "group",
 	name = L["Cooldown Text"],
 	childGroups = "tab",

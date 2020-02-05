@@ -21,13 +21,10 @@ function UF:Construct_RaidFrames()
 	self.RaisedElementParent:SetFrameLevel(self:GetFrameLevel() + 100)
 
 	self.Health = UF:Construct_HealthBar(self, true, true, "RIGHT")
-
 	self.Power = UF:Construct_PowerBar(self, true, true, "LEFT")
-	self.Power.frequentUpdates = false
-
 	self.Portrait3D = UF:Construct_Portrait(self, "model")
 	self.Portrait2D = UF:Construct_Portrait(self, "texture")
-
+	self.InfoPanel = UF:Construct_InfoPanel(self)
 	self.Name = UF:Construct_NameText(self)
 	self.Buffs = UF:Construct_Buffs(self)
 	self.Debuffs = UF:Construct_Debuffs(self)
@@ -37,8 +34,8 @@ function UF:Construct_RaidFrames()
 	self.ResurrectIndicator = UF:Construct_ResurrectionIcon(self)
 	self.GroupRoleIndicator = UF:Construct_RoleIcon(self)
 	self.RaidRoleFramesAnchor = UF:Construct_RaidRoleFrames(self)
-	self.PhaseIndicator = UF:Construct_PhaseIcon(self)
 	self.MouseGlow = UF:Construct_MouseGlow(self)
+	self.PhaseIndicator = UF:Construct_PhaseIcon(self)
 	self.TargetGlow = UF:Construct_TargetGlow(self)
 	self.ThreatIndicator = UF:Construct_Threat(self)
 	self.RaidTargetIndicator = UF:Construct_RaidIcon(self)
@@ -49,7 +46,6 @@ function UF:Construct_RaidFrames()
 	self.Cutaway = UF:Construct_Cutaway(self)
 
 	self.customTexts = {}
-	self.InfoPanel = UF:Construct_InfoPanel(self)
 
 	self.unitframeType = "raid"
 
@@ -57,51 +53,6 @@ function UF:Construct_RaidFrames()
 	UF:Update_FontStrings()
 
 	return self
-end
-
-function UF:RaidSmartVisibility(event)
-	if not self.db or (self.db and not self.db.enable) or (UF.db and not UF.db.smartRaidFilter) or self.isForced then
-		self.blockVisibilityChanges = false
-		return
-	end
-
-	if event == "PLAYER_REGEN_ENABLED" then self:UnregisterEvent("PLAYER_REGEN_ENABLED") end
-
-	if not InCombatLockdown() then
-		self.isInstanceForced = nil
-		local inInstance, instanceType = IsInInstance()
-		if inInstance and (instanceType == "raid" or instanceType == "pvp") then
-			local _, _, _, _, maxPlayers = GetInstanceInfo()
-			local mapID = GetCurrentMapAreaID()
-
-			if UF.instanceMapIDs[mapID] then
-				maxPlayers = UF.instanceMapIDs[mapID]
-			end
-
-			UnregisterStateDriver(self, "visibility")
-
-			if maxPlayers < 40 then
-				self:Show()
-				self.isInstanceForced = true
-				self.blockVisibilityChanges = false
-				if ElvUF_Raid.numGroups ~= E:Round(maxPlayers/5) and event then
-					UF:CreateAndUpdateHeaderGroup("raid")
-				end
-			else
-				self:Hide()
-				self.blockVisibilityChanges = true
-			end
-		elseif self.db.visibility then
-			RegisterStateDriver(self, "visibility", self.db.visibility)
-			self.blockVisibilityChanges = false
-			if ElvUF_Raid.numGroups ~= self.db.numGroups then
-				UF:CreateAndUpdateHeaderGroup("raid")
-			end
-		end
-	else
-		self:RegisterEvent("PLAYER_REGEN_ENABLED")
-		return
-	end
 end
 
 function UF:Update_RaidHeader(header, db)
@@ -113,16 +64,14 @@ function UF:Update_RaidHeader(header, db)
 	if not headerHolder.positioned then
 		headerHolder:ClearAllPoints()
 		headerHolder:Point("BOTTOMLEFT", E.UIParent, "BOTTOMLEFT", 4, 195)
-
 		E:CreateMover(headerHolder, headerHolder:GetName().."Mover", L["Raid Frames"], nil, nil, nil, "ALL,RAID", nil, "unitframe,raid,generalGroup")
 
-		headerHolder:RegisterEvent("PLAYER_ENTERING_WORLD")
-		headerHolder:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-		headerHolder:SetScript("OnEvent", UF.RaidSmartVisibility)
 		headerHolder.positioned = true
 	end
 
-	UF.RaidSmartVisibility(headerHolder)
+	if not headerHolder.isForced and db.enable then
+		RegisterStateDriver(headerHolder, "visibility", db.visibility)
+	end
 end
 
 function UF:Update_RaidFrames(frame, db)
@@ -172,19 +121,15 @@ function UF:Update_RaidFrames(frame, db)
 		frame.VARIABLES_SET = true
 	end
 
-	if not InCombatLockdown() then
-		frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
-	end
+	frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
 
+	UF:EnableDisable_Auras(frame)
+	UF:Configure_AllAuras(frame)
 	UF:Configure_InfoPanel(frame)
 	UF:Configure_HealthBar(frame)
-	UF:UpdateNameSettings(frame)
 	UF:Configure_Power(frame)
 	UF:Configure_Portrait(frame)
 	UF:Configure_Threat(frame)
-	UF:EnableDisable_Auras(frame)
-	UF:Configure_Auras(frame, "Buffs")
-	UF:Configure_Auras(frame, "Debuffs")
 	UF:Configure_RaidDebuffs(frame)
 	UF:Configure_RaidIcon(frame)
 	UF:Configure_ResurrectionIcon(frame)
@@ -199,6 +144,7 @@ function UF:Update_RaidFrames(frame, db)
 	UF:Configure_CustomTexts(frame)
 	UF:Configure_PhaseIcon(frame)
 	UF:Configure_Cutaway(frame)
+	UF:UpdateNameSettings(frame)
 
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end

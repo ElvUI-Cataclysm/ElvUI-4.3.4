@@ -120,7 +120,9 @@ function E:MassGuildKick(msg)
 		return
 	end
 
-	if not minRankIndex then minRankIndex = GuildControlGetNumRanks() - 1 end
+	if not minRankIndex then
+		minRankIndex = GuildControlGetNumRanks() - 1
+	end
 
 	for i = 1, GetNumGuildMembers() do
 		local name, _, rankIndex, level, _, _, note, officerNote, connected, _, classFileName = GetGuildRosterInfo(i)
@@ -208,7 +210,7 @@ local BLIZZARD_ADDONS = {
 	"Blizzard_TokenUI",
 	"Blizzard_TradeSkillUI",
 	"Blizzard_TrainerUI",
-	"Blizzard_VoidStorageUI",
+	"Blizzard_VoidStorageUI"
 }
 
 function E:EnableBlizzardAddOns()
@@ -227,6 +229,7 @@ function E:LoadCommands()
 	self:RegisterChatCommand("elvui", "ToggleOptionsUI")
 	self:RegisterChatCommand("cpuimpact", "GetCPUImpact")
 	self:RegisterChatCommand("cpuusage", "GetTopCPUFunc")
+
 	self:RegisterChatCommand("bgstats", "BGStats")
 	self:RegisterChatCommand("hellokitty", "HelloKittyToggle")
 	self:RegisterChatCommand("hellokittyfix", "HelloKittyFix")
@@ -235,8 +238,6 @@ function E:LoadCommands()
 	self:RegisterChatCommand("egrid", "Grid")
 	self:RegisterChatCommand("moveui", "ToggleConfigMode")
 	self:RegisterChatCommand("resetui", "ResetUI")
-	self:RegisterChatCommand("enable", "EnableAddon")
-	self:RegisterChatCommand("disable", "DisableAddon")
 	self:RegisterChatCommand("farmmode", "FarmMode")
 	self:RegisterChatCommand("cleanguild", "MassGuildKick")
 	self:RegisterChatCommand("enableblizzard", "EnableBlizzardAddOns")

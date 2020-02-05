@@ -42,8 +42,6 @@ function UF:Construct_PartyFrames()
 
 		self.Health = UF:Construct_HealthBar(self, true, true, "RIGHT")
 		self.Power = UF:Construct_PowerBar(self, true, true, "LEFT")
-		self.Power.frequentUpdates = false
-
 		self.Portrait3D = UF:Construct_Portrait(self, "model")
 		self.Portrait2D = UF:Construct_Portrait(self, "texture")
 		self.InfoPanel = UF:Construct_InfoPanel(self)
@@ -64,8 +62,9 @@ function UF:Construct_PartyFrames()
 		self.ReadyCheckIndicator = UF:Construct_ReadyCheckIcon(self)
 		self.HealthPrediction = UF:Construct_HealComm(self)
 		self.GPS = UF:Construct_GPS(self)
-		self.Castbar = UF:Construct_Castbar(self)
 		self.customTexts = {}
+
+		self.Castbar = UF:Construct_Castbar(self)
 
 		self.unitframeType = "party"
 	end
@@ -88,38 +87,13 @@ function UF:Update_PartyHeader(header, db)
 	if not headerHolder.positioned then
 		headerHolder:ClearAllPoints()
 		headerHolder:Point("BOTTOMLEFT", E.UIParent, "BOTTOMLEFT", 4, 195)
-
 		E:CreateMover(headerHolder, headerHolder:GetName().."Mover", L["Party Frames"], nil, nil, nil, "ALL,PARTY,ARENA", nil, "unitframe,party,generalGroup")
+
 		headerHolder.positioned = true
-
-		headerHolder:RegisterEvent("PLAYER_ENTERING_WORLD")
-		headerHolder:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-		headerHolder:SetScript("OnEvent", UF.PartySmartVisibility)
 	end
 
-	UF.PartySmartVisibility(headerHolder)
-end
-
-function UF:PartySmartVisibility(event)
-	if not self.db or (self.db and not self.db.enable) or (UF.db and not UF.db.smartRaidFilter) or self.isForced then
-		self.blockVisibilityChanges = false
-		return
-	end
-
-	if event == "PLAYER_REGEN_ENABLED" then self:UnregisterEvent("PLAYER_REGEN_ENABLED") end
-
-	if not InCombatLockdown() then
-		local inInstance, instanceType = IsInInstance()
-		if inInstance and (instanceType == "raid" or instanceType == "pvp") then
-			UnregisterStateDriver(self, "visibility")
-			self:Hide()
-			self.blockVisibilityChanges = true
-		elseif self.db.visibility then
-			RegisterStateDriver(self, "visibility", self.db.visibility)
-			self.blockVisibilityChanges = false
-		end
-	else
-		self:RegisterEvent("PLAYER_REGEN_ENABLED")
+	if not headerHolder.isForced and db.enable then
+		RegisterStateDriver(headerHolder, "visibility", db.visibility)
 	end
 end
 
@@ -205,25 +179,18 @@ function UF:Update_PartyFrames(frame, db)
 		end
 
 		UF:Configure_HealthBar(frame)
-
 		UF:Configure_RaidIcon(frame)
 
 		UF:UpdateNameSettings(frame, frame.childType)
 	else
-		if not InCombatLockdown() then
-			frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
-		end
-
-		UF:Configure_InfoPanel(frame)
+		UF:EnableDisable_Auras(frame)
+		UF:Configure_AllAuras(frame)
 		UF:Configure_HealthBar(frame)
-		UF:UpdateNameSettings(frame)
+		UF:Configure_InfoPanel(frame)
 		UF:Configure_PhaseIcon(frame)
 		UF:Configure_Power(frame)
 		UF:Configure_Portrait(frame)
 		UF:Configure_Threat(frame)
-		UF:EnableDisable_Auras(frame)
-		UF:Configure_Auras(frame, "Buffs")
-		UF:Configure_Auras(frame, "Debuffs")
 		UF:Configure_RaidDebuffs(frame)
 		UF:Configure_Castbar(frame)
 		UF:Configure_RaidIcon(frame)
@@ -236,9 +203,13 @@ function UF:Update_PartyFrames(frame, db)
 		UF:Configure_AuraWatch(frame)
 		UF:Configure_ReadyCheckIcon(frame)
 		UF:Configure_CustomTexts(frame)
+		UF:UpdateNameSettings(frame)
 	end
 
-	UF:Configure_Fader(frame)	
+	frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
+
+	UF:Configure_RaidIcon(frame)
+	UF:Configure_Fader(frame)
 	UF:Configure_Cutaway(frame)
 
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")

@@ -102,6 +102,7 @@ G.unitframe.aurafilters.CCDebuffs = {
 	}
 }
 
+-- These are buffs that can be considered "protection" buffs
 G.unitframe.aurafilters.TurtleBuffs = {
 	type = "Whitelist",
 	spells = {
@@ -455,7 +456,7 @@ G.unitframe.aurafilters.RaidDebuffs = {
 	}
 }
 
---Spells that we want to show the duration backwards
+-- Spells that we want to show the duration backwards
 E.ReverseTimer = {
 	[92956] = true,	-- Sinestra (Wrack)
 	[89435] = true,	-- Sinestra (Wrack)
@@ -463,9 +464,8 @@ E.ReverseTimer = {
 	[89421] = true,	-- Sinestra (Wrack)
 }
 
---BuffWatch
 -- BuffWatch: List of personal spells to show on unitframes as icon
-function UF:AuraWatch_AddSpell(id, point, color, anyUnit, onlyShowMissing, displayText, textThreshold, xOffset, yOffset, sizeOverride)
+function UF:AuraWatch_AddSpell(id, point, color, anyUnit, onlyShowMissing, displayText, textThreshold, xOffset, yOffset)
 	local r, g, b = 1, 1, 1
 	if color then r, g, b = unpack(color) end
 
@@ -476,12 +476,12 @@ function UF:AuraWatch_AddSpell(id, point, color, anyUnit, onlyShowMissing, displ
 		color = {r = r, g = g, b = b},
 		anyUnit = anyUnit or false,
 		onlyShowMissing = onlyShowMissing or false,
-		styleOverride = "Default",
 		displayText = displayText or false,
 		textThreshold = textThreshold or -1,
 		xOffset = xOffset or 0,
 		yOffset = yOffset or 0,
-		sizeOverride = sizeOverride or 0
+		style = "coloredIcon",
+		sizeOffset = 0
 	}
 end
 

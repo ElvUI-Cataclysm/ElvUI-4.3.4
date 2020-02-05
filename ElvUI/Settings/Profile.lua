@@ -1187,7 +1187,6 @@ P.unitframe = {
 	fontSize = 10,
 	fontOutline = "MONOCHROMEOUTLINE",
 	debuffHighlighting = "FILL",
-	smartRaidFilter = true,
 	targetOnMouseDown = false,
 	auraBlacklistModifier = "SHIFT",
 	thinBorders = false,
@@ -1375,6 +1374,7 @@ P.unitframe = {
 			},
 			power = {
 				enable = true,
+				autoHide = false,
 				reverseFill = false,
 				text_format = "[powercolor][power:current]",
 				width = "fill",
@@ -1648,6 +1648,7 @@ P.unitframe = {
 			},
 			power = {
 				enable = true,
+				autoHide = false,
 				reverseFill = false,
 				text_format = "[powercolor][power:current]",
 				width = "fill",
@@ -1892,6 +1893,7 @@ P.unitframe = {
 			},
 			power = {
 				enable = true,
+				autoHide = false,
 				reverseFill = false,
 				text_format = "",
 				width = "fill",
@@ -2027,6 +2029,7 @@ P.unitframe = {
 			},
 			power = {
 				enable = true,
+				autoHide = false,
 				reverseFill = false,
 				text_format = "",
 				width = "fill",
@@ -2165,6 +2168,7 @@ P.unitframe = {
 			},
 			power = {
 				enable = true,
+				autoHide = false,
 				reverseFill = false,
 				text_format = "",
 				width = "fill",
@@ -2355,6 +2359,7 @@ P.unitframe = {
 			},
 			power = {
 				enable = false,
+				autoHide = false,
 				reverseFill = false,
 				text_format = "",
 				width = "fill",
@@ -2492,6 +2497,7 @@ P.unitframe = {
 			},
 			power = {
 				enable = true,
+				autoHide = false,
 				reverseFill = false,
 				text_format = "",
 				width = "fill",
@@ -2586,8 +2592,8 @@ P.unitframe = {
 			},
 			buffIndicator = {
 				enable = true,
-				size = 8,
-				style = "texturedIcon"
+				profileSpecific = false,
+				size = 8
 			},
 			castbar = {
 				enable = true,
@@ -2669,6 +2675,7 @@ P.unitframe = {
 			},
 			power = {
 				enable = false,
+				autoHide = false,
 				reverseFill = false,
 				text_format = "",
 				width = "fill",
@@ -2798,6 +2805,7 @@ P.unitframe = {
 			},
 			power = {
 				enable = true,
+				autoHide = false,
 				reverseFill = false,
 				text_format = "[powercolor][power:current]",
 				width = "fill",
@@ -2968,6 +2976,7 @@ P.unitframe = {
 			},
 			power = {
 				enable = true,
+				autoHide = false,
 				reverseFill = false,
 				text_format = "[powercolor][power:current]",
 				width = "fill",
@@ -3152,6 +3161,7 @@ P.unitframe = {
 			},
 			power = {
 				enable = true,
+				autoHide = false,
 				reverseFill = false,
 				text_format = "[powercolor][power:current]",
 				attachTextTo = "Health",
@@ -3238,9 +3248,8 @@ P.unitframe = {
 			},
 			buffIndicator = {
 				enable = true,
-				size = 8,
-				style = "texturedIcon",
-				profileSpecific = false
+				profileSpecific = false,
+				size = 8
 			},
 			rdebuffs = {
 				enable = false,
@@ -3446,6 +3455,7 @@ P.unitframe = {
 			},
 			power = {
 				enable = true,
+				autoHide = false,
 				reverseFill = false,
 				text_format = "",
 				width = "fill",
@@ -3524,9 +3534,8 @@ P.unitframe = {
 			},
 			buffIndicator = {
 				enable = true,
-				size = 8,
-				style = "texturedIcon",
-				profileSpecific = false
+				profileSpecific = false,
+				size = 8
 			},
 			rdebuffs = {
 				enable = true,
@@ -3674,6 +3683,7 @@ P.unitframe = {
 			},
 			power = {
 				enable = false,
+				autoHide = false,
 				reverseFill = false,
 				text_format = "",
 				width = "fill",
@@ -3793,9 +3803,8 @@ P.unitframe = {
 			},
 			buffIndicator = {
 				enable = true,
-				size = 8,
-				style = "texturedIcon",
-				profileSpecific = false
+				profileSpecific = false,
+				size = 8
 			},
 			raidicon = {
 				enable = true,
@@ -3965,8 +3974,8 @@ P.unitframe = {
 			},
 			buffIndicator = {
 				enable = true,
-				size = 8,
-				style = "texturedIcon"
+				profileSpecific = false,
+				size = 8
 			},
 			rdebuffs = {
 				enable = true,
@@ -4093,9 +4102,8 @@ P.unitframe = {
 			},
 			buffIndicator = {
 				enable = true,
-				size = 8,
-				style = "texturedIcon",
-				profileSpecific = false
+				profileSpecific = false,
+				size = 8
 			},
 			rdebuffs = {
 				enable = true,
@@ -4246,9 +4254,8 @@ P.unitframe = {
 			},
 			buffIndicator = {
 				enable = true,
-				size = 8,
-				style = "texturedIcon",
-				profileSpecific = false
+				profileSpecific = false,
+				size = 8
 			},
 			rdebuffs = {
 				enable = true,
@@ -4533,3 +4540,50 @@ P.actionbar.bar4.point = "TOPRIGHT"
 P.actionbar.bar5.enabled = true
 P.actionbar.bar5.buttons = 6
 P.actionbar.bar5.buttonsPerRow = 6
+
+--Mover positions that are set inside the installation process. ALL is used still to prevent people from getting pissed off
+--This allows movers positions to be reset to whatever profile is being used
+E.LayoutMoverPositions = {
+	ALL = {
+		AlertFrameMover = "TOP,ElvUIParent,TOP,-1,-18",
+		AltPowerBarMover = "TOP,ElvUIParent,TOP,-1,-36",
+		BNETMover = "TOPRIGHT,ElvUIParent,TOPRIGHT,-4,-274",
+		BossButton = "BOTTOM,ElvUIParent,BOTTOM,-1,293",
+		ElvAB_1 = "BOTTOM,ElvUIParent,BOTTOM,1,190",
+		ElvAB_2 = "BOTTOM,ElvUIParent,BOTTOM,0,4",
+		ElvAB_3 = "BOTTOM,ElvUIParent,BOTTOM,1,138",
+		ElvAB_5 = "BOTTOM,ElvUIParent,BOTTOM,-92,57",
+		ElvBar_Totem = "BOTTOM,ElvUIParent,BOTTOM,0,55",
+		ElvUF_FocusMover = "BOTTOM,ElvUIParent,BOTTOM,341,59",
+		ElvUF_PartyMover = "BOTTOMLEFT,ElvUIParent,BOTTOMLEFT,4,248",
+		ElvUF_PetMover = "BOTTOM,ElvUIParent,BOTTOM,-340,99",
+		ElvUF_PlayerCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,0,96",
+		ElvUF_PlayerMover = "BOTTOM,ElvUIParent,BOTTOM,-340,138",
+		ElvUF_Raid40Mover = "TOPLEFT,ElvUIParent,BOTTOMLEFT,4,482",
+		ElvUF_RaidMover = "BOTTOMLEFT,ElvUIParent,BOTTOMLEFT,4,248",
+		ElvUF_RaidpetMover = "TOPLEFT,ElvUIParent,BOTTOMLEFT,4,737",
+		ElvUF_TargetCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,0,242",
+		ElvUF_TargetMover = "BOTTOM,ElvUIParent,BOTTOM,341,138",
+		ElvUF_TargetTargetMover = "BOTTOM,ElvUIParent,BOTTOM,341,99",
+		ExperienceBarMover = "BOTTOM,ElvUIParent,BOTTOM,0,43",
+		LootFrameMover = "TOPLEFT,ElvUIParent,TOPLEFT,418,-186",
+		MirrorTimer1Mover = "TOP,ElvUIParent,TOP,-1,-96",
+		WatchFrameMover = "TOPRIGHT,ElvUIParent,TOPRIGHT,-163,-325",
+		ReputationBarMover = "TOPRIGHT,ElvUIParent,TOPRIGHT,-3,-246",
+		ShiftAB = "TOPLEFT,ElvUIParent,BOTTOMLEFT,4,769",
+		TempEnchantMover = "TOPRIGHT,ElvUIParent,TOPRIGHT,-4,-257",
+		TotemBarMover = "BOTTOMLEFT,ElvUIParent,BOTTOMLEFT,485,4",
+		VehicleSeatMover = "TOPLEFT,ElvUIParent,TOPLEFT,4,-4"
+	},
+	dpsCaster = {
+		ElvUF_PlayerCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,0,243",
+		ElvUF_TargetCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,0,97"
+	},
+	healer = {
+		ElvUF_PlayerCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,0,243",
+		ElvUF_TargetCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,0,97",
+		ElvUF_RaidMover = "BOTTOMLEFT,ElvUIParent,BOTTOMLEFT,202,373",
+		LootFrameMover = "TOPLEFT,ElvUIParent,TOPLEFT,250,-104",
+		ShiftAB = "TOPLEFT,ElvUIParent,BOTTOMLEFT,4,273"
+	}
+}

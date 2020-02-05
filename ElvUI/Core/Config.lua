@@ -128,8 +128,8 @@ function E:Grid_Create()
 	local hStep = hStepheight / E.db.gridSize
 
 	grid.boxSize = E.db.gridSize
-	grid:SetPoint("CENTER", E.UIParent)
-	grid:SetSize(width, height)
+	grid:Point("CENTER", E.UIParent)
+	grid:Size(width, height)
 	grid:Show()
 
 	for i = 0, E.db.gridSize do
@@ -492,7 +492,7 @@ function E:CreateMoverPopup()
 		E:NudgeMover(nil, 1)
 	end)
 	S:HandleNextPrevButton(upButton)
-	upButton:SetSize(22, 22)
+	upButton:Size(22)
 
 	local downButton = CreateFrame("Button", nudgeFrame:GetName().."DownButton", nudgeFrame)
 	downButton:Point("BOTTOMLEFT", nudgeFrame, "BOTTOM", 6, 4)
@@ -500,7 +500,7 @@ function E:CreateMoverPopup()
 		E:NudgeMover(nil, -1)
 	end)
 	S:HandleNextPrevButton(downButton)
-	downButton:SetSize(22, 22)
+	downButton:Size(22)
 
 	local leftButton = CreateFrame("Button", nudgeFrame:GetName().."LeftButton", nudgeFrame)
 	leftButton:Point("RIGHT", upButton, "LEFT", -6, 0)
@@ -508,7 +508,7 @@ function E:CreateMoverPopup()
 		E:NudgeMover(-1)
 	end)
 	S:HandleNextPrevButton(leftButton)
-	leftButton:SetSize(22, 22)
+	leftButton:Size(22)
 
 	local rightButton = CreateFrame("Button", nudgeFrame:GetName().."RightButton", nudgeFrame)
 	rightButton:Point("LEFT", downButton, "RIGHT", 6, 0)
@@ -516,5 +516,5 @@ function E:CreateMoverPopup()
 		E:NudgeMover(1)
 	end)
 	S:HandleNextPrevButton(rightButton)
-	rightButton:SetSize(22, 22)
+	rightButton:Size(22)
 end

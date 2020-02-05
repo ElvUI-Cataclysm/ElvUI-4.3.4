@@ -8,6 +8,7 @@ local tonumber = tonumber
 local GameTooltipStatusBar = _G["GameTooltipStatusBar"]
 
 E.Options.args.tooltip = {
+	order = 2,
 	type = "group",
 	name = L["Tooltip"],
 	childGroups = "tab",

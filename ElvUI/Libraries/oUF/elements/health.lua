@@ -17,8 +17,6 @@ A default texture will be applied if the widget is a StatusBar and doesn't have 
 
 ## Options
 
-.frequentUpdates                  - Indicates whether to use UNIT_HEALTH_FREQUENT instead of UNIT_HEALTH to update the
-                                    bar (boolean)
 .smoothGradient                   - 9 color values to be used with the .colorSmooth option (table)
 
 The following options are listed by priority. The first check that returns true decides the color of the bar.
@@ -63,7 +61,6 @@ The following options are listed by priority. The first check that returns true 
     Background:SetTexture(1, 1, 1, .5)
 
     -- Options
-    Health.frequentUpdates = true
     Health.colorTapping = true
     Health.colorDisconnected = true
     Health.colorClass = true
@@ -177,7 +174,9 @@ local function Update(self, event, unit)
 	end
 end
 
-local function Path(self, ...)
+local function Path(self, event, ...)
+	if (self.isForced and event ~= 'ElvUI_UpdateAllElements') then return end -- ElvUI changed
+
 	--[[ Override: Health.Override(self, event, unit)
 	Used to completely override the internal update function.
 
@@ -185,9 +184,9 @@ local function Path(self, ...)
 	* event - the event triggering the update (string)
 	* unit  - the unit accompanying the event (string)
 	--]]
-	(self.Health.Override or Update) (self, ...)
+	(self.Health.Override or Update) (self, event, ...)
 
-	ColorPath(self, ...)
+	ColorPath(self, event, ...)
 end
 
 local function ForceUpdate(element)
@@ -245,24 +244,40 @@ local function SetColorThreat(element, state)
 	end
 end
 
---[[ Health:SetFrequentUpdates(state)
-Used to toggle frequent updates.
+-- ElvUI changed block
+local onUpdateElapsed, onUpdateWait = 0, 0.25
+local function onUpdateHealth(self, elapsed)
+	if onUpdateElapsed > onUpdateWait then
+		Path(self.__owner, 'OnUpdate', self.__owner.unit)
 
-* self  - the Health element
-* state - the desired state (boolean)
---]]
-local function SetFrequentUpdates(element, state)
-	if(element.frequentUpdates ~= state) then
-		element.frequentUpdates = state
-		if(element.frequentUpdates) then
-			element.__owner:UnregisterEvent('UNIT_HEALTH', Path)
-			element.__owner:RegisterEvent('UNIT_HEALTH_FREQUENT', Path)
+		onUpdateElapsed = 0
+	else
+		onUpdateElapsed = onUpdateElapsed + elapsed
+	end
+end
+
+local function SetHealthUpdateSpeed(self, state)
+	onUpdateWait = state
+end
+
+local function SetHealthUpdateMethod(self, state, force)
+	if self.effectiveHealth ~= state or force then
+		self.effectiveHealth = state
+
+		if state then
+			self.Health:SetScript('OnUpdate', onUpdateHealth)
+			self:UnregisterEvent('UNIT_HEALTH_FREQUENT', Path)
+			self:UnregisterEvent('UNIT_HEALTH', Path)
+			self:UnregisterEvent('UNIT_MAXHEALTH', Path)
 		else
-			element.__owner:UnregisterEvent('UNIT_HEALTH_FREQUENT', Path)
-			element.__owner:RegisterEvent('UNIT_HEALTH', Path)
+			self.Health:SetScript('OnUpdate', nil)
+			self:RegisterEvent('UNIT_HEALTH', Path) -- Needed for Pet Battles
+			self:RegisterEvent('UNIT_HEALTH_FREQUENT', Path)
+			self:RegisterEvent('UNIT_MAXHEALTH', Path)
 		end
 	end
 end
+-- end block
 
 local function Enable(self, unit)
 	local element = self.Health
@@ -272,7 +287,12 @@ local function Enable(self, unit)
 		element.SetColorDisconnected = SetColorDisconnected
 		element.SetColorTapping = SetColorTapping
 		element.SetColorThreat = SetColorThreat
-		element.SetFrequentUpdates = SetFrequentUpdates
+
+		-- ElvUI changed block
+		self.SetHealthUpdateSpeed = SetHealthUpdateSpeed
+		self.SetHealthUpdateMethod = SetHealthUpdateMethod
+		SetHealthUpdateMethod(self, self.effectiveHealth, true)
+		-- end block
 
 		if(element.colorDisconnected) then
 			self:RegisterEvent('UNIT_CONNECTION', ColorPath)
@@ -285,14 +305,6 @@ local function Enable(self, unit)
 		if(element.colorThreat) then
 			self:RegisterEvent('UNIT_THREAT_LIST_UPDATE', ColorPath)
 		end
-
-		if(element.frequentUpdates) then
-			self:RegisterEvent('UNIT_HEALTH_FREQUENT', Path)
-		else
-			self:RegisterEvent('UNIT_HEALTH', Path)
-		end
-
-		self:RegisterEvent('UNIT_MAXHEALTH', Path)
 
 		if(element:IsObjectType('StatusBar') and not element:GetStatusBarTexture()) then
 			element:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
@@ -309,6 +321,7 @@ local function Disable(self)
 	if(element) then
 		element:Hide()
 
+		element:SetScript('OnUpdate', nil) -- ElvUI changed
 		self:UnregisterEvent('UNIT_HEALTH_FREQUENT', Path)
 		self:UnregisterEvent('UNIT_HEALTH', Path)
 		self:UnregisterEvent('UNIT_MAXHEALTH', Path)

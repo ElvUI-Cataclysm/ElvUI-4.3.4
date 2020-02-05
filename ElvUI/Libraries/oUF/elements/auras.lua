@@ -158,7 +158,7 @@ end
 local function updateIcon(element, unit, index, offset, filter, isDebuff, visible)
 	local name, rank, texture, count, debuffType, duration, expiration, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff = UnitAura(unit, index, filter)
 
-	-- ElvUI block
+	-- ElvUI changed block
 	if element.forceShow or element.forceCreate then
 		spellID = isDebuff and 47540 or 16235
 		name, rank, texture = GetSpellInfo(spellID)
@@ -497,7 +497,7 @@ local function UpdateAuras(self, event, unit)
 end
 
 local function Update(self, event, unit)
-	if(self.unit ~= unit) then return end
+	if (self.isForced and event ~= 'ElvUI_UpdateAllElements') or (self.unit ~= unit) then return end -- ElvUI changed
 
 	UpdateAuras(self, event, unit)
 
@@ -525,6 +525,7 @@ local function ForceUpdate(element)
 	return Update(element.__owner, 'ForceUpdate', element.__owner.unit)
 end
 
+-- ElvUI changed block
 local onUpdateElapsed, onUpdateWait = 0, 0.25
 local function onUpdateAuras(self, elapsed)
 	if onUpdateElapsed > onUpdateWait then
@@ -553,17 +554,22 @@ local function SetAuraUpdateMethod(self, state, force)
 		end
 	end
 end
+-- end block
 
 local function Enable(self)
+	-- ElvUI changed block
 	if not self.updateAurasFrame then
 		self.updateAurasFrame = CreateFrame('Frame', nil, self)
 		self.updateAurasFrame.__owner = self
 	end
+	-- end block
 
 	if(self.Buffs or self.Debuffs or self.Auras) then
+		-- ElvUI changed block
 		self.SetAuraUpdateSpeed = SetAuraUpdateSpeed
 		self.SetAuraUpdateMethod = SetAuraUpdateMethod
 		SetAuraUpdateMethod(self, self.effectiveAura, true)
+		-- end block
 
 		local buffs = self.Buffs
 		if(buffs) then
@@ -630,9 +636,11 @@ local function Enable(self)
 end
 
 local function Disable(self)
+	-- ElvUI changed block
 	if self.updateAurasFrame then
 		self.updateAurasFrame:SetScript('OnUpdate', nil)
 	end
+	-- end block
 
 	if(self.Buffs or self.Debuffs or self.Auras) then
 		self:UnregisterEvent('UNIT_AURA', UpdateAuras)

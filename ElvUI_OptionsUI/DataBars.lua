@@ -3,6 +3,7 @@ local C, L = unpack(select(2, ...))
 local mod = E:GetModule("DataBars")
 
 E.Options.args.databars = {
+	order = 2,
 	type = "group",
 	name = L["DataBars"],
 	childGroups = "tab",

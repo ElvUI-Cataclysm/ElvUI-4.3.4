@@ -1,5 +1,6 @@
 local E, L, V, P, G = unpack(select(2, ...))
 
+local _G = _G
 local random, next, unpack, strsub = random, next, unpack, strsub
 
 E.AnimShake = {{-9, 7, -7, 12}, {-5, 9, -9, 5}, {-5, 7, -7, 5}, {-9, 9, -9, 9}, {-5, 7, -7, 5}, {-9, 7, -9, 5}}
@@ -58,6 +59,29 @@ function E:SetUpAnimGroup(obj, Type, ...)
 		shake.path[4]:SetOrder(4)
 		shake.path[5]:SetOrder(5)
 		shake.path[6]:SetOrder(6)
+	elseif Type == "Elastic" then
+		local width, height, duration, loop = ...
+		obj.elastic = _G.CreateAnimationGroup(obj)
+
+		for i = 1, 4 do
+			local anim  = obj.elastic:CreateAnimation(i < 3 and "width" or "height")
+			anim:SetChange((i == 1 and width * 0.45) or (i == 2 and width) or (i == 3 and height * 0.45) or height)
+			anim:SetEasing("inout-elastic")
+			anim:SetDuration(duration)
+			obj.elastic[i] = anim
+		end
+
+		obj.elastic[1]:SetScript('OnFinished', function(anim) anim:Stop() obj.elastic[2]:Play() end)
+		obj.elastic[3]:SetScript('OnFinished', function(anim) anim:Stop() obj.elastic[4]:Play() end)
+		obj.elastic[2]:SetScript('OnFinished', function(anim) anim:Stop() if loop then obj.elastic[1]:Play() end end)
+		obj.elastic[4]:SetScript('OnFinished', function(anim) anim:Stop() if loop then obj.elastic[3]:Play() end end)
+	elseif Type == "Number" then
+		local endingNumber, duration = ...
+		obj.NumberAnimGroup = _G.CreateAnimationGroup(obj)
+		obj.NumberAnim = obj.NumberAnimGroup:CreateAnimation("number")
+		obj.NumberAnim:SetChange(endingNumber)
+		obj.NumberAnim:SetEasing("in-circular")
+		obj.NumberAnim:SetDuration(duration)
 	else
 		local x, y, duration, customName = ...
 		if not customName then customName = "anim" end
@@ -84,6 +108,22 @@ function E:SetUpAnimGroup(obj, Type, ...)
 		anim.out2:SetOrder(1)
 		anim.out2:SetSmoothing("IN")
 		anim.out2:SetOffset(E:Scale(x), E:Scale(y))
+	end
+end
+
+function E:Elasticize(obj)
+	if not obj.elastic then
+		E:SetUpAnimGroup(obj, "Elastic", 128, 64, 2, false)
+	end
+
+	obj.elastic[1]:Play()
+	obj.elastic[3]:Play()
+end
+
+function E:StopElasticize(obj)
+	if obj.elastic then
+		obj.elastic[1]:Stop(true)
+		obj.elastic[3]:Stop(true)
 	end
 end
 
@@ -152,7 +192,7 @@ function E:SlideOut(obj, customName)
 end
 
 local FADEFRAMES, FADEMANAGER = {}, CreateFrame("FRAME")
-FADEMANAGER.delay = 0.05
+FADEMANAGER.delay = 0.025
 
 function E:UIFrameFade_OnUpdate(elapsed)
 	FADEMANAGER.timer = (FADEMANAGER.timer or 0) + elapsed

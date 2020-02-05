@@ -40,10 +40,12 @@ function UF:Construct_AssistFrames()
 		self.unitframeType = "assisttarget"
 	end
 
+	self.originalParent = self:GetParent()
+
+	UF:Update_AssistFrames(self, E.db.unitframe.units.assist)
 	UF:Update_StatusBars()
 	UF:Update_FontStrings()
 
-	self.originalParent = self:GetParent()
 
 	return self
 end
@@ -54,23 +56,21 @@ function UF:Update_AssistHeader(header, db)
 
 	UF:ClearChildPoints(header:GetChildren())
 
-	header:SetAttribute("startingIndex", -1)
-	RegisterStateDriver(header, "visibility", "show")
-	RegisterStateDriver(header, "visibility", "[@raid1,exists] show;hide")
-	header:SetAttribute("startingIndex", 1)
+	if not header.isForced and db.enable then
+	--	RegisterStateDriver(header, "visibility", "show")
+		RegisterStateDriver(header, "visibility", "[@raid1,exists] show;hide")
+	end
 
 	header:SetAttribute("point", "BOTTOM")
 	header:SetAttribute("columnAnchorPoint", "LEFT")
-
-	UF:ClearChildPoints(header:GetChildren())
 	header:SetAttribute("yOffset", db.verticalSpacing)
-
-	local width, height = header:GetSize()
-	header.dirtyWidth, header.dirtyHeight = width, max(height, 2*db.height + db.verticalSpacing)
 
 	if not header.positioned then
 		header:ClearAllPoints()
 		header:Point("TOPLEFT", E.UIParent, "TOPLEFT", 4, -248)
+
+		local width, height = header:GetSize()
+		header.dirtyWidth, header.dirtyHeight = width, max(height, 2*db.height + db.verticalSpacing)
 
 		E:CreateMover(header, header:GetName().."Mover", L["MA Frames"], nil, nil, nil, "ALL,RAID", nil, "unitframe,assist,generalGroup")
 		header.mover.positionOverride = "TOPLEFT"
@@ -138,9 +138,9 @@ function UF:Update_AssistFrames(frame, db)
 				frame:SetParent(E.HiddenFrame)
 			end
 		end
-	elseif not InCombatLockdown() then
-		frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
 	end
+
+	frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
 
 	UF:Configure_HealthBar(frame)
 	UF:Configure_Threat(frame)
@@ -151,8 +151,7 @@ function UF:Update_AssistFrames(frame, db)
 
 	if not frame.isChild then
 		UF:EnableDisable_Auras(frame)
-		UF:Configure_Auras(frame, "Buffs")
-		UF:Configure_Auras(frame, "Debuffs")
+		UF:Configure_AllAuras(frame)
 		UF:Configure_RaidDebuffs(frame)
 		UF:Configure_DebuffHighlight(frame)
 		UF:Configure_AuraWatch(frame)

@@ -11,25 +11,24 @@ local InCombatLockdown = InCombatLockdown
 
 function UF:Construct_PetFrame(frame)
 	frame.Health = self:Construct_HealthBar(frame, true, true, "RIGHT")
-	frame.Health.frequentUpdates = true
 	frame.Power = self:Construct_PowerBar(frame, true, true, "LEFT")
 	frame.Name = self:Construct_NameText(frame)
 	frame.Portrait3D = self:Construct_Portrait(frame, "model")
 	frame.Portrait2D = self:Construct_Portrait(frame, "texture")
 	frame.Buffs = self:Construct_Buffs(frame)
-	frame.HealthPrediction = self:Construct_HealComm(frame)
 	frame.Debuffs = self:Construct_Debuffs(frame)
 	frame.Castbar = self:Construct_Castbar(frame, L["Pet Castbar"])
 	frame.Castbar.SafeZone = nil
 	frame.Castbar.LatencyTexture:Hide()
 	frame.ThreatIndicator = self:Construct_Threat(frame)
+	frame.HealthPrediction = self:Construct_HealComm(frame)
 	frame.AuraWatch = self:Construct_AuraWatch(frame)
 	frame.AuraBars = self:Construct_AuraBarHeader(frame)
-	frame.Fader = self:Construct_Fader()
-	frame.Cutaway = self:Construct_Cutaway(frame)
 	frame.InfoPanel = self:Construct_InfoPanel(frame)
 	frame.MouseGlow = self:Construct_MouseGlow(frame)
 	frame.TargetGlow = self:Construct_TargetGlow(frame)
+	frame.Fader = self:Construct_Fader()
+	frame.Cutaway = self:Construct_Cutaway(frame)
 	frame.customTexts = {}
 
 	frame:Point("BOTTOM", E.UIParent, "BOTTOM", 0, 118)
@@ -79,15 +78,14 @@ function UF:Update_PetFrame(frame, db)
 	UF:Configure_Portrait(frame)
 	UF:Configure_Threat(frame)
 	UF:EnableDisable_Auras(frame)
-	UF:Configure_Auras(frame, "Buffs")
-	UF:Configure_Auras(frame, "Debuffs")
-	UF:Configure_HealComm(frame)
+	UF:Configure_AllAuras(frame)
+	UF:Configure_Fader(frame)
 	UF:Configure_Castbar(frame)
+	UF:Configure_HealComm(frame)
 	UF:Configure_AuraBars(frame)
 	if E.db.unitframe.units.player.enable and E.db.unitframe.units.player.combatfade and ElvUF_Player and not InCombatLockdown() then
 		frame:SetParent(ElvUF_Player)
 	end
-	UF:Configure_Fader(frame)
 	UF:Configure_Cutaway(frame)
 	UF:Configure_CustomTexts(frame)
 

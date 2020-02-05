@@ -1086,6 +1086,22 @@ function E:InitializeModules()
 	end
 end
 
+local function buffwatchConvert(spell)
+	if spell.sizeOverride then spell.sizeOverride = nil end
+	if spell.size then spell.size = nil end
+
+	if not spell.sizeOffset then
+		spell.sizeOffset = 0
+	end
+
+	if spell.styleOverride then
+		spell.style = spell.styleOverride
+		spell.styleOverride = nil
+	elseif not spell.style then
+		spell.style = "coloredIcon"
+	end
+end
+
 function E:DBConversions()
 	--Fix issue where UIScale was incorrectly stored as string
 	E.global.general.UIScale = tonumber(E.global.general.UIScale)
@@ -1125,8 +1141,7 @@ function E:DBConversions()
 			E.db.unitframe.OORAlpha = nil
 		end
 
-		local rangeCheckUnits = {"target", "targettarget", "targettargettarget", "focus", "focustarget", "pet", "pettarget", "boss", "arena", "party", "raid", "raid40", "raidpet", "tank", "assist"}
-		for _, unit in pairs(rangeCheckUnits) do
+		for _, unit in pairs({"target", "targettarget", "targettargettarget", "focus", "focustarget", "pet", "pettarget", "boss", "arena", "party", "raid", "raid40", "raidpet", "tank", "assist"}) do
 			if E.db.unitframe.units[unit].rangeCheck ~= nil then
 				local enabled = E.db.unitframe.units[unit].rangeCheck
 				E.db.unitframe.units[unit].fader.enable = enabled
@@ -1151,6 +1166,11 @@ function E:DBConversions()
 		E.db.auras.fontSize = nil
 	end
 
+	--Remove stale font settings from Cooldown system for top auras
+	if E.db.auras.cooldown.fonts then
+		E.db.auras.cooldown.fonts = nil
+	end
+
 	--Convert old private cooldown setting to profile setting
 	if E.private.cooldown and (E.private.cooldown.enable ~= nil) then
 		E.db.cooldown.enable = E.private.cooldown.enable
@@ -1171,15 +1191,14 @@ function E:DBConversions()
 	end
 
 	--Vendor Greys option is now in bags table
-	if E.db.general.vendorGrays then
+	if E.db.general.vendorGrays ~= nil then
 		E.db.bags.vendorGrays.enable = E.db.general.vendorGrays
-		E.db.general.vendorGrays = nil
 		E.db.general.vendorGraysDetails = nil
+		E.db.general.vendorGrays = nil
 	end
 
 	--Heal Prediction is now a table instead of a bool
-	local healPredictionUnits = {"player", "target", "focus", "pet", "arena", "party", "raid", "raid40", "raidpet"}
-	for _, unit in pairs(healPredictionUnits) do
+	for _, unit in pairs({"player", "target", "focus", "pet", "arena", "party", "raid", "raid40", "raidpet"}) do
 		if type(E.db.unitframe.units[unit].healPrediction) ~= "table" then
 			local enabled = E.db.unitframe.units[unit].healPrediction
 			E.db.unitframe.units[unit].healPrediction = {}
@@ -1197,6 +1216,30 @@ function E:DBConversions()
 
 		E.db.unitframe.colors.healthmultiplier = nil
 	end
+
+	-- removed override stuff from aurawatch
+	for _, spells in pairs(E.global.unitframe.buffwatch) do
+		for _, spell in pairs(spells) do
+			buffwatchConvert(spell)
+		end
+	end
+	for _, spell in pairs(E.db.unitframe.filters.buffwatch) do
+		buffwatchConvert(spell)
+	end
+
+	-- fix aurabars colors
+	for spell, info in pairs(E.global.unitframe.AuraBarColors) do
+		if type(info) == "boolean" then
+			E.global.unitframe.AuraBarColors[spell] = {color = {r = 1, g = 1, b = 1, a = 1}, enable = info}
+		elseif type(info) == "table" then
+			if info.r or info.g or info.b then
+				E.global.unitframe.AuraBarColors[spell] = {color = {r = info.r or 1, g = info.g or 1, b = info.b or 1}, enable = true}
+			elseif info.color then -- azil created a void hole, delete it -x-
+				if info.color.color then info.color.color = nil end
+				if info.color.enable then info.color.enable = nil end
+			end
+		end
+	end
 end
 
 function E:RefreshModulesDB()
@@ -1210,6 +1253,9 @@ function E:Initialize()
 	twipe(self.db)
 	twipe(self.global)
 	twipe(self.private)
+
+	LSM.DefaultMedia.font = "PT Sans Narrow"
+	LSM.DefaultMedia.statusbar = "ElvUI Norm"
 
 	self.myguid = UnitGUID("player")
 	self.data = E.Libs.AceDB:New("ElvDB", self.DF)

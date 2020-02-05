@@ -10,6 +10,7 @@ local gsub, strlower = string.gsub, string.lower
 local GameTooltip = _G["GameTooltip"]
 
 E.Options.args.chat = {
+	order = 2,
 	type = "group",
 	name = L["Chat"],
 	childGroups = "tab",

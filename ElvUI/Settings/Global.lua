@@ -2,7 +2,7 @@
 
 --Global Settings
 G.general = {
-	UIScale = 0.7111111111111111,
+	UIScale = 0.71111,
 	version = 2.1,
 	locale = E:GetLocale(),
 	eyefinity = false,
@@ -37,6 +37,12 @@ G.nameplates = {}
 G.unitframe = {
 	aurafilters = {},
 	buffwatch = {},
+	effectiveHealth = false,
+	effectivePower = false,
+	effectiveAura = false,
+	effectiveHealthSpeed = 0.3,
+	effectivePowerSpeed = 0.3,
+	effectiveAuraSpeed = 0.3,
 	raidDebuffIndicator = {
 		instanceFilter = "RaidDebuffs",
 		otherFilter = "CCDebuffs"

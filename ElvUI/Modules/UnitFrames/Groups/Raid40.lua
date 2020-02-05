@@ -21,13 +21,9 @@ function UF:Construct_Raid40Frames()
 	self.RaisedElementParent:SetFrameLevel(self:GetFrameLevel() + 100)
 
 	self.Health = UF:Construct_HealthBar(self, true, true, "RIGHT")
-
 	self.Power = UF:Construct_PowerBar(self, true, true, "LEFT")
-	self.Power.frequentUpdates = false
-
 	self.Portrait3D = UF:Construct_Portrait(self, "model")
 	self.Portrait2D = UF:Construct_Portrait(self, "texture")
-
 	self.Name = UF:Construct_NameText(self)
 	self.Buffs = UF:Construct_Buffs(self)
 	self.Debuffs = UF:Construct_Debuffs(self)
@@ -58,50 +54,6 @@ function UF:Construct_Raid40Frames()
 	return self
 end
 
-function UF:Raid40SmartVisibility(event)
-	if not self.db or (self.db and not self.db.enable) or (UF.db and not UF.db.smartRaidFilter) or self.isForced then
-		self.blockVisibilityChanges = false
-		return
-	end
-
-	if event == "PLAYER_REGEN_ENABLED" then self:UnregisterEvent("PLAYER_REGEN_ENABLED") end
-
-	if not InCombatLockdown() then
-		self.isInstanceForced = nil
-		local inInstance, instanceType = IsInInstance()
-		if inInstance and (instanceType == "raid" or instanceType == "pvp") then
-			local _, _, _, _, maxPlayers = GetInstanceInfo()
-			local mapID = GetCurrentMapAreaID()
-			if UF.instanceMapIDs[mapID] then
-				maxPlayers = UF.instanceMapIDs[mapID]
-			end
-
-			UnregisterStateDriver(self, "visibility")
-
-			if maxPlayers == 40 then
-				self:Show()
-				self.isInstanceForced = true
-				self.blockVisibilityChanges = false
-				if ElvUF_Raid40.numGroups ~= E:Round(maxPlayers/5) and event then
-					UF:CreateAndUpdateHeaderGroup("raid40")
-				end
-			else
-				self:Hide()
-				self.blockVisibilityChanges = true
-			end
-		elseif self.db.visibility then
-			RegisterStateDriver(self, "visibility", self.db.visibility)
-			self.blockVisibilityChanges = false
-			if ElvUF_Raid40.numGroups ~= self.db.numGroups then
-				UF:CreateAndUpdateHeaderGroup("raid40")
-			end
-		end
-	else
-		self:RegisterEvent("PLAYER_REGEN_ENABLED")
-		return
-	end
-end
-
 function UF:Update_Raid40Header(header, db)
 	header:GetParent().db = db
 
@@ -111,16 +63,14 @@ function UF:Update_Raid40Header(header, db)
 	if not headerHolder.positioned then
 		headerHolder:ClearAllPoints()
 		headerHolder:Point("BOTTOMLEFT", E.UIParent, "BOTTOMLEFT", 4, 195)
-
 		E:CreateMover(headerHolder, headerHolder:GetName().."Mover", L["Raid-40 Frames"], nil, nil, nil, "ALL,RAID", nil, "unitframe,raid40,generalGroup")
 
-		headerHolder:RegisterEvent("PLAYER_ENTERING_WORLD")
-		headerHolder:RegisterEvent("ZONE_CHANGED_NEW_AREA")
-		headerHolder:SetScript("OnEvent", UF.Raid40SmartVisibility)
 		headerHolder.positioned = true
 	end
 
-	UF.Raid40SmartVisibility(headerHolder)
+	if not headerHolder.isForced and db.enable then
+		RegisterStateDriver(headerHolder, "visibility", db.visibility)
+	end
 end
 
 function UF:Update_Raid40Frames(frame, db)
@@ -170,19 +120,15 @@ function UF:Update_Raid40Frames(frame, db)
 		frame.VARIABLES_SET = true
 	end
 
-	if not InCombatLockdown() then
-		frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
-	end
+	frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
 
+	UF:EnableDisable_Auras(frame)
+	UF:Configure_AllAuras(frame)
 	UF:Configure_InfoPanel(frame)
 	UF:Configure_HealthBar(frame)
-	UF:UpdateNameSettings(frame)
 	UF:Configure_Power(frame)
 	UF:Configure_Portrait(frame)
 	UF:Configure_Threat(frame)
-	UF:EnableDisable_Auras(frame)
-	UF:Configure_Auras(frame, "Buffs")
-	UF:Configure_Auras(frame, "Debuffs")
 	UF:Configure_RaidDebuffs(frame)
 	UF:Configure_RaidIcon(frame)
 	UF:Configure_ResurrectionIcon(frame)
@@ -197,6 +143,7 @@ function UF:Update_Raid40Frames(frame, db)
 	UF:Configure_CustomTexts(frame)
 	UF:Configure_PhaseIcon(frame)
 	UF:Configure_Cutaway(frame)
+	UF:UpdateNameSettings(frame)
 
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end

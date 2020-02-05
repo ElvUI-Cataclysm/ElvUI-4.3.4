@@ -46,9 +46,9 @@ function addon:RegisterDebuffs(t)
 		if type(t[spell]) == "boolean" then
 			local oldValue = t[spell]
 			t[spell] = {
-				["enable"] = oldValue,
-				["priority"] = 0,
-				["stackThreshold"] = 0
+				enable = oldValue,
+				priority = 0,
+				stackThreshold = 0
 			}
 		else
 			if t[spell].enable then
@@ -153,29 +153,28 @@ local function CheckSpec(self, event, levels)
 end
 
 local function formatTime(s)
-	if s < 10 then
-		return format("%.1f", s)
-	elseif s > 60 then
-		return format("%dm", s / 60)
+	if s > 60 then
+		return format("%dm", s / 60), s%60
+	elseif s < 1 then
+		return format("%.1f", s), s - floor(s)
 	else
-		return format("%d", s)
+		return format("%d", s), s - floor(s)
 	end
 end
 
 local function OnUpdate(self, elapsed)
-	self.elapsed = self.elapsed + elapsed
+	self.elapsed = (self.elapsed or 0) + elapsed
 
 	if self.elapsed >= 0.1 then
-		local timeLeft
+		local timeLeft = self.endTime - GetTime()
 
 		if self.reverse then
 			timeLeft = abs((self.endTime - GetTime()) - self.duration)
-		else
-			timeLeft = self.endTime - GetTime()
 		end
 
 		if timeLeft > 0 then
-			self.time:SetText(formatTime(timeLeft))
+			local text = formatTime(timeLeft)
+			self.time:SetText(text)
 		else
 			self:SetScript("OnUpdate", nil)
 			self.time:Hide()
@@ -213,7 +212,6 @@ local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTi
 			if duration and (duration > 0) then
 				element.endTime = endTime
 				element.nextUpdate = 0
-				element.elapsed = 0
 				element:SetScript("OnUpdate", OnUpdate)
 				element.time:Show()
 			else
@@ -250,67 +248,64 @@ local function Update(self, event, unit)
 
 	local element = self.RaidDebuffs
 
-	local _name, _icon, _count, _dtype, _duration, _endTime, _spellId
+	local _name, _icon, _count, _dtype, _duration, _endTime, _spellId, _
+	local _priority, priority = 0, 0
 	local _stackThreshold = 0
 
-	if element.forceShow then
-		_spellId = 47540
-		_name, _, _icon = GetSpellInfo(_spellId)
-		_count = 5
-		_dtype = "Magic"
-		_duration = 0
-		_endTime = 60
-		_stackThreshold = 0
-	else
-		local isCharmed = UnitIsCharmed(unit) -- store if the unit its charmed, mind controlled units (Imperial Vizier Zor'lok: Convert)
-		local canAttack = UnitCanAttack("player", unit) --store if we cand attack that unit, if its so the unit its hostile (Amber-Shaper Un'sok: Reshape Life)
-		local _, name, icon, count, debuffType, duration, expirationTime, spellId
-		local _priority, priority = 0, 0
+	--store if the unit its charmed, mind controlled units (Imperial Vizier Zor'lok: Convert)
+	local isCharmed = UnitIsCharmed(unit)
 
-		for i = 1, 40 do
-			name, _, icon, count, debuffType, duration, expirationTime, _, _, _, spellId = UnitAura(unit, i, "HARMFUL")
-			if not name then break end
+	--store if we cand attack that unit, if its so the unit its hostile (Amber-Shaper Un'sok: Reshape Life)
+	local canAttack = UnitCanAttack("player", unit)
 
-			--we couldn't dispell if the unit its charmed, or its not friendly
-			if addon.ShowDispellableDebuff and (element.showDispellableDebuff ~= false) and debuffType and (not isCharmed) and (not canAttack) then
-				if addon.FilterDispellableDebuff then
-					DispellPriority[debuffType] = (DispellPriority[debuffType] or 0) + addon.priority --Make Dispell buffs on top of Boss Debuffs
-					priority = DispellFilter[debuffType] and DispellPriority[debuffType] or 0
+	for i = 1, 40 do
+		local name, _, icon, count, debuffType, duration, expirationTime, _, _, _, spellId = UnitAura(unit, i, "HARMFUL")
+		if not name then break end
 
-					if priority == 0 then
-						debuffType = nil
-					end
-				else
-					priority = DispellPriority[debuffType] or 0
+		--we couldn't dispell if the unit its charmed, or its not friendly
+		if addon.ShowDispellableDebuff and (element.showDispellableDebuff ~= false) and debuffType and (not isCharmed) and (not canAttack) then
+			if addon.FilterDispellableDebuff then
+				DispellPriority[debuffType] = (DispellPriority[debuffType] or 0) + addon.priority --Make Dispell buffs on top of Boss Debuffs
+				priority = DispellFilter[debuffType] and DispellPriority[debuffType] or 0
+
+				if priority == 0 then
+					debuffType = nil
 				end
-
-				if priority > _priority then
-					_priority, _name, _icon, _count, _dtype, _duration, _endTime, _spellId = priority, name, icon, count, debuffType, duration, expirationTime, spellId
-				end
-			end
-
-			local debuff
-			if element.onlyMatchSpellID then
-				debuff = debuff_data[spellId]
 			else
-				if debuff_data[spellId] then
-					debuff = debuff_data[spellId]
-				else
-					debuff = debuff_data[name]
-				end
+				priority = DispellPriority[debuffType] or 0
 			end
 
-			priority = debuff and debuff.priority
-
-			if priority and not blackList[spellId] and (priority > _priority) then
+			if priority > _priority then
 				_priority, _name, _icon, _count, _dtype, _duration, _endTime, _spellId = priority, name, icon, count, debuffType, duration, expirationTime, spellId
 			end
 		end
+
+		local debuff
+		if element.onlyMatchSpellID then
+			debuff = debuff_data[spellId]
+		else
+			if debuff_data[spellId] then
+				debuff = debuff_data[spellId]
+			else
+				debuff = debuff_data[name]
+			end
+		end
+
+		priority = debuff and debuff.priority
+
+		if priority and not blackList[spellId] and (priority > _priority) then
+			_priority, _name, _icon, _count, _dtype, _duration, _endTime, _spellId = priority, name, icon, count, debuffType, duration, expirationTime, spellId
+		end
+	end
+
+	if self.RaidDebuffs.forceShow then
+		_spellId = 47540
+		_name, _, _icon = GetSpellInfo(_spellId)
+		_count, _dtype, _duration, _endTime, _stackThreshold = 5, "Magic", 0, 60, 0
 	end
 
 	if _name then
-		local data = debuff_data[addon.MatchBySpellName and _name or _spellId]
-		_stackThreshold = data and data.stackThreshold or _stackThreshold
+		_stackThreshold = debuff_data[addon.MatchBySpellName and _name or _spellId] and debuff_data[addon.MatchBySpellName and _name or _spellId].stackThreshold or _stackThreshold
 	end
 
 	UpdateDebuff(self, _name, _icon, _count, _dtype, _duration, _endTime, _spellId, _stackThreshold)

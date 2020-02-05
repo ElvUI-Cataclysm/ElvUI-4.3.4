@@ -8,6 +8,7 @@ local gsub, match = string.gsub, string.match
 local GameTooltip = _G["GameTooltip"]
 
 E.Options.args.bags = {
+	order = 2,
 	type = "group",
 	name = L["BAGSLOT"],
 	childGroups = "tab",

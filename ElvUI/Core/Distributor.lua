@@ -63,8 +63,6 @@ function D:Distribute(target, otherServer, isGlobal)
 
 	if not data or not profileKey then return end
 
-	data = E:RemoveTableDuplicates(data, isGlobal and G or P)
-
 	local serialData = self:Serialize(data)
 	local length = len(serialData)
 	local message = format("%s:%d:%s", profileKey, length, target)
@@ -202,7 +200,6 @@ function D:OnCommReceived(prefix, msg, dist, sender)
 							E.Libs.AceAddon:GetAddon("ElvUI").data:SetProfile(popup.editBox:GetText())
 							E:UpdateAll(true)
 							Downloads[sender] = nil
-							E:StaticPopup_Show("CONFIG_RL")
 						end,
 						OnShow = function(popup) popup.editBox:SetText(profileKey) popup.editBox:SetFocus() end,
 						timeout = 0,
@@ -266,6 +263,7 @@ local blacklistedKeys = {
 		general = {
 			UIScale = true,
 			locale = true,
+			version = true,
 			eyefinity = true,
 			ignoreScalePopup = true,
 			showMissingTalentAlert = true
@@ -274,6 +272,12 @@ local blacklistedKeys = {
 			classColorMentionExcludedNames = true
 		},
 		unitframe = {
+			effectiveHealth = true,
+			effectivePower = true,
+			effectiveAura = true,
+			effectiveHealthSpeed = true,
+			effectivePowerSpeed = true,
+			effectiveAuraSpeed = true,
 			spellRangeCheck = true
 		}
 	}

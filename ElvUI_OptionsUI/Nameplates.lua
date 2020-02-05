@@ -3452,133 +3452,49 @@ local function GetUnitSettings(unit, name)
 end
 
 E.Options.args.nameplate = {
+	order = 2,
 	type = "group",
 	name = L["NamePlates"],
-	childGroups = "tree",
+	childGroups = "tab",
 	get = function(info) return E.db.nameplates[info[#info]] end,
 	set = function(info, value) E.db.nameplates[info[#info]] = value NP:ConfigureAll() end,
 	args = {
-		enable = {
-			order = 1,
-			type = "toggle",
-			name = L["ENABLE"],
-			get = function(info) return E.private.nameplates[info[#info]] end,
-			set = function(info, value) E.private.nameplates[info[#info]] = value E:StaticPopup_Show("PRIVATE_RL") end
-		},
 		intro = {
-			order = 2,
+			order = 1,
 			type = "description",
 			name = L["NAMEPLATE_DESC"]
 		},
-		header = {
-			order = 3,
-			type = "header",
-			name = L["Shortcuts"]
-		},
-		spacer1 = {
-			order = 4,
-			type = "description",
-			name = " "
-		},
-		generalShortcut = {
-			order = 5,
-			type = "execute",
-			name = L["General"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "general") end,
-			disabled = function() return not E.NamePlates.Initialized end
-		},
-		colorsShortcut = {
-			order = 6,
-			type = "execute",
-			name = L["COLORS"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "colorsGroup") end,
-			disabled = function() return not E.NamePlates.Initialized end
-		},
-		cooldownShortcut = {
-			order = 7,
-			type = "execute",
-			name = L["Cooldowns"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "cooldown", "nameplates") end,
-			disabled = function() return not E.NamePlates.Initialized end
-		},
-		threatShortcut = {
-			order = 8,
-			type = "execute",
-			name = L["Threat"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "threatGroup") end,
-			disabled = function() return not E.NamePlates.Initialized end
-		},
-		spacer2 = {
-			order = 9,
-			type = "description",
-			name = " "
-		},
-		cutawayHealthShortcut = {
-			order = 10,
-			type = "execute",
-			name = L["Cutaway Bars"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "generalGroup", "cutawayHealth") end,
-			disabled = function() return not E.NamePlates.Initialized end
-		},
-		friendlyPlayerShortcut = {
-			order = 11,
-			type = "execute",
-			name = L["FRIENDLY_PLAYER"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "friendlyPlayerGroup") end,
-			disabled = function() return not E.NamePlates.Initialized end
-		},
-		friendlyNPCShortcut = {
-			order = 12,
-			type = "execute",
-			name = L["FRIENDLY_NPC"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "friendlyNPCGroup") end,
-			disabled = function() return not E.NamePlates.Initialized end
-		},
-		enemyPlayerShortcut = {
-			order = 13,
-			type = "execute",
-			name = L["ENEMY_PLAYER"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "enemyPlayerGroup") end,
-			disabled = function() return not E.NamePlates.Initialized end
-		},
-		spacer3 = {
-			order = 14,
-			type = "description",
-			name = " "
-		},
-		enemyNPCShortcut = {
-			order = 15,
-			type = "execute",
-			name = L["ENEMY_NPC"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "enemyNPCGroup") end,
-			disabled = function() return not E.NamePlates.Initialized end
-		},
-		filtersShortcut = {
-			order = 16,
-			type = "execute",
-			name = L["Style Filter"],
-			buttonElvUI = true,
-			func = function() ACD:SelectGroup("ElvUI", "nameplate", "filters") end,
-			disabled = function() return not E.NamePlates.Initialized end
+		enable = {
+			order = 2,
+			type = "toggle",
+			name = L["ENABLE"],
+			get = function(info)
+				return E.private.nameplates[info[#info]]
+			end,
+			set = function(info, value)
+				E.private.nameplates[info[#info]] = value
+				E:StaticPopup_Show("PRIVATE_RL")
+			end
 		},
 		generalGroup = {
-			order = 17,
+			order = 3,
 			type = "group",
-			name = L["General Options"],
+			name = L["General"],
 			childGroups = "tab",
-			disabled = function() return not E.NamePlates.Initialized end,
+			disabled = function()
+				return not E.NamePlates.Initialized
+			end,
 			args = {
-				general = {
+				resetFilters = {
 					order = 1,
+					type = "execute",
+					name = L["Reset Aura Filters"],
+					func = function()
+						E:StaticPopup_Show("RESET_NP_AF") --reset nameplate aurafilters
+					end
+				},
+				general = {
+					order = 2,
 					type = "group",
 					name = L["General"],
 					get = function(info)
@@ -3589,20 +3505,8 @@ E.Options.args.nameplate = {
 						NP:ConfigureAll()
 					end,
 					args = {
-						header = {
-							order = 1,
-							type = "header",
-							name = L["General"]
-						},
-						statusbar = {
-							order = 2,
-							type = "select",
-							dialogControl = "LSM30_Statusbar",
-							name = L["StatusBar Texture"],
-							values = AceGUIWidgetLSMlists.statusbar
-						},
 						motionType = {
-							order = 3,
+							order = 1,
 							type = "select",
 							name = L["UNIT_NAMEPLATES_TYPES"],
 							desc = L["Set to either stack nameplates vertically or allow them to overlap."],
@@ -3613,7 +3517,7 @@ E.Options.args.nameplate = {
 							}
 						},
 						showEnemyCombat = {
-							order = 4,
+							order = 2,
 							type = "select",
 							name = L["Enemy Combat Toggle"],
 							desc = L["Control enemy nameplates toggling on or off when in combat."],
@@ -3628,7 +3532,7 @@ E.Options.args.nameplate = {
 							end
 						},
 						showFriendlyCombat = {
-							order = 5,
+							order = 3,
 							type = "select",
 							name = L["Friendly Combat Toggle"],
 							desc = L["Control friendly nameplates toggling on or off when in combat."],
@@ -3642,35 +3546,34 @@ E.Options.args.nameplate = {
 								NP:PLAYER_REGEN_ENABLED()
 							end
 						},
+						statusbar = {
+							order = 4,
+							type = "select",
+							dialogControl = "LSM30_Statusbar",
+							name = L["StatusBar Texture"],
+							values = AceGUIWidgetLSMlists.statusbar
+						},
 						lowHealthThreshold = {
-							order = 6,
+							order = 5,
 							type = "range",
 							name = L["Low Health Threshold"],
 							desc = L["Make the unitframe glow yellow when it is below this percent of health, it will glow red when the health value is half of this value."],
 							isPercent = true,
 							min = 0, max = 1, step = 0.01
 						},
-						resetFilters = {
-							order = 7,
-							type = "execute",
-							name = L["Reset Aura Filters"],
-							func = function(info, value)
-								E:StaticPopup_Show("RESET_NP_AF") --reset nameplate aurafilters
-							end
-						},
 						spacer1 = {
-							order = 8,
+							order = 6,
 							type = "description",
 							name = " "
 						},
 						nameColoredGlow = {
-							order = 9,
+							order = 7,
 							type = "toggle",
 							name = L["Name Colored Glow"],
 							desc = L["Use the Name Color of the unit for the Name Glow."]
 						},
 						smoothbars = {
-							order = 10,
+							order = 8,
 							type = "toggle",
 							name = L["Smooth Bars"],
 							desc = L["Bars will transition smoothly."],
@@ -3680,12 +3583,12 @@ E.Options.args.nameplate = {
 							end
 						},
 						fadeIn = {
-							order = 11,
+							order = 9,
 							type = "toggle",
 							name = L["Alpha Fading"]
 						},
 						targetGroup = {
-							order = 12,
+							order = 10,
 							type = "group",
 							name = L["TARGET"],
 							guiInline = true,
@@ -3771,7 +3674,7 @@ E.Options.args.nameplate = {
 							}
 						},
 						clickThrough = {
-							order = 13,
+							order = 11,
 							type = "group",
 							name = L["Click Through"],
 							guiInline = true,
@@ -3796,7 +3699,7 @@ E.Options.args.nameplate = {
 							}
 						},
 						clickableRange = {
-							order = 14,
+							order = 12,
 							type = "group",
 							name = L["Clickable Size"],
 							guiInline = true,
@@ -3841,17 +3744,12 @@ E.Options.args.nameplate = {
 					}
 				},
 				colorsGroup = {
-					order = 2,
+					order = 3,
 					type = "group",
 					name = L["COLORS"],
 					args = {
-						header = {
-							order = 1,
-							type = "header",
-							name = L["COLORS"]
-						},
 						general = {
-							order = 2,
+							order = 1,
 							type = "group",
 							name = L["General"],
 							guiInline = true,
@@ -3875,7 +3773,7 @@ E.Options.args.nameplate = {
 							}
 						},
 						threat = {
-							order = 3,
+							order = 2,
 							type = "group",
 							name = L["Threat"],
 							guiInline = true,
@@ -3929,7 +3827,7 @@ E.Options.args.nameplate = {
 							}
 						},
 						castGroup = {
-							order = 4,
+							order = 3,
 							type = "group",
 							name = L["Cast Bar"],
 							guiInline = true,
@@ -4023,7 +3921,7 @@ E.Options.args.nameplate = {
 					}
 				},
 				threatGroup = {
-					order = 5,
+					order = 4,
 					type = "group",
 					name = L["Threat"],
 					get = function(info)
@@ -4069,7 +3967,7 @@ E.Options.args.nameplate = {
 					}
 				},
 				cutawayHealth = {
-					order = 9,
+					order = 5,
 					type = "group",
 					name = L["Cutaway Bars"],
 					args = {
@@ -4118,15 +4016,19 @@ E.Options.args.nameplate = {
 			type = "group",
 			name = L["Style Filter"],
 			childGroups = "tab",
-			disabled = function() return not E.NamePlates.Initialized end,
+			disabled = function()
+				return not E.NamePlates.Initialized
+			end,
 			args = {
 				addFilter = {
 					order = 1,
 					type = "input",
 					name = L["Create Filter"],
-					get = function(info) return "" end,
+					get = function(info)
+						return ""
+					end,
 					set = function(info, value)
-						if match(value, "^[%s%p]-$") then
+						if strmatch(value, "^[%s%p]-$") then
 							return
 						end
 						if E.global.nameplates.filters[value] then

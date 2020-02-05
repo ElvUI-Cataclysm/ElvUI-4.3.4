@@ -17,6 +17,7 @@ local positionValues = {
 }
 
 E.Options.args.maps = {
+	order = 2,
 	type = "group",
 	name = L["Maps"],
 	childGroups = "tab",

@@ -18,16 +18,18 @@ function UF:AuraBars_OnClick()
 
 	if auraName then
 		E:Print(format(L["The spell '%s' has been added to the Blacklist unitframe aura filter."], auraName))
-		E.global.unitframe.aurafilters.Blacklist.spells[auraName] = {enable = true, priority = 0}
+		E.global.unitframe.aurafilters.Blacklist.spells[self.spellID or self.name] = {enable = true, priority = 0}
 		UF:Update_AllFrames()
 	end
 end
 
 function UF:Construct_AuraBars(statusBar)
 	statusBar:CreateBackdrop(nil, nil, nil, UF.thinBorders, true)
+	statusBar:SetScript("OnMouseDown", UF.AuraBars_OnClick)
 	statusBar:Point("LEFT")
 	statusBar:Point("RIGHT")
-	statusBar:SetScript("OnMouseDown", UF.AuraBars_OnClick)
+
+	statusBar.icon:CreateBackdrop(nil, nil, nil, UF.thinBorders, true)
 
 	UF.statusbars[statusBar] = true
 	UF:Update_StatusBar(statusBar)
@@ -38,20 +40,13 @@ function UF:Construct_AuraBars(statusBar)
 	UF:Update_FontString(statusBar.timeText)
 	UF:Update_FontString(statusBar.nameText)
 
-	statusBar.iconFrame:CreateBackdrop(nil, nil, nil, UF.thinBorders, true)
-	statusBar.iconFrame:RegisterForClicks("RightButtonUp")
-	statusBar.iconFrame:SetScript("OnClick", OnClick)
-
-	statusBar.icon:SetInside(statusBar.iconFrame.backdrop)
-	statusBar.icon:SetParent(statusBar.iconFrame.backdrop)
-
-	statusBar.bg = statusBar:CreateTexture(nil, "BORDER")
-	statusBar.bg:Show()
-
 	statusBar.nameText:SetJustifyH("LEFT")
 	statusBar.nameText:SetJustifyV("MIDDLE")
 	statusBar.nameText:Point("RIGHT", statusBar.timeText, "LEFT", -4, 0)
 	statusBar.nameText:SetWordWrap(false)
+
+	statusBar.bg = statusBar:CreateTexture(nil, "BORDER")
+	statusBar.bg:Show()
 
 	local frame = statusBar:GetParent()
 	statusBar.db = frame.db and frame.db.aurabar
@@ -122,7 +117,7 @@ function UF:Configure_AuraBars(frame)
 		auraBars.enemyAuraType = db.aurabar.enemyAuraType
 		auraBars.maxBars = db.aurabar.maxBars
 		auraBars.spacing = db.aurabar.spacing
-		auraBars.width = frame.UNIT_WIDTH - auraBars.height - (frame.BORDER * 3)
+		auraBars.width = frame.UNIT_WIDTH - auraBars.height - (frame.BORDER * 4)
 
 		local attachTo = frame
 		local colors = UF.db.colors.auraBarBuff
@@ -204,9 +199,8 @@ function UF:PostUpdateBar_AuraBars(unit, statusBar, index, position, duration, e
 
 	statusBar.db = self.db
 	statusBar.icon:SetTexCoord(unpack(E.TexCoords))
-	statusBar.spark:Height((statusBar:GetHeight() - 4) * 2)
 
-	local colors = E.global.unitframe.AuraBarColors[spellID] or E.global.unitframe.AuraBarColors[tostring(spellID)] or E.global.unitframe.AuraBarColors[spellName]
+	local colors = E.global.unitframe.AuraBarColors[spellID] and E.global.unitframe.AuraBarColors[spellID].enable and E.global.unitframe.AuraBarColors[spellID].color
 
 	if E.db.unitframe.colors.auraBarTurtle and (E.global.unitframe.aurafilters.TurtleBuffs.spells[spellID] or E.global.unitframe.aurafilters.TurtleBuffs.spells[spellName]) and not colors then
 		colors = E.db.unitframe.colors.auraBarTurtleColor

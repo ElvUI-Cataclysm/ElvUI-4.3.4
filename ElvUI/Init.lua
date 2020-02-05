@@ -16,9 +16,10 @@ local IsAddOnLoaded = IsAddOnLoaded
 local LoadAddOn = LoadAddOn
 local ReloadUI = ReloadUI
 
-local ERR_NOT_IN_COMBAT = ERR_NOT_IN_COMBAT
-local GameMenuButtonLogout = GameMenuButtonLogout
 local GameMenuFrame = GameMenuFrame
+local GameMenuButtonLogout = GameMenuButtonLogout
+local GameMenuButtonRatings = GameMenuButtonRatings
+local ERR_NOT_IN_COMBAT = ERR_NOT_IN_COMBAT
 
 BINDING_HEADER_ELVUI = GetAddOnMetadata(..., "Title")
 
@@ -194,32 +195,34 @@ function E:OnInitialize()
 
 	local GameMenuButton = CreateFrame("Button", "GameMenuButtonElvUI", GameMenuFrame, "GameMenuButtonTemplate")
 	GameMenuButton:SetText(self.title)
+	GameMenuButton:Size(GameMenuButtonLogout:GetWidth(), GameMenuButtonLogout:GetHeight())
 	GameMenuButton:SetScript("OnClick", function()
 		E:ToggleOptionsUI()
 		HideUIPanel(GameMenuFrame)
 	end)
 	GameMenuFrame[AddOnName] = GameMenuButton
 
-	GameMenuButton:Size(GameMenuButtonLogout:GetWidth(), GameMenuButtonLogout:GetHeight())
-	GameMenuButtonRatings:HookScript("OnShow", function(self)
-		GameMenuFrame:SetHeight(GameMenuFrame:GetHeight() + self:GetHeight())
-	end)
-	GameMenuButtonRatings:HookScript("OnHide", function(self)
-		GameMenuFrame:SetHeight(GameMenuFrame:GetHeight() - self:GetHeight())
-	end)
-
 	GameMenuFrame:HookScript("OnShow", function()
 		if not GameMenuFrame.isElvUI then
 			GameMenuFrame:SetHeight(GameMenuFrame:GetHeight() + GameMenuButtonLogout:GetHeight() + 5)
 			GameMenuFrame.isElvUI = true
 		end
+
 		local _, relTo = GameMenuButtonLogout:GetPoint()
 		if relTo ~= GameMenuFrame[AddOnName] then
 			GameMenuFrame[AddOnName]:ClearAllPoints()
 			GameMenuFrame[AddOnName]:Point("TOPLEFT", relTo, "BOTTOMLEFT", 0, -1)
+
 			GameMenuButtonLogout:ClearAllPoints()
 			GameMenuButtonLogout:Point("TOPLEFT", GameMenuFrame[AddOnName], "BOTTOMLEFT", 0, -16)
 		end
+	end)
+
+	GameMenuButtonRatings:HookScript("OnShow", function(self)
+		GameMenuFrame:SetHeight(GameMenuFrame:GetHeight() + self:GetHeight())
+	end)
+	GameMenuButtonRatings:HookScript("OnHide", function(self)
+		GameMenuFrame:SetHeight(GameMenuFrame:GetHeight() - self:GetHeight())
 	end)
 
 	self.loadedtime = GetTime()

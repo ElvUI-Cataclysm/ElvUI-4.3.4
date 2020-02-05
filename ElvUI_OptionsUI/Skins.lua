@@ -2,9 +2,10 @@ local E, _, V, P, G = unpack(ElvUI)
 local _, L = unpack(select(2, ...))
 
 E.Options.args.skins = {
+	order = 2,
 	type = "group",
 	name = L["Skins"],
-	childGroups = "tree",
+	childGroups = "tab",
 	args = {
 		intro = {
 			order = 1,
