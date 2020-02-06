@@ -27,11 +27,6 @@ E.Options.args.databars = {
 			get = function(info) return mod.db.experience[info[#info]] end,
 			set = function(info, value) mod.db.experience[info[#info]] = value mod:UpdateExperienceDimensions() end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["XPBAR_LABEL"]
-				},
 				enable = {
 					order = 2,
 					type = "toggle",
@@ -137,11 +132,6 @@ E.Options.args.databars = {
 			get = function(info) return mod.db.reputation[info[#info]] end,
 			set = function(info, value) mod.db.reputation[info[#info]] = value mod:UpdateReputationDimensions() end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["REPUTATION"]
-				},
 				enable = {
 					order = 2,
 					type = "toggle",

@@ -35,11 +35,6 @@ E.Options.args.chat = {
 			name = L["General"],
 			disabled = function() return not E.private.chat.enable end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["General"]
-				},
 				url = {
 					order = 2,
 					type = "toggle",
@@ -232,11 +227,6 @@ E.Options.args.chat = {
 			name = L["Alerts"],
 			disabled = function() return not E.private.chat.enable end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Alerts"]
-				},
 				whisperSound = {
 					order = 2,
 					type = "select", dialogControl = "LSM30_Sound",
@@ -274,11 +264,6 @@ E.Options.args.chat = {
 			name = L["Panels"],
 			disabled = function() return not E.private.chat.enable end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Panels"]
-				},
 				lockPositions = {
 					order = 2,
 					type = "toggle",
@@ -438,11 +423,6 @@ E.Options.args.chat = {
 			set = function(info, value) E.db.chat[info[#info]] = value CH:SetupChat() end,
 			disabled = function() return not E.private.chat.enable end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Fonts"]
-				},
 				font = {
 					order = 2,
 					type = "select", dialogControl = "LSM30_Font",
@@ -487,11 +467,6 @@ E.Options.args.chat = {
 			type = "group",
 			name = L["Class Color Mentions"],
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Class Color Mentions"]
-				},
 				classColorMentionsChat = {
 					order = 2,
 					type = "toggle",

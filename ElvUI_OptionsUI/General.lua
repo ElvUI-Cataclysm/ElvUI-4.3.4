@@ -40,11 +40,6 @@ E.Options.args.general = {
 			type = "group",
 			name = L["General"],
 			args = {
-				generalHeader = {
-					order = 1,
-					type = "header",
-					name = L["General"]
-				},
 				messageRedirect = {
 					order = 2,
 					type = "select",
@@ -89,8 +84,13 @@ E.Options.args.general = {
 					get = function(info) return E.private.general.pixelPerfect end,
 					set = function(info, value) E.private.general.pixelPerfect = value E:StaticPopup_Show("PRIVATE_RL") end
 				},
-				eyefinity = {
+				loginmessage = {
 					order = 7,
+					type = "toggle",
+					name = L["Login Message"]
+				},
+				eyefinity = {
+					order = 8,
 					type = "toggle",
 					name = L["Multi-Monitor Support"],
 					desc = L["Attempt to support eyefinity/nvidia surround."],
@@ -98,34 +98,34 @@ E.Options.args.general = {
 					set = function(info, value) E.global.general.eyefinity = value E:StaticPopup_Show("GLOBAL_RL") end
 				},
 				taintLog = {
-					order = 8,
+					order = 9,
 					type = "toggle",
 					name = L["Log Taints"],
 					desc = L["Send ADDON_ACTION_BLOCKED errors to the Lua Error frame. These errors are less important in most cases and will not effect your game performance. Also a lot of these errors cannot be fixed. Please only report these errors if you notice a Defect in gameplay."]
 				},
 				bottomPanel = {
-					order = 9,
+					order = 10,
 					type = "toggle",
 					name = L["Bottom Panel"],
 					desc = L["Display a panel across the bottom of the screen. This is for cosmetic only."],
 					set = function(info, value) E.db.general.bottomPanel = value Layout:BottomPanelVisibility() end
 				},
 				topPanel = {
-					order = 10,
+					order = 11,
 					type = "toggle",
 					name = L["Top Panel"],
 					desc = L["Display a panel across the top of the screen. This is for cosmetic only."],
 					set = function(info, value) E.db.general.topPanel = value Layout:TopPanelVisibility() end
 				},
 				afk = {
-					order = 11,
+					order = 12,
 					type = "toggle",
 					name = L["AFK Mode"],
 					desc = L["When you go AFK display the AFK screen."],
 					set = function(info, value) E.db.general.afk = value AFK:Toggle() end
 				},
 				decimalLength = {
-					order = 12,
+					order = 13,
 					type = "range",
 					name = L["Decimal Length"],
 					desc = L["Controls the amount of decimals used in values displayed on elements like NamePlates and UnitFrames."],
@@ -137,7 +137,7 @@ E.Options.args.general = {
 					end
 				},
 				numberPrefixStyle = {
-					order = 13,
+					order = 14,
 					type = "select",
 					name = L["Unit Prefix Style"],
 					desc = L["The unit prefixes you want to use when values are shortened in ElvUI. This is mostly used on UnitFrames."],
@@ -155,7 +155,7 @@ E.Options.args.general = {
 					}
 				},
 				smoothingAmount = {
-					order = 14,
+					order = 15,
 					type = "range",
 					isPercent = true,
 					name = L["Smoothing Amount"],
@@ -167,7 +167,7 @@ E.Options.args.general = {
 					end
 				},
 				locale = {
-					order = 15,
+					order = 16,
 					type = "select",
 					name = L["LANGUAGE"],
 					get = function(info) return E.global.general.locale end,
@@ -196,11 +196,6 @@ E.Options.args.general = {
 			get = function(info) return E.db.general[info[#info]] end,
 			set = function(info, value) E.db.general[info[#info]] = value end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Media"]
-				},
 				fontGroup = {
 					order = 2,
 					type = "group",
@@ -344,28 +339,28 @@ E.Options.args.general = {
 							type = "color",
 							name = L["Border Color"],
 							desc = L["Main border color of the UI."],
-							hasAlpha = false,
+							hasAlpha = false
 						},
 						backdropcolor = {
 							order = 2,
 							type = "color",
 							name = L["Backdrop Color"],
 							desc = L["Main backdrop color of the UI."],
-							hasAlpha = false,
+							hasAlpha = false
 						},
 						backdropfadecolor = {
 							order = 3,
 							type = "color",
 							name = L["Backdrop Faded Color"],
 							desc = L["Backdrop color of transparent frames"],
-							hasAlpha = true,
+							hasAlpha = true
 						},
 						valuecolor = {
 							order = 4,
 							type = "color",
 							name = L["Value Color"],
 							desc = L["Color some texts use."],
-							hasAlpha = false,
+							hasAlpha = false
 						},
 						cropIcon = {
 							order = 5,
@@ -395,11 +390,6 @@ E.Options.args.general = {
 			get = function(info) return E.db.general.totems[info[#info]] end,
 			set = function(info, value) E.db.general.totems[info[#info]] = value Totems:PositionAndSize() end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Class Totems"],
-				},
 				enable = {
 					order = 2,
 					type = "toggle",
@@ -449,11 +439,6 @@ E.Options.args.general = {
 			get = function(info) return E.private.general[info[#info]] end,
 			set = function(info, value) E.private.general[info[#info]] = value E:StaticPopup_Show("PRIVATE_RL") end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Chat Bubbles"]
-				},
 				chatBubbles = {
 					order = 2,
 					type = "select",
@@ -503,11 +488,6 @@ E.Options.args.general = {
 			name = L["Objective Frame"],
 			get = function(info) return E.db.general[info[#info]] end,
 			args = {
-				objectiveFrameHeader = {
-					order = 1,
-					type = "header",
-					name = L["Objective Frame"]
-				},
 				watchFrameAutoHide = {
 					order = 2,
 					type = "toggle",
@@ -531,11 +511,6 @@ E.Options.args.general = {
 			name = L["Threat"],
 			get = function(info) return E.db.general.threat[info[#info]] end,
 			args = {
-				threatHeader = {
-					order = 1,
-					type = "header",
-					name = L["Threat"]
-				},
 				enable = {
 					order = 2,
 					type = "toggle",
@@ -599,11 +574,6 @@ E.Options.args.general = {
 				Blizzard:UpdateAltPowerBarSettings()
 			end,
 			args = {
-				alternativePowerHeader = {
-					order = 1,
-					type = "header",
-					name = L["Alternative Power"],
-				},
 				enable = {
 					order = 2,
 					type = "toggle",
@@ -729,11 +699,6 @@ E.Options.args.general = {
 			get = function(info) return E.db.general[info[#info]] end,
 			set = function(info, value) E.db.general[info[#info]] = value end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["BlizzUI Improvements"]
-				},
 				loot = {
 					order = 2,
 					type = "toggle",
@@ -768,7 +733,7 @@ E.Options.args.general = {
 					name = L["Missing Talent Alert"],
 					desc = L["Show an alert frame if you have unspend talent points."],
 					get = function(info) return E.global.general.showMissingTalentAlert end,
-					set = function(info, value) E.global.general.showMissingTalentAlert = value E:StaticPopup_Show("GLOBAL_RL") end,
+					set = function(info, value) E.global.general.showMissingTalentAlert = value E:StaticPopup_Show("GLOBAL_RL") end
 				},
 				raidUtility = {
 					order = 7,
@@ -803,11 +768,6 @@ E.Options.args.general = {
 			get = function(info) return E.db.general[info[#info]] end,
 			set = function(info, value) E.db.general[info[#info]] = value end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["MISCELLANEOUS"]
-				},
 				interruptAnnounce = {
 					order = 2,
 					type = "select",

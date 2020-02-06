@@ -366,9 +366,10 @@ E.Options.args.actionbar = {
 			order = 14,
 			type = "group",
 			name = L["TUTORIAL_TITLE47"],
-			disabled = function() return not E.ActionBars.Initialized or not E.myclass == "SHAMAN" end,
 			get = function(info) return E.db.actionbar.barTotem[info[#info]] end,
 			set = function(info, value) E.db.actionbar.barTotem[info[#info]] = value AB:PositionAndSizeBarTotem() end,
+			hidden = function() return E.myclass ~= "SHAMAN" end,
+			disabled = function() return not E.ActionBars.Initialized end,
 			args = {
 				enabled = {
 					order = 1,

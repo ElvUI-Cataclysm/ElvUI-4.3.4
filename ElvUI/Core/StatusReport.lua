@@ -69,8 +69,38 @@ local function GetSpecName()
 	end
 end
 
-local function GetResolution()
-	return (({GetScreenResolutions()})[GetCurrentResolution()] or GetCVar("gxWindowedResolution"))
+local function CreateContentLines(num, parent, anchorTo)
+	local content = CreateFrame("Frame", nil, parent)
+	content:Size(240, (num * 20) + ((num - 1) * 5)) --20 height and 5 spacing
+	content:Point("TOP", anchorTo, "BOTTOM", 0, -5)
+	for i = 1, num do
+		local line = CreateFrame("Frame", nil, content)
+		line:Size(240, 20)
+
+		local text = line:CreateFontString(nil, "ARTWORK", "SystemFont_Shadow_Large")
+		text:SetAllPoints()
+		text:SetJustifyH("LEFT")
+		text:SetJustifyV("MIDDLE")
+		line.Text = text
+
+		local numLine = line
+		if i == 1 then
+			numLine:Point("TOP", content, "TOP")
+		else
+			numLine:Point("TOP", content["Line"..(i - 1)], "BOTTOM", 0, -5)
+		end
+
+		content["Line"..i] = line
+	end
+
+	return content
+end
+
+local function CloseClicked()
+	if E.StatusReportToggled then
+		E.StatusReportToggled = nil
+		E:ToggleOptionsUI()
+	end
 end
 
 function E:CreateStatusFrame()
@@ -108,29 +138,6 @@ function E:CreateStatusFrame()
 		return section
 	end
 
-	local function CreateContentLines(num, parent, anchorTo)
-		local content = CreateFrame("Frame", nil, parent)
-		content:Size(240, (num * 20) + ((num - 1) * 5)) --20 height and 5 spacing
-		content:Point("TOP", anchorTo, "BOTTOM", 0, -5)
-		for i = 1, num do
-			local line = CreateFrame("Frame", nil, content)
-			line:Size(240, 20)
-			line.Text = line:CreateFontString(nil, "ARTWORK", "SystemFont_Shadow_Large")
-			line.Text:SetAllPoints()
-			line.Text:SetJustifyH("LEFT")
-			line.Text:SetJustifyV("MIDDLE")
-			content["Line"..i] = line
-
-			if i == 1 then
-				content["Line"..i]:Point("TOP", content, "TOP")
-			else
-				content["Line"..i]:Point("TOP", content["Line"..(i - 1)], "BOTTOM", 0, -5)
-			end
-		end
-
-		return content
-	end
-
 	--Main frame
 	local StatusFrame = CreateFrame("Frame", "ElvUIStatusReport", E.UIParent)
 	StatusFrame:Size(300, 640)
@@ -138,7 +145,6 @@ function E:CreateStatusFrame()
 	StatusFrame:SetFrameStrata("HIGH")
 	StatusFrame:CreateBackdrop("Transparent", nil, true)
 	StatusFrame:Hide()
-	StatusFrame:CreateCloseButton()
 	StatusFrame:SetClampedToScreen(true)
 	StatusFrame:SetMovable(true)
 	StatusFrame:EnableMouse(true)
@@ -149,6 +155,10 @@ function E:CreateStatusFrame()
 	StatusFrame:SetScript("OnDragStop", function(self)
 		self:StopMovingOrSizing()
 	end)
+
+	--Close button and script to retoggle the options.
+	StatusFrame:CreateCloseButton()
+	StatusFrame.CloseButton:HookScript("OnClick", CloseClicked)
 
 	--Title logo
 	StatusFrame.TitleLogoFrame = CreateFrame("Frame", nil, StatusFrame)
@@ -187,7 +197,7 @@ function E:CreateStatusFrame()
 	StatusFrame.Section2.Content.Line1.Text:SetFormattedText("Version of WoW: |cff4beb2c%s (build %s)|r", E.wowpatch, E.wowbuild)
 	StatusFrame.Section2.Content.Line2.Text:SetFormattedText("Client Language: |cff4beb2c%s|r", GetLocale())
 	StatusFrame.Section2.Content.Line3.Text:SetFormattedText("Display Mode: |cff4beb2c%s|r", GetDisplayMode())
-	StatusFrame.Section2.Content.Line4.Text:SetFormattedText("Resolution: |cff4beb2c%s|r", GetResolution())
+	StatusFrame.Section2.Content.Line4.Text:SetFormattedText("Resolution: |cff4beb2c%s|r", E.resolution)
 	StatusFrame.Section2.Content.Line5.Text:SetFormattedText("Using Mac Client: |cff4beb2c%s|r", (E.isMacClient == true and "Yes" or "No"))
 
 	StatusFrame.Section3.Content.Line1.Text:SetFormattedText("Faction: |cff4beb2c%s|r", E.myfaction)
@@ -218,7 +228,7 @@ end
 
 local function UpdateDynamicValues()
 	E.StatusFrame.Section2.Content.Line3.Text:SetFormattedText("Display Mode: |cff4beb2c%s|r", GetDisplayMode())
-	E.StatusFrame.Section2.Content.Line4.Text:SetFormattedText("Resolution: |cff4beb2c%s|r", GetResolution())
+	E.StatusFrame.Section2.Content.Line4.Text:SetFormattedText("Resolution: |cff4beb2c%s|r", E.resolution)
 	E.StatusFrame.Section3.Content.Line4.Text:SetFormattedText("Specialization: |cff4beb2c%s|r", GetSpecName())
 	E.StatusFrame.Section3.Content.Line5.Text:SetFormattedText("Level: |cff4beb2c%s|r", E.mylevel)
 	E.StatusFrame.Section3.Content.Line6.Text:SetFormattedText("Zone: |cff4beb2c%s|r", GetRealZoneText())

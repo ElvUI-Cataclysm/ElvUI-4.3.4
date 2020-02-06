@@ -27,11 +27,6 @@ E.Options.args.maps = {
 			type = "group",
 			name = L["WORLD_MAP"],
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["WORLD_MAP"]
-				},
 				generalGroup = {
 					order = 2,
 					type = "group",
@@ -126,11 +121,6 @@ E.Options.args.maps = {
 			get = function(info) return E.db.general.minimap[info[#info]] end,
 			childGroups = "tab",
 			args = {
-				minimapHeader = {
-					order = 1,
-					type = "header",
-					name = L["MINIMAP_LABEL"]
-				},
 				generalGroup = {
 					order = 2,
 					type = "group",
@@ -162,11 +152,6 @@ E.Options.args.maps = {
 					type = "group",
 					name = L["Location Text"],
 					args = {
-						locationHeader = {
-							order = 1,
-							type = "header",
-							name = L["Location Text"]
-						},
 						locationText = {
 							order = 2,
 							type = "select",
@@ -218,11 +203,6 @@ E.Options.args.maps = {
 					type = "group",
 					name = L["Reset Zoom"],
 					args = {
-						zoomResetHeader = {
-							order = 1,
-							type = "header",
-							name = L["Reset Zoom"]
-						},
 						enableZoomReset = {
 							order = 2,
 							type = "toggle",
@@ -247,11 +227,6 @@ E.Options.args.maps = {
 					type = "group",
 					name = L["Buttons"],
 					args = {
-						header = {
-							order = 0,
-							type = "header",
-							name = L["Buttons"]
-						},
 						calendar = {
 							order = 1,
 							type = "group",
@@ -260,11 +235,6 @@ E.Options.args.maps = {
 							set = function(info, value) E.db.general.minimap.icons.calendar[info[#info]] = value MM:UpdateSettings() end,
 							disabled = function() return not E.private.general.minimap.enable end,
 							args = {
-								calendarHeader = {
-									order = 1,
-									type = "header",
-									name = L["Calendar"]
-								},
 								hide = {
 									order = 2,
 									type = "toggle",
@@ -315,11 +285,6 @@ E.Options.args.maps = {
 							set = function(info, value) E.db.general.minimap.icons.worldMap[info[#info]] = value MM:UpdateSettings() end,
 							disabled = function() return not E.private.general.minimap.enable end,
 							args = {
-								worldMapHeader = {
-									order = 1,
-									type = "header",
-									name = L["WORLD_MAP"]
-								},
 								hide = {
 									order = 2,
 									type = "toggle",
@@ -364,11 +329,6 @@ E.Options.args.maps = {
 							set = function(info, value) E.db.general.minimap.icons.mail[info[#info]] = value MM:UpdateSettings() end,
 							disabled = function() return not E.private.general.minimap.enable end,
 							args = {
-								mailHeader = {
-									order = 1,
-									type = "header",
-									name = L["MAIL_LABEL"]
-								},
 								position = {
 									order = 2,
 									type = "select",
@@ -403,11 +363,6 @@ E.Options.args.maps = {
 							set = function(info, value) E.db.general.minimap.icons.lfgEye[info[#info]] = value MM:UpdateSettings() end,
 							disabled = function() return not E.private.general.minimap.enable end,
 							args = {
-								lfgEyeHeader = {
-									order = 1,
-									type = "header",
-									name = L["LFG Queue"]
-								},
 								position = {
 									order = 2,
 									type = "select",
@@ -442,11 +397,6 @@ E.Options.args.maps = {
 							set = function(info, value) E.db.general.minimap.icons.battlefield[info[#info]] = value MM:UpdateSettings() end,
 							disabled = function() return not E.private.general.minimap.enable end,
 							args = {
-								battlefieldHeader = {
-									order = 1,
-									type = "header",
-									name = L["PvP Queue"]
-								},
 								position = {
 									order = 2,
 									type = "select",
@@ -481,11 +431,6 @@ E.Options.args.maps = {
 							set = function(info, value) E.db.general.minimap.icons.difficulty[info[#info]] = value MM:UpdateSettings() end,
 							disabled = function() return not E.private.general.minimap.enable end,
 							args = {
-								difficultyHeader = {
-									order = 1,
-									type = "header",
-									name = L["Instance Difficulty"]
-								},
 								position = {
 									order = 2,
 									type = "select",
@@ -520,11 +465,6 @@ E.Options.args.maps = {
 							set = function(info, value) E.db.general.minimap.icons.vehicleLeave[info[#info]] = value AB:UpdateVehicleLeave() end,
 							disabled = function() return not E.private.general.minimap.enable end,
 							args = {
-								vehicleLeaveHeader = {
-									order = 1,
-									type = "header",
-									name = L["LEAVE_VEHICLE"]
-								},
 								hide = {
 									order = 2,
 									type = "toggle",
@@ -574,11 +514,6 @@ E.Options.args.maps = {
 							set = function(info, value) E.db.general.minimap.icons.ticket[info[#info]] = value MM:UpdateSettings() end,
 							disabled = function() return not E.private.general.minimap.enable end,
 							args = {
-								ticketHeader = {
-									order = 1,
-									type = "header",
-									name = L["Open Ticket"]
-								},
 								position = {
 									order = 2,
 									type = "select",

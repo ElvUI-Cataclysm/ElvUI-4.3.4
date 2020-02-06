@@ -16,21 +16,11 @@ E.Options.args.tagGroup = {
 			width = "full",
 			get = function() return "https://www.tukui.org/forum/viewtopic.php?f=9&t=6" end
 		},
-		header = {
-			order = 2,
-			type = "header",
-			name = L["Available Tags"]
-		},
 		colors = {
 			order = 3,
 			type = "group",
 			name = L["COLORS"],
 			args = {
-				header = {
-					order = 0,
-					type = "header",
-					name = E.InfoColor..L["COLORS"]
-				},
 				customTagColorInfo = {
 					order = 1,
 					type = "input",

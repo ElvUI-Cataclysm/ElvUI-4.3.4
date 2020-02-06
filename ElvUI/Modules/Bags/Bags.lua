@@ -1098,6 +1098,7 @@ function B:ConstructContainerFrame(name, isBank)
 
 		--Search
 		f.editBox = CreateFrame("EditBox", name.."EditBox", f)
+		f.editBox:FontTemplate()
 		f.editBox:SetFrameLevel(f.editBox:GetFrameLevel() + 2)
 		f.editBox:CreateBackdrop("Default")
 		f.editBox.backdrop:Point("TOPLEFT", f.editBox, "TOPLEFT", -20, 2)
@@ -1111,7 +1112,6 @@ function B:ConstructContainerFrame(name, isBank)
 		f.editBox:SetScript("OnTextChanged", B.UpdateSearch)
 		f.editBox:SetScript("OnChar", B.UpdateSearch)
 		f.editBox:SetText(SEARCH)
-		f.editBox:FontTemplate()
 
 		f.editBox.searchIcon = f.editBox:CreateTexture(nil, "OVERLAY")
 		f.editBox.searchIcon:SetTexture("Interface\\Common\\UI-Searchbox-Icon")

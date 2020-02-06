@@ -44,16 +44,11 @@ end
 
 E.Libs.AceConfig:RegisterOptionsTable("ElvUI", E.Options)
 E.Libs.AceConfigDialog:SetDefaultSize("ElvUI", E:GetConfigDefaultSize())
+E.Options.name = format("%s: |cff99ff33%s|r", L["Version"], E.version)
 
 E.Options.args = {
-	ElvUI_Header = {
-		order = 1,
-		type = "header",
-		name = L["Version"]..format(": |cff99ff33%s|r", E.version),
-		width = "full"
-	},
 	RepositionWindow = {
-		order = 2,
+		order = 1,
 		type = "execute",
 		name = L["Reposition Window"],
 		desc = L["Reset the size and position of this frame."],
@@ -63,7 +58,7 @@ E.Options.args = {
 		end
 	},
 	ToggleTutorial = {
-		order = 3,
+		order = 2,
 		type = "execute",
 		customWidth = 150,
 		name = L["Toggle Tutorials"],
@@ -73,7 +68,7 @@ E.Options.args = {
 		end
 	},
 	Install = {
-		order = 4,
+		order = 3,
 		type = "execute",
 		customWidth = 100,
 		name = L["Install"],
@@ -84,7 +79,7 @@ E.Options.args = {
 		end
 	},
 	ResetAllMovers = {
-		order = 5,
+		order = 4,
 		type = "execute",
 		customWidth = 150,
 		name = L["Reset Anchors"],
@@ -94,7 +89,7 @@ E.Options.args = {
 		end
 	},
 	ToggleAnchors = {
-		order = 6,
+		order = 5,
 		type = "execute",
 		customWidth = 150,
 		name = L["Toggle Anchors"],
@@ -103,24 +98,19 @@ E.Options.args = {
 			E:ToggleMoveMode()
 		end
 	},
-	LoginMessage = {
-		order = 7,
-		type = "toggle",
-		customWidth = 150,
-		name = L["Login Message"],
-		get = function(info)
-			return E.db.general.loginmessage
-		end,
-		set = function(info, value)
-			E.db.general.loginmessage = value
+	ShowStatusReport = {
+		order = 6,
+		type = "execute",
+		name = L["ElvUI Status"],
+		desc = L["Shows a frame with needed info for support."],
+		func = function()
+			E:ShowStatusReport()
+			E:ToggleOptionsUI()
+			E.StatusReportToggled = true
 		end
 	}
 }
 
-local DONATOR_STRING = ""
-local DEVELOPER_STRING = ""
-local TESTER_STRING = ""
-local LINE_BREAK = "\n"
 local DONATORS = {
 	"Dandruff",
 	"Tobur/Tarilya",
@@ -170,28 +160,32 @@ local DEVELOPERS = {
 	"Omega1970",
 	"Hydrazine",
 	"Blazeflack",
-	"NihilisticPandemonium",
+	"|cffff2020NihilisticPandemonium|r",
 	"|cffff7d0aMerathilis|r",
-	"|cFF8866ccSimpy|r",
-	"|cFF0070DEAzilroka|r"
+	"|cff0070DEAzilroka|r",
+	"|cff9482c9Darth Predator|r",
+	E:TextGradient("Simpy but my name needs to be longer", 0.45,0.45,0.45, 0.98,0.4,0.53, 0.98,0.4,0.53, 0.45,0.98,0.45).."|r"
 }
 
 local TESTERS = {
 	"Tukui Community",
-	"|cffF76ADBSarah|r - For Sarahing",
 	"Affinity",
 	"Modarch",
-	"Bladesdruid",
+	"|TInterface\\Icons\\INV_Misc_MonsterClaw_04:15:15:0:0:64:64:5:59:5:59|t |cffFF7D0ABladesdruid|r - AKA SUPERBEAR",
 	"Tirain",
 	"Phima",
 	"Veiled",
 	"Repooc",
-	"Darth Predator",
 	"Alex",
 	"Nidra",
 	"Kurhyus",
+	"Shrom",
 	"BuG",
+	"Rubgrsch",
+	"Luckyone",
 	"Yachanay",
+	"AcidWeb",
+	"|TInterface\\Icons\\INV_Staff_30:15:15:0:0:64:64:5:59:5:59|t Loon - For being right",
 	"Catok"
 }
 
@@ -205,30 +199,118 @@ sort(TESTERS, SortList)
 
 for _, name in pairs(DONATORS) do
 	tinsert(E.CreditsList, name)
-	DONATOR_STRING = DONATOR_STRING .. LINE_BREAK .. name
 end
+local DONATOR_STRING = table.concat(DONATORS, "\n")
 for _, name in pairs(DEVELOPERS) do
 	tinsert(E.CreditsList, name)
-	DEVELOPER_STRING = DEVELOPER_STRING .. LINE_BREAK .. name
 end
+local DEVELOPER_STRING = table.concat(DEVELOPERS, "\n")
 for _, name in pairs(TESTERS) do
 	tinsert(E.CreditsList, name)
-	TESTER_STRING = TESTER_STRING .. LINE_BREAK .. name
 end
+local TESTER_STRING = table.concat(TESTERS, "\n")
 
-E.Options.args.credits = {
-	order = -1,
+E.Options.args.info = {
+	order = 4,
 	type = "group",
-	name = L["Credits"],
+	name = L["Information"],
 	args = {
-		text = {
+		header = {
 			order = 1,
 			type = "description",
-			name =
-				L["ELVUI_CREDITS"] .. "\n\n" ..
-				L["Coding:"] .. DEVELOPER_STRING .. "\n\n" ..
-				L["Testing:"] .. TESTER_STRING .. "\n\n" ..
-				L["Donations:"] .. DONATOR_STRING
+			name = L["ELVUI_DESC"],
+			fontSize = "medium"
+		},
+		spacer = {
+			order = 2,
+			type = "description",
+			name = ""
+		},
+		support = {
+			order = 3,
+			type = "group",
+			name = L["Support & Download"],
+			guiInline = true,
+			args = {
+				git = {
+					order = 1,
+					type = "execute",
+					name = L["Ticket Tracker"],
+					customWidth = 140,
+					func = function() E:StaticPopup_Show("ELVUI_EDITBOX", nil, nil, "https://github.com/ElvUI-Cataclysm/ElvUI-4.3.4/issues") end
+				},
+				discord = {
+					order = 2,
+					type = "execute",
+					name = L["Discord"],
+					customWidth = 140,
+					func = function() E:StaticPopup_Show("ELVUI_EDITBOX", nil, nil, "https://discord.gg/UXSc7nt") end
+				},
+				development = {
+					order = 3,
+					type = "execute",
+					name = L["Development Version"],
+					desc = L["Link to the latest development version."],
+					customWidth = 140,
+					func = function() E:StaticPopup_Show("ELVUI_EDITBOX", nil, nil, "https://github.com/ElvUI-Cataclysm/ElvUI-4.3.4/archive/master.zip") end
+				}
+			}
+		},
+		credits = {
+			order = 4,
+			type = "group",
+			name = L["Credits"],
+			guiInline = true,
+			args = {
+				string = {
+					order = 1,
+					type = "description",
+					fontSize = "medium",
+					name = L["ELVUI_CREDITS"]
+				}
+			}
+		},
+		coding = {
+			order = 5,
+			type = "group",
+			name = L["Coding:"],
+			guiInline = true,
+			args = {
+				string = {
+					order = 1,
+					type = "description",
+					fontSize = "medium",
+					name = DEVELOPER_STRING
+				}
+			}
+		},
+		testers = {
+			order = 6,
+			type = "group",
+			name = L["Testing:"],
+			guiInline = true,
+			args = {
+				string = {
+					order = 1,
+					type = "description",
+					fontSize = "medium",
+					name = TESTER_STRING
+				}
+			}
+		},
+		donators = {
+			order = 7,
+			type = "group",
+			name = L["Donations:"],
+			guiInline = true,
+			args = {
+				string = {
+					order = 1,
+					type = "description",
+					fontSize = "medium",
+					name = DONATOR_STRING
+				}
+			}
 		}
 	}
 }
@@ -279,6 +361,7 @@ local function ExportImport_Open(mode)
 	Box.editBox.OnCursorChangedOrig = Box.editBox:GetScript("OnCursorChanged")
 	--Remove OnCursorChanged script as it causes weird behaviour with long text
 	Box.editBox:SetScript("OnCursorChanged", nil)
+	Box.scrollFrame:UpdateScrollChildRect()
 
 	local Label1 = E.Libs.AceGUI:Create("Label")
 	local font = GameFontHighlightSmall:GetFont()
@@ -315,8 +398,7 @@ local function ExportImport_Open(mode)
 		local exportButton = E.Libs.AceGUI:Create("Button")
 		exportButton:SetText(L["Export Now"])
 		exportButton:SetAutoWidth(true)
-		local function OnClick(self)
-			--Clear labels
+		exportButton:SetCallback("OnClick", function()
 			Label1:SetText(" ")
 			Label2:SetText(" ")
 
@@ -334,8 +416,7 @@ local function ExportImport_Open(mode)
 			Box.editBox:HighlightText()
 			Box:SetFocus()
 			exportString = profileExport
-		end
-		exportButton:SetCallback("OnClick", OnClick)
+		end)
 		Frame:AddChild(exportButton)
 
 		--Set scripts
@@ -343,11 +424,14 @@ local function ExportImport_Open(mode)
 			Box:SetText(exportString)
 			Box.editBox:HighlightText()
 		end)
-		Box.editBox:SetScript("OnTextChanged", function(self, userInput)
+		Box.editBox:SetScript("OnTextChanged", function(_, userInput)
 			if userInput then
 				--Prevent user from changing export string
 				Box:SetText(exportString)
 				Box.editBox:HighlightText()
+			else
+				--Scroll frame doesn't scroll to the bottom by itself, so let's do that now
+				Box.scrollFrame:SetVerticalScroll(Box.scrollFrame:GetVerticalScrollRange())
 			end
 		end)
 	elseif mode == "import" then
@@ -357,18 +441,11 @@ local function ExportImport_Open(mode)
 		importButton:SetText(L["Import Now"])
 		importButton:SetAutoWidth(true)
 		importButton:SetCallback("OnClick", function()
-			--Clear labels
 			Label1:SetText(" ")
 			Label2:SetText(" ")
 
-			local text
 			local success = D:ImportProfile(Box:GetText())
-			if success then
-				text = L["Profile imported successfully!"]
-			else
-				text = L["Error decoding data. Import string may be corrupted!"]
-			end
-			Label1:SetText(text)
+			Label1:SetText((success and L["Profile imported successfully!"]) or L["Error decoding data. Import string may be corrupted!"])
 		end)
 		Frame:AddChild(importButton)
 
@@ -377,14 +454,11 @@ local function ExportImport_Open(mode)
 		decodeButton:SetText(L["Decode Text"])
 		decodeButton:SetAutoWidth(true)
 		decodeButton:SetCallback("OnClick", function()
-			--Clear labels
 			Label1:SetText(" ")
 			Label2:SetText(" ")
-			local decodedText
+
 			local profileType, profileKey, profileData = D:Decode(Box:GetText())
-			if profileData then
-				decodedText = E:TableToLuaString(profileData)
-			end
+			local decodedText = (profileData and E:TableToLuaString(profileData)) or nil
 			local importText = D:CreateProfileExport(decodedText, profileType, profileKey)
 			Box:SetText(importText)
 		end)
@@ -417,19 +491,18 @@ local function ExportImport_Open(mode)
 					if profileType == "profile" then
 						Label2:SetText(format("%s: %s%s|r", L["Profile Name"], E.media.hexvaluecolor, profileKey))
 					end
+					--Scroll frame doesn't scroll to the bottom by itself, so let's do that now
+					Box.scrollFrame:UpdateScrollChildRect()
+					Box.scrollFrame:SetVerticalScroll(Box.scrollFrame:GetVerticalScrollRange())
 					importButton:SetDisabled(false)
 				end
 
-				--Scroll frame doesn't scroll to the bottom by itself, so let's do that now
-				Box.scrollFrame:UpdateScrollChildRect()
-				Box.scrollFrame:SetVerticalScroll(Box.scrollFrame:GetVerticalScrollRange())
 
 				oldText = text
 			end
 		end
 
 		Box.editBox:SetFocus()
-		--Set scripts
 		Box.editBox:SetScript("OnChar", nil)
 		Box.editBox:SetScript("OnTextChanged", OnTextChanged)
 	end
@@ -462,7 +535,8 @@ end
 --Create Profiles Table
 E.Options.args.profiles = E.Libs.AceDBOptions:GetOptionsTable(E.data)
 E.Libs.AceConfig:RegisterOptionsTable("ElvProfiles", E.Options.args.profiles)
-E.Options.args.profiles.order = -10
+E.Options.args.profiles.name = L["Profiles"]
+E.Options.args.profiles.order = 5
 
 E.Libs.DualSpec:EnhanceOptions(E.Options.args.profiles, E.data)
 
@@ -530,13 +604,17 @@ E.Options.args.profiles.plugins.ElvUI = {
 		order = 94,
 		type = "execute",
 		name = L["Export Profile"],
-		func = function() ExportImport_Open("export") end
+		func = function()
+			ExportImport_Open("export")
+		end
 	},
 	importProfile = {
 		order = 95,
 		type = "execute",
 		name = L["Import Profile"],
-		func = function() ExportImport_Open("import") end
+		func = function()
+			ExportImport_Open("import")
+		end
 	}
 }
 

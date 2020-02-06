@@ -27,11 +27,6 @@ local function group(order, db, label)
 			E:UpdateCooldownSettings(db)
 		end,
 		args = {
-			header = {
-				order = 1,
-				type = "header",
-				name = label
-			},
 			reverse = {
 				order = 2,
 				type = "toggle",

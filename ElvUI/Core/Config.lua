@@ -191,6 +191,22 @@ local function ConfigMode_Initialize()
 	UIDropDownMenu_SetSelectedValue(ElvUIMoverPopupWindowDropDown, selectedValue)
 end
 
+function E:MoverNudgeOnShow()
+	self:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
+end
+
+function E:MoverNudgeHeaderOnShow()
+	self:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
+end
+
+function E:MoverPopupOnShow()
+	self:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
+end
+
+function E:MoverPopupHeaderOnShow()
+	self:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
+end
+
 function E:NudgeMover(nudgeX, nudgeY)
 	local mover = ElvUIMoverNudgeWindow.child
 	local x, y, point = E:CalculateMoverPoints(mover, nudgeX, nudgeY)
@@ -208,8 +224,8 @@ function E:UpdateNudgeFrame(mover, x, y)
 		x, y = E:CalculateMoverPoints(mover)
 	end
 
-	x = E:Round(x, 0)
-	y = E:Round(y, 0)
+	x = E:Round(x)
+	y = E:Round(y)
 
 	local ElvUIMoverNudgeWindow = ElvUIMoverNudgeWindow
 	ElvUIMoverNudgeWindow.xOffset:SetText(x)
@@ -242,6 +258,7 @@ function E:CreateMoverPopup()
 		end
 	end)
 	f:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
+	f:SetScript("OnShow", E.MoverPopupOnShow)
 	f:CreateShadow(5)
 	f:Hide()
 
@@ -256,6 +273,7 @@ function E:CreateMoverPopup()
 	header:SetScript("OnMouseDown", function() f:StartMoving() end)
 	header:SetScript("OnMouseUp", function() f:StopMovingOrSizing() end)
 	header:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
+	header:SetScript("OnShow", E.MoverPopupHeaderOnShow)
 
 	local title = header:CreateFontString("OVERLAY")
 	title:FontTemplate()
@@ -273,13 +291,8 @@ function E:CreateMoverPopup()
 	local snapping = CreateFrame("CheckButton", f:GetName().."CheckButton", f, "OptionsCheckButtonTemplate")
 	_G[snapping:GetName().."Text"]:SetText(L["Sticky Frames"])
 
-	snapping:SetScript("OnShow", function(cb)
-		cb:SetChecked(E.db.general.stickyFrames)
-	end)
-
-	snapping:SetScript("OnClick", function(cb)
-		E.db.general.stickyFrames = cb:GetChecked()
-	end)
+	snapping:SetScript("OnShow", function(cb) cb:SetChecked(E.db.general.stickyFrames) end)
+	snapping:SetScript("OnClick", function(cb) E.db.general.stickyFrames = cb:GetChecked() end)
 
 	local lock = CreateFrame("Button", f:GetName().."CloseButton", f, "OptionsButtonTemplate")
 	_G[lock:GetName().."Text"]:SetText(L["Lock"])
@@ -368,6 +381,7 @@ function E:CreateMoverPopup()
 	nudgeFrame:Hide()
 	nudgeFrame:EnableMouse(true)
 	nudgeFrame:SetClampedToScreen(true)
+	nudgeFrame:SetScript("OnShow", E.MoverNudgeOnShow)
 	nudgeFrame:SetScript("OnKeyDown", function(_, btn)
 		local Mod = IsAltKeyDown() or IsControlKeyDown()
 		if btn == "NUMPAD4" then
@@ -399,6 +413,7 @@ function E:CreateMoverPopup()
 	header:Point("CENTER", nudgeFrame, "TOP")
 	header:SetFrameLevel(header:GetFrameLevel() + 2)
 	header:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
+	header:SetScript("OnShow", E.MoverNudgeHeaderOnShow)
 
 	title = header:CreateFontString("OVERLAY")
 	title:FontTemplate()

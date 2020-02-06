@@ -149,11 +149,6 @@ E.Options.args.auras = {
 			get = function(info) return E.db.auras[info[#info]] end,
 			set = function(info, value) E.db.auras[info[#info]] = value A:UpdateHeader(ElvUIPlayerBuffs) A:UpdateHeader(ElvUIPlayerDebuffs) A:UpdateTempEnchant() end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["General"]
-				},
 				fadeThreshold = {
 					order = 2,
 					type = "range",
@@ -354,11 +349,6 @@ E.Options.args.auras = {
 				A:UpdateTempEnchantQuality()
 			end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Weapons"]
-				},
 				size = {
 					order = 2,
 					type = "range",
@@ -541,11 +531,6 @@ E.Options.args.auras = {
 			set = function(info, value) E.db.general.reminder[info[#info]] = value RB:UpdateSettings() end,
 			disabled = function() return not E.private.general.minimap.enable end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Reminder"]
-				},
 				enable = {
 					order = 2,
 					type = "toggle",

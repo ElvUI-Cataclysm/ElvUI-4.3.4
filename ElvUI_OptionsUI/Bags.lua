@@ -34,11 +34,6 @@ E.Options.args.bags = {
 			name = L["General"],
 			disabled = function() return not E.Bags.Initialized end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["General"],
-				},
 				strata = {
 					order = 2,
 					type = "select",
@@ -275,11 +270,6 @@ E.Options.args.bags = {
 			name = L["Size"],
 			disabled = function() return not E.Bags.Initialized end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Size"],
-				},
 				bagSize = {
 					order = 2,
 					type = "range",
@@ -324,11 +314,6 @@ E.Options.args.bags = {
 			type = "group",
 			name = L["COLORS"],
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["COLORS"]
-				},
 				profession = {
 					order = 2,
 					type = "group",
@@ -470,11 +455,6 @@ E.Options.args.bags = {
 			get = function(info) return E.db.bags.bagBar[info[#info]] end,
 			set = function(info, value) E.db.bags.bagBar[info[#info]] = value B:SizeAndPositionBagBar() end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Bag-Bar"]
-				},
 				enable = {
 					order = 2,
 					type = "toggle",
@@ -568,11 +548,6 @@ E.Options.args.bags = {
 			set = function(info, value) E.db.bags.split[info[#info]] = value B:UpdateAll() end,
 			disabled = function() return not E.Bags.Initialized end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Split"]
-				},
 				bagSpacing = {
 					order = 2,
 					type = "range",
@@ -677,11 +652,6 @@ E.Options.args.bags = {
 			get = function(info) return E.db.bags.vendorGrays[info[#info]] end,
 			set = function(info, value) E.db.bags.vendorGrays[info[#info]] = value B:UpdateSellFrameSettings() end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Vendor Grays"]
-				},
 				enable = {
 					order = 2,
 					type = "toggle",
@@ -717,11 +687,6 @@ E.Options.args.bags = {
 			name = L["Bag Sorting"],
 			disabled = function() return not E.Bags.Initialized end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Bag Sorting"]
-				},
 				sortInverted = {
 					order = 2,
 					type = "toggle",
@@ -812,11 +777,6 @@ E.Options.args.bags = {
 			name = L["Search Syntax"],
 			disabled = function() return not E.Bags.Initialized end,
 			args = {
-				header = {
-					order = 1,
-					type = "header",
-					name = L["Search Syntax"]
-				},
 				text = {
 					order = 2,
 					type = "input",

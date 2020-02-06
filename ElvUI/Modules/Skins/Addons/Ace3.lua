@@ -17,7 +17,7 @@ local oldRegisterAsWidget, oldRegisterAsContainer
 -- versions of AceGUI and AceConfigDialog.
 local minorGUI, minorConfigDialog = 1, 76
 
-function S:Ace3_SkinDropdownPullout()
+function S:Ace3_SkinDropdown()
 	if self and self.obj then
 		local pullout = self.obj.pullout
 		local dropdown = self.obj.dropdown
@@ -95,16 +95,37 @@ function S:Ace3_CheckBoxSetDisabled(disabled)
 end
 
 function S:Ace3_EditBoxSetTextInsets(l, r, t, b)
-	if l == 0 then self:SetTextInsets(4, 43, t, b) end
+	if l == 0 then self:SetTextInsets(3, r, t, b) end
 end
 
 function S:Ace3_EditBoxSetPoint(a, b, c, d, e)
 	if d == 7 then self:Point(a, b, c, 0, e) end
 end
 
-function S:Ace3_CreateTabSetPoint(a, b, c, d, e, f)
-	if f ~= "ignore" and a == "TOPLEFT" then
-		self:SetPoint(a, b, c, d, e + 2, "ignore")
+function S:Ace3_TabSetSelected(selected)
+	local bd = self.backdrop
+	if not bd then return end
+
+	if selected then
+		bd:SetBackdropBorderColor(1, 0.82, 0, 1)
+		--bd:SetBackdropColor(1, 0.82, 0, 0.4)
+
+		if not self.wasRaised then
+			RaiseFrameLevel(self)
+
+			self.wasRaised = true
+		end
+	else
+		local r, g, b = unpack(E.media.bordercolor)
+		bd:SetBackdropBorderColor(r, g, b, 1)
+		--r, g, b = unpack(E.media.backdropcolor)
+		--bd:SetBackdropColor(r, g, b, 1)
+
+		if self.wasRaised then
+			LowerFrameLevel(self)
+
+			self.wasRaised = nil
+		end
 	end
 end
 
@@ -116,17 +137,18 @@ function S:Ace3_RegisterAsWidget(widget)
 	local TYPE = widget.type
 	if TYPE == "MultiLineEditBox" then
 		local frame = widget.frame
-		local scrollBG = widget.scrollBG or select(2, frame:GetChildren())
+		local scrollBG = widget.scrollBG or select(2, frame:GetChildren()) or frame:GetChildren()
+		local scrollBar = widget.scrollBar or _G[widget.scrollframe:GetName().."ScrollBar"]
 
 		if not scrollBG.template then
-			scrollBG:SetTemplate("Default")
+			scrollBG:SetTemplate()
 		end
 
 		S:HandleButton(widget.button)
-		S:HandleScrollBar(widget.scrollBar)
-		widget.scrollBar:Point("RIGHT", frame, "RIGHT", 0 -4)
+		S:HandleScrollBar(scrollBar)
+		scrollBar:Point("RIGHT", frame, "RIGHT", 0 -4)
 
-		scrollBG:Point("TOPRIGHT", widget.scrollBar, "TOPLEFT", -2, 19)
+		scrollBG:Point("TOPRIGHT", scrollBar, "TOPLEFT", -2, 19)
 		scrollBG:Point("BOTTOMLEFT", widget.button, "TOPLEFT")
 		widget.scrollFrame:Point("BOTTOMRIGHT", scrollBG, "BOTTOMRIGHT", -4, 8)
 	elseif TYPE == "CheckBox" then
@@ -134,12 +156,15 @@ function S:Ace3_RegisterAsWidget(widget)
 		local checkbg = widget.checkbg
 		local highlight = widget.highlight
 
-		checkbg:CreateBackdrop("Default")
+		checkbg:CreateBackdrop()
 		checkbg.backdrop:SetFrameLevel(checkbg.backdrop:GetFrameLevel() + 1)
-		checkbg:SetTexture("")
+		checkbg:SetTexture()
 		checkbg.SetTexture = E.noop
 
 		check:SetParent(checkbg.backdrop)
+
+		highlight:SetTexture()
+		highlight.SetTexture = E.noop
 
 		hooksecurefunc(widget, "SetDisabled", S.Ace3_CheckBoxSetDisabled)
 
@@ -154,9 +179,6 @@ function S:Ace3_RegisterAsWidget(widget)
 			checkbg.backdrop:SetInside(checkbg, 4, 4)
 			check:SetOutside(checkbg.backdrop, 3, 3)
 		end
-
-		highlight:SetTexture("")
-		highlight.SetTexture = E.noop
 	elseif TYPE == "Dropdown" then
 		local frame = widget.dropdown
 		local button = widget.button
@@ -168,7 +190,7 @@ function S:Ace3_RegisterAsWidget(widget)
 		S:HandleNextPrevButton(button, nil, {1, 0.8, 0})
 
 		if not frame.backdrop then
-			frame:CreateBackdrop("Default")
+			frame:CreateBackdrop()
 		end
 
 		frame.backdrop:Point("TOPLEFT", 17, -2)
@@ -188,9 +210,9 @@ function S:Ace3_RegisterAsWidget(widget)
 		text:Point("LEFT", frame.backdrop, "LEFT", 5, 0)
 		text:SetParent(frame.backdrop)
 
-		button:HookScript("OnClick", S.Ace3_SkinDropdownPullout)
+		button:HookScript("OnClick", S.Ace3_SkinDropdown)
 		if button_cover then
-			button_cover:HookScript("OnClick", S.Ace3_SkinDropdownPullout)
+			button_cover:HookScript("OnClick", S.Ace3_SkinDropdown)
 		end
 	elseif TYPE == "LSM30_Font" or TYPE == "LSM30_Sound" or TYPE == "LSM30_Border" or TYPE == "LSM30_Background" or TYPE == "LSM30_Statusbar" then
 		local frame = widget.frame
@@ -202,7 +224,7 @@ function S:Ace3_RegisterAsWidget(widget)
 		S:HandleNextPrevButton(button, nil, {1, 0.8, 0})
 
 		if not frame.backdrop then
-			frame:CreateBackdrop("Default")
+			frame:CreateBackdrop()
 		end
 
 		frame.label:ClearAllPoints()
@@ -210,6 +232,7 @@ function S:Ace3_RegisterAsWidget(widget)
 
 		text:ClearAllPoints()
 		text:Point("RIGHT", button, "LEFT", -2, 0)
+		text:Point("LEFT", frame.backdrop, "LEFT", 2, 0)
 
 		button:ClearAllPoints()
 		button:Point("TOPLEFT", frame.backdrop, "TOPRIGHT", -22, -2)
@@ -232,7 +255,7 @@ function S:Ace3_RegisterAsWidget(widget)
 		button:SetParent(frame.backdrop)
 		text:SetParent(frame.backdrop)
 
-		button:HookScript("OnClick", S.Ace3_SkinDropdownPullout)
+		button:HookScript("OnClick", S.Ace3_SkinDropdown)
 	elseif TYPE == "EditBox" then
 		local frame = widget.editbox
 		local button = widget.button
@@ -242,7 +265,7 @@ function S:Ace3_RegisterAsWidget(widget)
 		_G[frame:GetName().."Right"]:Kill()
 
 		frame:Height(17)
-		frame:CreateBackdrop("Default")
+		frame:CreateBackdrop()
 		frame.backdrop:Point("TOPLEFT", 2, -2)
 		frame.backdrop:Point("BOTTOMRIGHT", -2, 0)
 		frame.backdrop:SetParent(widget.frame)
@@ -277,7 +300,7 @@ function S:Ace3_RegisterAsWidget(widget)
 		thumbTex:SetVertexColor(1, 0.82, 0, 0.8)
 		thumbTex:Size(HEIGHT - 2, HEIGHT - 2)
 
-		editbox:SetTemplate("Default")
+		editbox:SetTemplate()
 		editbox:Height(15)
 		editbox:Point("TOP", frame, "BOTTOM", 0, -1)
 
@@ -313,7 +336,7 @@ function S:Ace3_RegisterAsWidget(widget)
 		local colorSwatch = widget.colorSwatch
 
 		if not frame.backdrop then
-			frame:CreateBackdrop("Default")
+			frame:CreateBackdrop()
 		end
 
 		frame.backdrop:Size(24, 16)
@@ -421,7 +444,7 @@ function S:Ace3_RegisterAsContainer(widget)
 				tab.backdrop:Point("TOPLEFT", 10, -3)
 				tab.backdrop:Point("BOTTOMRIGHT", -10, 0)
 
-				hooksecurefunc(tab, "SetPoint", S.Ace3_CreateTabSetPoint)
+				hooksecurefunc(tab, "SetSelected", S.Ace3_TabSetSelected)
 
 				return tab
 			end
@@ -470,7 +493,7 @@ function S:HookAce3(lib, minor) -- lib: AceGUI
 		S.Ace3_L = E.Libs.ACL:GetLocale("ElvUI", E.global.general.locale)
 
 		-- Special Enable Coloring
-		if not S.Ace3_EnableMatch then S.Ace3_EnableMatch = "^|?c?F?F?%x?%x?%x?%x?%x?%x?"..E:EscapeString(S.Ace3_L.Enable).."|?r?$" end
+		if not S.Ace3_EnableMatch then S.Ace3_EnableMatch = "^|?c?[Ff]?[Ff]?%x?%x?%x?%x?%x?%x?"..E:EscapeString(S.Ace3_L.Enable).."|?r?$" end
 		if not S.Ace3_EnableOff then S.Ace3_EnableOff = format("|cFFff3333%s|r", S.Ace3_L.Enable) end
 		if not S.Ace3_EnableOn then S.Ace3_EnableOn = format("|cFF33ff33%s|r", S.Ace3_L.Enable) end
 	end
