@@ -10,7 +10,6 @@ local C, L = Engine[1], Engine[2]
 local _G = _G
 local pairs = pairs
 local format = string.format
-
 local sort, tinsert, tconcat = sort, tinsert, table.concat
 
 C.Values = {
@@ -43,73 +42,8 @@ function E:RefreshGUI()
 end
 
 E.Libs.AceConfig:RegisterOptionsTable("ElvUI", E.Options)
-E.Libs.AceConfigDialog:SetDefaultSize("ElvUI", E:GetConfigDefaultSize())
+E.Libs.AceConfigDialog:SetDefaultSize("ElvUI", E:Config_GetDefaultSize())
 E.Options.name = format("%s: |cff99ff33%s|r", L["Version"], E.version)
-
-E.Options.args = {
-	RepositionWindow = {
-		order = 1,
-		type = "execute",
-		name = L["Reposition Window"],
-		desc = L["Reset the size and position of this frame."],
-		customWidth = 175,
-		func = function()
-			E:UpdateConfigSize(true)
-		end
-	},
-	ToggleTutorial = {
-		order = 2,
-		type = "execute",
-		customWidth = 150,
-		name = L["Toggle Tutorials"],
-		func = function()
-			E:Tutorials(true)
-			E:ToggleOptionsUI()
-		end
-	},
-	Install = {
-		order = 3,
-		type = "execute",
-		customWidth = 100,
-		name = L["Install"],
-		desc = L["Run the installation process."],
-		func = function()
-			E:Install()
-			E:ToggleOptionsUI()
-		end
-	},
-	ResetAllMovers = {
-		order = 4,
-		type = "execute",
-		customWidth = 150,
-		name = L["Reset Anchors"],
-		desc = L["Reset all frames to their original positions."],
-		func = function()
-			E:ResetUI()
-		end
-	},
-	ToggleAnchors = {
-		order = 5,
-		type = "execute",
-		customWidth = 150,
-		name = L["Toggle Anchors"],
-		desc = L["Unlock various elements of the UI to be repositioned."],
-		func = function()
-			E:ToggleMoveMode()
-		end
-	},
-	ShowStatusReport = {
-		order = 6,
-		type = "execute",
-		name = L["ElvUI Status"],
-		desc = L["Shows a frame with needed info for support."],
-		func = function()
-			E:ShowStatusReport()
-			E:ToggleOptionsUI()
-			E.StatusReportToggled = true
-		end
-	}
-}
 
 local DONATORS = {
 	"Dandruff",
@@ -519,7 +453,7 @@ local function ExportImport_Open(mode)
 		exportString = ""
 
 		E.Libs.AceGUI:Release(widget)
-		E.Libs.AceConfigDialog:Open("ElvUI")
+		E:Config_OpenWindow()
 	end)
 
 	--Clear default text

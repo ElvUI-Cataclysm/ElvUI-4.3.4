@@ -392,6 +392,40 @@ function E:PLAYER_ENTERING_WORLD()
 	end
 end
 
+function E:PLAYER_REGEN_ENABLED()
+	if self.ShowOptionsUI then
+		self:ToggleOptionsUI()
+
+		self.ShowOptionsUI = nil
+	end
+end
+
+function E:PLAYER_REGEN_DISABLED()
+	local err
+
+	if IsAddOnLoaded("ElvUI_OptionsUI") then
+		local ACD = self.Libs.AceConfigDialog
+		if ACD and ACD.OpenFrames and ACD.OpenFrames.ElvUI then
+			ACD:Close("ElvUI")
+			err = true
+		end
+	end
+
+	if self.CreatedMovers then
+		for name in pairs(self.CreatedMovers) do
+			local mover = _G[name]
+			if mover and mover:IsShown() then
+				mover:Hide()
+				err = true
+			end
+		end
+	end
+
+	if err then
+		self:Print(ERR_NOT_IN_COMBAT)
+	end
+end
+
 function E:GetUnitBattlefieldFaction(unit)
 	local englishFaction, localizedFaction = UnitFactionGroup(unit)
 
@@ -415,6 +449,8 @@ function E:LoadAPI()
 
 	self:RegisterEvent("PLAYER_LEVEL_UP")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
+	self:RegisterEvent("PLAYER_REGEN_ENABLED")
+	self:RegisterEvent("PLAYER_REGEN_DISABLED")
 	self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", "CheckRole")
 	self:RegisterEvent("PLAYER_TALENT_UPDATE", "CheckRole")
 	self:RegisterEvent("CHARACTER_POINTS_CHANGED", "CheckRole")

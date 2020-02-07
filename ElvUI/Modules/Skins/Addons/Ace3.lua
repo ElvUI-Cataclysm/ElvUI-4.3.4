@@ -400,12 +400,24 @@ function S:Ace3_RegisterAsContainer(widget)
 
 		if widget.treeframe then
 			widget.treeframe:SetTemplate("Transparent")
-			frame:Point("TOPLEFT", widget.treeframe, "TOPRIGHT", 1, 0)
 
 			local oldRefreshTree = widget.RefreshTree
 			widget.RefreshTree = function(wdg, scrollToSelection)
 				oldRefreshTree(wdg, scrollToSelection)
 				if not wdg.tree then return end
+
+				wdg.border:ClearAllPoints()
+				if wdg.userdata and wdg.userdata.option and wdg.userdata.option.childGroups == "ElvUI_HiddenTree" then
+					wdg.border:Point("TOPLEFT", wdg.treeframe, "TOPRIGHT", 1, 13)
+					wdg.border:Point("BOTTOMRIGHT", wdg.frame, "BOTTOMRIGHT", 6, 0)
+					wdg.treeframe:Hide()
+					return
+				else
+					wdg.border:Point("TOPLEFT", wdg.treeframe, "TOPRIGHT")
+					wdg.border:Point("BOTTOMRIGHT", wdg.frame)
+					wdg.treeframe:Show()
+				end
+
 				local status = wdg.status or wdg.localstatus
 				local groupstatus = status.groups
 				local lines = wdg.lines
