@@ -40,7 +40,7 @@ local GetNumPartyMembers, GetNumRaidMembers = GetNumPartyMembers, GetNumRaidMemb
 local GetLocale, IsInGuild = GetLocale, IsInGuild
 local CreateFrame, IsAddOnLoaded = CreateFrame, IsAddOnLoaded
 local IsInInstance = IsInInstance
-localRegisterAddonMessagePrefix = RegisterAddonMessagePrefix
+local RegisterAddonMessagePrefix = RegisterAddonMessagePrefix
 local SendAddonMessage = SendAddonMessage
 local UNKNOWN = UNKNOWN
 
