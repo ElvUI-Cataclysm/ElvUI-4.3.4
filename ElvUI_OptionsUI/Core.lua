@@ -5,13 +5,13 @@ local Engine = select(2, ...)
 
 Engine[1] = {}
 Engine[2] = E.Libs.ACL:GetLocale("ElvUI", E.global.general.locale)
+local C, L = Engine[1], Engine[2]
 
 local _G = _G
 local pairs = pairs
 local format = string.format
-local sort, tinsert = sort, tinsert
 
-local C, L = Engine[1], Engine[2]
+local sort, tinsert, tconcat = sort, tinsert, table.concat
 
 C.Values = {
 	FontFlags = {
@@ -161,7 +161,7 @@ local DEVELOPERS = {
 	"Hydrazine",
 	"Blazeflack",
 	"|cffff2020NihilisticPandemonium|r",
-	"|cffff7d0aMerathilis|r",
+	"|TInterface\\Icons\\INV_Misc_MonsterClaw_04:15:15:0:0:64:64:5:59:5:59|t |cffff7d0aMerathilis|r",
 	"|cff0070DEAzilroka|r",
 	"|cff9482c9Darth Predator|r",
 	E:TextGradient("Simpy but my name needs to be longer", 0.45,0.45,0.45, 0.98,0.4,0.53, 0.98,0.4,0.53, 0.45,0.98,0.45).."|r"
@@ -190,7 +190,7 @@ local TESTERS = {
 }
 
 local function SortList(a, b)
-	return a < b
+	return E:StripString(a) < E:StripString(b)
 end
 
 sort(DONATORS, SortList)
@@ -200,15 +200,15 @@ sort(TESTERS, SortList)
 for _, name in pairs(DONATORS) do
 	tinsert(E.CreditsList, name)
 end
-local DONATOR_STRING = table.concat(DONATORS, "\n")
+local DONATOR_STRING = tconcat(DONATORS, "\n")
 for _, name in pairs(DEVELOPERS) do
 	tinsert(E.CreditsList, name)
 end
-local DEVELOPER_STRING = table.concat(DEVELOPERS, "\n")
+local DEVELOPER_STRING = tconcat(DEVELOPERS, "\n")
 for _, name in pairs(TESTERS) do
 	tinsert(E.CreditsList, name)
 end
-local TESTER_STRING = table.concat(TESTERS, "\n")
+local TESTER_STRING = tconcat(TESTERS, "\n")
 
 E.Options.args.info = {
 	order = 4,

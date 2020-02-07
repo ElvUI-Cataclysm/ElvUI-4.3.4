@@ -435,49 +435,49 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 		set = function(info, value) E.db.unitframe.units[groupName][auraType][info[#info]] = value updateFunc(UF, groupName, numUnits) end,
 		args = {
 			enable = {
-				order = 2,
+				order = 1,
 				type = "toggle",
 				name = L["ENABLE"]
 			},
 			perrow = {
-				order = 3,
+				order = 2,
 				type = "range",
 				name = L["Per Row"],
 				min = 1, max = 20, step = 1,
 			},
 			numrows = {
-				order = 4,
+				order = 3,
 				type = "range",
 				name = L["Num Rows"],
 				min = 1, max = 10, step = 1
 			},
 			sizeOverride = {
-				order = 5,
+				order = 4,
 				type = "range",
 				name = L["Size Override"],
 				desc = L["If not set to 0 then override the size of the aura icon to this."],
 				min = 0, max = 60, step = 1
 			},
 			xOffset = {
-				order = 6,
+				order = 5,
 				type = "range",
 				name = L["X-Offset"],
 				min = -1000, max = 1000, step = 1
 			},
 			yOffset = {
-				order = 7,
+				order = 6,
 				type = "range",
 				name = L["Y-Offset"],
 				min = -1000, max = 1000, step = 1
 			},
 			spacing = {
-				order = 8,
+				order = 7,
 				type = "range",
 				name = L["Spacing"],
 				min = 0, max = 20, step = 1
 			},
 			attachTo = {
-				order = 9,
+				order = 8,
 				type = "select",
 				name = L["Attach To"],
 				desc = L["What to attach the buff anchor frame to."],
@@ -493,20 +493,20 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 				end
 			},
 			anchorPoint = {
-				order = 10,
+				order = 9,
 				type = "select",
 				name = L["Anchor Point"],
 				desc = L["What point to anchor to the frame you set to attach to."],
 				values = positionValues
 			},
 			clickThrough = {
-				order = 11,
+				order = 10,
 				type = "toggle",
 				name = L["Click Through"],
 				desc = L["Ignore mouse events."]
 			},
 			sortMethod = {
-				order = 12,
+				order = 11,
 				type = "select",
 				name = L["Sort By"],
 				desc = L["Method to sort by."],
@@ -519,7 +519,7 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 				}
 			},
 			sortDirection = {
-				order = 13,
+				order = 12,
 				type = "select",
 				name = L["Sort Direction"],
 				desc = L["Ascending or Descending order."],
@@ -529,7 +529,7 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 				}
 			},
 			stacks = {
-				order = 14,
+				order = 13,
 				type = "group",
 				name = L["Stack Counter"],
 				guiInline = true,
@@ -558,7 +558,7 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 				}
 			},
 			duration = {
-				order = 15,
+				order = 14,
 				type = "group",
 				name = L["Duration"],
 				guiInline = true,
@@ -733,7 +733,7 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 			return (smartAuraPosition and (smartAuraPosition == "DEBUFFS_ON_BUFFS" or smartAuraPosition == "FLUID_DEBUFFS_ON_BUFFS"))
 		end
 		config.args.desaturate = {
-			order = 2,
+			order = 1.1,
 			type = "toggle",
 			name = L["Desaturate Icon"]
 		}

@@ -6,7 +6,7 @@ local M = E:GetModule("Minimap")
 
 local format = string.format
 
-local function GetAuraOptions(headerName)
+local function GetAuraOptions()
 	local auraOptions = {
 		size = {
 			order = 2,
@@ -324,7 +324,7 @@ E.Options.args.auras = {
 			get = function(info) return E.db.auras.buffs[info[#info]] end,
 			set = function(info, value) E.db.auras.buffs[info[#info]] = value A:UpdateHeader(ElvUIPlayerBuffs) end,
 			disabled = function() return not E.private.auras.buffsHeader end,
-			args = GetAuraOptions(L["Buffs"])
+			args = GetAuraOptions()
 		},
 		debuffs = {
 			order = 6,
@@ -333,7 +333,7 @@ E.Options.args.auras = {
 			get = function(info) return E.db.auras.debuffs[info[#info]] end,
 			set = function(info, value) E.db.auras.debuffs[info[#info]] = value A:UpdateHeader(ElvUIPlayerDebuffs) end,
 			disabled = function() return not E.private.auras.debuffsHeader end,
-			args = GetAuraOptions(L["Debuffs"])
+			args = GetAuraOptions()
 		},
 		weapons = {
 			order = 7,

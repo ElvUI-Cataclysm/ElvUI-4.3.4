@@ -26,11 +26,11 @@ function S:Ace3_SkinDropdown()
 			if pullout.frame.template and pullout.slider.template then return end
 
 			if not pullout.frame.template then
-				pullout.frame:SetTemplate("Default", true)
+				pullout.frame:SetTemplate(nil, true)
 			end
 
 			if not pullout.slider.template then
-				pullout.slider:SetTemplate("Default")
+				pullout.slider:SetTemplate()
 				pullout.slider:Point("TOPRIGHT", pullout.frame, "TOPRIGHT", -10, -10)
 				pullout.slider:Point("BOTTOMRIGHT", pullout.frame, "BOTTOMRIGHT", -10, 10)
 				if pullout.slider:GetThumbTexture() then
@@ -40,10 +40,10 @@ function S:Ace3_SkinDropdown()
 				end
 			end
 		elseif dropdown then
-			dropdown:SetTemplate("Default", true)
+			dropdown:SetTemplate(nil, true)
 
 			if dropdown.slider then
-				dropdown.slider:SetTemplate("Default")
+				dropdown.slider:SetTemplate()
 				dropdown.slider:Point("TOPRIGHT", dropdown, "TOPRIGHT", -10, -10)
 				dropdown.slider:Point("BOTTOMRIGHT", dropdown, "BOTTOMRIGHT", -10, 10)
 
@@ -108,7 +108,7 @@ function S:Ace3_TabSetSelected(selected)
 
 	if selected then
 		bd:SetBackdropBorderColor(1, 0.82, 0, 1)
-		--bd:SetBackdropColor(1, 0.82, 0, 0.4)
+		bd.backdropTexture:SetVertexColor(1, 0.82, 0, 0.4)
 
 		if not self.wasRaised then
 			RaiseFrameLevel(self)
@@ -118,8 +118,8 @@ function S:Ace3_TabSetSelected(selected)
 	else
 		local r, g, b = unpack(E.media.bordercolor)
 		bd:SetBackdropBorderColor(r, g, b, 1)
-		--r, g, b = unpack(E.media.backdropcolor)
-		--bd:SetBackdropColor(r, g, b, 1)
+		r, g, b = unpack(E.media.backdropcolor)
+		bd.backdropTexture:SetVertexColor(r, g, b, 1)
 
 		if self.wasRaised then
 			LowerFrameLevel(self)
@@ -276,7 +276,6 @@ function S:Ace3_RegisterAsWidget(widget)
 
 		hooksecurefunc(frame, "SetTextInsets", S.Ace3_EditBoxSetTextInsets)
 		hooksecurefunc(frame, "SetPoint", S.Ace3_EditBoxSetPoint)
-
 	elseif TYPE == "Button" or TYPE == "Button-ElvUI" then
 		local frame = widget.frame
 
@@ -292,7 +291,7 @@ function S:Ace3_RegisterAsWidget(widget)
 		local HEIGHT = 12
 
 		frame:StripTextures()
-		frame:SetTemplate("Default")
+		frame:SetTemplate()
 		frame:Height(HEIGHT)
 
 		local thumbTex = frame:GetThumbTexture()
@@ -322,7 +321,7 @@ function S:Ace3_RegisterAsWidget(widget)
 		S:HandleButton(button)
 
 		msgframe:StripTextures()
-		msgframe:CreateBackdrop("Default", true)
+		msgframe:CreateBackdrop(nil, true)
 		msgframe.backdrop:SetInside()
 		msgframe:SetToplevel(true)
 
@@ -345,7 +344,7 @@ function S:Ace3_RegisterAsWidget(widget)
 		frame.backdrop:SetBackdropColor(0, 0, 0, 0)
 		frame.backdrop.SetBackdropColor = E.noop
 
-		colorSwatch:SetTexture(E.media.blankTex)
+		colorSwatch:SetTexture(E.Media.Textures.White8x8)
 		colorSwatch:ClearAllPoints()
 		colorSwatch:SetParent(frame.backdrop)
 		colorSwatch:SetInside(frame.backdrop)
@@ -440,7 +439,7 @@ function S:Ace3_RegisterAsContainer(widget)
 			widget.CreateTab = function(wdg, id)
 				local tab = oldCreateTab(wdg, id)
 				tab:StripTextures()
-				tab:CreateBackdrop("Transparent")
+				tab:CreateBackdrop(nil, true, true)
 				tab.backdrop:Point("TOPLEFT", 10, -3)
 				tab.backdrop:Point("BOTTOMRIGHT", -10, 0)
 
@@ -465,6 +464,7 @@ end
 
 function S:Ace3_StyleTooltip()
 	if not self then return end
+
 	self:SetTemplate("Transparent", nil, true)
 end
 

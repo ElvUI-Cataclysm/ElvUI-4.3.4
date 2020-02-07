@@ -51,32 +51,33 @@ function M:ErrorFrameToggle(event)
 	end
 end
 
-function M:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, _, sourceGUID, _, _, _, _, destName, _, _, _, _, _, spellID, spellName)
-	if E.db.general.interruptAnnounce == "NONE" then return end
-	if not (event == "SPELL_INTERRUPT" and (sourceGUID == E.myguid or sourceGUID == UnitGUID("pet"))) then return end
+function M:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, _, sourceGUID, _, _, _, destGUID, destName, _, _, _, _, _, spellID, spellName)
+	local announce = event == "SPELL_INTERRUPT" and (sourceGUID == E.myguid or sourceGUID == UnitGUID("pet")) and destGUID ~= E.myguid
+	if not announce then return end -- No announce-able interrupt from player or pet, exit.
 
-	local interruptAnnounce, msg = E.db.general.interruptAnnounce, format(INTERRUPT_MSG, destName, spellID, spellName)
+	local channel, msg = E.db.general.interruptAnnounce, format(INTERRUPT_MSG, destName, spellID, spellName)
+	if channel == "NONE" then return end
 
-	if interruptAnnounce == "SAY" then
+	if channel == "SAY" then
 		SendChatMessage(msg, "SAY")
-	elseif interruptAnnounce == "EMOTE" then
+	elseif channel == "EMOTE" then
 		SendChatMessage(msg, "EMOTE")
 	else
 		local party, raid = GetNumPartyMembers(), GetNumRaidMembers()
 		local _, instanceType = IsInInstance()
 		local battleground = instanceType == "pvp"
 
-		if interruptAnnounce == "PARTY" then
+		if channel == "PARTY" then
 			if party > 0 then
 				SendChatMessage(msg, battleground and "BATTLEGROUND" or "PARTY")
 			end
-		elseif interruptAnnounce == "RAID" then
+		elseif channel == "RAID" then
 			if raid > 0 then
 				SendChatMessage(msg, battleground and "BATTLEGROUND" or "RAID")
 			elseif party > 0 then
 				SendChatMessage(msg, battleground and "BATTLEGROUND" or "PARTY")
 			end
-		elseif interruptAnnounce == "RAID_ONLY" then
+		elseif channel == "RAID_ONLY" then
 			if raid > 0 then
 				SendChatMessage(msg, battleground and "BATTLEGROUND" or "RAID")
 			end

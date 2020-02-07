@@ -115,7 +115,8 @@ local inventorySlots = {
 }
 
 local conjured_items = {
-	[5512] = true -- Healthstone
+	[5512] = true,	-- Healthstone
+	[36799] = true	-- Mana Gem
 }
 
 local safe = {

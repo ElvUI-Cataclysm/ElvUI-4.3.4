@@ -15,20 +15,11 @@ local function SkinIt(bar)
 		end
 	end
 
+	bar:StripTextures()
+	bar:CreateBackdrop("Transparent")
 	bar:SetStatusBarTexture(E.media.normTex)
-	if E.PixelMode then
-		bar:SetStatusBarColor(0.31, 0.31, 0.31)
-	else
-		bar:SetStatusBarColor(unpack(E.media.bordercolor))
-	end
-
-	if not bar.backdrop then
-		bar.backdrop = CreateFrame("Frame", nil, bar)
-		bar.backdrop:SetFrameLevel(0)
-		bar.backdrop:SetTemplate("Transparent")
-		bar.backdrop:SetOutside()
-		E:RegisterStatusBar(bar)
-	end
+	bar:SetStatusBarColor(unpack(E.media.rgbvaluecolor))
+	E:RegisterStatusBar(bar)
 end
 
 function B:START_TIMER()

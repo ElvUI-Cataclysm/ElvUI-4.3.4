@@ -9,24 +9,25 @@ local min = math.min
 local tremove, tinsert = table.remove, table.insert
 local find, gsub, format = string.find, string.gsub, string.format
 
-local hooksecurefunc = hooksecurefunc
-local CreateFrame = CreateFrame
-local IsAddOnLoaded = IsAddOnLoaded
-local UnitFrame_OnEnter = UnitFrame_OnEnter
-local UnitFrame_OnLeave = UnitFrame_OnLeave
-local IsInInstance = IsInInstance
-local InCombatLockdown = InCombatLockdown
+local CompactRaidFrameContainer = CompactRaidFrameContainer
 local CompactRaidFrameManager_GetSetting = CompactRaidFrameManager_GetSetting
 local CompactRaidFrameManager_SetSetting = CompactRaidFrameManager_SetSetting
-local GetInstanceInfo = GetInstanceInfo
-local UnregisterStateDriver = UnregisterStateDriver
-local RegisterStateDriver = RegisterStateDriver
 local CompactRaidFrameManager_UpdateShown = CompactRaidFrameManager_UpdateShown
-local CompactRaidFrameContainer = CompactRaidFrameContainer
+local CreateFrame = CreateFrame
+local GetInstanceInfo = GetInstanceInfo
+local hooksecurefunc = hooksecurefunc
+local InCombatLockdown = InCombatLockdown
+local IsAddOnLoaded = IsAddOnLoaded
+local IsInInstance = IsInInstance
+local RegisterStateDriver = RegisterStateDriver
+local UnitFrame_OnEnter = UnitFrame_OnEnter
+local UnitFrame_OnLeave = UnitFrame_OnLeave
+local UnregisterStateDriver = UnregisterStateDriver
+
 local MAX_RAID_MEMBERS = MAX_RAID_MEMBERS
 local MAX_BOSS_FRAMES = MAX_BOSS_FRAMES
 
-local hiddenParent = CreateFrame("Frame", nil, _G.UIParent)
+local hiddenParent = CreateFrame("Frame", nil, UIParent)
 hiddenParent:SetAllPoints()
 hiddenParent:Hide()
 
@@ -1001,17 +1002,30 @@ function UF:UpdateAllHeaders()
 	end
 end
 
+local function HideRaid()
+	if InCombatLockdown() then return end
+
+	CompactRaidFrameManager:Kill()
+	local compact_raid = CompactRaidFrameManager_GetSetting("IsShown")
+	if compact_raid and compact_raid ~= "0" then
+		CompactRaidFrameManager_SetSetting("IsShown", "0")
+	end
+end
+
 function UF:DisableBlizzard()
 	if (not E.private.unitframe.disabledBlizzardFrames.raid) and (not E.private.unitframe.disabledBlizzardFrames.party) then return end
 
-	if not CompactRaidFrameManager_SetSetting then
+	if not CompactRaidFrameManager_UpdateShown then
 		E:StaticPopup_Show("WARNING_BLIZZARD_ADDONS")
 	else
-		CompactRaidFrameManager_SetSetting("IsShown", "0")
-		UIParent:UnregisterEvent("PARTY_MEMBERS_CHANGED")
-		UIParent:UnregisterEvent("RAID_ROSTER_UPDATE")
-		CompactRaidFrameManager:UnregisterAllEvents()
-		CompactRaidFrameManager:SetParent(hiddenParent)
+		if not CompactRaidFrameManager.hookedHide then
+			hooksecurefunc("CompactRaidFrameManager_UpdateShown", HideRaid)
+			CompactRaidFrameManager:HookScript("OnShow", HideRaid)
+			CompactRaidFrameManager.hookedHide = true
+		end
+		CompactRaidFrameContainer:UnregisterAllEvents()
+
+		HideRaid()
 	end
 end
 
