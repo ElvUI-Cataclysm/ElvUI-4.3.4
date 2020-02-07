@@ -699,7 +699,6 @@ function E:Config_CreateButton(info, frame, unskinned, ...)
 	btn:HookScript("OnEnter", Config_ButtonOnEnter)
 	btn:HookScript("OnLeave", Config_ButtonOnLeave)
 	btn:SetScript("OnClick", info.func)
-	btn:Width(btn:GetTextWidth() + 40)
 	btn.ignoreBorderColors = true
 
 	return btn
@@ -808,7 +807,7 @@ function E:Config_CreateLeftButtons(frame, unskinned, options)
 		end
 
 		local btn = E:Config_CreateButton(info, frame, unskinned, "Button", nil, buttons, "UIPanelButtonTemplate")
-		btn:Size(170, 20)
+		btn:Size(170, 22)
 
 		if not last then
 			btn:Point("TOP", buttons, "TOP", 0, 0)
@@ -966,7 +965,7 @@ function E:Config_CreateBottomButtons(frame, unskinned)
 	for _, info in ipairs(bottomButtons) do
 		local btn = E:Config_CreateButton(info, frame, unskinned, "Button", nil, frame.bottomHolder, "UIPanelButtonTemplate")
 		local offset = unskinned and 14 or 8
-		btn:Size(160, 20)
+		btn:Size(btn:GetTextWidth() + 60, 22)
 
 		if not last then
 			btn:Point("BOTTOMLEFT", frame.bottomHolder, "BOTTOMLEFT", unskinned and 24 or offset, offset)
