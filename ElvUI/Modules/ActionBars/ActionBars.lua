@@ -6,7 +6,6 @@ local pairs, select, unpack = pairs, select, unpack
 local ceil = math.ceil
 local format, gsub, match, split, strfind = string.format, string.gsub, string.match, string.split, strfind
 
-local CanExitVehicle = CanExitVehicle
 local ClearOverrideBindings = ClearOverrideBindings
 local CreateFrame = CreateFrame
 local GameTooltip_Hide = GameTooltip_Hide
@@ -16,7 +15,6 @@ local GetMouseFocus = GetMouseFocus
 local GetNumFlyouts, GetFlyoutInfo = GetNumFlyouts, GetFlyoutInfo
 local hooksecurefunc = hooksecurefunc
 local InCombatLockdown = InCombatLockdown
-local MainMenuBarVehicleLeaveButton_OnEnter = MainMenuBarVehicleLeaveButton_OnEnter
 local PetDismiss = PetDismiss
 local RegisterStateDriver = RegisterStateDriver
 local SetClampedTextureRotation = SetClampedTextureRotation
@@ -357,65 +355,55 @@ function AB:PLAYER_REGEN_ENABLED()
 	self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 end
 
-local vehicle_CallOnEvent -- so we can call the local function inside of itself
-local function Vehicle_OnEvent(self, event)
-	if event == "PLAYER_REGEN_ENABLED" then
-		self:UnregisterEvent(event)
-	elseif InCombatLockdown() then
-		self:RegisterEvent("PLAYER_REGEN_ENABLED", vehicle_CallOnEvent)
-		return
-	end
+function AB:CreateVehicleLeave()
+	local db = E.db.actionbar.vehicleExitButton
+	if db.enable ~= true then return end
 
-	if CanExitVehicle() and not E.db.general.minimap.icons.vehicleLeave.hide then
-		self:Show()
-		self:GetNormalTexture():SetVertexColor(1, 1, 1)
-		self:EnableMouse(true)
+	local holder = CreateFrame("Frame", "VehicleLeaveButtonHolder", E.UIParent)
+	holder:Point("BOTTOM", E.UIParent, "BOTTOM", 0, 300)
+	holder:Size(MainMenuBarVehicleLeaveButton:GetSize())
+	E:CreateMover(holder, "VehicleLeaveButton", LEAVE_VEHICLE, nil, nil, nil, "ALL,ACTIONBARS", nil, "actionbar,vehicleExitButton")
+
+	MainMenuBarVehicleLeaveButton:ClearAllPoints()
+	MainMenuBarVehicleLeaveButton:SetParent(UIParent)
+	MainMenuBarVehicleLeaveButton:SetPoint("CENTER", holder, "CENTER")
+
+	RegisterStateDriver(MainMenuBarVehicleLeaveButton, "visibility", "[vehicleui] show;hide")
+
+	if MasqueGroup and E.private.actionbar.masque.actionbars then
+		MainMenuBarVehicleLeaveButton:StyleButton(true, true, true)
 	else
-		self:Hide()
+		MainMenuBarVehicleLeaveButton:CreateBackdrop(nil, true)
+		MainMenuBarVehicleLeaveButton:GetNormalTexture():SetTexCoord(0.220625, 0.799375, 0.220625, 0.779375)
+		MainMenuBarVehicleLeaveButton:GetPushedTexture():SetTexCoord(0.190625, 0.819375, 0.190625, 0.809375)
+		MainMenuBarVehicleLeaveButton:StyleButton(nil, true, true)
+		MainMenuBarVehicleLeaveButton.hover:SetAllPoints()
 	end
-end
-vehicle_CallOnEvent = Vehicle_OnEvent
 
-local function Vehicle_OnClick()
-	VehicleExit()
+	hooksecurefunc(MainMenuBarVehicleLeaveButton, "SetPoint", function(_, _, parent)
+		if parent ~= holder then
+			MainMenuBarVehicleLeaveButton:ClearAllPoints()
+			MainMenuBarVehicleLeaveButton:SetParent(UIParent)
+			MainMenuBarVehicleLeaveButton:SetPoint("CENTER", holder, "CENTER")
+		end
+	end)
+
+	hooksecurefunc(MainMenuBarVehicleLeaveButton, "SetHighlightTexture", function(btn, tex)
+		if tex ~= btn.hover then
+			MainMenuBarVehicleLeaveButton:SetHighlightTexture(btn.hover)
+		end
+	end)
+
+	AB:UpdateVehicleLeave()
 end
 
 function AB:UpdateVehicleLeave()
-	local button = LeaveVehicleButton
-	if not button then return end
+	local db = E.db.actionbar.vehicleExitButton
 
-	local pos = E.db.general.minimap.icons.vehicleLeave.position or "BOTTOMLEFT"
-	local scale = 26 * (E.db.general.minimap.icons.vehicleLeave.scale or 1)
-	button:ClearAllPoints()
-	button:Point(pos, Minimap, pos, E.db.general.minimap.icons.vehicleLeave.xOffset or 2, E.db.general.minimap.icons.vehicleLeave.yOffset or 2)
-	button:Size(scale, scale)
-end
-
-function AB:CreateVehicleLeave()
-	local vehicle = CreateFrame("Button", "LeaveVehicleButton", E.UIParent)
-	vehicle:Size(26)
-	vehicle:SetFrameStrata("HIGH")
-	vehicle:Point("BOTTOMLEFT", Minimap, "BOTTOMLEFT", 2, 2)
-	vehicle:SetNormalTexture(E.Media.Textures.ExitVehicle)
-	vehicle:SetPushedTexture(E.Media.Textures.ExitVehicle)
-	vehicle:SetHighlightTexture(E.Media.Textures.ExitVehicle)
-	vehicle:SetTemplate("Default")
-	vehicle:RegisterForClicks("AnyUp")
-
-	vehicle:SetScript("OnClick", Vehicle_OnClick)
-	vehicle:SetScript("OnEnter", MainMenuBarVehicleLeaveButton_OnEnter)
-	vehicle:SetScript("OnLeave", GameTooltip_Hide)
-	vehicle:RegisterEvent("PLAYER_ENTERING_WORLD")
-	vehicle:RegisterEvent("UPDATE_BONUS_ACTIONBAR")
-	vehicle:RegisterEvent("UPDATE_MULTI_CAST_ACTIONBAR")
-	vehicle:RegisterEvent("UNIT_ENTERED_VEHICLE")
-	vehicle:RegisterEvent("UNIT_EXITED_VEHICLE")
-	vehicle:RegisterEvent("VEHICLE_UPDATE")
-	vehicle:SetScript("OnEvent", Vehicle_OnEvent)
-
-	self:UpdateVehicleLeave()
-
-	vehicle:Hide()
+	MainMenuBarVehicleLeaveButton:Size(db.size)
+	MainMenuBarVehicleLeaveButton:SetFrameStrata(db.strata)
+	MainMenuBarVehicleLeaveButton:SetFrameLevel(db.level)
+	VehicleLeaveButtonHolder:Size(db.size)
 end
 
 function AB:ReassignBindings(event)
@@ -962,7 +950,7 @@ function AB:SetupFlyoutButton()
 
 		--prevent error if you don't have max amount of buttons
 		if Button then
-			AB:StyleButton(Button, nil, MasqueGroup and E.private.actionbar.masque.actionbars and true or nil)
+			AB:StyleButton(Button, nil, MasqueGroup and E.private.actionbar.masque.actionbars or nil)
 
 			if not InCombatLockdown() then -- Taint
 				Button:Size(Button:GetParent():GetParent():GetSize())

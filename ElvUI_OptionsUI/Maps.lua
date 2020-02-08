@@ -457,57 +457,8 @@ E.Options.args.maps = {
 								}
 							}
 						},
-						vehicleLeave = {
-							order = 7,
-							type = "group",
-							name = L["LEAVE_VEHICLE"],
-							get = function(info) return E.db.general.minimap.icons.vehicleLeave[info[#info]] end,
-							set = function(info, value) E.db.general.minimap.icons.vehicleLeave[info[#info]] = value AB:UpdateVehicleLeave() end,
-							disabled = function() return not E.private.general.minimap.enable end,
-							args = {
-								hide = {
-									order = 2,
-									type = "toggle",
-									name = L["HIDE"]
-								},
-								spacer = {
-									order = 3,
-									type = "description",
-									name = "",
-									width = "full"
-								},
-								position = {
-									order = 4,
-									type = "select",
-									name = L["Position"],
-									values = positionValues,
-									disabled = function() return E.db.general.minimap.icons.vehicleLeave.hide end
-								},
-								scale = {
-									order = 5,
-									type = "range",
-									name = L["Scale"],
-									min = 0.5, max = 2, step = 0.05,
-									disabled = function() return E.db.general.minimap.icons.vehicleLeave.hide end
-								},
-								xOffset = {
-									order = 6,
-									type = "range",
-									name = L["X-Offset"],
-									min = -50, max = 50, step = 1,
-									disabled = function() return E.db.general.minimap.icons.vehicleLeave.hide end
-								},
-								yOffset = {
-									order = 7,
-									type = "range",
-									name = L["Y-Offset"],
-									min = -50, max = 50, step = 1,
-									disabled = function() return E.db.general.minimap.icons.vehicleLeave.hide end
-								}
-							}
-						},
 						ticket = {
-							order = 8,
+							order = 7,
 							type = "group",
 							name = L["Open Ticket"],
 							get = function(info) return E.db.general.minimap.icons.ticket[info[#info]] end,

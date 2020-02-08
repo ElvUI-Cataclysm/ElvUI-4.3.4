@@ -857,6 +857,47 @@ E.Options.args.actionbar = {
 				}
 			}
 		},
+		vehicleExitButton = {
+			order = 19,
+			type = "group",
+			name = L["Vehicle Exit"],
+			disabled = function() return not E.ActionBars.Initialized; end,
+			get = function(info) return E.db.actionbar.vehicleExitButton[info[#info]] end,
+			args = {
+				enable = {
+					order = 1,
+					type = "toggle",
+					name = L["ENABLE"],
+					set = function(info, value) E.db.actionbar.vehicleExitButton [info[#info]] = value E:StaticPopup_Show("PRIVATE_RL") end
+				},
+				size = {
+					order = 2,
+					type = "range",
+					name = L["Size"],
+					min = 16, max = 50, step = 1,
+					set = function(info, value) E.db.actionbar.vehicleExitButton[info[#info]] = value AB:UpdateVehicleLeave() end
+				},
+				level = {
+					order = 3,
+					type = "range",
+					name = L["Frame Level"],
+					min = 1, max = 128, step = 1
+				},
+				strata = {
+					order = 4,
+					type = "select",
+					name = L["Frame Strata"],
+					values = {
+						["BACKGROUND"] = "BACKGROUND",
+						["LOW"] = "LOW",
+						["MEDIUM"] = "MEDIUM",
+						["HIGH"] = "HIGH",
+						["DIALOG"] = "DIALOG",
+						["TOOLTIP"] = "TOOLTIP"
+					}
+				}
+			}
+		},
 		playerBars = {
 			order = 4,
 			name = L["Player Bars"],

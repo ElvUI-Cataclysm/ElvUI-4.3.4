@@ -4496,6 +4496,12 @@ P.actionbar = {
 		alpha = 1,
 		scale = 1,
 		inheritGlobalFade = false
+	},
+	vehicleExitButton = {
+		enable = true,
+		size = 32,
+		level = 1,
+		strata = "MEDIUM"
 	}
 }
 
