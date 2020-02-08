@@ -332,12 +332,23 @@ local function LoadSkin()
 
 					button.isSkinned = true
 				end
+			end
+		end
+	end)
 
-				if not button.notCheckable then
-					button.backdrop:Show()
-				else
-					button.backdrop:Hide()
-				end
+	hooksecurefunc("ToggleDropDownMenu", function(level)
+		if not level then level = 1 end
+
+		local r, g, b = unpack(E.media.rgbvaluecolor)
+
+		for i = 1, UIDROPDOWNMENU_MAXBUTTONS do
+			local button = _G["DropDownList"..level.."Button"..i]
+			local check = _G["DropDownList"..level.."Button"..i.."Check"]
+
+			if not button.notCheckable then
+				button.backdrop:Show()
+			else
+				button.backdrop:Hide()
 			end
 		end
 	end)
