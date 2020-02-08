@@ -178,9 +178,9 @@ E.Options.args.datatexts = {
 			}
 		},
 		panels = {
+			order = 4,
 			type = "group",
 			name = L["Panels"],
-			order = 4,
 			args = {
 				leftChatPanel = {
 					order = 2,

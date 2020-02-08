@@ -440,11 +440,6 @@ E.Options.args.modulecontrol= {
 			childGroups = "select",
 			handler = E.Options.args.profiles.handler,
 			args = {
-				header = {
-					order = 0,
-					type = "header",
-					name = L["Module Copy"]
-				},
 				intro = {
 					order = 1,
 					type = "description",
@@ -507,11 +502,6 @@ E.Options.args.modulecontrol= {
 			name = L["Module Reset"],
 			order = 2,
 			args = {
-				header = {
-					order = 0,
-					type = "header",
-					name = L["Module Reset"]
-				},
 				intro = {
 					order = 1,
 					type = "description",

@@ -148,6 +148,12 @@ function M:MERCHANT_SHOW()
 	M:AttemptAutoRepair()
 end
 
+function M:RESURRECT_REQUEST()
+	if not E.db.general.resurrectSound then return end
+
+	PlaySoundFile(E.Media.Sounds.ThanksForPlaying)
+end
+
 function M:DisbandRaidGroup()
 	if InCombatLockdown() then return end -- Prevent user error in combat
 
@@ -253,12 +259,13 @@ function M:ForceCVars()
 end
 
 function M:Initialize()
-	self.Initialized = true
 	self:LoadRaidMarker()
 	self:LoadLoot()
 	self:LoadLootRoll()
 	self:LoadChatBubbles()
+
 	self:RegisterEvent("MERCHANT_SHOW")
+	self:RegisterEvent("RESURRECT_REQUEST")
 	self:RegisterEvent("PLAYER_REGEN_DISABLED", "ErrorFrameToggle")
 	self:RegisterEvent("PLAYER_REGEN_ENABLED", "ErrorFrameToggle")
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
@@ -273,6 +280,8 @@ function M:Initialize()
 	if E.global.general.mapAlphaWhenMoving < 1 then
 		self.MovingTimer = self:ScheduleRepeatingTimer("CheckMovement", 0.1)
 	end
+
+	self.Initialized = true
 end
 
 local function InitializeCallback()

@@ -237,6 +237,7 @@ end
 function A:UpdateAura(button, index)
 	local unit = button:GetParent():GetAttribute("unit")
 	local name, _, texture, count, dtype, duration, expiration = UnitAura(unit, index, button.filter)
+	local DebuffType = dtype or "none"
 
 	if name then
 		if duration > 0 and expiration then
@@ -272,18 +273,22 @@ function A:UpdateAura(button, index)
 			button.statusBar:Hide()
 		end
 
-		if button.filter == "HARMFUL" then
-			local color = DebuffTypeColor[dtype or "none"]
-			button:SetBackdropBorderColor(color.r, color.g, color.b)
-			button.statusBar.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
-		else
-			local cr, cg, cb = unpack(E.media.bordercolor)
-			button:SetBackdropBorderColor(cr, cg, cb)
-			button.statusBar.backdrop:SetBackdropBorderColor(cr, cg, cb)
+		if button.debuffType ~= DebuffType then
+			if button.filter == "HARMFUL" then
+				local color = DebuffTypeColor[DebuffType]
+				button:SetBackdropBorderColor(color.r, color.g, color.b)
+				button.statusBar.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
+			else
+				local cr, cg, cb = unpack(E.media.bordercolor)
+				button:SetBackdropBorderColor(cr, cg, cb)
+				button.statusBar.backdrop:SetBackdropBorderColor(cr, cg, cb)
+			end
 		end
 
 		button.texture:SetTexture(texture)
 	end
+
+	button.debuffType = DebuffType
 end
 
 function A:Update_CooldownOptions(button)

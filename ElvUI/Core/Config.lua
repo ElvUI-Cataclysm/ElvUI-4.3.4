@@ -93,8 +93,10 @@ function E:Grid_GetRegion()
 	if grid then
 		if grid.regionCount and grid.regionCount > 0 then
 			local line = select(grid.regionCount, grid:GetRegions())
+
 			grid.regionCount = grid.regionCount - 1
 			line:SetAlpha(1)
+
 			return line
 		else
 			return grid:CreateTexture()
@@ -141,8 +143,8 @@ function E:Grid_Create()
 			tx:SetDrawLayer("BACKGROUND", 0)
 		end
 		tx:ClearAllPoints()
-		tx:Point("TOPLEFT", grid, "TOPLEFT", i*wStep - (size/2), 0)
-		tx:Point("BOTTOMRIGHT", grid, "BOTTOMLEFT", i*wStep + (size/2), 0)
+		tx:Point("TOPLEFT", grid, "TOPLEFT", i * wStep - (size / 2), 0)
+		tx:Point("BOTTOMRIGHT", grid, "BOTTOMLEFT", i * wStep + (size / 2), 0)
 	end
 
 	do
@@ -150,24 +152,24 @@ function E:Grid_Create()
 		tx:SetTexture(1, 0, 0)
 		tx:SetDrawLayer("BACKGROUND", 1)
 		tx:ClearAllPoints()
-		tx:Point("TOPLEFT", grid, "TOPLEFT", 0, -(height/2) + (size/2))
-		tx:Point("BOTTOMRIGHT", grid, "TOPRIGHT", 0, -(height/2 + size/2))
+		tx:Point("TOPLEFT", grid, "TOPLEFT", 0, -(height / 2) + (size / 2))
+		tx:Point("BOTTOMRIGHT", grid, "TOPRIGHT", 0, -(height / 2 + size / 2))
 	end
 
-	for i = 1, floor((height/2)/hStep) do
+	for i = 1, floor((height / 2) / hStep) do
 		local tx = E:Grid_GetRegion()
 		tx:SetTexture(0, 0, 0)
 		tx:SetDrawLayer("BACKGROUND", 0)
 		tx:ClearAllPoints()
-		tx:Point("TOPLEFT", grid, "TOPLEFT", 0, -(height/2+i*hStep) + (size/2))
-		tx:Point("BOTTOMRIGHT", grid, "TOPRIGHT", 0, -(height/2+i*hStep + size/2))
+		tx:Point("TOPLEFT", grid, "TOPLEFT", 0, -(height / 2 + i * hStep) + (size / 2))
+		tx:Point("BOTTOMRIGHT", grid, "TOPRIGHT", 0, -(height / 2 + i * hStep + size / 2))
 
 		tx = E:Grid_GetRegion()
 		tx:SetTexture(0, 0, 0)
 		tx:SetDrawLayer("BACKGROUND", 0)
 		tx:ClearAllPoints()
-		tx:Point("TOPLEFT", grid, "TOPLEFT", 0, -(height/2-i*hStep) + (size/2))
-		tx:Point("BOTTOMRIGHT", grid, "TOPRIGHT", 0, -(height/2-i*hStep + size/2))
+		tx:Point("TOPLEFT", grid, "TOPLEFT", 0, -(height/ 2 - i * hStep) + (size / 2))
+		tx:Point("BOTTOMRIGHT", grid, "TOPRIGHT", 0, -(height / 2 - i * hStep + size / 2))
 	end
 end
 
@@ -190,18 +192,6 @@ local function ConfigMode_Initialize()
 end
 
 function E:MoverNudgeOnShow()
-	self:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
-end
-
-function E:MoverNudgeHeaderOnShow()
-	self:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
-end
-
-function E:MoverPopupOnShow()
-	self:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
-end
-
-function E:MoverPopupHeaderOnShow()
 	self:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
 end
 
@@ -251,7 +241,7 @@ function E:CreateMoverPopup()
 	f:SetTemplate("Transparent")
 	f:Point("BOTTOM", UIParent, "CENTER", 0, 100)
 	f:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
-	f:SetScript("OnShow", E.MoverPopupOnShow)
+	f:SetScript("OnShow", E.MoverNudgeOnShow)
 	f:CreateShadow(5)
 	f:Hide()
 
@@ -266,7 +256,7 @@ function E:CreateMoverPopup()
 	header:SetScript("OnMouseDown", function() f:StartMoving() end)
 	header:SetScript("OnMouseUp", function() f:StopMovingOrSizing() end)
 	header:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
-	header:SetScript("OnShow", E.MoverPopupHeaderOnShow)
+	header:SetScript("OnShow", E.MoverNudgeOnShow)
 
 	local title = header:CreateFontString("OVERLAY")
 	title:FontTemplate()
@@ -406,7 +396,7 @@ function E:CreateMoverPopup()
 	header:Point("CENTER", nudgeFrame, "TOP")
 	header:SetFrameLevel(header:GetFrameLevel() + 2)
 	header:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
-	header:SetScript("OnShow", E.MoverNudgeHeaderOnShow)
+	header:SetScript("OnShow", E.MoverNudgeOnShow)
 
 	title = header:CreateFontString("OVERLAY")
 	title:FontTemplate()
@@ -545,8 +535,8 @@ function E:Config_UpdateSize(reset)
 	if not frame then return end
 
 	local maxWidth, maxHeight = self.UIParent:GetSize()
-	frame:SetMinResize(800, 600)
-	frame:SetMaxResize(maxWidth-50, maxHeight-50)
+	frame:SetMinResize(850, 600)
+	frame:SetMaxResize(maxWidth - 50, maxHeight - 50)
 
 	self.Libs.AceConfigDialog:SetDefaultSize(E.name, E:Config_GetDefaultSize())
 
@@ -575,12 +565,15 @@ end
 function E:Config_GetDefaultSize()
 	local width, height = E:Config_GetSize()
 	local maxWidth, maxHeight = E.UIParent:GetSize()
-	width, height = min(maxWidth-50, width), min(maxHeight-50, height)
+
+	width, height = min(maxWidth - 50, width), min(maxHeight - 50, height)
+
 	return width, height
 end
 
 function E:Config_StopMoving()
 	local frame = self and self.GetParent and self:GetParent()
+
 	if frame and frame.obj and frame.obj.status then
 		E.configSavedPositionTop, E.configSavedPositionLeft = E:Round(frame:GetTop(), 2), E:Round(frame:GetLeft(), 2)
 		E.global.general.AceGUI.width, E.global.general.AceGUI.height = E:Round(frame:GetWidth(), 2), E:Round(frame:GetHeight(), 2)
@@ -616,6 +609,7 @@ local function Config_SortButtons(a,b)
 				return Config_StripNameColor(A3.name) < Config_StripNameColor(B3.name)
 			end
 		end
+
 		return A1 < B1
 	end
 end
@@ -679,6 +673,7 @@ end
 
 function E:Config_UpdateSliderPosition(btn)
 	local left = btn and btn.frame and btn.frame.leftHolder
+
 	if left and left.slider then
 		ConfigSliderOnValueChanged(left.slider, btn.sliderValue or 0)
 	end
@@ -729,6 +724,7 @@ function E:Config_UpdateLeftScroller(frame)
 	local btns = left.buttons
 	local bottom = btns:GetBottom()
 	if not bottom then return end
+
 	btns:Point("TOPLEFT", 0, 0)
 
 	local max = 0
@@ -769,6 +765,7 @@ end
 
 function E:Config_RestoreOldPosition(frame)
 	local position = frame.oldPosition
+
 	if position then
 		frame:ClearAllPoints()
 		for i = 1, #position do
@@ -828,6 +825,7 @@ end
 
 function E:Config_CloseWindow()
 	local ACD = E.Libs.AceConfigDialog
+
 	if ACD then
 		ACD:Close("ElvUI")
 	end
@@ -837,6 +835,7 @@ end
 
 function E:Config_OpenWindow()
 	local ACD = E.Libs.AceConfigDialog
+
 	if ACD then
 		ACD:Open("ElvUI")
 
@@ -852,6 +851,7 @@ end
 function E:Config_GetWindow()
 	local ACD = E.Libs.AceConfigDialog
 	local ConfigOpen = ACD and ACD.OpenFrames and ACD.OpenFrames[E.name]
+
 	return ConfigOpen and ConfigOpen.frame
 end
 
@@ -884,7 +884,7 @@ function E:Config_WindowOpened(frame)
 		frame.closeButton:Show()
 		frame.originalClose:Hide()
 
-		E:Elasticize(frame.leftHolder.logo)
+		E:Elasticize(frame.leftHolder.logo, 128, 64)
 
 		local unskinned = not E.private.skins.ace3.enable
 		local offset = unskinned and 14 or 8
@@ -1124,7 +1124,6 @@ function E:ToggleOptionsUI(msg)
 			logo:SetTexture(E.Media.Textures.LogoSmall)
 			logo:Point("CENTER", left, "TOP", unskinned and 10 or 0, unskinned and -40 or -36)
 			logo:Size(128, 64)
-			logo:SetAlpha(0.9)
 			left.logo = logo
 
 			local buttonsHolder = CreateFrame("Frame", nil, left)

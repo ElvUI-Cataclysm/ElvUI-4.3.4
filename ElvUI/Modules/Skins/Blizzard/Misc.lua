@@ -54,7 +54,7 @@ local function LoadSkin()
 		S:HandleEditBox(_G["StaticPopup"..i.."MoneyInputFrameSilver"])
 		S:HandleEditBox(_G["StaticPopup"..i.."MoneyInputFrameCopper"])
 
-		closeButton:StripTextures()
+		closeButton:StripTextures(true)
 		S:HandleCloseButton(closeButton)
 
 		itemFrame:GetNormalTexture():Kill()

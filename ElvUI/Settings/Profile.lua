@@ -20,6 +20,7 @@ P.general = {
 	watchFrameHeight = 480,
 	watchFrameAutoHide = true,
 	vehicleSeatIndicatorSize = 128,
+	resurrectSound = false,
 	durabilityScale = 1,
 	afk = true,
 	numberPrefixStyle = "ENGLISH",

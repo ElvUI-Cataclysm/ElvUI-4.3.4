@@ -391,10 +391,15 @@ E.Options.args.general = {
 			set = function(info, value) E.db.general.totems[info[#info]] = value Totems:PositionAndSize() end,
 			args = {
 				enable = {
-					order = 2,
+					order = 1,
 					type = "toggle",
 					name = L["ENABLE"],
 					set = function(info, value) E.db.general.totems[info[#info]] = value Totems:ToggleEnable() end
+				},
+				spacer = {
+					order = 2,
+					type = "description",
+					name = ""
 				},
 				size = {
 					order = 3,
@@ -743,8 +748,14 @@ E.Options.args.general = {
 					get = function(info) return E.private.general.raidUtility end,
 					set = function(info, value) E.private.general.raidUtility = value E:StaticPopup_Show("PRIVATE_RL") end
 				},
-				vehicleSeatIndicatorSize = {
+				resurrectSound = {
 					order = 8,
+					type = "toggle",
+					name = L["Resurrect Sound"],
+					desc = L["Enable to hear sound if you receive a resurrect."]
+				},
+				vehicleSeatIndicatorSize = {
+					order = 9,
 					type = "range",
 					name = L["Vehicle Seat Indicator Size"],
 					min = 64, max = 128, step = 4,
@@ -752,7 +763,7 @@ E.Options.args.general = {
 					set = function(info, value) E.db.general.vehicleSeatIndicatorSize = value Blizzard:UpdateVehicleFrame() end
 				},
 				durabilityScale = {
-					order = 9,
+					order = 10,
 					type = "range",
 					name = L["Durability Scale"],
 					min = 0.5, max = 8, step = 0.5,

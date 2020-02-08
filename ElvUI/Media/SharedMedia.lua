@@ -28,7 +28,8 @@ E.Media = {
 		StopRunningSlimeBall = M..[[Sounds\StopRunningSlimeBall.ogg]],
 		Warning = M..[[Sounds\Warning.ogg]],
 		Whisper = M..[[Sounds\Whisper.ogg]],
-		YankieBangBang = M..[[Sounds\YankieBangBang.ogg]]
+		YankieBangBang = M..[[Sounds\YankieBangBang.ogg]],
+		ThanksForPlaying = M..[[Sounds\ThanksForPlaying.ogg]]
 	},
 	ChatEmojis = {
 		Angry = M..[[ChatEmojis\Angry.tga]],
