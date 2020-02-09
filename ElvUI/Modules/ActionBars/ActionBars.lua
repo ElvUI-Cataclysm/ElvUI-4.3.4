@@ -8,7 +8,6 @@ local format, gsub, match, split, strfind = string.format, string.gsub, string.m
 
 local ClearOverrideBindings = ClearOverrideBindings
 local CreateFrame = CreateFrame
-local GameTooltip_Hide = GameTooltip_Hide
 local GetBindingKey = GetBindingKey
 local GetFlyoutID = GetFlyoutID
 local GetMouseFocus = GetMouseFocus

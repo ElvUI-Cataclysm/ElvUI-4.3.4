@@ -7,8 +7,8 @@ local format, error = format, error
 --This table to reserve settings names in E.global.profileCopy. Used in export/imports functions
 --Pligins can add own values for their internal settings for safechecks here
 MC.InternalOptions = {
-	["selected"] = true,
-	["movers"] = true,
+	selected = true,
+	movers = true,
 }
 
 --Default template for a config group for a single module.
@@ -20,11 +20,6 @@ function MC:CreateModuleConfigGroup(Name, section, pluginSection)
 		type = "group",
 		name = Name,
 		args = {
-			header = {
-				order = 0,
-				type = "header",
-				name = Name
-			},
 			general = {
 				order = 1,
 				type = "toggle",
@@ -167,25 +162,24 @@ function MC:CopyTable(CopyFrom, CopyTo, CopyDefault, module)
 end
 
 --[[
-* Valid copy templates should be as follows
-G.profileCopy[YourOptionGroupName] = {
-	[SubGroupName1] = true,
-	[SubGroupName2] = true,
-	...
-}
-* For example
-G.profileCopy.auras = {
-	["general"] = true,
-	["buffs"] = true,
-	["debuffs"] = true,
-	["cooldown"] = true,
-}
-* "general" key can refer to a similar named subtable or all non-table variables inside your group
-* If you leave the table as G.profileCopy[YourOptionGroupName] = {}, this will result in no valid copy template error.
-* If set to G.profileCopy[YourOptionGroupName] = true, then this will copy everything without selecting
-any particular subcategory from your settings table.
-* Plugins can use "pluginSection" argument to determain their own table if they keep settings apart from core ElvUI settings.
-Examples S&L uses "sle" table, MerathilisUI uses "mui" table, BenikUI uses "benikui" and core table
+	* Valid copy templates should be as follows:
+		G.profileCopy[YourOptionGroupName] = {
+			[SubGroupName1] = true,
+			[SubGroupName2] = true,
+			...
+		}
+	* For example:
+		G.profileCopy.auras = {
+			["general"] = true,
+			["buffs"] = true,
+			["debuffs"] = true,
+			["cooldown"] = true,
+		}
+	* "general" key can refer to a similar named subtable or all non-table variables inside your group
+	* If you leave the table as G.profileCopy[YourOptionGroupName] = {}, this will result in no valid copy template error.
+	* If set to G.profileCopy[YourOptionGroupName] = true, then this will copy everything without selecting any particular subcategory from your settings table.
+	* Plugins can use "pluginSection" argument to determain their own table if they keep settings apart from core ElvUI settings.
+	-- Examples S&L uses "sle" table, MerathilisUI uses "mui" table, BenikUI uses "benikui" and core table
 ]]
 
 function MC:TablesExist(CopyFrom, CopyTo, CopyDefault)

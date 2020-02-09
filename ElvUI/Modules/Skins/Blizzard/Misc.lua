@@ -322,8 +322,6 @@ local function LoadSkin()
 
 					check:SetTexture(E.media.normTex)
 					check:SetVertexColor(r, g, b)
-					check:SetTexCoord(0, 1, 0, 1)
-					check.SetTexCoord = E.noop
 					check:Size(12)
 
 					uncheck:SetTexture()
@@ -344,6 +342,8 @@ local function LoadSkin()
 		for i = 1, UIDROPDOWNMENU_MAXBUTTONS do
 			local button = _G["DropDownList"..level.."Button"..i]
 			local check = _G["DropDownList"..level.."Button"..i.."Check"]
+
+			check:SetTexCoord(0, 1, 0, 1)
 
 			if not button.notCheckable then
 				button.backdrop:Show()

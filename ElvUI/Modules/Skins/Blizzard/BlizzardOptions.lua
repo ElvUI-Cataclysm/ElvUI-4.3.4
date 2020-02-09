@@ -11,7 +11,7 @@ local function LoadSkin()
 	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.BlizzardOptions ~= true then return end
 
 	-- Interface/Options Frame Enable Mouse Move
-	for _, Frame in pairs({InterfaceOptionsFrame, VideoOptionsFrame}) do
+	for _, Frame in pairs({InterfaceOptionsFrame, VideoOptionsFrame, ChatConfigFrame}) do
 		Frame:StripTextures()
 		Frame:CreateBackdrop("Transparent")
 		Frame:SetClampedToScreen(true)
@@ -359,7 +359,6 @@ local function LoadSkin()
 		Graphics_RightQuality,
 		InterfaceOptionsFrameCategoriesList,
 		InterfaceOptionsFrameAddOnsList,
-		ChatConfigFrame,
 		ChatConfigCombatSettingsFiltersScrollFrame,
 		CombatConfigColorsHighlighting,
 		CombatConfigColorsColorizeUnitName,
@@ -414,7 +413,6 @@ local function LoadSkin()
 	InterfaceOptionsFrameOkay:Point("RIGHT", InterfaceOptionsFrameCancel, "LEFT", -4, 0)
 
 	-- Chat Config
-	ChatConfigFrame:SetTemplate("Transparent")
 	ChatConfigCategoryFrame:SetTemplate("Transparent")
 	ChatConfigBackgroundFrame:SetTemplate("Transparent")
 	ChatConfigChatSettingsClassColorLegend:SetTemplate("Transparent")
