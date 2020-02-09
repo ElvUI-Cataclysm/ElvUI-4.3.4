@@ -8,7 +8,7 @@ local find = string.find
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.talent ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.talent then return end
 
 	PlayerTalentFrame:StripTextures()
 	PlayerTalentFrame:CreateBackdrop("Transparent")

@@ -10,7 +10,7 @@ local GetNumFactions = GetNumFactions
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.character ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.character then return end
 
 	CharacterFrameInset:StripTextures()
 	CharacterFrameInsetRight:StripTextures()

@@ -283,6 +283,7 @@ G.unitframe.aurafilters.Blacklist = {
 		[57723] = Defaults(),	-- Exhaustion
 		[57724] = Defaults(),	-- Sated
 		[58539] = Defaults(),	-- Watchers Corpse
+		[69438] = Defaults(),	-- Sample Satisfaction
 		[71041] = Defaults(),	-- Dungeon deserter
 		[80354] = Defaults(),	-- Timewarp
 		[95809] = Defaults(),	-- Insanity

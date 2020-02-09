@@ -8,7 +8,7 @@ local find, gsub = string.find, string.gsub
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.gossip ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.gossip then return end
 
 	ItemTextScrollFrame:StripTextures()
 	GossipFrameGreetingPanel:StripTextures()

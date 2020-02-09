@@ -7,7 +7,7 @@ local unpack, select = unpack, select
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.merchant ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.merchant then return end
 
 	local MerchantFrame = _G["MerchantFrame"]
 	MerchantFrame:StripTextures(true)

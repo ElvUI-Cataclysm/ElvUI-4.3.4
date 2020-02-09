@@ -23,7 +23,7 @@ local bagIconCache = {}
 
 local function LoadSkin()
 	if E.private.bags.enable then return end
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.bags ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.bags then return end
 
 	local ProfessionColors = {
 		[0x0008]   = {E.db.bags.colors.profession.leatherworking.r, E.db.bags.colors.profession.leatherworking.g, E.db.bags.colors.profession.leatherworking.b},

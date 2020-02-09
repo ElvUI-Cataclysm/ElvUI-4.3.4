@@ -14,7 +14,7 @@ local GetTradeSkillReagentItemLink = GetTradeSkillReagentItemLink
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.tradeskill ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.tradeskill then return end
 
 	TRADE_SKILLS_DISPLAYED = 26
 

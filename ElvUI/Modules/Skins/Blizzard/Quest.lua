@@ -8,7 +8,7 @@ local find = string.find
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.quest ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.quest then return end
 
 	QuestLogFrame:StripTextures()
 	QuestLogFrame:CreateBackdrop("Transparent")

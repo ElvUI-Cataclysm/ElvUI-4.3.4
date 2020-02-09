@@ -324,7 +324,7 @@ function AB:CreateBar(id)
 	]])
 
 	self.handledBars["bar"..id] = bar
-	E:CreateMover(bar, "ElvAB_"..id, L["Bar "]..id, nil, nil, nil,"ALL,ACTIONBARS",nil,"actionbar,bar"..id)
+	E:CreateMover(bar, "ElvAB_"..id, L["Bar "]..id, nil, nil, nil,"ALL,ACTIONBARS",nil,"actionbar,playerBars,bar"..id)
 	self:PositionAndSizeBar("bar"..id)
 	return bar
 end
@@ -1105,6 +1105,7 @@ function AB:ToggleDesaturation(value)
 		for button in pairs(LAB.actionButtons) do
 			button.saturationLocked = nil
 			button.icon:SetDesaturated(false)
+
 			if (E.db.cooldown.enable and AB.db.cooldown.reverse) or (not E.db.cooldown.enable and not AB.db.cooldown.reverse) then
 				if button.onCooldownDoneHooked then
 					AB:Unhook(button.cooldown, "OnHide")

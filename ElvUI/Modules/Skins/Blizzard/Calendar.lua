@@ -8,7 +8,7 @@ local CLASS_SORT_ORDER = CLASS_SORT_ORDER
 local CLASS_ICON_TCOORDS = CLASS_ICON_TCOORDS
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.calendar ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.calendar then return end
 
 	CalendarFrame:StripTextures()
 	CalendarFrame:CreateBackdrop("Transparent")

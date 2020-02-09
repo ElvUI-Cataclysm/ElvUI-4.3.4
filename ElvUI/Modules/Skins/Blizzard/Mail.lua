@@ -12,7 +12,7 @@ local GetSendMailItem = GetSendMailItem
 local GetItemQualityColor = GetItemQualityColor
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.mail ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.mail then return end
 
 	-- Inbox Frame
 	MailFrame:StripTextures(true)

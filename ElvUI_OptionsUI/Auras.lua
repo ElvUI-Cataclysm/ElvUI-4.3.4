@@ -9,26 +9,26 @@ local format = string.format
 local function GetAuraOptions()
 	local auraOptions = {
 		size = {
-			order = 2,
+			order = 1,
 			type = "range",
 			name = L["Size"],
 			desc = L["Set the size of the individual auras."],
 			min = 16, max = 60, step = 2
 		},
 		durationFontSize = {
-			order = 3,
+			order = 2,
 			type = "range",
 			name = L["Duration Font Size"],
 			min = 4, max = 32, step = 1,
 		},
 		countFontSize = {
-			order = 4,
+			order = 3,
 			type = "range",
 			name = L["Count Font Size"],
 			min = 4, max = 32, step = 1,
 		},
 		growthDirection = {
-			order = 5,
+			order = 4,
 			type = "select",
 			name = L["Growth Direction"],
 			desc = L["The direction the auras will grow and then the direction they will grow after they reach the wrap after limit."],
@@ -44,33 +44,33 @@ local function GetAuraOptions()
 			}
 		},
 		wrapAfter = {
-			order = 6,
+			order = 5,
 			type = "range",
 			name = L["Wrap After"],
 			desc = L["Begin a new row or column after this many auras."],
 			min = 1, max = 32, step = 1
 		},
 		maxWraps = {
-			order = 7,
+			order = 6,
 			type = "range",
 			name = L["Max Wraps"],
 			desc = L["Limit the number of rows or columns."],
 			min = 1, max = 32, step = 1
 		},
 		horizontalSpacing = {
-			order = 8,
+			order = 7,
 			type = "range",
 			name = L["Horizontal Spacing"],
 			min = -1, max = 50, step = 1
 		},
 		verticalSpacing = {
-			order = 9,
+			order = 8,
 			type = "range",
 			name = L["Vertical Spacing"],
 			min = -1, max = 50, step = 1
 		},
 		sortMethod = {
-			order = 10,
+			order = 9,
 			type = "select",
 			name = L["Sort Method"],
 			desc = L["Defines how the group is sorted."],
@@ -81,7 +81,7 @@ local function GetAuraOptions()
 			}
 		},
 		sortDir = {
-			order = 11,
+			order = 10,
 			type = "select",
 			name = L["Sort Direction"],
 			desc = L["Defines the sort order of the selected sort method."],
@@ -91,7 +91,7 @@ local function GetAuraOptions()
 			}
 		},
 		seperateOwn = {
-			order = 12,
+			order = 11,
 			type = "select",
 			name = L["Seperate"],
 			desc = L["Indicate whether buffs you cast yourself should be separated before or after."],
@@ -147,59 +147,59 @@ E.Options.args.auras = {
 			type = "group",
 			name = L["General"],
 			get = function(info) return E.db.auras[info[#info]] end,
-			set = function(info, value) E.db.auras[info[#info]] = value A:UpdateHeader(ElvUIPlayerBuffs) A:UpdateHeader(ElvUIPlayerDebuffs) A:UpdateTempEnchant() end,
+			set = function(info, value) E.db.auras[info[#info]] = value A:UpdateHeader(A.BuffFrame) A:UpdateHeader(A.DebuffFrame) A:UpdateTempEnchant() end,
 			args = {
 				fadeThreshold = {
-					order = 2,
+					order = 1,
 					type = "range",
 					name = L["Fade Threshold"],
 					desc = L["Threshold before the icon will fade out and back in. Set to -1 to disable."],
 					min = -1, max = 30, step = 1
 				},
 				showDuration = {
-					order = 3,
+					order = 2,
 					type = "toggle",
 					name = L["Duration Enable"],
 				},
 				font = {
-					order = 4,
+					order = 3,
 					type = "select", dialogControl = "LSM30_Font",
 					name = L["Font"],
 					values = AceGUIWidgetLSMlists.font
 				},
 				fontOutline = {
-					order = 5,
+					order = 4,
 					type = "select",
 					name = L["Font Outline"],
 					desc = L["Set the font outline."],
 					values = C.Values.FontFlags
 				},
 				timeXOffset = {
-					order = 6,
+					order = 5,
 					type = "range",
 					name = L["Time xOffset"],
 					min = -60, max = 60, step = 1
 				},
 				timeYOffset = {
-					order = 7,
+					order = 6,
 					type = "range",
 					name = L["Time yOffset"],
 					min = -60, max = 60, step = 1
 				},
 				countXOffset = {
-					order = 8,
+					order = 7,
 					type = "range",
 					name = L["Count xOffset"],
 					min = -60, max = 60, step = 1
 				},
 				countYOffset = {
-					order = 9,
+					order = 8,
 					type = "range",
 					name = L["Count yOffset"],
 					min = -60, max = 60, step = 1
 				},
 				statusBar = {
-					order = 10,
+					order = 9,
 					type = "group",
 					name = L["Statusbar"],
 					guiInline = true,
@@ -322,7 +322,7 @@ E.Options.args.auras = {
 			type = "group",
 			name = L["Buffs"],
 			get = function(info) return E.db.auras.buffs[info[#info]] end,
-			set = function(info, value) E.db.auras.buffs[info[#info]] = value A:UpdateHeader(ElvUIPlayerBuffs) end,
+			set = function(info, value) E.db.auras.buffs[info[#info]] = value A:UpdateHeader(A.BuffFrame) end,
 			disabled = function() return not E.private.auras.buffsHeader end,
 			args = GetAuraOptions()
 		},
@@ -331,7 +331,7 @@ E.Options.args.auras = {
 			type = "group",
 			name = L["Debuffs"],
 			get = function(info) return E.db.auras.debuffs[info[#info]] end,
-			set = function(info, value) E.db.auras.debuffs[info[#info]] = value A:UpdateHeader(ElvUIPlayerDebuffs) end,
+			set = function(info, value) E.db.auras.debuffs[info[#info]] = value A:UpdateHeader(A.DebuffFrame) end,
 			disabled = function() return not E.private.auras.debuffsHeader end,
 			args = GetAuraOptions()
 		},

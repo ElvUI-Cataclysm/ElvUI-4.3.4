@@ -4,7 +4,7 @@ local S = E:GetModule("Skins")
 local unpack = unpack
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.inspect ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.inspect then return end
 
 	ReforgingFrame:StripTextures()
 	ReforgingFrame:SetTemplate("Transparent")

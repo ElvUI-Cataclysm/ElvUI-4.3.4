@@ -8,7 +8,7 @@ local find = string.find
 local InCombatLockdown = InCombatLockdown
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.BlizzardOptions ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.BlizzardOptions then return end
 
 	-- Interface/Options Frame Enable Mouse Move
 	for _, Frame in pairs({InterfaceOptionsFrame, VideoOptionsFrame, ChatConfigFrame}) do

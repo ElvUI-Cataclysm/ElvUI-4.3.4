@@ -8,7 +8,7 @@ local tonumber = tonumber
 local CreateFrame = CreateFrame
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.alertframes ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.alertframes then return end
 
 	-- Achievement Alerts
 	S:RawHook("AchievementAlertFrame_GetAlertFrame", function()

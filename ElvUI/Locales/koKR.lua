@@ -92,6 +92,7 @@ L["ElvUI is five or more revisions out of date. You can download the newest vers
 L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm"] = "ElvUI가 오래된 버전입니다. https://github.com/ElvUI-Cataclysm 에서 새 버전을 다운로드 받으세요."
 L["ElvUI needs to perform database optimizations please be patient."] = "ElvUI의 데이터베이스를 조정할 필요가 있습니다. 잠시 기다려주세요."
 L["ElvUI Plugin Installation"] = "ElvUI 플러그인  설치"
+L["ElvUI Version:"] = true
 L["ElvUI was updated while the game is still running. Please relaunch the game, as this is required for the files to be properly updated."] = true
 L["Empty Slot"] = "빈 칸"
 L["Enable"] = "사용"

@@ -129,8 +129,15 @@ E.Options.args.actionbar = {
 						AB:ToggleDesaturation(value)
 					end
 				},
-				transparentBackdrops = {
+				equippedItem = {
 					order = 11,
+					type = "toggle",
+					name = L["Equipped Item"],
+					get = function(info) return E.db.actionbar[info[#info]] end,
+					set = function(info, value) E.db.actionbar[info[#info]] = value AB:UpdateButtonSettings() end
+				},
+				transparentBackdrops = {
+					order = 12,
 					type = "toggle",
 					name = L["Transparent Backdrops"],
 					set = function(info, value)
@@ -139,7 +146,7 @@ E.Options.args.actionbar = {
 					end
 				},
 				transparentButtons = {
-					order = 12,
+					order = 13,
 					type = "toggle",
 					name = L["Transparent Buttons"],
 					set = function(info, value)
@@ -148,7 +155,7 @@ E.Options.args.actionbar = {
 					end
 				},
 				flashAnimation = {
-					order = 13,
+					order = 14,
 					type = "toggle",
 					name = L["Button Flash"],
 					desc = L["Use a more visible flash animation for Auto Attacks."],
@@ -157,37 +164,8 @@ E.Options.args.actionbar = {
 						E:StaticPopup_Show("CONFIG_RL")
 					end
 				},
-				movementModifier = {
-					order = 14,
-					type = "select",
-					name = L["PICKUP_ACTION_KEY_TEXT"],
-					desc = L["The button you must hold down in order to drag an ability to another action button."],
-					disabled = function() return (not E.private.actionbar.enable or not E.db.actionbar.lockActionBars) end,
-					values = {
-						["NONE"] = L["NONE"],
-						["SHIFT"] = L["SHIFT_KEY"],
-						["ALT"] = L["ALT_KEY"],
-						["CTRL"] = L["CTRL_KEY"]
-					}
-				},
-				globalFadeAlpha = {
-					order = 15,
-					type = "range",
-					name = L["Global Fade Transparency"],
-					desc = L["Transparency level when not in combat, no target exists, full health, not casting, and no focus target exists."],
-					min = 0, max = 1, step = 0.01,
-					isPercent = true,
-					set = function(info, value) E.db.actionbar[info[#info]] = value AB.fadeParent:SetAlpha(1 - value) end
-				},
-				equippedItem = {
-					order = 16,
-					type = "toggle",
-					name = L["Equipped Item"],
-					get = function(info) return E.db.actionbar[info[#info]] end,
-					set = function(info, value) E.db.actionbar[info[#info]] = value AB:UpdateButtonSettings() end
-				},
 				equippedItemColor = {
-					order = 17,
+					order = 15,
 					type = "color",
 					name = L["Equipped Item Color"],
 					get = function(info)
@@ -201,6 +179,28 @@ E.Options.args.actionbar = {
 						AB:UpdateButtonSettings()
 					end,
 					disabled = function() return not E.db.actionbar.equippedItem end
+				},
+				movementModifier = {
+					order = 16,
+					type = "select",
+					name = L["PICKUP_ACTION_KEY_TEXT"],
+					desc = L["The button you must hold down in order to drag an ability to another action button."],
+					disabled = function() return (not E.private.actionbar.enable or not E.db.actionbar.lockActionBars) end,
+					values = {
+						["NONE"] = L["NONE"],
+						["SHIFT"] = L["SHIFT_KEY"],
+						["ALT"] = L["ALT_KEY"],
+						["CTRL"] = L["CTRL_KEY"]
+					}
+				},
+				globalFadeAlpha = {
+					order = 17,
+					type = "range",
+					name = L["Global Fade Transparency"],
+					desc = L["Transparency level when not in combat, no target exists, full health, not casting, and no focus target exists."],
+					min = 0, max = 1, step = 0.01,
+					isPercent = true,
+					set = function(info, value) E.db.actionbar[info[#info]] = value AB.fadeParent:SetAlpha(1 - value) end
 				},
 				colorGroup = {
 					order = 18,

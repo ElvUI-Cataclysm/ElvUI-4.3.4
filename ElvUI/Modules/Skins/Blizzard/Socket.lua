@@ -10,7 +10,7 @@ local GetSocketTypes = GetSocketTypes
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.socket ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.socket then return end
 
 	local ItemSocketingFrame = _G["ItemSocketingFrame"]
 	ItemSocketingFrame:StripTextures()

@@ -48,7 +48,7 @@ E.myLocalizedClass, E.myclass, E.myClassID = UnitClass("player")
 E.myLocalizedRace, E.myrace = UnitRace("player")
 E.myname = UnitName("player")
 E.myrealm = GetRealmName()
-E.version = GetAddOnMetadata("ElvUI", "Version")
+E.version = tonumber(GetAddOnMetadata('ElvUI', 'Version'))
 E.wowpatch, E.wowbuild = GetBuildInfo()
 E.wowbuild = tonumber(E.wowbuild)
 E.resolution = GetCVar("gxResolution")
@@ -75,6 +75,7 @@ E.valueColorUpdateFuncs = {}
 E.TexCoords = {0, 1, 0, 1}
 E.VehicleLocks = {}
 E.CreditsList = {}
+E.UserList = {}
 
 E.InversePoints = {
 	TOP = "BOTTOM",
@@ -739,15 +740,14 @@ end
 do
 	local SendMessageWaiting -- only allow 1 delay at a time regardless of eventing
 	function E:SendMessage()
-		local numRaid, numParty = GetNumRaidMembers(), GetNumPartyMembers()
-		if numRaid > 1 then
+		if GetNumRaidMembers() > 1 then
 			local _, instanceType = IsInInstance()
 			if instanceType == "pvp" then
 				SendAddonMessage("ELVUI_VERSIONCHK", E.version, "BATTLEGROUND")
 			else
 				SendAddonMessage("ELVUI_VERSIONCHK", E.version, "RAID")
 			end
-		elseif numParty > 0 then
+		elseif GetNumPartyMembers() > 0 then
 			SendAddonMessage("ELVUI_VERSIONCHK", E.version, "PARTY")
 		elseif IsInGuild() then
 			SendAddonMessage("ELVUI_VERSIONCHK", E.version, "GUILD")
@@ -764,9 +764,10 @@ do
 			if sender == myName then return end
 
 			if prefix == "ELVUI_VERSIONCHK" then
-				local msg, ver = tonumber(message), tonumber(E.version)
+				local msg, ver = tonumber(message), E.version
 				local inCombat = InCombatLockdown()
 
+				E.UserList[gsub(sender, "%-"..myRealm, "")] = msg
 				if ver ~= G.general.version then
 					if not E.shownUpdatedWhileRunningPopup and not inCombat then
 						E:StaticPopup_Show("ELVUI_UPDATED_WHILE_RUNNING", nil, nil, {mismatch = ver > G.general.version})

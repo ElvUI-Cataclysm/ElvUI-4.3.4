@@ -5,7 +5,7 @@ local _G = _G
 local unpack = unpack
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.stable ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.stable then return end
 
 	local PetStableFrame = _G["PetStableFrame"]
 	PetStableFrame:StripTextures()

@@ -11,7 +11,7 @@ local GetQuestDifficultyColor = GetQuestDifficultyColor
 local GetNumAutoQuestPopUps = GetNumAutoQuestPopUps
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.watchframe ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.watchframe then return end
 
 	-- WatchFrame Expand/Collapse Button
 	WatchFrameCollapseExpandButton:StripTextures()

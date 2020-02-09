@@ -11,7 +11,7 @@ local GetVoidTransferWithdrawalInfo = GetVoidTransferWithdrawalInfo
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.voidstorage ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.voidstorage then return end
 
 	VoidStorageFrameMarbleBg:Kill()
 	VoidStorageFrameLines:Kill()

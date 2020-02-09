@@ -5,7 +5,7 @@ local _G = _G
 local find, gsub = string.find, string.gsub
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.greeting ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.greeting then return end
 
 	QuestFrameGreetingPanel:HookScript("OnShow", function()
 		QuestFrameGreetingPanel:StripTextures()

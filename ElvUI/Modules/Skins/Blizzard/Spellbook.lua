@@ -8,7 +8,7 @@ local CreateFrame = CreateFrame
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.spellbook ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.spellbook then return end
 
 	SpellBookFrame:StripTextures(true)
 	SpellBookFrame:SetTemplate("Transparent")

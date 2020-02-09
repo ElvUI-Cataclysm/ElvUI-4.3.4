@@ -6,7 +6,7 @@ local unpack = unpack
 local strfind = strfind
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.talent ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.talent then return end
 
 	GlyphFrame:StripTextures()
 	GlyphFrame:CreateBackdrop("Transparent")

@@ -9,7 +9,7 @@ local GetLFGProposal = GetLFGProposal
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
-	if (E.private.skins.blizzard.enable ~= true) or (E.private.skins.blizzard.lfg ~= true) then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.lfg then return end
 
 	-- LFD Frames
 	local buttons = {

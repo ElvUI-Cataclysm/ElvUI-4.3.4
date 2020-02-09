@@ -5,7 +5,7 @@ local _G = _G
 local unpack = unpack
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.macro ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.macro then return end
 
 	local MacroFrame = _G["MacroFrame"]
 	MacroFrame:StripTextures()

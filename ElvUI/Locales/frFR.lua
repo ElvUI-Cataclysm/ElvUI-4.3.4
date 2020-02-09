@@ -92,6 +92,7 @@ L["ElvUI is five or more revisions out of date. You can download the newest vers
 L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm"] = "ElvUI est périmé. Vous pouvez télécharger la nouvelle version sur https://github.com/ElvUI-Cataclysm"
 L["ElvUI needs to perform database optimizations please be patient."] = "ElvUI a besoin d'effectuer des optimisations de la base de données, merci de patienter."
 L["ElvUI Plugin Installation"] = "Installation des Plugins ElvUI"
+L["ElvUI Version:"] = true
 L["ElvUI was updated while the game is still running. Please relaunch the game, as this is required for the files to be properly updated."] = true
 L["Empty Slot"] = "Emplacement vide"
 L["Enable"] = "Activer"

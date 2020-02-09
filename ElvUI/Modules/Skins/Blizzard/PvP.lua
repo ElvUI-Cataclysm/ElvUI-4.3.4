@@ -9,7 +9,7 @@ local CreateFrame = CreateFrame
 local hooksecurefunc = hooksecurefunc
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.pvp ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.pvp then return end
 
 	local buttons = {
 		"PVPFrameLeftButton",

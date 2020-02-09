@@ -70,49 +70,55 @@ E.Options.args.tooltip = {
 					name = L["Target Info"],
 					desc = L["When in a raid group display if anyone in your raid is targeting the current tooltip unit."]
 				},
-				alwaysShowRealm = {
+				showElvUIUsers = {
 					order = 7,
+					type = "toggle",
+					name = L["Show ElvUI Users"],
+					desc = L["Show ElvUI users and their version of ElvUI."]
+				},
+				alwaysShowRealm = {
+					order = 8,
 					type = "toggle",
 					name = L["Always Show Realm"]
 				},
 				playerTitles = {
-					order = 8,
+					order = 9,
 					type = "toggle",
 					name = L["Player Titles"],
 					desc = L["Display player titles."]
 				},
 				guildRanks = {
-					order = 9,
+					order = 10,
 					type = "toggle",
 					name = L["Guild Ranks"],
 					desc = L["Display guild ranks if a unit is guilded."]
 				},
 				inspectInfo = {
-					order = 10,
+					order = 11,
 					type = "toggle",
 					name = L["Inspect Info"],
 					desc = L["Display the players talent spec and item level in the tooltip, this may not immediately update when mousing over a unit."]
 				},
 				spellID = {
-					order = 11,
+					order = 12,
 					type = "toggle",
 					name = L["Spell/Item IDs"],
 					desc = L["Display the spell or item ID when mousing over a spell or item tooltip."]
 				},
 				npcID = {
-					order = 12,
+					order = 13,
 					type = "toggle",
 					name = L["NPC IDs"],
 					desc = L["Display the npc ID when mousing over a npc tooltip."]
 				},
 				role = {
-					order = 13,
+					order = 14,
 					type = "toggle",
 					name = L["ROLE"],
 					desc = L["Display the unit role in the tooltip."]
 				},
 				itemCount = {
-					order = 14,
+					order = 15,
 					type = "select",
 					name = L["Item Count"],
 					desc = L["Display how many of a certain item you have in your possession."],
@@ -124,14 +130,14 @@ E.Options.args.tooltip = {
 					}
 				},
 				colorAlpha = {
-					order = 15,
+					order = 16,
 					type = "range",
 					name = L["OPACITY"],
 					isPercent = true,
 					min = 0, max = 1, step = 0.01
 				},
 				fontGroup = {
-					order = 16,
+					order = 17,
 					type = "group",
 					guiInline = true,
 					name = L["Tooltip Font Settings"],
@@ -185,7 +191,7 @@ E.Options.args.tooltip = {
 					}
 				},
 				factionColors = {
-					order = 17,
+					order = 18,
 					type = "group",
 					name = L["Custom Faction Colors"],
 					guiInline = true,

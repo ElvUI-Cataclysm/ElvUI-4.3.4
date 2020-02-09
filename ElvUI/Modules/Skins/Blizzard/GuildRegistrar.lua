@@ -5,7 +5,7 @@ local _G = _G
 local select = select
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.guildregistrar ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.guildregistrar then return end
 
 	local GuildRegistrarFrame = _G["GuildRegistrarFrame"]
 	GuildRegistrarFrame:StripTextures(true)

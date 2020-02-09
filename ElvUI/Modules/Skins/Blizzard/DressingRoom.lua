@@ -6,7 +6,7 @@ local _G = _G
 local SetDressUpBackground = SetDressUpBackground
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.dressingroom ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.dressingroom then return end
 
 	-- Dressing Room
 	local DressUpFrame = _G["DressUpFrame"]

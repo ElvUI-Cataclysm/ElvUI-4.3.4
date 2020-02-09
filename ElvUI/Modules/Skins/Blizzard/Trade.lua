@@ -12,7 +12,7 @@ local GetTradePlayerItemLink = GetTradePlayerItemLink
 local GetTradeTargetItemLink = GetTradeTargetItemLink
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.trade ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.trade then return end
 
 	local TradeFrame = _G["TradeFrame"]
 	TradeFrame:StripTextures(true)

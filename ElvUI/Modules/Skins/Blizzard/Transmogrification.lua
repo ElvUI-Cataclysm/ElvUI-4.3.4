@@ -5,7 +5,7 @@ local _G = _G
 local pairs, unpack, select = pairs, unpack, select
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.transmogrify ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.transmogrify then return end
 
 	TransmogrifyFrame:StripTextures()
 	TransmogrifyFrame:SetTemplate("Transparent")

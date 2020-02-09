@@ -5,7 +5,7 @@ local _G = _G
 local unpack, select = unpack, select
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.trainer ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.trainer then return end
 
 	ClassTrainerScrollFrameScrollChild:StripTextures()
 	ClassTrainerFrameBottomInset:StripTextures()

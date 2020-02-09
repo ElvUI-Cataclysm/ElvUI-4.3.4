@@ -8,7 +8,7 @@ local hooksecurefunc = hooksecurefunc
 local TIMEMANAGER_TITLE = TIMEMANAGER_TITLE
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.timemanager ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.timemanager then return end
 
 	local TimeManagerFrame = _G["TimeManagerFrame"]
 	TimeManagerFrame:Size(190, 240)

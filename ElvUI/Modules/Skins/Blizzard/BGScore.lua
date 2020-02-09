@@ -8,7 +8,7 @@ local GetBattlefieldScore = GetBattlefieldScore
 local IsActiveBattlefieldArena = IsActiveBattlefieldArena
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.bgscore ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.bgscore then return end
 
 	for i = 19, MAX_WORLDSTATE_SCORE_BUTTONS do
 		_G["WorldStateScoreButton"..i]:StripTextures()

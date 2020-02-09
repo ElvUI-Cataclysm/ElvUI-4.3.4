@@ -7,7 +7,7 @@ local unpack = unpack
 local IsAddOnLoaded = IsAddOnLoaded
 
 local function LoadSkin()
-	if E.private.skins.blizzard.enable ~= true or E.private.skins.blizzard.misc ~= true then return end
+	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.misc then return end
 
 	-- ESC/Menu Buttons
 	GameMenuFrame:StripTextures()
@@ -346,9 +346,13 @@ local function LoadSkin()
 			check:SetTexCoord(0, 1, 0, 1)
 
 			if not button.notCheckable then
-				button.backdrop:Show()
+				if button.backdrop then
+					button.backdrop:Show()
+				end
 			else
-				button.backdrop:Hide()
+				if button.backdrop then
+					button.backdrop:Hide()
+				end
 			end
 		end
 	end)
