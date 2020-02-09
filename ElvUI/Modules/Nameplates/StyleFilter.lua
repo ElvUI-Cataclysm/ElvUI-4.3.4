@@ -327,15 +327,15 @@ function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, Fl
 			frame.Health:Show()
 			NP:Configure_Glow(frame)
 		end
-		if NP.db.units[frame.UnitType].level.enable then
-			frame.Level:ClearAllPoints()
-			NP:Update_Level(frame)
-		end
 		if NP.db.units[frame.UnitType].name.enable then
 			frame.Name:ClearAllPoints()
 			NP:Update_Name(frame)
 		else
 			frame.Name:SetText()
+		end
+		if NP.db.units[frame.UnitType].level.enable then
+			frame.Level:ClearAllPoints()
+			NP:Update_Level(frame)
 		end
 	end
 	if IconChanged then
@@ -351,17 +351,17 @@ function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, Fl
 			frame.Health:Show()
 			NP:Configure_Glow(frame)
 		end
-		if NP.db.units[frame.UnitType].level.enable then
-			frame.Level:Show()
-			frame.Level:ClearAllPoints()
-			NP:Update_Level(frame)
-		end
 		if NP.db.units[frame.UnitType].name.enable then
 			frame.Name:Show()
 			frame.Name:ClearAllPoints()
 			NP:Update_Name(frame)
 		else
 			frame.Name:SetText()
+		end
+		if NP.db.units[frame.UnitType].level.enable then
+			frame.Level:Show()
+			frame.Level:ClearAllPoints()
+			NP:Update_Level(frame)
 		end
 		NP:Configure_NameOnlyGlow(frame)
 	end
