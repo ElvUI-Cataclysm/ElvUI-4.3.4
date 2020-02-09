@@ -667,47 +667,49 @@ function E:StaticPopup_OnHide()
 
 		local popupFrameLevel = self:GetFrameLevel()
 		if popupFrameLevel > 100 then
-			self:SetFrameLevel(popupFrameLevel-100)
+			self:SetFrameLevel(popupFrameLevel - 100)
 		end
 	end
 end
 
 function E:StaticPopup_OnUpdate(elapsed)
+	local info = E.PopupDialogs[self.which]
+
 	if self.timeleft and self.timeleft > 0 then
-		local which = self.which
-		local timeleft = self.timeleft - elapsed
-		if timeleft <= 0 then
-			if not E.PopupDialogs[which].timeoutInformationalOnly then
-				self.timeleft = 0
-				local OnCancel = E.PopupDialogs[which].OnCancel
-				if OnCancel then
-					OnCancel(self, self.data, "timeout")
+		self.timeleft = self.timeleft - elapsed
+		if self.timeleft <= 0 then
+			if not info.timeoutInformationalOnly then
+				self.timeleft = nil
+
+				if info.OnCancel then
+					info.OnCancel(self, self.data, "timeout")
 				end
+
 				self:Hide()
 			end
+
 			return
 		end
-		self.timeleft = timeleft
 	end
 
 	if self.startDelay then
-		local which = self.which
-		local timeleft = self.startDelay - elapsed
-		if timeleft <= 0 then
+		self.startDelay = self.startDelay - elapsed
+		if self.startDelay <= 0 then
 			self.startDelay = nil
-			local text = _G[self:GetName().."Text"]
-			text:SetFormattedText(E.PopupDialogs[which].text, text.text_arg1, text.text_arg2)
-			local button1 = _G[self:GetName().."Button1"]
-			button1:Enable()
-			StaticPopup_Resize(self, which)
+
+			local name = self:GetName()
+			local text = _G[name.."Text"]
+			text:SetFormattedText(info.text, text.text_arg1, text.text_arg2)
+			_G[name.."Button1"]:Enable()
+
+			StaticPopup_Resize(self, self.which)
+
 			return
 		end
-		self.startDelay = timeleft
 	end
 
-	local onUpdate = E.PopupDialogs[self.which].OnUpdate
-	if onUpdate then
-		onUpdate(self, elapsed)
+	if info.OnUpdate then
+		info.OnUpdate(self, elapsed)
 	end
 end
 
@@ -1133,7 +1135,7 @@ function E:StaticPopup_CreateSecureButton(popup, button, text, macro)
 	btn:SetAttribute("type", "macro")
 	btn:SetAttribute("macrotext", macro)
 	btn:SetAllPoints(button)
-	btn:SetSize(button:GetSize())
+	btn:Size(button:GetSize())
 	btn:HookScript("OnEnter", SecureOnEnter)
 	btn:HookScript("OnLeave", SecureOnLeave)
 	Skins:HandleButton(btn)
@@ -1163,7 +1165,7 @@ end
 function E:StaticPopup_PositionSecureButton(popup, popupButton, secureButton)
 	secureButton:SetParent(popup)
 	secureButton:SetAllPoints(popupButton)
-	secureButton:SetSize(popupButton:GetSize())
+	secureButton:Size(popupButton:GetSize())
 end
 
 function E:StaticPopup_SetSecureButton(which, btn)
