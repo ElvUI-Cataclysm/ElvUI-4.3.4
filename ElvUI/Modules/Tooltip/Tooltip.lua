@@ -256,7 +256,7 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 			if addonUser then
 				local v, r, g, b = addonUser == E.version, unpack(E.media.rgbvaluecolor)
 
-				GameTooltip:AddDoubleLine(L["ElvUI Version:"], addonUser, r, g, b, v and 0 or 1, v and 1 or 0, 0)
+				GameTooltip:AddDoubleLine(E.title, format("%s%s", "v", addonUser), r, g, b, v and 0 or 1, v and 1 or 0, 0)
 			end
 		end
 	else

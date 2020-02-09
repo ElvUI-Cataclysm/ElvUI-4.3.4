@@ -20,12 +20,6 @@ local REPLY_PREFIX = "ELVUI_REPLY"
 local TRANSFER_PREFIX = "ELVUI_TRANSFER"
 local TRANSFER_COMPLETE_PREFIX = "ELVUI_COMPLETE"
 
-local ACECOMMPREFIXES = {
-	[TRANSFER_PREFIX.."\001"] = true,
-	[TRANSFER_PREFIX.."\002"] = true,
-	[TRANSFER_PREFIX.."\003"] = true,
-}
-
 -- The active downloads
 local Downloads = {}
 local Uploads = {}
@@ -37,9 +31,10 @@ function D:Initialize()
 
 	self.statusBar = CreateFrame("StatusBar", "ElvUI_Download", E.UIParent)
 	E:RegisterStatusBar(self.statusBar)
-	self.statusBar:CreateBackdrop("Default")
+	self.statusBar:CreateBackdrop("Transparent")
 	self.statusBar:SetStatusBarTexture(E.media.normTex)
-	self.statusBar:SetStatusBarColor(0.95, 0.15, 0.15)
+	self.statusBar:SetStatusBarColor(unpack(E.media.rgbvaluecolor))
+
 	self.statusBar:Size(250, 18)
 	self.statusBar.text = self.statusBar:CreateFontString(nil, "OVERLAY")
 	self.statusBar.text:FontTemplate()
@@ -73,10 +68,9 @@ function D:Distribute(target, otherServer, isGlobal)
 	}
 
 	if otherServer then
-		local numParty, numRaid = GetNumPartyMembers(), GetNumRaidMembers()
-		if numRaid > 0 and UnitInRaid("target") then
+		if GetNumRaidMembers() > 0 and UnitInRaid("target") then
 			self:SendCommMessage(REQUEST_PREFIX, message, "RAID")
-		elseif numParty > 0 and UnitInParty("target") then
+		elseif GetNumPartyMembers() > 0 and UnitInParty("target") then
 			self:SendCommMessage(REQUEST_PREFIX, message, "PARTY")
 		else
 			E:Print(L["Must be in group with the player if he isn't on the same server as you."])
@@ -90,7 +84,7 @@ function D:Distribute(target, otherServer, isGlobal)
 end
 
 function D:CHAT_MSG_ADDON(_, prefix, message, _, sender)
-	if not ACECOMMPREFIXES[prefix] or not Downloads[sender] then return end
+	if prefix ~= TRANSFER_PREFIX or not Downloads[sender] then return end
 
 	local cur = len(message)
 	local max = Downloads[sender].length
