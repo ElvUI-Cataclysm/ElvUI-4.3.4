@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...))
 local UF = E:GetModule("UnitFrames")
 
 local _G = _G
-local tostring, unpack = tostring, unpack
+local unpack = unpack
 local format = format
 local wipe = wipe
 

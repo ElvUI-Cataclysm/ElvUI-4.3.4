@@ -8,9 +8,7 @@ local _G = _G
 
 local CreateFrame = CreateFrame
 local InCombatLockdown = InCombatLockdown
-local IsInInstance = IsInInstance
 local RegisterStateDriver = RegisterStateDriver
-local UnregisterStateDriver = UnregisterStateDriver
 
 function UF:Construct_PartyFrames()
 	self:SetScript("OnEnter", UnitFrame_OnEnter)
@@ -19,9 +17,11 @@ function UF:Construct_PartyFrames()
 	self.RaisedElementParent = CreateFrame("Frame", nil, self)
 	self.RaisedElementParent.TextureParent = CreateFrame("Frame", nil, self.RaisedElementParent)
 	self.RaisedElementParent:SetFrameLevel(self:GetFrameLevel() + 100)
+
 	self.BORDER = E.Border
 	self.SPACING = E.Spacing
 	self.SHADOW_SPACING = 3
+
 	if self.isChild then
 		self.Health = UF:Construct_HealthBar(self, true)
 		self.MouseGlow = UF:Construct_MouseGlow(self)
