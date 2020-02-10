@@ -26,8 +26,6 @@ This UI will arrange your interface to be more flexible and practical.
 <br />
 [ElvUI_MicrobarEnhancement](https://github.com/ElvUI-Cataclysm/ElvUI_MicrobarEnhancement-4.3.4)
 <br />
-[ElvUI_MinimapButtons](https://github.com/ElvUI-Cataclysm/ElvUI_MinimapButtons-4.3.4)
-<br />
 [ElvUI_BagControl](https://github.com/ElvUI-Cataclysm/ElvUI_BagControl)
 <br />
 [ElvUI_ChannelAlerts](https://github.com/ElvUI-Cataclysm/ElvUI_ChannelAlerts-4.3.4)

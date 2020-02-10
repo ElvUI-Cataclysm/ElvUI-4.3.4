@@ -63,7 +63,6 @@ function AB:StyleTotemSlotButton(button, slot)
 	local color = SLOT_BORDER_COLORS[slot]
 	if color then
 		button:SetBackdropBorderColor(color.r, color.g, color.b)
-		button.ignoreBorderColors = true
 	end
 end
 
@@ -305,6 +304,7 @@ function AB:CreateTotemBar()
 
 		button:StyleButton()
 		button:SetTemplate("Default")
+		button.ignoreUpdates = true
 
 		button.background:SetTexCoord(unpack(E.TexCoords))
 		button.background:SetDrawLayer("ARTWORK")
