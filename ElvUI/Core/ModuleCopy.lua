@@ -8,7 +8,7 @@ local format, error = format, error
 --Pligins can add own values for their internal settings for safechecks here
 MC.InternalOptions = {
 	selected = true,
-	movers = true,
+	movers = true
 }
 
 --Default template for a config group for a single module.

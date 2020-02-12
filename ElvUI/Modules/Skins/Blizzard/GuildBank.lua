@@ -19,6 +19,7 @@ local function LoadSkin()
 
 	for i = 1, GuildBankFrame:GetNumChildren() do
 		local child = select(i, GuildBankFrame:GetChildren())
+
 		if child.GetPushedTexture and child:GetPushedTexture() and not child:GetName() then
 			S:HandleCloseButton(child)
 			child:Point("TOPRIGHT", 2, 2)
@@ -73,7 +74,15 @@ local function LoadSkin()
 	GuildBankCashFlowMoneyFrame:Point("RIGHT", GuildBankTabLimitBackground, "RIGHT", -30, 0)
 
 	for i = 1, NUM_GUILDBANK_COLUMNS do
-		_G["GuildBankColumn"..i]:StripTextures()
+		local column = _G["GuildBankColumn"..i]
+
+		column:StripTextures()
+
+		if i == 1 then
+			column:Point("TOPLEFT", GuildBankFrame, "TOPLEFT", 25, -70)
+		else
+			column:Point("TOPLEFT", _G["GuildBankColumn"..i - 1], "TOPRIGHT", -15, 0)
+		end
 
 		for x = 1, NUM_SLOTS_PER_GUILDBANK_GROUP do
 			local button = _G["GuildBankColumn"..i.."Button"..x]
@@ -81,9 +90,14 @@ local function LoadSkin()
 			local texture = _G["GuildBankColumn"..i.."Button"..x.."NormalTexture"]
 			local count = _G["GuildBankColumn"..i.."Button"..x.."Count"]
 
+			if x == 8 then
+				button:Point("TOPLEFT", _G["GuildBankColumn"..i.."Button1"], "TOPRIGHT", 5, 0)
+			end
+
 			if texture then
 				texture:SetTexture(nil)
 			end
+
 			button:StyleButton()
 			button:SetTemplate("Default", true)
 
@@ -102,6 +116,12 @@ local function LoadSkin()
 
 		tab:StripTextures(true)
 
+		if i == 1 then
+			tab:Point("TOPLEFT", GuildBankFrame, "TOPRIGHT", E.PixelMode and -3 or -1, -36)
+		else
+			tab:Point("TOPLEFT", _G["GuildBankTab"..i - 1], "BOTTOMLEFT", 0, 7)
+		end
+
 		button:StripTextures()
 		button:SetTemplate()
 		button:StyleButton()
@@ -115,7 +135,14 @@ local function LoadSkin()
 	end
 
 	for i = 1, 4 do
-		S:HandleTab(_G["GuildBankFrameTab"..i])
+		local tab = _G["GuildBankFrameTab"..i]
+
+		S:HandleTab(tab)
+
+		if i == 1 then
+			tab:ClearAllPoints()
+			tab:Point("BOTTOMLEFT", GuildBankFrame, "BOTTOMLEFT", 0, -30)
+		end
 	end
 
 	hooksecurefunc("GuildBankFrame_Update", function()
@@ -156,35 +183,6 @@ local function LoadSkin()
 
 	GuildBankPopupButton1:Point("TOPLEFT", GuildBankPopupFrame, "TOPLEFT", 30, -86)
 	GuildBankPopupFrame:Point("TOPLEFT", GuildBankFrame, "TOPRIGHT", 36, 0)
-
-	-- Reposition tabs
-	GuildBankFrameTab1:ClearAllPoints()
-	GuildBankFrameTab1:Point("BOTTOMLEFT", GuildBankFrame, "BOTTOMLEFT", 0, -30)
-
-	GuildBankTab1:Point("TOPLEFT", GuildBankFrame, "TOPRIGHT", E.PixelMode and -3 or -1, -36)
-	GuildBankTab2:Point("TOPLEFT", GuildBankTab1, "BOTTOMLEFT", 0, 7)
-	GuildBankTab3:Point("TOPLEFT", GuildBankTab2, "BOTTOMLEFT", 0, 7)
-	GuildBankTab4:Point("TOPLEFT", GuildBankTab3, "BOTTOMLEFT", 0, 7)
-	GuildBankTab5:Point("TOPLEFT", GuildBankTab4, "BOTTOMLEFT", 0, 7)
-	GuildBankTab6:Point("TOPLEFT", GuildBankTab5, "BOTTOMLEFT", 0, 7)
-	GuildBankTab7:Point("TOPLEFT", GuildBankTab6, "BOTTOMLEFT", 0, 7)
-	GuildBankTab8:Point("TOPLEFT", GuildBankTab7, "BOTTOMLEFT", 0, 7)
-
-	GuildBankColumn1:Point("TOPLEFT", GuildBankFrame, "TOPLEFT", 25, -70)
-	GuildBankColumn2:Point("TOPLEFT", GuildBankColumn1, "TOPRIGHT", -15, 0)
-	GuildBankColumn3:Point("TOPLEFT", GuildBankColumn2, "TOPRIGHT", -15, 0)
-	GuildBankColumn4:Point("TOPLEFT", GuildBankColumn3, "TOPRIGHT", -15, 0)
-	GuildBankColumn5:Point("TOPLEFT", GuildBankColumn4, "TOPRIGHT", -15, 0)
-	GuildBankColumn6:Point("TOPLEFT", GuildBankColumn5, "TOPRIGHT", -15, 0)
-	GuildBankColumn7:Point("TOPLEFT", GuildBankColumn6, "TOPRIGHT", -15, 0)
-
-	GuildBankColumn1Button8:Point("TOPLEFT", GuildBankColumn1Button1, "TOPRIGHT", 5, 0)
-	GuildBankColumn2Button8:Point("TOPLEFT", GuildBankColumn2Button1, "TOPRIGHT", 5, 0)
-	GuildBankColumn3Button8:Point("TOPLEFT", GuildBankColumn3Button1, "TOPRIGHT", 5, 0)
-	GuildBankColumn4Button8:Point("TOPLEFT", GuildBankColumn4Button1, "TOPRIGHT", 5, 0)
-	GuildBankColumn5Button8:Point("TOPLEFT", GuildBankColumn5Button1, "TOPRIGHT", 5, 0)
-	GuildBankColumn6Button8:Point("TOPLEFT", GuildBankColumn6Button1, "TOPRIGHT", 5, 0)
-	GuildBankColumn7Button8:Point("TOPLEFT", GuildBankColumn7Button1, "TOPRIGHT", 5, 0)
 end
 
 S:AddCallbackForAddon("Blizzard_GuildBankUI", "GuildBank", LoadSkin)

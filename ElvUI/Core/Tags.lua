@@ -816,6 +816,27 @@ ElvUF.Tags.Methods["quest:info"] = function(unit)
 	end
 end
 
+local highestVersion = E.version
+ElvUF.Tags.OnUpdateThrottle["ElvUI-Users"] = 20
+ElvUF.Tags.Methods["ElvUI-Users"] = function(unit)
+	if E.UserList and next(E.UserList) then
+		local name, realm = UnitName(unit)
+
+		if name then
+			local nameRealm = (realm and realm ~= "" and format("%s-%s", name, realm)) or name
+			local userVersion = nameRealm and E.UserList[nameRealm]
+			if userVersion then
+				if highestVersion < userVersion then
+					highestVersion = userVersion
+				end
+				return (userVersion < highestVersion) and "|cffFF3333E|r" or "|cff3366ffE|r"
+			end
+		end
+	end
+
+	return ""
+end
+
 E.TagInfo = {
 	--Colors
 	["namecolor"] = {category = "Colors", description = "Colors Names by Player Class / NPC Reaction"},
@@ -976,6 +997,7 @@ E.TagInfo = {
 	["resting"] = {category = "Status", description = "Show zzz if the Unit is dead"},
 	["pvp"] = {category = "Status", description = "Show PvP if the Unit is pvp flagged"},
 	["offline"] = {category = "Status", description = "Show OFFLINE if the Unit is disconnected"},
+	["ElvUI-Users"] = {category = "Status", description = "Displays current ElvUI users."},
 	--Target
 	["target"] = {category = "Target", description = "Displays the current target of the Unit"},
 	["target:veryshort"] = {category = "Target", description = "Displays the current target of the Unit (limited to 5 letters)"},

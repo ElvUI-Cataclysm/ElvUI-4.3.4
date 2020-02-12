@@ -76,7 +76,6 @@ V.skins = {
 		glyph = true,
 		gmchat = true,
 		gossip = true,
-		greeting = true,
 		guild = true,
 		guildcontrol = true,
 		guildregistrar = true,

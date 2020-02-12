@@ -384,6 +384,7 @@ local function LoadSkin(preSkin)
 				metaCriteria:StyleButton()
 
 				metaCriteria.hover:Point("TOPLEFT", 20, -1)
+				metaCriteria.pushed:Point("TOPLEFT", 20, -1)
 
 				metaCriteria.icon:Point("TOPLEFT", 2, -2)
 				metaCriteria.icon:SetTexCoord(unpack(E.TexCoords))

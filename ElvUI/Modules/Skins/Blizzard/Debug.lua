@@ -7,12 +7,14 @@ local unpack, select = unpack, select
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.debug then return end
 
-	local ScriptErrorsFrame = _G["ScriptErrorsFrame"]
 	ScriptErrorsFrame:SetParent(E.UIParent)
 	ScriptErrorsFrame:SetTemplate("Transparent")
+
 	S:HandleScrollBar(ScriptErrorsFrameScrollFrameScrollBar)
 	S:HandleCloseButton(ScriptErrorsFrameClose)
+
 	ScriptErrorsFrameScrollFrameText:FontTemplate(nil, 13)
+
 	ScriptErrorsFrameScrollFrame:CreateBackdrop("Default")
 	ScriptErrorsFrameScrollFrame.backdrop:Point("BOTTOMRIGHT", 0, -3)
 	ScriptErrorsFrameScrollFrame:SetFrameLevel(ScriptErrorsFrameScrollFrame:GetFrameLevel() + 2)
@@ -40,6 +42,7 @@ local function LoadSkin()
 
 	for i = 1, ScriptErrorsFrame:GetNumChildren() do
 		local child = select(i, ScriptErrorsFrame:GetChildren())
+
 		if child:GetObjectType() == "Button" and not child:GetName() then
 			S:HandleButton(child)
 		end
@@ -47,20 +50,51 @@ local function LoadSkin()
 
 	if E.private.skins.blizzard.tooltip then
 		FrameStackTooltip:HookScript("OnShow", function(self)
-			if not self.template then
-				self:SetTemplate("Transparent")
-			end
+			self:SetTemplate("Transparent")
+			self:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			self:SetBackdropColor(unpack(E.media.backdropfadecolor))
 		end)
 
 		EventTraceTooltip:HookScript("OnShow", function(self)
-			if not self.template then
-				self:SetTemplate("Transparent", nil, true) --ignore updates
-			else
-				self:SetBackdropBorderColor(unpack(E.media.bordercolor))
-				self:SetBackdropColor(unpack(E.media.backdropfadecolor))
-			end
+			self:SetTemplate("Transparent")
+			self:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			self:SetBackdropColor(unpack(E.media.backdropfadecolor))
 		end)
 	end
+
+	-- FrameStack Highlight
+	CreateFrame("Frame", "FrameStackHighlight")
+	FrameStackHighlight:SetFrameStrata("TOOLTIP")
+	FrameStackHighlight.texture = FrameStackHighlight:CreateTexture(nil, "BORDER")
+	FrameStackHighlight.texture:SetAllPoints()
+	FrameStackHighlight.texture:SetTexture(0, 1, 0, 0.4)
+
+	hooksecurefunc("FrameStackTooltip_Toggle", function()
+		if not FrameStackTooltip:IsVisible() then
+			FrameStackHighlight:Hide()
+		end
+	end)
+
+	local lastUpdate = 0
+	FrameStackTooltip:HookScript("OnUpdate", function(_, elapsed)
+		lastUpdate = lastUpdate - elapsed
+
+		if lastUpdate <= 0 then
+			lastUpdate = FRAMESTACK_UPDATE_TIME
+
+			local highlightFrame = GetMouseFocus()
+			FrameStackHighlight:ClearAllPoints()
+
+			if highlightFrame and highlightFrame ~= _G["WorldFrame"] then
+				FrameStackHighlight:Point("BOTTOMLEFT", highlightFrame)
+				FrameStackHighlight:Point("TOPRIGHT", highlightFrame)
+
+				FrameStackHighlight:Show()
+			else
+				FrameStackHighlight:Hide()
+			end
+		end
+	end)
 
 	S:HandleCloseButton(EventTraceFrameCloseButton)
 end

@@ -68,22 +68,17 @@ local function LoadSkin()
 				self:SetTexture(1, 1, 1, 0.3)
 			end
 		end)
-	
-		E:RegisterCooldown(cooldown)
-	end
 
-	SpellButton1:Point("TOPLEFT", SpellBookSpellIconsFrame, "TOPLEFT", 15, -75)
-	SpellButton2:Point("TOPLEFT", SpellButton1, "TOPLEFT", 225, 0)
-	SpellButton3:Point("TOPLEFT", SpellButton1, "BOTTOMLEFT", 0, -27)
-	SpellButton4:Point("TOPLEFT", SpellButton3, "TOPLEFT", 225, 0)
-	SpellButton5:Point("TOPLEFT", SpellButton3, "BOTTOMLEFT", 0, -27)
-	SpellButton6:Point("TOPLEFT", SpellButton5, "TOPLEFT", 225, 0)
-	SpellButton7:Point("TOPLEFT", SpellButton5, "BOTTOMLEFT", 0, -27)
-	SpellButton8:Point("TOPLEFT", SpellButton7, "TOPLEFT", 225, 0)
-	SpellButton9:Point("TOPLEFT", SpellButton7, "BOTTOMLEFT", 0, -27)
-	SpellButton10:Point("TOPLEFT", SpellButton9, "TOPLEFT", 225, 0)
-	SpellButton11:Point("TOPLEFT", SpellButton9, "BOTTOMLEFT", 0, -27)
-	SpellButton12:Point("TOPLEFT", SpellButton11, "TOPLEFT", 225, 0)
+		E:RegisterCooldown(cooldown)
+
+		if i == 1 then
+			button:Point("TOPLEFT", SpellBookSpellIconsFrame, "TOPLEFT", 15, -75)
+		elseif i == 2 or i == 4 or i == 6 or i == 8 or i == 10 or i == 12 then
+			button:Point("TOPLEFT", _G["SpellButton"..i - 1], "TOPLEFT", 225, 0)
+		elseif i == 3 or i == 5 or i == 7 or i == 9 or i == 11 then
+			button:Point("TOPLEFT", _G["SpellButton"..i - 2], "BOTTOMLEFT", 0, -27)
+		end
+	end
 
 	hooksecurefunc("SpellButton_UpdateButton", function(self)
 		local spellName = _G[self:GetName().."SpellName"]

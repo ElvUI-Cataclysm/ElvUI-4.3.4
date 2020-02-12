@@ -154,11 +154,6 @@ E.Options.args.skins = {
 					name = L["GM Chat"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
-				greeting = {
-					type = "toggle",
-					name = L["Greeting Frame"],
-					desc = L["TOGGLESKIN_DESC"]
-				},
 				guildcontrol = {
 					type = "toggle",
 					name = L["GUILDCONTROL"],

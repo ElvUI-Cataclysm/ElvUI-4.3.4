@@ -3,7 +3,7 @@ local S = E:GetModule("Skins")
 
 local _G = _G
 local unpack, pairs, select = unpack, pairs, select
-local find = string.find
+local find, gsub = string.find, string.gsub
 
 local hooksecurefunc = hooksecurefunc
 
@@ -131,11 +131,6 @@ local function LoadSkin()
 	end)
 
 	EmptyQuestLogFrame:StripTextures()
-
-	S:HandleScrollBar(QuestDetailScrollFrameScrollBar)
-	QuestDetailScrollFrameScrollBar:ClearAllPoints()
-	QuestDetailScrollFrameScrollBar:Point("TOPRIGHT", QuestDetailScrollFrame, "TOPRIGHT", 22, -16)
-	QuestDetailScrollFrameScrollBar:Point("BOTTOMRIGHT", QuestDetailScrollFrame, "BOTTOMRIGHT", 0, 20)
 
 	QuestLogFrameShowMapButton:StripTextures()
 	S:HandleButton(QuestLogFrameShowMapButton)
@@ -330,8 +325,26 @@ local function LoadSkin()
 
 	S:HandleScrollBar(QuestLogDetailScrollFrameScrollBar)
 	S:HandleScrollBar(QuestLogScrollFrameScrollBar)
-	S:HandleScrollBar(QuestProgressScrollFrameScrollBar)
-	S:HandleScrollBar(QuestRewardScrollFrameScrollBar)
+
+	for i = 1, #QuestLogScrollFrame.buttons do
+		local questLogTitle = _G["QuestLogScrollFrameButton"..i]
+		questLogTitle:SetNormalTexture(E.Media.Textures.Plus)
+		questLogTitle.SetNormalTexture = E.noop
+		questLogTitle:GetNormalTexture():Size(16)
+		questLogTitle:GetNormalTexture():Point("LEFT", 3, 1)
+		questLogTitle:SetHighlightTexture("")
+		questLogTitle.SetHighlightTexture = E.noop
+
+		hooksecurefunc(questLogTitle, "SetNormalTexture", function(self, texture)
+			if find(texture, "MinusButton") then
+				self:GetNormalTexture():SetTexture(E.Media.Textures.Minus)
+			elseif find(texture, "PlusButton") then
+				self:GetNormalTexture():SetTexture(E.Media.Textures.Plus)
+			else
+				self:GetNormalTexture():SetTexture("")
+ 			end
+		end)
+	end
 
 	-- Quest Frame
 	QuestFrame:StripTextures(true)
@@ -340,33 +353,87 @@ local function LoadSkin()
 	QuestFrame.backdrop:Point("BOTTOMRIGHT", -20, 0)
 	QuestFrame:Width(374)
 
+	S:HandleCloseButton(QuestFrameCloseButton, QuestFrame.backdrop)
+
+	-- Quest Greeting Frame
+	QuestFrameGreetingPanel:StripTextures(true)
+	QuestGreetingFrameHorizontalBreak:Kill()
+
+	QuestGreetingScrollFrame:Height(403)
+	QuestGreetingScrollFrame:Point("TOPLEFT", GossipFrame, "TOPLEFT", 19, -73)
+
+	S:HandleScrollBar(QuestGreetingScrollFrameScrollBar)
+	QuestGreetingScrollFrameScrollBar:Point("TOPLEFT", QuestGreetingScrollFrame, "TOPRIGHT", 13, -26)
+	QuestGreetingScrollFrameScrollBar:Point("BOTTOMLEFT", QuestGreetingScrollFrame, "BOTTOMRIGHT", 0, 13)
+
+	S:HandleButton(QuestFrameGreetingGoodbyeButton, true)
+	QuestFrameGreetingGoodbyeButton:Point("BOTTOMRIGHT", -35, 4)
+
+	GreetingText:SetTextColor(1, 1, 1)
+	GreetingText.SetTextColor = E.noop
+
+	CurrentQuestsText:SetTextColor(1, 0.80, 0.10)
+	CurrentQuestsText.SetTextColor = E.noop
+
+	AvailableQuestsText:SetTextColor(1, 0.80, 0.10)
+	AvailableQuestsText.SetTextColor = E.noop
+
+	for i = 1, MAX_NUM_QUESTS do
+		local button = _G["QuestTitleButton"..i]
+
+		S:HandleButtonHighlight(button)
+	end
+
+	QuestFrameGreetingPanel:HookScript("OnShow", function()
+		for i = 1, MAX_NUM_QUESTS do
+			local button = _G["QuestTitleButton"..i]
+
+			if button:GetFontString() then
+				if button:GetText() and find(button:GetText(), "|cff000000") then
+					button:SetText(gsub(button:GetText(), "|cff000000", "|cffFFFF00"))
+				end
+			end
+		end
+	end)
+
+	-- Quest Detail Frame
 	QuestFrameDetailPanel:StripTextures(true)
+
 	QuestDetailScrollFrame:StripTextures(true)
 	QuestDetailScrollFrame:Height(403)
-	QuestDetailScrollChildFrame:StripTextures(true)
-	QuestRewardScrollFrame:StripTextures(true)
-	QuestRewardScrollFrame:Height(403)
-	QuestRewardScrollChildFrame:StripTextures(true)
-	QuestFrameProgressPanel:StripTextures(true)
-	QuestProgressScrollFrame:Height(403)
-	QuestFrameRewardPanel:StripTextures(true)
+	QuestDetailScrollFrame:CreateBackdrop("Transparent")
+	QuestDetailScrollFrame.backdrop:Point("TOPLEFT", -3, 0)
+	QuestDetailScrollFrame.backdrop:Point("BOTTOMRIGHT", 4, 3)
+
+	S:HandleScrollBar(QuestDetailScrollFrameScrollBar)
+	QuestDetailScrollFrameScrollBar:ClearAllPoints()
+	QuestDetailScrollFrameScrollBar:Point("TOPRIGHT", QuestDetailScrollFrame, "TOPRIGHT", 25, -18)
+	QuestDetailScrollFrameScrollBar:Point("BOTTOMRIGHT", QuestDetailScrollFrame, "BOTTOMRIGHT", 0, 21)
 
 	S:HandleButton(QuestFrameAcceptButton, true)
 	QuestFrameAcceptButton:Point("BOTTOMLEFT", 20, 4)
 
 	S:HandleButton(QuestFrameDeclineButton, true)
-	QuestFrameDeclineButton:Point("BOTTOMRIGHT", -37, 4)
+	QuestFrameDeclineButton:Point("BOTTOMRIGHT", -35, 4)
+
+	-- Quest Progress Frame
+	QuestFrameProgressPanel:StripTextures(true)
+
+	QuestProgressScrollFrame:Height(403)
+	QuestProgressScrollFrame:CreateBackdrop("Transparent")
+	QuestProgressScrollFrame.backdrop:Point("TOPLEFT", -3, 0)
+	QuestProgressScrollFrame.backdrop:Point("BOTTOMRIGHT", 4, 3)
+
+	S:HandleScrollBar(QuestProgressScrollFrameScrollBar)
+	QuestProgressScrollFrameScrollBar:ClearAllPoints()
+	QuestProgressScrollFrameScrollBar:Point("TOPRIGHT", QuestProgressScrollFrame, 25, -18)
+	QuestProgressScrollFrameScrollBar:Point("BOTTOMRIGHT", QuestProgressScrollFrame, 0, 21)
 
 	S:HandleButton(QuestFrameCompleteButton, true)
 	QuestFrameCompleteButton:Point("BOTTOMLEFT", 20, 4)
 
 	S:HandleButton(QuestFrameGoodbyeButton, true)
-	QuestFrameGoodbyeButton:Point("BOTTOMRIGHT", -37, 4)
-
-	S:HandleButton(QuestFrameCompleteQuestButton, true)
-	QuestFrameCompleteQuestButton:Point("BOTTOMLEFT", 20, 4)
-
-	S:HandleCloseButton(QuestFrameCloseButton, QuestFrame.backdrop)
+	QuestFrameGoodbyeButton:Point("BOTTOMRIGHT", -35, 4)
 
 	hooksecurefunc("QuestFrameProgressItems_Update", function()
 		QuestProgressTitleText:SetTextColor(1, 0.80, 0.10)
@@ -390,6 +457,24 @@ local function LoadSkin()
 		end
 	end)
 
+	-- Quest Reward Frame
+	QuestFrameRewardPanel:StripTextures(true)
+
+	QuestRewardScrollFrame:StripTextures(true)
+	QuestRewardScrollFrame:Height(403)
+	QuestRewardScrollFrame:CreateBackdrop("Transparent")
+	QuestRewardScrollFrame.backdrop:Point("TOPLEFT", -3, 0)
+	QuestRewardScrollFrame.backdrop:Point("BOTTOMRIGHT", 4, 3)
+
+	S:HandleScrollBar(QuestRewardScrollFrameScrollBar)
+	QuestRewardScrollFrameScrollBar:ClearAllPoints()
+	QuestRewardScrollFrameScrollBar:Point("TOPRIGHT", QuestRewardScrollFrame, 25, -18)
+	QuestRewardScrollFrameScrollBar:Point("BOTTOMRIGHT", QuestRewardScrollFrame, 0, 21)
+
+	S:HandleButton(QuestFrameCompleteQuestButton, true)
+	QuestFrameCompleteQuestButton:Point("BOTTOMLEFT", 20, 4)
+
+	-- Quest NPC Model
 	QuestNPCModel:StripTextures()
 	QuestNPCModel:CreateBackdrop("Transparent")
 	QuestNPCModel.backdrop:Point("BOTTOMRIGHT", 2, -2)
@@ -412,26 +497,6 @@ local function LoadSkin()
 
 	S:HandleNextPrevButton(QuestNPCModelTextScrollFrameScrollBarScrollDownButton)
 	QuestNPCModelTextScrollFrameScrollBarScrollDownButton:Size(18, 16)
-
-	for i = 1, #QuestLogScrollFrame.buttons do
-		local questLogTitle = _G["QuestLogScrollFrameButton"..i]
-		questLogTitle:SetNormalTexture(E.Media.Textures.Plus)
-		questLogTitle.SetNormalTexture = E.noop
-		questLogTitle:GetNormalTexture():Size(16)
-		questLogTitle:GetNormalTexture():Point("LEFT", 3, 1)
-		questLogTitle:SetHighlightTexture("")
-		questLogTitle.SetHighlightTexture = E.noop
-
-		hooksecurefunc(questLogTitle, "SetNormalTexture", function(self, texture)
-			if find(texture, "MinusButton") then
-				self:GetNormalTexture():SetTexture(E.Media.Textures.Minus)
-			elseif find(texture, "PlusButton") then
-				self:GetNormalTexture():SetTexture(E.Media.Textures.Plus)
-			else
-				self:GetNormalTexture():SetTexture("")
- 			end
-		end)
-	end
 end
 
 S:AddCallback("Quest", LoadSkin)

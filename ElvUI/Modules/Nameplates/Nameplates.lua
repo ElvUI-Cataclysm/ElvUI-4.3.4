@@ -1,6 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local NP = E:GetModule("NamePlates")
-local LSM = E.Libs.LSM
 local LAI = E.Libs.LAI
 
 local _G = _G
@@ -66,8 +65,8 @@ NP.HealerSpecs = {
 function NP:CheckBGHealers()
 	local name, _, talentSpec
 	for i = 1, GetNumBattlefieldScores() do
-		name, _, _, _, _, _, _, _, _, _, _, _, _, _, _, talentSpec = GetBattlefieldScore(i)
-		if name then
+		name, _, _, _, _, _, _, _, _, classToken, _, _, _, _, _, talentSpec = GetBattlefieldScore(i)
+		if name and classToken and E.HealingClasses[classToken] then
 			name = match(name, "([^%-]+).*")
 			if name and self.HealerSpecs[talentSpec] then
 				self.Healers[name] = talentSpec

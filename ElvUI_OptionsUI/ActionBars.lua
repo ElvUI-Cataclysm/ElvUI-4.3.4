@@ -505,7 +505,8 @@ E.Options.args.actionbar = {
 				clickThrough = {
 					order = 6,
 					type = "toggle",
-					name = L["Click Through"]
+					name = L["Click Through"],
+					disabled = function() return not E.db.actionbar.barPet.enabled end
 				},
 				inheritGlobalFade = {
 					order = 7,
@@ -643,7 +644,8 @@ E.Options.args.actionbar = {
 				clickThrough = {
 					order = 6,
 					type = "toggle",
-					name = L["Click Through"]
+					name = L["Click Through"],
+					disabled = function() return not E.db.actionbar.stanceBar.enabled end
 				},
 				usePositionOverride = {
 					order = 7,
@@ -959,7 +961,8 @@ for i = 1, 10 do
 			clickThrough = {
 				order = 6,
 				type = "toggle",
-				name = L["Click Through"]
+				name = L["Click Through"],
+				disabled = function() return not E.db.actionbar["bar"..i].enabled end
 			},
 			inheritGlobalFade = {
 				order = 7,

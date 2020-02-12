@@ -2,8 +2,8 @@ local E, L, V, P, G = unpack(select(2, ...))
 local NP = E:GetModule("NamePlates")
 local LSM = E.Libs.LSM
 
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 local UNKNOWN = UNKNOWN
+local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
 
 function NP:Update_Name(frame, triggered)
 	if not triggered then
@@ -32,7 +32,7 @@ function NP:Update_Name(frame, triggered)
 	local classColor, useClassColor, useReactionColor
 
 	if class then
-		classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
+		classColor = E:ClassColor(class) or PRIEST_COLOR
 		useClassColor = self.db.units[frame.UnitType].name and self.db.units[frame.UnitType].name.useClassColor
 	end
 	if reactionType then

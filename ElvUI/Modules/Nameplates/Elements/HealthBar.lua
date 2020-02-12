@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...))
 local NP = E:GetModule("NamePlates")
 local LSM = E.Libs.LSM
 
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
+local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
 
 function NP:Update_HealthOnValueChanged()
 	local frame = self:GetParent().UnitFrame
@@ -22,7 +22,7 @@ function NP:Update_HealthColor(frame)
 
 	local class = frame.UnitClass
 	if class then
-		classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
+		classColor = E:ClassColor(class) or PRIEST_COLOR
 		useClassColor = NP.db.units[frame.UnitType].health.useClassColor
 	end
 

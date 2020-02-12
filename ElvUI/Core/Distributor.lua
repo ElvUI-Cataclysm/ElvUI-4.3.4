@@ -196,7 +196,6 @@ function D:OnCommReceived(prefix, msg, dist, sender)
 							Downloads[sender] = nil
 						end,
 						OnShow = function(popup) popup.editBox:SetText(profileKey) popup.editBox:SetFocus() end,
-						timeout = 0,
 						exclusive = 1,
 						whileDead = 1,
 						hideOnEscape = 1,

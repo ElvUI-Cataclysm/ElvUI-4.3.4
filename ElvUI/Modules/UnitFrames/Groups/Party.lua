@@ -8,7 +8,6 @@ local _G = _G
 
 local CreateFrame = CreateFrame
 local InCombatLockdown = InCombatLockdown
-local RegisterStateDriver = RegisterStateDriver
 
 function UF:Construct_PartyFrames()
 	self:SetScript("OnEnter", UnitFrame_OnEnter)
@@ -90,10 +89,6 @@ function UF:Update_PartyHeader(header, db)
 		E:CreateMover(headerHolder, headerHolder:GetName().."Mover", L["Party Frames"], nil, nil, nil, "ALL,PARTY,ARENA", nil, "unitframe,party,generalGroup")
 
 		headerHolder.positioned = true
-	end
-
-	if not headerHolder.isForced and db.enable then
-		RegisterStateDriver(headerHolder, "visibility", db.visibility)
 	end
 end
 

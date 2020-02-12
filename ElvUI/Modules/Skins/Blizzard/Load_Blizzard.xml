@@ -22,7 +22,6 @@
 	<Script file="GuildControl.lua"/>
 	<Script file="GuildRegistrar.lua"/>
 	<Script file="Gossip.lua"/>
-	<Script file="Greeting.lua"/>
 	<Script file="Help.lua"/>
 	<Script file="Inspect.lua"/>
 	<Script file="LFG.lua"/>

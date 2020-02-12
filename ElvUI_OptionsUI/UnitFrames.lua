@@ -94,7 +94,6 @@ local blendModeValues = {
 	DISABLE = L["DISABLE"],
 	BLEND = L["Blend"],
 	ADD = L["Additive Blend"],
-	MOD = L["Modulating Blend"],
 	ALPHAKEY = L["Alpha Key"]
 }
 

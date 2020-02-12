@@ -5,7 +5,6 @@ local ElvUF = ns.oUF
 assert(ElvUF, "ElvUI was unable to locate oUF.")
 
 local CreateFrame = CreateFrame
-local RegisterStateDriver = RegisterStateDriver
 
 function UF:Construct_Raid40Frames()
 	self:SetScript("OnEnter", UnitFrame_OnEnter)
@@ -62,10 +61,6 @@ function UF:Update_Raid40Header(header, db)
 		E:CreateMover(headerHolder, headerHolder:GetName().."Mover", L["Raid-40 Frames"], nil, nil, nil, "ALL,RAID", nil, "unitframe,raid40,generalGroup")
 
 		headerHolder.positioned = true
-	end
-
-	if not headerHolder.isForced and db.enable then
-		RegisterStateDriver(headerHolder, "visibility", db.visibility)
 	end
 end
 

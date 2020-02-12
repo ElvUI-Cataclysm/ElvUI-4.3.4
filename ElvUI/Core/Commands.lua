@@ -223,12 +223,27 @@ function E:EnableBlizzardAddOns()
 	end
 end
 
+do -- Blizzard Commands
+	-- ReloadUI: /rl, /reloadui, /reload  NOTE: /reload is from SLASH_RELOAD
+	if not SlashCmdList.RELOADUI then
+		SLASH_RELOADUI1 = "/rl"
+		SLASH_RELOADUI2 = "/reloadui"
+		SlashCmdList.RELOADUI = ReloadUI
+	end
+end
+
 function E:LoadCommands()
 	self:RegisterChatCommand("in", "DelayScriptCall")
 	self:RegisterChatCommand("ec", "ToggleOptionsUI")
 	self:RegisterChatCommand("elvui", "ToggleOptionsUI")
 	self:RegisterChatCommand("cpuimpact", "GetCPUImpact")
 	self:RegisterChatCommand("cpuusage", "GetTopCPUFunc")
+	-- cpuusage args: module, showall, delay, minCalls
+	--- Example1: /cpuusage all
+	--- Example2: /cpuusage Bags true
+	--- Example3: /cpuusage UnitFrames nil 50 25
+	---- Note: showall, delay, and minCalls will default if not set
+	---- arg1 can be 'all' this will scan all registered modules!
 
 	self:RegisterChatCommand("bgstats", "BGStats")
 	self:RegisterChatCommand("hellokitty", "HelloKittyToggle")
@@ -243,7 +258,7 @@ function E:LoadCommands()
 	self:RegisterChatCommand("enableblizzard", "EnableBlizzardAddOns")
 	self:RegisterChatCommand("estatus", "ShowStatusReport")
 
-	if AB and E.private.actionbar.enable then
+	if E.private.actionbar.enable then
 		self:RegisterChatCommand("kb", AB.ActivateBindMode)
 	end
 end
