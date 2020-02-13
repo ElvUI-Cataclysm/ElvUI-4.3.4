@@ -104,8 +104,6 @@ function NP:UpdateTime(elapsed)
 	end
 end
 
-local unstableAffliction = GetSpellInfo(30108)
-local vampiricTouch = GetSpellInfo(34914)
 function NP:SetAura(frame, guid, index, filter, isDebuff, visible)
 	local isAura, name, texture, count, debuffType, duration, expiration, caster, spellID, _ = LAI:GUIDAura(guid, index, filter)
 
@@ -160,7 +158,7 @@ function NP:SetAura(frame, guid, index, filter, isDebuff, visible)
 
 			if isDebuff then
 				local color = (debuffType and DebuffTypeColor[debuffType]) or DebuffTypeColor.none
-				if button.name and (button.name == unstableAffliction or button.name == vampiricTouch) and E.myclass ~= "WARLOCK" then
+				if E.BadDispels[spellID] and E.myclass ~= "WARLOCK" then
 					self:StyleFrameColor(button, 0.05, 0.85, 0.94)
 				else
 					self:StyleFrameColor(button, color.r * 0.6, color.g * 0.6, color.b * 0.6)

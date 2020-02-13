@@ -91,56 +91,51 @@ local function LoadSkin()
 	hooksecurefunc("LFDQueueFrameRandom_UpdateFrame", function()
 		local dungeonID = LFDQueueFrame.type
 		if type(dungeonID) == "string" then return end
-		local _, _, _, _, _, numRewards = GetLFGDungeonRewards(dungeonID)
 
 		for i = 1, LFD_MAX_REWARDS do
 			local button = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i]
-			local icon = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."IconTexture"]
-			local count = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."Count"]
-			local name  = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."Name"]
-			local role1 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."RoleIcon1"]
-			local role2 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."RoleIcon2"]
-			local role3 = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i.."RoleIcon3"]
 
-			if button and not button.isSkinned then
-				local __texture = _G[button:GetName().."IconTexture"]:GetTexture()
+			if button then
+				local name = _G[button:GetName().."Name"]
 
-				button:StripTextures()
-				button:CreateBackdrop()
-				button.backdrop:SetOutside(icon)
+				if not button.isSkinned then
+					local count = _G[button:GetName().."Count"]
+					local icon = _G[button:GetName().."IconTexture"]
 
-				icon:SetTexture(__texture)
-				icon:SetTexCoord(unpack(E.TexCoords))
-				icon:SetParent(button.backdrop)
-				icon.SetPoint = E.noop
+					button:StripTextures()
+					button:CreateBackdrop()
+					button.backdrop:SetOutside(icon)
 
-				icon:SetDrawLayer("OVERLAY")
+					icon:SetTexture(icon:GetTexture())
+					icon:SetTexCoord(unpack(E.TexCoords))
+					icon:SetParent(button.backdrop)
+					icon:SetDrawLayer("ARTWORK")
 
-				if count then
 					count:SetParent(button.backdrop)
 					count:SetDrawLayer("OVERLAY")
+
+					for j = 1, 2 do
+						_G[button:GetName().."RoleIcon"..j]:SetParent(button.backdrop)
+					end
+
+					button.isSkinned = true
 				end
 
-				if role1 then role1:SetParent(button.backdrop) end
-				if role2 then role2:SetParent(button.backdrop) end
-				if role3 then role3:SetParent(button.backdrop) end
+				local link = GetLFGDungeonRewardLink(button.dungeonID, i)
+				if link then
+					local quality = select(3, GetItemInfo(link))
 
-				button:HookScript("OnUpdate", function(self)
-					button.backdrop:SetBackdropBorderColor(0, 0, 0)
-					name:SetTextColor(1, 1, 1)
-					if button.dungeonID then
-						local link = GetLFGDungeonRewardLink(button.dungeonID, i)
-						if link then
-							local quality = select(3, GetItemInfo(link))
-							if quality and quality > 1 then
-								button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
-								name:SetTextColor(GetItemQualityColor(quality))
-							end
-						end
+					if quality then
+						button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
+						name:SetTextColor(GetItemQualityColor(quality))
+					else
+						button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
+						name:SetTextColor(1, 1, 1)
 					end
-				end)
-
-				button.isSkinned = true
+				else
+					button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
+					name:SetTextColor(1, 1, 1)
+				end
 			end
 		end
 	end)

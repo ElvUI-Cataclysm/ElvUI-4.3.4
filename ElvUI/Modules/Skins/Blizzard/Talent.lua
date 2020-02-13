@@ -12,7 +12,7 @@ local function LoadSkin()
 
 	PlayerTalentFrame:StripTextures()
 	PlayerTalentFrame:CreateBackdrop("Transparent")
-	PlayerTalentFrame.backdrop:Point("BOTTOMRIGHT", PlayerTalentFrame, 0, -1)
+	PlayerTalentFrame.backdrop:Point("BOTTOMRIGHT", PlayerTalentFrame, 1, -1)
 
 	PlayerTalentFrameInset:StripTextures()
 	PlayerTalentFrameTalents:StripTextures()
@@ -131,11 +131,19 @@ local function LoadSkin()
 		button:StyleButton()
 		button:SetFrameLevel(button:GetFrameLevel() + 1)
 
-		button.SetHighlightTexture = E.noop
 		button:GetHighlightTexture():SetAllPoints(icon)
+		hooksecurefunc(button, "SetHighlightTexture", function(self, texture)
+			if texture == "Interface\\Buttons\\ButtonHilight-Square" then
+				self:GetHighlightTexture():SetTexture(1, 1, 1, 0.3)
+			end
+		end)
 
-		button.SetPushedTexture = E.noop
 		button:GetPushedTexture():SetAllPoints(icon)
+		hooksecurefunc(button, "SetPushedTexture", function(self, texture)
+			if texture == "Interface\\Buttons\\UI-Quickslot-Depress" then
+				self:GetPushedTexture():SetTexture(0.9, 0.8, 0.1, 0.3)
+			end
+		end)
 
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetAllPoints()
@@ -228,12 +236,6 @@ local function LoadSkin()
 	-- Side Tabs
 	for i = 1, 2 do
 		local tab = _G["PlayerSpecTab"..i]
-
-		if i == 1 then
-			tab:ClearAllPoints()
-			tab:Point("TOPLEFT", PlayerTalentFrame, "TOPRIGHT", E.PixelMode and -1 or 1, -32)
-			tab.SetPoint = E.noop
-		end
 
 		tab:GetRegions():Hide()
 		tab:SetTemplate()

@@ -25,20 +25,22 @@ local function LoadSkin()
 	if E.private.bags.enable then return end
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.bags then return end
 
+	local db = E.db.bags.colors.profession
 	local ProfessionColors = {
-		[0x0008]   = {E.db.bags.colors.profession.leatherworking.r, E.db.bags.colors.profession.leatherworking.g, E.db.bags.colors.profession.leatherworking.b},
-		[0x0010]   = {E.db.bags.colors.profession.inscription.r, E.db.bags.colors.profession.inscription.g, E.db.bags.colors.profession.inscription.b},
-		[0x0020]   = {E.db.bags.colors.profession.herbs.r, E.db.bags.colors.profession.herbs.g, E.db.bags.colors.profession.herbs.b},
-		[0x0040]   = {E.db.bags.colors.profession.enchanting.r, E.db.bags.colors.profession.enchanting.g, E.db.bags.colors.profession.enchanting.b},
-		[0x0080]   = {E.db.bags.colors.profession.engineering.r, E.db.bags.colors.profession.engineering.g, E.db.bags.colors.profession.engineering.b},
-		[0x0200]   = {E.db.bags.colors.profession.gems.r, E.db.bags.colors.profession.gems.g, E.db.bags.colors.profession.gems.b},
-		[0x0400]   = {E.db.bags.colors.profession.mining.r, E.db.bags.colors.profession.mining.g, E.db.bags.colors.profession.mining.b},
-		[0x8000]   = {E.db.bags.colors.profession.fishing.r, E.db.bags.colors.profession.fishing.g, E.db.bags.colors.profession.fishing.b}
+		[0x0008] = {db.leatherworking.r, db.leatherworking.g, db.leatherworking.b},
+		[0x0010] = {db.inscription.r, db.inscription.g, db.inscription.b},
+		[0x0020] = {db.herbs.r, db.herbs.g, db.herbs.b},
+		[0x0040] = {db.enchanting.r, db.enchanting.g, db.enchanting.b},
+		[0x0080] = {db.engineering.r, db.engineering.g, db.engineering.b},
+		[0x0200] = {db.gems.r, db.gems.g, db.gems.b},
+		[0x0400] = {db.mining.r, db.mining.g, db.mining.b},
+		[0x8000] = {db.fishing.r, db.fishing.g, db.fishing.b}
 	}
 
+	db = E.db.bags.colors.items
 	local QuestColors = {
-		["questStarter"] = {E.db.bags.colors.items.questStarter.r, E.db.bags.colors.items.questStarter.g, E.db.bags.colors.items.questStarter.b},
-		["questItem"] =	{E.db.bags.colors.items.questItem.r, E.db.bags.colors.items.questItem.g, E.db.bags.colors.items.questItem.b}
+		["questStarter"] = {db.questStarter.r, db.questStarter.g, db.questStarter.b},
+		["questItem"] =	{db.questItem.r, db.questItem.g, db.questItem.b}
 	}
 
 	-- ContainerFrame

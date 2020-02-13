@@ -13,7 +13,6 @@ if E.myclass ~= "SHAMAN" then return end
 local bar = CreateFrame("Frame", "ElvUI_BarTotem", E.UIParent, "SecureHandlerStateTemplate")
 
 local SLOT_BORDER_COLORS = {
-	["summon"]			= {r = 0, g = 0, b = 0},
 	[EARTH_TOTEM_SLOT]	= {r = 0.23, g = 0.45, b = 0.13},
 	[FIRE_TOTEM_SLOT]	= {r = 0.58, g = 0.23, b = 0.10},
 	[WATER_TOTEM_SLOT]	= {r = 0.19, g = 0.48, b = 0.60},
@@ -35,8 +34,12 @@ function MultiCastRecallSpellButton_Update(self)
 end
 
 function AB:MultiCastFlyoutFrameOpenButton_Show(button, type, parent)
-	local color = type == "page" and SLOT_BORDER_COLORS.summon or SLOT_BORDER_COLORS[parent:GetID()]
-	button.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
+	if type == "page" then
+		button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
+	else
+		local color = SLOT_BORDER_COLORS[parent:GetID()]
+		button.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
+	end
 
 	button:ClearAllPoints()
 	if AB.db.barTotem.flyoutDirection == "UP" then
@@ -90,7 +93,7 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 	local size = AB.db.barTotem.buttonsize
 	local flyoutDirection = AB.db.barTotem.flyoutDirection
 	local flyoutSpacing = AB.db.barTotem.flyoutSpacing
-	local color = type == "page" and SLOT_BORDER_COLORS.summon or SLOT_BORDER_COLORS[parent:GetID()]
+	local color = SLOT_BORDER_COLORS[parent:GetID()]
 	local numButtons = 0
 
 	for i, button in ipairs(self.buttons) do
@@ -128,7 +131,11 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 				end
 			end
 
-			button:SetBackdropBorderColor(color.r, color.g, color.b)
+			if type == "page" then
+				button:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			else
+				button:SetBackdropBorderColor(color.r, color.g, color.b)
+			end
 
 			button.icon:SetTexCoord(unpack(E.TexCoords))
 		end
@@ -137,10 +144,13 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 	if type == "slot" then
 		local tCoords = SLOT_EMPTY_TCOORDS[parent:GetID()]
 		self.buttons[1].icon:SetTexCoord(tCoords.left, tCoords.right, tCoords.top, tCoords.bottom)
+		
+		self.buttons[1]:SetBackdropBorderColor(color.r, color.g, color.b)
+		MultiCastFlyoutFrameCloseButton.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
+	else
+		self.buttons[1]:SetBackdropBorderColor(unpack(E.media.bordercolor))
+		MultiCastFlyoutFrameCloseButton.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 	end
-
-	self.buttons[1]:SetBackdropBorderColor(color.r, color.g, color.b)
-	MultiCastFlyoutFrameCloseButton.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
 
 	self:ClearAllPoints()
 	MultiCastFlyoutFrameCloseButton:ClearAllPoints()

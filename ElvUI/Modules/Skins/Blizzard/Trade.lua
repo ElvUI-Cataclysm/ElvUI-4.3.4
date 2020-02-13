@@ -14,125 +14,103 @@ local GetTradeTargetItemLink = GetTradeTargetItemLink
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.trade then return end
 
-	local TradeFrame = _G["TradeFrame"]
 	TradeFrame:StripTextures(true)
-	TradeFrame:Height(493)
-
 	TradeFrame:CreateBackdrop("Transparent")
 	TradeFrame.backdrop:Point("TOPLEFT", 10, -4)
 	TradeFrame.backdrop:Point("BOTTOMRIGHT", -16, 35)
+	TradeFrame:Height(493)
 
 	S:HandleButton(TradeFrameTradeButton, true)
-	S:HandleButton(TradeFrameCancelButton, true)
+	TradeFrameTradeButton:ClearAllPoints()
+	TradeFrameTradeButton:Point("BOTTOMRIGHT", TradeFrame, "BOTTOMRIGHT", -105, 40)
 
-	S:HandleCloseButton(TradeFrameCloseButton, TradeFrame.backdrop)
+	S:HandleButton(TradeFrameCancelButton, true)
 
 	S:HandleEditBox(TradePlayerInputMoneyFrameGold)
 	S:HandleEditBox(TradePlayerInputMoneyFrameSilver)
 	S:HandleEditBox(TradePlayerInputMoneyFrameCopper)
 
-	TradeFrameTradeButton:ClearAllPoints()
-	TradeFrameTradeButton:Point("BOTTOMRIGHT", TradeFrame, "BOTTOMRIGHT", -105, 40)
+	S:HandleCloseButton(TradeFrameCloseButton, TradeFrame.backdrop)
 
-	for i = 1, MAX_TRADE_ITEMS do
-		local player = _G["TradePlayerItem"..i]
-		local recipient = _G["TradeRecipientItem"..i]
-		local playerButton = _G["TradePlayerItem"..i.."ItemButton"]
-		local playerButtonIcon = _G["TradePlayerItem"..i.."ItemButtonIconTexture"]
-		local recipientButton = _G["TradeRecipientItem"..i.."ItemButton"]
-		local recipientButtonIcon = _G["TradeRecipientItem"..i.."ItemButtonIconTexture"]
+	for _, frame in pairs({"TradePlayerItem", "TradeRecipientItem"}) do
+		for i = 1, MAX_TRADE_ITEMS do
+			local item = _G[frame..i]
+			local button = _G[frame..i.."ItemButton"]
+			local icon = _G[frame..i.."ItemButtonIconTexture"]
+			local nameFrame = _G[frame..i.."NameFrame"]
 
-		player:StripTextures()
-		recipient:StripTextures()
+			item:StripTextures()
 
-		playerButton:StripTextures()
-		playerButton:StyleButton()
-		playerButton:SetTemplate("Default", true)
+			button:StripTextures()
+			button:StyleButton()
+			button:SetTemplate("Default", true)
 
-		playerButtonIcon:SetInside()
-		playerButtonIcon:SetTexCoord(unpack(E.TexCoords))
+			button.bg = CreateFrame("Frame", nil, button)
+			button.bg:SetTemplate("Default")
+			button.bg:Point("TOPLEFT", button, "TOPRIGHT", 4, 0)
+			button.bg:Point("BOTTOMRIGHT", nameFrame, "BOTTOMRIGHT", 0, 14)
+			button.bg:SetFrameLevel(button:GetFrameLevel() - 3)
 
-		recipientButton:StripTextures()
-		recipientButton:StyleButton()
-		recipientButton:SetTemplate("Default", true)
-
-		recipientButtonIcon:SetInside()
-		recipientButtonIcon:SetTexCoord(unpack(E.TexCoords))
-
-		playerButton.bg = CreateFrame("Frame", nil, playerButton)
-		playerButton.bg:SetTemplate("Default")
-		playerButton.bg:Point("TOPLEFT", playerButton, "TOPRIGHT", 4, 0)
-		playerButton.bg:Point("BOTTOMRIGHT", _G["TradePlayerItem"..i.."NameFrame"], "BOTTOMRIGHT", 0, 14)
-		playerButton.bg:SetFrameLevel(playerButton:GetFrameLevel() - 3)
-
-		recipientButton.bg = CreateFrame("Frame", nil, recipientButton)
-		recipientButton.bg:SetTemplate("Default")
-		recipientButton.bg:Point("TOPLEFT", recipientButton, "TOPRIGHT", 4, 0)
-		recipientButton.bg:Point("BOTTOMRIGHT", _G["TradeRecipientItem"..i.."NameFrame"], "BOTTOMRIGHT", 0, 14)
-		recipientButton.bg:SetFrameLevel(recipientButton:GetFrameLevel() - 3)
+			icon:SetInside()
+			icon:SetTexCoord(unpack(E.TexCoords))
+		end
 	end
 
-	TradeHighlightPlayerTop:SetTexture(0, 1, 0, 0.2)
-	TradeHighlightPlayerBottom:SetTexture(0, 1, 0, 0.2)
-	TradeHighlightPlayerMiddle:SetTexture(0, 1, 0, 0.2)
-
-	TradeHighlightPlayer:SetFrameStrata("HIGH")
 	TradeHighlightPlayer:Point("TOPLEFT", TradeFrame, 23, -100)
-
-	TradeHighlightPlayerEnchantTop:SetTexture(0, 1, 0, 0.2)
-	TradeHighlightPlayerEnchantBottom:SetTexture(0, 1, 0, 0.2)
-	TradeHighlightPlayerEnchantMiddle:SetTexture(0, 1, 0, 0.2)
-
-	TradeHighlightPlayerEnchant:SetFrameStrata("HIGH")
-
-	TradeHighlightRecipientTop:SetTexture(0, 1, 0, 0.2)
-	TradeHighlightRecipientBottom:SetTexture(0, 1, 0, 0.2)
-	TradeHighlightRecipientMiddle:SetTexture(0, 1, 0, 0.2)
-
-	TradeHighlightRecipient:SetFrameStrata("HIGH")
 	TradeHighlightRecipient:Point("TOPLEFT", TradeFrame, 192, -100)
 
-	TradeHighlightRecipientEnchantTop:SetTexture(0, 1, 0, 0.2)
-	TradeHighlightRecipientEnchantBottom:SetTexture(0, 1, 0, 0.2)
-	TradeHighlightRecipientEnchantMiddle:SetTexture(0, 1, 0, 0.2)
+	for _, frame in pairs({"TradeHighlightPlayer", "TradeHighlightRecipient"}) do
+		_G[frame]:SetFrameStrata("HIGH")
+		_G[frame.."Enchant"]:SetFrameStrata("HIGH")
 
-	TradeHighlightRecipientEnchant:SetFrameStrata("HIGH")
+		_G[frame.."Top"]:SetTexture(0, 1, 0, 0.2)
+		_G[frame.."Middle"]:SetTexture(0, 1, 0, 0.2)
+		_G[frame.."Bottom"]:SetTexture(0, 1, 0, 0.2)
+
+		_G[frame.."EnchantTop"]:SetTexture(0, 1, 0, 0.2)
+		_G[frame.."EnchantMiddle"]:SetTexture(0, 1, 0, 0.2)
+		_G[frame.."EnchantBottom"]:SetTexture(0, 1, 0, 0.2)
+	end
 
 	hooksecurefunc("TradeFrame_UpdatePlayerItem", function(id)
-		local tradeItemButton = _G["TradePlayerItem"..id.."ItemButton"]
-		local tradeItemName = _G["TradePlayerItem"..id.."Name"]
+		local button = _G["TradePlayerItem"..id.."ItemButton"]
+		local name = _G["TradePlayerItem"..id.."Name"]
 		local link = GetTradePlayerItemLink(id)
 
 		if link then
 			local quality = select(3, GetItemInfo(link))
 
-			tradeItemName:SetTextColor(GetItemQualityColor(quality))
 			if quality then
-				tradeItemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
+				button:SetBackdropBorderColor(GetItemQualityColor(quality))
+				name:SetTextColor(GetItemQualityColor(quality))
 			else
-				tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				button:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				name:SetTextColor(1, 1, 1)
  			end
 		else
-			tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			button:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			name:SetTextColor(1, 1, 1)
  		end
 	end)
 
 	hooksecurefunc("TradeFrame_UpdateTargetItem", function(id)
-		local tradeItemButton = _G["TradeRecipientItem"..id.."ItemButton"]
-		local tradeItemName = _G["TradeRecipientItem"..id.."Name"]
+		local button = _G["TradeRecipientItem"..id.."ItemButton"]
+		local name = _G["TradeRecipientItem"..id.."Name"]
 		local link = GetTradeTargetItemLink(id)
 
 		if link then
 			local quality = select(3, GetItemInfo(link))
 
-			tradeItemName:SetTextColor(GetItemQualityColor(quality))
 			if quality then
-				tradeItemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
+				button:SetBackdropBorderColor(GetItemQualityColor(quality))
+				name:SetTextColor(GetItemQualityColor(quality))
 			else
-				tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				button:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				name:SetTextColor(1, 1, 1)
  			end
 		else
-			tradeItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			button:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			name:SetTextColor(1, 1, 1)
  		end
 	end)
 end

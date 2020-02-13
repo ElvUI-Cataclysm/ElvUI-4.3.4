@@ -8,8 +8,6 @@ local hooksecurefunc = hooksecurefunc
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.bgmap then return end
 
-	local BattlefieldMinimap = _G["BattlefieldMinimap"]
-	BattlefieldMinimap:SetClampedToScreen(true)
 	BattlefieldMinimapCorner:Kill()
 	BattlefieldMinimapBackground:Kill()
 	BattlefieldMinimapTab:Kill()
@@ -21,14 +19,9 @@ local function LoadSkin()
 	BattlefieldMinimap.backdrop:Point("BOTTOMRIGHT", -4, 2)
 	BattlefieldMinimap:SetFrameStrata("MEDIUM")
 	BattlefieldMinimap:SetFrameLevel(25)
-
-	BattlefieldMinimapCloseButton:ClearAllPoints()
-	BattlefieldMinimapCloseButton:Point("TOPRIGHT", -2, 2)
-	S:HandleCloseButton(BattlefieldMinimapCloseButton)
-	BattlefieldMinimapCloseButton:SetFrameLevel(BattlefieldMinimapCloseButton:GetFrameLevel() + 1)
-
 	BattlefieldMinimap:EnableMouse(true)
 	BattlefieldMinimap:SetMovable(true)
+	BattlefieldMinimap:SetClampedToScreen(true)
 
 	BattlefieldMinimap:SetScript("OnMouseUp", function(self, btn)
 		if btn == "LeftButton" then
@@ -41,7 +34,7 @@ local function LoadSkin()
 		end
 	end)
 
-	BattlefieldMinimap:SetScript("OnMouseDown", function(self, btn)
+	BattlefieldMinimap:SetScript("OnMouseDown", function(_, btn)
 		if btn == "LeftButton" and (BattlefieldMinimapOptions and not BattlefieldMinimapOptions.locked) then
 			BattlefieldMinimapTab:StartMoving()
 		end
@@ -61,9 +54,12 @@ local function LoadSkin()
 	BattlefieldMinimap:HookScript("OnLeave", function()
 		if oldAlpha then
 			BattlefieldMinimap_UpdateOpacity(oldAlpha)
+
 			oldAlpha = nil
 		end
 	end)
+
+	S:HandleCloseButton(BattlefieldMinimapCloseButton, BattlefieldMinimap.backdrop)
 
 	BattlefieldMinimapCloseButton:HookScript("OnEnter", function()
 		oldAlpha = BattlefieldMinimapOptions and BattlefieldMinimapOptions.opacity or 0
@@ -73,6 +69,7 @@ local function LoadSkin()
 	BattlefieldMinimapCloseButton:HookScript("OnLeave", function()
 		if oldAlpha then
 			BattlefieldMinimap_UpdateOpacity(oldAlpha)
+
 			oldAlpha = nil
 		end
 	end)

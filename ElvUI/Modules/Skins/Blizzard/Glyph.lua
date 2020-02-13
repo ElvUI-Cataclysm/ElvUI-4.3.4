@@ -11,89 +11,76 @@ local function LoadSkin()
 	GlyphFrame:StripTextures()
 	GlyphFrame:CreateBackdrop("Transparent")
 
+	GlyphFrame.levelOverlayText1:SetTextColor(1, 1, 1)
+	GlyphFrame.levelOverlayText2:SetTextColor(1, 1, 1)
+
 	GlyphFrameScrollFrame:StripTextures()
 	GlyphFrameSideInset:StripTextures()
 	GlyphFrameScrollFrameScrollChild:StripTextures()
 
 	S:HandleEditBox(GlyphFrameSearchBox)
+
 	S:HandleDropDownBox(GlyphFrameFilterDropDown, 206)
 	GlyphFrameFilterDropDown:Point("TOPLEFT", GlyphFrameSearchBox, "BOTTOMLEFT", -13, -3)
 
-	GlyphFrame.levelOverlayText1:SetTextColor(1, 1, 1)
-	GlyphFrame.levelOverlayText2:SetTextColor(1, 1, 1)
+	for i = 1, 9 do
+		local frame = _G["GlyphFrameGlyph"..i]
 
-	if not GlyphFrame.isSkinned then
-		for i = 1, 9 do
-			local frame = _G["GlyphFrameGlyph"..i]
+		frame:SetTemplate("Default", true)
+		frame:SetFrameLevel(frame:GetFrameLevel() + 5)
+		frame:StyleButton(nil, true)
 
-			frame:SetTemplate("Default", true)
-			frame:SetFrameLevel(frame:GetFrameLevel() + 5)
-			frame:StyleButton(nil, true)
+		frame.ring:Hide()
+		frame.highlight:SetTexture(nil)
 
-			frame.ring:Hide()
-			frame.glyph:Hide()
-			frame.highlight:SetTexture(nil)
-			frame.glyph:Hide()
+		frame.icon = frame:CreateTexture(nil, "OVERLAY")
+		frame.icon:SetInside()
+		frame.icon:SetTexCoord(unpack(E.TexCoords))
 
-			frame.icon = frame:CreateTexture(nil, "OVERLAY")
-			frame.icon:SetInside()
-			frame.icon:SetTexCoord(unpack(E.TexCoords))
-
-			frame:CreateBackdrop()
-			frame.backdrop:SetAllPoints()
-			frame.backdrop:SetFrameLevel(frame:GetFrameLevel() + 1)
-			frame.backdrop:SetBackdropColor(0, 0, 0, 0)
-			frame.backdrop:SetBackdropBorderColor(1, 0.80, 0.10)
-
-			frame.backdrop:SetScript("OnUpdate", function(self)
+		frame.backdrop = CreateFrame("Frame", nil, frame)
+		frame.backdrop:SetScript("OnUpdate", function()
+			if strfind(frame.icon:GetTexture(), "Interface\\Spellbook\\UI%-Glyph%-Rune") then
 				local alpha = frame.highlight:GetAlpha()
-				self:SetAlpha(alpha)
 
-				if strfind(frame.icon:GetTexture(), "Interface\\Spellbook\\UI%-Glyph%-Rune") then
-					if alpha == 0 then
-						frame.icon:SetVertexColor(1, 1, 1)
-						frame.icon:SetAlpha(1)
-					else
-						frame.icon:SetVertexColor(1, 0.80, 0.10)
-						frame.icon:SetAlpha(alpha)
-					end
-				end
-			end)
-
-			hooksecurefunc(frame.highlight, "Show", function()
-				frame.backdrop:Show()
-			end)
-
-			frame.glyph:Hide()
-			hooksecurefunc(frame.glyph, "Show", function(self) self:Hide() end)
-
-			if i == 1 or i == 4 or i == 6 then
-				frame:Size(frame:GetSize() * 0.9)
-			elseif i == 2 or i == 3 or i == 5 then
-				frame:Size(frame:GetSize() * 0.6)
-			else
-				frame:Size(frame:GetSize() * 1.2)
-			end
-		end
-
-		hooksecurefunc("GlyphFrame_Update", function(self)
-			local isActiveTalentGroup = PlayerTalentFrame and not PlayerTalentFrame.pet and PlayerTalentFrame.talentGroup == GetActiveTalentGroup(PlayerTalentFrame.pet)
-
-			for i = 1, NUM_GLYPH_SLOTS do
-				local GlyphSocket = _G["GlyphFrameGlyph"..i]
-				local _, _, _, _, iconFilename = GetGlyphSocketInfo(i, PlayerTalentFrame.talentGroup)
-				if iconFilename then
-					GlyphSocket.icon:SetTexture(iconFilename)
+				if alpha == 0 then
+					frame:SetBackdropBorderColor(unpack(E.media.bordercolor))
+					frame.icon:SetVertexColor(1, 1, 1, 1)
 				else
-					GlyphSocket.icon:SetTexture("Interface\\Spellbook\\UI-Glyph-Rune-"..i)
+					frame:SetBackdropBorderColor(1, 0.80, 0.10, alpha)
+					frame.icon:SetVertexColor(1, 0.80, 0.10, alpha)
 				end
-				GlyphFrameGlyph_UpdateSlot(GlyphSocket)
-				SetDesaturation(GlyphSocket.icon, not isActiveTalentGroup)
 			end
 		end)
 
-		GlyphFrame.isSkinned = true
+		local size = frame:GetSize()
+		if i == 1 or i == 4 or i == 6 then
+			frame:Size(size * 0.9)
+		elseif i == 2 or i == 3 or i == 5 then
+			frame:Size(size * 0.6)
+		else
+			frame:Size(size * 1.2)
+		end
+
+		hooksecurefunc(frame.glyph, "Show", function(self) self:Hide() end)
 	end
+
+	hooksecurefunc("GlyphFrame_Update", function(self)
+		local isActiveTalentGroup = PlayerTalentFrame and not PlayerTalentFrame.pet and PlayerTalentFrame.talentGroup == GetActiveTalentGroup(PlayerTalentFrame.pet)
+
+		for i = 1, NUM_GLYPH_SLOTS do
+			local GlyphSocket = _G["GlyphFrameGlyph"..i]
+			local _, _, _, _, iconFilename = GetGlyphSocketInfo(i, PlayerTalentFrame.talentGroup)
+
+			if iconFilename then
+				GlyphSocket.icon:SetTexture(iconFilename)
+			else
+				GlyphSocket.icon:SetTexture("Interface\\Spellbook\\UI-Glyph-Rune-"..i)
+			end
+
+			GlyphFrameGlyph_UpdateSlot(GlyphSocket)
+			SetDesaturation(GlyphSocket.icon, not isActiveTalentGroup)
+		end
+	end)
 
 	for i = 1, 3 do
 		_G["GlyphFrameHeader"..i]:StripTextures()

@@ -10,8 +10,8 @@ local function LoadSkin()
 		if frame.paused then return end
 
 		if frame.timeSinceUpdate >= 0.3 then
-			local minutes = frame.value/60
-			local seconds = frame.value%60
+			local minutes = frame.value / 60
+			local seconds = frame.value % 60
 			local text = frame.label:GetText()
 
 			if frame.value > 0 then
@@ -47,7 +47,7 @@ local function LoadSkin()
 		mirrorTimer.timeSinceUpdate = 0.3
 		mirrorTimer:HookScript("OnUpdate", MirrorTimer_OnUpdate)
 
-		E:CreateMover(mirrorTimer, "MirrorTimer"..i.."Mover", L["MirrorTimer"] .. i, nil, nil, nil, "ALL,SOLO")
+		E:CreateMover(mirrorTimer, "MirrorTimer"..i.."Mover", L["MirrorTimer"]..i, nil, nil, nil, "ALL,SOLO")
 	end
 end
 
