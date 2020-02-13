@@ -1,5 +1,6 @@
 ﻿local E, L, V, P, G = unpack(select(2, ...))
 local AB = E:GetModule("ActionBars")
+local LSM = E.Libs.LSM
 
 local _G = _G
 local unpack, ipairs, pairs = unpack, ipairs, pairs
@@ -241,6 +242,21 @@ function AB:PositionAndSizeBarTotem()
 	MultiCastFlyoutFrameOpenButton:Width(size)
 end
 
+function AB:UpdateTotemBindings()
+	MultiCastSummonSpellButtonHotKey:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
+	self:FixKeybindText(MultiCastSummonSpellButton)
+	MultiCastRecallSpellButtonHotKey:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
+	self:FixKeybindText(MultiCastRecallSpellButton)
+
+	for i = 1, 12 do
+		local button = _G["MultiCastActionButton"..i]
+		local hotKey = _G["MultiCastActionButton"..i.."HotKey"]
+
+		hotKey:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
+		self:FixKeybindText(button)
+	end
+end
+
 function AB:CreateTotemBar()
 	bar:Point("BOTTOM", E.UIParent, "BOTTOM", 0, 250)
 	bar.buttons = {}
@@ -251,6 +267,8 @@ function AB:CreateTotemBar()
 		AB:PositionAndSizeBarTotem()
 		self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 	end)
+
+	AB:UpdateTotemBindings()
 
 	MultiCastActionBarFrame:SetParent(bar)
 	MultiCastActionBarFrame:ClearAllPoints()

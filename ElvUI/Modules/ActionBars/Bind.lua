@@ -232,7 +232,7 @@ function AB:BindUpdate(button, spellmacro)
 
 		if not bind.button.name then return end
 		bind.button.action = tonumber(button.action)
-		
+
 		if (not bind.button.action or bind.button.action < 1 or bind.button.action > 132) and not (bind.button.keyBoundTarget) then
 			bind.button.bindstring = "CLICK "..bind.button.name..":LeftButton"
 		elseif bind.button.keyBoundTarget then

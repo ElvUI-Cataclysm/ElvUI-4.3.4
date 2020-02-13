@@ -309,20 +309,25 @@ E.Options.args.actionbar = {
 									name = L["Stack Text Y-Offset"],
 									min = -10, max = 10, step = 1
 								},
-								hotkeyTextPosition = {
+								spacer = {
 									order = 4,
+									type = "description",
+									name = ""
+								},
+								hotkeyTextPosition = {
+									order = 5,
 									type = "select",
 									name = L["Keybind Text Position"],
 									values = textPoints
 								},
 								hotkeyTextXOffset = {
-									order = 5,
+									order = 6,
 									type = "range",
 									name = L["Keybind Text X-Offset"],
 									min = -10, max = 10, step = 1
 								},
 								hotkeyTextYOffset = {
-									order = 6,
+									order = 7,
 									type = "range",
 									name = L["Keybind Text Y-Offset"],
 									min = -10, max = 10, step = 1

@@ -128,7 +128,6 @@ local function LoadSkin()
 	local function SkinTalents(button, icon)
 		button:StripTextures()
 		button:CreateBackdrop()
-		button:StyleButton()
 		button:SetFrameLevel(button:GetFrameLevel() + 1)
 
 		button:GetHighlightTexture():SetAllPoints(icon)

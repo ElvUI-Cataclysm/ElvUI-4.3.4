@@ -662,7 +662,7 @@ function TT:GameTooltip_OnTooltipSetSpell(tt)
 end
 
 function TT:SetItemRef(link)
-	if self.db.spellID and (strfind(link, "^spell:") or strfind(link, "^item:")) then
+	if self.db.spellID and (strfind(link, "^spell:") or strfind(link, "^item:") or strfind(link, "^currency:")) then
 		local id = tonumber(match(link, "(%d+)"))
 		ItemRefTooltip:AddLine(format("|cFFCA3C3C%s|r %d", ID, id))
 		ItemRefTooltip:Show()

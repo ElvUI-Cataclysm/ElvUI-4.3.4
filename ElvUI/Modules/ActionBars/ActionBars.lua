@@ -409,6 +409,7 @@ function AB:ReassignBindings(event)
 	if event == "UPDATE_BINDINGS" then
 		self:UpdatePetBindings()
 		self:UpdateStanceBindings()
+		self:UpdateTotemBindings()
 	end
 
 	self:UnregisterEvent("PLAYER_REGEN_DISABLED")
@@ -513,6 +514,7 @@ function AB:UpdateButtonSettings()
 
 	self:UpdatePetBindings()
 	self:UpdateStanceBindings()
+	self:UpdateTotemBindings()
 
 	for barName, bar in pairs(self.handledBars) do
 		if bar then
