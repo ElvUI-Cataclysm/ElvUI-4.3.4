@@ -25,6 +25,7 @@ local bar = CreateFrame("Frame", "ElvUI_StanceBar", E.UIParent, "SecureHandlerSt
 function AB:UPDATE_SHAPESHIFT_COOLDOWN()
 	local numForms = GetNumShapeshiftForms()
 	local start, duration, enable, cooldown
+
 	for i = 1, NUM_SHAPESHIFT_SLOTS do
 		if i <= numForms then
 			cooldown = _G["ElvUI_StanceBarButton"..i.."Cooldown"]
@@ -165,8 +166,8 @@ function AB:PositionAndSizeBarShapeShift()
 		heightMult = 1
 	end
 
-	local barWidth = (size * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult-1)) + ((self.db.stanceBar.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2)
-	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult-1)) + ((self.db.stanceBar.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2)
+	local barWidth = (size * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult - 1)) + ((self.db.stanceBar.backdrop and (E.Border + backdropSpacing) or E.Spacing)*2)
+	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult - 1)) + ((self.db.stanceBar.backdrop and (E.Border + backdropSpacing) or E.Spacing)*2)
 	bar:Width(barWidth)
 	bar:Height(barHeight)
 
@@ -192,7 +193,7 @@ function AB:PositionAndSizeBarShapeShift()
 	bar:EnableMouse(not self.db.stanceBar.clickThrough)
 
 	local button, lastButton, lastColumnButton
-	local firstButtonSpacing = (self.db.stanceBar.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)
+	local firstButtonSpacing = (self.db.stanceBar.backdrop and (E.Border + backdropSpacing) or E.Spacing)
 
 	for i = 1, NUM_SHAPESHIFT_SLOTS do
 		button = _G["ElvUI_StanceBarButton"..i]
@@ -204,7 +205,7 @@ function AB:PositionAndSizeBarShapeShift()
 		button:Size(size)
 		button:EnableMouse(not self.db.stanceBar.clickThrough)
 
-		if self.db.stanceBar.mouseover == true then
+		if self.db.stanceBar.mouseover then
 			bar:SetAlpha(0)
 		else
 			bar:SetAlpha(bar.db.alpha)

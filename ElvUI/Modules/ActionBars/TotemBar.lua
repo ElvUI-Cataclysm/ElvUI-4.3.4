@@ -98,6 +98,7 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 
 		if button:IsShown() then
 			numButtons = numButtons + 1
+
 			button:Size(size)
 			button:ClearAllPoints()
 
@@ -128,11 +129,12 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 	if type == "slot" then
 		local tCoords = SLOT_EMPTY_TCOORDS[parent:GetID()]
 		self.buttons[1].icon:SetTexCoord(tCoords.left, tCoords.right, tCoords.top, tCoords.bottom)
-
 		self.buttons[1]:SetBackdropBorderColor(color.r, color.g, color.b)
+
 		MultiCastFlyoutFrameCloseButton.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
 	else
 		self.buttons[1]:SetBackdropBorderColor(unpack(E.media.bordercolor))
+
 		MultiCastFlyoutFrameCloseButton.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 	end
 
@@ -176,21 +178,24 @@ function AB:PositionAndSizeBarTotem()
 		return
 	end
 
-	local buttonSpacing = E:Scale(self.db.barTotem.buttonspacing)
-	local size = E:Scale(self.db.barTotem.buttonsize)
-	local numActiveSlots = MultiCastActionBarFrame.numActiveSlots
-
-	bar:Width((size * (2 + numActiveSlots)) + (buttonSpacing * (2 + numActiveSlots - 1)))
-	MultiCastActionBarFrame:Width((size * (2 + numActiveSlots)) + (buttonSpacing * (2 + numActiveSlots - 1)))
-	bar:Height(size + 2)
-	MultiCastActionBarFrame:Height(size + 2)
 	bar.db = self.db.barTotem
+	bar.mouseover = bar.db.mouseover
 
-	bar.mouseover = self.db.barTotem.mouseover
+	local buttonSpacing = E:Scale(bar.db.buttonspacing)
+	local size = E:Scale(bar.db.buttonsize)
+	local numActiveSlots = MultiCastActionBarFrame.numActiveSlots
+	local width, height = (size * (2 + numActiveSlots)) + (buttonSpacing * (2 + numActiveSlots - 1)), size + 2
+
+	bar:Width(width)
+	bar:Height(height)
+
+	MultiCastActionBarFrame:Width(width)
+	MultiCastActionBarFrame:Height(height)
+
 	if bar.mouseover then
 		bar:SetAlpha(0)
 	else
-		bar:SetAlpha(self.db.barTotem.alpha)
+		bar:SetAlpha(bar.db.alpha)
 	end
 
 	local visibility = bar.db.visibility

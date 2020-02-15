@@ -108,6 +108,7 @@ function AB:PositionAndSizeBarPet()
 
 	bar.db = self.db.barPet
 	bar.db.position = nil --Depreciated
+	bar.mouseover = self.db.barPet.mouseover
 
 	if visibility and visibility:match("[\n\r]") then
 		visibility = visibility:gsub("[\n\r]","")
@@ -121,7 +122,7 @@ function AB:PositionAndSizeBarPet()
 		numColumns = 1
 	end
 
-	if self.db.barPet.backdrop == true then
+	if self.db.barPet.backdrop then
 		bar.backdrop:Show()
 	else
 		bar.backdrop:Hide()
@@ -130,8 +131,8 @@ function AB:PositionAndSizeBarPet()
 		heightMult = 1
 	end
 
-	local barWidth = (size * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult-1)) + ((self.db.barPet.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2)
-	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult-1)) + ((self.db.barPet.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)*2)
+	local barWidth = (size * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult - 1)) + ((self.db.barPet.backdrop and (E.Border + backdropSpacing) or E.Spacing)*2)
+	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult - 1)) + ((self.db.barPet.backdrop and (E.Border + backdropSpacing) or E.Spacing)*2)
 	bar:Width(barWidth)
 	bar:Height(barHeight)
 
@@ -158,7 +159,6 @@ function AB:PositionAndSizeBarPet()
 		horizontalGrowth = "LEFT"
 	end
 
-	bar.mouseover = self.db.barPet.mouseover
 	if bar.mouseover then
 		bar:SetAlpha(0)
 	else
@@ -174,7 +174,7 @@ function AB:PositionAndSizeBarPet()
 	bar:EnableMouse(not self.db.barPet.clickThrough)
 
 	local button, lastButton, lastColumnButton, autoCast
-	local firstButtonSpacing = (self.db.barPet.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)
+	local firstButtonSpacing = (self.db.barPet.backdrop and (E.Border + backdropSpacing) or E.Spacing)
 	for i = 1, NUM_PET_ACTION_SLOTS do
 		button = _G["PetActionButton"..i]
 		lastButton = _G["PetActionButton"..i - 1]
