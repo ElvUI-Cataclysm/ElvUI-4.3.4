@@ -85,8 +85,9 @@ local function LoadSkin()
 	QuestInfoRewardSpell:SetHitRectInsets(0, 1, 3, -2)
 	QuestInfoSpellObjectiveFrame:SetHitRectInsets(0, 1, 3, -2)
 
-	local function QuestQualityColors(frame, text, link, quality)
-		if link and not quality then
+	local function QuestQualityColors(frame, text, link)
+		local quality
+		if link then
 			quality = select(3, GetItemInfo(link))
 		end
 

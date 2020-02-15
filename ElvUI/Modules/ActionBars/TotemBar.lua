@@ -70,23 +70,6 @@ function AB:StyleTotemSlotButton(button, slot)
 	end
 end
 
-function AB:SkinSummonButton(button)
-	local name = button:GetName()
-	local icon = _G[name.."Icon"]
-	local highlight = _G[name.."Highlight"]
-	local normal = _G[name.."NormalTexture"]
-
-	button:SetTemplate("Default")
-	button:StyleButton()
-
-	icon:SetTexCoord(unpack(E.TexCoords))
-	icon:SetDrawLayer("ARTWORK")
-	icon:SetInside(button)
-
-	highlight:SetTexture(nil)
-	normal:SetTexture(nil)
-end
-
 function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 	self.top:SetTexture(nil)
 	self.middle:SetTexture(nil)
@@ -145,7 +128,7 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(self, type, parent)
 	if type == "slot" then
 		local tCoords = SLOT_EMPTY_TCOORDS[parent:GetID()]
 		self.buttons[1].icon:SetTexCoord(tCoords.left, tCoords.right, tCoords.top, tCoords.bottom)
-		
+
 		self.buttons[1]:SetBackdropBorderColor(color.r, color.g, color.b)
 		MultiCastFlyoutFrameCloseButton.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
 	else
@@ -245,6 +228,7 @@ end
 function AB:UpdateTotemBindings()
 	MultiCastSummonSpellButtonHotKey:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
 	self:FixKeybindText(MultiCastSummonSpellButton)
+
 	MultiCastRecallSpellButtonHotKey:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
 	self:FixKeybindText(MultiCastRecallSpellButton)
 
@@ -268,8 +252,6 @@ function AB:CreateTotemBar()
 		self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 	end)
 
-	AB:UpdateTotemBindings()
-
 	MultiCastActionBarFrame:SetParent(bar)
 	MultiCastActionBarFrame:ClearAllPoints()
 	MultiCastActionBarFrame:SetPoint("BOTTOMLEFT", bar, "BOTTOMLEFT", -E.Border, -E.Border)
@@ -285,36 +267,24 @@ function AB:CreateTotemBar()
 	self:HookScript(MultiCastFlyoutFrame, "OnEnter", "TotemOnEnter")
 	self:HookScript(MultiCastFlyoutFrame, "OnLeave", "TotemOnLeave")
 
-	local closeButton = MultiCastFlyoutFrameCloseButton
-	closeButton:CreateBackdrop("Default", true, true)
-	closeButton.backdrop:SetPoint("TOPLEFT", 0, -(E.Border + E.Spacing))
-	closeButton.backdrop:SetPoint("BOTTOMRIGHT", 0, E.Border + E.Spacing)
-	closeButton.icon = closeButton:CreateTexture(nil, "ARTWORK")
-	closeButton.icon:Size(16)
-	closeButton.icon:SetPoint("CENTER")
-	closeButton.icon:SetTexture(E.Media.Textures.ArrowUp)
-	closeButton.normalTexture:SetTexture("")
-	closeButton:StyleButton()
-	closeButton.hover:SetInside(closeButton.backdrop)
-	closeButton.pushed:SetInside(closeButton.backdrop)
-	bar.buttons[closeButton] = true
+	for _, frame in pairs({"MultiCastSummonSpellButton", "MultiCastRecallSpellButton"}) do
+		local button = _G[frame]
+		local icon = _G[frame.."Icon"]
+		local highlight = _G[frame.."Highlight"]
+		local normal = _G[frame.."NormalTexture"]
 
-	local openButton = MultiCastFlyoutFrameOpenButton
-	openButton:CreateBackdrop("Default", true, true)
-	openButton.backdrop:SetPoint("TOPLEFT", 0, -(E.Border + E.Spacing))
-	openButton.backdrop:SetPoint("BOTTOMRIGHT", 0, E.Border + E.Spacing)
-	openButton.icon = openButton:CreateTexture(nil, "ARTWORK")
-	openButton.icon:Size(16)
-	openButton.icon:SetPoint("CENTER")
-	openButton.icon:SetTexture(E.Media.Textures.ArrowUp)
-	openButton.normalTexture:SetTexture("")
-	openButton:StyleButton()
-	openButton.hover:SetInside(openButton.backdrop)
-	openButton.pushed:SetInside(openButton.backdrop)
-	bar.buttons[openButton] = true
+		button:SetTemplate()
+		button:StyleButton()
 
-	self:SkinSummonButton(MultiCastSummonSpellButton)
-	bar.buttons[MultiCastSummonSpellButton] = true
+		icon:SetInside(button)
+		icon:SetDrawLayer("ARTWORK")
+		icon:SetTexCoord(unpack(E.TexCoords))
+
+		normal:SetTexture(nil)
+		highlight:SetTexture(nil)
+
+		bar.buttons[button] = true
+	end
 
 	hooksecurefunc(MultiCastRecallSpellButton, "SetPoint", function(self, point, attachTo, anchorPoint, xOffset, yOffset)
 		if xOffset ~= AB.db.barTotem.buttonspacing then
@@ -324,8 +294,25 @@ function AB:CreateTotemBar()
 		end
 	end)
 
-	self:SkinSummonButton(MultiCastRecallSpellButton)
-	bar.buttons[MultiCastRecallSpellButton] = true
+	for _, frame in pairs({"MultiCastFlyoutFrameOpenButton", "MultiCastFlyoutFrameCloseButton"}) do
+		local button = _G[frame]
+
+		button:CreateBackdrop("Default", true, true)
+		button.backdrop:Point("TOPLEFT", 0, -(E.Border + E.Spacing))
+		button.backdrop:Point("BOTTOMRIGHT", 0, E.Border + E.Spacing)
+
+		button.icon = button:CreateTexture(nil, "ARTWORK")
+		button.icon:Size(16)
+		button.icon:SetPoint("CENTER")
+		button.icon:SetTexture(E.Media.Textures.ArrowUp)
+
+		button.normalTexture:SetTexture("")
+		button:StyleButton()
+		button.hover:SetInside(button.backdrop)
+		button.pushed:SetInside(button.backdrop)
+
+		bar.buttons[button] = true
+	end
 
 	for i = 1, 4 do
 		local button = _G["MultiCastSlotButton"..i]
@@ -365,6 +352,8 @@ function AB:CreateTotemBar()
 		button:HookScript("OnEnter", AB.TotemOnEnter)
 		button:HookScript("OnLeave", AB.TotemOnLeave)
 	end
+
+	AB:UpdateTotemBindings()
 
 	self:SecureHook("MultiCastFlyoutFrameOpenButton_Show")
 	self:SecureHook("MultiCastActionButton_Update")

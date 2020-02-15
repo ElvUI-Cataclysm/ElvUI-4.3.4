@@ -5,6 +5,8 @@ local _G = _G
 local unpack = unpack
 local strfind = strfind
 
+local NUM_GLYPH_SLOTS = NUM_GLYPH_SLOTS
+
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.talent then return end
 
@@ -14,8 +16,8 @@ local function LoadSkin()
 	GlyphFrame.levelOverlayText1:SetTextColor(1, 1, 1)
 	GlyphFrame.levelOverlayText2:SetTextColor(1, 1, 1)
 
-	GlyphFrameScrollFrame:StripTextures()
 	GlyphFrameSideInset:StripTextures()
+	GlyphFrameScrollFrame:StripTextures()
 	GlyphFrameScrollFrameScrollChild:StripTextures()
 
 	S:HandleEditBox(GlyphFrameSearchBox)
@@ -23,45 +25,49 @@ local function LoadSkin()
 	S:HandleDropDownBox(GlyphFrameFilterDropDown, 206)
 	GlyphFrameFilterDropDown:Point("TOPLEFT", GlyphFrameSearchBox, "BOTTOMLEFT", -13, -3)
 
-	for i = 1, 9 do
+	for i = 1, NUM_GLYPH_SLOTS do
 		local frame = _G["GlyphFrameGlyph"..i]
 
 		frame:SetTemplate("Default", true)
 		frame:SetFrameLevel(frame:GetFrameLevel() + 5)
 		frame:StyleButton(nil, true)
 
-		frame.ring:Hide()
+		if i == 1 or i == 4 or i == 6 then
+			frame:Size(64)
+		elseif i == 2 or i == 3 or i == 5 then
+			frame:Size(44)
+		else
+			frame:Size(84)
+		end
+
 		frame.highlight:SetTexture(nil)
+		frame.ring:Hide()
+		frame.glyph:Hide()
+		frame.glyph.Show = E.noop
 
 		frame.icon = frame:CreateTexture(nil, "OVERLAY")
 		frame.icon:SetInside()
 		frame.icon:SetTexCoord(unpack(E.TexCoords))
 
-		frame.backdrop = CreateFrame("Frame", nil, frame)
-		frame.backdrop:SetScript("OnUpdate", function()
+		frame.onUpdate = CreateFrame("Frame", nil, frame)
+		frame.onUpdate:SetScript("OnUpdate", function()
 			if strfind(frame.icon:GetTexture(), "Interface\\Spellbook\\UI%-Glyph%-Rune") then
 				local alpha = frame.highlight:GetAlpha()
 
 				if alpha == 0 then
 					frame:SetBackdropBorderColor(unpack(E.media.bordercolor))
+					frame:SetAlpha(1)
+
 					frame.icon:SetVertexColor(1, 1, 1, 1)
 				else
-					frame:SetBackdropBorderColor(1, 0.80, 0.10, alpha)
-					frame.icon:SetVertexColor(1, 0.80, 0.10, alpha)
+					frame:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
+					frame:SetAlpha(alpha)
+
+					frame.icon:SetVertexColor(unpack(E.media.rgbvaluecolor))
+					frame.icon:SetAlpha(alpha)
 				end
 			end
 		end)
-
-		local size = frame:GetSize()
-		if i == 1 or i == 4 or i == 6 then
-			frame:Size(size * 0.9)
-		elseif i == 2 or i == 3 or i == 5 then
-			frame:Size(size * 0.6)
-		else
-			frame:Size(size * 1.2)
-		end
-
-		hooksecurefunc(frame.glyph, "Show", function(self) self:Hide() end)
 	end
 
 	hooksecurefunc("GlyphFrame_Update", function(self)
@@ -83,26 +89,20 @@ local function LoadSkin()
 	end)
 
 	for i = 1, 3 do
-		_G["GlyphFrameHeader"..i]:StripTextures()
-		_G["GlyphFrameHeader"..i]:StyleButton()
-	end
+		local header = _G["GlyphFrameHeader"..i]
 
-	local function Glyphs(self, first, i)
-		local button = _G["GlyphFrameScrollFrameButton"..i]
-		local icon = _G["GlyphFrameScrollFrameButton"..i.."Icon"]
-
-		if first then
-			button:StripTextures()
-		end
-
-		if icon then
-			icon:SetTexCoord(unpack(E.TexCoords))
-			S:HandleButton(button)
-		end
+		header:StripTextures()
+		header:StyleButton()
 	end
 
 	for i = 1, 10 do
-		Glyphs(nil, true, i)
+		local button = _G["GlyphFrameScrollFrameButton"..i]
+		local icon = _G["GlyphFrameScrollFrameButton"..i.."Icon"]
+
+		button:StripTextures()
+		S:HandleButton(button)
+
+		icon:SetTexCoord(unpack(E.TexCoords))
 	end
 
 	GlyphFrameClearInfoFrameIcon:SetTexCoord(unpack(E.TexCoords))
