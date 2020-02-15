@@ -104,12 +104,14 @@ function B:AchievementAlertFrame_FixAnchors()
 	local alertAnchor
 	for i = 1, MAX_ACHIEVEMENT_ALERTS do
 		local frame = _G["AchievementAlertFrame"..i]
+
 		if frame then
 			frame:ClearAllPoints()
+
 			if alertAnchor and alertAnchor:IsShown() then
-				frame:SetPoint(POSITION, alertAnchor, ANCHOR_POINT, 0, YOFFSET)
+				frame:Point(POSITION, alertAnchor, ANCHOR_POINT, 0, YOFFSET)
 			else
-				frame:SetPoint(POSITION, AlertFrame, ANCHOR_POINT)
+				frame:Point(POSITION, AlertFrame, ANCHOR_POINT)
 			end
 
 			alertAnchor = frame
@@ -118,40 +120,41 @@ function B:AchievementAlertFrame_FixAnchors()
 end
 
 function B:DungeonCompletionAlertFrame_FixAnchors()
+	DungeonCompletionAlertFrame1:ClearAllPoints()
+
 	for i = MAX_ACHIEVEMENT_ALERTS, 1, -1 do
 		local frame = _G["AchievementAlertFrame"..i]
+
 		if frame and frame:IsShown() then
-			DungeonCompletionAlertFrame1:ClearAllPoints()
 			DungeonCompletionAlertFrame1:Point(POSITION, frame, ANCHOR_POINT, 0, YOFFSET)
+
 			return
 		end
-
-		DungeonCompletionAlertFrame1:ClearAllPoints()
-		DungeonCompletionAlertFrame1:Point(POSITION, AlertFrame, ANCHOR_POINT)
 	end
+
+	DungeonCompletionAlertFrame1:Point(POSITION, AlertFrame, ANCHOR_POINT)
 end
 
 function B:GuildChallengeAlertFrame_FixAnchors()
+	GuildChallengeAlertFrame:ClearAllPoints()
+
+	if DungeonCompletionAlertFrame1:IsShown() then
+		GuildChallengeAlertFrame:Point(POSITION, DungeonCompletionAlertFrame1, ANCHOR_POINT, 0, YOFFSET)
+
+		return
+	end
+
 	for i = MAX_ACHIEVEMENT_ALERTS, 1, -1 do
-		if _G["AchievementAlertFrame"..i] and _G["AchievementAlertFrame"..i]:IsShown() then
-			aFrame = _G["AchievementAlertFrame"..i]
+		local frame = _G["AchievementAlertFrame"..i]
+
+		if frame and frame:IsShown() then
+			GuildChallengeAlertFrame:Point(POSITION, frame, ANCHOR_POINT)
+
+			return
 		end
 	end
 
-	if DungeonCompletionAlertFrame1:IsShown() then
-		aFrame = DungeonCompletionAlertFrame1
-	end
-
-	if aFrame == nil then
-		aFrame = AlertFrame
-	end
-
-	GuildChallengeAlertFrame:ClearAllPoints()
-	if POSITION == "TOP" then
-		GuildChallengeAlertFrame:SetPoint("TOP", aFrame, "BOTTOM", 0, -10)
-	else
-		GuildChallengeAlertFrame:SetPoint("BOTTOM", aFrame, "TOP", 0, 10)
-	end
+	GuildChallengeAlertFrame:Point(POSITION, AlertFrame, ANCHOR_POINT)
 end
 
 function B:AlertMovers()
