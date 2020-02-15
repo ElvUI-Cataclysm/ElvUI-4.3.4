@@ -780,6 +780,7 @@ L["Pet Name"] = true
 L["Petition Frame"] = true
 L["PetTarget"] = true
 L["Phase Indicator"] = true
+L["Player Bars"] = true
 L["Player Frame Aura Bars"] = true
 L["Player Health"] = true
 L["Player in Combat"] = true

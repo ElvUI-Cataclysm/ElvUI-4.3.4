@@ -780,6 +780,7 @@ L["Pet Name"] = "寵物名字"
 L["Petition Frame"] = "回報GM"
 L["PetTarget"] = "寵物目標"
 L["Phase Indicator"] = "位面指示器"
+L["Player Bars"] = true
 L["Player Frame Aura Bars"] = "玩家框架光環條"
 L["Player Health"] = "玩家血量"
 L["Player in Combat"] = "玩家戰鬥中"

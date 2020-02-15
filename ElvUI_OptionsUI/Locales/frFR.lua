@@ -780,6 +780,7 @@ L["Pet Name"] = "Nom du familier"
 L["Petition Frame"] = "Fenêtre de Charte"
 L["PetTarget"] = true
 L["Phase Indicator"] = true
+L["Player Bars"] = true
 L["Player Frame Aura Bars"] = "Barre d'aura du joueur"
 L["Player Health"] = true
 L["Player in Combat"] = "Joueur en combat"
