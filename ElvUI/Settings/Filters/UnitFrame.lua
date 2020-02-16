@@ -330,11 +330,11 @@ G.unitframe.aurafilters.Whitelist = {
 		[31224] = Defaults(),	-- Cloak of Shadows
 		[48707] = Defaults(),	-- Anti-Magic Shell
 		[47585] = Defaults(),	-- Dispersion
-	-- Imm
+	-- Immunities
 		[642] = Defaults(),		-- Divine shield
 		[45438] = Defaults(),	-- Ice Block
 		[96694] = Defaults(),	-- Reflective Shield
-	-- Offensive Shit
+	-- Offensive
 		[31884] = Defaults(),	-- Avenging Wrath
 		[34471] = Defaults()	-- The Beast Within
 	}
@@ -344,38 +344,63 @@ G.unitframe.aurafilters.Whitelist = {
 G.unitframe.aurafilters.RaidDebuffs = {
 	type = "Whitelist",
 	spells = {
-	--Blackwing Descent
-		--Magmaw
+	-- Baradin Hold
+		-- Argaloth
+		[95173] = Defaults(),	-- Consuming Darkness
+		-- Occu'thar
+		[96913] = Defaults(),	-- Searing Shadows
+		-- Alizabal
+		[104936] = Defaults(),	-- Skewer
+		[105067] = Defaults(),	-- Seething Hate
+	-- Blackwing Descent
+		-- Magmaw
 		[91911] = Defaults(),	-- Constricting Chains
 		[94679] = Defaults(),	-- Parasitic Infection
 		[94617] = Defaults(),	-- Mangle
 		[78199] = Defaults(),	-- Sweltering Armor
-		--Omintron Defense System
+		-- Omnotron Defense System
 		[91433] = Defaults(),	-- Lightning Conductor
 		[91521] = Defaults(),	-- Incineration Security Measure
-		[80094] = Defaults(),	-- Fixate 
-		--Maloriak
+		[80094] = Defaults(),	-- Fixate
+		[91535] = Defaults(),	-- Flamethrower
+		[80161] = Defaults(),	-- Chemical Cloud
+		[92035] = Defaults(),	-- Acquiring Target
+		[79835] = Defaults(),	-- Poison Soaked Shell
+		[91555] = Defaults(),	-- Power Generator
+		[92048] = Defaults(),	-- Shadow Infusion
+		[92053] = Defaults(),	-- Shadow Conductor
+		-- Maloriak
 		[77699] = Defaults(),	-- Flash Freeze
 		[77760] = Defaults(),	-- Biting Chill
-		--Atramedes
+		[92754] = Defaults(),	-- Engulfing Darkness
+		[92971] = Defaults(),	-- Consuming Flames
+		[92989] = Defaults(),	-- Rend
+		-- Atramedes
 		[92423] = Defaults(),	-- Searing Flame
 		[92485] = Defaults(),	-- Roaring Flame
 		[92407] = Defaults(),	-- Sonic Breath
-		--Chimaeron
+		[78092] = Defaults(),	-- Tracking
+		-- Chimaeron
 		[82881] = Defaults(),	-- Break
 		[89084] = Defaults(),	-- Low Health
-		--Sinestra
-		[92956] = Defaults(),	-- Wrack
-	--The Bastion of Twilight
-		--Valiona & Theralion
+		-- Nefarian
+		[81114] = Defaults(),	-- Magma
+		[94128] = Defaults(),	-- Tail Lash
+		[79339] = Defaults(),	-- Explosive Cinders
+		[79318] = Defaults(),	-- Dominion
+	-- The Bastion of Twilight
+		-- Halfus Wyrmbreaker
+		[39171] = Defaults(),	-- Malevolent Strikes
+		[83710] = Defaults(),	-- Furious Roar
+		-- Valiona & Theralion
 		[92878] = Defaults(),	-- Blackout
 		[86840] = Defaults(),	-- Devouring Flames
 		[95639] = Defaults(),	-- Engulfing Magic
 		[92886] = Defaults(),	-- Twilight Zone
 		[88518] = Defaults(),	-- Twilight Meteorite
-		--Halfus Wyrmbreaker
-		[39171] = Defaults(),	-- Malevolent Strikes
-		--Twilight Ascendant Council
+		[86505] = Defaults(),	-- Fabulous Flames
+		[93051] = Defaults(),	-- Twilight Shift
+		-- Twilight Ascendant Council
 		[92511] = Defaults(),	-- Hydro Lance
 		[82762] = Defaults(),	-- Waterlogged
 		[92505] = Defaults(),	-- Frozen
@@ -383,77 +408,110 @@ G.unitframe.aurafilters.RaidDebuffs = {
 		[83099] = Defaults(),	-- Lightning Rod
 		[92075] = Defaults(),	-- Gravity Core
 		[92488] = Defaults(),	-- Gravity Crush
-		--Cho'gall
+		[82660] = Defaults(),	-- Burning Blood
+		[82665] = Defaults(),	-- Heart of Ice
+		[83500] = Defaults(),	-- Swirling Winds
+		[83581] = Defaults(),	-- Grounded
+		[92067] = Defaults(),	-- Static Overload
+		-- Cho'gall
 		[86028] = Defaults(),	-- Cho's Blast
 		[86029] = Defaults(),	-- Gall's Blast
-	--Throne of the Four Winds
-		--Nezir
+		[93187] = Defaults(),	-- Corrupted Blood
+		[82125] = Defaults(),	-- Corruption: Malformation
+		[82170] = Defaults(),	-- Corruption: Absolute
+		[93200] = Defaults(),	-- Corruption: Sickness
+		[82411] = Defaults(),	-- Debilitating Beam
+		[91317] = Defaults(),	-- Worshipping
+		-- Sinestra
+		[92956] = Defaults(),	-- Wrack
+	-- Throne of the Four Winds
+		-- Nezir
 		[93131] = Defaults(),	-- Ice Patch
-		--Anshal
+		-- Anshal
 		[86206] = Defaults(),	-- Soothing Breeze
 		[93122] = Defaults(),	-- Toxic Spores
-		--Rohash
+		-- Rohash
 		[93058] = Defaults(),	-- Slicing Gale
-		--Al'Akir
+		-- Al'Akir
 		[93260] = Defaults(),	-- Ice Storm
 		[93295] = Defaults(),	-- Lightning Rod
-	--Firelands	
-		--Beth'tilac
+		[87873] = Defaults(),	-- Static Shock
+		[87856] = Defaults(),	-- Squall Line
+		[88427] = Defaults(),	-- Electrocute
+	-- Firelands	
+		-- Beth'tilac
 		[99506] = Defaults(),	-- Widows Kiss
-		--Alysrazor
+		[97202] = Defaults(),	-- Fiery Web Spin
+		[49026] = Defaults(),	-- Fixate
+		[97079] = Defaults(),	-- Seeping Venom
+		-- Alysrazor
+		[99389] = Defaults(),	-- Imprinted
 		[101296] = Defaults(),	-- Fiero Blast
 		[100723] = Defaults(),	-- Gushing Wound
-		--Shannox
+		[101729] = Defaults(),	-- Blazing Claw
+		[100640] = Defaults(),	-- Harsh Winds
+		[100555] = Defaults(),	-- Smouldering Roots
+		-- Shannox
 		[99837] = Defaults(),	-- Crystal Prison
 		[99937] = Defaults(),	-- Jagged Tear
-		--Baleroc
+		-- Baleroc
 		[99403] = Defaults(),	-- Tormented
 		[99256] = Defaults(),	-- Torment
-		--Majordomo Staghelm
+		[99252] = Defaults(),	-- Blaze of Glory
+		[99516] = Defaults(),	-- Countdown
+		-- Majordomo Staghelm
 		[98450] = Defaults(),	-- Searing Seeds
 		[98565] = Defaults(),	-- Burning Orb
-		--Ragnaros
+		-- Ragnaros
+		[98313] = Defaults(),	-- Magma Blast
+		[99145] = Defaults(),	-- Blazing Heat
 		[99399] = Defaults(),	-- Burning Wound
-		--Trash
+		[99613] = Defaults(),	-- Molten Blast
+		[100293] = Defaults(),	-- Lava Wave
+		[100675] = Defaults(),	-- Dreadflame
+		[100249] = Defaults(),	-- Combustion
+		-- Trash
 		[99532] = Defaults(),	-- Melt Armor
-	--Baradin Hold
-		--Occu'thar
-		[96913] = Defaults(),	-- Searing Shadows
-		--Alizabal
-		[104936] = Defaults(),	-- Skewer
-	--Dragon Soul
-	    --Morchok
+	-- Dragon Soul
+	    -- Morchok
 		[103541] = Defaults(),	-- Safe
 		[103536] = Defaults(),	-- Warning
 		[103534] = Defaults(),	-- Danger
+		[103687] = Defaults(),	-- Crush Armor
 		[108570] = Defaults(),	-- Black Blood of the Earth
-		--Warlord Zon'ozz
+		-- Warlord Zon'ozz
 		[103434] = Defaults(),	-- Disrupting Shadows
-		--Yor'sahj the Unsleeping
+		-- Yor'sahj the Unsleeping
 		[105171] = Defaults(),	-- Deep Corruption
-		--Hagara the Stormbinder
+		-- Hagara the Stormbinder
 		[105465] = Defaults(),	-- Lighting Storm
 		[104451] = Defaults(),	-- Ice Tomb
 		[109325] = Defaults(),	-- Frostflake
 		[105289] = Defaults(),	-- Shattered Ice
 		[105285] = Defaults(),	-- Target
-		--Ultraxion
+		[105259] = Defaults(),	-- Watery Entrenchment
+		[107061] = Defaults(),	-- Ice Lance
+		-- Ultraxion
 		[109075] = Defaults(),	-- Fading Light
-		--Warmaster Blackhorn
+		-- Warmaster Blackhorn
 		[108043] = Defaults(),	-- Sunder Armor
 		[107558] = Defaults(),	-- Degeneration
 		[107567] = Defaults(),	-- Brutal Strike
 		[108046] = Defaults(),	-- Shockwave
-		--Spine of Deathwing
+		[110214] = Defaults(),	-- Shockwave
+		-- Spine of Deathwing
 		[105479] = Defaults(),	-- Searing Plasma
 		[105490] = Defaults(),	-- Fiery Grip
+		[105563] = Defaults(),	-- Grasping Tendrils
 		[106199] = Defaults(),	-- Blood Corruption: Death
-		--Madness of Deathwing
+		-- Madness of Deathwing
 		[105841] = Defaults(),	-- Degenerative Bite
 		[106385] = Defaults(),	-- Crush
 		[106730] = Defaults(),	-- Tetanus
 		[106444] = Defaults(),	-- Impale
-		[106794] = Defaults()	-- Shrapnel (target)
+		[106794] = Defaults(),	-- Shrapnel (Target)
+		[105445] = Defaults(),	-- Blistering Heat
+		[108649] = Defaults(),	-- Corrupting Parasite
 	}
 }
 
@@ -488,32 +546,32 @@ end
 
 G.unitframe.buffwatch = {
 	PRIEST = {
-		[6788]	= UF:AuraWatch_AddSpell(6788, "TOPLEFT", {1, 0, 0}, true),				-- Weakened Soul
-		[41635] = UF:AuraWatch_AddSpell(41635, "TOPRIGHT", {0.2, 0.7, 0.2}),			-- Prayer of Mending
-		[139]	= UF:AuraWatch_AddSpell(139, "BOTTOMLEFT", {0.4, 0.7, 0.2}),			-- Renew
 		[17]	= UF:AuraWatch_AddSpell(17, "BOTTOMRIGHT", {0.7, 0.7, 0.7}, true),		-- Power Word: Shield
+		[139]	= UF:AuraWatch_AddSpell(139, "BOTTOMLEFT", {0.4, 0.7, 0.2}),			-- Renew
+		[6788]	= UF:AuraWatch_AddSpell(6788, "TOPLEFT", {1, 0, 0}, true),				-- Weakened Soul
 		[10060] = UF:AuraWatch_AddSpell(10060, "RIGHT", {0.47, 0.35, 0.74}),			-- Power Infusion
 		[33206] = UF:AuraWatch_AddSpell(33206, "LEFT", {0.47, 0.35, 0.74}, true),		-- Pain Suppression
-		[47788] = UF:AuraWatch_AddSpell(47788, "LEFT", {0.86, 0.45, 0}, true),			-- Guardian Spirit
+		[41635] = UF:AuraWatch_AddSpell(41635, "TOPRIGHT", {0.2, 0.7, 0.2}),			-- Prayer of Mending
+		[47788] = UF:AuraWatch_AddSpell(47788, "LEFT", {0.86, 0.45, 0}, true)			-- Guardian Spirit
 	},
 	DRUID = {
 		[774]	= UF:AuraWatch_AddSpell(774, "TOPRIGHT", {0.8, 0.4, 0.8}),				-- Rejuvenation
 		[8936]	= UF:AuraWatch_AddSpell(8936, "BOTTOMLEFT", {0.2, 0.8, 0.2}),			-- Regrowth
 		[33763] = UF:AuraWatch_AddSpell(33763, "TOPLEFT", {0.4, 0.8, 0.2}),				-- Lifebloom
-		[48438] = UF:AuraWatch_AddSpell(48438, "BOTTOMRIGHT", {0.8, 0.4, 0}),			-- Wild Growth
+		[48438] = UF:AuraWatch_AddSpell(48438, "BOTTOMRIGHT", {0.8, 0.4, 0})			-- Wild Growth
 	},
 	PALADIN = {
-		[53563] = UF:AuraWatch_AddSpell(53563, "TOPLEFT", {0.7, 0.3, 0.7}),				-- Beacon of Light
 		[1022]	= UF:AuraWatch_AddSpell(1022, "BOTTOMRIGHT", {0.2, 0.2, 1}, true),		-- Hand of Protection
+		[1038]	= UF:AuraWatch_AddSpell(1038, "BOTTOMRIGHT", {0.89, 0.78, 0}, true),	-- Hand of Salvation
 		[1044]	= UF:AuraWatch_AddSpell(1044, "BOTTOMRIGHT", {0.89, 0.45, 0}, true),	-- Hand of Freedom
 		[6940]	= UF:AuraWatch_AddSpell(6940, "BOTTOMRIGHT", {0.89, 0.1, 0.1}, true),	-- Hand of Sacrifice
-		[1038]	= UF:AuraWatch_AddSpell(1038, "BOTTOMRIGHT", {0.89, 0.78, 0}, true),	-- Hand of Salvation
+		[53563] = UF:AuraWatch_AddSpell(53563, "TOPLEFT", {0.7, 0.3, 0.7})				-- Beacon of Light
 	},
 	SHAMAN = {
-		[16236] = UF:AuraWatch_AddSpell(16236, "BOTTOMLEFT", {0.4, 0.7, 0.2}),			-- Ancestral Fortitude
 		[974]	= UF:AuraWatch_AddSpell(974, "TOPRIGHT", {0.2, 0.7, 0.2}),				-- Earth Shield
+		[16236] = UF:AuraWatch_AddSpell(16236, "BOTTOMLEFT", {0.4, 0.7, 0.2}),			-- Ancestral Fortitude
 		[51945] = UF:AuraWatch_AddSpell(51945, "BOTTOMRIGHT", {0.7, 0.4, 0}),			-- Earthliving
-		[61295] = UF:AuraWatch_AddSpell(61295, "TOPLEFT", {0.7, 0.3, 0.7}),				-- Riptide
+		[61295] = UF:AuraWatch_AddSpell(61295, "TOPLEFT", {0.7, 0.3, 0.7})				-- Riptide
 	},
 	ROGUE = {
 		[57933] = UF:AuraWatch_AddSpell(57933, "TOPRIGHT", {0.89, 0.09, 0.05}),			-- Tricks of the Trade
@@ -523,16 +581,21 @@ G.unitframe.buffwatch = {
 	},
 	WARRIOR = {
 		[3411]	= UF:AuraWatch_AddSpell(3411, "TOPRIGHT", {0.89, 0.09, 0.05}),			-- Intervene
-		[50720] = UF:AuraWatch_AddSpell(50720, "TOPLEFT", {0.2, 0.2, 1}),				-- Vigilance
+		[50720] = UF:AuraWatch_AddSpell(50720, "TOPLEFT", {0.2, 0.2, 1})				-- Vigilance
 	},
 	DEATHKNIGHT = {
 		[49016] = UF:AuraWatch_AddSpell(49016, "TOPRIGHT", {0.89, 0.1, 0.1})			-- Unholy Frenzy
 	},
+	HUNTER = {
+		[34477]	= UF:AuraWatch_AddSpell(34477, "TOPRIGHT", {0.2, 0.8, 0.2}, true)		-- Misdirection
+	},
+	WARLOCK = {
+		[20707]	= UF:AuraWatch_AddSpell(20707, "TOPRIGHT", {0.89, 0.09, 0.05}),			-- Soulstone Resurrection
+		[85767] = UF:AuraWatch_AddSpell(85767, "TOPLEFT", {0.2, 0.2, 1})				-- Dark Intent
+	},
 	PET = {
 		[136]	= UF:AuraWatch_AddSpell(136, "TOPRIGHT", {0.2, 0.8, 0.2}, true)			-- Mend Pet
-	},
-	HUNTER = {},
-	WARLOCK = {},
+	}
 }
 
 -- Profile specific BuffIndicator

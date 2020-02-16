@@ -239,8 +239,15 @@ local function UpdateDebuff(self, name, icon, count, debuffType, duration, endTi
 end
 
 local blackList = {
-	[105171] = true, -- Deep Corruption
-	[108220] = true  -- Deep Corruption
+	[9007] = true,		-- Pounce Bleed
+	[33876] = true,		-- Mangle (Cat)
+	[33878] = true,		-- Mangle (Bear)
+	[58567] = true,		-- Sunder Armor
+	[77661] = true,		-- Searing Flames
+	[94009] = true,		-- Rend
+	[105171] = true,	-- Deep Corruption
+	[106368] = true,	-- Twilight Shift
+	[108220] = true		-- Deep Corruption (Trash)
 }
 
 local function Update(self, event, unit)
