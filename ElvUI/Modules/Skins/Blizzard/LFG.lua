@@ -88,24 +88,39 @@ local function LoadSkin()
 	LFDQueueFrameRoleButtonLeader:SetNormalTexture("Interface\\Icons\\Ability_Vehicle_LaunchPlayer")
 
 	-- LFD Rewards
+	local function getLFGDungeonRewardLinkFix(dungeonID, rewardIndex)
+		local _, link = GetLFGDungeonRewardLink(dungeonID, rewardIndex)
+
+		if not link then
+			E.ScanTooltip:SetOwner(UIParent, "ANCHOR_NONE")
+			E.ScanTooltip:SetLFGDungeonReward(dungeonID, rewardIndex)
+			_, link = E.ScanTooltip:GetItem()
+			E.ScanTooltip:Hide()
+		end
+
+		return link
+	end
+
 	hooksecurefunc("LFDQueueFrameRandom_UpdateFrame", function()
 		local dungeonID = LFDQueueFrame.type
-		if type(dungeonID) == "string" then return end
+		if not dungeonID then return end
 
-		for i = 1, LFD_MAX_REWARDS do
+		local _, _, _, _, _, numRewards = GetLFGDungeonRewards(dungeonID)
+		for i = 1, numRewards do
 			local button = _G["LFDQueueFrameRandomScrollFrameChildFrameItem"..i]
 
 			if button then
-				local name = _G[button:GetName().."Name"]
-
 				if not button.isSkinned then
 					local count = _G[button:GetName().."Count"]
 					local icon = _G[button:GetName().."IconTexture"]
 
 					button:StripTextures()
+					button:SetTemplate("Transparent")
+					button:StyleButton(nil, true)
 					button:CreateBackdrop()
 					button.backdrop:SetOutside(icon)
 
+					icon:Point("TOPLEFT", 1, -1)
 					icon:SetTexture(icon:GetTexture())
 					icon:SetTexCoord(unpack(E.TexCoords))
 					icon:SetParent(button.backdrop)
@@ -121,18 +136,24 @@ local function LoadSkin()
 					button.isSkinned = true
 				end
 
-				local link = GetLFGDungeonRewardLink(button.dungeonID, i)
+				local name = _G[button:GetName().."Name"]
+				local link = getLFGDungeonRewardLinkFix(dungeonID, i)
+
 				if link then
 					local quality = select(3, GetItemInfo(link))
 
 					if quality then
-						button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
-						name:SetTextColor(GetItemQualityColor(quality))
+						local r, g, b = GetItemQualityColor(quality)
+						button:SetBackdropBorderColor(r, g, b)
+						button.backdrop:SetBackdropBorderColor(r, g, b)
+						name:SetTextColor(r, g, b)
 					else
+						button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 						button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 						name:SetTextColor(1, 1, 1)
 					end
 				else
+					button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 					button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 					name:SetTextColor(1, 1, 1)
 				end
@@ -529,13 +550,13 @@ local function LoadSkin()
 	hooksecurefunc("LFRBrowseFrameListButton_SetData", function(button, index)
 		local name, level, _, _, _, _, _, class = SearchLFGGetResults(index)
 
-		local classTextColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
-		local levelTextColor = GetQuestDifficultyColor(level)
+		local classColor = E:ClassColor(class)
+		local levelColor = GetQuestDifficultyColor(level)
 
-		if(index and class and name and level and (name ~= myName)) then
-			button.name:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b)
-			button.class:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b)
-			button.level:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b)
+		if index and class and name and level and (name ~= E.myname) then
+			button.name:SetTextColor(classColor.r, classColor.g, classColor.b)
+			button.class:SetTextColor(classColor.r, classColor.g, classColor.b)
+			button.level:SetTextColor(levelColor.r, levelColor.g, levelColor.b)
 		end
 	end)
 	]]
