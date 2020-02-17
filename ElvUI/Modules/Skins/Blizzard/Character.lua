@@ -363,11 +363,6 @@ local function LoadSkin()
 
 		frame:StripTextures(true)
 
-		if i == 1 then
-			frame:Point("TOPRIGHT", -50, -63)
-			frame.SetPoint = E.noop
-		end
-
 		frame.War = frame:CreateTexture(nil, "OVERLAY")
 		frame.War:SetTexture("Interface\\Buttons\\UI-CheckBox-SwordCheck")
 		frame.War:Size(30)
@@ -390,23 +385,23 @@ local function LoadSkin()
 		local numFactions = GetNumFactions()
 
 		for i = 1, NUM_FACTIONS_DISPLAYED, 1 do
-			local Bar = _G["ReputationBar"..i]
-			local Button = _G["ReputationBar"..i.."ExpandOrCollapseButton"]
+			local frame = _G["ReputationBar"..i]
+			local button = _G["ReputationBar"..i.."ExpandOrCollapseButton"]
 			local factionIndex = factionOffset + i
 
 			if factionIndex <= numFactions then
 				local _, _, _, _, _, _, atWarWith, canToggleAtWar, isHeader, isCollapsed = GetFactionInfo(factionIndex)
 
 				if isCollapsed then
-					Button:GetNormalTexture():SetTexture(E.Media.Textures.Plus)
+					button:GetNormalTexture():SetTexture(E.Media.Textures.Plus)
 				else
-					Button:GetNormalTexture():SetTexture(E.Media.Textures.Minus)
+					button:GetNormalTexture():SetTexture(E.Media.Textures.Minus)
 				end
 
 				if atWarWith and canToggleAtWar and (not isHeader) then
-					Bar.War:Show()
+					frame.War:Show()
 				else
-					Bar.War:Hide()
+					frame.War:Hide()
 				end
 			end
 		end

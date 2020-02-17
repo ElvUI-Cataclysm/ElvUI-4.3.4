@@ -16,7 +16,18 @@ local function LoadSkin()
 	GlyphFrame.levelOverlayText1:SetTextColor(1, 1, 1)
 	GlyphFrame.levelOverlayText2:SetTextColor(1, 1, 1)
 
-	GlyphFrameSideInset:StripTextures()
+	GlyphFrame.sideInset:StripTextures()
+
+	GlyphFrame.clearInfo:CreateBackdrop("Default", true)
+	GlyphFrame.clearInfo.backdrop:SetAllPoints()
+	GlyphFrame.clearInfo:StyleButton()
+	GlyphFrame.clearInfo:Size(25)
+	GlyphFrame.clearInfo:Point("BOTTOMLEFT", GlyphFrame, "BOTTOMRIGHT", 10, -2)
+
+	GlyphFrame.clearInfo.icon:SetTexCoord(unpack(E.TexCoords))
+	GlyphFrame.clearInfo.icon:ClearAllPoints()
+	GlyphFrame.clearInfo.icon:SetInside()
+
 	GlyphFrameScrollFrame:StripTextures()
 	GlyphFrameScrollFrameScrollChild:StripTextures()
 
@@ -33,11 +44,11 @@ local function LoadSkin()
 		frame:StyleButton(nil, true)
 
 		if i == 1 or i == 4 or i == 6 then
-			frame:Size(64)
+			frame:Size(60)
 		elseif i == 2 or i == 3 or i == 5 then
-			frame:Size(44)
+			frame:Size(40)
 		else
-			frame:Size(84)
+			frame:Size(80)
 		end
 
 		frame.highlight:SetTexture(nil)
@@ -50,18 +61,21 @@ local function LoadSkin()
 
 		frame.onUpdate = CreateFrame("Frame", nil, frame)
 		frame.onUpdate:SetScript("OnUpdate", function()
-			if strfind(frame.icon:GetTexture(), "Interface\\Spellbook\\UI%-Glyph%-Rune") then
-				local alpha = frame.highlight:GetAlpha()
+			local alpha = frame.highlight:GetAlpha()
+			local glyphIcon = strfind(frame.icon:GetTexture(), "Interface\\Spellbook\\UI%-Glyph%-Rune")
 
-				if alpha == 0 then
-					frame:SetBackdropBorderColor(unpack(E.media.bordercolor))
-					frame:SetAlpha(1)
+			if alpha == 0 then
+				frame:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				frame:SetAlpha(1)
 
+				if glyphIcon then
 					frame.icon:SetVertexColor(1, 1, 1, 1)
-				else
-					frame:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
-					frame:SetAlpha(alpha)
+				end
+			else
+				frame:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor))
+				frame:SetAlpha(alpha)
 
+				if glyphIcon then
 					frame.icon:SetVertexColor(unpack(E.media.rgbvaluecolor))
 					frame.icon:SetAlpha(alpha)
 				end
@@ -73,17 +87,17 @@ local function LoadSkin()
 		local isActiveTalentGroup = PlayerTalentFrame and not PlayerTalentFrame.pet and PlayerTalentFrame.talentGroup == GetActiveTalentGroup(PlayerTalentFrame.pet)
 
 		for i = 1, NUM_GLYPH_SLOTS do
-			local GlyphSocket = _G["GlyphFrameGlyph"..i]
+			local glyph = _G["GlyphFrameGlyph"..i]
 			local _, _, _, _, iconFilename = GetGlyphSocketInfo(i, PlayerTalentFrame.talentGroup)
 
 			if iconFilename then
-				GlyphSocket.icon:SetTexture(iconFilename)
+				glyph.icon:SetTexture(iconFilename)
 			else
-				GlyphSocket.icon:SetTexture("Interface\\Spellbook\\UI-Glyph-Rune-"..i)
+				glyph.icon:SetTexture("Interface\\Spellbook\\UI-Glyph-Rune-"..i)
 			end
 
-			GlyphFrameGlyph_UpdateSlot(GlyphSocket)
-			SetDesaturation(GlyphSocket.icon, not isActiveTalentGroup)
+			GlyphFrameGlyph_UpdateSlot(glyph)
+			SetDesaturation(glyph.icon, not isActiveTalentGroup)
 		end
 	end)
 
@@ -103,16 +117,6 @@ local function LoadSkin()
 
 		icon:SetTexCoord(unpack(E.TexCoords))
 	end
-
-	GlyphFrameClearInfoFrameIcon:SetTexCoord(unpack(E.TexCoords))
-	GlyphFrameClearInfoFrameIcon:ClearAllPoints()
-	GlyphFrameClearInfoFrameIcon:SetInside()
-
-	GlyphFrameClearInfoFrame:CreateBackdrop("Default", true)
-	GlyphFrameClearInfoFrame.backdrop:SetAllPoints()
-	GlyphFrameClearInfoFrame:StyleButton()
-	GlyphFrameClearInfoFrame:Size(25)
-	GlyphFrameClearInfoFrame:Point("BOTTOMLEFT", GlyphFrame, "BOTTOMRIGHT", 10, -2)
 
 	S:HandleScrollBar(GlyphFrameScrollFrameScrollBar, 5)
 end

@@ -53,8 +53,7 @@ local function LoadSkin()
 		frame.backdrop:Point("TOPLEFT", 9, -4)
 		frame.backdrop:Point("BOTTOMRIGHT", -4, 2)
 
-		S:HandleCloseButton(closeButton)
-		closeButton:Point("TOPRIGHT", 0, 1)
+		S:HandleCloseButton(closeButton, frame.backdrop)
 
 		for k = 1, MAX_CONTAINER_ITEMS, 1 do
 			local item = _G["ContainerFrame"..i.."Item"..k]
@@ -157,7 +156,7 @@ local function LoadSkin()
 				elseif questId or isQuestItem then
 					item:SetBackdropBorderColor(unpack(QuestColors.questItem))
 					item.ignoreBorderColors = true
-				elseif quality then
+				elseif quality and quality > 1 then
 					item:SetBackdropBorderColor(GetItemQualityColor(quality))
 					item.ignoreBorderColors = true
 				else
@@ -172,13 +171,12 @@ local function LoadSkin()
 	end)
 
 	-- BankFrame
-	local BankFrame = _G["BankFrame"]
 	BankFrame:StripTextures(true)
 	BankFrame:CreateBackdrop("Transparent")
 	BankFrame.backdrop:Point("TOPLEFT", 10, -11)
 	BankFrame.backdrop:Point("BOTTOMRIGHT", -26, 93)
 
-	S:HandleCloseButton(BankCloseButton)
+	S:HandleCloseButton(BankCloseButton, BankFrame.backdrop)
 
 	for i = 1, NUM_BANKGENERIC_SLOTS, 1 do
 		local button = _G["BankFrameItem"..i]
@@ -245,7 +243,7 @@ local function LoadSkin()
 			link = GetInventoryItemLink("player", ContainerIDToInventoryID(id))
 			if link then
 				quality = select(3, GetItemInfo(link))
-				if quality then
+				if quality and quality > 1 then
 					button:SetBackdropBorderColor(GetItemQualityColor(quality))
 					button.ignoreBorderColors = true
 				else
@@ -273,7 +271,7 @@ local function LoadSkin()
 				elseif questId or isQuestItem then
 					button:SetBackdropBorderColor(unpack(QuestColors.questItem))
 					button.ignoreBorderColors = true
-				elseif quality then
+				elseif quality and quality > 1 then
 					button:SetBackdropBorderColor(GetItemQualityColor(quality))
 					button.ignoreBorderColors = true
 				else

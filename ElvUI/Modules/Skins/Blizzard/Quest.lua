@@ -114,15 +114,15 @@ local function LoadSkin()
 	QuestInfoItemHighlight:StripTextures()
 
 	hooksecurefunc("QuestInfoItem_OnClick", function(self)
-		if self.type == "choice" then
-			_G[self:GetName()]:SetBackdropBorderColor(1, 0.80, 0.10)
-			_G[self:GetName()].backdrop:SetBackdropBorderColor(1, 0.80, 0.10)
+		if self.type and self.type == "choice" then
+			self:SetBackdropBorderColor(1, 0.80, 0.10)
+			self.backdrop:SetBackdropBorderColor(1, 0.80, 0.10)
 			_G[self:GetName().."Name"]:SetTextColor(1, 0.80, 0.10)
 
 			for i = 1, MAX_NUM_ITEMS do
 				local item = _G["QuestInfoItem"..i]
 				local name = _G["QuestInfoItem"..i.."Name"]
-				local link = item.type and (QuestInfoFrame.questLog and GetQuestLogItemLink or GetQuestItemLink)(item.type, item:GetID())
+				local link = item.type and GetQuestItemLink(item.type, item:GetID())
 
 				if item ~= self then
 					QuestQualityColors(item, name, link)
@@ -161,15 +161,14 @@ local function LoadSkin()
 	QuestLogFramePushQuestButton:Point("RIGHT", QuestLogFrameTrackButton, "LEFT", -2, 0)
 
 	local function QuestObjectiveText()
-		local numObjectives = GetNumQuestLeaderBoards()
-		local objective
-		local _, type, finished
 		local numVisibleObjectives = 0
-		for i = 1, numObjectives do
-			_, type, finished = GetQuestLogLeaderBoard(i)
-			if type ~= "spell" then
+		for i = 1, GetNumQuestLeaderBoards() do
+			local _, questType, finished = GetQuestLogLeaderBoard(i)
+
+			if questType ~= "spell" then
 				numVisibleObjectives = numVisibleObjectives + 1
-				objective = _G["QuestInfoObjective"..numVisibleObjectives]
+				local objective = _G["QuestInfoObjective"..numVisibleObjectives]
+
 				if finished then
 					objective:SetTextColor(1, 0.80, 0.10)
 				else

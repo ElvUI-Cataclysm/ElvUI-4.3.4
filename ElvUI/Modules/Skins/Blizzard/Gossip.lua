@@ -43,7 +43,7 @@ local function LoadSkin()
 	GossipFrame.backdrop:Point("BOTTOMRIGHT", -30, 0)
 
 	GossipFrameNpcNameText:ClearAllPoints()
-	GossipFrameNpcNameText:Point("TOP", GossipFrame, "TOP", -4, -20)
+	GossipFrameNpcNameText:Point("TOP", GossipFrame, "TOP", -5, -19)
 
 	GossipGreetingText:SetTextColor(1, 1, 1)
 

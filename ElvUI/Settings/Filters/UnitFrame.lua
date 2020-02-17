@@ -438,7 +438,7 @@ G.unitframe.aurafilters.RaidDebuffs = {
 		[87873] = Defaults(),	-- Static Shock
 		[87856] = Defaults(),	-- Squall Line
 		[88427] = Defaults(),	-- Electrocute
-	-- Firelands	
+	-- Firelands
 		-- Beth'tilac
 		[99506] = Defaults(),	-- Widows Kiss
 		[97202] = Defaults(),	-- Fiery Web Spin

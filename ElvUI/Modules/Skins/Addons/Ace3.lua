@@ -2,7 +2,7 @@ local E, _, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
 local _G = _G
-local select = select
+local ipairs, select = ipairs, select
 local format = format
 local strmatch = strmatch
 
@@ -39,6 +39,14 @@ function S:Ace3_SkinDropdown()
 					pullout.slider:GetThumbTexture():Size(10, 14)
 				end
 			end
+
+            for _, item in ipairs(pullout.items) do
+                if not item.isSkinned then
+                    item.highlight:SetTexture(E.Media.Textures.Highlight)
+                    item.highlight:SetVertexColor(1, 0.82, 0, 0.35)
+                    item.isSkinned = true
+                end
+            end
 		elseif dropdown then
 			dropdown:SetTemplate(nil, true)
 
@@ -51,6 +59,15 @@ function S:Ace3_SkinDropdown()
 					dropdown.slider:SetThumbTexture(E.Media.Textures.Melli)
 					dropdown.slider:GetThumbTexture():SetVertexColor(1, 0.82, 0, 0.8)
 					dropdown.slider:GetThumbTexture():Size(10, 14)
+				end
+			end
+
+			for _, item in ipairs(dropdown.contentRepo) do
+				if not item.isSkinned then
+					item:SetHighlightTexture(E.Media.Textures.Highlight)
+					item:GetHighlightTexture():SetVertexColor(1, 0.82, 0, 0.35)
+
+					item.isSkinned = true
 				end
 			end
 

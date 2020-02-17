@@ -215,6 +215,8 @@ do
 end
 
 function lib.frame:UNIT_AURA(_, unitID)
+	if not unitID then return end
+
 	ResetUnitAuras(unitID)
 	CheckUnitAuras(unitID, "HELPFUL")
 	CheckUnitAuras(unitID, "HARMFUL")

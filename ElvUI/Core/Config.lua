@@ -908,63 +908,63 @@ function E:Config_WindowOpened(frame)
 	end
 end
 
-local bottomButtons = {
-	{
-		var = "ToggleAnchors",
-		name = L["Toggle Anchors"],
-		desc = L["Unlock various elements of the UI to be repositioned."],
-		func = function()
-			E:ToggleMoveMode()
-			E.ConfigurationToggled = true
-		end
-	},
-	{
-		var = "ResetAnchors",
-		name = L["Reset Anchors"],
-		desc = L["Reset all frames to their original positions."],
-		func = function() E:ResetUI() end
-	},
-	{
-		var = "RepositionWindow",
-		name = L["Reposition Window"],
-		desc = L["Reset the size and position of this frame."],
-		func = function() E:Config_UpdateSize(true) end
-	},
-	{
-		var = "Install",
-		name = L["Install"],
-		desc = L["Run the installation process."],
-		func = function()
-			E:Install()
-			E:ToggleOptionsUI()
-		end
-	},
-	{
-		var = "ToggleTutorials",
-		name = L["Toggle Tutorials"],
-		func = function()
-			E:Tutorials(true)
-			E:ToggleOptionsUI()
-		end
-	},
-	{
-		var = "ShowStatusReport",
-		name = L["ElvUI Status"],
-		desc = L["Shows a frame with needed info for support."],
-		func = function()
-			E:ShowStatusReport()
-			E:ToggleOptionsUI()
-			E.StatusReportToggled = true
-		end
-	}
-}
-
 function E:Config_CreateBottomButtons(frame, unskinned)
+	local L = E.Libs.ACL:GetLocale("ElvUI", E.global.general.locale or "enUS")
 	local last
 
-	for _, info in ipairs(bottomButtons) do
+	for _, info in ipairs({
+		{
+			var = "ToggleAnchors",
+			name = L["Toggle Anchors"],
+			desc = L["Unlock various elements of the UI to be repositioned."],
+			func = function()
+				E:ToggleMoveMode()
+				E.ConfigurationToggled = true
+			end
+		},
+		{
+			var = "ResetAnchors",
+			name = L["Reset Anchors"],
+			desc = L["Reset all frames to their original positions."],
+			func = function() E:ResetUI() end
+		},
+		{
+			var = "RepositionWindow",
+			name = L["Reposition Window"],
+			desc = L["Reset the size and position of this frame."],
+			func = function() E:Config_UpdateSize(true) end
+		},
+		{
+			var = "Install",
+			name = L["Install"],
+			desc = L["Run the installation process."],
+			func = function()
+				E:Install()
+				E:ToggleOptionsUI()
+			end
+		},
+		{
+			var = "ToggleTutorials",
+			name = L["Toggle Tutorials"],
+			func = function()
+				E:Tutorials(true)
+				E:ToggleOptionsUI()
+			end
+		},
+		{
+			var = "ShowStatusReport",
+			name = L["ElvUI Status"],
+			desc = L["Shows a frame with needed info for support."],
+			func = function()
+				E:ShowStatusReport()
+				E:ToggleOptionsUI()
+				E.StatusReportToggled = true
+			end
+		}
+	}) do
 		local btn = E:Config_CreateButton(info, frame, unskinned, "Button", nil, frame.bottomHolder, "UIPanelButtonTemplate")
 		local offset = unskinned and 14 or 8
+
 		btn:Size(btn:GetTextWidth() + 60, 22)
 
 		if not last then
