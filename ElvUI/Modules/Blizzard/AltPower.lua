@@ -1,12 +1,9 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local B = E:GetModule("Blizzard")
-local LSM = E.Libs.LSM
 
 local floor = math.floor
 local format = string.format
 
-local CreateFrame = CreateFrame
-local hooksecurefunc = hooksecurefunc
 local UnitAlternatePowerInfo = UnitAlternatePowerInfo
 local UnitPowerMax = UnitPowerMax
 local UnitPower = UnitPower
@@ -31,30 +28,26 @@ local function onLeave()
 	GameTooltip:Hide()
 end
 
-function B:SetAltPowerBarText(text, name, value, max, percent)
+function B:SetAltPowerBarText(name, value, max, percent)
 	local textFormat = E.db.general.altPowerBar.textFormat
 
 	if textFormat == "NONE" or not textFormat then
-		text:SetText("")
+		return ""
 	elseif textFormat == "NAME" then
-		text:SetText(format("%s", name))
+		return format("%s", name)
 	elseif textFormat == "NAMEPERC" then
-		text:SetText(format("%s: %s%%", name, percent))
+		return format("%s: %s%%", name, percent)
 	elseif textFormat == "NAMECURMAX" then
-		text:SetText(format("%s: %s / %s", name, value, max))
+		return format("%s: %s / %s", name, value, max)
 	elseif textFormat == "NAMECURMAXPERC" then
-		text:SetText(format("%s: %s / %s - %s%%", name, value, max, percent))
+		return format("%s: %s / %s - %s%%", name, value, max, percent)
 	elseif textFormat == "PERCENT" then
-		text:SetText(format("%s%%", percent))
+		return format("%s%%", percent)
 	elseif textFormat == "CURMAX" then
-		text:SetText(format("%s / %s", value, max))
+		return format("%s / %s", value, max)
 	elseif textFormat == "CURMAXPERC" then
-		text:SetText(format("%s / %s - %s%%", value, max, percent))
+		return format("%s / %s - %s%%", value, max, percent)
 	end
-end
-
-function B:PositionAltPower()
-	self:Point("CENTER", AltPowerBarHolder, "CENTER")
 end
 
 function B:PositionAltPowerBar()
@@ -69,8 +62,9 @@ function B:PositionAltPowerBar()
 
 	--The Blizzard function FramePositionDelegate:UIParentManageFramePositions()
 	--calls :ClearAllPoints on PlayerPowerBarAlt under certain conditions.
-	--Doing '.ClearAllPoints = E.noop' causes error when you enter combat.
-	hooksecurefunc(PlayerPowerBarAlt, "ClearAllPoints", B.PositionAltPower)
+	--Doing ".ClearAllPoints = E.noop" causes error when you enter combat.
+	local function Position(bar) bar:Point("CENTER", AltPowerBarHolder, "CENTER") end
+	hooksecurefunc(PlayerPowerBarAlt, "ClearAllPoints", Position)
 
 	E:CreateMover(holder, "AltPowerBarMover", L["Alternative Power"], nil, nil, nil, nil, nil, "general,alternativePowerGroup")
 end
@@ -104,62 +98,27 @@ function B:UpdateAltPowerBarSettings()
 	local db = E.db.general.altPowerBar
 
 	bar:Size(db.width or 250, db.height or 20)
-	bar:SetStatusBarTexture(LSM:Fetch("statusbar", db.statusBar))
-	bar.text:FontTemplate(LSM:Fetch("font", db.font), db.fontSize or 12, db.fontOutline or "OUTLINE")
+	bar:SetStatusBarTexture(E.Libs.LSM:Fetch("statusbar", db.statusBar))
+	bar.text:FontTemplate(E.Libs.LSM:Fetch("font", db.font), db.fontSize or 12, db.fontOutline or 'OUTLINE')
 	AltPowerBarHolder:Size(bar.backdrop:GetSize())
 
 	E:SetSmoothing(bar, db.smoothbars)
 
-	B:SetAltPowerBarText(bar.text, bar.powerName or "", bar.powerValue or 0, bar.powerMaxValue or 0, bar.powerPercent or 0)
-end
-
-function B:UpdateAltPowerBar()
-	PlayerPowerBarAlt:UnregisterAllEvents()
-	PlayerPowerBarAlt:Hide()
-
-	local barInfo, min, _, _, _, _, _, _, _, _, powerName, powerTooltip = UnitAlternatePowerInfo("player")
-	if barInfo then
-		local power = UnitPower("player", ALTERNATE_POWER_INDEX)
-		local maxPower = UnitPowerMax("player", ALTERNATE_POWER_INDEX) or 0
-		local perc = (maxPower > 0 and floor(power / maxPower * 100)) or 0
-
-		self.powerMaxValue = maxPower
-		self.powerName = powerName
-		self.powerPercent = perc
-		self.powerTooltip = powerTooltip
-		self.powerValue = power
-
-		self:Show()
-		self:SetMinMaxValues(min, maxPower)
-		self:SetValue(power)
-
-		if E.db.general.altPowerBar.statusBarColorGradient then
-			local value = (maxPower > 0 and power / maxPower) or 0
-			self.colorGradientValue = value
-
-			local r, g, b = E:ColorGradient(value, 0.8,0,0, 0.8,0.8,0, 0,0.8,0)
-			self.colorGradientR, self.colorGradientG, self.colorGradientB = r, g, b
-
-			self:SetStatusBarColor(r, g, b)
-		end
-
-		B:SetAltPowerBarText(self.text, powerName or "", power or 0, maxPower, perc)
+	local textFormat = E.db.general.altPowerBar.textFormat
+	if textFormat == "NONE" or not textFormat then
+		bar.text:SetText("")
 	else
-		self.powerMaxValue = nil
-		self.powerName = nil
-		self.powerPercent = nil
-		self.powerTooltip = nil
-		self.powerValue = nil
-
-		self:Hide()
+		local power, maxPower, perc = bar.powerValue or 0, bar.powerMaxValue or 0, bar.powerPercent or 0
+		local text = B:SetAltPowerBarText(bar.powerName or "", power, maxPower, perc)
+		bar.text:SetText(text)
 	end
 end
 
 function B:SkinAltPowerBar()
-	if not E.db.general.altPowerBar.enable then return end
+	if E.db.general.altPowerBar.enable ~= true then return end
 
 	local powerbar = CreateFrame("StatusBar", "ElvUI_AltPowerBar", E.UIParent)
-	powerbar:CreateBackdrop(nil, true)
+	powerbar:CreateBackdrop("Default", true)
 	powerbar:SetMinMaxValues(0, 200)
 	powerbar:Point("CENTER", AltPowerBarHolder)
 	powerbar:Hide()
@@ -179,5 +138,45 @@ function B:SkinAltPowerBar()
 	powerbar:RegisterEvent("UNIT_POWER_BAR_SHOW")
 	powerbar:RegisterEvent("UNIT_POWER_BAR_HIDE")
 	powerbar:RegisterEvent("PLAYER_ENTERING_WORLD")
-	powerbar:SetScript("OnEvent", B.UpdateAltPowerBar)
+	powerbar:SetScript("OnEvent", function(bar)
+		PlayerPowerBarAlt:UnregisterAllEvents()
+		PlayerPowerBarAlt:Hide()
+
+		local barType, min, _, _, _, _, _, _, _, _, powerName, powerTooltip = UnitAlternatePowerInfo("player")
+		if not barType then
+			barType, min, _, _, _, _, _, _, _, _, powerName, powerTooltip = UnitAlternatePowerInfo("target")
+		end
+
+		bar.powerName = powerName
+		bar.powerTooltip = powerTooltip
+
+		if barType then
+			local power = UnitPower("player", ALTERNATE_POWER_INDEX)
+			local maxPower = UnitPowerMax("player", ALTERNATE_POWER_INDEX) or 0
+			local perc = (maxPower > 0 and floor(power / maxPower * 100)) or 0
+
+			bar.powerValue = power
+			bar.powerMaxValue = maxPower
+			bar.powerPercent = perc
+
+			bar:Show()
+			bar:SetMinMaxValues(min, maxPower)
+			bar:SetValue(power)
+
+			if E.db.general.altPowerBar.statusBarColorGradient then
+				local value = (maxPower > 0 and power / maxPower) or 0
+				bar.colorGradientValue = value
+
+				local r, g, b = E:ColorGradient(value, 0.8,0,0, 0.8,0.8,0, 0,0.8,0)
+				bar.colorGradientR, bar.colorGradientG, bar.colorGradientB = r, g, b
+
+				bar:SetStatusBarColor(r, g, b)
+			end
+
+			local text = B:SetAltPowerBarText(powerName or "", power, maxPower, perc)
+			bar.text:SetText(text)
+		else
+			bar:Hide()
+		end
+	end)
 end
