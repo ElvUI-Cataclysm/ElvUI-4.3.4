@@ -324,7 +324,7 @@ G.unitframe.aurafilters.Whitelist = {
 		[54428] = Defaults(),	-- Divine Plea
 		[90355] = Defaults(),	-- Ancient Hysteria
 		[80353] = Defaults(),	-- Time Warp
-	-- Turtling abilities
+	-- Turtling
 		[871] = Defaults(),		-- Shield Wall
 		[19263] = Defaults(),	-- Deterrence
 		[31224] = Defaults(),	-- Cloak of Shadows

@@ -806,7 +806,7 @@ function UF:CreateHeader(parent, groupFilter, overrideName, template, groupName,
 	return header
 end
 
-function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdate, headerTemplate)
+function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerTemplate)
 	local db = self.db.units[group]
 	local numGroups = db.numGroups
 
@@ -849,15 +849,11 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 		end
 
 		UF.headerFunctions[group]:AdjustVisibility(self[group])
+		UF.headerFunctions[group]:Configure_Groups(self[group])
+		UF.headerFunctions[group]:Update(self[group])
 
-		if headerUpdate or not self[group].mover then
-			UF.headerFunctions[group]:Configure_Groups(self[group])
-			if not self[group].isForced then
-				RegisterStateDriver(self[group], "visibility", db.visibility)
-			end
-		else
-			UF.headerFunctions[group]:Configure_Groups(self[group])
-			UF.headerFunctions[group]:Update(self[group])
+		if not self[group].isForced and not self[group].blockVisibilityChanges then
+			RegisterStateDriver(self[group], "visibility", db.visibility)
 		end
 
 		if db.enable then
@@ -870,7 +866,6 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 			if self[group].mover then
 				E:DisableMover(self[group].mover:GetName())
 			end
-			return
 		end
 	else
 		self[group].db = db
@@ -909,11 +904,7 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerUpdat
 			end
 		end
 
-		if not UF.headerFunctions[group].Update then
-			UF["Update_"..groupName.."Header"](self, self[group], db)
-		else
-			UF.headerFunctions[group]:Update(self[group])
-		end
+		UF.headerFunctions[group]:Update(self[group])
 	end
 end
 
@@ -963,7 +954,7 @@ function UF:LoadUnits()
 			groupFilter, template, headerTemplate = unpack(groupOptions)
 		end
 
-		self:CreateAndUpdateHeaderGroup(group, groupFilter, template, nil, headerTemplate)
+		self:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerTemplate)
 	end
 	self.headerstoload = nil
 end
@@ -993,12 +984,8 @@ function UF:UpdateAllHeaders()
 
 	self:RegisterRaidDebuffIndicator()
 
-	for group, header in pairs(self.headers) do
-		if UF.headerFunctions[group].Update then
-			UF.headerFunctions[group]:Update(header)
-		else
-			self:CreateAndUpdateHeaderGroup(group, nil, nil, true)
-		end
+	for group in pairs(self.headers) do
+		self:CreateAndUpdateHeaderGroup(group)
 	end
 end
 
