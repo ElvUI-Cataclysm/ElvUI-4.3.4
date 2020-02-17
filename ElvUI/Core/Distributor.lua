@@ -3,12 +3,13 @@ local D = E:GetModule("Distributor")
 local LibCompress = E.Libs.Compress
 local LibBase64 = E.Libs.Base64
 
-local tonumber, type, gsub, pcall, loadstring = tonumber, type, gsub, pcall, loadstring
-local len, format, split, find = string.len, string.format, string.split, string.find
+local tonumber, unpack, type, pcall, setfenv, loadstring = tonumber, unpack, type, pcall, setfenv, loadstring
+local format, gsub, len, sub, split = string.format, string.gsub, string.len, string.sub, string.split
 
 local CreateFrame = CreateFrame
 local GetNumRaidMembers, UnitInRaid = GetNumRaidMembers, UnitInRaid
 local GetNumPartyMembers, UnitInParty = GetNumPartyMembers, UnitInParty
+
 local ACCEPT, CANCEL, YES, NO = ACCEPT, CANCEL, YES, NO
 
 ----------------------------------
@@ -373,7 +374,7 @@ function D:GetImportStringType(dataString)
 
 	if LibBase64:IsBase64(dataString) then
 		stringType = "Base64"
-	elseif find(dataString, "{") then --Basic check to weed out obviously wrong strings
+	elseif sub(dataString, 1, 1) == "{" then --Basic check to weed out obviously wrong strings
 		stringType = "Table"
 	end
 
@@ -427,12 +428,21 @@ function D:Decode(dataString)
 		profileDataAsString = gsub(profileDataAsString, "\124\124", "\124") --Remove escape pipe characters
 		profileType, profileKey = E:SplitString(profileInfo, "::")
 
-		local profileMessage
-		local profileToTable = loadstring(format("%s %s", "return", profileDataAsString))
-		if profileToTable then profileMessage, profileData = pcall(profileToTable) end
+		local func, err = loadstring(format("%s %s", "return", profileDataAsString))
 
-		if not profileData or type(profileData) ~= "table" then
-			E:Print("Error converting lua string to table:", profileMessage)
+		if func then
+			setfenv(func, {}) -- execute code in an empty environment
+			local success, res = pcall(func)
+
+			if success then
+				profileData = res
+			else
+				err = res
+			end
+		end
+
+		if err then
+			E:Print("Error converting lua string to table:", err)
 			return
 		end
 	end
