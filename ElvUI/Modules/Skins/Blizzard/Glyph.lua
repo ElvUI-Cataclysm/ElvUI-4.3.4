@@ -42,8 +42,7 @@ local function LoadSkin()
 
 		frame.highlight:SetTexture(nil)
 		frame.ring:Hide()
-		frame.glyph:Hide()
-		frame.glyph.Show = E.noop
+		hooksecurefunc(frame.glyph, "Show", function(self) self:Hide() end)
 
 		frame.icon = frame:CreateTexture(nil, "OVERLAY")
 		frame.icon:SetInside()
