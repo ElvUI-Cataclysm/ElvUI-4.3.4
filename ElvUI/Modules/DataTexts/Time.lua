@@ -50,7 +50,7 @@ local function getRealmTimeDiff()
 	return (diffHours * 60 + diffMinutes) * 60
 end
 
-local function GetCurrentDate(formatString)
+local function GetCurrentDate(formatString, isTooltip)
 	if timeFormat ~= E.db.datatexts.timeFormat then
 		timeFormat = E.db.datatexts.timeFormat
 		showAMPM = find(E.db.datatexts.timeFormat, "%%p") ~= nil
@@ -63,7 +63,7 @@ local function GetCurrentDate(formatString)
 		formatString = gsub(formatString, "([^%%])%%p", "%1"..localizedAMPM)
 	end
 
-	if realmDiffSeconds ~= 0 and not E.db.datatexts.localTime then
+	if (realmDiffSeconds ~= 0 and not E.db.datatexts.localTime) or (realmDiffSeconds ~= 0 and isTooltip) then
 		return date(formatString, time() -realmDiffSeconds)
 	else
 		return date(formatString)
@@ -202,8 +202,9 @@ local function OnEnter(self)
 		DT.tooltip:AddLine(" ")
 	end
 
+	local timeFormat = E.db.datatexts.timeFormat ~= "" and E.db.datatexts.timeFormat or "%H:%M"
 	local timeType = E.db.datatexts.localTime and TIMEMANAGER_TOOLTIP_REALMTIME or TIMEMANAGER_TOOLTIP_LOCALTIME
-	local timeString = E.db.datatexts.localTime and format("%02d:%02d", GetGameTime()) or date("%H:%M")
+	local timeString = E.db.datatexts.localTime and GetCurrentDate(timeFormat, true) or date(timeFormat)
 
 	DT.tooltip:AddDoubleLine(timeType, timeString, 1, 1, 1, lockoutColorNormal.r, lockoutColorNormal.g, lockoutColorNormal.b)
 
