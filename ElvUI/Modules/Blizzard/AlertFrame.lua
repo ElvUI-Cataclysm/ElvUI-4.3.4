@@ -127,7 +127,6 @@ function B:DungeonCompletionAlertFrame_FixAnchors()
 
 		if frame and frame:IsShown() then
 			DungeonCompletionAlertFrame1:Point(POSITION, frame, ANCHOR_POINT, 0, YOFFSET)
-
 			return
 		end
 	end
@@ -138,18 +137,19 @@ end
 function B:GuildChallengeAlertFrame_FixAnchors()
 	GuildChallengeAlertFrame:ClearAllPoints()
 
-	if DungeonCompletionAlertFrame1:IsShown() then
-		GuildChallengeAlertFrame:Point(POSITION, DungeonCompletionAlertFrame1, ANCHOR_POINT, 0, YOFFSET)
-
-		return
-	end
+	-- Add delay in case 'GuildChallengeAlertFrame' is shown before 'DungeonCompletionAlertFrame1'
+	E:Delay(0.1, function()
+		if DungeonCompletionAlertFrame1:IsShown() then
+			GuildChallengeAlertFrame:Point(POSITION, DungeonCompletionAlertFrame1, ANCHOR_POINT, 0, YOFFSET)
+			return
+		end
+	end)
 
 	for i = MAX_ACHIEVEMENT_ALERTS, 1, -1 do
 		local frame = _G["AchievementAlertFrame"..i]
 
 		if frame and frame:IsShown() then
 			GuildChallengeAlertFrame:Point(POSITION, frame, ANCHOR_POINT)
-
 			return
 		end
 	end
