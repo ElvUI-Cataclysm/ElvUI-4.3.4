@@ -14,6 +14,7 @@ P.general = {
 	autoRepair = "NONE",
 	autoRoll = false,
 	autoAcceptInvite = false,
+	topPanel = false,
 	bottomPanel = true,
 	hideErrorFrame = true,
 	enhancedPvpMessages = true,

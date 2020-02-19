@@ -12,12 +12,12 @@ local SHAMAN_TOTEM_PRIORITIES = SHAMAN_TOTEM_PRIORITIES
 local STANDARD_TOTEM_PRIORITIES = STANDARD_TOTEM_PRIORITIES
 
 local SLOT_BORDER_COLORS = {
-	["none"]			= {r = 0, g = 0, b = 0},
 	[EARTH_TOTEM_SLOT]	= {r = 0.23, g = 0.45, b = 0.13},
 	[FIRE_TOTEM_SLOT]	= {r = 0.58, g = 0.23, b = 0.10},
 	[WATER_TOTEM_SLOT]	= {r = 0.19, g = 0.48, b = 0.60},
 	[AIR_TOTEM_SLOT]	= {r = 0.42, g = 0.18, b = 0.74}
 }
+
 function TOTEMS:UpdateAllTotems()
 	for i = 1, MAX_TOTEMS do
 		self:UpdateTotem(nil, i)
@@ -29,7 +29,7 @@ function TOTEMS:UpdateTotem(event, slot)
 	local _, _, startTime, duration, icon = GetTotemInfo(slot)
 
 	if icon ~= "" then
-		local color = SLOT_BORDER_COLORS[slot] or SLOT_BORDER_COLORS["none"]
+		local color = SLOT_BORDER_COLORS[slot] or E.media.bordercolor
 		self.bar[slotID].iconTexture:SetTexture(icon)
 		self.bar[slotID]:SetBackdropBorderColor(color.r, color.g, color.b)
 
@@ -135,7 +135,9 @@ function TOTEMS:Initialize()
 		frame.slot = E.myclass == "SHAMAN" and SHAMAN_TOTEM_PRIORITIES[i] or STANDARD_TOTEM_PRIORITIES[i]
 		frame:SetTemplate("Default")
 		frame:StyleButton()
-		frame.ignoreBorderColors = true
+		if E.myclass == "SHAMAN" then
+			frame.ignoreUpdates = true
+		end
 		frame:Hide()
 
 		frame.UpdateTooltip = UpdateTooltip

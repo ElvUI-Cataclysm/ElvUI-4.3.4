@@ -220,7 +220,6 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		end
 
 	--ActionBars
-		E.db.actionbar.backdropSpacingConverted = true
 		E.db.actionbar.bar1.buttons = 8
 		E.db.actionbar.bar1.buttonsize = 50
 		E.db.actionbar.bar1.buttonspacing = 1
@@ -250,12 +249,10 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.bags.bankSize = 42
 		E.db.bags.bankWidth = 472
 	--Chat
-		E.db.chat.fontSize = 10
-		E.db.chat.panelColorConverted = true
 		E.db.chat.separateSizes = false
 		E.db.chat.panelHeight = 236
 		E.db.chat.panelWidth = 472
-		E.db.chat.tapFontSize = 10
+		E.db.chat.tabFontSize = 12
 	--DataBars
 		E.db.databars.experience.height = 10
 		E.db.databars.experience.orientation = "HORIZONTAL"
@@ -278,7 +275,7 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E:SaveMoverDefaultPosition(mover)
 	end
 	--Tooltip
-		E.db.tooltip.fontSize = 10
+		E.db.tooltip.textFontSize = 12
 		E.db.tooltip.healthBar.fontOutline = "MONOCHROMEOUTLINE"
 		E.db.tooltip.healthBar.height = 12
 	--UnitFrames

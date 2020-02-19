@@ -5,29 +5,25 @@ local select, unpack, pairs = select, unpack, pairs
 
 local CreateFrame = CreateFrame
 
-local function SkinIt(bar)
-	for i = 1, bar:GetNumRegions() do
-		local region = select(i, bar:GetRegions())
-		if region:IsObjectType("Texture") then
-			region:SetTexture()
-		elseif region:IsObjectType("FontString") then
-			region:FontTemplate(nil, 12, "OUTLINE")
-		end
-	end
-
-	bar:StripTextures()
-	bar:CreateBackdrop("Transparent")
-	bar:SetStatusBarTexture(E.media.normTex)
-	bar:SetStatusBarColor(unpack(E.media.rgbvaluecolor))
-	E:RegisterStatusBar(bar)
-end
-
 function B:START_TIMER()
 	for _, b in pairs(TimerTracker.timerList) do
-		if b.bar and not b.bar.skinned then
-			SkinIt(b.bar)
+		if b.bar and not b.bar.isSkinned then
+			for i = 1, b.bar:GetNumRegions() do
+				local region = select(i, b.bar:GetRegions())
+				if region:IsObjectType("Texture") then
+					region:SetTexture()
+				elseif region:IsObjectType("FontString") then
+					region:FontTemplate(nil, 12, "OUTLINE")
+				end
+			end
 
-			b.bar.skinned = true
+			b.bar:StripTextures()
+			b.bar:CreateBackdrop("Transparent")
+			b.bar:SetStatusBarTexture(E.media.normTex)
+			b.bar:SetStatusBarColor(unpack(E.media.rgbvaluecolor))
+			E:RegisterStatusBar(b.bar)
+
+			b.bar.isSkinned = true
 		end
 	end
 end

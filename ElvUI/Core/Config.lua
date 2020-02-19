@@ -694,7 +694,6 @@ function E:Config_CreateButton(info, frame, unskinned, ...)
 	btn:HookScript("OnEnter", Config_ButtonOnEnter)
 	btn:HookScript("OnLeave", Config_ButtonOnLeave)
 	btn:SetScript("OnClick", info.func)
-	btn.ignoreBorderColors = true
 
 	return btn
 end

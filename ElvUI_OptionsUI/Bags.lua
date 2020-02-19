@@ -10,7 +10,7 @@ local GameTooltip = _G["GameTooltip"]
 E.Options.args.bags = {
 	order = 2,
 	type = "group",
-	name = L["Bags"],
+	name = L["BAGSLOT"],
 	childGroups = "tab",
 	get = function(info) return E.db.bags[info[#info]] end,
 	set = function(info, value) E.db.bags[info[#info]] = value end,
@@ -653,31 +653,28 @@ E.Options.args.bags = {
 			set = function(info, value) E.db.bags.vendorGrays[info[#info]] = value B:UpdateSellFrameSettings() end,
 			args = {
 				enable = {
-					order = 2,
+					order = 1,
 					type = "toggle",
-					name = L["ENABLE"],
+					name = L["Auto Vendor"],
 					desc = L["Automatically vendor gray items when visiting a vendor."]
 				},
-				interval = {
+				details = {
+					order = 2,
+					type = "toggle",
+					name = L["Vendor Gray Detailed Report"],
+					desc = L["Displays a detailed report of every item sold when enabled."]
+				},
+				progressBar = {
 					order = 3,
+					type = "toggle",
+					name = L["Progress Bar"]
+				},
+				interval = {
+					order = 4,
 					type = "range",
 					name = L["Sell Interval"],
 					desc = L["Will attempt to sell another item in set interval after previous one was sold."],
-					min = 0.1, max = 1, step = 0.1,
-					disabled = function() return not E.db.bags.vendorGrays.enable end
-				},
-				details = {
-					order = 4,
-					type = "toggle",
-					name = L["Vendor Gray Detailed Report"],
-					desc = L["Displays a detailed report of every item sold when enabled."],
-					disabled = function() return not E.db.bags.vendorGrays.enable end
-				},
-				progressBar = {
-					order = 5,
-					type = "toggle",
-					name = L["Progress Bar"],
-					disabled = function() return not E.db.bags.vendorGrays.enable end
+					min = 0.1, max = 1, step = 0.1
 				}
 			}
 		},

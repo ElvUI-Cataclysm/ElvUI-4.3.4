@@ -19,7 +19,6 @@ local function LoadSkin()
 	VoidStorageBorderFrame:StripTextures()
 	VoidStorageCostFrame:StripTextures()
 
-	local VoidStorageFrame = _G["VoidStorageFrame"]
 	select(2, VoidStorageFrame:GetRegions()):Kill()
 	VoidStorageFrame:SetTemplate("Transparent")
 	VoidStorageFrame:Size(675, 410)
@@ -97,57 +96,46 @@ local function LoadSkin()
 		buttonBg:Hide()
 	end
 
+	local function VoidQualityColors(button, link)
+		if link then
+			local quality = select(3, GetItemInfo(link))
+
+			if quality then
+				button:SetBackdropBorderColor(GetItemQualityColor(quality))
+			else
+				button:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			end
+		else
+			button:SetBackdropBorderColor(unpack(E.media.bordercolor))
+		end
+	end
+
 	hooksecurefunc("VoidStorage_ItemsUpdate", function(doDeposit, doContents)
+		local button, itemID
+
 		if doDeposit then
 			for i = 1, 9 do
-				local button = _G["VoidStorageDepositButton"..i]
-				local itemID = GetVoidTransferDepositInfo(i)
+				button = _G["VoidStorageDepositButton"..i]
+				itemID = GetVoidTransferDepositInfo(i)
 
-				if itemID then
-					local quality = select(3, GetItemInfo(itemID))
-					if quality then
-						button:SetBackdropBorderColor(GetItemQualityColor(quality))
-					else
-						button:SetBackdropBorderColor(unpack(E.media.bordercolor))
-					end
-				else
-					button:SetBackdropBorderColor(unpack(E.media.bordercolor))
-				end
+				VoidQualityColors(button, itemID)
 			end
 		end
 
 		if doContents then
 			for i = 1, 9 do
-				local button = _G["VoidStorageWithdrawButton"..i]
-				local itemID = GetVoidTransferWithdrawalInfo(i)
+				button = _G["VoidStorageWithdrawButton"..i]
+				itemID = GetVoidTransferWithdrawalInfo(i)
 
-				if itemID then
-					local quality = select(3, GetItemInfo(itemID))
-					if quality then
-						button:SetBackdropBorderColor(GetItemQualityColor(quality))
-					else
-						button:SetBackdropBorderColor(unpack(E.media.bordercolor))
-					end
-				else
-					button:SetBackdropBorderColor(unpack(E.media.bordercolor))
-				end
+				VoidQualityColors(button, itemID)
 			end
 
 			E:Delay(0.05, function()
 				for i = 1, 80 do
-					local button = _G["VoidStorageStorageButton"..i]
-					local itemID = GetVoidItemInfo(i)
+					button = _G["VoidStorageStorageButton"..i]
+					itemID = GetVoidItemInfo(i)
 
-					if itemID then
-						local quality = select(3, GetItemInfo(itemID))
-						if quality then
-							button:SetBackdropBorderColor(GetItemQualityColor(quality))
-						else
-							button:SetBackdropBorderColor(unpack(E.media.bordercolor))
-						end
-					else
-						button:SetBackdropBorderColor(unpack(E.media.bordercolor))
-					end
+					VoidQualityColors(button, itemID)
 				end
 			end)
 		end
