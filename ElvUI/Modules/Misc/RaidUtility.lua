@@ -325,35 +325,11 @@ function RU:Initialize()
 	MainTankButton:SetAttribute("unit", "target")
 	MainTankButton:SetAttribute("action", "toggle")
 
-	MainTankButton:SetScript("OnEvent", function(btn)
-		if UnitInRaid("player") and (IsRaidLeader("player") or IsRaidOfficer("player")) then
-			btn:Enable()
-		else
-			btn:Disable()
-		end
-	end)
-
-	MainTankButton:RegisterEvent("RAID_ROSTER_UPDATE")
-	MainTankButton:RegisterEvent("PARTY_MEMBERS_CHANGED")
-	MainTankButton:RegisterEvent("PLAYER_ENTERING_WORLD")
-
 	-- MainAssist Button
 	self:CreateUtilButton("MainAssistButton", RaidUtilityPanel, "SecureActionButtonTemplate, UIMenuButtonStretchTemplate", (DisbandRaidButton:GetWidth() / 2) - 2, 18, "TOPRIGHT", RoleCheckButton, "BOTTOMRIGHT", 0, -5, MAINASSIST, nil)
 	MainAssistButton:SetAttribute("type", "mainassist")
 	MainAssistButton:SetAttribute("unit", "target")
 	MainAssistButton:SetAttribute("action", "toggle")
-
-	MainAssistButton:SetScript("OnEvent", function(btn)
-		if UnitInRaid("player") and (IsRaidLeader("player") or IsRaidOfficer("player")) then
-			btn:Enable()
-		else
-			btn:Disable()
-		end
-	end)
-
-	MainAssistButton:RegisterEvent("RAID_ROSTER_UPDATE")
-	MainAssistButton:RegisterEvent("PARTY_MEMBERS_CHANGED")
-	MainAssistButton:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 	-- Ready Check button
 	self:CreateUtilButton("ReadyCheckButton", RaidUtilityPanel, "UIMenuButtonStretchTemplate", RoleCheckButton:GetWidth() * 0.86, 18, "TOPLEFT", MainTankButton, "BOTTOMLEFT", 0, -5, READY_CHECK, nil)
