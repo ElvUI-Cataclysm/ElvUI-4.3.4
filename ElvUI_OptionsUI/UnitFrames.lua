@@ -146,7 +146,7 @@ local function filterPriority(auraType, groupName, value, remove, movehere, frie
 			if not stateFound then
 				local tbl, sv = {strsplit(",",filter)}
 				for i in ipairs(tbl) do
-					if tbl[i] == value then sv = i;break end
+					if tbl[i] == value then sv = i break end
 				end
 				tinsert(tbl, sv, state)
 				tremove(tbl, sv + 1)
@@ -770,7 +770,7 @@ local function GetOptionsTable_AuraWatch(updateFunc, groupName, numGroup)
 		type = "group",
 		name = L["Buff Indicator"],
 		get = function(info) return E.db.unitframe.units[groupName].buffIndicator[info[#info]] end,
-		set = function(info, value) E.db.unitframe.units[groupName].buffIndicator[info[#info]] = value; updateFunc(UF, groupName, numGroup) end,
+		set = function(info, value) E.db.unitframe.units[groupName].buffIndicator[info[#info]] = value updateFunc(UF, groupName, numGroup) end,
 		args = {
 			enable = {
 				order = 2,
@@ -858,15 +858,15 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 			},
 			width = {
 				order = 3,
-				name = L["Width"],
 				type = "range",
+				name = L["Width"],
 				softMax = 600,
 				min = 50, max = GetScreenWidth(), step = 1,
 			},
 			height = {
 				order = 4,
-				name = L["Height"],
 				type = "range",
+				name = L["Height"],
 				min = 10, max = 85, step = 1,
 			},
 			matchsize = {
@@ -1214,7 +1214,7 @@ local function GetOptionsTable_Cutaway(updateFunc, groupName, numGroup)
 				guiInline = true,
 				name = L["HEALTH"],
 				get = function(info) return E.db.unitframe.units[groupName].cutaway.health[info[#info]] end,
-				set = function(info, value) E.db.unitframe.units[groupName].cutaway.health[info[#info]] = value; updateFunc(UF, groupName, numGroup) end,
+				set = function(info, value) E.db.unitframe.units[groupName].cutaway.health[info[#info]] = value updateFunc(UF, groupName, numGroup) end,
 				args = {
 					enabled = {
 						order = 1,
@@ -1323,7 +1323,7 @@ local function CreateCustomTextGroup(unit, objectName)
 				type = "execute",
 				name = L["DELETE"],
 				func = function()
-					E.Options.args.unitframe.args[group].args[unit].args.customText.args[objectName] = nil;
+					E.Options.args.unitframe.args[group].args[unit].args.customText.args[objectName] = nil
 					E.db.unitframe.units[unit].customTexts[objectName] = nil
 
 					if unit == "boss" or unit == "arena" then

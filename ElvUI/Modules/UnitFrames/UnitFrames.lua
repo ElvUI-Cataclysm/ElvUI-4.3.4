@@ -835,6 +835,7 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerTempl
 	end
 
 	self[group].numGroups = numGroups
+
 	if numGroups then
 		local groupName = E:StringTitle(self[group].groupName)
 		if db.raidWideSorting then
@@ -852,11 +853,10 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerTempl
 		UF.headerFunctions[group]:Configure_Groups(self[group])
 		UF.headerFunctions[group]:Update(self[group])
 
-		if not self[group].isForced and not self[group].blockVisibilityChanges then
-			RegisterStateDriver(self[group], "visibility", db.visibility)
-		end
-
 		if db.enable then
+			if not self[group].isForced and not self[group].blockVisibilityChanges then
+				RegisterStateDriver(self[group], "visibility", db.visibility)
+			end
 			if self[group].mover then
 				E:EnableMover(self[group].mover:GetName())
 			end
@@ -875,16 +875,6 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerTempl
 		if not UF.headerFunctions[group] then UF.headerFunctions[group] = {} end
 		if not UF.headerFunctions[group].Update then
 			UF.headerFunctions[group].Update = function()
-				local db = UF.db.units[group]
-				if db.enable ~= true then
-					UnregisterStateDriver(UF[group], "visibility")
-					UF[group]:Hide()
-					if UF[group].mover then
-						E:DisableMover(UF[group].mover:GetName())
-					end
-					return
-				end
-
 				UF["Update_"..groupName.."Header"](UF, UF[group], db)
 
 				for i = 1, UF[group]:GetNumChildren() do
@@ -899,12 +889,25 @@ function UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerTempl
 						UF["Update_"..groupName.."Frames"](UF, _G[child:GetName().."Pet"], UF.db.units[group])
 					end
 				end
-
-				E:EnableMover(UF[group].mover:GetName())
 			end
 		end
 
 		UF.headerFunctions[group]:Update(self[group])
+
+		if db.enable then
+			if not self[group].isForced then
+				RegisterStateDriver(self[group], "visibility", db.visibility)
+			end
+			if self[group].mover then
+				E:EnableMover(self[group].mover:GetName())
+			end
+		else
+			UnregisterStateDriver(self[group], "visibility")
+			self[group]:Hide()
+			if self[group].mover then
+				E:DisableMover(self[group].mover:GetName())
+			end
+		end
 	end
 end
 
@@ -1115,7 +1118,6 @@ function ElvUF:DisableBlizzard(unit)
 	end
 end
 
-
 do
 	local hasEnteredWorld = false
 	function UF:PLAYER_ENTERING_WORLD()
@@ -1123,16 +1125,9 @@ do
 			--We only want to run Update_AllFrames once when we first log in or /reload
 			UF:Update_AllFrames()
 			hasEnteredWorld = true
-		else
-			local _, instanceType = IsInInstance()
-			if instanceType ~= "none" then
-				--We need to update headers when we zone into an instance
-				UF:UpdateAllHeaders()
-			end
 		end
 	end
 end
-
 
 function UF:ADDON_LOADED(_, addon)
 	if addon ~= "Blizzard_ArenaUI" then return end
@@ -1388,27 +1383,27 @@ function UF:PopupMenus()
 end
 
 function UF:Initialize()
-	self.db = E.db.unitframe
-	self.thinBorders = self.db.thinBorders or E.PixelMode
-	if E.private.unitframe.enable ~= true then return end
+	UF.db = E.db.unitframe
+	UF.thinBorders = UF.db.thinBorders or E.PixelMode
+	if not E.private.unitframe.enable then return end
 
-	self.Initialized = true
+	UF.Initialized = true
 
 	E.ElvUF_Parent = CreateFrame("Frame", "ElvUF_Parent", E.UIParent, "SecureHandlerStateTemplate")
 	E.ElvUF_Parent:SetFrameStrata("LOW")
 
-	self:UpdateColors()
+	UF:UpdateColors()
 	ElvUF:RegisterStyle("ElvUF", function(frame, unit)
-		self:Construct_UF(frame, unit)
+		UF:Construct_UF(frame, unit)
 	end)
 	ElvUF:SetActiveStyle("ElvUF")
 
-	self:LoadUnits()
-	self:PopupMenus()
+	UF:LoadUnits()
+	UF:PopupMenus()
 
-	self:RegisterEvent("PLAYER_ENTERING_WORLD")
-	self:RegisterEvent("PLAYER_TARGET_CHANGED")
-	self:RegisterEvent("PLAYER_FOCUS_CHANGED")
+	UF:RegisterEvent("PLAYER_ENTERING_WORLD")
+	UF:RegisterEvent("PLAYER_TARGET_CHANGED")
+	UF:RegisterEvent("PLAYER_FOCUS_CHANGED")
 
 	if E.private.unitframe.disabledBlizzardFrames.arena and E.private.unitframe.disabledBlizzardFrames.focus and E.private.unitframe.disabledBlizzardFrames.party then
 		InterfaceOptionsFrameCategoriesButton10:SetScale(0.0001)
@@ -1420,7 +1415,7 @@ function UF:Initialize()
 	end
 
 	if E.private.unitframe.disabledBlizzardFrames.party and E.private.unitframe.disabledBlizzardFrames.raid then
-		self:DisableBlizzard()
+		UF:DisableBlizzard()
 	end
 
 	if (not E.private.unitframe.disabledBlizzardFrames.party) and (not E.private.unitframe.disabledBlizzardFrames.raid) then
@@ -1428,23 +1423,23 @@ function UF:Initialize()
 	end
 
 	if E.private.unitframe.disabledBlizzardFrames.arena then
-		self:SecureHook("UnitFrameThreatIndicator_Initialize")
+		UF:SecureHook("UnitFrameThreatIndicator_Initialize")
 
 		if not IsAddOnLoaded("Blizzard_ArenaUI") then
-			self:RegisterEvent("ADDON_LOADED")
+			UF:RegisterEvent("ADDON_LOADED")
 		else
 			ElvUF:DisableBlizzard("arena")
 		end
 	end
+
+	UF:UpdateRangeCheckSpells()
+	UF:RegisterEvent("LEARNED_SPELL_IN_TAB", "UpdateRangeCheckSpells")
 
 	local ORD = ns.oUF_RaidDebuffs or oUF_RaidDebuffs
 	if not ORD then return end
 	ORD.ShowDispellableDebuff = true
 	ORD.FilterDispellableDebuff = true
 	ORD.MatchBySpellName = false
-
-	self:UpdateRangeCheckSpells()
-	self:RegisterEvent("LEARNED_SPELL_IN_TAB", "UpdateRangeCheckSpells")
 end
 
 local function InitializeCallback()

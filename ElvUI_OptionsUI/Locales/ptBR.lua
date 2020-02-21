@@ -87,6 +87,7 @@ L["Auto Add New Spells"] = true
 L["Auto Greed/DE"] = "Escolher Ganância/Desencantar automaticamente"
 L["Auto Hide"] = "Auto-Esconder"
 L["Auto Repair"] = "Reparar automaticamente"
+L["Auto Vendor Junk"] = true
 L["Automatic"] = true
 L["Automatically accept invites from guild/friends."] = "Aceitar convites de pessoas da lista de amigos ou guilda automaticamente"
 L["Automatically hide the objetive frame during boss or arena fights."] = true

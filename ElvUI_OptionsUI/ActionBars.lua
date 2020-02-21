@@ -32,12 +32,12 @@ E.Options.args.actionbar = {
 	set = function(info, value) E.db.actionbar[info[#info]] = value AB:UpdateButtonSettings() end,
 	args = {
 		intro = {
-			order = 0,
+			order = 1,
 			type = "description",
 			name = L["ACTIONBARS_DESC"]
 		},
 		enable = {
-			order = 1,
+			order = 2,
 			type = "toggle",
 			name = L["ENABLE"],
 			get = function(info) return E.private.actionbar[info[#info]] end,

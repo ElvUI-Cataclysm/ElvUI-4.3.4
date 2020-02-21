@@ -666,19 +666,19 @@ E.Options.args.general = {
 							values = AceGUIWidgetLSMlists.font
 						},
 						fontSize = {
-							order = 7,
+							order = 2,
 							type = "range",
 							name = L["FONT_SIZE"],
 							min = 6, max = 22, step = 1
 						},
 						fontOutline = {
-							order = 2,
+							order = 3,
 							type = "select",
 							name = L["Font Outline"],
 							values = C.Values.FontFlags
 						},
 						textFormat = {
-							order = 3,
+							order = 4,
 							type = "select",
 							name = L["Text Format"],
 							sortByValue = true,

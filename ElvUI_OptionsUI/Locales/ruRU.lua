@@ -87,6 +87,7 @@ L["Auto Add New Spells"] = "Автоматически добавлять нов
 L["Auto Greed/DE"] = "Авто. не откажусь/распылить"
 L["Auto Hide"] = "Автоскрытие"
 L["Auto Repair"] = "Автоматический ремонт"
+L["Auto Vendor Junk"] = "Авто продажа"
 L["Automatic"] = "Автоматически"
 L["Automatically accept invites from guild/friends."] = "Автоматически принимать приглашения в группу от друзей и гильдии."
 L["Automatically hide the objetive frame during boss or arena fights."] = "Автоматически скрывать список заданий во время сражений с боссами или на арене."

@@ -655,7 +655,7 @@ E.Options.args.bags = {
 				enable = {
 					order = 1,
 					type = "toggle",
-					name = L["Auto Vendor"],
+					name = L["Auto Vendor Junk"],
 					desc = L["Automatically vendor gray items when visiting a vendor."]
 				},
 				details = {
