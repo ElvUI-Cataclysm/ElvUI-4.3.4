@@ -124,12 +124,12 @@ local function onEnter(self)
 		end
 	end
 
-	for group, list in ipairs(roleIconRoster) do
+	for groupIdx, list in ipairs(roleIconRoster) do
 		tsort(list, sortColoredNames)
-		for _, name in ipairs(list) do
-			GameTooltip:AddLine(("[%d] %s"):format(group, name), 1, 1, 1)
+		for _, playerName in ipairs(list) do
+			GameTooltip:AddLine(("[%d] %s"):format(groupIdx, playerName), 1, 1, 1)
 		end
-		roleIconRoster[group] = nil
+		roleIconRoster[groupIdx] = nil
 	end
 
 	GameTooltip:Show()
@@ -146,7 +146,7 @@ local function RaidUtility_PositionRoleIcons()
 	end
 end
 
-local count = {}
+local iconCount = {}
 local function UpdateIcons(self)
 	local numParty, numRaid = GetNumPartyMembers(), GetNumRaidMembers()
 	local unit = (numRaid > 0 and "raid" or "party")
@@ -160,23 +160,23 @@ local function UpdateIcons(self)
 		RaidUtility_PositionRoleIcons()
 	end
 
-	twipe(count)
+	twipe(iconCount)
 	for i = 1, (numRaid > 0 and numRaid or numParty) do
 		role = UnitGroupRolesAssigned(unit..i)
 		if role and role ~= "NONE" then
-			count[role] = (count[role] or 0) + 1
+			iconCount[role] = (iconCount[role] or 0) + 1
 		end
 	end
 
 	if UnitInParty("player") and not UnitInRaid("player") then
 		role = UnitGroupRolesAssigned("player")
 		if role then
-			count[role] = (count[role] or 0) + 1
+			iconCount[role] = (iconCount[role] or 0) + 1
 		end
 	end
 
-	for role, icon in next, RaidUtilityRoleIcons.icons do
-		icon.count:SetText(count[role] or 0)
+	for raidRole, icon in next, RaidUtilityRoleIcons.icons do
+		icon.count:SetText(iconCount[raidRole] or 0)
 	end
 end
 

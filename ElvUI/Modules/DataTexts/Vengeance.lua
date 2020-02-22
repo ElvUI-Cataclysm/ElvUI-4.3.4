@@ -5,19 +5,17 @@ local join, match = string.join, string.match
 
 local displayString = ""
 local lastPanel
-local self = lastPanel
 
 local vengeance = GetSpellInfo(93098) or GetSpellInfo(76691)
-local value, tooltip, tooltiptext
+local value
 
-tooltip = CreateFrame("GameTooltip", "VengeanceTooltip", E.UIParent, "GameTooltipTemplate")
-tooltiptext = _G[tooltip:GetName().."TextLeft2"]
+local tooltip = CreateFrame("GameTooltip", "VengeanceTooltip", E.UIParent, "GameTooltipTemplate")
+local tooltiptext = _G["VengeanceTooltipTextLeft2"]
 tooltip:SetOwner(E.UIParent, "ANCHOR_NONE")
 tooltiptext:SetText("")
 
 local function OnEvent(self)
-	if VengeanceTooltip and not VengeanceTooltip:IsShown() then
-		tooltiptext = _G[tooltip:GetName().."TextLeft2"]
+	if not tooltip:IsShown() then
 		tooltip:SetOwner(E.UIParent, "ANCHOR_NONE")
 		tooltiptext:SetText("")
 	end

@@ -18,7 +18,6 @@ function E:UpdateBlizzardFonts()
 	local NUMBER		= self.media.normFont
 	local COMBAT		= LSM:Fetch("font", self.private.general.dmgfont)
 	local NAMEFONT		= LSM:Fetch("font", self.private.general.namefont)
-	local BUBBLE		= LSM:Fetch("font", self.private.general.chatBubbleFont)
 	local MONOCHROME	= ""
 
 	UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT = 12
@@ -48,7 +47,6 @@ function E:UpdateBlizzardFonts()
 	STANDARD_TEXT_FONT	= NORMAL
 
 	if self.private.general.replaceBlizzFonts then
-		SetFont(ChatBubbleFont,						BUBBLE, self.private.general.chatBubbleFontSize, self.private.general.chatBubbleFontOutline)
 		SetFont(GameTooltipHeader,					NORMAL, self.db.general.fontSize)
 		SetFont(NumberFont_OutlineThick_Mono_Small,	NUMBER, self.db.general.fontSize, "OUTLINE")
 		SetFont(NumberFont_Outline_Huge,			NUMBER, 28, MONOCHROME.."THICKOUTLINE", 28)

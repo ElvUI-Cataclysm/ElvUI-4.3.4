@@ -96,7 +96,7 @@ function AB:BindListener(key)
 
 	if key == "MiddleButton" then key = "BUTTON3" end
 	if find(key, "Button%d") then
-		key = key:upper()
+		key = upper(key)
 	end
 
 	local alt = IsAltKeyDown() and "ALT-" or ""
@@ -316,7 +316,7 @@ function AB:UpdateFlyouts()
 				local b = _G["SpellFlyoutButton"..k]
 				if SpellFlyout:IsShown() and b and b:IsShown() then
 					if not b.hookedFlyout then
-						b:HookScript("OnEnter", function(b) AB:BindUpdate(b, "FLYOUT") end)
+						b:HookScript("OnEnter", function(self) AB:BindUpdate(self, "FLYOUT") end)
 						b.hookedFlyout = true
 					end
 				end
@@ -329,7 +329,7 @@ function AB:RegisterMacro(addon)
 	if addon == "Blizzard_MacroUI" then
 		for i = 1, MAX_ACCOUNT_MACROS do
 			local b = _G["MacroButton"..i]
-			b:HookScript("OnEnter", function(b) AB:BindUpdate(b, "MACRO") end)
+			b:HookScript("OnEnter", function(self) AB:BindUpdate(self, "MACRO") end)
 		end
 	end
 end
@@ -371,12 +371,11 @@ function AB:LoadKeyBinder()
 	end
 
 	for i = 1, 12 do
-		local b = _G["SpellButton"..i]
-		b:HookScript("OnEnter", function(b) AB:BindUpdate(b, "SPELL") end)
+		_G["SpellButton"..i]:HookScript("OnEnter", function(self) AB:BindUpdate(self, "SPELL") end)
 	end
 
-	for b in pairs(self["handledbuttons"]) do
-		self:RegisterButton(b, true)
+	for button in pairs(self["handledbuttons"]) do
+		self:RegisterButton(button, true)
 	end
 
 	if not IsAddOnLoaded("Blizzard_MacroUI") then

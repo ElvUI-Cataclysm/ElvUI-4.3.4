@@ -1588,12 +1588,6 @@ P.unitframe = {
 					forceBlankTexture = true
 				}
 			},
-			raidRoleIcons = {
-				enable = true,
-				position = "TOPLEFT",
-				xOffset = 0,
-				yOffset = 0
-			},
 			resurrectIcon = {
 				enable = true,
 				size = 30,
@@ -3024,7 +3018,6 @@ P.unitframe = {
 				minDuration = 0,
 				maxDuration = 300,
 				priority = "Blacklist,TurtleBuffs,PlayerBuffs,Dispellable", --Arena Buffs
-				sizeOverride = 27,
 				xOffset = 0,
 				yOffset = 16,
 				sizeOverride = 0,
@@ -3046,7 +3039,6 @@ P.unitframe = {
 				minDuration = 0,
 				maxDuration = 300,
 				priority = "Blacklist,blockNoDuration,Personal,CCDebuffs,Whitelist", --Arena Debuffs
-				sizeOverride = 27,
 				xOffset = 0,
 				yOffset = -16,
 				sizeOverride = 0,

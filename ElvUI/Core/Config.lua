@@ -7,8 +7,6 @@ local floor = math.floor
 
 local CreateFrame = CreateFrame
 local IsAddOnLoaded = IsAddOnLoaded
-local GetScreenWidth = GetScreenWidth
-local GetScreenHeight = GetScreenHeight
 local InCombatLockdown = InCombatLockdown
 local RESET = RESET
 
@@ -908,14 +906,14 @@ function E:Config_WindowOpened(frame)
 end
 
 function E:Config_CreateBottomButtons(frame, unskinned)
-	local L = E.Libs.ACL:GetLocale("ElvUI", E.global.general.locale or "enUS")
+	local Loc = E.Libs.ACL:GetLocale("ElvUI", E.global.general.locale or "enUS")
 	local last
 
 	for _, info in ipairs({
 		{
 			var = "ToggleAnchors",
-			name = L["Toggle Anchors"],
-			desc = L["Unlock various elements of the UI to be repositioned."],
+			name = Loc["Toggle Anchors"],
+			desc = Loc["Unlock various elements of the UI to be repositioned."],
 			func = function()
 				E:ToggleMoveMode()
 				E.ConfigurationToggled = true
@@ -923,20 +921,20 @@ function E:Config_CreateBottomButtons(frame, unskinned)
 		},
 		{
 			var = "ResetAnchors",
-			name = L["Reset Anchors"],
-			desc = L["Reset all frames to their original positions."],
+			name = Loc["Reset Anchors"],
+			desc = Loc["Reset all frames to their original positions."],
 			func = function() E:ResetUI() end
 		},
 		{
 			var = "RepositionWindow",
-			name = L["Reposition Window"],
-			desc = L["Reset the size and position of this frame."],
+			name = Loc["Reposition Window"],
+			desc = Loc["Reset the size and position of this frame."],
 			func = function() E:Config_UpdateSize(true) end
 		},
 		{
 			var = "Install",
-			name = L["Install"],
-			desc = L["Run the installation process."],
+			name = Loc["Install"],
+			desc = Loc["Run the installation process."],
 			func = function()
 				E:Install()
 				E:ToggleOptionsUI()
@@ -944,7 +942,7 @@ function E:Config_CreateBottomButtons(frame, unskinned)
 		},
 		{
 			var = "ToggleTutorials",
-			name = L["Toggle Tutorials"],
+			name = Loc["Toggle Tutorials"],
 			func = function()
 				E:Tutorials(true)
 				E:ToggleOptionsUI()
@@ -952,8 +950,8 @@ function E:Config_CreateBottomButtons(frame, unskinned)
 		},
 		{
 			var = "ShowStatusReport",
-			name = L["ElvUI Status"],
-			desc = L["Shows a frame with needed info for support."],
+			name = Loc["ElvUI Status"],
+			desc = Loc["Shows a frame with needed info for support."],
 			func = function()
 				E:ShowStatusReport()
 				E:ToggleOptionsUI()
@@ -1097,6 +1095,8 @@ function E:ToggleOptionsUI(msg)
 			bottom:Point("BOTTOMRIGHT", -2, 2)
 			bottom:Height(37)
 			frame.bottomHolder = bottom
+
+			local unskinned = false -- suppress lint error
 
 			local close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
 			close:SetScript("OnClick", E.Config_CloseClicked)
