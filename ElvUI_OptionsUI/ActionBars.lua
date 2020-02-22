@@ -2,7 +2,6 @@
 local C, L = unpack(select(2, ...))
 local AB = E:GetModule("ActionBars")
 
-local _G = _G
 local pairs = pairs
 
 local SetCVar = SetCVar

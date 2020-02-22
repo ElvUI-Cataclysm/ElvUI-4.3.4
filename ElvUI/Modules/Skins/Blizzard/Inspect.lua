@@ -107,7 +107,7 @@ local function LoadSkin()
 		else
 			button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
- 	end)
+	end)
 
 	-- PvP Tab
 	InspectPVPFrame:HookScript("OnShow", function() InspectPVPFrameBG:Kill() end)
@@ -156,7 +156,7 @@ local function LoadSkin()
 	InspectTalentFramePointsBar:StripTextures()
 
 	InspectTalentFrame.bg = CreateFrame("Frame", nil, InspectTalentFrame)
-	InspectTalentFrame.bg:SetTemplate("Default")	
+	InspectTalentFrame.bg:SetTemplate("Default")
 	InspectTalentFrame.bg:Point("TOPLEFT", InspectTalentFrameBackgroundTopLeft, "TOPLEFT", 0, 0)
 	InspectTalentFrame.bg:Point("BOTTOMRIGHT", InspectTalentFrameBackgroundBottomRight, "BOTTOMRIGHT", -21, 53)
 	InspectTalentFrame.bg:SetBackdropColor(0, 0, 0, 0)
@@ -196,7 +196,7 @@ local function LoadSkin()
 
 	-- Guild Tab
 	InspectGuildFrame.bg = CreateFrame("Frame", nil, InspectGuildFrame)
-	InspectGuildFrame.bg:SetTemplate("Default")	
+	InspectGuildFrame.bg:SetTemplate("Default")
 	InspectGuildFrame.bg:Point("TOPLEFT", 7, -63)
 	InspectGuildFrame.bg:Point("BOTTOMRIGHT", -9, 27)
 	InspectGuildFrame.bg:SetBackdropColor(0, 0, 0, 0)

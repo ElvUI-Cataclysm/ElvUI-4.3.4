@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...))
 local LSM = E.Libs.LSM
 
 local _G = _G
-local unpack, type, select, getmetatable, assert, pairs = unpack, type, select, getmetatable, assert, pairs
+local unpack, type, select, getmetatable, assert = unpack, type, select, getmetatable, assert
 local tonumber = tonumber
 
 local CreateFrame = CreateFrame

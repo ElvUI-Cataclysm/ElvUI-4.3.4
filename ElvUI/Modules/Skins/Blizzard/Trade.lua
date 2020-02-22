@@ -86,11 +86,11 @@ local function LoadSkin()
 			else
 				button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				name:SetTextColor(1, 1, 1)
- 			end
+			end
 		else
 			button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			name:SetTextColor(1, 1, 1)
- 		end
+		end
 	end)
 
 	hooksecurefunc("TradeFrame_UpdateTargetItem", function(id)
@@ -107,11 +107,11 @@ local function LoadSkin()
 			else
 				button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				name:SetTextColor(1, 1, 1)
- 			end
+			end
 		else
 			button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			name:SetTextColor(1, 1, 1)
- 		end
+		end
 	end)
 end
 

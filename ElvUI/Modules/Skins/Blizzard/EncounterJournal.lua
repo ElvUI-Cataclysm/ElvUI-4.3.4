@@ -304,12 +304,12 @@ local function LoadSkin()
 	local function SkinLootItems()
 		local scrollFrame = EncounterJournal.encounter.info.lootScroll
 		local offset = HybridScrollFrame_GetOffset(scrollFrame)
-		local items = scrollFrame.buttons
+		local buttons = scrollFrame.buttons
 		local item, index
 		local numLoot = EJ_GetNumLoot()
 
-		for i = 1, #items do
-			item = items[i]
+		for i = 1, #buttons do
+			item = buttons[i]
 			index = offset + i
 			if index <= numLoot then
 				local _, _, _, _, itemID = EJ_GetLootInfoByIndex(index)

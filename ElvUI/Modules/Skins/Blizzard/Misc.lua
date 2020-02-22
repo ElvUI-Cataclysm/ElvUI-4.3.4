@@ -4,8 +4,6 @@ local S = E:GetModule("Skins")
 local _G = _G
 local unpack = unpack
 
-local IsAddOnLoaded = IsAddOnLoaded
-
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.misc then return end
 
@@ -336,8 +334,6 @@ local function LoadSkin()
 
 	hooksecurefunc("ToggleDropDownMenu", function(level)
 		if not level then level = 1 end
-
-		local r, g, b = unpack(E.media.rgbvaluecolor)
 
 		for i = 1, UIDROPDOWNMENU_MAXBUTTONS do
 			local button = _G["DropDownList"..level.."Button"..i]

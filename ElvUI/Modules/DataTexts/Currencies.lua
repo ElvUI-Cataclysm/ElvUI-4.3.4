@@ -6,7 +6,7 @@ local format, join = string.format, string.join
 
 local GetCurrencyInfo = GetCurrencyInfo
 local GetMoney = GetMoney
-local PROFESSIONS_ARCHAEOLOGY = PROFESSIONS_ARCHAEOLOGY
+--local PROFESSIONS_ARCHAEOLOGY = PROFESSIONS_ARCHAEOLOGY
 local EXPANSION_NAME2 = EXPANSION_NAME2
 local EXPANSION_NAME3 = EXPANSION_NAME3
 

@@ -3,12 +3,10 @@ local Skins = E:GetModule("Skins")
 
 local CreateFrame = CreateFrame
 local GetAddOnInfo = GetAddOnInfo
-local GetCurrentResolution = GetCurrentResolution
 local GetCVar = GetCVar
 local GetLocale = GetLocale
 local GetNumAddOns = GetNumAddOns
 local GetRealZoneText = GetRealZoneText
-local GetScreenResolutions = GetScreenResolutions
 local GetPrimaryTalentTree = GetPrimaryTalentTree
 local GetTalentTabInfo = GetTalentTabInfo
 
@@ -118,8 +116,8 @@ function E:CreateStatusFrame()
 		section.Header.Text:Point("BOTTOM")
 		section.Header.Text:SetJustifyH("CENTER")
 		section.Header.Text:SetJustifyV("MIDDLE")
-		local font, height, flags = section.Header.Text:GetFont()
-		section.Header.Text:SetFont(font, height*1.3, flags)
+		local font, fontHeight, flags = section.Header.Text:GetFont()
+		section.Header.Text:SetFont(font, fontHeight*1.3, flags)
 
 		section.Header.LeftDivider = section.Header:CreateTexture(nil, "ARTWORK")
 		section.Header.LeftDivider:Height(8)

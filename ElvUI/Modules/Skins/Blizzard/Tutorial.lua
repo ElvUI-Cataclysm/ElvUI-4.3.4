@@ -1,8 +1,6 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
-local unpack = unpack
-
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.tutorial then return end
 

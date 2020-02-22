@@ -225,7 +225,7 @@ local function LoadSkin()
 	AuctionProgressFrame:SetTemplate("Transparent")
 
 	S:HandleButton(AuctionProgressFrameCancelButton)
-	AuctionProgressFrameCancelButton:SetHitRectInsets(0, 0, 0, 0)	
+	AuctionProgressFrameCancelButton:SetHitRectInsets(0, 0, 0, 0)
 	AuctionProgressFrameCancelButton:GetNormalTexture():SetTexture(E.Media.Textures.Close)
 	AuctionProgressFrameCancelButton:GetNormalTexture():SetInside()
 	AuctionProgressFrameCancelButton:Size(28)

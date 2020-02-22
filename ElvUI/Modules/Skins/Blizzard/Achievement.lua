@@ -285,7 +285,7 @@ local function LoadSkin(preSkin)
 		local frame, prevFrame
 
 		for i = 1, ACHIEVEMENTUI_MAX_SUMMARY_ACHIEVEMENTS do
-			local frame = _G["AchievementFrameSummaryAchievement"..i]
+			frame = _G["AchievementFrameSummaryAchievement"..i]
 
 			SkinAchievement(frame)
 

@@ -6,10 +6,8 @@ local unpack, assert, pairs, ipairs, select, type = unpack, assert, pairs, ipair
 local strfind = strfind
 
 local CreateFrame = CreateFrame
-local SetDesaturation = SetDesaturation
 local hooksecurefunc = hooksecurefunc
 local IsAddOnLoaded = IsAddOnLoaded
-local GetCVarBool = GetCVarBool
 
 S.allowBypass = {}
 S.addonCallbacks = {}
@@ -166,7 +164,7 @@ function S:HandleScrollBar(frame, thumbTrimY, thumbTrimX)
 	if Thumb and not Thumb.backdrop then
 		Thumb:SetTexture()
 		Thumb:CreateBackdrop(nil, true, true)
-		
+
 		if not thumbTrimY then thumbTrimY = 3 end
 		if not thumbTrimX then thumbTrimX = 2 end
 		Thumb.backdrop:Point("TOPLEFT", Thumb, "TOPLEFT", 2, -thumbTrimY)

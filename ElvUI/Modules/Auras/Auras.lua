@@ -2,10 +2,9 @@ local E, L, V, P, G = unpack(select(2, ...))
 local A = E:GetModule("Auras")
 local LSM = E.Libs.LSM
 
-local _G = _G
 local select, unpack = select, unpack
 local floor = math.floor
-local format, find = string.format, string.find
+local format = string.format
 local tinsert = table.insert
 
 local GetTime = GetTime

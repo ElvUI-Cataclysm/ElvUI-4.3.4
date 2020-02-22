@@ -228,7 +228,7 @@ local function LoadSkin()
 				else
 					reagent:SetBackdropBorderColor(unpack(E.media.bordercolor))
 					icon.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
- 				end
+				end
 			end
 		end
 	end)

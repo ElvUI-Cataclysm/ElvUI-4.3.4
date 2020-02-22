@@ -57,8 +57,8 @@ function mod:UpdateReputation(event)
 
 		--Prevent a division by zero
 		local maxMinDiff = max - min
- 		if maxMinDiff == 0 then
- 			maxMinDiff = 1
+		if maxMinDiff == 0 then
+			maxMinDiff = 1
 		end
 
 		if textFormat == "PERCENT" then

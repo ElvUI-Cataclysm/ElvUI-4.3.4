@@ -13,7 +13,7 @@ local CombatTextures = {
 }
 
 function UF:Construct_CombatIndicator(frame)
- 	return frame.RaisedElementParent.TextureParent:CreateTexture(nil, "OVERLAY")
+	return frame.RaisedElementParent.TextureParent:CreateTexture(nil, "OVERLAY")
 end
 
 function UF:Configure_CombatIndicator(frame)

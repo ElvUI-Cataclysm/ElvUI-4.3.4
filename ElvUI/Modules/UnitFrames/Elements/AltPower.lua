@@ -1,7 +1,6 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local UF = E:GetModule("UnitFrames")
 
-local select = select
 local floor = math.floor
 
 local CreateFrame = CreateFrame

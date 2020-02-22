@@ -1,10 +1,10 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local DT = E:GetModule("DataTexts")
 
-local select, unpack = select, unpack
+local unpack = unpack
 local sort, wipe = table.sort, wipe
 local ceil = math.ceil
-local format, find, join, split = string.format, string.find, string.join, string.split
+local format, find, join = string.format, string.find, string.join
 
 local GetNumGuildMembers = GetNumGuildMembers
 local GetGuildRosterInfo = GetGuildRosterInfo
@@ -21,7 +21,6 @@ local UnitInRaid = UnitInRaid
 local EasyMenu = EasyMenu
 local IsShiftKeyDown = IsShiftKeyDown
 local GetGuildInfo = GetGuildInfo
-local ToggleGuildFrame = ToggleGuildFrame
 local GetGuildFactionInfo = GetGuildFactionInfo
 local GetRealZoneText = GetRealZoneText
 
@@ -296,7 +295,7 @@ local function OnEnter(self, _, noUpdate)
 			DT.tooltip:AddDoubleLine(format(levelNameStatusString, levelc.r*255, levelc.g*255, levelc.b*255, info[3], info[1], groupedTable[grouped], info[8]), info[4], classc.r, classc.g, classc.b, zonec.r, zonec.g, zonec.b)
 		end
 		shown = shown + 1
-	end	
+	end
 
 	DT.tooltip:Show()
 

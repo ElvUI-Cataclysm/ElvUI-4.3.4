@@ -1,5 +1,4 @@
 local E, L, V, P, G = unpack(select(2, ...))
-local NP = E:GetModule("NamePlates")
 local UF = E:GetModule("UnitFrames")
 local S = E:GetModule("Skins")
 
@@ -7,8 +6,6 @@ local _G = _G
 local format = format
 
 local CreateFrame = CreateFrame
-local IsAddOnLoaded = IsAddOnLoaded
-local GetScreenWidth = GetScreenWidth
 local SetCVar = SetCVar
 local PlaySoundFile = PlaySoundFile
 local ReloadUI = ReloadUI
@@ -651,7 +648,7 @@ function E:Install()
 		imsg:Point("TOP", 0, -190)
 		imsg:Hide()
 		imsg:SetScript("OnShow", function(f)
-			if f.message then 
+			if f.message then
 				PlaySoundFile([[Sound\Interface\LevelUp.wav]])
 				f.text:SetText(f.message)
 				UIFrameFadeOut(f, 3.5, 1, 0)
@@ -819,7 +816,7 @@ function E:Install()
 		f.Option4:SetScript("OnShow", function()
 			f.Option1:Width(100)
 			f.Option1:ClearAllPoints()
-			f.Option1:Point("RIGHT", f.Option2, "LEFT", -4, 0) 
+			f.Option1:Point("RIGHT", f.Option2, "LEFT", -4, 0)
 			f.Option2:Width(100)
 			f.Option2:ClearAllPoints()
 			f.Option2:Point("BOTTOMRIGHT", f, "BOTTOM", -4, 45)

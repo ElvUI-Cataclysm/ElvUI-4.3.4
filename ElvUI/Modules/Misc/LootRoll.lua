@@ -68,7 +68,7 @@ local rollpairs = locale == "deDE" and {
 	["(.*)님이 주사위 굴리기를 포기했습니다: (.+)"] = "pass",
 	["(.*)님이 차비를 선택했습니다: (.+)"] = "greed",
 	["(.*)님이 입찰을 선택했습니다: (.+)"] = "need",
-	["(.*)님이 마력 추출을 선택했습니다: (.+)"] = "disenchant",	
+	["(.*)님이 마력 추출을 선택했습니다: (.+)"] = "disenchant",
 } or locale == "esES" and {
 	["^(.*) pasó automáticamente de: (.+) porque no puede despojar este objeto.$"] = "pass",
 	["^(.*) pasó de: (.+|r)$"] = "pass",
@@ -331,7 +331,7 @@ end
 function M:ParseRollChoice(msg)
 	for i, v in pairs(rollpairs) do
 		local _, _, playername, itemname = find(msg, i)
-		if locale == "ruRU" and (v == "greed" or v == "need" or v == "disenchant") then 
+		if locale == "ruRU" and (v == "greed" or v == "need" or v == "disenchant") then
 			local temp = playername
 			playername = itemname
 			itemname = temp

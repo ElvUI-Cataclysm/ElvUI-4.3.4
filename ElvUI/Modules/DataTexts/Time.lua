@@ -75,7 +75,7 @@ local function GetInstanceImages(...)
 	local numTextures = select("#", ...) / 4
 
 	local param, title, texture = 1
-	for textureIndex = 1, numTextures do
+	for i = 1, numTextures do
 		title = select(param, ...)
 		param = param + 1
 		texture = select(param, ...)
@@ -88,10 +88,10 @@ end
 local function OnClick(_, btn)
 	if btn == "RightButton" then
 		if not IsAddOnLoaded("Blizzard_TimeManager") then LoadAddOn("Blizzard_TimeManager") end
- 		TimeManagerClockButton_OnClick(TimeManagerClockButton)
- 	else
- 		GameTimeFrame:Click()
- 	end
+		TimeManagerClockButton_OnClick(TimeManagerClockButton)
+	else
+		GameTimeFrame:Click()
+	end
 end
 
 local collectedInstanceImages = false
@@ -202,9 +202,9 @@ local function OnEnter(self)
 		DT.tooltip:AddLine(" ")
 	end
 
-	local timeFormat = E.db.datatexts.timeFormat ~= "" and E.db.datatexts.timeFormat or "%H:%M"
+	local timeFormat1 = E.db.datatexts.timeFormat ~= "" and E.db.datatexts.timeFormat or "%H:%M"
 	local timeType = E.db.datatexts.localTime and TIMEMANAGER_TOOLTIP_REALMTIME or TIMEMANAGER_TOOLTIP_LOCALTIME
-	local timeString = E.db.datatexts.localTime and GetCurrentDate(timeFormat, true) or date(timeFormat)
+	local timeString = E.db.datatexts.localTime and GetCurrentDate(timeFormat1, true) or date(timeFormat1)
 
 	DT.tooltip:AddDoubleLine(timeType, timeString, 1, 1, 1, lockoutColorNormal.r, lockoutColorNormal.g, lockoutColorNormal.b)
 
@@ -228,7 +228,7 @@ local function OnEvent(self, event)
 end
 
 local int = 5
-function OnUpdate(self, t)
+local function OnUpdate(self, t)
 	int = int - t
 
 	if int > 0 then return end

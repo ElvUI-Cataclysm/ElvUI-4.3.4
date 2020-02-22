@@ -18,7 +18,6 @@ local UnitHasVehicleUI = UnitHasVehicleUI
 local UnitStat = UnitStat
 local IsInInstance = IsInInstance
 local IsRatedBattleground = IsRatedBattleground
-local IsWargame = IsWargame
 local GetBattlefieldArenaFaction = GetBattlefieldArenaFaction
 local PLAYER_FACTION_GROUP = PLAYER_FACTION_GROUP
 local FACTION_HORDE = FACTION_HORDE
@@ -83,7 +82,7 @@ function E:CheckTalentTree(tree)
 			return tree == GetPrimaryTalentTree(activeGroup - 1)
 		end
 	elseif type(tree) == "table" then
-		local activeGroup = GetActiveTalentGroup(false, false)
+		activeGroup = GetActiveTalentGroup(false, false)
 		for _, index in pairs(tree) do
 			if activeGroup and GetPrimaryTalentTree(activeGroup - 1) then
 				return index == GetPrimaryTalentTree(activeGroup - 1)
@@ -431,7 +430,7 @@ function E:GetUnitBattlefieldFaction(unit)
 
 	-- this might be a rated BG or wargame and if so the player's faction might be altered
 	if unit == "player" then
-		if IsRatedBattleground() or IsWargame() then
+		if IsRatedBattleground() then
 			englishFaction = PLAYER_FACTION_GROUP[GetBattlefieldArenaFaction()]
 			localizedFaction = (englishFaction == "Alliance" and FACTION_ALLIANCE) or FACTION_HORDE
 		end

@@ -2,9 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
 local _G = _G
-local pairs, select, unpack = pairs, select, unpack
-
-local format = string.format
+local select, unpack = select, unpack
 
 local CreateFrame = CreateFrame
 local hooksecurefunc = hooksecurefunc
@@ -192,7 +190,7 @@ local function LoadSkin()
 			local button = _G["WhoFrameButton"..i]
 			local nameText = _G["WhoFrameButton"..i.."Name"]
 			local levelText = _G["WhoFrameButton"..i.."Level"]
-			local classText = _G["WhoFrameButton"..i.."Class"]
+		--	local classText = _G["WhoFrameButton"..i.."Class"]
 			local variableText = _G["WhoFrameButton"..i.."Variable"]
 
 			local _, guild, level, race, _, zone, classFileName = GetWhoInfo(index)

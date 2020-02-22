@@ -2,8 +2,8 @@ local E, _, V, P, G = unpack(ElvUI)
 local _, L = unpack(select(2, ...))
 local UF = E:GetModule("UnitFrames")
 
-local type, next, pairs, tonumber, tostring = type, next, pairs, tonumber, tostring
-local gsub, match, format, strmatch = string.gsub, string.match, string.format, strmatch
+local next, pairs, tonumber, tostring = next, pairs, tonumber, tostring
+local gsub, format, strmatch = string.gsub, string.format, strmatch
 
 local GetSpellInfo = GetSpellInfo
 

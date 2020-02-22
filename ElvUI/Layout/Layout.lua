@@ -2,8 +2,6 @@ local E, L, V, P, G = unpack(select(2, ...))
 local LO = E:GetModule("Layout")
 local DT = E:GetModule("DataTexts")
 
-local _G = _G
-
 local CreateFrame = CreateFrame
 local UIFrameFadeIn, UIFrameFadeOut = UIFrameFadeIn, UIFrameFadeOut
 

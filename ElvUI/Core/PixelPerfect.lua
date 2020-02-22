@@ -1,8 +1,6 @@
 local E, L, V, P, G = unpack(select(2, ...))
 
-local _G = _G
 local min, max, abs, floor = min, max, abs, floor
-local format, tonumber = format, tonumber
 
 local UIParent = UIParent
 

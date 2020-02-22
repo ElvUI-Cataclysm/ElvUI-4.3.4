@@ -3,7 +3,6 @@ local RB = E:GetModule("ReminderBuffs")
 local LSM = E.Libs.LSM
 
 local ipairs, unpack = ipairs, unpack
-local format = string.format
 
 local Masque = E.Libs.Masque
 local MasqueGroup = Masque and Masque:Group("ElvUI", "Reminder")
@@ -169,7 +168,7 @@ function RB:UpdateReminderTime(elapsed)
 	local threshold = E.db.cooldown.threshold
 	if not threshold then threshold = E.TimeThreshold end
 
-	local hhmmThreshold = E.db.cooldown.checkSeconds and E.db.cooldown.hhmmThreshold or nil 
+	local hhmmThreshold = E.db.cooldown.checkSeconds and E.db.cooldown.hhmmThreshold or nil
 	local mmssThreshold = E.db.cooldown.checkSeconds and E.db.cooldown.mmssThreshold or nil
 	local textColors = E.db.cooldown.useIndicatorColor and E.TimeIndicatorColors or nil
 

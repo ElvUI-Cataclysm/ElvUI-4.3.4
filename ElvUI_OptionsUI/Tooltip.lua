@@ -325,7 +325,7 @@ E.Options.args.tooltip = {
 							GameTooltipStatusBar.text:Show()
 						else
 							GameTooltipStatusBar.text:Hide()
-						end 
+						end
 					end
 				},
 				spacer = {

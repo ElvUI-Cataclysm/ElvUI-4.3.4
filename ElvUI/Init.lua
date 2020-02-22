@@ -1,12 +1,11 @@
 local _G = _G
-local format, gsub, type, tcopy = format, gsub, type, table.copy
+local gsub, type, tcopy = gsub, type, table.copy
 
 local CreateFrame = CreateFrame
 local GetAddOnMetadata = GetAddOnMetadata
 local GetLocale = GetLocale
 local GetTime = GetTime
 local HideUIPanel = HideUIPanel
-local hooksecurefunc = hooksecurefunc
 local IsAddOnLoaded = IsAddOnLoaded
 local ReloadUI = ReloadUI
 

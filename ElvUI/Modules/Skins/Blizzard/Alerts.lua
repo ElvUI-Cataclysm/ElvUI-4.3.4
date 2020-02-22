@@ -89,7 +89,7 @@ local function LoadSkin()
 	GuildChallengeAlertFrame.backdrop:SetPoint("BOTTOMRIGHT", GuildChallengeAlertFrame, "BOTTOMRIGHT", -2, 6)
 
 	for i = 1, GuildChallengeAlertFrame:GetNumRegions() do
-		local region = select(i, GuildChallengeAlertFrame:GetRegions()) 
+		local region = select(i, GuildChallengeAlertFrame:GetRegions())
 		if region and region:IsObjectType("Texture") and not region:GetName() then
 			region:SetTexture(nil)
 		end

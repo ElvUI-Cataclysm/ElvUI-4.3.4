@@ -24,7 +24,7 @@ function A:UpdateTempEnchantTime(button, timeLeft)
 			hhmmThreshold = A.db.cooldown.hhmmThreshold
 			mmssThreshold = A.db.cooldown.mmssThreshold
 		else
-			hhmmThreshold = E.db.cooldown.checkSeconds and E.db.cooldown.hhmmThreshold or nil 
+			hhmmThreshold = E.db.cooldown.checkSeconds and E.db.cooldown.hhmmThreshold or nil
 			mmssThreshold = E.db.cooldown.checkSeconds and E.db.cooldown.mmssThreshold or nil
 		end
 

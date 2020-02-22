@@ -1,6 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local NP = E:GetModule("NamePlates")
-local LSM = E.Libs.LSM
 
 function NP:Update_CutawayHealthFadeOut(frame)
 	local cutawayHealth = frame.CutawayHealth

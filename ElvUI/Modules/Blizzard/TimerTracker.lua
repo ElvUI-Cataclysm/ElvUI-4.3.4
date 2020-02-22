@@ -3,8 +3,6 @@ local B = E:GetModule("Blizzard")
 
 local select, unpack, pairs = select, unpack, pairs
 
-local CreateFrame = CreateFrame
-
 function B:START_TIMER()
 	for _, b in pairs(TimerTracker.timerList) do
 		if b.bar and not b.bar.isSkinned then

@@ -219,7 +219,6 @@ G.unitframe.aurafilters.PlayerBuffs = {
 		[8178] = Defaults(),	-- Grounding Totem Effect
 		[16166] = Defaults(),	-- Elemental Mastery
 		[16188] = Defaults(),	-- Nature's Swiftness
-		[16166] = Defaults(),	-- Elemental Mastery
 		[16191] = Defaults(),	-- Mana Tide Totem
 		[30823] = Defaults(),	-- Shamanistic Rage
 		[32182] = Defaults(),	-- Heroism

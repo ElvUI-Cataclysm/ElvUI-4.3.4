@@ -5,7 +5,6 @@ local unpack = unpack
 
 local CreateFrame = CreateFrame
 local GetComboPoints = GetComboPoints
-local GetShapeshiftForm = GetShapeshiftForm
 local UnitHasVehicleUI = UnitHasVehicleUI
 
 local MAX_COMBO_POINTS = MAX_COMBO_POINTS

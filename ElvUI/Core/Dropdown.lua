@@ -74,7 +74,7 @@ function E:DropDown(list, frame, xOffset, yOffset)
 	end
 
 	frame:Height((#list * BUTTON_HEIGHT) + PADDING * 2)
-	frame:Width(BUTTON_WIDTH + PADDING * 2)	
+	frame:Width(BUTTON_WIDTH + PADDING * 2)
 
 	local UIScale = UIParent:GetScale()
 	local x, y = GetCursorPosition()

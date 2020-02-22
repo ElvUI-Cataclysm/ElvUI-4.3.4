@@ -16,7 +16,7 @@ local function LoadSkin()
 
 			if frame.value > 0 then
 				frame.TimerText:SetFormattedText("%s (%d:%02d)", text, minutes, seconds)
- 			else
+			else
 				frame.TimerText:SetFormattedText("%s (0:00)", text)
 			end
 			frame.timeSinceUpdate = 0

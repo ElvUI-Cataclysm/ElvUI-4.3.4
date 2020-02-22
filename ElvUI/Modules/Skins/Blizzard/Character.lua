@@ -5,7 +5,6 @@ local _G = _G
 local unpack, pairs, select = unpack, pairs, select
 
 local CharacterFrameExpandButton = CharacterFrameExpandButton
-local GetCurrencyListSize = GetCurrencyListSize
 local GetNumFactions = GetNumFactions
 local hooksecurefunc = hooksecurefunc
 
@@ -152,7 +151,7 @@ local function LoadSkin()
 		local r, g, b = GetItemQualityColor(quality)
 
 		button:SetBackdropBorderColor(r, g, b)
- 	end)
+	end)
 
 	hooksecurefunc("EquipmentFlyout_Show", function(self)
 		local frame = EquipmentFlyoutFrame.buttonFrame
@@ -287,7 +286,7 @@ local function LoadSkin()
 	S:HandleScrollBar(PaperDollEquipmentManagerPaneScrollBar)
 
 	-- Equipement Manager Popup
-	S:HandleIconSelectionFrame(GearManagerDialogPopup, NUM_GEARSET_ICONS_SHOWN, "GearManagerDialogPopupButton", frameNameOverride)
+	S:HandleIconSelectionFrame(GearManagerDialogPopup, NUM_GEARSET_ICONS_SHOWN, "GearManagerDialogPopupButton")
 
 	S:HandleScrollBar(GearManagerDialogPopupScrollFrameScrollBar)
 

@@ -322,7 +322,6 @@ local function LoadSkin()
 			icon:SetTexture(E.Media.Textures.DPS)
 			icon:SetTexCoord(unpack(E.TexCoords))
 			icon:Size(17)
-			currentIcon = currentIcon + 1
 		end
 	end)
 

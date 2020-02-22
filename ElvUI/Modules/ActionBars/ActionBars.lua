@@ -131,8 +131,8 @@ function AB:PositionAndSizeBar(barName)
 	bar.db = self.db[barName]
 	bar.db.position = nil --Depreciated
 
-	if visibility and visibility:match("[\n\r]") then
-		visibility = visibility:gsub("[\n\r]","")
+	if visibility and match(visibility, "[\n\r]") then
+		visibility = gsub(visibility, "[\n\r]","")
 	end
 
 	if numButtons < buttonsPerRow then

@@ -39,8 +39,8 @@ local function LoadSkin()
 		local cooldown = _G["SpellButton"..i.."Cooldown"]
 		local highlight = _G["SpellButton"..i.."Highlight"]
 
-		for i = 1, button:GetNumRegions() do
-			local region = select(i, button:GetRegions())
+		for j = 1, button:GetNumRegions() do
+			local region = select(j, button:GetRegions())
 			if region:GetObjectType() == "Texture" then
 				if region:GetTexture() ~= "Interface\\Buttons\\ActionBarFlyoutButton" then
 					region:SetTexture(nil)

@@ -196,7 +196,7 @@ local function LoadSkin()
 		QuestInfoItemChooseText:SetTextColor(unpack(textColor))
 		QuestInfoItemReceiveText:SetTextColor(unpack(textColor))
 		QuestInfoSpellLearnText:SetTextColor(unpack(textColor))
-		QuestInfoXPFrameReceiveText:SetTextColor(unpack(textColor))	
+		QuestInfoXPFrameReceiveText:SetTextColor(unpack(textColor))
 		QuestInfoSpellObjectiveLearnLabel:SetTextColor(unpack(textColor))
 
 		for i = 1, MAX_REPUTATIONS do
@@ -342,7 +342,7 @@ local function LoadSkin()
 				self:GetNormalTexture():SetTexture(E.Media.Textures.Plus)
 			else
 				self:GetNormalTexture():SetTexture("")
- 			end
+			end
 		end)
 	end
 

@@ -1,7 +1,7 @@
 ﻿local E, L, V, P, G = unpack(select(2, ...))
 local DT = E:GetModule("DataTexts")
 
-local type, pairs = type, pairs
+local type = type
 local sort, wipe, next = table.sort, wipe, next
 local format, find, join, gsub = string.format, string.find, string.join, string.gsub
 

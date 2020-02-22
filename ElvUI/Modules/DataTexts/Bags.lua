@@ -5,7 +5,6 @@ local format, join = string.format, string.join
 
 local ContainerIDToInventoryID = ContainerIDToInventoryID
 local GetBackpackCurrencyInfo = GetBackpackCurrencyInfo
-local GetContainerItemInfo = GetContainerItemInfo
 local GetContainerNumFreeSlots = GetContainerNumFreeSlots
 local GetContainerNumSlots = GetContainerNumSlots
 local GetItemInfo = GetItemInfo

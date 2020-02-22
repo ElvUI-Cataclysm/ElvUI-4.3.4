@@ -1,6 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local M = E:GetModule("Minimap")
-local S = E:GetModule("Skins")
 local RBR = E:GetModule("ReminderBuffs")
 
 local _G = _G
@@ -139,7 +138,7 @@ end
 function M:Minimap_OnMouseUp(btn)
 	local position = self:GetPoint()
 	if btn == "MiddleButton" or (btn == "RightButton" and IsShiftKeyDown()) then
-		if position:match("LEFT") then
+		if match(position, "LEFT") then
 			EasyMenu(menuList, menuFrame, "cursor", 0, 0, "MENU", 2)
 		else
 			EasyMenu(menuList, menuFrame, "cursor", -160, 0, "MENU", 2)

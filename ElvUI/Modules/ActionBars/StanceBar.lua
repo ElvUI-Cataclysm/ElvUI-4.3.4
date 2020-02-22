@@ -264,8 +264,8 @@ function AB:PositionAndSizeBarShapeShift()
 
 	if self.db.stanceBar.enabled then
 		local visibility = self.db.stanceBar.visibility
-		if visibility and visibility:match("[\n\r]") then
-			visibility = visibility:gsub("[\n\r]", "")
+		if visibility and match(visibility, "[\n\r]") then
+			visibility = gsub(visibility, "[\n\r]", "")
 		end
 
 		RegisterStateDriver(bar, "visibility", (GetNumShapeshiftForms() == 0 and "hide") or visibility)

@@ -64,7 +64,6 @@ local function OnEnter(self)
 	end
 
 	DT:SetupTooltip(self)
-	local allUnavailable = true
 	local numCTA = 0
 	for i = 1, GetNumRandomDungeons() do
 		local id, name = GetLFGRandomDungeonInfo(i)
@@ -81,7 +80,6 @@ local function OnEnter(self)
 		end
 
 		if not unavailable then
-			allUnavailable = false
 			local rolesString = MakeIconString(tankReward, healerReward, dpsReward)
 			if rolesString ~= ""  then
 				DT.tooltip:AddDoubleLine(name..":", rolesString, 1, 1, 1)

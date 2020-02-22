@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...))
 local TT = E:GetModule("Tooltip")
 
 local _G = _G
-local unpack, tonumber, select, pairs = unpack, tonumber, select, pairs
+local unpack, tonumber, select = unpack, tonumber, select
 local twipe, tinsert, tconcat = table.wipe, table.insert, table.concat
 local floor = math.floor
 local find, format, sub, match = string.find, string.format, string.sub, string.match
@@ -49,7 +49,7 @@ local GameTooltip_ClearMoney = GameTooltip_ClearMoney
 local AFK, BOSS, DEAD, DND = AFK, BOSS, DEAD, DND
 local FACTION_ALLIANCE, FACTION_HORDE, FACTION_BAR_COLORS = FACTION_ALLIANCE, FACTION_HORDE, FACTION_BAR_COLORS
 local FOREIGN_SERVER_LABEL = FOREIGN_SERVER_LABEL
-local ID, NONE, PVP = ID, NONE, PVP
+local ID, PVP = ID, PVP
 local ROLE, TANK, HEALER = ROLE, TANK, HEALER
 local ITEM_QUALITY3_DESC = ITEM_QUALITY3_DESC
 local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
@@ -174,7 +174,7 @@ function TT:GetLevelLine(tt, offset)
 	for i = offset, tt:NumLines() do
 		local tipLine = _G["GameTooltipTextLeft"..i]
 		local tipText = tipLine and tipLine.GetText and tipLine:GetText()
-		if tipText and (tipText:find(LEVEL1) or tipText:find(LEVEL2)) then
+		if tipText and find(tipText, LEVEL1) or find(tipText, LEVEL2) then
 			return tipLine
 		end
 	end

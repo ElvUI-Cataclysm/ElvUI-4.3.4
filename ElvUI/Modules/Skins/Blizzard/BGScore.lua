@@ -26,7 +26,7 @@ local function LoadSkin()
 	S:HandleScrollBar(WorldStateScoreScrollFrameScrollBar)
 	S:HandleButton(WorldStateScoreFrameLeaveButton)
 
-	for i = 1, 3 do 
+	for i = 1, 3 do
 		S:HandleTab(_G["WorldStateScoreFrameTab"..i])
 	end
 
@@ -43,7 +43,7 @@ local function LoadSkin()
 	WorldStateScoreFrameTeam:StyleButton()
 	WorldStateScoreFrameRatingChange:StyleButton()
 
-	for i = 1, 5 do 
+	for i = 1, 5 do
 		_G["WorldStateScoreColumn"..i]:StyleButton()
 	end
 

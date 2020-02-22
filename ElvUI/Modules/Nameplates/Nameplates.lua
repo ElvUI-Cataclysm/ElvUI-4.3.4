@@ -21,7 +21,6 @@ local SetCVar = SetCVar
 local UnitClass = UnitClass
 local UnitExists = UnitExists
 local UnitGUID = UnitGUID
-local UnitHealthMax = UnitHealthMax
 local UnitIsPlayer = UnitIsPlayer
 local UnitName = UnitName
 local WorldFrame = WorldFrame

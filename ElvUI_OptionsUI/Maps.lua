@@ -2,7 +2,6 @@
 local C, L = unpack(select(2, ...))
 local WM = E:GetModule("WorldMap")
 local MM = E:GetModule("Minimap")
-local AB = E:GetModule("ActionBars")
 local Misc = E:GetModule("Misc")
 
 local positionValues = {

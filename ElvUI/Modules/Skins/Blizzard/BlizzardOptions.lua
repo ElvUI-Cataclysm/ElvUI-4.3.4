@@ -402,7 +402,7 @@ local function LoadSkin()
 		S:HandleScrollBar(Scrollbar)
 	end
 
-	-- Reposition Buttons 
+	-- Reposition Buttons
 	VideoOptionsFrameCancel:ClearAllPoints()
 	VideoOptionsFrameCancel:Point("RIGHT", VideoOptionsFrameApply, "LEFT", -4, 0)
 
