@@ -72,11 +72,7 @@ local function LoadSkin()
 		_G[frame.."EnchantBottom"]:SetTexture(0, 1, 0, 0.2)
 	end
 
-	hooksecurefunc("TradeFrame_UpdatePlayerItem", function(id)
-		local button = _G["TradePlayerItem"..id.."ItemButton"]
-		local name = _G["TradePlayerItem"..id.."Name"]
-		local link = GetTradePlayerItemLink(id)
-
+	local function TradeQualityColors(button, name, link)
 		if link then
 			local quality = select(3, GetItemInfo(link))
 
@@ -91,6 +87,14 @@ local function LoadSkin()
 			button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			name:SetTextColor(1, 1, 1)
 		end
+	end
+
+	hooksecurefunc("TradeFrame_UpdatePlayerItem", function(id)
+		local button = _G["TradePlayerItem"..id.."ItemButton"]
+		local name = _G["TradePlayerItem"..id.."Name"]
+		local link = GetTradePlayerItemLink(id)
+
+		TradeQualityColors(button, name, link)
 	end)
 
 	hooksecurefunc("TradeFrame_UpdateTargetItem", function(id)
@@ -98,20 +102,7 @@ local function LoadSkin()
 		local name = _G["TradeRecipientItem"..id.."Name"]
 		local link = GetTradeTargetItemLink(id)
 
-		if link then
-			local quality = select(3, GetItemInfo(link))
-
-			if quality then
-				button:SetBackdropBorderColor(GetItemQualityColor(quality))
-				name:SetTextColor(GetItemQualityColor(quality))
-			else
-				button:SetBackdropBorderColor(unpack(E.media.bordercolor))
-				name:SetTextColor(1, 1, 1)
-			end
-		else
-			button:SetBackdropBorderColor(unpack(E.media.bordercolor))
-			name:SetTextColor(1, 1, 1)
-		end
+		TradeQualityColors(button, name, link)
 	end)
 end
 
