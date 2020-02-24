@@ -42,8 +42,8 @@ function M:UpdateBubbleBorder()
 	if E.private.chat.enable and E.private.general.classColorMentionsSpeech then
 		local classColorTable, lowerCaseWord, isFirstWord, rebuiltString, tempWord, wordMatch, classMatch
 		if text and text:match("%s-%S+%s*") then
-			for word in gmatch(text"%s-%S+%s*") do
-				tempWord = gsub(word, "^[%s%p]-([^%s%p]+)([%-]?[^%s%p]-)[%s%p]*$","%1%2")
+			for word in gmatch(text, "%s-%S+%s*") do
+				tempWord = gsub(word, "^[%s%p]-([^%s%p]+)([%-]?[^%s%p]-)[%s%p]*$", "%1%2")
 				lowerCaseWord = lower(tempWord)
 
 				classMatch = CH.ClassNames[lowerCaseWord]
