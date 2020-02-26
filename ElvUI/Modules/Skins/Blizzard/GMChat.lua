@@ -1,13 +1,12 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
+local LSM = E.Libs.LSM
 
 local _G = _G
 local unpack = unpack
 
 local function LoadChatSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.gmchat then return end
-
-	local LSM = LibStub("LibSharedMedia-3.0")
 
 	GMChatFrame:StripTextures()
 	GMChatFrame:CreateBackdrop("Transparent")

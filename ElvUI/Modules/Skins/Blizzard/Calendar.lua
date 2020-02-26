@@ -13,7 +13,7 @@ local function LoadSkin()
 	CalendarFrame:StripTextures()
 	CalendarFrame:CreateBackdrop("Transparent")
 	CalendarFrame.backdrop:Point("TOPLEFT", 9, -2)
-	CalendarFrame.backdrop:Point("BOTTOMRIGHT", -7, 2)
+	CalendarFrame.backdrop:Point("BOTTOMRIGHT", -8, 2)
 	CalendarFrame:EnableMouseWheel(true)
 	CalendarFrame:SetScript("OnMouseWheel", function(_, value)
 		if value > 0 then
@@ -55,7 +55,7 @@ local function LoadSkin()
 	for i = 1, 7 do
 		local button = _G["CalendarContextMenuButton"..i]
 
-		button:StyleButton()
+		S:HandleButtonHighlight(button, true)
 	end
 
 	for i = 1, 42 do
@@ -126,6 +126,11 @@ local function LoadSkin()
 	CalendarCreateEventFrame:StripTextures()
 	CalendarCreateEventFrame:SetTemplate("Transparent")
 	CalendarCreateEventFrame:Point("TOPLEFT", CalendarFrame, "TOPRIGHT", -(E.PixelMode and 6 or 4), -2)
+	CalendarCreateEventFrame:CreateBackdrop()
+	CalendarCreateEventFrame.backdrop:SetOutside(CalendarCreateEventIcon)
+
+	CalendarCreateEventIcon:SetTexCoord(unpack(E.TexCoords))
+	CalendarCreateEventIcon.SetTexCoord = E.noop
 
 	CalendarCreateEventTitleFrame:StripTextures()
 
@@ -164,13 +169,25 @@ local function LoadSkin()
 	S:HandleDropDownBox(CalendarCreateEventMinuteDropDown, 68)
 	S:HandleDropDownBox(CalendarCreateEventAMPMDropDown, 68)
 	S:HandleDropDownBox(CalendarCreateEventRepeatOptionDropDown, 120)
-	CalendarCreateEventIcon:SetTexCoord(unpack(E.TexCoords))
-	CalendarCreateEventIcon.SetTexCoord = E.noop
 
 	CalendarCreateEventInviteListSection:StripTextures()
 
 	S:HandleScrollBar(CalendarCreateEventDescriptionScrollFrameScrollBar)
 	S:HandleScrollBar(CalendarCreateEventInviteListScrollFrameScrollBar)
+
+	if CalendarCreateEventInviteListScrollFrame.buttons then
+		for _, button in ipairs(CalendarCreateEventInviteListScrollFrame.buttons) do
+			S:HandleButtonHighlight(button)
+		end
+	else
+		CalendarCreateEventInviteList:HookScript("OnEvent", function(self, event)
+			if event == "ADDON_LOADED" then
+				for _, button in ipairs(self.scrollFrame.buttons) do
+					S:HandleButtonHighlight(button)
+				end
+			end
+		end)
+	end
 
 	CalendarClassButtonContainer:HookScript("OnShow", function()
 		for i, class in ipairs(CLASS_SORT_ORDER) do
@@ -195,6 +212,12 @@ local function LoadSkin()
 
 	CalendarInviteStatusContextMenu:StripTextures()
 	CalendarInviteStatusContextMenu:SetTemplate("Transparent")
+
+	for i = 1, 32 do
+		local button = _G["CalendarInviteStatusContextMenuButton"..i]
+
+		S:HandleButtonHighlight(button, true)
+	end
 
 	-- Texture Picker Frame
 	CalendarTexturePickerFrame:StripTextures()

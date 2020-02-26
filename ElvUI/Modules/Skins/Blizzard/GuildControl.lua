@@ -81,7 +81,6 @@ end
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.guildcontrol then return end
 
-	local GuildControlUI = _G["GuildControlUI"]
 	GuildControlUI:StripTextures()
 	GuildControlUI:SetTemplate("Transparent")
 	GuildControlUI:Point("TOPLEFT", GuildFrame, "TOPRIGHT", 3, 0)
@@ -123,7 +122,6 @@ local function LoadSkin()
 
 	GuildControlUIRankBankFrame:StripTextures()
 
-	local once = false
 	hooksecurefunc("GuildControlUI_BankTabPermissions_Update", function()
 		local numTabs = GetNumGuildBankTabs()
 		if numTabs < MAX_BUY_GUILDBANK_TABS then
@@ -139,7 +137,7 @@ local function LoadSkin()
 			icon:SetTexCoord(unpack(E.TexCoords))
 			icon:SetParent(tab.backdrop)
 
-			if once == false then
+			if not tab.isSkinned then
 				S:HandleButton(_G["GuildControlBankTab"..i.."BuyPurchaseButton"])
 				S:HandleEditBox(_G["GuildControlBankTab"..i.."OwnedStackBox"])
 				S:HandleCheckBox(_G["GuildControlBankTab"..i.."OwnedViewCheck"])
@@ -150,9 +148,10 @@ local function LoadSkin()
 				fixSkin(_G["GuildControlBankTab"..i.."OwnedViewCheck"])
 				fixSkin(_G["GuildControlBankTab"..i.."OwnedDepositCheck"])
 				fixSkin(_G["GuildControlBankTab"..i.."OwnedUpdateInfoCheck"])
+				
+				tab.isSkinned = true
 			end
 		end
-		once = true
 	end)
 
 	S:HandleDropDownBox(GuildControlUIRankBankFrameRankDropDown, 193)

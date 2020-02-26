@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
 local _G = _G
-local pairs, unpack, select = pairs, unpack, select
+local pairs, type, unpack, select = pairs, type, unpack, select
 local find = string.find
 
 local GetLFGProposal = GetLFGProposal
@@ -103,7 +103,7 @@ local function LoadSkin()
 
 	hooksecurefunc("LFDQueueFrameRandom_UpdateFrame", function()
 		local dungeonID = LFDQueueFrame.type
-		if not dungeonID then return end
+		if type(dungeonID) ~= "number" then return end
 
 		local _, _, _, _, _, numRewards = GetLFGDungeonRewards(dungeonID)
 		for i = 1, numRewards do

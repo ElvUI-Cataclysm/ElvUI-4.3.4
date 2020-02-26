@@ -10,7 +10,6 @@ local hooksecurefunc = hooksecurefunc
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.guild then return end
 
-	local GuildFrame = _G["GuildFrame"]
 	GuildFrame:StripTextures(true)
 	GuildFrame:SetTemplate("Transparent")
 
@@ -101,7 +100,9 @@ local function LoadSkin()
 			button:CreateBackdrop("Default")
 			button.backdrop:SetOutside(button.icon)
 
-			S:HandleButtonHighlight(button)
+			S:HandleButtonHighlight(button, true)
+			button.handledHighlight:Point("TOPLEFT", 0, -1)
+			button.handledHighlight:Point("BOTTOMRIGHT", 0, 1)
 
 			button.icon:SetTexCoord(unpack(E.TexCoords))
 			button.icon:Point("TOPLEFT", 2, -2)
@@ -194,8 +195,10 @@ local function LoadSkin()
 	hooksecurefunc(GuildRosterContainer, "update", update)
 
 	for i = 1, 4 do
-		_G["GuildRosterColumnButton"..i]:StripTextures(true)
-		_G["GuildRosterColumnButton"..i]:StyleButton()
+		local frame = _G["GuildRosterColumnButton"..i]
+
+		frame:StripTextures(true)
+		frame:StyleButton()
 	end
 
 	S:HandleDropDownBox(GuildRosterViewDropdown, 200)
@@ -271,7 +274,6 @@ local function LoadSkin()
 	GuildNewsFiltersFrameCloseButton:Point("TOPRIGHT", 2, 2)
 
 	-- Guild Info
-	local GuildInfoFrameInfo = _G["GuildInfoFrameInfo"]
 	GuildInfoFrameInfo:StripTextures()
 	GuildInfoFrameApplicants:StripTextures()
 	GuildInfoFrameApplicantsContainer:StripTextures()

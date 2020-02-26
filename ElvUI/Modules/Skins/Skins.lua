@@ -114,26 +114,35 @@ function S:HandleButton(button, strip, isDeclineButton, useCreateBackdrop, noSet
 	button.isSkinned = true
 end
 
-function S:HandleButtonHighlight(frame, r, g, b)
-	if frame.SetHighlightTexture then
-		frame:SetHighlightTexture("")
+function S:HandleButtonHighlight(frame, override, r, g, b, a)
+	local highlightTexture
+
+	if override then
+		highlightTexture = frame:CreateTexture(nil, "HIGHLIGHT")
+		highlightTexture:SetAllPoints(frame)
+		frame.HighlightTexture = highlightTexture
+	else
+		if frame.SetHighlightTexture and frame.GetHighlightTexture then
+			highlightTexture = frame:GetHighlightTexture()
+			highlightTexture:SetAllPoints(frame)
+		elseif frame.SetTexture then
+			highlightTexture = frame
+			frame:SetAllPoints(frame:GetParent())
+		elseif frame.HighlightTexture then
+			highlightTexture = frame.HighlightTexture
+		else
+			highlightTexture = frame:CreateTexture(nil, "HIGHLIGHT")
+			highlightTexture:SetAllPoints(frame)
+			frame.HighlightTexture = highlightTexture
+		end
 	end
 
-	if not r then r = 0.9 end
-	if not g then g = 0.9 end
-	if not b then b = 0.9 end
+	highlightTexture:SetTexture(E.Media.Textures.Highlight)
+	highlightTexture:SetVertexColor(r or 1, g or 1, b or 1, a or 0.35)
+	highlightTexture:SetTexCoord(0, 1, 0, 1)
+	highlightTexture.SetTexCoord = E.noop
 
-	local leftGrad = frame:CreateTexture(nil, "HIGHLIGHT")
-	leftGrad:Size(frame:GetWidth() * 0.5, frame:GetHeight() * 0.95)
-	leftGrad:Point("LEFT", frame, "CENTER")
-	leftGrad:SetTexture(E.media.blankTex)
-	leftGrad:SetGradientAlpha("Horizontal", r, g, b, 0.35, r, g, b, 0)
-
-	local rightGrad = frame:CreateTexture(nil, "HIGHLIGHT")
-	rightGrad:Size(frame:GetWidth() * 0.5, frame:GetHeight() * 0.95)
-	rightGrad:Point("RIGHT", frame, "CENTER")
-	rightGrad:SetTexture(E.media.blankTex)
-	rightGrad:SetGradientAlpha("Horizontal", r, g, b, 0, r, g, b, 0.35)
+	frame.handledHighlight = highlightTexture
 end
 
 local function GrabScrollBarElement(frame, element)
@@ -796,6 +805,13 @@ function S:Initialize()
 
 	S:SkinAce3()
 
+	--Fire event for all skins that doesn't rely on a Blizzard addon
+	for index, event in ipairs(self.nonAddonCallbacks.CallPriority) do
+		self.nonAddonCallbacks[event] = nil
+		self.nonAddonCallbacks.CallPriority[index] = nil
+		E.callbacks:Fire(event)
+	end
+
 	--Fire events for Blizzard addons that are already loaded
 	for addon in pairs(self.addonCallbacks) do
 		if IsAddOnLoaded(addon) then
@@ -805,13 +821,6 @@ function S:Initialize()
 				E.callbacks:Fire(event)
 			end
 		end
-	end
-
-	--Fire event for all skins that doesn't rely on a Blizzard addon
-	for index, event in ipairs(self.nonAddonCallbacks.CallPriority) do
-		self.nonAddonCallbacks[event] = nil
-		self.nonAddonCallbacks.CallPriority[index] = nil
-		E.callbacks:Fire(event)
 	end
 end
 

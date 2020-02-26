@@ -38,18 +38,23 @@ local function LoadSkin()
 		headerTab:HookScript("OnLeave", S.SetOriginalBackdrop)
 	end
 
-	for i = 1, 11 do
-		_G["FriendsFrameFriendsScrollFrameButton"..i.."SummonButtonIcon"]:SetTexCoord(unpack(E.TexCoords))
-		_G["FriendsFrameFriendsScrollFrameButton"..i.."SummonButtonNormalTexture"]:SetAlpha(0)
-		_G["FriendsFrameFriendsScrollFrameButton"..i.."SummonButton"]:StyleButton()
+	for i = 1, FRIENDS_FRIENDS_TO_DISPLAY do
+		local button = _G["FriendsFrameFriendsScrollFrameButton"..i]
+		local summon = button.summonButton:GetName()
 
-		if not IsAddOnLoaded("ElvUI_EnhancedFriendsList") then
-			_G["FriendsFrameFriendsScrollFrameButton"..i.."Background"]:SetInside()
-			_G["FriendsFrameFriendsScrollFrameButton"..i]:StyleButton()
-		end
+		S:HandleButtonHighlight(button)
+		button.handledHighlight:Point("TOPLEFT", 0, -1)
+		button.handledHighlight:Point("BOTTOMLEFT", 0, 1)
+
+		button.background:SetInside()
+
+		_G[summon]:StyleButton()
+		_G[summon.."Icon"]:SetTexCoord(unpack(E.TexCoords))
+		_G[summon.."NormalTexture"]:SetAlpha(0)
+		E:RegisterCooldown(_G[summon.."Cooldown"])
 	end
 
-	for i = 1, 4 do
+	for i = 1, PENDING_INVITES_TO_DISPLAY do
 		_G["FriendsFramePendingButton"..i]:StripTextures()
 		S:HandleButton(_G["FriendsFramePendingButton"..i.."AcceptButton"])
 		S:HandleButton(_G["FriendsFramePendingButton"..i.."DeclineButton"])
@@ -104,15 +109,17 @@ local function LoadSkin()
 
 	S:HandleEditBox(AddFriendNameEditBox)
 
-	--Who Frame
+	-- Who Frame
 	WhoFrameListInset:StripTextures()
 	WhoFrameEditBoxInset:StripTextures()
 	WhoListScrollFrame:StripTextures()
 
 	for i = 1, 4 do
-		_G["WhoFrameColumnHeader"..i]:StripTextures()
-		_G["WhoFrameColumnHeader"..i]:StyleButton()
-		_G["WhoFrameColumnHeader"..i]:ClearAllPoints()
+		local header = _G["WhoFrameColumnHeader"..i]
+
+		header:StripTextures()
+		header:StyleButton()
+		header:ClearAllPoints()
 	end
 
 	WhoFrameColumnHeader1:Point("LEFT", WhoFrameColumnHeader4, "RIGHT", -2, 0)
@@ -146,10 +153,10 @@ local function LoadSkin()
 	WhoListScrollFrameScrollBar:Point("TOPRIGHT", WhoListScrollFrame, "TOPRIGHT", 26, -13)
 	WhoListScrollFrameScrollBar:Point("BOTTOMRIGHT", WhoListScrollFrame, "BOTTOMRIGHT", 0, 18)
 
-	for i = 1, 17 do
+	for i = 1, WHOS_TO_DISPLAY do
 		local button = _G["WhoFrameButton"..i]
-		local level = _G["WhoFrameButton" .. i .. "Level"]
-		local name = _G["WhoFrameButton" .. i .. "Name"]
+		local level = _G["WhoFrameButton"..i.."Level"]
+		local name = _G["WhoFrameButton"..i.."Name"]
 
 		button.icon = button:CreateTexture("$parentIcon", "ARTWORK")
 		button.icon:Point("LEFT", 45, 0)
@@ -158,7 +165,10 @@ local function LoadSkin()
 
 		button:CreateBackdrop("Default", true)
 		button.backdrop:SetAllPoints(button.icon)
+
 		S:HandleButtonHighlight(button)
+		button.handledHighlight:Point("TOPLEFT", 0, -1)
+		button.handledHighlight:Point("BOTTOMLEFT", 0, 1)
 
 		button.stripe = button:CreateTexture(nil, "BACKGROUND")
 		button.stripe:SetTexture("Interface\\GuildFrame\\GuildFrame")
@@ -190,7 +200,6 @@ local function LoadSkin()
 			local button = _G["WhoFrameButton"..i]
 			local nameText = _G["WhoFrameButton"..i.."Name"]
 			local levelText = _G["WhoFrameButton"..i.."Level"]
-		--	local classText = _G["WhoFrameButton"..i.."Class"]
 			local variableText = _G["WhoFrameButton"..i.."Variable"]
 
 			local _, guild, level, race, _, zone, classFileName = GetWhoInfo(index)
@@ -253,6 +262,7 @@ local function LoadSkin()
 	hooksecurefunc("ChannelList_Update", function()
 		for i = 1, MAX_DISPLAY_CHANNEL_BUTTONS do
 			local button = _G["ChannelButton"..i]
+
 			if button then
 				_G["ChannelButton"..i.."NormalTexture"]:SetAlpha(0)
 				_G["ChannelButton"..i.."Text"]:FontTemplate(nil, 12)
@@ -260,6 +270,7 @@ local function LoadSkin()
 
 				if not button.isSkinned then
 					S:HandleButtonHighlight(button)
+					button.handledHighlight:SetInside()
 
 					button.isSkinned = true
 				end
@@ -267,7 +278,7 @@ local function LoadSkin()
 		end
 	end)
 
-	for i = 1, 22 do
+	for i = 1, MAX_CHANNEL_MEMBER_BUTTONS do
 		S:HandleButtonHighlight(_G["ChannelMemberButton"..i])
 	end
 
@@ -292,7 +303,9 @@ local function LoadSkin()
 	S:HandleButton(BNConversationInviteDialogCancelButton)
 
 	for i = 1, BN_CONVERSATION_INVITE_NUM_DISPLAYED do
-		S:HandleCheckBox(_G["BNConversationInviteDialogListFriend"..i].checkButton)
+		local button = _G["BNConversationInviteDialogListFriend"..i]
+
+		S:HandleCheckBox(button.checkButton)
 	end
 
 	-- Ignore List
@@ -308,7 +321,7 @@ local function LoadSkin()
 	FriendsFrameIgnoreScrollFrameScrollBar:Point("TOPRIGHT", FriendsFrameIgnoreScrollFrame, "TOPRIGHT", 58, -1)
 	FriendsFrameIgnoreScrollFrameScrollBar:Point("BOTTOMRIGHT", FriendsFrameIgnoreScrollFrame, "BOTTOMRIGHT", 0, 29)
 
-	for i = 1, 19 do
+	for i = 1, IGNORES_TO_DISPLAY do
 		local button = _G["FriendsFrameIgnoreButton"..i]
 
 		button:Width(298)
@@ -356,7 +369,7 @@ local function LoadSkin()
 
 	FriendsTabHeaderSoRButton:SetTemplate("Default")
 	FriendsTabHeaderSoRButton:StyleButton()
-	FriendsTabHeaderSoRButton:Point("TOPRIGHT", FriendsTabHeader, "TOPRIGHT", -8, -56)
+	FriendsTabHeaderSoRButton:Point("TOPRIGHT", FriendsTabHeader, "TOPRIGHT", -6, -50)
 
 	FriendsTabHeaderSoRButtonIcon:ClearAllPoints()
 	FriendsTabHeaderSoRButtonIcon:SetInside()

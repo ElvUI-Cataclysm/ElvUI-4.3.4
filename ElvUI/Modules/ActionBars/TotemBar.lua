@@ -256,6 +256,7 @@ function AB:CreateTotemBar()
 		self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 	end)
 
+	-- Bar Frame
 	MultiCastActionBarFrame:SetParent(bar)
 	MultiCastActionBarFrame:ClearAllPoints()
 	MultiCastActionBarFrame:SetPoint("BOTTOMLEFT", bar, "BOTTOMLEFT", -E.Border, -E.Border)
@@ -268,9 +269,32 @@ function AB:CreateTotemBar()
 	self:HookScript(MultiCastActionBarFrame, "OnEnter", "TotemOnEnter")
 	self:HookScript(MultiCastActionBarFrame, "OnLeave", "TotemOnLeave")
 
+	-- Flyout Frame
 	self:HookScript(MultiCastFlyoutFrame, "OnEnter", "TotemOnEnter")
 	self:HookScript(MultiCastFlyoutFrame, "OnLeave", "TotemOnLeave")
 
+	-- Flyout Open / Close Buttons
+	for _, frame in pairs({"MultiCastFlyoutFrameOpenButton", "MultiCastFlyoutFrameCloseButton"}) do
+		local button = _G[frame]
+
+		button:CreateBackdrop("Default", true, true)
+		button.backdrop:Point("TOPLEFT", 0, -(E.Border + E.Spacing))
+		button.backdrop:Point("BOTTOMRIGHT", 0, E.Border + E.Spacing)
+
+		button.icon = button:CreateTexture(nil, "ARTWORK")
+		button.icon:Size(16)
+		button.icon:SetPoint("CENTER")
+		button.icon:SetTexture(E.Media.Textures.ArrowUp)
+
+		button.normalTexture:SetTexture("")
+		button:StyleButton()
+		button.hover:SetInside(button.backdrop)
+		button.pushed:SetInside(button.backdrop)
+
+		bar.buttons[button] = true
+	end
+
+	-- Summon / Recall Buttons
 	for _, frame in pairs({"MultiCastSummonSpellButton", "MultiCastRecallSpellButton"}) do
 		local button = _G[frame]
 		local icon = _G[frame.."Icon"]
@@ -298,26 +322,7 @@ function AB:CreateTotemBar()
 		end
 	end)
 
-	for _, frame in pairs({"MultiCastFlyoutFrameOpenButton", "MultiCastFlyoutFrameCloseButton"}) do
-		local button = _G[frame]
-
-		button:CreateBackdrop("Default", true, true)
-		button.backdrop:Point("TOPLEFT", 0, -(E.Border + E.Spacing))
-		button.backdrop:Point("BOTTOMRIGHT", 0, E.Border + E.Spacing)
-
-		button.icon = button:CreateTexture(nil, "ARTWORK")
-		button.icon:Size(16)
-		button.icon:SetPoint("CENTER")
-		button.icon:SetTexture(E.Media.Textures.ArrowUp)
-
-		button.normalTexture:SetTexture("")
-		button:StyleButton()
-		button.hover:SetInside(button.backdrop)
-		button.pushed:SetInside(button.backdrop)
-
-		bar.buttons[button] = true
-	end
-
+	-- Slot Buttons
 	for i = 1, 4 do
 		local button = _G["MultiCastSlotButton"..i]
 
@@ -334,6 +339,7 @@ function AB:CreateTotemBar()
 		bar.buttons[button] = true
 	end
 
+	-- Action Buttons
 	for i = 1, 12 do
 		local button = _G["MultiCastActionButton"..i]
 		local normal = _G["MultiCastActionButton"..i.."NormalTexture"]
@@ -347,7 +353,7 @@ function AB:CreateTotemBar()
 		button.overlayTex:SetTexture(nil)
 		normal:SetTexture(nil)
 
-		--E:RegisterCooldown(button.cooldown)
+--		E:RegisterCooldown(button.cooldown)
 
 		bar.buttons[button] = true
 	end
