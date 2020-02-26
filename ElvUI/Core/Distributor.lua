@@ -4,7 +4,7 @@ local LibCompress = E.Libs.Compress
 local LibBase64 = E.Libs.Base64
 
 local tonumber, unpack, type, pcall, setfenv, loadstring = tonumber, unpack, type, pcall, setfenv, loadstring
-local format, gsub, len, sub, split = string.format, string.gsub, string.len, string.sub, string.split
+local find, format, gsub, len, split = string.find, string.format, string.gsub, string.len, string.split
 
 local CreateFrame = CreateFrame
 local GetNumRaidMembers, UnitInRaid = GetNumRaidMembers, UnitInRaid
@@ -404,7 +404,7 @@ function D:GetImportStringType(dataString)
 
 	if LibBase64:IsBase64(dataString) then
 		stringType = "Base64"
-	elseif sub(dataString, 1, 1) == "{" then --Basic check to weed out obviously wrong strings
+	elseif find(dataString, "{") then --Basic check to weed out obviously wrong strings
 		stringType = "Table"
 	end
 
@@ -541,7 +541,7 @@ end
 function D:ImportProfile(dataString)
 	local profileType, profileKey, profileData = self:Decode(dataString)
 
-	if profileMessage and (not profileData or type(profileData) ~= "table") then
+	if not profileData or type(profileData) ~= "table" then
 		E:Print("Error: something went wrong when converting string to table!")
 		return
 	end

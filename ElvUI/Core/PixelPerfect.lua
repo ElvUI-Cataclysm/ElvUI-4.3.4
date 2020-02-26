@@ -1,6 +1,6 @@
 local E, L, V, P, G = unpack(select(2, ...))
 
-local min, max, abs, floor = min, max, abs, floor
+local min, max, floor = min, max, floor
 
 local UIParent = UIParent
 
