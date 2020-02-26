@@ -5,6 +5,7 @@ L["# Displayed Auras"] = "显示光环的数量"
 L["%s and then %s"] = "%s 于 %s"
 L["2D"] = "2D"
 L["3D"] = "3D"
+L["Abbreviation"] = true
 L["Above Chat"] = "聊天框上方"
 L["Above"] = "向上"
 L["Accept Invites"] = "自动接受邀请"

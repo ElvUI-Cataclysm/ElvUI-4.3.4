@@ -5,6 +5,7 @@ L["# Displayed Auras"] = "표시되는 효과 갯수"
 L["%s and then %s"] = "%s 이후 %s"
 L["2D"] = "이미지"
 L["3D"] = "3d 모델"
+L["Abbreviation"] = true
 L["Above Chat"] = "채팅창 위에 배치"
 L["Above"] = "프레임 위로"
 L["Accept Invites"] = "지인의 초대 자동수락"

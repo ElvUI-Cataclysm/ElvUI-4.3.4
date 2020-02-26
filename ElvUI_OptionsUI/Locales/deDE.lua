@@ -5,6 +5,7 @@ L["# Displayed Auras"] = "# angezeigte Auren"
 L["%s and then %s"] = "%s und dann %s"
 L["2D"] = "2D"
 L["3D"] = "3D"
+L["Abbreviation"] = true
 L["Above Chat"] = "Über dem Chat"
 L["Above"] = "Oben"
 L["Accept Invites"] = "Einladungen akzeptieren"

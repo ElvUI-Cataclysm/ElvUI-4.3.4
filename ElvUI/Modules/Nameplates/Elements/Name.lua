@@ -2,8 +2,25 @@ local E, L, V, P, G = unpack(select(2, ...))
 local NP = E:GetModule("NamePlates")
 local LSM = E.Libs.LSM
 
+local format, gmatch, gsub, match = string.format, gmatch, gsub, string.match
+local utf8lower, utf8sub = string.utf8lower, string.utf8sub
+
 local UNKNOWN = UNKNOWN
 local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
+
+local function abbrev(name)
+	local letters, lastWord = "", match(name, ".+%s(.+)$")
+	if lastWord then
+		for word in gmatch(name, ".-%s") do
+			local firstLetter = utf8sub(gsub(word, "^[%s%p]*", ""), 1, 1)
+			if firstLetter ~= utf8lower(firstLetter) then
+				letters = format("%s%s. ", letters, firstLetter)
+			end
+		end
+		name = format("%s%s", letters, lastWord)
+	end
+	return name
+end
 
 function NP:Update_Name(frame, triggered)
 	if not triggered then
@@ -11,7 +28,8 @@ function NP:Update_Name(frame, triggered)
 	end
 
 	local name = frame.Name
-	name:SetText(frame.UnitName or UNKNOWN)
+	local nameText = frame.UnitName or UNKNOWN
+	name:SetText(self.db.units[frame.UnitType].name.abbrev and abbrev(nameText) or nameText)
 
 	if not triggered then
 		name:ClearAllPoints()

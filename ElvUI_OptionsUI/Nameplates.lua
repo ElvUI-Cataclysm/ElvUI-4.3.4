@@ -3026,6 +3026,11 @@ local function GetUnitSettings(unit, name)
 						type = "toggle",
 						name = L["ENABLE"]
 					},
+					abbrev = {
+						order = 2,
+						type = "toggle",
+						name = L["Abbreviation"]
+					},
 					spacer = {
 						order = 3,
 						type = "description",
