@@ -232,13 +232,20 @@ local function LoadSkin()
 			object.BgTop:SetTexture(nil)
 			object.BgBottom:SetTexture(nil)
 			object.BgMiddle:SetTexture(nil)
-
 			object.Check:SetTexture(nil)
+
 			object.text:FontTemplate()
 			object.text.SetFont = E.noop
-			object:StyleButton()
-			object.SelectedBar:SetTexture(0, 0.7, 1, 0.75)
+
+			S:HandleButtonHighlight(object)
+			object.handledHighlight:SetInside()
+
+			object.SelectedBar:SetTexture(E.Media.Textures.Highlight)
+			object.SelectedBar:SetVertexColor(unpack(E.media.rgbvaluecolor))
 			object.SelectedBar:SetInside()
+
+			object.Stripe:SetTexture(E.Media.Textures.Highlight)
+			object.Stripe.SetTexture = E.noop
 			object.Stripe:SetInside()
 		end
 	end)
@@ -255,11 +262,24 @@ local function LoadSkin()
 			object.BgMiddle:SetTexture(nil)
 			object.Check:SetTexture(nil)
 
-			object.SelectedBar:SetTexture(0, 0.7, 1, 0.75)
-			object.SelectedBar:SetInside()
-			object.HighlightBar:SetTexture(1, 1, 1, 0.30)
-			object.HighlightBar:SetInside()
-			object.Stripe:SetInside()
+			object.SelectedBar:SetTexture(E.Media.Textures.Highlight)
+			object.SelectedBar:SetVertexColor(unpack(E.media.rgbvaluecolor))
+			object.SelectedBar:Point("TOPLEFT", object, 42, -1)
+			object.SelectedBar:Point("BOTTOMRIGHT", object, 0, 1)
+			object.SelectedBar:SetTexCoord(0, 1, 0, 1)
+			object.SelectedBar.SetTexCoord = E.noop
+
+			object.HighlightBar:SetTexture(E.Media.Textures.Highlight)
+			object.HighlightBar:SetVertexColor(1, 1, 1, 0.35)
+			object.HighlightBar:Point("TOPLEFT", object, 42, -1)
+			object.HighlightBar:Point("BOTTOMRIGHT", object, 0, 1)
+			object.HighlightBar:SetTexCoord(0, 1, 0, 1)
+			object.HighlightBar.SetTexCoord = E.noop
+
+			object.Stripe:SetTexture(E.Media.Textures.Highlight)
+			object.Stripe.SetTexture = E.noop
+			object.Stripe:Point("TOPLEFT", object, 42, -1)
+			object.Stripe:Point("BOTTOMRIGHT", object, 0, 1)
 
 			object:CreateBackdrop("Default")
 			object.backdrop:Point("TOPLEFT", object.icon, -1, 1)
@@ -267,7 +287,7 @@ local function LoadSkin()
 
 			object.icon:SetTexCoord(unpack(E.TexCoords))
 			object.icon:SetParent(object.backdrop)
-			object.icon:SetPoint("LEFT", object, "LEFT", 1, 0)
+			object.icon:Point("LEFT", object, "LEFT", 1, 0)
 			object.icon.SetPoint = E.noop
 			object.icon:Size(40)
 			object.icon.SetSize = E.noop

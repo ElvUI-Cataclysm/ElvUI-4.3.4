@@ -98,10 +98,11 @@ local function LoadSkin()
 			text:SetTextColor(1, 1, 1)
 		else
 			if quality then
-				frame:SetBackdropBorderColor(GetItemQualityColor(quality))
-				frame.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
+				local r, g, b = GetItemQualityColor(quality)
+				frame:SetBackdropBorderColor(r, g, b)
+				frame.backdrop:SetBackdropBorderColor(r, g, b)
 
-				text:SetTextColor(GetItemQualityColor(quality))
+				text:SetTextColor(r, g, b)
 			else
 				frame:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				frame.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))

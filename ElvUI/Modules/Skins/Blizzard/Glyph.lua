@@ -110,12 +110,11 @@ local function LoadSkin()
 
 	for i = 1, 10 do
 		local button = _G["GlyphFrameScrollFrameButton"..i]
-		local icon = _G["GlyphFrameScrollFrameButton"..i.."Icon"]
 
 		button:StripTextures()
 		S:HandleButton(button)
 
-		icon:SetTexCoord(unpack(E.TexCoords))
+		button.icon:SetTexCoord(unpack(E.TexCoords))
 	end
 
 	S:HandleScrollBar(GlyphFrameScrollFrameScrollBar, 5)

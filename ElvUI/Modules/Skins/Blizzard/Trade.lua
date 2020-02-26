@@ -77,8 +77,9 @@ local function LoadSkin()
 			local quality = select(3, GetItemInfo(link))
 
 			if quality then
-				button:SetBackdropBorderColor(GetItemQualityColor(quality))
-				name:SetTextColor(GetItemQualityColor(quality))
+				local r, g, b = GetItemQualityColor(quality)
+				button:SetBackdropBorderColor(r, g, b)
+				name:SetTextColor(r, g, b)
 			else
 				button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				name:SetTextColor(1, 1, 1)

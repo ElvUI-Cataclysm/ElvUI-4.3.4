@@ -18,7 +18,6 @@ local function LoadSkin()
 
 	TRADE_SKILLS_DISPLAYED = 26
 
-	local TradeSkillFrame = _G["TradeSkillFrame"]
 	TradeSkillFrame:StripTextures(true)
 	TradeSkillFrame:SetAttribute("UIPanelLayout-width", E:Scale(720))
 	TradeSkillFrame:SetAttribute("UIPanelLayout-height", E:Scale(508))
@@ -199,8 +198,9 @@ local function LoadSkin()
 		if skillLink then
 			local quality = select(3, GetItemInfo(skillLink))
 			if quality then
-				TradeSkillSkillIcon:SetBackdropBorderColor(GetItemQualityColor(quality))
-				TradeSkillSkillName:SetTextColor(GetItemQualityColor(quality))
+				local r, g, b = GetItemQualityColor(quality)
+				TradeSkillSkillIcon:SetBackdropBorderColor(r, g, b)
+				TradeSkillSkillName:SetTextColor(r, g, b)
 			else
 				TradeSkillSkillIcon:SetBackdropBorderColor(unpack(E.media.bordercolor))
 				TradeSkillSkillName:SetTextColor(1, 1, 1)
@@ -218,12 +218,13 @@ local function LoadSkin()
 			if reagentLink then
 				local quality = select(3, GetItemInfo(reagentLink))
 				if quality then
-					icon.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
-					reagent:SetBackdropBorderColor(GetItemQualityColor(quality))
+					local r, g, b = GetItemQualityColor(quality)
+					icon.backdrop:SetBackdropBorderColor(r, g, b)
+					reagent:SetBackdropBorderColor(r, g, b)
 					if playerReagentCount < reagentCount then
 						name:SetTextColor(0.5, 0.5, 0.5)
 					else
-						name:SetTextColor(GetItemQualityColor(quality))
+						name:SetTextColor(r, g, b)
 					end
 				else
 					reagent:SetBackdropBorderColor(unpack(E.media.bordercolor))

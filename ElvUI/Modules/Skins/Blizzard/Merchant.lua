@@ -9,12 +9,10 @@ local hooksecurefunc = hooksecurefunc
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.merchant then return end
 
-	local MerchantFrame = _G["MerchantFrame"]
 	MerchantFrame:StripTextures(true)
 	MerchantFrame:CreateBackdrop("Transparent")
 	MerchantFrame.backdrop:Point("TOPLEFT", 10, -11)
 	MerchantFrame.backdrop:Point("BOTTOMRIGHT", -28, 60)
-
 	MerchantFrame:EnableMouseWheel(true)
 	MerchantFrame:SetScript("OnMouseWheel", function(_, value)
 		if value > 0 then
@@ -128,68 +126,51 @@ local function LoadSkin()
 		S:HandleTab(_G["MerchantFrameTab"..i])
 	end
 
+	local function MerchantQualityColors(button, name, link)
+		if link then
+			local quality = select(3, GetItemInfo(link))
+
+			if quality then
+				local r, g, b = GetItemQualityColor(quality)
+				button:SetBackdropBorderColor(r, g, b)
+				name:SetTextColor(r, g, b)
+			else
+				button:SetBackdropBorderColor(unpack(E.media.bordercolor))
+				name:SetTextColor(1, 1, 1)
+			end
+		else
+			button:SetBackdropBorderColor(unpack(E.media.bordercolor))
+			name:SetTextColor(1, 1, 1)
+		end
+	end
+
 	hooksecurefunc("MerchantFrame_UpdateMerchantInfo", function()
 		local numMerchantItems = GetMerchantNumItems()
+		local index, button, name
+
 		for i = 1, BUYBACK_ITEMS_PER_PAGE do
-			local index = (((MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE) + i)
-			local button = _G["MerchantItem"..i.."ItemButton"]
-			local name = _G["MerchantItem"..i.."Name"]
+			index = (((MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE) + i)
+			button = _G["MerchantItem"..i.."ItemButton"]
+			name = _G["MerchantItem"..i.."Name"]
 
 			if index <= numMerchantItems then
-				if button.link then
-					local _, _, quality = GetItemInfo(button.link)
-
-					if quality then
-						button:SetBackdropBorderColor(GetItemQualityColor(quality))
-						name:SetTextColor(GetItemQualityColor(quality))
-					else
-						button:SetBackdropBorderColor(unpack(E.media.bordercolor))
-						name:SetTextColor(1, 1, 1)
-					end
-				else
-					button:SetBackdropBorderColor(unpack(E.media.bordercolor))
-					name:SetTextColor(1, 1, 1)
-				end
+				MerchantQualityColors(button, name, button.link)
 			end
 
-			local buybackName = GetBuybackItemInfo(GetNumBuybackItems())
-			if buybackName then
-				local _, _, quality = GetItemInfo(buybackName)
-				local r, g, b = GetItemQualityColor(quality)
-
-				if quality then
-					MerchantBuyBackItemItemButton:SetBackdropBorderColor(r, g, b)
-					MerchantBuyBackItemName:SetTextColor(r, g, b)
-				else
-					MerchantBuyBackItemItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
-					MerchantBuyBackItemName:SetTextColor(1, 1, 1)
-				end
-			else
-				MerchantBuyBackItemItemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
-			end
+			MerchantQualityColors(MerchantBuyBackItemItemButton, MerchantBuyBackItemName, GetBuybackItemInfo(GetNumBuybackItems()))
 		end
 	end)
 
 	hooksecurefunc("MerchantFrame_UpdateBuybackInfo", function()
 		local numBuybackItems = GetNumBuybackItems()
-		local itemButton, itemName
+		local button, name
+
 		for i = 1, BUYBACK_ITEMS_PER_PAGE do
-			itemButton = _G["MerchantItem"..i.."ItemButton"]
-			itemName = _G["MerchantItem"..i.."Name"]
+			button = _G["MerchantItem"..i.."ItemButton"]
+			name = _G["MerchantItem"..i.."Name"]
 
 			if i <= numBuybackItems then
-				local buybackName = GetBuybackItemInfo(i)
-				if buybackName then
-					local _, _, quality = GetItemInfo(buybackName)
-
-					if quality then
-						itemButton:SetBackdropBorderColor(GetItemQualityColor(quality))
-						itemName:SetTextColor(GetItemQualityColor(quality))
-					else
-						itemButton:SetBackdropBorderColor(unpack(E.media.bordercolor))
-						itemName:SetTextColor(1, 1, 1)
-					end
-				end
+				MerchantQualityColors(button, name, GetBuybackItemInfo(i))
 			end
 		end
 	end)
