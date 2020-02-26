@@ -57,7 +57,6 @@ function UF:Update_AssistHeader(header, db)
 	UF:ClearChildPoints(header:GetChildren())
 
 	if not header.isForced and db.enable then
-	--	RegisterStateDriver(header, "visibility", "show")
 		RegisterStateDriver(header, "visibility", "[@raid1,exists] show;hide")
 	end
 
@@ -70,10 +69,9 @@ function UF:Update_AssistHeader(header, db)
 		header:Point("TOPLEFT", E.UIParent, "TOPLEFT", 4, -248)
 
 		local width, height = header:GetSize()
-		header.dirtyWidth, header.dirtyHeight = width, max(height, 2*db.height + db.verticalSpacing)
+		header.dirtyWidth, header.dirtyHeight = width, max(height, 2 * db.height + db.verticalSpacing)
 
 		E:CreateMover(header, header:GetName().."Mover", L["MA Frames"], nil, nil, nil, "ALL,RAID", nil, "unitframe,assist,generalGroup")
-		header.mover.positionOverride = "TOPLEFT"
 		header:SetAttribute("minHeight", header.dirtyHeight)
 		header:SetAttribute("minWidth", header.dirtyWidth)
 		header.positioned = true

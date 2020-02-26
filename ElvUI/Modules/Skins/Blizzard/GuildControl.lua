@@ -148,7 +148,7 @@ local function LoadSkin()
 				fixSkin(_G["GuildControlBankTab"..i.."OwnedViewCheck"])
 				fixSkin(_G["GuildControlBankTab"..i.."OwnedDepositCheck"])
 				fixSkin(_G["GuildControlBankTab"..i.."OwnedUpdateInfoCheck"])
-				
+
 				tab.isSkinned = true
 			end
 		end

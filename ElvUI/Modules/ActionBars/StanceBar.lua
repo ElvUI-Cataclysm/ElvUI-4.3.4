@@ -120,7 +120,7 @@ function AB:PositionAndSizeBarShapeShift()
 	local widthMult = self.db.stanceBar.widthMult
 	local heightMult = self.db.stanceBar.heightMult
 
-	--Now that we have set positionOverride for mover, convert "TOP" or "BOTTOM" to anchor points we can use
+	--Convert "TOP" or "BOTTOM" to anchor points we can use
 	local position = E:GetScreenQuadrant(bar)
 	if find(position, "LEFT") or position == "TOP" or position == "BOTTOM" then
 		if point == "TOP" then
@@ -128,12 +128,10 @@ function AB:PositionAndSizeBarShapeShift()
 		elseif point == "BOTTOM" then
 			point = "BOTTOMLEFT"
 		end
-	else
-		if point == "TOP" then
-			point = "TOPRIGHT"
-		elseif point == "BOTTOM" then
-			point = "BOTTOMRIGHT"
-		end
+	elseif point == "TOP" then
+		point = "TOPRIGHT"
+	elseif point == "BOTTOM" then
+		point = "BOTTOMRIGHT"
 	end
 
 	bar.db = self.db.stanceBar

@@ -541,7 +541,7 @@ end
 function D:ImportProfile(dataString)
 	local profileType, profileKey, profileData = self:Decode(dataString)
 
-	if not profileData or type(profileData) ~= "table" then
+	if profileMessage and (not profileData or type(profileData) ~= "table") then
 		E:Print("Error: something went wrong when converting string to table!")
 		return
 	end

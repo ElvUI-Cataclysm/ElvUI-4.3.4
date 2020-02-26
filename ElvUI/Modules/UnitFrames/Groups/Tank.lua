@@ -56,7 +56,6 @@ function UF:Update_TankHeader(header, db)
 	UF:ClearChildPoints(header:GetChildren())
 
 	if not header.isForced and db.enable then
-	--	RegisterStateDriver(header, "visibility", "show")
 		RegisterStateDriver(header, "visibility", "[@raid1,exists] show;hide")
 	end
 
@@ -67,12 +66,11 @@ function UF:Update_TankHeader(header, db)
 	if not header.positioned then
 		local width, height = header:GetSize()
 
-		header.dirtyWidth, header.dirtyHeight = width, max(height, 2*db.height + db.verticalSpacing)
+		header.dirtyWidth, header.dirtyHeight = width, max(height, 2 * db.height + db.verticalSpacing)
 		header:ClearAllPoints()
 		header:Point("TOPLEFT", E.UIParent, "TOPLEFT", 4, -186)
 
 		E:CreateMover(header, header:GetName().."Mover", L["MT Frames"], nil, nil, nil, "ALL,RAID", nil, "unitframe,tank,generalGroup")
-		header.mover.positionOverride = "TOPLEFT"
 		header:SetAttribute("minHeight", header.dirtyHeight)
 		header:SetAttribute("minWidth", header.dirtyWidth)
 		header.positioned = true

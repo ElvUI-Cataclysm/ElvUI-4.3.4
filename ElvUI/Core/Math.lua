@@ -3,7 +3,7 @@ local E, L, V, P, G = unpack(select(2, ...))
 local tinsert, tremove, next, wipe, ipairs, pairs = tinsert, tremove, next, wipe, ipairs, pairs
 local select, tonumber, tostring, type, unpack = select, tonumber, tostring, type, unpack
 local modf, ceil, floor, abs, mod = math.modf, math.ceil, math.floor, math.abs, mod
-local format, strsub, strupper, gsub, gmatch, utf8sub = format, strsub, strupper, gsub, gmatch, string.utf8sub
+local format, strsub, strupper, gsub, gmatch, utf8sub, utf8len = format, strsub, strupper, gsub, gmatch, string.utf8sub, string.utf8len
 
 local CreateFrame = CreateFrame
 local GetScreenWidth, GetScreenHeight = GetScreenWidth, GetScreenHeight
@@ -81,20 +81,23 @@ end
 
 -- Text Gradient by Simpy
 function E:TextGradient(text, ...)
-	local msg, len, idx = "", strlen(text), 0
-	for x in gmatch(text, ".") do
+	local msg, len, idx = "", utf8len(text), 0
+
+	for i = 1, len do
+		local x = utf8sub(text, i, i)
+
 		if strmatch(x, "%s") then
 			msg = msg .. x
 			idx = idx + 1
 		else
 			local num = select("#", ...) / 3
-			local segment, relperc = modf((idx/len)*num)
-			local r1, g1, b1, r2, g2, b2 = select((segment*3)+1, ...)
+			local segment, relperc = modf((idx / len) * num)
+			local r1, g1, b1, r2, g2, b2 = select((segment * 3) + 1, ...)
 
 			if not r2 then
 				msg = msg .. E:RGBToHex(r1, g1, b1) .. x
 			else
-				msg = msg .. E:RGBToHex(r1+(r2-r1)*relperc, g1+(g2-g1)*relperc, b1+(b2-b1)*relperc) .. x
+				msg = msg .. E:RGBToHex(r1 + (r2 - r1) * relperc, g1 + (g2 - g1) * relperc, b1 + (b2 - b1) * relperc) .. x
 				idx = idx + 1
 			end
 		end
@@ -108,7 +111,7 @@ function E:HexsToRGBs(rgb, ...)
 	if not rgb then rgb = {} end
 	for i = 1, select("#", ...) do
 		local x, r, g, b = #rgb, E:HexToRGB(select(i, ...))
-		rgb[x+1], rgb[x+2], rgb[x+3] = r/255, g/255, b/255
+		rgb[x + 1], rgb[x + 2], rgb[x + 3] = r / 255, g / 255, b / 255
 	end
 
 	return unpack(rgb)
@@ -116,10 +119,15 @@ end
 
 --Return rounded number
 function E:Round(num, idp)
+	if type(num) ~= "number" then
+		return num, idp
+	end
+
 	if idp and idp > 0 then
 		local mult = 10 ^ idp
 		return floor(num * mult + 0.5) / mult
 	end
+
 	return floor(num + 0.5)
 end
 
