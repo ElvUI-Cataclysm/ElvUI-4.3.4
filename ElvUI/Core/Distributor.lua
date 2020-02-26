@@ -4,7 +4,7 @@ local LibCompress = E.Libs.Compress
 local LibBase64 = E.Libs.Base64
 
 local tonumber, unpack, type, pcall, setfenv, loadstring = tonumber, unpack, type, pcall, setfenv, loadstring
-local find, format, gsub, len, split = string.find, string.format, string.gsub, string.len, string.split
+local format, gsub, len, split, sub = string.format, string.gsub, string.len, string.split, string.sub
 
 local CreateFrame = CreateFrame
 local GetNumRaidMembers, UnitInRaid = GetNumRaidMembers, UnitInRaid
@@ -404,7 +404,7 @@ function D:GetImportStringType(dataString)
 
 	if LibBase64:IsBase64(dataString) then
 		stringType = "Base64"
-	elseif find(dataString, "{") then --Basic check to weed out obviously wrong strings
+	elseif sub(dataString, 1, 1) == "{" then --Basic check to weed out obviously wrong strings
 		stringType = "Table"
 	end
 
