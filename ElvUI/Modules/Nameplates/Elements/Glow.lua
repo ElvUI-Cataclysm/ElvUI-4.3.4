@@ -56,7 +56,7 @@ function NP:Update_Glow(frame)
 				glowStyle = "style2"
 			elseif glowStyle == "style5" then
 				glowStyle = "style6"
-			elseif lowStyle == "style7" then
+			elseif glowStyle == "style7" then
 				glowStyle = "style8"
 			end
 		end
@@ -107,17 +107,16 @@ function NP:Configure_Glow(frame)
 		local healthIsShown = frame.Health:IsShown()
 		local color = self.db.colors.glowColor
 
-		local healthIsShown = frame.Health:IsShown()
 		if not healthIsShown then
 			if glowStyle == "style1" then
 				glowStyle = "style2"
 			elseif glowStyle == "style5" then
 				glowStyle = "style6"
-			elseif lowStyle == "style7" then
+			elseif glowStyle == "style7" then
 				glowStyle = "style8"
 			end
 		end
-	
+
 		if glowStyle == "style3" or glowStyle == "style5" or glowStyle == "style6" then
 			frame.TopIndicator:ClearAllPoints()
 
