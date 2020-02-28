@@ -263,6 +263,7 @@ function NP:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderChan
 		frame.Level:Hide()
 		frame.Name:Hide()
 		NP:Configure_Glow(frame)
+		NP:Update_Glow(frame)
 		NP:Configure_NameOnlyGlow(frame)
 		if not NameColorChanged then
 			NP:Update_Name(frame, true)
@@ -350,6 +351,7 @@ function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, Fl
 		if NP.db.units[frame.UnitType].health.enable or (frame.isTarget and NP.db.alwaysShowTargetHealth) then
 			frame.Health:Show()
 			NP:Configure_Glow(frame)
+			NP:Update_Glow(frame)
 		end
 		if NP.db.units[frame.UnitType].name.enable then
 			frame.Name:Show()
