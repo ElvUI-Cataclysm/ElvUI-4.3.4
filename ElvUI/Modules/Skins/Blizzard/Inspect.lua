@@ -88,8 +88,7 @@ local function LoadSkin()
 
 	hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button)
 		if button.hasItem then
-			local itemID = GetInventoryItemID(InspectFrame.unit, button:GetID())
-			--local itemID = GetInventoryItemLink(InspectFrame.unit, button:GetID())
+			local itemID = GetInventoryItemLink(InspectFrame.unit, button:GetID())
 			if itemID then
 				local _, _, quality = GetItemInfo(itemID)
 				if not quality then

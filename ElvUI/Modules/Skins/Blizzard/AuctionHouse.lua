@@ -11,7 +11,6 @@ local GetAuctionSellItemInfo = GetAuctionSellItemInfo
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.auctionhouse then return end
 
-	local AuctionFrame = _G["AuctionFrame"]
 	AuctionFrame:StripTextures(true)
 	AuctionFrame:SetTemplate("Transparent")
 

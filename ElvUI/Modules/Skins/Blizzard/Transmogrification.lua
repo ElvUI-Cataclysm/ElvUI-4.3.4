@@ -38,9 +38,9 @@ local function LoadSkin()
 
 		if item then
 			item:StripTextures()
-			item:StyleButton(false)
+			item:CreateBackdrop()
+			item:StyleButton()
 			item:SetFrameLevel(item:GetFrameLevel() + 2)
-			item:CreateBackdrop("Default")
 			item.backdrop:SetAllPoints()
 
 			icon:SetTexCoord(unpack(E.TexCoords))
