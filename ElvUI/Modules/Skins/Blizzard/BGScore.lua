@@ -42,10 +42,11 @@ local function LoadSkin()
 
 	WorldStateScoreWinnerFrameText:Point("CENTER")
 
-	WorldStateScoreFrameLabel:Show()
-
 	WorldStateScoreWinnerFrame:HookScript("OnShow", function()
 		WorldStateScoreFrameLabel:Hide()
+	end)
+	WorldStateScoreWinnerFrame:HookScript("OnHide", function()
+		WorldStateScoreFrameLabel:Show()
 	end)
 
 	-- Scroll Frame
