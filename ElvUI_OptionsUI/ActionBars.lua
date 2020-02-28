@@ -651,13 +651,6 @@ E.Options.args.actionbar = {
 					name = L["Click Through"],
 					disabled = function() return not E.db.actionbar.stanceBar.enabled end
 				},
-				usePositionOverride = {
-					order = 7,
-					type = "toggle",
-					name = L["Use Position Override"],
-					desc = L["When enabled it will use the Anchor Point setting to determine growth direction, otherwise it will be determined by where the bar is positioned."],
-					disabled = function() return not E.db.actionbar.stanceBar.enabled end
-				},
 				inheritGlobalFade = {
 					order = 8,
 					type = "toggle",
