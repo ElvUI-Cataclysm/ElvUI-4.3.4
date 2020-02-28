@@ -236,6 +236,7 @@ function NP:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderChan
 		if frame.Health:IsShown() then frame.Health:Hide() end
 		--hide the target indicator
 		NP:Configure_Glow(frame)
+		NP:Update_Glow(frame)
 		--position the name and update its color
 		frame.Name:ClearAllPoints()
 		frame.Name:SetJustifyH("CENTER")
@@ -326,6 +327,7 @@ function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, Fl
 		if NP.db.units[frame.UnitType].health.enable or (frame.isTarget and NP.db.alwaysShowTargetHealth) then
 			frame.Health:Show()
 			NP:Configure_Glow(frame)
+			NP:Update_Glow(frame)
 		end
 		if NP.db.units[frame.UnitType].name.enable then
 			frame.Name:ClearAllPoints()
