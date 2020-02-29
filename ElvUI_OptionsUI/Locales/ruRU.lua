@@ -533,6 +533,7 @@ L["Hides the red error text at the top of the screen while in combat."] = "Ск�
 L["Horizontal Spacing"] = "Отступ по горизонтали"
 L["Horizontal"] = "Горизонтально"
 L["Hours"] = "Часы"
+L["Hover Highlight"] = "Подсветка при наведении"
 L["Hover"] = "Наведение"
 L["How far away the portrait is from the camera."] = "Как далеко от персонажа находится камера."
 L["How long the cutaway health will take to fade out."] = "Время на исчезновение убывающего здоровья."

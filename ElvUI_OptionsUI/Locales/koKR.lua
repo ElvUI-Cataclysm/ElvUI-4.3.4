@@ -533,6 +533,7 @@ L["Hides the red error text at the top of the screen while in combat."] = "화�
 L["Horizontal Spacing"] = "수평 간격"
 L["Horizontal"] = "가로"
 L["Hours"] = "시간 단위 색상"
+L["Hover Highlight"] = true
 L["Hover"] = true
 L["How far away the portrait is from the camera."] = "3d 모델의 크기를 결정합니다."
 L["How long the cutaway health will take to fade out."] = true

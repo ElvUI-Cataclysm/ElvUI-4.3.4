@@ -3468,14 +3468,18 @@ E.Options.args.nameplate = {
 							isPercent = true,
 							min = 0, max = 1, step = 0.01
 						},
-						nameColoredGlow = {
+						spacer = {
 							order = 6,
+							type = "description",
+							name = " "
+						},
+						fadeIn = {
+							order = 7,
 							type = "toggle",
-							name = L["Name Colored Glow"],
-							desc = L["Use the Name Color of the unit for the Name Glow."]
+							name = L["Alpha Fading"]
 						},
 						smoothbars = {
-							order = 7,
+							order = 8,
 							type = "toggle",
 							name = L["Smooth Bars"],
 							desc = L["Bars will transition smoothly."],
@@ -3484,13 +3488,20 @@ E.Options.args.nameplate = {
 								NP:ConfigureAll()
 							end
 						},
-						fadeIn = {
-							order = 8,
+						highlight = {
+							order = 9,
 							type = "toggle",
-							name = L["Alpha Fading"]
+							name = L["Hover Highlight"]
+						},
+						nameColoredGlow = {
+							order = 10,
+							type = "toggle",
+							name = L["Name Colored Glow"],
+							desc = L["Use the Name Color of the unit for the Name Glow."],
+							disabled = function() return not E.db.nameplates.highlight end
 						},
 						targetGroup = {
-							order = 9,
+							order = 11,
 							type = "group",
 							name = L["TARGET"],
 							guiInline = true,
@@ -3576,7 +3587,7 @@ E.Options.args.nameplate = {
 							}
 						},
 						clickThrough = {
-							order = 11,
+							order = 12,
 							type = "group",
 							name = L["Click Through"],
 							guiInline = true,
@@ -3601,7 +3612,7 @@ E.Options.args.nameplate = {
 							}
 						},
 						clickableRange = {
-							order = 12,
+							order = 13,
 							type = "group",
 							name = L["Clickable Size"],
 							guiInline = true,

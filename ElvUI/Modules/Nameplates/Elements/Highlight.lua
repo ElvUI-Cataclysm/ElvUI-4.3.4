@@ -3,6 +3,8 @@ local NP = E:GetModule("NamePlates")
 local LSM = E.Libs.LSM
 
 function NP:Update_Highlight(frame)
+	if not NP.db.highlight then return end
+
 	if frame.isMouseover and ((frame.IconOnlyChanged or frame.NameOnlyChanged) or (not self.db.units[frame.UnitType].health.enable and self.db.units[frame.UnitType].name.enable)) and not frame.isTarget then
 		frame.Name.NameOnlyGlow:Show()
 		frame.Health.Highlight:Show()

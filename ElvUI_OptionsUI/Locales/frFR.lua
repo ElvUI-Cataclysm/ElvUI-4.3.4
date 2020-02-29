@@ -533,6 +533,7 @@ L["Hides the red error text at the top of the screen while in combat."] = "Cache
 L["Horizontal Spacing"] = "Espace horizontal"
 L["Horizontal"] = "Horizontale"
 L["Hours"] = "Heures"
+L["Hover Highlight"] = true
 L["Hover"] = true
 L["How far away the portrait is from the camera."] = "Configure la distance de la caméra par rapport au portrait."
 L["How long the cutaway health will take to fade out."] = true

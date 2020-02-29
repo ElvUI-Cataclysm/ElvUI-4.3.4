@@ -298,6 +298,7 @@ P.nameplates = {
 	cutawayHealth = false,
 	cutawayHealthLength = 0.3,
 	cutawayHealthFadeOutTime = 0.6,
+	highlight = false,
 	clickThrough = {
 		friendly = false,
 		enemy = false,

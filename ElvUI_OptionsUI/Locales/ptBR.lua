@@ -533,6 +533,7 @@ L["Hides the red error text at the top of the screen while in combat."] = "Escon
 L["Horizontal Spacing"] = "Espamento Horizontal"
 L["Horizontal"] = "Horizontal"
 L["Hours"] = "Horas"
+L["Hover Highlight"] = true
 L["Hover"] = true
 L["How far away the portrait is from the camera."] = "Quão longe o retrato está da camera."
 L["How long the cutaway health will take to fade out."] = true
