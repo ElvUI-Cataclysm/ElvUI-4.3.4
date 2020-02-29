@@ -525,7 +525,7 @@ function B:BuildBlacklist(...)
 				--For some reason the entry was not treated as a valid item. Extract the item name.
 				entry = strmatch(entry, "%[(.*)%]")
 			end
-			blackListQueries[#blackListQueries+1] = entry
+			blackListQueries[#blackListQueries + 1] = entry
 		end
 	end
 end
@@ -554,7 +554,7 @@ function B.Sort(bags, sorter, invertDirection)
 
 			if not blackListedSlots[bagSlot] then
 				local method
-				for _,itemsearchquery in pairs(blackListQueries) do
+				for _, itemsearchquery in pairs(blackListQueries) do
 					method = Search.Matches
 					if Search.Filters.tipPhrases.keywords[itemsearchquery] then
 						method = Search.TooltipPhrase

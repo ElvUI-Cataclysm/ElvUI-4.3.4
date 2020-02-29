@@ -123,12 +123,13 @@ local function LoadSkin()
 	S:HandleButtonHighlight(PVPConquestFrameConquestButtonArena)
 	S:HandleButtonHighlight(PVPConquestFrameConquestButtonRated)
 
-	PVPFrameConquestBar:CreateBackdrop("Default")
-	PVPFrameConquestBar.backdrop:Point("TOPLEFT", PVPFrameConquestBar.progress, "TOPLEFT", -1, 2)
-	PVPFrameConquestBar.backdrop:Point("BOTTOMRIGHT", PVPFrameConquestBar, "BOTTOMRIGHT", 1, 2)
+	PVPFrameConquestBar:CreateBackdrop()
+	PVPFrameConquestBar.backdrop:Point("TOPLEFT", PVPFrameConquestBar.progress, -1, 1)
+	PVPFrameConquestBar.backdrop:Point("BOTTOMRIGHT", PVPFrameConquestBar, 0, 2)
 	PVPFrameConquestBar:Point("LEFT", 40, 0)
 
 	PVPFrameConquestBar.progress:SetTexture(E.media.normTex)
+
 	PVPFrameConquestBarCap1:SetTexture(E.media.normTex)
 	PVPFrameConquestBarCap2:SetTexture(E.media.normTex)
 

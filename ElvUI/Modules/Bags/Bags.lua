@@ -893,7 +893,7 @@ end
 
 function B:VendorGrays(delete)
 	if B.SellFrame:IsShown() then return end
-	if (not _G.MerchantFrame or not _G.MerchantFrame:IsShown()) and not delete then
+	if (not MerchantFrame or not MerchantFrame:IsShown()) and not delete then
 		E:Print(L["You must be at a vendor."])
 		return
 	end
@@ -902,10 +902,10 @@ function B:VendorGrays(delete)
 		for slot = 1, GetContainerNumSlots(bag), 1 do
 			local itemID = GetContainerItemID(bag, slot)
 			if itemID then
-				local _, link, rarity, _, _, iType, _, _, _, _, itemPrice = GetItemInfo(itemID)
+				local _, name, rarity, _, _, iType, _, _, _, _, itemPrice = GetItemInfo(itemID)
 
 				if (rarity and rarity == 0) and (iType and iType ~= "Quest") and (itemPrice and itemPrice > 0) then
-					tinsert(B.SellFrame.Info.itemList, {bag, slot, itemPrice, link})
+					tinsert(B.SellFrame.Info.itemList, {bag, slot, itemPrice, name})
 				end
 			end
 		end
