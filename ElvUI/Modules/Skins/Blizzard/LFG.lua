@@ -214,10 +214,12 @@ local function LoadSkin()
 			button.expandOrCollapseButton:GetNormalTexture():Point("CENTER", 2, 3)
 
 			hooksecurefunc(button.expandOrCollapseButton, "SetNormalTexture", function(self, texture)
+				local normal = self:GetNormalTexture()
+
 				if find(texture, "MinusButton") then
-					self:GetNormalTexture():SetTexture(E.Media.Textures.Minus)
+					normal:SetTexture(E.Media.Textures.Minus)
 				else
-					self:GetNormalTexture():SetTexture(E.Media.Textures.Plus)
+					normal:SetTexture(E.Media.Textures.Plus)
 				end
 			end)
 		end

@@ -56,8 +56,8 @@ local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
 local UNKNOWN = UNKNOWN
 
 -- Custom to find LEVEL string on tooltip
-local LEVEL1 = TOOLTIP_UNIT_LEVEL:gsub("%s?%%s%s?%-?", "")
-local LEVEL2 = TOOLTIP_UNIT_LEVEL_CLASS:gsub("^%%2$s%s?(.-)%s?%%1$s", "%1"):gsub("^%-?г?о?%s?", ""):gsub("%s?%%s%s?%-?", "")
+local LEVEL1 = strlower(TOOLTIP_UNIT_LEVEL:gsub("%s?%%s%s?%-?", ""))
+local LEVEL2 = strlower(TOOLTIP_UNIT_LEVEL_CLASS:gsub("^%%2$s%s?(.-)%s?%%1$s", "%1"):gsub("^%-?г?о?%s?", ""):gsub("%s?%%s%s?%-?", ""))
 
 local GameTooltip, GameTooltipStatusBar = GameTooltip, GameTooltipStatusBar
 local MATCH_ITEM_LEVEL = ITEM_LEVEL:gsub("%%d", "(%%d+)")
@@ -173,7 +173,7 @@ end
 function TT:GetLevelLine(tt, offset)
 	for i = offset, tt:NumLines() do
 		local tipLine = _G["GameTooltipTextLeft"..i]
-		local tipText = tipLine and tipLine.GetText and tipLine:GetText()
+		local tipText = tipLine and tipLine.GetText and tipLine:GetText() and strlower(tipLine:GetText())
 		if tipText and find(tipText, LEVEL1) or find(tipText, LEVEL2) then
 			return tipLine
 		end
@@ -619,6 +619,7 @@ function TT:MODIFIER_STATE_CHANGED(_, key)
 	if key == "LSHIFT" or key == "RSHIFT" or key == "LCTRL" or key == "RCTRL" or key == "LALT" or key == "RALT" then
 		local owner = GameTooltip:GetOwner()
 		local notOnAuras = not (owner and owner.UpdateTooltip)
+
 		if notOnAuras and UnitExists("mouseover") then
 			GameTooltip:SetUnit("mouseover")
 		end
@@ -632,6 +633,7 @@ function TT:SetUnitAura(tt, ...)
 			local name = UnitName(caster)
 			local _, class = UnitClass(caster)
 			local color = E:ClassColor(class) or PRIEST_COLOR
+
 			tt:AddDoubleLine(format("|cFFCA3C3C%s|r %d", ID, id), format("|c%s%s|r", color.colorStr, name))
 		else
 			tt:AddLine(format("|cFFCA3C3C%s|r %d", ID, id))
@@ -646,24 +648,21 @@ function TT:GameTooltip_OnTooltipSetSpell(tt)
 	if not id or not self.db.spellID then return end
 
 	local displayString = format("|cFFCA3C3C%s|r %d", ID, id)
-	local isFound
 	for i = 1, tt:NumLines() do
 		local line = _G[format("GameTooltipTextLeft%d", i)]
-		if line and line:GetText() and strfind(line:GetText(), displayString) then
-			isFound = true
-			break
-		end
+		local text = line and line.GetText and line:GetText()
+
+		if text and strfind(text, displayString) then return end
 	end
 
-	if not isFound then
-		tt:AddLine(displayString)
-		tt:Show()
-	end
+	tt:AddLine(displayString)
+	tt:Show()
 end
 
 function TT:SetItemRef(link)
-	if self.db.spellID and (strfind(link, "^spell:") or strfind(link, "^item:") or strfind(link, "^currency:")) then
+	if self.db.spellID and link and (strfind(link, "^spell:") or strfind(link, "^item:") or strfind(link, "^currency:") or strfind(link, "^talent:")) then
 		local id = tonumber(match(link, "(%d+)"))
+
 		ItemRefTooltip:AddLine(format("|cFFCA3C3C%s|r %d", ID, id))
 		ItemRefTooltip:Show()
 	end
@@ -686,6 +685,7 @@ function TT:SetTooltipFonts()
 	GameTooltipHeaderText:FontTemplate(font, headerSize, fontOutline)
 	GameTooltipText:FontTemplate(font, textSize, fontOutline)
 	GameTooltipTextSmall:FontTemplate(font, smallTextSize, fontOutline)
+
 	if GameTooltip.hasMoney then
 		for i = 1, GameTooltip.numMoneyFrames do
 			_G["GameTooltipMoneyFrame"..i.."PrefixText"]:FontTemplate(font, textSize, fontOutline)

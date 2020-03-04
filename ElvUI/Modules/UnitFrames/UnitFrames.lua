@@ -402,7 +402,9 @@ function UF:Update_StatusBars()
 	for statusbar in pairs(UF.statusbars) do
 		if statusbar then
 			local useBlank = statusbar.isTransparent
-			if statusbar.parent then useBlank = statusbar.parent.isTransparent end
+			if statusbar.parent then
+				useBlank = statusbar.parent.isTransparent
+			end
 			if statusbar:IsObjectType("StatusBar") then
 				if not useBlank then
 					statusbar:SetStatusBarTexture(statusBarTexture)
@@ -482,7 +484,7 @@ function UF:Configure_FontString(obj)
 end
 
 function UF:Update_AllFrames()
-	if E.private.unitframe.enable ~= true then return end
+	if not E.private.unitframe.enable then return end
 
 	self:UpdateColors()
 	self:Update_FontStrings()
@@ -940,26 +942,26 @@ function UF:CreateAndUpdateUF(unit)
 end
 
 function UF:LoadUnits()
-	for _, unit in pairs(self.unitstoload) do
-		self:CreateAndUpdateUF(unit)
+	for _, unit in pairs(UF.unitstoload) do
+		UF:CreateAndUpdateUF(unit)
 	end
-	self.unitstoload = nil
+	UF.unitstoload = nil
 
-	for group, groupOptions in pairs(self.unitgroupstoload) do
+	for group, groupOptions in pairs(UF.unitgroupstoload) do
 		local numGroup, template = unpack(groupOptions)
-		self:CreateAndUpdateUFGroup(group, numGroup, template)
+		UF:CreateAndUpdateUFGroup(group, numGroup, template)
 	end
-	self.unitgroupstoload = nil
+	UF.unitgroupstoload = nil
 
-	for group, groupOptions in pairs(self.headerstoload) do
+	for group, groupOptions in pairs(UF.headerstoload) do
 		local groupFilter, template, headerTemplate
 		if type(groupOptions) == "table" then
 			groupFilter, template, headerTemplate = unpack(groupOptions)
 		end
 
-		self:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerTemplate)
+		UF:CreateAndUpdateHeaderGroup(group, groupFilter, template, headerTemplate)
 	end
-	self.headerstoload = nil
+	UF.headerstoload = nil
 end
 
 function UF:RegisterRaidDebuffIndicator()
@@ -1248,14 +1250,6 @@ function UF:UpdateBackdropTextureColor(r, g, b)
 			bg:SetVertexColor(r * m, g * m, b * m)
 		end
 	end
-end
-
-function UF:UpdatePredictionStatusBar(prediction, parent)
-	if not (prediction and parent) then return end
-	local texture = (not parent.isTransparent and parent:GetStatusBarTexture():GetTexture()) or E.media.blankTex
-
-	UF:Update_StatusBar(prediction.myBar, texture)
-	UF:Update_StatusBar(prediction.otherBar, texture)
 end
 
 function UF:SetStatusBarBackdropPoints(statusBar, statusBarTex, backdropTex, statusBarOrientation, reverseFill)

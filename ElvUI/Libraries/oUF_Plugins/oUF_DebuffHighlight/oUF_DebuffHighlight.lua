@@ -31,8 +31,6 @@ local function GetDebuffType(unit, filter, filterTable)
 		if filterTable and filterSpell then
 			if filterSpell.enable then
 				return debufftype, texture, true, filterSpell.style, filterSpell.color
-			else
-				return
 			end
 		elseif debufftype and (not filter or (filter and dispelList[debufftype])) then
 			return debufftype, texture
@@ -42,7 +40,7 @@ local function GetDebuffType(unit, filter, filterTable)
 	end
 end
 
-function CheckForKnownTalent(spellID)
+local function CheckForKnownTalent(spellID)
 	local spellName = GetSpellInfo(spellID)
 	if not spellName then return nil end
 

@@ -2,6 +2,7 @@
 
 P.gridSize = 64
 P.farmSize = 340
+P.layoutSetting = "tank"
 
 --Core
 P.general = {
@@ -34,7 +35,7 @@ P.general = {
 		fontSize = 12,
 		fontOutline = "OUTLINE",
 		statusBar = "ElvUI Norm",
-		textFormat = "NAMECURMAX",
+		textFormat = "CURMAXPERC",
 		statusBarColorGradient = false,
 		statusBarColor = {r = 0.2, g = 0.4, b = 0.8},
 		smoothbars = false
@@ -369,15 +370,7 @@ P.nameplates = {
 	units = {
 		TARGET = {
 			enable = true,
-			glowStyle = "style4",
-			comboPoints = {
-				enable = true,
-				width = 8,
-				height = 4,
-				spacing = 5,
-				xOffset = 0,
-				yOffset = 0
-			}
+			glowStyle = "style4"
 		},
 		FRIENDLY_PLAYER = {
 			health = {

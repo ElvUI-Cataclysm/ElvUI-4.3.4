@@ -53,9 +53,7 @@ local function LoadSkin()
 		"PVPFrameConquestBarRight",
 		"PVPFrameConquestBarMiddle",
 		"PVPFrameConquestBarBG",
-		"PVPFrameConquestBarShadow",
-		"PVPFrameConquestBarCap1Marker",
-		"PVPFrameConquestBarCap2Marker"
+		"PVPFrameConquestBarShadow"
 	}
 
 	for _, texture in pairs(KillTextures) do
@@ -125,13 +123,26 @@ local function LoadSkin()
 
 	PVPFrameConquestBar:CreateBackdrop()
 	PVPFrameConquestBar.backdrop:Point("TOPLEFT", PVPFrameConquestBar.progress, -1, 1)
-	PVPFrameConquestBar.backdrop:Point("BOTTOMRIGHT", PVPFrameConquestBar, 0, 2)
+	PVPFrameConquestBar.backdrop:Point("BOTTOMRIGHT", PVPFrameConquestBar, 3, 2)
 	PVPFrameConquestBar:Point("LEFT", 40, 0)
 
 	PVPFrameConquestBar.progress:SetTexture(E.media.normTex)
+	PVPFrameConquestBar.progress:Point("LEFT")
 
-	PVPFrameConquestBarCap1:SetTexture(E.media.normTex)
-	PVPFrameConquestBarCap2:SetTexture(E.media.normTex)
+	for i = 1, 2 do
+		local cap = _G["PVPFrameConquestBarCap"..i]
+		local marker = _G["PVPFrameConquestBarCap"..i.."Marker"]
+		local markerTex = _G["PVPFrameConquestBarCap"..i.."MarkerTexture"]
+
+		cap:SetTexture(E.media.normTex)
+
+		marker:Size(4, 14)
+
+		markerTex:SetTexture(E.media.blankTex)
+		local r, g, b = cap:GetVertexColor()
+		markerTex:SetVertexColor(r, g, b)
+		markerTex.SetVertexColor = E.noop
+	end
 
 	PVPFrame:StripTextures()
 	PVPFrame:SetTemplate("Transparent")
@@ -214,10 +225,12 @@ local function LoadSkin()
 		warGamesHeader.SetHighlightTexture = E.noop
 
 		hooksecurefunc(warGamesHeader, "SetNormalTexture", function(self, texture)
+			local normal = self:GetNormalTexture()
+
 			if find(texture, "MinusButton") then
-				self:GetNormalTexture():SetTexture(E.Media.Textures.Minus)
+				normal:SetTexture(E.Media.Textures.Minus)
 			else
-				self:GetNormalTexture():SetTexture(E.Media.Textures.Plus)
+				normal:SetTexture(E.Media.Textures.Plus)
 			end
 		end)
 	end

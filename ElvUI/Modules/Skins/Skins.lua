@@ -465,17 +465,22 @@ function S:HandleCheckBox(frame, noBackdrop, noReplaceTextures, forceSaturation)
 end
 
 function S:HandleColorSwatch(frame, size)
+	if frame.isSkinned then return end
+
 	frame:StripTextures()
-	frame:CreateBackdrop("Default")
+	frame:CreateBackdrop()
 	frame.backdrop:SetFrameLevel(frame:GetFrameLevel())
 
 	if size then
 		frame:Size(size)
 	end
 
-	frame:GetNormalTexture():SetTexture(E.media.blankTex)
-	frame:GetNormalTexture():ClearAllPoints()
-	frame:GetNormalTexture():SetInside(frame.backdrop)
+	local normalTexture = frame:GetNormalTexture()
+	normalTexture:SetTexture(E.media.blankTex)
+	normalTexture:ClearAllPoints()
+	normalTexture:SetInside(frame.backdrop)
+
+	frame.isSkinned = true
 end
 
 function S:HandleRadioButton(Button)
@@ -602,7 +607,6 @@ function S:HandleSliderFrame(frame)
 	assert(frame)
 
 	local orientation = frame:GetOrientation()
-	local SIZE = 12
 
 	frame:StripTextures()
 	if not frame.backdrop then
@@ -616,15 +620,15 @@ function S:HandleSliderFrame(frame)
 
 	frame:SetThumbTexture(E.Media.Textures.Melli)
 	frame:GetThumbTexture():SetVertexColor(1, 0.82, 0, 0.8)
-	frame:GetThumbTexture():Size(SIZE - 2, SIZE - 2)
+	frame:GetThumbTexture():Size(10)
 
 	frame:HookScript("OnDisable", sliderOnDisable)
 	frame:HookScript("OnEnable", sliderOnEnable)
 
 	if orientation == "VERTICAL" then
-		frame:Width(SIZE)
+		frame:Width(12)
 	else
-		frame:Height(SIZE)
+		frame:Height(12)
 
 		for i = 1, frame:GetNumRegions() do
 			local region = select(i, frame:GetRegions())

@@ -64,6 +64,7 @@ local function LoadSkin()
 		local overlayFrame = _G["CalendarDayButton"..i.."OverlayFrame"]
 		local darkFrame = _G["CalendarDayButton"..i.."DarkFrame"]
 		local darkFrameTop = _G["CalendarDayButton"..i.."DarkFrameTop"]
+		local moreEventButton = _G["CalendarDayButton"..i.."MoreEventsButton"]
 		local highlight = button:GetHighlightTexture()
 
 		button:StripTextures()
@@ -71,6 +72,9 @@ local function LoadSkin()
 		button:Size(91 - E.Border)
 		button:SetFrameLevel(button:GetFrameLevel() + 1)
 		button:ClearAllPoints()
+
+		S:HandleNextPrevButton(moreEventButton, nil, nil, true)
+		moreEventButton:Point("TOPRIGHT", -2, -2)
 
 		if i == 1 then
 			button:Point("TOPLEFT", CalendarWeekday1Background, "BOTTOMLEFT", E.Spacing, 0)
@@ -143,7 +147,7 @@ local function LoadSkin()
 	CalendarCreateEventInviteButton:Point("TOPLEFT", CalendarCreateEventInviteEdit, "TOPRIGHT", 4, 1)
 
 	CalendarCreateEventInviteList:StripTextures()
-	CalendarCreateEventInviteList:SetTemplate("Transparent",true)
+	CalendarCreateEventInviteList:SetTemplate("Transparent")
 
 	S:HandleEditBox(CalendarCreateEventInviteEdit)
 	CalendarCreateEventInviteEdit:Point("TOPLEFT", CalendarCreateEventInviteList, "BOTTOMLEFT", 1, -3)
@@ -237,15 +241,15 @@ local function LoadSkin()
 	S:HandleScrollBar(CalendarTexturePickerScrollBar)
 	CalendarTexturePickerScrollBar:Point("RIGHT", 28, 0)
 
-	S:HandleButton(CalendarTexturePickerAcceptButton, true)
-	S:HandleButton(CalendarTexturePickerCancelButton, true)
 	S:HandleButton(CalendarCreateEventInviteButton, true)
 	S:HandleButton(CalendarCreateEventRaidInviteButton, true)
 
+	S:HandleButton(CalendarTexturePickerAcceptButton, true)
 	CalendarTexturePickerAcceptButton:Width(110)
 	CalendarTexturePickerAcceptButton:ClearAllPoints()
 	CalendarTexturePickerAcceptButton:Point("RIGHT", CalendarTexturePickerCancelButton, "LEFT", -20, 0)
 
+	S:HandleButton(CalendarTexturePickerCancelButton, true)
 	CalendarTexturePickerCancelButton:Width(110)
 	CalendarTexturePickerCancelButton:ClearAllPoints()
 	CalendarTexturePickerCancelButton:Point("BOTTOMRIGHT", CalendarTexturePickerFrame, "BOTTOMRIGHT", -30, 7)
@@ -314,14 +318,21 @@ local function LoadSkin()
 	S:HandleButton(CalendarViewEventDeclineButton)
 
 	-- Event Picker Frame
+	CalendarEventPickerTitleFrame:StripTextures()
+
 	CalendarEventPickerFrame:StripTextures()
 	CalendarEventPickerFrame:SetTemplate("Transparent")
 
-	CalendarEventPickerTitleFrame:StripTextures()
+	CalendarEventPickerScrollFrame:CreateBackdrop("Transparent")
+	CalendarEventPickerScrollFrame.backdrop:Point("BOTTOMRIGHT", 0, -3)
 
 	S:HandleScrollBar(CalendarEventPickerScrollBar)
+	CalendarEventPickerScrollBar:ClearAllPoints()
+	CalendarEventPickerScrollBar:Point("TOPRIGHT", CalendarEventPickerScrollFrame, "TOPRIGHT", 26, -15)
+	CalendarEventPickerScrollBar:Point("BOTTOMRIGHT", CalendarEventPickerScrollFrame, "BOTTOMRIGHT", 0, 13)
 
-	S:HandleButton(CalendarEventPickerCloseButton, true)
+	S:HandleButton(CalendarEventPickerCloseButton)
+	CalendarEventPickerCloseButton:Point("BOTTOMRIGHT", -6, 6)
 end
 
 S:AddCallbackForAddon("Blizzard_Calendar", "Calendar", LoadSkin)

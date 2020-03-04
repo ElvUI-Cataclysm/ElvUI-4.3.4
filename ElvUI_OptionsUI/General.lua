@@ -610,6 +610,7 @@ E.Options.args.general = {
 					set = function(info, value)
 						E.db.general.altPowerBar[info[#info]] = value
 						Blizzard:UpdateAltPowerBarColors()
+						Blizzard:UpdateAltPowerBarSettings()
 					end,
 					get = function(info)
 						return E.db.general.altPowerBar[info[#info]]
@@ -617,17 +618,24 @@ E.Options.args.general = {
 					args = {
 						statusBar = {
 							order = 1,
-							type = "select", dialogControl = "LSM30_Statusbar",
+							type = "select",
+							dialogControl = "LSM30_Statusbar",
 							name = L["StatusBar Texture"],
 							values = AceGUIWidgetLSMlists.statusbar
 						},
-						statusBarColorGradient = {
+						smoothbars = {
 							order = 2,
+							type = "toggle",
+							name = L["Smooth Bars"],
+							desc = L["Bars will transition smoothly."]
+						},
+						statusBarColorGradient = {
+							order = 3,
 							type = "toggle",
 							name = L["Color Gradient"]
 						},
 						statusBarColor = {
-							order = 3,
+							order = 4,
 							type = "color",
 							name = L["COLOR"],
 							disabled = function()
@@ -653,7 +661,7 @@ E.Options.args.general = {
 					guiInline = true,
 					set = function(info, value)
 						E.db.general.altPowerBar[info[#info]] = value
-						Blizzard:UpdateAltPowerBarColors()
+						Blizzard:UpdateAltPowerBarSettings()
 					end,
 					get = function(info)
 						return E.db.general.altPowerBar[info[#info]]

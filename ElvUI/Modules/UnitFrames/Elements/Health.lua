@@ -196,11 +196,7 @@ function UF:Configure_HealthBar(frame)
 		health:SetReverseFill(db.health.reverseFill)
 	end
 
-	--Transparency Settings
 	UF:ToggleTransparentStatusBar(UF.db.colors.transparentHealth, frame.Health, frame.Health.bg, true, nil, db.health and db.health.reverseFill)
-
-	--Prediction Texture; keep under ToggleTransparentStatusBar
-	UF:UpdatePredictionStatusBar(frame.HealthPrediction, frame.Health)
 
 	--Frame Glow
 	UF:Configure_FrameGlow(frame)

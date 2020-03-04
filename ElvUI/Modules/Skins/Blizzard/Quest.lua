@@ -337,12 +337,14 @@ local function LoadSkin()
 		questLogTitle.SetHighlightTexture = E.noop
 
 		hooksecurefunc(questLogTitle, "SetNormalTexture", function(self, texture)
+			local normal = self:GetNormalTexture()
+
 			if find(texture, "MinusButton") then
-				self:GetNormalTexture():SetTexture(E.Media.Textures.Minus)
+				normal:SetTexture(E.Media.Textures.Minus)
 			elseif find(texture, "PlusButton") then
-				self:GetNormalTexture():SetTexture(E.Media.Textures.Plus)
+				normal:SetTexture(E.Media.Textures.Plus)
 			else
-				self:GetNormalTexture():SetTexture("")
+				normal:SetTexture("")
 			end
 		end)
 	end

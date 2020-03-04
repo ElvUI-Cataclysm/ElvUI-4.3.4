@@ -23,20 +23,9 @@ local function AreOtherAddOnsEnabled()
 end
 
 local function GetDisplayMode()
-	local window, maximize = GetCVar("gxWindow"), GetCVar("gxMaximize")
-	local displayMode
+	local window, maximize = GetCVar("gxWindow") == "1", GetCVar("gxMaximize") == "1"
 
-	if window == "1" then
-		if maximize == "1" then
-			displayMode = "Windowed (Fullscreen)"
-		else
-			displayMode = "Windowed"
-		end
-	else
-		displayMode = "Fullscreen"
-	end
-
-	return displayMode
+	return (window and maximize and "Windowed (Fullscreen)") or (window and "Windowed") or "Fullscreen"
 end
 
 local EnglishClassName = {

@@ -2,6 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...))
 local UF = E:GetModule("UnitFrames")
 
 local unpack = unpack
+local match = string.match
 
 local CreateFrame = CreateFrame
 
@@ -9,19 +10,15 @@ function UF:Construct_Threat(frame)
 	local threat = CreateFrame("Frame", nil, frame)
 
 	--Main ThreatGlow
-	frame:CreateShadow()
-	threat.glow = frame.shadow
+	threat.glow = frame:CreateShadow(nil, true)
 	threat.glow:SetParent(frame)
 	threat.glow:Hide()
-	frame.shadow = nil
 
 	--Secondary ThreatGlow, for power frame when using power offset
-	frame:CreateShadow()
-	threat.powerGlow = frame.shadow
+	threat.powerGlow = frame:CreateShadow(nil, true)
 	threat.powerGlow:SetParent(frame)
 	threat.powerGlow:SetFrameStrata("BACKGROUND")
 	threat.powerGlow:Hide()
-	frame.shadow = nil
 
 	threat.texIcon = threat:CreateTexture(nil, "OVERLAY")
 	threat.texIcon:Size(8)
@@ -40,7 +37,7 @@ function UF:Configure_Threat(frame)
 	if not threat then return end
 
 	local db = frame.db
-	if db.threatStyle ~= "NONE" and db.threatStyle ~= nil then
+	if db.threatStyle and db.threatStyle ~= "NONE" then
 		if not frame:IsElementEnabled("ThreatIndicator") then
 			frame:EnableElement("ThreatIndicator")
 		end
@@ -72,12 +69,11 @@ function UF:Configure_Threat(frame)
 					threat.glow:Point("BOTTOMRIGHT", frame.SHADOW_SPACING, -frame.SHADOW_SPACING)
 				end
 			end
-		elseif db.threatStyle == "ICONTOPLEFT" or db.threatStyle == "ICONTOPRIGHT" or db.threatStyle == "ICONBOTTOMLEFT" or db.threatStyle == "ICONBOTTOMRIGHT" or db.threatStyle == "ICONTOP" or db.threatStyle == "ICONBOTTOM" or db.threatStyle == "ICONLEFT" or db.threatStyle == "ICONRIGHT" then
+		elseif match(db.threatStyle, "^ICON") then
 			threat:SetFrameStrata("LOW")
 			threat:SetFrameLevel(75) --Inset power uses 50, we want it to appear above that
-			local point = db.threatStyle
-			point = point:gsub("ICON", "")
 
+			local point = db.threatStyle:gsub("ICON", "")
 			threat.texIcon:ClearAllPoints()
 			threat.texIcon:Point(point, frame.Health, point)
 		elseif db.threatStyle == "HEALTHBORDER" then
@@ -97,10 +93,10 @@ end
 function UF:UpdateThreat(unit, status, r, g, b)
 	local parent = self:GetParent()
 
-	if (parent.unit ~= unit) or not unit then return end
+	if not unit or parent.unit ~= unit then return end
 
 	local db = parent.db
-	if not db then return end
+	if not db or (not db.threatStyle or db.threatStyle == "NONE") then return end
 
 	if status and status > 1 then
 		if db.threatStyle == "GLOW" then
@@ -118,8 +114,9 @@ function UF:UpdateThreat(unit, status, r, g, b)
 				parent.Power.backdrop:SetBackdropBorderColor(r, g, b)
 			end
 
-			if parent.ClassBar and parent[parent.ClassBar] and parent[parent.ClassBar].backdrop then
-				parent[parent.ClassBar].backdrop:SetBackdropBorderColor(r, g, b)
+			local classBar = parent.ClassBar and parent[parent.ClassBar]
+			if classBar and classBar.backdrop then
+				classBar.backdrop:SetBackdropBorderColor(r, g, b)
 			end
 
 			if parent.InfoPanel and parent.InfoPanel.backdrop then
@@ -145,8 +142,9 @@ function UF:UpdateThreat(unit, status, r, g, b)
 				parent.Power.backdrop:SetBackdropBorderColor(r, g, b)
 			end
 
-			if parent.ClassBar and parent[parent.ClassBar] and parent[parent.ClassBar].backdrop then
-				parent[parent.ClassBar].backdrop:SetBackdropBorderColor(r, g, b)
+			local classBar = parent.ClassBar and parent[parent.ClassBar]
+			if classBar and classBar.backdrop then
+				classBar.backdrop:SetBackdropBorderColor(r, g, b)
 			end
 
 			if parent.InfoPanel and parent.InfoPanel.backdrop then

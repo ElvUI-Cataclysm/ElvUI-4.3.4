@@ -24,6 +24,7 @@ end
 
 function E:UIScale(init)
 	local scale = E.global.general.UIScale
+
 	if init then --E.OnInitialize
 		--Set variables for pixel scaling
 		local pixel, ratio = 1, 768 / E.screenheight
@@ -53,7 +54,6 @@ function E:UIScale(init)
 		end
 
 		E.UIParent:SetSize(width, height)
-		E.UIParent.origHeight = E.UIParent:GetHeight()
 	end
 end
 

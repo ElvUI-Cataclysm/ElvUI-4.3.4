@@ -16,6 +16,11 @@ function UF:SetAlpha_HealComm(obj, show)
 	obj.otherBar:SetAlpha(show and 1 or 0)
 end
 
+function UF:SetTexture_HealComm(obj, texture)
+	obj.myBar:SetStatusBarTexture(texture)
+	obj.otherBar:SetStatusBarTexture(texture)
+end
+
 function UF:SetVisibility_HealComm(obj)
 	-- the first update is from `HealthClipFrame_HealComm`
 	-- we set this variable to allow `Configure_HealComm` to
@@ -43,14 +48,7 @@ function UF:Construct_HealComm(frame)
 	myBar:SetFrameLevel(11)
 	otherBar:SetFrameLevel(11)
 
-	UF.statusbars[myBar] = true
-	UF.statusbars[otherBar] = true
-
-	local texture = (not health.isTransparent and health:GetStatusBarTexture()) or E.media.blankTex
-	UF:Update_StatusBar(myBar, texture)
-	UF:Update_StatusBar(otherBar, texture)
-
-	local healPrediction = {
+	local prediction = {
 		myBar = myBar,
 		otherBar = otherBar,
 		PostUpdate = UF.UpdateHealComm,
@@ -60,9 +58,10 @@ function UF:Construct_HealComm(frame)
 		frame = frame
 	}
 
-	UF:SetAlpha_HealComm(healPrediction)
+	UF:SetAlpha_HealComm(prediction)
+	UF:SetTexture_HealComm(prediction, E.media.blankTex)
 
-	return healPrediction
+	return prediction
 end
 
 function UF:Configure_HealComm(frame)
@@ -81,58 +80,57 @@ function UF:Configure_HealComm(frame)
 			frame:EnableElement("HealthPrediction")
 		end
 
-		if frame.db.health then
-			local health = frame.Health
-			local orientation = frame.db.health.orientation or health:GetOrientation()
-			local reverseFill = not not frame.db.health.reverseFill
+		local health = frame.Health
+		local orientation = health:GetOrientation()
+		local reverseFill = health:GetReverseFill()
+		local healthBarTexture = health:GetStatusBarTexture()
 
-			myBar:SetOrientation(orientation)
-			otherBar:SetOrientation(orientation)
+		UF:SetTexture_HealComm(healPrediction, UF.db.colors.transparentHealth and E.media.blankTex or healthBarTexture:GetTexture())
 
-			if orientation == "HORIZONTAL" then
-				local width = health:GetWidth()
-				width = (width > 0 and width) or health.WIDTH
-				local p1 = reverseFill and "RIGHT" or "LEFT"
-				local p2 = reverseFill and "LEFT" or "RIGHT"
-				local healthTexture = health:GetStatusBarTexture()
+		myBar:SetOrientation(orientation)
+		otherBar:SetOrientation(orientation)
 
-				myBar:Size(width, 0)
-				myBar:ClearAllPoints()
-				myBar:Point("TOP", health, "TOP")
-				myBar:Point("BOTTOM", health, "BOTTOM")
-				myBar:Point(p1, healthTexture, p2)
-
-				otherBar:Size(width, 0)
-				otherBar:ClearAllPoints()
-				otherBar:Point("TOP", health, "TOP")
-				otherBar:Point("BOTTOM", health, "BOTTOM")
-				otherBar:Point(p1, myBar:GetStatusBarTexture(), p2)
-			else
-				local height = health:GetHeight()
-				height = (height > 0 and height) or health.HEIGHT
-				local p1 = reverseFill and "TOP" or "BOTTOM"
-				local p2 = reverseFill and "BOTTOM" or "TOP"
-				local healthTexture = health:GetStatusBarTexture()
-
-				myBar:Size(0, height)
-				myBar:ClearAllPoints()
-				myBar:Point("LEFT", health, "LEFT")
-				myBar:Point("RIGHT", health, "RIGHT")
-				myBar:Point(p1, healthTexture, p2)
-
-				otherBar:Size(0, height)
-				otherBar:ClearAllPoints()
-				otherBar:Point("LEFT", health, "LEFT")
-				otherBar:Point("RIGHT", health, "RIGHT")
-				otherBar:Point(p1, myBar:GetStatusBarTexture(), p2)
-			end
-
-			myBar:SetReverseFill(reverseFill)
-			otherBar:SetReverseFill(reverseFill)
-		end
+		myBar:SetReverseFill(reverseFill)
+		otherBar:SetReverseFill(reverseFill)
 
 		myBar:SetStatusBarColor(c.personal.r, c.personal.g, c.personal.b, c.personal.a)
 		otherBar:SetStatusBarColor(c.others.r, c.others.g, c.others.b, c.others.a)
+
+		if orientation == "HORIZONTAL" then
+			local width = health:GetWidth()
+			width = (width > 0 and width) or health.WIDTH
+			local p1 = reverseFill and "RIGHT" or "LEFT"
+			local p2 = reverseFill and "LEFT" or "RIGHT"
+
+			myBar:Size(width, 0)
+			myBar:ClearAllPoints()
+			myBar:Point("TOP", health, "TOP")
+			myBar:Point("BOTTOM", health, "BOTTOM")
+			myBar:Point(p1, healthBarTexture, p2)
+
+			otherBar:Size(width, 0)
+			otherBar:ClearAllPoints()
+			otherBar:Point("TOP", health, "TOP")
+			otherBar:Point("BOTTOM", health, "BOTTOM")
+			otherBar:Point(p1, myBar:GetStatusBarTexture(), p2)
+		else
+			local height = health:GetHeight()
+			height = (height > 0 and height) or health.HEIGHT
+			local p1 = reverseFill and "TOP" or "BOTTOM"
+			local p2 = reverseFill and "BOTTOM" or "TOP"
+
+			myBar:Size(0, height)
+			myBar:ClearAllPoints()
+			myBar:Point("LEFT", health, "LEFT")
+			myBar:Point("RIGHT", health, "RIGHT")
+			myBar:Point(p1, healthBarTexture, p2)
+
+			otherBar:Size(0, height)
+			otherBar:ClearAllPoints()
+			otherBar:Point("LEFT", health, "LEFT")
+			otherBar:Point("RIGHT", health, "RIGHT")
+			otherBar:Point(p1, myBar:GetStatusBarTexture(), p2)
+		end
 	elseif frame:IsElementEnabled("HealthPrediction") then
 		frame:DisableElement("HealthPrediction")
 	end
