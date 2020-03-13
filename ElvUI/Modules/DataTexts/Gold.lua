@@ -109,9 +109,9 @@ local function OnEnter(self)
 		end
 
 		if ElvDB.faction[E.myrealm][k] == "Alliance" then
-			totalAlliance = totalAlliance+ElvDB.gold[E.myrealm][k]
+			totalAlliance = totalAlliance + ElvDB.gold[E.myrealm][k]
 		elseif ElvDB.faction[E.myrealm][k] == "Horde" then
-			totalHorde = totalHorde+ElvDB.gold[E.myrealm][k]
+			totalHorde = totalHorde + ElvDB.gold[E.myrealm][k]
 		end
 
 		totalGold = totalGold + ElvDB.gold[E.myrealm][k]
@@ -126,8 +126,8 @@ local function OnEnter(self)
 
 	DT.tooltip:AddLine(" ")
 	DT.tooltip:AddLine(L["Server: "])
-	DT.tooltip:AddDoubleLine(L["Alliance: "], E:FormatMoney(totalAlliance, style, textOnly), 0, 0.376, 1, 1, 1, 1)
-	DT.tooltip:AddDoubleLine(L["Horde: "], E:FormatMoney(totalHorde, style, textOnly), 1, 0.2, 0.2, 1, 1, 1)
+	if totalAlliance ~= 0 then DT.tooltip:AddDoubleLine(L["Alliance: "], E:FormatMoney(totalAlliance, style, textOnly), 0, 0.376, 1, 1, 1, 1) end
+	if totalHorde ~= 0 then DT.tooltip:AddDoubleLine(L["Horde: "], E:FormatMoney(totalHorde, style, textOnly), 1, 0.2, 0.2, 1, 1, 1) end
 	DT.tooltip:AddLine(" ")
 	DT.tooltip:AddDoubleLine(L["Total: "], E:FormatMoney(totalGold, style, textOnly), 1, 1, 1, 1, 1, 1)
 	DT.tooltip:AddLine(" ")

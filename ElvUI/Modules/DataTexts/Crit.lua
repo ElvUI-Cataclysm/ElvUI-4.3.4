@@ -24,7 +24,7 @@ local displayModifierString = ""
 local lastPanel
 
 local function OnEvent(self)
-	if E.Role == "Caster"then
+	if E.Role == "Caster" then
 		critRating = GetSpellCritChance(2)
 	else
 		if E.myclass == "HUNTER" then

@@ -1,5 +1,5 @@
 local E, L, V, P, G = unpack(select(2, ...))
-local Skins = E:GetModule('Skins')
+local Skins = E:GetModule("Skins")
 
 local _G = _G
 

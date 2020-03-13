@@ -142,16 +142,18 @@ function NP:Update_HealthBar(frame)
 end
 
 function NP:Configure_HealthBarScale(frame, scale, noPlayAnimation)
+	local db = NP.db.units[frame.UnitType].health
+
 	if noPlayAnimation then
-		frame.Health:SetWidth(self.db.units[frame.UnitType].health.width * scale)
-		frame.Health:SetHeight(self.db.units[frame.UnitType].health.height * scale)
+		frame.Health:SetWidth(db.width * scale)
+		frame.Health:SetHeight(db.height * scale)
 	else
 		if frame.Health.scale:IsPlaying() then
 			frame.Health.scale:Stop()
 		end
 
-		frame.Health.scale.width:SetChange(self.db.units[frame.UnitType].health.width * scale)
-		frame.Health.scale.height:SetChange(self.db.units[frame.UnitType].health.height * scale)
+		frame.Health.scale.width:SetChange(db.width * scale)
+		frame.Health.scale.height:SetChange(db.height * scale)
 		frame.Health.scale:Play()
 	end
 end

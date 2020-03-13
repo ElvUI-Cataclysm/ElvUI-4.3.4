@@ -1004,9 +1004,7 @@ function AB:SetupFlyoutButton()
 end
 
 function AB:StyleFlyout(button)
-	if not button.FlyoutArrow then return end
-	if not LAB.buttonRegistry[button] then return end
-	if not button.FlyoutBorder then return end
+	if not (LAB.buttonRegistry[button] and button.FlyoutArrow and button.FlyoutBorder) then return end
 
 	button.FlyoutBorder:SetAlpha(0)
 	button.FlyoutBorderShadow:SetAlpha(0)

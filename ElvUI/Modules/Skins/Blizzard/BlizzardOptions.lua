@@ -43,7 +43,7 @@ local function LoadSkin()
 			item:SetHighlightTexture(E.Media.Textures.Highlight)
 
 			local getHighlight = item:GetHighlightTexture()
-			getHighlight:SetVertexColor(1, 0.8, 0.1, 0.3)
+			getHighlight:SetVertexColor(1, 0.82, 0, 0.35)
 			getHighlight:Point("TOPLEFT", 0, 0)
 			getHighlight:Point("BOTTOMRIGHT", 0, 1)
 		end
@@ -56,7 +56,7 @@ local function LoadSkin()
 
 		button:SetHighlightTexture(E.Media.Textures.Highlight)
 		local getHighlight = button:GetHighlightTexture()
-		getHighlight:SetVertexColor(1, 0.8, 0.1, 0.3)
+		getHighlight:SetVertexColor(1, 0.82, 0, 0.35)
 		getHighlight:Point("TOPLEFT", 0, 0)
 		getHighlight:Point("BOTTOMRIGHT", 0, 1)
 
@@ -67,12 +67,14 @@ local function LoadSkin()
 		buttonToggle:SetHighlightTexture("")
 
 		hooksecurefunc(buttonToggle, "SetNormalTexture", function(self, texture)
+			local normal, pushed = self:GetNormalTexture(), self:GetPushedTexture()
+
 			if find(texture, "MinusButton") then
-				self:GetNormalTexture():SetTexture(E.Media.Textures.Minus)
-				self:GetPushedTexture():SetTexture(E.Media.Textures.Minus)
+				normal:SetTexture(E.Media.Textures.Minus)
+				pushed:SetTexture(E.Media.Textures.Minus)
 			else
-				self:GetNormalTexture():SetTexture(E.Media.Textures.Plus)
-				self:GetPushedTexture():SetTexture(E.Media.Textures.Plus)
+				normal:SetTexture(E.Media.Textures.Plus)
+				pushed:SetTexture(E.Media.Textures.Plus)
 			end
 		end)
 	end

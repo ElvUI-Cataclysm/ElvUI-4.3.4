@@ -32,7 +32,7 @@ function UF:Construct_PetFrame(frame)
 	frame.customTexts = {}
 
 	frame:Point("BOTTOM", E.UIParent, "BOTTOM", 0, 118)
-	E:CreateMover(frame, frame:GetName().."Mover", L["Pet Frame"], nil, nil, nil, "ALL,SOLO", nil, "unitframe,pet,generalGroup")
+	E:CreateMover(frame, frame:GetName().."Mover", L["Pet Frame"], nil, nil, nil, "ALL,SOLO", nil, "unitframe,individualUnits,pet,generalGroup")
 	frame.unitframeType = "pet"
 end
 
@@ -43,25 +43,21 @@ function UF:Update_PetFrame(frame, db)
 		frame.ORIENTATION = db.orientation
 		frame.UNIT_WIDTH = db.width
 		frame.UNIT_HEIGHT = db.infoPanel.enable and (db.height + db.infoPanel.height) or db.height
-
 		frame.USE_POWERBAR = db.power.enable
 		frame.POWERBAR_DETACHED = db.power.detachFromFrame
 		frame.USE_INSET_POWERBAR = not frame.POWERBAR_DETACHED and db.power.width == "inset" and frame.USE_POWERBAR
 		frame.USE_MINI_POWERBAR = (not frame.POWERBAR_DETACHED and db.power.width == "spaced" and frame.USE_POWERBAR)
 		frame.USE_POWERBAR_OFFSET = (db.power.width == "offset" and db.power.offset ~= 0) and frame.USE_POWERBAR and not frame.POWERBAR_DETACHED
-
 		frame.POWERBAR_OFFSET = frame.USE_POWERBAR_OFFSET and db.power.offset or 0
 		frame.POWERBAR_HEIGHT = not frame.USE_POWERBAR and 0 or db.power.height
-		frame.POWERBAR_WIDTH = frame.USE_MINI_POWERBAR and (frame.UNIT_WIDTH - (frame.BORDER*2))/2 or (frame.POWERBAR_DETACHED and db.power.detachedWidth or (frame.UNIT_WIDTH - ((frame.BORDER+frame.SPACING)*2)))
-
+		frame.POWERBAR_WIDTH = frame.USE_MINI_POWERBAR and (frame.UNIT_WIDTH - (frame.BORDER * 2)) / 2 or (frame.POWERBAR_DETACHED and db.power.detachedWidth or (frame.UNIT_WIDTH - ((frame.BORDER + frame.SPACING) * 2)))
 		frame.USE_PORTRAIT = db.portrait and db.portrait.enable
 		frame.USE_PORTRAIT_OVERLAY = frame.USE_PORTRAIT and (db.portrait.overlay or frame.ORIENTATION == "MIDDLE")
 		frame.PORTRAIT_WIDTH = (frame.USE_PORTRAIT_OVERLAY or not frame.USE_PORTRAIT) and 0 or db.portrait.width
-
 		frame.USE_INFO_PANEL = not frame.USE_MINI_POWERBAR and not frame.USE_POWERBAR_OFFSET and db.infoPanel.enable
 		frame.INFO_PANEL_HEIGHT = frame.USE_INFO_PANEL and db.infoPanel.height or 0
-
 		frame.BOTTOM_OFFSET = UF:GetHealthBottomOffset(frame)
+
 		frame.VARIABLES_SET = true
 	end
 
@@ -83,13 +79,10 @@ function UF:Update_PetFrame(frame, db)
 	UF:Configure_Castbar(frame)
 	UF:Configure_HealComm(frame)
 	UF:Configure_AuraBars(frame)
-	if E.db.unitframe.units.player.enable and E.db.unitframe.units.player.combatfade and ElvUF_Player and not InCombatLockdown() then
-		frame:SetParent(ElvUF_Player)
-	end
 	UF:Configure_Cutaway(frame)
 	UF:Configure_CustomTexts(frame)
-
 	UF:Configure_AuraWatch(frame, true)
+
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end
 

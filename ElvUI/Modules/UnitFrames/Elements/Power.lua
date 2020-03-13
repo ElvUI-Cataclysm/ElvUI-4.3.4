@@ -128,9 +128,9 @@ function UF:Configure_Power(frame)
 				power:Point("BOTTOMLEFT", power.Holder, "BOTTOMLEFT", frame.BORDER+frame.SPACING, frame.BORDER+frame.SPACING)
 				--Currently only Player and Target can detach power bars, so doing it this way is okay for now
 				if frame.unitframeType and frame.unitframeType == "player" then
-					E:CreateMover(power.Holder, "PlayerPowerBarMover", L["Player Powerbar"], nil, nil, nil, "ALL,SOLO", nil, "unitframe,player,power")
+					E:CreateMover(power.Holder, "PlayerPowerBarMover", L["Player Powerbar"], nil, nil, nil, "ALL,SOLO", nil, "unitframe,individualUnits,player,power")
 				elseif frame.unitframeType and frame.unitframeType == "target" then
-					E:CreateMover(power.Holder, "TargetPowerBarMover", L["Target Powerbar"], nil, nil, nil, "ALL,SOLO", nil, "unitframe,target,power")
+					E:CreateMover(power.Holder, "TargetPowerBarMover", L["Target Powerbar"], nil, nil, nil, "ALL,SOLO", nil, "unitframe,individualUnits,target,power")
 				end
 			else
 				power.Holder:Size(frame.POWERBAR_WIDTH, frame.POWERBAR_HEIGHT)
@@ -154,12 +154,12 @@ function UF:Configure_Power(frame)
 			end
 			power:SetFrameLevel(frame.Health:GetFrameLevel() - 5) --Health uses 10
 		elseif frame.USE_INSET_POWERBAR then
-			power:Height(frame.POWERBAR_HEIGHT  - ((frame.BORDER + frame.SPACING)*2))
+			power:Height(frame.POWERBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2))
 			power:Point("BOTTOMLEFT", frame.Health, "BOTTOMLEFT", frame.BORDER + (frame.BORDER*2), frame.BORDER + (frame.BORDER*2))
 			power:Point("BOTTOMRIGHT", frame.Health, "BOTTOMRIGHT", -(frame.BORDER + (frame.BORDER*2)), frame.BORDER + (frame.BORDER*2))
 			power:SetFrameLevel(50)
 		elseif frame.USE_MINI_POWERBAR then
-			power:Height(frame.POWERBAR_HEIGHT  - ((frame.BORDER + frame.SPACING)*2))
+			power:Height(frame.POWERBAR_HEIGHT - ((frame.BORDER + frame.SPACING)*2))
 
 			if frame.ORIENTATION == "LEFT" then
 				power:Width(frame.POWERBAR_WIDTH - frame.BORDER*2)

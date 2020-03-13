@@ -374,7 +374,7 @@ local function LoadSkin()
 			local r, g, b = unpack(E.media.rgbvaluecolor)
 
 			button:SetHighlightTexture(E.Media.Textures.Highlight)
-			button:GetHighlightTexture():SetVertexColor(r, g, b, 0.7)
+			button:GetHighlightTexture():SetVertexColor(r, g, b, 0.5)
 			button:GetHighlightTexture():SetInside()
 		end
 	end

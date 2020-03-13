@@ -253,26 +253,28 @@ local function LoadSkin()
 	TradeSkillCollapseAllButton:GetDisabledTexture():SetVertexColor(0.6, 0.6, 0.6)
 
 	hooksecurefunc(TradeSkillCollapseAllButton, "SetNormalTexture", function(self, texture)
+		local normal = self:GetNormalTexture()
+
 		if find(texture, "MinusButton") then
-			self:GetNormalTexture():SetTexture(E.Media.Textures.Minus)
+			normal:SetTexture(E.Media.Textures.Minus)
 		else
-			self:GetNormalTexture():SetTexture(E.Media.Textures.Plus)
+			normal:SetTexture(E.Media.Textures.Plus)
 		end
 	end)
 
 	for i = 1, TRADE_SKILLS_DISPLAYED do
-		local skillButton = _G["TradeSkillSkill"..i]
-		local skillButtonHighlight = _G["TradeSkillSkill"..i.."Highlight"]
+		local button = _G["TradeSkillSkill"..i]
+		local highlight = _G["TradeSkillSkill"..i.."Highlight"]
 
-		skillButton:SetNormalTexture(E.Media.Textures.Plus)
-		skillButton.SetNormalTexture = E.noop
-		skillButton:GetNormalTexture():Size(14)
-		skillButton:GetNormalTexture():Point("LEFT", 2, 2)
+		button:SetNormalTexture(E.Media.Textures.Plus)
+		button.SetNormalTexture = E.noop
+		button:GetNormalTexture():Size(14)
+		button:GetNormalTexture():Point("LEFT", 2, 2)
 
-		skillButtonHighlight:SetTexture("")
-		skillButtonHighlight.SetTexture = E.noop
+		highlight:SetTexture("")
+		highlight.SetTexture = E.noop
 
-		hooksecurefunc(skillButton, "SetNormalTexture", function(self, texture)
+		hooksecurefunc(button, "SetNormalTexture", function(self, texture)
 			local normal = self:GetNormalTexture()
 
 			if find(texture, "MinusButton") then

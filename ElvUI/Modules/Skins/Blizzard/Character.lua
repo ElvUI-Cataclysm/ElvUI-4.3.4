@@ -177,6 +177,7 @@ local function LoadSkin()
 
 			if itemID then
 				local rarity = GetInventoryItemQuality("player", slotID)
+
 				if rarity then
 					button:SetBackdropBorderColor(GetItemQualityColor(rarity))
 				else
@@ -234,19 +235,19 @@ local function LoadSkin()
 			object.BgMiddle:SetTexture(nil)
 			object.Check:SetTexture(nil)
 
-			object.text:FontTemplate()
-			object.text.SetFont = E.noop
-
 			S:HandleButtonHighlight(object)
-			object.handledHighlight:SetInside()
+			object.handledHighlight:Point("TOPLEFT", 0, -1)
 
 			object.SelectedBar:SetTexture(E.Media.Textures.Highlight)
 			object.SelectedBar:SetVertexColor(unpack(E.media.rgbvaluecolor))
-			object.SelectedBar:SetInside()
+			object.SelectedBar:Point("TOPLEFT", 0, -1)
 
 			object.Stripe:SetTexture(E.Media.Textures.Highlight)
 			object.Stripe.SetTexture = E.noop
-			object.Stripe:SetInside()
+			object.Stripe:Point("TOPLEFT", 0, -1)
+
+			object.text:FontTemplate()
+			object.text.SetFont = E.noop
 		end
 	end)
 

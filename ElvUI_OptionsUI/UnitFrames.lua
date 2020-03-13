@@ -734,7 +734,7 @@ local function GetOptionsTable_Auras(auraType, isGroupFrame, updateFunc, groupNa
 		config.args.desaturate = {
 			order = 1.1,
 			type = "toggle",
-			name = L["Desaturate Icon"]
+			name = L["Desaturated Icon"]
 		}
 	end
 

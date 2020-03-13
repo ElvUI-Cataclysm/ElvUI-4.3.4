@@ -18,22 +18,10 @@ local function LoadSkin()
 
 	GlyphFrame.sideInset:StripTextures()
 
-	GlyphFrame.clearInfo:CreateBackdrop("Default", true)
-	GlyphFrame.clearInfo.backdrop:SetAllPoints()
-	GlyphFrame.clearInfo:StyleButton()
-	GlyphFrame.clearInfo:Size(25)
-	GlyphFrame.clearInfo:Point("BOTTOMLEFT", GlyphFrame, "BOTTOMRIGHT", 10, -2)
-
-	GlyphFrame.clearInfo.icon:SetTexCoord(unpack(E.TexCoords))
-	GlyphFrame.clearInfo.icon:ClearAllPoints()
-	GlyphFrame.clearInfo.icon:SetInside()
-
-	GlyphFrameScrollFrame:StripTextures()
-	GlyphFrameScrollFrameScrollChild:StripTextures()
-
 	S:HandleEditBox(GlyphFrameSearchBox)
+	GlyphFrameSearchBox:Point("TOPLEFT", GlyphFrameSideInset, 5, 54)
 
-	S:HandleDropDownBox(GlyphFrameFilterDropDown, 206)
+	S:HandleDropDownBox(GlyphFrameFilterDropDown, 208)
 	GlyphFrameFilterDropDown:Point("TOPLEFT", GlyphFrameSearchBox, "BOTTOMLEFT", -13, -3)
 
 	for i = 1, NUM_GLYPH_SLOTS do
@@ -101,6 +89,19 @@ local function LoadSkin()
 		end
 	end)
 
+	-- Scroll Frame
+	GlyphFrameScrollFrameScrollChild:StripTextures()
+
+	GlyphFrameScrollFrame:StripTextures()
+	GlyphFrameScrollFrame:CreateBackdrop("Transparent")
+	GlyphFrameScrollFrame.backdrop:Point("TOPLEFT", -1, 1)
+	GlyphFrameScrollFrame.backdrop:Point("BOTTOMRIGHT", -4, -2)
+
+	S:HandleScrollBar(GlyphFrameScrollFrameScrollBar)
+	GlyphFrameScrollFrameScrollBar:ClearAllPoints()
+	GlyphFrameScrollFrameScrollBar:Point("TOPRIGHT", GlyphFrameScrollFrame, 20, -15)
+	GlyphFrameScrollFrameScrollBar:Point("BOTTOMRIGHT", GlyphFrameScrollFrame, 0, 14)
+
 	for i = 1, 3 do
 		local header = _G["GlyphFrameHeader"..i]
 
@@ -112,12 +113,28 @@ local function LoadSkin()
 		local button = _G["GlyphFrameScrollFrameButton"..i]
 
 		button:StripTextures()
-		S:HandleButton(button)
+		button:CreateBackdrop()
+		button.backdrop:SetOutside(button.icon)
 
+		S:HandleButtonHighlight(button)
+		button.handledHighlight:Point("TOPLEFT", 38, 0)
+		button.handledHighlight:Point("BOTTOMRIGHT", -2, 0)
+
+		button.icon:Size(38)
 		button.icon:SetTexCoord(unpack(E.TexCoords))
+		button.icon:SetParent(button.backdrop)
 	end
 
-	S:HandleScrollBar(GlyphFrameScrollFrameScrollBar, 5)
+	-- Clear Info
+	GlyphFrame.clearInfo:CreateBackdrop(nil, true)
+	GlyphFrame.clearInfo.backdrop:SetAllPoints()
+	GlyphFrame.clearInfo:StyleButton()
+	GlyphFrame.clearInfo:Size(28)
+	GlyphFrame.clearInfo:Point("BOTTOMLEFT", GlyphFrame, "BOTTOMRIGHT", 8, -1)
+
+	GlyphFrame.clearInfo.icon:SetTexCoord(unpack(E.TexCoords))
+	GlyphFrame.clearInfo.icon:ClearAllPoints()
+	GlyphFrame.clearInfo.icon:SetInside()
 end
 
 S:AddCallbackForAddon("Blizzard_GlyphUI", "Glyph", LoadSkin)

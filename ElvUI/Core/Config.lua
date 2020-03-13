@@ -76,7 +76,6 @@ function E:ToggleMoveMode(which)
 		if IsAddOnLoaded("ElvUI_OptionsUI") then
 			E:Config_CloseWindow()
 		end
-
 	else
 		E:Grid_Hide()
 		ElvUIGrid:SetAlpha(1)

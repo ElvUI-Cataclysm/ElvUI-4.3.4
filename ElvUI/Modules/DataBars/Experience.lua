@@ -104,11 +104,11 @@ function mod:ExperienceBar_OnEnter()
 	GameTooltip:AddLine(L["Experience"])
 	GameTooltip:AddLine(" ")
 
-	GameTooltip:AddDoubleLine(L["XP:"], format(' %d / %d (%d%%)', cur, max, E:Round(cur / max * 100)), 1, 1, 1)
-	GameTooltip:AddDoubleLine(L["Remaining:"], format(' %d (%d%% - %d '..L["Bars"]..')', max - cur, E:Round((max - cur) / max * 100), 20 * (max - cur) / max), 1, 1, 1)
+	GameTooltip:AddDoubleLine(L["XP:"], format(" %d / %d (%d%%)", cur, max, E:Round(cur / max * 100)), 1, 1, 1)
+	GameTooltip:AddDoubleLine(L["Remaining:"], format(" %d (%d%% - %d "..L["Bars"]..")", max - cur, E:Round((max - cur) / max * 100), 20 * (max - cur) / max), 1, 1, 1)
 
 	if rested then
-		GameTooltip:AddDoubleLine(L["Rested:"], format('+%d (%d%%)', rested, E:Round(rested / max * 100)), 1, 1, 1)
+		GameTooltip:AddDoubleLine(L["Rested:"], format("+%d (%d%%)", rested, E:Round(rested / max * 100)), 1, 1, 1)
 	end
 
 	GameTooltip:Show()
@@ -165,7 +165,7 @@ end
 
 function mod:LoadExperienceBar()
 	self.expBar = self:CreateBar("ElvUI_ExperienceBar", self.ExperienceBar_OnEnter, self.ExperienceBar_OnClick, "LEFT", LeftChatPanel, "RIGHT", -E.Border + E.Spacing*3, 0)
-	self.expBar.statusBar:SetStatusBarColor(0, 0.4, 1, .8)
+	self.expBar.statusBar:SetStatusBarColor(0, 0.4, 1, 0.8)
 	self.expBar.rested = CreateFrame("StatusBar", nil, self.expBar)
 	self.expBar.rested:SetInside()
 	self.expBar.rested:SetStatusBarTexture(E.media.normTex)

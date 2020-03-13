@@ -168,5 +168,5 @@ function B:AlertMovers()
 	self:SecureHook("DungeonCompletionAlertFrame_FixAnchors")
 	self:SecureHook("GuildChallengeAlertFrame_FixAnchors")
 
-	E:CreateMover(AlertFrameHolder, "AlertFrameMover", L["Loot / Alert Frames"], nil, nil, E.PostAlertMove, nil, nil, "general,general")
+	E:CreateMover(AlertFrameHolder, "AlertFrameMover", L["Loot / Alert Frames"], nil, nil, E.PostAlertMove, nil, nil, "general,blizzUIImprovements")
 end

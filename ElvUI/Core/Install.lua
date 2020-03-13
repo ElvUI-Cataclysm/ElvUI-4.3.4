@@ -299,6 +299,7 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 			E.db.unitframe.units.target.castbar.height = 40
 			E.db.unitframe.units.target.castbar.insideInfoPanel = false
 			E.db.unitframe.units.target.castbar.width = 406
+			E.db.unitframe.units.target.combobar.height = 14
 			E.db.unitframe.units.target.debuffs.anchorPoint = "TOPLEFT"
 			E.db.unitframe.units.target.debuffs.attachTo = "FRAME"
 			E.db.unitframe.units.target.debuffs.enable = false

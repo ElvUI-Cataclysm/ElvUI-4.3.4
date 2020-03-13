@@ -9,7 +9,6 @@ local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.dressingroom then return end
 
 	-- Dressing Room
-	local DressUpFrame = _G["DressUpFrame"]
 	DressUpFrame:StripTextures()
 	DressUpFrame:CreateBackdrop("Transparent")
 	DressUpFrame.backdrop:Point("TOPLEFT", 10, -12)

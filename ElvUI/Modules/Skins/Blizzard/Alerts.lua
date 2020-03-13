@@ -102,7 +102,7 @@ local function LoadSkin()
 	GuildChallengeAlertFrameEmblemIcon.backdrop = CreateFrame("Frame", nil, GuildChallengeAlertFrame)
 	GuildChallengeAlertFrameEmblemIcon.backdrop:SetTemplate("Default")
 	GuildChallengeAlertFrameEmblemIcon.backdrop:SetPoint("TOPLEFT", GuildChallengeAlertFrameEmblemIcon, "TOPLEFT", -2, 2)
-	GuildChallengeAlertFrameEmblemIcon.backdrop:SetPoint("BOTTOMRIGHT",GuildChallengeAlertFrameEmblemIcon, "BOTTOMRIGHT", 2, -2)
+	GuildChallengeAlertFrameEmblemIcon.backdrop:SetPoint("BOTTOMRIGHT", GuildChallengeAlertFrameEmblemIcon, "BOTTOMRIGHT", 2, -2)
 	GuildChallengeAlertFrameEmblemIcon.backdrop:SetFrameLevel(0)
 end
 

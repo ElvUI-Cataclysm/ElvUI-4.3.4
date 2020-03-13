@@ -899,8 +899,8 @@ E.Options.args.actionbar = {
 		},
 		playerBars = {
 			order = 4,
-			name = L["Player Bars"],
 			type = "group",
+			name = L["Player Bars"],
 			childGroups = "tree",
 			args = {}
 		}

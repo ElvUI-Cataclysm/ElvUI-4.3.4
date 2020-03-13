@@ -431,7 +431,6 @@ local function ExportImport_Open(mode)
 					importButton:SetDisabled(false)
 				end
 
-
 				oldText = text
 			end
 		end

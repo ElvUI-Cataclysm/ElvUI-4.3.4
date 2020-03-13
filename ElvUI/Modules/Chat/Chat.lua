@@ -131,9 +131,9 @@ function CH:AddSmiley(key, texture)
 end
 
 local rolePaths = {
-	TANK = [[|TInterface\AddOns\ElvUI\media\textures\tank:15:15:0:0:64:64:2:56:2:56|t]],
-	HEALER = [[|TInterface\AddOns\ElvUI\media\textures\healer:15:15:0:0:64:64:2:56:2:56|t]],
-	DAMAGER = [[|TInterface\AddOns\ElvUI\media\textures\dps:15:15|t]]
+	TANK = E:TextureString(E.Media.Textures.Tank, ":15:15:0:0:64:64:2:56:2:56"),
+	HEALER = E:TextureString(E.Media.Textures.Healer, ":15:15:0:0:64:64:2:56:2:56"),
+	DAMAGER = E:TextureString(E.Media.Textures.DPS, ":15:15")
 }
 
 local specialChatIcons

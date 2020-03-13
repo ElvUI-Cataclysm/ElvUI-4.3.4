@@ -6,7 +6,7 @@ local MC = E:GetModule("ModuleCopy")
 --Actionbars
 local function CreateActionbarsConfig()
 	local config = MC:CreateModuleConfigGroup(L["ActionBars"], "actionbar")
-	for i = 1, 6 do
+	for i = 1, 10 do
 		config.args["bar"..i] = {
 			order = i + 1,
 			type = "toggle",
@@ -16,35 +16,35 @@ local function CreateActionbarsConfig()
 		}
 	end
 	config.args.barPet = {
-		order = 8,
+		order = 12,
 		type = "toggle",
 		name = L["Pet Bar"],
 		get = function(info) return E.global.profileCopy.actionbar[info[#info]] end,
 		set = function(info, value) E.global.profileCopy.actionbar[info[#info]] = value end
 	}
 	config.args.stanceBar = {
-		order = 9,
+		order = 13,
 		type = "toggle",
 		name = L["Stance Bar"],
 		get = function(info) return E.global.profileCopy.actionbar[info[#info]] end,
 		set = function(info, value) E.global.profileCopy.actionbar[info[#info]] = value end
 	}
 	config.args.microbar = {
-		order = 10,
+		order = 14,
 		type = "toggle",
 		name = L["Micro Bar"],
 		get = function(info) return E.global.profileCopy.actionbar[info[#info]] end,
 		set = function(info, value) E.global.profileCopy.actionbar[info[#info]] = value end
 	}
 	config.args.extraActionButton = {
-		order = 11,
+		order = 15,
 		type = "toggle",
 		name = L["Boss Button"],
 		get = function(info) return E.global.profileCopy.actionbar[info[#info]] end,
 		set = function(info, value) E.global.profileCopy.actionbar[info[#info]] = value end
 	}
 	config.args.cooldown = {
-		order = 12,
+		order = 16,
 		type = "toggle",
 		name = L["Cooldown Text"],
 		get = function(info) return E.global.profileCopy.actionbar[info[#info]] end,
@@ -411,13 +411,23 @@ local function CreateUnitframesConfig()
 				type = "toggle",
 				name = L["Raid Pet"]
 			},
-			["tank"] = {
+			["boss"] = {
 				order = 13,
+				type = "toggle",
+				name = L["Boss"],
+			},
+			["arena"] = {
+				order = 14,
+				type = "toggle",
+				name = L["Arena"],
+			},
+			["tank"] = {
+				order = 15,
 				type = "toggle",
 				name = L["TANK"]
 			},
 			["assist"] = {
-				order = 14,
+				order = 16,
 				type = "toggle",
 				name = L["Assist"]
 			}
@@ -427,7 +437,7 @@ local function CreateUnitframesConfig()
 	return config
 end
 
-E.Options.args.modulecontrol= {
+E.Options.args.modulecontrol = {
 	order = 3,
 	type = "group",
 	name = L["Module Control"],
@@ -437,7 +447,7 @@ E.Options.args.modulecontrol= {
 			type = "group",
 			name = L["Module Copy"],
 			order = 1,
-			childGroups = "select",
+			childGroups = "tab",
 			handler = E.Options.args.profiles.handler,
 			args = {
 				intro = {
@@ -465,7 +475,7 @@ E.Options.args.modulecontrol= {
 					order = 10,
 					type = "group",
 					name = E.title,
-					childGroups = "tab",
+					childGroups = "tree",
 					disabled = E.Options.args.profiles.args.copyfrom.disabled,
 					args = {
 						header = {
@@ -491,7 +501,7 @@ E.Options.args.modulecontrol= {
 					type = "group",
 					name = L["Movers"],
 					desc = L["On screen positions for different elements."],
-					childGroups = "tab",
+					childGroups = "tree",
 					disabled = E.Options.args.profiles.args.copyfrom.disabled,
 					args = MC:CreateMoversConfigGroup()
 				}

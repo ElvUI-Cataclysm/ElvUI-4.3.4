@@ -113,7 +113,7 @@ local function createSlot(id)
 	local iconFrame = CreateFrame("Frame", nil, frame)
 	iconFrame:Size(iconSize - 2)
 	iconFrame:Point("RIGHT", frame)
-	iconFrame:SetTemplate("Default")
+	iconFrame:SetTemplate()
 	frame.iconFrame = iconFrame
 	E.frames[iconFrame] = nil
 
@@ -327,7 +327,7 @@ function M:LoadLoot()
 	self:RegisterEvent("OPEN_MASTER_LOOT_LIST")
 	self:RegisterEvent("UPDATE_MASTER_LOOT_LIST")
 
-	E:CreateMover(lootFrameHolder, "LootFrameMover", L["Loot Frame"], nil, nil, nil, nil, nil, "general,general")
+	E:CreateMover(lootFrameHolder, "LootFrameMover", L["Loot Frame"], nil, nil, nil, nil, nil, "general,blizzUIImprovements")
 
 	-- Fuzz
 	LootFrame:UnregisterAllEvents()

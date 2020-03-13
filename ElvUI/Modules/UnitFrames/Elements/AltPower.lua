@@ -28,7 +28,7 @@ end
 function UF:AltPowerBarPostUpdate(unit, cur, _, max)
 	if not self.barType then return end
 
-	local perc = (cur and max and max > 0) and floor((cur/max)*100) or 0
+	local perc = (cur and max and max > 0) and floor((cur / max) * 100) or 0
 	local parent = self:GetParent()
 
 	if perc < 35 then
@@ -67,10 +67,10 @@ function UF:Configure_AltPower(frame)
 	if frame.USE_POWERBAR then
 		frame:EnableElement("AlternativePower")
 		altpower.text:SetAlpha(1)
-		altpower:Point("BOTTOMLEFT", frame.Health.backdrop, "TOPLEFT", frame.BORDER, frame.SPACING+frame.BORDER)
+		altpower:Point("BOTTOMLEFT", frame.Health.backdrop, "TOPLEFT", frame.BORDER, frame.SPACING + frame.BORDER)
 
 		if not frame.USE_PORTRAIT_OVERLAY then
-			altpower:Point("TOPRIGHT", frame, "TOPRIGHT", -(frame.PORTRAIT_WIDTH+frame.BORDER), -frame.BORDER)
+			altpower:Point("TOPRIGHT", frame, "TOPRIGHT", -(frame.PORTRAIT_WIDTH + frame.BORDER), -frame.BORDER)
 		else
 			altpower:Point("TOPRIGHT", frame, "TOPRIGHT", -frame.BORDER, -frame.BORDER)
 		end

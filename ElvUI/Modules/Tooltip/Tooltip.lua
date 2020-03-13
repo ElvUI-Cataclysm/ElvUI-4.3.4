@@ -232,7 +232,7 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 		if levelLine then
 			local diffColor = GetQuestDifficultyColor(level)
 			local race = UnitRace(unit)
-			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r %s %s%s|r", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", race or "", E:RGBToHex(color.r, color.g, color.b), localeClass)
+			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r %s |c%s%s|r", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", race or "", color.colorStr, localeClass)
 		end
 
 		if E.db.tooltip.role then
@@ -273,9 +273,7 @@ function TT:SetUnitText(tt, unit, level, isShiftKeyDown)
 			end
 		end
 
-		if not color then
-			color = RAID_CLASS_COLORS.PRIEST
-		end
+		if not color then color = PRIEST_COLOR end
 
 		local levelLine = self:GetLevelLine(tt, 2)
 		if levelLine then
@@ -472,8 +470,7 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 				if UnitIsUnit(groupUnit.."target", unit) and not UnitIsUnit(groupUnit,"player") then
 					local _, class = UnitClass(groupUnit)
 					local classColor = E:ClassColor(class) or PRIEST_COLOR
-					if not classColor then classColor = RAID_CLASS_COLORS.PRIEST end
-					tinsert(targetList, format("%s%s", E:RGBToHex(classColor.r, classColor.g, classColor.b), UnitName(groupUnit)))
+					tinsert(targetList, format("|c%s%s|r", classColor.colorStr, UnitName(groupUnit)))
 				end
 			end
 			local numList = #targetList
@@ -682,9 +679,9 @@ function TT:SetTooltipFonts()
 	local textSize = E.db.tooltip.textFontSize
 	local smallTextSize = E.db.tooltip.smallTextFontSize
 
-	GameTooltipHeaderText:FontTemplate(font, headerSize, fontOutline)
-	GameTooltipText:FontTemplate(font, textSize, fontOutline)
-	GameTooltipTextSmall:FontTemplate(font, smallTextSize, fontOutline)
+	GameTooltipHeaderText:SetFont(font, headerSize, fontOutline)
+	GameTooltipText:SetFont(font, textSize, fontOutline)
+	GameTooltipTextSmall:SetFont(font, smallTextSize, fontOutline)
 
 	if GameTooltip.hasMoney then
 		for i = 1, GameTooltip.numMoneyFrames do

@@ -38,13 +38,13 @@ function S:Ace3_SkinDropdown()
 				end
 			end
 
-            for _, item in ipairs(pullout.items) do
-                if not item.isSkinned then
-                    item.highlight:SetTexture(E.Media.Textures.Highlight)
-                    item.highlight:SetVertexColor(1, 0.82, 0, 0.35)
-                    item.isSkinned = true
-                end
-            end
+			for _, item in ipairs(pullout.items) do
+				if not item.isSkinned then
+					item.highlight:SetTexture(E.Media.Textures.Highlight)
+					item.highlight:SetVertexColor(1, 0.82, 0, 0.35)
+					item.isSkinned = true
+				end
+			end
 		elseif dropdown then
 			dropdown:SetTemplate(nil, true)
 

@@ -46,7 +46,6 @@ function UF:Construct_AssistFrames()
 	UF:Update_StatusBars()
 	UF:Update_FontStrings()
 
-
 	return self
 end
 
@@ -71,7 +70,7 @@ function UF:Update_AssistHeader(header, db)
 		local width, height = header:GetSize()
 		header.dirtyWidth, header.dirtyHeight = width, max(height, 2 * db.height + db.verticalSpacing)
 
-		E:CreateMover(header, header:GetName().."Mover", L["MA Frames"], nil, nil, nil, "ALL,RAID", nil, "unitframe,assist,generalGroup")
+		E:CreateMover(header, header:GetName().."Mover", L["MA Frames"], nil, nil, nil, "ALL,RAID", nil, "unitframe,groupUnits,assist,generalGroup")
 		header:SetAttribute("minHeight", header.dirtyHeight)
 		header:SetAttribute("minWidth", header.dirtyWidth)
 		header.positioned = true
@@ -84,7 +83,6 @@ function UF:Update_AssistFrames(frame, db)
 	frame:RegisterForClicks(self.db.targetOnMouseDown and "AnyDown" or "AnyUp")
 
 	do
-		frame.ORIENTATION = db.orientation
 		if self.thinBorders then
 			frame.SPACING = 0
 			frame.BORDER = E.mult
@@ -92,11 +90,10 @@ function UF:Update_AssistFrames(frame, db)
 			frame.BORDER = E.Border
 			frame.SPACING = E.Spacing
 		end
+		frame.ORIENTATION = db.orientation
 		frame.SHADOW_SPACING = 3
-
 		frame.UNIT_WIDTH = db.width
 		frame.UNIT_HEIGHT = db.height
-
 		frame.USE_POWERBAR = false
 		frame.POWERBAR_DETACHED = false
 		frame.USE_INSET_POWERBAR = false
@@ -105,14 +102,11 @@ function UF:Update_AssistFrames(frame, db)
 		frame.POWERBAR_OFFSET = 0
 		frame.POWERBAR_HEIGHT = 0
 		frame.POWERBAR_WIDTH = 0
-
 		frame.USE_PORTRAIT = false
 		frame.USE_PORTRAIT_OVERLAY = false
 		frame.PORTRAIT_WIDTH = 0
-
 		frame.CLASSBAR_WIDTH = 0
 		frame.CLASSBAR_YOFFSET = 0
-
 		frame.BOTTOM_OFFSET = 0
 
 		frame.VARIABLES_SET = true

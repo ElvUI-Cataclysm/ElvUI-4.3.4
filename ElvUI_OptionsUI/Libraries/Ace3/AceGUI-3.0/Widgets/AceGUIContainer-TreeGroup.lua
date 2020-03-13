@@ -361,7 +361,7 @@ local methods = {
 	--sets the tree to be displayed
 	["SetTree"] = function(self, tree, filter)
 		self.filter = filter
-		if tree then 
+		if tree then
 			assert(type(tree) == "table")
 		end
 		self.tree = tree

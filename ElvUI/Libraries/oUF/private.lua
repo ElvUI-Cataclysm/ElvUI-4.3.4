@@ -13,7 +13,7 @@ function Private.argcheck(value, num, ...)
 
 	local types = strjoin(', ', ...)
 	local name = debugstack(2,2,0):match(": in function [`<](.-)['>]")
-	error(string.format("Bad argument #%d to '%s' (%s expected, got %s)", num, name, types, type(value)), 3)
+	error(format("Bad argument #%d to '%s' (%s expected, got %s)", num, name, types, type(value)), 3)
 end
 
 function Private.print(...)
@@ -21,7 +21,7 @@ function Private.print(...)
 end
 
 function Private.error(...)
-	Private.print('|cffff0000Error:|r ' .. string.format(...))
+	Private.print('|cffff0000Error:|r ' .. format(...))
 end
 
 function Private.unitExists(unit)

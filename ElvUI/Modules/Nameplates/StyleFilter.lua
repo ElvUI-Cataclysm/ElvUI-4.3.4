@@ -264,6 +264,7 @@ function NP:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderChan
 		frame.Name:Hide()
 		NP:Configure_Glow(frame)
 		NP:Update_Glow(frame)
+		NP:Configure_IconOnlyGlow(frame)
 		NP:Configure_NameOnlyGlow(frame)
 		if not NameColorChanged then
 			NP:Update_Name(frame, true)
@@ -365,6 +366,7 @@ function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, Fl
 			frame.Level:ClearAllPoints()
 			NP:Update_Level(frame)
 		end
+		NP:Configure_IconOnlyGlow(frame)
 		NP:Configure_NameOnlyGlow(frame)
 	end
 end
@@ -408,9 +410,9 @@ function NP:StyleFilterConditionCheck(frame, filter, trigger)
 	end
 
 	-- Player Combat
-	if trigger.inCombatUnit or trigger.outOfCombatUnit then
+	if trigger.inCombat or trigger.outOfCombat then
 		local inCombat = UnitAffectingCombat("player")
-		if (trigger.inCombatUnit and inCombat) or (trigger.outOfCombatUnit and not inCombat) then passed = true else return end
+		if (trigger.inCombat and inCombat) or (trigger.outOfCombat and not inCombat) then passed = true else return end
 	end
 
 	-- Player Target
@@ -639,7 +641,7 @@ function NP:StyleFilterConfigure()
 					end
 				end
 
-				if t.inCombat or t.outOfCombat or t.inCombatUnit or t.outOfCombatUnit then
+				if t.inCombat or t.outOfCombat then
 					NP.StyleFilterTriggerEvents.PLAYER_REGEN_DISABLED = true
 					NP.StyleFilterTriggerEvents.PLAYER_REGEN_ENABLED = true
 				end
