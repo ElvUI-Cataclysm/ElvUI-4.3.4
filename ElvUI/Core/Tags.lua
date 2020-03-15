@@ -5,12 +5,11 @@ local Translit = E.Libs.Translit
 local translitMark = "!"
 
 local _G = _G
-local tonumber, next, pairs, select, unpack = tonumber, next, pairs, select, unpack
+local tonumber, next, pairs, select = tonumber, next, pairs, select
 local ceil, floor = ceil, math.floor
 local gmatch, gsub, format = gmatch, gsub, format
 local strfind, strmatch, strlower, strsplit = strfind, strmatch, strlower, strsplit
 local utf8lower, utf8sub, utf8len = string.utf8lower, string.utf8sub, string.utf8len
-local wipe =  wipe
 
 local GetCVarBool = GetCVarBool
 local GetEclipseDirection = GetEclipseDirection
@@ -80,7 +79,7 @@ ElvUF.Tags.SharedEvents.INSTANCE_ENCOUNTER_ENGAGE_UNIT = true
 ------------------------------------------------------------------------
 
 E.TagFunctions.UnitName = UnitName
-local function abbrev(name)
+local function Abbrev(name)
 	local letters, lastWord = "", strmatch(name, ".+%s(.+)$")
 
 	if lastWord then
@@ -177,7 +176,7 @@ ElvUF.Tags.Methods["name:abbrev"] = function(unit)
 	local name = UnitName(unit)
 
 	if name and strfind(name, "%s") then
-		name = abbrev(name)
+		name = Abbrev(name)
 	end
 
 	return name ~= nil and name or ""
@@ -308,7 +307,7 @@ for textFormat, length in pairs({veryshort = 5, short = 10, medium = 15, long = 
 		local name = UnitName(unit)
 
 		if name and strfind(name, "%s") then
-			name = abbrev(name)
+			name = Abbrev(name)
 		end
 
 		return name ~= nil and E:ShortenString(name, length) or ""

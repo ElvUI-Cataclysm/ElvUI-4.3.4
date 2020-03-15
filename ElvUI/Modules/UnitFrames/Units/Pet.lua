@@ -7,8 +7,6 @@ assert(ElvUF, "ElvUI was unable to locate oUF.")
 local _G = _G
 local tinsert = table.insert
 
-local InCombatLockdown = InCombatLockdown
-
 function UF:Construct_PetFrame(frame)
 	frame.Health = self:Construct_HealthBar(frame, true, true, "RIGHT")
 	frame.Power = self:Construct_PowerBar(frame, true, true, "LEFT")
