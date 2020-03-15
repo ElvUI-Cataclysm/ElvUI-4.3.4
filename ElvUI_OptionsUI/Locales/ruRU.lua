@@ -316,7 +316,7 @@ L["Delete a created filter, you cannot delete pre-existing filters, only custom 
 L["Delete Filter"] = "Удалить фильтр"
 L["Desaturate Cooldowns"] = "Обесцветить при кулдауне"
 L["Desaturate Junk Items"] = "Обесцветить хлам"
-L["Desaturated Icon"] = true
+L["Desaturated Icon"] = "Бесцветная иконка"
 L["Descending"] = "Нисходящее"
 L["Detach From Frame"] = "Открепить от рамки"
 L["Detached Width"] = "Ширина при откреплении"
@@ -395,7 +395,7 @@ L["Enable/Disable the minimap. |cffFF0000Warning: This will prevent you from see
 L["Enable/Disable the scaling of targetted nameplates."] = "Включить/выключить масштабирование индикатора цели."
 L["Enables the ElvUI Raid Control panel."] = "Включает панель управления рейдом ElvUI."
 L["Enabling this allows raid-wide sorting however you will not be able to distinguish between groups."] = "Включение опции позволит Вам проводить сортировку в пределах всего рейда, но взамен Вы не сможете понять кто в какой группе."
-L["Enabling this has the potential to make updates faster, though setting a speed value that is too high may cause it to actually run slower than the default scheme, which use Blizzard events only with no update loops provided."] = true
+L["Enabling this has the potential to make updates faster, though setting a speed value that is too high may cause it to actually run slower than the default scheme, which use Blizzard events only with no update loops provided."] = "Включение в теории может сделать обновления быстрее. Однако при установке скорости на слишком большое значение, может привести к более медленному обновлению, чем при исмользованию стандартной схемы."
 L["Enabling this inverts the grouping order when the raid is not full, this will reverse the direction it starts from."] = "Включение опции инвертирует порядок группировки в неполном рейде, она изменит направление роста и точку его начала."
 L["Enabling this will check your health amount."] = "Если включено, будет проверять значение вашего здоровья."
 L["Enabling this will check your power amount."] = "Если включено, будет проверять значение вашего ресурса."

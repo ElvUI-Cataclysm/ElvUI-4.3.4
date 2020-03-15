@@ -927,7 +927,7 @@ end
 
 E.TagInfo = {
 	--Colors
-	["namecolor"] = {category = "Colors", description = "Colors names by player class or NPC reaction"},
+	["namecolor"] = {category = "Colors", description = "Colors names by player class or NPC reaction (Ex: ['namecolor']['name'])"},
 	["reactioncolor"] = {category = "Colors", description = "Colors names by NPC reaction (Bad/Neutral/Good)"},
 	["powercolor"] = {category = "Colors", description = "Colors the power text based upon its type"},
 	["difficultycolor"] = {category = "Colors", description = "Colors the following tags by difficulty, red for impossible, orange for hard, green for easy"},
@@ -1057,6 +1057,7 @@ E.TagInfo = {
 	["arena:number"] = {category = "PvP", description = "Displays the arena number 1-5"},
 	["faction"] = {category = "PvP", description = "Displays 'Aliance' or 'Horde'"},
 	--Classpower
+	["pereclipse"] = {category = "Classpower", description = "Displays the eclipse power (Druid)"},
 	["runes"] = {category = "Classpower", description = "Displays the runes (Death Knight)"},
 	["soulshards"] = {category = "Classpower", description = "Displays the soulshards (Warlock)"},
 	["holypower"] = {category = "Classpower", description = "Displays the holy power (Paladin)"},

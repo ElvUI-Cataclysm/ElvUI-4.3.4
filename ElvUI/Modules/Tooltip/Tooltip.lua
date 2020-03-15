@@ -7,53 +7,53 @@ local twipe, tinsert, tconcat = table.wipe, table.insert, table.concat
 local floor = math.floor
 local find, format, sub, match = string.find, string.format, string.sub, string.match
 
+local CanInspect = CanInspect
 local CreateFrame = CreateFrame
-local GetTime = GetTime
-local UnitGUID = UnitGUID
-local InCombatLockdown = InCombatLockdown
-local IsShiftKeyDown = IsShiftKeyDown
-local IsControlKeyDown = IsControlKeyDown
-local IsAltKeyDown = IsAltKeyDown
+local GameTooltip_ClearMoney = GameTooltip_ClearMoney
+local GetAverageItemLevel = GetAverageItemLevel
+local GetGuildInfo = GetGuildInfo
 local GetInventoryItemLink = GetInventoryItemLink
 local GetInventorySlotInfo = GetInventorySlotInfo
-local UnitExists = UnitExists
-local CanInspect = CanInspect
-local NotifyInspect = NotifyInspect
+local GetItemCount = GetItemCount
 local GetMouseFocus = GetMouseFocus
-local UnitLevel = UnitLevel
-local UnitIsPlayer = UnitIsPlayer
-local UnitClass = UnitClass
-local UnitName = UnitName
-local GetGuildInfo = GetGuildInfo
-local UnitPVPName = UnitPVPName
-local UnitIsAFK = UnitIsAFK
-local UnitIsDND = UnitIsDND
-local GetQuestDifficultyColor = GetQuestDifficultyColor
-local UnitRace = UnitRace
-local UnitIsTapped = UnitIsTapped
-local UnitIsTappedByPlayer = UnitIsTappedByPlayer
-local UnitReaction = UnitReaction
-local UnitClassification = UnitClassification
-local UnitCreatureType = UnitCreatureType
-local UnitIsPVP = UnitIsPVP
-local UnitHasVehicleUI = UnitHasVehicleUI
 local GetNumPartyMembers = GetNumPartyMembers
 local GetNumRaidMembers = GetNumRaidMembers
-local UnitIsUnit = UnitIsUnit
-local UnitIsDeadOrGhost = UnitIsDeadOrGhost
-local GetItemCount = GetItemCount
-local UnitAura = UnitAura
+local GetQuestDifficultyColor = GetQuestDifficultyColor
+local GetTime = GetTime
+local InCombatLockdown = InCombatLockdown
+local IsAltKeyDown = IsAltKeyDown
+local IsControlKeyDown = IsControlKeyDown
+local IsShiftKeyDown = IsShiftKeyDown
+local NotifyInspect = NotifyInspect
 local SetTooltipMoney = SetTooltipMoney
-local GameTooltip_ClearMoney = GameTooltip_ClearMoney
+local UnitAura = UnitAura
+local UnitClass = UnitClass
+local UnitClassification = UnitClassification
+local UnitCreatureType = UnitCreatureType
+local UnitExists = UnitExists
+local UnitGUID = UnitGUID
+local UnitHasVehicleUI = UnitHasVehicleUI
+local UnitIsAFK = UnitIsAFK
+local UnitIsDND = UnitIsDND
+local UnitIsDeadOrGhost = UnitIsDeadOrGhost
+local UnitIsPVP = UnitIsPVP
+local UnitIsPlayer = UnitIsPlayer
+local UnitIsTapped = UnitIsTapped
+local UnitIsTappedByPlayer = UnitIsTappedByPlayer
+local UnitIsUnit = UnitIsUnit
+local UnitLevel = UnitLevel
+local UnitName = UnitName
+local UnitPVPName = UnitPVPName
+local UnitRace = UnitRace
+local UnitReaction = UnitReaction
 
-local AFK, BOSS, DEAD, DND = AFK, BOSS, DEAD, DND
+local AFK, BOSS, DEAD, DND, ID, PVP = AFK, BOSS, DEAD, DND, ID, PVP
+local ROLE, TANK, HEALER = ROLE, TANK, HEALER
 local FACTION_ALLIANCE, FACTION_HORDE, FACTION_BAR_COLORS = FACTION_ALLIANCE, FACTION_HORDE, FACTION_BAR_COLORS
 local FOREIGN_SERVER_LABEL = FOREIGN_SERVER_LABEL
-local ID, PVP = ID, PVP
-local ROLE, TANK, HEALER = ROLE, TANK, HEALER
 local ITEM_QUALITY3_DESC = ITEM_QUALITY3_DESC
-local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
 local UNKNOWN = UNKNOWN
+local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
 
 -- Custom to find LEVEL string on tooltip
 local LEVEL1 = strlower(TOOLTIP_UNIT_LEVEL:gsub("%s?%%s%s?%-?", ""))
@@ -395,11 +395,14 @@ function TT:AddInspectInfo(tooltip, unit, numTries, r, g, b)
 
 	if unitGUID == E.myguid then
 		tooltip:AddDoubleLine(L["Talent Specialization"]..":", TT:GetTalentSpec(unit), nil, nil, nil, r, g, b)
-		tooltip:AddDoubleLine(L["Item Level:"], TT:GetItemLvL("player"), nil, nil, nil, 1, 1, 1)
+		tooltip:AddDoubleLine(L["Item Level:"], floor(select(2, GetAverageItemLevel())), nil, nil, nil, 1, 1, 1)
 	elseif inspectGUIDCache[unitGUID] and inspectGUIDCache[unitGUID].time then
 		local specName = inspectGUIDCache[unitGUID].specName
 		local itemLevel = inspectGUIDCache[unitGUID].itemLevel
 		if not (specName and itemLevel) or (GetTime() - inspectGUIDCache[unitGUID].time > 120) then
+			inspectGUIDCache[unitGUID].time = nil
+			inspectGUIDCache[unitGUID].specName = nil
+			inspectGUIDCache[unitGUID].itemLevel = nil
 
 			return TT:AddInspectInfo(tooltip, unit, numTries + 1, r, g, b)
 		end
@@ -676,12 +679,12 @@ function TT:SetTooltipFonts()
 	local font = E.Libs.LSM:Fetch("font", E.db.tooltip.font)
 	local fontOutline = E.db.tooltip.fontOutline
 	local headerSize = E.db.tooltip.headerFontSize
-	local textSize = E.db.tooltip.textFontSize
 	local smallTextSize = E.db.tooltip.smallTextFontSize
+	local textSize = E.db.tooltip.textFontSize
 
 	GameTooltipHeaderText:SetFont(font, headerSize, fontOutline)
-	GameTooltipText:SetFont(font, textSize, fontOutline)
 	GameTooltipTextSmall:SetFont(font, smallTextSize, fontOutline)
+	GameTooltipText:SetFont(font, textSize, fontOutline)
 
 	if GameTooltip.hasMoney then
 		for i = 1, GameTooltip.numMoneyFrames do
@@ -699,12 +702,14 @@ function TT:SetTooltipFonts()
 		DatatextTooltipTextRight1:FontTemplate(font, textSize, fontOutline)
 	end
 
-	--These show when you compare items ("Currently Equipped", name of item, item level)
-	--Since they appear at the top of the tooltip, we set it to use the header font size.
-	for i = 1, 2 do
-		for j = 1, 4 do
-			_G["ShoppingTooltip"..i.."TextLeft"..j]:FontTemplate(font, headerSize, fontOutline)
-			_G["ShoppingTooltip"..i.."TextRight"..j]:FontTemplate(font, headerSize, fontOutline)
+	-- Comparison Tooltips should use smallTextSize
+	for _, tt in ipairs(GameTooltip.shoppingTooltips) do
+		for i = 1, tt:GetNumRegions() do
+			local region = select(i, tt:GetRegions())
+
+			if region:IsObjectType("FontString") then
+				region:FontTemplate(font, smallTextSize, fontOutline)
+			end
 		end
 	end
 end
@@ -717,9 +722,9 @@ local function PostBNToastMove(mover)
 
 	local anchorPoint
 	if y > (screenHeight / 2) then
-		anchorPoint = (x > (screenWidth/2)) and "TOPRIGHT" or "TOPLEFT"
+		anchorPoint = (x > (screenWidth / 2)) and "TOPRIGHT" or "TOPLEFT"
 	else
-		anchorPoint = (x > (screenWidth/2)) and "BOTTOMRIGHT" or "BOTTOMLEFT"
+		anchorPoint = (x > (screenWidth / 2)) and "BOTTOMRIGHT" or "BOTTOMLEFT"
 	end
 	mover.anchorPoint = anchorPoint
 
@@ -734,7 +739,8 @@ function TT:Initialize()
 	E:CreateMover(BNToastFrame, "BNETMover", L["BNet Frame"], nil, nil, PostBNToastMove)
 	self:SecureHook(BNToastFrame, "SetPoint", "RepositionBNET")
 
-	if E.private.tooltip.enable ~= true then return end
+	if not E.private.tooltip.enable then return end
+
 	self.Initialized = true
 
 	GameTooltip.StatusBar = GameTooltipStatusBar
