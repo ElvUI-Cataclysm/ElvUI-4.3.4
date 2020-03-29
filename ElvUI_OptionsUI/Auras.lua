@@ -201,7 +201,7 @@ E.Options.args.auras = {
 				statusBar = {
 					order = 9,
 					type = "group",
-					name = L["Statusbar"],
+					name = L["Status Bar"],
 					guiInline = true,
 					args = {
 						barShow = {
@@ -399,7 +399,7 @@ E.Options.args.auras = {
 				statusBar = {
 					order = 9,
 					type = "group",
-					name = L["Statusbar"],
+					name = L["Status Bar"],
 					guiInline = true,
 					get = function(info) return E.db.auras.weapons[info[#info]] end,
 					set = function(info, value) E.db.auras.weapons[info[#info]] = value A:UpdateTempEnchant() end,
@@ -460,7 +460,7 @@ E.Options.args.auras = {
 							type = "select",
 							name = L["Bar Color"],
 							values = {
-								["CUSTOM"] = L["Custom"],
+								["CUSTOM"] = L["CUSTOM"],
 								["VALUE"] = L["Color by Value"],
 								["QUALITY"] = L["Color by Quality"]
 							},

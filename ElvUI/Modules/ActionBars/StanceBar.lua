@@ -135,7 +135,6 @@ function AB:PositionAndSizeBarShapeShift()
 	end
 
 	bar.db = self.db.stanceBar
-	bar.db.position = nil --Depreciated
 	bar.mouseover = self.db.stanceBar.mouseover
 
 	if bar.LastButton and numButtons > bar.LastButton then
@@ -350,7 +349,8 @@ function AB:CreateBarShapeShift()
 	self:RegisterEvent("ACTIONBAR_PAGE_CHANGED", "StyleShapeShift")
 	E:ShapeshiftDelayedUpdate(AB.StyleShapeShift, self)
 
-	E:CreateMover(bar, "ShiftAB", L["Stance Bar"], nil, -3, nil, "ALL, ACTIONBARS", nil, "actionbar,stanceBar")
+	E:CreateMover(bar, "ShiftAB", L["Stance Bar"], nil, -3, nil, "ALL, ACTIONBARS", nil, "actionbar,stanceBar", true)
+
 	self:AdjustMaxStanceButtons()
 	self:PositionAndSizeBarShapeShift()
 	self:StyleShapeShift()

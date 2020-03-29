@@ -39,7 +39,7 @@ local ERR_NOT_ENOUGH_MONEY = ERR_NOT_ENOUGH_MONEY
 local ERR_GUILD_NOT_ENOUGH_MONEY = ERR_GUILD_NOT_ENOUGH_MONEY
 local MAX_PARTY_MEMBERS = MAX_PARTY_MEMBERS
 
-local INTERRUPT_MSG = L["Interrupted %s's \124cff71d5ff\124Hspell:%d\124h[%s]\124h\124r!"]
+local INTERRUPT_MSG = L["Interrupted %s's |cff71d5ff|Hspell:%d|h[%s]|h|r!"]
 
 function M:ErrorFrameToggle(event)
 	if not E.db.general.hideErrorFrame then return end

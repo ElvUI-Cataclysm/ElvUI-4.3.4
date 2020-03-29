@@ -310,7 +310,7 @@ local function GetOptionsTable_AuraBars(updateFunc, groupName)
 						order = 3,
 						type = "execute",
 						name = L["Filters Page"],
-						desc = L["Shortcut to 'Filters' section of the config."],
+						desc = L["Shortcut to Filters section of the config."],
 						func = function() ACD:SelectGroup("ElvUI", "filters") end
 					},
 					specialPriority = {
@@ -2022,13 +2022,8 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 				type = "toggle",
 				name = L["Reverse Fill"]
 			},
-			autoHide = {
-				order = 8,
-				type = "toggle",
-				name = L["Auto-Hide"]
-			},
 			configureButton = {
-				order = 9,
+				order = 8,
 				type = "execute",
 				name = L["Coloring"],
 				desc = L["This opens the UnitFrames Color settings. These settings affect all unitframes."],
@@ -2077,15 +2072,21 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 			type = "toggle",
 			name = L["Detach From Frame"]
 		}
-		config.args.detachedWidth = {
+		config.args.autoHide = {
 			order = 91,
+			type = "toggle",
+			name = L["Auto Hide"],
+			hidden = function() return not E.db.unitframe.units[groupName].power.detachFromFrame end
+		}
+		config.args.detachedWidth = {
+			order = 92,
 			type = "range",
 			name = L["Detached Width"],
 			hidden = function() return not E.db.unitframe.units[groupName].power.detachFromFrame end,
 			min = 15, max = 1000, step = 1
 		}
 		config.args.parent = {
-			order = 92,
+			order = 93,
 			type = "select",
 			name = L["Parent"],
 			desc = L["Choose UIPARENT to prevent it from hiding with the unitframe."],
@@ -6025,7 +6026,7 @@ E.Options.args.unitframe.args.groupUnits.args.party = {
 				name = {
 					order = 8,
 					type = "group",
-					name = L["ΝΑΜΕ"],
+					name = L["NAME"],
 					guiInline = true,
 					get = function(info) return E.db.unitframe.units.party.targetsGroup.name[info[#info]] end,
 					set = function(info, value) E.db.unitframe.units.party.targetsGroup.name[info[#info]] = value UF:CreateAndUpdateHeaderGroup("party") end,

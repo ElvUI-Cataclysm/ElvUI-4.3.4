@@ -84,7 +84,7 @@ end
 local function OnEnter(self)
 	DT:SetupTooltip(self)
 
-	DT.tooltip:AddDoubleLine(L["Gold:"], E:FormatMoney(gold, E.db.datatexts.goldFormat or "BLIZZARD", not E.db.datatexts.goldCoins), nil, nil, nil, 1, 1, 1)
+	DT.tooltip:AddDoubleLine(L["Gold"], E:FormatMoney(gold, E.db.datatexts.goldFormat or "BLIZZARD", not E.db.datatexts.goldCoins), nil, nil, nil, 1, 1, 1)
 	DT.tooltip:AddLine(" ")
 
 	DT.tooltip:AddDoubleLine(join("", format(iconString, Currencies["395"].ICON, 12, 12), " ", Currencies["395"].NAME), Currencies["395"].COUNT, 1, 1, 1)	-- Justice Points

@@ -23,7 +23,7 @@ function MC:CreateModuleConfigGroup(Name, section, pluginSection)
 			general = {
 				order = 1,
 				type = "toggle",
-				name = L["General"]
+				name = GENERAL
 			},
 			PreButtonSpacer = {
 				order = 200,
@@ -57,13 +57,13 @@ function MC:CreateModuleConfigGroup(Name, section, pluginSection)
 		}
 	}
 	if pluginSection then
-		config.args.general.hidden = function(info) return E.global.profileCopy[pluginSection][section][ info[#info] ] == nil end
-		config.args.general.get = function(info) return E.global.profileCopy[pluginSection][section][ info[#info] ] end
-		config.args.general.set = function(info, value) E.global.profileCopy[pluginSection][section][ info[#info] ] = value end
+		config.args.general.hidden = function(info) return E.global.profileCopy[pluginSection][section][info[#info]] == nil end
+		config.args.general.get = function(info) return E.global.profileCopy[pluginSection][section][info[#info]] end
+		config.args.general.set = function(info, value) E.global.profileCopy[pluginSection][section][info[#info]] = value end
 	else
-		config.args.general.hidden = function(info) return E.global.profileCopy[section][ info[#info] ] == nil end
-		config.args.general.get = function(info) return E.global.profileCopy[section][ info[#info] ] end
-		config.args.general.set = function(info, value) E.global.profileCopy[section][ info[#info] ] = value end
+		config.args.general.hidden = function(info) return E.global.profileCopy[section][info[#info]] == nil end
+		config.args.general.get = function(info) return E.global.profileCopy[section][info[#info]] end
+		config.args.general.set = function(info, value) E.global.profileCopy[section][info[#info]] = value end
 	end
 
 	return config
