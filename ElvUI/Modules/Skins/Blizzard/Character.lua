@@ -20,7 +20,7 @@ local function LoadSkin()
 	CharacterFrame:SetTemplate("Transparent")
 
 	CharacterModelFrame:StripTextures()
-	CharacterModelFrame:CreateBackdrop("Default")
+	CharacterModelFrame:CreateBackdrop("Transparent")
 	CharacterModelFrame.backdrop:Point("TOPLEFT", -1, 1)
 	CharacterModelFrame.backdrop:Point("BOTTOMRIGHT", 1, -2)
 
@@ -357,8 +357,32 @@ local function LoadSkin()
 	S:HandleScrollBar(CharacterStatsPaneScrollBar)
 
 	for i = 1, 7 do
-		_G["CharacterStatsPaneCategory"..i]:StripTextures()
+		local frame = _G["CharacterStatsPaneCategory"..i]
+		local name = _G["CharacterStatsPaneCategory"..i.."NameText"]
+		frame.Toolbar = _G["CharacterStatsPaneCategory"..i.."Toolbar"]
+
+		frame:StripTextures()
+
+		S:HandleButton(frame.Toolbar, nil, nil, true)
+		frame.Toolbar.backdrop:SetAllPoints()
+
+		name:ClearAllPoints()
+		name:Point("CENTER", frame.Toolbar, "CENTER")
+		name:SetParent(frame.Toolbar.backdrop)
+
+		_G["CharacterStatsPaneCategory"..i.."Stat1"]:Point("TOPLEFT", frame, "TOPLEFT", 16, -24)
+
+		_G["CharacterStatsPaneCategory"..i.."ToolbarSortUpArrow"]:Kill()
+		_G["CharacterStatsPaneCategory"..i.."ToolbarSortDownArrow"]:Kill()
 	end
+
+	hooksecurefunc("PaperDollFrame_ExpandStatCategory", function(frame)
+		if not frame.collapsed then frame.Toolbar:SetAlpha(1) end
+	end)
+
+	hooksecurefunc("PaperDollFrame_CollapseStatCategory", function(frame)
+		if frame.collapsed then frame.Toolbar:SetAlpha(0.3) end
+	end)
 
 	hooksecurefunc("PaperDollFrame_SetResistance", function(statFrame, unit, resistanceIndex)
 		local _, resistance = UnitResistance(unit, resistanceIndex)
@@ -442,16 +466,13 @@ local function LoadSkin()
 
 	-- Currency
 	hooksecurefunc("TokenFrame_Update", function()
-		if not TokenFrameContainer.buttons then return end
+		local buttons = TokenFrameContainer.buttons
+		if not buttons then return end
 
-		local scrollFrame = TokenFrameContainer
-		local offset = HybridScrollFrame_GetOffset(scrollFrame)
-		local buttons = scrollFrame.buttons
-		local numButtons = #buttons
-		local name, isHeader, isExpanded
-		local button, index
+		local offset = HybridScrollFrame_GetOffset(TokenFrameContainer)
+		local index, name, button, isHeader, isExpanded
 
-		for i = 1, numButtons do
+		for i = 1, #buttons do
 			index = offset + i
 			name, isHeader, isExpanded = GetCurrencyListInfo(index)
 			button = buttons[i]
@@ -499,6 +520,9 @@ local function LoadSkin()
 
 	-- Pet
 	PetModelFrame:CreateBackdrop("Transparent")
+	PetModelFrame.backdrop:Point("BOTTOMRIGHT", 2, -4)
+
+	PetModelFrameShadowOverlay:SetInside(PetModelFrame.backdrop)
 
 	PetPaperDollFrameExpBar:StripTextures()
 	PetPaperDollFrameExpBar:CreateBackdrop("Default")
@@ -515,10 +539,9 @@ local function LoadSkin()
 	PetPaperDollPetInfo:Point("TOPRIGHT", -3, -3)
 	PetPaperDollPetInfo:Size(30)
 
-	PetPaperDollPetModelBg:SetDesaturated(true)
-
-	PetPaperDollPetInfo:GetRegions():SetTexture("Interface\\Icons\\Ability_Hunter_BeastTraining")
-	PetPaperDollPetInfo:GetRegions():SetTexCoord(unpack(E.TexCoords))
+	local petIcon = PetPaperDollPetInfo:GetRegions()
+	petIcon:SetTexture("Interface\\Icons\\Ability_Hunter_BeastTraining")
+	petIcon:SetTexCoord(unpack(E.TexCoords))
 end
 
 S:AddCallback("Character", LoadSkin)

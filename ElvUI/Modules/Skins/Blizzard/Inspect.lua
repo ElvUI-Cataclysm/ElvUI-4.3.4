@@ -9,7 +9,6 @@ local hooksecurefunc = hooksecurefunc
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.inspect then return end
 
-	local InspectFrame = _G["InspectFrame"]
 	InspectFrame:StripTextures(true)
 	InspectFrame:SetTemplate("Transparent")
 
@@ -21,16 +20,8 @@ local function LoadSkin()
 		S:HandleTab(_G["InspectFrameTab"..i])
 	end
 
-	InspectModelFrameBorderTopLeft:Kill()
-	InspectModelFrameBorderTopRight:Kill()
-	InspectModelFrameBorderTop:Kill()
-	InspectModelFrameBorderLeft:Kill()
-	InspectModelFrameBorderRight:Kill()
-	InspectModelFrameBorderBottomLeft:Kill()
-	InspectModelFrameBorderBottomRight:Kill()
-	InspectModelFrameBorderBottom:Kill()
-	InspectModelFrameBorderBottom2:Kill()
-	InspectModelFrame:CreateBackdrop("Default")
+	InspectModelFrame:StripTextures()
+	InspectModelFrame:CreateBackdrop("Transparent")
 
 	--Re-add the overlay texture which was removed via StripTextures
 	InspectModelFrameBackgroundOverlay:SetTexture(0, 0, 0)
@@ -86,27 +77,35 @@ local function LoadSkin()
 		icon:SetInside()
 	end
 
-	hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button)
-		if button.hasItem then
-			local itemID = GetInventoryItemLink(InspectFrame.unit, button:GetID())
-			if itemID then
-				local _, _, quality = GetItemInfo(itemID)
-				if not quality then
-					E:Delay(0.1, function()
-						if InspectFrame.unit then
-							InspectPaperDollItemSlotButton_Update(button)
-						end
-					end)
-					return
-				elseif quality then
-					button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
-					return
+	local styleButton
+	do
+		local function awaitCache(button)
+			if InspectFrame.unit then
+				styleButton(button)
+			end
+		end
+
+		styleButton = function(button)
+			if button.hasItem then
+				local itemID = GetInventoryItemLink(InspectFrame.unit, button:GetID())
+				if itemID then
+					local _, _, quality = GetItemInfo(itemID)
+
+					if not quality then
+						E:Delay(0.1, awaitCache, button)
+						return
+					elseif quality then
+						button.backdrop:SetBackdropBorderColor(GetItemQualityColor(quality))
+						return
+					end
 				end
 			end
-		else
+
 			button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
-	end)
+	end
+
+	hooksecurefunc("InspectPaperDollItemSlotButton_Update", styleButton)
 
 	-- PvP Tab
 	InspectPVPFrame:HookScript("OnShow", function() InspectPVPFrameBG:Kill() end)

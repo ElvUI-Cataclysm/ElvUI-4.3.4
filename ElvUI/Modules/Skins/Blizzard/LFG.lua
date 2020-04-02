@@ -208,7 +208,6 @@ local function LoadSkin()
 			end
 
 			button.expandOrCollapseButton:SetNormalTexture(E.Media.Textures.Plus)
-			button.expandOrCollapseButton.SetNormalTexture = E.noop
 			button.expandOrCollapseButton:SetHighlightTexture(nil)
 			button.expandOrCollapseButton:GetNormalTexture():Size(16)
 			button.expandOrCollapseButton:GetNormalTexture():Point("CENTER", 2, 3)

@@ -33,15 +33,16 @@ local function LoadSkin()
 	}
 
 	for _, slot in pairs(slots) do
-		local item = _G["TransmogrifyFrame"..slot]
-		local icon = _G["TransmogrifyFrame"..slot.."IconTexture"]
+		local button = _G["TransmogrifyFrame"..slot]
 
-		if item then
-			item:StripTextures()
-			item:CreateBackdrop()
-			item:StyleButton()
-			item:SetFrameLevel(item:GetFrameLevel() + 2)
-			item.backdrop:SetAllPoints()
+		if button then
+			local icon = _G["TransmogrifyFrame"..slot.."IconTexture"]
+
+			button:StripTextures()
+			button:CreateBackdrop()
+			button.backdrop:SetAllPoints()
+			button:StyleButton()
+			button:SetFrameLevel(button:GetFrameLevel() + 2)
 
 			icon:SetTexCoord(unpack(E.TexCoords))
 			icon:SetInside()

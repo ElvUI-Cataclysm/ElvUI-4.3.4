@@ -29,7 +29,7 @@ local function LoadSkin()
 	ClassTrainerStatusBar:CreateBackdrop()
 	ClassTrainerStatusBar:Size(321, 18)
 	ClassTrainerStatusBar:SetStatusBarTexture(E.media.normTex)
-	ClassTrainerStatusBar:SetStatusBarColor(0.11, 0.50, 1.00)
+	ClassTrainerStatusBar:SetStatusBarColor(0.22, 0.39, 0.84)
 	ClassTrainerStatusBar:ClearAllPoints()
 	ClassTrainerStatusBar:Point("TOP", ClassTrainerFrame, 3, -30)
 
