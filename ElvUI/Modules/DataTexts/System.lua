@@ -4,7 +4,7 @@ local DT = E:GetModule("DataTexts")
 local select, collectgarbage = select, collectgarbage
 local sort, wipe = table.sort, wipe
 local floor = math.floor
-local format = string.format
+local format, join = string.format, string.join
 
 local GetAddOnCPUUsage = GetAddOnCPUUsage
 local GetAddOnInfo = GetAddOnInfo
@@ -177,6 +177,9 @@ local function OnEnter(self)
 		DT.tooltip:AddLine(" ")
 		DT.tooltip:AddLine(L["(Hold Shift) Memory Usage"])
 	end
+
+	DT.tooltip:AddLine(" ")
+	DT.tooltip:AddLine(join("", "|cffaaaaaa", L["(Modifer Click) Collect Garbage"], "|r"))
 
 	DT.tooltip:Show()
 end
