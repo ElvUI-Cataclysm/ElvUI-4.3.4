@@ -17,7 +17,6 @@ local function LoadSkin()
 	if E.private.general.loot then return end
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.loot then return end
 
-	local LootFrame = _G["LootFrame"]
 	LootFrame:StripTextures()
 
 	LootFrame:CreateBackdrop("Transparent")
@@ -81,7 +80,7 @@ local function LoadSkin()
 		S:HandleItemButton(button, true)
 
 		button.bg = CreateFrame("Frame", nil, button)
-		button.bg:SetTemplate("Default")
+		button.bg:SetTemplate()
 		button.bg:Point("TOPLEFT", 40, 0)
 		button.bg:Point("BOTTOMRIGHT", 110, 0)
 		button.bg:SetFrameLevel(button.bg:GetFrameLevel() - 1)
@@ -165,7 +164,7 @@ local function LoadRollSkin()
 		local frameName = frame:GetName()
 
 		local iconFrame = _G[frameName.."IconFrame"]
-		iconFrame:SetTemplate("Default")
+		iconFrame:SetTemplate()
 		iconFrame:StyleButton()
 
 		local icon = _G[frameName.."IconFrameIcon"]
@@ -174,7 +173,7 @@ local function LoadRollSkin()
 
 		local statusBar = _G[frameName.."Timer"]
 		statusBar:StripTextures()
-		statusBar:CreateBackdrop("Default")
+		statusBar:CreateBackdrop()
 		statusBar:SetStatusBarTexture(E.media.normTex)
 		E:RegisterStatusBar(statusBar)
 

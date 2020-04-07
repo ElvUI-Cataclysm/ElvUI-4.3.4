@@ -68,7 +68,7 @@ local function LoadSkin()
 	FriendsFriendsFrame:StripTextures()
 	FriendsFriendsFrame:CreateBackdrop("Transparent")
 
-	FriendsFrameBroadcastInput:CreateBackdrop("Default")
+	FriendsFrameBroadcastInput:CreateBackdrop()
 
 	FriendsFriendsList:StripTextures()
 	S:HandleEditBox(FriendsFriendsList)
@@ -256,8 +256,8 @@ local function LoadSkin()
 	ChannelFrameDaughterFrame:StripTextures()
 	ChannelFrameDaughterFrame:CreateBackdrop("Transparent")
 
-	ChannelFrameDaughterFrameChannelName:CreateBackdrop("Default")
-	ChannelFrameDaughterFrameChannelPassword:CreateBackdrop("Default")
+	ChannelFrameDaughterFrameChannelName:CreateBackdrop()
+	ChannelFrameDaughterFrameChannelPassword:CreateBackdrop()
 
 	hooksecurefunc("ChannelList_Update", function()
 		for i = 1, MAX_DISPLAY_CHANNEL_BUTTONS do
@@ -297,7 +297,7 @@ local function LoadSkin()
 	BNConversationInviteDialog:CreateBackdrop("Transparent")
 
 	BNConversationInviteDialogList:StripTextures()
-	BNConversationInviteDialogList:SetTemplate("Default")
+	BNConversationInviteDialogList:SetTemplate()
 
 	S:HandleButton(BNConversationInviteDialogInviteButton)
 	S:HandleButton(BNConversationInviteDialogCancelButton)
@@ -347,12 +347,12 @@ local function LoadSkin()
 	ScrollOfResurrectionSelectionFrame:SetTemplate("Transparent")
 
 	ScrollOfResurrectionFrameNoteFrame:StripTextures()
-	ScrollOfResurrectionFrameNoteFrame:SetTemplate("Default")
+	ScrollOfResurrectionFrameNoteFrame:SetTemplate()
 
 	ScrollOfResurrectionSelectionFrameList:StripTextures()
-	ScrollOfResurrectionSelectionFrameList:SetTemplate("Default")
+	ScrollOfResurrectionSelectionFrameList:SetTemplate()
 
-	ScrollOfResurrectionFrameTargetEditBox:SetTemplate("Default")
+	ScrollOfResurrectionFrameTargetEditBox:SetTemplate()
 	ScrollOfResurrectionFrameTargetEditBoxLeft:SetTexture(nil)
 	ScrollOfResurrectionFrameTargetEditBoxMiddle:SetTexture(nil)
 	ScrollOfResurrectionFrameTargetEditBoxRight:SetTexture(nil)
@@ -367,7 +367,7 @@ local function LoadSkin()
 
 	S:HandleScrollBar(ScrollOfResurrectionSelectionFrameListScrollFrameScrollBar, 4)
 
-	FriendsTabHeaderSoRButton:SetTemplate("Default")
+	FriendsTabHeaderSoRButton:SetTemplate()
 	FriendsTabHeaderSoRButton:StyleButton()
 	FriendsTabHeaderSoRButton:Point("TOPRIGHT", FriendsTabHeader, "TOPRIGHT", -6, -50)
 
@@ -376,35 +376,44 @@ local function LoadSkin()
 	FriendsTabHeaderSoRButtonIcon:SetTexCoord(unpack(E.TexCoords))
 	FriendsTabHeaderSoRButtonIcon:SetDrawLayer("OVERLAY")
 
-	-- Raid Info Frame
-	for i = 1, 7 do
-		_G["RaidInfoScrollFrameButton"..i]:StyleButton()
-	end
-
-	LFRQueueFrameListInset:StripTextures()
-	LFRQueueFrameRoleInset:StripTextures()
-	LFRQueueFrameCommentInset:StripTextures()
-
-	RaidInfoFrame:StripTextures(true)
-	RaidInfoFrame:SetTemplate("Transparent")
-
-	RaidInfoFrame:ClearAllPoints()
-	RaidInfoFrame:Point("TOPLEFT", RaidFrame, "TOPRIGHT", 1, 0)
-
-	RaidInfoInstanceLabel:StripTextures()
-	RaidInfoIDLabel:StripTextures()
-
-	S:HandleCloseButton(RaidInfoCloseButton)
-	RaidInfoCloseButton:Point("TOPRIGHT", 2, 0)
-
-	S:HandleScrollBar(RaidInfoScrollFrameScrollBar)
-
-	S:HandleButton(RaidInfoExtendButton)
-	S:HandleButton(RaidInfoCancelButton)
+	-- Raid Frame
 	S:HandleButton(RaidFrameRaidInfoButton)
 
 	S:HandleButton(RaidFrameConvertToRaidButton)
 	RaidFrameConvertToRaidButton:Point("TOPLEFT", 49, -24)
+
+	-- Raid Info Frame
+	RaidInfoInstanceLabel:StripTextures()
+	RaidInfoIDLabel:StripTextures()
+
+	RaidInfoFrame:StripTextures(true)
+	RaidInfoFrame:SetTemplate("Transparent")
+	RaidInfoFrame:ClearAllPoints()
+	RaidInfoFrame:Point("TOPLEFT", RaidFrame, "TOPRIGHT", 1, 0)
+
+	RaidInfoScrollFrame:CreateBackdrop("Transparent")
+	RaidInfoScrollFrame.backdrop:Point("TOPLEFT", -2, 1)
+	RaidInfoScrollFrame.backdrop:Point("BOTTOMRIGHT", 0, -2)
+
+	S:HandleScrollBar(RaidInfoScrollFrameScrollBar)
+	RaidInfoScrollFrameScrollBar:ClearAllPoints()
+	RaidInfoScrollFrameScrollBar:Point("TOPRIGHT", RaidInfoScrollFrame, 26, -15)
+	RaidInfoScrollFrameScrollBar:Point("BOTTOMRIGHT", RaidInfoScrollFrame, -1, 14)
+
+	for i = 1, 7 do
+		local button = _G["RaidInfoScrollFrameButton"..i]
+
+		S:HandleButtonHighlight(button)
+		button.handledHighlight:Point("BOTTOMRIGHT", 21, 1)
+	end
+
+	S:HandleButton(RaidInfoExtendButton)
+	RaidInfoExtendButton:Point("BOTTOMLEFT", 14, 6)
+
+	S:HandleButton(RaidInfoCancelButton)
+	RaidInfoCancelButton:Point("BOTTOMRIGHT", -9, 6)
+
+	S:HandleCloseButton(RaidInfoCloseButton, RaidInfoFrame)
 
 	-- Bottom Tabs
 	for i = 1, 4 do

@@ -7,7 +7,6 @@ local unpack = unpack
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.stable then return end
 
-	local PetStableFrame = _G["PetStableFrame"]
 	PetStableFrame:StripTextures()
 	PetStableFrame:CreateBackdrop("Transparent")
 
@@ -50,7 +49,7 @@ local function LoadSkin()
 	PetStableModel:CreateBackdrop("Transparent")
 
 	PetStableBottomInset:StripTextures()
-	PetStableBottomInset:CreateBackdrop("Default")
+	PetStableBottomInset:CreateBackdrop()
 	PetStableBottomInset.backdrop:Point("TOPLEFT", 4, 0)
 	PetStableBottomInset.backdrop:Point("BOTTOMRIGHT", -5, 6)
 

@@ -68,7 +68,7 @@ local function LoadSkin()
 		local icon = _G["Inspect"..slot.."IconTexture"]
 
 		button:StripTextures()
-		button:CreateBackdrop("Default")
+		button:CreateBackdrop()
 		button.backdrop:SetAllPoints()
 		button:SetFrameLevel(button:GetFrameLevel() + 2)
 		button:StyleButton()
@@ -154,7 +154,7 @@ local function LoadSkin()
 	InspectTalentFramePointsBar:StripTextures()
 
 	InspectTalentFrame.bg = CreateFrame("Frame", nil, InspectTalentFrame)
-	InspectTalentFrame.bg:SetTemplate("Default")
+	InspectTalentFrame.bg:SetTemplate()
 	InspectTalentFrame.bg:Point("TOPLEFT", InspectTalentFrameBackgroundTopLeft, "TOPLEFT", 0, 0)
 	InspectTalentFrame.bg:Point("BOTTOMRIGHT", InspectTalentFrameBackgroundBottomRight, "BOTTOMRIGHT", -21, 53)
 	InspectTalentFrame.bg:SetBackdropColor(0, 0, 0, 0)
@@ -172,7 +172,7 @@ local function LoadSkin()
 		if button then
 			button:StripTextures()
 			button:StyleButton()
-			button:SetTemplate("Default")
+			button:SetTemplate()
 
 			button:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
 			button.SetHighlightTexture = E.noop
@@ -194,7 +194,7 @@ local function LoadSkin()
 
 	-- Guild Tab
 	InspectGuildFrame.bg = CreateFrame("Frame", nil, InspectGuildFrame)
-	InspectGuildFrame.bg:SetTemplate("Default")
+	InspectGuildFrame.bg:SetTemplate()
 	InspectGuildFrame.bg:Point("TOPLEFT", 7, -63)
 	InspectGuildFrame.bg:Point("BOTTOMRIGHT", -9, 27)
 	InspectGuildFrame.bg:SetBackdropColor(0, 0, 0, 0)

@@ -34,7 +34,7 @@ local function LoadSkin()
 			_G[name.."IconTexture"]:Point("LEFT", frame, 7, 0)
 			_G[name.."IconTexture"]:SetTexCoord(unpack(E.TexCoords))
 			_G[name.."IconTexture"].backdrop = CreateFrame("Frame", nil, frame)
-			_G[name.."IconTexture"].backdrop:SetTemplate("Default")
+			_G[name.."IconTexture"].backdrop:SetTemplate()
 			_G[name.."IconTexture"].backdrop:SetOutside(_G[name.."IconTexture"])
 
 			frame.isSkinned = true
@@ -72,7 +72,7 @@ local function LoadSkin()
 	frame.dungeonTexture:SetTexCoord(unpack(E.TexCoords))
 
 	frame.dungeonTexture.backdrop = CreateFrame("Frame", "$parentDungeonTextureBackground", frame)
-	frame.dungeonTexture.backdrop:SetTemplate("Default")
+	frame.dungeonTexture.backdrop:SetTemplate()
 	frame.dungeonTexture.backdrop:SetOutside(frame.dungeonTexture)
 	frame.dungeonTexture.backdrop:SetFrameLevel(0)
 
@@ -100,7 +100,7 @@ local function LoadSkin()
 	GuildChallengeAlertFrameShine:Kill()
 
 	GuildChallengeAlertFrameEmblemIcon.backdrop = CreateFrame("Frame", nil, GuildChallengeAlertFrame)
-	GuildChallengeAlertFrameEmblemIcon.backdrop:SetTemplate("Default")
+	GuildChallengeAlertFrameEmblemIcon.backdrop:SetTemplate()
 	GuildChallengeAlertFrameEmblemIcon.backdrop:SetPoint("TOPLEFT", GuildChallengeAlertFrameEmblemIcon, "TOPLEFT", -2, 2)
 	GuildChallengeAlertFrameEmblemIcon.backdrop:SetPoint("BOTTOMRIGHT", GuildChallengeAlertFrameEmblemIcon, "BOTTOMRIGHT", 2, -2)
 	GuildChallengeAlertFrameEmblemIcon.backdrop:SetFrameLevel(0)

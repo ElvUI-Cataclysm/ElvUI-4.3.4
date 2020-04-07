@@ -25,7 +25,7 @@ local function LoadSkin()
 			local count = _G[frame..i.."Count"]
 
 			item:StripTextures()
-			item:SetTemplate("Default")
+			item:SetTemplate()
 			item:StyleButton()
 			item:Size(143, 40)
 			item:SetFrameLevel(item:GetFrameLevel() + 2)
@@ -49,7 +49,7 @@ local function LoadSkin()
 		local points = _G[frame.."Points"]
 
 		item:StripTextures()
-		item:SetTemplate("Default")
+		item:SetTemplate()
 		item:StyleButton()
 		item:Size(140, 40)
 		item:SetFrameLevel(item:GetFrameLevel() + 2)
@@ -74,7 +74,7 @@ local function LoadSkin()
 		end
 	end
 
-	QuestInfoPlayerTitleFrame:SetTemplate("Default")
+	QuestInfoPlayerTitleFrame:SetTemplate()
 	QuestInfoPlayerTitleFrame:Size(285, 40)
 
 	QuestInfoPlayerTitleFrameIconTexture:Size(E.PixelMode and 38 or 32)
@@ -484,7 +484,7 @@ local function LoadSkin()
 	QuestNPCModel:Point("TOPLEFT", QuestLogDetailFrame, "TOPRIGHT", 4, -34)
 
 	QuestNPCModelTextFrame:StripTextures()
-	QuestNPCModelTextFrame:CreateBackdrop("Default")
+	QuestNPCModelTextFrame:CreateBackdrop()
 	QuestNPCModelTextFrame.backdrop:Point("TOPLEFT", E.PixelMode and -1 or -2, 16)
 	QuestNPCModelTextFrame.backdrop:Point("BOTTOMRIGHT", 2, -2)
 

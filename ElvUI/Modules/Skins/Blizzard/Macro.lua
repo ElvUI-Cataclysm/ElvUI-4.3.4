@@ -7,7 +7,6 @@ local unpack = unpack
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.macro then return end
 
-	local MacroFrame = _G["MacroFrame"]
 	MacroFrame:StripTextures()
 	MacroFrame:CreateBackdrop("Transparent")
 	MacroFrame.backdrop:Point("TOPLEFT", 10, -11)
@@ -51,7 +50,7 @@ local function LoadSkin()
 	MacroFrameCloseButton:Point("TOPRIGHT", -29, -7)
 
 	MacroFrameTextBackground:StripTextures()
-	MacroFrameTextBackground:CreateBackdrop("Default")
+	MacroFrameTextBackground:CreateBackdrop()
 	MacroFrameTextBackground.backdrop:Point("TOPLEFT", 5, -3)
 	MacroFrameTextBackground.backdrop:Point("BOTTOMRIGHT", -22, 4)
 
@@ -80,7 +79,7 @@ local function LoadSkin()
 	MacroFrameSelectedMacroButton:StripTextures()
 	MacroFrameSelectedMacroButton:StyleButton(nil, true)
 	MacroFrameSelectedMacroButton:GetNormalTexture():SetTexture(nil)
-	MacroFrameSelectedMacroButton:SetTemplate("Default")
+	MacroFrameSelectedMacroButton:SetTemplate()
 
 	MacroFrameSelectedMacroButtonIcon:SetTexCoord(unpack(E.TexCoords))
 	MacroFrameSelectedMacroButtonIcon:SetInside()

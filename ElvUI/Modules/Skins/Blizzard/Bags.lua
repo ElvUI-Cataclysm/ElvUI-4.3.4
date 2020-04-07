@@ -86,7 +86,7 @@ local function LoadSkin()
 	for i = 1, MAX_WATCHED_TOKENS do
 		local token = _G["BackpackTokenFrameToken"..i]
 
-		token:CreateBackdrop("Default")
+		token:CreateBackdrop()
 		token.backdrop:SetOutside(token.icon)
 
 		token.icon:SetTexCoord(unpack(E.TexCoords))
@@ -201,7 +201,7 @@ local function LoadSkin()
 	end
 
 	BankFrame.itemBackdrop = CreateFrame("Frame", "BankFrameItemBackdrop", BankFrame)
-	BankFrame.itemBackdrop:SetTemplate("Default")
+	BankFrame.itemBackdrop:SetTemplate()
 	BankFrame.itemBackdrop:Point("TOPLEFT", BankFrameItem1, "TOPLEFT", -6, 6)
 	BankFrame.itemBackdrop:Point("BOTTOMRIGHT", BankFrameItem28, "BOTTOMRIGHT", 6, -6)
 	BankFrame.itemBackdrop:SetFrameLevel(BankFrame:GetFrameLevel())
@@ -223,7 +223,7 @@ local function LoadSkin()
 	end
 
 	BankFrame.bagBackdrop = CreateFrame("Frame", "BankFrameBagBackdrop", BankFrame)
-	BankFrame.bagBackdrop:SetTemplate("Default")
+	BankFrame.bagBackdrop:SetTemplate()
 	BankFrame.bagBackdrop:Point("TOPLEFT", BankFrameBag1, "TOPLEFT", -6, 6)
 	BankFrame.bagBackdrop:Point("BOTTOMRIGHT", BankFrameBag7, "BOTTOMRIGHT", 6, -6)
 	BankFrame.bagBackdrop:SetFrameLevel(BankFrame:GetFrameLevel())

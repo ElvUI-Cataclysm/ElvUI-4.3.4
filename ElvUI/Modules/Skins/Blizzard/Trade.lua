@@ -46,7 +46,7 @@ local function LoadSkin()
 			button:SetTemplate("Default", true)
 
 			button.bg = CreateFrame("Frame", nil, button)
-			button.bg:SetTemplate("Default")
+			button.bg:SetTemplate()
 			button.bg:Point("TOPLEFT", button, "TOPRIGHT", 4, 0)
 			button.bg:Point("BOTTOMRIGHT", nameFrame, "BOTTOMRIGHT", 0, 14)
 			button.bg:SetFrameLevel(button:GetFrameLevel() - 3)

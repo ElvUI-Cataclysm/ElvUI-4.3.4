@@ -130,7 +130,7 @@ local function LoadSkin()
 
 	hooksecurefunc("EquipmentFlyout_DisplayButton", function(button)
 		button:GetNormalTexture():SetTexture(nil)
-		button:SetTemplate("Default")
+		button:SetTemplate()
 		button:StyleButton()
 
 		button.icon = _G[button:GetName().."IconTexture"]
@@ -282,7 +282,7 @@ local function LoadSkin()
 			object.Stripe:Point("TOPLEFT", object, 42, -1)
 			object.Stripe:Point("BOTTOMRIGHT", object, 0, 1)
 
-			object:CreateBackdrop("Default")
+			object:CreateBackdrop()
 			object.backdrop:Point("TOPLEFT", object.icon, -1, 1)
 			object.backdrop:Point("BOTTOMRIGHT", object.icon, 1, -1)
 
@@ -413,7 +413,7 @@ local function LoadSkin()
 		frame.War:Point("RIGHT", 32, -5)
 
 		bar:StripTextures()
-		bar:CreateBackdrop("Default")
+		bar:CreateBackdrop()
 		bar:SetStatusBarTexture(E.media.normTex)
 		E:RegisterStatusBar(bar)
 
@@ -525,7 +525,7 @@ local function LoadSkin()
 	PetModelFrameShadowOverlay:SetInside(PetModelFrame.backdrop)
 
 	PetPaperDollFrameExpBar:StripTextures()
-	PetPaperDollFrameExpBar:CreateBackdrop("Default")
+	PetPaperDollFrameExpBar:CreateBackdrop()
 	PetPaperDollFrameExpBar:SetStatusBarTexture(E.media.normTex)
 
 	S:HandleRotateButton(PetModelFrameRotateLeftButton)

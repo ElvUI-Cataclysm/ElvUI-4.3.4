@@ -6,7 +6,6 @@ local _G = _G
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.petition then return end
 
-	local PetitionFrame = _G["PetitionFrame"]
 	PetitionFrame:StripTextures(true)
 	PetitionFrame:CreateBackdrop("Transparent")
 	PetitionFrame.backdrop:Point("TOPLEFT", 12, -17)

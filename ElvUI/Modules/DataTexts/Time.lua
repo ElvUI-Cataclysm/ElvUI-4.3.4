@@ -70,6 +70,10 @@ local function GetCurrentDate(formatString, isTooltip)
 	end
 end
 
+local function sortFunc(a, b)
+	return a[1] < b[1]
+end
+
 local instanceIconByName = {}
 local function GetInstanceImages(...)
 	local numTextures = select("#", ...) / 4
@@ -143,7 +147,7 @@ local function OnEnter(self)
 			isHeroic = (difficulty == 2 or difficulty == 5 or difficulty == 6 or difficulty == 15)
 
 			difficultyLetter = (isHeroic and difficultyTag[3] or isLFR and difficultyTag[1] or difficultyTag[2])
-			buttonImg = instanceIconByName[name] and format("|T%s:16:16:0:0:96:96:0:64:0:64|t ", "Interface\\LFGFrame\\LFGIcon-"..instanceIconByName[name]) or ""
+			buttonImg = instanceIconByName[name] and format("|T%s:14:14:0:0:96:96:0:64:0:64|t ", "Interface\\LFGFrame\\LFGIcon-"..instanceIconByName[name]) or ""
 
 			if isRaid then
 				tinsert(lockedInstances.raids, {name, difficultyLetter, buttonImg, {GetSavedInstanceInfo(i)}})
@@ -160,7 +164,7 @@ local function OnEnter(self)
 		end
 		DT.tooltip:AddLine(L["Saved Raid(s)"])
 
-		tsort(lockedInstances.raids, function(a, b) return a[1] < b[1] end)
+		tsort(lockedInstances.raids, sortFunc)
 
 		for i = 1, #lockedInstances.raids do
 			difficultyLetter = lockedInstances.raids[i][2]
@@ -182,7 +186,7 @@ local function OnEnter(self)
 		end
 		DT.tooltip:AddLine(L["Saved Dungeon(s)"])
 
-		tsort(lockedInstances.dungeons, function(a, b) return a[1] < b[1] end)
+		tsort(lockedInstances.dungeons, sortFunc)
 
 		for i = 1, #lockedInstances.dungeons do
 			difficultyLetter = lockedInstances.dungeons[i][2]

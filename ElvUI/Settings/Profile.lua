@@ -1137,7 +1137,6 @@ P.tooltip = {
 	itemCount = "BAGS_ONLY",
 	spellID = true,
 	npcID = true,
-	inspectInfo = true,
 	role = true,
 	font = "PT Sans Narrow",
 	fontOutline = "NONE",

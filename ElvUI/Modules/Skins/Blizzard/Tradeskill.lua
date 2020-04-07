@@ -83,7 +83,7 @@ local function LoadSkin()
 
 	TradeSkillDescription:Point("TOPLEFT", 8, -75)
 
-	TradeSkillSkillIcon:SetTemplate("Default")
+	TradeSkillSkillIcon:SetTemplate()
 	TradeSkillSkillIcon:StyleButton(nil, true)
 	TradeSkillSkillIcon:Size(47)
 	TradeSkillSkillIcon:Point("TOPLEFT", 6, -1)
@@ -138,7 +138,7 @@ local function LoadSkin()
 		local name = _G["TradeSkillReagent"..i.."Name"]
 		local nameFrame = _G["TradeSkillReagent"..i.."NameFrame"]
 
-		reagent:SetTemplate("Default")
+		reagent:SetTemplate()
 		reagent:StyleButton(nil, true)
 		reagent:Size(143, 40)
 
@@ -293,7 +293,7 @@ local function LoadSkin()
 	TradeSkillGuildFrame:Point("BOTTOMLEFT", TradeSkillFrame, "BOTTOMRIGHT", 3, 19)
 
 	TradeSkillGuildFrameContainer:StripTextures()
-	TradeSkillGuildFrameContainer:SetTemplate("Default")
+	TradeSkillGuildFrameContainer:SetTemplate()
 
 	S:HandleCloseButton(TradeSkillGuildFrameCloseButton)
 end

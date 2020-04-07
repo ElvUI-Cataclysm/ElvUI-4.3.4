@@ -280,7 +280,7 @@ end
 
 function A:InitializeTempEnchant()
 	A.EnchantHeader = CreateFrame("Frame", "ElvUITemporaryEnchantFrame", E.UIParent, "SecureHandlerStateTemplate")
-	A.EnchantHeader:Point("TOPRIGHT", MMHolder, "BOTTOMRIGHT", 0, -E.Border - E.Spacing)
+	A.EnchantHeader:Point("TOPRIGHT", MMHolder or Minimap, "BOTTOMRIGHT", 0, -E.Border - E.Spacing)
 	A.EnchantHeader:SetAttribute("_onstate-show", [[
 		if newstate == "hide" then
 			self:Hide()

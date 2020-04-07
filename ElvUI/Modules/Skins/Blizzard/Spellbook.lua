@@ -156,7 +156,7 @@ local function LoadSkin()
 			item.missingText:FontTemplate(nil, 12, "OUTLINE")
 
 			item.statusBar:StripTextures()
-			item.statusBar:CreateBackdrop("Default")
+			item.statusBar:CreateBackdrop()
 			item.statusBar:SetStatusBarTexture(E.media.normTex)
 			item.statusBar:SetStatusBarColor(0.22, 0.39, 0.84)
 			item.statusBar:Size(numItems == 2 and 180 or 120, numItems == 2 and 20 or 18)
@@ -189,7 +189,7 @@ local function LoadSkin()
 				local button = item["button"..j]
 
 				button:StripTextures()
-				button:CreateBackdrop("Default")
+				button:CreateBackdrop()
 				button:SetFrameLevel(button:GetFrameLevel() + 2)
 
 				if numItems == 2 then

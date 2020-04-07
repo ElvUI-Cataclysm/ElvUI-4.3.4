@@ -21,7 +21,7 @@ local function LoadSkin()
 
 	-- Status Rank Bar
 	ArchaeologyFrameRankBar:StripTextures()
-	ArchaeologyFrameRankBar:CreateBackdrop("Default")
+	ArchaeologyFrameRankBar:CreateBackdrop()
 	ArchaeologyFrameRankBar:SetStatusBarTexture(E.media.normTex)
 	ArchaeologyFrameRankBar:SetStatusBarColor(0.22, 0.39, 0.84)
 	ArchaeologyFrameRankBar:Size(332, 20)
@@ -32,7 +32,7 @@ local function LoadSkin()
 
 	-- Solve Rank Bar
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:StripTextures()
-	ArchaeologyFrameArtifactPageSolveFrameStatusBar:CreateBackdrop("Default")
+	ArchaeologyFrameArtifactPageSolveFrameStatusBar:CreateBackdrop()
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:SetStatusBarTexture(E.media.normTex)
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:SetStatusBarColor(0.7, 0.2, 0)
 	ArchaeologyFrameArtifactPageSolveFrameStatusBar:Width(460)
@@ -85,7 +85,7 @@ local function LoadSkin()
 	ArchaeologyFrameArtifactPageHistoryTitle:SetAlpha(0)
 
 	ArchaeologyFrameArtifactPageIcon.backdrop = CreateFrame("Frame", nil, ArchaeologyFrameArtifactPage)
-	ArchaeologyFrameArtifactPageIcon.backdrop:SetTemplate("Default")
+	ArchaeologyFrameArtifactPageIcon.backdrop:SetTemplate()
 	ArchaeologyFrameArtifactPageIcon.backdrop:Point("TOPLEFT", ArchaeologyFrameArtifactPageIcon, "TOPLEFT", -1, 1)
 	ArchaeologyFrameArtifactPageIcon.backdrop:Point("BOTTOMRIGHT", ArchaeologyFrameArtifactPageIcon, "BOTTOMRIGHT", 1, -1)
 

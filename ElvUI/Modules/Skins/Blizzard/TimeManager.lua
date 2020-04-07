@@ -27,7 +27,7 @@ local function LoadSkin()
 
 	TimeManagerStopwatchFrameBackground:SetTexture(nil)
 
-	TimeManagerStopwatchCheck:SetTemplate("Default")
+	TimeManagerStopwatchCheck:SetTemplate()
 	TimeManagerStopwatchCheck:StyleButton(nil, true)
 
 	TimeManagerStopwatchCheck:GetNormalTexture():SetInside()

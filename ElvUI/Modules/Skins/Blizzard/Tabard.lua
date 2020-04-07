@@ -8,7 +8,6 @@ local hooksecurefunc = hooksecurefunc
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.tabard then return end
 
-	local TabardFrame = _G["TabardFrame"]
 	TabardFrame:StripTextures()
 	TabardFrame:CreateBackdrop("Transparent")
 	TabardFrame.backdrop:Point("TOPLEFT", 10, -12)
@@ -19,7 +18,7 @@ local function LoadSkin()
 	TabardFrameCostFrame:StripTextures()
 	TabardFrameCustomizationFrame:StripTextures()
 
-	TabardModel:CreateBackdrop("Default")
+	TabardModel:CreateBackdrop()
 
 	S:HandleButton(TabardFrameCancelButton)
 	S:HandleButton(TabardFrameAcceptButton)

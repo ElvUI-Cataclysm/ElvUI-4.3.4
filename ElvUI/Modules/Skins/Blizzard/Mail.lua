@@ -126,7 +126,7 @@ local function LoadSkin()
 	SendMailFrame:StripTextures()
 
 	SendMailScrollFrame:StripTextures(true)
-	SendMailScrollFrame:SetTemplate("Default")
+	SendMailScrollFrame:SetTemplate()
 
 	hooksecurefunc("SendMailFrame_Update", function()
 		for i = 1, ATTACHMENTS_MAX_SEND do
@@ -249,7 +249,7 @@ local function LoadSkin()
 	S:HandleButton(OpenMailCancelButton)
 
 	OpenMailScrollFrame:StripTextures(true)
-	OpenMailScrollFrame:SetTemplate("Default")
+	OpenMailScrollFrame:SetTemplate()
 
 	S:HandleScrollBar(OpenMailScrollFrameScrollBar)
 

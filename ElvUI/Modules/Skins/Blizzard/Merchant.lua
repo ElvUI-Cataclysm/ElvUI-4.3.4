@@ -37,7 +37,7 @@ local function LoadSkin()
 		local currency = _G["MerchantItem"..i.."AltCurrencyFrame"]
 
 		item:StripTextures(true)
-		item:CreateBackdrop("Default")
+		item:CreateBackdrop()
 
 		button:StripTextures()
 		button:StyleButton()
@@ -62,7 +62,7 @@ local function LoadSkin()
 			end
 
 			currencyIcon.backdrop = CreateFrame("Frame", nil, currencyItem)
-			currencyIcon.backdrop:SetTemplate("Default")
+			currencyIcon.backdrop:SetTemplate()
 			currencyIcon.backdrop:SetFrameLevel(currencyItem:GetFrameLevel())
 			currencyIcon.backdrop:SetOutside(currencyIcon)
 

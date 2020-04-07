@@ -21,8 +21,10 @@ local function LoadSkin()
 	}
 
 	for i = 1, #buttons do
-		_G[buttons[i]]:StripTextures()
-		S:HandleButton(_G[buttons[i]])
+		local button = _G[buttons[i]]
+
+		button:StripTextures()
+		S:HandleButton(button)
 	end
 
 	local KillTextures = {
@@ -95,7 +97,7 @@ local function LoadSkin()
 	PVPFrameTab1:ClearAllPoints()
 	PVPFrameTab1:Point("BOTTOMLEFT", PVPFrame, 0, -30)
 
-	PVPBannerFrameEditBox:CreateBackdrop("Default")
+	PVPBannerFrameEditBox:CreateBackdrop()
 	PVPBannerFrameEditBox.backdrop:Point("TOPLEFT", -5, -5)
 	PVPBannerFrameEditBox.backdrop:Point("BOTTOMRIGHT", 5, 5)
 
@@ -103,14 +105,14 @@ local function LoadSkin()
 	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfo.description:SetTextColor(1, 1, 1)
 
 	PVPTeamManagementFrameInvalidTeamFrame:StripTextures()
-	PVPTeamManagementFrameInvalidTeamFrame:CreateBackdrop("Default")
+	PVPTeamManagementFrameInvalidTeamFrame:CreateBackdrop()
 	PVPTeamManagementFrameInvalidTeamFrame:SetFrameLevel(PVPTeamManagementFrameInvalidTeamFrame:GetFrameLevel() + 1)
 	PVPTeamManagementFrameInvalidTeamFrame.backdrop:SetFrameLevel(PVPTeamManagementFrameInvalidTeamFrame:GetFrameLevel())
 
 	PVPHonorFrameTypeScrollFrame:CreateBackdrop("Transparent")
 
 	PVPTeamManagementFrameNoTeamsFrame:StripTextures()
-	PVPTeamManagementFrameNoTeamsFrame:CreateBackdrop("Default")
+	PVPTeamManagementFrameNoTeamsFrame:CreateBackdrop()
 	PVPTeamManagementFrameNoTeamsFrame.backdrop:Point("TOPLEFT", 0, -15)
 	PVPTeamManagementFrameNoTeamsFrame.backdrop:Point("BOTTOMRIGHT", 1, -2)
 	PVPTeamManagementFrameNoTeamsFrame.backdrop:SetFrameLevel(PVPTeamManagementFrameNoTeamsFrame.backdrop:GetFrameLevel() + 1)
@@ -151,17 +153,17 @@ local function LoadSkin()
 	PVPBannerFrame:SetTemplate("Transparent")
 
 	PVPFrameLowLevelFrame:StripTextures()
-	PVPFrameLowLevelFrame:CreateBackdrop("Default")
+	PVPFrameLowLevelFrame:CreateBackdrop()
 	PVPFrameLowLevelFrame.backdrop:Point("TOPLEFT", -2, -40)
 	PVPFrameLowLevelFrame.backdrop:Point("BOTTOMRIGHT", 5, 80)
 
 	PVPBannerFrameCustomization1:StripTextures()
-	PVPBannerFrameCustomization1:CreateBackdrop("Default")
+	PVPBannerFrameCustomization1:CreateBackdrop()
 	PVPBannerFrameCustomization1.backdrop:Point("TOPLEFT", PVPBannerFrameCustomization1LeftButton, "TOPRIGHT", 2, 0)
 	PVPBannerFrameCustomization1.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameCustomization1RightButton, "BOTTOMLEFT", -2, 0)
 
 	PVPBannerFrameCustomization2:StripTextures()
-	PVPBannerFrameCustomization2:CreateBackdrop("Default")
+	PVPBannerFrameCustomization2:CreateBackdrop()
 	PVPBannerFrameCustomization2.backdrop:Point("TOPLEFT", PVPBannerFrameCustomization2LeftButton, "TOPRIGHT", 2, 0)
 	PVPBannerFrameCustomization2.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameCustomization2RightButton, "BOTTOMLEFT", -2, 0)
 

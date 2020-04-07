@@ -46,7 +46,7 @@ local function LoadSkin()
 	LFDQueueFrameCapBar:Point("LEFT", 40, 0)
 
 	LFDQueueFrameCapBar:StripTextures()
-	LFDQueueFrameCapBar:CreateBackdrop("Default")
+	LFDQueueFrameCapBar:CreateBackdrop()
 	LFDQueueFrameCapBar.backdrop:Point("TOPLEFT", LFDQueueFrameCapBar, "TOPLEFT", -1, -2)
 	LFDQueueFrameCapBar.backdrop:Point("BOTTOMRIGHT", LFDQueueFrameCapBar, "BOTTOMRIGHT", 1, 2)
 
@@ -173,7 +173,7 @@ local function LoadSkin()
 		for i = 1, numItems do
 			local button = _G[frame..i]
 
-			button.enableButton:CreateBackdrop("Default")
+			button.enableButton:CreateBackdrop()
 			button.enableButton.backdrop:SetInside(nil, 4, 4)
 
 			button.enableButton:SetNormalTexture("")
@@ -391,7 +391,7 @@ local function LoadSkin()
 			tinsert(roleButtons, _G["LFGDungeonReadyStatusIndividualPlayer"..i])
 		end
 		for _, roleButton in pairs (roleButtons) do
-			roleButton:CreateBackdrop("Default")
+			roleButton:CreateBackdrop()
 			roleButton.backdrop:Point("TOPLEFT", 3, -3)
 			roleButton.backdrop:Point("BOTTOMRIGHT", -3, 3)
 			roleButton.texture:SetTexture(E.Media.Textures.RoleIcons)
@@ -412,7 +412,7 @@ local function LoadSkin()
 	for i = 1, 2 do
 		local tab = _G["LFRParentFrameSideTab"..i]
 		tab:GetRegions():Hide()
-		tab:SetTemplate("Default")
+		tab:SetTemplate()
 		tab:StyleButton(nil, true)
 		tab:GetNormalTexture():SetInside()
 		tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
@@ -498,7 +498,7 @@ local function LoadSkin()
 	S:HandleButton(LFRQueueFrameFindGroupButton)
 	S:HandleButton(LFRQueueFrameAcceptCommentButton)
 
-	LFRQueueFrameCommentTextButton:CreateBackdrop("Default")
+	LFRQueueFrameCommentTextButton:CreateBackdrop()
 	LFRQueueFrameCommentTextButton:Height(35)
 
 	LFRQueueFrameSpecificListScrollFrame:StripTextures()

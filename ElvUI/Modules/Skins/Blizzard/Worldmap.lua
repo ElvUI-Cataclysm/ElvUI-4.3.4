@@ -6,7 +6,6 @@ local _G = _G
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.worldmap then return end
 
-	local WorldMapFrame = _G["WorldMapFrame"]
 	WorldMapFrame:CreateBackdrop("Transparent")
 
 	WorldMapDetailFrame:CreateBackdrop()
