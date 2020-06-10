@@ -315,6 +315,8 @@ end
 function NP:OnShow(isConfig, dontHideHighlight)
 	local frame = self.UnitFrame
 
+	NP:CheckRaidIcon(frame)
+
 	if self:IsShown() then
 		NP.VisiblePlates[frame] = 1
 	end
@@ -1039,6 +1041,13 @@ function NP:UNIT_POWER()
 	NP:ForEachVisiblePlate("StyleFilterUpdate", "UNIT_POWER")
 end
 
+function NP:RAID_TARGET_UPDATE()
+	for frame in pairs(self.VisiblePlates) do
+		NP:CheckRaidIcon(frame)
+		NP:StyleFilterUpdate(frame, "RAID_TARGET_UPDATE")
+	end
+end
+
 function NP:CacheArenaUnits()
 	twipe(self.ENEMY_PLAYER)
 	twipe(self.ENEMY_NPC)
@@ -1123,6 +1132,7 @@ function NP:Initialize()
 	self:RegisterEvent("UNIT_POWER")
 	self:RegisterEvent("UNIT_COMBO_POINTS")
 	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
+	self:RegisterEvent("RAID_TARGET_UPDATE")
 
 	-- Arena & Arena Pets
 	self:CacheArenaUnits()
