@@ -140,7 +140,7 @@ local function LoadSkin()
 
 		reagent:SetTemplate()
 		reagent:StyleButton(nil, true)
-		reagent:Size(143, 40)
+		reagent:Size(142, 40)
 
 		icon.backdrop = CreateFrame("Frame", nil, reagent)
 		icon.backdrop:SetTemplate()
@@ -161,14 +161,14 @@ local function LoadSkin()
 		nameFrame:Kill()
 	end
 
-	TradeSkillReagent1:Point("TOPLEFT", TradeSkillReagentLabel, "BOTTOMLEFT", 0, -3)
-	TradeSkillReagent2:Point("LEFT", TradeSkillReagent1, "RIGHT", 3, 0)
-	TradeSkillReagent3:Point("TOPLEFT", TradeSkillReagent1, "BOTTOMLEFT", 0, -3)
-	TradeSkillReagent4:Point("LEFT", TradeSkillReagent3, "RIGHT", 3, 0)
-	TradeSkillReagent5:Point("TOPLEFT", TradeSkillReagent3, "BOTTOMLEFT", 0, -3)
-	TradeSkillReagent6:Point("LEFT", TradeSkillReagent5, "RIGHT", 3, 0)
-	TradeSkillReagent7:Point("TOPLEFT", TradeSkillReagent5, "BOTTOMLEFT", 0, -3)
-	TradeSkillReagent8:Point("LEFT", TradeSkillReagent7, "RIGHT", 3, 0)
+	TradeSkillReagent1:Point("TOPLEFT", TradeSkillReagentLabel, "BOTTOMLEFT", 0, -4)
+	TradeSkillReagent2:Point("LEFT", TradeSkillReagent1, "RIGHT", 4, 0)
+	TradeSkillReagent3:Point("TOPLEFT", TradeSkillReagent1, "BOTTOMLEFT", 0, -4)
+	TradeSkillReagent4:Point("LEFT", TradeSkillReagent3, "RIGHT", 4, 0)
+	TradeSkillReagent5:Point("TOPLEFT", TradeSkillReagent3, "BOTTOMLEFT", 0, -4)
+	TradeSkillReagent6:Point("LEFT", TradeSkillReagent5, "RIGHT", 4, 0)
+	TradeSkillReagent7:Point("TOPLEFT", TradeSkillReagent5, "BOTTOMLEFT", 0, -4)
+	TradeSkillReagent8:Point("LEFT", TradeSkillReagent7, "RIGHT", 4, 0)
 
 	TradeSkillFilterBar:StripTextures()
 	TradeSkillFilterBar.texture = TradeSkillFilterBar:CreateTexture(nil, "ARTWORK")
@@ -239,18 +239,22 @@ local function LoadSkin()
 
 	TradeSkillCollapseAllButton:SetNormalTexture(E.Media.Textures.Plus)
 	TradeSkillCollapseAllButton.SetNormalTexture = E.noop
-	TradeSkillCollapseAllButton:GetNormalTexture():Point("LEFT", 3, 2)
-	TradeSkillCollapseAllButton:GetNormalTexture():Size(16)
-	TradeSkillCollapseAllButton:GetNormalTexture():SetVertexColor(1, 1, 1)
+
+	local collapseNormal = TradeSkillCollapseAllButton:GetNormalTexture()
+	collapseNormal:Point("LEFT", 3, 2)
+	collapseNormal:Size(16)
+	collapseNormal:SetVertexColor(1, 1, 1)
 
 	TradeSkillCollapseAllButton:SetHighlightTexture("")
 	TradeSkillCollapseAllButton.SetHighlightTexture = E.noop
 
 	TradeSkillCollapseAllButton:SetDisabledTexture(E.Media.Textures.Plus)
 	TradeSkillCollapseAllButton.SetDisabledTexture = E.noop
-	TradeSkillCollapseAllButton:GetDisabledTexture():Point("LEFT", 3, 2)
-	TradeSkillCollapseAllButton:GetDisabledTexture():Size(16)
-	TradeSkillCollapseAllButton:GetDisabledTexture():SetVertexColor(0.6, 0.6, 0.6)
+
+	local collapseDisabled = TradeSkillCollapseAllButton:GetDisabledTexture()
+	collapseDisabled:Point("LEFT", 3, 2)
+	collapseDisabled:Size(16)
+	collapseDisabled:SetVertexColor(0.6, 0.6, 0.6)
 
 	hooksecurefunc(TradeSkillCollapseAllButton, "SetNormalTexture", function(self, texture)
 		local normal = self:GetNormalTexture()

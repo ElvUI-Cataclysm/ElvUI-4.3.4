@@ -31,8 +31,6 @@ local function LoadSkin(preSkin)
 
 			if Achievement.highlight then
 				Achievement.highlight:StripTextures()
-				Achievement:HookScript("OnEnter", S.SetModifiedBackdrop)
-				Achievement:HookScript("OnLeave", S.SetOriginalBackdrop)
 			end
 
 			if Achievement.label then
@@ -80,6 +78,9 @@ local function LoadSkin(preSkin)
 				Achievement.reward:SetParent(Achievement.backdrop)
 			end
 
+			Achievement:HookScript("OnEnter", S.SetModifiedBackdrop)
+			Achievement:HookScript("OnLeave", S.SetOriginalBackdrop)
+
 			hooksecurefunc(Achievement, "Saturate", function(self)
 				self:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			end)
@@ -98,11 +99,8 @@ local function LoadSkin(preSkin)
 					if not button.isSkinned then
 						button:StripTextures()
 
-						local highlight = button:GetHighlightTexture()
-						highlight:SetTexture(E.Media.Textures.Highlight)
-						highlight:SetTexCoord(0, 1, 0, 1)
-						highlight:SetAlpha(0.35)
-						highlight:SetInside()
+						S:HandleButtonHighlight(button)
+						button.handledHighlight:Point("TOPLEFT", 0, -1)
 
 						button.isSkinned = true
 					end
@@ -367,10 +365,9 @@ local function LoadSkin(preSkin)
 	end)
 
 	hooksecurefunc("AchievementObjectives_DisplayCriteria", function(objectivesFrame, id)
-		local numCriteria = GetAchievementNumCriteria(id)
 		local textStrings, metas = 0, 0
 
-		for i = 1, numCriteria do
+		for i = 1, GetAchievementNumCriteria(id) do
 			local _, criteriaType, completed, _, _, _, _, assetID = GetAchievementCriteriaInfo(id, i)
 
 			if criteriaType == CRITERIA_TYPE_ACHIEVEMENT and assetID then
@@ -436,9 +433,8 @@ local function LoadSkin(preSkin)
 				mini.backdropTexture:SetAlpha(0)
 				mini:Size(32)
 
-				local prevFrame = _G["AchievementFrameMiniAchievement"..i - 1]
 				if i ~= 1 and i ~= 7 then
-					mini:Point("TOPLEFT", prevFrame, "TOPRIGHT", 10, 0)
+					mini:Point("TOPLEFT", _G["AchievementFrameMiniAchievement"..i - 1], "TOPRIGHT", 10, 0)
 				elseif i == 1 then
 					mini:Point("TOPLEFT", 6, -4)
 				elseif i == 7 then

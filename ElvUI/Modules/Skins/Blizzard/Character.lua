@@ -376,12 +376,12 @@ local function LoadSkin()
 		_G["CharacterStatsPaneCategory"..i.."ToolbarSortDownArrow"]:Kill()
 	end
 
-	hooksecurefunc("PaperDollFrame_ExpandStatCategory", function(frame)
-		if not frame.collapsed then frame.Toolbar:SetAlpha(1) end
+	hooksecurefunc("PaperDollFrame_ExpandStatCategory", function(btn)
+		if btn.Toolbar and not btn.collapsed then btn.Toolbar:SetAlpha(1) end
 	end)
 
-	hooksecurefunc("PaperDollFrame_CollapseStatCategory", function(frame)
-		if frame.collapsed then frame.Toolbar:SetAlpha(0.3) end
+	hooksecurefunc("PaperDollFrame_CollapseStatCategory", function(btn)
+		if btn.Toolbar and btn.collapsed then btn.Toolbar:SetAlpha(0.3) end
 	end)
 
 	hooksecurefunc("PaperDollFrame_SetResistance", function(statFrame, unit, resistanceIndex)
