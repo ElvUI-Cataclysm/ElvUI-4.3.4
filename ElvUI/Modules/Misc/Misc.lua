@@ -17,7 +17,6 @@ local GetNumPartyMembers = GetNumPartyMembers
 local GetNumRaidMembers = GetNumRaidMembers
 local GetRaidRosterInfo = GetRaidRosterInfo
 local GetRepairAllCost = GetRepairAllCost
-local GetUnitSpeed = GetUnitSpeed
 local GuildRoster = GuildRoster
 local InCombatLockdown = InCombatLockdown
 local IsInGuild = IsInGuild
@@ -175,35 +174,6 @@ function M:DisbandRaidGroup()
 	LeaveParty()
 end
 
-function M:CheckMovement()
-	if not WorldMapFrame:IsShown() then return end
-
-	if GetUnitSpeed("player") ~= 0 then
-		if WorldMapPositioningGuide:IsMouseOver() then
-			WorldMapFrame:SetAlpha(1)
-			WorldMapBlobFrame:SetFillAlpha(128)
-			WorldMapBlobFrame:SetBorderAlpha(192)
-		else
-			WorldMapFrame:SetAlpha(E.global.general.mapAlphaWhenMoving)
-			WorldMapBlobFrame:SetFillAlpha(128 * E.global.general.mapAlphaWhenMoving)
-			WorldMapBlobFrame:SetBorderAlpha(192 * E.global.general.mapAlphaWhenMoving)
-		end
-	else
-		WorldMapFrame:SetAlpha(1)
-		WorldMapBlobFrame:SetFillAlpha(128)
-		WorldMapBlobFrame:SetBorderAlpha(192)
-	end
-end
-
-function M:UpdateMapAlpha()
-	if (E.global.general.mapAlphaWhenMoving >= 1) and self.MovingTimer then
-		self:CancelTimer(self.MovingTimer)
-		self.MovingTimer = nil
-	elseif (E.global.general.mapAlphaWhenMoving < 1) and not self.MovingTimer then
-		self.MovingTimer = self:ScheduleRepeatingTimer("CheckMovement", 0.1)
-	end
-end
-
 function M:PVPMessageEnhancement(_, msg)
 	if not E.db.general.enhancedPvpMessages then return end
 
@@ -276,10 +246,6 @@ function M:Initialize()
 	self:RegisterEvent("PARTY_MEMBERS_CHANGED", "AutoInvite")
 	self:RegisterEvent("CVAR_UPDATE", "ForceCVars")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "ForceCVars")
-
-	if E.global.general.mapAlphaWhenMoving < 1 then
-		self.MovingTimer = self:ScheduleRepeatingTimer("CheckMovement", 0.1)
-	end
 
 	self.Initialized = true
 end

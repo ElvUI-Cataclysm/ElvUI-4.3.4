@@ -7,6 +7,7 @@ local find, format = string.find, string.format
 
 local CreateFrame = CreateFrame
 local GetPlayerMapPosition = GetPlayerMapPosition
+local GetUnitSpeed = GetUnitSpeed
 local InCombatLockdown = InCombatLockdown
 local SetUIPanelAttribute = SetUIPanelAttribute
 local GetCursorPosition = GetCursorPosition
@@ -158,21 +159,77 @@ function M:PositionCoords()
 	CoordsHolder.mouseCoords:Point(position, CoordsHolder.playerCoords, INVERTED_POINTS[position], 0, y)
 end
 
-function M:Initialize()
-	self.Initialized = true
+function M:CheckMovement()
+	if not WorldMapFrame:IsShown() then return end
 
-	if E.global.general.WorldMapCoordinates.enable then
+	if GetUnitSpeed("player") ~= 0 then
+		if WorldMapPositioningGuide:IsMouseOver() then
+			WorldMapFrame:SetAlpha(1)
+			WorldMapBlobFrame:SetFillAlpha(128)
+			WorldMapBlobFrame:SetBorderAlpha(192)
+			WorldMapArchaeologyDigSites:SetFillAlpha(128)
+			WorldMapArchaeologyDigSites:SetBorderAlpha(192)
+		else
+			WorldMapFrame:SetAlpha(E.global.general.mapAlphaWhenMoving)
+			WorldMapBlobFrame:SetFillAlpha(128 * E.global.general.mapAlphaWhenMoving)
+			WorldMapBlobFrame:SetBorderAlpha(192 * E.global.general.mapAlphaWhenMoving)
+			WorldMapArchaeologyDigSites:SetFillAlpha(128 * E.global.general.mapAlphaWhenMoving)
+			WorldMapArchaeologyDigSites:SetBorderAlpha(192 * E.global.general.mapAlphaWhenMoving)
+		end
+	else
+		WorldMapFrame:SetAlpha(1)
+		WorldMapBlobFrame:SetFillAlpha(128)
+		WorldMapBlobFrame:SetBorderAlpha(192)
+		WorldMapArchaeologyDigSites:SetFillAlpha(128)
+		WorldMapArchaeologyDigSites:SetBorderAlpha(192)
+	end
+end
+
+function M:UpdateMapAlpha()
+	local db = E.global.general
+
+	if db.fadeMapWhenMoving then
+		if (db.mapAlphaWhenMoving >= 1) and self.MovingTimer then
+			self:CancelTimer(self.MovingTimer)
+			self.MovingTimer = nil
+		elseif (db.mapAlphaWhenMoving < 1) and not self.MovingTimer then
+			self.MovingTimer = self:ScheduleRepeatingTimer("CheckMovement", 0.1)
+		end
+	else
+		if self.MovingTimer then
+			self:CancelTimer(self.MovingTimer)
+			self.MovingTimer = nil
+		end
+
+		if GetUnitSpeed("player") ~= 0 and not WorldMapPositioningGuide:IsMouseOver() then
+			WorldMapFrame:SetAlpha(1)
+			WorldMapBlobFrame:SetFillAlpha(128)
+			WorldMapBlobFrame:SetBorderAlpha(192)
+			WorldMapArchaeologyDigSites:SetFillAlpha(128)
+			WorldMapArchaeologyDigSites:SetBorderAlpha(192)
+		end
+	end
+end
+
+function M:Initialize()
+	local db = E.global.general
+
+	if db.fadeMapWhenMoving and (db.mapAlphaWhenMoving < 1) then
+		self.MovingTimer = self:ScheduleRepeatingTimer("CheckMovement", 0.1)
+	end
+
+	if db.WorldMapCoordinates.enable then
 		local CoordsHolder = CreateFrame("Frame", "CoordsHolder", WorldMapFrame)
 		CoordsHolder:SetFrameLevel(WorldMapDetailFrame:GetFrameLevel() + 1)
 		CoordsHolder:SetFrameStrata(WorldMapDetailFrame:GetFrameStrata())
 
 		CoordsHolder.playerCoords = CoordsHolder:CreateFontString(nil, "OVERLAY")
-		CoordsHolder.playerCoords:SetTextColor(1, 1 ,0)
+		CoordsHolder.playerCoords:SetTextColor(1, 1, 0)
 		CoordsHolder.playerCoords:SetFontObject(NumberFontNormal)
 		CoordsHolder.playerCoords:SetText(PLAYER..":   0, 0")
 
 		CoordsHolder.mouseCoords = CoordsHolder:CreateFontString(nil, "OVERLAY")
-		CoordsHolder.mouseCoords:SetTextColor(1, 1 ,0)
+		CoordsHolder.mouseCoords:SetTextColor(1, 1, 0)
 		CoordsHolder.mouseCoords:SetFontObject(NumberFontNormal)
 		CoordsHolder.mouseCoords:SetText(MOUSE_LABEL..":   0, 0")
 
@@ -181,7 +238,7 @@ function M:Initialize()
 		self:PositionCoords()
 	end
 
-	if E.global.general.smallerWorldMap then
+	if db.smallerWorldMap then
 		BlackoutWorld:SetTexture(nil)
 		self:SecureHook("WorldMap_ToggleSizeDown", "SetSmallWorldMap")
 		self:SecureHook("WorldMap_ToggleSizeUp", "SetLargeWorldMap")
@@ -208,6 +265,8 @@ function M:Initialize()
 			WorldMapTooltip:Hide()
 		end, true)
 	end
+
+	self.Initialized = true
 end
 
 local function InitializeCallback()
