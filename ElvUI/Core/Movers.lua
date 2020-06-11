@@ -457,6 +457,6 @@ end
 
 function E:LoadMovers()
 	for name, t in pairs(E.CreatedMovers) do
-		UpdateMover(t.parent, name, t.text, t.overlay, t.snapoffset, t.postdrag, t.shouldDisable, t.configString)
+		UpdateMover(t.parent, name, t.text, t.overlay, t.snapoffset, t.postdrag, t.shouldDisable, t.configString, t.perferCorners)
 	end
 end

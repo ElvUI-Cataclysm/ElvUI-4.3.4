@@ -258,7 +258,8 @@ E.Options.args.auras = {
 						barNoDuration = {
 							order = 8,
 							type = "toggle",
-							name = L["No Duration"]
+							name = L["No Duration"],
+							disabled = function() return not E.db.auras.barShow end
 						},
 						barColorGradient = {
 							order = 9,
