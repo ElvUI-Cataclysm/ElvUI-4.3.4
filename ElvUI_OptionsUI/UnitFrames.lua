@@ -1417,7 +1417,7 @@ local function CreateCustomTextGroup(unit, objectName)
 				order = 100,
 				type = "input",
 				name = L["Text Format"],
-				desc = L["Controls the text displayed. Available Tags are listed under Info/Controls"],
+				desc = L["Controls the text displayed. Tags are available in the Available Tags section of the config."],
 				width = "full"
 			}
 		}
@@ -1657,7 +1657,7 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 						order = 4,
 						type = "input",
 						name = L["Text Format"],
-						desc = L["Controls the text displayed. Available Tags are listed under Info/Controls"],
+						desc = L["Controls the text displayed. Tags are available in the Available Tags section of the config."],
 						width = "full"
 					}
 				}
@@ -1775,7 +1775,7 @@ local function GetOptionsTable_Name(updateFunc, groupName, numUnits)
 				order = 100,
 				type = "input",
 				name = L["Text Format"],
-				desc = L["Controls the text displayed. Available Tags are listed under Info/Controls"],
+				desc = L["Controls the text displayed. Tags are available in the Available Tags section of the config."],
 				width = "full"
 			}
 		}
@@ -2058,7 +2058,7 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 						order = 4,
 						type = "input",
 						name = L["Text Format"],
-						desc = L["Controls the text displayed. Available Tags are listed under Info/Controls"],
+						desc = L["Controls the text displayed. Tags are available in the Available Tags section of the config."],
 						width = "full"
 					}
 				}
@@ -4455,7 +4455,7 @@ E.Options.args.unitframe.args.individualUnits.args.player = {
 					order = 100,
 					type = "input",
 					name = L["Text Format"],
-					desc = L["Controls the text displayed. Available Tags are listed under Info/Controls"],
+					desc = L["Controls the text displayed. Tags are available in the Available Tags section of the config."],
 					width = "full"
 				}
 			}
@@ -5972,7 +5972,7 @@ E.Options.args.unitframe.args.groupUnits.args.party = {
 							order = 100,
 							type = "input",
 							name = L["Text Format"],
-							desc = L["Controls the text displayed. Available Tags are listed under Info/Controls"],
+							desc = L["Controls the text displayed. Tags are available in the Available Tags section of the config."],
 							width = "full"
 						}
 					}
@@ -6055,7 +6055,7 @@ E.Options.args.unitframe.args.groupUnits.args.party = {
 							order = 100,
 							type = "input",
 							name = L["Text Format"],
-							desc = L["Controls the text displayed. Available Tags are listed under Info/Controls"],
+							desc = L["Controls the text displayed. Tags are available in the Available Tags section of the config."],
 							width = "full"
 						}
 					}

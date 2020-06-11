@@ -924,25 +924,46 @@ ElvUF.Tags.Methods["ElvUI-Users"] = function(unit)
 
 	return ""
 end
+ElvUF.Tags.Events["creature"] = ""
 
 E.TagInfo = {
+	--Altpower
+	["altpower:current"] = {category = "Altpower", description = "Displays altpower text on a unit in current format"},
+	["altpower:current-max"] = {category = "Altpower", description = "Displays altpower text on a unit in current-max format"},
+	["altpower:current-max-percent"] = {category = "Altpower", description = "Displays altpower text on a unit in current-max-percent format"},
+	["altpower:current-percent"] = {category = "Altpower", description = "Displays altpower text on a unit in current-percent format"},
+	["altpower:deficit"] = {category = "Altpower", description = "Displays altpower text on a unit in deficit format"},
+	["altpower:percent"] = {category = "Altpower", description = "Displays altpower text on a unit in percent format"},
+	--Classification
+	["classification"] = {category = "Classification", description = "Displays the unit's classification (e.g. 'ELITE' and 'RARE')"},
+	["creature"] = {category = "Classification", description = "Displays the creature type of the unit"},
+	["shortclassification"] = {category = "Classification", description = "Displays the unit's classification in short form (e.g. '+' for ELITE and 'R' for RARE)"},
+	["rare"] = {category = "Classification", description = "Displays 'Rare' when the unit is a rare or rareelite"},
+	["plus"] = {category = "Classification", description = "Displays the character '+' if the unit is an elite or rare-elite"},
+	--Classpower
+	["pereclipse"] = {category = "Classpower", description = "Displays the eclipse power (Druid)"},
+	["runes"] = {category = "Classpower", description = "Displays the runes (Death Knight)"},
+	["soulshards"] = {category = "Classpower", description = "Displays the soulshards (Warlock)"},
+	["holypower"] = {category = "Classpower", description = "Displays the holy power (Paladin)"},
+	["cpoints"] = {category = "Classpower", description = "Displays amount of combo points the player has (only for player, shows nothing on 0)"},
+	["classpower:current"] = {category = "Classpower", description = "Displays the unit's current amount of special power"},
+	["classpower:current-max"] = {category = "Classpower", description = "Displays the unit's current and max amount of special power, separated by a dash"},
+	["classpower:current-max-percent"] = {category = "Classpower", description = "Displays the unit's current and max amount of special power, separated by a dash (% when not full power)"},
+	["classpower:current-percent"] = {category = "Classpower", description = "Displays the unit's current and percentage amount of special power separated by a dash"},
+	["classpower:deficit"] = {category = "Classpower", description = "Displays the unit's special power as a deficit (Total Special Power - Current Special Power = -Deficit)"},
+	["classpower:percent"] = {category = "Classpower", description = "Displays the unit's current amount of special power as a percentage"},
 	--Colors
 	["namecolor"] = {category = "Colors", description = "Colors names by player class or NPC reaction (Ex: ['namecolor']['name'])"},
 	["reactioncolor"] = {category = "Colors", description = "Colors names by NPC reaction (Bad/Neutral/Good)"},
 	["powercolor"] = {category = "Colors", description = "Colors the power text based upon its type"},
 	["difficultycolor"] = {category = "Colors", description = "Colors the following tags by difficulty, red for impossible, orange for hard, green for easy"},
 	["altpowercolor"] = {category = "Colors", description = "Changes the text color to the current alternative power color (Blizzard defined)"},
-	["healthcolor"] = {category = "Colors", description = "Changes color of health text, depending on the unit's current health"},
-	["threatcolor"] = {category = "Colors", description = "Changes color of health, depending on the unit's threat situation"},
+	["healthcolor"] = {category = "Colors", description = "Changes the text color, depending on the unit's current health"},
+	["threatcolor"] = {category = "Colors", description = "Changes the text color, depending on the unit's threat situation"},
 	["classpowercolor"] = {category = "Colors", description = "Changes the color of the special power based upon its type"},
-	["classificationcolor"] = {category = "Colors", description = "Changes color of health, depending on the unit's classification"},
+	["classificationcolor"] = {category = "Colors", description = "Changes the text color, depending on the unit's classification"},
 	["manacolor"] = {category = "Colors", description = "Changes the text color to a light-blue mana color"},
 	["difficulty"] = {category = "Colors", description = "Changes color of the next tag based on how difficult the unit is compared to the players level"},
-	--Classification
-	["classification"] = {category = "Classification", description = "Displays the unit's classification (e.g. 'ELITE' and 'RARE')"},
-	["shortclassification"] = {category = "Classification", description = "Displays the unit's classification in short form (e.g. '+' for ELITE and 'R' for RARE)"},
-	["rare"] = {category = "Classification", description = "Displays 'Rare' when the unit is a rare or rareelite"},
-	["plus"] = {category = "Classification", description = "Displays the character '+' if the unit is an elite or rare-elite"},
 	--Guild
 	["guild"] = {category = "Guild", description = "Displays the guild name"},
 	["guild:brackets"] = {category = "Guild", description = "Displays the guild name with < > brackets (e.g. <GUILD>)"},
@@ -1007,6 +1028,11 @@ E.TagInfo = {
 	["mana:deficit:shortvalue"] = {category = "Mana", description = "Shortvalue of the mana deficit (Total Mana - Current Mana = -Deficit)"},
 	["curmana"] = {category = "Mana", description = "Displays the current mana without decimals"},
 	["maxmana"] = {category = "Mana", description = "Displays the max amount of mana the unit can have"},
+	--Miscellaneous
+	["affix"] = {category = "Miscellaneous", description = "Displays low level critter mobs"},
+	["class"] = {category = "Miscellaneous", description = "Displays the class of the unit, if that unit is a player"},
+	["race"] = {category = "Miscellaneous", description = "Displays the race"},
+	["smartclass"] = {category = "Miscellaneous", description = "Displays the player's class or creature's type"},
 	--Names
 	["name"] = {category = "Names", description = "Displays the full name of the unit without any letter limitation"},
 	["name:veryshort"] = {category = "Names", description = "Displays the name of the unit (limited to 5 letters)"},
@@ -1035,7 +1061,7 @@ E.TagInfo = {
 	["leaderlong"] = {category = "Party and Raid", description = "Displays 'Leader' if the unit is the group/raid leader"},
 	--Power
 	["power:current"] = {category = "Power", description = "Displays the unit's current amount of power"},
-	["power:current:shortvalue"] = {category = "Power", description = "Shortvalue of the current amount of power a unit has (e.g. 4k instead of 4000)"},
+	["power:current:shortvalue"] = {category = "Power", description = "Shortvalue of the unit's current amount of power (e.g. 4k instead of 4000)"},
 	["power:current-percent"] = {category = "Power", description = "Displays the current power and power as a percentage, separated by a dash"},
 	["power:current-percent:shortvalue"] = {category = "Power", description = "Shortvalue of the current power and power as a percentage, separated by a dash"},
 	["power:current-max"] = {category = "Power", description = "Displays the current power and max power, separated by a dash"},
@@ -1056,25 +1082,6 @@ E.TagInfo = {
 	["pvptimer"] = {category = "PvP", description = "Displays remaining time on pvp-flagged status"},
 	["arena:number"] = {category = "PvP", description = "Displays the arena number 1-5"},
 	["faction"] = {category = "PvP", description = "Displays 'Aliance' or 'Horde'"},
-	--Classpower
-	["pereclipse"] = {category = "Classpower", description = "Displays the eclipse power (Druid)"},
-	["runes"] = {category = "Classpower", description = "Displays the runes (Death Knight)"},
-	["soulshards"] = {category = "Classpower", description = "Displays the soulshards (Warlock)"},
-	["holypower"] = {category = "Classpower", description = "Displays the holy power (Paladin)"},
-	["cpoints"] = {category = "Classpower", description = "Displays amount of combo points the player has (only for player, shows nothing on 0)"},
-	["classpower:current"] = {category = "Classpower", description = "Displays the unit's current amount of special power"},
-	["classpower:current-max"] = {category = "Classpower", description = "Displays the unit's current and max amount of special power, separated by a dash"},
-	["classpower:current-max-percent"] = {category = "Classpower", description = "Displays the unit's current and max amount of special power, separated by a dash (% when not full power)"},
-	["classpower:current-percent"] = {category = "Classpower", description = "Displays the unit's current and percentage amount of special power separated by a dash"},
-	["classpower:deficit"] = {category = "Classpower", description = "Displays the unit's special power as a deficit (Total Special Power - Current Special Power = -Deficit)"},
-	["classpower:percent"] = {category = "Classpower", description = "Displays the unit's current amount of special power as a percentage"},
-	--Altpower
-	["altpower:current"] = {category = "Altpower", description = "Displays altpower text on a unit in current format"},
-	["altpower:current-max"] = {category = "Altpower", description = "Displays altpower text on a unit in current-max format"},
-	["altpower:current-max-percent"] = {category = "Altpower", description = "Displays altpower text on a unit in current-max-percent format"},
-	["altpower:current-percent"] = {category = "Altpower", description = "Displays altpower text on a unit in current-max format"},
-	["altpower:deficit"] = {category = "Altpower", description = "Displays altpower text on a unit in deficit format"},
-	["altpower:percent"] = {category = "Altpower", description = "Displays altpower text on a unit in percent format"},
 	--Quest
 	["quest:info"] = {category = "Quest", description = "Displays the quest objectives"},
 	["quest:title"] = {category = "Quest", description = "Displays the quest title"},
@@ -1117,17 +1124,12 @@ E.TagInfo = {
 	["threat"] = {category = "Threat", description = "Displays the current threat"},
 	["threat:percent"] = {category = "Threat", description = "Displays the current threat as a percent"},
 	["threat:current"] = {category = "Threat", description = "Displays the current threat as a value"},
-	--Miscellanous
-	["affix"] = {category = "Miscellanous", description = "Displays low level critter mobs"},
-	["class"] = {category = "Miscellanous", description = "Displays the class of the unit, if that unit is a player"},
-	["race"] = {category = "Miscellanous", description = "Displays the race"},
-	["smartclass"] = {category = "Miscellanous", description = "Displays the player's class or creature's type"},
 }
 
 function E:AddTagInfo(tagName, category, description, order)
 	if order then order = tonumber(order) + 10 end
 	E.TagInfo[tagName] = E.TagInfo[tagName] or {}
-	E.TagInfo[tagName].category = category or "Miscellanous"
+	E.TagInfo[tagName].category = category or "Miscellaneous"
 	E.TagInfo[tagName].description = description or ""
 	E.TagInfo[tagName].order = order or nil
 end

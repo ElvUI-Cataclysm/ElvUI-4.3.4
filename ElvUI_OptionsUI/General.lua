@@ -147,7 +147,8 @@ E.Options.args.general = {
 						E:StaticPopup_Show("CONFIG_RL")
 					end,
 					values = {
-						["CHINESE"] = "Chinese (W, Y)",
+						["TCHINESE"] = "Traditional Chinese (萬, 億)",
+						["CHINESE"] = "Simplified Chinese (万, 亿)",
 						["ENGLISH"] = "English (K, M, B)",
 						["GERMAN"] = "German (Tsd, Mio, Mrd)",
 						["KOREAN"] = "Korean (천, 만, 억)",
@@ -766,7 +767,7 @@ E.Options.args.general = {
 							order = 1,
 							type = "toggle",
 							name = L["Auto Hide"],
-							desc = L["Automatically hide the objetive frame during boss or arena fights."],
+							desc = L["Automatically hide the objective frame during boss or arena fights."],
 							set = function(info, value) E.db.general.watchFrameAutoHide = value Blizzard:SetObjectiveFrameAutoHide() end
 						},
 						watchFrameHeight = {
