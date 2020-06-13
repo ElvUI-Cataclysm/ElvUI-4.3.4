@@ -1676,6 +1676,16 @@ P.unitframe = {
 				yOffset = 0,
 				scale = 0.8
 			},
+			CombatIcon = {
+				enable = true,
+				defaultColor = true,
+				color = {r = 1, g = 0.2, b = 0.2, a = 1},
+				anchorPoint = "CENTER",
+				xOffset = 0,
+				yOffset = 0,
+				size = 20,
+				texture = "DEFAULT"
+			},
 			pvpIcon = {
 				enable = false,
 				anchorPoint = "CENTER",
@@ -2182,6 +2192,16 @@ P.unitframe = {
 				xOffset = 0,
 				yOffset = 0,
 				attachTextTo = "Health"
+			},
+			CombatIcon = {
+				enable = true,
+				defaultColor = true,
+				color = {r = 1, g = 0.2, b = 0.2, a = 1},
+				anchorPoint = "CENTER",
+				xOffset = 0,
+				yOffset = 0,
+				size = 20,
+				texture = "DEFAULT"
 			},
 			portrait = {
 				enable = false,

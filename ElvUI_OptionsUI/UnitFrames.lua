@@ -2945,6 +2945,109 @@ local function GetOptionsTable_ComboBar(updateFunc, groupName)
 	return config
 end
 
+local function GetOptionsTable_CombatIconGroup(updateFunc, groupName, numUnits)
+	local config = {
+		type = "group",
+		name = L["Combat Icon"],
+		get = function(info) return E.db.unitframe.units[groupName].CombatIcon[info[#info]] end,
+		set = function(info, value) E.db.unitframe.units[groupName].CombatIcon[info[#info]] = value updateFunc(UF, groupName, numUnits) UF:TestingDisplay_CombatIndicator(UF[groupName]) end,
+		args = {
+			enable = {
+				order = 1,
+				type = "toggle",
+				name = L["ENABLE"]
+			},
+			defaultColor = {
+				order = 2,
+				type = "toggle",
+				name = L["Default Color"]
+			},
+			color = {
+				order = 3,
+				type = "color",
+				name = L["COLOR"],
+				hasAlpha = true,
+				disabled = function()
+					return E.db.unitframe.units[groupName].CombatIcon.defaultColor
+				end,
+				get = function()
+					local c = E.db.unitframe.units[groupName].CombatIcon.color
+					local d = P.unitframe.units[groupName].CombatIcon.color
+					return c.r, c.g, c.b, c.a, d.r, d.g, d.b, d.a
+				end,
+				set = function(_, r, g, b, a)
+					local c = E.db.unitframe.units[groupName].CombatIcon.color
+					c.r, c.g, c.b, c.a = r, g, b, a
+					updateFunc(UF, groupName, numUnits)
+					UF:TestingDisplay_CombatIndicator(UF[groupName])
+				end
+			},
+			size = {
+				order = 4,
+				type = "range",
+				name = L["Size"],
+				min = 10, max = 60, step = 1
+			},
+			xOffset = {
+				order = 5,
+				type = "range",
+				name = L["X-Offset"],
+				min = -100, max = 100, step = 1
+			},
+			yOffset = {
+				order = 6,
+				type = "range",
+				name = L["Y-Offset"],
+				min = -100, max = 100, step = 1
+			},
+			spacer2 = {
+				order = 7,
+				type = "description",
+				name = " "
+			},
+			anchorPoint = {
+				order = 8,
+				type = "select",
+				name = L["Anchor Point"],
+				values = positionValues
+			},
+			texture = {
+				order = 9,
+				type = "select",
+				sortByValue = true,
+				name = L["Texture"],
+				values = {
+					["CUSTOM"] = L["CUSTOM"],
+					["DEFAULT"] = L["DEFAULT"],
+					["COMBAT"] = E:TextureString(E.Media.Textures.Combat, ":14"),
+					["PLATINUM"] = [[|TInterface\Challenges\ChallengeMode_Medal_Platinum:14|t]],
+					["ATTACK"] = [[|TInterface\CURSOR\Attack:14|t]],
+					["ALERT"] = [[|TInterface\DialogFrame\UI-Dialog-Icon-AlertNew:14|t]],
+					["ALERT2"] = [[|TInterface\OptionsFrame\UI-OptionsFrame-NewFeatureIcon:14|t]],
+					["ARTHAS"] =[[|TInterface\LFGFRAME\UI-LFR-PORTRAIT:14|t]],
+					["SKULL"] = [[|TInterface\LootFrame\LootPanel-Icon:14|t]]
+				}
+			},
+			customTexture = {
+				order = 10,
+				type = "input",
+				customWidth = 250,
+				name = L["Custom Texture"],
+				disabled = function()
+					return E.db.unitframe.units[groupName].CombatIcon.texture ~= "CUSTOM"
+				end,
+				set = function(_, value)
+					E.db.unitframe.units[groupName].CombatIcon.customTexture = (value and (not value:match("^%s-$")) and value) or nil
+					updateFunc(UF, groupName, numUnits)
+					UF:TestingDisplay_CombatIndicator(UF[groupName])
+				end
+			}
+		}
+	}
+
+	return config
+end
+
 local function GetOptionsTable_GPS(groupName)
 	local config = {
 		type = "group",
@@ -4343,102 +4446,6 @@ E.Options.args.unitframe.args.individualUnits.args.player = {
 				}
 			}
 		},
-		CombatIcon = {
-			type = "group",
-			name = L["Combat Icon"],
-			get = function(info) return E.db.unitframe.units.player.CombatIcon[info[#info]] end,
-			set = function(info, value) E.db.unitframe.units.player.CombatIcon[info[#info]] = value UF:CreateAndUpdateUF("player") end,
-			args = {
-				enable = {
-					order = 1,
-					type = "toggle",
-					name = L["ENABLE"]
-				},
-				defaultColor = {
-					order = 2,
-					type = "toggle",
-					name = L["Default Color"]
-				},
-				color = {
-					order = 3,
-					type = "color",
-					name = L["COLOR"],
-					hasAlpha = true,
-					disabled = function()
-						return E.db.unitframe.units.player.CombatIcon.defaultColor
-					end,
-					get = function()
-						local c = E.db.unitframe.units.player.CombatIcon.color
-						local d = P.unitframe.units.player.CombatIcon.color
-						return c.r, c.g, c.b, c.a, d.r, d.g, d.b, d.a
-					end,
-					set = function(_, r, g, b, a)
-						local c = E.db.unitframe.units.player.CombatIcon.color
-						c.r, c.g, c.b, c.a = r, g, b, a
-						UF:CreateAndUpdateUF("player")
-					end
-				},
-				size = {
-					order = 4,
-					type = "range",
-					name = L["Size"],
-					min = 10, max = 60, step = 1
-				},
-				xOffset = {
-					order = 5,
-					type = "range",
-					name = L["X-Offset"],
-					min = -100, max = 100, step = 1
-				},
-				yOffset = {
-					order = 6,
-					type = "range",
-					name = L["Y-Offset"],
-					min = -100, max = 100, step = 1
-				},
-				spacer2 = {
-					order = 7,
-					type = "description",
-					name = " "
-				},
-				anchorPoint = {
-					order = 8,
-					type = "select",
-					name = L["Anchor Point"],
-					values = positionValues
-				},
-				texture = {
-					order = 9,
-					type = "select",
-					sortByValue = true,
-					name = L["Texture"],
-					values = {
-						["CUSTOM"] = L["CUSTOM"],
-						["DEFAULT"] = L["DEFAULT"],
-						["COMBAT"] = E:TextureString(E.Media.Textures.Combat, ":14"),
-						["PLATINUM"] = [[|TInterface\Challenges\ChallengeMode_Medal_Platinum:14|t]],
-						["ATTACK"] = [[|TInterface\CURSOR\Attack:14|t]],
-						["ALERT"] = [[|TInterface\DialogFrame\UI-Dialog-Icon-AlertNew:14|t]],
-						["ALERT2"] = [[|TInterface\OptionsFrame\UI-OptionsFrame-NewFeatureIcon:14|t]],
-						["ARTHAS"] =[[|TInterface\LFGFRAME\UI-LFR-PORTRAIT:14|t]],
-						["SKULL"] = [[|TInterface\LootFrame\LootPanel-Icon:14|t]]
-					}
-				},
-				customTexture = {
-					order = 10,
-					type = "input",
-					customWidth = 250,
-					name = L["Custom Texture"],
-					disabled = function()
-						return E.db.unitframe.units.player.CombatIcon.texture ~= "CUSTOM"
-					end,
-					set = function(_, value)
-						E.db.unitframe.units.player.CombatIcon.customTexture = (value and (not value:match("^%s-$")) and value) or nil
-						UF:CreateAndUpdateUF("player")
-					end
-				}
-			}
-		},
 		pvpText = {
 			type = "group",
 			name = L["PvP Text"],
@@ -4463,6 +4470,7 @@ E.Options.args.unitframe.args.individualUnits.args.player = {
 		aurabar = GetOptionsTable_AuraBars(UF.CreateAndUpdateUF, "player"),
 		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "player"),
 		castbar = GetOptionsTable_Castbar(true, UF.CreateAndUpdateUF, "player"),
+		CombatIcon = GetOptionsTable_CombatIconGroup(UF.CreateAndUpdateUF, "player"),
 		classbar = GetOptionsTable_ClassBar(UF.CreateAndUpdateUF, "player"),
 		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUF, "player"),
 		cutaway = GetOptionsTable_Cutaway(UF.CreateAndUpdateUF, "player"),
@@ -4601,6 +4609,7 @@ E.Options.args.unitframe.args.individualUnits.args.target = {
 		aurabar = GetOptionsTable_AuraBars(UF.CreateAndUpdateUF, "target"),
 		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "target"),
 		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, "target"),
+		CombatIcon = GetOptionsTable_CombatIconGroup(UF.CreateAndUpdateUF, "player"),
 		combobar = GetOptionsTable_ComboBar(UF.CreateAndUpdateUF, "target"),
 		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUF, "target"),
 		cutaway = GetOptionsTable_Cutaway(UF.CreateAndUpdateUF, "target"),
@@ -4963,6 +4972,7 @@ E.Options.args.unitframe.args.individualUnits.args.focus = {
 		--buffIndicator = GetOptionsTable_AuraWatch(UF.CreateAndUpdateUF, "focus"),
 		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "focus"),
 		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, "focus"),
+		CombatIcon = GetOptionsTable_CombatIconGroup(UF.CreateAndUpdateUF, "player"),
 		customText = GetOptionsTable_CustomText(UF.CreateAndUpdateUF, "focus"),
 		cutaway = GetOptionsTable_Cutaway(UF.CreateAndUpdateUF, "focus"),
 		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "focus"),

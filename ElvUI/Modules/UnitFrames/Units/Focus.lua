@@ -30,6 +30,7 @@ function UF:Construct_FocusFrame(frame)
 	frame.DebuffHighlight = self:Construct_DebuffHighlight(frame)
 	frame.Fader = self:Construct_Fader()
 	frame.Cutaway = self:Construct_Cutaway(frame)
+	frame.CombatIndicator = UF:Construct_CombatIndicator(frame)
 
 	frame.customTexts = {}
 	frame:Point("BOTTOMRIGHT", ElvUF_Target, "TOPRIGHT", 0, 220)
@@ -88,6 +89,7 @@ function UF:Update_FocusFrame(frame, db)
 	UF:Configure_Cutaway(frame)
 	UF:Configure_CustomTexts(frame)
 	UF:Configure_DebuffHighlight(frame)
+	UF:Configure_CombatIndicator(frame)
 
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
 end

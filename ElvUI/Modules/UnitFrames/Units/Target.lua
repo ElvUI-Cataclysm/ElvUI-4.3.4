@@ -43,6 +43,7 @@ function UF:Construct_TargetFrame(frame)
 	frame.PvPIndicator = self:Construct_PvPIcon(frame)
 	frame.Fader = self:Construct_Fader()
 	frame.Cutaway = self:Construct_Cutaway(frame)
+	frame.CombatIndicator = UF:Construct_CombatIndicator(frame)
 	frame.customTexts = {}
 
 	frame:Point("BOTTOMRIGHT", E.UIParent, "BOTTOM", 413, 68)
@@ -120,6 +121,7 @@ function UF:Update_TargetFrame(frame, db)
 	UF:Configure_PVPIcon(frame)
 	UF:Configure_Cutaway(frame)
 	UF:Configure_CustomTexts(frame)
+	UF:Configure_CombatIndicator(frame)
 
 	E:SetMoverSnapOffset(frame:GetName().."Mover", -(12 + db.castbar.height))
 	frame:UpdateAllElements("ElvUI_UpdateAllElements")
