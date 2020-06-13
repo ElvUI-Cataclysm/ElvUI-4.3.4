@@ -867,7 +867,7 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 				order = 4,
 				type = "range",
 				name = L["Height"],
-				min = 10, max = 85, step = 1,
+				min = 5, max = 85, step = 1,
 			},
 			matchsize = {
 				order = 5,
@@ -1085,6 +1085,7 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 						order = 4,
 						type = "select",
 						name = L["Attach To"],
+						desc = L["The object you want to attach to."],
 						disabled = function() return E.db.unitframe.units[groupName].castbar.iconAttached end,
 						values = {
 							["Frame"] = L["Frame"],
@@ -1153,6 +1154,40 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 			}
 		}
 	}
+
+	if groupName == "party" then
+		config.args.positionsGroup = {
+			order = 19,
+			type = "group",
+			name = L["Position"],
+			get = function(info) return E.db.unitframe.units[groupName].castbar.positionsGroup[info[#info]] end,
+			set = function(info, value) E.db.unitframe.units[groupName].castbar.positionsGroup[info[#info]] = value updateFunc(UF, groupName, numUnits) end,
+			guiInline = true,
+			args = {
+				anchorPoint = {
+					type = "select",
+					order = 4,
+					name = L["Anchor Point"],
+					desc = L["What point to anchor to the frame you set to attach to."],
+					values = positionValues
+				},
+				xOffset = {
+					order = 5,
+					type = "range",
+					name = L["X-Offset"],
+					desc = L["An X offset (in pixels) to be used when anchoring new frames."],
+					min = -500, max = 500, step = 1
+				},
+				yOffset = {
+					order = 6,
+					type = "range",
+					name = L["Y-Offset"],
+					desc = L["An Y offset (in pixels) to be used when anchoring new frames."],
+					min = -500, max = 500, step = 1
+				}
+			}
+		}
+	end
 
 	if hasTicks then
 		config.args.displayTarget = {

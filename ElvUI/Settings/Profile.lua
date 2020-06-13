@@ -3312,6 +3312,11 @@ P.unitframe = {
 				xOffsetTime = -4,
 				yOffsetTime = 0,
 				overlayOnFrame = "None",
+				positionsGroup = {
+					anchorPoint = "BOTTOM",
+					xOffset = 0,
+					yOffset = 0
+				},
 				strataAndLevel = {
 					useCustomStrata = false,
 					frameStrata = "LOW",
