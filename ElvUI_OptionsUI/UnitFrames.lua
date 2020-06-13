@@ -852,22 +852,27 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 		set = function(info, value) E.db.unitframe.units[groupName].castbar[info[#info]] = value updateFunc(UF, groupName, numUnits) end,
 		args = {
 			enable = {
+				order = 1,
+				type = "toggle",
+				name = L["ENABLE"]
+			},
+			reverse = {
 				order = 2,
 				type = "toggle",
-				name = L["ENABLE"],
+				name = L["Reverse"]
 			},
 			width = {
 				order = 3,
 				type = "range",
 				name = L["Width"],
 				softMax = 600,
-				min = 50, max = GetScreenWidth(), step = 1,
+				min = 50, max = GetScreenWidth(), step = 1
 			},
 			height = {
 				order = 4,
 				type = "range",
 				name = L["Height"],
-				min = 5, max = 85, step = 1,
+				min = 5, max = 85, step = 1
 			},
 			matchsize = {
 				order = 5,
