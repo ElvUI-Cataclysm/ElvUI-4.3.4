@@ -971,8 +971,14 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 				desc = L["How many seconds the castbar should stay visible after the cast failed or was interrupted."],
 				min = 0, max = 10, step = .1
 			},
-			overlayOnFrame = {
+			displayTarget = {
 				order = 12,
+				type = "toggle",
+				name = L["Display Target"],
+				desc = L["Display the target of current cast."]
+			},
+			overlayOnFrame = {
+				order = 13,
 				type = "select",
 				name = L["Attach To"],
 				desc = L["The object you want to attach to."],
@@ -984,7 +990,7 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 				}
 			},
 			textGroup = {
-				order = 13,
+				order = 14,
 				type = "group",
 				name = L["Text"],
 				guiInline = true,
@@ -1060,7 +1066,7 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 				}
 			},
 			iconSettings = {
-				order = 14,
+				order = 15,
 				type = "group",
 				name = L["Icon"],
 				guiInline = true,
@@ -1121,7 +1127,7 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 				}
 			},
 			strataAndLevel = {
-				order = 15,
+				order = 16,
 				type = "group",
 				name = L["Strata and Level"],
 				get = function(info) return E.db.unitframe.units[groupName].castbar.strataAndLevel[info[#info]] end,
@@ -1195,12 +1201,6 @@ local function GetOptionsTable_Castbar(hasTicks, updateFunc, groupName, numUnits
 	end
 
 	if hasTicks then
-		config.args.displayTarget = {
-			order = 12.1,
-			type = "toggle",
-			name = L["Display Target"],
-			desc = L["Display the target of your current cast. Useful for mouseover casts."]
-		}
 		config.args.ticks = {
 			order = 20,
 			type = "group",
