@@ -1594,6 +1594,12 @@ P.unitframe = {
 				attachToObject = "Frame",
 				xOffset = 0,
 				yOffset = 0
+			},
+			strataAndLevel = {
+				useCustomStrata = false,
+				frameStrata = "LOW",
+				useCustomLevel = false,
+				frameLevel = 1
 			}
 		},
 		target = {
@@ -1857,6 +1863,12 @@ P.unitframe = {
 				attachToObject = "Frame",
 				xOffset = 0,
 				yOffset = 0
+			},
+			strataAndLevel = {
+				useCustomStrata = false,
+				frameStrata = "LOW",
+				useCustomLevel = false,
+				frameLevel = 1
 			}
 		},
 		targettarget = {
@@ -1994,6 +2006,12 @@ P.unitframe = {
 					lengthBeforeFade = 0.3,
 					forceBlankTexture = true
 				}
+			},
+			strataAndLevel = {
+				useCustomStrata = false,
+				frameStrata = "LOW",
+				useCustomLevel = false,
+				frameLevel = 1
 			}
 		},
 		targettargettarget = {
@@ -2130,6 +2148,12 @@ P.unitframe = {
 					lengthBeforeFade = 0.3,
 					forceBlankTexture = true
 				}
+			},
+			strataAndLevel = {
+				useCustomStrata = false,
+				frameStrata = "LOW",
+				useCustomLevel = false,
+				frameLevel = 1
 			}
 		},
 		focus = {
@@ -2338,6 +2362,12 @@ P.unitframe = {
 					lengthBeforeFade = 0.3,
 					forceBlankTexture = true
 				}
+			},
+			strataAndLevel = {
+				useCustomStrata = false,
+				frameStrata = "LOW",
+				useCustomLevel = false,
+				frameLevel = 1
 			}
 		},
 		focustarget = {
@@ -2474,6 +2504,12 @@ P.unitframe = {
 					lengthBeforeFade = 0.3,
 					forceBlankTexture = true
 				}
+			},
+			strataAndLevel = {
+				useCustomStrata = false,
+				frameStrata = "LOW",
+				useCustomLevel = false,
+				frameLevel = 1
 			}
 		},
 		pet = {
@@ -2658,6 +2694,12 @@ P.unitframe = {
 					lengthBeforeFade = 0.3,
 					forceBlankTexture = true
 				}
+			},
+			strataAndLevel = {
+				useCustomStrata = false,
+				frameStrata = "LOW",
+				useCustomLevel = false,
+				frameLevel = 1
 			}
 		},
 		pettarget = {
@@ -2786,6 +2828,12 @@ P.unitframe = {
 					lengthBeforeFade = 0.3,
 					forceBlankTexture = true
 				}
+			},
+			strataAndLevel = {
+				useCustomStrata = false,
+				frameStrata = "LOW",
+				useCustomLevel = false,
+				frameLevel = 1
 			}
 		},
 		boss = {

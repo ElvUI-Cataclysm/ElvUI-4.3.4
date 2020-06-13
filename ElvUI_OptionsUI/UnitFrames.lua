@@ -3088,6 +3088,48 @@ local function GetOptionsTable_CombatIconGroup(updateFunc, groupName, numUnits)
 	return config
 end
 
+local function GetOptionsTable_StrataAndFrameLevel(updateFunc, groupName, numUnits)
+	local config = {
+		type = "group",
+		name = L["Strata and Level"],
+		get = function(info) return E.db.unitframe.units[groupName].strataAndLevel[info[#info]] end,
+		set = function(info, value) E.db.unitframe.units[groupName].strataAndLevel[info[#info]] = value updateFunc(UF, groupName, numUnits) end,
+		args = {
+			useCustomStrata = {
+				order = 1,
+				type = "toggle",
+				name = L["Use Custom Strata"]
+			},
+			frameStrata = {
+				order = 2,
+				type = "select",
+				name = L["Frame Strata"],
+				values = strataValues,
+				disabled = function() return not E.db.unitframe.units[groupName].strataAndLevel.useCustomStrata end
+			},
+			spacer = {
+				order = 3,
+				type = "description",
+				name = ""
+			},
+			useCustomLevel = {
+				order = 4,
+				type = "toggle",
+				name = L["Use Custom Level"]
+			},
+			frameLevel = {
+				order = 5,
+				type = "range",
+				name = L["Frame Level"],
+				min = 2, max = 128, step = 1,
+				disabled = function() return not E.db.unitframe.units[groupName].strataAndLevel.useCustomLevel end
+			}
+		}
+	}
+
+	return config
+end
+
 local function GetOptionsTable_GPS(groupName)
 	local config = {
 		type = "group",
@@ -4525,7 +4567,8 @@ E.Options.args.unitframe.args.individualUnits.args.player = {
 		pvpIcon = GetOptionsTable_PVPIcon(UF.CreateAndUpdateUF, "player"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "player"),
 		raidRoleIcons = GetOptionsTable_RaidRoleIcons(UF.CreateAndUpdateUF, "player"),
-		resurrectIcon = GetOptionsTable_ResurrectIcon(UF.CreateAndUpdateUF, "player")
+		resurrectIcon = GetOptionsTable_ResurrectIcon(UF.CreateAndUpdateUF, "player"),
+		strataAndLevel = GetOptionsTable_StrataAndFrameLevel(UF.CreateAndUpdateUF, "player")
 	}
 }
 
@@ -4666,7 +4709,8 @@ E.Options.args.unitframe.args.individualUnits.args.target = {
 		pvpIcon = GetOptionsTable_PVPIcon(UF.CreateAndUpdateUF, "target"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "target"),
 		raidRoleIcons = GetOptionsTable_RaidRoleIcons(UF.CreateAndUpdateUF, "target"),
-		resurrectIcon = GetOptionsTable_ResurrectIcon(UF.CreateAndUpdateUF, "target")
+		resurrectIcon = GetOptionsTable_ResurrectIcon(UF.CreateAndUpdateUF, "target"),
+		strataAndLevel = GetOptionsTable_StrataAndFrameLevel(UF.CreateAndUpdateUF, "target")
 	}
 }
 
@@ -4786,7 +4830,8 @@ E.Options.args.unitframe.args.individualUnits.args.targettarget = {
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "targettarget"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "targettarget"),
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateUF, "targettarget"),
-		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "targettarget")
+		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "targettarget"),
+		strataAndLevel = GetOptionsTable_StrataAndFrameLevel(UF.CreateAndUpdateUF, "targettarget")
 	}
 }
 
@@ -4903,6 +4948,7 @@ E.Options.args.unitframe.args.individualUnits.args.targettargettarget = {
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "targettargettarget"),
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateUF, "targettargettarget"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "targettargettarget"),
+		strataAndLevel = GetOptionsTable_StrataAndFrameLevel(UF.CreateAndUpdateUF, "targettargettarget"),
 	}
 }
 
@@ -5025,6 +5071,7 @@ E.Options.args.unitframe.args.individualUnits.args.focus = {
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "focus"),
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateUF, "focus"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "focus"),
+		strataAndLevel = GetOptionsTable_StrataAndFrameLevel(UF.CreateAndUpdateUF, "focus")
 	}
 }
 
@@ -5140,7 +5187,8 @@ E.Options.args.unitframe.args.individualUnits.args.focustarget = {
 		buffs = GetOptionsTable_Auras("buffs", false, UF.CreateAndUpdateUF, "focustarget"),
 		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "focustarget"),
 		raidicon = GetOptionsTable_RaidIcon(UF.CreateAndUpdateUF, "focustarget"),
-		cutaway = GetOptionsTable_Cutaway(UF.CreateAndUpdateUF, "focustarget")
+		cutaway = GetOptionsTable_Cutaway(UF.CreateAndUpdateUF, "focustarget"),
+		strataAndLevel = GetOptionsTable_StrataAndFrameLevel(UF.CreateAndUpdateUF, "focustarget")
 	}
 }
 
@@ -5259,7 +5307,8 @@ E.Options.args.unitframe.args.individualUnits.args.pet = {
 		debuffs = GetOptionsTable_Auras("debuffs", false, UF.CreateAndUpdateUF, "pet"),
 		castbar = GetOptionsTable_Castbar(false, UF.CreateAndUpdateUF, "pet"),
 		aurabar = GetOptionsTable_AuraBars(UF.CreateAndUpdateUF, "pet"),
-		cutaway = GetOptionsTable_Cutaway(UF.CreateAndUpdateUF, "pet")
+		cutaway = GetOptionsTable_Cutaway(UF.CreateAndUpdateUF, "pet"),
+		strataAndLevel = GetOptionsTable_StrataAndFrameLevel(UF.CreateAndUpdateUF, "pet")
 	}
 }
 
@@ -5375,6 +5424,7 @@ E.Options.args.unitframe.args.individualUnits.args.pettarget = {
 		name = GetOptionsTable_Name(UF.CreateAndUpdateUF, "pettarget"),
 		portrait = GetOptionsTable_Portrait(UF.CreateAndUpdateUF, "pettarget"),
 		power = GetOptionsTable_Power(false, UF.CreateAndUpdateUF, "pettarget"),
+		strataAndLevel = GetOptionsTable_StrataAndFrameLevel(UF.CreateAndUpdateUF, "pettarget")
 	}
 }
 
