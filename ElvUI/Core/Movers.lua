@@ -360,7 +360,7 @@ end
 function E:ToggleMovers(show, moverType)
 	self.configMode = show
 
-	for name, holder in pairs(E.CreatedMovers) do
+	for _, holder in pairs(E.CreatedMovers) do
 		if show and holder.type[moverType] then
 			holder.mover:Show()
 		else
@@ -380,7 +380,7 @@ function E:DisableMover(name)
 
 	local holder = self.CreatedMovers[name]
 	if not holder then
-		error(format('mover %s doesnt exist', name or 'nil'))
+		error(format("mover %s doesnt exist", name or "nil"))
 	end
 
 	self.DisabledMovers[name] = {}
@@ -400,7 +400,7 @@ function E:EnableMover(name)
 
 	local holder = self.DisabledMovers[name]
 	if not holder then
-		error(format('mover %s doesnt exist', name or 'nil'))
+		error(format("mover %s doesnt exist", name or "nil"))
 	end
 
 	self.CreatedMovers[name] = {}

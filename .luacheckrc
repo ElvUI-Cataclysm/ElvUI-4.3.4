@@ -74,7 +74,7 @@ globals = {
 	"DatatextTooltip",
 	"DatatextTooltipTextLeft1",
 	"DatatextTooltipTextRight1",
-	"DebufsfMover",
+	"DebuffsMover",
 	"DisbandRaidButton",
 	"DurabilityFrameHolder",
 	"FarmMode",
