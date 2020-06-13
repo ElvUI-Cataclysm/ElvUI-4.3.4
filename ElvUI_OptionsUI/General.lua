@@ -203,61 +203,84 @@ E.Options.args.general = {
 					name = L["Font"],
 					guiInline = true,
 					args = {
-						font = {
+						main = {
 							order = 1,
-							type = "select", dialogControl = "LSM30_Font",
-							name = L["Default Font"],
-							desc = L["The font that the core of the UI will use."],
-							values = AceGUIWidgetLSMlists.font,
-							set = function(info, value) E.db.general[info[#info]] = value E:UpdateMedia() E:UpdateFontTemplates() end
+							type = "group",
+							name = " ",
+							args = {
+								font = {
+									order = 1,
+									type = "select", dialogControl = "LSM30_Font",
+									name = L["Default Font"],
+									desc = L["The font that the core of the UI will use."],
+									values = AceGUIWidgetLSMlists.font,
+									set = function(info, value) E.db.general[info[#info]] = value E:UpdateMedia() E:UpdateFontTemplates() end
+								},
+								fontSize = {
+									order = 2,
+									type = "range",
+									name = L["FONT_SIZE"],
+									desc = L["Set the font size for everything in UI. Note: This doesn't effect somethings that have their own seperate options (UnitFrame Font, Datatext Font, ect..)"],
+									min = 4, max = 32, step = 1,
+									set = function(info, value) E.db.general[info[#info]] = value E:UpdateMedia() E:UpdateFontTemplates() end
+								},
+								fontStyle = {
+									order = 3,
+									type = "select",
+									name = L["Font Outline"],
+									values = C.Values.FontFlags,
+									set = function(info, value) E.db.general[info[#info]] = value E:UpdateMedia() E:UpdateFontTemplates() end
+								},
+								applyFontToAll = {
+									order = 4,
+									type = "execute",
+									name = L["Apply Font To All"],
+									desc = L["Applies the font and font size settings throughout the entire user interface. Note: Some font size settings will be skipped due to them having a smaller font size by default."],
+									func = function() E:StaticPopup_Show("APPLY_FONT_WARNING") end
+								},
+								replaceBlizzFonts = {
+									order = 5,
+									type = "toggle",
+									name = L["Replace Blizzard Fonts"],
+									desc = L["Replaces the default Blizzard fonts on various panels and frames with the fonts chosen in the Media section of the ElvUI Options. NOTE: Any font that inherits from the fonts ElvUI usually replaces will be affected as well if you disable this. Enabled by default."],
+									get = function(info) return E.private.general[info[#info]] end,
+									set = function(info, value) E.private.general[info[#info]] = value E:StaticPopup_Show("PRIVATE_RL") end
+								}
+							}
 						},
-						fontSize = {
+						replaceCombatFont = {
 							order = 2,
-							type = "range",
-							name = L["FONT_SIZE"],
-							desc = L["Set the font size for everything in UI. Note: This doesn't effect somethings that have their own seperate options (UnitFrame Font, Datatext Font, ect..)"],
-							min = 4, max = 32, step = 1,
-							set = function(info, value) E.db.general[info[#info]] = value E:UpdateMedia() E:UpdateFontTemplates() end
-						},
-						fontStyle = {
-							order = 3,
-							type = "select",
-							name = L["Font Outline"],
-							values = C.Values.FontFlags,
-							set = function(info, value) E.db.general[info[#info]] = value E:UpdateMedia() E:UpdateFontTemplates() end
-						},
-						applyFontToAll = {
-							order = 4,
-							type = "execute",
-							name = L["Apply Font To All"],
-							desc = L["Applies the font and font size settings throughout the entire user interface. Note: Some font size settings will be skipped due to them having a smaller font size by default."],
-							func = function() E:StaticPopup_Show("APPLY_FONT_WARNING") end
+							type = "toggle",
+							name = L["Replace Combat Font"],
+							get = function(info) return E.private.general[info[#info]] end,
+							set = function(info, value) E.private.general[info[#info]] = value E:StaticPopup_Show("PRIVATE_RL") end
 						},
 						dmgfont = {
-							order = 5,
+							order = 3,
 							type = "select", dialogControl = "LSM30_Font",
 							name = L["CombatText Font"],
 							desc = L["The font that combat text will use. |cffFF0000WARNING: This requires a game restart or re-log for this change to take effect.|r"],
 							values = AceGUIWidgetLSMlists.font,
 							get = function(info) return E.private.general[info[#info]] end,
-							set = function(info, value) E.private.general[info[#info]] = value E:UpdateMedia() E:UpdateFontTemplates() E:StaticPopup_Show("PRIVATE_RL") end
+							set = function(info, value) E.private.general[info[#info]] = value E:UpdateMedia() E:UpdateFontTemplates() E:StaticPopup_Show("PRIVATE_RL") end,
+							disabled = function() return not E.private.general.replaceCombatFont end
+						},
+						replaceNameFont = {
+							order = 4,
+							type = "toggle",
+							name = L["Replace Name Font"],
+							get = function(info) return E.private.general[info[#info]] end,
+							set = function(info, value) E.private.general[info[#info]] = value E:StaticPopup_Show("PRIVATE_RL") end
 						},
 						namefont = {
-							order = 6,
+							order = 5,
 							type = "select", dialogControl = "LSM30_Font",
 							name = L["Name Font"],
 							desc = L["The font that appears on the text above players heads. |cffFF0000WARNING: This requires a game restart or re-log for this change to take effect.|r"],
 							values = AceGUIWidgetLSMlists.font,
 							get = function(info) return E.private.general[info[#info]] end,
-							set = function(info, value) E.private.general[info[#info]] = value E:UpdateMedia() E:UpdateFontTemplates() E:StaticPopup_Show("PRIVATE_RL") end
-						},
-						replaceBlizzFonts = {
-							order = 7,
-							type = "toggle",
-							name = L["Replace Blizzard Fonts"],
-							desc = L["Replaces the default Blizzard fonts on various panels and frames with the fonts chosen in the Media section of the ElvUI Options. NOTE: Any font that inherits from the fonts ElvUI usually replaces will be affected as well if you disable this. Enabled by default."],
-							get = function(info) return E.private.general[info[#info]] end,
-							set = function(info, value) E.private.general[info[#info]] = value E:StaticPopup_Show("PRIVATE_RL") end
+							set = function(info, value) E.private.general[info[#info]] = value E:UpdateMedia() E:UpdateFontTemplates() E:StaticPopup_Show("PRIVATE_RL") end,
+							disabled = function() return not E.private.general.replaceNameFont end
 						}
 					}
 				},

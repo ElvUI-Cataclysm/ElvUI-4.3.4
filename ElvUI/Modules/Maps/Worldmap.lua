@@ -214,9 +214,7 @@ end
 function M:Initialize()
 	local db = E.global.general
 
-	if db.fadeMapWhenMoving and (db.mapAlphaWhenMoving < 1) then
-		self.MovingTimer = self:ScheduleRepeatingTimer("CheckMovement", 0.1)
-	end
+	M:UpdateMapAlpha()
 
 	if db.WorldMapCoordinates.enable then
 		local CoordsHolder = CreateFrame("Frame", "CoordsHolder", WorldMapFrame)
