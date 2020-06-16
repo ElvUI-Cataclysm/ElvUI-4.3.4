@@ -813,7 +813,13 @@ end
 
 ElvUF.Tags.Events["class"] = "UNIT_NAME_UPDATE"
 ElvUF.Tags.Methods["class"] = function(unit)
-	return UnitClass(unit)
+	local _, classToken = UnitClass(unit)
+
+	if UnitSex(unit) == 3 then
+		return LOCALIZED_CLASS_NAMES_FEMALE[classToken]
+	elseif UnitSex(unit) == 2 then
+		return LOCALIZED_CLASS_NAMES_MALE[classToken]
+	end
 end
 
 ElvUF.Tags.Events["name:title"] = "UNIT_NAME_UPDATE INSTANCE_ENCOUNTER_ENGAGE_UNIT"
