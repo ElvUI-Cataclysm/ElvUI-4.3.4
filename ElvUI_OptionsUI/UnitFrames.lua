@@ -1640,7 +1640,7 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 		set = function(info, value) E.db.unitframe.units[groupName].health[info[#info]] = value updateFunc(UF, groupName, numUnits) end,
 		args = {
 			reverseFill = {
-				order = 2,
+				order = 1,
 				type = "toggle",
 				name = L["Reverse Fill"]
 			},
@@ -1668,7 +1668,7 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 				func = function() ACD:SelectGroup("ElvUI", "unitframe", "generalOptionsGroup", "allColorsGroup", "healthGroup") end
 			},
 			textGroup = {
-				order = 7,
+				order = 6,
 				type = "group",
 				name = L["Text Options"],
 				guiInline = true,
@@ -1715,6 +1715,14 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 				["HORIZONTAL"] = L["Horizontal"],
 				["VERTICAL"] = L["Vertical"]
 			}
+		}
+	end
+
+	if groupName == "pet" or groupName == "raidpet" then
+		config.args.colorPetByUnitClass = {
+			order = 2,
+			type = "toggle",
+			name = L["Color by Unit Class"]
 		}
 	end
 
@@ -3227,6 +3235,26 @@ local function GetOptionsTableForNonGroup_GPS(unit)
 	return config
 end
 
+local filterList = {}
+local function modifierList()
+	wipe(filterList)
+
+	filterList["NONE"] = L["NONE"]
+	filterList["Blacklist"] = L["Blacklist"]
+	filterList["Whitelist"] = L["Whitelist"]
+
+	local list = E.global.unitframe.aurafilters
+	if list then
+		for filter in pairs(list) do
+			if not G.unitframe.aurafilters[filter] then
+				filterList[filter] = filter
+			end
+		end
+	end
+
+	return filterList
+end
+
 E.Options.args.unitframe = {
 	order = 2,
 	type = "group",
@@ -3268,26 +3296,8 @@ E.Options.args.unitframe = {
 					name = L["General"],
 					disabled = function() return not E.UnitFrames.Initialized end,
 					args = {
-						auraBlacklistModifier = {
-							order = 1,
-							type = "select",
-							name = L["Blacklist Modifier"],
-							desc = L["You need to hold this modifier down in order to blacklist an aura by right-clicking the icon. Set to None to disable the blacklist functionality."],
-							values = {
-								["NONE"] = L["NONE"],
-								["SHIFT"] = L["SHIFT_KEY"],
-								["ALT"] = L["ALT_KEY"],
-								["CTRL"] = L["CTRL_KEY"]
-							}
-						},
-						spacer1 = {
-							order = 2,
-							type = "description",
-							name = " ",
-							width = "full"
-						},
 						thinBorders = {
-							order = 3,
+							order = 1,
 							type = "toggle",
 							name = L["Thin Borders"],
 							desc = L["Use thin borders on certain unitframe elements."],
@@ -3295,19 +3305,19 @@ E.Options.args.unitframe = {
 							set = function(info, value) E.db.unitframe[info[#info]] = value E:StaticPopup_Show("CONFIG_RL") end
 						},
 						targetOnMouseDown = {
-							order = 4,
+							order = 2,
 							type = "toggle",
 							name = L["Target On Mouse-Down"],
 							desc = L["Target units on mouse down rather than mouse up. \n\n|cffFF0000Warning: If you are using the addon Clique you may have to adjust your Clique settings when changing this."]
 						},
 						targetSound = {
-							order = 5,
+							order = 3,
 							type = "toggle",
 							name = L["Targeting Sound"],
 							desc = L["Enable a sound if you select a unit."]
 						},
 						effectiveGroup = {
-							order = 6,
+							order = 4,
 							type = "group",
 							guiInline = true,
 							name = L["Effective Updates"],
@@ -3375,8 +3385,42 @@ E.Options.args.unitframe = {
 								}
 							}
 						},
+						modifiers = {
+							order = 5,
+							type = "group",
+							name = L["Filter Modifiers"],
+							guiInline = true,
+							get = function(info) return E.db.unitframe.modifiers[info[#info]] end,
+							set = function(info, value) E.db.unitframe.modifiers[info[#info]] = value end,
+							args = {
+								warning = {
+									order = 1,
+									type = "description",
+									fontSize = "medium",
+									name = L["You need to hold this modifier down in order to blacklist an aura by right-clicking the icon. Set to None to disable the blacklist functionality."]
+								},
+								SHIFT = {
+									order = 2,
+									type = "select",
+									name = L["SHIFT"],
+									values = modifierList
+								},
+								ALT = {
+									order = 3,
+									type = "select",
+									name = L["ALT"],
+									values = modifierList
+								},
+								CTRL = {
+									order = 4,
+									type = "select",
+									name = L["CTRL"],
+									values = modifierList
+								}
+							}
+						},
 						barGroup = {
-							order = 8,
+							order = 6,
 							type = "group",
 							guiInline = true,
 							name = L["Bars"],
@@ -3950,8 +3994,20 @@ E.Options.args.unitframe = {
 								}
 							}
 						},
-						auraBars = {
+						auras = {
 							order = 6,
+							type = "group",
+							name = L["Auras"],
+							args = {
+								auraByType = {
+									order = 1,
+									type = "toggle",
+									name = L["By Type"]
+								}
+							}
+						},
+						auraBars = {
+							order = 7,
 							type = "group",
 							name = L["Aura Bars"],
 							args = {
@@ -4075,7 +4131,7 @@ E.Options.args.unitframe = {
 							}
 						},
 						reactionGroup = {
-							order = 7,
+							order = 8,
 							type = "group",
 							name = L["Reactions"],
 							get = function(info)
@@ -4107,7 +4163,7 @@ E.Options.args.unitframe = {
 							}
 						},
 						healPrediction = {
-							order = 8,
+							order = 9,
 							type = "group",
 							name = L["Heal Prediction"],
 							get = function(info)
@@ -4146,7 +4202,7 @@ E.Options.args.unitframe = {
 							}
 						},
 						debuffHighlight = {
-							order = 9,
+							order = 10,
 							type = "group",
 							name = L["Debuff Highlighting"],
 							get = function(info)
@@ -5536,14 +5592,21 @@ E.Options.args.unitframe.args.groupUnits.args.boss = {
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
-				disableMouseoverGlow = {
+				middleClickFocus = {
 					order = 10,
+					type = "toggle",
+					name = L["Middle Click - Set Focus"],
+					desc = L["Middle clicking the unit frame will cause your focus to match the unit."],
+					disabled = function() return IsAddOnLoaded("Clique") end
+				},
+				disableMouseoverGlow = {
+					order = 11,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 11,
+					order = 12,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -5671,6 +5734,13 @@ E.Options.args.unitframe.args.groupUnits.args.arena = {
 						--["MIDDLE"] = L["Middle"], --no way to handle this with trinket
 						["RIGHT"] = L["Right"]
 					}
+				},
+				middleClickFocus = {
+					order = 9,
+					type = "toggle",
+					name = L["Middle Click - Set Focus"],
+					desc = L["Middle clicking the unit frame will cause your focus to match the unit."],
+					disabled = function() return IsAddOnLoaded("Clique") end
 				},
 				disableMouseoverGlow = {
 					order = 10,
@@ -6003,9 +6073,14 @@ E.Options.args.unitframe.args.groupUnits.args.party = {
 			set = function(info, value) E.db.unitframe.units.party.petsGroup[info[#info]] = value UF:CreateAndUpdateHeaderGroup("party") end,
 			args = {
 				enable = {
-					order = 2,
+					order = 1,
 					type = "toggle",
 					name = L["ENABLE"]
+				},
+				colorPetByUnitClass = {
+					order = 2,
+					type = "toggle",
+					name = L["Color by Unit Class"]
 				},
 				width = {
 					order = 3,
@@ -7050,14 +7125,21 @@ E.Options.args.unitframe.args.groupUnits.args.tank = {
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
-				disableMouseoverGlow = {
+				middleClickFocus = {
 					order = 7,
+					type = "toggle",
+					name = L["Middle Click - Set Focus"],
+					desc = L["Middle clicking the unit frame will cause your focus to match the unit."],
+					disabled = function() return IsAddOnLoaded("Clique") end
+				},
+				disableMouseoverGlow = {
+					order = 8,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 8,
+					order = 9,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
@@ -7185,14 +7267,21 @@ E.Options.args.unitframe.args.groupUnits.args.assist = {
 					desc = L["Set the orientation of the UnitFrame."],
 					values = orientationValues
 				},
-				disableMouseoverGlow = {
+				middleClickFocus = {
 					order = 7,
+					type = "toggle",
+					name = L["Middle Click - Set Focus"],
+					desc = L["Middle clicking the unit frame will cause your focus to match the unit."],
+					disabled = function() return IsAddOnLoaded("Clique") end
+				},
+				disableMouseoverGlow = {
+					order = 8,
 					type = "toggle",
 					name = L["Block Mouseover Glow"],
 					desc = L["Forces Mouseover Glow to be disabled for these frames"]
 				},
 				disableTargetGlow = {
-					order = 8,
+					order = 9,
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]

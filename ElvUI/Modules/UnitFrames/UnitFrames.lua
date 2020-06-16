@@ -48,57 +48,57 @@ UF.units = {}
 UF.statusbars = {}
 UF.fontstrings = {}
 UF.badHeaderPoints = {
-	["TOP"] = "BOTTOM",
-	["LEFT"] = "RIGHT",
-	["BOTTOM"] = "TOP",
-	["RIGHT"] = "LEFT"
+	TOP = "BOTTOM",
+	LEFT = "RIGHT",
+	BOTTOM = "TOP",
+	RIGHT = "LEFT"
 }
 
 UF.headerFunctions = {}
 
 UF.classMaxResourceBar = {
-	["DEATHKNIGHT"] = 6,
-	["PALADIN"] = 3,
-	["WARLOCK"] = 3
+	DEATHKNIGHT = 6,
+	PALADIN = 3,
+	WARLOCK = 3
 }
 
 UF.headerGroupBy = {
-	["CLASS"] = function(header)
+	CLASS = function(header)
 		header:SetAttribute("groupingOrder", "DEATHKNIGHT,DRUID,HUNTER,MAGE,PALADIN,PRIEST,ROGUE,SHAMAN,WARLOCK,WARRIOR")
 		header:SetAttribute("sortMethod", "NAME")
 		header:SetAttribute("groupBy", "CLASS")
 	end,
-	["MTMA"] = function(header)
+	MTMA = function(header)
 		header:SetAttribute("groupingOrder", "MAINTANK,MAINASSIST,NONE")
 		header:SetAttribute("sortMethod", "NAME")
 		header:SetAttribute("groupBy", "ROLE")
 	end,
-	["ROLE"] = function(header)
+	ROLE = function(header)
 		header:SetAttribute("groupingOrder", "TANK,HEALER,DAMAGER,NONE")
 		header:SetAttribute("sortMethod", "NAME")
 		header:SetAttribute("groupBy", "ASSIGNEDROLE")
 	end,
-	["ROLE2"] = function(header)
+	ROLE2 = function(header)
 		header:SetAttribute("groupingOrder", "TANK,DAMAGER,HEALER,NONE")
 		header:SetAttribute("sortMethod", "NAME")
 		header:SetAttribute("groupBy", "ASSIGNEDROLE")
 	end,
-	["NAME"] = function(header)
+	NAME = function(header)
 		header:SetAttribute("groupingOrder", "1,2,3,4,5,6,7,8")
 		header:SetAttribute("sortMethod", "NAME")
 		header:SetAttribute("groupBy", nil)
 	end,
-	["GROUP"] = function(header)
+	GROUP = function(header)
 		header:SetAttribute("groupingOrder", "1,2,3,4,5,6,7,8")
 		header:SetAttribute("sortMethod", "INDEX")
 		header:SetAttribute("groupBy", "GROUP")
 	end,
-	["CLASSROLE"] = function(header)
+	CLASSROLE = function(header)
 		header:SetAttribute("groupingOrder", "DEATHKNIGHT,WARRIOR,ROGUE,PALADIN,DRUID,SHAMAN,HUNTER,PRIEST,MAGE,WARLOCK")
 		header:SetAttribute("sortMethod", "NAME")
 		header:SetAttribute("groupBy", "CLASS")
 	end,
-	["PETNAME"] = function(header)
+	PETNAME = function(header)
 		header:SetAttribute("groupingOrder", "1,2,3,4,5,6,7,8")
 		header:SetAttribute("sortMethod", "NAME")
 		header:SetAttribute("groupBy", nil)
@@ -107,18 +107,18 @@ UF.headerGroupBy = {
 }
 
 local POINT_COLUMN_ANCHOR_TO_DIRECTION = {
-	["TOPTOP"] = "UP_RIGHT",
-	["BOTTOMBOTTOM"] = "TOP_RIGHT",
-	["LEFTLEFT"] = "RIGHT_UP",
-	["RIGHTRIGHT"] = "LEFT_UP",
-	["RIGHTTOP"] = "LEFT_DOWN",
-	["LEFTTOP"] = "RIGHT_DOWN",
-	["LEFTBOTTOM"] = "RIGHT_UP",
-	["RIGHTBOTTOM"] = "LEFT_UP",
-	["BOTTOMRIGHT"] = "UP_LEFT",
-	["BOTTOMLEFT"] = "UP_RIGHT",
-	["TOPRIGHT"] = "DOWN_LEFT",
-	["TOPLEFT"] = "DOWN_RIGHT"
+	TOPTOP = "UP_RIGHT",
+	BOTTOMBOTTOM = "TOP_RIGHT",
+	LEFTLEFT = "RIGHT_UP",
+	RIGHTRIGHT = "LEFT_UP",
+	RIGHTTOP = "LEFT_DOWN",
+	LEFTTOP = "RIGHT_DOWN",
+	LEFTBOTTOM = "RIGHT_UP",
+	RIGHTBOTTOM = "LEFT_UP",
+	BOTTOMRIGHT = "UP_LEFT",
+	BOTTOMLEFT = "UP_RIGHT",
+	TOPRIGHT = "DOWN_LEFT",
+	TOPLEFT = "DOWN_RIGHT"
 }
 
 local DIRECTION_TO_POINT = {
@@ -1259,9 +1259,15 @@ end
 function UF:SetStatusBarBackdropPoints(statusBar, statusBarTex, backdropTex, statusBarOrientation, reverseFill)
 	backdropTex:ClearAllPoints()
 	if statusBarOrientation == "VERTICAL" then
-		backdropTex:Point("TOPLEFT", statusBar, "TOPLEFT")
-		backdropTex:Point("BOTTOMLEFT", statusBarTex, "TOPLEFT")
-		backdropTex:Point("BOTTOMRIGHT", statusBarTex, "TOPRIGHT")
+		if reverseFill then
+			backdropTex:Point("BOTTOMRIGHT", statusBar, "BOTTOMRIGHT")
+			backdropTex:Point("TOPRIGHT", statusBarTex, "BOTTOMRIGHT")
+			backdropTex:Point("TOPLEFT", statusBarTex, "BOTTOMLEFT")
+		else
+			backdropTex:Point("TOPLEFT", statusBar, "TOPLEFT")
+			backdropTex:Point("BOTTOMLEFT", statusBarTex, "TOPLEFT")
+			backdropTex:Point("BOTTOMRIGHT", statusBarTex, "TOPRIGHT")
+		end
 	else
 		if reverseFill then
 			backdropTex:Point("TOPRIGHT", statusBarTex, "TOPLEFT")

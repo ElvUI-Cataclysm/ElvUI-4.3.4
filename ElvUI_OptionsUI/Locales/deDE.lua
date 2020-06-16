@@ -1127,6 +1127,7 @@ L["Use drag and drop to rearrange filter priority or right click to remove a fil
 L["Use Reaction Color"] = true
 L["Use Indicator Color"] = "Benutze Indikator Farbe"
 L["Use Shift+LeftClick to toggle between friendly or enemy or normal state. Normal state will allow the filter to be checked on all units. Friendly state is for friendly units only and enemy state is for enemy units."] = "Benutze Shift+Linksklick um zwischen freundlichem oder freindlichen Status umzuschalten. Normaler Status erlaubt den Filter alle Einheiten zu überprüfen. Freundlicher Status überprüft nur freundliche Einheiten. Feindliche überprüft nur feindliche Einheiten."
+L["|cffFF0000Warning:|r Click the arrow on the dropdown box to see a list of spells."] = "|cffFF0000Warnung:|r Klick auf den Pfeil rechts in der Dropdown Box um eine Liste der Fähigkeiten zu sehen."
 L["Use the custom backdrop color instead of a multiple of the main color."] = "Benutze eine eigene Hintergrundfarbe, anstelle der Hauptfarbe."
 L["Use Target Scale"] = "Benutze Ziel Skalierung"
 L["Use the Name Color of the unit for the Name Glow."] = "Benutze Klassenfarbe für das Einheiten Namensleuchten."

@@ -66,6 +66,14 @@ function UF:Update_ArenaFrames(frame, db)
 		frame.VARIABLES_SET = true
 	end
 
+	if not IsAddOnLoaded("Clique") then
+		if db.middleClickFocus then
+			frame:SetAttribute("type3", "focus")
+		elseif frame:GetAttribute("type3") == "focus" then
+			frame:SetAttribute("type3", nil)
+		end
+	end
+
 	frame.colors = ElvUF.colors
 	frame.Portrait = frame.Portrait or (db.portrait.style == "2D" and frame.Portrait2D or frame.Portrait3D)
 	frame:RegisterForClicks(self.db.targetOnMouseDown and "AnyDown" or "AnyUp")

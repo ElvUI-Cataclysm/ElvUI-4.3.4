@@ -148,6 +148,8 @@ function UF:Update_PartyFrames(frame, db)
 		local childDB = db.petsGroup
 		if frame.childType == "target" then
 			childDB = db.targetsGroup
+		else
+			frame.Health.colorPetByUnitClass = childDB.colorPetByUnitClass
 		end
 
 		frame:Size(childDB.width, childDB.height)

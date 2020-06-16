@@ -71,6 +71,7 @@ function UF:Update_PetFrame(frame, db)
 		frame:SetFrameLevel(frame:GetParent():GetFrameLevel() + 1)
 	end
 
+	frame.Health.colorPetByUnitClass = db.health.colorPetByUnitClass
 	frame.colors = ElvUF.colors
 	frame.Portrait = frame.Portrait or (db.portrait.style == "2D" and frame.Portrait2D or frame.Portrait3D)
 	frame:RegisterForClicks(self.db.targetOnMouseDown and "AnyDown" or "AnyUp")

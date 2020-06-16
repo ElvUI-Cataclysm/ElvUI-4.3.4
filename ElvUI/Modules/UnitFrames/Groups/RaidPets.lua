@@ -92,6 +92,7 @@ function UF:Update_RaidpetFrames(frame, db)
 		frame.VARIABLES_SET = true
 	end
 
+	frame.Health.colorPetByUnitClass = db.health.colorPetByUnitClass
 	frame:Size(frame.UNIT_WIDTH, frame.UNIT_HEIGHT)
 
 	UF:Configure_HealthBar(frame)

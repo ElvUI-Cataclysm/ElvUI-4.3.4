@@ -1127,6 +1127,7 @@ L["Use drag and drop to rearrange filter priority or right click to remove a fil
 L["Use Reaction Color"] = true
 L["Use Indicator Color"] = true
 L["Use Shift+LeftClick to toggle between friendly or enemy or normal state. Normal state will allow the filter to be checked on all units. Friendly state is for friendly units only and enemy state is for enemy units."] = "Shift+클릭으로 우호적 또는 적대적 또는 일반 상태로 전환합니다. 일반 상태는 필터가 모든 유닛을 점검하도록 합니다. 우호적 상태는 우호적 유닛에만, 적대적 상태는 적대적 유닛에만 작동합니다."
+L["|cffFF0000Warning:|r Click the arrow on the dropdown box to see a list of spells."] = true
 L["Use the custom backdrop color instead of a multiple of the main color."] = true
 L["Use Target Scale"] = "대상 크기조정 사용"
 L["Use the Name Color of the unit for the Name Glow."] = true

@@ -1181,7 +1181,11 @@ P.unitframe = {
 	fontOutline = "MONOCHROMEOUTLINE",
 	debuffHighlighting = "FILL",
 	targetOnMouseDown = false,
-	auraBlacklistModifier = "SHIFT",
+	modifiers = {
+		SHIFT = "NONE",
+		CTRL = "NONE",
+		ALT = "NONE"
+	},
 	thinBorders = false,
 	targetSound = false,
 	cooldown = {
@@ -1228,6 +1232,7 @@ P.unitframe = {
 		useDeadBackdrop = false,
 		classbackdrop = false,
 		healthMultiplier = 0,
+		auraByType = true,
 		auraBarByType = true,
 		auraBarTurtle = true,
 		auraBarTurtleColor = {r = 0.56, g = 0.39, b = 0.61},
