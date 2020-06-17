@@ -3402,19 +3402,19 @@ E.Options.args.unitframe = {
 								SHIFT = {
 									order = 2,
 									type = "select",
-									name = L["SHIFT"],
+									name = L["SHIFT_KEY"],
 									values = modifierList
 								},
 								ALT = {
 									order = 3,
 									type = "select",
-									name = L["ALT"],
+									name = L["ALT_KEY"],
 									values = modifierList
 								},
 								CTRL = {
 									order = 4,
 									type = "select",
-									name = L["CTRL"],
+									name = L["CTRL_KEY"],
 									values = modifierList
 								}
 							}
