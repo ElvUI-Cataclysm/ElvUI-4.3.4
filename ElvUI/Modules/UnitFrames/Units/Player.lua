@@ -42,6 +42,7 @@ function UF:Construct_PlayerFrame(frame)
 
 	frame.MouseGlow = self:Construct_MouseGlow(frame)
 	frame.TargetGlow = self:Construct_TargetGlow(frame)
+	frame.FocusGlow = UF:Construct_FocusGlow(frame)
 	frame.RaidTargetIndicator = self:Construct_RaidIcon(frame)
 	frame.RaidRoleFramesAnchor = self:Construct_RaidRoleFrames(frame)
 	frame.RestingIndicator = self:Construct_RestingIndicator(frame)

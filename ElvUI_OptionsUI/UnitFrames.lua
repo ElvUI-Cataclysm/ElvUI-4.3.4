@@ -3579,8 +3579,55 @@ E.Options.args.unitframe = {
 								}
 							}
 						},
-						mouseoverGlow = {
+						focusGlow = {
 							order = 4,
+							type = "group",
+							guiInline = true,
+							name = L["Focused Glow"],
+							get = function(info)
+								local t = E.db.unitframe.colors.frameGlow.focusGlow[info[#info]]
+								if type(t) == "boolean" then return t end
+								local d = P.unitframe.colors.frameGlow.focusGlow[info[#info]]
+								return t.r, t.g, t.b, t.a, d.r, d.g, d.b, d.a
+							end,
+							set = function(info, r, g, b, a)
+								local t = E.db.unitframe.colors.frameGlow.focusGlow[info[#info]]
+								if type(t) == "boolean" then
+									E.db.unitframe.colors.frameGlow.focusGlow[info[#info]] = r
+								else
+									t.r, t.g, t.b, t.a = r, g, b, a
+								end
+								UF:FrameGlow_UpdateFrames()
+							end,
+							disabled = function() return not E.db.unitframe.colors.frameGlow.focusGlow.enable end,
+							args = {
+								enable = {
+									order = 1,
+									type = "toggle",
+									name = L["ENABLE"],
+									disabled = false
+								},
+								spacer = {
+									order = 2,
+									type = "description",
+									name = ""
+								},
+								class = {
+									order = 3,
+									type = "toggle",
+									name = L["Use Class Color"],
+									desc = L["Alpha channel is taken from the color option."]
+								},
+								color = {
+									order = 4,
+									type = "color",
+									name = L["COLOR"],
+									hasAlpha = true
+								}
+							}
+						},
+						mouseoverGlow = {
+							order = 5,
 							type = "group",
 							guiInline = true,
 							name = L["Mouseover Highlight"],
@@ -4490,6 +4537,12 @@ E.Options.args.unitframe.args.individualUnits.args.player = {
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
+				},
+				disableFocusGlow = {
+					order = 10,
+					type = "toggle",
+					name = L["Block Focus Glow"],
+					desc = L["Forces Focus Glow to be disabled for these frames"]
 				}
 			}
 		},
@@ -4742,6 +4795,12 @@ E.Options.args.unitframe.args.individualUnits.args.target = {
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
+				},
+				disableFocusGlow = {
+					order = 15,
+					type = "toggle",
+					name = L["Block Focus Glow"],
+					desc = L["Forces Focus Glow to be disabled for these frames"]
 				}
 			}
 		},
@@ -4873,6 +4932,12 @@ E.Options.args.unitframe.args.individualUnits.args.targettarget = {
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
+				},
+				disableFocusGlow = {
+					order = 10,
+					type = "toggle",
+					name = L["Block Focus Glow"],
+					desc = L["Forces Focus Glow to be disabled for these frames"]
 				}
 			}
 		},
@@ -4990,6 +5055,12 @@ E.Options.args.unitframe.args.individualUnits.args.targettargettarget = {
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
+				},
+				disableFocusGlow = {
+					order = 10,
+					type = "toggle",
+					name = L["Block Focus Glow"],
+					desc = L["Forces Focus Glow to be disabled for these frames"]
 				}
 			}
 		},
@@ -5107,6 +5178,12 @@ E.Options.args.unitframe.args.individualUnits.args.focus = {
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
+				},
+				disableFocusGlow = {
+					order = 10,
+					type = "toggle",
+					name = L["Block Focus Glow"],
+					desc = L["Forces Focus Glow to be disabled for these frames"]
 				}
 			}
 		},
@@ -5230,6 +5307,12 @@ E.Options.args.unitframe.args.individualUnits.args.focustarget = {
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
+				},
+				disableFocusGlow = {
+					order = 10,
+					type = "toggle",
+					name = L["Block Focus Glow"],
+					desc = L["Forces Focus Glow to be disabled for these frames"]
 				}
 			}
 		},
@@ -5347,6 +5430,12 @@ E.Options.args.unitframe.args.individualUnits.args.pet = {
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
+				},
+				disableFocusGlow = {
+					order = 10,
+					type = "toggle",
+					name = L["Block Focus Glow"],
+					desc = L["Forces Focus Glow to be disabled for these frames"]
 				}
 			}
 		},
@@ -5467,6 +5556,12 @@ E.Options.args.unitframe.args.individualUnits.args.pettarget = {
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
+				},
+				disableFocusGlow = {
+					order = 10,
+					type = "toggle",
+					name = L["Block Focus Glow"],
+					desc = L["Forces Focus Glow to be disabled for these frames"]
 				}
 			}
 		},
@@ -5610,6 +5705,12 @@ E.Options.args.unitframe.args.groupUnits.args.boss = {
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
+				},
+				disableFocusGlow = {
+					order = 10,
+					type = "toggle",
+					name = L["Block Focus Glow"],
+					desc = L["Forces Focus Glow to be disabled for these frames"]
 				}
 			}
 		},
@@ -5753,6 +5854,12 @@ E.Options.args.unitframe.args.groupUnits.args.arena = {
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
+				},
+				disableFocusGlow = {
+					order = 12,
+					type = "toggle",
+					name = L["Block Focus Glow"],
+					desc = L["Forces Focus Glow to be disabled for these frames"]
 				}
 			}
 		},
@@ -5888,6 +5995,12 @@ E.Options.args.unitframe.args.groupUnits.args.party = {
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
+				},
+				disableFocusGlow = {
+					order = 9,
+					type = "toggle",
+					name = L["Block Focus Glow"],
+					desc = L["Forces Focus Glow to be disabled for these frames"]
 				},
 				positionsGroup = {
 					order = 100,
@@ -6338,6 +6451,12 @@ E.Options.args.unitframe.args.groupUnits.args.raid = {
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
 				},
+				disableFocusGlow = {
+					order = 7,
+					type = "toggle",
+					name = L["Block Focus Glow"],
+					desc = L["Forces Focus Glow to be disabled for these frames"]
+				},
 				positionsGroup = {
 					order = 100,
 					type = "group",
@@ -6616,6 +6735,12 @@ E.Options.args.unitframe.args.groupUnits.args.raid40 = {
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
 				},
+				disableFocusGlow = {
+					order = 7,
+					type = "toggle",
+					name = L["Block Focus Glow"],
+					desc = L["Forces Focus Glow to be disabled for these frames"]
+				},
 				positionsGroup = {
 					order = 100,
 					type = "group",
@@ -6886,6 +7011,12 @@ E.Options.args.unitframe.args.groupUnits.args.raidpet = {
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
 				},
+				disableFocusGlow = {
+					order = 6,
+					type = "toggle",
+					name = L["Block Focus Glow"],
+					desc = L["Forces Focus Glow to be disabled for these frames"]
+				},
 				positionsGroup = {
 					order = 100,
 					type = "group",
@@ -7143,6 +7274,12 @@ E.Options.args.unitframe.args.groupUnits.args.tank = {
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
+				},
+				disableFocusGlow = {
+					order = 10,
+					type = "toggle",
+					name = L["Block Focus Glow"],
+					desc = L["Forces Focus Glow to be disabled for these frames"]
 				}
 			}
 		},
@@ -7285,6 +7422,12 @@ E.Options.args.unitframe.args.groupUnits.args.assist = {
 					type = "toggle",
 					name = L["Block Target Glow"],
 					desc = L["Forces Target Glow to be disabled for these frames"]
+				},
+				disableFocusGlow = {
+					order = 10,
+					type = "toggle",
+					name = L["Block Focus Glow"],
+					desc = L["Forces Focus Glow to be disabled for these frames"]
 				}
 			}
 		},
