@@ -229,7 +229,9 @@ E.Options.args.filters = {
 						if not spell then return true end
 
 						local _, defaultTable = GetSelectedFilters()
-						return defaultTable[spell]
+						if defaultTable then
+							return defaultTable[spell]
+						end
 					end
 				},
 				quickSearch = {

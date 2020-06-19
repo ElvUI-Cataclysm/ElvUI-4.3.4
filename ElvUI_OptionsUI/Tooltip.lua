@@ -6,8 +6,8 @@ local _G = _G
 local tonumber = tonumber
 
 local modifierValues = {
-	SHOW = L["Show"],
-	HIDE = L["Hide"],
+	SHOW = L["SHOW"],
+	HIDE = L["HIDE"],
 	SHIFT = L["SHIFT_KEY"],
 	CTRL = L["CTRL_KEY"],
 	ALT = L["ALT_KEY"]

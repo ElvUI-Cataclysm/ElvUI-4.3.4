@@ -2346,6 +2346,11 @@ P.unitframe = {
 				yOffset = 0,
 				spacing = 0
 			},
+			buffIndicator = {
+				enable = true,
+				profileSpecific = false,
+				size = 8
+			},
 			raidicon = {
 				enable = true,
 				size = 18,

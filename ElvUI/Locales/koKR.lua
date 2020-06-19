@@ -2,7 +2,7 @@
 local E = unpack(select(2, ...))
 local L = E.Libs.ACL:NewLocale("ElvUI", "koKR")
 
-local COLOR1 = "|cFF1784d1"
+local COLOR1 = "|cffff7000"
 local COLOR2 = "|cfd9b9b9b"
 
 L[" |cff00ff00bound to |r"] = " 키로 다음의 행동을 실행합니다: |cff2eb7e4"
