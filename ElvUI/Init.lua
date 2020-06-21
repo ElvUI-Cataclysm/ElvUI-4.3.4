@@ -1,5 +1,5 @@
 local _G = _G
-local gsub, type, tcopy = gsub, type, table.copy
+local gsub, type = gsub, type
 
 local CreateFrame = CreateFrame
 local GetAddOnMetadata = GetAddOnMetadata

@@ -1272,7 +1272,7 @@ function E:DBConversions()
 
 		swap = ttModSwap(E.db.tooltip.visibility.combatOverride)
 		if swap then E.db.tooltip.visibility.combatOverride = swap end
-		
+
 		-- remove the old combat variable and just use the mod since it supports show/hide states
 		local hideInCombat = E.db.tooltip.visibility.combat
 		if hideInCombat ~= nil then

@@ -4,7 +4,6 @@ local LAI = E.Libs.LAI
 
 local _G = _G
 local pcall = pcall
-local type = type
 local select, unpack, pairs, next, tonumber = select, unpack, pairs, next, tonumber
 local floor = math.floor
 local format, find, gsub, match, split = string.format, string.find, string.gsub, string.match, string.split
