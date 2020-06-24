@@ -272,8 +272,11 @@ local function LoadSkin()
 
 		button:SetNormalTexture(E.Media.Textures.Plus)
 		button.SetNormalTexture = E.noop
-		button:GetNormalTexture():Size(14)
-		button:GetNormalTexture():Point("LEFT", 2, 2)
+
+		local normal = button:GetNormalTexture()
+		normal:Size(14)
+		normal:Point("LEFT", 3, 2)
+		normal.SetPoint = E.noop
 
 		highlight:SetTexture("")
 		highlight.SetTexture = E.noop

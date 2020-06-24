@@ -5,7 +5,7 @@ local LSM = E.Libs.LSM
 
 local _G = _G
 local tonumber, pairs, ipairs, error, unpack, select, tostring = tonumber, pairs, ipairs, error, unpack, select, tostring
-local assert, type = assert, type
+local assert, rawget, rawset, setmetatable, type = assert, rawget, rawset, setmetatable, type
 local twipe, tinsert, tremove, next = table.wipe, tinsert, tremove, next
 local format, find, match, strrep, strlen, sub, gsub, strjoin = string.format, string.find, string.match, strrep, strlen, string.sub, string.gsub, strjoin
 
