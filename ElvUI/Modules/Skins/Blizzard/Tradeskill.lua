@@ -281,9 +281,7 @@ local function LoadSkin()
 		highlight:SetTexture("")
 		highlight.SetTexture = E.noop
 
-		hooksecurefunc(button, "SetNormalTexture", function(self, texture)
-			local normal = self:GetNormalTexture()
-
+		hooksecurefunc(button, "SetNormalTexture", function(_, texture)
 			if find(texture, "MinusButton") then
 				normal:SetTexture(E.Media.Textures.Minus)
 			elseif find(texture, "PlusButton") then
