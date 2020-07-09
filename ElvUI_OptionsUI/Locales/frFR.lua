@@ -90,6 +90,7 @@ L["Auto Add New Spells"] = "Ajouter automatiquement les nouveaux sorts"
 L["Auto Greed/DE"] = "Dez / Cupidité Auto"
 L["Auto Hide"] = "Masquer Automatiquement"
 L["Auto Repair"] = "Réparation automatique"
+L["Auto Track Reputation"] = true
 L["Auto Vendor Junk"] = "Vente automatique d'objet "
 L["Automatic"] = "Automatique"
 L["Automatically accept invites from guild/friends."] = "Accepter automatiquement les invitations venant d'amis / joueurs de la guilde."

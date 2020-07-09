@@ -90,6 +90,7 @@ L["Auto Add New Spells"] = "Автоматически добавлять нов
 L["Auto Greed/DE"] = "Авто. не откажусь/распылить"
 L["Auto Hide"] = "Автоскрытие"
 L["Auto Repair"] = "Автоматический ремонт"
+L["Auto Track Reputation"] = true
 L["Auto Vendor Junk"] = "Авто продажа"
 L["Automatic"] = "Автоматически"
 L["Automatically accept invites from guild/friends."] = "Автоматически принимать приглашения в группу от друзей и гильдии."

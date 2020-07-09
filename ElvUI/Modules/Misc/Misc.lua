@@ -17,6 +17,7 @@ local GetNumPartyMembers = GetNumPartyMembers
 local GetNumRaidMembers = GetNumRaidMembers
 local GetRaidRosterInfo = GetRaidRosterInfo
 local GetRepairAllCost = GetRepairAllCost
+local GetWatchedFactionInfo = GetWatchedFactionInfo
 local GuildRoster = GuildRoster
 local InCombatLockdown = InCombatLockdown
 local IsInGuild = IsInGuild
@@ -79,6 +80,23 @@ function M:COMBAT_LOG_EVENT_UNFILTERED(_, _, event, _, sourceGUID, _, _, _, dest
 		elseif channel == "RAID_ONLY" then
 			if raid > 0 then
 				SendChatMessage(msg, battleground and "BATTLEGROUND" or "RAID")
+			end
+		end
+	end
+end
+
+function M:COMBAT_TEXT_UPDATE(event, ...)
+	if not E.db.general.autoTrackReputation then return end
+
+	local messagetype, faction = ...
+	if messagetype == "FACTION" then
+		if faction ~= "Guild" and faction ~= GetWatchedFactionInfo() then
+			ExpandAllFactionHeaders()
+			for i = 1, GetNumFactions() do
+				if faction == GetFactionInfo(i) then
+					SetWatchedFactionIndex(i)
+					break
+				end
 			end
 		end
 	end
@@ -245,6 +263,7 @@ function M:Initialize()
 	self:RegisterEvent("PARTY_INVITE_REQUEST", "AutoInvite")
 	self:RegisterEvent("PARTY_MEMBERS_CHANGED", "AutoInvite")
 	self:RegisterEvent("CVAR_UPDATE", "ForceCVars")
+	self:RegisterEvent("COMBAT_TEXT_UPDATE")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "ForceCVars")
 
 	self.Initialized = true

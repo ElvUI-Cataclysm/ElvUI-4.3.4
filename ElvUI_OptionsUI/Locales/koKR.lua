@@ -90,6 +90,7 @@ L["Auto Add New Spells"] = "새로운 주문 자동 추가"
 L["Auto Greed/DE"] = "자동 차비/추출 선택"
 L["Auto Hide"] = "자동으로 숨기기"
 L["Auto Repair"] = "자동 수리"
+L["Auto Track Reputation"] = true
 L["Auto Vendor Junk"] = "잡동사니 자동 판매"
 L["Automatic"] = "자동"
 L["Automatically accept invites from guild/friends."] = "길드원이나 친구가 플레이어를 파티를 초대하면 자동으로 수락합니다."
