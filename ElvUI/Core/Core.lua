@@ -785,7 +785,7 @@ do
 		local msgMajor, msgMinor = strsplit(".", msg)
 		local curMajor, curMinor = strsplit(".", current)
 
-		if tonumber(msgMajor) < tonumber(curMajor) or tonumber(msgMinor) < tonumber(curMinor) then
+		if tonumber(msgMajor) < tonumber(curMajor) or (tonumber(msgMajor) == tonumber(curMajor) and tonumber(msgMinor) < tonumber(curMinor)) then
 			return true
 		end
 	end
