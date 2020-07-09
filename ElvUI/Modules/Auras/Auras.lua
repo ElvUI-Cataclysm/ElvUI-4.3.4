@@ -245,15 +245,6 @@ function A:UpdateAura(button, index)
 			A:ClearAuraTime(button)
 		end
 
-		local r, g, b
-		if button.timeLeft and A.db.barColorGradient then
-			r, g, b = E.oUF:ColorGradient(button.timeLeft, duration or 0, 0.8, 0, 0, 0.8, 0.8, 0, 0, 0.8, 0)
-		else
-			r, g, b = A.db.barColor.r, A.db.barColor.g, A.db.barColor.b
-		end
-
-		button.statusBar:SetStatusBarColor(r, g, b)
-
 		if count and count > 1 then
 			button.count:SetText(count)
 		else
@@ -271,6 +262,21 @@ function A:UpdateAura(button, index)
 		else
 			button.statusBar:Hide()
 		end
+
+		local r, g, b
+		if A.db.barColorGradient then
+			if duration == 0 then
+				r, g, b = 0, 0.8, 0
+			elseif button.timeLeft then
+				r, g, b = E.oUF:ColorGradient(button.timeLeft, duration or 0, 0.8, 0, 0, 0.8, 0.8, 0, 0, 0.8, 0)
+			else
+				r, g, b = A.db.barColor.r, A.db.barColor.g, A.db.barColor.b
+			end
+		else
+			r, g, b = A.db.barColor.r, A.db.barColor.g, A.db.barColor.b
+		end
+
+		button.statusBar:SetStatusBarColor(r, g, b)
 
 		if button.debuffType ~= DebuffType then
 			if button.filter == "HARMFUL" then
