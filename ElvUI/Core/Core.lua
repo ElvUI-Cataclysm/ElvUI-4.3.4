@@ -7,7 +7,7 @@ local _G = _G
 local tonumber, pairs, ipairs, error, unpack, select, tostring = tonumber, pairs, ipairs, error, unpack, select, tostring
 local assert, rawget, rawset, setmetatable, type = assert, rawget, rawset, setmetatable, type
 local twipe, tinsert, tremove, next = table.wipe, tinsert, tremove, next
-local format, find, match, strrep, strlen, sub, gsub, strjoin = string.format, string.find, string.match, strrep, strlen, string.sub, string.gsub, strjoin
+local format, find, match, strrep, strlen, sub, gsub, strjoin, strsplit = string.format, string.find, string.match, strrep, strlen, string.sub, string.gsub, strjoin, string.split
 
 local UnitGUID = UnitGUID
 local CreateFrame = CreateFrame
@@ -781,6 +781,15 @@ do
 		SendMessageWaiting = nil
 	end
 
+	local function compareVersion(msg, current)
+		local msgMajor, msgMinor = strsplit(".", msg)
+		local curMajor, curMinor = strsplit(".", current)
+
+		if tonumber(msgMajor) < tonumber(curMajor) or tonumber(msgMinor) < tonumber(curMinor) then
+			return true
+		end
+	end
+
 	local SendRecieveGroupSize = 0
 	local PLAYER_NAME = format("%s-%s", E.myname, E:ShortenRealm(E.myrealm))
 	local function SendRecieve(_, event, prefix, message, _, sender)
@@ -799,11 +808,11 @@ do
 
 						E.shownUpdatedWhileRunningPopup = true
 					end
-				elseif msg and (msg > ver) then -- you're outdated D:
+				elseif msg and compareVersion(msg, ver) then
 					if not E.recievedOutOfDateMessage then
 						E:Print(L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm"])
 
-						if msg and ((msg - ver) >= 0.01) and not inCombat then
+						if not inCombat then
 							E:StaticPopup_Show("ELVUI_UPDATE_AVAILABLE")
 						end
 
