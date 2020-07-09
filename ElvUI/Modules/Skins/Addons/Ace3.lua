@@ -384,10 +384,33 @@ function S:Ace3_RegisterAsWidget(widget)
 end
 
 function S:Ace3_RegisterAsContainer(widget)
+	local TYPE = widget.type
 	if not E.private.skins.ace3.enable then
+		if TYPE == "TreeGroup" then
+			if widget.treeframe then
+				local oldRefreshTree = widget.RefreshTree
+				widget.RefreshTree = function(wdg, scrollToSelection)
+					oldRefreshTree(wdg, scrollToSelection)
+					if not wdg.tree then return end
+
+					wdg.border:ClearAllPoints()
+					if wdg.userdata and wdg.userdata.option and wdg.userdata.option.childGroups == "ElvUI_HiddenTree" then
+						wdg.border:Point("TOPLEFT", wdg.treeframe, "TOPRIGHT", 1, 13)
+						wdg.border:Point("BOTTOMRIGHT", wdg.frame, "BOTTOMRIGHT", 6, 0)
+						wdg.treeframe:Hide()
+						return
+					else
+						wdg.border:Point("TOPLEFT", wdg.treeframe, "TOPRIGHT")
+						wdg.border:Point("BOTTOMRIGHT", wdg.frame)
+						wdg.treeframe:Show()
+					end
+				end
+			end
+		end
+
 		return oldRegisterAsContainer(self, widget)
 	end
-	local TYPE = widget.type
+
 	if TYPE == "ScrollFrame" then
 		S:HandleScrollBar(widget.scrollbar)
 	elseif TYPE == "InlineGroup" or TYPE == "TreeGroup" or TYPE == "TabGroup" or TYPE == "Frame" or TYPE == "DropdownGroup" or TYPE == "Window" then

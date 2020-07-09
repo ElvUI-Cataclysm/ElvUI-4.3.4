@@ -483,33 +483,25 @@ function E:CreateMoverPopup()
 
 	local upButton = CreateFrame("Button", nudgeFrame:GetName().."UpButton", nudgeFrame)
 	upButton:Point("BOTTOMRIGHT", nudgeFrame, "BOTTOM", -6, 4)
-	upButton:SetScript("OnClick", function()
-		E:NudgeMover(nil, 1)
-	end)
+	upButton:SetScript("OnClick", function() E:NudgeMover(nil, 1) end)
 	S:HandleNextPrevButton(upButton)
 	upButton:Size(22)
 
 	local downButton = CreateFrame("Button", nudgeFrame:GetName().."DownButton", nudgeFrame)
 	downButton:Point("BOTTOMLEFT", nudgeFrame, "BOTTOM", 6, 4)
-	downButton:SetScript("OnClick", function()
-		E:NudgeMover(nil, -1)
-	end)
+	downButton:SetScript("OnClick", function() E:NudgeMover(nil, -1) end)
 	S:HandleNextPrevButton(downButton)
 	downButton:Size(22)
 
 	local leftButton = CreateFrame("Button", nudgeFrame:GetName().."LeftButton", nudgeFrame)
 	leftButton:Point("RIGHT", upButton, "LEFT", -6, 0)
-	leftButton:SetScript("OnClick", function()
-		E:NudgeMover(-1)
-	end)
+	leftButton:SetScript("OnClick", function() E:NudgeMover(-1) end)
 	S:HandleNextPrevButton(leftButton)
 	leftButton:Size(22)
 
 	local rightButton = CreateFrame("Button", nudgeFrame:GetName().."RightButton", nudgeFrame)
 	rightButton:Point("LEFT", downButton, "RIGHT", 6, 0)
-	rightButton:SetScript("OnClick", function()
-		E:NudgeMover(1)
-	end)
+	rightButton:SetScript("OnClick", function() E:NudgeMover(1) end)
 	S:HandleNextPrevButton(rightButton)
 	rightButton:Size(22)
 end
@@ -654,7 +646,9 @@ function E:Config_SetButtonColor(btn, disabled)
 	if disabled then
 		btn:Disable()
 		btn:SetBackdropBorderColor(1, 0.82, 0)
-		btn.backdropTexture:SetVertexColor(1, 0.82, 0, 0.4)
+		if btn.backdropTexture then
+			btn.backdropTexture:SetVertexColor(1, 0.82, 0, 0.4)
+		end
 		btn:GetFontString():SetTextColor(1, 1, 1)
 		E:Config_SetButtonText(btn, true)
 	else
@@ -662,7 +656,9 @@ function E:Config_SetButtonColor(btn, disabled)
 		local r, g, b = unpack(E.media.bordercolor)
 		btn:SetBackdropBorderColor(r, g, b)
 		r, g, b = unpack(E.media.backdropcolor)
-		btn.backdropTexture:SetVertexColor(r, g, b, 1)
+		if btn.backdropTexture then
+			btn.backdropTexture:SetVertexColor(r, g, b, 1)
+		end
 		btn:GetFontString():SetTextColor(1, 0.82, 0)
 		E:Config_SetButtonText(btn)
 	end
@@ -899,8 +895,8 @@ function E:Config_WindowOpened(frame)
 		local titlebg = frame.obj.titlebg
 		E:Config_SaveOldPosition(titlebg)
 		titlebg:ClearAllPoints()
-		titlebg:SetPoint("TOPLEFT", frame)
-		titlebg:SetPoint("TOPRIGHT", frame)
+		titlebg:SetPoint("TOPLEFT", frame, unskinned and 22 or 0, 0)
+		titlebg:SetPoint("TOPRIGHT", frame, unskinned and -26 or 0, 0)
 	end
 end
 
@@ -1095,12 +1091,12 @@ function E:ToggleOptionsUI(msg)
 			bottom:Height(37)
 			frame.bottomHolder = bottom
 
-			local unskinned = false -- suppress lint error
+			local unskinned = not E.private.skins.ace3.enable
 
 			local close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
 			close:SetScript("OnClick", E.Config_CloseClicked)
 			close:SetFrameLevel(1000)
-			close:Point("TOPRIGHT", unskinned and -8 or 1, unskinned and -8 or 2)
+			close:Point("TOPRIGHT", unskinned and -8 or 1, unskinned and -4 or 2)
 			close:Size(32)
 			close.originalClose = frame.originalClose
 			frame.closeButton = close

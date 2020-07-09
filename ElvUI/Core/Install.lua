@@ -206,12 +206,13 @@ end
 function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 	if not noDataReset then
 		E.db.layoutSet = layout
+		E.db.layoutSetting = layout
 
 		--Unitframes
 		E:CopyTable(E.db.unitframe.units, P.unitframe.units)
 
 		--Shared base layout, tweaks to individual layouts will be below
-		E:ResetMovers("")
+		E:ResetMovers()
 		if not E.db.movers then
 			E.db.movers = {}
 		end
@@ -267,10 +268,10 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.general.totems.spacing = 8
 		E.db.general.reminder.enable = false
 	--Movers
-	for mover, position in pairs(E.LayoutMoverPositions["ALL"]) do
-		E.db.movers[mover] = position
-		E:SaveMoverDefaultPosition(mover)
-	end
+		for mover, position in pairs(E.LayoutMoverPositions.ALL) do
+			E.db.movers[mover] = position
+			E:SaveMoverDefaultPosition(mover)
+		end
 	--Tooltip
 		E.db.tooltip.textFontSize = 12
 		E.db.tooltip.healthBar.fontOutline = "MONOCHROMEOUTLINE"
@@ -395,7 +396,6 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 	end
 
 	E:UpdateAll(true)
-	E.db.layoutSetting = layout
 
 	if InstallStepComplete and not noDisplayMsg then
 		InstallStepComplete.message = L["Layout Set"]

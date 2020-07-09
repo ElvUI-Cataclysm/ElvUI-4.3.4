@@ -14,43 +14,43 @@ local function Panel_OnShow(self)
 end
 
 function LO:Initialize()
-	self.Initialized = true
-	self:CreateChatPanels()
-	self:CreateMinimapPanels()
-	self:SetDataPanelStyle()
+	LO.Initialized = true
+	LO:CreateChatPanels()
+	LO:CreateMinimapPanels()
+	LO:SetDataPanelStyle()
 
-	self.BottomPanel = CreateFrame("Frame", "ElvUI_BottomPanel", E.UIParent)
-	self.BottomPanel:SetTemplate("Transparent")
-	self.BottomPanel:Point("BOTTOMLEFT", E.UIParent, "BOTTOMLEFT", -1, -1)
-	self.BottomPanel:Point("BOTTOMRIGHT", E.UIParent, "BOTTOMRIGHT", 1, -1)
-	self.BottomPanel:Height(PANEL_HEIGHT)
-	self.BottomPanel:SetScript("OnShow", Panel_OnShow)
-	Panel_OnShow(self.BottomPanel)
-	self:BottomPanelVisibility()
+	LO.BottomPanel = CreateFrame("Frame", "ElvUI_BottomPanel", E.UIParent)
+	LO.BottomPanel:SetTemplate("Transparent")
+	LO.BottomPanel:Point("BOTTOMLEFT", E.UIParent, "BOTTOMLEFT", -1, -1)
+	LO.BottomPanel:Point("BOTTOMRIGHT", E.UIParent, "BOTTOMRIGHT", 1, -1)
+	LO.BottomPanel:Height(PANEL_HEIGHT)
+	LO.BottomPanel:SetScript("OnShow", Panel_OnShow)
+	Panel_OnShow(LO.BottomPanel)
+	LO:BottomPanelVisibility()
 
-	self.TopPanel = CreateFrame("Frame", "ElvUI_TopPanel", E.UIParent)
-	self.TopPanel:SetTemplate("Transparent")
-	self.TopPanel:Point("TOPLEFT", E.UIParent, "TOPLEFT", -1, 1)
-	self.TopPanel:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", 1, 1)
-	self.TopPanel:Height(PANEL_HEIGHT)
-	self.TopPanel:SetScript("OnShow", Panel_OnShow)
-	Panel_OnShow(self.TopPanel)
-	self:TopPanelVisibility()
+	LO.TopPanel = CreateFrame("Frame", "ElvUI_TopPanel", E.UIParent)
+	LO.TopPanel:SetTemplate("Transparent")
+	LO.TopPanel:Point("TOPLEFT", E.UIParent, "TOPLEFT", -1, 1)
+	LO.TopPanel:Point("TOPRIGHT", E.UIParent, "TOPRIGHT", 1, 1)
+	LO.TopPanel:Height(PANEL_HEIGHT)
+	LO.TopPanel:SetScript("OnShow", Panel_OnShow)
+	Panel_OnShow(LO.TopPanel)
+	LO:TopPanelVisibility()
 end
 
 function LO:BottomPanelVisibility()
 	if E.db.general.bottomPanel then
-		self.BottomPanel:Show()
+		LO.BottomPanel:Show()
 	else
-		self.BottomPanel:Hide()
+		LO.BottomPanel:Hide()
 	end
 end
 
 function LO:TopPanelVisibility()
 	if E.db.general.topPanel then
-		self.TopPanel:Show()
+		LO.TopPanel:Show()
 	else
-		self.TopPanel:Hide()
+		LO.TopPanel:Hide()
 	end
 end
 
@@ -135,7 +135,7 @@ end
 
 function LO:SetChatTabStyle()
 	local tabStyle = (E.db.chat.panelTabTransparency and "Transparent") or "Default"
-	local glossTex = (not tabStyle and true) or nil
+	local glossTex = E.db.chat.panelTabTransparency and nil or true
 
 	LeftChatTab:SetTemplate(tabStyle, glossTex)
 	RightChatTab:SetTemplate(tabStyle, glossTex)
