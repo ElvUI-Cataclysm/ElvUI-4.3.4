@@ -317,6 +317,8 @@ function S:Ace3_RegisterAsWidget(widget)
 		editbox:SetTemplate()
 		editbox:Height(15)
 		editbox:Point("TOP", frame, "BOTTOM", 0, -1)
+		editbox:HookScript("OnEnter", function(box) box:SetBackdropBorderColor(unpack(E.media.rgbvaluecolor)) end)
+		editbox:HookScript("OnLeave", function(box) box:SetBackdropBorderColor(unpack(E.media.bordercolor)) end)
 
 		lowtext:Point("TOPLEFT", frame, "BOTTOMLEFT", 2, -2)
 		hightext:Point("TOPRIGHT", frame, "BOTTOMRIGHT", -2, -2)

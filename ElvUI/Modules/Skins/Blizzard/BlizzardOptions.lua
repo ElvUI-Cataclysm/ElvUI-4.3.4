@@ -205,6 +205,7 @@ local function LoadSkin()
 		InterfaceOptionsSocialPanelChatHoverDelay,
 		InterfaceOptionsSocialPanelGuildMemberAlert,
 		InterfaceOptionsSocialPanelChatMouseScroll,
+		InterfaceOptionsSocialPanelWholeChatWindowClickable,
 		InterfaceOptionsActionBarsPanelBottomLeft,
 		InterfaceOptionsActionBarsPanelBottomRight,
 		InterfaceOptionsActionBarsPanelRight,
