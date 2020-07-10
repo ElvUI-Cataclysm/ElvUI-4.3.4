@@ -3808,8 +3808,14 @@ E.Options.args.nameplate = {
 									name = L["Cast No Interrupt Color"],
 									hasAlpha = false
 								},
-								castbarDesaturate = {
+								castInterruptedColor = {
 									order = 3,
+									type = "color",
+									name = L["INTERRUPTED"],
+									hasAlpha = false
+								},
+								castbarDesaturate = {
+									order = 4,
 									type = "toggle",
 									name = L["Desaturated Icon"],
 									desc = L["Show the castbar icon desaturated if a spell is not interruptible."],
