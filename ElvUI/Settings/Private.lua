@@ -114,7 +114,8 @@ V.skins = {
 		voidstorage = true,
 		watchframe = true,
 		worldmap = true,
-		mirrorTimers = true
+		mirrorTimers = true,
+		WorldStateFrame = true
 	}
 }
 
