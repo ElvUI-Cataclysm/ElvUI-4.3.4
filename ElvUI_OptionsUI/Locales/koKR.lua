@@ -1147,6 +1147,7 @@ L["Vehicle Seat Indicator Size"] = true
 L["Vehicle"] = true
 L["Vendor Gray Detailed Report"] = "자동판매시 목록 보기"
 L["Vendor Grays"] = "잡동사니 자동판매"
+L["Version Check Popup"] = true
 L["Version"] = "버전"
 L["Vertical Fill Direction"] = "수직 증감 방향"
 L["Vertical Spacing"] = "수직 간격"

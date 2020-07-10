@@ -1147,6 +1147,7 @@ L["Vehicle Seat Indicator Size"] = "载具座位框大小"
 L["Vehicle"] = "载具"
 L["Vendor Gray Detailed Report"] = "出售灰色物品详细报告"
 L["Vendor Grays"] = "出售灰色物品"
+L["Version Check Popup"] = true
 L["Version"] = "版本"
 L["Vertical Fill Direction"] = "垂直填充方向"
 L["Vertical Spacing"] = "垂直间隔"

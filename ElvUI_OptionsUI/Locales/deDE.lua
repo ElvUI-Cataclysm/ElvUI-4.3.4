@@ -1147,6 +1147,7 @@ L["Vehicle Seat Indicator Size"] = "Fahrzeugfenster Skalierung"
 L["Vehicle"] = "Fahrzeug"
 L["Vendor Gray Detailed Report"] = "Graue Gegenstände detaillierter Report"
 L["Vendor Grays"] = "Graue Gegenstände verkaufen"
+L["Version Check Popup"] = true
 L["Version"] = "Version"
 L["Vertical Fill Direction"] = "Vertikale Füllausrichtung"
 L["Vertical Spacing"] = "Vertikaler Abstand"

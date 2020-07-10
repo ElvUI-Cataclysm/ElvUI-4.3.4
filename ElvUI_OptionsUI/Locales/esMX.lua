@@ -1147,6 +1147,7 @@ L["Vehicle Seat Indicator Size"] = "Tamaño del indicador del asiento del vehíc
 L["Vehicle"] = "Vehículo"
 L["Vendor Gray Detailed Report"] = "Informe detallado del vendedor gris"
 L["Vendor Grays"] = "Vender Objetos Grises"
+L["Version Check Popup"] = true
 L["Version"] = "Versión"
 L["Vertical Fill Direction"] = "Dirección de relleno vertical"
 L["Vertical Spacing"] = "Espaciado Vertical"

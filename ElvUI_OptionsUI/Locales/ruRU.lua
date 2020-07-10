@@ -1147,6 +1147,7 @@ L["Vehicle Seat Indicator Size"] = "Размер индикатора транс
 L["Vehicle"] = "Техника"
 L["Vendor Gray Detailed Report"] = "Подробности продажи"
 L["Vendor Grays"] = "Продавать серые предметы"
+L["Version Check Popup"] = true
 L["Version"] = "Версия"
 L["Vertical Fill Direction"] = "Вертикальное заполнение"
 L["Vertical Spacing"] = "Отступ по вертикали"

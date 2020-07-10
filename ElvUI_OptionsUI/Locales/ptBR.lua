@@ -1147,6 +1147,7 @@ L["Vehicle Seat Indicator Size"] = true
 L["Vehicle"] = true
 L["Vendor Gray Detailed Report"] = true
 L["Vendor Grays"] = "Vender Itens Cinzentos"
+L["Version Check Popup"] = true
 L["Version"] = "Versão"
 L["Vertical Fill Direction"] = true
 L["Vertical Spacing"] = "Espaçamento Vertical"

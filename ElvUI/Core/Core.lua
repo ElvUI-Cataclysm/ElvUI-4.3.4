@@ -812,7 +812,7 @@ do
 					if not E.recievedOutOfDateMessage then
 						E:Print(L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm"])
 
-						if not inCombat then
+						if not inCombat and E.global.general.versionPopup then
 							E:StaticPopup_Show("ELVUI_UPDATE_AVAILABLE")
 						end
 
