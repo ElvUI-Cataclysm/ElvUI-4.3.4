@@ -386,7 +386,6 @@ E.Options.args.actionbar = {
 					type = "execute",
 					name = L["Restore Bar"],
 					desc = L["Restore the actionbars default settings"],
-					buttonElvUI = true,
 					func = function() E:CopyTable(E.db.actionbar.barTotem, P.actionbar.barTotem) E:ResetMovers(TUTORIAL_TITLE47) AB:PositionAndSizeBarTotem() end,
 					disabled = function() return not E.db.actionbar.barTotem.enabled end
 				},
@@ -480,7 +479,6 @@ E.Options.args.actionbar = {
 					type = "execute",
 					name = L["Restore Bar"],
 					desc = L["Restore the actionbars default settings"],
-					buttonElvUI = true,
 					func = function() E:CopyTable(E.db.actionbar.barPet, P.actionbar.barPet) E:ResetMovers("Pet Bar") AB:PositionAndSizeBarPet() end,
 					disabled = function() return not E.db.actionbar.barPet.enabled end
 				},
@@ -619,7 +617,6 @@ E.Options.args.actionbar = {
 					type = "execute",
 					name = L["Restore Bar"],
 					desc = L["Restore the actionbars default settings"],
-					buttonElvUI = true,
 					func = function() E:CopyTable(E.db.actionbar.stanceBar, P.actionbar.stanceBar) E:ResetMovers(L["Stance Bar"]) AB:PositionAndSizeBarShapeShift() end,
 					disabled = function() return not E.db.actionbar.stanceBar.enabled end
 				},
@@ -768,7 +765,6 @@ E.Options.args.actionbar = {
 					type = "execute",
 					name = L["Restore Bar"],
 					desc = L["Restore the actionbars default settings"],
-					buttonElvUI = true,
 					func = function() E:CopyTable(E.db.actionbar.microbar, P.actionbar.microbar) E:ResetMovers(L["Micro Bar"]) AB:UpdateMicroPositionDimensions() end,
 					disabled = function() return not E.db.actionbar.microbar.enabled end
 				},
@@ -932,7 +928,6 @@ for i = 1, 10 do
 				type = "execute",
 				name = L["Restore Bar"],
 				desc = L["Restore the actionbars default settings"],
-				buttonElvUI = true,
 				func = function() E:CopyTable(E.db.actionbar["bar"..i], P.actionbar["bar"..i]) E:ResetMovers("Bar "..i) AB:PositionAndSizeBar("bar"..i) end,
 				disabled = function() return not E.db.actionbar["bar"..i].enabled end
 			},
@@ -1104,7 +1099,6 @@ E.Options.args.actionbar.args.playerBars.args.bar1.args.pagingReset = {
 	name = L["Reset Action Paging"],
 	confirm = true,
 	confirmText = L["You are about to reset paging. Are you sure?"],
-	buttonElvUI = true,
 	func = function() E.db.actionbar.bar1.paging[E.myclass] = P.actionbar.bar1.paging[E.myclass] AB:UpdateButtonSettings() end,
 	disabled = function() return not E.db.actionbar.bar1.enabled end
 }

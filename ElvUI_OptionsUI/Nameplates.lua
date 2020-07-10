@@ -2487,7 +2487,6 @@ local function GetUnitSettings(unit, name)
 								type = "execute",
 								name = L["Filters Page"],
 								desc = L["Shortcut to global filters."],
-								buttonElvUI = true,
 								func = function() ACD:SelectGroup("ElvUI", "filters") end,
 								disabled = function() return not E.db.nameplates.units[unit].buffs.enable end
 							},
@@ -2544,7 +2543,6 @@ local function GetUnitSettings(unit, name)
 								type = "execute",
 								name = L["Reset Priority"],
 								desc = L["Reset filter priority to the default state."],
-								buttonElvUI = true,
 								func = function()
 									E.db.nameplates.units[unit].buffs.filters.priority = P.nameplates.units[unit].buffs.filters.priority
 									NP:ConfigureAll()
@@ -2888,7 +2886,6 @@ local function GetUnitSettings(unit, name)
 								type = "execute",
 								name = L["Filters Page"],
 								desc = L["Shortcut to global filters."],
-								buttonElvUI = true,
 								func = function() ACD:SelectGroup("ElvUI", "filters") end,
 								disabled = function() return not E.db.nameplates.units[unit].debuffs.enable end
 							},
@@ -2945,7 +2942,6 @@ local function GetUnitSettings(unit, name)
 								type = "execute",
 								name = L["Reset Priority"],
 								desc = L["Reset filter priority to the default state."],
-								buttonElvUI = true,
 								func = function()
 									E.db.nameplates.units[unit].debuffs.filters.priority = P.nameplates.units[unit].debuffs.filters.priority
 									NP:ConfigureAll()
@@ -4017,7 +4013,6 @@ E.Options.args.nameplate = {
 					type = "execute",
 					name = L["Delete Filter"],
 					desc = L["Delete a created filter, you cannot delete pre-existing filters, only custom ones."],
-					buttonElvUI = true,
 					confirm = true,
 					confirmText = L["Delete Filter"],
 					func = function()
