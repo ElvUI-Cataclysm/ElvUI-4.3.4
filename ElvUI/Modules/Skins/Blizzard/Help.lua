@@ -9,8 +9,7 @@ local function LoadSkin()
 
 	local frames = {
 		"HelpFrameLeftInset",
-		"HelpFrameMainInset",
-		"HelpFrameKnowledgebase"
+		"HelpFrameMainInset"
 	}
 
 	for i = 1, #frames do
@@ -67,7 +66,9 @@ local function LoadSkin()
 	end
 
 	-- Knowledgebase
-	HelpFrameKnowledgebaseErrorFrame:StripTextures(true)
+	HelpFrameKnowledgebase:StripTextures()
+
+	HelpFrameKnowledgebaseErrorFrame:StripTextures()
 	HelpFrameKnowledgebaseErrorFrame:CreateBackdrop()
 
 	S:HandleScrollBar(HelpFrameKnowledgebaseScrollFrame2ScrollBar)
