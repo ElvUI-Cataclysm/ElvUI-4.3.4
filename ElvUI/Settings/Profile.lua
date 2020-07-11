@@ -1073,6 +1073,7 @@ P.chat = {
 	editBoxPosition = "BELOW_CHAT",
 	fadeUndockedTabs = true,
 	fadeTabsNoBackdrop = true,
+	fadeChatToggles = true,
 	useAltKey = false,
 	classColorMentionsChat = true,
 	numAllowedCombatRepeat = 5,
