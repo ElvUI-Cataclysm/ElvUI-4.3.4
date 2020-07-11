@@ -42,8 +42,6 @@ This UI will arrange your interface to be more flexible and practical.
 <br />
 [ElvUI_BagControl](https://github.com/ElvUI-Cataclysm/ElvUI_BagControl)
 <br />
-[ElvUI_ChannelAlerts](https://github.com/ElvUI-Cataclysm/ElvUI_ChannelAlerts-4.3.4)
-<br />
 [ElvUI_SwingBar](https://github.com/ElvUI-Cataclysm/ElvUI_SwingBar-4.3.4)
 
 -- Please Note: These plugins will not function without ElvUI installed.

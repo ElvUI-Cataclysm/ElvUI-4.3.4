@@ -132,6 +132,7 @@ do
 	DisableAddOn("ElvUI_CustomTweaks")
 	DisableAddOn("ElvUI_MinimapButtons")
 	DisableAddOn("ElvUI_DataTextColors")
+	DisableAddOn("ElvUI_ChannelAlerts")
 end
 
 function E:OnInitialize()
