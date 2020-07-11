@@ -250,9 +250,16 @@ function TT:SetUnitText(tt, unit)
 		if TT.db.showElvUIUsers then
 			local addonUser = E.UserList[nameRealm]
 			if addonUser then
-				local v, r, g, b = addonUser == E.version, unpack(E.media.rgbvaluecolor)
+				local r, g
+				if addonUser == E.version then
+					r, g = 0, 1
+				elseif addonUser > E.version then
+					r, g = 1, 1
+				elseif addonUser < E.version then
+					r, g = 1, 0
+				end
 
-				GameTooltip:AddDoubleLine(E.title, format("%s%s", "v", addonUser), r, g, b, v and 0 or 1, v and 1 or 0, 0)
+				GameTooltip:AddDoubleLine(E.title, format("%.02f", addonUser), nil, nil, nil, r, g, 0)
 			end
 		end
 

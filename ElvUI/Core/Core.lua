@@ -781,15 +781,6 @@ do
 		SendMessageWaiting = nil
 	end
 
-	local function compareVersion(msg, current)
-		local msgMajor, msgMinor = strsplit(".", msg)
-		local curMajor, curMinor = strsplit(".", current)
-
-		if tonumber(msgMajor) > tonumber(curMajor) or (tonumber(msgMajor) == tonumber(curMajor) and tonumber(msgMinor) > tonumber(curMinor)) then
-			return true
-		end
-	end
-
 	local SendRecieveGroupSize = 0
 	local PLAYER_NAME = format("%s-%s", E.myname, E:ShortenRealm(E.myrealm))
 	local function SendRecieve(_, event, prefix, message, _, sender)
@@ -800,7 +791,7 @@ do
 				local msg, ver = tonumber(message), E.version
 				local inCombat = InCombatLockdown()
 
-				E.UserList[E:StripMyRealm(sender)] = msg
+				E.UserList[sender] = msg
 
 				if ver ~= G.general.version then
 					if not E.shownUpdatedWhileRunningPopup and not inCombat then
@@ -808,11 +799,11 @@ do
 
 						E.shownUpdatedWhileRunningPopup = true
 					end
-				elseif msg and compareVersion(msg, ver) then
+				elseif msg and msg > ver then
 					if not E.recievedOutOfDateMessage then
-						E:Print(L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm"])
+						print(L["ElvUI is out of date. You can download the newest version from https://github.com/ElvUI-Cataclysm"])
 
-						if not inCombat and E.global.general.versionPopup then
+						if not inCombat and not E.global.general.ignoreVersionPopup then
 							E:StaticPopup_Show("ELVUI_UPDATE_AVAILABLE")
 						end
 

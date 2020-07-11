@@ -89,12 +89,12 @@ E.Options.args.general = {
 					type = "toggle",
 					name = L["Login Message"]
 				},
-				versionPopup = {
+				ignoreVersionPopup = {
 					order = 8,
 					type = "toggle",
-					name = L["Version Check Popup"],
-					get = function(info) return E.global.general.versionPopup end,
-					set = function(info, value) E.global.general.versionPopup = value end
+					name = L["Ignore Version Popup"],
+					get = function(info) return E.global.general.ignoreVersionPopup end,
+					set = function(info, value) E.global.general.ignoreVersionPopup = value end
 				},
 				eyefinity = {
 					order = 9,
