@@ -101,14 +101,10 @@ function E:CheckTalent(spellID)
 			if name and (name == spellName) then
 				if rank and (rank > 0) then
 					return true
-				else
-					return false
 				end
 			end
 		end
 	end
-
-	return false
 end
 
 function E:GetPlayerRole()
@@ -157,11 +153,7 @@ function E:CheckRole()
 		local base, posBuff, negBuff = UnitAttackPower("player")
 		local playerAP = base + posBuff + negBuff
 
-		if (playerAP > playerInt) or (playerAgi > playerInt) then
-			role = "Melee"
-		else
-			role = "Caster"
-		end
+		role = ((playerAP > playerInt) or (playerAgi > playerInt)) and "Melee" or "Caster"
 	end
 
 	if self.Role ~= role then
@@ -171,23 +163,11 @@ function E:CheckRole()
 	end
 
 	if E.myclass == "SHAMAN" and talentTree == 3 then
-		if E:CheckTalent(77130) then -- Improved Cleanse Spirit
-			self.DispelClasses[E.myclass].Magic = true
-		else
-			self.DispelClasses[E.myclass].Magic = false
-		end
+		E.DispelClasses[E.myclass].Magic = E:CheckTalent(77130) -- Improved Cleanse Spirit
 	elseif E.myclass == "DRUID" and talentTree == 3 then
-		if E:CheckTalent(88423) then -- Nature's Cure
-			self.DispelClasses[E.myclass].Magic = true
-		else
-			self.DispelClasses[E.myclass].Magic = false
-		end
+		E.DispelClasses[E.myclass].Magic = E:CheckTalent(88423) -- Nature's Cure
 	elseif E.myclass == "PALADIN" and talentTree == 1 then
-		if E:CheckTalent(53551) then -- Sacred Cleansing
-			self.DispelClasses[E.myclass].Magic = true
-		else
-			self.DispelClasses[E.myclass].Magic = false
-		end
+		E.DispelClasses[E.myclass].Magic = E:CheckTalent(53551) -- Sacred Cleansing
 	end
 end
 
