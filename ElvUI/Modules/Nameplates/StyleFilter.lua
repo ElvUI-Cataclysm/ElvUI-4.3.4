@@ -341,13 +341,11 @@ function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, Fl
 		end
 		if NP.db.units[frame.UnitType].name.enable then
 			frame.Name:ClearAllPoints()
+			frame.Level:ClearAllPoints()
+			NP:Update_Level(frame)
 			NP:Update_Name(frame)
 		else
 			frame.Name:SetText()
-		end
-		if NP.db.units[frame.UnitType].level.enable then
-			frame.Level:ClearAllPoints()
-			NP:Update_Level(frame)
 		end
 	end
 	if IconChanged then
@@ -367,15 +365,13 @@ function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, Fl
 		end
 		if NP.db.units[frame.UnitType].name.enable then
 			frame.Name:Show()
+			frame.Level:Show()
 			frame.Name:ClearAllPoints()
+			frame.Level:ClearAllPoints()
+			NP:Update_Level(frame)
 			NP:Update_Name(frame)
 		else
 			frame.Name:SetText()
-		end
-		if NP.db.units[frame.UnitType].level.enable then
-			frame.Level:Show()
-			frame.Level:ClearAllPoints()
-			NP:Update_Level(frame)
 		end
 		NP:Update_RaidIcon(frame)
 	end
