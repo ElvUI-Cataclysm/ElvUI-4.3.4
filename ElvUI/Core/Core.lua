@@ -12,7 +12,6 @@ local format, find, match, strrep, strlen, sub, gsub, strjoin = string.format, s
 local CreateFrame = CreateFrame
 local GetAddOnInfo = GetAddOnInfo
 local GetCVar = GetCVar
-local IsAddOnLoaded = IsAddOnLoaded
 local IsInGuild = IsInGuild
 local IsInInstance, GetNumPartyMembers, GetNumRaidMembers = IsInInstance, GetNumPartyMembers, GetNumRaidMembers
 local SendAddonMessage = SendAddonMessage
@@ -524,7 +523,7 @@ function E:CheckIncompatible()
 			E:IncompatibleAddOn("Chatter", "Chat")
 		end
 	end
-	
+
 	if E.private.nameplates.enable then
 		if E:IsAddOnEnabled("Aloft") then
 			E:IncompatibleAddOn("Aloft", "NamePlates")
