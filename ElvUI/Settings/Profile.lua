@@ -557,8 +557,8 @@ P.nameplates = {
 			},
 			comboPoints = {
 				enable = true,
-				width = 8,
-				height = 4,
+				width = 10,
+				height = 5,
 				spacing = 5,
 				xOffset = 0,
 				yOffset = 0
@@ -832,8 +832,8 @@ P.nameplates = {
 			},
 			comboPoints = {
 				enable = true,
-				width = 8,
-				height = 4,
+				width = 10,
+				height = 5,
 				spacing = 5,
 				xOffset = 0,
 				yOffset = 0

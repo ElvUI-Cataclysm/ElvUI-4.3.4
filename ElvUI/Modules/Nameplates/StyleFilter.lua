@@ -374,6 +374,8 @@ function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, Fl
 			frame.Name:SetText()
 		end
 		NP:Update_RaidIcon(frame)
+		NP:Configure_IconOnlyGlow(frame)
+		NP:Configure_NameOnlyGlow(frame)
 	end
 end
 
@@ -731,9 +733,7 @@ function NP:StyleFilterAddCustomCheck(name, func)
 end
 
 function NP:StyleFilterRemoveCustomCheck(name)
-	if not NP.StyleFilterCustomChecks then
-		return
-	end
+	if not NP.StyleFilterCustomChecks then return end
 
 	NP.StyleFilterCustomChecks[name] = nil
 end
