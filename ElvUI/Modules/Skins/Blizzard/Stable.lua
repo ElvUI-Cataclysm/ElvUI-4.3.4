@@ -7,11 +7,11 @@ local unpack = unpack
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.stable then return end
 
-	PetStableFrame:StripTextures()
-	PetStableFrame:CreateBackdrop("Transparent")
-
 	NUM_PET_STABLE_SLOTS = 20
 	NUM_PET_STABLE_PAGES = 1
+
+	PetStableFrame:StripTextures()
+	PetStableFrame:CreateBackdrop("Transparent")
 	PetStableFrame.page = 1
 
 	PetStableFrameInset:StripTextures()
@@ -29,14 +29,16 @@ local function LoadSkin()
 	PetStablePetInfo.backdrop:SetOutside(PetStableSelectedPetIcon)
 
 	PetStableSelectedPetIcon:SetTexCoord(unpack(E.TexCoords))
-	PetStableSelectedPetIcon:Point("TOPLEFT", PetStablePetInfo, "TOPLEFT", 0, 2)
+	PetStableSelectedPetIcon:Point("TOPLEFT", PetStablePetInfo, 0, 2)
 
 	PetStableDiet:StripTextures()
 	PetStableDiet:CreateBackdrop()
 	PetStableDiet:Point("TOPRIGHT", -1, 2)
 	PetStableDiet:Size(40)
 
-	PetStableDiet.icon = PetStableDiet:CreateTexture(nil, "OVERLAY")
+	S:HandleFrameHighlight(PetStableDiet, PetStableDiet.backdrop)
+
+	PetStableDiet.icon = PetStableDiet:CreateTexture(nil, "ARTWORK")
 	PetStableDiet.icon:SetTexture("Interface\\Icons\\Ability_Hunter_BeastTraining")
 	PetStableDiet.icon:SetTexCoord(unpack(E.TexCoords))
 	PetStableDiet.icon:SetInside(PetStableDiet.backdrop)
@@ -57,7 +59,7 @@ local function LoadSkin()
 
 	local function PetButtons(btn)
 		local button = _G[btn]
-		local icon = _G[btn..'IconTexture']
+		local icon = _G[btn.."IconTexture"]
 		local highlight = button:GetHighlightTexture()
 
 		button:StripTextures()
@@ -103,19 +105,14 @@ local function LoadSkin()
 
 		PetButtons("PetStableStabledPet"..i)
 
-		if i > 1 then
-			button:ClearAllPoints()
+		button:ClearAllPoints()
+		if i ~= 1 and i ~= 8 and i ~= 15 then
 			button:Point("LEFT", _G["PetStableStabledPet"..i - 1], "RIGHT", 7, 0)
 		end
 	end
 
-	PetStableStabledPet1:ClearAllPoints()
 	PetStableStabledPet1:Point("TOPLEFT", PetStableBottomInset, 9, -5)
-
-	PetStableStabledPet8:ClearAllPoints()
 	PetStableStabledPet8:Point("TOPLEFT", PetStableStabledPet1, "BOTTOMLEFT", 0, -5)
-
-	PetStableStabledPet15:ClearAllPoints()
 	PetStableStabledPet15:Point("TOPLEFT", PetStableStabledPet8, "BOTTOMLEFT", 0, -5)
 end
 

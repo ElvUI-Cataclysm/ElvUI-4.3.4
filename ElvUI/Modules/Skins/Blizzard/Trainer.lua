@@ -12,9 +12,10 @@ local function LoadSkin()
 	ClassTrainerFrame.backdrop:Point("TOPLEFT", 4, 0)
 	ClassTrainerFrame:Height(472)
 
-	ClassTrainerFramePortrait:Kill()
-	ClassTrainerFrameInset:Kill()
 	ClassTrainerFrameBottomInset:Kill()
+
+	ClassTrainerFrameInset:Kill()
+	ClassTrainerFramePortrait:Kill()
 
 	S:HandleButton(ClassTrainerTrainButton)
 	ClassTrainerTrainButton:Point("BOTTOMRIGHT", -5, 5)
@@ -60,12 +61,12 @@ local function LoadSkin()
 
 	-- Scroll Frame
 	ClassTrainerScrollFrame:CreateBackdrop("Transparent")
-	ClassTrainerScrollFrame.backdrop:Point("BOTTOMRIGHT", 0, -1)
+	ClassTrainerScrollFrame.backdrop:Point("BOTTOMRIGHT", 0, -3)
 
 	S:HandleScrollBar(ClassTrainerScrollFrameScrollBar)
 	ClassTrainerScrollFrameScrollBar:ClearAllPoints()
 	ClassTrainerScrollFrameScrollBar:Point("TOPRIGHT", ClassTrainerScrollFrame, 23, -15)
-	ClassTrainerScrollFrameScrollBar:Point("BOTTOMRIGHT", ClassTrainerScrollFrame, 0, 15)
+	ClassTrainerScrollFrameScrollBar:Point("BOTTOMRIGHT", ClassTrainerScrollFrame, 0, 13)
 
 	for i = 1, 8 do
 		local button = _G["ClassTrainerScrollFrameButton"..i]
@@ -73,14 +74,14 @@ local function LoadSkin()
 		button:StripTextures()
 
 		button.selectedTex:SetTexture(E.Media.Textures.Highlight)
-		button.selectedTex:SetAlpha(0.35)
+		button.selectedTex:SetVertexColor(1, 0.8, 0.1, 0.35)
 		button.selectedTex:SetTexCoord(0, 1, 0, 1)
 		button.selectedTex.SetTexCoord = E.noop
-		button.selectedTex:Point("TOPLEFT", 0, -(E.PixelMode and 1 or 3))
+		button.selectedTex:Point("TOPLEFT", 48, -(E.PixelMode and 1 or 3))
 		button.selectedTex:Point("BOTTOMRIGHT")
 
 		S:HandleButtonHighlight(button)
-		button.handledHighlight:Point("TOPLEFT", 0, -(E.PixelMode and 1 or 3))
+		button.handledHighlight:Point("TOPLEFT", 48, -(E.PixelMode and 1 or 3))
 		button.handledHighlight:Point("BOTTOMRIGHT")
 
 		button.bg = CreateFrame("Frame", nil, button)

@@ -110,36 +110,28 @@ local function LoadSkin()
 		end
 	end
 
-	hooksecurefunc("EquipmentFlyoutPopoutButton_SetReversed", function(self, isReversed)
-		if self:GetParent().verticalFlyout then
-			if isReversed then
-				self.icon:SetRotation(0)
-			else
-				self.icon:SetRotation(3.14)
-			end
-		else
-			if isReversed then
-				self.icon:SetRotation(1.57)
-			else
-				self.icon:SetRotation(-1.57)
-			end
-		end
+	hooksecurefunc("EquipmentFlyoutPopoutButton_SetReversed", function(button, isReversed)
+		button.icon:SetRotation(button:GetParent().verticalFlyout and (isReversed and 0 or 3.14) or (isReversed and 1.57 or -1.57))
 	end)
 
 	EquipmentFlyoutFrameHighlight:Kill()
 
 	hooksecurefunc("EquipmentFlyout_DisplayButton", function(button)
-		button:GetNormalTexture():SetTexture(nil)
-		button:SetTemplate()
-		button:StyleButton()
+		if not button.isSkinned then
+			button:GetNormalTexture():SetTexture(nil)
+			button:SetTemplate()
+			button:StyleButton()
 
-		button.icon = _G[button:GetName().."IconTexture"]
-		button.icon:SetTexCoord(unpack(E.TexCoords))
-		button.icon:SetInside()
+			button.icon = _G[button:GetName().."IconTexture"]
+			button.icon:SetTexCoord(unpack(E.TexCoords))
+			button.icon:SetInside()
 
-		local cooldown = _G[button:GetName().."Cooldown"]
-		if cooldown then
-			E:RegisterCooldown(cooldown)
+			local cooldown = _G[button:GetName().."Cooldown"]
+			if cooldown then
+				E:RegisterCooldown(cooldown)
+			end
+
+			button.isSkinned = true
 		end
 
 		local location = button.location
@@ -158,15 +150,10 @@ local function LoadSkin()
 
 		frame:StripTextures()
 		frame:SetTemplate("Transparent")
+		frame:Point("TOPLEFT", self.popoutButton, self.verticalFlyout and "BOTTOMLEFT" or "TOPRIGHT", self.verticalFlyout and -10 or 0, self.verticalFlyout and 0 or 10)
 
 		local width, height = frame:GetSize()
 		frame:Size(width + 3, height)
-
-		if self.verticalFlyout then
-			frame:Point("TOPLEFT", self.popoutButton, "BOTTOMLEFT", -10, 0)
-		else
-			frame:Point("TOPLEFT", self.popoutButton, "TOPRIGHT", 0, 10)
-		end
 	end)
 
 	local function ColorItemBorder()

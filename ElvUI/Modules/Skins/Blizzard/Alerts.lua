@@ -20,15 +20,7 @@ local function LoadSkin()
 			frame:CreateBackdrop("Transparent")
 			frame.backdrop:Point("TOPLEFT", frame, "TOPLEFT", -2, -6)
 			frame.backdrop:Point("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -2, 6)
-
-			_G[name.."Background"]:Kill()
-			_G[name.."Glow"]:Kill()
-			_G[name.."Shine"]:Kill()
-			_G[name.."GuildBanner"]:Kill()
-			_G[name.."GuildBorder"]:Kill()
-			_G[name.."IconOverlay"]:Kill()
-
-			_G[name.."Unlocked"]:SetTextColor(1, 1, 1)
+			frame:SetHitRectInsets(0, 0, 6, 6)
 
 			_G[name.."IconTexture"]:ClearAllPoints()
 			_G[name.."IconTexture"]:Point("LEFT", frame, 7, 0)
@@ -36,6 +28,15 @@ local function LoadSkin()
 			_G[name.."IconTexture"].backdrop = CreateFrame("Frame", nil, frame)
 			_G[name.."IconTexture"].backdrop:SetTemplate()
 			_G[name.."IconTexture"].backdrop:SetOutside(_G[name.."IconTexture"])
+
+			_G[name.."Unlocked"]:SetTextColor(1, 1, 1)
+
+			_G[name.."Background"]:Kill()
+			_G[name.."Glow"]:Kill()
+			_G[name.."Shine"]:Kill()
+			_G[name.."GuildBanner"]:Kill()
+			_G[name.."GuildBorder"]:Kill()
+			_G[name.."IconOverlay"]:Kill()
 
 			frame.isSkinned = true
 
@@ -54,18 +55,7 @@ local function LoadSkin()
 	frame:CreateBackdrop("Transparent")
 	frame.backdrop:Point("TOPLEFT", frame, "TOPLEFT", -2, -6)
 	frame.backdrop:Point("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -2, 6)
-
-	frame.shine:Kill()
-	frame.glowFrame:Kill()
-	frame.glowFrame:DisableDrawLayer("OVERLAY")
-	frame.glowFrame.glow:Kill()
-	frame.heroicIcon:Hide()
-
-	frame.raidArt:Kill()
-	frame.dungeonArt1:Kill()
-	frame.dungeonArt2:Kill()
-	frame.dungeonArt3:Kill()
-	frame.dungeonArt4:Kill()
+	frame:SetHitRectInsets(0, 0, 6, 6)
 
 	frame.dungeonTexture:ClearAllPoints()
 	frame.dungeonTexture:Point("LEFT", frame.backdrop, 9, 0)
@@ -76,6 +66,19 @@ local function LoadSkin()
 	frame.dungeonTexture.backdrop:SetOutside(frame.dungeonTexture)
 	frame.dungeonTexture.backdrop:SetFrameLevel(0)
 
+	frame.shine:Kill()
+	frame.raidArt:Kill()
+
+	frame.dungeonArt1:Kill()
+	frame.dungeonArt2:Kill()
+	frame.dungeonArt3:Kill()
+	frame.dungeonArt4:Kill()
+
+	frame.glowFrame:Kill()
+	frame.glowFrame.glow:Kill()
+	frame.glowFrame:DisableDrawLayer("OVERLAY")
+
+	frame.heroicIcon:Hide()
 	DungeonCompletionAlertFrame1Reward1:Hide()
 
 	local function DungeonCompletionAlertFrameReward_SetReward(self)
@@ -84,10 +87,6 @@ local function LoadSkin()
 	hooksecurefunc("DungeonCompletionAlertFrameReward_SetReward", DungeonCompletionAlertFrameReward_SetReward)
 
 	-- Guild Challenge Alerts
-	GuildChallengeAlertFrame:CreateBackdrop("Transparent")
-	GuildChallengeAlertFrame.backdrop:SetPoint("TOPLEFT", GuildChallengeAlertFrame, "TOPLEFT", -2, -6)
-	GuildChallengeAlertFrame.backdrop:SetPoint("BOTTOMRIGHT", GuildChallengeAlertFrame, "BOTTOMRIGHT", -2, 6)
-
 	for i = 1, GuildChallengeAlertFrame:GetNumRegions() do
 		local region = select(i, GuildChallengeAlertFrame:GetRegions())
 		if region and region:IsObjectType("Texture") and not region:GetName() then
@@ -95,15 +94,20 @@ local function LoadSkin()
 		end
 	end
 
-	GuildChallengeAlertFrameEmblemBorder:Kill()
-	GuildChallengeAlertFrameGlow:Kill()
-	GuildChallengeAlertFrameShine:Kill()
+	GuildChallengeAlertFrame:CreateBackdrop("Transparent")
+	GuildChallengeAlertFrame.backdrop:SetPoint("TOPLEFT", GuildChallengeAlertFrame, "TOPLEFT", -2, -6)
+	GuildChallengeAlertFrame.backdrop:SetPoint("BOTTOMRIGHT", GuildChallengeAlertFrame, "BOTTOMRIGHT", -2, 6)
+	GuildChallengeAlertFrame:SetHitRectInsets(0, 0, 6, 6)
 
 	GuildChallengeAlertFrameEmblemIcon.backdrop = CreateFrame("Frame", nil, GuildChallengeAlertFrame)
 	GuildChallengeAlertFrameEmblemIcon.backdrop:SetTemplate()
 	GuildChallengeAlertFrameEmblemIcon.backdrop:SetPoint("TOPLEFT", GuildChallengeAlertFrameEmblemIcon, "TOPLEFT", -2, 2)
 	GuildChallengeAlertFrameEmblemIcon.backdrop:SetPoint("BOTTOMRIGHT", GuildChallengeAlertFrameEmblemIcon, "BOTTOMRIGHT", 2, -2)
 	GuildChallengeAlertFrameEmblemIcon.backdrop:SetFrameLevel(0)
+
+	GuildChallengeAlertFrameGlow:Kill()
+	GuildChallengeAlertFrameShine:Kill()
+	GuildChallengeAlertFrameEmblemBorder:Kill()
 end
 
 S:AddCallback("Alerts", LoadSkin)
