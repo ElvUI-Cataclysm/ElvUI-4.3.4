@@ -135,7 +135,7 @@ function UF:FrameGlow_PositionGlow(frame, mainGlow, powerGlow)
 		UF:FrameGlow_ClassGlowPosition(frame, "Runes", mainGlow, offset)
 	elseif frame.ComboPoints then
 		UF:FrameGlow_ClassGlowPosition(frame, "ComboPoints", mainGlow, offset)
-	elseif frame.AlternativePower and (frame.isForced or (frame.unit and frame.unit:find("boss%d"))) then
+	elseif frame.AlternativePower then
 		UF:FrameGlow_ClassGlowPosition(frame, "AlternativePower", mainGlow, offset)
 	end
 end

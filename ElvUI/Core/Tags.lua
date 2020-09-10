@@ -5,7 +5,7 @@ local Translit = E.Libs.Translit
 local translitMark = "!"
 
 local _G = _G
-local tonumber, next, pairs, select = tonumber, next, pairs, select
+local tonumber, next, pairs, select, unpack = tonumber, next, pairs, select, unpack
 local ceil, floor = ceil, math.floor
 local gmatch, gsub, format = gmatch, gsub, format
 local strfind, strmatch, strlower, strsplit = strfind, strmatch, strlower, strsplit
@@ -97,27 +97,28 @@ end
 E.TagFunctions.Abbrev = Abbrev
 
 local function GetClassPower(class)
-	local min, max, r, g, b = 0, 0, 0, 0, 0
+	local min, max, r, g, b
 
 	if class == "PALADIN" then
 		min = UnitPower("player", SPELL_POWER_HOLY_POWER)
 		max = UnitPowerMax("player", SPELL_POWER_HOLY_POWER)
-		r, g, b = 0.89, 1, 0.06
-	elseif class == "DRUID" and GetShapeshiftFormID() == MOONKIN_FORM then
-		min = UnitPower("player", SPELL_POWER_ECLIPSE)
-		max = UnitPowerMax("player", SPELL_POWER_ECLIPSE)
-		if GetEclipseDirection() == "moon" then
-			r, g, b = 0.80, 0.82, 0.60
-		else
-			r, g, b = 0.30, 0.52, 0.90
+		r, g, b = unpack(ElvUF.colors.ClassBars.PALADIN)
+	elseif class == "DRUID" then
+		local form = GetShapeshiftFormID()
+		local spec = GetPrimaryTalentTree()
+		if spec and spec == 1 and (form == MOONKIN_FORM or not form) then
+			min = UnitPower("player", SPELL_POWER_ECLIPSE)
+			max = UnitPowerMax("player", SPELL_POWER_ECLIPSE)
+			local eclipse = GetEclipseDirection() == "moon" and 2 or 1
+			r, g, b = unpack(ElvUF.colors.ClassBars.DRUID[eclipse])
 		end
 	elseif class == "WARLOCK" then
 		min = UnitPower("player", SPELL_POWER_SOUL_SHARDS)
 		max = UnitPowerMax("player", SPELL_POWER_SOUL_SHARDS)
-		r, g, b = 0.58, 0.51, 0.79
+		r, g, b = unpack(ElvUF.colors.ClassBars.WARLOCK[1])
 	end
 
-	return min, max, r, g, b
+	return min or 0, max or 0, r or 1, g or 1, b or 1
 end
 E.TagFunctions.GetClassPower = GetClassPower
 
@@ -183,7 +184,7 @@ ElvUF.Tags.Methods["name:abbrev"] = function(unit)
 end
 
 do
-	local function NameHealthColor(tags,hex,unit,default)
+	local function NameHealthColor(tags, hex, unit, default)
 		if hex == "class" or hex == "reaction" then
 			return tags.namecolor(unit)
 		elseif hex and strmatch(hex, "^%x%x%x%x%x%x$") then
@@ -275,7 +276,7 @@ for textFormat in pairs(E.GetFormattedTextStyles) do
 		end
 	end
 
-	ElvUF.Tags.Events[format("altpower:%s", tagTextFormat)] = "UNIT_POWER UNIT_POWER_BAR_SHOW UNIT_POWER_BAR_HIDE"
+	ElvUF.Tags.Events[format("altpower:%s", tagTextFormat)] = "UNIT_POWER_FREQUENT UNIT_POWER_BAR_SHOW UNIT_POWER_BAR_HIDE"
 	ElvUF.Tags.Methods[format("altpower:%s", tagTextFormat)] = function(u)
 		local cur = UnitPower(u, ALTERNATE_POWER_INDEX)
 
@@ -1099,14 +1100,14 @@ E.TagInfo = {
 	["realm:dash"] = {category = "Realm", description = "Displays the server name with a dash in front (e.g. -Realm)"},
 	["realm:dash:translit"] = {category = "Realm", description = "Displays the server name with transliteration for cyrillic letters and a dash in front"},
 	--Speed
-	["speed:percent"] = {category = "Speed", description = ""},
-	["speed:percent-raw"] = {category = "Speed", description = ""},
-	["speed:yardspersec"] = {category = "Speed", description = ""},
-	["speed:percent-moving"] = {category = "Speed", description = ""},
-	["speed:yardspersec-moving"] = {category = "Speed", description = ""},
-	["speed:percent-moving-raw"] = {category = "Speed", description = ""},
-	["speed:yardspersec-moving-raw"] = {category = "Speed", description = ""},
-	["speed:yardspersec-raw"] = {category = "Speed", description = ""},
+	["speed:percent"] = {category = "Speed"},
+	["speed:percent-raw"] = {category = "Speed"},
+	["speed:yardspersec"] = {category = "Speed"},
+	["speed:percent-moving"] = {category = "Speed"},
+	["speed:yardspersec-moving"] = {category = "Speed"},
+	["speed:percent-moving-raw"] = {category = "Speed"},
+	["speed:yardspersec-moving-raw"] = {category = "Speed"},
+	["speed:yardspersec-raw"] = {category = "Speed"},
 	--Status
 	["status"] = {category = "Status", description = "Displays zzz, dead, ghost, offline"},
 	["status:icon"] = {category = "Status", description = "Displays AFK/DND as an orange(afk) / red(dnd) icon"},
@@ -1129,7 +1130,7 @@ E.TagInfo = {
 	["target:medium:translit"] = {category = "Target", description = "Displays the current target of the unit with transliteration for cyrillic letters (limited to 15 letters)"},
 	["target:long:translit"] = {category = "Target", description = "Displays the current target of the unit with transliteration for cyrillic letters (limited to 20 letters)"},
 	--Threat
-	["threat"] = {category = "Threat", description = "Displays the current threat"},
+	["threat"] = {category = "Threat", description = "Displays the current threat situation (Aggro is secure tanking, -- is losing threat and ++ is gaining threat)"},
 	["threat:percent"] = {category = "Threat", description = "Displays the current threat as a percent"},
 	["threat:current"] = {category = "Threat", description = "Displays the current threat as a value"},
 }

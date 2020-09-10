@@ -41,7 +41,7 @@ function UF:Configure_ClassBar(frame)
 	local CLASSBAR_WIDTH = frame.CLASSBAR_WIDTH
 
 	if frame.USE_MINI_CLASSBAR and not frame.CLASSBAR_DETACHED then
-		if frame.MAX_CLASS_BAR == 1 or frame.ClassBar == "EclipseBar" or frame.ClassBar == "AdditionalPower" then
+		if frame.MAX_CLASS_BAR == 1 or frame.ClassBar == "EclipseBar" or frame.ClassBar == "AdditionalPower" or frame.ClassBar == "AlternativePower" then
 			CLASSBAR_WIDTH = CLASSBAR_WIDTH * 2/3
 		else
 			CLASSBAR_WIDTH = CLASSBAR_WIDTH * (frame.MAX_CLASS_BAR - 1) / frame.MAX_CLASS_BAR
@@ -122,10 +122,12 @@ function UF:Configure_ClassBar(frame)
 		bars.LunarBar:SetMinMaxValues(0, 0)
 		bars.LunarBar:SetStatusBarColor(unpack(ElvUF.colors.ClassBars[E.myclass][1]))
 		bars.LunarBar:Size(CLASSBAR_WIDTH, frame.CLASSBAR_HEIGHT - ((frame.BORDER + frame.SPACING) * 2))
+		E:SetSmoothing(bars.LunarBar, UF.db.smoothbars)
 
 		bars.SolarBar:SetMinMaxValues(0, 0)
 		bars.SolarBar:SetStatusBarColor(unpack(ElvUF.colors.ClassBars[E.myclass][2]))
 		bars.SolarBar:Size(CLASSBAR_WIDTH, frame.CLASSBAR_HEIGHT - ((frame.BORDER + frame.SPACING) * 2))
+		E:SetSmoothing(bars.SolarBar, UF.db.smoothbars)
 
 		bars.SolarBar:ClearAllPoints()
 		bars.Arrow:ClearAllPoints()
@@ -145,7 +147,7 @@ function UF:Configure_ClassBar(frame)
 
 			bars.Arrow:Point("CENTER", bars.LunarBar:GetStatusBarTexture(), "RIGHT")
 		end
-	elseif frame.ClassBar == "AdditionalPower" then
+	elseif frame.ClassBar == "AdditionalPower" or frame.ClassBar == "AlternativePower" then
 		if frame.CLASSBAR_DETACHED and db.classbar.verticalOrientation then
 			bars:SetOrientation("VERTICAL")
 		else
@@ -236,6 +238,9 @@ function UF:Configure_ClassBar(frame)
 		if frame.AdditionalPower and not frame:IsElementEnabled("AdditionalPower") then
 			frame:EnableElement("AdditionalPower")
 		end
+		if frame.AlternativePower and not frame:IsElementEnabled("AlternativePower") then
+			frame:EnableElement("AlternativePower")
+		end
 	else
 		if frame.ClassPower and frame:IsElementEnabled("ClassPower") then
 			frame:DisableElement("ClassPower")
@@ -249,6 +254,9 @@ function UF:Configure_ClassBar(frame)
 		if frame.AdditionalPower and frame:IsElementEnabled("AdditionalPower") then
 			frame:DisableElement("AdditionalPower")
 		end
+		if frame.AlternativePower and frame:IsElementEnabled("AlternativePower") then
+			frame:DisableElement("AlternativePower")
+		end
 	end
 end
 
@@ -259,23 +267,9 @@ local function ToggleResourceBar(bars, overrideVisibility)
 
 	frame.CLASSBAR_SHOWN = (not not overrideVisibility) or bars:IsShown()
 
-	local height
-	if db.classbar then
-		height = db.classbar.height
-	elseif db.combobar then
-		height = db.combobar.height
-	elseif frame.AlternativePower then
-		height = db.power.height
-	end
+	if bars.text then bars.text:SetAlpha(frame.CLASSBAR_SHOWN and 1 or 0) end
 
-	if bars.text then
-		if frame.CLASSBAR_SHOWN then
-			bars.text:SetAlpha(1)
-		else
-			bars.text:SetAlpha(0)
-		end
-	end
-
+	local height = (db.classbar and db.classbar.height) or (db.combobar and db.combobar.height)
 	frame.CLASSBAR_HEIGHT = (frame.USE_CLASSBAR and (frame.CLASSBAR_SHOWN and height) or 0)
 	frame.CLASSBAR_YOFFSET = (not frame.USE_CLASSBAR or not frame.CLASSBAR_SHOWN or frame.CLASSBAR_DETACHED) and 0 or (frame.USE_MINI_CLASSBAR and ((frame.SPACING+(frame.CLASSBAR_HEIGHT/2))) or (frame.CLASSBAR_HEIGHT - (frame.BORDER-frame.SPACING)))
 
@@ -454,22 +448,14 @@ function UF:EclipsePostDirectionChange(direction)
 	local db = frame.db
 	if not db then return end
 
-	if direction == "sun" then
-		if frame.CLASSBAR_DETACHED and db.classbar.verticalOrientation then
-			self.Arrow:SetRotation(0)
-		else
-			self.Arrow:SetRotation(-1.57)
-		end
+	local vertical = frame.CLASSBAR_DETACHED and db.classbar.verticalOrientation
+	local arrowRotation = direction == "sun" and (vertical and 0 or -1.57) or (vertical and 3.14 or 1.57)
+
+	self.Arrow:SetRotation(arrowRotation)
+	self.Arrow:SetVertexColor(unpack(ElvUF.colors.ClassBars[E.myclass][direction == "sun" and 1 or 2]))
+
+	if direction == "sun" or direction == "moon" then
 		self.Arrow:Show()
-		self.Arrow:SetVertexColor(unpack(ElvUF.colors.ClassBars[E.myclass][1]))
-	elseif direction == "moon" then
-		if frame.CLASSBAR_DETACHED and db.classbar.verticalOrientation then
-			self.Arrow:SetRotation(3.14)
-		else
-			self.Arrow:SetRotation(1.57)
-		end
-		self.Arrow:Show()
-		self.Arrow:SetVertexColor(unpack(ElvUF.colors.ClassBars[E.myclass][2]))
 	else
 		self.Arrow:Hide()
 	end

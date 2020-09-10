@@ -1275,6 +1275,7 @@ P.unitframe = {
 		invertClasspower = false,
 		castColor = {r = 0.31, g = 0.31, b = 0.31},
 		castNoInterrupt = {r = 0.78, g = 0.25, b = 0.25},
+		castInterruptedColor = {r = 0.30, g = 0.30, b = 0.30},
 		castClassColor = false,
 		castReactionColor = false,
 		health = {r = 0.31, g = 0.31, b = 0.31},
@@ -1326,7 +1327,7 @@ P.unitframe = {
 				[4] = {r = 0.9, g = 0.1, b = 1}
 			},
 			PALADIN = {r = 0.89, g = 1, b = 0.06},
-			WARLOCK = {r = 0.58, g = 0.50, b = 0.78},
+			WARLOCK = {r = 0.58, g = 0.50, b = 0.79},
 			DRUID = {
 				[1] = {r = 0.30, g = 0.52, b = 0.90},
 				[2] = {r = 0.80, g = 0.82, b = 0.60}
@@ -2376,11 +2377,6 @@ P.unitframe = {
 				yOffset = 0,
 				spacing = 0
 			},
-			buffIndicator = {
-				enable = true,
-				profileSpecific = false,
-				size = 8
-			},
 			raidicon = {
 				enable = true,
 				size = 18,
@@ -2939,6 +2935,13 @@ P.unitframe = {
 				xOffset = -2,
 				attachTextTo = "Health"
 			},
+			classbar = {
+				enable = true,
+				fill = "fill",
+				height = 10,
+				altPowerColor = {r = 0.2, g = 0.4, b = 0.8},
+				altPowerTextFormat = "[altpower:current]"
+			},
 			portrait = {
 				enable = false,
 				width = 35,
@@ -2981,7 +2984,7 @@ P.unitframe = {
 				priority = "Blacklist,CastByUnit,Whitelist", --Boss Buffs
 				xOffset = 0,
 				yOffset = 20,
-				sizeOverride = 0,
+				sizeOverride = 22,
 				spacing = 1
 			},
 			debuffs = {
@@ -3003,7 +3006,7 @@ P.unitframe = {
 				priority = "Blacklist,Personal,RaidDebuffs,CastByUnit,Whitelist", --Boss Debuffs
 				xOffset = 0,
 				yOffset = -3,
-				sizeOverride = 0,
+				sizeOverride = 22,
 				spacing = 1
 			},
 			castbar = {
@@ -3156,7 +3159,7 @@ P.unitframe = {
 				priority = "Blacklist,TurtleBuffs,PlayerBuffs,Dispellable", --Arena Buffs
 				xOffset = 0,
 				yOffset = 16,
-				sizeOverride = 0,
+				sizeOverride = 27,
 				spacing = 1
 			},
 			debuffs = {
@@ -3178,7 +3181,7 @@ P.unitframe = {
 				priority = "Blacklist,blockNoDuration,Personal,CCDebuffs,Whitelist", --Arena Debuffs
 				xOffset = 0,
 				yOffset = -16,
-				sizeOverride = 0,
+				sizeOverride = 27,
 				spacing = 1
 			},
 			castbar = {
@@ -3439,6 +3442,13 @@ P.unitframe = {
 					frameLevel = 1
 				}
 			},
+			classbar = {
+				enable = true,
+				fill = "fill",
+				height = 10,
+				altPowerColor = {r = 0.2, g = 0.4, b = 0.8},
+				altPowerTextFormat = "[altpower:current]"
+			},
 			roleIcon = {
 				enable = true,
 				position = "TOPRIGHT",
@@ -3602,6 +3612,13 @@ P.unitframe = {
 				hideonnpc = false,
 				yOffset = 2,
 				xOffset = -2
+			},
+			classbar = {
+				enable = true,
+				fill = "fill",
+				height = 10,
+				altPowerColor = {r = 0.2, g = 0.4, b = 0.8},
+				altPowerTextFormat = "[altpower:current]"
 			},
 			infoPanel = {
 				enable = false,
@@ -3832,6 +3849,13 @@ P.unitframe = {
 				hideonnpc = false,
 				yOffset = 2,
 				xOffset = -2
+			},
+			classbar = {
+				enable = true,
+				fill = "fill",
+				height = 10,
+				altPowerColor = {r = 0.2, g = 0.4, b = 0.8},
+				altPowerTextFormat = "[altpower:current]"
 			},
 			infoPanel = {
 				enable = false,

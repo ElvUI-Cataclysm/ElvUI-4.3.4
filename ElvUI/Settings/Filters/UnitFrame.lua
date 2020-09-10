@@ -523,7 +523,7 @@ E.ReverseTimer = {
 }
 
 -- BuffWatch: List of personal spells to show on unitframes as icon
-function UF:AuraWatch_AddSpell(id, point, color, anyUnit, onlyShowMissing, displayText, textThreshold, xOffset, yOffset)
+function UF:AuraWatch_AddSpell(id, point, color, anyUnit, onlyShowMissing, displayText, textThreshold, xOffset, yOffset, sizeOverride, countFontSize)
 	local r, g, b = 1, 1, 1
 	if color then r, g, b = unpack(color) end
 
@@ -539,7 +539,8 @@ function UF:AuraWatch_AddSpell(id, point, color, anyUnit, onlyShowMissing, displ
 		xOffset = xOffset or 0,
 		yOffset = yOffset or 0,
 		style = "coloredIcon",
-		sizeOffset = 0
+		sizeOverride = sizeOverride or 0,
+		countFontSize = countFontSize or 10
 	}
 end
 
