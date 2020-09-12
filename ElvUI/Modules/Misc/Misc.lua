@@ -11,9 +11,13 @@ local GetCVarBool, SetCVar = GetCVarBool, SetCVar
 local GetFriendInfo = GetFriendInfo
 local GetGuildBankWithdrawMoney = GetGuildBankWithdrawMoney
 local GetGuildRosterInfo = GetGuildRosterInfo
+local GetItemInfo = GetItemInfo
 local GetNumFriends = GetNumFriends
 local GetNumGuildMembers = GetNumGuildMembers
+local GetNumQuestChoices = GetNumQuestChoices
 local GetNumPartyMembers = GetNumPartyMembers
+local GetQuestItemInfo = GetQuestItemInfo
+local GetQuestItemLink = GetQuestItemLink
 local GetNumRaidMembers = GetNumRaidMembers
 local GetRaidRosterInfo = GetRaidRosterInfo
 local GetRepairAllCost = GetRepairAllCost
@@ -246,6 +250,54 @@ function M:ForceCVars()
 	end
 end
 
+function M:QUEST_COMPLETE()
+	if not E.db.general.questRewardMostValueIcon then return end
+	if not QuestInfoItem1 then return end
+
+	local bestValue, bestItem = 0
+	local numQuests = GetNumQuestChoices()
+
+	if not self.QuestRewardGoldIconFrame then
+		local frame = CreateFrame("Frame", nil, QuestInfoItem1)
+		frame:SetFrameStrata("HIGH")
+		frame:Size(14)
+		frame.Icon = frame:CreateTexture(nil, "OVERLAY")
+		frame.Icon:SetAllPoints(frame)
+		frame.Icon:SetTexture([[Interface\MONEYFRAME\UI-GoldIcon]])
+		self.QuestRewardGoldIconFrame = frame
+	end
+
+	self.QuestRewardGoldIconFrame:Hide()
+
+	if numQuests < 2 then return end
+
+	for i = 1, numQuests do
+		local questLink = GetQuestItemLink("choice", i)
+		local _, _, amount = GetQuestItemInfo("choice", i)
+		local itemSellPrice = questLink and select(11, GetItemInfo(questLink))
+		local totalValue = (itemSellPrice and itemSellPrice * amount) or 0
+
+		if totalValue > bestValue then
+			bestValue = totalValue
+			bestItem = i
+		end
+	end
+
+	if bestItem then
+		local btn = _G["QuestInfoItem"..bestItem]
+
+		if btn and btn.type == "choice" then
+			self.QuestRewardGoldIconFrame:ClearAllPoints()
+			self.QuestRewardGoldIconFrame:Point("TOPRIGHT", btn, "TOPRIGHT", -2, -2)
+			self.QuestRewardGoldIconFrame:Show()
+
+			if E.private.skins.blizzard.enable and E.private.skins.blizzard.quest then
+				self.QuestRewardGoldIconFrame:SetParent(btn.backdrop)
+			end
+		end
+	end
+end
+
 function M:Initialize()
 	self:LoadRaidMarker()
 	self:LoadLoot()
@@ -265,6 +317,7 @@ function M:Initialize()
 	self:RegisterEvent("CVAR_UPDATE", "ForceCVars")
 	self:RegisterEvent("COMBAT_TEXT_UPDATE")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD", "ForceCVars")
+	self:RegisterEvent("QUEST_COMPLETE")
 
 	self.Initialized = true
 end
