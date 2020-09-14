@@ -29,25 +29,22 @@ local function LoadSkin()
 	GuildXPFrame:ClearAllPoints()
 	GuildXPFrame:Point("TOP", GuildFrame, "TOP", 0, -40)
 
-	GuildXPBarLeft:Kill()
-	GuildXPBarRight:Kill()
-	GuildXPBarMiddle:Kill()
-	GuildXPBarBG:Kill()
-	GuildXPBarShadow:Kill()
-	GuildXPBarCap:Kill()
-	GuildXPBarCapMarker:Kill()
-
-	for i = 1, 4 do
-		_G["GuildXPBarDivider"..i]:Kill()
-	end
-
-	GuildXPBar:CreateBackdrop("Default")
-	GuildXPBar.backdrop:Point("TOPLEFT", 0, 1)
-	GuildXPBar.backdrop:Point("BOTTOMRIGHT", -1, 5)
+	GuildXPBar:StripTextures()
+	GuildXPBar:CreateBackdrop()
+	GuildXPBar.backdrop:Point("TOPLEFT", GuildXPBar.progress, -1, 1)
+	GuildXPBar.backdrop:Point("BOTTOMRIGHT", GuildXPBar, 3, 1)
 	GuildXPBar.progress:SetTexture(E.media.normTex)
 
+	GuildXPBarCap:SetTexture(E.media.normTex)
+
+	GuildXPBarCapMarker:Size(4, E.PixelMode and 14 or 12)
+	GuildXPBarCapMarker:SetTexture(E.media.blankTex)
+	GuildXPBarCapMarker:SetVertexColor(1, 1, 1, 0.40)
+
 	-- Faction Bar
-	GuildFactionFrame:SetTemplate("Default")
+	GuildFactionFrame:CreateBackdrop()
+	GuildFactionFrame.backdrop:Point("TOPLEFT")
+	GuildFactionFrame.backdrop:Point("BOTTOMRIGHT", -1, 1)
 
 	GuildFactionBar:StripTextures()
 	GuildFactionBar:SetAllPoints(GuildFactionFrame)
@@ -64,7 +61,7 @@ local function LoadSkin()
 
 	if GuildLatestPerkButton then
 		GuildLatestPerkButton:StripTextures()
-		GuildLatestPerkButton:CreateBackdrop("Default")
+		GuildLatestPerkButton:CreateBackdrop()
 		GuildLatestPerkButton.backdrop:SetOutside(GuildLatestPerkButtonIconTexture)
 		GuildLatestPerkButtonIconTexture:SetTexCoord(unpack(E.TexCoords))
 		GuildLatestPerkButtonIconTexture:Point("TOPLEFT", 2, -2)
@@ -72,7 +69,7 @@ local function LoadSkin()
 
 	if GuildNextPerkButton then
 		GuildNextPerkButton:StripTextures()
-		GuildNextPerkButton:CreateBackdrop("Default")
+		GuildNextPerkButton:CreateBackdrop()
 		GuildNextPerkButton.backdrop:SetOutside(GuildNextPerkButtonIconTexture)
 		GuildNextPerkButtonIconTexture:SetTexCoord(unpack(E.TexCoords))
 		GuildNextPerkButtonIconTexture:Point("TOPLEFT", 2, -3)
@@ -104,7 +101,7 @@ local function LoadSkin()
 			local button = _G["Guild"..object.."ContainerButton"..i]
 
 			button:StripTextures()
-			button:CreateBackdrop("Default")
+			button:CreateBackdrop()
 			button.backdrop:SetOutside(button.icon)
 
 			S:HandleButtonHighlight(button, true)
@@ -142,9 +139,11 @@ local function LoadSkin()
 
 					button.backdrop:SetBackdropBorderColor(r, g, b)
 					button.name:SetTextColor(r, g, b)
+					button.handledHighlight:SetVertexColor(r, g, b)
 				else
 					button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 					button.name:SetTextColor(1, 1, 1)
+					button.handledHighlight:SetVertexColor(1, 1, 1)
 				end
 			end
 
@@ -267,7 +266,7 @@ local function LoadSkin()
 	GuildNewsBossModel:Point("TOPLEFT", GuildFrame, "TOPRIGHT", 4, -43)
 
 	GuildNewsBossModelTextFrame:StripTextures()
-	GuildNewsBossModelTextFrame:CreateBackdrop("Default")
+	GuildNewsBossModelTextFrame:CreateBackdrop()
 	GuildNewsBossModelTextFrame.backdrop:Point("TOPLEFT", GuildNewsBossModel.backdrop, "BOTTOMLEFT", 0, -1)
 
 	for i = 1, 18 do
@@ -292,14 +291,13 @@ local function LoadSkin()
 	end
 
 	S:HandleButton(GuildGMImpeachButton)
+	GuildGMImpeachButton:Height(20)
 
 	S:HandleCloseButton(GuildNewsFiltersFrameCloseButton)
 	GuildNewsFiltersFrameCloseButton:Point("TOPRIGHT", 2, 2)
 
 	-- Guild Info
 	GuildInfoFrameInfo:StripTextures()
-	GuildInfoFrameApplicants:StripTextures()
-	GuildInfoFrameApplicantsContainer:StripTextures()
 
 	for i = 1, 7 do
 		local button = _G["GuildInfoEventsContainerButton"..i]
@@ -314,57 +312,61 @@ local function LoadSkin()
 	end
 
 	S:HandleScrollBar(GuildInfoEventsContainerScrollBar)
-	S:HandleScrollBar(GuildInfoDetailsFrameScrollBar, 4)
+
+	GuildInfoFrameApplicants:StripTextures()
+
+	GuildInfoFrameApplicantsContainer:StripTextures()
+	GuildInfoFrameApplicantsContainer:CreateBackdrop("Transparent")
+	GuildInfoFrameApplicantsContainer.backdrop:Point("BOTTOMRIGHT", 0, -3)
+	GuildInfoFrameApplicantsContainer:Point("TOPLEFT", 1, 0)
+
 	S:HandleScrollBar(GuildInfoFrameApplicantsContainerScrollBar)
+	GuildInfoFrameApplicantsContainerScrollBar:ClearAllPoints()
+	GuildInfoFrameApplicantsContainerScrollBar:Point("TOPRIGHT", GuildInfoFrameApplicantsContainer, 23, -15)
+	GuildInfoFrameApplicantsContainerScrollBar:Point("BOTTOMRIGHT", GuildInfoFrameApplicantsContainer, 0, 13)
+	GuildInfoFrameApplicantsContainerScrollBar:Show()
+	GuildInfoFrameApplicantsContainerScrollBar.Hide = E.noop
+
+	S:HandleScrollBar(GuildInfoDetailsFrameScrollBar, 4)
 
 	S:HandleButton(GuildViewLogButton)
 	S:HandleButton(GuildControlButton)
 	S:HandleButton(GuildAddMemberButton)
 
 	for _, button in next, GuildInfoFrameApplicantsContainer.buttons do
-		button:SetBackdrop(nil)
-		button:GetHighlightTexture():Kill()
-
 		button:StripTextures()
-		button:CreateBackdrop("Transparent")
-		button.backdrop:SetAllPoints()
-		button:StyleButton()
 
 		button.bg = CreateFrame("Frame", nil, button)
-		button.bg:SetTemplate("Default", true)
+		button.bg:SetTemplate(nil, true)
 		button.bg:SetOutside(button.class)
 
 		button.class:SetTexture("Interface\\WorldStateFrame\\Icons-Classes")
 		button.class:SetParent(button.bg)
 
-		button.selectedTex:SetTexture(1, 1, 1, 0.3)
+		local highlight = button:GetHighlightTexture()
+		highlight:SetTexture(E.Media.Textures.Highlight)
+		highlight:SetTexCoord(0, 1, 0, 1)
+		highlight:SetInside()
+
+		button.selectedTex:SetTexture(E.Media.Textures.Highlight)
+		button.selectedTex:SetTexCoord(0, 1, 0, 1)
 		button.selectedTex:SetInside()
 
 		button.name:Point("TOPLEFT", 75, -10)
-		button.name:SetParent(button.backdrop)
-
 		button.level:Point("TOPLEFT", 58, -10)
-		button.level:SetParent(button.backdrop)
-
-		button.comment:SetParent(button.backdrop)
-		button.comment:Point("BOTTOMRIGHT", 0, 0)
-		button.fullComment:SetParent(button.backdrop)
-		button.timeLeft:SetParent(button.backdrop)
+		button.timeLeft:Point("TOPLEFT", 0, -10)
 
 		button.tankTex:SetTexture(E.Media.Textures.Tank)
 		button.tankTex:SetTexCoord(unpack(E.TexCoords))
 		button.tankTex:Size(20)
-		button.tankTex:SetParent(button.backdrop)
 
 		button.healerTex:SetTexture(E.Media.Textures.Healer)
 		button.healerTex:SetTexCoord(unpack(E.TexCoords))
 		button.healerTex:Size(18)
-		button.healerTex:SetParent(button.backdrop)
 
 		button.damageTex:SetTexture(E.Media.Textures.DPS)
 		button.damageTex:SetTexCoord(unpack(E.TexCoords))
 		button.damageTex:Size(16)
-		button.damageTex:SetParent(button.backdrop)
 	end
 
 	local function SkinGuildApplicants()
@@ -372,55 +374,65 @@ local function LoadSkin()
 		local offset = HybridScrollFrame_GetOffset(scrollFrame)
 		local buttons = scrollFrame.buttons
 		local numButtons = #buttons
-		local button, index
+		local _, level, class, button, index
+		local classColor, levelColor
 
 		for i = 1, numButtons do
 			button = buttons[i]
 			index = offset + i
-			local name, level, class = GetGuildApplicantInfo(index)
-			if name then
-				local classTextColor = E:ClassColor(class)
-				local levelTextColor = GetQuestDifficultyColor(level)
+			_, level, class = GetGuildApplicantInfo(index)
 
-				button.name:SetTextColor(classTextColor.r, classTextColor.g, classTextColor.b)
-				button.level:SetTextColor(levelTextColor.r, levelTextColor.g, levelTextColor.b)
-				button.bg:SetBackdropBorderColor(classTextColor.r, classTextColor.g, classTextColor.b)
+			if class then
+				classColor = E:ClassColor(class)
+
+				button:GetHighlightTexture():SetVertexColor(classColor.r, classColor.g, classColor.b, 0.35)
+				button.selectedTex:SetVertexColor(classColor.r, classColor.g, classColor.b, 0.35)
+				button.bg:SetBackdropBorderColor(classColor.r, classColor.g, classColor.b)
+				button.name:SetTextColor(classColor.r, classColor.g, classColor.b)
+			end
+
+			if level then
+				levelColor = GetQuestDifficultyColor(level)
+
+				button.level:SetTextColor(levelColor.r, levelColor.g, levelColor.b)
 			end
 		end
 	end
 	hooksecurefunc("GuildInfoFrameApplicants_Update", SkinGuildApplicants)
 	hooksecurefunc("HybridScrollFrame_Update", SkinGuildApplicants)
 
-	GuildInfoFrameTab1:Point("TOPLEFT", 55, 33)
-
 	for i = 1, 3 do
-		local headerTab = _G["GuildInfoFrameTab"..i]
+		local tab = _G["GuildInfoFrameTab"..i]
 
-		headerTab:StripTextures()
-		headerTab.backdrop = CreateFrame("Frame", nil, headerTab)
-		headerTab.backdrop:SetTemplate("Default", true)
-		headerTab.backdrop:Point("TOPLEFT", 3, -7)
-		headerTab.backdrop:Point("BOTTOMRIGHT", -2, -1)
-		headerTab.backdrop:SetFrameLevel(headerTab:GetFrameLevel() - 1)
+		tab:StripTextures()
+		tab.backdrop = CreateFrame("Frame", nil, tab)
+		tab.backdrop:SetTemplate("Default", true)
+		tab.backdrop:Point("TOPLEFT", 3, -7)
+		tab.backdrop:Point("BOTTOMRIGHT", -2, -1)
+		tab.backdrop:SetFrameLevel(tab:GetFrameLevel() - 1)
 
-		headerTab:HookScript("OnEnter", S.SetModifiedBackdrop)
-		headerTab:HookScript("OnLeave", S.SetOriginalBackdrop)
+		if i == 1 then
+			tab:Point("TOPLEFT", 40, 40)
+		end
+
+		tab:HookScript("OnEnter", S.SetModifiedBackdrop)
+		tab:HookScript("OnLeave", S.SetOriginalBackdrop)
 	end
 
 	local backdrop1 = CreateFrame("Frame", nil, GuildInfoFrameInfo)
-	backdrop1:SetTemplate("Default")
+	backdrop1:SetTemplate()
 	backdrop1:Point("TOPLEFT", 2, -22)
 	backdrop1:Point("BOTTOMRIGHT", 0, 200)
 	backdrop1:SetFrameLevel(GuildInfoFrameInfo:GetFrameLevel() - 1)
 
 	local backdrop2 = CreateFrame("Frame", nil, GuildInfoFrameInfo)
-	backdrop2:SetTemplate("Default")
+	backdrop2:SetTemplate()
 	backdrop2:Point("TOPLEFT", 2, -160)
 	backdrop2:Point("BOTTOMRIGHT", 0, 118)
 	backdrop2:SetFrameLevel(GuildInfoFrameInfo:GetFrameLevel() - 1)
 
 	local backdrop3 = CreateFrame("Frame", nil, GuildInfoFrameInfo)
-	backdrop3:SetTemplate("Default")
+	backdrop3:SetTemplate()
 	backdrop3:Point("TOPLEFT", 2, -235)
 	backdrop3:Point("BOTTOMRIGHT", 0, 3)
 	backdrop3:SetFrameLevel(GuildInfoFrameInfo:GetFrameLevel() - 1)
@@ -483,7 +495,7 @@ local function LoadSkin()
 	GuildRecruitmentAvailabilityFrame:StripTextures()
 
 	GuildRecruitmentCommentInputFrame:StripTextures()
-	GuildRecruitmentCommentInputFrame:SetTemplate("Default")
+	GuildRecruitmentCommentInputFrame:SetTemplate()
 
 	S:HandleScrollBar(GuildRecruitmentCommentInputFrameScrollFrameScrollBar)
 

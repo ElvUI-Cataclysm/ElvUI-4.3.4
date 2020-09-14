@@ -67,35 +67,29 @@ local function LoadSkin()
 	PVPFrameTopInset:StripTextures()
 	PVPConquestFrame:StripTextures()
 	PVPTeamManagementFrame:StripTextures()
-	PVPHonorFrameTypeScrollFrame:StripTextures()
-	PVPBannerFrameCustomizationFrame:StripTextures()
 	PVPTeamManagementFrameTeamScrollFrame:StripTextures()
 
 	for i = 1, 5 do
 		S:HandleButtonHighlight(_G["PVPHonorFrameBgButton"..i])
 	end
 
-	local function ArenaHeader(self, first, i)
-		local button = _G["PVPTeamManagementFrameHeader"..i]
-
-		if first then
-			button:StripTextures()
-		end
-	end
-
 	for i = 1, 4 do
-		_G["PVPFrameConquestBarDivider"..i]:Hide()
-		ArenaHeader(nil, true, i)
-		S:HandleTab(_G["PVPFrameTab"..i])
+		local tab = _G["PVPFrameTab"..i]
+
+		S:HandleTab(tab)
+
+		if i == 1 then
+			tab:ClearAllPoints()
+			tab:Point("BOTTOMLEFT", PVPFrame, 0, -30)
+		end
+
+		_G["PVPTeamManagementFrameHeader"..i]:StripTextures()
 	end
 
 	for i = 1, 6 do
 		S:HandleButtonHighlight(_G["PVPTeamManagementFrameTeamMemberButton"..i])
 		_G["PVPTeamManagementFrameTeamMemberButton"..i.."ClassIcon"]:SetTexture("Interface\\WorldStateFrame\\Icons-Classes")
 	end
-
-	PVPFrameTab1:ClearAllPoints()
-	PVPFrameTab1:Point("BOTTOMLEFT", PVPFrame, 0, -30)
 
 	PVPBannerFrameEditBox:CreateBackdrop()
 	PVPBannerFrameEditBox.backdrop:Point("TOPLEFT", -5, -5)
@@ -109,7 +103,10 @@ local function LoadSkin()
 	PVPTeamManagementFrameInvalidTeamFrame:SetFrameLevel(PVPTeamManagementFrameInvalidTeamFrame:GetFrameLevel() + 1)
 	PVPTeamManagementFrameInvalidTeamFrame.backdrop:SetFrameLevel(PVPTeamManagementFrameInvalidTeamFrame:GetFrameLevel())
 
+	PVPHonorFrameTypeScrollFrame:StripTextures()
 	PVPHonorFrameTypeScrollFrame:CreateBackdrop("Transparent")
+
+	S:HandleScrollBar(PVPHonorFrameTypeScrollFrameScrollBar)
 
 	PVPTeamManagementFrameNoTeamsFrame:StripTextures()
 	PVPTeamManagementFrameNoTeamsFrame:CreateBackdrop()
@@ -118,11 +115,12 @@ local function LoadSkin()
 	PVPTeamManagementFrameNoTeamsFrame.backdrop:SetFrameLevel(PVPTeamManagementFrameNoTeamsFrame.backdrop:GetFrameLevel() + 1)
 
 	S:HandleScrollBar(PVPTeamManagementFrameTeamScrollFrameScrollBar)
-	S:HandleScrollBar(PVPHonorFrameTypeScrollFrameScrollBar)
 
 	S:HandleButtonHighlight(PVPConquestFrameConquestButtonArena)
 	S:HandleButtonHighlight(PVPConquestFrameConquestButtonRated)
 
+	-- Conquest Bar
+	PVPFrameConquestBar:StripTextures()
 	PVPFrameConquestBar:CreateBackdrop()
 	PVPFrameConquestBar.backdrop:Point("TOPLEFT", PVPFrameConquestBar.progress, -1, 1)
 	PVPFrameConquestBar.backdrop:Point("BOTTOMRIGHT", PVPFrameConquestBar, 3, 2)
@@ -132,92 +130,97 @@ local function LoadSkin()
 	PVPFrameConquestBar.progress:Point("LEFT")
 
 	for i = 1, 2 do
-		local cap = _G["PVPFrameConquestBarCap"..i]
-		local marker = _G["PVPFrameConquestBarCap"..i.."Marker"]
+		_G["PVPFrameConquestBarCap"..i]:SetTexture(E.media.normTex)
+		_G["PVPFrameConquestBarCap"..i.."Marker"]:Size(4, E.PixelMode and 14 or 12)
+
 		local markerTex = _G["PVPFrameConquestBarCap"..i.."MarkerTexture"]
-
-		cap:SetTexture(E.media.normTex)
-
-		marker:Size(4, 14)
-
 		markerTex:SetTexture(E.media.blankTex)
-		local r, g, b = cap:GetVertexColor()
-		markerTex:SetVertexColor(r, g, b)
-		markerTex.SetVertexColor = E.noop
+		markerTex:SetVertexColor(1, 1, 1, 0.40)
 	end
 
 	PVPFrame:StripTextures()
 	PVPFrame:SetTemplate("Transparent")
-
-	PVPBannerFrame:StripTextures()
-	PVPBannerFrame:SetTemplate("Transparent")
 
 	PVPFrameLowLevelFrame:StripTextures()
 	PVPFrameLowLevelFrame:CreateBackdrop()
 	PVPFrameLowLevelFrame.backdrop:Point("TOPLEFT", -2, -40)
 	PVPFrameLowLevelFrame.backdrop:Point("BOTTOMRIGHT", 5, 80)
 
-	PVPBannerFrameCustomization1:StripTextures()
-	PVPBannerFrameCustomization1:CreateBackdrop()
-	PVPBannerFrameCustomization1.backdrop:Point("TOPLEFT", PVPBannerFrameCustomization1LeftButton, "TOPRIGHT", 2, 0)
-	PVPBannerFrameCustomization1.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameCustomization1RightButton, "BOTTOMLEFT", -2, 0)
+	-- PvP Icon
+	if PVPFrameCurrency then
+		PVPFrameCurrency:CreateBackdrop()
+		PVPFrameCurrency:Size(32)
+		PVPFrameCurrency:Point("TOP", 0, -26)
+		S:HandleFrameHighlight(PVPFrameCurrency, PVPFrameCurrency.backdrop)
 
-	PVPBannerFrameCustomization2:StripTextures()
-	PVPBannerFrameCustomization2:CreateBackdrop()
-	PVPBannerFrameCustomization2.backdrop:Point("TOPLEFT", PVPBannerFrameCustomization2LeftButton, "TOPRIGHT", 2, 0)
-	PVPBannerFrameCustomization2.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameCustomization2RightButton, "BOTTOMLEFT", -2, 0)
+		PVPFrameCurrencyIcon:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..E.myfaction)
+		PVPFrameCurrencyIcon.SetTexture = E.noop
+		PVPFrameCurrencyIcon:SetTexCoord(unpack(E.TexCoords))
+		PVPFrameCurrencyIcon:SetInside(PVPFrameCurrency.backdrop)
 
-	S:HandleCloseButton(PVPBannerFrameCloseButton, PVPBannerFrame)
-	S:HandleCloseButton(PVPFrameCloseButton, PVPFrame)
+		PVPFrameCurrencyLabel:Hide()
+		PVPFrameCurrencyValue:Point("LEFT", PVPFrameCurrencyIcon, "RIGHT", 6, 0)
+	end
 
-	S:HandleNextPrevButton(PVPBannerFrameCustomization1LeftButton)
-	PVPBannerFrameCustomization1LeftButton:Height(PVPBannerFrameCustomization1:GetHeight())
+	-- Rewards
+	for _, frame in pairs({"PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinReward", "PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossReward", "PVPConquestFrameWinReward"}) do
+		local background = _G[frame]:GetRegions()
+		background:SetTexture(E.Media.Textures.Highlight)
+		if _G[frame] == PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinReward or _G[frame] == PVPConquestFrameWinReward then
+			background:SetVertexColor(0, 0.439, 0, 0.5)
+		else
+			background:SetVertexColor(0.5608, 0, 0, 0.5)
+		end
 
-	S:HandleNextPrevButton(PVPBannerFrameCustomization1RightButton)
-	PVPBannerFrameCustomization1RightButton:Height(PVPBannerFrameCustomization1:GetHeight())
+		if _G[frame] ~= PVPConquestFrameWinReward then
+			local honor = _G[frame.."HonorSymbol"]
+			honor:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..E.myfaction)
+			honor.SetTexture = E.noop
+			honor:SetTexCoord(unpack(E.TexCoords))
+			honor:Size(30)
+		end
 
-	S:HandleNextPrevButton(PVPBannerFrameCustomization2LeftButton)
-	PVPBannerFrameCustomization2LeftButton:Height(PVPBannerFrameCustomization1:GetHeight())
+		local conquest = _G[frame.."ArenaSymbol"]
+		conquest:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..E.myfaction)
+		conquest.SetTexture = E.noop
+		conquest:SetTexCoord(unpack(E.TexCoords))
+		conquest:Size(30)
+	end
 
-	S:HandleNextPrevButton(PVPBannerFrameCustomization2RightButton)
-	PVPBannerFrameCustomization2RightButton:Height(PVPBannerFrameCustomization1:GetHeight())
-
-	S:HandleNextPrevButton(PVPTeamManagementFrameWeeklyToggleLeft)
-	S:HandleNextPrevButton(PVPTeamManagementFrameWeeklyToggleRight)
-
-	PVPColorPickerButton1:Height(PVPColorPickerButton1:GetHeight() - 5)
-	PVPColorPickerButton2:Height(PVPColorPickerButton1:GetHeight())
-	PVPColorPickerButton3:Height(PVPColorPickerButton1:GetHeight())
-
-	S:HandleButton(WarGameStartButton, true)
-	S:HandleScrollBar(WarGamesFrameScrollFrameScrollBar, 5)
-
+	-- War Games
 	WarGamesFrame:StripTextures()
 
-	WarGameStartButton:ClearAllPoints()
-	WarGameStartButton:Point("LEFT", PVPFrameLeftButton, "RIGHT", 2, 0)
+	WarGamesFrameScrollFrame:CreateBackdrop("Transparent")
+	WarGamesFrameScrollFrame.backdrop:Point("BOTTOMRIGHT", -2, -3)
 
-	WarGamesFrameDescription:SetTextColor(1, 1, 1)
+	S:HandleScrollBar(WarGamesFrameScrollFrameScrollBar)
+	WarGamesFrameScrollFrameScrollBar:ClearAllPoints()
+	WarGamesFrameScrollFrameScrollBar:Point("TOPRIGHT", WarGamesFrameScrollFrame, 22, -15)
+	WarGamesFrameScrollFrameScrollBar:Point("BOTTOMRIGHT", WarGamesFrameScrollFrame, 0, 13)
 
 	for i = 1, 7 do
 		local warGames = _G["WarGamesFrameScrollFrameButton"..i.."WarGame"]
 		local warGamesHeader = _G["WarGamesFrameScrollFrameButton"..i.."Header"]
 		local warGamesIcon = _G["WarGamesFrameScrollFrameButton"..i.."WarGameIcon"]
-		local warGamesBG = _G["WarGamesFrameScrollFrameButton"..i.."WarGameBg"]
-		local warGamesBorder = _G["WarGamesFrameScrollFrameButton"..i.."WarGameBorder"]
 
-		warGames:StyleButton()
-		warGames.selectedTex:SetTexture(1, 1, 1, 0.3)
-		warGames.selectedTex:SetInside()
+		warGames:StripTextures()
 		warGames:CreateBackdrop()
 		warGames.backdrop:SetOutside(warGamesIcon)
+		S:HandleButtonHighlight(warGames)
+		warGames.handledHighlight:SetInside()
 
-		warGamesBG:SetInside()
-		warGamesBorder:Kill()
+		warGames.selectedTex:SetTexture(E.Media.Textures.Highlight)
+		warGames.selectedTex:SetTexCoord(0, 1, 0, 1)
+		warGames.selectedTex.SetTexCoord = E.noop
+		warGames.selectedTex:SetVertexColor(1, 0.8, 0.2, 0.35)
+		warGames.selectedTex:SetInside()
 
 		warGamesIcon:Point("TOPLEFT", 2, -(E.PixelMode and 2 or 4))
 		warGamesIcon:Size(E.PixelMode and 36 or 32)
 		warGamesIcon:SetParent(warGames.backdrop)
+
+		_G["WarGamesFrameScrollFrameButton"..i.."WarGameBg"]:SetInside()
+		_G["WarGamesFrameScrollFrameButton"..i.."WarGameBorder"]:Kill()
 
 		warGamesHeader:SetNormalTexture(E.Media.Textures.Plus)
 		warGamesHeader.SetNormalTexture = E.noop
@@ -237,51 +240,56 @@ local function LoadSkin()
 		end)
 	end
 
+	WarGamesFrameDescription:SetTextColor(1, 1, 1)
+
+	S:HandleButton(WarGameStartButton, true)
+	WarGameStartButton:ClearAllPoints()
+	WarGameStartButton:Point("LEFT", PVPFrameLeftButton, "RIGHT", 2, 0)
+
+	-- Create Arena Team
+	PVPBannerFrame:StripTextures()
+	PVPBannerFrame:SetTemplate("Transparent")
+
+	PVPBannerFrameCustomizationFrame:StripTextures()
+
+	PVPBannerFrameCustomization1:StripTextures()
+	PVPBannerFrameCustomization1:CreateBackdrop()
+	PVPBannerFrameCustomization1.backdrop:Point("TOPLEFT", PVPBannerFrameCustomization1LeftButton, "TOPRIGHT", 2, 0)
+	PVPBannerFrameCustomization1.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameCustomization1RightButton, "BOTTOMLEFT", -2, 0)
+
+	PVPBannerFrameCustomization2:StripTextures()
+	PVPBannerFrameCustomization2:CreateBackdrop()
+	PVPBannerFrameCustomization2.backdrop:Point("TOPLEFT", PVPBannerFrameCustomization2LeftButton, "TOPRIGHT", 2, 0)
+	PVPBannerFrameCustomization2.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameCustomization2RightButton, "BOTTOMLEFT", -2, 0)
+
+	S:HandleCloseButton(PVPBannerFrameCloseButton, PVPBannerFrame)
+	S:HandleCloseButton(PVPFrameCloseButton, PVPFrame)
+
+	S:HandleNextPrevButton(PVPBannerFrameCustomization1LeftButton)
+	PVPBannerFrameCustomization1LeftButton:Height(20)
+
+	S:HandleNextPrevButton(PVPBannerFrameCustomization1RightButton)
+	PVPBannerFrameCustomization1RightButton:Height(20)
+
+	S:HandleNextPrevButton(PVPBannerFrameCustomization2LeftButton)
+	PVPBannerFrameCustomization2LeftButton:Height(20)
+
+	S:HandleNextPrevButton(PVPBannerFrameCustomization2RightButton)
+	PVPBannerFrameCustomization2RightButton:Height(20)
+
+	S:HandleNextPrevButton(PVPTeamManagementFrameWeeklyToggleLeft)
+	S:HandleNextPrevButton(PVPTeamManagementFrameWeeklyToggleRight)
+
+	PVPColorPickerButton1:Height(20)
+	PVPColorPickerButton2:Height(20)
+	PVPColorPickerButton3:Height(20)
+
 	S:HandleButton(PVPBannerFrameCancelButton)
 	PVPBannerFrameCancelButton.backdrop = CreateFrame("Frame", nil, PVPBannerFrameCancelButton)
 	PVPBannerFrameCancelButton.backdrop:SetTemplate("Default", true)
 	PVPBannerFrameCancelButton.backdrop:SetFrameLevel(PVPBannerFrameCancelButton:GetFrameLevel() - 2)
-	PVPBannerFrameCancelButton.backdrop:Point("TOPLEFT", PVPBannerFrameAcceptButton, "TOPLEFT", PVPBannerFrame:GetWidth() - PVPBannerFrameAcceptButton:GetWidth() -10, 0)
-	PVPBannerFrameCancelButton.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameAcceptButton, "BOTTOMRIGHT", PVPBannerFrame:GetWidth() - PVPBannerFrameAcceptButton:GetWidth() -10, 0)
-
-	if PVPFrameCurrencyIcon then
-		PVPFrameCurrency:CreateBackdrop()
-		PVPFrameCurrency.backdrop:Point("TOPLEFT", 8, -8)
-		PVPFrameCurrency.backdrop:Point("BOTTOMRIGHT", -8, 8)
-		PVPFrameCurrency:SetHitRectInsets(8, 8, 8, 8)
-
-		PVPFrameCurrencyIcon:SetAlpha(0)
-
-		PVPFrameCurrency.texture = PVPFrameCurrency:CreateTexture(nil, "OVERLAY")
-		PVPFrameCurrency.texture:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..E.myfaction)
-		PVPFrameCurrency.texture:SetTexCoord(unpack(E.TexCoords))
-		PVPFrameCurrency.texture:SetInside(PVPFrameCurrency.backdrop)
-	end
-
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..E.myfaction)
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol.SetTexture = E.noop
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:SetTexCoord(unpack(E.TexCoords))
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardHonorSymbol:Size(30)
-
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..E.myfaction)
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol.SetTexture = E.noop
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:SetTexCoord(unpack(E.TexCoords))
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoWinRewardArenaSymbol:Size(30)
-
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Honor-"..E.myfaction)
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol.SetTexture = E.noop
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:SetTexCoord(unpack(E.TexCoords))
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardHonorSymbol:Size(30)
-
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..E.myfaction)
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol.SetTexture = E.noop
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:SetTexCoord(unpack(E.TexCoords))
-	PVPHonorFrameInfoScrollFrameChildFrameRewardsInfoLossRewardArenaSymbol:Size(30)
-
-	PVPConquestFrameWinRewardArenaSymbol:SetTexture("Interface\\Icons\\PVPCurrency-Conquest-"..E.myfaction)
-	PVPConquestFrameWinRewardArenaSymbol.SetTexture = E.noop
-	PVPConquestFrameWinRewardArenaSymbol:SetTexCoord(unpack(E.TexCoords))
-	PVPConquestFrameWinRewardArenaSymbol:Size(30)
+	PVPBannerFrameCancelButton.backdrop:Point("TOPLEFT", PVPBannerFrameAcceptButton, 248, 0)
+	PVPBannerFrameCancelButton.backdrop:Point("BOTTOMRIGHT", PVPBannerFrameAcceptButton, 248, 0)
 end
 
 S:AddCallback("PvP", LoadSkin)
