@@ -644,16 +644,7 @@ function TT:GameTooltip_OnTooltipSetSpell(tt)
 	local id = select(3, tt:GetSpell())
 	if not id then return end
 
-	local ID = format("|cFFCA3C3C%s|r %d", ID, id)
-	for i = 3, tt:NumLines() do
-		local line = _G[format("GameTooltipTextLeft%d", i)]
-		local text = line and line:GetText()
-		if text and strfind(text, ID) then
-			return -- this is called twice on talents for some reason?
-		end
-	end
-
-	tt:AddLine(ID)
+	tt:AddLine(format("|cFFCA3C3C%s|r %d", ID, id))
 	tt:Show()
 end
 
