@@ -99,6 +99,7 @@ end
 local updateInterval = 10
 local function OnUpdate(self, elapsed)
 	if self.timeSinceUpdate and self.timeSinceUpdate > updateInterval then
+		RequestLFDPlayerLockInfo()
 		OnEvent(self)
 
 		if enteredFrame then

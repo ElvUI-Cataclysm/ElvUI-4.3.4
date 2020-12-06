@@ -259,7 +259,7 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.databars.reputation.enable = true
 		E.db.databars.reputation.height = 10
 		E.db.databars.reputation.orientation = "HORIZONTAL"
-		E.db.databars.reputation.width = 222
+		E.db.databars.reputation.width = 221
 	--General
 		E.db.general.minimap.size = 220
 		E.db.general.watchFrameHeight = 400
