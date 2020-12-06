@@ -1564,6 +1564,30 @@ P.unitframe = {
 				yOffsetTime = 0,
 				overlayOnFrame = "None",
 				reverse = false,
+				customTextFont = {
+					enable = false,
+					font = "PT Sans Narrow",
+					fontSize = 12,
+					fontStyle = "OUTLINE"
+				},
+				customTimeFont = {
+					enable = false,
+					font = "PT Sans Narrow",
+					fontSize = 12,
+					fontStyle = "OUTLINE"
+				},
+				customColor = {
+					enable = false,
+					transparent = false,
+					invertColors = false,
+					useClassColor = false,
+					useCustomBackdrop = false,
+					useReactionColor = false,
+					color = {r = 0.31, g = 0.31, b = 0.31},
+					colorNoInterrupt = {r = 0.78, g = 0.25, b = 0.25},
+					colorInterrupted = {r = 0.30, g = 0.30, b = 0.30},
+					colorBackdrop = {r = 0.5, g = 0.5, b = 0.5, a = 1}
+				},
 				strataAndLevel = {
 					useCustomStrata = false,
 					frameStrata = "LOW",
@@ -1822,6 +1846,30 @@ P.unitframe = {
 				yOffsetTime = 0,
 				overlayOnFrame = "None",
 				reverse = false,
+				customTextFont = {
+					enable = false,
+					font = "PT Sans Narrow",
+					fontSize = 12,
+					fontStyle = "OUTLINE"
+				},
+				customTimeFont = {
+					enable = false,
+					font = "PT Sans Narrow",
+					fontSize = 12,
+					fontStyle = "OUTLINE"
+				},
+				customColor = {
+					enable = false,
+					transparent = false,
+					invertColors = false,
+					useClassColor = false,
+					useCustomBackdrop = false,
+					useReactionColor = false,
+					color = {r = 0.31, g = 0.31, b = 0.31},
+					colorNoInterrupt = {r = 0.78, g = 0.25, b = 0.25},
+					colorInterrupted = {r = 0.30, g = 0.30, b = 0.30},
+					colorBackdrop = {r = 0.5, g = 0.5, b = 0.5, a = 1}
+				},
 				strataAndLevel = {
 					useCustomStrata = false,
 					frameStrata = "LOW",
@@ -2355,6 +2403,30 @@ P.unitframe = {
 				yOffsetTime = 0,
 				overlayOnFrame = "None",
 				reverse = false,
+				customTextFont = {
+					enable = false,
+					font = "PT Sans Narrow",
+					fontSize = 12,
+					fontStyle = "OUTLINE"
+				},
+				customTimeFont = {
+					enable = false,
+					font = "PT Sans Narrow",
+					fontSize = 12,
+					fontStyle = "OUTLINE"
+				},
+				customColor = {
+					enable = false,
+					transparent = false,
+					invertColors = false,
+					useClassColor = false,
+					useCustomBackdrop = false,
+					useReactionColor = false,
+					color = {r = 0.31, g = 0.31, b = 0.31},
+					colorNoInterrupt = {r = 0.78, g = 0.25, b = 0.25},
+					colorInterrupted = {r = 0.30, g = 0.30, b = 0.30},
+					colorBackdrop = {r = 0.5, g = 0.5, b = 0.5, a = 1}
+				},
 				strataAndLevel = {
 					useCustomStrata = false,
 					frameStrata = "LOW",
@@ -2722,6 +2794,30 @@ P.unitframe = {
 				yOffsetTime = 0,
 				overlayOnFrame = "None",
 				reverse = false,
+				customTextFont = {
+					enable = false,
+					font = "PT Sans Narrow",
+					fontSize = 12,
+					fontStyle = "OUTLINE"
+				},
+				customTimeFont = {
+					enable = false,
+					font = "PT Sans Narrow",
+					fontSize = 12,
+					fontStyle = "OUTLINE"
+				},
+				customColor = {
+					enable = false,
+					transparent = false,
+					invertColors = false,
+					useClassColor = false,
+					useCustomBackdrop = false,
+					useReactionColor = false,
+					color = {r = 0.31, g = 0.31, b = 0.31},
+					colorNoInterrupt = {r = 0.78, g = 0.25, b = 0.25},
+					colorInterrupted = {r = 0.30, g = 0.30, b = 0.30},
+					colorBackdrop = {r = 0.5, g = 0.5, b = 0.5, a = 1}
+				},
 				strataAndLevel = {
 					useCustomStrata = false,
 					frameStrata = "LOW",
@@ -3035,6 +3131,30 @@ P.unitframe = {
 				yOffsetTime = 0,
 				overlayOnFrame = "None",
 				reverse = false,
+				customTextFont = {
+					enable = false,
+					font = "PT Sans Narrow",
+					fontSize = 12,
+					fontStyle = "OUTLINE"
+				},
+				customTimeFont = {
+					enable = false,
+					font = "PT Sans Narrow",
+					fontSize = 12,
+					fontStyle = "OUTLINE"
+				},
+				customColor = {
+					enable = false,
+					transparent = false,
+					invertColors = false,
+					useClassColor = false,
+					useCustomBackdrop = false,
+					useReactionColor = false,
+					color = {r = 0.31, g = 0.31, b = 0.31},
+					colorNoInterrupt = {r = 0.78, g = 0.25, b = 0.25},
+					colorInterrupted = {r = 0.30, g = 0.30, b = 0.30},
+					colorBackdrop = {r = 0.5, g = 0.5, b = 0.5, a = 1}
+				},
 				strataAndLevel = {
 					useCustomStrata = false,
 					frameStrata = "LOW",
@@ -3210,6 +3330,30 @@ P.unitframe = {
 				yOffsetTime = 0,
 				overlayOnFrame = "None",
 				reverse = false,
+				customTextFont = {
+					enable = false,
+					font = "PT Sans Narrow",
+					fontSize = 12,
+					fontStyle = "OUTLINE"
+				},
+				customTimeFont = {
+					enable = false,
+					font = "PT Sans Narrow",
+					fontSize = 12,
+					fontStyle = "OUTLINE"
+				},
+				customColor = {
+					enable = false,
+					transparent = false,
+					invertColors = false,
+					useClassColor = false,
+					useCustomBackdrop = false,
+					useReactionColor = false,
+					color = {r = 0.31, g = 0.31, b = 0.31},
+					colorNoInterrupt = {r = 0.78, g = 0.25, b = 0.25},
+					colorInterrupted = {r = 0.30, g = 0.30, b = 0.30},
+					colorBackdrop = {r = 0.5, g = 0.5, b = 0.5, a = 1}
+				},
 				strataAndLevel = {
 					useCustomStrata = false,
 					frameStrata = "LOW",
@@ -3432,6 +3576,30 @@ P.unitframe = {
 				yOffsetTime = 0,
 				overlayOnFrame = "None",
 				reverse = false,
+				customTextFont = {
+					enable = false,
+					font = "PT Sans Narrow",
+					fontSize = 12,
+					fontStyle = "OUTLINE"
+				},
+				customTimeFont = {
+					enable = false,
+					font = "PT Sans Narrow",
+					fontSize = 12,
+					fontStyle = "OUTLINE"
+				},
+				customColor = {
+					enable = false,
+					transparent = false,
+					invertColors = false,
+					useClassColor = false,
+					useCustomBackdrop = false,
+					useReactionColor = false,
+					color = {r = 0.31, g = 0.31, b = 0.31},
+					colorNoInterrupt = {r = 0.78, g = 0.25, b = 0.25},
+					colorInterrupted = {r = 0.30, g = 0.30, b = 0.30},
+					colorBackdrop = {r = 0.5, g = 0.5, b = 0.5, a = 1}
+				},
 				positionsGroup = {
 					anchorPoint = "BOTTOM",
 					xOffset = 0,
