@@ -6,6 +6,7 @@ local unpack = unpack
 local tinsert = table.insert
 
 local CreateFrame = CreateFrame
+local GetCVarBool = GetCVarBool
 local RegisterStateDriver = RegisterStateDriver
 local NUM_BAG_FRAMES = NUM_BAG_FRAMES
 
@@ -25,29 +26,30 @@ function B:SkinBag(bag)
 
 	bag:StripTextures()
 	bag:SetTemplate("Default", true)
-	bag:StyleButton(true)
+	bag:StyleButton(nil, true)
 
-	icon:SetTexture(bag.oldTex)
 	icon:SetInside()
+	icon:SetTexture(bag.oldTex)
 	icon:SetTexCoord(unpack(E.TexCoords))
 end
 
 function B:SizeAndPositionBagBar()
 	if not B.BagBar then return end
 
-	local buttonSpacing = E:Scale(E.db.bags.bagBar.spacing)
-	local backdropSpacing = E:Scale(E.db.bags.bagBar.backdropSpacing)
-	local bagBarSize = E:Scale(E.db.bags.bagBar.size)
-	local showBackdrop = E.db.bags.bagBar.showBackdrop
+	local bagBarSize = E.db.bags.bagBar.size
+	local buttonSpacing = E.db.bags.bagBar.spacing
 	local growthDirection = E.db.bags.bagBar.growthDirection
 	local sortDirection = E.db.bags.bagBar.sortDirection
+	local showBackdrop = E.db.bags.bagBar.showBackdrop
+	local backdropSpacing = showBackdrop and (E.db.bags.bagBar.backdropSpacing + E.Border) or 0
 
 	local visibility = E.db.bags.bagBar.visibility
 	if visibility and visibility:match("[\n\r]") then
-		visibility = visibility:gsub("[\n\r]","")
+		visibility = visibility:gsub("[\n\r]", "")
 	end
 
 	RegisterStateDriver(B.BagBar, "visibility", visibility)
+
 	B.BagBar:SetAlpha(E.db.bags.bagBar.mouseover and 0 or 1)
 
 	if showBackdrop then
@@ -56,51 +58,53 @@ function B:SizeAndPositionBagBar()
 		B.BagBar.backdrop:Hide()
 	end
 
-	local bdpSpacing = (showBackdrop and backdropSpacing + E.Border) or 0
-	local btnSpacing = (buttonSpacing + E.Border)
+	B.BagBar.backdrop:SetTemplate(E.db.bags.bagBar.transparent and "Transparent" or "Default")
 
 	for i, button in ipairs(B.BagBar.buttons) do
 		local prevButton = B.BagBar.buttons[i - 1]
-		button:SetSize(bagBarSize, bagBarSize)
+
+		button:Size(bagBarSize)
 		button:ClearAllPoints()
+
+		if GetCVarBool("displayFreeBagSlots") then
+			_G[button:GetName().."Count"]:Show()
+		else
+			_G[button:GetName().."Count"]:Hide()
+		end
 
 		if growthDirection == "HORIZONTAL" and sortDirection == "ASCENDING" then
 			if i == 1 then
-				button:SetPoint("LEFT", B.BagBar, "LEFT", bdpSpacing, 0)
+				button:Point("LEFT", B.BagBar, "LEFT", backdropSpacing, 0)
 			elseif prevButton then
-				button:SetPoint("LEFT", prevButton, "RIGHT", btnSpacing, 0)
+				button:Point("LEFT", prevButton, "RIGHT", buttonSpacing, 0)
 			end
 		elseif growthDirection == "VERTICAL" and sortDirection == "ASCENDING" then
 			if i == 1 then
-				button:SetPoint("TOP", B.BagBar, "TOP", 0, -bdpSpacing)
+				button:Point("TOP", B.BagBar, "TOP", 0, -backdropSpacing)
 			elseif prevButton then
-				button:SetPoint("TOP", prevButton, "BOTTOM", 0, -btnSpacing)
+				button:Point("TOP", prevButton, "BOTTOM", 0, -buttonSpacing)
 			end
 		elseif growthDirection == "HORIZONTAL" and sortDirection == "DESCENDING" then
 			if i == 1 then
-				button:SetPoint("RIGHT", B.BagBar, "RIGHT", -bdpSpacing, 0)
+				button:Point("RIGHT", B.BagBar, "RIGHT", -backdropSpacing, 0)
 			elseif prevButton then
-				button:SetPoint("RIGHT", prevButton, "LEFT", -btnSpacing, 0)
+				button:Point("RIGHT", prevButton, "LEFT", -buttonSpacing, 0)
 			end
 		else
 			if i == 1 then
-				button:SetPoint("BOTTOM", B.BagBar, "BOTTOM", 0, bdpSpacing)
+				button:Point("BOTTOM", B.BagBar, "BOTTOM", 0, backdropSpacing)
 			elseif prevButton then
-				button:SetPoint("BOTTOM", prevButton, "TOP", 0, btnSpacing)
+				button:Point("BOTTOM", prevButton, "TOP", 0, buttonSpacing)
 			end
 		end
 	end
 
-	local btnSize = bagBarSize * (NUM_BAG_FRAMES + 1)
-	local btnSpace = btnSpacing * NUM_BAG_FRAMES
-	local bdpDoubled = bdpSpacing * 2
-
 	if growthDirection == "HORIZONTAL" then
-		B.BagBar:SetWidth(btnSize + btnSpace + bdpDoubled)
-		B.BagBar:SetHeight(bagBarSize + bdpDoubled)
+		B.BagBar:Width(bagBarSize * (NUM_BAG_FRAMES + 1) + buttonSpacing * (NUM_BAG_FRAMES) + (backdropSpacing or E.Spacing) * 2)
+		B.BagBar:Height(bagBarSize + backdropSpacing * 2)
 	else
-		B.BagBar:SetHeight(btnSize + btnSpace + bdpDoubled)
-		B.BagBar:SetWidth(bagBarSize + bdpDoubled)
+		B.BagBar:Height(bagBarSize * (NUM_BAG_FRAMES + 1) + buttonSpacing * (NUM_BAG_FRAMES) + backdropSpacing * 2)
+		B.BagBar:Width(bagBarSize + backdropSpacing * 2)
 	end
 end
 
@@ -109,18 +113,17 @@ function B:LoadBagBar()
 
 	B.BagBar = CreateFrame("Frame", "ElvUIBags", E.UIParent)
 	B.BagBar:Point("TOPRIGHT", RightChatPanel, "TOPLEFT", -4, 0)
-	B.BagBar.buttons = {}
-	B.BagBar:CreateBackdrop(E.db.bags.transparent and "Transparent")
+	B.BagBar:CreateBackdrop()
 	B.BagBar.backdrop:SetAllPoints()
 	B.BagBar:EnableMouse(true)
 	B.BagBar:SetScript("OnEnter", OnEnter)
 	B.BagBar:SetScript("OnLeave", OnLeave)
+	B.BagBar.buttons = {}
 
 	MainMenuBarBackpackButton:SetParent(B.BagBar)
-	MainMenuBarBackpackButton.SetParent = E.noop
 	MainMenuBarBackpackButton:ClearAllPoints()
 
-	MainMenuBarBackpackButtonCount:FontTemplate(nil, 10)
+	MainMenuBarBackpackButtonCount:FontTemplate(nil, 12)
 	MainMenuBarBackpackButtonCount:ClearAllPoints()
 	MainMenuBarBackpackButtonCount:Point("BOTTOMRIGHT", MainMenuBarBackpackButton, "BOTTOMRIGHT", -1, 4)
 
@@ -134,7 +137,6 @@ function B:LoadBagBar()
 		local slot = _G["CharacterBag"..i.."Slot"]
 
 		slot:SetParent(B.BagBar)
-		slot.SetParent = E.noop
 		slot:HookScript("OnEnter", OnEnter)
 		slot:HookScript("OnLeave", OnLeave)
 
