@@ -48,6 +48,7 @@ local UnitName = UnitName
 local UnitPVPName = UnitPVPName
 local UnitRace = UnitRace
 local UnitReaction = UnitReaction
+local UnitSex = UnitSex
 
 local AFK, BOSS, DEAD, DND, ID, PVP = AFK, BOSS, DEAD, DND, ID, PVP
 local ROLE, TANK, HEALER = ROLE, TANK, HEALER
@@ -61,6 +62,7 @@ local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
 local LEVEL1 = strlower(TOOLTIP_UNIT_LEVEL:gsub("%s?%%s%s?%-?", ""))
 local LEVEL2 = strlower(TOOLTIP_UNIT_LEVEL_CLASS:gsub("^%%2$s%s?(.-)%s?%%1$s", "%1"):gsub("^%-?г?о?%s?", ""):gsub("%s?%%s%s?%-?", ""))
 
+local IDLine = "|cFFCA3C3C%s|r %d"
 local GameTooltip, GameTooltipStatusBar = GameTooltip, GameTooltipStatusBar
 local MATCH_ITEM_LEVEL = ITEM_LEVEL:gsub("%%d", "(%%d+)")
 local targetList = {}
@@ -80,6 +82,12 @@ local SlotName = {
 	"Head", "Neck", "Shoulder", "Back", "Chest", "Wrist",
 	"Hands", "Waist", "Legs", "Feet", "Finger0", "Finger1",
 	"Trinket0", "Trinket1", "MainHand", "SecondaryHand", "Ranged"
+}
+
+local genderTable = {
+	UNKNOWN or "",
+	MALE,
+	FEMALE
 }
 
 function TT:IsModKeyDown(db)
@@ -104,6 +112,7 @@ function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 	end
 
 	if tt.StatusBar then
+		tt.StatusBar:SetAlpha(TT.db.healthBar.statusPosition == "DISABLED" and 0 or 1)
 		if TT.db.healthBar.statusPosition == "BOTTOM" then
 			if tt.StatusBar.anchoredToTop then
 				tt.StatusBar:ClearAllPoints()
@@ -112,7 +121,7 @@ function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 				tt.StatusBar.text:Point("CENTER", tt.StatusBar, 0, 0)
 				tt.StatusBar.anchoredToTop = nil
 			end
-		else
+		elseif TT.db.healthBar.statusPosition == "TOP" then
 			if not tt.StatusBar.anchoredToTop then
 				tt.StatusBar:ClearAllPoints()
 				tt.StatusBar:Point("BOTTOMLEFT", tt, "TOPLEFT", E.Border, (E.Spacing * 3))
@@ -228,7 +237,13 @@ function TT:SetUnitText(tt, unit)
 		if levelLine then
 			local diffColor = GetQuestDifficultyColor(level)
 			local race = UnitRace(unit)
-			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r %s |c%s%s|r", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", race or "", nameColor.colorStr, localeClass)
+			local hexColor = E:RGBToHex(diffColor.r, diffColor.g, diffColor.b)
+
+			if TT.db.gender then
+				levelLine:SetFormattedText("%s%s|r %s %s |c%s%s|r", hexColor, level > 0 and level or "??", genderTable[UnitSex(unit)], race or "", nameColor.colorStr, localeClass)
+			else
+				levelLine:SetFormattedText("%s%s|r %s |c%s%s|r", hexColor, level > 0 and level or "??", race, nameColor.colorStr, localeClass)
+			end
 		end
 
 		if TT.db.role then
@@ -488,7 +503,7 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 		local guid = UnitGUID(unit) or ""
 		local id = tonumber(sub(guid, 8, 12), 16)
 		if id then
-			tt:AddLine(format("|cFFCA3C3C%s|r %d", ID, id))
+			tt:AddLine(format(IDLine, ID, id))
 		end
 	end
 
@@ -550,12 +565,12 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 		end
 
 		if TT.db.itemCount == "BAGS_ONLY" then
-			right = format("|cFFCA3C3C%s|r %d", L["Count"], num)
+			right = format(IDLine, L["Count"], num)
 		elseif TT.db.itemCount == "BANK_ONLY" then
-			bankCount = format("|cFFCA3C3C%s|r %d", L["Bank"], (numall - num))
+			bankCount = format(IDLine, L["Bank"], (numall - num))
 		elseif TT.db.itemCount == "BOTH" then
-			right = format("|cFFCA3C3C%s|r %d", L["Count"], num)
-			bankCount = format("|cFFCA3C3C%s|r %d", L["Bank"], (numall - num))
+			right = format(IDLine, L["Count"], num)
+			bankCount = format(IDLine, L["Bank"], (numall - num))
 		end
 
 		if left ~= " " or right ~= " " then
@@ -628,9 +643,9 @@ function TT:SetUnitAura(tt, ...)
 				local _, class = UnitClass(caster)
 				local color = E:ClassColor(class) or PRIEST_COLOR
 
-				tt:AddDoubleLine(format("|cFFCA3C3C%s|r %d", ID, id), format("|c%s%s|r", color.colorStr, name))
+				tt:AddDoubleLine(format(IDLine, ID, id), format("|c%s%s|r", color.colorStr, name))
 			else
-				tt:AddLine(format("|cFFCA3C3C%s|r %d", ID, id))
+				tt:AddLine(format(IDLine, ID, id))
 			end
 		end
 
@@ -644,7 +659,7 @@ function TT:GameTooltip_OnTooltipSetSpell(tt)
 	local id = select(3, tt:GetSpell())
 	if not id then return end
 
-	tt:AddLine(format("|cFFCA3C3C%s|r %d", ID, id))
+	tt:AddLine(format(IDLine, ID, id))
 	tt:Show()
 end
 
@@ -653,7 +668,7 @@ function TT:SetItemRef(link)
 
 	local id = tonumber(match(link, "(%d+)"))
 
-	ItemRefTooltip:AddLine(format("|cFFCA3C3C%s|r %d", ID, id))
+	ItemRefTooltip:AddLine(format(IDLine, ID, id))
 	ItemRefTooltip:Show()
 end
 
@@ -661,13 +676,13 @@ function TT:SetCurrencyToken(tt, index)
 	local id = TT:IsModKeyDown() and tonumber(strmatch(GetCurrencyListLink(index), "currency:(%d+)"))
 	if not id then return end
 
-	tt:AddLine(format("|cFFCA3C3C%s|r %d", ID, id))
+	tt:AddLine(format(IDLine, ID, id))
 	tt:Show()
 end
 
 function TT:SetBackpackToken(tt, id)
 	if id and TT:IsModKeyDown() then
-		tt:AddLine(format("|cFFCA3C3C%s|r %d", ID, select(4, GetBackpackCurrencyInfo(id))))
+		tt:AddLine(format(IDLine, ID, select(4, GetBackpackCurrencyInfo(id))))
 		tt:Show()
 	end
 end
