@@ -132,14 +132,14 @@ local function LoadSkin()
 
 		button:GetHighlightTexture():SetAllPoints(icon)
 		hooksecurefunc(button, "SetHighlightTexture", function(self, texture)
-			if texture == "Interface\\Buttons\\ButtonHilight-Square" then
+			if texture == [[Interface\Buttons\ButtonHilight-Square]] then
 				self:GetHighlightTexture():SetTexture(1, 1, 1, 0.3)
 			end
 		end)
 
 		button:GetPushedTexture():SetAllPoints(icon)
 		hooksecurefunc(button, "SetPushedTexture", function(self, texture)
-			if texture == "Interface\\Buttons\\UI-Quickslot-Depress" then
+			if texture == [[Interface\Buttons\UI-Quickslot-Depress]] then
 				self:GetPushedTexture():SetTexture(0.9, 0.8, 0.1, 0.3)
 			end
 		end)
@@ -209,7 +209,7 @@ local function LoadSkin()
 	PlayerTalentFramePetDiet:Size(40)
 
 	PlayerTalentFramePetDiet.icon = PlayerTalentFramePetDiet:CreateTexture(nil, "ARTWORK")
-	PlayerTalentFramePetDiet.icon:SetTexture("Interface\\Icons\\Ability_Hunter_BeastTraining")
+	PlayerTalentFramePetDiet.icon:SetTexture([[Interface\Icons\Ability_Hunter_BeastTraining]])
 	PlayerTalentFramePetDiet.icon:SetAllPoints()
 	PlayerTalentFramePetDiet.icon:SetTexCoord(unpack(E.TexCoords))
 
@@ -239,8 +239,10 @@ local function LoadSkin()
 		tab:GetRegions():Hide()
 		tab:SetTemplate()
 		tab:StyleButton(nil, true)
-		tab:GetNormalTexture():SetInside()
-		tab:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
+
+		local normal = tab:GetNormalTexture()
+		normal:SetInside()
+		normal:SetTexCoord(unpack(E.TexCoords))
 	end
 end
 

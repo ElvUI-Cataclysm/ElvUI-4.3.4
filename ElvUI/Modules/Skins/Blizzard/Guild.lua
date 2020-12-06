@@ -27,7 +27,7 @@ local function LoadSkin()
 
 	-- XP Bar
 	GuildXPFrame:ClearAllPoints()
-	GuildXPFrame:Point("TOP", GuildFrame, "TOP", 0, -40)
+	GuildXPFrame:Point("TOP", GuildFrame, 0, -40)
 
 	GuildXPBar:StripTextures()
 	GuildXPBar:CreateBackdrop()
@@ -85,7 +85,7 @@ local function LoadSkin()
 	GuildRewardsFrame:StripTextures()
 
 	GuildRewardsFrameVisitText:ClearAllPoints()
-	GuildRewardsFrameVisitText:Point("TOP", GuildRewardsFrame, "TOP", 0, 30)
+	GuildRewardsFrameVisitText:Point("TOP", GuildRewardsFrame, 0, 30)
 
 	GuildRewardsContainer:CreateBackdrop("Transparent")
 	GuildRewardsContainer.backdrop:Point("TOPLEFT", -1, 0)
@@ -239,7 +239,7 @@ local function LoadSkin()
 	S:HandleDropDownBox(GuildMemberRankDropdown, 175)
 	GuildMemberRankDropdown:SetFrameLevel(GuildMemberRankDropdown:GetFrameLevel() + 5)
 	GuildMemberRankDropdown:ClearAllPoints()
-	GuildMemberRankDropdown:Point("CENTER", GuildMemberDetailFrame, "CENTER", 18, 45)
+	GuildMemberRankDropdown:Point("CENTER", GuildMemberDetailFrame, 18, 45)
 
 	S:HandleButton(GuildMemberGroupInviteButton)
 
@@ -322,7 +322,7 @@ local function LoadSkin()
 
 	S:HandleScrollBar(GuildInfoFrameApplicantsContainerScrollBar)
 	GuildInfoFrameApplicantsContainerScrollBar:ClearAllPoints()
-	GuildInfoFrameApplicantsContainerScrollBar:Point("TOPRIGHT", GuildInfoFrameApplicantsContainer, 23, -15)
+	GuildInfoFrameApplicantsContainerScrollBar:Point("TOPRIGHT", GuildInfoFrameApplicantsContainer, 24, -15)
 	GuildInfoFrameApplicantsContainerScrollBar:Point("BOTTOMRIGHT", GuildInfoFrameApplicantsContainer, 0, 13)
 	GuildInfoFrameApplicantsContainerScrollBar:Show()
 	GuildInfoFrameApplicantsContainerScrollBar.Hide = E.noop
@@ -478,7 +478,7 @@ local function LoadSkin()
 
 	for i = 1, GuildLogFrame:GetNumChildren() do
 		local child = select(i, GuildLogFrame:GetChildren())
-		if (child:GetName() == "GuildLogFrameCloseButton") and child:GetWidth() < 33 then
+		if child:GetName() == "GuildLogFrameCloseButton" and child:GetWidth() < 33 then
 			S:HandleCloseButton(child)
 			child:Point("TOPRIGHT", -10, 5)
 		elseif child:GetName() == "GuildLogFrameCloseButton" then
@@ -514,30 +514,14 @@ local function LoadSkin()
 	S:HandleCheckBox(GuildRecruitmentLevelAnyButton)
 	S:HandleCheckBox(GuildRecruitmentLevelMaxButton)
 
-	local roleIcons = {
-		"GuildRecruitmentTankButton",
-		"GuildRecruitmentHealerButton",
-		"GuildRecruitmentDamagerButton"
-	}
+	S:HandleRoleButton(GuildRecruitmentTankButton)
+	GuildRecruitmentTankButton:Point("TOPLEFT", 30, -37)
 
-	for i = 1, #roleIcons do
-		local button = _G[roleIcons[i]]
-		local icon = button:GetNormalTexture()
+	S:HandleRoleButton(GuildRecruitmentHealerButton)
+	GuildRecruitmentHealerButton:Point("TOP", 1, -37)
 
-		button:StripTextures()
-		button:CreateBackdrop()
-
-		icon:SetTexCoord(unpack(E.TexCoords))
-		icon:SetInside(button.backdrop)
-
-		S:HandleCheckBox(button.checkButton)
-		button.checkButton:Point("BOTTOMLEFT", -5, -5)
-		button.checkButton:SetFrameLevel(button.checkButton:GetFrameLevel() + 2)
-	end
-
-	GuildRecruitmentTankButton:SetNormalTexture("Interface\\Icons\\Ability_Defend")
-	GuildRecruitmentHealerButton:SetNormalTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH")
-	GuildRecruitmentDamagerButton:SetNormalTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
+	S:HandleRoleButton(GuildRecruitmentDamagerButton)
+	GuildRecruitmentDamagerButton:Point("TOPRIGHT", -30, -37)
 end
 
 S:AddCallbackForAddon("Blizzard_GuildUI", "Guild", LoadSkin)

@@ -202,8 +202,8 @@ local function LoadSkin()
 
 	BankFrame.itemBackdrop = CreateFrame("Frame", "BankFrameItemBackdrop", BankFrame)
 	BankFrame.itemBackdrop:SetTemplate()
-	BankFrame.itemBackdrop:Point("TOPLEFT", BankFrameItem1, "TOPLEFT", -6, 6)
-	BankFrame.itemBackdrop:Point("BOTTOMRIGHT", BankFrameItem28, "BOTTOMRIGHT", 6, -6)
+	BankFrame.itemBackdrop:Point("TOPLEFT", BankFrameItem1, -6, 6)
+	BankFrame.itemBackdrop:Point("BOTTOMRIGHT", BankFrameItem28, 6, -6)
 	BankFrame.itemBackdrop:SetFrameLevel(BankFrame:GetFrameLevel())
 
 	for i = 1, NUM_BANKBAGSLOTS, 1 do
@@ -224,8 +224,8 @@ local function LoadSkin()
 
 	BankFrame.bagBackdrop = CreateFrame("Frame", "BankFrameBagBackdrop", BankFrame)
 	BankFrame.bagBackdrop:SetTemplate()
-	BankFrame.bagBackdrop:Point("TOPLEFT", BankFrameBag1, "TOPLEFT", -6, 6)
-	BankFrame.bagBackdrop:Point("BOTTOMRIGHT", BankFrameBag7, "BOTTOMRIGHT", 6, -6)
+	BankFrame.bagBackdrop:Point("TOPLEFT", BankFrameBag1, -6, 6)
+	BankFrame.bagBackdrop:Point("BOTTOMRIGHT", BankFrameBag7, 6, -6)
 	BankFrame.bagBackdrop:SetFrameLevel(BankFrame:GetFrameLevel())
 
 	S:HandleButton(BankFramePurchaseButton)

@@ -119,6 +119,12 @@ local function LoadSkin()
 	S:HandleButtonHighlight(PVPConquestFrameConquestButtonArena)
 	S:HandleButtonHighlight(PVPConquestFrameConquestButtonRated)
 
+	PVPConquestFrameNoWeekly:StripTextures()
+	PVPConquestFrameNoWeekly:CreateBackdrop()
+	PVPConquestFrameNoWeekly.backdrop:Point("TOPLEFT", -5, 5)
+	PVPConquestFrameNoWeekly.backdrop:Point("BOTTOMRIGHT", 8, -5)
+	PVPConquestFrameNoWeekly.backdrop:SetFrameLevel(PVPConquestFrameNoWeekly:GetFrameLevel())
+
 	-- Conquest Bar
 	PVPFrameConquestBar:StripTextures()
 	PVPFrameConquestBar:CreateBackdrop()

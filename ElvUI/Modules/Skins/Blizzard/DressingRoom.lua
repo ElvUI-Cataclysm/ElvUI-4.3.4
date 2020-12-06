@@ -24,7 +24,7 @@ local function LoadSkin()
 
 	DressUpFrameDescriptionText:Point("CENTER", DressUpFrameTitleText, "BOTTOM", -7, -22)
 
-	DressUpModel:CreateBackdrop("Default")
+	DressUpModel:CreateBackdrop()
 	DressUpModel.backdrop:SetOutside(DressUpBackgroundTopLeft, nil, nil, DressUpModel)
 
 	-- Side Dressing Room

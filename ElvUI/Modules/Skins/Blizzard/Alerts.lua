@@ -17,23 +17,43 @@ local function LoadSkin()
 			local name = frame:GetName()
 
 			frame:DisableDrawLayer("OVERLAY")
-			frame:CreateBackdrop("Transparent")
-			frame.backdrop:Point("TOPLEFT", frame, "TOPLEFT", -2, -6)
-			frame.backdrop:Point("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -2, 6)
-			frame:SetHitRectInsets(0, 0, 6, 6)
+			frame:SetTemplate("Transparent")
+			frame:Height(66)
+			frame.SetHeight = E.noop
 
-			_G[name.."IconTexture"]:ClearAllPoints()
-			_G[name.."IconTexture"]:Point("LEFT", frame, 7, 0)
-			_G[name.."IconTexture"]:SetTexCoord(unpack(E.TexCoords))
-			_G[name.."IconTexture"].backdrop = CreateFrame("Frame", nil, frame)
-			_G[name.."IconTexture"].backdrop:SetTemplate()
-			_G[name.."IconTexture"].backdrop:SetOutside(_G[name.."IconTexture"])
+			local icon = _G[name.."IconTexture"]
+			icon:ClearAllPoints()
+			icon:Point("LEFT", frame, 7, 0)
+			icon:SetTexCoord(unpack(E.TexCoords))
 
-			_G[name.."Unlocked"]:SetTextColor(1, 1, 1)
+			icon.backdrop = CreateFrame("Frame", nil, frame)
+			icon.backdrop:SetTemplate()
+			icon.backdrop:SetOutside(icon)
+
+			local unlocked = _G[name.."Unlocked"]
+			unlocked:ClearAllPoints()
+			unlocked:Point("BOTTOM", frame, 0, 8)
+			unlocked.SetPoint = E.noop
+			unlocked:SetTextColor(0.973, 0.937, 0.580)
+
+			local achievementName = _G[name.."Name"]
+			achievementName:ClearAllPoints()
+			achievementName:Point("LEFT", frame, 62, 3)
+			achievementName:Point("RIGHT", frame, -55, 3)
+			achievementName.SetPoint = E.noop
+
+			local achievementGuildName = _G[name.."GuildName"]
+			achievementGuildName:ClearAllPoints()
+			achievementGuildName:Point("TOPLEFT", frame, 50, -2)
+			achievementGuildName:Point("TOPRIGHT", frame, -50, -2)
+			achievementGuildName.SetPoint = E.noop
+
+			local shield = _G[name.."Shield"]
+			shield:ClearAllPoints()
+			shield:Point("TOPRIGHT", frame, -4, -6)
+			shield.SetPoint = E.noop
 
 			_G[name.."Background"]:Kill()
-			_G[name.."Glow"]:Kill()
-			_G[name.."Shine"]:Kill()
 			_G[name.."GuildBanner"]:Kill()
 			_G[name.."GuildBorder"]:Kill()
 			_G[name.."IconOverlay"]:Kill()
@@ -47,67 +67,82 @@ local function LoadSkin()
 		return frame
 	end, true)
 
-	-- Dungeon Completion Alerts
-	local frame = DungeonCompletionAlertFrame1
-	frame:DisableDrawLayer("BORDER")
-	frame:DisableDrawLayer("OVERLAY")
+	-- Dungeon Alerts
+	local function SkinRewards(frame)
+		if frame.isSkinned then return end
 
-	frame:CreateBackdrop("Transparent")
-	frame.backdrop:Point("TOPLEFT", frame, "TOPLEFT", -2, -6)
-	frame.backdrop:Point("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -2, 6)
-	frame:SetHitRectInsets(0, 0, 6, 6)
+		frame:SetTemplate()
+		frame:Size(24)
+		S:HandleFrameHighlight(frame, frame.backdrop)
 
-	frame.dungeonTexture:ClearAllPoints()
-	frame.dungeonTexture:Point("LEFT", frame.backdrop, 9, 0)
-	frame.dungeonTexture:SetTexCoord(unpack(E.TexCoords))
+		frame.texture:SetInside(frame.backdrop)
+		frame.texture:SetTexCoord(unpack(E.TexCoords))
 
-	frame.dungeonTexture.backdrop = CreateFrame("Frame", "$parentDungeonTextureBackground", frame)
-	frame.dungeonTexture.backdrop:SetTemplate()
-	frame.dungeonTexture.backdrop:SetOutside(frame.dungeonTexture)
-	frame.dungeonTexture.backdrop:SetFrameLevel(0)
+		_G[frame:GetName().."Border"]:Hide()
 
-	frame.shine:Kill()
-	frame.raidArt:Kill()
-
-	frame.dungeonArt1:Kill()
-	frame.dungeonArt2:Kill()
-	frame.dungeonArt3:Kill()
-	frame.dungeonArt4:Kill()
-
-	frame.glowFrame:Kill()
-	frame.glowFrame.glow:Kill()
-	frame.glowFrame:DisableDrawLayer("OVERLAY")
-
-	frame.heroicIcon:Hide()
-	DungeonCompletionAlertFrame1Reward1:Hide()
-
-	local function DungeonCompletionAlertFrameReward_SetReward(self)
-		self:Hide()
+		frame.isSkinned = true
 	end
-	hooksecurefunc("DungeonCompletionAlertFrameReward_SetReward", DungeonCompletionAlertFrameReward_SetReward)
 
-	-- Guild Challenge Alerts
-	for i = 1, GuildChallengeAlertFrame:GetNumRegions() do
-		local region = select(i, GuildChallengeAlertFrame:GetRegions())
-		if region and region:IsObjectType("Texture") and not region:GetName() then
-			region:SetTexture(nil)
+	DungeonCompletionAlertFrame1:StripTextures()
+	DungeonCompletionAlertFrame1:SetTemplate("Transparent")
+	DungeonCompletionAlertFrame1:Size(310, 60)
+
+	DungeonCompletionAlertFrame1.dungeonTexture:ClearAllPoints()
+	DungeonCompletionAlertFrame1.dungeonTexture:Point("BOTTOMLEFT", 8, 8)
+	DungeonCompletionAlertFrame1.dungeonTexture.SetPoint = E.noop
+
+	DungeonCompletionAlertFrame1.dungeonTexture.backdrop = CreateFrame("Frame", nil, DungeonCompletionAlertFrame1)
+	DungeonCompletionAlertFrame1.dungeonTexture.backdrop:SetTemplate()
+	DungeonCompletionAlertFrame1.dungeonTexture.backdrop:SetOutside(DungeonCompletionAlertFrame1.dungeonTexture)
+
+	DungeonCompletionAlertFrame1.dungeonTexture:SetTexCoord(unpack(E.TexCoords))
+	DungeonCompletionAlertFrame1.dungeonTexture:Size(44)
+	DungeonCompletionAlertFrame1.dungeonTexture:SetDrawLayer("ARTWORK")
+	DungeonCompletionAlertFrame1.dungeonTexture:SetParent(DungeonCompletionAlertFrame1.dungeonTexture.backdrop)
+
+	DungeonCompletionAlertFrame1.glowFrame:DisableDrawLayer("OVERLAY")
+
+	SkinRewards(DungeonCompletionAlertFrame1Reward1)
+	DungeonCompletionAlertFrame1Reward1:Point("TOPLEFT", frame, 64, 7)
+	DungeonCompletionAlertFrame1Reward1.SetPoint = E.noop
+
+	for i = 1, DungeonCompletionAlertFrame1:GetNumRegions() do
+		local region = select(i, DungeonCompletionAlertFrame1:GetRegions())
+		if region.IsObjectType and region:IsObjectType("FontString") and region.GetText and region:GetText() == DUNGEON_COMPLETED then
+			region:Point("TOP", 20, -18)
+			region:SetTextColor(0.973, 0.937, 0.580)
 		end
 	end
 
-	GuildChallengeAlertFrame:CreateBackdrop("Transparent")
-	GuildChallengeAlertFrame.backdrop:SetPoint("TOPLEFT", GuildChallengeAlertFrame, "TOPLEFT", -2, -6)
-	GuildChallengeAlertFrame.backdrop:SetPoint("BOTTOMRIGHT", GuildChallengeAlertFrame, "BOTTOMRIGHT", -2, 6)
-	GuildChallengeAlertFrame:SetHitRectInsets(0, 0, 6, 6)
+	DungeonCompletionAlertFrame1.instanceName:ClearAllPoints()
+	DungeonCompletionAlertFrame1.instanceName:Point("BOTTOM", 20, 12)
+	DungeonCompletionAlertFrame1.instanceName.SetPoint = E.noop
+	DungeonCompletionAlertFrame1.instanceName:SetTextColor(1, 1, 1)
+
+	DungeonCompletionAlertFrame1.heroicIcon:SetTexture("Interface\\LFGFrame\\UI-LFG-ICON-HEROIC")
+
+	hooksecurefunc("DungeonCompletionAlertFrameReward_SetReward", function(frame, index)
+		SkinRewards(frame)
+
+		SetPortraitToTexture(frame.texture, nil)
+		frame.texture:SetTexture(GetLFGCompletionRewardItem(index))
+	end)
+
+	-- Guild Challenge Alerts
+	GuildChallengeAlertFrame:StripTextures()
+	GuildChallengeAlertFrame:SetTemplate("Transparent")
+	GuildChallengeAlertFrame:Size(260, 64)
 
 	GuildChallengeAlertFrameEmblemIcon.backdrop = CreateFrame("Frame", nil, GuildChallengeAlertFrame)
 	GuildChallengeAlertFrameEmblemIcon.backdrop:SetTemplate()
-	GuildChallengeAlertFrameEmblemIcon.backdrop:SetPoint("TOPLEFT", GuildChallengeAlertFrameEmblemIcon, "TOPLEFT", -2, 2)
-	GuildChallengeAlertFrameEmblemIcon.backdrop:SetPoint("BOTTOMRIGHT", GuildChallengeAlertFrameEmblemIcon, "BOTTOMRIGHT", 2, -2)
-	GuildChallengeAlertFrameEmblemIcon.backdrop:SetFrameLevel(0)
+	GuildChallengeAlertFrameEmblemIcon.backdrop:SetOutside(GuildChallengeAlertFrameEmblemIcon)
 
-	GuildChallengeAlertFrameGlow:Kill()
-	GuildChallengeAlertFrameShine:Kill()
-	GuildChallengeAlertFrameEmblemBorder:Kill()
+	GuildChallengeAlertFrameEmblemIcon:Size(52)
+	GuildChallengeAlertFrameEmblemIcon:Point("LEFT", 6, 0)
+	GuildChallengeAlertFrameEmblemIcon:SetParent(GuildChallengeAlertFrameEmblemIcon.backdrop)
+
+	GuildChallengeAlertFrameType:Point("LEFT", 67, -10)
+	GuildChallengeAlertFrameCount:Point("BOTTOMRIGHT", -7, 7)
 end
 
 S:AddCallback("Alerts", LoadSkin)

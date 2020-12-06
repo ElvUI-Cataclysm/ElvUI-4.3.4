@@ -91,19 +91,11 @@ local function LoadSkin()
 	end
 
 	hooksecurefunc("TradeFrame_UpdatePlayerItem", function(id)
-		local button = _G["TradePlayerItem"..id.."ItemButton"]
-		local name = _G["TradePlayerItem"..id.."Name"]
-		local link = GetTradePlayerItemLink(id)
-
-		TradeQualityColors(button, name, link)
+		TradeQualityColors(_G["TradePlayerItem"..id.."ItemButton"], _G["TradePlayerItem"..id.."Name"], GetTradePlayerItemLink(id))
 	end)
 
 	hooksecurefunc("TradeFrame_UpdateTargetItem", function(id)
-		local button = _G["TradeRecipientItem"..id.."ItemButton"]
-		local name = _G["TradeRecipientItem"..id.."Name"]
-		local link = GetTradeTargetItemLink(id)
-
-		TradeQualityColors(button, name, link)
+		TradeQualityColors(_G["TradeRecipientItem"..id.."ItemButton"], _G["TradeRecipientItem"..id.."Name"], GetTradeTargetItemLink(id))
 	end)
 end
 

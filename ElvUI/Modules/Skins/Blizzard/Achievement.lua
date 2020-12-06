@@ -14,9 +14,7 @@ local function LoadSkin(event)
 	local function SkinAchievement(Achievement, BiggerIcon)
 		if not Achievement.isSkinned then
 			Achievement:StripTextures(true)
-			Achievement:CreateBackdrop("Default", true)
-			Achievement.backdrop:Point("TOPLEFT", 2, -1)
-			Achievement.backdrop:Point("BOTTOMRIGHT", -2, 1)
+			Achievement:SetTemplate("Default", true)
 
 			Achievement.icon:SetTemplate()
 			Achievement.icon:SetSize(BiggerIcon and 54 or 36, BiggerIcon and 54 or 36)
@@ -26,7 +24,6 @@ local function LoadSkin(event)
 			Achievement.icon.frame:Kill()
 			Achievement.icon.texture:SetTexCoord(unpack(E.TexCoords))
 			Achievement.icon.texture:SetInside()
-			Achievement.icon:SetParent(Achievement.backdrop)
 
 			if Achievement.highlight then
 				Achievement.highlight:StripTextures()
@@ -34,12 +31,10 @@ local function LoadSkin(event)
 
 			if Achievement.label then
 				Achievement.label:SetTextColor(1, 1, 1)
-				Achievement.label:SetParent(Achievement.backdrop)
 			end
 
 			if Achievement.description then
 				Achievement.description:SetTextColor(0.6, 0.6, 0.6)
-				Achievement.description:SetParent(Achievement.backdrop)
 				hooksecurefunc(Achievement.description, "SetTextColor", function(self)
 					if self._blocked then return end
 
@@ -51,11 +46,6 @@ local function LoadSkin(event)
 
 			if Achievement.hiddenDescription then
 				Achievement.hiddenDescription:SetTextColor(1, 1, 1)
-				Achievement.hiddenDescription:SetParent(Achievement.backdrop)
-			end
-
-			if Achievement.shield then
-				Achievement.shield:SetParent(Achievement.backdrop)
 			end
 
 			if Achievement.tracked then
@@ -63,18 +53,12 @@ local function LoadSkin(event)
 				Achievement.tracked:Size(14)
 				Achievement.tracked:ClearAllPoints()
 				Achievement.tracked:Point("TOPLEFT", Achievement.icon, "BOTTOMLEFT", 0, -4)
-				--Achievement.tracked:SetParent(Achievement.backdrop)
-				Achievement.tracked:SetFrameLevel(Achievement.backdrop:GetFrameLevel() + 2)
 			end
 
 			local trackedText = _G[Achievement:GetName().."TrackedText"]
 			if trackedText then
 				trackedText:SetTextColor(1, 1, 1)
 				trackedText:Point("TOPLEFT", 18, -2)
-			end
-
-			if Achievement.reward then
-				Achievement.reward:SetParent(Achievement.backdrop)
 			end
 
 			Achievement:HookScript("OnEnter", S.SetModifiedBackdrop)
@@ -300,8 +284,6 @@ local function LoadSkin(event)
 				frame:Point("TOPLEFT", prevFrame, "BOTTOMLEFT", 0, -1)
 				frame:Point("TOPRIGHT", prevFrame, "BOTTOMRIGHT", 0, 1)
 			end
-
-			frame:SetBackdropBorderColor(unpack(E.media.bordercolor))
 		end
 	end)
 
