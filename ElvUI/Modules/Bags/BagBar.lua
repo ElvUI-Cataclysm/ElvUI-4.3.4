@@ -3,7 +3,7 @@ local B = E:GetModule("Bags")
 
 local _G = _G
 local unpack = unpack
-local tinsert = table.insert
+local tinsert = tinsert
 
 local CreateFrame = CreateFrame
 local GetCVarBool = GetCVarBool
@@ -42,6 +42,7 @@ function B:SizeAndPositionBagBar()
 	local sortDirection = E.db.bags.bagBar.sortDirection
 	local showBackdrop = E.db.bags.bagBar.showBackdrop
 	local backdropSpacing = showBackdrop and (E.db.bags.bagBar.backdropSpacing + E.Border) or 0
+	local justBackpack = E.private.bags.enable and E.db.bags.bagBar.justBackpack
 
 	local visibility = E.db.bags.bagBar.visibility
 	if visibility and visibility:match("[\n\r]") then
@@ -66,10 +67,17 @@ function B:SizeAndPositionBagBar()
 		button:Size(bagBarSize)
 		button:ClearAllPoints()
 
-		if GetCVarBool("displayFreeBagSlots") then
-			_G[button:GetName().."Count"]:Show()
+		if i == 1 and justBackpack or not justBackpack then
+			button:Show()
 		else
-			_G[button:GetName().."Count"]:Hide()
+			button:Hide()
+		end
+
+		local count = _G[button:GetName().."Count"]
+		if GetCVarBool("displayFreeBagSlots") then
+			count:Show()
+		else
+			count:Hide()
 		end
 
 		if growthDirection == "HORIZONTAL" and sortDirection == "ASCENDING" then
@@ -99,13 +107,9 @@ function B:SizeAndPositionBagBar()
 		end
 	end
 
-	if growthDirection == "HORIZONTAL" then
-		B.BagBar:Width(bagBarSize * (NUM_BAG_FRAMES + 1) + buttonSpacing * (NUM_BAG_FRAMES) + (backdropSpacing or E.Spacing) * 2)
-		B.BagBar:Height(bagBarSize + backdropSpacing * 2)
-	else
-		B.BagBar:Height(bagBarSize * (NUM_BAG_FRAMES + 1) + buttonSpacing * (NUM_BAG_FRAMES) + backdropSpacing * 2)
-		B.BagBar:Width(bagBarSize + backdropSpacing * 2)
-	end
+	local width, height = bagBarSize * (NUM_BAG_FRAMES + 1) + buttonSpacing * (NUM_BAG_FRAMES) + backdropSpacing * 2, bagBarSize + backdropSpacing * 2
+	B.BagBar:Width(justBackpack and height or (growthDirection == "HORIZONTAL" and width or height))
+	B.BagBar:Height(justBackpack and height or (growthDirection == "HORIZONTAL" and height or width))
 end
 
 function B:LoadBagBar()

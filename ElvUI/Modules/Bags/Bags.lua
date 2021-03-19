@@ -97,6 +97,10 @@ function B:Tooltip_Show()
 		end
 	end
 
+	if self.ttValue and self.ttValue() > 0 then
+		GameTooltip:AddLine(E:FormatMoney(self.ttValue(), E.db.bags.moneyFormat, not E.db.bags.moneyCoins), 1, 1, 1)
+	end
+
 	GameTooltip:Show()
 end
 
@@ -127,7 +131,7 @@ function B:UpdateSearch()
 	if #search > MIN_REPEAT_CHARACTERS then
 		local repeatChar = true
 		for i = 1, MIN_REPEAT_CHARACTERS, 1 do
-			if sub(search,(0 - i), (0 - i)) ~= sub(search,(-1 - i),(-1 - i)) then
+			if sub(search, (0 - i), (0 - i)) ~= sub(search, (-1 - i), (-1 - i)) then
 				repeatChar = false
 				break
 			end
@@ -554,18 +558,18 @@ function B:Layout(isBank)
 	if not f then return end
 
 	local buttonSize = isBank and B.db.bankSize or B.db.bagSize
-	local buttonSpacing = E.PixelMode and 2 or 4
+	local buttonSpacing = isBank and B.db.bankButtonSpacing or B.db.bagButtonSpacing
 	local containerWidth = ((isBank and B.db.bankWidth) or B.db.bagWidth)
 	local numContainerColumns = floor(containerWidth / (buttonSize + buttonSpacing))
 	local holderWidth = ((buttonSize + buttonSpacing) * numContainerColumns) - buttonSpacing
 	local numContainerRows, numBags, numBagSlots = 0, 0, 0
-	local bagSpacing = B.db.split.bagSpacing
+	local bagSpacing = isBank and B.db.split.bankSpacing or B.db.split.bagSpacing
 	local countColor = E.db.bags.countFontColor
 	local isSplit = B.db.split[isBank and "bank" or "player"]
 
 	f.holderFrame:Width(holderWidth)
-	f.totalSlots = 0
 
+	f.totalSlots = 0
 	local lastButton, lastRowButton, lastContainerButton, newBag
 	local numContainerSlots = GetNumBankSlots()
 
@@ -714,11 +718,11 @@ function B:Layout(isBank)
 					f.Bags[bagID][slotID].bagID = bagID
 					f.Bags[bagID][slotID].slotID = slotID
 
-					f.Bags[bagID][slotID].itemLevel = f.Bags[bagID][slotID]:CreateFontString(nil, "OVERLAY")
+					f.Bags[bagID][slotID].itemLevel = f.Bags[bagID][slotID]:CreateFontString(nil, "ARTWORK")
 					f.Bags[bagID][slotID].itemLevel:Point("BOTTOMRIGHT", -1, 3)
 					f.Bags[bagID][slotID].itemLevel:FontTemplate(E.Libs.LSM:Fetch("font", E.db.bags.itemLevelFont), E.db.bags.itemLevelFontSize, E.db.bags.itemLevelFontOutline)
 
-					f.Bags[bagID][slotID].bindType = f.Bags[bagID][slotID]:CreateFontString(nil, "OVERLAY")
+					f.Bags[bagID][slotID].bindType = f.Bags[bagID][slotID]:CreateFontString(nil, "ARTWORK")
 					f.Bags[bagID][slotID].bindType:Point("TOP", 0, -2)
 					f.Bags[bagID][slotID].bindType:FontTemplate(E.Libs.LSM:Fetch("font", E.db.bags.itemLevelFont), E.db.bags.itemLevelFontSize, E.db.bags.itemLevelFontOutline)
 				end
@@ -807,6 +811,7 @@ function B:OnEvent(event, ...)
 			end
 		end
 
+		B:UpdateBagTypes()
 		B:UpdateBagSlots(self, ...)
 
 		--Refresh search in case we moved items around
@@ -816,6 +821,7 @@ function B:OnEvent(event, ...)
 
 		B:UpdateCooldowns(self)
 	elseif event == "PLAYERBANKSLOTS_CHANGED" then
+		B:UpdateBagTypes()
 		B:UpdateBagSlots(self, -1)
 	elseif (event == "QUEST_ACCEPTED" or event == "QUEST_REMOVED" or event == "QUEST_LOG_UPDATE") and self:IsShown() then
 		B:UpdateAllSlots(self)
@@ -898,27 +904,6 @@ function B:UpdateGoldText()
 	B.BagFrame.goldText:Point("BOTTOMRIGHT", B.BagFrame.holderFrame, "TOPRIGHT", goldPos and -8 or -2, 4)
 end
 
-function B:FormatMoney(amount)
-	local str, coppername, silvername, goldname = "", "|cffeda55fc|r", "|cffc7c7cfs|r", "|cffffd700g|r"
-
-	local value = abs(amount)
-	local gold = floor(value / 10000)
-	local silver = floor((value / 100) % 100)
-	local copper = floor(value % 100)
-
-	if gold > 0 then
-		str = format("%d%s%s", gold, goldname, (silver > 0 or copper > 0) and " " or "")
-	end
-	if silver > 0 then
-		str = format("%s%d%s%s", str, silver, silvername, copper > 0 and " " or "")
-	end
-	if copper > 0 or value == 0 then
-		str = format("%s%d%s", str, copper, coppername)
-	end
-
-	return str
-end
-
 function B:GetGraysValue()
 	local value = 0
 
@@ -927,10 +912,10 @@ function B:GetGraysValue()
 			local itemID = GetContainerItemID(bag, slot)
 			if itemID then
 				local _, _, rarity, _, _, iType, _, _, _, _, itemPrice = GetItemInfo(itemID)
-				if itemPrice then
+				if itemPrice and itemPrice > 0 then
 					local stackCount = select(2, GetContainerItemInfo(bag, slot)) or 1
 					local stackPrice = itemPrice * stackCount
-					if (rarity and rarity == 0) and (iType and iType ~= "Quest") and (stackPrice > 0) then
+					if (rarity and rarity == 0) and (iType and iType ~= "Quest") then
 						value = value + stackPrice
 					end
 				end
@@ -991,6 +976,24 @@ function B:VendorGrayCheck()
 	else
 		B:VendorGrays()
 	end
+end
+
+function B:SetButtonTexture(button, texture)
+	button:SetNormalTexture(texture)
+	button:SetPushedTexture(texture)
+	button:SetDisabledTexture(texture)
+
+	local Normal, Pushed, Disabled = button:GetNormalTexture(), button:GetPushedTexture(), button:GetDisabledTexture()
+
+	Normal:SetTexCoord(unpack(E.TexCoords))
+	Normal:SetInside()
+
+	Pushed:SetTexCoord(unpack(E.TexCoords))
+	Pushed:SetInside()
+
+	Disabled:SetTexCoord(unpack(E.TexCoords))
+	Disabled:SetInside()
+	Disabled:SetDesaturated(true)
 end
 
 function B:ConstructContainerFrame(name, isBank)
@@ -1066,16 +1069,7 @@ function B:ConstructContainerFrame(name, isBank)
 		f.sortButton:Size(16 + E.Border)
 		f.sortButton:SetTemplate()
 		f.sortButton:Point("RIGHT", f.bagText, "LEFT", -5, E.Border * 2)
-		f.sortButton:SetNormalTexture(E.Media.Textures.Broom)
-		f.sortButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
-		f.sortButton:GetNormalTexture():SetInside()
-		f.sortButton:SetPushedTexture(E.Media.Textures.Broom)
-		f.sortButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords))
-		f.sortButton:GetPushedTexture():SetInside()
-		f.sortButton:SetDisabledTexture(E.Media.Textures.Broom)
-		f.sortButton:GetDisabledTexture():SetTexCoord(unpack(E.TexCoords))
-		f.sortButton:GetDisabledTexture():SetInside()
-		f.sortButton:GetDisabledTexture():SetDesaturated(true)
+		B:SetButtonTexture(f.sortButton, E.Media.Textures.Broom)
 		f.sortButton:StyleButton(nil, true)
 		f.sortButton.ttText = L["Sort Bags"]
 		f.sortButton:SetScript("OnEnter", B.Tooltip_Show)
@@ -1096,12 +1090,7 @@ function B:ConstructContainerFrame(name, isBank)
 		f.bagsButton:Size(16 + E.Border)
 		f.bagsButton:SetTemplate()
 		f.bagsButton:Point("RIGHT", f.sortButton, "LEFT", -5, 0)
-		f.bagsButton:SetNormalTexture("Interface\\Buttons\\Button-Backpack-Up")
-		f.bagsButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
-		f.bagsButton:GetNormalTexture():SetInside()
-		f.bagsButton:SetPushedTexture("Interface\\Buttons\\Button-Backpack-Up")
-		f.bagsButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords))
-		f.bagsButton:GetPushedTexture():SetInside()
+		B:SetButtonTexture(f.bagsButton, [[Interface\Buttons\Button-Backpack-Up]])
 		f.bagsButton:StyleButton(nil, true)
 		f.bagsButton.ttText = L["Toggle Bags"]
 		f.bagsButton:SetScript("OnEnter", B.Tooltip_Show)
@@ -1121,12 +1110,7 @@ function B:ConstructContainerFrame(name, isBank)
 		f.purchaseBagButton:Size(16 + E.Border)
 		f.purchaseBagButton:SetTemplate()
 		f.purchaseBagButton:Point("RIGHT", f.bagsButton, "LEFT", -5, 0)
-		f.purchaseBagButton:SetNormalTexture("Interface\\ICONS\\INV_Misc_Coin_01")
-		f.purchaseBagButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
-		f.purchaseBagButton:GetNormalTexture():SetInside()
-		f.purchaseBagButton:SetPushedTexture("Interface\\ICONS\\INV_Misc_Coin_01")
-		f.purchaseBagButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords))
-		f.purchaseBagButton:GetPushedTexture():SetInside()
+		B:SetButtonTexture(f.purchaseBagButton, [[Interface\Icons\INV_Misc_Coin_01]])
 		f.purchaseBagButton:StyleButton(nil, true)
 		f.purchaseBagButton.ttText = L["Purchase Bags"]
 		f.purchaseBagButton:SetScript("OnEnter", B.Tooltip_Show)
@@ -1153,7 +1137,7 @@ function B:ConstructContainerFrame(name, isBank)
 		f.editBox = CreateFrame("EditBox", name.."EditBox", f)
 		f.editBox:FontTemplate()
 		f.editBox:SetFrameLevel(f.editBox:GetFrameLevel() + 2)
-		f.editBox:CreateBackdrop("Default")
+		f.editBox:CreateBackdrop()
 		f.editBox.backdrop:Point("TOPLEFT", f.editBox, "TOPLEFT", -20, 2)
 		f.editBox:Height(15)
 		f.editBox:Point("BOTTOMLEFT", f.holderFrame, "TOPLEFT", (E.Border * 2) + 18, E.Border * 2 + 2)
@@ -1167,7 +1151,7 @@ function B:ConstructContainerFrame(name, isBank)
 		f.editBox:SetText(SEARCH)
 
 		f.editBox.searchIcon = f.editBox:CreateTexture(nil, "OVERLAY")
-		f.editBox.searchIcon:SetTexture("Interface\\Common\\UI-Searchbox-Icon")
+		f.editBox.searchIcon:SetTexture([[Interface\Common\UI-Searchbox-Icon]])
 		f.editBox.searchIcon:Point("LEFT", f.editBox.backdrop, "LEFT", E.Border + 1, -1)
 		f.editBox.searchIcon:Size(15)
 	else
@@ -1182,16 +1166,7 @@ function B:ConstructContainerFrame(name, isBank)
 		f.sortButton:Size(16 + E.Border)
 		f.sortButton:SetTemplate()
 		f.sortButton:Point("RIGHT", f.goldText, "LEFT", -5, E.Border * 2)
-		f.sortButton:SetNormalTexture(E.Media.Textures.Broom)
-		f.sortButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
-		f.sortButton:GetNormalTexture():SetInside()
-		f.sortButton:SetPushedTexture(E.Media.Textures.Broom)
-		f.sortButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords))
-		f.sortButton:GetPushedTexture():SetInside()
-		f.sortButton:SetDisabledTexture(E.Media.Textures.Broom)
-		f.sortButton:GetDisabledTexture():SetTexCoord(unpack(E.TexCoords))
-		f.sortButton:GetDisabledTexture():SetInside()
-		f.sortButton:GetDisabledTexture():SetDesaturated(true)
+		B:SetButtonTexture(f.sortButton, E.Media.Textures.Broom)
 		f.sortButton:StyleButton(nil, true)
 		f.sortButton.ttText = L["Sort Bags"]
 		f.sortButton:SetScript("OnEnter", B.Tooltip_Show)
@@ -1210,12 +1185,7 @@ function B:ConstructContainerFrame(name, isBank)
 		f.bagsButton:Size(16 + E.Border)
 		f.bagsButton:SetTemplate()
 		f.bagsButton:Point("RIGHT", f.sortButton, "LEFT", -5, 0)
-		f.bagsButton:SetNormalTexture("Interface\\Buttons\\Button-Backpack-Up")
-		f.bagsButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
-		f.bagsButton:GetNormalTexture():SetInside()
-		f.bagsButton:SetPushedTexture("Interface\\Buttons\\Button-Backpack-Up")
-		f.bagsButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords))
-		f.bagsButton:GetPushedTexture():SetInside()
+		B:SetButtonTexture(f.bagsButton, [[Interface\Buttons\Button-Backpack-Up]])
 		f.bagsButton:StyleButton(nil, true)
 		f.bagsButton.ttText = L["Toggle Bags"]
 		f.bagsButton:SetScript("OnEnter", B.Tooltip_Show)
@@ -1227,14 +1197,10 @@ function B:ConstructContainerFrame(name, isBank)
 		f.vendorGraysButton:Size(16 + E.Border)
 		f.vendorGraysButton:SetTemplate()
 		f.vendorGraysButton:Point("RIGHT", f.bagsButton, "LEFT", -5, 0)
-		f.vendorGraysButton:SetNormalTexture("Interface\\ICONS\\INV_Misc_Coin_01")
-		f.vendorGraysButton:GetNormalTexture():SetTexCoord(unpack(E.TexCoords))
-		f.vendorGraysButton:GetNormalTexture():SetInside()
-		f.vendorGraysButton:SetPushedTexture("Interface\\ICONS\\INV_Misc_Coin_01")
-		f.vendorGraysButton:GetPushedTexture():SetTexCoord(unpack(E.TexCoords))
-		f.vendorGraysButton:GetPushedTexture():SetInside()
+		B:SetButtonTexture(f.vendorGraysButton, [[Interface\Icons\INV_Misc_Coin_01]])
 		f.vendorGraysButton:StyleButton(nil, true)
 		f.vendorGraysButton.ttText = L["Vendor / Delete Grays"]
+		f.vendorGraysButton.ttValue = B.GetGraysValue
 		f.vendorGraysButton:SetScript("OnEnter", B.Tooltip_Show)
 		f.vendorGraysButton:SetScript("OnLeave", GameTooltip_Hide)
 		f.vendorGraysButton:SetScript("OnClick", B.VendorGrayCheck)
@@ -1242,7 +1208,7 @@ function B:ConstructContainerFrame(name, isBank)
 		--Search
 		f.editBox = CreateFrame("EditBox", name.."EditBox", f)
 		f.editBox:SetFrameLevel(f.editBox:GetFrameLevel() + 2)
-		f.editBox:CreateBackdrop("Default")
+		f.editBox:CreateBackdrop()
 		f.editBox.backdrop:Point("TOPLEFT", f.editBox, "TOPLEFT", -20, 2)
 		f.editBox:Height(15)
 		f.editBox:Point("BOTTOMLEFT", f.holderFrame, "TOPLEFT", (E.Border * 2) + 18, E.Border * 2 + 2)
@@ -1257,7 +1223,7 @@ function B:ConstructContainerFrame(name, isBank)
 		f.editBox:FontTemplate()
 
 		f.editBox.searchIcon = f.editBox:CreateTexture(nil, "OVERLAY")
-		f.editBox.searchIcon:SetTexture("Interface\\Common\\UI-Searchbox-Icon")
+		f.editBox.searchIcon:SetTexture([[Interface\Common\UI-Searchbox-Icon]])
 		f.editBox.searchIcon:Point("LEFT", f.editBox.backdrop, "LEFT", E.Border + 1, -1)
 		f.editBox.searchIcon:Size(15)
 
@@ -1271,7 +1237,7 @@ function B:ConstructContainerFrame(name, isBank)
 		for i = 1, MAX_WATCHED_TOKENS do
 			f.currencyButton[i] = CreateFrame("Button", f:GetName().."CurrencyButton"..i, f.currencyButton)
 			f.currencyButton[i]:Size(16)
-			f.currencyButton[i]:SetTemplate("Default")
+			f.currencyButton[i]:SetTemplate()
 			f.currencyButton[i]:SetID(i)
 			f.currencyButton[i].icon = f.currencyButton[i]:CreateTexture(nil, "OVERLAY")
 			f.currencyButton[i].icon:SetInside()
@@ -1553,7 +1519,7 @@ function B:ProgressQuickVendor()
 		local stackCount = select(2, GetContainerItemInfo(bag, slot)) or 1
 		stackPrice = (itemPrice or 0) * stackCount
 		if E.db.bags.vendorGrays.details and link then
-			E:Print(format("%s|cFF00DDDDx%d|r %s", link, stackCount, B:FormatMoney(stackPrice)))
+			E:Print(format("%s|cFF00DDDDx%d|r %s", link, stackCount, E:FormatMoney(stackPrice, E.db.bags.moneyFormat, not E.db.bags.moneyCoins)))
 		end
 		UseContainerItem(bag, slot)
 	end
@@ -1578,7 +1544,7 @@ function B:VendorGreys_OnUpdate(elapsed)
 	elseif lastItem then
 		B.SellFrame:Hide()
 		if B.SellFrame.Info.goldGained > 0 then
-			E:Print((L["Vendored gray items for: %s"]):format(B:FormatMoney(B.SellFrame.Info.goldGained)))
+			E:Print((L["Vendored gray items for: %s"]):format(E:FormatMoney(B.SellFrame.Info.goldGained, E.db.bags.moneyFormat, not E.db.bags.moneyCoins)))
 		end
 	end
 end

@@ -1332,6 +1332,16 @@ function E:DBConversions()
 		E.db.unitframe.colors.healthmultiplier = nil
 	end
 
+	--Tooltip FactionColors Setting
+	for i = 1, 8 do
+		local oldTable = E.db.tooltip.factionColors[""..i]
+		if oldTable then
+			local newTable = E:CopyTable({}, P.tooltip.factionColors[i]) -- import full table
+			E.db.tooltip.factionColors[i] = E:CopyTable(newTable, oldTable)
+			E.db.tooltip.factionColors[""..i] = nil
+		end
+	end
+
 	-- removed override stuff from aurawatch
 	for _, spells in pairs(E.global.unitframe.buffwatch) do
 		for _, spell in pairs(spells) do

@@ -219,16 +219,16 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 
 	--ActionBars
 		E.db.actionbar.bar1.buttons = 8
-		E.db.actionbar.bar1.buttonsize = 50
-		E.db.actionbar.bar1.buttonspacing = 1
+		E.db.actionbar.bar1.buttonSize = 50
+		E.db.actionbar.bar1.buttonSpacing = 1
 		E.db.actionbar.bar2.buttons = 9
-		E.db.actionbar.bar2.buttonsize = 38
-		E.db.actionbar.bar2.buttonspacing = 1
+		E.db.actionbar.bar2.buttonSize = 38
+		E.db.actionbar.bar2.buttonSpacing = 1
 		E.db.actionbar.bar2.enabled = true
 		E.db.actionbar.bar2.visibility = "[vehicleui] hide; show"
 		E.db.actionbar.bar3.buttons = 8
-		E.db.actionbar.bar3.buttonsize = 50
-		E.db.actionbar.bar3.buttonspacing = 1
+		E.db.actionbar.bar3.buttonSize = 50
+		E.db.actionbar.bar3.buttonSpacing = 1
 		E.db.actionbar.bar3.buttonsPerRow = 10
 		E.db.actionbar.bar3.visibility = "[vehicleui] hide; show"
 		E.db.actionbar.bar4.enabled = false
@@ -259,7 +259,7 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.databars.reputation.enable = true
 		E.db.databars.reputation.height = 10
 		E.db.databars.reputation.orientation = "HORIZONTAL"
-		E.db.databars.reputation.width = 221
+		E.db.databars.reputation.width = 222
 	--General
 		E.db.general.minimap.size = 220
 		E.db.general.watchFrameHeight = 400
@@ -284,7 +284,7 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 			E.db.unitframe.units.player.buffs.perrow = 7
 			E.db.unitframe.units.player.castbar.height = 40
 			E.db.unitframe.units.player.castbar.insideInfoPanel = false
-			E.db.unitframe.units.player.castbar.width = 406
+			E.db.unitframe.units.player.castbar.width = 407
 			E.db.unitframe.units.player.classbar.height = 14
 			E.db.unitframe.units.player.debuffs.perrow = 7
 			E.db.unitframe.units.player.disableMouseoverGlow = true
@@ -299,7 +299,7 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 			E.db.unitframe.units.target.buffs.perrow = 7
 			E.db.unitframe.units.target.castbar.height = 40
 			E.db.unitframe.units.target.castbar.insideInfoPanel = false
-			E.db.unitframe.units.target.castbar.width = 406
+			E.db.unitframe.units.target.castbar.width = 407
 			E.db.unitframe.units.target.combobar.height = 14
 			E.db.unitframe.units.target.debuffs.anchorPoint = "TOPLEFT"
 			E.db.unitframe.units.target.debuffs.attachTo = "FRAME"

@@ -44,8 +44,8 @@ end
 
 do -- other non-english locales require this
 	E.UnlocalizedClasses = {}
-	for k, v in pairs(_G.LOCALIZED_CLASS_NAMES_MALE) do E.UnlocalizedClasses[v] = k end
-	for k, v in pairs(_G.LOCALIZED_CLASS_NAMES_FEMALE) do E.UnlocalizedClasses[v] = k end
+	for k, v in pairs(LOCALIZED_CLASS_NAMES_MALE) do E.UnlocalizedClasses[v] = k end
+	for k, v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do E.UnlocalizedClasses[v] = k end
 
 	function E:UnlocalizedClassName(className)
 		return (className and className ~= "") and E.UnlocalizedClasses[className]
@@ -111,9 +111,9 @@ function E:GetPlayerRole()
 	local assignedRole = UnitGroupRolesAssigned("player")
 
 	if assignedRole == "NONE" then
-		if self.HealingClasses[E.myclass] ~= nil and self:CheckTalentTree(self.HealingClasses[E.myclass]) then
+		if E.HealingClasses[E.myclass] ~= nil and E:CheckTalentTree(E.HealingClasses[E.myclass]) then
 			return "HEALER"
-		elseif E.Role == "Tank" then
+		elseif E.role == "Tank" then
 			return "TANK"
 		else
 			return "DAMAGER"
@@ -135,7 +135,7 @@ function E:CheckRole()
 	end
 
 	if type(self.ClassRole[E.myclass]) == "string" then
-		role = self.ClassRole[E.myclass]
+		role = E.ClassRole[E.myclass]
 	elseif talentTree then
 		local DeathKnight = (E.myclass == "DEATHKNIGHT" and talentTree == 1) and resilience == false
 		local Druid = (E.myclass == "DRUID" and talentTree == 2 and GetBonusBarOffset() == 3)
@@ -143,7 +143,7 @@ function E:CheckRole()
 		if DeathKnight or Druid then
 			role = "Tank"
 		else
-			role = self.ClassRole[E.myclass][talentTree]
+			role = E.ClassRole[E.myclass][talentTree]
 		end
 	end
 
@@ -151,15 +151,15 @@ function E:CheckRole()
 		local playerInt = select(2, UnitStat("player", 4))
 		local playerAgi = select(2, UnitStat("player", 2))
 		local base, posBuff, negBuff = UnitAttackPower("player")
-		local playerAP = base + posBuff + negBuff
+		local playerAp = base + posBuff + negBuff
 
-		role = ((playerAP > playerInt) or (playerAgi > playerInt)) and "Melee" or "Caster"
+		role = ((playerAp > playerInt) or (playerAgi > playerInt)) and "Melee" or "Caster"
 	end
 
-	if self.Role ~= role then
-		self.Role = role
-		self.TalentTree = talentTree
-		self.callbacks:Fire("RoleChanged")
+	if E.role ~= role then
+		E.role = role
+		E.TalentTree = talentTree
+		E.callbacks:Fire("RoleChanged")
 	end
 
 	if E.myclass == "SHAMAN" and talentTree == 3 then
@@ -172,9 +172,9 @@ function E:CheckRole()
 end
 
 function E:IsDispellableByMe(debuffType)
-	if not self.DispelClasses[E.myclass] then return end
+	local dispel = E.DispelClasses[E.myclass]
 
-	if self.DispelClasses[E.myclass][debuffType] then return true end
+	return dispel and dispel[debuffType]
 end
 
 do
@@ -426,22 +426,18 @@ end
 function E:LoadAPI()
 	self:ScheduleTimer("CheckRole", 0.01)
 
-	self:RegisterEvent("PLAYER_LEVEL_UP")
-	self:RegisterEvent("PLAYER_ENTERING_WORLD")
-	self:RegisterEvent("PLAYER_REGEN_ENABLED")
-	self:RegisterEvent("PLAYER_REGEN_DISABLED")
-	self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", "CheckRole")
-	self:RegisterEvent("PLAYER_TALENT_UPDATE", "CheckRole")
-	self:RegisterEvent("CHARACTER_POINTS_CHANGED", "CheckRole")
-	self:RegisterEvent("UNIT_INVENTORY_CHANGED", "CheckRole")
-	self:RegisterEvent("UPDATE_BONUS_ACTIONBAR", "CheckRole")
-	self:RegisterEvent("UNIT_ENTERED_VEHICLE", "EnterVehicleHideFrames")
-	self:RegisterEvent("UNIT_EXITED_VEHICLE", "ExitVehicleShowFrames")
-	self:RegisterEvent("UI_SCALE_CHANGED", "PixelScaleChanged")
-
-	if date("%d%m") ~= "0104" then
-		E.global.aprilFools = nil
-	end
+	E:RegisterEvent("PLAYER_LEVEL_UP")
+	E:RegisterEvent("PLAYER_ENTERING_WORLD")
+	E:RegisterEvent("PLAYER_REGEN_ENABLED")
+	E:RegisterEvent("PLAYER_REGEN_DISABLED")
+	E:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", "CheckRole")
+	E:RegisterEvent("PLAYER_TALENT_UPDATE", "CheckRole")
+	E:RegisterEvent("CHARACTER_POINTS_CHANGED", "CheckRole")
+	E:RegisterEvent("UNIT_INVENTORY_CHANGED", "CheckRole")
+	E:RegisterEvent("UPDATE_BONUS_ACTIONBAR", "CheckRole")
+	E:RegisterEvent("UNIT_ENTERED_VEHICLE", "EnterVehicleHideFrames")
+	E:RegisterEvent("UNIT_EXITED_VEHICLE", "ExitVehicleShowFrames")
+	E:RegisterEvent("UI_SCALE_CHANGED", "PixelScaleChanged")
 
 	do -- setup cropIcon texCoords
 		local opt = E.db.general.cropIcon
@@ -453,5 +449,9 @@ function E:LoadAPI()
 				E.TexCoords[i] = v + modifier
 			end
 		end
+	end
+
+	if date("%d%m") ~= "0104" then
+		E.global.aprilFools = nil
 	end
 end

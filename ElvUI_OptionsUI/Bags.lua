@@ -35,121 +35,296 @@ E.Options.args.bags = {
 			disabled = function() return not E.Bags.Initialized end,
 			args = {
 				strata = {
-					order = 2,
+					order = 1,
 					type = "select",
 					name = L["Frame Strata"],
 					set = function(info, value) E.db.bags[info[#info]] = value E:StaticPopup_Show("CONFIG_RL") end,
-					values = {
-						["BACKGROUND"] = "BACKGROUND",
-						["LOW"] = "LOW",
-						["MEDIUM"] = "MEDIUM",
-						["HIGH"] = "HIGH",
-						["DIALOG"] = "DIALOG",
-						["TOOLTIP"] = "TOOLTIP"
-					}
+					values = C.Values.Strata
 				},
 				currencyFormat = {
-					order = 3,
+					order = 2,
 					type = "select",
 					name = L["Currency Format"],
 					desc = L["The display format of the currency icons that get displayed below the main bag. (You have to be watching a currency for this to display)"],
 					values = {
-						["ICON"] = L["Icons Only"],
-						["ICON_TEXT"] = L["Icons and Text"],
-						["ICON_TEXT_ABBR"] = L["Icons and Text (Short)"]
+						ICON = L["Icons Only"],
+						ICON_TEXT = L["Icons and Text"],
+						ICON_TEXT_ABBR = L["Icons and Text (Short)"]
 					},
 					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateTokens() end
 				},
 				moneyFormat = {
-					order = 4,
+					order = 3,
 					type = "select",
 					name = L["Money Format"],
 					desc = L["The display format of the money text that is shown at the top of the main bag."],
 					values = {
-						["SMART"] = L["Smart"],
-						["FULL"] = L["Full"],
-						["SHORT"] = L["SHORT"],
-						["SHORTINT"] = L["Short (Whole Numbers)"],
-						["CONDENSED"] = L["Condensed"],
-						["BLIZZARD"] = L["Blizzard Style"]
+						SMART = L["Smart"],
+						FULL = L["Full"],
+						SHORT = L["SHORT"],
+						SHORTINT = L["Short (Whole Numbers)"],
+						CONDENSED = L["Condensed"],
+						BLIZZARD = L["Blizzard Style"]
 					},
 					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateGoldText() end
 				},
 				moneyCoins = {
-					order = 5,
+					order = 4,
 					type = "toggle",
 					name = L["Show Coins"],
 					desc = L["Use coin icons instead of colored text."],
 					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateGoldText() end
 				},
 				transparent = {
-					order = 6,
+					order = 5,
 					type = "toggle",
 					name = L["Transparent Buttons"],
 					set = function(info, value) E.db.bags[info[#info]] = value E:StaticPopup_Show("CONFIG_RL") end
 				},
 				questIcon = {
-					order = 7,
+					order = 6,
 					type = "toggle",
 					name = L["Show Quest Icon"],
 					desc = L["Display an exclamation mark on items that starts a quest."],
 					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAllBagSlots() end
 				},
 				junkIcon = {
-					order = 8,
+					order = 7,
 					type = "toggle",
 					name = L["Show Junk Icon"],
 					desc = L["Display the junk icon on all grey items that can be vendored."],
 					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAllBagSlots() end
 				},
 				junkDesaturate = {
-					order = 9,
+					order = 8,
 					type = "toggle",
 					name = L["Desaturate Junk Items"],
 					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAllBagSlots() end
 				},
 				qualityColors = {
-					order = 10,
+					order = 9,
 					type = "toggle",
 					name = L["Show Quality Color"],
 					desc = L["Colors the border according to the Quality of the Item."],
 					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAllBagSlots() end
 				},
 				showBindType = {
-					order = 11,
+					order = 10,
 					type = "toggle",
 					name = L["Show Bind on Equip/Use Text"],
 					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAllBagSlots() end
 				},
 				clearSearchOnClose = {
-					order = 12,
+					order = 11,
 					type = "toggle",
 					name = L["Clear Search On Close"],
 					set = function(info, value) E.db.bags[info[#info]] = value end
 				},
 				reverseSlots = {
-					order = 13,
+					order = 12,
 					type = "toggle",
 					name = L["Reverse Bag Slots"],
 					set = function(info, value) E.db.bags[info[#info]] = value B:UpdateAll() B:UpdateTokens() end
 				},
 				disableBagSort = {
-					order = 14,
+					order = 13,
 					type = "toggle",
 					name = L["Disable Bag Sort"],
 					set = function(info, value) E.db.bags[info[#info]] = value B:ToggleSortButtonState(false) end
 				},
 				disableBankSort = {
-					order = 15,
+					order = 14,
 					type = "toggle",
 					name = L["Disable Bank Sort"],
 					set = function(info, value) E.db.bags[info[#info]] = value B:ToggleSortButtonState(true) end
 				},
-				countGroup = {
+				sizeGroup = {
+					order = 15,
+					type = "group",
+					name = L["Size"],
+					args = {
+						player = {
+							order = 1,
+							type = "group",
+							name = L["BAGSLOT"],
+							guiInline = true,
+							set = function(info, value) E.db.bags[info[#info]] = value B:Layout() end,
+							args = {
+								bagSize = {
+									order = 1,
+									type = "range",
+									name = L["Button Size"],
+									desc = L["The size of the individual buttons on the bag frame."],
+									min = 15, max = 45, step = 1
+								},
+								bagButtonSpacing = {
+									order = 2,
+									type = "range",
+									name = L["Button Spacing"],
+									min = -1, max = 20, step = 1
+								},
+								bagWidth = {
+									order = 3,
+									type = "range",
+									name = L["Panel Width"],
+									desc = L["Adjust the width of the bag frame."],
+									min = 150, max = 1400, step = 1
+								}
+							}
+						},
+						bank = {
+							order = 2,
+							type = "group",
+							name = L["Bank"],
+							guiInline = true,
+							set = function(info, value) E.db.bags[info[#info]] = value B:Layout(true) end,
+							args = {
+								bankSize = {
+									order = 1,
+									type = "range",
+									name = L["Button Size"],
+									desc = L["The size of the individual buttons on the bank frame."],
+									min = 15, max = 45, step = 1
+								},
+								bankButtonSpacing = {
+									order = 2,
+									type = "range",
+									name = L["Button Spacing"],
+									min = -1, max = 20, step = 1
+								},
+								bankWidth = {
+									order = 3,
+									type = "range",
+									name = L["Panel Width"],
+									desc = L["Adjust the width of the bank frame."],
+									min = 150, max = 1400, step = 1
+								}
+							}
+						}
+					}
+				},
+				split = {
 					order = 16,
 					type = "group",
-					name = L["Item Count Font"],
-					guiInline = true,
+					name = L["Split"],
+					args = {
+						splitbags = {
+							order = 1,
+							type = "group",
+							name = L["PLAYER"],
+							get = function(info) return E.db.bags.split[info[#info]] end,
+							set = function(info, value) E.db.bags.split[info[#info]] = value B:Layout() end,
+							disabled = function() return not E.db.bags.split.player end,
+							guiInline = true,
+							args = {
+								player = {
+									order = 1,
+									type = "toggle",
+									name = L["ENABLE"],
+									disabled = false
+								},
+								bagSpacing = {
+									order = 2,
+									type = "range",
+									name = L["Bag Spacing"],
+									min = -2, max = 20, step = 1
+								},
+								spacer = {
+									order = 3,
+									type = "description",
+									name = ""
+								},
+								bag1 = {
+									order = 4,
+									type = "toggle",
+									name = L["Bag 1"]
+								},
+								bag2 = {
+									order = 5,
+									type = "toggle",
+									name = L["Bag 2"]
+								},
+								bag3 = {
+									order = 6,
+									type = "toggle",
+									name = L["Bag 3"]
+								},
+								bag4 = {
+									order = 7,
+									type = "toggle",
+									name = L["Bag 4"]
+								}
+							}
+						},
+						splitbank = {
+							order = 2,
+							type = "group",
+							name = L["Bank"],
+							get = function(info) return E.db.bags.split[info[#info]] end,
+							set = function(info, value) E.db.bags.split[info[#info]] = value B:Layout(true) end,
+							disabled = function() return not E.db.bags.split.bank end,
+							guiInline = true,
+							args = {
+								bank = {
+									order = 1,
+									type = "toggle",
+									name = L["ENABLE"],
+									disabled = false
+								},
+								bankSpacing = {
+									order = 2,
+									type = "range",
+									name = L["Bank Spacing"],
+									min = -2, max = 20, step = 1
+								},
+								spacer = {
+									order = 3,
+									type = "description",
+									name = ""
+								},
+								bag5 = {
+									order = 4,
+									type = "toggle",
+									name = L["Bank 1"]
+								},
+								bag6 = {
+									order = 5,
+									type = "toggle",
+									name = L["Bank 2"]
+								},
+								bag7 = {
+									order = 6,
+									type = "toggle",
+									name = L["Bank 3"]
+								},
+								bag8 = {
+									order = 7,
+									type = "toggle",
+									name = L["Bank 4"]
+								},
+								bag9 = {
+									order = 8,
+									type = "toggle",
+									name = L["Bank 5"]
+								},
+								bag10 = {
+									order = 9,
+									type = "toggle",
+									name = L["Bank 6"]
+								},
+								bag11 = {
+									order = 10,
+									type = "toggle",
+									name = L["Bank 7"]
+								}
+							}
+						}
+					}
+				},
+				countGroup = {
+					order = 17,
+					type = "group",
+					name = L["Item Count"],
 					args = {
 						countFont = {
 							order = 1,
@@ -191,10 +366,9 @@ E.Options.args.bags = {
 					}
 				},
 				itemLevelGroup = {
-					order = 17,
+					order = 18,
 					type = "group",
 					name = L["Item Level"],
-					guiInline = true,
 					args = {
 						itemLevel = {
 							order = 1,
@@ -264,53 +438,8 @@ E.Options.args.bags = {
 				}
 			}
 		},
-		sizeGroup = {
-			order = 4,
-			type = "group",
-			name = L["Size"],
-			disabled = function() return not E.Bags.Initialized end,
-			args = {
-				bagSize = {
-					order = 2,
-					type = "range",
-					name = L["Button Size (Bag)"],
-					desc = L["The size of the individual buttons on the bag frame."],
-					min = 15, max = 45, step = 1,
-					set = function(info, value) E.db.bags[info[#info]] = value B:Layout() end
-				},
-				bankSize = {
-					order = 3,
-					type = "range",
-					name = L["Button Size (Bank)"],
-					desc = L["The size of the individual buttons on the bank frame."],
-					min = 15, max = 45, step = 1,
-					set = function(info, value) E.db.bags[info[#info]] = value B:Layout(true) end
-				},
-				spacer = {
-					order = 4,
-					type = "description",
-					name = ""
-				},
-				bagWidth = {
-					order = 5,
-					type = "range",
-					name = L["Panel Width (Bags)"],
-					desc = L["Adjust the width of the bag frame."],
-					min = 150, max = 1400, step = 1,
-					set = function(info, value) E.db.bags[info[#info]] = value B:Layout() end
-				},
-				bankWidth = {
-					order = 6,
-					type = "range",
-					name = L["Panel Width (Bank)"],
-					desc = L["Adjust the width of the bank frame."],
-					min = 150, max = 1400, step = 1,
-					set = function(info, value) E.db.bags[info[#info]] = value B:Layout(true) end
-				}
-			}
-		},
 		colorGroup = {
-			order = 5,
+			order = 4,
 			type = "group",
 			name = L["COLORS"],
 			args = {
@@ -348,9 +477,9 @@ E.Options.args.bags = {
 							type = "select",
 							name = L["Style"],
 							values = {
-								["BACKDROP"] = L["Backdrop"],
-								["BORDER"] = L["Border"],
-								["BOTH"] = L["Both"]
+								BACKDROP = L["Backdrop"],
+								BORDER = L["Border"],
+								BOTH = L["Both"]
 							},
 							get = function(info) return E.db.bags[info[#info]] end,
 							set = function(info, value)
@@ -479,7 +608,7 @@ E.Options.args.bags = {
 			}
 		},
 		bagBar = {
-			order = 6,
+			order = 5,
 			type = "group",
 			name = L["Bag-Bar"],
 			get = function(info) return E.db.bags.bagBar[info[#info]] end,
@@ -517,19 +646,25 @@ E.Options.args.bags = {
 					name = L["Transparent Backdrop"],
 					disabled = function() return not E.private.bags.bagBar or not E.db.bags.bagBar.showBackdrop end
 				},
-				sortDirection = {
+				justBackpack = {
 					order = 6,
+					type = "toggle",
+					name = L["Backpack Only"],
+					disabled = function() return not E.private.bags.bagBar end
+				},
+				sortDirection = {
+					order = 7,
 					type = "select",
 					name = L["Sort Direction"],
 					desc = L["The direction that the bag frames will grow from the anchor."],
 					values = {
-						["ASCENDING"] = L["Ascending"],
-						["DESCENDING"] = L["Descending"]
+						ASCENDING = L["Ascending"],
+						DESCENDING = L["Descending"]
 					},
 					disabled = function() return not E.private.bags.bagBar end
 				},
 				size = {
-					order = 7,
+					order = 8,
 					type = "range",
 					name = L["Button Size"],
 					desc = L["Set the size of your bag buttons."],
@@ -537,34 +672,34 @@ E.Options.args.bags = {
 					disabled = function() return not E.private.bags.bagBar end
 				},
 				spacing = {
-					order = 8,
+					order = 9,
 					type = "range",
 					name = L["Button Spacing"],
 					desc = L["The spacing between buttons."],
 					min = -1, max = 10, step = 1,
-					disabled = function() return not E.private.bags.bagBar end
+					disabled = function() return not E.private.bags.bagBar or E.db.bags.bagBar.justBackpack end
 				},
 				backdropSpacing = {
-					order = 9,
+					order = 10,
 					type = "range",
 					name = L["Backdrop Spacing"],
 					desc = L["The spacing between the backdrop and the buttons."],
-					min = 0, max = 10, step = 1,
+					min = -1, max = 10, step = 1,
 					disabled = function() return not E.private.bags.bagBar end
 				},
 				growthDirection = {
-					order = 10,
+					order = 11,
 					type = "select",
 					name = L["Bar Direction"],
 					desc = L["The direction that the bag frames be (Horizontal or Vertical)."],
 					values = {
-						["VERTICAL"] = L["Vertical"],
-						["HORIZONTAL"] = L["Horizontal"]
+						VERTICAL = L["Vertical"],
+						HORIZONTAL = L["Horizontal"]
 					},
 					disabled = function() return not E.private.bags.bagBar end
 				},
 				visibility = {
-					order = 11,
+					order = 12,
 					type = "input",
 					name = L["Visibility State"],
 					desc = L["This works like a macro, you can run different situations to get the actionbar to show/hide differently.\n Example: '[combat] show;hide'"],
@@ -572,7 +707,7 @@ E.Options.args.bags = {
 					multiline = true,
 					set = function(info, value)
 						if value and value:match("[\n\r]") then
-							value = value:gsub("[\n\r]","")
+							value = value:gsub("[\n\r]", "")
 						end
 						E.db.bags.bagBar.visibility = value
 						B:SizeAndPositionBagBar()
@@ -581,114 +716,8 @@ E.Options.args.bags = {
 				}
 			}
 		},
-		split = {
-			order = 7,
-			type = "group",
-			name = L["Split"],
-			get = function(info) return E.db.bags.split[info[#info]] end,
-			set = function(info, value) E.db.bags.split[info[#info]] = value B:UpdateAll() end,
-			disabled = function() return not E.Bags.Initialized end,
-			args = {
-				player = {
-					order = 1,
-					type = "toggle",
-					name = L["Bag"],
-					set = function(info, value) E.db.bags.split[info[#info]] = value B:Layout() end
-				},
-				bank = {
-					order = 2,
-					type = "toggle",
-					name = L["Bank"],
-					set = function(info, value) E.db.bags.split[info[#info]] = value B:Layout(true) end
-				},
-				bagSpacing = {
-					order = 3,
-					type = "range",
-					name = L["Bag Spacing"],
-					min = 0, max = 20, step = 1,
-					disabled = function() return not E.db.bags.split.player and not E.db.bags.split.bank end
-				},
-				splitbags = {
-					order = 4,
-					type = "group",
-					name = L["PLAYER"],
-					get = function(info) return E.db.bags.split[info[#info]] end,
-					set = function(info, value) E.db.bags.split[info[#info]] = value B:Layout() end,
-					disabled = function() return not E.db.bags.split.player end,
-					guiInline = true,
-					args = {
-						bag1 = {
-							order = 2,
-							type = "toggle",
-							name = L["Bag 1"]
-						},
-						bag2 = {
-							order = 3,
-							type = "toggle",
-							name = L["Bag 2"]
-						},
-						bag3 = {
-							order = 4,
-							type = "toggle",
-							name = L["Bag 3"]
-						},
-						bag4 = {
-							order = 5,
-							type = "toggle",
-							name = L["Bag 4"]
-						}
-					}
-				},
-				splitbank = {
-					order = 5,
-					type = "group",
-					name = L["Bank"],
-					get = function(info) return E.db.bags.split[info[#info]] end,
-					set = function(info, value) E.db.bags.split[info[#info]] = value B:Layout(true) end,
-					disabled = function() return not E.db.bags.split.bank end,
-					guiInline = true,
-					args = {
-						bag5 = {
-							order = 2,
-							type = "toggle",
-							name = L["Bank 1"]
-						},
-						bag6 = {
-							order = 3,
-							type = "toggle",
-							name = L["Bank 2"]
-						},
-						bag7 = {
-							order = 4,
-							type = "toggle",
-							name = L["Bank 3"]
-						},
-						bag8 = {
-							order = 5,
-							type = "toggle",
-							name = L["Bank 4"]
-						},
-						bag9 = {
-							order = 6,
-							type = "toggle",
-							name = L["Bank 5"]
-						},
-						bag10 = {
-							order = 7,
-							type = "toggle",
-							name = L["Bank 6"]
-						},
-						bag11 = {
-							order = 8,
-							type = "toggle",
-							name = L["Bank 7"]
-						}
-					}
-				}
-			}
-		},
 		vendorGrays = {
-			order = 8,
+			order = 6,
 			type = "group",
 			name = L["Vendor Grays"],
 			get = function(info) return E.db.bags.vendorGrays[info[#info]] end,
@@ -721,29 +750,29 @@ E.Options.args.bags = {
 			}
 		},
 		bagSortingGroup = {
-			order = 9,
+			order = 7,
 			type = "group",
 			name = L["Bag Sorting"],
 			disabled = function() return not E.Bags.Initialized end,
 			args = {
 				sortInverted = {
-					order = 2,
+					order = 1,
 					type = "toggle",
 					name = L["Sort Inverted"],
 					desc = L["Direction the bag sorting will use to allocate the items."]
 				},
 				spacer = {
-					order = 3,
+					order = 2,
 					type = "description",
 					name = " "
 				},
 				description = {
-					order = 4,
+					order = 3,
 					type = "description",
 					name = L["Here you can add items or search terms that you want to be excluded from sorting. To remove an item just click on its name in the list."]
 				},
 				addEntryGroup = {
-					order = 5,
+					order = 4,
 					type = "group",
 					name = L["Add Item or Search Syntax"],
 					guiInline = true,
@@ -787,37 +816,37 @@ E.Options.args.bags = {
 					}
 				},
 				ignoredEntriesProfile = {
-					order = 6,
+					order = 5,
 					type = "multiselect",
 					name = L["Ignored Items and Search Syntax (Profile)"],
 					values = function() return E.db.bags.ignoredItems end,
 					get = function(info, value)	return E.db.bags.ignoredItems[value] end,
 					set = function(info, value)
 						E.db.bags.ignoredItems[value] = nil
-						GameTooltip:Hide()--Make sure tooltip is properly hidden
+						GameTooltip:Hide() --Make sure tooltip is properly hidden
 					end
 				},
 				ignoredEntriesGlobal = {
-					order = 7,
+					order = 6,
 					type = "multiselect",
 					name = L["Ignored Items and Search Syntax (Global)"],
 					values = function() return E.global.bags.ignoredItems end,
 					get = function(info, value)	return E.global.bags.ignoredItems[value] end,
 					set = function(info, value)
 						E.global.bags.ignoredItems[value] = nil
-						GameTooltip:Hide()--Make sure tooltip is properly hidden
+						GameTooltip:Hide() --Make sure tooltip is properly hidden
 					end
 				}
 			}
 		},
 		search_syntax = {
-			order = 10,
+			order = 8,
 			type = "group",
 			name = L["Search Syntax"],
 			disabled = function() return not E.Bags.Initialized end,
 			args = {
 				text = {
-					order = 2,
+					order = 1,
 					type = "input",
 					multiline = 26,
 					width = "full",

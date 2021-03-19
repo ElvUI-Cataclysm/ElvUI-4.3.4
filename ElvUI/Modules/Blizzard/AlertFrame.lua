@@ -5,45 +5,32 @@ local Misc = E:GetModule("Misc")
 local _G = _G
 local pairs = pairs
 
-local AlertFrame_FixAnchors = AlertFrame_FixAnchors
 local NUM_GROUP_LOOT_FRAMES = NUM_GROUP_LOOT_FRAMES
 
 local POSITION, ANCHOR_POINT, YOFFSET = "TOP", "BOTTOM", -10
 
-function E:PostAlertMove(screenQuadrant)
+function E:PostAlertMove()
 	local _, y = AlertFrameMover:GetCenter()
 	local screenHeight = E.UIParent:GetTop()
+	local screenY = y > (screenHeight / 2)
 
-	if y > (screenHeight / 2) then
-		POSITION = "TOP"
-		ANCHOR_POINT = "BOTTOM"
-		YOFFSET = -10
-		AlertFrameMover:SetText(AlertFrameMover.textString.." [Grow Down]")
-	else
-		POSITION = "BOTTOM"
-		ANCHOR_POINT = "TOP"
-		YOFFSET = 10
-		AlertFrameMover:SetText(AlertFrameMover.textString.." [Grow Up]")
-	end
+	POSITION = screenY and "TOP" or "BOTTOM"
+	ANCHOR_POINT = screenY and "BOTTOM" or "TOP"
+	YOFFSET = screenY and -10 or 10
 
-	local rollBars = Misc.RollBars
+	local yOffset = screenY and -4 or 4
+	local directionText = screenY and "(Grow Down)" or "(Grow Up)"
+	AlertFrameMover:SetText(format("%s %s", AlertFrameMover.textString, directionText))
+
 	if E.private.general.lootRoll then
 		local lastframe, lastShownFrame
-		for i, frame in pairs(rollBars) do
+
+		for i, frame in pairs(Misc.RollBars) do
+			local alertAnchor = i ~= 1 and lastframe or AlertFrameHolder
+
 			frame:ClearAllPoints()
-			if i ~= 1 then
-				if POSITION == "TOP" then
-					frame:Point("TOP", lastframe, "BOTTOM", 0, -4)
-				else
-					frame:Point("BOTTOM", lastframe, "TOP", 0, 4)
-				end
-			else
-				if POSITION == "TOP" then
-					frame:Point("TOP", AlertFrameHolder, "BOTTOM", 0, -4)
-				else
-					frame:Point("BOTTOM", AlertFrameHolder, "TOP", 0, 4)
-				end
-			end
+			frame:Point(POSITION, alertAnchor, ANCHOR_POINT, 0, yOffset)
+
 			lastframe = frame
 
 			if frame:IsShown() then
@@ -59,23 +46,16 @@ function E:PostAlertMove(screenQuadrant)
 		end
 	elseif E.private.skins.blizzard.enable and E.private.skins.blizzard.lootRoll then
 		local lastframe, lastShownFrame
+
 		for i = 1, NUM_GROUP_LOOT_FRAMES do
 			local frame = _G["GroupLootFrame"..i]
+
 			if frame then
+				local alertAnchor = i ~= 1 and lastframe or AlertFrameHolder
+
 				frame:ClearAllPoints()
-				if i ~= 1 then
-					if POSITION == "TOP" then
-						frame:Point("TOP", lastframe, "BOTTOM", 0, -4)
-					else
-						frame:Point("BOTTOM", lastframe, "TOP", 0, 4)
-					end
-				else
-					if POSITION == "TOP" then
-						frame:Point("TOP", AlertFrameHolder, "BOTTOM", 0, -4)
-					else
-						frame:Point("BOTTOM", AlertFrameHolder, "TOP", 0, 4)
-					end
-				end
+				frame:Point(POSITION, alertAnchor, ANCHOR_POINT, 0, yOffset)
+
 				lastframe = frame
 
 				if frame:IsShown() then
@@ -93,10 +73,6 @@ function E:PostAlertMove(screenQuadrant)
 	else
 		AlertFrame:ClearAllPoints()
 		AlertFrame:SetAllPoints(AlertFrameHolder)
-	end
-
-	if screenQuadrant then
-		AlertFrame_FixAnchors()
 	end
 end
 
@@ -120,47 +96,44 @@ function B:AchievementAlertFrame_FixAnchors()
 end
 
 function B:DungeonCompletionAlertFrame_FixAnchors()
-	DungeonCompletionAlertFrame1:ClearAllPoints()
-
 	for i = MAX_ACHIEVEMENT_ALERTS, 1, -1 do
 		local frame = _G["AchievementAlertFrame"..i]
 
 		if frame and frame:IsShown() then
+			DungeonCompletionAlertFrame1:ClearAllPoints()
 			DungeonCompletionAlertFrame1:Point(POSITION, frame, ANCHOR_POINT, 0, YOFFSET)
 			return
 		end
-	end
 
-	DungeonCompletionAlertFrame1:Point(POSITION, AlertFrame, ANCHOR_POINT)
+		DungeonCompletionAlertFrame1:ClearAllPoints()
+		DungeonCompletionAlertFrame1:Point(POSITION, AlertFrame, ANCHOR_POINT)
+	end
 end
 
 function B:GuildChallengeAlertFrame_FixAnchors()
-	GuildChallengeAlertFrame:ClearAllPoints()
-
-	-- Add delay in case 'GuildChallengeAlertFrame' is shown before 'DungeonCompletionAlertFrame1'
-	E:Delay(0.1, function()
-		if DungeonCompletionAlertFrame1:IsShown() then
-			GuildChallengeAlertFrame:Point(POSITION, DungeonCompletionAlertFrame1, ANCHOR_POINT, 0, YOFFSET)
-			return
-		end
-	end)
+	if DungeonCompletionAlertFrame1:IsShown() then
+		GuildChallengeAlertFrame:ClearAllPoints()
+		GuildChallengeAlertFrame:Point(POSITION, DungeonCompletionAlertFrame1, ANCHOR_POINT, 0, YOFFSET)
+		return
+	end
 
 	for i = MAX_ACHIEVEMENT_ALERTS, 1, -1 do
 		local frame = _G["AchievementAlertFrame"..i]
 
 		if frame and frame:IsShown() then
-			GuildChallengeAlertFrame:Point(POSITION, frame, ANCHOR_POINT)
+			GuildChallengeAlertFrame:ClearAllPoints()
+			GuildChallengeAlertFrame:Point(POSITION, frame, ANCHOR_POINT, 0, YOFFSET)
 			return
 		end
 	end
 
+	GuildChallengeAlertFrame:ClearAllPoints()
 	GuildChallengeAlertFrame:Point(POSITION, AlertFrame, ANCHOR_POINT)
 end
 
 function B:AlertMovers()
 	local AlertFrameHolder = CreateFrame("Frame", "AlertFrameHolder", E.UIParent)
-	AlertFrameHolder:Width(180)
-	AlertFrameHolder:Height(20)
+	AlertFrameHolder:Size(250, 20)
 	AlertFrameHolder:Point("TOP", E.UIParent, "TOP", 0, -18)
 
 	self:SecureHook("AlertFrame_FixAnchors", E.PostAlertMove)

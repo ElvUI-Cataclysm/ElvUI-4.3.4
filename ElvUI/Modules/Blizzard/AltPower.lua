@@ -176,9 +176,10 @@ function B:SkinAltPowerBar()
 	B:UpdateAltPowerBarColors()
 
 	--Event handling
-	powerbar:RegisterEvent("UNIT_POWER")
+	powerbar:RegisterEvent("UNIT_POWER_FREQUENT")
 	powerbar:RegisterEvent("UNIT_POWER_BAR_SHOW")
 	powerbar:RegisterEvent("UNIT_POWER_BAR_HIDE")
 	powerbar:RegisterEvent("PLAYER_ENTERING_WORLD")
+
 	powerbar:SetScript("OnEvent", B.UpdateAltPowerBar)
 end

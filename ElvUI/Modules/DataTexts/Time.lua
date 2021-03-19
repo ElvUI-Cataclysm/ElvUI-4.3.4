@@ -7,12 +7,13 @@ local find, format, gsub, join, utf8sub = string.find, string.format, string.gsu
 local tsort, tinsert = table.sort, table.insert
 
 local GetGameTime = GetGameTime
-local RequestRaidInfo = RequestRaidInfo
 local GetNumWorldPVPAreas = GetNumWorldPVPAreas
 local GetWorldPVPAreaInfo = GetWorldPVPAreaInfo
-local SecondsToTime = SecondsToTime
 local GetNumSavedInstances = GetNumSavedInstances
 local GetSavedInstanceInfo = GetSavedInstanceInfo
+local GetQuestResetTime = GetQuestResetTime
+local RequestRaidInfo = RequestRaidInfo
+local SecondsToTime = SecondsToTime
 
 local QUEUE_TIME_UNAVAILABLE = QUEUE_TIME_UNAVAILABLE
 local TIMEMANAGER_AM = TIMEMANAGER_AM
@@ -33,8 +34,7 @@ local timeFormat, showAMPM
 local realmDiffSeconds
 local lastPanel
 
-local locale = GetLocale()
-local krcntw = locale == "koKR" or locale == "zhCN" or locale == "zhTW"
+local krcntw = E.locale == "koKR" or E.locale == "zhCN" or E.locale == "zhTW"
 local difficultyTag = {
 	(krcntw and PLAYER_DIFFICULTY3) or utf8sub(PLAYER_DIFFICULTY3, 1, 1), -- Raid Finder
 	(krcntw and PLAYER_DIFFICULTY1) or utf8sub(PLAYER_DIFFICULTY1, 1, 1), -- Normal
@@ -208,6 +208,8 @@ local function OnEnter(self)
 	if DT.tooltip:NumLines() > 0 then
 		DT.tooltip:AddLine(" ")
 	end
+
+	DT.tooltip:AddDoubleLine(L["Daily Reset"]..":", SecondsToTime(GetQuestResetTime()), 1, 1, 1, lockoutColorNormal.r, lockoutColorNormal.g, lockoutColorNormal.b)
 
 	local timeFormat1 = E.db.datatexts.timeFormat ~= "" and E.db.datatexts.timeFormat or "%H:%M"
 	local timeType = E.db.datatexts.localTime and TIMEMANAGER_TOOLTIP_REALMTIME or TIMEMANAGER_TOOLTIP_LOCALTIME
