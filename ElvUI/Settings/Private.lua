@@ -39,6 +39,7 @@ V.auras = {
 	disableBlizzard = true,
 	buffsHeader = true,
 	debuffsHeader = true,
+	weaponsHeader = true,
 	masque = {
 		buffs = false,
 		debuffs = false,

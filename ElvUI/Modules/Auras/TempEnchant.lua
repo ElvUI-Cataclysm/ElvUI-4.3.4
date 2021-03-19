@@ -57,7 +57,7 @@ function A:UpdateTempEnchantTime(button, timeLeft)
 			button.duration:SetTextColor(color.r, color.g, color.b)
 		end
 
-		local fadeThreshold = E.db.auras.fadeThreshold
+		local fadeThreshold = A.db.weapons.fadeThreshold
 		if fadeThreshold == -1 then
 			return
 		elseif timeLeft > fadeThreshold then
@@ -90,7 +90,7 @@ end
 
 function A:UpdateTempEnchant()
 	local db = A.db.weapons
-	local font = LSM:Fetch("font", db.font)
+	local font = LSM:Fetch("font", db.timeFont)
 
 	for i = 1, 3 do
 		local button = _G["TempEnchant"..i]
@@ -105,7 +105,7 @@ function A:UpdateTempEnchant()
 
 		duration:ClearAllPoints()
 		duration:Point("TOP", button, "BOTTOM", 1 + db.timeXOffset, 0 + db.timeYOffset)
-		duration:FontTemplate(font, db.fontSize, db.fontOutline)
+		duration:FontTemplate(font, db.timeFontSize, db.timeFontOutline)
 
 		if db.growthDirection == "RIGHT_LEFT" then
 			if i == 1 then
@@ -134,22 +134,15 @@ function A:UpdateTempEnchant()
 		end
 
 		local pos, spacing, iconSize = db.barPosition, db.barSpacing, db.size - (E.Border * 2)
-		local isOnTop = pos == "TOP" and true or false
-		local isOnBottom = pos == "BOTTOM" and true or false
-		local isOnLeft = pos == "LEFT" and true or false
-		local isOnRight = pos == "RIGHT" and true or false
+		local isOnTop, isOnBottom, isOnLeft = pos == "TOP", pos == "BOTTOM", pos == "LEFT"
+		local isHorizontal = isOnTop or isOnBottom
 
-		button.statusBar:Width((isOnTop or isOnBottom) and iconSize or (db.barWidth + (E.PixelMode and 0 or 2)))
-		button.statusBar:Height((isOnLeft or isOnRight) and iconSize or (db.barHeight + (E.PixelMode and 0 or 2)))
 		button.statusBar:ClearAllPoints()
-		button.statusBar:Point(E.InversePoints[pos], button, pos, (isOnTop or isOnBottom) and 0 or ((isOnLeft and -((E.PixelMode and 1 or 3) + spacing)) or ((E.PixelMode and 1 or 3) + spacing)), (isOnLeft or isOnRight) and 0 or ((isOnTop and ((E.PixelMode and 1 or 3) + spacing) or -((E.PixelMode and 1 or 3) + spacing))))
+		button.statusBar:Size(isHorizontal and iconSize or (db.barSize + (E.PixelMode and 0 or 2)), isHorizontal and (db.barSize + (E.PixelMode and 0 or 2)) or iconSize)
+		button.statusBar:Point(E.InversePoints[pos], button, pos, isHorizontal and 0 or ((isOnLeft and -((E.PixelMode and 1 or 3) + spacing)) or ((E.PixelMode and 1 or 3) + spacing)), not isHorizontal and 0 or ((isOnTop and ((E.PixelMode and 1 or 3) + spacing) or -((E.PixelMode and 1 or 3) + spacing))))
 		button.statusBar:SetStatusBarTexture(LSM:Fetch("statusbar", db.barTexture))
-
-		if isOnLeft or isOnRight then
-			button.statusBar:SetOrientation("VERTICAL")
-		else
-			button.statusBar:SetOrientation("HORIZONTAL")
-		end
+		button.statusBar:SetOrientation(isHorizontal and "HORIZONTAL" or "VERTICAL")
+		button.statusBar:SetRotatesTexture(not isHorizontal)
 
 		if db.barShow then
 			button.statusBar:Show()
@@ -280,7 +273,8 @@ end
 
 function A:InitializeTempEnchant()
 	A.EnchantHeader = CreateFrame("Frame", "ElvUITemporaryEnchantFrame", E.UIParent, "SecureHandlerStateTemplate")
-	A.EnchantHeader:Point("TOPRIGHT", MMHolder or Minimap, "BOTTOMRIGHT", 0, -E.Border - E.Spacing)
+	A.EnchantHeader:ClearAllPoints()
+	A.EnchantHeader:Point("TOPRIGHT", MMHolder or MinimapCluster, "BOTTOMRIGHT", 0, -E.Border - E.Spacing)
 	A.EnchantHeader:SetAttribute("_onstate-show", [[
 		if newstate == "hide" then
 			self:Hide()
@@ -293,7 +287,6 @@ function A:InitializeTempEnchant()
 	for i = 1, 3 do
 		local button = _G["TempEnchant"..i]
 		local icon = _G["TempEnchant"..i.."Icon"]
-		local border = _G["TempEnchant"..i.."Border"]
 
 		button:SetTemplate()
 		button:SetBackdropColor(0, 0, 0, 0)
@@ -305,7 +298,7 @@ function A:InitializeTempEnchant()
 		icon:SetTexCoord(unpack(E.TexCoords))
 		icon:SetInside()
 
-		border:Hide()
+		_G["TempEnchant"..i.."Border"]:Hide()
 
 		button.statusBar = CreateFrame("StatusBar", "$parentStatusBar", button)
 		button.statusBar:CreateBackdrop()
