@@ -5,6 +5,7 @@ local unpack = unpack
 
 local CreateFrame = CreateFrame
 local GetComboPoints = GetComboPoints
+local GetShapeshiftFormID = GetShapeshiftFormID
 local UnitHasVehicleUI = UnitHasVehicleUI
 
 local MAX_COMBO_POINTS = MAX_COMBO_POINTS
@@ -89,15 +90,15 @@ function UF:Configure_ComboPoints(frame)
 	ComboPoints.origParent = frame
 
 	--Fix height in case it is lower than the theme allows, or in case it's higher than 30px when not detached
-	if (not self.thinBorders and not E.PixelMode) and frame.CLASSBAR_HEIGHT > 0 and frame.CLASSBAR_HEIGHT < 7 then --A height of 7 means 6px for borders and just 1px for the actual power statusbar
+	if not UF.thinBorders and (frame.CLASSBAR_HEIGHT > 0 and frame.CLASSBAR_HEIGHT < 7) then --A height of 7 means 6px for borders and just 1px for the actual power statusbar
 		frame.CLASSBAR_HEIGHT = 7
 		if db.combobar then db.combobar.height = 7 end
 		UF.ToggleResourceBar(ComboPoints) --Trigger update to health if needed
-	elseif (self.thinBorders or E.PixelMode) and frame.CLASSBAR_HEIGHT > 0 and frame.CLASSBAR_HEIGHT < 3 then --A height of 3 means 2px for borders and just 1px for the actual power statusbar
+	elseif UF.thinBorders and (frame.CLASSBAR_HEIGHT > 0 and frame.CLASSBAR_HEIGHT < 3) then --A height of 3 means 2px for borders and just 1px for the actual power statusbar
 		frame.CLASSBAR_HEIGHT = 3
 		if db.combobar then db.combobar.height = 3 end
 		UF.ToggleResourceBar(ComboPoints) --Trigger update to health if needed
-	elseif (not frame.CLASSBAR_DETACHED and frame.CLASSBAR_HEIGHT > 30) then
+	elseif not frame.CLASSBAR_DETACHED and frame.CLASSBAR_HEIGHT > 30 then
 		frame.CLASSBAR_HEIGHT = 10
 		if db.combobar then db.combobar.height = 10 end
 		UF.ToggleResourceBar(ComboPoints) --Trigger update to health if needed
@@ -109,14 +110,17 @@ function UF:Configure_ComboPoints(frame)
 	if frame.USE_MINI_CLASSBAR and not frame.CLASSBAR_DETACHED then
 		CLASSBAR_WIDTH = CLASSBAR_WIDTH * (frame.MAX_CLASS_BAR - 1) / frame.MAX_CLASS_BAR
 	elseif frame.CLASSBAR_DETACHED then
-		CLASSBAR_WIDTH = db.combobar.detachedWidth - ((frame.BORDER + frame.SPACING) * 2)
+		CLASSBAR_WIDTH = db.combobar.detachedWidth - ((UF.BORDER + UF.SPACING) * 2)
 	end
 
-	ComboPoints:Width(CLASSBAR_WIDTH)
-	ComboPoints:Height(frame.CLASSBAR_HEIGHT - ((frame.BORDER + frame.SPACING) * 2))
-
 	local color = E.db.unitframe.colors.borderColor
-	ComboPoints.backdrop:SetBackdropColor(color.r, color.g, color.b)
+
+	ComboPoints:Width(CLASSBAR_WIDTH)
+	ComboPoints:Height(frame.CLASSBAR_HEIGHT - ((UF.BORDER + UF.SPACING) * 2))
+
+	if not ComboPoints.backdrop.ignoreBorderColors then
+		ComboPoints.backdrop:SetBackdropColor(color.r, color.g, color.b)
+	end
 
 	if not frame.USE_MINI_CLASSBAR then
 		ComboPoints.backdrop:Show()
@@ -127,20 +131,23 @@ function UF:Configure_ComboPoints(frame)
 	for i = 1, frame.MAX_CLASS_BAR do
 		ComboPoints[i]:Hide()
 		ComboPoints[i]:SetStatusBarColor(unpack(ElvUF.colors.ComboPoints[i]))
-		ComboPoints[i].backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
+		if not ComboPoints[i].backdrop.ignoreBorderColors then
+			ComboPoints[i].backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
+		end
 		ComboPoints[i]:Height(ComboPoints:GetHeight())
 
 		if frame.USE_MINI_CLASSBAR then
 			if frame.CLASSBAR_DETACHED and db.combobar.orientation == "VERTICAL" then
 				ComboPoints[i]:Width(CLASSBAR_WIDTH)
 			else
-				ComboPoints[i]:Width((CLASSBAR_WIDTH - ((5 + (frame.BORDER * 2 + frame.SPACING * 2)) * (frame.MAX_CLASS_BAR - 1))) / frame.MAX_CLASS_BAR) --Width accounts for 5px spacing between each button, excluding borders
+				ComboPoints[i]:Width((CLASSBAR_WIDTH - ((5 + (UF.BORDER * 2 + UF.SPACING * 2)) * (frame.MAX_CLASS_BAR - 1))) / frame.MAX_CLASS_BAR) --Width accounts for 5px spacing between each button, excluding borders
 			end
 		elseif i ~= MAX_COMBO_POINTS then
-			ComboPoints[i]:Width((CLASSBAR_WIDTH - ((frame.MAX_CLASS_BAR - 1) * (frame.BORDER-frame.SPACING))) / frame.MAX_CLASS_BAR) --combobar width minus total width of dividers between each button, divided by number of buttons
+			ComboPoints[i]:Width((CLASSBAR_WIDTH - ((frame.MAX_CLASS_BAR - 1) * (UF.BORDER + UF.SPACING * 3))) / frame.MAX_CLASS_BAR) --combobar width minus total width of dividers between each button, divided by number of buttons
 		end
 
 		ComboPoints[i]:GetStatusBarTexture():SetHorizTile(false)
+		ComboPoints[i]:SetOrientation("HORIZONTAL")
 		ComboPoints[i]:ClearAllPoints()
 
 		if i == 1 then
@@ -148,21 +155,22 @@ function UF:Configure_ComboPoints(frame)
 		else
 			if frame.USE_MINI_CLASSBAR then
 				if frame.CLASSBAR_DETACHED and db.combobar.orientation == "VERTICAL" then
-					ComboPoints[i]:Point("BOTTOM", ComboPoints[i - 1], "TOP", 0, (db.combobar.spacing + frame.BORDER * 2 + frame.SPACING * 2))
+					ComboPoints[i]:Point("BOTTOM", ComboPoints[i - 1], "TOP", 0, (db.combobar.spacing + UF.BORDER * 2 + UF.SPACING * 2))
 				elseif frame.CLASSBAR_DETACHED and db.combobar.orientation == "HORIZONTAL" then
-					ComboPoints[i]:Point("LEFT", ComboPoints[i - 1], "RIGHT", (db.combobar.spacing + frame.BORDER * 2 + frame.SPACING * 2), 0) --5px spacing between borders of each button(replaced with Detached Spacing option)
+					ComboPoints[i]:Point("LEFT", ComboPoints[i - 1], "RIGHT", (db.combobar.spacing + UF.BORDER * 2 + UF.SPACING * 2), 0) --5px spacing between borders of each button(replaced with Detached Spacing option)
 				else
-					ComboPoints[i]:Point("LEFT", ComboPoints[i - 1], "RIGHT", (5 + frame.BORDER * 2 + frame.SPACING * 2), 0) --5px spacing between borders of each button
+					ComboPoints[i]:Point("LEFT", ComboPoints[i - 1], "RIGHT", (5 + UF.BORDER * 2 + UF.SPACING * 2), 0) --5px spacing between borders of each button
 				end
-			elseif i == frame.MAX_CLASS_BAR then
-				ComboPoints[i]:Point("LEFT", ComboPoints[i - 1], "RIGHT", frame.BORDER - frame.SPACING, 0)
-				ComboPoints[i]:Point("RIGHT", ComboPoints)
 			else
-				ComboPoints[i]:Point("LEFT", ComboPoints[i - 1], "RIGHT", frame.BORDER - frame.SPACING, 0)
+				if i == frame.MAX_CLASS_BAR then
+					ComboPoints[i]:Point("LEFT", ComboPoints[i - 1], "RIGHT", UF.BORDER + UF.SPACING * 3, 0)
+					ComboPoints[i]:Point("RIGHT", ComboPoints)
+				else
+					ComboPoints[i]:Point("LEFT", ComboPoints[i - 1], "RIGHT", UF.BORDER + UF.SPACING * 3, 0)
+				end
 			end
 		end
 
-		ComboPoints[i]:SetOrientation("HORIZONTAL")
 		ComboPoints[i]:Show()
 	end
 
@@ -174,8 +182,7 @@ function UF:Configure_ComboPoints(frame)
 		ComboPoints:SetFrameLevel(50) --RaisedElementParent uses 100, we want it lower than this
 
 		if ComboPoints.Holder and ComboPoints.Holder.mover then
-			ComboPoints.Holder.mover:SetScale(0.0001)
-			ComboPoints.Holder.mover:SetAlpha(0)
+			E:DisableMover(ComboPoints.Holder.mover:GetName())
 		end
 	elseif frame.CLASSBAR_DETACHED then
 		if frame.USE_MINI_CLASSBAR then
@@ -188,41 +195,25 @@ function UF:Configure_ComboPoints(frame)
 			ComboPoints.Holder:Size(db.combobar.detachedWidth, db.combobar.height)
 		end
 
+		ComboPoints:ClearAllPoints()
+		ComboPoints:Point("BOTTOMLEFT", ComboPoints.Holder, "BOTTOMLEFT", UF.BORDER + UF.SPACING, UF.BORDER + UF.SPACING)
+
 		if not ComboPoints.Holder.mover then
-			ComboPoints:ClearAllPoints()
-			ComboPoints:Point("BOTTOMLEFT", ComboPoints.Holder, "BOTTOMLEFT", frame.BORDER + frame.SPACING, frame.BORDER + frame.SPACING)
 			E:CreateMover(ComboPoints.Holder, "ComboBarMover", L["Combobar"], nil, nil, nil, "ALL,SOLO", nil, "unitframe,individualUnits,target,combobar")
 		else
-			ComboPoints:ClearAllPoints()
-			ComboPoints:Point("BOTTOMLEFT", ComboPoints.Holder, "BOTTOMLEFT", frame.BORDER + frame.SPACING, frame.BORDER + frame.SPACING)
-			ComboPoints.Holder.mover:SetScale(1)
-			ComboPoints.Holder.mover:SetAlpha(1)
+			E:EnableMover(ComboPoints.Holder.mover:GetName())
 		end
 
-		if db.combobar.parent == "UIPARENT" then
-			ComboPoints:SetParent(E.UIParent)
-		else
-			ComboPoints:SetParent(frame)
-		end
-
-		if not db.combobar.strataAndLevel.useCustomStrata then
-			ComboPoints:SetFrameStrata("LOW")
-		else
-			ComboPoints:SetFrameStrata(db.combobar.strataAndLevel.frameStrata)
-		end
-
-		if not db.combobar.strataAndLevel.useCustomLevel then
-			ComboPoints:SetFrameLevel(frame:GetFrameLevel() + 10) --Health uses 10, Power uses (Health + 5) when attached
-		else
-			ComboPoints:SetFrameLevel(db.combobar.strataAndLevel.frameLevel)
-		end
+		ComboPoints:SetParent(db.combobar.parent == "UIPARENT" and E.UIParent or frame)
+		ComboPoints:SetFrameStrata(db.combobar.strataAndLevel.useCustomStrata and db.combobar.strataAndLevel.frameStrata or "LOW")
+		ComboPoints:SetFrameLevel(db.combobar.strataAndLevel.useCustomLevel and db.combobar.strataAndLevel.frameLevel or frame:GetFrameLevel() + 10) --Health uses 10, Power uses (Health + 5) when attached
 	else
 		ComboPoints:ClearAllPoints()
 
 		if frame.ORIENTATION == "RIGHT" then
-			ComboPoints:Point("BOTTOMRIGHT", frame.Health.backdrop, "TOPRIGHT", -frame.BORDER, frame.SPACING*3)
+			ComboPoints:Point("BOTTOMRIGHT", frame.Health.backdrop, "TOPRIGHT", -UF.BORDER, UF.SPACING * 3)
 		else
-			ComboPoints:Point("BOTTOMLEFT", frame.Health.backdrop, "TOPLEFT", frame.BORDER, frame.SPACING*3)
+			ComboPoints:Point("BOTTOMLEFT", frame.Health.backdrop, "TOPLEFT", UF.BORDER, UF.SPACING * 3)
 		end
 
 		ComboPoints:SetParent(frame)
@@ -230,8 +221,7 @@ function UF:Configure_ComboPoints(frame)
 		ComboPoints:SetFrameLevel(frame:GetFrameLevel() + 10) --Health uses 10, Power uses (Health + 5) when attached
 
 		if ComboPoints.Holder and ComboPoints.Holder.mover then
-			ComboPoints.Holder.mover:SetScale(0.0001)
-			ComboPoints.Holder.mover:SetAlpha(0)
+			E:DisableMover(ComboPoints.Holder.mover:GetName())
 		end
 	end
 
@@ -261,20 +251,14 @@ function UF:UpdateComboDisplay(event, unit)
 
 	if db.combobar.enable then
 		local inVehicle = UnitHasVehicleUI("player") or UnitHasVehicleUI("vehicle")
-		local form = GetShapeshiftFormID()
 
-		if not inVehicle and E.myclass ~= "ROGUE" and (E.myclass ~= "DRUID" or (E.myclass == "DRUID" and form ~= CAT_FORM)) then
+		if not inVehicle and E.myclass ~= "ROGUE" and (E.myclass ~= "DRUID" or (E.myclass == "DRUID" and GetShapeshiftFormID() ~= CAT_FORM)) then
 			element:Hide()
 			UF.ToggleResourceBar(element)
 		else
-			local cp
-			if inVehicle then
-				cp = GetComboPoints("vehicle", "target")
-			else
-				cp = GetComboPoints("player", "target")
-			end
-
+			local cp = GetComboPoints(inVehicle and "vehicle" or "player", "target")
 			local custom_backdrop = UF.db.colors.customclasspowerbackdrop and UF.db.colors.classpower_backdrop
+
 			if cp == 0 and db.combobar.autoHide then
 				element:Hide()
 				UF.ToggleResourceBar(element)

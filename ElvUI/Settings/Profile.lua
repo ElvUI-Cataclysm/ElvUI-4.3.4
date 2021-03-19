@@ -1242,7 +1242,7 @@ P.unitframe = {
 		CTRL = "NONE",
 		ALT = "NONE"
 	},
-	thinBorders = false,
+	thinBorders = true,
 	targetSound = false,
 	cooldown = {
 		threshold = 4,
@@ -1655,7 +1655,8 @@ P.unitframe = {
 				sortMethod = "TIME_REMAINING",
 				sortDirection = "DESCENDING",
 				yOffset = 0,
-				spacing = 0
+				spacing = 0,
+				clickThrough = false
 			},
 			raidicon = {
 				enable = true,
@@ -1935,7 +1936,8 @@ P.unitframe = {
 				sortMethod = "TIME_REMAINING",
 				sortDirection = "DESCENDING",
 				yOffset = 0,
-				spacing = 0
+				spacing = 0,
+				clickThrough = false
 			},
 			raidicon = {
 				enable = true,
@@ -1951,7 +1953,8 @@ P.unitframe = {
 				xOffset = 0,
 				yOffset = 0,
 				onMouseOver = true,
-				outOfRange = true
+				outOfRange = true,
+				color = {r = 0.83, g = 0.16, b = 0.16}
 			},
 			cutaway = {
 				health = {
@@ -2004,6 +2007,7 @@ P.unitframe = {
 				position = "RIGHT",
 				xOffset = -2,
 				yOffset = 0,
+				attachTextTo = "Health",
 				reverseFill = false
 			},
 			fader = {
@@ -2034,7 +2038,17 @@ P.unitframe = {
 				position = "LEFT",
 				hideonnpc = false,
 				xOffset = 2,
-				yOffset = 0
+				yOffset = 0,
+				attachTextTo = "Health",
+				detachFromFrame = false,
+				detachedWidth = 250,
+				strataAndLevel = {
+					useCustomStrata = false,
+					frameStrata = "LOW",
+					useCustomLevel = false,
+					frameLevel = 1
+				},
+				parent = "FRAME"
 			},
 			infoPanel = {
 				enable = false,
@@ -2148,6 +2162,7 @@ P.unitframe = {
 				position = "RIGHT",
 				xOffset = -2,
 				yOffset = 0,
+				attachTextTo = "Health",
 				reverseFill = false
 			},
 			fader = {
@@ -2178,7 +2193,17 @@ P.unitframe = {
 				position = "LEFT",
 				hideonnpc = false,
 				xOffset = 2,
-				yOffset = 0
+				yOffset = 0,
+				attachTextTo = "Health",
+				detachFromFrame = false,
+				detachedWidth = 250,
+				strataAndLevel = {
+					useCustomStrata = false,
+					frameStrata = "LOW",
+					useCustomLevel = false,
+					frameLevel = 1
+				},
+				parent = "FRAME"
 			},
 			infoPanel = {
 				enable = false,
@@ -2326,7 +2351,16 @@ P.unitframe = {
 				hideonnpc = false,
 				xOffset = 2,
 				yOffset = 0,
-				attachTextTo = "Health"
+				attachTextTo = "Health",
+				detachFromFrame = false,
+				detachedWidth = 250,
+				strataAndLevel = {
+					useCustomStrata = false,
+					frameStrata = "LOW",
+					useCustomLevel = false,
+					frameLevel = 1
+				},
+				parent = "FRAME"
 			},
 			infoPanel = {
 				enable = false,
@@ -2475,7 +2509,8 @@ P.unitframe = {
 				sortMethod = "TIME_REMAINING",
 				sortDirection = "DESCENDING",
 				yOffset = 0,
-				spacing = 0
+				spacing = 0,
+				clickThrough = false
 			},
 			raidicon = {
 				enable = true,
@@ -2491,7 +2526,8 @@ P.unitframe = {
 				xOffset = 0,
 				yOffset = 0,
 				onMouseOver = true,
-				outOfRange = true
+				outOfRange = true,
+				color = {r = 0.83, g = 0.16, b = 0.16}
 			},
 			cutaway = {
 				health = {
@@ -2530,6 +2566,7 @@ P.unitframe = {
 				position = "RIGHT",
 				xOffset = -2,
 				yOffset = 0,
+				attachTextTo = "Health",
 				reverseFill = false
 			},
 			fader = {
@@ -2560,7 +2597,17 @@ P.unitframe = {
 				position = "LEFT",
 				hideonnpc = false,
 				xOffset = 2,
-				yOffset = 0
+				yOffset = 0,
+				attachTextTo = "Health",
+				detachFromFrame = false,
+				detachedWidth = 250,
+				strataAndLevel = {
+					useCustomStrata = false,
+					frameStrata = "LOW",
+					useCustomLevel = false,
+					frameLevel = 1
+				},
+				parent = "FRAME"
 			},
 			infoPanel = {
 				enable = false,
@@ -2676,6 +2723,7 @@ P.unitframe = {
 				position = "RIGHT",
 				yOffset = 0,
 				xOffset = -2,
+				attachTextTo = "Health",
 				reverseFill = false
 			},
 			fader = {
@@ -2705,8 +2753,18 @@ P.unitframe = {
 				offset = 0,
 				position = "LEFT",
 				hideonnpc = false,
+				xOffset = 2,
 				yOffset = 0,
-				xOffset = 2
+				attachTextTo = "Health",
+				detachFromFrame = false,
+				detachedWidth = 250,
+				strataAndLevel = {
+					useCustomStrata = false,
+					frameStrata = "LOW",
+					useCustomLevel = false,
+					frameLevel = 1
+				},
+				parent = "FRAME"
 			},
 			infoPanel = {
 				enable = false,
@@ -2789,7 +2847,8 @@ P.unitframe = {
 				sortMethod = "TIME_REMAINING",
 				sortDirection = "DESCENDING",
 				yOffset = 2,
-				spacing = 2
+				spacing = 2,
+				clickThrough = false
 			},
 			buffIndicator = {
 				enable = true,
@@ -2865,6 +2924,14 @@ P.unitframe = {
 					forceBlankTexture = true
 				}
 			},
+			raidicon = {
+				enable = true,
+				size = 18,
+				attachTo = "TOP",
+				attachToObject = "Frame",
+				xOffset = 0,
+				yOffset = 8
+			},
 			strataAndLevel = {
 				useCustomStrata = false,
 				frameStrata = "LOW",
@@ -2888,6 +2955,7 @@ P.unitframe = {
 				position = "RIGHT",
 				yOffset = 0,
 				xOffset = -2,
+				attachTextTo = "Health",
 				reverseFill = false
 			},
 			fader = {
@@ -2917,8 +2985,18 @@ P.unitframe = {
 				offset = 0,
 				position = "LEFT",
 				hideonnpc = false,
+				xOffset = 2,
 				yOffset = 0,
-				xOffset = 2
+				attachTextTo = "Health",
+				detachFromFrame = false,
+				detachedWidth = 250,
+				strataAndLevel = {
+					useCustomStrata = false,
+					frameStrata = "LOW",
+					useCustomLevel = false,
+					frameLevel = 1
+				},
+				parent = "FRAME"
 			},
 			infoPanel = {
 				enable = false,
@@ -3667,6 +3745,7 @@ P.unitframe = {
 				enable = false,
 				width = 100,
 				height = 22,
+				threatStyle = "GLOW",
 				anchorPoint = "TOPLEFT",
 				xOffset = -1,
 				yOffset = 0,
@@ -3675,12 +3754,24 @@ P.unitframe = {
 					text_format = "[namecolor][name:short]",
 					yOffset = 0,
 					xOffset = 0
+				},
+				healPrediction = {
+					enable = false
+				},
+				raidicon = {
+					enable = true,
+					size = 18,
+					attachTo = "TOP",
+					attachToObject = "Frame",
+					xOffset = 0,
+					yOffset = 8
 				}
 			},
 			targetsGroup = {
 				enable = false,
 				width = 100,
 				height = 22,
+				threatStyle = "GLOW",
 				anchorPoint = "TOPLEFT",
 				xOffset = -1,
 				yOffset = 0,
@@ -3713,7 +3804,8 @@ P.unitframe = {
 				xOffset = 0,
 				yOffset = 0,
 				onMouseOver = true,
-				outOfRange = true
+				outOfRange = true,
+				color = {r = 0.83, g = 0.16, b = 0.16}
 			},
 			readycheckIcon = {
 				enable = true,
@@ -3943,7 +4035,8 @@ P.unitframe = {
 				xOffset = 0,
 				yOffset = 0,
 				onMouseOver = true,
-				outOfRange = true
+				outOfRange = true,
+				color = {r = 0.83, g = 0.16, b = 0.16}
 			},
 			readycheckIcon = {
 				enable = true,
@@ -4180,7 +4273,8 @@ P.unitframe = {
 				xOffset = 0,
 				yOffset = 0,
 				onMouseOver = true,
-				outOfRange = true
+				outOfRange = true,
+				color = {r = 0.83, g = 0.16, b = 0.16}
 			},
 			readycheckIcon = {
 				enable = true,
@@ -4932,31 +5026,31 @@ E.LayoutMoverPositions = {
 		ElvUF_FocusMover = "BOTTOM,ElvUIParent,BOTTOM,341,59",
 		ElvUF_PartyMover = "BOTTOMLEFT,ElvUIParent,BOTTOMLEFT,4,248",
 		ElvUF_PetMover = "BOTTOM,ElvUIParent,BOTTOM,-340,99",
-		ElvUF_PlayerCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,0,96",
+		ElvUF_PlayerCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,1,96",
 		ElvUF_PlayerMover = "BOTTOM,ElvUIParent,BOTTOM,-340,138",
 		ElvUF_Raid40Mover = "TOPLEFT,ElvUIParent,BOTTOMLEFT,4,482",
 		ElvUF_RaidMover = "BOTTOMLEFT,ElvUIParent,BOTTOMLEFT,4,248",
 		ElvUF_RaidpetMover = "TOPLEFT,ElvUIParent,BOTTOMLEFT,4,737",
-		ElvUF_TargetCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,0,242",
+		ElvUF_TargetCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,1,242",
 		ElvUF_TargetMover = "BOTTOM,ElvUIParent,BOTTOM,341,138",
 		ElvUF_TargetTargetMover = "BOTTOM,ElvUIParent,BOTTOM,341,99",
 		ExperienceBarMover = "BOTTOM,ElvUIParent,BOTTOM,0,43",
 		LootFrameMover = "TOPLEFT,ElvUIParent,TOPLEFT,418,-186",
 		MirrorTimer1Mover = "TOP,ElvUIParent,TOP,-1,-96",
 		WatchFrameMover = "TOPRIGHT,ElvUIParent,TOPRIGHT,-163,-325",
-		ReputationBarMover = "TOPRIGHT,ElvUIParent,TOPRIGHT,-3,-246",
+		ReputationBarMover = "TOPRIGHT,ElvUIParent,TOPRIGHT,-4,-246",
 		ShiftAB = "TOPLEFT,ElvUIParent,BOTTOMLEFT,4,769",
 		TempEnchantMover = "TOPRIGHT,ElvUIParent,TOPRIGHT,-4,-257",
 		TotemBarMover = "BOTTOMLEFT,ElvUIParent,BOTTOMLEFT,485,4",
 		VehicleSeatMover = "TOPLEFT,ElvUIParent,TOPLEFT,4,-4"
 	},
 	dpsCaster = {
-		ElvUF_PlayerCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,0,243",
-		ElvUF_TargetCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,0,97"
+		ElvUF_PlayerCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,1,243",
+		ElvUF_TargetCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,1,97"
 	},
 	healer = {
-		ElvUF_PlayerCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,0,243",
-		ElvUF_TargetCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,0,97",
+		ElvUF_PlayerCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,1,243",
+		ElvUF_TargetCastbarMover = "BOTTOM,ElvUIParent,BOTTOM,1,97",
 		ElvUF_RaidMover = "BOTTOMLEFT,ElvUIParent,BOTTOMLEFT,202,373",
 		LootFrameMover = "TOPLEFT,ElvUIParent,TOPLEFT,250,-104",
 		ShiftAB = "TOPLEFT,ElvUIParent,BOTTOMLEFT,4,273"

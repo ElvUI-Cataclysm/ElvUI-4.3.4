@@ -15,6 +15,7 @@ local UnitIsDeadOrGhost = UnitIsDeadOrGhost
 local UnitIsUnit = UnitIsUnit
 
 local SR = {}
+
 local function AddTable(tbl)
 	SR[E.myclass][tbl] = {}
 end
