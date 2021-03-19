@@ -12,7 +12,7 @@ local function LoadSkin()
 	ClassTrainerFrame.backdrop:Point("TOPLEFT", 4, 0)
 	ClassTrainerFrame:Height(472)
 
-	ClassTrainerFrameBottomInset:Kill()
+	ClassTrainerFrameBottomInset:StripTextures()
 
 	ClassTrainerFrameInset:Kill()
 	ClassTrainerFramePortrait:Kill()

@@ -34,12 +34,10 @@ local function LoadSkin()
 
 	for _, frame in pairs({"TradePlayerItem", "TradeRecipientItem"}) do
 		for i = 1, MAX_TRADE_ITEMS do
-			local item = _G[frame..i]
 			local button = _G[frame..i.."ItemButton"]
 			local icon = _G[frame..i.."ItemButtonIconTexture"]
-			local nameFrame = _G[frame..i.."NameFrame"]
 
-			item:StripTextures()
+			_G[frame..i]:StripTextures()
 
 			button:StripTextures()
 			button:StyleButton()
@@ -48,7 +46,7 @@ local function LoadSkin()
 			button.bg = CreateFrame("Frame", nil, button)
 			button.bg:SetTemplate()
 			button.bg:Point("TOPLEFT", button, "TOPRIGHT", 4, 0)
-			button.bg:Point("BOTTOMRIGHT", nameFrame, "BOTTOMRIGHT", 0, 14)
+			button.bg:Point("BOTTOMRIGHT", _G[frame..i.."NameFrame"], "BOTTOMRIGHT", 0, 14)
 			button.bg:SetFrameLevel(button:GetFrameLevel() - 3)
 
 			icon:SetInside()

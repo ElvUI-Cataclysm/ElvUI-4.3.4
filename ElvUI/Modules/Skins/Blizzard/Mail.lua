@@ -32,6 +32,9 @@ local function LoadSkin()
 		end
 	end)
 
+	S:SetUIPanelWindowInfo(MailFrame, "width")
+	S:SetBackdropHitRect(MailFrame)
+
 	for i = 1, INBOXITEMS_TO_DISPLAY do
 		local mail = _G["MailItem"..i]
 		local button = _G["MailItem"..i.."Button"]
@@ -122,6 +125,8 @@ local function LoadSkin()
 
 	-- Send Mail Frame
 	SendMailFrame:StripTextures()
+
+	S:SetBackdropHitRect(SendMailFrame, MailFrame.backdrop)
 
 	SendMailScrollFrame:StripTextures(true)
 	SendMailScrollFrame:SetTemplate()

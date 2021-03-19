@@ -13,9 +13,6 @@ local function LoadSkin()
 	GlyphFrame:StripTextures()
 	GlyphFrame:CreateBackdrop("Transparent")
 
-	GlyphFrame.levelOverlayText1:SetTextColor(1, 1, 1)
-	GlyphFrame.levelOverlayText2:SetTextColor(1, 1, 1)
-
 	GlyphFrame.sideInset:StripTextures()
 
 	S:HandleEditBox(GlyphFrameSearchBox)
@@ -73,6 +70,9 @@ local function LoadSkin()
 
 	hooksecurefunc("GlyphFrame_Update", function(self)
 		local isActiveTalentGroup = PlayerTalentFrame and not PlayerTalentFrame.pet and PlayerTalentFrame.talentGroup == GetActiveTalentGroup(PlayerTalentFrame.pet)
+
+		GlyphFrame.levelOverlayText1:SetTextColor(1, 1, 1)
+		GlyphFrame.levelOverlayText2:SetTextColor(1, 1, 1)
 
 		for i = 1, NUM_GLYPH_SLOTS do
 			local glyph = _G["GlyphFrameGlyph"..i]
@@ -132,7 +132,7 @@ local function LoadSkin()
 	end
 
 	-- Clear Info
-	GlyphFrame.clearInfo:CreateBackdrop(nil, true)
+	GlyphFrame.clearInfo:CreateBackdrop()
 	GlyphFrame.clearInfo.backdrop:SetAllPoints()
 	GlyphFrame.clearInfo:StyleButton()
 	GlyphFrame.clearInfo:Size(28)

@@ -14,7 +14,7 @@ local function LoadSkin()
 	local tutorialbuttonIcon = TutorialFrameAlertButton:GetNormalTexture()
 	tutorialbuttonIcon:Point("TOPLEFT", 5, -5)
 	tutorialbuttonIcon:Point("BOTTOMRIGHT", -5, 5)
-	tutorialbuttonIcon:SetTexture("Interface\\QuestFrame\\AutoQuest-Parts")
+	tutorialbuttonIcon:SetTexture([[Interface\QuestFrame\AutoQuest-Parts]])
 	tutorialbuttonIcon:SetTexCoord(0.134, 0.171, 0.015, 0.531)
 
 	TutorialFrame:StripTextures()

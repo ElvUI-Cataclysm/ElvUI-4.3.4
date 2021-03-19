@@ -36,7 +36,7 @@ local function SkinReadyDialogRewards(button, dungeonID)
 
 	local texturePath
 	if button.rewardType == "misc" then
-		texturePath = "Interface\\Icons\\inv_misc_coin_02"
+		texturePath = [[Interface\Icons\inv_misc_coin_02]]
 		button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 	elseif dungeonID and button.rewardType == "shortage" then
 		texturePath = select(2, GetLFGDungeonShortageRewardInfo(dungeonID, button.rewardArg, button.rewardID))
@@ -299,14 +299,16 @@ local function SkinDungeonFinder()
 	LFGDungeonReadyDialogRoleIconTexture:SetParent(LFGDungeonReadyDialogRoleIcon.backdrop)
 
 	hooksecurefunc("LFGDungeonReadyPopup_Update", function()
-		local _, _, _, _, _, _, role = GetLFGProposal()
+		if LFGDungeonReadyDialogRoleIcon:IsShown() then
+			local _, _, _, _, _, _, role = GetLFGProposal()
 
-		if role == "DAMAGER" then
-			LFGDungeonReadyDialogRoleIconTexture:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
-		elseif role == "TANK" then
-			LFGDungeonReadyDialogRoleIconTexture:SetTexture("Interface\\Icons\\Ability_Defend")
-		elseif role == "HEALER" then
-			LFGDungeonReadyDialogRoleIconTexture:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH")
+			if role == "DAMAGER" then
+				LFGDungeonReadyDialogRoleIconTexture:SetTexture([[Interface\Icons\INV_Knife_1H_Common_B_01]])
+			elseif role == "TANK" then
+				LFGDungeonReadyDialogRoleIconTexture:SetTexture([[Interface\Icons\Ability_Defend]])
+			elseif role == "HEALER" then
+				LFGDungeonReadyDialogRoleIconTexture:SetTexture([[Interface\Icons\SPELL_NATURE_HEALINGTOUCH]])
+			end
 		end
 	end)
 
@@ -374,13 +376,13 @@ local function SkinDungeonFinder()
 		if incentiveIndex then
 			local tex, r, g, b
 			if incentiveIndex == LFG_ROLE_SHORTAGE_PLENTIFUL then
-				tex = "Interface\\Icons\\INV_Misc_Coin_19"
+				tex = [[Interface\Icons\INV_Misc_Coin_19]]
 				r, g, b = 0.82, 0.45, 0.25
 			elseif incentiveIndex == LFG_ROLE_SHORTAGE_UNCOMMON then
-				tex = "Interface\\Icons\\INV_Misc_Coin_18"
+				tex = [[Interface\Icons\INV_Misc_Coin_18]]
 				r, g, b = 0.8, 0.8, 0.8
 			elseif incentiveIndex == LFG_ROLE_SHORTAGE_RARE then
-				tex = "Interface\\Icons\\INV_Misc_Coin_17"
+				tex = [[Interface\Icons\INV_Misc_Coin_17]]
 				r, g, b = 1, 0.82, 0.2
 			end
 
@@ -588,11 +590,11 @@ local function SkinSearchStatus()
 		_G[lfgSearchStatusIcons[i]].texture:SetInside(_G[lfgSearchStatusIcons[i]].backdrop)
 	end
 
-	LFGSearchStatusIndividualRoleDisplayTank1Texture:SetTexture("Interface\\Icons\\Ability_Defend")
-	LFGSearchStatusIndividualRoleDisplayHealer1Texture:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH")
-	LFGSearchStatusIndividualRoleDisplayDamage1Texture:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
-	LFGSearchStatusIndividualRoleDisplayDamage2Texture:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
-	LFGSearchStatusIndividualRoleDisplayDamage3Texture:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
+	LFGSearchStatusIndividualRoleDisplayTank1Texture:SetTexture([[Interface\Icons\Ability_Defend]])
+	LFGSearchStatusIndividualRoleDisplayHealer1Texture:SetTexture([[Interface\Icons\SPELL_NATURE_HEALINGTOUCH]])
+	LFGSearchStatusIndividualRoleDisplayDamage1Texture:SetTexture([[Interface\Icons\INV_Knife_1H_Common_B_01]])
+	LFGSearchStatusIndividualRoleDisplayDamage2Texture:SetTexture([[Interface\Icons\INV_Knife_1H_Common_B_01]])
+	LFGSearchStatusIndividualRoleDisplayDamage3Texture:SetTexture([[Interface\Icons\INV_Knife_1H_Common_B_01]])
 
 	local lfgSearchStatusGroupedIcons = {
 		"LFGSearchStatusGroupedRoleDisplayTank",
@@ -610,9 +612,9 @@ local function SkinSearchStatus()
 		_G[lfgSearchStatusGroupedIcons[i]].texture:SetInside(_G[lfgSearchStatusGroupedIcons[i]].backdrop)
 	end
 
-	LFGSearchStatusGroupedRoleDisplayTankTexture:SetTexture("Interface\\Icons\\Ability_Defend")
-	LFGSearchStatusGroupedRoleDisplayHealerTexture:SetTexture("Interface\\Icons\\SPELL_NATURE_HEALINGTOUCH")
-	LFGSearchStatusGroupedRoleDisplayDamageTexture:SetTexture("Interface\\Icons\\INV_Knife_1H_Common_B_01")
+	LFGSearchStatusGroupedRoleDisplayTankTexture:SetTexture([[Interface\Icons\Ability_Defend]])
+	LFGSearchStatusGroupedRoleDisplayHealerTexture:SetTexture([[Interface\Icons\SPELL_NATURE_HEALINGTOUCH]])
+	LFGSearchStatusGroupedRoleDisplayDamageTexture:SetTexture([[Interface\Icons\INV_Knife_1H_Common_B_01]])
 
 	hooksecurefunc("LFGSearchStatus_UpdateRoles", function()
 		local _, tank, healer, damage = GetLFGRoles()

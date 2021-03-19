@@ -179,6 +179,11 @@ E.Options.args.skins = {
 					name = L["INSPECT"],
 					desc = L["TOGGLESKIN_DESC"]
 				},
+				itemText = {
+					type = "toggle",
+					name = L["Item Text Frame"],
+					desc = L["TOGGLESKIN_DESC"]
+				},
 				lfguild = {
 					type = "toggle",
 					name = L["LF Guild Frame"],

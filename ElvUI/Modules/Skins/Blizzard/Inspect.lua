@@ -23,7 +23,7 @@ local function LoadSkin()
 	InspectModelFrame:StripTextures()
 	InspectModelFrame:CreateBackdrop("Transparent")
 
-	--Re-add the overlay texture which was removed via StripTextures
+	-- Re-add the overlay texture which was removed via StripTextures
 	InspectModelFrameBackgroundOverlay:SetTexture(0, 0, 0)
 
 	-- Give inspect frame model backdrop it's color back
@@ -155,8 +155,8 @@ local function LoadSkin()
 
 	InspectTalentFrame.bg = CreateFrame("Frame", nil, InspectTalentFrame)
 	InspectTalentFrame.bg:SetTemplate()
-	InspectTalentFrame.bg:Point("TOPLEFT", InspectTalentFrameBackgroundTopLeft, "TOPLEFT", 0, 0)
-	InspectTalentFrame.bg:Point("BOTTOMRIGHT", InspectTalentFrameBackgroundBottomRight, "BOTTOMRIGHT", -21, 53)
+	InspectTalentFrame.bg:Point("TOPLEFT", InspectTalentFrameBackgroundTopLeft, 0, 0)
+	InspectTalentFrame.bg:Point("BOTTOMRIGHT", InspectTalentFrameBackgroundBottomRight, -21, 53)
 	InspectTalentFrame.bg:SetBackdropColor(0, 0, 0, 0)
 	InspectTalentFrame.bg.backdropTexture:SetAlpha(0)
 
@@ -167,9 +167,10 @@ local function LoadSkin()
 
 	for i = 1, MAX_NUM_TALENTS do
 		local button = _G["InspectTalentFrameTalent"..i]
-		local icon = _G["InspectTalentFrameTalent"..i.."IconTexture"]
 
 		if button then
+			local icon = _G["InspectTalentFrameTalent"..i.."IconTexture"]
+
 			button:StripTextures()
 			button:StyleButton()
 			button:SetTemplate()

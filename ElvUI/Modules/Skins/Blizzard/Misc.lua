@@ -2,7 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
 local _G = _G
-local unpack = unpack
+local pairs, unpack = pairs, unpack
 
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.misc then return end
@@ -34,15 +34,12 @@ local function LoadSkin()
 
 	-- Static Popups
 	for i = 1, 4 do
-		local staticPopup = _G["StaticPopup"..i]
 		local itemFrame = _G["StaticPopup"..i.."ItemFrame"]
 		local itemFrameBox = _G["StaticPopup"..i.."EditBox"]
 		local itemFrameTexture = _G["StaticPopup"..i.."ItemFrameIconTexture"]
-		local itemFrameNormal = _G["StaticPopup"..i.."ItemFrameNormalTexture"]
-		local itemFrameName = _G["StaticPopup"..i.."ItemFrameNameFrame"]
 		local closeButton = _G["StaticPopup"..i.."CloseButton"]
 
-		staticPopup:SetTemplate("Transparent")
+		_G["StaticPopup"..i]:SetTemplate("Transparent")
 
 		S:HandleEditBox(itemFrameBox)
 		itemFrameBox.backdrop:Point("TOPLEFT", -2, -4)
@@ -73,9 +70,8 @@ local function LoadSkin()
 		itemFrameTexture:SetTexCoord(unpack(E.TexCoords))
 		itemFrameTexture:SetInside()
 
-		itemFrameNormal:SetAlpha(0)
-
-		itemFrameName:Kill()
+		_G["StaticPopup"..i.."ItemFrameNormalTexture"]:SetAlpha(0)
+		_G["StaticPopup"..i.."ItemFrameNameFrame"]:Kill()
 
 		for j = 1, 3 do
 			S:HandleButton(_G["StaticPopup"..i.."Button"..j])
@@ -108,7 +104,7 @@ local function LoadSkin()
 	StreamingIcon:ClearAllPoints()
 	StreamingIcon:Point("TOP", UIParent, "TOP", 0, -100)
 
-	if GetLocale() == "koKR" then
+	if E.locale == "koKR" then
 		RatingMenuFrame:SetTemplate("Transparent")
 		RatingMenuFrameHeader:Kill()
 		S:HandleButton(RatingMenuButtonOkay)
@@ -171,7 +167,7 @@ local function LoadSkin()
 	S:HandleSliderFrame(OpacityFrameSlider)
 
 	-- Declension frame
-	if GetLocale() == "ruRU" then
+	if E.locale == "ruRU" then
 		DeclensionFrame:SetTemplate("Transparent")
 
 		S:HandleNextPrevButton(DeclensionFrameSetPrev)
@@ -262,8 +258,7 @@ local function LoadSkin()
 
 	-- Dropdown Menu
 	hooksecurefunc("UIDropDownMenu_CreateFrames", function(level, index)
-		local listFrame = _G["DropDownList"..level]
-		local listFrameName = listFrame:GetName()
+		local listFrameName = _G["DropDownList"..level]:GetName()
 		local expandArrow = _G[listFrameName.."Button"..index.."ExpandArrow"]
 
 		if expandArrow then
@@ -316,7 +311,7 @@ local function LoadSkin()
 								check:SetTexture(E.media.normTex)
 								check:SetVertexColor(r, g, b)
 								check:Point("LEFT", 1, 0)
-								check:Size(12)
+								check:Size(E.PixelMode and 12 or 8)
 
 								button.check = check
 								hooksecurefunc(button, "Show", dropDownButtonShow)

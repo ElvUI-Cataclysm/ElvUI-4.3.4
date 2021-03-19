@@ -42,7 +42,7 @@ local function LoadSkin()
 	S:HandleCloseButton(SideDressUpModelCloseButton)
 	SideDressUpModelCloseButton:Point("CENTER", SideDressUpFrame, "TOPRIGHT", -18, -2)
 
-	--Model Backgrounds
+	-- Model Backgrounds
 	SetDressUpBackground()
 
 	DressUpBackgroundTopLeft:SetDesaturated(true)

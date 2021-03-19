@@ -11,9 +11,6 @@ local function LoadSkin()
 	S:HandleCloseButton(ItemRefCloseButton)
 
 	-- Skin Blizzard Tooltips
-	local GameTooltip = _G["GameTooltip"]
-	local GameTooltipStatusBar = _G["GameTooltipStatusBar"]
-
 	local tooltips = {
 		GameTooltip,
 		ItemRefTooltip,

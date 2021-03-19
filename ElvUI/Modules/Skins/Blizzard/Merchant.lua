@@ -26,6 +26,9 @@ local function LoadSkin()
 		end
 	end)
 
+	S:SetUIPanelWindowInfo(MerchantFrame, "width")
+	S:SetBackdropHitRect(MerchantFrame)
+
 	S:HandleCloseButton(MerchantFrameCloseButton, MerchantFrame.backdrop)
 
 	for i = 1, 12 do

@@ -116,6 +116,12 @@ function S:Ace3_EditBoxSetPoint(a, b, c, d, e)
 	if d == 7 then self:Point(a, b, c, 0, e) end
 end
 
+function S:Ace3_TabSetPoint(a, b, c, d, e, f)
+	if f ~= "ignore" and a == "TOPLEFT" then
+		self:SetPoint(a, b, c, d, e + 2, "ignore")
+	end
+end
+
 function S:Ace3_TabSetSelected(selected)
 	local bd = self.backdrop
 	if not bd then return end
@@ -273,10 +279,11 @@ function S:Ace3_RegisterAsWidget(widget)
 	elseif TYPE == "EditBox" then
 		local frame = widget.editbox
 		local button = widget.button
+		local frameName = frame:GetName()
 
-		_G[frame:GetName().."Left"]:Kill()
-		_G[frame:GetName().."Middle"]:Kill()
-		_G[frame:GetName().."Right"]:Kill()
+		_G[frameName.."Left"]:Kill()
+		_G[frameName.."Middle"]:Kill()
+		_G[frameName.."Right"]:Kill()
 
 		frame:Height(17)
 		frame:CreateBackdrop()
@@ -307,9 +314,9 @@ function S:Ace3_RegisterAsWidget(widget)
 		frame:StripTextures()
 		frame:SetTemplate()
 		frame:Height(HEIGHT)
+		frame:SetThumbTexture(E.Media.Textures.Melli)
 
 		local thumbTex = frame:GetThumbTexture()
-		frame:SetThumbTexture(E.Media.Textures.Melli)
 		thumbTex:SetVertexColor(1, 0.82, 0, 0.8)
 		thumbTex:Size(HEIGHT - 2, HEIGHT - 2)
 
@@ -494,6 +501,9 @@ function S:Ace3_RegisterAsContainer(widget)
 				tab.backdrop:Point("TOPLEFT", 10, -3)
 				tab.backdrop:Point("BOTTOMRIGHT", -10, 0)
 
+				if not E.PixelMode then
+					hooksecurefunc(tab, "SetPoint", S.Ace3_TabSetPoint)
+				end
 				hooksecurefunc(tab, "SetSelected", S.Ace3_TabSetSelected)
 
 				return tab
@@ -514,7 +524,7 @@ function S:Ace3_RegisterAsContainer(widget)
 		for i = 1, widget.sizer_se:GetNumRegions() do
 			local Region = select(i, widget.sizer_se:GetRegions())
 			if Region and Region:IsObjectType("Texture") then
-				Region:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
+				Region:SetTexture([[Interface\Tooltips\UI-Tooltip-Border]])
 			end
 		end
 	end

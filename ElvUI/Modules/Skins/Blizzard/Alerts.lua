@@ -119,7 +119,7 @@ local function LoadSkin()
 	DungeonCompletionAlertFrame1.instanceName.SetPoint = E.noop
 	DungeonCompletionAlertFrame1.instanceName:SetTextColor(1, 1, 1)
 
-	DungeonCompletionAlertFrame1.heroicIcon:SetTexture("Interface\\LFGFrame\\UI-LFG-ICON-HEROIC")
+	DungeonCompletionAlertFrame1.heroicIcon:SetTexture([[Interface\LFGFrame\UI-LFG-ICON-HEROIC]])
 
 	hooksecurefunc("DungeonCompletionAlertFrameReward_SetReward", function(frame, index)
 		SkinRewards(frame)

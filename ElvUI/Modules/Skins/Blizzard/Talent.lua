@@ -38,12 +38,11 @@ local function LoadSkin()
 	end
 
 	for i = 1, 3 do
-		local tab = _G["PlayerTalentFrameTab"..i]
 		local panel = _G["PlayerTalentFramePanel"..i]
 		local arrow = _G["PlayerTalentFramePanel"..i.."Arrow"]
 		local activeBonus = _G["PlayerTalentFramePanel"..i.."SummaryActiveBonus1"]
 
-		S:HandleTab(tab)
+		S:HandleTab(_G["PlayerTalentFrameTab"..i])
 
 		StripPanelTextures(panel)
 		panel:CreateBackdrop("Transparent")
@@ -152,10 +151,7 @@ local function LoadSkin()
 	end
 
 	for panel, talent in talentPairs() do
-		local button = _G["PlayerTalentFramePanel"..panel.."Talent"..talent]
-		local icon = _G["PlayerTalentFramePanel"..panel.."Talent"..talent.."IconTexture"]
-
-		SkinTalents(button, icon)
+		SkinTalents(_G["PlayerTalentFramePanel"..panel.."Talent"..talent], _G["PlayerTalentFramePanel"..panel.."Talent"..talent.."IconTexture"])
 	end
 
 	PlayerTalentFrameHeaderHelpBox:Kill()
@@ -171,10 +167,9 @@ local function LoadSkin()
 	PlayerTalentFramePetPanel:HookScript("OnShow", function()
 		for i = 1, GetNumTalents(1, false, true) do
 			local button = _G["PlayerTalentFramePetPanelTalent"..i]
-			local icon = _G["PlayerTalentFramePetPanelTalent"..i.."IconTexture"]
 
 			if not button.isSkinned then
-				SkinTalents(button, icon)
+				SkinTalents(button, _G["PlayerTalentFramePetPanelTalent"..i.."IconTexture"])
 
 				button.isSkinned = true
 			end
@@ -207,6 +202,7 @@ local function LoadSkin()
 	PlayerTalentFramePetDiet:CreateBackdrop()
 	PlayerTalentFramePetDiet:Point("TOPRIGHT", 2, -2)
 	PlayerTalentFramePetDiet:Size(40)
+	S:HandleFrameHighlight(PlayerTalentFramePetDiet, PlayerTalentFramePetDiet.backdrop)
 
 	PlayerTalentFramePetDiet.icon = PlayerTalentFramePetDiet:CreateTexture(nil, "ARTWORK")
 	PlayerTalentFramePetDiet.icon:SetTexture([[Interface\Icons\Ability_Hunter_BeastTraining]])
@@ -235,7 +231,6 @@ local function LoadSkin()
 	-- Side Tabs
 	for i = 1, 2 do
 		local tab = _G["PlayerSpecTab"..i]
-
 		tab:GetRegions():Hide()
 		tab:SetTemplate()
 		tab:StyleButton(nil, true)

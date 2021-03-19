@@ -6,11 +6,9 @@ local unpack, select = unpack, select
 
 local UnitName = UnitName
 local IsFishingLoot = IsFishingLoot
-local GetLootRollItemInfo = GetLootRollItemInfo
 local GetItemQualityColor = GetItemQualityColor
 local GetLootSlotInfo = GetLootSlotInfo
 local LOOTFRAME_NUMBUTTONS = LOOTFRAME_NUMBUTTONS
-local NUM_GROUP_LOOT_FRAMES = NUM_GROUP_LOOT_FRAMES
 local LOOT, ITEMS = LOOT, ITEMS
 
 local function LoadSkin()
@@ -74,7 +72,6 @@ local function LoadSkin()
 
 	for i = 1, LOOTFRAME_NUMBUTTONS do
 		local button = _G["LootButton"..i]
-		local nameFrame = _G["LootButton"..i.."NameFrame"]
 		local questTexture = _G["LootButton"..i.."IconQuestTexture"]
 
 		S:HandleItemButton(button, true)
@@ -90,7 +87,7 @@ local function LoadSkin()
 		questTexture:SetTexCoord(0, 1, 0, 1)
 		questTexture:SetInside()
 
-		nameFrame:Hide()
+		_G["LootButton"..i.."NameFrame"]:Hide()
 	end
 
 	local QuestColors = {
@@ -132,62 +129,4 @@ local function LoadSkin()
 	end)
 end
 
-local function LoadRollSkin()
-	if E.private.general.lootRoll then return end
-	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.lootRoll then return end
-
-	local function OnShow(self)
-		local cornerTexture = _G[self:GetName().."Corner"]
-		local iconFrame = _G[self:GetName().."IconFrame"]
-		local statusBar = _G[self:GetName().."Timer"]
-		local _, _, _, quality = GetLootRollItemInfo(self.rollID)
-
-		self:SetTemplate("Transparent")
-
-		cornerTexture:SetTexture()
-
-		iconFrame:SetBackdropBorderColor(GetItemQualityColor(quality))
-		statusBar:SetStatusBarColor(GetItemQualityColor(quality))
-	end
-
-	for i = 1, NUM_GROUP_LOOT_FRAMES do
-		local frame = _G["GroupLootFrame"..i]
-		frame:StripTextures()
-		frame:ClearAllPoints()
-
-		if i == 1 then
-			frame:Point("TOP", AlertFrameHolder, "BOTTOM", 0, -4)
-		else
-			frame:Point("TOP", _G["GroupLootFrame"..i - 1], "BOTTOM", 0, -4)
-		end
-
-		local frameName = frame:GetName()
-
-		local iconFrame = _G[frameName.."IconFrame"]
-		iconFrame:SetTemplate()
-		iconFrame:StyleButton()
-
-		local icon = _G[frameName.."IconFrameIcon"]
-		icon:SetInside()
-		icon:SetTexCoord(unpack(E.TexCoords))
-
-		local statusBar = _G[frameName.."Timer"]
-		statusBar:StripTextures()
-		statusBar:CreateBackdrop()
-		statusBar:SetStatusBarTexture(E.media.normTex)
-		E:RegisterStatusBar(statusBar)
-
-		local decoration = _G[frameName.."Decoration"]
-		decoration:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Gold-Dragon")
-		decoration:Size(130)
-		decoration:Point("TOPLEFT", -37, 20)
-
-		local pass = _G[frameName.."PassButton"]
-		S:HandleCloseButton(pass, frame)
-
-		_G["GroupLootFrame"..i]:HookScript("OnShow", OnShow)
-	end
-end
-
 S:AddCallback("Loot", LoadSkin)
-S:AddCallback("LootRoll", LoadRollSkin)

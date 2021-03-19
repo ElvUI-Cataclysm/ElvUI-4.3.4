@@ -14,10 +14,7 @@ local function LoadSkin()
 	SpellBookFrame:SetTemplate("Transparent")
 	SpellBookFrame:Width(460)
 
-	SpellBookFrameInset:StripTextures(true)
-	SpellBookSpellIconsFrame:StripTextures(true)
-	SpellBookSideTabsFrame:StripTextures(true)
-	SpellBookPageNavigationFrame:StripTextures(true)
+	SpellBookFrameInset:StripTextures()
 
 	SpellBookPageText:SetTextColor(1, 1, 1)
 	SpellBookPageText:Point("BOTTOMRIGHT", SpellBookFrame, -90, 15)
@@ -35,8 +32,6 @@ local function LoadSkin()
 	-- Spell Buttons
 	for i = 1, SPELLS_PER_PAGE do
 		local button = _G["SpellButton"..i]
-		local icon = _G["SpellButton"..i.."IconTexture"]
-		local cooldown = _G["SpellButton"..i.."Cooldown"]
 		local highlight = _G["SpellButton"..i.."Highlight"]
 
 		for j = 1, button:GetNumRegions() do
@@ -51,16 +46,13 @@ local function LoadSkin()
 		button:CreateBackdrop("Default", true)
 		button.backdrop:SetFrameLevel(button.backdrop:GetFrameLevel() - 1)
 
-		button.SpellSubName:SetTextColor(0.6, 0.6, 0.6)
-		button.RequiredLevelString:SetTextColor(0.6, 0.6, 0.6)
-
 		button.bg = CreateFrame("Frame", nil, button)
 		button.bg:CreateBackdrop("Transparent", true)
 		button.bg:Point("TOPLEFT", -7, 9)
 		button.bg:Point("BOTTOMRIGHT", 170, -10)
 		button.bg:SetFrameLevel(button.bg:GetFrameLevel() - 2)
 
-		icon:SetTexCoord(unpack(E.TexCoords))
+		_G["SpellButton"..i.."IconTexture"]:SetTexCoord(unpack(E.TexCoords))
 
 		highlight:SetAllPoints()
 		hooksecurefunc(highlight, "SetTexture", function(self, texture)
@@ -69,7 +61,7 @@ local function LoadSkin()
 			end
 		end)
 
-		E:RegisterCooldown(cooldown)
+		E:RegisterCooldown(_G["SpellButton"..i.."Cooldown"])
 
 		if i == 1 then
 			button:Point("TOPLEFT", SpellBookSpellIconsFrame, 15, -75)
@@ -78,14 +70,26 @@ local function LoadSkin()
 		elseif i == 3 or i == 5 or i == 7 or i == 9 or i == 11 then
 			button:Point("TOPLEFT", _G["SpellButton"..i - 2], "BOTTOMLEFT", 0, -27)
 		end
+
+		button.RequiredLevelString:SetTextColor(1, 1, 1)
+		button.SeeTrainerString:SetTextColor(1, 1, 1)
 	end
 
 	hooksecurefunc("SpellButton_UpdateButton", function(self)
-		local spellName = _G[self:GetName().."SpellName"]
-		local r = spellName:GetTextColor()
+		local slot, slotType = SpellBook_GetSpellBookSlot(self)
+		if not slot then return end
 
-		if r < 0.8 then
-			spellName:SetTextColor(0.6, 0.6, 0.6)
+		local _, subSpellName = GetSpellBookItemName(slot, SpellBookFrame.bookType)
+		if slotType == "FUTURESPELL" then
+			local level = GetSpellAvailableLevel(slot, SpellBookFrame.bookType)
+
+			self.SpellName:Point("LEFT", self, "RIGHT", (level and level > E.mylevel) and 8 or 24, subSpellName == "" and 10 or 12)
+			self.SpellName:SetTextColor(0.6, 0.6, 0.6)
+			self.SpellSubName:SetTextColor(0.6, 0.6, 0.6)
+		else
+			self.SpellName:Point("LEFT", self, "RIGHT", 8, subSpellName == "" and 1 or 5)
+			self.SpellName:SetTextColor(1, 0.8, 0.1)
+			self.SpellSubName:SetTextColor(1, 1, 1)
 		end
 	end)
 
@@ -195,9 +199,9 @@ local function LoadSkin()
 				button:SetFrameLevel(button:GetFrameLevel() + 2)
 
 				if numItems == 2 then
-					button:Point(j == 1 and "TOPLEFT" or "TOPRIGHT", j == 1 and item.button2 or item, j == 1 and "BOTTOMLEFT" or "TOPRIGHT", j == 1 and 135 or -235, j == 1 and 40 or -45)
+					button:Point(j == 1 and "TOPLEFT" or "TOPRIGHT", j == 1 and item.button2 or item, j == 1 and "BOTTOMLEFT" or "TOPRIGHT", j == 1 and 150 or -255, j == 1 and 40 or -45)
 				elseif numItems == 4 then
-					button:Point("TOPRIGHT", j == 1 and item or item.button1, j == 1 and "TOPRIGHT" or "TOPLEFT", j == 1 and -100 or -95, j == 1 and -10 or 0)
+					button:Point("TOPRIGHT", j == 1 and item or item.button1, j == 1 and "TOPRIGHT" or "TOPLEFT", j == 1 and -105 or -110, j == 1 and -10 or 0)
 				end
 
 				button:StyleButton(true)

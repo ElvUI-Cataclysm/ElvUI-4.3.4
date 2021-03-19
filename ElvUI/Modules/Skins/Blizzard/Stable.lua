@@ -19,6 +19,12 @@ local function LoadSkin()
 
 	PetStableLeftInset:StripTextures()
 
+	PetStableModel:CreateBackdrop("Transparent")
+
+	PetStableModelShadow:Kill()
+
+	PetStableFrameModelBg:Height(265)
+
 	PetStableNextPageButton:Hide()
 	PetStablePrevPageButton:Hide()
 
@@ -39,16 +45,11 @@ local function LoadSkin()
 	S:HandleFrameHighlight(PetStableDiet, PetStableDiet.backdrop)
 
 	PetStableDiet.icon = PetStableDiet:CreateTexture(nil, "ARTWORK")
-	PetStableDiet.icon:SetTexture("Interface\\Icons\\Ability_Hunter_BeastTraining")
+	PetStableDiet.icon:SetTexture([[Interface\Icons\Ability_Hunter_BeastTraining]])
 	PetStableDiet.icon:SetTexCoord(unpack(E.TexCoords))
 	PetStableDiet.icon:SetInside(PetStableDiet.backdrop)
 
 	PetStableTypeText:Point("BOTTOMRIGHT", -47, 2)
-
-	PetStableFrameModelBg:Height(265)
-
-	PetStableModelShadow:Kill()
-	PetStableModel:CreateBackdrop("Transparent")
 
 	PetStableBottomInset:StripTextures()
 	PetStableBottomInset:CreateBackdrop()
@@ -65,9 +66,8 @@ local function LoadSkin()
 		button:StripTextures()
 
 		if button.Checked then
-			button.Checked:SetTexture(unpack(E.media.rgbvaluecolor))
+			button.Checked:SetTexture(1, 1, 1, 0.3)
 			button.Checked:SetAllPoints(icon)
-			button.Checked:SetAlpha(0.3)
 		end
 
 		if highlight then
