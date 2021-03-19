@@ -336,25 +336,36 @@ E.Options.args.maps = {
 							disabled = function() return not E.private.general.minimap.enable end,
 							args = {
 								position = {
-									order = 2,
+									order = 1,
 									type = "select",
 									name = L["Position"],
 									values = positionValues
 								},
-								scale = {
+								texture = {
+									order = 2,
+									type = "select",
+									name = L["Texture"],
+									values = {}
+								},
+								spacer = {
 									order = 3,
+									type = "description",
+									name = ""
+								},
+								scale = {
+									order = 4,
 									type = "range",
 									name = L["Scale"],
 									min = 0.5, max = 2, step = 0.05
 								},
 								xOffset = {
-									order = 4,
+									order = 5,
 									type = "range",
 									name = L["X-Offset"],
 									min = -50, max = 50, step = 1
 								},
 								yOffset = {
-									order = 5,
+									order = 6,
 									type = "range",
 									name = L["Y-Offset"],
 									min = -50, max = 50, step = 1
@@ -503,3 +514,12 @@ E.Options.args.maps = {
 		}
 	}
 }
+
+do -- mail icons
+	local mail = {}
+	E.Options.args.maps.args.minimap.args.icons.args.mail.args.texture.values = mail
+
+	for key, icon in pairs(E.Media.MailIcons) do
+		mail[key] = E:TextureString(icon, ":14:14")
+	end
+end

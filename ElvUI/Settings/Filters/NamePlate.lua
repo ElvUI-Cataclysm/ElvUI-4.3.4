@@ -106,11 +106,18 @@ E.StyleFilterDefaults = {
 		},
 		instanceType = {
 			none = false,
-			sanctuary = false,
 			party = false,
 			raid = false,
 			arena = false,
 			pvp = false
+		},
+		location = {
+			mapIDEnabled = false,
+			mapIDs = {},
+			zoneNamesEnabled = false,
+			zoneNames = {},
+			subZoneNamesEnabled = false,
+			subZoneNames = {}
 		},
 		instanceDifficulty = {
 			dungeon = {
@@ -153,7 +160,8 @@ E.StyleFilterDefaults = {
 			u1 = true, u2 = true
 		},
 		inCombat = false,
-		outOfCombat = false
+		outOfCombat = false,
+		isResting = false
 	},
 	actions = {
 		color = {

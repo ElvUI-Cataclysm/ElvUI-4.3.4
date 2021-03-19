@@ -43,6 +43,8 @@ NP.VisiblePlates = {}
 NP.Healers = {}
 
 NP.GUIDList = {}
+NP.UnitByName = {}
+NP.NameByUnit = {}
 
 NP.ENEMY_PLAYER = {}
 NP.FRIENDLY_PLAYER = {}
@@ -61,11 +63,13 @@ NP.HealerSpecs = {
 }
 
 function NP:CheckBGHealers()
-	local name, _, talentSpec
+	local _, name, talentSpec
+
 	for i = 1, GetNumBattlefieldScores() do
 		name, _, _, _, _, _, _, _, _, _, _, _, _, _, _, talentSpec = GetBattlefieldScore(i)
 		if name then
 			name = match(name, "([^%-]+).*")
+
 			if name and self.HealerSpecs[talentSpec] then
 				self.Healers[name] = talentSpec
 			elseif name and self.Healers[name] then
@@ -137,7 +141,7 @@ function NP:StyleFrame(parent, noBackdrop, point)
 		point.backdrop:SetTexture(unpack(E.media.backdropfadecolor))
 	end
 
-	if E.PixelMode then
+	if NP.thinBorders then
 		point.bordertop = parent:CreateTexture()
 		point.bordertop:SetPoint("TOPLEFT", point, "TOPLEFT", -noscalemult, noscalemult)
 		point.bordertop:SetPoint("TOPRIGHT", point, "TOPRIGHT", noscalemult, noscalemult)
@@ -220,7 +224,7 @@ function NP:StyleFrameColor(frame, r, g, b)
 end
 
 function NP:GetUnitByName(frame, unitType)
-	local unit = self[unitType][frame.UnitName]
+	local unit = self.UnitByName[frame.UnitName] or self[unitType][frame.UnitName]
 
 	if unit then
 		return unit
@@ -349,7 +353,7 @@ function NP:OnShow(isConfig, dontHideHighlight)
 	local oldUnitType = frame.UnitType
 
 	frame.UnitType = unitType
-	frame.UnitName = gsub(frame.oldName:GetText(), FSPAT, "")
+	frame.UnitName = gsub(frame.oldName:GetText() or "", FSPAT, "")
 	frame.UnitReaction = reaction
 	frame.UnitClass = NP:UnitClass(frame, unitType)
 
@@ -548,22 +552,22 @@ end
 
 function NP:SetSize(frame)
 	if InCombatLockdown() then
-		self.ResizeQueue[frame] = true
+		NP.ResizeQueue[frame] = true
 	else
 		local unitType = frame.UnitFrame.UnitType
 		unitType = (unitType == "FRIENDLY_PLAYER" or unitType == "FRIENDLY_NPC") and "friendly" or "enemy"
 
-		if self.db.clickThrough[unitType] then
+		if NP.db.clickThrough[unitType] then
 			frame:SetSize(0.001, 0.001)
 		else
 			if unitType == "friendly" then
-				frame:SetSize(self.db.plateSize.friendlyWidth, self.db.plateSize.friendlyHeight)
+				frame:SetSize(NP.db.plateSize.friendlyWidth, NP.db.plateSize.friendlyHeight)
 			else
-				frame:SetSize(self.db.plateSize.enemyWidth, self.db.plateSize.enemyHeight)
+				frame:SetSize(NP.db.plateSize.enemyWidth, NP.db.plateSize.enemyHeight)
 			end
 		end
 
-		self.ResizeQueue[frame] = nil
+		NP.ResizeQueue[frame] = nil
 	end
 end
 
@@ -744,14 +748,11 @@ function NP:SetTargetFrame(frame)
 				self:RegisterEvents(frame)
 
 				self:UpdateElement_All(frame, true)
-
-				self:Configure_Glow(frame)
 			end
 
 			NP:PlateFade(frame, NP.db.fadeIn and 1 or 0, frame:GetAlpha(), 1)
 
 			self:Update_Highlight(frame)
-			self:Update_Glow(frame)
 			self:Update_CPoints(frame)
 			self:StyleFilterUpdate(frame, "PLAYER_TARGET_CHANGED")
 
@@ -776,8 +777,6 @@ function NP:SetTargetFrame(frame)
 
 		if not self.db.units[frame.UnitType].health.enable then
 			self:UpdateAllFrame(frame, nil, true)
-		else
-			self:Update_Glow(frame)
 		end
 
 		self:Update_CPoints(frame)
@@ -812,6 +811,9 @@ function NP:SetTargetFrame(frame)
 			self:StyleFilterUpdate(frame, "PLAYER_TARGET_CHANGED")
 		end
 	end
+
+	self:Configure_Glow(frame)
+	self:Update_Glow(frame)
 end
 
 function NP:SetMouseoverFrame(frame)
@@ -873,7 +875,7 @@ function NP:OnUpdate()
 		NP:SetMouseoverFrame(frame)
 		NP:SetTargetFrame(frame)
 
-       if frame.UnitReaction ~= NP:GetUnitInfo(frame) then
+		if frame.UnitReaction ~= NP:GetUnitInfo(frame) then
 			NP:UpdateAllFrame(frame, nil, true)
 		end
 
@@ -1004,6 +1006,36 @@ function NP:UPDATE_MOUSEOVER_UNIT()
 	end
 end
 
+function NP:PLAYER_FOCUS_CHANGED()
+	local unitName
+
+	if UnitIsPlayer("focus") and not UnitIsUnit("focus", "player") then
+		local name = UnitName("focus")
+		local guid = UnitGUID("focus")
+
+		self.UnitByName[name] = "focus"
+		self.NameByUnit.focus = name
+
+		if not self.GUIDList[guid] then
+			self.GUIDList[guid] = {name = name, unitType = self:GetUnitTypeFromUnit("focus")}
+		end
+
+		unitName = name
+	elseif self.NameByUnit.focus then
+		self.UnitByName[self.NameByUnit.focus] = nil
+		unitName = self.NameByUnit.focus
+		self.NameByUnit.focus = nil
+	end
+
+	if not unitName then return end
+
+	for frame in pairs(self.VisiblePlates) do
+		if frame.UnitName == unitName then
+			self:UpdateAllFrame(frame, nil, true)
+		end
+	end
+end
+
 function NP:UNIT_COMBO_POINTS(_, unit)
 	if unit == "player" or unit == "vehicle" then
 		self:ForEachVisiblePlate("Update_CPoints")
@@ -1060,6 +1092,26 @@ end
 function NP:UNIT_POWER(_, unit)
 	if unit ~= "player" then return end
 	NP:ForEachVisiblePlate("StyleFilterUpdate", "UNIT_POWER")
+end
+
+function NP:PLAYER_UPDATE_RESTING()
+	NP:ForEachVisiblePlate("StyleFilterUpdate", "PLAYER_UPDATE_RESTING")
+end
+
+function NP:LOADING_SCREEN_DISABLED()
+	NP:ForEachVisiblePlate("StyleFilterUpdate", "LOADING_SCREEN_DISABLED")
+end
+
+function NP:ZONE_CHANGED_NEW_AREA()
+	NP:ForEachVisiblePlate("StyleFilterUpdate", "ZONE_CHANGED_NEW_AREA")
+end
+
+function NP:ZONE_CHANGED_INDOORS()
+	NP:ForEachVisiblePlate("StyleFilterUpdate", "ZONE_CHANGED_INDOORS")
+end
+
+function NP:ZONE_CHANGED()
+	NP:ForEachVisiblePlate("StyleFilterUpdate", "ZONE_CHANGED")
 end
 
 function NP:RAID_TARGET_UPDATE()
@@ -1139,6 +1191,8 @@ function NP:Initialize()
 	if not E.private.nameplates.enable then return end
 	self.Initialized = true
 
+	self.thinBorders = NP.db.thinBorders
+
 	--Add metatable to all our StyleFilters so they can grab default values if missing
 	self:StyleFilterInitialize()
 
@@ -1156,12 +1210,18 @@ function NP:Initialize()
 	self:RegisterEvent("PLAYER_REGEN_DISABLED")
 	self:RegisterEvent("PLAYER_LOGOUT")
 	self:RegisterEvent("PLAYER_TARGET_CHANGED")
+	self:RegisterEvent("PLAYER_FOCUS_CHANGED")
+	self:RegisterEvent("PLAYER_UPDATE_RESTING")
 	self:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 	self:RegisterEvent("UNIT_HEALTH")
 	self:RegisterEvent("UNIT_POWER")
 	self:RegisterEvent("UNIT_COMBO_POINTS")
 	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 	self:RegisterEvent("RAID_TARGET_UPDATE")
+	self:RegisterEvent("LOADING_SCREEN_DISABLED")
+	self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
+	self:RegisterEvent("ZONE_CHANGED_INDOORS")
+	self:RegisterEvent("ZONE_CHANGED")
 
 	-- Arena & Arena Pets
 	self:CacheArenaUnits()

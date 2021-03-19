@@ -5,10 +5,15 @@ local LSM = E.Libs.LSM
 local ipairs, next, pairs, select, tonumber, unpack, tostring = ipairs, next, pairs, select, tonumber, unpack, tostring
 local tinsert, sort, twipe = table.insert, table.sort, table.wipe
 
+local GetCurrentMapAreaID = GetCurrentMapAreaID
 local GetInstanceInfo = GetInstanceInfo
+local GetMapNameByID = GetMapNameByID
+local GetRealZoneText = GetRealZoneText
 local GetSpellCooldown = GetSpellCooldown
 local GetSpellInfo = GetSpellInfo
+local GetSubZoneText = GetSubZoneText
 local GetTime = GetTime
+local IsResting = IsResting
 local UnitAffectingCombat = UnitAffectingCombat
 local UnitHealth = UnitHealth
 local UnitHealthMax = UnitHealthMax
@@ -238,7 +243,7 @@ function NP:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderChan
 			end
 		end
 	end
-	if NameOnlyChanged then
+	if NameOnlyChanged and not frame.IconOnlyChanged then
 		frame.StyleChanged = true
 		frame.NameOnlyChanged = true
 		--hide the bars
@@ -251,9 +256,12 @@ function NP:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderChan
 		frame.Name:ClearAllPoints()
 		frame.Name:SetJustifyH("CENTER")
 		frame.Name:SetPoint("TOP", frame)
-		frame.Level:ClearAllPoints()
-		frame.Level:SetPoint("LEFT", frame.Name, "RIGHT")
-		frame.Level:SetJustifyH("LEFT")
+		if NP.db.units[frame.UnitType].level.enable then
+			frame.Level:ClearAllPoints()
+			frame.Level:SetPoint("LEFT", frame.Name, "RIGHT")
+			frame.Level:SetJustifyH("LEFT")
+			frame.Level:SetFormattedText(" [%s]", NP:UnitLevel(frame))
+		end
 		if not NameColorChanged then
 			NP:Update_Name(frame, true)
 		end
@@ -270,12 +278,12 @@ function NP:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderChan
 		NP:Update_IconFrame(frame, true)
 		if frame.CastBar:IsShown() then frame.CastBar:Hide() end
 		if frame.Health:IsShown() then frame.Health:Hide() end
-		frame.Level:Hide()
-		frame.Name:Hide()
+		if frame.Title then frame.Title:Hide() end -- Temporary solution (enhanced plugin)
+		frame.Level:SetText()
+		frame.Name:SetText()
 		NP:Configure_Glow(frame)
 		NP:Update_Glow(frame)
 		NP:Update_RaidIcon(frame)
-		NP:Configure_IconOnlyGlow(frame)
 		NP:Configure_NameOnlyGlow(frame)
 	end
 end
@@ -339,13 +347,16 @@ function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, Fl
 			NP:Configure_Glow(frame)
 			NP:Update_Glow(frame)
 		end
+		frame.Name:ClearAllPoints()
+		frame.Level:ClearAllPoints()
 		if NP.db.units[frame.UnitType].name.enable then
-			frame.Name:ClearAllPoints()
-			frame.Level:ClearAllPoints()
-			NP:Update_Level(frame)
 			NP:Update_Name(frame)
+			frame.Name:SetTextColor(frame.Name.r, frame.Name.g, frame.Name.b)
 		else
 			frame.Name:SetText()
+		end
+		if NP.db.units[frame.UnitType].level.enable then
+			NP:Update_Level(frame)
 		end
 	end
 	if IconChanged then
@@ -363,18 +374,18 @@ function NP:StyleFilterClearChanges(frame, HealthColorChanged, BorderChanged, Fl
 			NP:Configure_Glow(frame)
 			NP:Update_Glow(frame)
 		end
+		frame.Name:ClearAllPoints()
+		frame.Level:ClearAllPoints()
 		if NP.db.units[frame.UnitType].name.enable then
-			frame.Name:Show()
-			frame.Level:Show()
-			frame.Name:ClearAllPoints()
-			frame.Level:ClearAllPoints()
-			NP:Update_Level(frame)
 			NP:Update_Name(frame)
+			frame.Name:SetTextColor(frame.Name.r, frame.Name.g, frame.Name.b)
 		else
 			frame.Name:SetText()
 		end
+		if NP.db.units[frame.UnitType].level.enable then
+			NP:Update_Level(frame)
+		end
 		NP:Update_RaidIcon(frame)
-		NP:Configure_IconOnlyGlow(frame)
 		NP:Configure_NameOnlyGlow(frame)
 	end
 end
@@ -436,6 +447,7 @@ function NP:StyleFilterConditionCheck(frame, filter, trigger)
 	-- Instance Type
 	if trigger.instanceType.none or trigger.instanceType.party or trigger.instanceType.raid or trigger.instanceType.arena or trigger.instanceType.pvp then
 		local _, instanceType, difficultyID = GetInstanceInfo()
+
 		if trigger.instanceType[instanceType] then
 			passed = true
 
@@ -447,8 +459,23 @@ function NP:StyleFilterConditionCheck(frame, filter, trigger)
 				end
 			end
 		else return end
-	elseif trigger.instanceType.sanctuary then
-		if UnitIsPVPSanctuary("player") then passed = true else return end
+	end
+
+	-- Location
+	if trigger.location.mapIDEnabled or trigger.location.zoneNamesEnabled or trigger.location.subZoneNamesEnabled then
+		if trigger.location.mapIDEnabled and next(trigger.location.mapIDs) then
+			local mapID = GetCurrentMapAreaID()
+			local mapName = GetMapNameByID(mapID)
+			if (mapID and trigger.location.mapIDs[tostring(mapID)]) or trigger.location.mapIDs[mapName] then passed = true else return end
+		end
+		if trigger.location.zoneNamesEnabled and next(trigger.location.zoneNames) then
+			local realZoneText = GetRealZoneText()
+			if trigger.location.zoneNames[realZoneText] then passed = true else return end
+		end
+		if trigger.location.subZoneNamesEnabled and next(trigger.location.subZoneNames) then
+			local subZoneText = GetSubZoneText()
+			if trigger.location.subZoneNames[subZoneText] then passed = true else return end
+		end
 	end
 
 	-- Level
@@ -461,6 +488,11 @@ function NP:StyleFilterConditionCheck(frame, filter, trigger)
 		local maxLevel = (trigger.maxlevel and trigger.maxlevel ~= 0 and (trigger.maxlevel >= level))
 		local matchMyLevel = trigger.mylevel and (level == myLevel)
 		if curLevel or minLevel or maxLevel or matchMyLevel then passed = true else return end
+	end
+
+	-- Resting
+	if trigger.isResting then
+		if IsResting() then passed = true else return end
 	end
 
 	-- Unit Type
@@ -505,8 +537,11 @@ function NP:StyleFilterConditionCheck(frame, filter, trigger)
 
 		-- Interruptible
 		if c.interruptible or c.notInterruptible then
-			if (b.casting or b.channeling) and ((c.interruptible and not b.notInterruptible)
-			or (c.notInterruptible and b.notInterruptible)) then passed = true else return end
+			if (b.casting or b.channeling) and ((c.interruptible and not b.notInterruptible) or (c.notInterruptible and b.notInterruptible)) then
+				passed = true
+			else
+				return
+			end
 		end
 	end
 
@@ -661,6 +696,21 @@ function NP:StyleFilterConfigure()
 				if t.inCombat or t.outOfCombat then
 					NP.StyleFilterTriggerEvents.PLAYER_REGEN_DISABLED = true
 					NP.StyleFilterTriggerEvents.PLAYER_REGEN_ENABLED = true
+				end
+
+				if t.location then
+					if (t.location.mapIDEnabled and next(t.location.mapIDs))
+					or (t.location.zoneNamesEnabled and next(t.location.zoneNames))
+					or (t.location.subZoneNamesEnabled and next(t.location.subZoneNames)) then
+						NP.StyleFilterTriggerEvents.LOADING_SCREEN_DISABLED = 1
+						NP.StyleFilterTriggerEvents.ZONE_CHANGED_NEW_AREA = 1
+						NP.StyleFilterTriggerEvents.ZONE_CHANGED_INDOORS = 1
+						NP.StyleFilterTriggerEvents.ZONE_CHANGED = 1
+					end
+				end
+
+				if t.isResting then
+					NP.StyleFilterTriggerEvents.PLAYER_UPDATE_RESTING = 1
 				end
 
 				if t.cooldowns and t.cooldowns.names and next(t.cooldowns.names) then

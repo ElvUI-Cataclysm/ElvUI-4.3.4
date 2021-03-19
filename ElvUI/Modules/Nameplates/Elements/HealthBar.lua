@@ -143,6 +143,7 @@ end
 
 function NP:Configure_HealthBarScale(frame, scale, noPlayAnimation)
 	local db = NP.db.units[frame.UnitType].health
+	if not db then return end
 
 	if noPlayAnimation then
 		frame.Health:SetWidth(db.width * scale)

@@ -72,7 +72,8 @@ P.general = {
 				scale = 1,
 				position = "TOPRIGHT",
 				xOffset = 3,
-				yOffset = 4
+				yOffset = 4,
+				texture = "Mail0"
 			},
 			lfgEye = {
 				scale = 1,
@@ -170,9 +171,11 @@ P.databars = {
 P.bags = {
 	sortInverted = true,
 	bagSize = 34,
-	bankSize = 34,
 	bagWidth = 406,
+	bagButtonSpacing = 1,
+	bankSize = 34,
 	bankWidth = 406,
+	bankButtonSpacing = 1,
 	currencyFormat = "ICON_TEXT_ABBR",
 	moneyFormat = "SMART",
 	moneyCoins = true,
@@ -227,6 +230,7 @@ P.bags = {
 	},
 	split = {
 		bagSpacing = 5,
+		bankSpacing = 5,
 		player = false,
 		bank = false,
 		bag1 = false,
@@ -280,6 +284,7 @@ P.bags = {
 		showBackdrop = false,
 		mouseover = false,
 		transparent = false,
+		justBackpack = false,
 		visibility = ""
 	}
 }
@@ -292,8 +297,13 @@ P.nameplates = {
 	fontOutline = "OUTLINE",
 	useTargetScale = true,
 	targetScale = 1.15,
+	arrow = "Arrow9",
+	arrowSize = 50,
+	arrowSpacing = 3,
 	smoothbars = false,
+	thinBorders = true,
 	fadeIn = false,
+	glowStyle = "style4",
 	nameColoredGlow = false,
 	alwaysShowTargetHealth = true,
 	nonTargetTransparency = 0.40,
@@ -307,13 +317,13 @@ P.nameplates = {
 	highlight = true,
 	clickThrough = {
 		friendly = false,
-		enemy = false,
+		enemy = false
 	},
 	plateSize ={
 		friendlyWidth = 150,
 		friendlyHeight = 30,
 		enemyWidth = 150,
-		enemyHeight = 30,
+		enemyHeight = 30
 	},
 	colors = {
 		glowColor = {r = 1, g = 1, b = 1, a = 1},
@@ -374,16 +384,11 @@ P.nameplates = {
 		ElvUI_Totem = {triggers = {enable = true}}
 	},
 	units = {
-		TARGET = {
-			enable = true,
-			glowStyle = "style4"
-		},
 		FRIENDLY_PLAYER = {
 			health = {
 				enable = false,
 				height = 10,
 				width = 150,
-				glowStyle = "TARGET_THREAT",
 				text = {
 					enable = false,
 					format = "CURRENT",
@@ -510,7 +515,6 @@ P.nameplates = {
 				enable = true,
 				height = 10,
 				width = 150,
-				glowStyle = "TARGET_THREAT",
 				text = {
 					enable = false,
 					format = "CURRENT",
@@ -561,6 +565,7 @@ P.nameplates = {
 			},
 			comboPoints = {
 				enable = true,
+				hideEmpty = true,
 				width = 10,
 				height = 5,
 				spacing = 5,
@@ -645,7 +650,6 @@ P.nameplates = {
 				enable = false,
 				height = 10,
 				width = 150,
-				glowStyle = "TARGET_THREAT",
 				text = {
 					enable = false,
 					format = "CURRENT",
@@ -786,7 +790,6 @@ P.nameplates = {
 				enable = true,
 				height = 10,
 				width = 150,
-				glowStyle = "TARGET_THREAT",
 				text = {
 					enable = false,
 					format = "CURRENT",
@@ -836,6 +839,7 @@ P.nameplates = {
 			},
 			comboPoints = {
 				enable = true,
+				hideEmpty = true,
 				width = 10,
 				height = 5,
 				spacing = 5,
