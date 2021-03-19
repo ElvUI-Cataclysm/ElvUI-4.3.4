@@ -20,7 +20,7 @@ end
 function AB:Extra_SetAlpha()
 	if not E.private.actionbar.enable then return end
 
-	local alpha = E.db.actionbar.extraActionButton.alpha
+	local alpha = AB.db.extraActionButton.alpha
 	for i = 1, ExtraActionBarFrame:GetNumChildren() do
 		local button = _G["ExtraActionButton"..i]
 		if button then
@@ -32,10 +32,29 @@ end
 function AB:Extra_SetScale()
 	if not E.private.actionbar.enable then return end
 
-	local scale = E.db.actionbar.extraActionButton.scale
+	local scale = AB.db.extraActionButton.scale
 	if ExtraActionBarFrame then
 		ExtraActionBarFrame:SetScale(scale)
 		ExtraActionBarHolder:Size(ExtraActionBarFrame:GetWidth() * scale)
+	end
+end
+
+function AB:UpdateExtraBindings()
+	local color = AB.db.fontColor
+
+	for i = 1, ExtraActionBarFrame:GetNumChildren() do
+		local button = _G["ExtraActionButton"..i]
+		if button then
+			local hotKey = _G["ExtraActionButton"..i.."HotKey"]
+
+			if AB.db.hotkeytext and not AB.db.extraActionButton.hideHotkey then
+				hotKey:Show()
+				hotKey:SetTextColor(color.r, color.g, color.b)
+				AB:FixKeybindText(button)
+			else
+				hotKey:Hide()
+			end
+		end
 	end
 end
 
@@ -53,7 +72,7 @@ function AB:SetupExtraButton()
 		local button = _G["ExtraActionButton"..i]
 
 		if button then
-			self:StyleButton(button, true)
+			AB:StyleButton(button, true)
 			button:SetTemplate()
 
 			button.noResize = true
@@ -61,6 +80,8 @@ function AB:SetupExtraButton()
 			button.checked = true
 
 			button.icon:SetDrawLayer("ARTWORK")
+
+			_G["ExtraActionButton"..i.."HotKey"].SetVertexColor = E.noop
 
 			if E.private.skins.cleanBossButton and button.style then -- Hide the Artwork
 				button.style:SetTexture()
@@ -90,4 +111,5 @@ function AB:SetupExtraButton()
 
 	AB:Extra_SetAlpha()
 	AB:Extra_SetScale()
+	AB:UpdateExtraBindings()
 end

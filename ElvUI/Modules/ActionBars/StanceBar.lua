@@ -111,11 +111,11 @@ function AB:StyleShapeShift()
 end
 
 function AB:PositionAndSizeBarShapeShift()
-	local buttonSpacing = E:Scale(self.db.stanceBar.buttonspacing)
-	local backdropSpacing = E:Scale((self.db.stanceBar.backdropSpacing or self.db.stanceBar.buttonspacing))
+	local buttonSpacing = E:Scale(self.db.stanceBar.buttonSpacing)
+	local backdropSpacing = E:Scale((self.db.stanceBar.backdropSpacing or self.db.stanceBar.buttonSpacing))
 	local buttonsPerRow = self.db.stanceBar.buttonsPerRow
 	local numButtons = self.db.stanceBar.buttons
-	local size = E:Scale(self.db.stanceBar.buttonsize)
+	local size = E:Scale(self.db.stanceBar.buttonSize)
 	local point = self.db.stanceBar.point
 	local widthMult = self.db.stanceBar.widthMult
 	local heightMult = self.db.stanceBar.heightMult
@@ -181,13 +181,11 @@ function AB:PositionAndSizeBarShapeShift()
 		horizontalGrowth = "LEFT"
 	end
 
-	if self.db.stanceBar.inheritGlobalFade then
-		bar:SetParent(self.fadeParent)
-	else
-		bar:SetParent(E.UIParent)
-	end
-
+	bar:SetParent(bar.db.inheritGlobalFade and self.fadeParent or E.UIParent)
 	bar:EnableMouse(not self.db.stanceBar.clickThrough)
+	bar:SetAlpha(bar.db.mouseover and 0 or bar.db.alpha)
+	bar:SetFrameStrata(bar.db.frameStrata or "LOW")
+	bar:SetFrameLevel(bar.db.frameLevel)
 
 	local button, lastButton, lastColumnButton
 	local firstButtonSpacing = (self.db.stanceBar.backdrop and (E.Border + backdropSpacing) or E.Spacing)
@@ -201,12 +199,6 @@ function AB:PositionAndSizeBarShapeShift()
 		button:ClearAllPoints()
 		button:Size(size)
 		button:EnableMouse(not self.db.stanceBar.clickThrough)
-
-		if self.db.stanceBar.mouseover then
-			bar:SetAlpha(0)
-		else
-			bar:SetAlpha(bar.db.alpha)
-		end
 
 		if i == 1 then
 			local x, y
@@ -313,20 +305,18 @@ function AB:AdjustMaxStanceButtons(event)
 end
 
 function AB:UpdateStanceBindings()
-	local button, hotKey, key, color
-
 	for i = 1, NUM_SHAPESHIFT_SLOTS do
-		button = _G["ElvUI_StanceBarButton"..i]
-		hotKey = _G["ElvUI_StanceBarButton"..i.."HotKey"]
+		local button = _G["ElvUI_StanceBarButton"..i]
+		local hotKey = _G["ElvUI_StanceBarButton"..i.."HotKey"]
 
-		if self.db.hotkeytext then
-			key = GetBindingKey("SHAPESHIFTBUTTON"..i)
-			color = self.db.fontColor
+		if AB.db.hotkeytext and not AB.db.stanceBar.hideHotkey then
+			local key = GetBindingKey("SHAPESHIFTBUTTON"..i)
+			local color = AB.db.fontColor
 
 			hotKey:Show()
 			hotKey:SetText(key)
 			hotKey:SetTextColor(color.r, color.g, color.b)
-			self:FixKeybindText(button)
+			AB:FixKeybindText(button)
 		else
 			hotKey:Hide()
 		end

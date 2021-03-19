@@ -1,5 +1,5 @@
 --[[
-Copyright (c) 2010-2015, Hendrik "nevcairiel" Leppkes <h.leppkes@gmail.com>
+Copyright (c) 2010-2020, Hendrik "nevcairiel" Leppkes <h.leppkes@gmail.com>
 
 All rights reserved.
 
@@ -117,6 +117,7 @@ local DefaultConfig = {
 	keyBoundTarget = false,
 	clickOnDown = false,
 	flyoutDirection = "UP",
+	handleOverlay = true
 }
 
 --- Create a new action button.
@@ -176,6 +177,7 @@ function lib:CreateButton(id, name, header, config)
 	-- adjust hotkey style for better readability
 	button.hotkey:SetFont(button.hotkey:GetFont(), 13, "OUTLINE")
 	button.hotkey:SetVertexColor(0.75, 0.75, 0.75)
+	button.hotkey:SetPoint("TOPLEFT", button, "TOPLEFT", -2, -4)
 
 	-- Store the button in the registry, needed for event and OnUpdate handling
 	if not next(ButtonRegistry) then
@@ -666,18 +668,18 @@ function InitializeEventHandler()
 	lib.eventFrame:RegisterEvent("PLAYER_TARGET_CHANGED")
 	lib.eventFrame:RegisterEvent("TRADE_SKILL_SHOW")
 	lib.eventFrame:RegisterEvent("TRADE_SKILL_CLOSE")
-	lib.eventFrame:RegisterEvent("ARCHAEOLOGY_CLOSED")
 	lib.eventFrame:RegisterEvent("PLAYER_ENTER_COMBAT")
 	lib.eventFrame:RegisterEvent("PLAYER_LEAVE_COMBAT")
 	lib.eventFrame:RegisterEvent("START_AUTOREPEAT_SPELL")
 	lib.eventFrame:RegisterEvent("STOP_AUTOREPEAT_SPELL")
-	lib.eventFrame:RegisterEvent("UNIT_ENTERED_VEHICLE")
-	lib.eventFrame:RegisterEvent("UNIT_EXITED_VEHICLE")
-	lib.eventFrame:RegisterEvent("COMPANION_UPDATE")
 	lib.eventFrame:RegisterEvent("UNIT_INVENTORY_CHANGED")
 	lib.eventFrame:RegisterEvent("LEARNED_SPELL_IN_TAB")
 	lib.eventFrame:RegisterEvent("PET_STABLE_UPDATE")
 	lib.eventFrame:RegisterEvent("PET_STABLE_SHOW")
+	lib.eventFrame:RegisterEvent("ARCHAEOLOGY_CLOSED")
+	lib.eventFrame:RegisterEvent("UNIT_ENTERED_VEHICLE")
+	lib.eventFrame:RegisterEvent("UNIT_EXITED_VEHICLE")
+	lib.eventFrame:RegisterEvent("COMPANION_UPDATE")
 	lib.eventFrame:RegisterEvent("SPELL_ACTIVATION_OVERLAY_GLOW_SHOW")
 	lib.eventFrame:RegisterEvent("SPELL_ACTIVATION_OVERLAY_GLOW_HIDE")
 
@@ -880,6 +882,7 @@ function UpdateRange(self, force) -- Sezz: moved from OnUpdate
 				hotkey:SetVertexColor(unpack(self.config.colors.usable))
 			end
 		end
+		lib.callbacks:Fire("OnUpdateRange", self)
 	end
 end
 
@@ -952,13 +955,13 @@ end
 --- button management
 
 function Generic:UpdateAction(force)
-	local type, action = self:GetAction()
-	if force or (type ~= self._state_type) or (action ~= self._state_action) then
+	local action_type, action = self:GetAction()
+	if force or (action_type ~= self._state_type) or (action ~= self._state_action) then
 		-- type changed, update the metatable
-		if force or (self._state_type ~= type) then
-			local meta = type_meta_map[type] or type_meta_map.empty
+		if force or (self._state_type ~= action_type) then
+			local meta = type_meta_map[action_type] or type_meta_map.empty
 			setmetatable(self, meta)
-			self._state_type = type
+			self._state_type = action_type
 		end
 		self._state_action = action
 		Update(self)
@@ -1078,13 +1081,10 @@ function UpdateUsable(self)
 			local isUsable, notEnoughMana = self:IsUsable()
 			if isUsable then
 				self.icon:SetVertexColor(unpack(self.config.colors.usable))
-				--self.normalTexture:SetVertexColor(1.0, 1.0, 1.0)
 			elseif notEnoughMana then
 				self.icon:SetVertexColor(unpack(self.config.colors.mana))
-				--self.normalTexture:SetVertexColor(0.5, 0.5, 1.0)
 			else
 				self.icon:SetVertexColor(unpack(self.config.colors.notUsable))
-				--self.normalTexture:SetVertexColor(1.0, 1.0, 1.0)
 			end
 		end
 	else
@@ -1155,11 +1155,9 @@ function UpdateHotkeys(self)
 	local key = self:GetHotkey()
 	if not key or key == "" or self.config.hideElements.hotkey then
 		self.hotkey:SetText(RANGE_INDICATOR)
-		self.hotkey:SetPoint("TOPRIGHT", 0, -3)
 		self.hotkey:Hide()
 	else
 		self.hotkey:SetText(key)
-		self.hotkey:SetPoint("TOPRIGHT", 0, -3)
 		self.hotkey:Show()
 	end
 
@@ -1187,6 +1185,8 @@ function GetOverlayGlow()
 end
 
 function ShowOverlayGlow(self)
+	if not self.config.handleOverlay then return end
+
 	if self.overlay then
 		if self.overlay.animOut:IsPlaying() then
 			self.overlay.animOut:Stop()
@@ -1227,7 +1227,7 @@ function OverlayGlowAnimOutFinished(animGroup)
 end
 
 function UpdateOverlayGlow(self)
-	local spellId = self:GetSpellId()
+	local spellId = self.config.handleOverlay and self:GetSpellId()
 	if spellId and IsSpellOverlayed(spellId) then
 		ShowOverlayGlow(self)
 	else

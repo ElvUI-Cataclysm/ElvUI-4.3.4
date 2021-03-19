@@ -73,7 +73,7 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(frame, type, parent)
 	frame.top:SetTexture(nil)
 	frame.middle:SetTexture(nil)
 
-	local size = AB.db.barTotem.buttonsize
+	local size = AB.db.barTotem.buttonSize
 	local flyoutDirection = AB.db.barTotem.flyoutDirection
 	local flyoutSpacing = AB.db.barTotem.flyoutSpacing
 	local color = SLOT_BORDER_COLORS[parent:GetID()]
@@ -81,7 +81,7 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(frame, type, parent)
 
 	for i, button in ipairs(frame.buttons) do
 		if not button.isSkinned then
-			button:SetTemplate("Default")
+			button:SetTemplate()
 			button:StyleButton()
 
 			AB:HookScript(button, "OnEnter", "TotemOnEnter")
@@ -102,17 +102,9 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(frame, type, parent)
 			button:ClearAllPoints()
 
 			if flyoutDirection == "UP" then
-				if i == 1 then
-					button:Point("BOTTOM", parent, "TOP", 0, flyoutSpacing)
-				else
-					button:Point("BOTTOM", frame.buttons[i - 1], "TOP", 0, flyoutSpacing)
-				end
+				button:Point("BOTTOM", i == 1 and parent or frame.buttons[i - 1], "TOP", 0, flyoutSpacing)
 			elseif flyoutDirection == "DOWN" then
-				if i == 1 then
-					button:Point("TOP", parent, "BOTTOM", 0, -flyoutSpacing)
-				else
-					button:Point("TOP", frame.buttons[i - 1], "BOTTOM", 0, -flyoutSpacing)
-				end
+				button:Point("TOP", i == 1 and parent or frame.buttons[i - 1], "BOTTOM", 0, -flyoutSpacing)
 			end
 
 			if type == "page" then
@@ -180,8 +172,8 @@ function AB:PositionAndSizeBarTotem()
 	bar.db = self.db.barTotem
 	bar.mouseover = bar.db.mouseover
 
-	local buttonSpacing = E:Scale(bar.db.buttonspacing)
-	local size = E:Scale(bar.db.buttonsize)
+	local buttonSpacing = E:Scale(bar.db.buttonSpacing)
+	local size = E:Scale(bar.db.buttonSize)
 	local numActiveSlots = MultiCastActionBarFrame.numActiveSlots
 	local width, height = (size * (2 + numActiveSlots)) + (buttonSpacing * (2 + numActiveSlots - 1)), size + 2
 
@@ -191,11 +183,9 @@ function AB:PositionAndSizeBarTotem()
 	MultiCastActionBarFrame:Width(width)
 	MultiCastActionBarFrame:Height(height)
 
-	if bar.mouseover then
-		bar:SetAlpha(0)
-	else
-		bar:SetAlpha(bar.db.alpha)
-	end
+	bar:SetAlpha(bar.mouseover and 0 or bar.db.alpha)
+	bar:SetFrameStrata(bar.db.frameStrata or "LOW")
+	bar:SetFrameLevel(bar.db.frameLevel)
 
 	local visibility = bar.db.visibility
 	if visibility and match(visibility, "[\n\r]") then
@@ -206,20 +196,14 @@ function AB:PositionAndSizeBarTotem()
 
 	MultiCastSummonSpellButton:ClearAllPoints()
 	MultiCastSummonSpellButton:Size(size)
-	MultiCastSummonSpellButton:Point("BOTTOMLEFT", E.Border*2, E.Border*2)
+	MultiCastSummonSpellButton:Point("BOTTOMLEFT", E.Border * 2, E.Border * 2)
 
 	for i = 1, numActiveSlots do
 		local button = _G["MultiCastSlotButton"..i]
-		local lastButton = _G["MultiCastSlotButton"..i - 1]
 
-		button:ClearAllPoints()
 		button:Size(size)
-
-		if i == 1 then
-			button:Point("LEFT", MultiCastSummonSpellButton, "RIGHT", buttonSpacing, 0)
-		else
-			button:Point("LEFT", lastButton, "RIGHT", buttonSpacing, 0)
-		end
+		button:ClearAllPoints()
+		button:Point("LEFT", i == 1 and MultiCastSummonSpellButton or _G["MultiCastSlotButton"..i - 1], "RIGHT", buttonSpacing, 0)
 	end
 
 	MultiCastRecallSpellButton:Size(size)
@@ -230,18 +214,23 @@ function AB:PositionAndSizeBarTotem()
 end
 
 function AB:UpdateTotemBindings()
+	local color = AB.db.fontColor
+	local alpha = AB.db.hotkeytext and not AB.db.barTotem.hideHotkey and 1 or 0
+
+	MultiCastSummonSpellButtonHotKey:SetTextColor(color.r, color.g, color.b, alpha)
 	MultiCastSummonSpellButtonHotKey:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
 	self:FixKeybindText(MultiCastSummonSpellButton)
 
+	MultiCastRecallSpellButtonHotKey:SetTextColor(color.r, color.g, color.b, alpha)
 	MultiCastRecallSpellButtonHotKey:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
 	self:FixKeybindText(MultiCastRecallSpellButton)
 
 	for i = 1, 12 do
-		local button = _G["MultiCastActionButton"..i]
 		local hotKey = _G["MultiCastActionButton"..i.."HotKey"]
 
+		hotKey:SetTextColor(color.r, color.g, color.b, alpha)
 		hotKey:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
-		self:FixKeybindText(button)
+		self:FixKeybindText(_G["MultiCastActionButton"..i])
 	end
 end
 
@@ -298,8 +287,6 @@ function AB:CreateTotemBar()
 	for _, frame in pairs({"MultiCastSummonSpellButton", "MultiCastRecallSpellButton"}) do
 		local button = _G[frame]
 		local icon = _G[frame.."Icon"]
-		local highlight = _G[frame.."Highlight"]
-		local normal = _G[frame.."NormalTexture"]
 
 		button:SetTemplate()
 		button:StyleButton()
@@ -308,17 +295,17 @@ function AB:CreateTotemBar()
 		icon:SetDrawLayer("ARTWORK")
 		icon:SetTexCoord(unpack(E.TexCoords))
 
-		normal:SetTexture(nil)
-		highlight:SetTexture(nil)
+		_G[frame.."NormalTexture"]:SetTexture(nil)
+		_G[frame.."Highlight"]:SetTexture(nil)
 
 		bar.buttons[button] = true
 	end
 
 	hooksecurefunc(MultiCastRecallSpellButton, "SetPoint", function(self, point, attachTo, anchorPoint, xOffset, yOffset)
-		if xOffset ~= AB.db.barTotem.buttonspacing then
+		if xOffset ~= AB.db.barTotem.buttonSpacing then
 			if InCombatLockdown() then AB.NeedRecallButtonUpdate = true AB:RegisterEvent("PLAYER_REGEN_ENABLED") return end
 
-			self:SetPoint(point, attachTo, anchorPoint, AB.db.barTotem.buttonspacing, yOffset)
+			self:SetPoint(point, attachTo, anchorPoint, AB.db.barTotem.buttonSpacing, yOffset)
 		end
 	end)
 
@@ -327,7 +314,7 @@ function AB:CreateTotemBar()
 		local button = _G["MultiCastSlotButton"..i]
 
 		button:StyleButton()
-		button:SetTemplate("Default")
+		button:SetTemplate()
 		button.ignoreUpdates = true
 
 		button.background:SetTexCoord(unpack(E.TexCoords))
@@ -342,7 +329,6 @@ function AB:CreateTotemBar()
 	-- Action Buttons
 	for i = 1, 12 do
 		local button = _G["MultiCastActionButton"..i]
-		local normal = _G["MultiCastActionButton"..i.."NormalTexture"]
 
 		button:StyleButton()
 
@@ -351,7 +337,14 @@ function AB:CreateTotemBar()
 		button.icon:SetInside()
 
 		button.overlayTex:SetTexture(nil)
-		normal:SetTexture(nil)
+		_G["MultiCastActionButton"..i.."NormalTexture"]:SetTexture(nil)
+
+		hooksecurefunc(_G["MultiCastActionButton"..i.."HotKey"], "SetVertexColor", function(key)
+			local color = AB.db.fontColor
+			local alpha = AB.db.hotkeytext and not AB.db.barTotem.hideHotkey and 1 or 0
+
+			key:SetTextColor(color.r, color.g, color.b, alpha)
+		end)
 
 --		E:RegisterCooldown(button.cooldown)
 

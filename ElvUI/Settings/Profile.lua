@@ -4864,6 +4864,7 @@ P.actionbar = {
 	notUsableColor = {r = 0.4, g = 0.4, b = 0.4},
 
 	flashAnimation = false,
+	handleOverlay = true,
 
 	cooldown = {
 		threshold = 4,
@@ -4898,29 +4899,23 @@ P.actionbar = {
 			fontSize = 18
 		}
 	},
-	microbar = {
-		enabled = false,
-		mouseover = false,
-		buttonsPerRow = 12,
-		buttonSize = 20,
-		buttonSpacing = 2,
-		alpha = 1,
-		visibility = "show"
-	},
 	barPet = {
 		enabled = true,
 		mouseover = false,
 		clickThrough = false,
+		hideHotkey = false,
 		buttons = NUM_PET_ACTION_SLOTS,
 		buttonsPerRow = 1,
 		point = "TOPRIGHT",
 		backdrop = true,
 		heightMult = 1,
 		widthMult = 1,
-		buttonsize = 32,
-		buttonspacing = 2,
+		buttonSize = 32,
+		buttonSpacing = 2,
 		backdropSpacing = 2,
 		alpha = 1,
+		frameStrata = "LOW",
+		frameLevel = 1,
 		inheritGlobalFade = false,
 		visibility = "[pet,novehicleui,nobonusbar:5] show;hide"
 	},
@@ -4929,39 +4924,58 @@ P.actionbar = {
 		style = "darkenInactive",
 		mouseover = false,
 		clickThrough = false,
+		hideHotkey = false,
 		buttonsPerRow = NUM_SHAPESHIFT_SLOTS,
 		buttons = NUM_SHAPESHIFT_SLOTS,
 		point = "TOPLEFT",
 		backdrop = false,
 		heightMult = 1,
 		widthMult = 1,
-		buttonsize = 32,
-		buttonspacing = 2,
+		buttonSize = 32,
+		buttonSpacing = 2,
 		backdropSpacing = 2,
 		alpha = 1,
+		frameStrata = "LOW",
+		frameLevel = 1,
 		inheritGlobalFade = false,
 		visibility = "[vehicleui] hide;show"
 	},
 	barTotem = {
 		enabled = true,
 		mouseover = false,
+		hideHotkey = false,
 		flyoutDirection = "UP",
-		buttonsize = 32,
-		buttonspacing = 2,
+		buttonSize = 32,
+		buttonSpacing = 2,
 		flyoutSpacing = 2,
 		alpha = 1,
+		frameStrata = "MEDIUM",
+		frameLevel = 1,
 		visibility = "[vehicleui] hide;show"
+	},
+	microbar = {
+		enabled = false,
+		mouseover = false,
+		buttonsPerRow = 12,
+		buttonSize = 20,
+		buttonSpacing = 2,
+		backdrop = false,
+		transparentBackdrop = false,
+		backdropSpacing = 2,
+		alpha = 1,
+		visibility = "show"
 	},
 	extraActionButton = {
 		alpha = 1,
 		scale = 1,
+		hideHotkey = false,
 		inheritGlobalFade = false
 	},
 	vehicleExitButton = {
 		enable = true,
 		size = 32,
-		level = 1,
-		strata = "MEDIUM"
+		frameStrata = "LOW",
+		frameLevel = 1
 	}
 }
 
@@ -4976,15 +4990,39 @@ for i = 1, 10 do
 		backdrop = false,
 		heightMult = 1,
 		widthMult = 1,
-		buttonsize = 32,
-		buttonspacing = 2,
+		buttonSize = 32,
+		buttonSpacing = 2,
 		backdropSpacing = 2,
 		alpha = 1,
+		frameStrata = "LOW",
+		frameLevel = 1,
 		inheritGlobalFade = false,
 		showGrid = true,
 		flyoutDirection = "AUTOMATIC",
 		paging = {},
-		visibility = "[vehicleui] hide; show"
+		visibility = "[vehicleui] hide; show",
+		countFont = "Homespun",
+		countFontOutline = "MONOCHROMEOUTLINE",
+		countFontSize = 10,
+		countFontXOffset = 0,
+		countFontYOffset = 2,
+		countTextPosition = "BOTTOMRIGHT",
+		customCountFont = false,
+		customHotkeyFont = false,
+		hideHotkey = false,
+		hideMacroText = false,
+		hotkeyFont = "Homespun",
+		hotkeyFontOutline = "MONOCHROMEOUTLINE",
+		hotkeyFontSize = 10,
+		hotkeyTextPosition = "TOPRIGHT",
+		hotkeyTextXOffset = 0,
+		hotkeyTextYOffset = -3,
+		useHotkeyColor = false,
+		hotkeyColor = {r = 1, g = 1, b = 1},
+		useCountColor = false,
+		countColor = {r = 1, g = 1, b = 1},
+		useMacroColor = false,
+		macroColor = {r = 1, g = 1, b = 1}
 	}
 end
 
@@ -4992,9 +5030,9 @@ P.actionbar.bar1.enabled = true
 P.actionbar.bar1.visibility = ""
 P.actionbar.bar1.paging = {
 	DRUID = "[bonusbar:1,nostealth] 7; [bonusbar:1,stealth] 8; [bonusbar:2] 8; [bonusbar:3] 9; [bonusbar:4] 10;",
-	WARRIOR = "[bonusbar:1] 7; [bonusbar:2] 8; [bonusbar:3] 9;",
 	PRIEST = "[bonusbar:1] 7;",
-	ROGUE = "[bonusbar:1] 7; [form:3] 7;"
+	ROGUE = "[bonusbar:1] 7; [form:3] 7;",
+	WARRIOR = "[bonusbar:1] 7; [bonusbar:2] 8; [bonusbar:3] 9;"
 }
 
 P.actionbar.bar3.enabled = true

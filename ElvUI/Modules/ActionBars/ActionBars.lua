@@ -116,11 +116,11 @@ AB.customExitButton = {
 function AB:PositionAndSizeBar(barName)
 	local db = AB.db[barName]
 
-	local buttonSpacing = E:Scale(db.buttonspacing)
-	local backdropSpacing = E:Scale(db.backdropSpacing or db.buttonspacing)
+	local buttonSpacing = E:Scale(db.buttonSpacing)
+	local backdropSpacing = E:Scale(db.backdropSpacing or db.buttonSpacing)
 	local buttonsPerRow = db.buttonsPerRow
 	local numButtons = db.buttons
-	local size = E:Scale(db.buttonsize)
+	local size = E:Scale(db.buttonSize)
 	local point = db.point
 	local numColumns = ceil(numButtons / buttonsPerRow)
 	local widthMult = db.widthMult
@@ -172,25 +172,17 @@ function AB:PositionAndSizeBar(barName)
 		horizontalGrowth = "LEFT"
 	end
 
-	if db.mouseover then
-		bar:SetAlpha(0)
-	else
-		bar:SetAlpha(db.alpha)
-	end
-
-	if db.inheritGlobalFade then
-		bar:SetParent(AB.fadeParent)
-	else
-		bar:SetParent(E.UIParent)
-	end
-
+	bar:SetParent(db.inheritGlobalFade and AB.fadeParent or E.UIParent)
 	bar:EnableMouse(not db.clickThrough)
+	bar:SetAlpha(db.mouseover and 0 or db.alpha)
+	bar:SetFrameStrata(db.frameStrata or "LOW")
+	bar:SetFrameLevel(db.frameLevel)
 
 	local button, lastButton, lastColumnButton
 	for i = 1, NUM_ACTIONBAR_BUTTONS do
 		button = bar.buttons[i]
 		lastButton = bar.buttons[i - 1]
-		lastColumnButton = bar.buttons[i-buttonsPerRow]
+		lastColumnButton = bar.buttons[i - buttonsPerRow]
 		button:SetParent(bar)
 		button:ClearAllPoints()
 		button:SetAttribute("showgrid", 1)
@@ -263,7 +255,7 @@ function AB:PositionAndSizeBar(barName)
 		UnregisterStateDriver(bar, "visibility")
 	end
 
-	E:SetMoverSnapOffset("ElvAB_"..bar.id, db.buttonspacing / 2)
+	E:SetMoverSnapOffset("ElvAB_"..bar.id, db.buttonSpacing / 2)
 
 	if MasqueGroup and E.private.actionbar.masque.actionbars then
 		MasqueGroup:ReSkin()
@@ -276,7 +268,6 @@ function AB:CreateBar(id)
 	bar:Point(point, anchor, attachTo, x, y)
 	bar.id = id
 	bar:CreateBackdrop(AB.db.transparentBackdrops and "Transparent")
-	bar:SetFrameStrata("LOW")
 
 	--Use this method instead of :SetAllPoints, as the size of the mover would otherwise be incorrect
 	bar.backdrop:SetPoint("TOPLEFT", bar, "TOPLEFT", E.Spacing, -E.Spacing)
@@ -411,8 +402,8 @@ function AB:UpdateVehicleLeave()
 	local db = E.db.actionbar.vehicleExitButton
 
 	MainMenuBarVehicleLeaveButton:Size(db.size)
-	MainMenuBarVehicleLeaveButton:SetFrameStrata(db.strata)
-	MainMenuBarVehicleLeaveButton:SetFrameLevel(db.level)
+	MainMenuBarVehicleLeaveButton:SetFrameStrata(db.frameStrata)
+	MainMenuBarVehicleLeaveButton:SetFrameLevel(db.frameLevel)
 	VehicleLeaveButtonHolder:Size(db.size)
 end
 
@@ -420,6 +411,7 @@ function AB:ReassignBindings(event)
 	if event == "UPDATE_BINDINGS" then
 		AB:UpdatePetBindings()
 		AB:UpdateStanceBindings()
+		AB:UpdateExtraBindings()
 
 		if E.myclass == "SHAMAN" then
 			AB:UpdateTotemBindings()
@@ -490,8 +482,18 @@ function AB:UpdateButtonSettings()
 		end
 	end
 
+	-- we can safely toggle these events when we arent using the handle overlay
+	if AB.db.handleOverlay then
+		LAB.eventFrame:RegisterEvent("SPELL_ACTIVATION_OVERLAY_GLOW_SHOW")
+		LAB.eventFrame:RegisterEvent("SPELL_ACTIVATION_OVERLAY_GLOW_HIDE")
+	else
+		LAB.eventFrame:UnregisterEvent("SPELL_ACTIVATION_OVERLAY_GLOW_SHOW")
+		LAB.eventFrame:UnregisterEvent("SPELL_ACTIVATION_OVERLAY_GLOW_HIDE")
+	end
+
 	AB:UpdatePetBindings()
 	AB:UpdateStanceBindings()
+	AB:UpdateExtraBindings()
 	AB:UpdateFlyoutButtons()
 
 	if E.myclass == "SHAMAN" then
@@ -539,8 +541,8 @@ function AB:StyleButton(button, noBackdrop, useMasque, ignoreNormal)
 	local normal = _G[name.."NormalTexture"]
 	local normal2 = button:GetNormalTexture()
 
+	local db = button:GetParent().db
 	local color = AB.db.fontColor
-
 	local countPosition = AB.db.countTextPosition or "BOTTOMRIGHT"
 	local countXOffset = AB.db.countTextXOffset or 0
 	local countYOffset = AB.db.countTextYOffset or 2
@@ -555,16 +557,26 @@ function AB:StyleButton(button, noBackdrop, useMasque, ignoreNormal)
 
 	if count then
 		count:ClearAllPoints()
-		count:Point(countPosition, countXOffset, countYOffset)
-		count:FontTemplate(LSM:Fetch("font", AB.db.font), AB.db.fontSize, AB.db.fontOutline)
-		count:SetTextColor(color.r, color.g, color.b)
+
+		if db and db.customCountFont then
+			count:Point(db.countTextPosition, db.countTextXOffset, db.countTextYOffset)
+			count:FontTemplate(LSM:Fetch("font", db.countFont), db.countFontSize, db.countFontOutline)
+		else
+			count:Point(countPosition, countXOffset, countYOffset)
+			count:FontTemplate(LSM:Fetch("font", AB.db.font), AB.db.fontSize, AB.db.fontOutline)
+		end
+
+		local c = db and db.useCountColor and db.countColor or color
+		count:SetTextColor(c.r, c.g, c.b)
 	end
 
 	if macroText then
 		macroText:ClearAllPoints()
 		macroText:Point("BOTTOM", 0, 1)
 		macroText:FontTemplate(LSM:Fetch("font", AB.db.font), AB.db.fontSize, AB.db.fontOutline)
-		macroText:SetTextColor(color.r, color.g, color.b)
+
+		local c = db and db.useMacroColor and db.macroColor or color
+		macroText:SetTextColor(c.r, c.g, c.b)
 	end
 
 	if not button.noBackdrop and not button.backdrop and not button.useMasque then
@@ -592,11 +604,14 @@ function AB:StyleButton(button, noBackdrop, useMasque, ignoreNormal)
 		shine:SetAllPoints()
 	end
 
-	if AB.db.hotkeytext or AB.db.useRangeColorText then
-		hotkey:FontTemplate(LSM:Fetch("font", AB.db.font), AB.db.fontSize, AB.db.fontOutline)
-		if button.config and (button.config.outOfRangeColoring ~= "hotkey") then
-			button.hotkey:SetTextColor(color.r, color.g, color.b)
+	if AB.db.hotkeytext then
+		if db and db.customHotkeyFont then
+			hotkey:FontTemplate(LSM:Fetch("font", db.hotkeyFont), db.hotkeyFontSize, db.hotkeyFontOutline)
+		else
+			hotkey:FontTemplate(LSM:Fetch("font", AB.db.font), AB.db.fontSize, AB.db.fontOutline)
 		end
+
+		AB:UpdateHotkeyColor(button)
 	end
 
 	--Extra Action Button
@@ -622,11 +637,17 @@ function AB:StyleButton(button, noBackdrop, useMasque, ignoreNormal)
 	end
 end
 
+function AB:UpdateHotkeyColor(button)
+	if button.config and not button.outOfRange then
+		local db = button:GetParent().db
+		local c = db and db.useHotkeyColor and db.hotkeyColor or AB.db.fontColor
+		button.hotkey:SetTextColor(c.r, c.g, c.b)
+	end
+end
+
 function AB:Bar_OnEnter(bar)
-	if bar:GetParent() == AB.fadeParent then
-		if not AB.fadeParent.mouseLock then
-			E:UIFrameFadeIn(AB.fadeParent, 0.2, AB.fadeParent:GetAlpha(), 1)
-		end
+	if bar:GetParent() == AB.fadeParent and not AB.fadeParent.mouseLock then
+		E:UIFrameFadeIn(AB.fadeParent, 0.2, AB.fadeParent:GetAlpha(), 1)
 	end
 
 	if bar.mouseover then
@@ -635,10 +656,8 @@ function AB:Bar_OnEnter(bar)
 end
 
 function AB:Bar_OnLeave(bar)
-	if bar:GetParent() == AB.fadeParent then
-		if not AB.fadeParent.mouseLock then
-			E:UIFrameFadeOut(AB.fadeParent, 0.2, AB.fadeParent:GetAlpha(), 1 - AB.db.globalFadeAlpha)
-		end
+	if bar:GetParent() == AB.fadeParent and not AB.fadeParent.mouseLock then
+		E:UIFrameFadeOut(AB.fadeParent, 0.2, AB.fadeParent:GetAlpha(), 1 - AB.db.globalFadeAlpha)
 	end
 
 	if bar.mouseover then
@@ -648,10 +667,8 @@ end
 
 function AB:Button_OnEnter(button)
 	local bar = button:GetParent()
-	if bar:GetParent() == AB.fadeParent then
-		if not AB.fadeParent.mouseLock then
-			E:UIFrameFadeIn(AB.fadeParent, 0.2, AB.fadeParent:GetAlpha(), 1)
-		end
+	if bar:GetParent() == AB.fadeParent and not AB.fadeParent.mouseLock then
+		E:UIFrameFadeIn(AB.fadeParent, 0.2, AB.fadeParent:GetAlpha(), 1)
 	end
 
 	if bar.mouseover then
@@ -661,10 +678,8 @@ end
 
 function AB:Button_OnLeave(button)
 	local bar = button:GetParent()
-	if bar:GetParent() == AB.fadeParent then
-		if not AB.fadeParent.mouseLock then
-			E:UIFrameFadeOut(AB.fadeParent, 0.2, AB.fadeParent:GetAlpha(), 1 - AB.db.globalFadeAlpha)
-		end
+	if bar:GetParent() == AB.fadeParent and not AB.fadeParent.mouseLock then
+		E:UIFrameFadeOut(AB.fadeParent, 0.2, AB.fadeParent:GetAlpha(), 1 - AB.db.globalFadeAlpha)
 	end
 
 	if bar.mouseover then
@@ -685,11 +700,7 @@ function AB:BlizzardOptionsPanel_OnEvent()
 end
 
 function AB:FadeParent_OnEvent(event, unit)
-	if (event == "UNIT_SPELLCAST_START"
-	or event == "UNIT_SPELLCAST_STOP"
-	or event == "UNIT_SPELLCAST_CHANNEL_START"
-	or event == "UNIT_SPELLCAST_CHANNEL_STOP"
-	or event == "UNIT_HEALTH") and unit ~= "player" then return end
+	if (event == "UNIT_SPELLCAST_START" or event == "UNIT_SPELLCAST_STOP" or event == "UNIT_SPELLCAST_CHANNEL_START" or event == "UNIT_SPELLCAST_CHANNEL_STOP" or event == "UNIT_HEALTH") and unit ~= "player" then return end
 
 	if (UnitCastingInfo("player") or UnitChannelInfo("player")) or (UnitHealth("player") ~= UnitHealthMax("player")) or (UnitExists("target") or UnitExists("focus")) or UnitAffectingCombat("player") then
 		self.mouseLock = true
@@ -862,16 +873,18 @@ function AB:UpdateButtonConfig(bar, buttonName)
 		return
 	end
 
+	local barDB = AB.db["bar"..bar.id]
 	if not bar.buttonConfig then bar.buttonConfig = {hideElements = {}, colors = {}} end
-	bar.buttonConfig.hideElements.macro = not AB.db.macrotext
-	bar.buttonConfig.hideElements.hotkey = not AB.db.hotkeytext
-	bar.buttonConfig.showGrid = AB.db["bar"..bar.id].showGrid
+	bar.buttonConfig.hideElements.macro = not AB.db.macrotext or barDB.hideMacroText
+	bar.buttonConfig.hideElements.hotkey = not AB.db.hotkeytext or barDB.hideHotkey
+	bar.buttonConfig.showGrid = barDB.showGrid
 	bar.buttonConfig.clickOnDown = AB.db.keyDown
 	bar.buttonConfig.outOfRangeColoring = (AB.db.useRangeColorText and "hotkey") or "button"
 	bar.buttonConfig.colors.range = E:SetColorTable(bar.buttonConfig.colors.range, AB.db.noRangeColor)
 	bar.buttonConfig.colors.mana = E:SetColorTable(bar.buttonConfig.colors.mana, AB.db.noPowerColor)
 	bar.buttonConfig.colors.usable = E:SetColorTable(bar.buttonConfig.colors.usable, AB.db.usableColor)
 	bar.buttonConfig.colors.notUsable = E:SetColorTable(bar.buttonConfig.colors.notUsable, AB.db.notUsableColor)
+	bar.buttonConfig.handleOverlay = AB.db.handleOverlay
 	SetModifiedClick("PICKUPACTION", AB.db.movementModifier)
 
 	for i, button in pairs(bar.buttons) do
@@ -891,9 +904,10 @@ function AB:FixKeybindText(button)
 	local hotkey = _G[button:GetName().."HotKey"]
 	local text = hotkey:GetText()
 
-	local hotkeyPosition = E.db.actionbar.hotkeyTextPosition or "TOPRIGHT"
-	local hotkeyXOffset = E.db.actionbar.hotkeyTextXOffset or 0
-	local hotkeyYOffset = E.db.actionbar.hotkeyTextYOffset or -3
+	local db = button:GetParent().db
+	local hotkeyPosition = db and db.customHotkeyFont and db.hotkeyTextPosition or E.db.actionbar.hotkeyTextPosition or "TOPRIGHT"
+	local hotkeyXOffset = db and db.customHotkeyFont and db.hotkeyTextXOffset or E.db.actionbar.hotkeyTextXOffset or 0
+	local hotkeyYOffset = db and db.customHotkeyFont and db.hotkeyTextYOffset or E.db.actionbar.hotkeyTextYOffset or -3
 
 	local justify = "RIGHT"
 	if hotkeyPosition == "TOPLEFT" or hotkeyPosition == "BOTTOMLEFT" then
@@ -1133,17 +1147,16 @@ function AB:LAB_ButtonCreated(button)
 end
 
 function AB:LAB_ButtonUpdate(button)
-	local color = AB.db.fontColor
+	local db = button.db
+	local color = db and db.useCountColor and db.countColor or AB.db.fontColor
+
 	button.count:SetTextColor(color.r, color.g, color.b)
-	if button.config and (button.config.outOfRangeColoring ~= "hotkey") then
-		button.hotkey:SetTextColor(color.r, color.g, color.b)
-	end
 
 	if button.backdrop then
 		if AB.db.equippedItem then
 			if button:IsEquipped() and AB.db.equippedItemColor then
-				color = AB.db.equippedItemColor
-				button.backdrop:SetBackdropBorderColor(color.r, color.g, color.b)
+				local border = AB.db.equippedItemColor
+				button.backdrop:SetBackdropBorderColor(border.r, border.g, border.b)
 				button.backdrop.isColored = true
 			elseif button.backdrop.isColored then
 				button.backdrop.isColored = nil
@@ -1156,12 +1169,17 @@ function AB:LAB_ButtonUpdate(button)
 	end
 end
 
+function AB:LAB_UpdateRange(button)
+	AB:UpdateHotkeyColor(button)
+end
+
 function AB:Initialize()
 	AB.db = E.db.actionbar
 	if not E.private.actionbar.enable then return end
 	AB.Initialized = true
 
 	LAB.RegisterCallback(AB, "OnButtonUpdate", AB.LAB_ButtonUpdate)
+	LAB.RegisterCallback(AB, "OnUpdateRange", AB.LAB_UpdateRange)
 	LAB.RegisterCallback(AB, "OnButtonCreated", AB.LAB_ButtonCreated)
 
 	AB.fadeParent = CreateFrame("Frame", "Elv_ABFade", UIParent)
