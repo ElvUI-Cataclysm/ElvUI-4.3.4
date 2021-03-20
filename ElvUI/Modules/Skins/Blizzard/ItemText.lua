@@ -1,12 +1,6 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
-local _G = _G
-local select = select
-local find, gsub = string.find, string.gsub
-
-local hooksecurefunc = hooksecurefunc
-
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.itemText then return end
 

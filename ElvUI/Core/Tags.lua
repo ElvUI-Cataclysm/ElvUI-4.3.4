@@ -5,12 +5,11 @@ local Translit = E.Libs.Translit
 local translitMark = "!"
 
 local _G = _G
-local tonumber, next, pairs, select, unpack = tonumber, next, pairs, select, unpack
+local tonumber, next, pairs, unpack = tonumber, next, pairs, unpack
 local ceil, floor = ceil, math.floor
 local gmatch, gsub, format = gmatch, gsub, format
 local strfind, strmatch, strlower, strsplit = strfind, strmatch, strlower, strsplit
 local utf8lower, utf8sub, utf8len = string.utf8lower, string.utf8sub, string.utf8len
-local wipe =  wipe
 
 local GetCVarBool = GetCVarBool
 local GetEclipseDirection = GetEclipseDirection

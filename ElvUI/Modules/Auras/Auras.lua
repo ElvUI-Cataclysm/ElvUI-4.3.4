@@ -3,7 +3,6 @@ local A = E:GetModule("Auras")
 local LSM = E.Libs.LSM
 
 local select, unpack = select, unpack
-local floor = math.floor
 local format = string.format
 local tinsert = table.insert
 
@@ -104,7 +103,7 @@ function A:UpdateTime(elapsed)
 		elseif self.timeLeft then
 			r, g, b = E.oUF:ColorGradient(self.timeLeft, self.duration or 0, 0.8, 0, 0, 0.8, 0.8, 0, 0, 0.8, 0)
 		else
-			r, g, b = db.barColor.r, db.barColor.g, db.barColor.b
+			r, g, b = A.db[self.auraType].barColor.r, A.db[self.auraType].barColor.g, A.db[self.auraType].barColor.b
 		end
 		self.statusBar:SetStatusBarColor(r, g, b)
 	end

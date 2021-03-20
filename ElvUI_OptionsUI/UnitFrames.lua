@@ -3586,7 +3586,7 @@ local function GetOptionsTable_GeneralGroup(updateFunc, groupName, numUnits)
 			set = function(_, value) E.db.unitframe.units[groupName].power.hideonnpc = value updateFunc(UF, groupName, numUnits) end
 		}
 	end
-	
+
 	if groupName == "party" or groupName == "raid" or groupName == "raid40" or groupName == "raidpet" then
 		config.args.positionsGroup.args.spacer = {
 			order = 3,
