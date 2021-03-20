@@ -83,13 +83,21 @@ local function LoadSkin()
 		if slotType == "FUTURESPELL" then
 			local level = GetSpellAvailableLevel(slot, SpellBookFrame.bookType)
 
-			self.SpellName:Point("LEFT", self, "RIGHT", (level and level > E.mylevel) and 8 or 24, subSpellName == "" and 10 or 12)
-			self.SpellName:SetTextColor(0.6, 0.6, 0.6)
-			self.SpellSubName:SetTextColor(0.6, 0.6, 0.6)
+			if self.SpellName then
+				self.SpellName:Point("LEFT", self, "RIGHT", (level and level > E.mylevel) and 8 or 24, subSpellName == "" and 10 or 12)
+				self.SpellName:SetTextColor(0.6, 0.6, 0.6)
+			end
+			if self.SpellSubName then
+				self.SpellSubName:SetTextColor(0.6, 0.6, 0.6)
+			end
 		else
-			self.SpellName:Point("LEFT", self, "RIGHT", 8, subSpellName == "" and 1 or 5)
-			self.SpellName:SetTextColor(1, 0.8, 0.1)
-			self.SpellSubName:SetTextColor(1, 1, 1)
+			if self.SpellName then
+				self.SpellName:Point("LEFT", self, "RIGHT", 8, subSpellName == "" and 1 or 5)
+				self.SpellName:SetTextColor(1, 0.8, 0.1)
+			end
+			if self.SpellSubName then
+				self.SpellSubName:SetTextColor(1, 1, 1)
+			end
 		end
 	end)
 
