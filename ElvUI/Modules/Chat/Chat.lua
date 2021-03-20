@@ -1161,19 +1161,19 @@ function CH:ChatFrame_MessageEventHandler(frame, event, arg1, arg2, arg3, arg4, 
 			end
 		elseif chatType == "BN_INLINE_TOAST_BROADCAST_INFORM" then
 			if arg1 ~= "" then
-				arg1 = RemoveExtraSpaces(arg1)
+			--	arg1 = RemoveExtraSpaces(arg1)
 				frame:AddMessage(BN_INLINE_TOAST_BROADCAST_INFORM, info.r, info.g, info.b, info.id, nil, nil, isHistory, historyTime)
 			end
 		elseif chatType == "BN_INLINE_TOAST_CONVERSATION" then
 			frame:AddMessage(format(BN_INLINE_TOAST_CONVERSATION, arg1), info.r, info.g, info.b, info.id, nil, nil, isHistory, historyTime)
 		else
 			local body
-			local _, fontHeight = FCF_GetChatWindowInfo(frame:GetID())
-
-			if fontHeight == 0 then
-				--fontHeight will be 0 if it's still at the default (14)
-				fontHeight = 14
-			end
+		--	local _, fontHeight = FCF_GetChatWindowInfo(frame:GetID())
+		--
+		--	if fontHeight == 0 then
+		--		--fontHeight will be 0 if it's still at the default (14)
+		--		fontHeight = 14
+		--	end
 
 			-- Add AFK/DND flags
 			local pflag = GetChatIcons(arg2)
