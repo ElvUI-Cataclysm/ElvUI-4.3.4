@@ -1,11 +1,12 @@
 local E, L, V, P, G = unpack(select(2, ...))
 local TT = E:GetModule("Tooltip")
+local LSM = E.Libs.LSM
 
 local _G = _G
-local unpack, tonumber, select = unpack, tonumber, select
-local twipe, tinsert, tconcat = table.wipe, table.insert, table.concat
+local ipairs, unpack, tonumber, select = ipairs, unpack, tonumber, select
 local floor = math.floor
-local find, format, sub, match = string.find, string.format, string.sub, string.match
+local find, format, sub, match, lower = string.find, string.format, string.sub, string.match, string.lower
+local twipe, tinsert, tconcat = table.wipe, table.insert, table.concat
 
 local CanInspect = CanInspect
 local CreateFrame = CreateFrame
@@ -36,10 +37,10 @@ local UnitExists = UnitExists
 local UnitGUID = UnitGUID
 local UnitHasVehicleUI = UnitHasVehicleUI
 local UnitIsAFK = UnitIsAFK
-local UnitIsDND = UnitIsDND
 local UnitIsDeadOrGhost = UnitIsDeadOrGhost
-local UnitIsPVP = UnitIsPVP
+local UnitIsDND = UnitIsDND
 local UnitIsPlayer = UnitIsPlayer
+local UnitIsPVP = UnitIsPVP
 local UnitIsTapped = UnitIsTapped
 local UnitIsTappedByPlayer = UnitIsTappedByPlayer
 local UnitIsUnit = UnitIsUnit
@@ -50,44 +51,33 @@ local UnitRace = UnitRace
 local UnitReaction = UnitReaction
 local UnitSex = UnitSex
 
-local AFK, BOSS, DEAD, DND, ID, PVP = AFK, BOSS, DEAD, DND, ID, PVP
+local AFK, DEAD, DND, ID, PVP = AFK, DEAD, DND, ID, PVP
 local ROLE, TANK, HEALER = ROLE, TANK, HEALER
-local FACTION_ALLIANCE, FACTION_HORDE, FACTION_BAR_COLORS = FACTION_ALLIANCE, FACTION_HORDE, FACTION_BAR_COLORS
 local FOREIGN_SERVER_LABEL = FOREIGN_SERVER_LABEL
-local ITEM_QUALITY3_DESC = ITEM_QUALITY3_DESC
-local UNKNOWN = UNKNOWN
+local UNKNOWN, MALE, FEMALE = UNKNOWN, MALE, FEMALE
+local FACTION_ALLIANCE, FACTION_HORDE, FACTION_BAR_COLORS = FACTION_ALLIANCE, FACTION_HORDE, FACTION_BAR_COLORS
+local TOOLTIP_UNIT_LEVEL, TOOLTIP_UNIT_LEVEL_CLASS = TOOLTIP_UNIT_LEVEL, TOOLTIP_UNIT_LEVEL_CLASS
+local ITEM_LEVEL = ITEM_LEVEL
 local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
 
 -- Custom to find LEVEL string on tooltip
-local LEVEL1 = strlower(TOOLTIP_UNIT_LEVEL:gsub("%s?%%s%s?%-?", ""))
-local LEVEL2 = strlower(TOOLTIP_UNIT_LEVEL_CLASS:gsub("^%%2$s%s?(.-)%s?%%1$s", "%1"):gsub("^%-?г?о?%s?", ""):gsub("%s?%%s%s?%-?", ""))
+local LEVEL1 = lower(gsub(TOOLTIP_UNIT_LEVEL, "%s?%%s%s?%-?", ""))
+local LEVEL2 = lower(gsub(gsub(gsub(TOOLTIP_UNIT_LEVEL_CLASS, "^%%2$s%s?(.-)%s?%%1$s", "%1"), "^%-?г?о?%s?", ""), "%s?%%s%s?%-?", ""))
 
 local IDLine = "|cFFCA3C3C%s|r %d"
 local GameTooltip, GameTooltipStatusBar = GameTooltip, GameTooltipStatusBar
-local MATCH_ITEM_LEVEL = ITEM_LEVEL:gsub("%%d", "(%%d+)")
-local targetList = {}
-local TAPPED_COLOR = {r = 0.6, g = 0.6, b = 0.6}
+local MATCH_ITEM_LEVEL = gsub(ITEM_LEVEL, "%%d", "(%%d+)")
 local AFK_LABEL = " |cffFFFFFF[|r|cffFF0000"..AFK.."|r|cffFFFFFF]|r"
 local DND_LABEL = " |cffFFFFFF[|r|cffFFFF00"..DND.."|r|cffFFFFFF]|r"
+local targetList = {}
+local TAPPED_COLOR = {r = 0.6, g = 0.6, b = 0.6}
+local genderTable = {UNKNOWN.." ", MALE.." ", FEMALE.." "}
 local keybindFrame
-
-local classification = {
-	worldboss = format("|cffAF5050 %s|r", BOSS),
-	rareelite = format("|cffAF5050+ %s|r", ITEM_QUALITY3_DESC),
-	elite = "|cffAF5050+|r",
-	rare = format("|cffAF5050 %s|r", ITEM_QUALITY3_DESC)
-}
 
 local SlotName = {
 	"Head", "Neck", "Shoulder", "Back", "Chest", "Wrist",
 	"Hands", "Waist", "Legs", "Feet", "Finger0", "Finger1",
 	"Trinket0", "Trinket1", "MainHand", "SecondaryHand", "Ranged"
-}
-
-local genderTable = {
-	UNKNOWN or "",
-	MALE,
-	FEMALE
 }
 
 function TT:IsModKeyDown(db)
@@ -96,7 +86,7 @@ function TT:IsModKeyDown(db)
 end
 
 function TT:GameTooltip_SetDefaultAnchor(tt, parent)
-	if E.private.tooltip.enable ~= true then return end
+	if not E.private.tooltip.enable then return end
 	if not TT.db.visibility then return end
 	if tt:GetAnchorType() ~= "ANCHOR_NONE" then return end
 
@@ -105,8 +95,9 @@ function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 		return
 	end
 
-	local ownerName = tt:GetOwner() and tt:GetOwner().GetName and tt:GetOwner():GetName()
-	if ownerName and (strfind(ownerName, "ElvUI_Bar") or strfind(ownerName, "MultiBar") or strfind(ownerName, "ElvUI_StanceBar") or strfind(ownerName, "PetAction")) and not keybindFrame.active and not TT:IsModKeyDown(TT.db.visibility.actionbars) then
+	local owner = tt:GetOwner()
+	local ownerName = owner and owner.GetName and owner:GetName()
+	if ownerName and (find(ownerName, "ElvUI_Bar") or find(ownerName, "MultiBar") or find(ownerName, "ElvUI_StanceBar") or find(ownerName, "PetAction")) and not keybindFrame.active and not TT:IsModKeyDown(TT.db.visibility.actionbars) then
 		tt:Hide()
 		return
 	end
@@ -182,8 +173,8 @@ end
 function TT:GetLevelLine(tt, offset)
 	for i = offset, tt:NumLines() do
 		local tipLine = _G["GameTooltipTextLeft"..i]
-		local tipText = tipLine and tipLine:GetText() and strlower(tipLine:GetText())
-		if tipText and find(tipText, LEVEL1) or find(tipText, LEVEL2) then
+		local tipText = tipLine and tipLine:GetText() and lower(tipLine:GetText())
+		if tipText and (find(tipText, LEVEL1) or find(tipText, LEVEL2)) then
 			return tipLine
 		end
 	end
@@ -198,7 +189,7 @@ function TT:SetUnitText(tt, unit)
 
 		local nameRealm = (realm and realm ~= "" and format("%s-%s", name, realm)) or name
 		local guildName, guildRankName, _, guildRealm = GetGuildInfo(unit)
-		local pvpName = UnitPVPName(unit)
+		local pvpName, gender = UnitPVPName(unit), UnitSex(unit)
 		local level = UnitLevel(unit)
 		local isShiftKeyDown = IsShiftKeyDown()
 		local nameColor = E:ClassColor(class) or PRIEST_COLOR
@@ -238,12 +229,9 @@ function TT:SetUnitText(tt, unit)
 			local diffColor = GetQuestDifficultyColor(level)
 			local race = UnitRace(unit)
 			local hexColor = E:RGBToHex(diffColor.r, diffColor.g, diffColor.b)
+			local unitGender = TT.db.gender and genderTable[gender]
 
-			if TT.db.gender then
-				levelLine:SetFormattedText("%s%s|r %s %s |c%s%s|r", hexColor, level > 0 and level or "??", genderTable[UnitSex(unit)], race or "", nameColor.colorStr, localeClass)
-			else
-				levelLine:SetFormattedText("%s%s|r %s |c%s%s|r", hexColor, level > 0 and level or "??", race, nameColor.colorStr, localeClass)
-			end
+			levelLine:SetFormattedText("%s%s|r %s%s |c%s%s|r", hexColor, level > 0 and level or "??", unitGender or "", race or "", nameColor.colorStr, localeClass)
 		end
 
 		if TT.db.role then
@@ -283,16 +271,21 @@ function TT:SetUnitText(tt, unit)
 		local levelLine = TT:GetLevelLine(tt, 2)
 		if levelLine then
 			local creatureClassification = UnitClassification(unit)
-			local creatureType = UnitCreatureType(unit)
+			local creatureType = UnitCreatureType(unit) or ""
+			local pvpFlag, classificationString = "", ""
+
 			local level = UnitLevel(unit)
 			local diffColor = GetQuestDifficultyColor(level)
-			local pvpFlag
 
 			if UnitIsPVP(unit) then
 				pvpFlag = format(" (%s)", PVP)
 			end
 
-			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r%s %s%s", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", classification[creatureClassification] or "", creatureType or "", pvpFlag or "")
+			if creatureClassification == "rare" or creatureClassification == "elite" or creatureClassification == "rareelite" or creatureClassification == "worldboss" then
+				classificationString = format("%s %s|r", ElvUF.Tags.Methods["classificationcolor"](unit), ElvUF.Tags.Methods["classification"](unit))
+			end
+
+			levelLine:SetFormattedText("|cff%02x%02x%02x%s|r%s %s%s", diffColor.r * 255, diffColor.g * 255, diffColor.b * 255, level > 0 and level or "??", classificationString, creatureType, pvpFlag)
 		end
 
 		local unitReaction = UnitReaction(unit, "player")
@@ -317,7 +310,7 @@ function TT:ScanForItemLevel(itemLink)
 		local lineText = line:GetText()
 
 		if lineText and lineText ~= "" then
-			local value = strmatch(lineText, MATCH_ITEM_LEVEL)
+			local value = match(lineText, MATCH_ITEM_LEVEL)
 
 			if value then
 				iLvl = tonumber(value)
@@ -438,10 +431,12 @@ function TT:AddInspectInfo(tooltip, unit, numTries, r, g, b)
 end
 
 function TT:GameTooltip_OnTooltipSetUnit(tt)
+	if not TT.db.visibility then return end
+
 	local unit = select(2, tt:GetUnit())
 	local isPlayerUnit = UnitIsPlayer(unit)
 
-	if TT.db.visibility and not TT:IsModKeyDown(TT.db.visibility.unitFrames) and (tt:GetOwner() ~= UIParent) then
+	if tt:GetOwner() ~= UIParent and not TT:IsModKeyDown(TT.db.visibility.unitFrames) then
 		tt:Hide()
 		return
 	end
@@ -501,7 +496,8 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 	-- NPC ID's
 	if unit and not isPlayerUnit and TT:IsModKeyDown() then
 		local guid = UnitGUID(unit) or ""
-		local id = tonumber(sub(guid, 8, 12), 16)
+		local id = tonumber(sub(guid, 6, 10), 16)
+
 		if id then
 			tt:AddLine(format(IDLine, ID, id))
 		end
@@ -546,31 +542,33 @@ function TT:GameTooltip_OnTooltipCleared(tt)
 end
 
 function TT:GameTooltip_OnTooltipSetItem(tt)
-	local ownerName = tt:GetOwner() and tt:GetOwner().GetName and tt:GetOwner():GetName()
-	if TT.db.visibility and ownerName and (strfind(ownerName, "ElvUI_Container") or strfind(ownerName, "ElvUI_BankContainer")) and not TT:IsModKeyDown(TT.db.visibility.bags) then
+	if not TT.db.visibility then return end
+
+	local owner = tt:GetOwner()
+	local ownerName = owner and owner.GetName and owner:GetName()
+	if ownerName and (find(ownerName, "ElvUI_Container") or find(ownerName, "ElvUI_BankContainer")) and not TT:IsModKeyDown(TT.db.visibility.bags) then
 		tt.itemCleared = true
 		tt:Hide()
 		return
 	end
 
-	if not tt.itemCleared and TT:IsModKeyDown() then
+	if not tt.itemCleared then
 		local _, link = tt:GetItem()
 		local num = GetItemCount(link)
 		local numall = GetItemCount(link, true)
 		local left, right, bankCount = " ", " ", " "
 
-		if link then
-			local id = tonumber(match(link, ":(%w+)"))
-			left = format("|cFFCA3C3C%s|r %s", ID, id)
+		if link and TT:IsModKeyDown() then
+			left = format("|cFFCA3C3C%s|r %s", ID, match(link, ":(%w+)"))
 		end
 
 		if TT.db.itemCount == "BAGS_ONLY" then
 			right = format(IDLine, L["Count"], num)
 		elseif TT.db.itemCount == "BANK_ONLY" then
-			bankCount = format(IDLine, L["Bank"], (numall - num))
+			bankCount = format(IDLine, L["Bank"], numall - num)
 		elseif TT.db.itemCount == "BOTH" then
 			right = format(IDLine, L["Count"], num)
-			bankCount = format(IDLine, L["Bank"], (numall - num))
+			bankCount = format(IDLine, L["Bank"], numall - num)
 		end
 
 		if left ~= " " or right ~= " " then
@@ -664,20 +662,25 @@ function TT:GameTooltip_OnTooltipSetSpell(tt)
 end
 
 function TT:SetItemRef(link)
-	if IsModifierKeyDown() or not (link and strfind(link, "^spell:") or strfind(link, "^item:") or strfind(link, "^currency:") or strfind(link, "^talent:")) then return end
+	if not (link and (find(link, "^spell:") or find(link, "^item:") or find(link, "^currency:"))) then return end
 
-	local id = tonumber(match(link, "(%d+)"))
-
-	ItemRefTooltip:AddLine(format(IDLine, ID, id))
+	ItemRefTooltip:AddLine(format(IDLine, ID, match(link, ":(%d+)")))
 	ItemRefTooltip:Show()
 end
 
 function TT:SetCurrencyToken(tt, index)
-	local id = TT:IsModKeyDown() and tonumber(strmatch(GetCurrencyListLink(index), "currency:(%d+)"))
+	local id = TT:IsModKeyDown() and tonumber(match(GetCurrencyListLink(index), "currency:(%d+)"))
 	if not id then return end
 
 	tt:AddLine(format(IDLine, ID, id))
 	tt:Show()
+end
+
+function TT:SetCurrencyByID(tt, id)
+	if id and TT:IsModKeyDown() then
+		tt:AddLine(format(IDLine, ID, id))
+		tt:Show()
+	end
 end
 
 function TT:SetBackpackToken(tt, id)
@@ -695,7 +698,7 @@ function TT:RepositionBNET(frame, _, anchor)
 end
 
 function TT:SetTooltipFonts()
-	local font = E.Libs.LSM:Fetch("font", TT.db.font)
+	local font = LSM:Fetch("font", TT.db.font)
 	local fontOutline = TT.db.fontOutline
 	local headerSize = TT.db.headerFontSize
 	local smallTextSize = TT.db.smallTextFontSize
@@ -768,7 +771,7 @@ function TT:Initialize()
 	GameTooltip.StatusBar:SetScript("OnValueChanged", nil) -- Do we need to unset this?
 	GameTooltip.StatusBar.text = GameTooltip.StatusBar:CreateFontString(nil, "OVERLAY")
 	GameTooltip.StatusBar.text:Point("CENTER", GameTooltip.StatusBar, 0, 0)
-	GameTooltip.StatusBar.text:FontTemplate(E.Libs.LSM:Fetch("font", TT.db.healthBar.font), TT.db.healthBar.fontSize, TT.db.healthBar.fontOutline)
+	GameTooltip.StatusBar.text:FontTemplate(LSM:Fetch("font", TT.db.healthBar.font), TT.db.healthBar.fontSize, TT.db.healthBar.fontOutline)
 
 	--Tooltip Fonts
 	if not GameTooltip.hasMoney then
@@ -789,6 +792,7 @@ function TT:Initialize()
 	TT:SecureHook("GameTooltip_SetDefaultAnchor")
 	TT:SecureHook(GameTooltip, "SetCurrencyToken")
 	TT:SecureHook(GameTooltip, "SetBackpackToken")
+	TT:SecureHook(GameTooltip, "SetCurrencyByID")
 	TT:SecureHook(GameTooltip, "SetUnitAura")
 	TT:SecureHook(GameTooltip, "SetUnitBuff", "SetUnitAura")
 	TT:SecureHook(GameTooltip, "SetUnitDebuff", "SetUnitAura")
