@@ -372,6 +372,8 @@ function M:UpdateSettings()
 		MiniMapMailFrame:ClearAllPoints()
 		MiniMapMailFrame:Point(pos, Minimap, pos, E.db.general.minimap.icons.mail.xOffset or 3, E.db.general.minimap.icons.mail.yOffset or 4)
 		MiniMapMailFrame:SetScale(scale)
+
+		MiniMapMailIcon:SetTexture(E.Media.MailIcons[E.db.general.minimap.icons.mail.texture] or E.Media.MailIcons.Mail0)
 	end
 
 	if MiniMapLFGFrame then
@@ -522,8 +524,6 @@ function M:Initialize()
 	end
 
 	MiniMapLFGFrame:SetClampedToScreen(true)
-
-	MiniMapMailIcon:SetTexture(E.Media.Textures.Mail)
 
 	MiniMapInstanceDifficulty:SetParent(Minimap)
 	GuildInstanceDifficulty:SetParent(Minimap)
