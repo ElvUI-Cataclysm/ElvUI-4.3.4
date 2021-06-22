@@ -58,7 +58,7 @@ local function OnEvent(self)
 		dodge = (GetDodgeChance() + abs(levelDifference * AVD_DECAY_RATE))
 		parry = (GetParryChance() + abs(levelDifference * AVD_DECAY_RATE))
 		block = (GetBlockChance() + abs(levelDifference * AVD_DECAY_RATE))
-		baseMissChance = (baseMissChance+ abs(levelDifference * AVD_DECAY_RATE))
+		baseMissChance = (baseMissChance + abs(levelDifference * AVD_DECAY_RATE))
 	end
 
 	if dodge <= 0 then dodge = 0 end

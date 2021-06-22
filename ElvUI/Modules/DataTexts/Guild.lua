@@ -4,7 +4,7 @@ local DT = E:GetModule("DataTexts")
 local unpack = unpack
 local sort, wipe = table.sort, wipe
 local ceil = math.ceil
-local format, find, join = string.format, string.find, string.join
+local format, find, join, gsub = string.format, string.find, string.join, string.gsub
 
 local GetNumGuildMembers = GetNumGuildMembers
 local GetGuildRosterInfo = GetGuildRosterInfo
@@ -40,6 +40,8 @@ local guildMotDString = "%s |cffaaaaaa- |cffffffff%s"
 local levelNameString = "|cff%02x%02x%02x%d|r |cff%02x%02x%02x%s|r %s"
 local levelNameStatusString = "|cff%02x%02x%02x%d|r %s%s %s"
 local nameRankString = "%s |cff999999-|cffffffff %s"
+local friendOnlineString = gsub(ERR_FRIEND_ONLINE_SS, ".+|h", "")
+local friendOfflineString = gsub(ERR_FRIEND_OFFLINE_S, "%%s", "")
 local guildXpCurrentString = gsub(join("", E:RGBToHex(ttsubh.r, ttsubh.g, ttsubh.b), GUILD_EXPERIENCE_CURRENT), ": ", ":|r |cffffffff", 1)
 local guildXpDailyString = gsub(join("", E:RGBToHex(ttsubh.r, ttsubh.g, ttsubh.b), GUILD_EXPERIENCE_DAILY), ": ", ":|r |cffffffff", 1)
 local standingString = E:RGBToHex(ttsubh.r, ttsubh.g, ttsubh.b).."%s:|r |cFFFFFFFF%s/%s (%s%%)"
@@ -47,6 +49,7 @@ local moreMembersOnlineString = join("", "+ %d ", FRIENDS_LIST_ONLINE, "...")
 local noteString = join("", "|cff999999   ", LABEL_NOTE, ":|r %s")
 local officerNoteString = join("", "|cff999999   ", GUILD_RANK1_DESC, ":|r %s")
 local guildTable, guildXP, guildMotD = {}, {}, ""
+local rosterDelay
 local lastPanel
 
 local function sortByRank(a, b)
@@ -118,9 +121,14 @@ local function UpdateGuildMessage()
 end
 
 local eventHandlers = {
-	["CHAT_MSG_SYSTEM"] = function(_, arg1)
-		if (FRIEND_ONLINE ~= nil or FRIEND_OFFLINE ~= nil) and arg1 and (find(arg1, FRIEND_ONLINE) or find(arg1, FRIEND_OFFLINE)) then
-			E:Delay(10, GuildRoster())
+	["CHAT_MSG_SYSTEM"] = function(_, message)
+		if rosterDelay then return end
+
+		if find(message, friendOnlineString) or find(message, friendOfflineString) then
+			rosterDelay = E:Delay(10, function()
+				GuildRoster()
+				rosterDelay = nil
+			end)
 		end
 	end,
 	["GUILD_XP_UPDATE"] = function()
@@ -148,8 +156,8 @@ local eventHandlers = {
 	end,
 	["PLAYER_GUILD_UPDATE"] = GuildRoster,
 	-- our guild message of the day changed
-	["GUILD_MOTD"] = function(_, arg1)
-		guildMotD = arg1
+	["GUILD_MOTD"] = function(_, message)
+		guildMotD = message
 	end,
 	["ELVUI_FORCE_RUN"] = E.noop,
 	["ELVUI_COLOR_UPDATE"] = E.noop,

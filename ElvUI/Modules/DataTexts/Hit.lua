@@ -23,22 +23,12 @@ local STAT_HIT_SPECIAL_ATTACKS = STAT_HIT_SPECIAL_ATTACKS
 
 local skullTexture = "|TInterface\\TargetingFrame\\UI-TargetingFrame-Skull:0|t"
 local displayString = ""
-local hitRatingBonus
 local missChance, level
 local lastPanel
 
 local function OnEvent(self)
-	if E.role == "Caster" then
-		hitRatingBonus = GetCombatRatingBonus(CR_HIT_SPELL)
-	else
-		if E.myclass == "HUNTER" then
-			hitRatingBonus = GetCombatRatingBonus(CR_HIT_RANGED)
-		else
-			hitRatingBonus = GetCombatRatingBonus(CR_HIT_MELEE)
-		end
-	end
-
-	self.text:SetFormattedText(displayString, L["Hit"], hitRatingBonus)
+	local hitRatingBonus = E.role == "Caster" and CR_HIT_SPELL or (E.myclass == "HUNTER" and CR_HIT_RANGED or CR_HIT_MELEE)
+	self.text:SetFormattedText(displayString, L["Hit"], GetCombatRatingBonus(hitRatingBonus))
 
 	lastPanel = self
 end
