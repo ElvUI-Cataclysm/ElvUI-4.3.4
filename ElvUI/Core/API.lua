@@ -9,7 +9,10 @@ local GetCVarBool = GetCVarBool
 local GetCombatRatingBonus = GetCombatRatingBonus
 local GetFunctionCPUUsage = GetFunctionCPUUsage
 local GetPrimaryTalentTree, GetActiveTalentGroup = GetPrimaryTalentTree, GetActiveTalentGroup
+local GetNumTalentTabs = GetNumTalentTabs
+local GetNumTalents = GetNumTalents
 local GetSpellInfo = GetSpellInfo
+local GetTalentInfo = GetTalentInfo
 local RequestBattlefieldScoreData = RequestBattlefieldScoreData
 local UnitAttackPower = UnitAttackPower
 local UnitFactionGroup = UnitFactionGroup
@@ -19,6 +22,7 @@ local UnitStat = UnitStat
 local IsInInstance = IsInInstance
 local IsRatedBattleground = IsRatedBattleground
 local GetBattlefieldArenaFaction = GetBattlefieldArenaFaction
+
 local PLAYER_FACTION_GROUP = PLAYER_FACTION_GROUP
 local FACTION_HORDE = FACTION_HORDE
 local FACTION_ALLIANCE = FACTION_ALLIANCE
@@ -197,7 +201,7 @@ do
 			if Disabled then
 				if E.private[element[1]].masque[element[2]] and MasqueGroupState[Group] == "enabled" then
 					E.private[element[1]].masque[element[2]] = false
-					E:StaticPopup_Show("CONFIG_RL")
+					E:StaticPopup_Show("PRIVATE_RL")
 				end
 				MasqueGroupState[Group] = "disabled"
 			else

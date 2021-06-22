@@ -241,13 +241,16 @@ function B:SetGuildBankSearch(query)
 end
 
 function B:UpdateItemLevelDisplay()
-	if E.private.bags.enable ~= true then return end
+	if not E.private.bags.enable then return end
+
+	local font = E.Libs.LSM:Fetch("font", E.db.bags.itemLevelFont)
+
 	for _, bagFrame in pairs(B.BagFrames) do
 		for _, bagID in ipairs(bagFrame.BagIDs) do
 			for slotID = 1, GetContainerNumSlots(bagID) do
 				local slot = bagFrame.Bags[bagID][slotID]
 				if slot and slot.itemLevel then
-					slot.itemLevel:FontTemplate(E.Libs.LSM:Fetch("font", E.db.bags.itemLevelFont), E.db.bags.itemLevelFontSize, E.db.bags.itemLevelFontOutline)
+					slot.itemLevel:FontTemplate(font, E.db.bags.itemLevelFontSize, E.db.bags.itemLevelFontOutline)
 				end
 			end
 		end
@@ -257,14 +260,16 @@ function B:UpdateItemLevelDisplay()
 end
 
 function B:UpdateCountDisplay()
-	if E.private.bags.enable ~= true then return end
+	if not E.private.bags.enable then return end
+
+	local font = E.Libs.LSM:Fetch("font", E.db.bags.countFont)
 
 	for _, bagFrame in pairs(B.BagFrames) do
 		for _, bagID in ipairs(bagFrame.BagIDs) do
 			for slotID = 1, GetContainerNumSlots(bagID) do
 				local slot = bagFrame.Bags[bagID][slotID]
 				if slot and slot.Count then
-					slot.Count:FontTemplate(E.Libs.LSM:Fetch("font", E.db.bags.countFont), E.db.bags.countFontSize, E.db.bags.countFontOutline)
+					slot.Count:FontTemplate(font, E.db.bags.countFontSize, E.db.bags.countFontOutline)
 				end
 			end
 		end
@@ -328,7 +333,7 @@ function B:UpdateSlot(frame, bagID, slotID)
 	local slot = frame.Bags[bagID][slotID]
 	local bagType = frame.Bags[bagID].type
 	local texture, count, locked, _, readable = GetContainerItemInfo(bagID, slotID)
-	local clink = GetContainerItemLink(bagID, slotID)
+	local link = GetContainerItemLink(bagID, slotID)
 
 	slot.name, slot.rarity, slot.locked, slot.readable, slot.isJunk, slot.junkDesaturate = nil, nil, locked, readable, nil, nil
 
@@ -338,26 +343,19 @@ function B:UpdateSlot(frame, bagID, slotID)
 	slot.itemLevel:SetText("")
 	slot.bindType:SetText("")
 
-	if B.db.showBindType then
-		E.ScanTooltip:SetOwner(UIParent, "ANCHOR_NONE")
-		if slot.GetInventorySlot then -- this fixes bank bagid -1
-			E.ScanTooltip:SetInventoryItem("player", slot:GetInventorySlot())
-		else
-			E.ScanTooltip:SetBagItem(bagID, slotID)
-		end
-		E.ScanTooltip:Show()
-	end
-
 	local borderR, borderG, borderB = unpack(E.media.bordercolor)
 	local fadeR, fadeG, fadeB, fadeA = unpack(E.media.backdropfadecolor)
 	local backdropR, backdropG, backdropB = unpack(E.media.backdropcolor)
 
-	if clink then
-		local iLvl, iType, itemEquipLoc, itemPrice
-		slot.name, _, slot.rarity, iLvl, _, iType, _, _, itemEquipLoc, _, itemPrice = GetItemInfo(clink)
-
+	if link then
+		local name, _, itemRarity, iLvl, _, iType, _, _, itemEquipLoc, _, itemPrice = GetItemInfo(link)
 		local isQuestItem, questId, isActiveQuest = GetContainerItemQuestInfo(bagID, slotID)
 		local qualityR, qualityG, qualityB
+
+		slot.name = name
+		slot.rarity = itemRarity
+		slot.isJunk = (slot.rarity and slot.rarity == 0) and (itemPrice and itemPrice > 0) and (iType and iType ~= "Quest")
+		slot.junkDesaturate = slot.isJunk and B.db.junkDesaturate
 
 		if slot.rarity then
 			qualityR, qualityG, qualityB = GetItemQualityColor(slot.rarity)
@@ -366,6 +364,15 @@ function B:UpdateSlot(frame, bagID, slotID)
 		if B.db.showBindType and (slot.rarity and slot.rarity > 1) then
 			local bindTypeLines = GetCVarBool("colorblindmode") and 8 or 7
 			local BoE, BoU
+
+			E.ScanTooltip:SetOwner(UIParent, "ANCHOR_NONE")
+			if slot.GetInventorySlot then -- this fixes bank bagid -1
+				E.ScanTooltip:SetInventoryItem("player", slot:GetInventorySlot())
+			else
+				E.ScanTooltip:SetBagItem(bagID, slotID)
+			end
+			E.ScanTooltip:Show()
+
 			for i = 2, bindTypeLines do
 				local line = _G["ElvUI_ScanTooltipTextLeft"..i]:GetText()
 				if (not line or line == "") or (line == ITEM_SOULBOUND or line == ITEM_ACCOUNTBOUND or line == ITEM_BNETACCOUNTBOUND) then break end
@@ -374,6 +381,8 @@ function B:UpdateSlot(frame, bagID, slotID)
 
 				if not B.db.showBindType and (slot.rarity and slot.rarity > 1) or (BoE or BoU) then break end
 			end
+
+			E.ScanTooltip:Hide()
 
 			if BoE or BoU then
 				slot.bindType:SetText(BoE and L["BoE"] or L["BoU"])
@@ -391,11 +400,8 @@ function B:UpdateSlot(frame, bagID, slotID)
 			end
 		end
 
-		slot.isJunk = (slot.rarity and slot.rarity == 0) and (itemPrice and itemPrice > 0) and (iType and iType ~= "Quest")
-		slot.junkDesaturate = slot.isJunk and E.db.bags.junkDesaturate
-
 		-- Junk Icon
-		if E.db.bags.junkIcon and slot.isJunk then
+		if B.db.junkIcon and slot.isJunk then
 			slot.JunkIcon:Show()
 		end
 
@@ -404,7 +410,7 @@ function B:UpdateSlot(frame, bagID, slotID)
 			slot.questIcon:Show()
 		end
 
-		local color = E.db.bags.countFontColor
+		local color = B.db.countFontColor
 		slot.Count:SetTextColor(color.r, color.g, color.b)
 
 		if B.db.professionBagColors and B.ProfessionColors[bagType] then -- Profession Bags with Item
@@ -426,7 +432,7 @@ function B:UpdateSlot(frame, bagID, slotID)
 			slot.ignoreBorderColors = nil
 		end
 
-		if E.db.bags.transparent then
+		if B.db.transparent then
 			slot:SetBackdropColor(fadeR, fadeG, fadeB, fadeA)
 		else
 			slot.backdropTexture:SetVertexColor(backdropR, backdropG, backdropB)
@@ -436,7 +442,7 @@ function B:UpdateSlot(frame, bagID, slotID)
 			local profR, profG, profB = unpack(B.ProfessionColors[bagType])
 			ColorizeProfessionBagSlots(slot, profR, profG, profB)
 		else -- Empty
-			if E.db.bags.transparent then
+			if B.db.transparent then
 				slot:SetBackdropColor(fadeR, fadeG, fadeB, fadeA)
 			else
 				slot.backdropTexture:SetVertexColor(backdropR, backdropG, backdropB)
@@ -446,8 +452,6 @@ function B:UpdateSlot(frame, bagID, slotID)
 			slot.ignoreBorderColors = nil
 		end
 	end
-
-	E.ScanTooltip:Hide()
 
 	if texture then
 		local start, duration, enable = GetContainerItemCooldown(bagID, slotID)
@@ -524,8 +528,7 @@ end
 function B:SetSlotAlphaForBag(f)
 	for _, bagID in ipairs(f.BagIDs) do
 		if f.Bags[bagID] then
-			local numSlots = GetContainerNumSlots(bagID)
-			for slotID = 1, numSlots do
+			for slotID = 1, GetContainerNumSlots(bagID) do
 				if f.Bags[bagID][slotID] then
 					if bagID == self.id then
 						f.Bags[bagID][slotID]:SetAlpha(1)
@@ -541,8 +544,7 @@ end
 function B:ResetSlotAlphaForBags(f)
 	for _, bagID in ipairs(f.BagIDs) do
 		if f.Bags[bagID] then
-			local numSlots = GetContainerNumSlots(bagID)
-			for slotID = 1, numSlots do
+			for slotID = 1, GetContainerNumSlots(bagID) do
 				if f.Bags[bagID][slotID] then
 					f.Bags[bagID][slotID]:SetAlpha(1)
 				end
@@ -552,7 +554,7 @@ function B:ResetSlotAlphaForBags(f)
 end
 
 function B:Layout(isBank)
-	if E.private.bags.enable ~= true then return end
+	if not E.private.bags.enable then return end
 
 	local f = B:GetContainerFrame(isBank)
 	if not f then return end
@@ -884,11 +886,6 @@ end
 function B:Token_OnEnter()
 	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 	GameTooltip:SetBackpackToken(self:GetID())
-
-	if TT.db.spellID then
-		GameTooltip:AddLine(format("|cFFCA3C3C%s|r %d", ID, self.currencyID))
-		GameTooltip:Show()
-	end
 end
 
 function B:Token_OnClick()
@@ -928,6 +925,7 @@ end
 
 function B:VendorGrays(delete)
 	if B.SellFrame:IsShown() then return end
+
 	if (not MerchantFrame or not MerchantFrame:IsShown()) and not delete then
 		E:Print(L["You must be at a vendor."])
 		return
@@ -946,8 +944,7 @@ function B:VendorGrays(delete)
 		end
 	end
 
-	if not B.SellFrame.Info.itemList then return end
-	if tmaxn(B.SellFrame.Info.itemList) < 1 then return end
+	if not B.SellFrame.Info.itemList or tmaxn(B.SellFrame.Info.itemList) < 1 then return end
 
 	--Resetting stuff
 	B.SellFrame.Info.delete = delete or false
@@ -1377,6 +1374,7 @@ function B:PlayerEnteringWorld()
 	B:UpdateBagTypes()
 	B:Layout()
 end
+
 function B:PLAYER_ENTERING_WORLD()
 	B:UpdateGoldText()
 
@@ -1639,7 +1637,7 @@ function B:Initialize()
 
 	if not E.private.bags.enable then
 		-- Set a different default anchor
-		BagFrameHolder:Point("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", -(E.Border*2), 22 + E.Border*4 - E.Spacing*2)
+		BagFrameHolder:Point("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", -(E.Border * 2), 22 + E.Border * 4 - E.Spacing * 2)
 		E:CreateMover(BagFrameHolder, "ElvUIBagMover", L["Bag Mover"], nil, nil, B.PostBagMove, nil, nil, "bags,general")
 
 		B:SecureHook("updateContainerFrameAnchors")
@@ -1649,32 +1647,33 @@ function B:Initialize()
 
 	B.Initialized = true
 	B.db = E.db.bags
+
 	B.BagFrames = {}
 	B.ProfessionColors = {
-		[0x0008]   = {B.db.colors.profession.leatherworking.r, B.db.colors.profession.leatherworking.g, B.db.colors.profession.leatherworking.b},
-		[0x0010]   = {B.db.colors.profession.inscription.r, B.db.colors.profession.inscription.g, B.db.colors.profession.inscription.b},
-		[0x0020]   = {B.db.colors.profession.herbs.r, B.db.colors.profession.herbs.g, B.db.colors.profession.herbs.b},
-		[0x0040]   = {B.db.colors.profession.enchanting.r, B.db.colors.profession.enchanting.g, B.db.colors.profession.enchanting.b},
-		[0x0080]   = {B.db.colors.profession.engineering.r, B.db.colors.profession.engineering.g, B.db.colors.profession.engineering.b},
-		[0x0200]   = {B.db.colors.profession.gems.r, B.db.colors.profession.gems.g, B.db.colors.profession.gems.b},
-		[0x0400]   = {B.db.colors.profession.mining.r, B.db.colors.profession.mining.g, B.db.colors.profession.mining.b},
-		[0x8000]   = {B.db.colors.profession.fishing.r, B.db.colors.profession.fishing.g, B.db.colors.profession.fishing.b},
+		[0x0008] = {B.db.colors.profession.leatherworking.r, B.db.colors.profession.leatherworking.g, B.db.colors.profession.leatherworking.b},
+		[0x0010] = {B.db.colors.profession.inscription.r, B.db.colors.profession.inscription.g, B.db.colors.profession.inscription.b},
+		[0x0020] = {B.db.colors.profession.herbs.r, B.db.colors.profession.herbs.g, B.db.colors.profession.herbs.b},
+		[0x0040] = {B.db.colors.profession.enchanting.r, B.db.colors.profession.enchanting.g, B.db.colors.profession.enchanting.b},
+		[0x0080] = {B.db.colors.profession.engineering.r, B.db.colors.profession.engineering.g, B.db.colors.profession.engineering.b},
+		[0x0200] = {B.db.colors.profession.gems.r, B.db.colors.profession.gems.g, B.db.colors.profession.gems.b},
+		[0x0400] = {B.db.colors.profession.mining.r, B.db.colors.profession.mining.g, B.db.colors.profession.mining.b},
+		[0x8000] = {B.db.colors.profession.fishing.r, B.db.colors.profession.fishing.g, B.db.colors.profession.fishing.b}
 	}
 
 	B.QuestColors = {
-		["questStarter"] = {B.db.colors.items.questStarter.r, B.db.colors.items.questStarter.g, B.db.colors.items.questStarter.b},
-		["questItem"] = {B.db.colors.items.questItem.r, B.db.colors.items.questItem.g, B.db.colors.items.questItem.b},
+		questStarter = {B.db.colors.items.questStarter.r, B.db.colors.items.questStarter.g, B.db.colors.items.questStarter.b},
+		questItem = {B.db.colors.items.questItem.r, B.db.colors.items.questItem.g, B.db.colors.items.questItem.b}
 	}
 
 	--Bag Mover: Set default anchor point and create mover
-	BagFrameHolder:Point("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", 0, 22 + E.Border*4 - E.Spacing*2)
+	BagFrameHolder:Point("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", 0, 22 + E.Border * 4 - E.Spacing * 2)
 	E:CreateMover(BagFrameHolder, "ElvUIBagMover", L["Bag Mover (Grow Up)"], nil, nil, B.PostBagMove, nil, nil, "bags,general")
 
 	--Bank Mover
 	local BankFrameHolder = CreateFrame("Frame", nil, E.UIParent)
 	BankFrameHolder:Width(200)
 	BankFrameHolder:Height(22)
-	BankFrameHolder:Point("BOTTOMLEFT", LeftChatPanel, "BOTTOMLEFT", 0, 22 + E.Border*4 - E.Spacing*2)
+	BankFrameHolder:Point("BOTTOMLEFT", LeftChatPanel, "BOTTOMLEFT", 0, 22 + E.Border * 4 - E.Spacing * 2)
 	BankFrameHolder:SetFrameLevel(BankFrameHolder:GetFrameLevel() + 400)
 	E:CreateMover(BankFrameHolder, "ElvUIBankMover", L["Bank Mover (Grow Up)"], nil, nil, B.PostBagMove, nil, nil, "bags,general")
 

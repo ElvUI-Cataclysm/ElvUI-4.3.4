@@ -98,13 +98,11 @@ function TOTEMS:PositionAndSize()
 		end
 	end
 
-	if self.db.growthDirection == "HORIZONTAL" then
-		self.bar:Width(self.db.size * (MAX_TOTEMS) + self.db.spacing * (MAX_TOTEMS) + self.db.spacing)
-		self.bar:Height(self.db.size + self.db.spacing * 2)
-	else
-		self.bar:Height(self.db.size * (MAX_TOTEMS) + self.db.spacing * (MAX_TOTEMS) + self.db.spacing)
-		self.bar:Width(self.db.size + self.db.spacing * 2)
-	end
+	local width = self.db.size * (MAX_TOTEMS) + self.db.spacing * (MAX_TOTEMS) + self.db.spacing
+	local height = self.db.size + self.db.spacing * 2
+
+	self.bar:Width(self.db.growthDirection == "HORIZONTAL" and width or height)
+	self.bar:Height(self.db.growthDirection == "HORIZONTAL" and height or width)
 end
 
 local function Button_OnClick(self)
@@ -135,7 +133,7 @@ function TOTEMS:Initialize()
 	for i = 1, MAX_TOTEMS do
 		local frame = CreateFrame("Button", "$parentTotem"..i, bar)
 		frame.slot = E.myclass == "SHAMAN" and SHAMAN_TOTEM_PRIORITIES[i] or STANDARD_TOTEM_PRIORITIES[i]
-		frame:SetTemplate("Default")
+		frame:SetTemplate()
 		frame:StyleButton()
 		if E.myclass == "SHAMAN" then
 			frame.ignoreUpdates = true

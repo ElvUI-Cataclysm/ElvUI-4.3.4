@@ -67,6 +67,8 @@ E.TotemBar = E:NewModule("Totems", "AceEvent-3.0")
 E.UnitFrames = E:NewModule("UnitFrames", "AceTimer-3.0", "AceEvent-3.0", "AceHook-3.0")
 E.WorldMap = E:NewModule("WorldMap", "AceHook-3.0", "AceEvent-3.0", "AceTimer-3.0")
 
+E.InfoColor = "|cffff7000"
+E.InfoColor2 = "|cff9b9b9b"
 E.twoPixelsPlease = false
 
 do -- this is different from E.locale because we need to convert for ace locale files

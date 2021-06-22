@@ -5,9 +5,9 @@
 	<Script file="RaidMarker.lua"/>
 	<Script file="Loot.lua"/>
 	<Script file="LootRoll.lua"/>
-	<Script file="RaidBuffReminder.lua"/>
-	<Script file="RaidUtility.lua"/>
 	<Script file="Threat.lua"/>
 	<Script file="TotemBar.lua"/>
+	<Script file="RaidUtility.lua"/>
+	<Script file="RaidBuffReminder.lua"/>
 	<Script file="AFK.lua"/>
 </Ui>

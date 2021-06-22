@@ -172,8 +172,8 @@ E.PopupDialogs.DISABLE_INCOMPATIBLE_ADDON = {
 	end,
 	OnCancel = function()
 		local popup = E.PopupDialogs.INCOMPATIBLE_ADDON
-		E:StaticPopup_Hide('DISABLE_INCOMPATIBLE_ADDON')
-		E:StaticPopup_Show('INCOMPATIBLE_ADDON', popup.button1, popup.button2)
+		E:StaticPopup_Hide("DISABLE_INCOMPATIBLE_ADDON")
+		E:StaticPopup_Show("INCOMPATIBLE_ADDON", popup.button1, popup.button2)
 	end,
 	button1 = L["I Swear"],
 	button2 = DECLINE,
@@ -576,7 +576,7 @@ end
 function E:StaticPopup_CollapseTable()
 	local displayedFrames = E.StaticPopup_DisplayedFrames
 	local index = #displayedFrames
-	while((index >= 1) and (not displayedFrames[index]:IsShown())) do
+	while (index >= 1) and (not displayedFrames[index]:IsShown()) do
 		tremove(displayedFrames, index)
 		index = index - 1
 	end
@@ -635,7 +635,7 @@ function E:StaticPopup_OnKeyDown(key)
 			local frameName = self:GetName()
 			local button
 			local i = 1
-			while(true) do
+			while true do
 				button = _G[frameName.."Button"..i]
 				if button then
 					if button:IsShown() then

@@ -216,21 +216,22 @@ end
 function AB:UpdateTotemBindings()
 	local color = AB.db.fontColor
 	local alpha = AB.db.hotkeytext and not AB.db.barTotem.hideHotkey and 1 or 0
+	local font, fontSize, fontOutline = LSM:Fetch("font", AB.db.font), AB.db.fontSize, AB.db.fontOutline
 
 	MultiCastSummonSpellButtonHotKey:SetTextColor(color.r, color.g, color.b, alpha)
-	MultiCastSummonSpellButtonHotKey:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
-	self:FixKeybindText(MultiCastSummonSpellButton)
+	MultiCastSummonSpellButtonHotKey:FontTemplate(font, fontSize, fontOutline)
+	AB:FixKeybindText(MultiCastSummonSpellButton)
 
 	MultiCastRecallSpellButtonHotKey:SetTextColor(color.r, color.g, color.b, alpha)
-	MultiCastRecallSpellButtonHotKey:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
-	self:FixKeybindText(MultiCastRecallSpellButton)
+	MultiCastRecallSpellButtonHotKey:FontTemplate(font, fontSize, fontOutline)
+	AB:FixKeybindText(MultiCastRecallSpellButton)
 
 	for i = 1, 12 do
 		local hotKey = _G["MultiCastActionButton"..i.."HotKey"]
 
 		hotKey:SetTextColor(color.r, color.g, color.b, alpha)
-		hotKey:FontTemplate(LSM:Fetch("font", self.db.font), self.db.fontSize, self.db.fontOutline)
-		self:FixKeybindText(_G["MultiCastActionButton"..i])
+		hotKey:FontTemplate(font, fontSize, fontOutline)
+		AB:FixKeybindText(_G["MultiCastActionButton"..i])
 	end
 end
 

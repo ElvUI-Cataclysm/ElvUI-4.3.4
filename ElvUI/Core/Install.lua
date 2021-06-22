@@ -24,16 +24,19 @@ local FCF_SavePositionAndDimensions = FCF_SavePositionAndDimensions
 local FCF_SetWindowName = FCF_SetWindowName
 local FCF_StopDragging = FCF_StopDragging
 local FCF_SetChatWindowFontSize = FCF_SetChatWindowFontSize
+
 local CLASS, CONTINUE, PREVIOUS = CLASS, CONTINUE, PREVIOUS
 local NUM_CHAT_WINDOWS = NUM_CHAT_WINDOWS
 local LOOT, GENERAL, TRADE = LOOT, GENERAL, TRADE
 local GUILD_EVENT_LOG = GUILD_EVENT_LOG
+local STAT_CATEGORY_MELEE = STAT_CATEGORY_MELEE
+local STAT_CATEGORY_RANGED = STAT_CATEGORY_RANGED
 
 local CURRENT_PAGE = 0
 local MAX_PAGE = 8
 
 local function SetupChat(noDisplayMsg)
-	FCF_ResetChatWindows() -- Monitor this
+	FCF_ResetChatWindows()
 	FCF_SetLocked(ChatFrame1, 1)
 	FCF_DockFrame(ChatFrame2)
 	FCF_SetLocked(ChatFrame2, 1)
@@ -57,8 +60,6 @@ local function SetupChat(noDisplayMsg)
 
 		FCF_SavePositionAndDimensions(frame)
 		FCF_StopDragging(frame)
-
-		-- set default Elvui font size
 		FCF_SetChatWindowFontSize(nil, frame, 12)
 
 		-- rename windows general because moved to chat #3
@@ -166,6 +167,7 @@ function E:SetupTheme(theme, noDisplayMsg)
 		E.db.unitframe.colors.auraBarBuff = E:GetColor(0.31, 0.31, 0.31)
 		E.db.unitframe.colors.castColor = E:GetColor(0.31, 0.31, 0.31)
 		E.db.unitframe.colors.castClassColor = false
+		E.db.chat.tabSelectorColor = {r = 0.09, g = 0.51, b = 0.82}
 	elseif theme == "class" then
 		classColor = E:ClassColor(E.myclass, true)
 
@@ -176,6 +178,7 @@ function E:SetupTheme(theme, noDisplayMsg)
 		E.db.unitframe.colors.auraBarBuff = E:GetColor(classColor.r, classColor.g, classColor.b)
 		E.db.unitframe.colors.healthclass = true
 		E.db.unitframe.colors.castClassColor = true
+		E.db.chat.tabSelectorColor = E:GetColor(classColor.r, classColor.g, classColor.b)
 	else
 		E.db.general.bordercolor = (E.PixelMode and E:GetColor(0, 0, 0) or E:GetColor(0.1, 0.1, 0.1))
 		E.db.general.backdropcolor = E:GetColor(0.1, 0.1, 0.1)
@@ -186,6 +189,7 @@ function E:SetupTheme(theme, noDisplayMsg)
 		E.db.unitframe.colors.health = E:GetColor(0.1, 0.1, 0.1)
 		E.db.unitframe.colors.castColor = E:GetColor(0.1, 0.1, 0.1)
 		E.db.unitframe.colors.castClassColor = false
+		E.db.chat.tabSelectorColor = {r = 0.09, g = 0.51, b = 0.82}
 	end
 
 	--Value Color
@@ -210,6 +214,9 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 
 		--Unitframes
 		E:CopyTable(E.db.unitframe.units, P.unitframe.units)
+
+		--Temp Enchants
+		E:CopyTable(E.db.auras.weapons, P.auras.weapons)
 
 		--Shared base layout, tweaks to individual layouts will be below
 		E:ResetMovers()
@@ -241,6 +248,7 @@ function E:SetupLayout(layout, noDataReset, noDisplayMsg)
 		E.db.auras.buffs.size = 40
 		E.db.auras.debuffs.countFontSize = 10
 		E.db.auras.debuffs.size = 40
+		E.db.auras.weapons.size = 40
 	--Bags
 		E.db.bags.bagSize = 42
 		E.db.bags.bagWidth = 472
@@ -495,9 +503,6 @@ local function SetPage(PageNum)
 	InstallStatus.anim.progress:Play()
 	InstallStatus.text:SetText(CURRENT_PAGE.." / "..MAX_PAGE)
 
-	local r, g, b = E:ColorGradient(CURRENT_PAGE / MAX_PAGE, 1, 0, 0, 1, 1, 0, 0, 1, 0)
-	ElvUIInstallFrame.Status:SetStatusBarColor(r, g, b)
-
 	if PageNum == MAX_PAGE then
 		InstallNextButton:Disable()
 	else
@@ -511,6 +516,10 @@ local function SetPage(PageNum)
 	end
 
 	local f = ElvUIInstallFrame
+
+	local r, g, b = E:ColorGradient(CURRENT_PAGE / MAX_PAGE, 1, 0, 0, 1, 1, 0, 0, 1, 0)
+	f.Status:SetStatusBarColor(r, g, b)
+
 	if PageNum == 1 then
 		f.SubTitle:SetFormattedText(L["Welcome to ElvUI version %s!"], E.version)
 		f.Desc1:SetText(L["This install process will help you learn some of the features in ElvUI has to offer and also prepare your user interface for usage."])
@@ -559,8 +568,8 @@ local function SetPage(PageNum)
 		local value = E.global.general.UIScale
 		InstallSlider:SetValue(value)
 		InstallSlider.Cur:SetText(value)
-		InstallSlider:SetScript("OnValueChanged", function(self)
-			local val = E:Round(self:GetValue(), 2)
+		InstallSlider:SetScript("OnValueChanged", function(slider)
+			local val = E:Round(slider:GetValue(), 2)
 			E.global.general.UIScale = val
 			InstallSlider.Cur:SetText(val)
 		end)
@@ -594,16 +603,16 @@ local function SetPage(PageNum)
 		f.Desc3:SetText(L["Importance: |cffD3CF00Medium|r"])
 		InstallOption1Button:Show()
 		InstallOption1Button:SetScript("OnClick", function() E.db.layoutSet = nil E:SetupLayout("tank") end)
-		InstallOption1Button:SetText(L["Tank / Physical DPS"])
+		InstallOption1Button:SetText(STAT_CATEGORY_MELEE)
 		InstallOption2Button:Show()
 		InstallOption2Button:SetScript("OnClick", function() E.db.layoutSet = nil E:SetupLayout("healer") end)
 		InstallOption2Button:SetText(L["Healer"])
 		InstallOption3Button:Show()
 		InstallOption3Button:SetScript("OnClick", function() E.db.layoutSet = nil E:SetupLayout("dpsCaster") end)
-		InstallOption3Button:SetText(L["Caster DPS"])
+		InstallOption3Button:SetText(STAT_CATEGORY_RANGED)
 	elseif PageNum == 7 then
 		f.SubTitle:SetText(L["Auras"])
-		f.Desc1:SetText(L["Select the type of aura system you want to use with ElvUI's unitframes. Set to Aura Bar & Icons to use both aura bars and icons, set to icons only to only see icons."])
+		f.Desc1:SetText(L["Select the type of aura system you want to use with ElvUI's unitframes. Set to Aura Bars to use both aura bars and icons, set to Icons Only to only see icons."])
 		f.Desc2:SetText(L["If you have an icon or aurabar that you don't want to display simply hold down shift and right click the icon for it to disapear."])
 		f.Desc3:SetText(L["Importance: |cffD3CF00Medium|r"])
 		InstallOption1Button:Show()
@@ -855,10 +864,11 @@ function E:Install()
 		closeButton:SetScript("OnClick", function() f:Hide() end)
 		S:HandleCloseButton(closeButton)
 
-		f.tutorialImage = f:CreateTexture("InstallTutorialImage", "OVERLAY")
-		f.tutorialImage:Size(256, 128)
-		f.tutorialImage:SetTexture(E.Media.Textures.Logo)
-		f.tutorialImage:Point("BOTTOM", 0, 70)
+		local logo = f:CreateTexture("InstallTutorialImage", "OVERLAY")
+		logo:Size(256, 128)
+		logo:SetTexture(E.Media.Textures.Logo)
+		logo:Point("BOTTOM", 0, 70)
+		f.tutorialImage = logo
 	end
 
 	ElvUIInstallFrame:Show()

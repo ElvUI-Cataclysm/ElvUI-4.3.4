@@ -62,7 +62,6 @@ E.screenheight = tonumber(match(E.resolution, "%d+x(%d+)"))
 E.screenwidth = tonumber(match(E.resolution, "(%d+)x+%d"))
 E.isMacClient = IsMacClient()
 E.TexturePath = [[Interface\AddOns\ElvUI\Media\Textures\]]
-E.InfoColor = "|cfffe7b2c"
 
 -- oUF Defines
 E.oUF.Tags.Vars.E = E
@@ -276,9 +275,9 @@ function E:UpdateColorTable(data)
 		error("UpdateColorTable: Could not unpack color values.")
 	end
 
-	if (data.r > 1 or data.r < 0) then data.r = 1 end
-	if (data.g > 1 or data.g < 0) then data.g = 1 end
-	if (data.b > 1 or data.b < 0) then data.b = 1 end
+	if data.r > 1 or data.r < 0 then data.r = 1 end
+	if data.g > 1 or data.g < 0 then data.g = 1 end
+	if data.b > 1 or data.b < 0 then data.b = 1 end
 	if data.a and (data.a > 1 or data.a < 0) then data.a = 1 end
 
 	if data.a then
@@ -293,9 +292,9 @@ function E:GetColorTable(data)
 		error("GetColorTable: Could not unpack color values.")
 	end
 
-	if (data.r > 1 or data.r < 0) then data.r = 1 end
-	if (data.g > 1 or data.g < 0) then data.g = 1 end
-	if (data.b > 1 or data.b < 0) then data.b = 1 end
+	if data.r > 1 or data.r < 0 then data.r = 1 end
+	if data.g > 1 or data.g < 0 then data.g = 1 end
+	if data.b > 1 or data.b < 0 then data.b = 1 end
 	if data.a and (data.a > 1 or data.a < 0) then data.a = 1 end
 
 	if data.a then
@@ -719,7 +718,7 @@ do	--The code in this function is from WeakAuras, credit goes to Mirrored and th
 			if type(v) == "number" then
 				ret = ret..v..",\n"
 			elseif type(v) == "string" then
-				ret = ret.."\""..v:gsub("\\", "\\\\"):gsub("\n", "\\n"):gsub("\"", "\\\""):gsub("\124", "\124\124").."\",\n"
+				ret = ret.."\""..gsub(gsub(gsub(gsub(v, "\\", "\\\\"), "\n", "\\n"), "\"", "\\\""), "\124", "\124\124").."\",\n"
 			elseif type(v) == "boolean" then
 				if v then ret = ret.."true,\n" else ret = ret.."false,\n" end
 			elseif type(v) == "table" then
@@ -798,7 +797,7 @@ do	--The code in this function is from WeakAuras, credit goes to Mirrored and th
 				if type(v) == "number" then
 					ret = ret..v.."\n"
 				elseif type(v) == "string" then
-					ret = ret.."\""..v:gsub("\\", "\\\\"):gsub("\n", "\\n"):gsub("\"", "\\\""):gsub("\124", "\124\124").."\"\n"
+					ret = ret.."\""..gsub(gsub(gsub(gsub(v, "\\", "\\\\"), "\n", "\\n"), "\"", "\\\""), "\124", "\124\124").."\"\n"
 				elseif type(v) == "boolean" then
 					if v then
 						ret = ret.."true\n"
@@ -1026,6 +1025,11 @@ function E:UpdateAll(ignoreInstall)
 
 	if ElvUIPlayerDebuffs then
 		Auras:UpdateHeader(ElvUIPlayerDebuffs)
+	end
+
+	if ElvUITemporaryEnchantFrame then
+		Auras:UpdateTempEnchant()
+		Auras:UpdateTempEnchantHeader()
 	end
 
 	if E.RefreshGUI then

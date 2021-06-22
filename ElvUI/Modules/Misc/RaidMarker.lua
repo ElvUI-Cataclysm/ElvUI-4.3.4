@@ -83,14 +83,17 @@ function M:LoadRaidMarker()
 		local button = CreateFrame("Button", "RaidMarkIconButton"..i, marker)
 		button:Size(40)
 		button:SetID(i)
+
 		button.Texture = button:CreateTexture(button:GetName().."NormalTexture", "ARTWORK")
 		button.Texture:SetTexture([[Interface\TargetingFrame\UI-RaidTargetingIcons]])
 		button.Texture:SetAllPoints()
 		SetRaidTargetIconTexture(button.Texture, i)
-		button:RegisterForClicks("LeftbuttonUp","RightbuttonUp")
+
+		button:RegisterForClicks("LeftbuttonUp", "RightbuttonUp")
 		button:SetScript("OnClick", M.RaidMarkButton_OnClick)
 		button:SetScript("OnEnter", M.RaidMarkButton_OnEnter)
 		button:SetScript("OnLeave", M.RaidMarkButton_OnLeave)
+
 		if i == 8 then
 			button:Point("CENTER")
 		else

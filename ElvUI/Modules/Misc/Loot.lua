@@ -2,36 +2,39 @@ local E, L, V, P, G = unpack(select(2, ...))
 local M = E:GetModule("Misc")
 
 local unpack, pairs = unpack, pairs
+local find, gsub = string.find, string.gsub
 local tinsert = table.insert
 local max = math.max
 
-local CreateFrame = CreateFrame
-local LootSlotIsItem = LootSlotIsItem
-local CursorUpdate = CursorUpdate
-local ResetCursor = ResetCursor
-local IsModifiedClick = IsModifiedClick
-local HandleModifiedItemClick = HandleModifiedItemClick
-local GetLootSlotLink = GetLootSlotLink
-local StaticPopup_Hide = StaticPopup_Hide
-local CursorOnUpdate = CursorOnUpdate
-local ToggleDropDownMenu = ToggleDropDownMenu
 local CloseLoot = CloseLoot
-local GetNumLootItems = GetNumLootItems
-local IsFishingLoot = IsFishingLoot
-local UnitIsFriend = UnitIsFriend
-local UnitIsDead = UnitIsDead
-local UnitName = UnitName
-local GetCVar = GetCVar
+local CreateFrame = CreateFrame
+local CursorOnUpdate = CursorOnUpdate
+local CursorUpdate = CursorUpdate
 local GetCursorPosition = GetCursorPosition
+local GetCVarBool = GetCVarBool
 local GetLootSlotInfo = GetLootSlotInfo
+local GetLootSlotLink = GetLootSlotLink
+local GetNumLootItems = GetNumLootItems
 local GiveMasterLoot = GiveMasterLoot
-local ITEM_QUALITY_COLORS = ITEM_QUALITY_COLORS
+local HandleModifiedItemClick = HandleModifiedItemClick
+local IsFishingLoot = IsFishingLoot
+local IsModifiedClick = IsModifiedClick
+local LootSlot = LootSlot
+local LootSlotIsItem = LootSlotIsItem
+local ResetCursor = ResetCursor
+local StaticPopup_Hide = StaticPopup_Hide
+local ToggleDropDownMenu = ToggleDropDownMenu
+local UnitIsDead = UnitIsDead
+local UnitIsFriend = UnitIsFriend
+local UnitName = UnitName
+
 local LOOT = LOOT
+local ITEM_QUALITY_COLORS = ITEM_QUALITY_COLORS
 
-local lootFrame, lootFrameHolder
 local iconSize = 30
+local lootFrame, lootFrameHolder
+local selectedRarity, selectedID, selectedName
 
-local sq, ss, sn
 local OnEnter = function(self)
 	local slot = self:GetID()
 	if LootSlotIsItem(slot) then
@@ -67,10 +70,12 @@ local OnClick = function(self)
 		HandleModifiedItemClick(GetLootSlotLink(self:GetID()))
 	else
 		StaticPopup_Hide("CONFIRM_LOOT_DISTRIBUTION")
-		ss = self:GetID()
-		sq = self.quality
-		sn = self.name:GetText()
-		LootSlot(ss)
+
+		selectedID = self:GetID()
+		selectedRarity = self.quality
+		selectedName = self.name:GetText()
+
+		LootSlot(selectedID)
 	end
 end
 
@@ -138,10 +143,10 @@ local function createSlot(id)
 	frame.name = name
 
 	local drop = frame:CreateTexture(nil, "ARTWORK")
-	drop:SetTexture(1, 1, 1, 0.15)
-	drop:Point("LEFT", icon, "RIGHT", 0, 0)
-	drop:Point("RIGHT", frame)
-	drop:SetAllPoints(frame)
+	drop:SetTexture(E.Media.Textures.Highlight)
+	drop:Point("TOPLEFT", frame)
+	drop:Point("BOTTOMRIGHT", frame, -30, 0)
+	drop:SetAlpha(0.35)
 	frame.drop = drop
 
 	local questTexture = iconFrame:CreateTexture(nil, "OVERLAY")
@@ -175,7 +180,7 @@ function M:LOOT_CLOSED()
 end
 
 function M:OPEN_MASTER_LOOT_LIST()
-	ToggleDropDownMenu(1, nil, GroupLootDropDown, lootFrame.slots[ss], 0, 0)
+	ToggleDropDownMenu(1, nil, GroupLootDropDown, lootFrame.slots[selectedID], 0, 0)
 end
 
 function M:UPDATE_MASTER_LOOT_LIST()
@@ -186,7 +191,7 @@ function M:LOOT_OPENED(_, autoLoot)
 	lootFrame:Show()
 
 	if not lootFrame:IsShown() then
-		CloseLoot(autoLoot == 0)
+		CloseLoot(not autoLoot)
 	end
 
 	if IsFishingLoot() then
@@ -198,7 +203,7 @@ function M:LOOT_OPENED(_, autoLoot)
 	end
 
 	-- Blizzard uses strings here
-	if GetCVar("lootUnderMouse") == "1" then
+	if GetCVarBool("lootUnderMouse") then
 		local x, y = GetCursorPosition()
 		x = x / lootFrame:GetEffectiveScale()
 		y = y / lootFrame:GetEffectiveScale()
@@ -223,8 +228,8 @@ function M:LOOT_OPENED(_, autoLoot)
 			local texture, item, quantity, quality, _, isQuestItem, questId, isActive = GetLootSlotInfo(i)
 			local color = ITEM_QUALITY_COLORS[quality]
 
-			if texture and texture:find("INV_Misc_Coin") then
-				item = item:gsub("\n", ", ")
+			if texture and find(texture, "INV_Misc_Coin") then
+				item = gsub(item, "\n", ", ")
 			end
 
 			if quantity and (quantity > 1) then
@@ -306,7 +311,7 @@ function M:LoadLoot()
 
 	lootFrame = CreateFrame("Button", "ElvLootFrame", lootFrameHolder)
 	lootFrame:SetClampedToScreen(true)
-	lootFrame:SetPoint("TOPLEFT")
+	lootFrame:Point("TOPLEFT")
 	lootFrame:Size(256, 64)
 	lootFrame:SetTemplate("Transparent")
 	lootFrame:SetFrameStrata("DIALOG")
@@ -334,19 +339,19 @@ function M:LoadLoot()
 	tinsert(UISpecialFrames, "ElvLootFrame")
 
 	function _G.GroupLootDropDown_GiveLoot(self)
-		if sq >= MASTER_LOOT_THREHOLD then
-			local dialog = StaticPopup_Show("CONFIRM_LOOT_DISTRIBUTION", ITEM_QUALITY_COLORS[sq].hex..sn..FONT_COLOR_CODE_CLOSE, self:GetText())
+		if selectedRarity >= MASTER_LOOT_THREHOLD then
+			local dialog = StaticPopup_Show("CONFIRM_LOOT_DISTRIBUTION", ITEM_QUALITY_COLORS[selectedRarity].hex..selectedName..FONT_COLOR_CODE_CLOSE, self:GetText())
 			if dialog then
 				dialog.data = self.value
 			end
 		else
-			GiveMasterLoot(ss, self.value)
+			GiveMasterLoot(selectedID, self.value)
 		end
 		CloseDropDownMenus()
 	end
 
-	E.PopupDialogs.CONFIRM_LOOT_DISTRIBUTION.OnAccept = function(self, data)
-		GiveMasterLoot(ss, data)
+	E.PopupDialogs.CONFIRM_LOOT_DISTRIBUTION.OnAccept = function(_, data)
+		GiveMasterLoot(selectedID, data)
 	end
 	StaticPopupDialogs.CONFIRM_LOOT_DISTRIBUTION.preferredIndex = 3
 end

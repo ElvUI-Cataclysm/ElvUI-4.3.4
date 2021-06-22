@@ -339,7 +339,7 @@ function AB:CreateBarShapeShift()
 	self:RegisterEvent("ACTIONBAR_PAGE_CHANGED", "StyleShapeShift")
 	E:ShapeshiftDelayedUpdate(AB.StyleShapeShift, self)
 
-	E:CreateMover(bar, "ShiftAB", L["Stance Bar"], nil, -3, nil, "ALL, ACTIONBARS", nil, "actionbar,stanceBar", true)
+	E:CreateMover(bar, "ShiftAB", L["Stance Bar"], nil, -3, nil, "ALL,ACTIONBARS", nil, "actionbar,stanceBar", true)
 
 	self:AdjustMaxStanceButtons()
 	self:PositionAndSizeBarShapeShift()
