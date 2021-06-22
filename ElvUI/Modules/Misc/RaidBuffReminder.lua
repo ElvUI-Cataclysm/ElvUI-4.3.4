@@ -4,6 +4,12 @@ local LSM = E.Libs.LSM
 
 local ipairs, unpack = ipairs, unpack
 
+local CooldownFrame_SetTimer = CooldownFrame_SetTimer
+local CreateFrame = CreateFrame
+local GetSpellInfo = GetSpellInfo
+local GetTime = GetTime
+local UnitAura = UnitAura
+
 local Masque = E.Libs.Masque
 local MasqueGroup = Masque and Masque:Group("ElvUI", "Reminder")
 
@@ -201,6 +207,7 @@ function RB:UpdateReminder(event, unit)
 		local button = self.frame[i]
 
 		if texture then
+		
 			button.t:SetTexture(texture)
 
 			if (duration == 0 and expirationTime == 0) or not self.db.durations then
@@ -212,11 +219,12 @@ function RB:UpdateReminder(event, unit)
 			else
 				button.expiration = expirationTime - GetTime()
 				button.nextUpdate = 0
-				button.t:SetAlpha(1)
+				button.t:SetVertexColor(1, 1, 1)
 				CooldownFrame_SetTimer(button.cd, expirationTime - duration, duration, 1)
 				button.cd:SetReverse(self.db.reverse and true or false)
 				button:SetScript("OnUpdate", self.UpdateReminderTime)
 			end
+			
 		else
 			CooldownFrame_SetTimer(button.cd, 0, 0, 0)
 			local color = self.db.reverse and 0.3 or 1
@@ -228,13 +236,13 @@ function RB:UpdateReminder(event, unit)
 	end
 end
 
-function RB:CreateButton()
-	local button = CreateFrame("Button", nil, ElvUI_ReminderBuffs)
+function RB:CreateButton(i)
+	local button = CreateFrame("Button", "ElvUIReminderBuff"..i, ElvUI_ReminderBuffs)
 
 	button.t = button:CreateTexture(nil, "OVERLAY")
+	button.t:SetTexture([[Interface\Icons\INV_Misc_QuestionMark]])
 	button.t:SetTexCoord(unpack(E.TexCoords))
 	button.t:SetInside()
-	button.t:SetTexture([[Interface\Icons\INV_Misc_QuestionMark]])
 
 	button.cd = CreateFrame("Cooldown", nil, button, "CooldownFrameTemplate")
 	button.cd:SetInside()
@@ -242,7 +250,7 @@ function RB:CreateButton()
 	button.cd.noCooldownCount = true
 
 	button.timer = button.cd:CreateFontString(nil, "OVERLAY")
-	button.timer:SetPoint("CENTER", 2, 0)
+	button.timer:Point("CENTER", 2, 0)
 
 	local ButtonData = {
 		FloatingBG = nil,
@@ -265,7 +273,7 @@ function RB:CreateButton()
 
 	if MasqueGroup and E.private.auras.masque.reminder then
 		MasqueGroup:AddButton(button, ButtonData)
-	elseif not E.private.auras.masque.reminder then
+	else
 		button:SetTemplate()
 	end
 
@@ -274,16 +282,19 @@ end
 
 function RB:EnableRB()
 	ElvUI_ReminderBuffs:Show()
+
 	self:RegisterEvent("UNIT_AURA", "UpdateReminder")
 	self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", "UpdateReminder")
 	self:RegisterEvent("PLAYER_TALENT_UPDATE", "UpdateReminder")
 	self:RegisterEvent("CHARACTER_POINTS_CHANGED", "UpdateReminder")
 	E.RegisterCallback(self, "RoleChanged", "UpdateSettings")
+
 	self:UpdateReminder()
 end
 
 function RB:DisableRB()
 	ElvUI_ReminderBuffs:Hide()
+
 	self:UnregisterEvent("UNIT_AURA")
 	self:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 	self:UnregisterEvent("PLAYER_TALENT_UPDATE", "UpdateReminder")
@@ -328,7 +339,9 @@ function RB:UpdateSettings(isCallback)
 		self:UpdateReminder()
 	end
 
-	if MasqueGroup and E.private.auras.masque.reminder and E.private.general.minimap.enable then MasqueGroup:ReSkin() end
+	if MasqueGroup and E.private.auras.masque.reminder and self.db.enable and E.private.general.minimap.enable then
+		MasqueGroup:ReSkin()
+	end
 end
 
 function RB:UpdatePosition()
@@ -378,10 +391,6 @@ function RB:Initialize()
 
 	local frame = CreateFrame("Frame", "ElvUI_ReminderBuffs", Minimap)
 
-	if not Masque or not E.private.auras.masque.reminder then
-		frame:SetTemplate()
-	end
-
 	frame:Width(E.RBRWidth)
 	if self.db.position == "LEFT" then
 		frame:SetPoint("TOPRIGHT", Minimap.backdrop, "TOPLEFT", E.Border - E.Spacing * 3, 0)
@@ -393,7 +402,7 @@ function RB:Initialize()
 	self.frame = frame
 
 	for i = 1, 6 do
-		frame[i] = self:CreateButton()
+		frame[i] = self:CreateButton(i)
 		frame[i]:SetID(i)
 	end
 
