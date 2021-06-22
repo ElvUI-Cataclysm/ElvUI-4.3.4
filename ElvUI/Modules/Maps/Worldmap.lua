@@ -3,7 +3,7 @@ local M = E:GetModule("WorldMap")
 
 local _G = _G
 local pairs = pairs
-local find, format = string.find, string.format
+local find = string.find
 
 local CreateFrame = CreateFrame
 local GetCursorPosition = GetCursorPosition

@@ -305,7 +305,7 @@ local function LoadSkin()
 				end
 			end
 		end
-	
+
 		for i = 1, MAX_NUM_ITEMS do
 			local item = _G["QuestInfoItem"..i]
 

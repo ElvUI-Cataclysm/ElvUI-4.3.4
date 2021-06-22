@@ -207,7 +207,7 @@ function RB:UpdateReminder(event, unit)
 		local button = self.frame[i]
 
 		if texture then
-		
+
 			button.t:SetTexture(texture)
 
 			if (duration == 0 and expirationTime == 0) or not self.db.durations then
@@ -224,7 +224,6 @@ function RB:UpdateReminder(event, unit)
 				button.cd:SetReverse(self.db.reverse and true or false)
 				button:SetScript("OnUpdate", self.UpdateReminderTime)
 			end
-			
 		else
 			CooldownFrame_SetTimer(button.cd, 0, 0, 0)
 			local color = self.db.reverse and 0.3 or 1
