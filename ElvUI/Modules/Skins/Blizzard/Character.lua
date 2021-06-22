@@ -5,6 +5,7 @@ local _G = _G
 local unpack, pairs, select = unpack, pairs, select
 
 local CharacterFrameExpandButton = CharacterFrameExpandButton
+local GetFactionInfo = GetFactionInfo
 local GetNumFactions = GetNumFactions
 local hooksecurefunc = hooksecurefunc
 
@@ -73,7 +74,7 @@ local function LoadSkin()
 		local popout = _G["Character"..slot.."PopoutButton"]
 
 		button:StripTextures()
-		button:SetTemplate("Default", true, true)
+		button:SetTemplate()
 		button:StyleButton()
 		button:SetFrameLevel(PaperDollFrame:GetFrameLevel() + 2)
 		button.ignoreTexture:SetTexture([[Interface\PaperDollInfoFrame\UI-GearManager-LeaveItem-Transparent]])
@@ -153,9 +154,12 @@ local function LoadSkin()
 
 		local location = button.location
 		if not location then return end
-		if location and location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION then return end
 
-		button:SetBackdropBorderColor(GetItemQualityColor(select(3, GetItemInfo(EquipmentManager_GetItemInfoByLocation(location)))))
+		if location and location >= EQUIPMENTFLYOUT_FIRST_SPECIAL_LOCATION then
+			button:SetBackdropBorderColor(unpack(E.media.bordercolor))
+		else
+			button:SetBackdropBorderColor(GetItemQualityColor(select(3, GetItemInfo(EquipmentManager_GetItemInfoByLocation(location)))))
+		end
 	end)
 
 	hooksecurefunc("EquipmentFlyout_Show", function(self)
@@ -284,14 +288,8 @@ local function LoadSkin()
 
 	-- Equipement Manager Popup
 	S:HandleIconSelectionFrame(GearManagerDialogPopup, NUM_GEARSET_ICONS_SHOWN, "GearManagerDialogPopupButton")
-
-	S:HandleScrollBar(GearManagerDialogPopupScrollFrameScrollBar)
-
-	GearManagerDialogPopupScrollFrame:CreateBackdrop("Transparent")
-	GearManagerDialogPopupScrollFrame.backdrop:Point("TOPLEFT", 51, 2)
-	GearManagerDialogPopupScrollFrame.backdrop:Point("BOTTOMRIGHT", 0, 4)
-
 	GearManagerDialogPopup:Point("TOPLEFT", PaperDollFrame, "TOPRIGHT", 1, 0)
+	GearManagerDialogPopup:Size(282, 246)
 
 	-- Bottom Tabs
 	for i = 1, 4 do
@@ -366,14 +364,12 @@ local function LoadSkin()
 		if frame.Toolbar and frame.collapsed then frame.Toolbar:SetAlpha(0.3) end
 	end)
 
-	hooksecurefunc("PaperDollFrame_SetResistance", function(statFrame, unit, resistanceIndex)
-		local _, resistance = UnitResistance(unit, resistanceIndex)
-		local resistanceNameShort = _G["SPELL_SCHOOL"..resistanceIndex.."_CAP"]
-		local resistanceName = _G["RESISTANCE"..resistanceIndex.."_NAME"]
-		local resistanceIconCode = "|TInterface\\PaperDollInfoFrame\\SpellSchoolIcon"..(resistanceIndex + 1)..":12:12:0:0:64:64:4:55:4:55|t"
+	hooksecurefunc("PaperDollFrame_SetResistance", function(statFrame, unit, index)
+		local _, resistance = UnitResistance(unit, index)
+		local resistanceIcons = "|TInterface\\PaperDollInfoFrame\\SpellSchoolIcon"..(index + 1)..":12:12:0:0:64:64:4:55:4:55|t"
 
-		_G[statFrame:GetName().."Label"]:SetText(resistanceIconCode.." "..format(STAT_FORMAT, resistanceNameShort))
-		statFrame.tooltip = resistanceIconCode.." "..HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, resistanceName).." "..resistance..FONT_COLOR_CODE_CLOSE
+		_G[statFrame:GetName().."Label"]:SetText(resistanceIcons.." "..format(STAT_FORMAT, _G["SPELL_SCHOOL"..index.."_CAP"]))
+		statFrame.tooltip = resistanceIcons.." "..HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, _G["RESISTANCE"..index.."_NAME"]).." "..resistance..FONT_COLOR_CODE_CLOSE
 	end)
 
 	-- Reputation
@@ -422,7 +418,7 @@ local function LoadSkin()
 
 				_G["ReputationBar"..i.."ExpandOrCollapseButton"]:GetNormalTexture():SetTexture(isCollapsed and E.Media.Textures.Plus or E.Media.Textures.Minus)
 
-				if atWarWith and canToggleAtWar and (not isHeader) then
+				if atWarWith and canToggleAtWar and not isHeader then
 					frame.War:Show()
 				else
 					frame.War:Hide()
@@ -431,6 +427,7 @@ local function LoadSkin()
 		end
 	end)
 
+	-- Reputation Detail Frame
 	ReputationDetailFrame:StripTextures()
 	ReputationDetailFrame:SetTemplate("Transparent")
 	ReputationDetailFrame:Point("TOPLEFT", ReputationFrame, "TOPRIGHT", 1, 0)

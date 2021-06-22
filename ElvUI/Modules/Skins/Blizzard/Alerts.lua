@@ -2,8 +2,8 @@ local E, L, V, P, G = unpack(select(2, ...))
 local S = E:GetModule("Skins")
 
 local _G = _G
-local unpack, select = unpack, select
-local tonumber = tonumber
+local unpack, select, tonumber = unpack, select, tonumber
+local match = string.match
 
 local CreateFrame = CreateFrame
 
@@ -60,7 +60,7 @@ local function LoadSkin()
 
 			frame.isSkinned = true
 
-			if tonumber(name:match(".+(%d+)")) == MAX_ACHIEVEMENT_ALERTS then
+			if tonumber(match(name, ".+(%d+)")) == MAX_ACHIEVEMENT_ALERTS then
 				S:Unhook("AchievementAlertFrame_GetAlertFrame")
 			end
 		end

@@ -20,9 +20,9 @@ local function LoadSkin()
 
 	TradeSkillFrame:StripTextures(true)
 	TradeSkillFrame:SetTemplate("Transparent")
-	TradeSkillFrame:SetAttribute("UIPanelLayout-width", E:Scale(670))
-	TradeSkillFrame:SetAttribute("UIPanelLayout-height", E:Scale(508))
 	TradeSkillFrame:Size(670, 508)
+
+	S:SetUIPanelWindowInfo(TradeSkillFrame, "width")
 
 	TradeSkillFrame.bg1 = CreateFrame("Frame", nil, TradeSkillFrame)
 	TradeSkillFrame.bg1:SetTemplate("Transparent")
@@ -84,7 +84,7 @@ local function LoadSkin()
 	TradeSkillDetailScrollFrameScrollBar:Point("TOPRIGHT", TradeSkillDetailScrollFrame, 23, -7)
 	TradeSkillDetailScrollFrameScrollBar:Point("BOTTOMRIGHT", TradeSkillDetailScrollFrame, 0, 18)
 
-	for i = 9, 26 do
+	for i = 9, TRADE_SKILLS_DISPLAYED do
 		CreateFrame("Button", "TradeSkillSkill"..i, TradeSkillFrame, "TradeSkillSkillButtonTemplate"):Point("TOPLEFT", _G["TradeSkillSkill"..i - 1], "BOTTOMLEFT")
 	end
 
@@ -97,7 +97,7 @@ local function LoadSkin()
 
 	TradeSkillSkillIcon:SetTemplate()
 	TradeSkillSkillIcon:StyleButton(nil, true)
-	TradeSkillSkillIcon:Size(47)
+	TradeSkillSkillIcon:Size(48)
 	TradeSkillSkillIcon:Point("TOPLEFT", 6, -1)
 
 	S:HandleButton(TradeSkillCreateAllButton)
@@ -139,7 +139,6 @@ local function LoadSkin()
 		local reagent = _G["TradeSkillReagent"..i]
 		local icon = _G["TradeSkillReagent"..i.."IconTexture"]
 		local count = _G["TradeSkillReagent"..i.."Count"]
-		local name = _G["TradeSkillReagent"..i.."Name"]
 		local nameFrame = _G["TradeSkillReagent"..i.."NameFrame"]
 
 		reagent:SetTemplate()
@@ -160,7 +159,7 @@ local function LoadSkin()
 		count:SetParent(icon.backdrop)
 		count:SetDrawLayer("OVERLAY")
 
-		name:Point("LEFT", nameFrame, "LEFT", 20, 0)
+		_G["TradeSkillReagent"..i.."Name"]:Point("LEFT", nameFrame, "LEFT", 20, 0)
 
 		nameFrame:Kill()
 	end
@@ -212,20 +211,22 @@ local function LoadSkin()
 			end
 		end
 
-		local numReagents = GetTradeSkillNumReagents(id)
-		for i = 1, numReagents, 1 do
+		for i = 1, GetTradeSkillNumReagents(id), 1 do
 			local _, _, reagentCount, playerReagentCount = GetTradeSkillReagentInfo(id, i)
 			local reagentLink = GetTradeSkillReagentItemLink(id, i)
-			local reagent = _G["TradeSkillReagent"..i]
-			local icon = _G["TradeSkillReagent"..i.."IconTexture"]
-			local name = _G["TradeSkillReagent"..i.."Name"]
 
 			if reagentLink then
+				local reagent = _G["TradeSkillReagent"..i]
+				local icon = _G["TradeSkillReagent"..i.."IconTexture"]
 				local quality = select(3, GetItemInfo(reagentLink))
+
 				if quality then
+					local name = _G["TradeSkillReagent"..i.."Name"]
 					local r, g, b = GetItemQualityColor(quality)
+
 					icon.backdrop:SetBackdropBorderColor(r, g, b)
 					reagent:SetBackdropBorderColor(r, g, b)
+
 					if playerReagentCount < reagentCount then
 						name:SetTextColor(0.5, 0.5, 0.5)
 					else

@@ -138,10 +138,7 @@ local function LoadSkin()
 	for i = 1, 2 do
 		_G["PVPFrameConquestBarCap"..i]:SetTexture(E.media.normTex)
 		_G["PVPFrameConquestBarCap"..i.."Marker"]:Size(4, E.PixelMode and 14 or 12)
-
-		local markerTex = _G["PVPFrameConquestBarCap"..i.."MarkerTexture"]
-		markerTex:SetTexture(E.media.blankTex)
-		markerTex:SetVertexColor(1, 1, 1, 0.40)
+		_G["PVPFrameConquestBarCap"..i.."MarkerTexture"]:SetTexture(1, 1, 1, 0.40)
 	end
 
 	PVPFrame:StripTextures()

@@ -200,8 +200,9 @@ local function SkinDungeonFinder()
 	LFDQueueFrameCapBarProgress:SetTexture(E.media.normTex)
 
 	for i = 1, 2 do
-		_G["LFDQueueFrameCapBarCap"..i.."Marker"]:Kill()
 		_G["LFDQueueFrameCapBarCap"..i]:SetTexture(E.media.normTex)
+		_G["LFDQueueFrameCapBarCap"..i.."Marker"]:Size(4, E.PixelMode and 14 or 12)
+		_G["LFDQueueFrameCapBarCap"..i.."MarkerTexture"]:SetTexture(1, 1, 1, 0.40)
 	end
 
 	S:HandleCloseButton(LFDParentFrameCloseButton, LFDParentFrame)
@@ -331,7 +332,7 @@ local function SkinDungeonFinder()
 
 			roleButton.texture:SetTexture(E.Media.Textures.RoleIcons)
 			roleButton.texture:Point("TOPLEFT", roleButton.backdrop, -8, 6)
-			roleButton.texture:Point("BOTTOMRIGHT", roleButton.backdrop, 8, -10)
+			roleButton.texture:Point("BOTTOMRIGHT", roleButton.backdrop, 8, -9)
 
 			roleButton.statusIcon:SetDrawLayer("OVERLAY", 2)
 		end

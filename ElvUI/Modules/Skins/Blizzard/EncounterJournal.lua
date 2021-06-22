@@ -11,6 +11,7 @@ local EJ_GetLootInfoByIndex = EJ_GetLootInfoByIndex
 local GetItemInfo = GetItemInfo
 local GetItemQualityColor = GetItemQualityColor
 local hooksecurefunc = hooksecurefunc
+local SHOW_MAP = SHOW_MAP
 
 local function LoadSkin()
 	if not E.private.skins.blizzard.enable or not E.private.skins.blizzard.encounterjournal then return end
@@ -67,15 +68,14 @@ local function LoadSkin()
 	for _, tab in pairs({EncounterJournalEncounterFrameInfoBossTab, EncounterJournalEncounterFrameInfoLootTab}) do
 		tab:StripTextures()
 		tab:SetTemplate("Transparent")
+		tab:StyleButton()
 		tab:Size(45, 40)
 
-		local normal, pushed, disabled, highlight = tab:GetNormalTexture(), tab:GetPushedTexture(), tab:GetDisabledTexture(), tab:GetHighlightTexture()
-		highlight:SetTexture(1, 1, 1, 0.3)
-		highlight:SetInside()
+		local normal, pushed, disabled = tab:GetNormalTexture(), tab:GetPushedTexture(), tab:GetDisabledTexture()
 
-		normal:SetTexture("Interface\\EncounterJournal\\UI-EncounterJournalTextures")
-		pushed:SetTexture("Interface\\EncounterJournal\\UI-EncounterJournalTextures")
-		disabled:SetTexture("Interface\\EncounterJournal\\UI-EncounterJournalTextures")
+		normal:SetTexture([[Interface\EncounterJournal\UI-EncounterJournalTextures]])
+		pushed:SetTexture([[Interface\EncounterJournal\UI-EncounterJournalTextures]])
+		disabled:SetTexture([[Interface\EncounterJournal\UI-EncounterJournalTextures]])
 
 		if tab == EncounterJournalEncounterFrameInfoBossTab then
 			normal:SetTexCoord(0.902, 0.996, 0.269, 0.311)
@@ -92,7 +92,7 @@ local function LoadSkin()
 	EncounterJournalEncounterFrameInfoLootTab:Point("TOP", EncounterJournalEncounterFrameInfoBossTab, "BOTTOM", 0, -10)
 
 	-- Dungeon / Raid Select
-	EncounterJournal.instanceSelect.bg:Kill()
+	EncounterJournal.instanceSelect:StripTextures(true)
 
 	S:HandleDropDownBox(EncounterJournal.instanceSelect.tierDropDown)
 
@@ -216,8 +216,8 @@ local function LoadSkin()
 
 		S:HandleButton(button, true)
 
-		button:GetNormalTexture():SetTexture("Interface\\WorldStateFrame\\Icons-Classes")
-		button:GetPushedTexture():SetTexture("Interface\\WorldStateFrame\\Icons-Classes")
+		button:GetNormalTexture():SetTexture([[Interface\WorldStateFrame\Icons-Classes]])
+		button:GetPushedTexture():SetTexture([[Interface\WorldStateFrame\Icons-Classes]])
 
 		local checked = button:GetCheckedTexture()
 		checked:SetTexture(1, 1, 1, 0.3)
@@ -292,13 +292,13 @@ local function LoadSkin()
 		local offset = HybridScrollFrame_GetOffset(EncounterJournal.encounter.info.lootScroll)
 		local buttons = EncounterJournal.encounter.info.lootScroll.buttons
 		local numLoot = EJ_GetNumLoot()
-		local _, item, index, itemID, quality
+		local item, index, itemID, quality
 
 		for i = 1, #buttons do
 			item = buttons[i]
 			index = offset + i
 			if index <= numLoot then
-				_, _, _, _, itemID = EJ_GetLootInfoByIndex(index)
+				itemID = select(5, EJ_GetLootInfoByIndex(index))
 				quality = select(3, GetItemInfo(itemID))
 
 				item.IconBackdrop:SetBackdropBorderColor(GetItemQualityColor(quality))

@@ -43,7 +43,7 @@ local function LoadSkin()
 
 		if button.text then
 			button.text:ClearAllPoints()
-			button.text:SetPoint("CENTER")
+			button.text:Point("CENTER")
 			button.text:SetJustifyH("CENTER")
 		end
 	end
@@ -61,7 +61,7 @@ local function LoadSkin()
 		S:HandleButton(button, true)
 
 		button.text:ClearAllPoints()
-		button.text:SetPoint("CENTER")
+		button.text:Point("CENTER")
 		button.text:SetJustifyH("CENTER")
 	end
 

@@ -39,11 +39,11 @@ local function LoadSkin()
 
 	db = E.db.bags.colors.items
 	local QuestColors = {
-		["questStarter"] = {db.questStarter.r, db.questStarter.g, db.questStarter.b},
-		["questItem"] =	{db.questItem.r, db.questItem.g, db.questItem.b}
+		questStarter = {db.questStarter.r, db.questStarter.g, db.questStarter.b},
+		questItem =	{db.questItem.r, db.questItem.g, db.questItem.b}
 	}
 
-	-- ContainerFrame
+	-- Container Frame
 	for i = 1, NUM_CONTAINER_FRAMES, 1 do
 		local frame = _G["ContainerFrame"..i]
 		local closeButton = _G["ContainerFrame"..i.."CloseButton"]
@@ -161,16 +161,16 @@ local function LoadSkin()
 					item.ignoreBorderColors = true
 				else
 					item:SetBackdropBorderColor(unpack(E.media.bordercolor))
-					item.ignoreBorderColors = true
+					item.ignoreBorderColors = nil
 				end
 			else
 				item:SetBackdropBorderColor(unpack(E.media.bordercolor))
-				item.ignoreBorderColors = true
+				item.ignoreBorderColors = nil
 			end
 		end
 	end)
 
-	-- BankFrame
+	-- Bank Frame
 	BankFrame:StripTextures(true)
 	BankFrame:CreateBackdrop("Transparent")
 	BankFrame.backdrop:Point("TOPLEFT", 10, -11)
