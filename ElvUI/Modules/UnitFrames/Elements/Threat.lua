@@ -80,7 +80,7 @@ function UF:ThreatClassBarBorderColor(parent, status, r, g, b)
 	if parent.EclipseBar then UF:ThreatBorderColor(parent.EclipseBar.backdrop, status, r, g, b) end
 	if parent.Runes then UF:ThreatBorderColor(parent.Runes.backdrop, status, r, g, b) end
 
-	if parent.ClassPower or parent.SpecPower or parent.Runes or parent.BurningEmbers or parent.SoulShards then
+	if parent.ClassPower or parent.Runes then
 		local maxClassBarButtons = max(UF.classMaxResourceBar[E.myclass] or 0)
 		for i = 1, maxClassBarButtons do
 			if i <= parent.MAX_CLASS_BAR then

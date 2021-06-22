@@ -1775,7 +1775,8 @@ P.unitframe = {
 				anchorPoint = "CENTER",
 				xOffset = 0,
 				yOffset = 0,
-				scale = 0.8
+				scale = 0.8,
+				color = {r = 0.3, g = 0.5, b = 1}
 			},
 			CombatIcon = {
 				enable = true,
@@ -3518,7 +3519,6 @@ P.unitframe = {
 				position = "LEFT",
 				orientation = "HORIZONTAL",
 				attachTextTo = "Health",
-				frequentUpdates = false,
 				yOffset = 0,
 				xOffset = 2,
 				reverseFill = false
@@ -3571,7 +3571,8 @@ P.unitframe = {
 				anchorPoint = "CENTER",
 				xOffset = 0,
 				yOffset = 0,
-				scale = 0.8
+				scale = 0.8,
+				color = {r = 0.3, g = 0.5, b = 1}
 			},
 			portrait = {
 				enable = false,
@@ -3866,7 +3867,6 @@ P.unitframe = {
 				position = "BOTTOM",
 				orientation = "HORIZONTAL",
 				attachTextTo = "Health",
-				frequentUpdates = false,
 				yOffset = 2,
 				xOffset = 0,
 				reverseFill = false
@@ -3893,6 +3893,7 @@ P.unitframe = {
 				autoHide = false,
 				reverseFill = false,
 				text_format = "",
+				attachTextTo = "Health",
 				width = "fill",
 				height = 7,
 				offset = 0,
@@ -4059,7 +4060,8 @@ P.unitframe = {
 				anchorPoint = "CENTER",
 				xOffset = 0,
 				yOffset = 0,
-				scale = 0.8
+				scale = 0.8,
+				color = {r = 0.3, g = 0.5, b = 1}
 			},
 			cutaway = {
 				health = {
@@ -4103,7 +4105,6 @@ P.unitframe = {
 				text_format = "[healthcolor][health:deficit]",
 				position = "BOTTOM",
 				orientation = "HORIZONTAL",
-				frequentUpdates = false,
 				attachTextTo = "Health",
 				yOffset = 2,
 				xOffset = 0,
@@ -4131,6 +4132,7 @@ P.unitframe = {
 				autoHide = false,
 				reverseFill = false,
 				text_format = "",
+				attachTextTo = "Health",
 				width = "fill",
 				height = 7,
 				offset = 0,
@@ -4297,7 +4299,8 @@ P.unitframe = {
 				anchorPoint = "CENTER",
 				xOffset = 0,
 				yOffset = 0,
-				scale = 0.8
+				scale = 0.8,
+				color = {r = 0.3, g = 0.5, b = 1}
 			},
 			cutaway = {
 				health = {
@@ -4343,7 +4346,6 @@ P.unitframe = {
 				text_format = "[healthcolor][health:deficit]",
 				position = "BOTTOM",
 				orientation = "HORIZONTAL",
-				frequentUpdates = true,
 				yOffset = 2,
 				xOffset = 0,
 				attachTextTo = "Health",

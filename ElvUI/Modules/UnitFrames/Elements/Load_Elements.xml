@@ -19,7 +19,7 @@
 	<Script file="Portrait.lua"/>
 	<Script file="Power.lua"/>
 	<Script file="PvPIcon.lua"/>
-	<Script file="PvPIndicator.lua"/>
+	<Script file="PvPText.lua"/>
 	<Script file="RaidDebuffs.lua"/>
 	<Script file="RaidIcon.lua"/>
 	<Script file="RaidRoleIcons.lua"/>

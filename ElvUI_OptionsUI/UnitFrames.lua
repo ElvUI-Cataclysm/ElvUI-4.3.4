@@ -2059,39 +2059,54 @@ local function GetOptionsTable_PhaseIndicator(updateFunc, groupName, numGroup)
 		set = function(info, value) E.db.unitframe.units[groupName].phaseIndicator[info[#info]] = value updateFunc(UF, groupName, numGroup) end,
 		args = {
 			enable = {
-				order = 2,
+				order = 1,
 				type = "toggle",
 				name = L["ENABLE"]
 			},
 			scale = {
-				order = 3,
+				order = 2,
 				type = "range",
 				name = L["Scale"],
 				isPercent = true,
-				min = 0.5, max = 1.5, step = 0.01
+				min = 0.5, max = 1.5, step = 0.01,
+				disabled = function() return not E.db.unitframe.units[groupName].phaseIndicator.enable end
 			},
-			spacer = {
-				order = 4,
-				type = "description",
-				name = " "
+			color = {
+				order = 3,
+				type = "color",
+				name = L["COLOR"],
+				get = function(info)
+					local t = E.db.unitframe.units[groupName].phaseIndicator[info[#info]]
+					local d = P.unitframe.units[groupName].phaseIndicator[info[#info]]
+					return t.r, t.g, t.b, t.a, d.r, d.g, d.b
+				end,
+				set = function(info, r, g, b)
+					local t = E.db.unitframe.units[groupName].phaseIndicator[info[#info]]
+					t.r, t.g, t.b = r, g, b
+					updateFunc(UF, groupName)
+				end,
+				disabled = function() return not E.db.unitframe.units[groupName].phaseIndicator.enable end
 			},
 			anchorPoint = {
-				order = 5,
+				order = 4,
 				type = "select",
 				name = L["Anchor Point"],
-				values = positionValues
+				values = positionValues,
+				disabled = function() return not E.db.unitframe.units[groupName].phaseIndicator.enable end
 			},
 			xOffset = {
-				order = 6,
+				order = 5,
 				type = "range",
 				name = L["X-Offset"],
-				min = -100, max = 100, step = 1
+				min = -100, max = 100, step = 1,
+				disabled = function() return not E.db.unitframe.units[groupName].phaseIndicator.enable end
 			},
 			yOffset = {
-				order = 7,
+				order = 6,
 				type = "range",
 				name = L["Y-Offset"],
-				min = -100, max = 100, step = 1
+				min = -100, max = 100, step = 1,
+				disabled = function() return not E.db.unitframe.units[groupName].phaseIndicator.enable end
 			}
 		}
 	}
@@ -2469,65 +2484,65 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 		set = function(info, value) E.db.unitframe.units[groupName].rdebuffs[info[#info]] = value updateFunc(UF, groupName) end,
 		args = {
 			enable = {
-				order = 2,
+				order = 1,
 				type = "toggle",
 				name = L["ENABLE"]
 			},
 			showDispellableDebuff = {
-				order = 3,
+				order = 2,
 				type = "toggle",
 				name = L["Show Dispellable Debuffs"]
 			},
 			onlyMatchSpellID = {
-				order = 4,
+				order = 3,
 				type = "toggle",
 				name = L["Only Match SpellID"],
-				desc = L["When enabled it will only show spells that were added to the filter using a spell ID and not a name."],
+				desc = L["When enabled it will only show spells that were added to the filter using a spell ID and not a name."]
 			},
 			size = {
-				order = 5,
+				order = 4,
 				type = "range",
 				name = L["Size"],
 				min = 8, max = 100, step = 1
 			},
-			font = {
-				order = 6,
-				type = "select", dialogControl = "LSM30_Font",
-				name = L["Font"],
-				values = AceGUIWidgetLSMlists.font
-			},
-			fontSize = {
-				order = 7,
-				type = "range",
-				name = L["FONT_SIZE"],
-				min = 7, max = 22, step = 1
-			},
-			fontOutline = {
-				order = 8,
-				type = "select",
-				name = L["Font Outline"],
-				values = C.Values.FontFlags
-			},
 			xOffset = {
-				order = 9,
+				order = 5,
 				type = "range",
 				name = L["X-Offset"],
 				min = -300, max = 300, step = 1
 			},
 			yOffset = {
-				order = 10,
+				order = 6,
 				type = "range",
 				name = L["Y-Offset"],
 				min = -300, max = 300, step = 1
 			},
+			font = {
+				order = 7,
+				type = "select", dialogControl = "LSM30_Font",
+				name = L["Font"],
+				values = AceGUIWidgetLSMlists.font
+			},
+			fontSize = {
+				order = 8,
+				type = "range",
+				name = L["FONT_SIZE"],
+				min = 7, max = 22, step = 1
+			},
+			fontOutline = {
+				order = 9,
+				type = "select",
+				name = L["Font Outline"],
+				values = C.Values.FontFlags
+			},
 			configureButton = {
-				order = 11,
+				order = 10,
 				type = "execute",
 				name = L["Configure Auras"],
 				func = function() E:SetToFilterConfig("RaidDebuffs") end
 			},
 			duration = {
-				order = 12,
+				order = 11,
 				type = "group",
 				guiInline = true,
 				name = L["Duration Text"],
@@ -2571,7 +2586,7 @@ local function GetOptionsTable_RaidDebuff(updateFunc, groupName)
 				}
 			},
 			stack = {
-				order = 13,
+				order = 12,
 				type = "group",
 				guiInline = true,
 				name = L["Stack Counter"],
@@ -4852,43 +4867,59 @@ E.Options.args.unitframe = {
 					get = function(info) return E.private.unitframe.disabledBlizzardFrames[info[#info]] end,
 					set = function(info, value) E.private.unitframe.disabledBlizzardFrames[info[#info]] = value E:StaticPopup_Show("PRIVATE_RL") end,
 					args = {
-						player = {
+						individual = {
 							order = 1,
-							type = "toggle",
-							name = L["PLAYER"],
-							desc = L["Disables the player and pet unitframes."]
+							type = "group",
+							name = L["Individual Units"],
+							inline = true,
+							args = {
+								player = {
+									order = 1,
+									type = "toggle",
+									name = L["PLAYER"],
+									desc = L["Disables the player and pet unitframes."]
+								},
+								target = {
+									order = 2,
+									type = "toggle",
+									name = L["TARGET"],
+									desc = L["Disables the target and target of target unitframes."]
+								},
+								focus = {
+									order = 3,
+									type = "toggle",
+									name = L["FOCUS"],
+									desc = L["Disables the focus and target of focus unitframes."]
+								}
+							}
 						},
-						target = {
+						group = {
 							order = 2,
-							type = "toggle",
-							name = L["TARGET"],
-							desc = L["Disables the target and target of target unitframes."]
-						},
-						focus = {
-							order = 3,
-							type = "toggle",
-							name = L["FOCUS"],
-							desc = L["Disables the focus and target of focus unitframes."]
-						},
-						boss = {
-							order = 4,
-							type = "toggle",
-							name = L["BOSS"]
-						},
-						arena = {
-							order = 5,
-							type = "toggle",
-							name = L["ARENA"]
-						},
-						party = {
-							order = 6,
-							type = "toggle",
-							name = L["PARTY"]
-						},
-						raid = {
-							order = 7,
-							type = "toggle",
-							name = L["RAID"]
+							type = "group",
+							name = L["Group Units"],
+							inline = true,
+							args = {
+								party = {
+									order = 1,
+									type = "toggle",
+									name = L["PARTY"]
+								},
+								raid = {
+									order = 2,
+									type = "toggle",
+									name = L["RAID"]
+								},
+								boss = {
+									order = 3,
+									type = "toggle",
+									name = L["BOSS"]
+								},
+								arena = {
+									order = 4,
+									type = "toggle",
+									name = L["ARENA"]
+								}
+							}
 						}
 					}
 				},
@@ -5754,7 +5785,7 @@ E.Options.args.unitframe.args.groupUnits.args.party = {
 				raid = L["RAID"],
 				raid40 = L["Raid-40"]
 			},
-			set = function(info, value) UF:MergeUnitSettings(value, "party", true) E:RefreshGUI() end,
+			set = function(info, value) UF:MergeUnitSettings(value, "party") E:RefreshGUI() end,
 			confirm = true
 		},
 		generalGroup = GetOptionsTable_GeneralGroup(UF.CreateAndUpdateHeaderGroup, "party"),
@@ -5964,7 +5995,7 @@ E.Options.args.unitframe.args.groupUnits.args.raid = {
 				party = L["PARTY"],
 				raid40 = L["Raid-40"]
 			},
-			set = function(info, value) UF:MergeUnitSettings(value, "raid", true) E:RefreshGUI() end,
+			set = function(info, value) UF:MergeUnitSettings(value, "raid") E:RefreshGUI() end,
 			confirm = true
 		},
 		generalGroup = GetOptionsTable_GeneralGroup(UF.CreateAndUpdateHeaderGroup, "raid"),
@@ -6029,7 +6060,7 @@ E.Options.args.unitframe.args.groupUnits.args.raid40 = {
 				party = L["PARTY"],
 				raid = L["RAID"]
 			},
-			set = function(info, value) UF:MergeUnitSettings(value, "raid40", true) E:RefreshGUI() end,
+			set = function(info, value) UF:MergeUnitSettings(value, "raid40") E:RefreshGUI() end,
 			confirm = true
 		},
 		generalGroup = GetOptionsTable_GeneralGroup(UF.CreateAndUpdateHeaderGroup, "raid40"),
@@ -6094,7 +6125,7 @@ E.Options.args.unitframe.args.groupUnits.args.raidpet = {
 				party = L["PARTY"],
 				raid = L["RAID"]
 			},
-			set = function(info, value) UF:MergeUnitSettings(value, "raidpet", true) E:RefreshGUI() end,
+			set = function(info, value) UF:MergeUnitSettings(value, "raidpet") E:RefreshGUI() end,
 			confirm = true
 		},
 		generalGroup = GetOptionsTable_GeneralGroup(UF.CreateAndUpdateHeaderGroup, "raidpet"),

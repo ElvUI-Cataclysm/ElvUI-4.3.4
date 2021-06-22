@@ -379,28 +379,24 @@ end
 function UF:GetInterruptColor(db, unit)
 	local colors = ElvUF.colors
 	local customColor = db and db.castbar and db.castbar.customColor
-	local custom, r, g, b = customColor and customColor.enable and customColor
-
-	if custom then
-		r, g, b = customColor.color.r, customColor.color.g, customColor.color.b
-	else
-		r, g, b = colors.castColor[1], colors.castColor[2], colors.castColor[3]
-	end
+	local custom, r, g, b = customColor and customColor.enable and customColor, colors.castColor[1], colors.castColor[2], colors.castColor[3]
 
 	if self.notInterruptible and unit ~= "player" and UnitCanAttack("player", unit) then
 		if custom and custom.colorNoInterrupt then
-			r, g, b = custom.colorNoInterrupt.r, custom.colorNoInterrupt.g, custom.colorNoInterrupt.b
+			return custom.colorNoInterrupt.r, custom.colorNoInterrupt.g, custom.colorNoInterrupt.b
 		else
-			r, g, b = colors.castNoInterrupt[1], colors.castNoInterrupt[2], colors.castNoInterrupt[3]
+			return colors.castNoInterrupt[1], colors.castNoInterrupt[2], colors.castNoInterrupt[3]
 		end
 	elseif ((custom and custom.useClassColor) or (not custom and UF.db.colors.castClassColor)) and UnitIsPlayer(unit) then
 		local _, class = UnitClass(unit)
 		local t = class and colors.class[class]
-		if t then r, g, b = t[1], t[2], t[3] end
+		if t then return t[1], t[2], t[3] end
 	elseif (custom and custom.useReactionColor) or (not custom and UF.db.colors.castReactionColor) then
 		local reaction = UnitReaction(unit, "player")
 		local t = reaction and colors.reaction[reaction]
-		if t then r, g, b = t[1], t[2], t[3] end
+		if t then return t[1], t[2], t[3] end
+	elseif custom then
+		return customColor.color.r, customColor.color.g, customColor.color.b
 	end
 
 	return r, g, b

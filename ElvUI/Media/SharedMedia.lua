@@ -191,6 +191,7 @@ E.Media = {
 		Copy = M..[[Textures\Copy.tga]],
 		Cross = M..[[Textures\Cross.tga]],
 		DPS = M..[[Textures\DPS.tga]],
+		ExitVehicle = M..[[Textures\ExitVehicle.tga]],
 		GlowTex = M..[[Textures\GlowTex.tga]],
 		Healer = M..[[Textures\Healer.tga]],
 		HelloKitty = M..[[Textures\HelloKitty.tga]],
@@ -208,7 +209,8 @@ E.Media = {
 		NormTex = M..[[Textures\NormTex.tga]],
 		NormTex2 = M..[[Textures\NormTex2.tga]],
 		Pause = M..[[Textures\Pause.tga]],
-		PhaseIcons = M..[[Textures\PhaseIcons.tga]],
+		PhaseBorder = M..[[Textures\PhaseBorder.tga]],
+		PhaseCenter = M..[[Textures\PhaseCenter.tga]],
 		Play = M..[[Textures\Play.tga]],
 		Plus = M..[[Textures\Plus.tga]],
 		PlusButton = M..[[Textures\PlusButton.tga]],
@@ -218,8 +220,7 @@ E.Media = {
 		SkullIcon = M..[[Textures\SkullIcon.tga]],
 		Smooth = M..[[Textures\Smooth.tga]],
 		Spark = M..[[Textures\Spark.tga]],
-		Tank = M..[[Textures\Tank.tga]],
-		ExitVehicle = M..[[Textures\ExitVehicle.tga]]
+		Tank = M..[[Textures\Tank.tga]]
 	}
 }
 
