@@ -2,9 +2,6 @@
 local E = unpack(select(2, ...))
 local L = E.Libs.ACL:NewLocale("ElvUI", "enUS", true, true)
 
-local COLOR1 = "|cffff7000"
-local COLOR2 = "|cfd9b9b9b"
-
 L[" |cff00ff00bound to |r"] = true
 L["%s frame has a conflicting anchor point. Forcing the Buffs to be attached to the main unitframe."] = true
 L["%s is attempting to share his filters with you. Would you like to accept the request?"] = true
@@ -61,7 +58,6 @@ L["Buffs"] = true
 L["Calendar"] = true
 L["Can't buy anymore slots!"] = true
 L["Can't Roll"] = true
-L["Caster DPS"] = true
 L["Change Talent Specialization"] = true
 L["Character: "] = true
 L["Chat Set"] = true
@@ -180,8 +176,8 @@ L["Left Chat"] = true
 L["Left Click:"] = true
 L["List of installations in queue:"] = true
 L["Lock"] = true
-L["LOGIN_MSG"] = ("Welcome to *ElvUI|r version *%s|r, type */ec|r to access the in-game configuration menu. If you are in need of technical support you can visit us at https://github.com/ElvUI-Cataclysm or join our Discord: https://discord.gg/UXSc7nt"):gsub("*", COLOR1)
-L["LOGIN_MSG_HELP"] = ("Please use */ehelp|r for a list of available *ElvUI|r commands."):gsub("*", COLOR1)
+L["LOGIN_MSG"] = ("Welcome to *ElvUI|r version *%s|r, type */ec|r to access the in-game configuration menu. If you are in need of technical support you can visit us at https://github.com/ElvUI-Cataclysm or join our Discord: https://discord.gg/UXSc7nt"):gsub("*", E.InfoColor)
+L["LOGIN_MSG_HELP"] = ("Please use */ehelp|r for a list of available *ElvUI|r commands."):gsub("*", E.InfoColor)
 L["Loot / Alert Frames"] = true
 L["Loot Frame"] = true
 L["Lord! It's a miracle! The download up and vanished like a fart in the wind! Try Again!"] = true
@@ -256,7 +252,7 @@ L["Save"] = true
 L["Saved Dungeon(s)"] = true
 L["Saved Raid(s)"] = true
 L["says"] = true
-L["Select the type of aura system you want to use with ElvUI's unitframes. Set to Aura Bar & Icons to use both aura bars and icons, set to icons only to only see icons."] = true
+L["Select the type of aura system you want to use with ElvUI's unitframes. Set to Aura Bars to use both aura bars and icons, set to Icons Only to only see icons."] = true
 L["Server: "] = true
 L["Session:"] = true
 L["Setup Chat"] = true
@@ -275,7 +271,6 @@ L["Steps"] = true
 L["Sticky Frames"] = true
 L["System"] = true
 L["Talent Specialization"] = true
-L["Tank / Physical DPS"] = true
 L["Target Aura Bars"] = true
 L["Target Castbar"] = true
 L["Target Frame"] = true
@@ -367,4 +362,4 @@ L["EHELP_COMMANDS"] = ([=[Here is a list of all important *ElvUI|r commands:
  */luaerror|r ^on|r or ^off|r  -  Disable all AddOns except ElvUI.
   NOTE: */luaerror|r ^off|r will re-enable the addons disabled from
   using */luaerror|r ^on|r within that session.
-]=]):gsub("*", COLOR1):gsub("%^", COLOR2)
+]=]):gsub("*", E.InfoColor):gsub("%^", E.InfoColor2)

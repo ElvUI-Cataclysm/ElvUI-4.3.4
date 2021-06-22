@@ -2,9 +2,6 @@
 local E = unpack(select(2, ...))
 local L = E.Libs.ACL:NewLocale("ElvUI", "zhCN")
 
-local COLOR1 = "|cffff7000"
-local COLOR2 = "|cfd9b9b9b"
-
 L[" |cff00ff00bound to |r"] = " |cff00ff00绑定到 |r"
 L["%s frame has a conflicting anchor point. Forcing the Buffs to be attached to the main unitframe."] = true
 L["%s is attempting to share his filters with you. Would you like to accept the request?"] = "%s 试图与你分享过滤器配置. 你是否接受?"
@@ -61,7 +58,6 @@ L["Buffs"] = "增益光环"
 L["Calendar"] = "日历"
 L["Can't Roll"] = "无法需求此装备"
 L["Can't buy anymore slots!"] = "银行背包栏位已达最大值"
-L["Caster DPS"] = "法系输出"
 L["Change Talent Specialization"] = "更改当前专精"
 L["Character: "] = "角色: "
 L["Chat Set"] = "聊天设定"
@@ -180,8 +176,8 @@ L["Left Chat"] = "左侧对话框"
 L["Left Click:"] = "左键:"
 L["List of installations in queue:"] = "即将安装的列表:"
 L["Lock"] = "锁定"
-L["LOGIN_MSG"] = ("Welcome to *ElvUI|r version *%s|r, type */ec|r to access the in-game configuration menu. If you are in need of technical support you can visit us at https://github.com/ElvUI-Cataclysm or join our Discord: https://discord.gg/UXSc7nt"):gsub("*", COLOR1)
-L["LOGIN_MSG_HELP"] = ("Please use */ehelp|r for a list of available *ElvUI|r commands."):gsub("*", COLOR1)
+L["LOGIN_MSG"] = ("Welcome to *ElvUI|r version *%s|r, type */ec|r to access the in-game configuration menu. If you are in need of technical support you can visit us at https://github.com/ElvUI-Cataclysm or join our Discord: https://discord.gg/UXSc7nt"):gsub("*", E.InfoColor)
+L["LOGIN_MSG_HELP"] = ("Please use */ehelp|r for a list of available *ElvUI|r commands."):gsub("*", E.InfoColor)
 L["Loot / Alert Frames"] = "拾取 / 提醒框"
 L["Loot Frame"] = "拾取框架"
 L["Lord! It's a miracle! The download up and vanished like a fart in the wind! Try Again!"] = "天啊! 太奇葩了! 下载消失了! 就像在风中放了一个屁... 再试一次吧!"
@@ -256,7 +252,7 @@ L["Save"] = "储存"
 L["Saved Dungeon(s)"] = "已有进度的地下城"
 L["Saved Raid(s)"] = "已有进度的副本"
 L["says"] = "说"
-L["Select the type of aura system you want to use with ElvUI's unitframes. Set to Aura Bar & Icons to use both aura bars and icons, set to icons only to only see icons."] = "选择你想使用的光环系统类型. 选择光环条及图标将会同时显示光环条及图标，选择图标将只会显示图标."
+L["Select the type of aura system you want to use with ElvUI's unitframes. Set to Aura Bars to use both aura bars and icons, set to Icons Only to only see icons."] = "选择你想使用的光环系统类型. 选择光环条及图标将会同时显示光环条及图标，选择图标将只会显示图标."
 L["Server: "] = "服务器: "
 L["Session:"] = "本次登陆:"
 L["Setup CVars"] = "设定参数"
@@ -275,7 +271,6 @@ L["Steps"] = "步骤"
 L["Sticky Frames"] = "框架依附"
 L["System"] = "系统信息"
 L["Talent Specialization"] = "天赋专精"
-L["Tank / Physical DPS"] = "坦克/物理输出"
 L["Target Aura Bars"] = true
 L["Target Castbar"] = "目标施法条"
 L["Target Frame"] = "目标框架"
@@ -367,4 +362,4 @@ L["EHELP_COMMANDS"] = ([=[Here is a list of all important *ElvUI|r commands:
  */luaerror|r ^on|r or ^off|r  -  Disable all AddOns except ElvUI.
   NOTE: */luaerror|r ^off|r will re-enable the addons disabled from
   using */luaerror|r ^on|r within that session.
-]=]):gsub("*", COLOR1):gsub("%^", COLOR2)
+]=]):gsub("*", E.InfoColor):gsub("%^", E.InfoColor2)

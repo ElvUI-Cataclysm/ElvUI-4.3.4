@@ -425,7 +425,7 @@ E.Options.args.general = {
 								dmgfont = {
 									order = 4,
 									type = "select", dialogControl = "LSM30_Font",
-									name = L["CombatText Font"],
+									name = L["Combat Text Font"],
 									desc = L["The font that combat text will use. |cffFF0000WARNING: This requires a game restart or re-log for this change to take effect.|r"],
 									values = AceGUIWidgetLSMlists.font,
 									set = function(info, value) E.private.general[info[#info]] = value E:UpdateMedia() E:UpdateFontTemplates() E:StaticPopup_Show("PRIVATE_RL") end,

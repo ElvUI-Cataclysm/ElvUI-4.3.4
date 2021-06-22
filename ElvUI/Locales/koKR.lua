@@ -2,9 +2,6 @@
 local E = unpack(select(2, ...))
 local L = E.Libs.ACL:NewLocale("ElvUI", "koKR")
 
-local COLOR1 = "|cffff7000"
-local COLOR2 = "|cfd9b9b9b"
-
 L[" |cff00ff00bound to |r"] = " 키로 다음의 행동을 실행합니다: |cff2eb7e4"
 L["%s frame has a conflicting anchor point. Forcing the Buffs to be attached to the main unitframe."] = true
 L["%s is attempting to share his filters with you. Would you like to accept the request?"] = "%s 유저가 필터설정을 전송하려 합니다. 받으시겠습니까?"
@@ -61,7 +58,6 @@ L["Buffs"] = "강화효과"
 L["Calendar"] = "달력"
 L["Can't Roll"] = "주사위를 굴릴 수 없습니다."
 L["Can't buy anymore slots!"] = "더 이상 가방 칸을 늘릴 수 없습니다."
-L["Caster DPS"] = "원거리 딜러"
 L["Change Talent Specialization"] = "전문화 교체"
 L["Character: "] = "캐릭터:"
 L["Chat Set"] = "대화창 설정"
@@ -180,8 +176,8 @@ L["Left Chat"] = "좌측 패널"
 L["Left Click:"] = "왼 클릭 :"
 L["List of installations in queue:"] = "설치 대기열 목록"
 L["Lock"] = "잠금"
-L["LOGIN_MSG"] = ("Welcome to *ElvUI|r version *%s|r, type */ec|r to access the in-game configuration menu. If you are in need of technical support you can visit us at https://github.com/ElvUI-Cataclysm or join our Discord: https://discord.gg/UXSc7nt"):gsub("*", COLOR1)
-L["LOGIN_MSG_HELP"] = ("Please use */ehelp|r for a list of available *ElvUI|r commands."):gsub("*", COLOR1)
+L["LOGIN_MSG"] = ("Welcome to *ElvUI|r version *%s|r, type */ec|r to access the in-game configuration menu. If you are in need of technical support you can visit us at https://github.com/ElvUI-Cataclysm or join our Discord: https://discord.gg/UXSc7nt"):gsub("*", E.InfoColor)
+L["LOGIN_MSG_HELP"] = ("Please use */ehelp|r for a list of available *ElvUI|r commands."):gsub("*", E.InfoColor)
 L["Loot / Alert Frames"] = "획득/알림 창"
 L["Loot Frame"] = "전리품 프레임"
 L["Lord! It's a miracle! The download up and vanished like a fart in the wind! Try Again!"] = "데이터를 받는 중 혼선이 생겼습니다. 다시 시도해주세요."
@@ -256,7 +252,7 @@ L["Save"] = "저장"
 L["Saved Dungeon(s)"] = "귀속된 던전"
 L["Saved Raid(s)"] = "귀속된 던전"
 L["says"] = "일반"
-L["Select the type of aura system you want to use with ElvUI's unitframes. Set to Aura Bar & Icons to use both aura bars and icons, set to icons only to only see icons."] = "ElvUI 유닛프레임에서 표시할 오라(버프,디버프)의 형태를 선택하세요."
+L["Select the type of aura system you want to use with ElvUI's unitframes. Set to Aura Bars to use both aura bars and icons, set to Icons Only to only see icons."] = "ElvUI 유닛프레임에서 표시할 오라(버프,디버프)의 형태를 선택하세요."
 L["Server: "] = "서버:"
 L["Session:"] = "현재 접속:"
 L["Setup CVars"] = "인터페이스 설정 적용"
@@ -275,7 +271,6 @@ L["Steps"] = "단계"
 L["Sticky Frames"] = "자석"
 L["System"] = "시스템"
 L["Talent Specialization"] = "특성"
-L["Tank / Physical DPS"] = true
 L["Target Aura Bars"] = true
 L["Target Castbar"] = "대상 시전바"
 L["Target Frame"] = "대상 프레임"
@@ -367,4 +362,4 @@ L["EHELP_COMMANDS"] = ([=[Here is a list of all important *ElvUI|r commands:
  */luaerror|r ^on|r or ^off|r  -  Disable all AddOns except ElvUI.
   NOTE: */luaerror|r ^off|r will re-enable the addons disabled from
   using */luaerror|r ^on|r within that session.
-]=]):gsub("*", COLOR1):gsub("%^", COLOR2)
+]=]):gsub("*", E.InfoColor):gsub("%^", E.InfoColor2)

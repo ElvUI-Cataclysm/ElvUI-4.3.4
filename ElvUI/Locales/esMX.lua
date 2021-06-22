@@ -2,9 +2,6 @@
 local E = unpack(select(2, ...))
 local L = E.Libs.ACL:NewLocale("ElvUI", "esMX")
 
-local COLOR1 = "|cffff7000"
-local COLOR2 = "|cfd9b9b9b"
-
 L[" |cff00ff00bound to |r"] = " |cff00ff00ligado(a) a |r"
 L["%s frame has a conflicting anchor point. Forcing the Buffs to be attached to the main unitframe."] = "El marco de %s tiene un punto de anclaje en conflicto. Obligar a los Buffs a unirse a la unidad principal."
 L["%s is attempting to share his filters with you. Would you like to accept the request?"] = "%s quiere compartir sus filtros contigo. ¿Aceptas la petición?"
@@ -61,7 +58,6 @@ L["Buffs"] = "Beneficios"
 L["Calendar"] = "Calendario"
 L["Can't buy anymore slots!"] = "¡No puedes comprar más espacios!"
 L["Can't Roll"] = "No puede tirar dados"
-L["Caster DPS"] = "DPS Hechizos"
 L["Change Talent Specialization"] = "Cambiar Especialización de Talentos"
 L["Character: "] = "Personaje: "
 L["Chat Set"] = "Chat Configurado"
@@ -180,8 +176,8 @@ L["Left Chat"] = "Chat Izquierdo"
 L["Left Click:"] = "Clic Izquierdo"
 L["List of installations in queue:"] = "Lista de Instalaciones en cola:"
 L["Lock"] = "Bloquear"
-L["LOGIN_MSG"] = ("Bienvenido a *ElvUI|r versión *%s|r, escribe */ec|r para acceder al menú de configuración del juego. Si necesita ayuda, puede visítenos en https://github.com/ElvUI-Cataclysm o unirse a nuestro Discord: https://discord.gg/UXSc7nt"):gsub("*", COLOR1)
-L["LOGIN_MSG_HELP"] = ("Por favor, escriba */ehelp|r para obtener una lista de los comandos de *ElvUI|r disponibles."):gsub("*", COLOR1)
+L["LOGIN_MSG"] = ("Bienvenido a *ElvUI|r versión *%s|r, escribe */ec|r para acceder al menú de configuración del juego. Si necesita ayuda, puede visítenos en https://github.com/ElvUI-Cataclysm o unirse a nuestro Discord: https://discord.gg/UXSc7nt"):gsub("*", E.InfoColor)
+L["LOGIN_MSG_HELP"] = ("Por favor, escriba */ehelp|r para obtener una lista de los comandos de *ElvUI|r disponibles."):gsub("*", E.InfoColor)
 L["Loot / Alert Frames"] = "Marcos de Botín / Alerta"
 L["Loot Frame"] = "Marco de Botín"
 L["Lord! It's a miracle! The download up and vanished like a fart in the wind! Try Again!"] = "¡Milagro! ¡La descarga se desvaneció como pedo! Intenta de nuevo"
@@ -256,7 +252,7 @@ L["Save"] = "Guardar"
 L["Saved Dungeon(s)"] = "Mazmorra(s) Guardada"
 L["Saved Raid(s)"] = "Banda(s) Guardada(s)"
 L["says"] = "dice"
-L["Select the type of aura system you want to use with ElvUI's unitframes. Set to Aura Bar & Icons to use both aura bars and icons, set to icons only to only see icons."] = "Seleccione el tipo de sistema de aura que desea usar con los cuadros unitarios de ElvUI. Establezca en barras de Aura y Iconos para usar tanto las barras de aura como los íconos, configure los íconos solo para ver solo los íconos."
+L["Select the type of aura system you want to use with ElvUI's unitframes. Set to Aura Bars to use both aura bars and icons, set to Icons Only to only see icons."] = "Seleccione el tipo de sistema de aura que desea usar con los cuadros unitarios de ElvUI. Establezca en barras de Aura y Iconos para usar tanto las barras de aura como los íconos, configure los íconos solo para ver solo los íconos."
 L["Server: "] = "Servidor: "
 L["Session:"] = "Sesión:"
 L["Setup Chat"] = "Configurar Chat"
@@ -275,7 +271,6 @@ L["Steps"] = "Pasos"
 L["Sticky Frames"] = "Marcos Adhesivos"
 L["System"] = "Sistema"
 L["Talent Specialization"] = "Especialización en Talento"
-L["Tank / Physical DPS"] = "Tanque / DPS Físico"
 L["Target Aura Bars"] = true
 L["Target Castbar"] = "Barra de Lanzamiento del Objetivo"
 L["Target Frame"] = "Marco de Objetivo"
@@ -366,4 +361,4 @@ L["EHELP_COMMANDS"] = ([=[Aquí hay una lista de todos los comandos importantes 
  */luaerror|r ^on|r or ^off|r  -  Deshabilitar todos los AddOns excepto ElvUI.
   NOTA: */luaerror|r ^off|r volverá a habilitar los complementos deshabilitado
   mediante el uso de */luaerror|r ^on|r dentro de esa sesión.
-]=]):gsub("*", COLOR1):gsub("%^", COLOR2)
+]=]):gsub("*", E.InfoColor):gsub("%^", E.InfoColor2)
