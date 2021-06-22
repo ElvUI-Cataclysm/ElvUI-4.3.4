@@ -19,8 +19,12 @@ local IsInInstance = IsInInstance
 local SetCVar = SetCVar
 local UnitClass = UnitClass
 local UnitExists = UnitExists
+local UnitFactionGroup = UnitFactionGroup
 local UnitGUID = UnitGUID
+local UnitIsFriend = UnitIsFriend
 local UnitIsPlayer = UnitIsPlayer
+local UnitIsUnit = UnitIsUnit
+local UnitReaction = UnitReaction
 local UnitName = UnitName
 local WorldFrame = WorldFrame
 local WorldGetChildren = WorldFrame.GetChildren
@@ -574,6 +578,7 @@ end
 local plateID = 0
 function NP:OnCreated(frame)
 	plateID = plateID + 1
+
 	local Health, CastBar = frame:GetChildren()
 	local Threat, Border, Highlight, Name, Level, BossIcon, RaidIcon, EliteIcon = frame:GetRegions()
 	local _, CastBarBorder, CastBarShield, CastBarIcon = CastBar:GetRegions()
@@ -634,6 +639,7 @@ function NP:OnCreated(frame)
 
 	frame:HookScript("OnShow", self.OnShow)
 	frame:HookScript("OnHide", self.OnHide)
+
 	Health:HookScript("OnValueChanged", self.Update_HealthOnValueChanged)
 
 	self.CreatedPlates[frame] = true
@@ -782,11 +788,7 @@ function NP:SetTargetFrame(frame)
 		self:Update_CPoints(frame)
 
 		if not frame.AlphaChanged then
-			if hasTarget then
-				NP:PlateFade(frame, NP.db.fadeIn and 1 or 0, frame:GetAlpha(), self.db.nonTargetTransparency)
-			else
-				NP:PlateFade(frame, NP.db.fadeIn and 1 or 0, frame:GetAlpha(), 1)
-			end
+			NP:PlateFade(frame, NP.db.fadeIn and 1 or 0, frame:GetAlpha(), hasTarget and NP.db.nonTargetTransparency or 1)
 		end
 
 		self:StyleFilterUpdate(frame, "PLAYER_TARGET_CHANGED")

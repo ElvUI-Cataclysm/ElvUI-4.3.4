@@ -3,31 +3,35 @@ local NP = E:GetModule("NamePlates")
 local LSM = E.Libs.LSM
 
 function NP:Update_Level(frame)
-	if not self.db.units[frame.UnitType].level.enable then return end
+	local db = NP.db.units[frame.UnitType].level
+	if not db.enable then return end
 
-	local levelText, r, g, b = self:UnitLevel(frame)
-	local level = frame.Level
+	local levelText, r, g, b = NP:UnitLevel(frame)
 
-	level:ClearAllPoints()
+	frame.Level:ClearAllPoints()
 
 	if frame.Health:IsShown() then
-		level:SetJustifyH("RIGHT")
-		level:SetPoint("BOTTOMRIGHT", frame.Health, "TOPRIGHT", 0, E.Border*2)
-		level:SetText(levelText)
+		frame.Level:SetJustifyH("RIGHT")
+		frame.Level:SetPoint(E.InversePoints[db.position], db.parent == "Nameplate" and frame or frame[db.parent], db.position, db.xOffset, db.yOffset)
+		frame.Level:SetParent(frame.Health)
+		frame.Level:SetText(levelText)
 	else
-		if self.db.units[frame.UnitType].name.enable then
-			level:SetPoint("LEFT", frame.Name, "RIGHT")
+		if NP.db.units[frame.UnitType].name.enable then
+			frame.Level:SetPoint("LEFT", frame.Name, "RIGHT")
 		else
-			level:SetPoint("TOPLEFT", frame, "TOPRIGHT", -38, 0)
+			frame.Level:SetPoint("TOPLEFT", frame, "TOPRIGHT", -38, 0)
 		end
-		level:SetJustifyH("LEFT")
-		level:SetFormattedText(" [%s]", levelText)
+
+		frame.Level:SetParent(frame)
+		frame.Level:SetJustifyH("LEFT")
+		frame.Level:SetFormattedText(" [%s]", levelText)
 	end
-	level:SetTextColor(r, g, b)
+
+	frame.Level:SetTextColor(r, g, b)
 end
 
 function NP:Configure_Level(frame)
-	local db = self.db.units[frame.UnitType].level
+	local db = NP.db.units[frame.UnitType].level
 	frame.Level:FontTemplate(LSM:Fetch("font", db.font), db.fontSize, db.fontOutline)
 end
 

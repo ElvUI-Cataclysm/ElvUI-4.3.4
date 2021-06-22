@@ -3222,10 +3222,52 @@ local function GetUnitSettings(unit, name)
 						type = "toggle",
 						name = L["ENABLE"]
 					},
-					spacer = {
+					positionGroup = {
 						order = 2,
-						type = "description",
-						name = " "
+						type = "group",
+						name = L["Position"],
+						guiInline = true,
+						get = function(info)
+							return E.db.nameplates.units[unit].level[info[#info]]
+						end,
+						set = function(info, value)
+							E.db.nameplates.units[unit].level[info[#info]] = value
+							NP:ConfigureAll()
+						end,
+						args = {
+							position = {
+								order = 1,
+								type = "select",
+								name = L["Position"],
+								values = textValues
+							},
+							parent = {
+								order = 2,
+								type = "select",
+								name = L["Attach To"],
+								values = {
+									Nameplate = L["Nameplate"],
+									Health = L["Health"]
+								}
+							},
+							spacer = {
+								order = 3,
+								type = "description",
+								name = " "
+							},
+							xOffset = {
+								order = 4,
+								type = "range",
+								name = L["X-Offset"],
+								min = -100, max = 100, step = 1
+							},
+							yOffset = {
+								order = 5,
+								type = "range",
+								name = L["Y-Offset"],
+								min = -100, max = 100, step = 1
+							}
+						}
 					},
 					font = {
 						order = 3,
@@ -3275,10 +3317,52 @@ local function GetUnitSettings(unit, name)
 						name = L["Abbreviation"],
 						disabled = function() return not E.db.nameplates.units[unit].name.enable end
 					},
-					spacer = {
+					positionGroup = {
 						order = 3,
-						type = "description",
-						name = " "
+						type = "group",
+						name = L["Position"],
+						guiInline = true,
+						get = function(info)
+							return E.db.nameplates.units[unit].name[info[#info]]
+						end,
+						set = function(info, value)
+							E.db.nameplates.units[unit].name[info[#info]] = value
+							NP:ConfigureAll()
+						end,
+						args = {
+							position = {
+								order = 1,
+								type = "select",
+								name = L["Position"],
+								values = textValues
+							},
+							parent = {
+								order = 2,
+								type = "select",
+								name = L["Attach To"],
+								values = {
+									Nameplate = L["Nameplate"],
+									Health = L["Health"]
+								}
+							},
+							spacer = {
+								order = 3,
+								type = "description",
+								name = " "
+							},
+							xOffset = {
+								order = 4,
+								type = "range",
+								name = L["X-Offset"],
+								min = -100, max = 100, step = 1
+							},
+							yOffset = {
+								order = 5,
+								type = "range",
+								name = L["Y-Offset"],
+								min = -100, max = 100, step = 1
+							}
+						}
 					},
 					font = {
 						order = 4,
@@ -3511,7 +3595,7 @@ local function GetUnitSettings(unit, name)
 					order = 2,
 					type = "range",
 					name = L["Size"],
-					min = 8, max = 48, step = 1,
+					min = 8, max = 60, step = 1,
 				},
 				position = {
 					order = 3,

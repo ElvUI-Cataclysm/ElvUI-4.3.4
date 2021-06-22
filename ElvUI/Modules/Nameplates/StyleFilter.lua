@@ -256,10 +256,12 @@ function NP:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderChan
 		frame.Name:ClearAllPoints()
 		frame.Name:SetJustifyH("CENTER")
 		frame.Name:SetPoint("TOP", frame)
+		frame.Name:SetParent(frame)
 		if NP.db.units[frame.UnitType].level.enable then
 			frame.Level:ClearAllPoints()
 			frame.Level:SetPoint("LEFT", frame.Name, "RIGHT")
 			frame.Level:SetJustifyH("LEFT")
+			frame.Level:SetParent(frame)
 			frame.Level:SetFormattedText(" [%s]", NP:UnitLevel(frame))
 		end
 		if not NameColorChanged then
@@ -275,7 +277,8 @@ function NP:StyleFilterSetChanges(frame, actions, HealthColorChanged, BorderChan
 	if IconOnlyChanged then
 		frame.StyleChanged = true
 		frame.IconOnlyChanged = true
-		NP:Update_IconFrame(frame, true)
+		NP:Configure_IconFrame(frame, true)
+		NP:Update_IconFrame(frame)
 		if frame.CastBar:IsShown() then frame.CastBar:Hide() end
 		if frame.Health:IsShown() then frame.Health:Hide() end
 		if frame.Title then frame.Title:Hide() end -- Temporary solution (enhanced plugin)
