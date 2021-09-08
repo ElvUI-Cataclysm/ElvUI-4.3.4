@@ -577,6 +577,12 @@ end
 
 local plateID = 0
 function NP:OnCreated(frame)
+	local isDirty = frame.UnitFrame ~= nil
+	if isDirty then
+		twipe(frame.UnitFrame)
+		frame.UnitFrame = nil
+	end
+
 	plateID = plateID + 1
 
 	local Health, CastBar = frame:GetChildren()
@@ -637,8 +643,10 @@ function NP:OnCreated(frame)
 	self.OnShow(frame, true)
 	self:SetSize(frame)
 
-	frame:HookScript("OnShow", self.OnShow)
-	frame:HookScript("OnHide", self.OnHide)
+	if not isDirty then
+		frame:HookScript("OnShow", self.OnShow)
+		frame:HookScript("OnHide", self.OnHide)
+	end
 
 	Health:HookScript("OnValueChanged", self.Update_HealthOnValueChanged)
 
