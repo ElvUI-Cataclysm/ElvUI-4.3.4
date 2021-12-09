@@ -120,7 +120,9 @@ function AB:PositionAndSizeBar(barName)
 	local backdropSpacing = E:Scale(db.backdropSpacing or db.buttonSpacing)
 	local buttonsPerRow = db.buttonsPerRow
 	local numButtons = db.buttons
-	local size = E:Scale(db.buttonSize)
+	local buttonWidth = (db.buttonSizeProportional == true) and E:Scale(db.buttonSize) or E:Scale(db.buttonWidth)
+	local buttonHeight = (db.buttonSizeProportional == true) and E:Scale(db.buttonSize) or E:Scale(db.buttonHeight)
+
 	local point = db.point
 	local numColumns = ceil(numButtons / buttonsPerRow)
 	local widthMult = db.widthMult
@@ -155,8 +157,8 @@ function AB:PositionAndSizeBar(barName)
 
 	local sideSpacing = (db.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)
 	--Size of all buttons + Spacing between all buttons + Spacing between additional rows of buttons + Spacing between backdrop and buttons + Spacing on end borders with non-thin borders
-	local barWidth = (size * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult - 1)) + (sideSpacing*2)
-	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult - 1)) + (sideSpacing*2)
+	local barWidth = (buttonWidth * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult - 1)) + (sideSpacing*2)
+	local barHeight = (buttonHeight * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult - 1)) + (sideSpacing*2)
 	bar:SetSize(barWidth, barHeight)
 
 	local horizontalGrowth, verticalGrowth
@@ -186,7 +188,7 @@ function AB:PositionAndSizeBar(barName)
 		button:SetParent(bar)
 		button:ClearAllPoints()
 		button:SetAttribute("showgrid", 1)
-		button:Size(size)
+		button:Size(buttonWidth, buttonHeight)
 		button:EnableMouse(not db.clickThrough)
 
 		if i == 1 then
@@ -596,7 +598,28 @@ function AB:StyleButton(button, noBackdrop, useMasque, ignoreNormal)
 	end
 
 	if icon then
-		icon:SetTexCoord(unpack(E.TexCoords))
+		local left, right, top, bottom = unpack(E.TexCoords)
+
+		local parent = button:GetParent()
+		local actionBarPattern = 'ElvUI_Bar(%d+)'
+		local barId = string.match(parent:GetName(), actionBarPattern)
+
+		if barId then
+			local db = AB.db['bar'..barId]
+			if not db.buttonSizeProportional then
+				local ratio = db.buttonWidth / db.buttonHeight
+				if ratio > 1 then
+					local trimAmount = (1 - (1 / ratio)) / 2
+					top = top + trimAmount
+					bottom = bottom - trimAmount
+				else
+					local trimAmount = (1 - ratio) / 2
+					left = left + trimAmount
+					right = right - trimAmount
+				end
+			end
+		end
+		icon:SetTexCoord(left, right, top, bottom)
 		icon:SetInside()
 	end
 
