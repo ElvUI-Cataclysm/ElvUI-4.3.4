@@ -1077,6 +1077,7 @@ function NP:COMBAT_LOG_EVENT_UNFILTERED(
 			local frame = self:SearchForFrameByFlags(destFlags, destGUID, destRaidFlags,  destName)
 
 			if frame then
+				frame.guid = destGUID
 				frame.unit = destGUID
 				self:Update_Auras(frame)
 			end
@@ -1089,6 +1090,7 @@ function NP:COMBAT_LOG_EVENT_UNFILTERED(
 
 			if frame then
 				frame.unit = sourceGUID
+				frame.guid = sourceGUID
 				self:Update_CastBar(frame, nil, frame.unit)
 			end
 		end
