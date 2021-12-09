@@ -40,6 +40,11 @@ local FSPAT = "%s*"..(gsub(gsub(_G.FOREIGN_SERVER_LABEL, "^%s", ""), "[%*()]", "
 
 local playerGUID = UnitGUID("player")
 
+local castEvents = {
+	["SPELL_CAST_START"] = true,
+	["SPELL_AURA_APPLIED"] = true,
+}
+
 local RaidIconCoordinate = {
 	[0] = {[0] = "STAR", [0.25] = "MOON"},
 	[0.25] = {[0] = "CIRCLE", [0.25] = "SQUARE"},
@@ -1085,7 +1090,7 @@ function NP:COMBAT_LOG_EVENT_UNFILTERED(
 	end
 
 	if sourceGUID ~= playerGUID then
-		if "UNIT_SPELLCAST_CHANNEL_START" or "UNIT_SPELLCAST_START" then
+		if castEvents[subevent] then
 			local frame = self:SearchForFrameByFlags(sourceFlags, sourceGUID, sourceRaidFlags, sourceName)
 
 			if frame then
