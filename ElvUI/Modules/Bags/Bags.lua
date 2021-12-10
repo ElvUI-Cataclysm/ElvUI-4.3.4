@@ -1076,7 +1076,7 @@ function B:ConstructContainerFrame(name, isBank)
 				B:CommandDecorator(B.Compress, "bank")()
 			end
 		end)
-	
+
 		--Sort Button
 		f.sortButton = CreateFrame("Button", name.."SortButton", f)
 		f.sortButton:Size(16 + E.Border)

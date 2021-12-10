@@ -1,7 +1,6 @@
 ﻿local E, L, V, P, G = unpack(select(2, ...))
 local DT = E:GetModule("DataTexts")
 
-local _G = _G
 local pairs, select = pairs, select
 local format = string.format
 local wipe = table.wipe
@@ -10,7 +9,6 @@ local GetInventoryItemDurability = GetInventoryItemDurability
 local GetInventoryItemTexture = GetInventoryItemTexture
 local GetInventoryItemLink = GetInventoryItemLink
 local GetMoneyString = GetMoneyString
-local InCombatLockdown = InCombatLockdown
 local ToggleCharacter = ToggleCharacter
 
 local DURABILITY = DURABILITY
