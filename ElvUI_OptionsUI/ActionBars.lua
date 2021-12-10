@@ -1114,6 +1114,12 @@ for i = 1, 10 do
 							end
 						end
 					},
+					buttonSizeProportional = {
+						order = 9,
+						type = "toggle",
+						name = L["Keep Button Size Proportional"],
+						desc = L["Keep Button Size Proportional."],
+					},
 					spacer1 = {
 						order = 10,
 						type = "description",
@@ -1169,51 +1175,68 @@ for i = 1, 10 do
 						type = "range",
 						name = L["Button Size"],
 						desc = L["The size of the action buttons."],
-						softMin = 14, softMax = 64, min = 12, max = 128, step = 1
+						softMin = 14, softMax = 64, min = 12, max = 128, step = 1,
+						disabled = function() return not E.private.actionbar.enable or not E.db.actionbar['bar'..i]['buttonSizeProportional'] end,
+					},
+					buttonWidth = {
+						order = 18,
+						type = 'range',
+						name = L["Button Width"],
+						desc = L["The width of the action buttons."],
+						softMin = 14, softMax = 64, min = 12, max = 128, step = 1,
+						disabled = function() return not E.private.actionbar.enable or E.db.actionbar['bar'..i]['buttonSizeProportional'] end,
+					},
+					buttonHeight = {
+						order = 19,
+						type = 'range',
+						name = L["Button Height"],
+						desc = L["The height of the action buttons."],
+						softMin = 14, softMax = 64, min = 12, max = 128, step = 1,
+						disabled = function() return not E.private.actionbar.enable or E.db.actionbar['bar'..i]['buttonSizeProportional'] end,
 					},
 					buttonSpacing = {
-						order = 18,
+						order = 20,
 						type = "range",
 						name = L["Button Spacing"],
 						desc = L["The spacing between buttons."],
 						min = -3, max = 20, step = 1
 					},
 					backdropSpacing = {
-						order = 19,
+						order = 21,
 						type = "range",
 						name = L["Backdrop Spacing"],
 						desc = L["The spacing between the backdrop and the buttons."],
 						min = -1, max = 10, step = 1
 					},
 					heightMult = {
-						order = 20,
+						order = 22,
 						type = "range",
 						name = L["Height Multiplier"],
 						desc = L["Multiply the backdrops height or width by this value. This is usefull if you wish to have more than one bar behind a backdrop."],
 						min = 1, max = 5, step = 1
 					},
 					widthMult = {
-						order = 21,
+						order = 23,
 						type = "range",
 						name = L["Width Multiplier"],
 						desc = L["Multiply the backdrops height or width by this value. This is usefull if you wish to have more than one bar behind a backdrop."],
 						min = 1, max = 5, step = 1
 					},
 					alpha = {
-						order = 22,
+						order = 24,
 						type = "range",
 						name = L["Alpha"],
 						isPercent = true,
 						min = 0, max = 1, step = 0.01
 					},
 					frameLevel = {
-						order = 23,
+						order = 25,
 						type = "range",
 						name = L["Frame Level"],
 						min = 1, max = 256, step = 1
 					},
 					paging = {
-						order = 24,
+						order = 26,
 						type = "input",
 						name = L["Action Paging"],
 						desc = L["This works like a macro, you can run different situations to get the actionbar to page differently.\n Example: '[combat] 2;'"],
@@ -1234,7 +1257,7 @@ for i = 1, 10 do
 						end
 					},
 					visibility = {
-						order = 25,
+						order = 27,
 						type = "input",
 						name = L["Visibility State"],
 						desc = L["This works like a macro, you can run different situations to get the actionbar to show/hide differently.\n Example: '[combat] show;hide'"],
