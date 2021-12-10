@@ -17,32 +17,29 @@ function UF:Construct_CombatIndicator(frame)
 end
 
 function UF:Configure_CombatIndicator(frame)
-	if not frame.VARIABLES_SET then return end
-
-	local Icon = frame.CombatIndicator
 	local db = frame.db.CombatIcon
 
-	Icon:ClearAllPoints()
-	Icon:Point("CENTER", frame.Health, db.anchorPoint, db.xOffset, db.yOffset)
-	Icon:Size(db.size)
+	frame.CombatIndicator:ClearAllPoints()
+	frame.CombatIndicator:Point("CENTER", frame.Health, db.anchorPoint, db.xOffset, db.yOffset)
+	frame.CombatIndicator:Size(db.size)
 
 	if db.defaultColor then
-		Icon:SetVertexColor(1, 1, 1, 1)
-		Icon:SetDesaturated(false)
+		frame.CombatIndicator:SetVertexColor(1, 1, 1, 1)
+		frame.CombatIndicator:SetDesaturated(false)
 	else
-		Icon:SetVertexColor(db.color.r, db.color.g, db.color.b, db.color.a)
-		Icon:SetDesaturated(true)
+		frame.CombatIndicator:SetVertexColor(db.color.r, db.color.g, db.color.b, db.color.a)
+		frame.CombatIndicator:SetDesaturated(true)
 	end
 
 	if db.texture == "CUSTOM" and db.customTexture then
-		Icon:SetTexture(db.customTexture)
-		Icon:SetTexCoord(0, 1, 0, 1)
+		frame.CombatIndicator:SetTexture(db.customTexture)
+		frame.CombatIndicator:SetTexCoord(0, 1, 0, 1)
 	elseif db.texture ~= "DEFAULT" and CombatTextures[db.texture] then
-		Icon:SetTexture(CombatTextures[db.texture])
-		Icon:SetTexCoord(0, 1, 0, 1)
+		frame.CombatIndicator:SetTexture(CombatTextures[db.texture])
+		frame.CombatIndicator:SetTexCoord(0, 1, 0, 1)
 	else
-		Icon:SetTexture(CombatTextures.DEFAULT)
-		Icon:SetTexCoord(.5, 1, 0, .49)
+		frame.CombatIndicator:SetTexture(CombatTextures.DEFAULT)
+		frame.CombatIndicator:SetTexCoord(.5, 1, 0, .49)
 	end
 
 	if db.enable and not frame:IsElementEnabled("CombatIndicator") then

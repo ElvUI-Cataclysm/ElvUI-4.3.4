@@ -11,19 +11,18 @@ function UF:Construct_ResurrectionIcon(frame)
 end
 
 function UF:Configure_ResurrectionIcon(frame)
-	local RI = frame.ResurrectIndicator
-	local db = frame.db
+	local db = frame.db.resurrectIcon
 
-	if db.resurrectIcon.enable then
+	if db.enable then
 		frame:EnableElement("ResurrectIndicator")
-		RI:Show()
-		RI:Size(db.resurrectIcon.size)
 
-		local attachPoint = self:GetObjectAnchorPoint(frame, db.resurrectIcon.attachToObject)
-		RI:ClearAllPoints()
-		RI:Point(db.resurrectIcon.attachTo, attachPoint, db.resurrectIcon.attachTo, db.resurrectIcon.xOffset, db.resurrectIcon.yOffset)
+		local attachPoint = self:GetObjectAnchorPoint(frame, db.attachToObject)
+		frame.ResurrectIndicator:ClearAllPoints()
+		frame.ResurrectIndicator:Point(db.attachTo, attachPoint, db.attachTo, db.xOffset, db.yOffset)
+		frame.ResurrectIndicator:Size(db.size)
+		frame.ResurrectIndicator:Show()
 	else
 		frame:DisableElement("ResurrectIndicator")
-		RI:Hide()
+		frame.ResurrectIndicator:Hide()
 	end
 end

@@ -12,19 +12,18 @@ function UF:Construct_RaidIcon(frame)
 end
 
 function UF:Configure_RaidIcon(frame)
-	local RI = frame.RaidTargetIndicator
-	local db = frame.db
+	local db = frame.db.raidicon
 
-	if db.raidicon.enable then
+	if db.enable then
 		frame:EnableElement("RaidTargetIndicator")
-		RI:Show()
-		RI:Size(db.raidicon.size)
 
-		local attachPoint = self:GetObjectAnchorPoint(frame, db.raidicon.attachToObject)
-		RI:ClearAllPoints()
-		RI:Point(db.raidicon.attachTo, attachPoint, db.raidicon.attachTo, db.raidicon.xOffset, db.raidicon.yOffset)
+		local attachPoint = self:GetObjectAnchorPoint(frame, db.attachToObject)
+		frame.RaidTargetIndicator:ClearAllPoints()
+		frame.RaidTargetIndicator:Point(db.attachTo, attachPoint, db.attachTo, db.xOffset, db.yOffset)
+		frame.RaidTargetIndicator:Size(db.size)
+		frame.RaidTargetIndicator:Show()
 	else
 		frame:DisableElement("RaidTargetIndicator")
-		RI:Hide()
+		frame.RaidTargetIndicator:Hide()
 	end
 end

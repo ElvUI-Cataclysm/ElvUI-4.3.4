@@ -60,8 +60,6 @@ function UF:Update_FocusFrame(frame, db)
 		frame.USE_INFO_PANEL = not frame.USE_MINI_POWERBAR and not frame.USE_POWERBAR_OFFSET and db.infoPanel.enable
 		frame.INFO_PANEL_HEIGHT = frame.USE_INFO_PANEL and db.infoPanel.height or 0
 		frame.BOTTOM_OFFSET = UF:GetHealthBottomOffset(frame)
-
-		frame.VARIABLES_SET = true
 	end
 
 	if db.strataAndLevel and db.strataAndLevel.useCustomStrata then

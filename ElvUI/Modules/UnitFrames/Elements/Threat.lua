@@ -31,10 +31,7 @@ function UF:Construct_Threat(frame)
 end
 
 function UF:Configure_Threat(frame)
-	if not (frame.VARIABLES_SET and frame.ThreatIndicator) then return end
-
-	local threat = frame.ThreatIndicator
-	if not threat then return end
+	if not frame.ThreatIndicator then return end
 
 	local threatStyle = frame.db and frame.db.threatStyle
 	if threatStyle and threatStyle ~= "NONE" then
@@ -43,21 +40,21 @@ function UF:Configure_Threat(frame)
 		end
 
 		if threatStyle == "GLOW" then
-			threat:SetFrameStrata("BACKGROUND")
-			threat.MainGlow:ClearAllPoints()
-			threat.MainGlow:SetAllPoints(frame.TargetGlow)
+			frame.ThreatIndicator:SetFrameStrata("BACKGROUND")
+			frame.ThreatIndicator.MainGlow:ClearAllPoints()
+			frame.ThreatIndicator.MainGlow:SetAllPoints(frame.TargetGlow)
 
 			if frame.USE_POWERBAR_OFFSET then
-				threat.PowerGlow:ClearAllPoints()
-				threat.PowerGlow:SetAllPoints(frame.TargetGlow.powerGlow)
+				frame.ThreatIndicator.PowerGlow:ClearAllPoints()
+				frame.ThreatIndicator.PowerGlow:SetAllPoints(frame.TargetGlow.powerGlow)
 			end
 		elseif match(threatStyle, "^ICON") then
-			threat:SetFrameStrata("LOW")
-			threat:SetFrameLevel(75) --Inset power uses 50, we want it to appear above that
+			frame.ThreatIndicator:SetFrameStrata("LOW")
+			frame.ThreatIndicator:SetFrameLevel(75) --Inset power uses 50, we want it to appear above that
 
 			local point = threatStyle:gsub("ICON", "")
-			threat.TextureIcon:ClearAllPoints()
-			threat.TextureIcon:Point(point, frame.Health, point)
+			frame.ThreatIndicator.TextureIcon:ClearAllPoints()
+			frame.ThreatIndicator.TextureIcon:Point(point, frame.Health, point)
 		elseif threatStyle == "HEALTHBORDER" and frame.InfoPanel then
 			frame.InfoPanel:SetFrameLevel(frame.Health:GetFrameLevel() - 3)
 		elseif threatStyle == "INFOPANELBORDER" and frame.InfoPanel then
@@ -81,8 +78,7 @@ function UF:ThreatClassBarBorderColor(parent, status, r, g, b)
 	if parent.Runes then UF:ThreatBorderColor(parent.Runes.backdrop, status, r, g, b) end
 
 	if parent.ClassPower or parent.Runes then
-		local maxClassBarButtons = max(UF.classMaxResourceBar[E.myclass] or 0)
-		for i = 1, maxClassBarButtons do
+		for i = 1, max(UF.classMaxResourceBar[E.myclass] or 0) do
 			if i <= parent.MAX_CLASS_BAR then
 				if parent.ClassPower then UF:ThreatBorderColor(parent.ClassPower[i].backdrop, status, r, g, b) end
 				if parent.Runes then UF:ThreatBorderColor(parent.Runes[i].backdrop, status, r, g, b) end

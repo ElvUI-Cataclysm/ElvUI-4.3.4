@@ -25,7 +25,6 @@ function UF:Construct_Portrait(frame, type)
 end
 
 function UF:Configure_Portrait(frame, dontHide)
-	if not frame.VARIABLES_SET then return end
 	local db = frame.db
 
 	if frame.Portrait and not dontHide then

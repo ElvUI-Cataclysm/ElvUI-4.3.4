@@ -9,10 +9,9 @@ function UF:Construct_PvPText(frame)
 end
 
 function UF:Configure_PvPText(frame)
-	local pvp = frame.PvPText
 	local x, y = self:GetPositionOffset(frame.db.pvp.position)
-	pvp:ClearAllPoints()
-	pvp:Point(frame.db.pvp.position, frame.Health, frame.db.pvp.position, x, y)
+	frame.PvPText:ClearAllPoints()
+	frame.PvPText:Point(frame.db.pvp.position, frame.Health, frame.db.pvp.position, x, y)
 
-	frame:Tag(pvp, frame.db.pvp.text_format)
+	frame:Tag(frame.PvPText, frame.db.pvp.text_format)
 end

@@ -81,7 +81,6 @@ function UF:Construct_Combobar(frame)
 end
 
 function UF:Configure_ComboPoints(frame)
-	if not frame.VARIABLES_SET then return end
 	local ComboPoints = frame.ComboPoints
 	if not ComboPoints then return end
 

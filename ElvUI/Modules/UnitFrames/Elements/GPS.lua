@@ -17,21 +17,21 @@ function UF:Construct_GPS(frame)
 end
 
 function UF:Configure_GPS(frame)
-	local GPS = frame.GPS
+	local db = frame.db.GPSArrow
 
-	if frame.db.GPSArrow.enable then
+	if db.enable then
 		if not frame:IsElementEnabled("GPS") then
 			frame:EnableElement("GPS")
 		end
 
-		GPS:Size(frame.db.GPSArrow.size)
-		GPS.onMouseOver = frame.db.GPSArrow.onMouseOver
-		GPS.outOfRange = frame.db.GPSArrow.outOfRange
+		frame.GPS:Size(db.size)
+		frame.GPS:Point("CENTER", frame, "CENTER", db.xOffset, db.yOffset)
+		frame.GPS.Texture:SetVertexColor(db.color.r, db.color.g, db.color.b)
 
-		GPS:Point("CENTER", frame, "CENTER", frame.db.GPSArrow.xOffset, frame.db.GPSArrow.yOffset)
-		GPS.Texture:SetVertexColor(frame.db.GPSArrow.color.r, frame.db.GPSArrow.color.g, frame.db.GPSArrow.color.b)
+		frame.GPS.onMouseOver = db.onMouseOver
+		frame.GPS.outOfRange = db.outOfRange
 
-		GPS.UpdateState(frame)
+		frame.GPS.UpdateState(frame)
 	else
 		if frame:IsElementEnabled("GPS") then
 			frame:DisableElement("GPS")

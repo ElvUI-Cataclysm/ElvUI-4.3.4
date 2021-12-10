@@ -63,35 +63,14 @@ local function FilterTable()
 	return debufftype, texture, true, filterSpell.style, filterSpell.color
 end
 
-local function CheckForKnownTalent(spellID)
-	local spellName = GetSpellInfo(spellID)
-	if not spellName then return nil end
-
-	for i = 1, GetNumTalentTabs() do
-		for j = 1, GetNumTalents(i) do
-			local name, _, _, _, rank = GetTalentInfo(i, j)
-
-			if name and (name == spellName) then
-				if rank and (rank > 0) then
-					return true
-				else
-					return false
-				end
-			end
-		end
-	end
-
-	return false
-end
-
 local function CheckSpec()
 	-- Check for certain talents to see if we can dispel magic or not
 	if playerClass == 'PALADIN' then
-		CanDispel.Magic = CheckForKnownTalent(53551) -- Sacred Cleansing
+		CanDispel.Magic = ElvUI[1]:CheckTalent(53551) -- Sacred Cleansing
 	elseif playerClass == 'SHAMAN' then
-		CanDispel.Magic = CheckForKnownTalent(77130) -- Improved Cleanse Spirit
+		CanDispel.Magic = ElvUI[1]:CheckTalent(77130) -- Improved Cleanse Spirit
 	elseif playerClass == 'DRUID' then
-		CanDispel.Magic = CheckForKnownTalent(88423) -- Nature's Cure
+		CanDispel.Magic = ElvUI[1]:CheckTalent(88423) -- Nature's Cure
 	end
 end
 
@@ -138,7 +117,6 @@ end
 local function Enable(self)
 	local element = self.AuraHighlight
 	if element then
-
 		self:RegisterEvent('UNIT_AURA', Update)
 
 		return true
