@@ -176,8 +176,9 @@ function NP:Configure_Glow(frame)
 		elseif glowStyle == "style2" or glowStyle == "style6" or glowStyle == "style8" then
 			if healthIsShown then
 				local size = E.Border + 14
-				frame.Spark:SetPoint("TOPLEFT", frame.Health, -(size * 2), size)
-				frame.Spark:SetPoint("BOTTOMRIGHT", frame.Health, (size * 2), -size)
+				local x = size * 2
+				frame.Spark:SetPoint("TOPLEFT", frame.Health, -x, size)
+				frame.Spark:SetPoint("BOTTOMRIGHT", frame.Health, x, -size)
 			else
 				frame.Spark:SetPoint("TOPLEFT", frame.IconOnlyChanged and frame.IconFrame or frame.Name, -20, 8)
 				frame.Spark:SetPoint("BOTTOMRIGHT", frame.IconOnlyChanged and frame.IconFrame or frame.Name, 20, -8)

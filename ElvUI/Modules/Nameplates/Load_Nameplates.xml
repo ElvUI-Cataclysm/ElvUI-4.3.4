@@ -1,5 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file="Nameplates.lua"/>
+	<Script file="NamePlates.lua"/>
 	<Script file="StyleFilter.lua"/>
 	<Script file="Elements\Auras.lua"/>
 	<Script file="Elements\CastBar.lua"/>
@@ -10,7 +10,7 @@
 	<Script file="Elements\Level.lua"/>
 	<Script file="Elements\Name.lua"/>
 	<Script file="Elements\RaidIcon.lua"/>
-	<Script file="Elements\HealerIcon.lua"/>
+	<Script file="Elements\PvPRole.lua"/>
 	<Script file="Elements\Elite.lua"/>
 	<Script file="Elements\Highlight.lua"/>
 	<Script file="Elements\IconFrame.lua"/>

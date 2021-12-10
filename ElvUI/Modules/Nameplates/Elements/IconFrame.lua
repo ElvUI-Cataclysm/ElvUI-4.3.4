@@ -2,11 +2,11 @@ local E, L, V, P, G = unpack(select(2, ...))
 local NP = E:GetModule("NamePlates")
 
 function NP:Update_IconFrame(frame)
-	local db = self.db.units[frame.UnitType].iconFrame
+	local db = NP.db.units[frame.UnitType].iconFrame
 	if not db then return end
 
 	if db.enable or (frame.IconOnlyChanged or frame.IconChanged) then
-		local totem, unit, icon = self.Totems[frame.UnitName], self.UniqueUnits[frame.UnitName]
+		local totem, unit, icon = NP.Totems[frame.UnitName], NP.UniqueUnits[frame.UnitName]
 
 		if totem then
 			icon = NP.TriggerConditions.totems[totem][3]
@@ -18,7 +18,7 @@ function NP:Update_IconFrame(frame)
 			frame.IconFrame.texture:SetTexture(icon)
 			frame.IconFrame:Show()
 
-			self:StyleFrameColor(frame.IconFrame, frame.oldHealthBar:GetStatusBarColor())
+			NP:StyleFrameColor(frame.IconFrame, frame.oldHealthBar:GetStatusBarColor())
 		else
 			frame.IconFrame:Hide()
 		end
@@ -28,7 +28,7 @@ function NP:Update_IconFrame(frame)
 end
 
 function NP:Configure_IconFrame(frame, triggered)
-	local db = self.db.units[frame.UnitType].iconFrame
+	local db = NP.db.units[frame.UnitType].iconFrame
 	if not db then return end
 
 	if db.enable or (frame.IconOnlyChanged or frame.IconChanged) then
@@ -48,7 +48,6 @@ end
 function NP:Construct_IconFrame(frame)
 	local iconFrame = CreateFrame("Frame", nil, frame)
 	iconFrame:Hide()
-
 	iconFrame:SetSize(24, 24)
 	iconFrame:SetPoint("CENTER")
 	NP:StyleFrame(iconFrame, true)

@@ -22,7 +22,7 @@ end
 
 function NP:Configure_Elite(frame)
 	local db = NP.db.units[frame.UnitType].eliteIcon
-	if not db then return end
+	if not db or (db and not db.enable) then return end
 
 	frame.Elite:Size(db.size)
 	frame.Elite:ClearAllPoints()
