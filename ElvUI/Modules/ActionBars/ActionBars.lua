@@ -605,9 +605,9 @@ function AB:StyleButton(button, noBackdrop, useMasque, ignoreNormal)
 		local barId = string.match(parent:GetName(), actionBarPattern)
 
 		if barId then
-			local db = AB.db['bar'..barId]
-			if not db.buttonSizeProportional then
-				local ratio = db.buttonWidth / db.buttonHeight
+			local BarDB = AB.db['bar'..barId]
+			if not BarDB.buttonSizeProportional then
+				local ratio = BarDB.buttonWidth / BarDB.buttonHeight
 				if ratio > 1 then
 					local trimAmount = (1 - (1 / ratio)) / 2
 					top = top + trimAmount
