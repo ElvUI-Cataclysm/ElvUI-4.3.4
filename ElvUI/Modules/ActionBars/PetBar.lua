@@ -97,8 +97,11 @@ function AB:PositionAndSizeBarPet()
 	local backdropSpacing = E:Scale((self.db.barPet.backdropSpacing or self.db.barPet.buttonSpacing))
 	local buttonsPerRow = self.db.barPet.buttonsPerRow
 	local numButtons = self.db.barPet.buttons
-	local size = E:Scale(self.db.barPet.buttonSize)
-	local autoCastSize = (size / 2) - (size / 7.5)
+	local buttonWidth = self.db.barPet.keepSizeRatio and E:Scale(self.db.barPet.buttonSize) or E:Scale(self.db.barPet.buttonWidth)
+	local buttonHeight = self.db.barPet.keepSizeRatio and E:Scale(self.db.barPet.buttonSize) or E:Scale(self.db.barPet.buttonHeight)
+
+	local autoCastWidth = (buttonWidth / 2) - (buttonWidth / 7.5)
+	local autoCastHeight = (buttonHeight / 2) - (buttonHeight / 7.5)
 	local point = self.db.barPet.point
 	local numColumns = ceil(numButtons / buttonsPerRow)
 	local widthMult = self.db.barPet.widthMult
@@ -130,10 +133,10 @@ function AB:PositionAndSizeBarPet()
 		heightMult = 1
 	end
 
-	local barWidth = (size * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult - 1)) + ((self.db.barPet.backdrop and (E.Border + backdropSpacing) or E.Spacing) * 2)
-	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult - 1)) + ((self.db.barPet.backdrop and (E.Border + backdropSpacing) or E.Spacing) * 2)
-	bar:Width(barWidth)
-	bar:Height(barHeight)
+	local sideSpacing = (self.db.barPet.backdrop and (E.Border + backdropSpacing) or E.Spacing)
+	local barWidth = (buttonWidth * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult - 1)) + (sideSpacing * 2)
+	local barHeight = (buttonHeight * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult - 1)) + (sideSpacing * 2)
+	bar:SetSize(barWidth, barHeight)
 
 	if self.db.barPet.enabled then
 		bar:SetScale(1)
@@ -174,11 +177,11 @@ function AB:PositionAndSizeBarPet()
 
 		button:SetParent(bar)
 		button:ClearAllPoints()
-		button:Size(size)
+		button:Size(buttonWidth, buttonHeight)
 		button:SetAttribute("showgrid", 1)
 		button:EnableMouse(not self.db.barPet.clickThrough)
 
-		autoCast:SetOutside(button, autoCastSize, autoCastSize)
+		autoCast:SetOutside(button, autoCastWidth, autoCastHeight)
 
 		if i == 1 then
 			local x, y
@@ -234,6 +237,10 @@ function AB:PositionAndSizeBarPet()
 
 	if MasqueGroup and E.private.actionbar.masque.petBar then
 		MasqueGroup:ReSkin()
+
+		for _, btn in ipairs(bar.buttons) do
+			AB:TrimIcon(btn, true)
+		end
 	end
 end
 
