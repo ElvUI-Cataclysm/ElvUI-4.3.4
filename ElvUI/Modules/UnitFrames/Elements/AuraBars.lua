@@ -61,7 +61,6 @@ function UF:Construct_AuraBarHeader(frame)
 	auraBar.CustomFilter = UF.AuraFilter
 	auraBar.SetPosition = UF.AuraBars_SetPosition
 
-	auraBar.sparkEnabled = true
 	auraBar.initialAnchor = "BOTTOMRIGHT"
 	auraBar.type = "aurabar"
 
@@ -69,7 +68,6 @@ function UF:Construct_AuraBarHeader(frame)
 end
 
 function UF:Configure_AuraBars(frame)
-	if not frame.VARIABLES_SET then return end
 	local auraBars = frame.AuraBars
 	local db = frame.db
 	auraBars.db = db.aurabar
@@ -86,6 +84,7 @@ function UF:Configure_AuraBars(frame)
 		auraBars.friendlyAuraType = db.aurabar.friendlyAuraType
 		auraBars.enemyAuraType = db.aurabar.enemyAuraType
 		auraBars.disableMouse = db.aurabar.clickThrough
+		auraBars.sparkEnabled = db.aurabar.spark
 
 		for _, statusBar in ipairs(auraBars) do
 			statusBar.db = auraBars.db
@@ -93,17 +92,8 @@ function UF:Configure_AuraBars(frame)
 			UF:Update_FontString(statusBar.nameText)
 		end
 
-		local colors = UF.db.colors.auraBarBuff
-		if E:CheckClassColor(colors.r, colors.g, colors.b) then
-			local classColor = E:ClassColor(E.myclass, true)
-			colors.r, colors.g, colors.b = classColor.r, classColor.g, classColor.b
-		end
-
-		colors = UF.db.colors.auraBarDebuff
-		if E:CheckClassColor(colors.r, colors.g, colors.b) then
-			local classColor = E:ClassColor(E.myclass, true)
-			colors.r, colors.g, colors.b = classColor.r, classColor.g, classColor.b
-		end
+		E:UpdateClassColor(UF.db.colors.auraBarBuff)
+		E:UpdateClassColor(UF.db.colors.auraBarDebuff)
 
 		local BORDER = UF.BORDER + UF.SPACING
 		if not auraBars.Holder then
@@ -185,15 +175,12 @@ function UF:Configure_AuraBars(frame)
 end
 
 function UF:PostUpdateBar_AuraBars(unit, statusBar, index, position, duration, expiration, debuffType, isStealable)
-	local spellID = statusBar.spellID
-	local spellName = statusBar.spell
-
 	statusBar.db = self.db
 	statusBar.icon:SetTexCoord(unpack(E.TexCoords))
 
-	local colors = E.global.unitframe.AuraBarColors[spellID] and E.global.unitframe.AuraBarColors[spellID].enable and E.global.unitframe.AuraBarColors[spellID].color
+	local colors = E.global.unitframe.AuraBarColors[statusBar.spellID] and E.global.unitframe.AuraBarColors[statusBar.spellID].enable and E.global.unitframe.AuraBarColors[statusBar.spellID].color
 
-	if E.db.unitframe.colors.auraBarTurtle and (E.global.unitframe.aurafilters.TurtleBuffs.spells[spellID] or E.global.unitframe.aurafilters.TurtleBuffs.spells[spellName]) and not colors then
+	if E.db.unitframe.colors.auraBarTurtle and (E.global.unitframe.aurafilters.TurtleBuffs.spells[statusBar.spellID] or E.global.unitframe.aurafilters.TurtleBuffs.spells[statusBar.spell]) and not colors then
 		colors = E.db.unitframe.colors.auraBarTurtleColor
 	end
 

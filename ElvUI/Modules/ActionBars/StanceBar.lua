@@ -115,7 +115,9 @@ function AB:PositionAndSizeBarShapeShift()
 	local backdropSpacing = E:Scale((self.db.stanceBar.backdropSpacing or self.db.stanceBar.buttonSpacing))
 	local buttonsPerRow = self.db.stanceBar.buttonsPerRow
 	local numButtons = self.db.stanceBar.buttons
-	local size = E:Scale(self.db.stanceBar.buttonSize)
+	local buttonWidth = self.db.stanceBar.keepSizeRatio and E:Scale(self.db.stanceBar.buttonSize) or E:Scale(self.db.stanceBar.buttonWidth)
+	local buttonHeight = self.db.stanceBar.keepSizeRatio and E:Scale(self.db.stanceBar.buttonSize) or E:Scale(self.db.stanceBar.buttonHeight)
+
 	local point = self.db.stanceBar.point
 	local widthMult = self.db.stanceBar.widthMult
 	local heightMult = self.db.stanceBar.heightMult
@@ -163,10 +165,10 @@ function AB:PositionAndSizeBarShapeShift()
 		heightMult = 1
 	end
 
-	local barWidth = (size * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult - 1)) + ((self.db.stanceBar.backdrop and (E.Border + backdropSpacing) or E.Spacing)*2)
-	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult - 1)) + ((self.db.stanceBar.backdrop and (E.Border + backdropSpacing) or E.Spacing)*2)
-	bar:Width(barWidth)
-	bar:Height(barHeight)
+	local sideSpacing = (self.db.stanceBar.backdrop and (E.Border + backdropSpacing) or E.Spacing)
+	local barWidth = (buttonWidth * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult - 1)) + (sideSpacing * 2)
+	local barHeight = (buttonHeight * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult - 1)) + (sideSpacing * 2)
+	bar:SetSize(barWidth, barHeight)
 
 	local horizontalGrowth, verticalGrowth
 	if point == "TOPLEFT" or point == "TOPRIGHT" then
@@ -197,7 +199,7 @@ function AB:PositionAndSizeBarShapeShift()
 
 		button:SetParent(bar)
 		button:ClearAllPoints()
-		button:Size(size)
+		button:Size(buttonWidth, buttonHeight)
 		button:EnableMouse(not self.db.stanceBar.clickThrough)
 
 		if i == 1 then
@@ -249,6 +251,11 @@ function AB:PositionAndSizeBarShapeShift()
 
 	if MasqueGroup and E.private.actionbar.masque.stanceBar then
 		MasqueGroup:ReSkin()
+
+		-- masque retrims them all so we have to too
+		for btn in pairs(AB.handledbuttons) do
+			AB:TrimIcon(btn, true)
+		end
 	end
 
 	if self.db.stanceBar.enabled then

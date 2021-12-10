@@ -2,10 +2,9 @@ local E, L, V, P, G = unpack(select(2, ...))
 local NP = E:GetModule("NamePlates")
 
 function NP:Update_CutawayHealthFadeOut(frame)
-	local cutawayHealth = frame.CutawayHealth
-	cutawayHealth.fading = true
-	E:UIFrameFadeOut(cutawayHealth, NP.db.cutawayHealthFadeOutTime, cutawayHealth:GetAlpha(), 0)
-	cutawayHealth.isPlaying = nil
+	frame.CutawayHealth.fading = true
+	E:UIFrameFadeOut(frame.CutawayHealth, NP.db.cutawayHealthFadeOutTime, frame.CutawayHealth:GetAlpha(), 0)
+	frame.CutawayHealth.isPlaying = nil
 end
 
 local function CutawayHealthClosure(frame)
@@ -18,18 +17,17 @@ function NP:CutawayHealthValueChangeCallback(frame, health, maxHealth)
 		local oldValue = frame.Health:GetValue()
 		local change = oldValue - health
 		if change > 0 and not frame.CutawayHealth.isPlaying then
-			local cutawayHealth = frame.CutawayHealth
-			if cutawayHealth.fading then
-				E:UIFrameFadeRemoveFrame(cutawayHealth)
+			if frame.CutawayHealth.fading then
+				E:UIFrameFadeRemoveFrame(frame.CutawayHealth)
 			end
-			cutawayHealth.fading = false
-			cutawayHealth:SetValue(oldValue)
-			cutawayHealth:SetAlpha(1)
+			frame.CutawayHealth.fading = false
+			frame.CutawayHealth:SetValue(oldValue)
+			frame.CutawayHealth:SetAlpha(1)
 
 			E:Delay(NP.db.cutawayHealthLength, CutawayHealthClosure, frame)
 
-			cutawayHealth.isPlaying = true
-			cutawayHealth:Show()
+			frame.CutawayHealth.isPlaying = true
+			frame.CutawayHealth:Show()
 		end
 	else
 		if frame.CutawayHealth.isPlaying then
@@ -45,12 +43,10 @@ function NP:CutawayHealthColorChangeCallback(frame, r, g, b)
 end
 
 function NP:Construct_CutawayHealth(parent)
-	local healthBar = parent.Health
-
-	local cutawayHealth = CreateFrame("StatusBar", "$parentCutawayHealth", healthBar)
+	local cutawayHealth = CreateFrame("StatusBar", "$parentCutawayHealth", parent.Health)
 	cutawayHealth:SetAllPoints()
 	cutawayHealth:SetStatusBarTexture(E.media.blankTex)
-	cutawayHealth:SetFrameLevel(healthBar:GetFrameLevel() - 1)
+	cutawayHealth:SetFrameLevel(parent.Health:GetFrameLevel() - 1)
 
 	NP:RegisterHealthCallbacks(parent, NP.CutawayHealthValueChangeCallback, NP.CutawayHealthColorChangeCallback)
 

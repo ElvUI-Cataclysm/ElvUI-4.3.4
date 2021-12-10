@@ -9,11 +9,13 @@ local GetCurrentMapAreaID = GetCurrentMapAreaID
 local GetInstanceInfo = GetInstanceInfo
 local GetMapNameByID = GetMapNameByID
 local GetRealZoneText = GetRealZoneText
+local GetInventoryItemID = GetInventoryItemID
 local GetSpellCooldown = GetSpellCooldown
 local GetSpellInfo = GetSpellInfo
 local GetSubZoneText = GetSubZoneText
 local GetTime = GetTime
 local IsResting = IsResting
+local IsEquippedItem = IsEquippedItem
 local UnitAffectingCombat = UnitAffectingCombat
 local UnitHealth = UnitHealth
 local UnitHealthMax = UnitHealthMax
@@ -31,6 +33,18 @@ NP.TriggerConditions = {
 		TANK = "tank",
 		HEALER = "healer",
 		DAMAGER = "damager"
+	},
+	keys = {
+		Modifier = IsModifierKeyDown,
+		Shift = IsShiftKeyDown,
+		Alt = IsAltKeyDown,
+		Control = IsControlKeyDown,
+		LeftShift = IsLeftShiftKeyDown,
+		LeftAlt = IsLeftAltKeyDown,
+		LeftControl = IsLeftControlKeyDown,
+		RightShift = IsRightShiftKeyDown,
+		RightAlt = IsRightAltKeyDown,
+		RightControl = IsRightControlKeyDown,
 	},
 	difficulties = {
 		-- dungeons
@@ -396,6 +410,25 @@ end
 function NP:StyleFilterConditionCheck(frame, filter, trigger)
 	local passed -- skip StyleFilterPass when triggers are empty
 
+	-- Slots
+	if trigger.slots and next(trigger.slots) then
+		for slot, value in pairs(trigger.slots) do
+			if value then -- only run if at least one is selected
+				if GetInventoryItemID("player", slot) then passed = true else return end
+			end
+		end
+	end
+
+	-- Items
+	if trigger.items and next(trigger.items) then
+		for item, value in pairs(trigger.items) do
+			if value then -- only run if at least one is selected
+				local hasItem = IsEquippedItem(item)
+				if (not trigger.negativeMatch and hasItem) or (trigger.negativeMatch and not hasItem) then passed = true else return end
+			end
+		end
+	end
+
 	-- Name
 	if trigger.names and next(trigger.names) then
 		for _, value in pairs(trigger.names) do
@@ -507,6 +540,16 @@ function NP:StyleFilterConditionCheck(frame, filter, trigger)
 	if trigger.reactionType and trigger.reactionType.enable then
 		local reaction = frame.UnitReaction
 		if ((reaction == 1 or reaction == 2 or reaction == 3) and trigger.reactionType.hostile) or (reaction == 4 and trigger.reactionType.neutral) or (reaction == 5 and trigger.reactionType.friendly) then passed = true else return end
+	end
+
+	-- Key Modifier
+	if trigger.keyMod and trigger.keyMod.enable then
+		for key, value in pairs(trigger.keyMod) do
+			local isDown = NP.TriggerConditions.keys[key]
+			if value and isDown then
+				if isDown() then passed = true else return end
+			end
+		end
 	end
 
 	-- Raid Target
@@ -671,6 +714,10 @@ function NP:StyleFilterConfigure()
 				-- real events
 				NP.StyleFilterTriggerEvents.PLAYER_TARGET_CHANGED = true
 
+				if t.keyMod and t.keyMod.enable then
+					NP.StyleFilterTriggerEvents.MODIFIER_STATE_CHANGED = 1
+				end
+
 				if t.raidTarget and (t.raidTarget.star or t.raidTarget.circle or t.raidTarget.diamond or t.raidTarget.triangle or t.raidTarget.moon or t.raidTarget.square or t.raidTarget.cross or t.raidTarget.skull) then
 					NP.StyleFilterTriggerEvents.RAID_TARGET_UPDATE = 1
 				end
@@ -702,10 +749,7 @@ function NP:StyleFilterConfigure()
 				end
 
 				if t.location then
-					if (t.location.mapIDEnabled and next(t.location.mapIDs))
-					or (t.location.zoneNamesEnabled and next(t.location.zoneNames))
-					or (t.location.subZoneNamesEnabled and next(t.location.subZoneNames)) then
-						NP.StyleFilterTriggerEvents.LOADING_SCREEN_DISABLED = 1
+					if (t.location.mapIDEnabled and next(t.location.mapIDs)) or (t.location.zoneNamesEnabled and next(t.location.zoneNames)) or (t.location.subZoneNamesEnabled and next(t.location.subZoneNames)) then
 						NP.StyleFilterTriggerEvents.ZONE_CHANGED_NEW_AREA = 1
 						NP.StyleFilterTriggerEvents.ZONE_CHANGED_INDOORS = 1
 						NP.StyleFilterTriggerEvents.ZONE_CHANGED = 1
@@ -714,6 +758,24 @@ function NP:StyleFilterConfigure()
 
 				if t.isResting then
 					NP.StyleFilterTriggerEvents.PLAYER_UPDATE_RESTING = 1
+				end
+
+				if t.slots and next(t.slots) then
+					for _, value in pairs(t.slots) do
+						if value then
+							NP.StyleFilterTriggerEvents.PLAYER_EQUIPMENT_CHANGED = 1
+							break
+						end
+					end
+				end
+
+				if t.items and next(t.items) then
+					for _, value in pairs(t.items) do
+						if value then
+							NP.StyleFilterTriggerEvents.PLAYER_EQUIPMENT_CHANGED = 1
+							break
+						end
+					end
 				end
 
 				if t.cooldowns and t.cooldowns.names and next(t.cooldowns.names) then

@@ -28,22 +28,22 @@ function UF:Construct_PhaseIcon(frame)
 end
 
 function UF:Configure_PhaseIcon(frame)
-	local PhaseIndicator = frame.PhaseIndicator
-	PhaseIndicator:ClearAllPoints()
-	PhaseIndicator:Point(frame.db.phaseIndicator.anchorPoint, frame.Health, frame.db.phaseIndicator.anchorPoint, frame.db.phaseIndicator.xOffset, frame.db.phaseIndicator.yOffset)
+	local db = frame.db.phaseIndicator
+	local size = 32 * (db.scale or 1)
 
-	local size = 32 * (frame.db.phaseIndicator.scale or 1)
-	PhaseIndicator:Size(size)
+	frame.PhaseIndicator:ClearAllPoints()
+	frame.PhaseIndicator:Point(db.anchorPoint, frame.Health, db.anchorPoint, db.xOffset, db.yOffset)
+	frame.PhaseIndicator:Size(size)
 
-	PhaseIndicator.Center:Size(size)
-	PhaseIndicator.Center:ClearAllPoints()
-	PhaseIndicator.Center:SetAllPoints(PhaseIndicator)
-	PhaseIndicator.Center:SetVertexColor(frame.db.phaseIndicator.color.r, frame.db.phaseIndicator.color.g, frame.db.phaseIndicator.color.b)
+	frame.PhaseIndicator.Center:Size(size)
+	frame.PhaseIndicator.Center:ClearAllPoints()
+	frame.PhaseIndicator.Center:SetAllPoints(frame.PhaseIndicator)
+	frame.PhaseIndicator.Center:SetVertexColor(db.color.r, db.color.g, db.color.b)
 
-	if frame.db.phaseIndicator.enable and not frame:IsElementEnabled("PhaseIndicator") then
+	if db.enable and not frame:IsElementEnabled("PhaseIndicator") then
 		frame:EnableElement("PhaseIndicator")
-	elseif not frame.db.phaseIndicator.enable and frame:IsElementEnabled("PhaseIndicator") then
+	elseif not db.enable and frame:IsElementEnabled("PhaseIndicator") then
 		frame:DisableElement("PhaseIndicator")
-		PhaseIndicator.Center:Hide()
+		frame.PhaseIndicator.Center:Hide()
 	end
 end

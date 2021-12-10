@@ -8,7 +8,9 @@ local MAX_COMBO_POINTS = MAX_COMBO_POINTS
 
 function NP:Update_CPoints(frame)
 	if frame.UnitType == "FRIENDLY_PLAYER" or frame.UnitType == "FRIENDLY_NPC" then return end
-	if not self.db.units[frame.UnitType].comboPoints.enable then return end
+
+	local db = NP.db.units[frame.UnitType].comboPoints
+	if not db or (db and not db.enable) then return end
 
 	local numPoints
 	if frame.isTarget then
@@ -19,14 +21,14 @@ function NP:Update_CPoints(frame)
 		frame.CPoints:Show()
 
 		for i = 1, MAX_COMBO_POINTS do
-			if NP.db.units[frame.UnitType].comboPoints.hideEmpty then
+			if db.hideEmpty then
 				if i <= numPoints then
 					frame.CPoints[i]:Show()
 				else
 					frame.CPoints[i]:Hide()
 				end
 			else
-				local r, g, b = unpack(E:GetColorTable(self.db.colors.comboPoints[i]))
+				local r, g, b = unpack(E:GetColorTable(NP.db.colors.comboPoints[i]))
 				local mult = i <= numPoints and 1 or 0.35
 
 				frame.CPoints[i]:SetStatusBarColor(r * mult, g * mult, b * mult)
@@ -41,7 +43,7 @@ end
 function NP:Configure_CPointsScale(frame, scale, noPlayAnimation)
 	if frame.UnitType == "FRIENDLY_PLAYER" or frame.UnitType == "FRIENDLY_NPC" then return end
 
-	local db = self.db.units[frame.UnitType].comboPoints
+	local db = NP.db.units[frame.UnitType].comboPoints
 	if not db or (db and not db.enable) then return end
 
 	if noPlayAnimation then
@@ -60,39 +62,34 @@ end
 
 function NP:Configure_CPoints(frame, configuring)
 	if frame.UnitType == "FRIENDLY_PLAYER" or frame.UnitType == "FRIENDLY_NPC" then return end
-	local db = self.db.units[frame.UnitType].comboPoints
-	if not db.enable then return end
 
-	local comboPoints = frame.CPoints
-	local healthShown = self.db.units[frame.UnitType].health.enable or (frame.isTarget and self.db.alwaysShowTargetHealth)
+	local db = NP.db.units[frame.UnitType].comboPoints
+	if not db or (db and not db.enable) then return end
 
-	comboPoints:ClearAllPoints()
-	if healthShown then
-		comboPoints:Point("CENTER", frame.Health, "BOTTOM", db.xOffset, db.yOffset)
-	else
-		comboPoints:Point("CENTER", frame, "TOP", db.xOffset, db.yOffset)
-	end
+	local healthShown = NP.db.units[frame.UnitType].health.enable or (frame.isTarget and NP.db.alwaysShowTargetHealth)
+	local scale = (frame.ThreatScale or 1) * (NP.db.useTargetScale and NP.db.targetScale or 1)
+
+	frame.CPoints:ClearAllPoints()
+	frame.CPoints:SetPoint("CENTER", healthShown and frame.Health or frame, healthShown and "BOTTOM" or "TOP", db.xOffset, db.yOffset)
+	frame.CPoints.spacing = db.spacing * (MAX_COMBO_POINTS - 1)
 
 	for i = 1, MAX_COMBO_POINTS do
-		comboPoints[i]:SetStatusBarTexture(LSM:Fetch("statusbar", self.db.statusbar))
-		comboPoints[i]:SetStatusBarColor(unpack(E:GetColorTable(self.db.colors.comboPoints[i])))
+		frame.CPoints[i]:SetWidth(healthShown and db.width * scale or db.width)
+		frame.CPoints[i]:SetHeight(healthShown and db.height * scale or db.height)
+		frame.CPoints[i]:SetStatusBarTexture(LSM:Fetch("statusbar", NP.db.statusbar))
+		frame.CPoints[i]:SetStatusBarColor(unpack(E:GetColorTable(NP.db.colors.comboPoints[i])))
 
 		if i == 3 then
-			comboPoints[i]:Point("CENTER", comboPoints, "CENTER")
+			frame.CPoints[i]:SetPoint("CENTER", frame.CPoints, "CENTER")
 		elseif i == 1 or i == 2 then
-			comboPoints[i]:Point("RIGHT", comboPoints[i + 1], "LEFT", -db.spacing, 0)
+			frame.CPoints[i]:SetPoint("RIGHT", frame.CPoints[i + 1], "LEFT", -db.spacing, 0)
 		else
-			comboPoints[i]:Point("LEFT", comboPoints[i - 1], "RIGHT", db.spacing, 0)
+			frame.CPoints[i]:SetPoint("LEFT", frame.CPoints[i - 1], "RIGHT", db.spacing, 0)
 		end
-
-		comboPoints[i]:Width(healthShown and db.width * (frame.ThreatScale or 1) * (NP.db.useTargetScale and NP.db.targetScale or 1) or db.width)
-		comboPoints[i]:Height(healthShown and db.height * (frame.ThreatScale or 1) * (NP.db.useTargetScale and NP.db.targetScale or 1) or db.height)
 	end
 
-	comboPoints.spacing = db.spacing * (MAX_COMBO_POINTS - 1)
-
 	if configuring then
-		self:Configure_CPointsScale(frame, frame.currentScale or 1, configuring)
+		NP:Configure_CPointsScale(frame, frame.currentScale or 1, configuring)
 	end
 end
 
@@ -120,7 +117,7 @@ function NP:Construct_CPoints(parent)
 	for i = 1, MAX_COMBO_POINTS do
 		comboBar[i] = CreateFrame("StatusBar", "$parentComboPoint"..i, comboBar)
 
-		self:StyleFrame(comboBar[i])
+		NP:StyleFrame(comboBar[i])
 	end
 
 	return comboBar

@@ -146,24 +146,6 @@ function AB:UpdateMicroPositionDimensions()
 	AB:UpdateMicroBarVisibility()
 end
 
-function AB:UpdateMicroButtons()
-	-- Guild Button
-	GuildMicroButtonTabard:SetInside(GuildMicroButton)
-
-	GuildMicroButtonTabard.background:SetInside(GuildMicroButton)
-	GuildMicroButtonTabard.background:SetTexCoord(0.17, 0.87, 0.5, 0.908)
-
-	GuildMicroButtonTabard.emblem:ClearAllPoints()
-	GuildMicroButtonTabard.emblem:Point("TOPLEFT", GuildMicroButton, 4, -4)
-	GuildMicroButtonTabard.emblem:Point("BOTTOMRIGHT", GuildMicroButton, -4, 8)
-
-	-- PvP Micro Button
-	local desaturate = (E.mylevel < PVPMicroButton.minLevel and true) or false
-	PVPMicroButtonTexture:SetDesaturated(desaturate)
-
-	AB:UpdateMicroPositionDimensions()
-end
-
 function AB:SetupMicroBar()
 	local microBar = CreateFrame("Frame", "ElvUI_MicroBar", E.UIParent)
 	microBar:CreateBackdrop()
@@ -183,6 +165,17 @@ function AB:SetupMicroBar()
 
 	MicroButtonPortrait:SetInside(CharacterMicroButton.backdrop)
 
+	-- Guild Button
+	GuildMicroButtonTabard:SetInside(GuildMicroButton)
+
+	GuildMicroButtonTabard.background:SetInside(GuildMicroButton)
+	GuildMicroButtonTabard.background:SetTexCoord(0.17, 0.87, 0.5, 0.908)
+
+	GuildMicroButtonTabard.emblem:ClearAllPoints()
+	GuildMicroButtonTabard.emblem:Point("TOPLEFT", GuildMicroButton, 4, -4)
+	GuildMicroButtonTabard.emblem:Point("BOTTOMRIGHT", GuildMicroButton, -4, 8)
+
+	-- PvP Button
 	PVPMicroButtonTexture:Point("TOPLEFT", PVPMicroButton, -3, 3)
 	PVPMicroButtonTexture:Point("BOTTOMRIGHT", PVPMicroButton, 2, -3)
 	PVPMicroButtonTexture:SetTexture([[Interface\PVPFrame\PVP-Conquest-Misc]])
@@ -197,7 +190,6 @@ function AB:SetupMicroBar()
 	AB:SecureHook("VehicleMenuBar_MoveMicroButtons", "UpdateMicroButtonsParent")
 	AB:SecureHook("UpdateMicroButtonsParent")
 	AB:SecureHook("MoveMicroButtons", "UpdateMicroPositionDimensions")
-	AB:SecureHook("UpdateMicroButtons")
 
 	UpdateMicroButtonsParent(microBar)
 	AB:UpdateMicroPositionDimensions()

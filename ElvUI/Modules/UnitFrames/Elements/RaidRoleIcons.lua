@@ -66,24 +66,22 @@ function UF:Construct_RaidRoleFrames(frame)
 end
 
 function UF:Configure_RaidRoleIcons(frame)
-	local raidRoleFrameAnchor = frame.RaidRoleFramesAnchor
-
 	if frame.db.raidRoleIcons.enable then
-		raidRoleFrameAnchor:Show()
+		frame.RaidRoleFramesAnchor:Show()
 		if not frame:IsElementEnabled("LeaderIndicator") then
 			frame:EnableElement("LeaderIndicator")
 			frame:EnableElement("MasterLooterIndicator")
 			frame:EnableElement("AssistantIndicator")
 		end
 
-		raidRoleFrameAnchor:ClearAllPoints()
+		frame.RaidRoleFramesAnchor:ClearAllPoints()
 		if frame.db.raidRoleIcons.position == "TOPLEFT" then
-			raidRoleFrameAnchor:Point("LEFT", frame, "TOPLEFT", frame.db.raidRoleIcons.xOffset, frame.db.raidRoleIcons.yOffset)
+			frame.RaidRoleFramesAnchor:Point("LEFT", frame, "TOPLEFT", frame.db.raidRoleIcons.xOffset, frame.db.raidRoleIcons.yOffset)
 		else
-			raidRoleFrameAnchor:Point("RIGHT", frame, "TOPRIGHT", -frame.db.raidRoleIcons.xOffset, frame.db.raidRoleIcons.yOffset)
+			frame.RaidRoleFramesAnchor:Point("RIGHT", frame, "TOPRIGHT", -frame.db.raidRoleIcons.xOffset, frame.db.raidRoleIcons.yOffset)
 		end
 	elseif frame:IsElementEnabled("LeaderIndicator") then
-		raidRoleFrameAnchor:Hide()
+		frame.RaidRoleFramesAnchor:Hide()
 		frame:DisableElement("LeaderIndicator")
 		frame:DisableElement("MasterLooterIndicator")
 		frame:DisableElement("AssistantIndicator")

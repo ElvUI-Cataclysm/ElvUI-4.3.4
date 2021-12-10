@@ -90,9 +90,7 @@ local function OnEvent(self, event, message)
 	-- special handler to detect friend coming online or going offline
 	-- when this is the case, we invalidate our buffered table and update the
 	-- datatext information
-	if event == "CHAT_MSG_SYSTEM" then
-		if not (find(message, friendOnline) or find(message, friendOffline)) then return end
-	end
+	if event == "CHAT_MSG_SYSTEM" and not (find(message, friendOnline) or find(message, friendOffline)) then return end
 
 	-- force update when showing tooltip
 	dataValid = false

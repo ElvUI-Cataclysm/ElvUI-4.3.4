@@ -156,7 +156,6 @@ E.Options.args.auras = {
 					order = 13,
 					type = "group",
 					name = L["Time"],
-					guiInline = true,
 					args = {
 						timeFont = {
 							order = 1,
@@ -185,13 +184,13 @@ E.Options.args.auras = {
 						timeXOffset = {
 							order = 5,
 							type = "range",
-							name = L["Time xOffset"],
+							name = L["Time X-Offset"],
 							min = -60, max = 60, step = 1
 						},
 						timeYOffset = {
 							order = 6,
 							type = "range",
-							name = L["Time yOffset"],
+							name = L["Time Y-Offset"],
 							min = -60, max = 60, step = 1
 						}
 					}
@@ -200,7 +199,6 @@ E.Options.args.auras = {
 					order = 14,
 					type = "group",
 					name = L["Count"],
-					guiInline = true,
 					args = {
 						countFont = {
 							order = 1,
@@ -229,13 +227,13 @@ E.Options.args.auras = {
 						countXOffset = {
 							order = 5,
 							type = "range",
-							name = L["Time xOffset"],
+							name = L["Time X-Offset"],
 							min = -60, max = 60, step = 1
 						},
 						countYOffset = {
 							order = 6,
 							type = "range",
-							name = L["Time yOffset"],
+							name = L["Time Y-Offset"],
 							min = -60, max = 60, step = 1
 						}
 					}
@@ -244,7 +242,6 @@ E.Options.args.auras = {
 					order = 15,
 					type = "group",
 					name = L["Status Bar"],
-					guiInline = true,
 					args = {
 						barShow = {
 							order = 1,
@@ -428,7 +425,6 @@ E.Options.args.auras = {
 					order = 13,
 					type = "group",
 					name = L["Time"],
-					guiInline = true,
 					args = {
 						timeFont = {
 							order = 1,
@@ -457,13 +453,13 @@ E.Options.args.auras = {
 						timeXOffset = {
 							order = 5,
 							type = "range",
-							name = L["Time xOffset"],
+							name = L["Time X-Offset"],
 							min = -60, max = 60, step = 1
 						},
 						timeYOffset = {
 							order = 6,
 							type = "range",
-							name = L["Time yOffset"],
+							name = L["Time Y-Offset"],
 							min = -60, max = 60, step = 1
 						}
 					}
@@ -472,7 +468,6 @@ E.Options.args.auras = {
 					order = 14,
 					type = "group",
 					name = L["Count"],
-					guiInline = true,
 					args = {
 						countFont = {
 							order = 1,
@@ -501,13 +496,13 @@ E.Options.args.auras = {
 						countXOffset = {
 							order = 5,
 							type = "range",
-							name = L["Time xOffset"],
+							name = L["Time X-Offset"],
 							min = -60, max = 60, step = 1
 						},
 						countYOffset = {
 							order = 6,
 							type = "range",
-							name = L["Time yOffset"],
+							name = L["Time Y-Offset"],
 							min = -60, max = 60, step = 1
 						}
 					}
@@ -516,7 +511,6 @@ E.Options.args.auras = {
 					order = 15,
 					type = "group",
 					name = L["Status Bar"],
-					guiInline = true,
 					args = {
 						barShow = {
 							order = 1,
@@ -655,7 +649,6 @@ E.Options.args.auras = {
 				fontGroup = {
 					order = 7,
 					type = "group",
-					guiInline = true,
 					name = L["Time"],
 					args = {
 						timeFont = {
@@ -685,13 +678,13 @@ E.Options.args.auras = {
 						timeXOffset = {
 							order = 5,
 							type = "range",
-							name = L["Time xOffset"],
+							name = L["Time X-Offset"],
 							min = -60, max = 60, step = 1
 						},
 						timeYOffset = {
 							order = 6,
 							type = "range",
-							name = L["Time yOffset"],
+							name = L["Time Y-Offset"],
 							min = -60, max = 60, step = 1
 						}
 					}
@@ -700,7 +693,6 @@ E.Options.args.auras = {
 					order = 8,
 					type = "group",
 					name = L["Status Bar"],
-					guiInline = true,
 					get = function(info) return E.db.auras.weapons[info[#info]] end,
 					set = function(info, value) E.db.auras.weapons[info[#info]] = value A:UpdateTempEnchant() end,
 					args = {
@@ -798,14 +790,14 @@ E.Options.args.auras = {
 			disabled = function() return not E.private.general.minimap.enable end,
 			args = {
 				enable = {
-					order = 2,
+					order = 1,
 					type = "toggle",
 					name = L["ENABLE"],
 					desc = L["Display reminder bar on the minimap."],
 					set = function(info, value) E.db.general.reminder[info[#info]] = value M:UpdateSettings() end
 				},
 				generalGroup = {
-					order = 3,
+					order = 2,
 					type = "group",
 					guiInline = true,
 					name = L["General"],
@@ -822,8 +814,17 @@ E.Options.args.auras = {
 							name = L["Reverse Style"],
 							desc = L["When enabled active buff icons will light up instead of becoming darker, while inactive buff icons will become darker instead of being lit up."]
 						},
-						position = {
+						masque = {
 							order = 3,
+							type = "toggle",
+							name = L["Masque Support"],
+							desc = L["Allow Masque to handle the skinning of this element."],
+							get = function() return E.private.auras.masque.reminder end,
+							set = function(_, value) E.private.auras.masque.reminder = value E:StaticPopup_Show("PRIVATE_RL") end,
+							disabled = function() return not E.db.general.reminder.enable or not E.private.general.minimap.enable or not E.Masque end
+						},
+						position = {
+							order = 4,
 							type = "select",
 							name = L["Position"],
 							set = function(info, value) E.db.general.reminder[info[#info]] = value RB:UpdatePosition() end,
@@ -835,7 +836,7 @@ E.Options.args.auras = {
 					}
 				},
 				fontGroup = {
-					order = 4,
+					order = 3,
 					type = "group",
 					guiInline = true,
 					name = L["Font"],

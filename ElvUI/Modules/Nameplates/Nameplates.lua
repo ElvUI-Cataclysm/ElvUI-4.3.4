@@ -65,11 +65,10 @@ local RaidTargetReference = {
 
 NP.CreatedPlates = {}
 NP.VisiblePlates = {}
-NP.Healers = {}
-
 NP.GUIDList = {}
 NP.UnitByName = {}
 NP.NameByUnit = {}
+NP.Healers = {}
 
 NP.ENEMY_PLAYER = {}
 NP.FRIENDLY_PLAYER = {}
@@ -92,6 +91,7 @@ function NP:CheckBGHealers()
 
 	for i = 1, GetNumBattlefieldScores() do
 		name, _, _, _, _, _, _, _, _, _, _, _, _, _, _, talentSpec = GetBattlefieldScore(i)
+
 		if name then
 			name = match(name, "([^%-]+).*")
 
@@ -556,7 +556,7 @@ function NP:UpdateElement_All(frame, noTargetFrame, filterIgnore)
 	frame.Level:ClearAllPoints()
 
 	self:Update_RaidIcon(frame)
-	self:Update_HealerIcon(frame)
+	self:Update_PvPRole(frame)
 	self:Update_Level(frame)
 	self:Update_Name(frame)
 
@@ -627,7 +627,7 @@ function NP:OnCreated(frame)
 	unitFrame.Elite = self:Construct_Elite(unitFrame)
 	unitFrame.Buffs = self:Construct_Auras(unitFrame, "Buffs")
 	unitFrame.Debuffs = self:Construct_Auras(unitFrame, "Debuffs")
-	unitFrame.HealerIcon = self:Construct_HealerIcon(unitFrame)
+	unitFrame.PvPRole = self:Construct_PvPRole(unitFrame)
 	unitFrame.CPoints = self:Construct_CPoints(unitFrame)
 	unitFrame.IconFrame = self:Construct_IconFrame(unitFrame)
 	self:Construct_Glow(unitFrame)
@@ -1027,7 +1027,9 @@ function NP:PLAYER_ENTERING_WORLD()
 	twipe(self.Healers)
 
 	local inInstance, instanceType = IsInInstance()
-	if inInstance and (instanceType == "pvp") and self.db.units.ENEMY_PLAYER.markHealers then
+	local showIcon = self.db.units.ENEMY_PLAYER.pvpRole.enable or self.db.units.FRIENDLY_PLAYER.pvpRole.enable
+
+	if inInstance and (instanceType == "pvp") and showIcon then
 		self:RegisterEvent("UPDATE_BATTLEFIELD_SCORE", "CheckBGHealers")
 		self.CheckHealerTimer = self:ScheduleRepeatingTimer("CheckBGHealers", 3)
 	else
@@ -1194,10 +1196,6 @@ function NP:PLAYER_UPDATE_RESTING()
 	NP:ForEachVisiblePlate("StyleFilterUpdate", "PLAYER_UPDATE_RESTING")
 end
 
-function NP:LOADING_SCREEN_DISABLED()
-	NP:ForEachVisiblePlate("StyleFilterUpdate", "LOADING_SCREEN_DISABLED")
-end
-
 function NP:ZONE_CHANGED_NEW_AREA()
 	NP:ForEachVisiblePlate("StyleFilterUpdate", "ZONE_CHANGED_NEW_AREA")
 end
@@ -1208,6 +1206,10 @@ end
 
 function NP:ZONE_CHANGED()
 	NP:ForEachVisiblePlate("StyleFilterUpdate", "ZONE_CHANGED")
+end
+
+function NP:MODIFIER_STATE_CHANGED()
+	NP:ForEachVisiblePlate("StyleFilterUpdate", "MODIFIER_STATE_CHANGED")
 end
 
 function NP:RAID_TARGET_UPDATE()
@@ -1314,21 +1316,19 @@ function NP:Initialize()
 	self:RegisterEvent("UNIT_COMBO_POINTS")
 	self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 	self:RegisterEvent("RAID_TARGET_UPDATE")
-	self:RegisterEvent("LOADING_SCREEN_DISABLED")
 	self:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 	self:RegisterEvent("ZONE_CHANGED_INDOORS")
 	self:RegisterEvent("ZONE_CHANGED")
+	self:RegisterEvent("MODIFIER_STATE_CHANGED")
 	self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 
-	-- Arena & Arena Pets
 	self:CacheArenaUnits()
-	self:RegisterEvent("ARENA_OPPONENT_UPDATE", "CacheArenaUnits")
-	-- Group
 	self:CacheGroupUnits()
+	self:CacheGroupPetUnits()
+
+	self:RegisterEvent("ARENA_OPPONENT_UPDATE", "CacheArenaUnits")
 	self:RegisterEvent("PARTY_MEMBERS_CHANGED", "CacheGroupUnits")
 	self:RegisterEvent("RAID_ROSTER_UPDATE", "CacheGroupUnits")
-	-- Group Pets
-	self:CacheGroupPetUnits()
 	self:RegisterEvent("UNIT_NAME_UPDATE", "CacheGroupPetUnits")
 
 	LAI.UnregisterAllCallbacks(self)

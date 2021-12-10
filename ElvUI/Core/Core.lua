@@ -247,13 +247,24 @@ function E:CheckClassColor(r, g, b)
 
 	for class in pairs(RAID_CLASS_COLORS) do
 		if class ~= E.myclass then
-			local colorTable = E:ClassColor(class, true)
-			local red, green, blue = E:GrabColorPickerValues(colorTable.r, colorTable.g, colorTable.b)
+			local color = E:ClassColor(class, true)
+			local red, green, blue = E:GrabColorPickerValues(color.r, color.g, color.b)
 			if red == r and green == g and blue == b then
 				return true
 			end
 		end
 	end
+end
+
+function E:UpdateClassColor(db)
+	if E:CheckClassColor(db.r, db.g, db.b) then
+		local color = E:ClassColor(E.myclass, true)
+		if color then
+			db.r, db.g, db.b = color.r, color.g, color.b
+		end
+	end
+
+	return db
 end
 
 function E:SetColorTable(t, data)
@@ -316,56 +327,20 @@ function E:UpdateMedia()
 	E.media.normTex = LSM:Fetch("statusbar", E.private.general.normTex)
 	E.media.glossTex = LSM:Fetch("statusbar", E.private.general.glossTex)
 
-	-- Border Color
-	local border = E.db.general.bordercolor
-	if E:CheckClassColor(border.r, border.g, border.b) then
-		local classColor = E:ClassColor(E.myclass, true)
-		E.db.general.bordercolor.r = classColor.r
-		E.db.general.bordercolor.g = classColor.g
-		E.db.general.bordercolor.b = classColor.b
-	end
+	-- Colors
+	E.media.bordercolor = E:SetColorTable(E.media.bordercolor, E:UpdateClassColor(E.db.general.bordercolor))
+	E.media.unitframeBorderColor = E:SetColorTable(E.media.unitframeBorderColor, E:UpdateClassColor(E.db.unitframe.colors.borderColor))
+	E.media.backdropcolor = E:SetColorTable(E.media.backdropcolor, E:UpdateClassColor(E.db.general.backdropcolor))
+	E.media.backdropfadecolor = E:SetColorTable(E.media.backdropfadecolor, E:UpdateClassColor(E.db.general.backdropfadecolor))
 
-	E.media.bordercolor = {border.r, border.g, border.b}
-
-	-- UnitFrame Border Color
-	border = E.db.unitframe.colors.borderColor
-	if E:CheckClassColor(border.r, border.g, border.b) then
-		local classColor = E:ClassColor(E.myclass, true)
-		E.db.unitframe.colors.borderColor.r = classColor.r
-		E.db.unitframe.colors.borderColor.g = classColor.g
-		E.db.unitframe.colors.borderColor.b = classColor.b
-	end
-	E.media.unitframeBorderColor = {border.r, border.g, border.b}
-
-	-- Backdrop Color
-	E.media.backdropcolor = E:SetColorTable(E.media.backdropcolor, E.db.general.backdropcolor)
-
-	-- Backdrop Fade Color
-	E.media.backdropfadecolor = E:SetColorTable(E.media.backdropfadecolor, E.db.general.backdropfadecolor)
-
-	-- Value Color
-	local value = E.db.general.valuecolor
-
-	if E:CheckClassColor(value.r, value.g, value.b) then
-		value = E:ClassColor(E.myclass, true)
-		E.db.general.valuecolor.r = value.r
-		E.db.general.valuecolor.g = value.g
-		E.db.general.valuecolor.b = value.b
-	end
+	local value = E:UpdateClassColor(E.db.general.valuecolor)
+	E.media.rgbvaluecolor = E:SetColorTable(E.media.rgbvaluecolor, value)
+	E.media.hexvaluecolor = E:RGBToHex(value.r, value.g, value.b)
 
 	-- Chat Tab Selector Color
-	local selectorColor = E.db.chat.tabSelectorColor
-	if E:CheckClassColor(selectorColor.r, selectorColor.g, selectorColor.b) then
-		selectorColor = E:ClassColor(E.myclass, true)
-		E.db.chat.tabSelectorColor.r = selectorColor.r
-		E.db.chat.tabSelectorColor.g = selectorColor.g
-		E.db.chat.tabSelectorColor.b = selectorColor.b
-	end
+	E:UpdateClassColor(E.db.chat.tabSelectorColor)
 
-	E.media.hexvaluecolor = E:RGBToHex(value.r, value.g, value.b)
-	E.media.rgbvaluecolor = {value.r, value.g, value.b}
-
-	--  Chat Panel Background Texture
+	-- Chat Panel Background Texture
 	if LeftChatPanel and LeftChatPanel.tex and RightChatPanel and RightChatPanel.tex then
 		LeftChatPanel.tex:SetTexture(E.db.chat.panelBackdropNameLeft)
 		RightChatPanel.tex:SetTexture(E.db.chat.panelBackdropNameRight)
@@ -993,8 +968,8 @@ function E:UpdateAll(ignoreInstall)
 		Chat:UpdateAnchors()
 	end
 
-	DataBars:EnableDisable_ExperienceBar()
-	DataBars:EnableDisable_ReputationBar()
+	DataBars:ExperienceBar_Toggle()
+	DataBars:ReputationBar_Toggle()
 	DataBars:UpdateDataBarDimensions()
 
 	DataTexts:LoadDataTexts()
@@ -1320,7 +1295,7 @@ function E:DBConversions()
 	for _, unit in ipairs({"player", "target", "focus", "pet", "arena", "party", "raid", "raid40", "raidpet"}) do
 		if type(E.db.unitframe.units[unit].healPrediction) ~= "table" then
 			local enabled = E.db.unitframe.units[unit].healPrediction
-			E.db.unitframe.units[unit].healPrediction = {}
+			E.db.unitframe.units[unit].healPrediction = E:CopyTable({}, P.unitframe.units[unit].healPrediction)
 			E.db.unitframe.units[unit].healPrediction.enable = enabled
 		end
 	end

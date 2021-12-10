@@ -14,21 +14,15 @@ function UF:Construct_Trinket(frame)
 end
 
 function UF:Configure_Trinket(frame)
-	if not frame.VARIABLES_SET then return end
-	local db = frame.db
-	local trinket = frame.Trinket
+	local db = frame.db.pvpTrinket
 
-	trinket.bg:Size(db.pvpTrinket.size)
-	trinket.bg:ClearAllPoints()
-	if db.pvpTrinket.position == "RIGHT" then
-		trinket.bg:Point("LEFT", frame, "RIGHT", db.pvpTrinket.xOffset, db.pvpTrinket.yOffset)
-	else
-		trinket.bg:Point("RIGHT", frame, "LEFT", db.pvpTrinket.xOffset, db.pvpTrinket.yOffset)
-	end
+	frame.Trinket.bg:Size(db.size)
+	frame.Trinket.bg:ClearAllPoints()
+	frame.Trinket.bg:Point(E.InversePoints[db.position], frame, db.position, db.xOffset, db.yOffset)
 
-	if db.pvpTrinket.enable and not frame:IsElementEnabled("Trinket") then
+	if db.enable and not frame:IsElementEnabled("Trinket") then
 		frame:EnableElement("Trinket")
-	elseif not db.pvpTrinket.enable and frame:IsElementEnabled("Trinket") then
+	elseif not db.enable and frame:IsElementEnabled("Trinket") then
 		frame:DisableElement("Trinket")
 	end
 end

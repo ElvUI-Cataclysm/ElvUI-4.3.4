@@ -93,9 +93,15 @@ function UF:Construct_AuraIcon(button)
 end
 
 function UF:UpdateAuraSettings(auras, button)
-	if button.db then
-		button.count:FontTemplate(LSM:Fetch("font", button.db.countFont), button.db.countFontSize, button.db.countFontOutline)
+	local db = button.db
+	if db then
+		local point = db.countPosition or "CENTER"
+		button.count:ClearAllPoints()
+		button.count:SetJustifyH(strfind(point, "RIGHT") and "RIGHT" or "LEFT")
+		button.count:Point(point, db.countXOffset, db.countYOffset)
+		button.count:FontTemplate(LSM:Fetch("font", db.countFont), db.countFontSize, db.countFontOutline)
 	end
+
 	if button.icon then
 		button.icon:SetTexCoord(unpack(E.TexCoords))
 	end
@@ -134,8 +140,6 @@ function UF:UpdateAuraCooldownPosition(button)
 end
 
 function UF:Configure_AllAuras(frame)
-	if not frame.VARIABLES_SET then return end
-
 	if frame.Buffs then frame.Buffs:ClearAllPoints() end
 	if frame.Debuffs then frame.Debuffs:ClearAllPoints() end
 
@@ -144,8 +148,6 @@ function UF:Configure_AllAuras(frame)
 end
 
 function UF:Configure_Auras(frame, which)
-	if not frame.VARIABLES_SET then return end
-
 	local db = frame.db
 	local auras = frame[which]
 	local auraType = which:lower()
@@ -370,28 +372,30 @@ function UF:SortAuras()
 end
 
 function UF:PostUpdateAura(_, button)
+	local enemyNPC = not button.isFriend and not button.isPlayer
+
+	local r, g, b
 	if button.isDebuff then
-		if not button.isFriend and not button.isPlayer then --[[and (not E.isDebuffWhiteList[name])]]
-			if UF.db.colors.auraByType then button:SetBackdropBorderColor(0.9, 0.1, 0.1) end
-			button.icon:SetDesaturated(button.canDesaturate)
-		else
+		if enemyNPC then
 			if UF.db.colors.auraByType then
-				if E.BadDispels[button.spellID] and button.dtype and E:IsDispellableByMe(button.dtype) then
-					button:SetBackdropBorderColor(0.05, 0.85, 0.94)
-				else
-					local color = (button.dtype and DebuffTypeColor[button.dtype]) or DebuffTypeColor.none
-					button:SetBackdropBorderColor(color.r * 0.6, color.g * 0.6, color.b * 0.6)
-				end
+				r, g, b = 0.9, 0.1, 0.1
 			end
-			button.icon:SetDesaturated(false)
+		elseif button.dtype and UF.db.colors.auraByDispels and E.BadDispels[button.spellID] and E:IsDispellableByMe(button.dtype) then
+			r, g, b = 0.05, 0.85, 0.94
+		elseif UF.db.colors.auraByType then
+			local color = DebuffTypeColor[button.dtype] or DebuffTypeColor.none
+			r, g, b = color.r * 0.6, color.g * 0.6, color.b * 0.6
 		end
-	else
-		if UF.db.colors.auraByType and button.isStealable and not button.isFriend then
-			button:SetBackdropBorderColor(0.93, 0.91, 0.55, 1.0)
-		else
-			button:SetBackdropBorderColor(unpack(E.media.unitframeBorderColor))
-		end
+	elseif UF.db.colors.auraByDispels and button.isStealable and not button.isFriend then
+		r, g, b = 0.93, 0.91, 0.55
 	end
+
+	if not r then
+		r, g, b = unpack(E.media.unitframeBorderColor)
+	end
+
+	button:SetBackdropBorderColor(r, g, b)
+	button.icon:SetDesaturated(button.isDebuff and enemyNPC and button.canDesaturate)
 
 	if button.needsUpdateCooldownPosition and (button.cd and button.cd.timer and button.cd.timer.text) then
 		UF:UpdateAuraCooldownPosition(button)

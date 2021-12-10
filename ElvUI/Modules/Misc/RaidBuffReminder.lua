@@ -302,14 +302,12 @@ function RB:DisableRB()
 end
 
 function RB:UpdateSettings(isCallback)
-	local frame = self.frame
-
-	frame:Width(E.RBRWidth)
+	self.frame:Width(E.RBRWidth)
 
 	self:UpdateDefaultIcons()
 
 	for i = 1, 6 do
-		local button = frame[i]
+		local button = self.frame[i]
 
 		button:SetSize(E.RBRWidth, E.RBRWidth)
 		button:ClearAllPoints()
@@ -319,7 +317,7 @@ function RB:UpdateSettings(isCallback)
 		elseif i == 6 then
 			button:Point("BOTTOM", ElvUI_ReminderBuffs, "BOTTOM", 0, 0)
 		else
-			button:Point("TOP", frame[i - 1], "BOTTOM", 0, E.Border - E.Spacing * 3)
+			button:Point("TOP", self.frame[i - 1], "BOTTOM", 0, E.Border - E.Spacing * 3)
 		end
 
 		button.cd:SetAlpha(self.db.durations and 1 or 0)

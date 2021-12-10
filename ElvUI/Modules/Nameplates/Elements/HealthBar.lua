@@ -6,7 +6,7 @@ local PRIEST_COLOR = RAID_CLASS_COLORS.PRIEST
 
 function NP:Update_HealthOnValueChanged()
 	local frame = self:GetParent().UnitFrame
-	if not frame.UnitType then return end -- Bugs
+	if not frame.UnitType then return end
 
 	NP:Update_Health(frame)
 	NP:Update_HealthColor(frame)
@@ -20,19 +20,17 @@ function NP:Update_HealthColor(frame)
 	local r, g, b, classColor, useClassColor
 	local scale = 1
 
-	local class = frame.UnitClass
-	if class then
-		classColor = E:ClassColor(class) or PRIEST_COLOR
+	if frame.UnitClass then
+		classColor = E:ClassColor(frame.UnitClass) or PRIEST_COLOR
 		useClassColor = NP.db.units[frame.UnitType].health.useClassColor
 	end
 
 	if classColor and ((frame.UnitType == "FRIENDLY_PLAYER" and useClassColor) or (frame.UnitType == "ENEMY_PLAYER" and useClassColor)) then
 		r, g, b = classColor.r, classColor.g, classColor.b
 	else
-		local db = self.db.colors
-		local status = frame.ThreatStatus
-		if status then
-			if status == 3 then
+		local db = NP.db.colors
+		if frame.ThreatStatus then
+			if frame.ThreatStatus == 3 then
 				if E:GetPlayerRole() == "TANK" then
 					r, g, b = db.threat.goodColor.r, db.threat.goodColor.g, db.threat.goodColor.b
 					scale = NP.db.threat.goodScale
@@ -40,14 +38,14 @@ function NP:Update_HealthColor(frame)
 					r, g, b = db.threat.badColor.r, db.threat.badColor.g, db.threat.badColor.b
 					scale = NP.db.threat.badScale
 				end
-			elseif status == 2 then
+			elseif frame.ThreatStatus == 2 then
 				if E:GetPlayerRole() == "TANK" then
 					r, g, b = db.threat.badTransition.r, db.threat.badTransition.g, db.threat.badTransition.b
 				else
 					r, g, b = db.threat.goodTransition.r, db.threat.goodTransition.g, db.threat.goodTransition.b
 				end
 				scale = 1
-			elseif status == 1 then
+			elseif frame.ThreatStatus == 1 then
 				if E:GetPlayerRole() == "TANK" then
 					r, g, b = db.threat.goodTransition.r, db.threat.goodTransition.g, db.threat.goodTransition.b
 				else
@@ -57,19 +55,18 @@ function NP:Update_HealthColor(frame)
 			else
 				if E:GetPlayerRole() == "TANK" then
 					r, g, b = db.threat.badColor.r, db.threat.badColor.g, db.threat.badColor.b
-					scale = self.db.threat.badScale
+					scale = NP.db.threat.badScale
 				else
 					r, g, b = db.threat.goodColor.r, db.threat.goodColor.g, db.threat.goodColor.b
-					scale = self.db.threat.goodScale
+					scale = NP.db.threat.goodScale
 				end
 			end
 		end
 
-		if (not status) or (status and not NP.db.threat.useThreatColor) then
-			local reactionType = frame.UnitReaction
-			if reactionType and reactionType == 4 then
+		if (not frame.ThreatStatus) or (frame.ThreatStatus and not NP.db.threat.useThreatColor) then
+			if frame.UnitReaction and frame.UnitReaction == 4 then
 				r, g, b = db.reactions.neutral.r, db.reactions.neutral.g, db.reactions.neutral.b
-			elseif reactionType and reactionType > 4 then
+			elseif frame.UnitReaction and frame.UnitReaction > 4 then
 				if frame.UnitType == "FRIENDLY_PLAYER" then
 					r, g, b = db.reactions.friendlyPlayer.r, db.reactions.friendlyPlayer.g, db.reactions.friendlyPlayer.b
 				else
@@ -95,14 +92,16 @@ function NP:Update_HealthColor(frame)
 
 	if frame.ThreatScale ~= scale then
 		frame.ThreatScale = scale
-		if frame.isTarget and self.db.useTargetScale then
-			scale = scale * self.db.targetScale
+		if frame.isTarget and NP.db.useTargetScale then
+			scale = scale * NP.db.targetScale
 		end
-		self:SetFrameScale(frame, scale * (frame.ActionScale or 1))
+		NP:SetFrameScale(frame, scale * (frame.ActionScale or 1))
 	end
 end
 
 function NP:Update_Health(frame)
+	if not frame.Health:IsShown() then return end
+
 	local health = frame.oldHealthBar:GetValue()
 	local _, maxHealth = frame.oldHealthBar:GetMinMaxValues()
 	frame.Health:SetMinMaxValues(0, maxHealth)
@@ -116,8 +115,8 @@ function NP:Update_Health(frame)
 	frame.Health:SetValue(health)
 	frame.FlashTexture:Point("TOPRIGHT", frame.Health:GetStatusBarTexture(), "TOPRIGHT") --idk why this fixes this
 
-	if self.db.units[frame.UnitType].health.text.enable then
-		frame.Health.Text:SetText(E:GetFormattedText(self.db.units[frame.UnitType].health.text.format, health, maxHealth))
+	if NP.db.units[frame.UnitType].health.text.enable then
+		frame.Health.Text:SetText(E:GetFormattedText(NP.db.units[frame.UnitType].health.text.format, health, maxHealth))
 	end
 end
 
@@ -134,7 +133,7 @@ function NP:RegisterHealthCallbacks(frame, valueChangeCB, colorChangeCB)
 end
 
 function NP:Update_HealthBar(frame)
-	if self.db.units[frame.UnitType].health.enable or (frame.isTarget and self.db.alwaysShowTargetHealth) then
+	if NP.db.units[frame.UnitType].health.enable or (frame.isTarget and NP.db.alwaysShowTargetHealth) then
 		frame.Health:Show()
 	else
 		frame.Health:Hide()
@@ -160,25 +159,24 @@ function NP:Configure_HealthBarScale(frame, scale, noPlayAnimation)
 end
 
 function NP:Configure_Health(frame, configuring)
-	local db = self.db.units[frame.UnitType].health
-	local healthBar = frame.Health
+	local db = NP.db.units[frame.UnitType].health
 
-	healthBar:SetPoint("TOP", frame, "TOP", 0, 0)
+	frame.Health:SetPoint("TOP", frame, "TOP", 0, 0)
 
 	if configuring then
-		healthBar:SetStatusBarTexture(LSM:Fetch("statusbar", self.db.statusbar), "BORDER")
+		frame.Health:SetStatusBarTexture(LSM:Fetch("statusbar", NP.db.statusbar), "BORDER")
 
-		self:Configure_HealthBarScale(frame, frame.currentScale or 1, configuring)
+		NP:Configure_HealthBarScale(frame, frame.currentScale or 1, configuring)
 
-		E:SetSmoothing(healthBar, self.db.smoothbars)
+		E:SetSmoothing(frame.Health, NP.db.smoothbars)
 
 		if db.text.enable then
-			healthBar.Text:ClearAllPoints()
-			healthBar.Text:Point(E.InversePoints[db.text.position], db.text.parent == "Nameplate" and frame or frame[db.text.parent], db.text.position, db.text.xOffset, db.text.yOffset)
-			healthBar.Text:FontTemplate(LSM:Fetch("font", db.text.font), db.text.fontSize, db.text.fontOutline)
-			healthBar.Text:Show()
+			frame.Health.Text:ClearAllPoints()
+			frame.Health.Text:Point(E.InversePoints[db.text.position], db.text.parent == "Nameplate" and frame or frame[db.text.parent], db.text.position, db.text.xOffset, db.text.yOffset)
+			frame.Health.Text:FontTemplate(LSM:Fetch("font", db.text.font), db.text.fontSize, db.text.fontOutline)
+			frame.Health.Text:Show()
 		else
-			healthBar.Text:Hide()
+			frame.Health.Text:Hide()
 		end
 	end
 end
@@ -192,8 +190,8 @@ end
 
 function NP:Construct_Health(parent)
 	local frame = CreateFrame("StatusBar", "$parentHealth", parent)
-	frame:SetStatusBarTexture(LSM:Fetch("statusbar", self.db.statusbar), "BORDER")
-	self:StyleFrame(frame)
+	frame:SetStatusBarTexture(LSM:Fetch("statusbar", NP.db.statusbar), "BORDER")
+	NP:StyleFrame(frame)
 
 	frame:SetScript("OnSizeChanged", Health_OnSizeChanged)
 

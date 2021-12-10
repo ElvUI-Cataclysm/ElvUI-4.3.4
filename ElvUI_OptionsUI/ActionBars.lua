@@ -447,13 +447,19 @@ E.Options.args.actionbar = {
 					end,
 					disabled = function() return not E.db.actionbar.barPet.enabled end
 				},
-				spacer3 = {
+				keepSizeRatio = {
 					order = 12,
+					type = "toggle",
+					name = L["Keep Size Ratio"],
+					disabled = function() return not E.db.actionbar.barPet.enabled end
+				},
+				spacer3 = {
+					order = 13,
 					type = "description",
 					name = ""
 				},
 				buttons = {
-					order = 13,
+					order = 14,
 					type = "range",
 					name = L["Buttons"],
 					desc = L["The amount of buttons to display."],
@@ -461,7 +467,7 @@ E.Options.args.actionbar = {
 					disabled = function() return not E.db.actionbar.barPet.enabled end
 				},
 				buttonsPerRow = {
-					order = 14,
+					order = 15,
 					type = "range",
 					name = L["Buttons Per Row"],
 					desc = L["The amount of buttons to display per row."],
@@ -469,15 +475,31 @@ E.Options.args.actionbar = {
 					disabled = function() return not E.db.actionbar.barPet.enabled end
 				},
 				buttonSize = {
-					order = 15,
+					order = 16,
 					type = "range",
 					name = L["Button Size"],
 					desc = L["The size of the action buttons."],
 					softMin = 14, softMax = 64, min = 12, max = 128, step = 1,
-					disabled = function() return not E.db.actionbar.barPet.enabled end
+					disabled = function() return not E.db.actionbar.barPet.enabled or not E.db.actionbar.barPet.keepSizeRatio end
+				},
+				buttonWidth = {
+					order = 17,
+					type = "range",
+					name = L["Button Width"],
+					desc = L["The width of the action buttons."],
+					softMin = 14, softMax = 64, min = 12, max = 128, step = 1,
+					disabled = function() return not E.db.actionbar.barPet.enabled or E.db.actionbar.barPet.keepSizeRatio end
+				},
+				buttonHeight = {
+					order = 18,
+					type = "range",
+					name = L["Button Height"],
+					desc = L["The height of the action buttons."],
+					softMin = 14, softMax = 64, min = 12, max = 128, step = 1,
+					disabled = function() return not E.db.actionbar.barPet.enabled or E.db.actionbar.barPet.keepSizeRatio end
 				},
 				buttonSpacing = {
-					order = 16,
+					order = 19,
 					type = "range",
 					name = L["Button Spacing"],
 					desc = L["The spacing between buttons."],
@@ -485,7 +507,7 @@ E.Options.args.actionbar = {
 					disabled = function() return not E.db.actionbar.barPet.enabled end
 				},
 				backdropSpacing = {
-					order = 17,
+					order = 20,
 					type = "range",
 					name = L["Backdrop Spacing"],
 					desc = L["The spacing between the backdrop and the buttons."],
@@ -493,7 +515,7 @@ E.Options.args.actionbar = {
 					disabled = function() return not E.db.actionbar.barPet.enabled end
 				},
 				widthMult = {
-					order = 18,
+					order = 21,
 					type = "range",
 					name = L["Width Multiplier"],
 					desc = L["Multiply the backdrops height or width by this value. This is usefull if you wish to have more than one bar behind a backdrop."],
@@ -501,7 +523,7 @@ E.Options.args.actionbar = {
 					disabled = function() return not E.db.actionbar.barPet.enabled end
 				},
 				heightMult = {
-					order = 19,
+					order = 22,
 					type = "range",
 					name = L["Height Multiplier"],
 					desc = L["Multiply the backdrops height or width by this value. This is usefull if you wish to have more than one bar behind a backdrop."],
@@ -509,7 +531,7 @@ E.Options.args.actionbar = {
 					disabled = function() return not E.db.actionbar.barPet.enabled end
 				},
 				alpha = {
-					order = 20,
+					order = 23,
 					type = "range",
 					name = L["Alpha"],
 					isPercent = true,
@@ -517,13 +539,13 @@ E.Options.args.actionbar = {
 					disabled = function() return not E.db.actionbar.barPet.enabled end
 				},
 				frameLevel = {
-					order = 21,
+					order = 24,
 					type = "range",
 					name = L["Frame Level"],
 					min = 1, max = 256, step = 1
 				},
 				visibility = {
-					order = 22,
+					order = 25,
 					type = "input",
 					name = L["Visibility State"],
 					desc = L["This works like a macro, you can run different situations to get the actionbar to show/hide differently.\n Example: '[combat] show;hide'"],
@@ -589,7 +611,8 @@ E.Options.args.actionbar = {
 					order = 6,
 					type = "select",
 					name = L["Frame Strata"],
-					values = strataValues
+					values = strataValues,
+					disabled = function() return not E.db.actionbar.stanceBar.enabled end
 				},
 				spacer2 = {
 					order = 7,
@@ -633,13 +656,19 @@ E.Options.args.actionbar = {
 					end,
 					disabled = function() return not E.db.actionbar.stanceBar.enabled end
 				},
-				spacer3 = {
+				keepSizeRatio = {
 					order = 13,
+					type = "toggle",
+					name = L["Keep Size Ratio"],
+					disabled = function() return not E.db.actionbar.stanceBar.enabled end
+				},
+				spacer3 = {
+					order = 14,
 					type = "description",
 					name = ""
 				},
 				buttons = {
-					order = 14,
+					order = 15,
 					type = "range",
 					name = L["Buttons"],
 					desc = L["The amount of buttons to display."],
@@ -647,7 +676,7 @@ E.Options.args.actionbar = {
 					disabled = function() return not E.db.actionbar.stanceBar.enabled end
 				},
 				buttonsPerRow = {
-					order = 15,
+					order = 16,
 					type = "range",
 					name = L["Buttons Per Row"],
 					desc = L["The amount of buttons to display per row."],
@@ -655,15 +684,31 @@ E.Options.args.actionbar = {
 					disabled = function() return not E.db.actionbar.stanceBar.enabled end
 				},
 				buttonSize = {
-					order = 16,
+					order = 17,
 					type = "range",
 					name = L["Button Size"],
 					desc = L["The size of the action buttons."],
 					softMin = 14, softMax = 64, min = 12, max = 128, step = 1,
-					disabled = function() return not E.db.actionbar.stanceBar.enabled end
+					disabled = function() return not E.db.actionbar.stanceBar.enabled or not E.db.actionbar.stanceBar.keepSizeRatio end
+				},
+				buttonWidth = {
+					order = 18,
+					type = "range",
+					name = L["Button Width"],
+					desc = L["The width of the action buttons."],
+					softMin = 14, softMax = 64, min = 12, max = 128, step = 1,
+					disabled = function() return not E.db.actionbar.stanceBar.enabled or E.db.actionbar.stanceBar.keepSizeRatio end
+				},
+				buttonHeight = {
+					order = 19,
+					type = "range",
+					name = L["Button Height"],
+					desc = L["The height of the action buttons."],
+					softMin = 14, softMax = 64, min = 12, max = 128, step = 1,
+					disabled = function() return not E.db.actionbar.stanceBar.enabled or E.db.actionbar.stanceBar.keepSizeRatio end
 				},
 				buttonSpacing = {
-					order = 17,
+					order = 20,
 					type = "range",
 					name = L["Button Spacing"],
 					desc = L["The spacing between buttons."],
@@ -671,7 +716,7 @@ E.Options.args.actionbar = {
 					disabled = function() return not E.db.actionbar.stanceBar.enabled end
 				},
 				backdropSpacing = {
-					order = 18,
+					order = 21,
 					type = "range",
 					name = L["Backdrop Spacing"],
 					desc = L["The spacing between the backdrop and the buttons."],
@@ -679,7 +724,7 @@ E.Options.args.actionbar = {
 					disabled = function() return not E.db.actionbar.stanceBar.enabled end
 				},
 				widthMult = {
-					order = 19,
+					order = 22,
 					type = "range",
 					name = L["Width Multiplier"],
 					desc = L["Multiply the backdrops height or width by this value. This is usefull if you wish to have more than one bar behind a backdrop."],
@@ -687,7 +732,7 @@ E.Options.args.actionbar = {
 					disabled = function() return not E.db.actionbar.stanceBar.enabled end
 				},
 				heightMult = {
-					order = 20,
+					order = 23,
 					type = "range",
 					name = L["Height Multiplier"],
 					desc = L["Multiply the backdrops height or width by this value. This is usefull if you wish to have more than one bar behind a backdrop."],
@@ -695,7 +740,7 @@ E.Options.args.actionbar = {
 					disabled = function() return not E.db.actionbar.stanceBar.enabled end
 				},
 				alpha = {
-					order = 21,
+					order = 24,
 					type = "range",
 					name = L["Alpha"],
 					isPercent = true,
@@ -703,13 +748,14 @@ E.Options.args.actionbar = {
 					disabled = function() return not E.db.actionbar.stanceBar.enabled end
 				},
 				frameLevel = {
-					order = 22,
+					order = 25,
 					type = "range",
 					name = L["Frame Level"],
-					min = 1, max = 256, step = 1
+					min = 1, max = 256, step = 1,
+					disabled = function() return not E.db.actionbar.stanceBar.enabled end
 				},
 				visibility = {
-					order = 23,
+					order = 26,
 					type = "input",
 					name = L["Visibility State"],
 					desc = L["This works like a macro, you can run different situations to get the actionbar to show/hide differently.\n Example: '[combat] show;hide'"],
@@ -1114,20 +1160,25 @@ for i = 1, 10 do
 							end
 						end
 					},
-					spacer1 = {
+					keepSizeRatio = {
 						order = 10,
+						type = "toggle",
+						name = L["Keep Size Ratio"]
+					},
+					spacer1 = {
+						order = 11,
 						type = "description",
 						name = ""
 					},
 					point = {
-						order = 11,
+						order = 12,
 						type = "select",
 						name = L["Anchor Point"],
 						desc = L["The first button anchors itself to this point on the bar."],
 						values = points
 					},
 					flyoutDirection = {
-						order = 12,
+						order = 13,
 						type = "select",
 						name = L["Flyout Direction"],
 						set = function(info, value) E.db.actionbar["bar"..i][info[#info]] = value AB:PositionAndSizeBar("bar"..i) AB:UpdateButtonSettingsForBar("bar"..i) end,
@@ -1140,80 +1191,97 @@ for i = 1, 10 do
 						}
 					},
 					frameStrata = {
-						order = 13,
+						order = 14,
 						type = "select",
 						name = L["Frame Strata"],
 						values = strataValues
 					},
 					spacer2 = {
-						order = 14,
+						order = 15,
 						type = "description",
 						name = ""
 					},
 					buttons = {
-						order = 15,
+						order = 16,
 						type = "range",
 						name = L["Buttons"],
 						desc = L["The amount of buttons to display."],
 						min = 1, max = NUM_ACTIONBAR_BUTTONS, step = 1
 					},
 					buttonsPerRow = {
-						order = 16,
+						order = 17,
 						type = "range",
 						name = L["Buttons Per Row"],
 						desc = L["The amount of buttons to display per row."],
 						min = 1, max = NUM_ACTIONBAR_BUTTONS, step = 1
 					},
 					buttonSize = {
-						order = 17,
+						order = 18,
 						type = "range",
 						name = L["Button Size"],
 						desc = L["The size of the action buttons."],
-						softMin = 14, softMax = 64, min = 12, max = 128, step = 1
+						softMin = 14, softMax = 64, min = 12, max = 128, step = 1,
+						disabled = function() return not E.db.actionbar["bar"..i].keepSizeRatio end
+					},
+					buttonWidth = {
+						order = 19,
+						type = "range",
+						name = L["Button Width"],
+						desc = L["The width of the action buttons."],
+						softMin = 14, softMax = 64, min = 12, max = 128, step = 1,
+						disabled = function() return E.db.actionbar["bar"..i].keepSizeRatio end
+					},
+					buttonHeight = {
+						order = 20,
+						type = "range",
+						name = L["Button Height"],
+						desc = L["The height of the action buttons."],
+						softMin = 14, softMax = 64, min = 12, max = 128, step = 1,
+						disabled = function() return E.db.actionbar["bar"..i].keepSizeRatio end
 					},
 					buttonSpacing = {
-						order = 18,
+						order = 21,
 						type = "range",
 						name = L["Button Spacing"],
 						desc = L["The spacing between buttons."],
 						min = -3, max = 20, step = 1
 					},
 					backdropSpacing = {
-						order = 19,
+						order = 22,
 						type = "range",
 						name = L["Backdrop Spacing"],
 						desc = L["The spacing between the backdrop and the buttons."],
 						min = -1, max = 10, step = 1
 					},
 					heightMult = {
-						order = 20,
+						order = 23,
 						type = "range",
 						name = L["Height Multiplier"],
 						desc = L["Multiply the backdrops height or width by this value. This is usefull if you wish to have more than one bar behind a backdrop."],
 						min = 1, max = 5, step = 1
 					},
 					widthMult = {
-						order = 21,
+						order = 24,
 						type = "range",
 						name = L["Width Multiplier"],
 						desc = L["Multiply the backdrops height or width by this value. This is usefull if you wish to have more than one bar behind a backdrop."],
 						min = 1, max = 5, step = 1
 					},
 					alpha = {
-						order = 22,
+						order = 25,
 						type = "range",
 						name = L["Alpha"],
 						isPercent = true,
 						min = 0, max = 1, step = 0.01
 					},
 					frameLevel = {
-						order = 23,
+						order = 26,
 						type = "range",
 						name = L["Frame Level"],
 						min = 1, max = 256, step = 1
 					},
 					paging = {
-						order = 24,
+						order = 27,
 						type = "input",
 						name = L["Action Paging"],
 						desc = L["This works like a macro, you can run different situations to get the actionbar to page differently.\n Example: '[combat] 2;'"],
@@ -1234,7 +1302,7 @@ for i = 1, 10 do
 						end
 					},
 					visibility = {
-						order = 25,
+						order = 28,
 						type = "input",
 						name = L["Visibility State"],
 						desc = L["This works like a macro, you can run different situations to get the actionbar to show/hide differently.\n Example: '[combat] show;hide'"],

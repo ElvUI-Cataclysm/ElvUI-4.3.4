@@ -52,6 +52,7 @@ local IsMouseButtonDown = IsMouseButtonDown
 local IsShiftKeyDown = IsShiftKeyDown
 local PlaySoundFile = PlaySoundFile
 local RemoveExtraSpaces = RemoveExtraSpaces
+local SetCVar = SetCVar
 local ScrollFrameTemplate_OnMouseWheel = ScrollFrameTemplate_OnMouseWheel
 local StaticPopup_Visible = StaticPopup_Visible
 local ToggleFrame = ToggleFrame
@@ -2133,6 +2134,8 @@ function CH:Initialize()
 	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:Point("TOPRIGHT", CombatLogQuickButtonFrame_Custom, "TOPRIGHT", 2, -1)
 	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:SetHitRectInsets(0, 0, 0, 0)
 	CombatLogQuickButtonFrame_CustomAdditionalFilterButton:RegisterForClicks("AnyUp")
+
+	SetCVar("chatStyle", "classic")
 end
 
 local function InitializeCallback()

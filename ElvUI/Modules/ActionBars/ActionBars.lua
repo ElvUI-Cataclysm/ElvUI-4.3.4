@@ -113,6 +113,33 @@ AB.customExitButton = {
 	tooltip = LEAVE_VEHICLE
 }
 
+function AB:TrimIcon(button, masque)
+	if not button.icon then return end
+
+	local left, right, top, bottom = unpack(button.db and button.db.customCoords or E.TexCoords)
+	local changeRatio = button.db and not button.db.keepSizeRatio
+
+	if changeRatio then
+		local width, height = button:GetSize()
+		local ratio = width / height
+
+		if ratio > 1 then
+			local trimAmount = (1 - (1 / ratio)) / 2
+			top = top + trimAmount
+			bottom = bottom - trimAmount
+		else
+			local trimAmount = (1 - ratio) / 2
+			left = left + trimAmount
+			right = right - trimAmount
+		end
+	end
+
+	-- always when masque is off, otherwise only when keepSizeRatio is off
+	if not masque or changeRatio then
+		button.icon:SetTexCoord(left, right, top, bottom)
+	end
+end
+
 function AB:PositionAndSizeBar(barName)
 	local db = AB.db[barName]
 
@@ -120,7 +147,9 @@ function AB:PositionAndSizeBar(barName)
 	local backdropSpacing = E:Scale(db.backdropSpacing or db.buttonSpacing)
 	local buttonsPerRow = db.buttonsPerRow
 	local numButtons = db.buttons
-	local size = E:Scale(db.buttonSize)
+	local buttonWidth = db.keepSizeRatio and E:Scale(db.buttonSize) or E:Scale(db.buttonWidth)
+	local buttonHeight = db.keepSizeRatio and E:Scale(db.buttonSize) or E:Scale(db.buttonHeight)
+
 	local point = db.point
 	local numColumns = ceil(numButtons / buttonsPerRow)
 	local widthMult = db.widthMult
@@ -153,10 +182,10 @@ function AB:PositionAndSizeBar(barName)
 		heightMult = 1
 	end
 
-	local sideSpacing = (db.backdrop == true and (E.Border + backdropSpacing) or E.Spacing)
+	local sideSpacing = (db.backdrop and (E.Border + backdropSpacing) or E.Spacing)
 	--Size of all buttons + Spacing between all buttons + Spacing between additional rows of buttons + Spacing between backdrop and buttons + Spacing on end borders with non-thin borders
-	local barWidth = (size * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult - 1)) + (sideSpacing*2)
-	local barHeight = (size * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult - 1)) + (sideSpacing*2)
+	local barWidth = (buttonWidth * (buttonsPerRow * widthMult)) + ((buttonSpacing * (buttonsPerRow - 1)) * widthMult) + (buttonSpacing * (widthMult - 1)) + (sideSpacing * 2)
+	local barHeight = (buttonHeight * (numColumns * heightMult)) + ((buttonSpacing * (numColumns - 1)) * heightMult) + (buttonSpacing * (heightMult - 1)) + (sideSpacing * 2)
 	bar:SetSize(barWidth, barHeight)
 
 	local horizontalGrowth, verticalGrowth
@@ -186,7 +215,7 @@ function AB:PositionAndSizeBar(barName)
 		button:SetParent(bar)
 		button:ClearAllPoints()
 		button:SetAttribute("showgrid", 1)
-		button:Size(size)
+		button:Size(buttonWidth, buttonHeight)
 		button:EnableMouse(not db.clickThrough)
 
 		if i == 1 then
@@ -259,6 +288,11 @@ function AB:PositionAndSizeBar(barName)
 
 	if MasqueGroup and E.private.actionbar.masque.actionbars then
 		MasqueGroup:ReSkin()
+
+		-- masque retrims them all so we have to too
+		for btn in pairs(AB.handledbuttons) do
+			AB:TrimIcon(btn, true)
+		end
 	end
 end
 
@@ -595,8 +629,8 @@ function AB:StyleButton(button, noBackdrop, useMasque, ignoreNormal)
 		end
 	end
 
-	if icon then
-		icon:SetTexCoord(unpack(E.TexCoords))
+	if not useMasque then
+		AB:TrimIcon(button)
 		icon:SetInside()
 	end
 

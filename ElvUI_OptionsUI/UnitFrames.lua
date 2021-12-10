@@ -282,6 +282,11 @@ local function GetOptionsTable_AuraBars(updateFunc, groupName)
 						type = "toggle",
 						name = L["Click Through"],
 						desc = L["Ignore mouse events."]
+					},
+					spark = {
+						order = 13,
+						type = "toggle",
+						name = L["Spark"]
 					}
 				}
 			},
@@ -536,20 +541,38 @@ local function GetOptionsTable_Auras(auraType, updateFunc, groupName, numUnits)
 				set = function(info, value) E.db.unitframe.units[groupName][auraType][info[#info]] = value updateFunc(UF, groupName, numUnits) end,
 				disabled = function() return not E.db.unitframe.units[groupName][auraType].enable end,
 				args = {
-					countFont = {
+					countPosition = {
 						order = 1,
+						type = "select",
+						name = L["Position"],
+						values = positionValues
+					},
+					countXOffset = {
+						order = 2,
+						type = "range",
+						name = L["X-Offset"],
+						min = -60, max = 60, step = 1
+					},
+					countYOffset = {
+						order = 3,
+						type = "range",
+						name = L["Y-Offset"],
+						min = -60, max = 60, step = 1
+					},
+					countFont = {
+						order = 4,
 						type = "select", dialogControl = "LSM30_Font",
 						name = L["Font"],
 						values = _G.AceGUIWidgetLSMlists.font
 					},
 					countFontSize = {
-						order = 2,
+						order = 5,
 						type = "range",
 						name = L["FONT_SIZE"],
 						min = 4, max = 20, step = 1 -- max 20 cause otherwise it looks weird
 					},
 					countFontOutline = {
-						order = 3,
+						order = 6,
 						type = "select",
 						name = L["Font Outline"],
 						desc = L["Set the font outline."],
@@ -4588,10 +4611,15 @@ E.Options.args.unitframe = {
 							type = "group",
 							name = L["Auras"],
 							args = {
-								auraByType = {
+								auraByDispels = {
 									order = 1,
 									type = "toggle",
-									name = L["By Type"]
+									name = L["Borders By Dispel"]
+								},
+								auraByType = {
+									order = 2,
+									type = "toggle",
+									name = L["Borders By Type"]
 								}
 							}
 						},
