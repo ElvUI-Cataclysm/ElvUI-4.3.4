@@ -968,8 +968,8 @@ function E:UpdateAll(ignoreInstall)
 		Chat:UpdateAnchors()
 	end
 
-	DataBars:EnableDisable_ExperienceBar()
-	DataBars:EnableDisable_ReputationBar()
+	DataBars:ExperienceBar_Toggle()
+	DataBars:ReputationBar_Toggle()
 	DataBars:UpdateDataBarDimensions()
 
 	DataTexts:LoadDataTexts()
