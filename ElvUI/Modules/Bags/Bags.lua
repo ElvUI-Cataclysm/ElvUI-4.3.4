@@ -417,12 +417,10 @@ function B:UpdateSlot(frame, bagID, slotID)
 			local profR, profG, profB = unpack(B.ProfessionColors[bagType])
 			ColorizeProfessionBagSlots(slot, profR, profG, profB, qualityR, qualityG, qualityB)
 		elseif B.db.questItemColors and (questId and not isActiveQuest) then -- Quest Starter Item
-			local starterR, starterG, starterB = unpack(B.QuestColors.questStarter)
-			slot:SetBackdropBorderColor(starterR, starterG, starterB)
+			slot:SetBackdropBorderColor(unpack(B.QuestColors.questStarter))
 			slot.ignoreBorderColors = true
 		elseif B.db.questItemColors and (questId or isQuestItem) then -- Quest Item
-			local questR, questG, questB = unpack(B.QuestColors.questItem)
-			slot:SetBackdropBorderColor(questR, questG, questB)
+			slot:SetBackdropBorderColor(unpack(B.QuestColors.questItem))
 			slot.ignoreBorderColors = true
 		elseif B.db.qualityColors and (slot.rarity and slot.rarity > 1) then -- Color slot according to item quality
 			slot:SetBackdropBorderColor(qualityR, qualityG, qualityB)

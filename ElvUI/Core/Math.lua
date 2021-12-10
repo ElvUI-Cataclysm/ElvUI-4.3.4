@@ -171,29 +171,31 @@ end
 
 function E:GetScreenQuadrant(frame)
 	local x, y = frame:GetCenter()
-	local screenWidth = GetScreenWidth()
-	local screenHeight = GetScreenHeight()
-
 	if not (x and y) then
 		return "UNKNOWN", frame:GetName()
 	end
 
 	local point
-	if (x > (screenWidth / 3) and x < (screenWidth / 3)*2) and y > (screenHeight / 3)*2 then
+	local width = GetScreenWidth() / 3
+	local height = GetScreenHeight() / 3
+	local dblWidth = width * 2
+	local dblHeight = height * 2
+
+	if x > width and x < dblWidth and y > dblHeight then
 		point = "TOP"
-	elseif x < (screenWidth / 3) and y > (screenHeight / 3)*2 then
+	elseif x < width and y > dblHeight then
 		point = "TOPLEFT"
-	elseif x > (screenWidth / 3)*2 and y > (screenHeight / 3)*2 then
+	elseif x > dblWidth and y > dblHeight then
 		point = "TOPRIGHT"
-	elseif (x > (screenWidth / 3) and x < (screenWidth / 3)*2) and y < (screenHeight / 3) then
+	elseif x > width and x < dblWidth and y < height then
 		point = "BOTTOM"
-	elseif x < (screenWidth / 3) and y < (screenHeight / 3) then
+	elseif x < width and y < height then
 		point = "BOTTOMLEFT"
-	elseif x > (screenWidth / 3)*2 and y < (screenHeight / 3) then
+	elseif x > dblWidth and y < height then
 		point = "BOTTOMRIGHT"
-	elseif x < (screenWidth / 3) and (y > (screenHeight / 3) and y < (screenHeight / 3)*2) then
+	elseif x < width and y > height and y < dblHeight then
 		point = "LEFT"
-	elseif x > (screenWidth / 3)*2 and y < (screenHeight / 3)*2 and y > (screenHeight / 3) then
+	elseif x > dblWidth and y < dblHeight and y > height then
 		point = "RIGHT"
 	else
 		point = "CENTER"

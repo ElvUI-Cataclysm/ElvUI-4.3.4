@@ -33,8 +33,8 @@ function MultiCastRecallSpellButton_Update(self)
 	oldMultiCastRecallSpellButton_Update(self)
 end
 
-function AB:MultiCastFlyoutFrameOpenButton_Show(button, type, parent)
-	if type == "page" then
+function AB:MultiCastFlyoutFrameOpenButton_Show(button, buttonType, parent)
+	if buttonType == "page" then
 		button.backdrop:SetBackdropBorderColor(unpack(E.media.bordercolor))
 	else
 		local color = SLOT_BORDER_COLORS[parent:GetID()]
@@ -69,7 +69,7 @@ function AB:StyleTotemSlotButton(button, slot)
 	end
 end
 
-function AB:MultiCastFlyoutFrame_ToggleFlyout(frame, type, parent)
+function AB:MultiCastFlyoutFrame_ToggleFlyout(frame, buttonType, parent)
 	frame.top:SetTexture(nil)
 	frame.middle:SetTexture(nil)
 
@@ -107,7 +107,7 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(frame, type, parent)
 				button:Point("TOP", i == 1 and parent or frame.buttons[i - 1], "BOTTOM", 0, -flyoutSpacing)
 			end
 
-			if type == "page" then
+			if buttonType == "page" then
 				button:SetBackdropBorderColor(unpack(E.media.bordercolor))
 			else
 				button:SetBackdropBorderColor(color.r, color.g, color.b)
@@ -117,7 +117,7 @@ function AB:MultiCastFlyoutFrame_ToggleFlyout(frame, type, parent)
 		end
 	end
 
-	if type == "slot" then
+	if buttonType == "slot" then
 		local tCoords = SLOT_EMPTY_TCOORDS[parent:GetID()]
 		frame.buttons[1].icon:SetTexCoord(tCoords.left, tCoords.right, tCoords.top, tCoords.bottom)
 		frame.buttons[1]:SetBackdropBorderColor(color.r, color.g, color.b)

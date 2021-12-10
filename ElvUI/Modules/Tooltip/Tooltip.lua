@@ -488,7 +488,7 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 		end
 	end
 
-	if isShiftKeyDown and isPlayerUnit then
+	if isShiftKeyDown and color and isPlayerUnit then
 		twipe(tree)
 		TT:AddInspectInfo(tt, unit, 0, color.r, color.g, color.b)
 	end

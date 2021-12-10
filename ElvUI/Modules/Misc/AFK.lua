@@ -157,11 +157,7 @@ function mod:OnEvent(event, ...)
 		return
 	end
 
-	if UnitIsAFK("player") then
-		self:SetAFK(true)
-	else
-		self:SetAFK(false)
-	end
+	self:SetAFK(UnitIsAFK("player"))
 end
 
 function mod:Toggle()
@@ -207,12 +203,12 @@ end
 
 local function Chat_OnEvent(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14)
 	local coloredName = GetColoredName(event, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14)
-	local type = strsub(event, 10)
-	local info = ChatTypeInfo[type]
+	local chatType = strsub(event, 10)
+	local info = ChatTypeInfo[chatType]
 
 	arg1 = RemoveExtraSpaces(arg1)
 
-	local chatGroup = Chat_GetChatCategory(type)
+	local chatGroup = Chat_GetChatCategory(chatType)
 	local chatTarget, body
 	if chatGroup == "BN_CONVERSATION" then
 		chatTarget = tostring(arg8)
@@ -225,7 +221,7 @@ local function Chat_OnEvent(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg
 	end
 
 	local playerLink
-	if type ~= "BN_WHISPER" and type ~= "BN_CONVERSATION" then
+	if chatType ~= "BN_WHISPER" and chatType ~= "BN_CONVERSATION" then
 		playerLink = "|Hplayer:"..arg2..":"..arg11..":"..chatGroup..(chatTarget and ":"..chatTarget or "").."|h"
 	else
 		playerLink = "|HBNplayer:"..arg2..":"..arg13..":"..arg11..":"..chatGroup..(chatTarget and ":"..chatTarget or "").."|h"
@@ -240,13 +236,13 @@ local function Chat_OnEvent(self, event, arg1, arg2, arg3, arg4, arg5, arg6, arg
 	message = gsub(message, "%%", "%%%%")
 
 	local success
-	success, body = pcall(format, _G["CHAT_"..type.."_GET"]..message, playerLink.."["..coloredName.."]".."|h")
+	success, body = pcall(format, _G["CHAT_"..chatType.."_GET"]..message, playerLink.."["..coloredName.."]".."|h")
 	if not success then
-		E:Print("An error happened in the AFK Chat module. Please screenshot this message and report it. Info:", type, message, _G["CHAT_"..type.."_GET"])
+		E:Print("An error happened in the AFK Chat module. Please screenshot this message and report it. Info:", chatType, message, _G["CHAT_"..chatType.."_GET"])
 	end
 
 	local accessID = ChatHistory_GetAccessID(chatGroup, chatTarget)
-	local typeID = ChatHistory_GetAccessID(type, chatTarget, arg12 == "" and arg13 or arg12)
+	local typeID = ChatHistory_GetAccessID(chatType, chatTarget, arg12 == "" and arg13 or arg12)
 
 	if CH.db.shortChannels then
 		body = gsub(body, "|Hchannel:(.-)|h%[(.-)%]|h", CH.ShortChannel)
@@ -310,7 +306,7 @@ function mod:Initialize()
 	self.AFKMode.bottom:SetFrameLevel(0)
 	self.AFKMode.bottom:SetTemplate("Transparent")
 	self.AFKMode.bottom:Point("BOTTOM", self.AFKMode, "BOTTOM", 0, -E.Border)
-	self.AFKMode.bottom:Width(GetScreenWidth() + (E.Border*2))
+	self.AFKMode.bottom:Width(GetScreenWidth() + (E.Border * 2))
 	self.AFKMode.bottom:Height(GetScreenHeight() * 0.1)
 
 	self.AFKMode.bottom.logo = self.AFKMode:CreateTexture(nil, "OVERLAY")
