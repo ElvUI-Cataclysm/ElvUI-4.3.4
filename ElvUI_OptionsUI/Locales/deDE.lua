@@ -102,6 +102,7 @@ L["Aura Speed"] = "Auren Geschwindigkeit"
 L["Auto Add New Spells"] = "Automatisches hinzufügen von neuen Zaubern"
 L["Auto Greed/DE"] = "Auto-Gier/DE"
 L["Auto Hide"] = "Auto Verstecken"
+L["Auto Toggle"] = true
 L["Auto Repair"] = "Auto-Reparatur"
 L["Auto Track Reputation"] = true
 L["Auto Vendor Junk"] = "Junk automatisch verkaufen"

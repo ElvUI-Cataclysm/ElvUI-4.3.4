@@ -103,6 +103,7 @@ L["Aura Speed"] = true
 L["Auto Add New Spells"] = true
 L["Auto Greed/DE"] = true
 L["Auto Hide"] = true
+L["Auto Toggle"] = true
 L["Auto Repair"] = true
 L["Auto Track Reputation"] = true
 L["Auto Vendor Junk"] = true

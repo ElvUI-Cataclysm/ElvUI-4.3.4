@@ -137,6 +137,7 @@ do
 	DisableAddOn("ElvUI_MinimapButtons")
 	DisableAddOn("ElvUI_DataTextColors")
 	DisableAddOn("ElvUI_ChannelAlerts")
+	DisableAddOn("ElvUI_BagControl")
 end
 
 function E:OnInitialize()

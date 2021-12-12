@@ -102,6 +102,7 @@ L["Aura Speed"] = "Velocidad del Aura"
 L["Auto Add New Spells"] = "Agregar automáticamente nuevos hechizos"
 L["Auto Greed/DE"] = "Codicia/Desencantar Automático"
 L["Auto Hide"] = "Ocultar Automáticamente"
+L["Auto Toggle"] = true
 L["Auto Repair"] = "Reparación Automática"
 L["Auto Track Reputation"] = true
 L["Auto Vendor Junk"] = "Auto-vender basura"

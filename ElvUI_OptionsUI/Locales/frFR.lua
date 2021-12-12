@@ -102,6 +102,7 @@ L["Aura Speed"] = true
 L["Auto Add New Spells"] = "Ajouter automatiquement les nouveaux sorts"
 L["Auto Greed/DE"] = "Dez / Cupidité Auto"
 L["Auto Hide"] = "Cacher automatiquement"
+L["Auto Toggle"] = true
 L["Auto Repair"] = "Réparation automatique"
 L["Auto Track Reputation"] = true
 L["Auto Vendor Junk"] = "Vente automatique d'objet "

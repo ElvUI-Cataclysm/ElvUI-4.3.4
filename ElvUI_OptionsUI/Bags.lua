@@ -321,8 +321,57 @@ E.Options.args.bags = {
 						}
 					}
 				},
-				countGroup = {
+				autoToggle = {
 					order = 17,
+					type = "group",
+					name = L["Auto Toggle"],
+					get = function(info) return E.db.bags.autoToggle[info[#info]] end,
+					set = function(info, value) E.db.bags.autoToggle[info[#info]] = value B:AutoToggle() end,
+					args = {
+						bank = {
+							order = 1,
+							type = "toggle",
+							name = L["Bank"]
+						},
+						mail = {
+							order = 2,
+							type = "toggle",
+							name = L["MAIL_LABEL"]
+						},
+						guildBank = {
+							order = 3,
+							type = "toggle",
+							name = L["GUILD_BANK"]
+						},
+						auctionHouse = {
+							order = 4,
+							type = "toggle",
+							name = L["AUCTIONS"]
+						},
+						professions = {
+							order = 5,
+							type = "toggle",
+							name = L["TRADESKILLS"]
+						},
+						trade = {
+							order = 6,
+							type = "toggle",
+							name = L["TRADE"]
+						},
+						vendor = {
+							order = 7,
+							type = "toggle",
+							name = L["MERCHANT"]
+						},
+						voidStorage = {
+							order = 8,
+							type = "toggle",
+							name = L["VOID_STORAGE"]
+						}
+					}
+				},
+				countGroup = {
+					order = 18,
 					type = "group",
 					name = L["Item Count"],
 					args = {
@@ -366,7 +415,7 @@ E.Options.args.bags = {
 					}
 				},
 				itemLevelGroup = {
-					order = 18,
+					order = 19,
 					type = "group",
 					name = L["Item Level"],
 					args = {

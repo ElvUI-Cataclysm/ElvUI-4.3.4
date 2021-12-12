@@ -38,6 +38,8 @@ local GetScreenWidth, GetScreenHeight = GetScreenWidth, GetScreenHeight
 local IsBagOpen, IsOptionFrameOpen = IsBagOpen, IsOptionFrameOpen
 local IsModifiedClick = IsModifiedClick
 local IsShiftKeyDown, IsControlKeyDown = IsShiftKeyDown, IsControlKeyDown
+local MailFrame = MailFrame
+local MerchantFrame = MerchantFrame
 local PickupContainerItem = PickupContainerItem
 local PlaySound = PlaySound
 local PutItemInBackpack = PutItemInBackpack
@@ -998,7 +1000,13 @@ function B:ConstructContainerFrame(name, isBank)
 	f:SetTemplate("Transparent")
 	f:SetFrameStrata(strata)
 
+	f:RegisterEvent("BAG_UPDATE") -- Has to be on both frames
+	f:RegisterEvent("BAG_UPDATE_COOLDOWN") -- Has to be on both frames
 	f.events = isBank and {"PLAYERBANKSLOTS_CHANGED"} or {"ITEM_LOCK_CHANGED", "ITEM_UNLOCKED", "QUEST_ACCEPTED", "QUEST_REMOVED", "QUEST_LOG_UPDATE"}
+
+	for _, event in pairs(f.events) do
+		f:RegisterEvent(event)
+	end
 
 	f:Hide()
 
@@ -1019,8 +1027,7 @@ function B:ConstructContainerFrame(name, isBank)
 	f:RegisterForDrag("LeftButton", "RightButton")
 	f:RegisterForClicks("AnyUp")
 	f:SetScript("OnEvent", B.OnEvent)
-	f:SetScript("OnShow", B.ContainerOnShow)
-	f:SetScript("OnHide", B.ContainerOnHide)
+	f:SetScript("OnShow", B.RefreshSearch)
 	f:SetScript("OnDragStart", function(frame) if IsShiftKeyDown() then frame:StartMoving() end end)
 	f:SetScript("OnDragStop", function(frame) frame:StopMovingOrSizing() end)
 	f:SetScript("OnClick", function(frame) if IsControlKeyDown() then B.PostBagMove(frame.mover) end end)
@@ -1134,6 +1141,15 @@ function B:ConstructContainerFrame(name, isBank)
 				E:StaticPopup_Show("CANNOT_BUY_BANK_SLOT")
 			else
 				E:StaticPopup_Show("BUY_BANK_SLOT")
+			end
+		end)
+
+		f:SetScript("OnShow", B.RefreshSearch)
+		f:SetScript("OnHide", function()
+			CloseBankFrame()
+
+			if E.db.bags.clearSearchOnClose then
+				B.ResetAndClear(f.editBox)
 			end
 		end)
 
@@ -1277,6 +1293,23 @@ function B:ConstructContainerFrame(name, isBank)
 			f.currencyButton[i]:SetScript("OnClick", B.Token_OnClick)
 			f.currencyButton[i]:Hide()
 		end
+
+		f:SetScript("OnHide", function()
+			CloseBackpack()
+			for i = 1, NUM_BAG_FRAMES do
+				CloseBag(i)
+			end
+
+			if ElvUIBags and ElvUIBags.buttons then
+				for _, bagButton in pairs(ElvUIBags.buttons) do
+					bagButton:SetChecked(false)
+				end
+			end
+
+			if E.db.bags.clearSearchOnClose then
+				B.ResetAndClear(f.editBox)
+			end
+		end)
 	end
 
 	tinsert(UISpecialFrames, f:GetName()) --Keep an eye on this for taints..
@@ -1306,6 +1339,17 @@ function B:ToggleBackpack()
 	end
 end
 
+function B:OpenAllBags(frame)
+	local mail = frame == MailFrame and frame:IsShown()
+	local vendor = frame == MerchantFrame and frame:IsShown()
+
+	if (not mail and not vendor) or (mail and B.db.autoToggle.mail) or (vendor and B.db.autoToggle.vendor) then
+		B:OpenBags()
+	else
+		B:CloseBags()
+	end
+end
+
 function B:ToggleSortButtonState(isBank)
 	local button, disable
 	if isBank and B.BankFrame then
@@ -1320,51 +1364,6 @@ function B:ToggleSortButtonState(isBank)
 		button:Disable()
 	elseif button and not disable then
 		button:Enable()
-	end
-end
-
-function B:ContainerOnShow()
-	B:SetListeners(self)
-
-	-- bags open with bank, so this will fire from bags
-	if not self.isBank then
-		B:RefreshSearch()
-	end
-end
-
-function B:ContainerOnHide()
-	B:ClearListeners(self)
-
-	if self.isBank then
-		CloseBankFrame()
-	else
-		CloseBackpack()
-
-		for i = 1, NUM_BAG_FRAMES do
-			CloseBag(i)
-		end
-	end
-
-	if not BankFrame:IsShown() and B.db.clearSearchOnClose then
-		B:ResetAndClear()
-	end
-end
-
-function B:SetListeners(frame)
-	frame:RegisterEvent("BAG_UPDATE")
-	frame:RegisterEvent("BAG_UPDATE_COOLDOWN")
-
-	for _, event in pairs(frame.events) do
-		frame:RegisterEvent(event)
-	end
-end
-
-function B:ClearListeners(frame)
-	frame:UnregisterEvent("BAG_UPDATE")
-	frame:UnregisterEvent("BAG_UPDATE_COOLDOWN")
-
-	for _, event in pairs(frame.events) do
-		frame:UnregisterEvent(event)
 	end
 end
 
@@ -1392,8 +1391,10 @@ function B:OpenBank()
 	--Call :Layout first so all elements are created before we update
 	B:Layout(true)
 
-	B:OpenBags()
-	B:UpdateTokens()
+	if B.db.autoToggle.bank then
+		B:OpenBags()
+		B:UpdateTokens()
+	end
 
 	B.BankFrame:Show()
 end
@@ -1671,6 +1672,26 @@ B.QuestKeys = {
 	questItem = "questItem",
 }
 
+B.AutoToggleEvents = {
+	guildBank = {GUILDBANKFRAME_OPENED = "OpenBags", GUILDBANKFRAME_CLOSED = "CloseBags"},
+	auctionHouse = {AUCTION_HOUSE_SHOW = "OpenBags", AUCTION_HOUSE_CLOSED = "CloseBags"},
+	professions = {TRADE_SKILL_SHOW = "OpenBags", TRADE_SKILL_CLOSE = "CloseBags"},
+	trade = {TRADE_SHOW = "OpenBags", TRADE_CLOSED = "CloseBags"},
+	voidStorage = {VOID_STORAGE_OPEN = "OpenBags", VOID_STORAGE_CLOSE = "CloseBags"}
+}
+
+function B:AutoToggle()
+	for option, eventTable in next, B.AutoToggleEvents do
+		for event, func in next, eventTable do
+			if B.db.autoToggle[option] then
+				B:RegisterEvent(event, func)
+			else
+				B:UnregisterEvent(event)
+			end
+		end
+	end
+end
+
 function B:UpdateBagColors(table, indice, r, g, b)
 	B[table][B.BagIndice[indice]] = {r, g, b}
 end
@@ -1696,9 +1717,8 @@ function B:Initialize()
 		-- Set a different default anchor
 		BagFrameHolder:Point("BOTTOMRIGHT", RightChatPanel, "BOTTOMRIGHT", -(E.Border * 2), 22 + E.Border * 4 - E.Spacing * 2)
 		E:CreateMover(BagFrameHolder, "ElvUIBagMover", L["Bag Mover"], nil, nil, B.PostBagMove, nil, nil, "bags,general")
-
+		CONTAINER_SPACING = E.private.skins.blizzard.enable and E.private.skins.blizzard.bags and (E.Border * 2) or 0
 		B:SecureHook("updateContainerFrameAnchors")
-
 		return
 	end
 
@@ -1747,7 +1767,7 @@ function B:Initialize()
 
 	--Hook onto Blizzard Functions
 	B:SecureHook("ToggleBackpack")
-	B:SecureHook("OpenAllBags", "OpenBags")
+	B:SecureHook("OpenAllBags")
 	B:SecureHook("CloseAllBags", "CloseBags")
 	B:SecureHook("ToggleBag", "ToggleBags")
 	B:SecureHook("ToggleAllBags", "ToggleBackpack")
@@ -1763,6 +1783,8 @@ function B:Initialize()
 	B:RegisterEvent("BANKFRAME_CLOSED", "CloseBank")
 	B:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED")
 	B:RegisterEvent("GUILDBANKFRAME_OPENED")
+
+	B:AutoToggle()
 end
 
 local function InitializeCallback()

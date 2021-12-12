@@ -102,6 +102,7 @@ L["Aura Speed"] = "오라 체크 속도"
 L["Auto Add New Spells"] = "새로운 주문 자동 추가"
 L["Auto Greed/DE"] = "자동 차비/추출 선택"
 L["Auto Hide"] = "자동으로 숨기기"
+L["Auto Toggle"] = true
 L["Auto Repair"] = "자동 수리"
 L["Auto Track Reputation"] = "평판 자동 추적"
 L["Auto Vendor Junk"] = "잡동사니 자동 판매"

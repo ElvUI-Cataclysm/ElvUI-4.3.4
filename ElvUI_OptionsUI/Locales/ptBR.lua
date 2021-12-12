@@ -102,6 +102,7 @@ L["Aura Speed"] = "Velocidade de Auras"
 L["Auto Add New Spells"] = "Auto-adicionar novos feitiços"
 L["Auto Greed/DE"] = "Escolher Ganância/Desencantar automaticamente"
 L["Auto Hide"] = "Auto-esconder"
+L["Auto Toggle"] = true
 L["Auto Repair"] = "Reparar automaticamente"
 L["Auto Track Reputation"] = true
 L["Auto Vendor Junk"] = true

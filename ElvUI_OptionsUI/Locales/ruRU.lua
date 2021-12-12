@@ -102,6 +102,7 @@ L["Aura Speed"] = "Скорость аур"
 L["Auto Add New Spells"] = "Автоматически добавлять новые заклинания"
 L["Auto Greed/DE"] = "Авто. не откажусь/распылить"
 L["Auto Hide"] = "Автоскрытие"
+L["Auto Toggle"] = true
 L["Auto Repair"] = "Автоматический ремонт"
 L["Auto Track Reputation"] = true
 L["Auto Vendor Junk"] = "Авто продажа"

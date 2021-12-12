@@ -312,6 +312,16 @@ P.bags = {
 			fontSize = 18
 		}
 	},
+	autoToggle = {
+		bank = true,
+		mail = true,
+		vendor = true,
+		auctionHouse = true,
+		professions = false,
+		guildBank = false,
+		trade = false,
+		voidStorage = false
+	},
 	bagBar = {
 		growthDirection = "VERTICAL",
 		sortDirection = "ASCENDING",

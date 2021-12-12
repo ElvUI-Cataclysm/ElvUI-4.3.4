@@ -102,6 +102,7 @@ L["Aura Speed"] = "光環速度"
 L["Auto Add New Spells"] = "自動添加新法術"
 L["Auto Greed/DE"] = "自動貪婪/分解"
 L["Auto Hide"] = "自動隱藏"
+L["Auto Toggle"] = true
 L["Auto Repair"] = "自動修裝"
 L["Auto Track Reputation"] = true
 L["Auto Vendor Junk"] = "自動販售灰色物品"
