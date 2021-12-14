@@ -113,7 +113,7 @@ local tagStrings = {
 		local c = UnitClassification(u)
 		if(c == 'rare') then
 			return 'Rare'
-		elseif(c == 'eliterare') then
+		elseif(c == 'rareelite') then
 			return 'Rare Elite'
 		elseif(c == 'elite') then
 			return 'Elite'

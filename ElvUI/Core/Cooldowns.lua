@@ -27,6 +27,7 @@ function E:Cooldown_BelowScale(cd)
 
 	return cd.fontScale and (cd.fontScale < MIN_SCALE)
 end
+
 function E:Cooldown_OnUpdate(elapsed)
 	local forced = elapsed == -1
 	if forced then

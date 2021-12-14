@@ -460,6 +460,7 @@ function NP:OnHide(isConfig, dontHideHighlight)
 	frame.Name.NameOnlyGlow:Hide()
 	frame.Elite:Hide()
 	frame.CPoints:Hide()
+	frame.PvPRole:Hide()
 	frame.IconFrame:Hide()
 	frame:Hide()
 	frame.isTarget = nil

@@ -279,11 +279,13 @@ function DB:ExperienceBar_Load()
 	DB.expBar.eventFrame:SetScript("OnEvent", function(self, event, arg1)
 		if event == "PLAYER_LEVEL_UP" then
 			DB.playerLevel = arg1
-			DB.forceUpdateQuestXP = true
+			if DB.questXPEnabled and DB.db.experience.questXP then
+				DB.forceUpdateQuestXP = true
+			end
 		elseif event == "PLAYER_XP_UPDATE" then
 			DB:ExperienceBar_Update(event)
 
-			if DB.forceUpdateQuestXP and DB.questXPEnabled and DB.db.experience.questXP then
+			if DB.forceUpdateQuestXP or (DB.questXPEnabled and DB.db.experience.questXP) then
 				DB.forceUpdateQuestXP = nil
 				DB:ExperienceBar_QuestXPUpdate(event)
 			end
