@@ -4,7 +4,7 @@ local LAI = E.Libs.LAI
 
 local _G = _G
 local pcall = pcall
-local select, unpack, pairs, next, tonumber = select, unpack, pairs, next, tonumber
+local select, unpack, pairs, next, tonumber, bit = select, unpack, pairs, next, tonumber, bit
 local floor = math.floor
 local format, find, gsub, match, split = string.format, string.find, string.gsub, string.match, string.split
 local twipe = table.wipe
@@ -30,16 +30,37 @@ local WorldFrame = WorldFrame
 local WorldGetChildren = WorldFrame.GetChildren
 local WorldGetNumChildren = WorldFrame.GetNumChildren
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
+local COMBATLOG_OBJECT_REACTION_HOSTILE = COMBATLOG_OBJECT_REACTION_HOSTILE
+local COMBATLOG_OBJECT_CONTROL_PLAYER = COMBATLOG_OBJECT_CONTROL_PLAYER
+local COMBATLOG_OBJECT_CONTROL_NPC = COMBATLOG_OBJECT_CONTROL_NPC
 
 local lastChildern, numChildren, hasTarget = 0, 0
 local OVERLAY = [=[Interface\TargetingFrame\UI-TargetingFrame-Flash]=]
 local FSPAT = "%s*"..(gsub(gsub(_G.FOREIGN_SERVER_LABEL, "^%s", ""), "[%*()]", "%%%1")).."$"
+
+local playerGUID = UnitGUID("player")
+
+local castEvents = {
+	["SPELL_CAST_START"] = true,
+	["SPELL_AURA_APPLIED"] = true,
+}
 
 local RaidIconCoordinate = {
 	[0] = {[0] = "STAR", [0.25] = "MOON"},
 	[0.25] = {[0] = "CIRCLE", [0.25] = "SQUARE"},
 	[0.5] = {[0] = "DIAMOND", [0.25] = "CROSS"},
 	[0.75] = {[0] = "TRIANGLE", [0.25] = "SKULL"}
+}
+
+local RaidTargetReference = {
+	["STAR"] = 0x00000001,
+	["CIRCLE"] = 0x00000002,
+	["DIAMOND"] = 0x00000004,
+	["TRIANGLE"] = 0x00000008,
+	["MOON"] = 0x00000010,
+	["SQUARE"] = 0x00000020,
+	["CROSS"] = 0x00000040,
+	["SKULL"] = 0x00000080,
 }
 
 NP.CreatedPlates = {}
@@ -850,8 +871,6 @@ function NP:SetMouseoverFrame(frame)
 
 		if not frame.isGroupUnit then
 			frame.unit = nil
-
-			self:Update_CastBar(frame)
 		end
 	end
 
@@ -944,9 +963,37 @@ function NP:SearchForFrame(guid, raidIcon, name)
 	return frame
 end
 
+function NP:SearchForFrameByFlags(flags, guid, raidFlags, name)
+	local frame
+
+	if bit.band(flags, COMBATLOG_OBJECT_REACTION_HOSTILE) > 0 then
+		if bit.band(flags, COMBATLOG_OBJECT_CONTROL_PLAYER) > 0 then
+			frame = self:SearchNameplateByName(name)
+		elseif bit.band(flags, COMBATLOG_OBJECT_CONTROL_NPC) > 0 then
+			frame = self:SearchNameplateByGUID(guid)
+			if not frame then
+				local UnitIcon;
+				for iconname, bitmask in pairs(RaidTargetReference) do
+					if bit.band(raidFlags, bitmask) > 0  then
+						UnitIcon = iconname
+						break
+					end
+				end
+				frame = self:SearchNameplateByIconName(UnitIcon)
+			end
+		else
+			return
+		end
+	else
+		return
+	end
+
+	return frame
+end
+
 function NP:UpdateCVars()
 	SetCVar("ShowClassColorInNameplate", "1")
-	SetCVar("showVKeyCastbar", "0")
+	SetCVar("showVKeyCastbar", "1")
 
 	if self.db.motionType == "OVERLAP" then
 		SetCVar("nameplateMotion", "0")
@@ -1014,6 +1061,45 @@ function NP:UPDATE_MOUSEOVER_UNIT()
 					self.OnShow(frame:GetParent(), nil, true)
 					break
 				end
+			end
+		end
+	end
+end
+
+function NP:COMBAT_LOG_EVENT_UNFILTERED(
+	_,
+	_,
+	subevent,
+	_,
+	sourceGUID,
+	sourceName,
+	sourceFlags,
+	sourceRaidFlags,
+	destGUID,
+	destName,
+	destFlags,
+	destRaidFlags,
+	...)
+	if sourceGUID == playerGUID and destGUID ~= playerGUID then
+		if subevent == "SPELL_AURA_APPLIED" or subevent == "SPELL_AURA_REFRESH" then
+			local frame = self:SearchForFrameByFlags(destFlags, destGUID, destRaidFlags,  destName)
+
+			if frame then
+				frame.guid = destGUID
+				frame.unit = destGUID
+				self:Update_Auras(frame)
+			end
+		end
+	end
+
+	if sourceGUID ~= playerGUID then
+		if castEvents[subevent] then
+			local frame = self:SearchForFrameByFlags(sourceFlags, sourceGUID, sourceRaidFlags, sourceName)
+
+			if frame then
+				frame.unit = sourceGUID
+				frame.guid = sourceGUID
+				self:Update_CastBar(frame, nil, frame.unit)
 			end
 		end
 	end

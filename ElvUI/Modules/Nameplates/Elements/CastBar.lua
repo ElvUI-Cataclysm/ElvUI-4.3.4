@@ -22,6 +22,13 @@ end
 
 function NP:Update_CastBarOnUpdate(elapsed)
 	if self.casting or self.channeling then
+		if self.value == nil then
+			resetAttributes(self)
+			self:Hide()
+			NP:StyleFilterUpdate(self:GetParent(), "FAKE_Casting")
+			return
+		end
+
 		if self.casting then
 			self.value = self.value + elapsed
 			if self.value >= self.max then
